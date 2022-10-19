@@ -496,6 +496,7 @@ export class KnightActor extends Actor {
     data.initiative.dice = Math.max(initiativeDataDiceBase+initiativeDiceBonus-initiativeDiceMalus, 1);
     data.initiative.base = userIBase;
     data.initiative.value = Math.max(userIBase+initiativeBonus-initiativeMalus, 0);
+    data.initiative.complet = `${data.initiative.dice}D6+${data.initiative.value}`;
 
     // REACTION
     const userRBase = machineMax;
@@ -768,6 +769,8 @@ export class KnightActor extends Actor {
       data.initiative.value = Math.max(0+initiativeBonus-initiativeMalus, 0);
     }
 
+    data.initiative.complet = `${data.initiative.dice}D6+${data.initiative.value}`;
+
     // REACTION
     const reactionDataBase = data.reaction.base;
     const reactionDataBonus = data.reaction.bonus;
@@ -985,6 +988,8 @@ export class KnightActor extends Actor {
       data.initiative.value = Math.max(0+initiativeBonus-initiativeMalus, 0);
     }
 
+    data.initiative.complet = `${data.initiative.dice}D6+${data.initiative.value}`;
+
     // REACTION
     const reactionDataBase = data.reaction.base;
     const reactionDataBonus = data.reaction.bonus;
@@ -1110,6 +1115,8 @@ export class KnightActor extends Actor {
     data.initiative.base = 0;
     data.initiative.value = 1;
 
+    data.initiative.complet = `${data.initiative.dice}D6+${data.initiative.value}`;
+
     // REACTION
     const reactionDataBase = data.reaction.base;
     const reactionDataBonus = data.reaction.bonus;
@@ -1199,6 +1206,8 @@ export class KnightActor extends Actor {
       data.defense.value = defense;
       data.initiative.dice = initiative.dice;
       data.initiative.value = initiative.value;
+
+      data.initiative.complet = `${data.initiative.dice}D6+${data.initiative.value}`;
     }
   }
 
@@ -1231,5 +1240,7 @@ export class KnightActor extends Actor {
       if(listData[i] === 'resilience') data[listData[i]].max = Math.max(dataBase+bonus-malus, 0);
       else data[listData[i]].value = Math.max(dataBase+bonus-malus, 0);
     }
+
+    data.initiative.complet = `${data.initiative.dice}D6+${data.initiative.value}`;
   }
 }

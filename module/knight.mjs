@@ -80,7 +80,7 @@ Hooks.once('init', async function() {
    * @type {String}
    */
   CONFIG.Combat.initiative = {
-    formula: "0",
+    formula: "@initiative.complet",
     decimals: 2
   };
 
