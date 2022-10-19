@@ -3,9 +3,15 @@
   "title": "Knight",
   "description": "Une fiche pour le JDR Knight.",
   "version": "1.0.0",
-  "minimumCoreVersion": "0.10",
-  "compatibleCoreVersion": "10",
-  "author": "Zakarik",
+  "compatibility":{
+    "minimum":10,
+    "verified":"10.287"
+  },
+  "author": [{
+    "name":"Zakarik",
+    "url":"https://fr.tipeee.com/zakarik",
+    "discord":"Zakarik#9006"
+  }],
   "esmodules": ["module/knight.mjs"],
   "styles": ["styles/knight.css"],
   "packs": [],
