@@ -5,15 +5,20 @@
   "version": "1.0.0",
   "compatibility":{
     "minimum":10,
-    "verified":"10.287"
+    "verified":"10"
   },
   "author": [{
     "name":"Zakarik",
     "url":"https://fr.tipeee.com/zakarik",
     "discord":"Zakarik#9006"
   }],
-  "esmodules": ["module/knight.mjs"],
-  "styles": ["styles/knight.css"],
+  "esmodules": [
+    "module/knight.mjs"
+  ],
+  "scripts": [],
+  "styles": [
+    "styles/knight.css"
+  ],
   "packs": [],
   "languages": [
     {
