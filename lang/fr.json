@@ -2147,7 +2147,8 @@
       "Combat6Sec": "Action de Combat / 6 secondes",
       "Tour": "1 tour",
       "Tour6Sec": "1 tour / 6 secondes",
-      "Toutes": "Action de déplacement, de combat ou 1 tour"
+      "Toutes": "Action de déplacement, de combat ou 1 tour",
+      "TourComplet": "Tour complet"
     },
     "BONUS":{
       "Label": "Bonus",
