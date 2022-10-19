@@ -47,7 +47,7 @@
 .avantage .window-content .item.active,
 .desavantage .window-content .item.active,
 .motivationMineure .window-content .item.active {
-  text-shadow: 0 0 10px RGB(37 85 228);
+  background-color: RGB(87 110 178);
 }
 .knight .window-content a:hover,
 .pnj .window-content a:hover,
@@ -59,6 +59,17 @@
 .desavantage .window-content a:hover,
 .motivationMineure .window-content a:hover {
   text-shadow: 0 0 10px RGB(37 85 228);
+}
+.knight .window-content nav.tabs,
+.pnj .window-content nav.tabs,
+.creature .window-content nav.tabs,
+.bande .window-content nav.tabs,
+.vehicule .window-content nav.tabs,
+.mechaarmure .window-content nav.tabs,
+.avantage .window-content nav.tabs,
+.desavantage .window-content nav.tabs,
+.motivationMineure .window-content nav.tabs {
+  justify-content: space-between;
 }
 .editDialog div.dialog-content {
   display: flex;

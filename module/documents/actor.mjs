@@ -531,7 +531,7 @@ export class KnightActor extends Actor {
     data.reaction.value = Math.max(userRBase+reactionBonus-reactionMalus, 0);
 
     // DEFENSE
-    const userDBase = 'armure' || dataWear === 'ascension' ? beteWODMax : beteMax;
+    const userDBase = dataWear === 'armure' || dataWear === 'ascension' ? beteWODMax : beteMax;
     const defenseDataBonus = data.defense.bonus;
     const defenseDataMalus = data.defense.malus;
 
