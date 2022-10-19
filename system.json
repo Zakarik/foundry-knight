@@ -1,36 +1,34 @@
 {
-  "name": "knight",
   "title": "Knight",
   "description": "Une fiche pour le JDR Knight.",
   "version": "1.0.0",
-  "compatibility":{
-    "minimum":10,
-    "verified":"10"
-  },
-  "author": [{
-    "name":"Zakarik",
-    "url":"https://fr.tipeee.com/zakarik",
-    "discord":"Zakarik#9006"
-  }],
   "esmodules": [
     "module/knight.mjs"
   ],
-  "scripts": [],
   "styles": [
     "styles/knight.css"
   ],
-  "packs": [],
   "languages": [
     {
       "lang": "fr",
       "name": "French",
-      "path": "lang/fr.json"
+      "path": "lang/fr.json",
+      "flags": {}
     }
   ],
   "gridDistance": 5,
   "gridUnits": "m",
-  "primaryTokenAttribute": "",
   "url": "https://github.com/Zakarik/foundry-knight",
   "manifest": "https://github.com/Zakarik/foundry-knight/releases/download/v1.0/system.json",
-  "download": "https://github.com/Zakarik/foundry-knight/releases/download/v1.0/knight.zip"
+  "download": "https://github.com/Zakarik/foundry-knight/releases/download/v1.0/knight.zip",
+  "id": "knight",
+  "authors": [{
+    "name":"Zakarik",
+    "url":"https://fr.tipeee.com/zakarik",
+    "discord":"Zakarik#9006"
+  }],
+  "compatibility": {
+    "minimum": "10",
+    "verified": "10"
+  }
 }
