@@ -69,9 +69,6 @@
         this.object.pj = pj;
         this.object.pnj = pnj;
 
-        /*for (let [key, actor] of Object.entries(actors)) {
-            console.log(key, actor, actors);
-        }*/
         return super.render(force, options);
     }
 

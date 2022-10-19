@@ -1061,7 +1061,7 @@ export class CreatureSheet extends ActorSheet {
     this.actor.update(update);
 
     // ON ACTUALISE ROLL UI S'IL EST OUVERT
-    let rollUi = this._getKnightRoll();
+    let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
 
     if(rollUi !== false) {
       await rollUi.setWpnContact(armesContact);
@@ -1073,16 +1073,22 @@ export class CreatureSheet extends ActorSheet {
   }
 
   _getKnightRoll() {
-    const appId = this?.object?.system?.knightRoll?.id || false;
-    const result = ui?.windows?.[appId] || false;
-
-    let r;
-
-    if(result !== false) {
-      r = result.constructor.name === 'KnightRollDialog' ? result : false;
-    } else r = false;
+    const result = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? new game.knight.applications.KnightRollDialog({
+      title:this.actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
+      buttons: {
+        button1: {
+          label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
+          callback: async () => {},
+          icon: `<i class="fas fa-dice"></i>`
+        },
+        button3: {
+          label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
+          icon: `<i class="fas fa-times"></i>`
+        }
+      }
+    });
     
-    return r;
+    return result;
   }
 
   async _rollDice(label, aspect = '', difficulte = false, isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, reussitesBonus=0) {
@@ -1096,81 +1102,19 @@ export class CreatureSheet extends ActorSheet {
     const deployWpnContact = typeWpn === 'contact' ? true : false;
     const hasBarrage = false;
 
-    if(!rollApp) {
-      const roll = new game.knight.applications.KnightRollDialog({
-        title: this.actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
-        actor:this.actor.id,
-        label:label,
-        aspects:data.data.system.aspects,
-        base:select,
-        pnj:true,
-        autre:[],
-        lock:[],
-        difficulte:difficulte,
-        listWpnContact:data.actor.armesContact,
-        listWpnDistance:data.actor.armesDistance,
-        listWpnTourelle:data.actor.armesTourelles,
-        listGrenades:{},
-        listWpnImprovisees:{
-          contact:data.systemData.combat.armesimprovisees.liste,
-          distance:data.systemData.combat.armesimprovisees.liste
-        },
-        num:num,
-        isWpn:isWpn,
-        idWpn:idWpn,
-        nameWpn:nameWpn,
-        typeWpn:typeWpn,
-        barrage:hasBarrage,
-        jumeleambidextrie:false,
-        soeur:false,
-        jumelageambidextrie:false,
-        succesBonus:data.data.system.combat.data.succesbonus+reussitesBonus,
-        modificateur:data.data.system.combat.data.modificateur,
-        degatsBonus:{
-          dice:data.data.system.combat.data.degatsbonus.dice,
-          fixe:data.data.system.combat.data.degatsbonus.fixe
-        },
-        violenceBonus:{
-          dice:data.data.system.combat.data.violencebonus.dice,
-          fixe:data.data.system.combat.data.violencebonus.fixe
-        },
-        style:{},
-        deploy:{
-          wpnContact:deployWpnContact,
-          wpnDistance:deployWpnDistance,
-          wpnTourelle:deployWpnTourelle,
-          wpnArmesImproviseesContact:deployWpnImproviseesContact,
-          wpnArmesImproviseesDistance:deployWpnImproviseesDistance,
-        },
-        buttons: {
-          button1: {
-            label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
-            callback: async () => {},
-            icon: `<i class="fas fa-dice"></i>`
-          },
-          button3: {
-            label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
-            icon: `<i class="fas fa-times"></i>`
-          }
-        }
-      }).render(true);
-
-      const kRoll = {
-        id:roll.appId
-      };
-
-      this.actor.update({[`system.knightRoll`]:kRoll});
-    } else {
-      await rollApp.setData(label, select, [], [], difficulte,
-        data.data.system.combat.data.modificateur, data.data.system.combat.data.succesbonus+reussitesBonus, 
-        data.actor.armesContact, data.actor.armesDistance, data.actor.armesTourelles, [], {contact:data.systemData.combat.armesimprovisees.liste, distance:data.systemData.combat.armesimprovisees.liste}, [], 
-        isWpn, idWpn, nameWpn, typeWpn, num,
-        deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, false, false, false,
-        true, false);
-        
-      rollApp.bringToTop();
-      rollApp.render(true);
-    }
+    await rollApp.setActor(this.actor.id);
+    await rollApp.setAspects(data.data.system.aspects);
+    await rollApp.setEffets(hasBarrage, false, false, false);
+    await rollApp.setData(label, select, [], [], difficulte,
+      data.data.system.combat.data.modificateur, data.data.system.combat.data.succesbonus+reussitesBonus,
+      {dice:data.data.system.combat.data.degatsbonus.dice, fixe:data.data.system.combat.data.degatsbonus.fixe},
+      {dice:data.data.system.combat.data.violencebonus.dice, fixe:data.data.system.combat.data.violencebonus.fixe},
+      data.actor.armesContact, data.actor.armesDistance, data.actor.armesTourelles, [], {contact:data.systemData.combat.armesimprovisees.liste, distance:data.systemData.combat.armesimprovisees.liste}, [], [],
+      isWpn, idWpn, nameWpn, typeWpn, num,
+      deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, false, false, false,
+      true, false);
+      
+    rollApp.render(true);
   }
 
   _prepareAE(context) {

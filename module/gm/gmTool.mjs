@@ -45,19 +45,7 @@ import { GmMonitor } from "./gmMonitor.mjs";
      * @override
      */
      _getHeaderButtons() {
-        let buttons = super._getHeaderButtons();
-        // Sheet Configuration
-        /*if ( this.options.sheetConfig && this.isEditable ) {
-        buttons.unshift({
-            label: "Sheet",
-            class: "configure-sheet",
-            icon: "fas fa-cog",
-            onclick: ev => this._onConfigureSheet(ev)
-        });
-        }*/
         return [];
-        /*console.log(this);
-        return ['rafraichir'];*/
     }
 
     activateListeners(html) {

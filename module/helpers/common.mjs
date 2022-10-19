@@ -383,6 +383,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         case 'percearmure':
         case 'penetrant':
         case 'reaction':
+        case 'soumission':
           other = true;
 
           sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${value}`;

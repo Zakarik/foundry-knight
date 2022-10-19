@@ -47,8 +47,6 @@ export class KnightRollDialog extends Application {
         return obj;
       }, {});
 
-      console.log(this.data);
-
       const longbow = this.data?.longbow || {};
       const hasLongbow = longbow?.has || false;
 
@@ -74,12 +72,12 @@ export class KnightRollDialog extends Application {
         modificateur:this.data.modificateur,
         succesBonus:this.data.succesBonus,
         degatsBonus:{
-          dice:this.data.degatsBonus.dice,
-          fixe:this.data.degatsBonus.fixe
+          dice:this.data.degatsBonus?.dice || 0,
+          fixe:this.data.degatsBonus?.fixe || 0
         },
         violenceBonus:{
-          dice:this.data.violenceBonus.dice,
-          fixe:this.data.violenceBonus.fixe
+          dice:this.data.violenceBonus?.dice || 0,
+          fixe:this.data.violenceBonus?.fixe || 0
         },
         moduleErsatz:this.data.moduleErsatz,
         listWpnContact:this.data.listWpnContact,
@@ -130,8 +128,8 @@ export class KnightRollDialog extends Application {
     }
   
   async setData(label, 
-    base, bonus, lock, difficulte, modificateur, succesBonus, 
-    wpnContact, wpnDistance, wpnTourelles, wpnGrenade, wpnImprovisees, wpnMA, 
+    base, bonus, lock, difficulte, modificateur, succesBonus, degatsBonus, violenceBonus,
+    wpnContact, wpnDistance, wpnTourelles, wpnGrenade, wpnImprovisees, wpnMA, wpnLongbow, 
     isWpn, idWpn, nameWpn, typeWpn, num,
     deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseeContact, deployWpnImproviseeDistance, deployGrenades, deployLongbow, deployWpnMA,
     isPNJ=false, isMA=false) {
@@ -151,6 +149,7 @@ export class KnightRollDialog extends Application {
     this.data.listWpnTourelle = wpnTourelles;
     this.data.listGrenades = wpnGrenade;
     this.data.listWpnImprovisees = wpnImprovisees;
+    this.data.longbow = wpnLongbow;
     this.data.listWpnMA = wpnMA;
 
     this.data.isWpn = isWpn;
@@ -159,17 +158,21 @@ export class KnightRollDialog extends Application {
     this.data.typeWpn = typeWpn;
     this.data.num = num;
 
-    this.data.deploy.wpnContact = deployWpnContact;
-    this.data.deploy.wpnDistance = deployWpnDistance;
-    this.data.deploy.wpnTourelle = deployWpnTourelle;
-    this.data.deploy.wpnArmesImproviseesContact = deployWpnImproviseeContact;
-    this.data.deploy.wpnArmesImproviseesDistance = deployWpnImproviseeDistance;
-    this.data.deploy.grenades = deployGrenades;
-    this.data.deploy.longbow = deployLongbow;
-    this.data.deploy.wpnMA = deployWpnMA;    
+    this.data.deploy = {
+      wpnContact:deployWpnContact,
+      wpnDistance:deployWpnDistance,
+      wpnTourelle:deployWpnTourelle,
+      wpnArmesImproviseesContact:deployWpnImproviseeContact,
+      wpnArmesImproviseesDistance:deployWpnImproviseeDistance,
+      grenades:deployGrenades,
+      longbow:deployLongbow,
+      wpnMA:deployWpnMA,
+    };
 
     this.data.modificateur = modificateur;
     this.data.succesBonus = succesBonus;
+    this.data.degatsBonus = degatsBonus;
+    this.data.violenceBonus = violenceBonus;
 
     return new Promise(resolve => {
       setTimeout(() => {
@@ -189,6 +192,7 @@ export class KnightRollDialog extends Application {
           this.data.listWpnTourelle,
           this.data.listGrenades,
           this.data.listWpnImprovisees,
+          this.data.longbow,
           this.data.listWpnMA,
 
           this.data.isWpn,
@@ -208,6 +212,8 @@ export class KnightRollDialog extends Application {
 
           this.data.modificateur,
           this.data.succesBonus,
+          this.data.degatsBonus,
+          this.data.violenceBonus,
         );
       }, 0);
     });
@@ -268,6 +274,60 @@ export class KnightRollDialog extends Application {
       setTimeout(() => {
         resolve(
           this.data.hasWraith
+        );
+      }, 0);
+    });
+  }
+
+  async setStyle(style) {
+    this.data.style = style;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.style
+        );
+      }, 0);
+    });
+  }
+
+  async setActor(actor) {
+    this.data.actor = actor;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.actor
+        );
+      }, 0);
+    });
+  }
+
+  async setAspects(aspects) {
+    this.data.aspects = aspects;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.aspects
+        );
+      }, 0);
+    });
+  }
+
+  async setEffets(barrage, jumelageambidextrie, jumeleambidextrie, soeur) {
+    this.data.barrage = barrage;
+    this.data.jumelageambidextrie = jumelageambidextrie;
+    this.data.jumeleambidextrie = jumeleambidextrie;
+    this.data.soeur = soeur;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.barrage,
+          this.data.jumelageambidextrie,
+          this.data.jumeleambidextrie,
+          this.data.soeur
         );
       }, 0);
     });

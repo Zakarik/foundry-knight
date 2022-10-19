@@ -43,7 +43,6 @@
         if(mecha.hash.config) {
             mecha.data.root.systemData.configurations.liste[mecha.hash.type].modules[mecha.hash.key].config = true;
         }
-        console.log(mecha);
 
         return `systems/knight/templates/actors/mechaarmure/${mecha.data.key}.html`;
     });

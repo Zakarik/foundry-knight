@@ -57,10 +57,7 @@
           }          
           break;
       }
-      this.render(true);
-
-      console.log(this);
-      
+      this.render(true);      
     });
 
     html.find(".button1").hover(ev => {
@@ -422,7 +419,5 @@
 
   async _updateObject(event, formData) {
     this.data = this.data;
-
-    console.log(this);
   }
 }

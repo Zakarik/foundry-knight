@@ -127,8 +127,6 @@ export class KnightSheet extends ActorSheet {
     this._maxValue(context);
 
     context.systemData = context.data.system;
-
-    console.log(context);
     
     return context;
   }
@@ -139,7 +137,7 @@ export class KnightSheet extends ActorSheet {
      */
    get template() {
     if (!game.user.isGM && this.actor.limited) {
-      return "systems/knight/templates/actors/limited-sheet.html";
+      return "systems/knight/templates/limited-sheet.html";
     }
     return this.options.template;
   }
@@ -3467,8 +3465,6 @@ export class KnightSheet extends ActorSheet {
 
       let calcul;
 
-      console.log(capacite);
-
       switch(capacite) {
         case "illumination":
           const illumination = armure.system.capacites.selected[capacite];
@@ -4820,8 +4816,6 @@ export class KnightSheet extends ActorSheet {
         
         update.system.equipements.armure.idLegende = itemId;
         update.system.equipements.armure.hasArmorLegende = true;
-
-        console.log(this._getArmorLegendeId(), update);
 
         this.actor.update(update);
       }
@@ -6827,8 +6821,6 @@ export class KnightSheet extends ActorSheet {
       const cWarlordLegende = warlordLegende.impulsions;
       const cWarlordLegendeMax = cWarlordLegende.selection;
       const cWarlordLegendeActuel = cWarlordLegende?.selectionne || 0;
-
-      console.log(cWarlordLegendeMax, cWarlordLegendeActuel);
 
       if(cWarlordLegendeMax === cWarlordLegendeActuel) { cWarlordLegende.choisi = true; }
       else { cWarlordLegende.choisi = false; }

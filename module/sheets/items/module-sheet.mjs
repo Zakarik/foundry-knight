@@ -29,8 +29,6 @@ export class ModuleSheet extends ItemSheet {
 
     context.systemData = context.data.system;
 
-    console.log(context);
-
     return context;
   }
 
