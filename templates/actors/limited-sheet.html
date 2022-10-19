@@ -1,0 +1,46 @@
+<form class="mainFlex {{cssClass}} limited" autocomplete="off"> 
+    {{log this}}
+    {{!-- Sheet Header --}}
+    <header class="sheet-header flexrow">
+        <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
+
+        <div class="headerData">
+            <div class="data">
+                <h1 class="charname">
+                    <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+                </h1>
+
+                {{#if (isValue actor.type 'knight')}}
+                <label>
+                    <span>{{localize "KNIGHT.Surnom"}} : </span>
+                    <input type="text" name="system.surnom" value="{{systemData.surnom}}" />
+                </label>
+                {{/if}}
+            </div>
+        </div>
+    </header>
+    {{#if systemData.equipement.hasArmor}}
+    <img class="profile-img" src="{{actor.armureData.img}}" data-edit="img" title="{{data.name}}" />
+    {{/if}}
+
+    {{#unless (isValue actor.type 'mechaarmure')}}
+    {{#unless (isValue actor.type 'vehicule')}}
+    {{!-- Sheet Body --}}
+    <section class="body {{#unless systemData.equipement.hasArmor}}full{{/unless}}">
+        {{!-- Sheet Tab Navigation --}}
+        <nav class="sheet-tabs tabs" data-group="primary">
+            <a class="item" data-tab="personnage">{{localize "KNIGHT.PERSONNAGE.Label"}}</a>
+        </nav>
+
+        {{!-- Personnage Tab --}}
+        <div class="tab personnage" data-group="primary" data-tab="personnage">
+            <div class="description">
+                <h2 class="header">{{localize "KNIGHT.Description"}}</h2>
+
+                {{editor systemData.description target="system.description" button=true owner=owner editable=editable}}
+            </div>
+        </div>
+    </section>
+    {{/unless}}
+    {{/unless}}
+</form>

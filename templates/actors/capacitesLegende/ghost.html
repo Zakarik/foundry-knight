@@ -1,0 +1,115 @@
+
+<div class="ghost">
+    <h3 class="header">
+        <i class="far fa-plus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label"}}
+
+        {{#if ("armure" @root/systemData/wear)}}
+        <div class="blockMultiline">
+            {{#unless this.active.horsconflit}}
+            <button class="
+                {{#unless this.active.conflit}}
+                activationLegende
+                {{else}}
+                desactivationLegende
+                {{/unless}}
+                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="conflit"
+                data-cout="{{this.energie.tour}}">
+                {{#unless this.active.conflit}}
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ActivationConflit"}} : {{localize "KNIGHT.AUTRE.Activer"}}
+                {{else}}
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ActivationConflit"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
+                {{/unless}}
+            </button>
+            {{/unless}}
+
+            {{#unless this.active.conflit}}
+            <button class="
+                {{#unless this.active.horsconflit}}
+                activationLegende
+                {{else}}
+                desactivationLegende
+                {{/unless}}
+                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="horsconflit"
+                data-cout="{{this.energie.minute}}">
+                {{#unless this.active.horsconflit}}
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ActivationHorsConflit"}} : {{localize "KNIGHT.AUTRE.Activer"}}
+                {{else}}
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ActivationHorsConflit"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
+                {{/unless}}
+            </button>
+            {{/unless}}
+
+            {{#if this.active.conflit}}
+            <button class="
+                prolonger
+                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
+                data-cout="{{this.energie.tour}}">
+                {{localize "KNIGHT.AUTRE.Prolonger"}}
+            </button>
+
+            <button class="roll" data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.PasserInaperçu"}}" data-reussiteBonus="{{this.bonus.reussites}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.JetPasserInaperçu"}}
+            </button>
+            {{/if}}
+
+            {{#if this.active.horsconflit}}
+            <button class="
+                prolonger
+                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
+                data-cout="{{this.energie.minute}}">
+                {{localize "KNIGHT.AUTRE.Prolonger"}}
+            </button>
+
+            <button class="roll" data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.PasserInaperçu"}}" data-reussiteBonus="{{this.bonus.reussites}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.JetPasserInaperçu"}}
+            </button>
+            {{/if}}
+        </div>
+        {{/if}}
+    </h3>
+
+    <span class="description" style="display:none">{{{this.description}}}</span>
+
+    <div class="mainData" style="display:none">
+        <div class="data">
+            <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+            <div class="longspan">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ENERGIE.Tour"}}</span>
+                <span class="score">{{this.energie.tour}}</span>
+            </div>
+            <div class="longspan">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ENERGIE.Minute"}}</span>
+                <span class="score">{{this.energie.minute}}</span>
+            </div>
+            <div class="shortspan separation">
+                <span class="header">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <span class="score">{{getActivation this.activation}}</span>
+            </div>
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.DUREE.Label"}}</span>
+                <span class="score">{{this.duree}}</span>
+            </div>
+            <span class="oneLine">{{this.interruption.label}}</span>
+        </div>
+
+        <div class="data">
+            <div class="longspan">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.BonusPasserInaperçu"}}</span>
+                <span class="score">{{this.bonus.reussites}}</span>
+            </div>
+            <div class="middlespan separation">
+                <span class="header">{{localize "KNIGHT.BONUS.Attaque"}}</span>
+                <span class="score">{{getCarac this.bonus.attaque}}</span>
+            </div>
+            <h4 class="separation">{{localize "KNIGHT.BONUS.Degats"}}</h4>
+            <div class="middlespan noSeparation">
+                <span class="header">{{localize "KNIGHT.ITEMS.Caracteristique"}}</span>
+                <span class="score">{{getCarac this.bonus.degats.caracteristique}}</span>
+            </div>
+            <span class="oneLine {{#if this.bonus.degats.od}}lightBlack{{else}}black{{/if}}">{{this.bonus.degats.inclus.od}}</span>
+            <span class="oneLine {{#if this.bonus.degats.dice}}lightBlack{{else}}black{{/if}}">{{this.bonus.degats.inclus.dice}}</span>
+            <span class="oneLine {{#if this.bonus.degats.fixe}}lightBlack{{else}}black{{/if}}">{{this.bonus.degats.inclus.fixe}}</span>
+        </div>
+    </div>
+</div>

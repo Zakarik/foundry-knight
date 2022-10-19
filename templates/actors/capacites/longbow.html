@@ -1,0 +1,128 @@
+
+<div class="longbow">
+    <h3 class="header">
+        <i class="far fa-plus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label"}}
+    </h3>
+
+    <span class="description" style="display:none">{{{this.description}}}</span>
+
+    <div class="mainData" style="display:none">
+        <div class="col">
+            <div class="data">
+                <h4>{{localize "KNIGHT.PORTEE.Label"}}</h4>
+                <div class="longspan">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.PORTEE.Cout"}}</span>
+                    <span class="score">{{this.portee.energie}}</span>
+                </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.PORTEE.Min"}}</span>
+                    <span class="score">{{getPortee this.portee.min}}</span>
+                </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.PORTEE.Max"}}</span>
+                    <span class="score">{{getPortee this.portee.max}}</span>
+                </div>
+            </div>
+
+            <div class="data">
+                <h4>{{localize "KNIGHT.AUTRE.Degats"}}</h4>
+                <div class="longspan">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.DEGATS.Cout"}}</span>
+                    <span class="score">{{this.degats.energie}}</span>
+                </div>
+                <div class="longspan">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.DEGATS.Min"}}</span>
+                    <span class="score">{{this.degats.min}}</span>
+                </div>
+                <div class="longspan">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.DEGATS.Max"}}</span>
+                    <span class="score">{{this.degats.max}}</span>
+                </div>
+            </div>
+
+            <div class="data">
+                <h4>{{localize "KNIGHT.AUTRE.Violence"}}</h4>
+                <div class="longspan">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.VIOLENCE.Cout"}}</span>
+                    <span class="score">{{this.violence.energie}}</span>
+                </div>
+                <div class="longspan">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.VIOLENCE.Min"}}</span>
+                    <span class="score">{{this.violence.min}}</span>
+                </div>
+                <div class="longspan">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.VIOLENCE.Max"}}</span>
+                    <span class="score">{{this.violence.max}}</span>
+                </div>
+            </div>
+
+            <div class="data">
+                <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.Base"}}</h4>
+                <div class="effets">
+                    {{#each this.effets.base.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="data">
+                <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.Liste1"}}</h4>
+                <div class="longspan">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.Cout"}}</span>
+                    <span class="score">{{this.effets.liste1.energie}}</span>
+                </div>
+                <div class="effets">
+                    {{#each this.effets.liste1.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+
+            <div class="data">
+                <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.Liste2"}}</h4>
+                <div class="longspan">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.Cout"}}</span>
+                    <span class="score">{{this.effets.liste2.energie}}</span>
+                </div>
+                <div class="effets">
+                    {{#each this.effets.liste2.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+
+            <div class="data">
+                <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.Liste3"}}</h4>
+                <span class="oneLine noBorderTop lightBlack">{{this.effets.liste3.label}}</span>
+                <div class="longspan {{#unless this.effets.liste3.acces}}hidden{{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.Cout"}}</span>
+                    <span class="score">{{this.effets.liste3.energie}}</span>
+                </div>
+                <div class="effets {{#unless this.effets.liste3.acces}}hidden{{/unless}}">
+                    {{#each this.effets.liste3.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

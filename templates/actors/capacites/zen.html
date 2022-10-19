@@ -1,0 +1,37 @@
+<div class="zen">
+    <h3 class="header">
+        <i class="far fa-plus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ZEN.Label"}}
+
+        {{#if ("armure" @root/systemData/wear)}}
+        <div class="blockMultiline">
+            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" 
+                data-cout="0" data-difficulte="{{{this.difficulte}}}" data-caracteristiques="{{#each this.aspects  as | key aspect|}}{{#each key.caracteristiques  as | keyCarac caracteristique|}}{{#if keyCarac.value}}{{caracteristique}}{{/if}}.{{/each}}{{/each}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ZEN.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
+            </button>
+        </div>
+        {{/if}}
+    </h3>
+
+    <span class="description" style="display:none">{{{this.description}}}</span>
+
+    <div class="mainData" style="display:none">
+        <div class="data fullWidth">
+            <h4 class="title simpleSeparationBottom">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ZEN.Caracteristiques"}}</h4>
+            <div class="fullWidth">
+                <div class="longspan demiWidth noSeparationTop noSeparationLeft separationRight">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ZEN.Difficulte"}}</span>
+                    <span class="score">{{{this.difficulte}}}</span>
+                </div>
+            </div>
+            {{#each this.aspects  as | key aspect|}}
+                <div class="aspect demiWidth">
+                    <h4>{{getAspect aspect}}</h4>
+                    {{#each key.caracteristiques  as | keyCarac caracteristique|}}
+                        <span class="button {{#if keyCarac.value}}selected{{/if}}">{{getCarac caracteristique}}</span>
+                    {{/each}}
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,225 @@
+<form class="armureWindows {{cssClass}}" autocomplete="off">
+    <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
+    <header class="sheet-header flexrow">
+        <h1 class="charname">
+            <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+        </h1>
+        
+        <label class="generationArmure">
+            <span>{{localize "KNIGHT.ITEMS.ARMURE.Generation"}}</span>
+            <input type="number" class="generation" name="system.generation" value="{{systemData.generation}}" min="1" max="4" />
+        </label>
+        
+        <button type="action" data-value="{{systemData.espoir.bonus}}" class="buttonEspoir {{#if systemData.espoir.bonus}} selected {{else}} unselected {{/if}}">
+            {{localize "KNIGHT.ITEMS.ARMURE.BonusEspoir"}}
+        </button>
+
+        <button type="action" data-value="{{systemData.espoir.remplaceEnergie}}" class="buttonREnergie {{#if systemData.espoir.remplaceEnergie}} selected {{else}} unselected {{/if}}">
+            {{localize "KNIGHT.ITEMS.ARMURE.EspoirRemplaceEnergie"}}
+        </button>
+
+        {{#if systemData.jauges.armure}}
+        <div class="armure">
+            <span class="label">{{localize "KNIGHT.LATERAL.Armure"}}</span>
+
+            <input type="number" name="system.armure.base" value="{{systemData.armure.base}}" min="0" />
+        </div>
+        {{/if}}
+
+        {{#if systemData.jauges.champDeForce}}
+        <div class="champDeForce">
+            <span class="label">{{localize "KNIGHT.LATERAL.ChampDeForce"}}</span>
+
+            <input type="number" name="system.champDeForce.base" value="{{systemData.champDeForce.base}}" min="0" />
+        </div>
+        {{/if}}
+
+        {{#if systemData.jauges.energie}}
+        <div class="energie">
+            <span class="label">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+
+            <input type="number" name="system.energie.base" value="{{systemData.energie.base}}" min="0" />
+        </div>
+        {{/if}}
+
+        {{#if systemData.jauges.egide}}
+        <div class="egide">
+            <span class="label">{{localize "KNIGHT.BONUS.Egide"}}</span>
+            <input type="number" name="system.egide.value" value="{{systemData.egide.value}}" min="0" />
+        </div>
+        {{/if}}
+
+        {{#if systemData.espoir.bonus}}
+        <div class="egide">
+            <span class="label">{{localize "KNIGHT.BONUS.Espoir"}}</span>
+            <input type="number" name="system.espoir.value" value="{{systemData.espoir.value}}" min="0" />
+        </div>
+        {{/if}}
+
+        {{#if systemData.jauges.flux}}
+        <div class="flux">
+            <span class="label">{{localize "KNIGHT.LATERAL.Flux"}}</span>
+
+            <input type="number" name="system.flux.value" value="{{systemData.flux.value}}" min="0" />
+        </div>
+        {{/if}}
+
+        {{#if systemData.espoir.remplaceEnergie}}
+        <div class="coutEspoir">
+            <span class="label">{{localize "KNIGHT.REDUCTION.CoutEspoir"}}</span>
+
+            <input type="number" name="system.espoir.cout" value="{{systemData.espoir.cout}}" min="0" />
+        </div>
+        {{/if}}
+    </header>
+
+    <div class="description">
+        <h2 class="header">
+            <i class="far fa-minus-square"></i>
+            {{localize "KNIGHT.Description"}}
+        </h2>
+
+        {{editor systemData.description target="system.description" button=true owner=owner editable=editable}}
+    </div>
+
+    <div class="capacites">
+        <h2 class="header">
+            <i class="far fa-minus-square"></i>
+            {{localize "KNIGHT.CAPACITES.Label"}}
+        </h2>
+        <div class="add">
+            <a data-value="{{systemData.capacites.actuel}}">{{localize "KNIGHT.AUTRE.Ajouter"}}</a>
+            <select name="system.capacites.actuel">
+                {{#select systemData.capacites.actuel}}
+                <option value=""></option>
+                    {{#each systemData.capacites.liste  as | key capacite|}} 
+                        <option value="{{key.key}}">{{key.label}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+        {{#each systemData.capacites.selected as | key selected|}}
+            {{~> (capacite . key)}}
+        {{/each}}
+    </div>
+
+    <div class="special">
+        <h2 class="header">
+            <i class="far fa-minus-square"></i>
+            {{localize "KNIGHT.ITEMS.ARMURE.Special"}}
+        </h2>
+        <div class="add">
+            <a data-value="{{systemData.special.actuel}}">{{localize "KNIGHT.AUTRE.Ajouter"}}</a>
+            <select name="system.special.actuel">
+                {{#select systemData.special.actuel}}
+                <option value=""></option>
+                {{#each systemData.special.liste  as | key special|}} 
+                    <option value="{{key.key}}">{{key.label}}</option>
+                {{/each}}
+                {{/select}}
+            </select>
+        </div>
+        {{#each systemData.special.selected as | key selected|}}
+            {{~> (special)}}
+        {{/each}}
+    </div>
+
+    <div class="slots">
+        <h2 class="header">
+            <i class="far fa-minus-square"></i>
+            {{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Label"}}
+        </h2>
+
+        <div class="line">
+            <label>
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Tete"}}</span>
+                <input type="number" name="system.slots.tete.value" value="{{systemData.slots.tete.value}}" min="0" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.BrasGauche"}}</span>
+                <input type="number" name="system.slots.brasGauche.value" value="{{systemData.slots.brasGauche.value}}" min="0" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.BrasDroit"}}</span>
+                <input type="number" name="system.slots.brasDroit.value" value="{{systemData.slots.brasDroit.value}}" min="0" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Torse"}}</span>
+                <input type="number" name="system.slots.torse.value" value="{{systemData.slots.torse.value}}" min="0" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.JambeGauche"}}</span>
+                <input type="number" name="system.slots.jambeGauche.value" value="{{systemData.slots.jambeGauche.value}}" min="0" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.JambeDroite"}}</span>
+                <input type="number" name="system.slots.jambeDroite.value" value="{{systemData.slots.jambeDroite.value}}" min="0" />
+            </label>
+        </div>
+    </div>
+
+    <div class="overdrives">
+        <h2 class="header">
+            <i class="far fa-minus-square"></i>
+            {{localize "KNIGHT.ITEMS.ARMURE.Overdrives"}}
+        </h2>
+
+        {{#each systemData.overdrives as | key aspect|}}
+        <div class="aspect">
+            <h2 class="header">
+                {{getAspect aspect}}
+            </h2>
+            {{#each key.liste as | keyOD OD|}}
+                <label>
+                    <span class="label">{{getCarac OD}}</span>
+                    <input type="number" name="system.overdrives.{{aspect}}.liste.{{OD}}.value" value="{{keyOD.value}}" />
+                </label>
+            {{/each}}
+        </div>
+        {{/each}}
+    </div>
+
+    <div class="evolutions">
+        {{#each systemData.evolutions.special as | key evolution|}}
+            {{~> (evolutions) key=evolution}}
+        {{/each}}
+        
+        <label class="paliers">
+            <span>{{localize "KNIGHT.ITEMS.ARMURE.EVOLUTIONS.NbrePaliers"}}</span>
+            <input type="number" name="system.evolutions.paliers" min="0" value="{{systemData.evolutions.paliers}}" />
+            <button type="action" data-value="{{systemData.evolutions.paliers}}">{{localize "KNIGHT.AUTRE.Valider"}}</button>
+        </label>
+        
+        <button class="aAcheter {{#if systemData.evolutions.aAcheter.value}} selected {{else}} unselected {{/if}}" data-value="{{systemData.evolutions.aAcheter.value}}">
+        {{systemData.evolutions.aAcheter.label}}</button>
+        {{#each systemData.evolutions.liste as | key evolution|}}
+        <div class="liste">
+            <h2 class="header">
+                <i class="far fa-minus-square"></i>
+                {{localize "KNIGHT.ITEMS.ARMURE.EVOLUTIONS.Label"}}
+
+                <label>
+                    <input type="number" name="system.evolutions.liste.{{evolution}}.value" value="{{key.value}}" min="{{#unless ../systemData.evolutions.aAcheter.value}}{{evolution}}{{else}}0{{/unless}}" data-key="{{evolution}}" class="{{#unless ../systemData.evolutions.aAcheter.value}} palier {{/unless}}" />
+                    <span>{{localize "KNIGHT.AUTRE.PointGloire-short"}}</span>
+                </label>
+            </h2>
+
+            {{editor this.description target=(whatTargetE) button=true owner="../owner" editable="../editable"}}
+
+            <div class="mainData">
+            {{#each key.capacites as | kCap capacite |}}
+                {{~> (evolutions) key=evolution}}
+            {{/each}}
+            {{#each key.special as | kSpe special |}}
+                {{~> (evolutions) key=evolution}}
+            {{/each}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</form>

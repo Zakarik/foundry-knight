@@ -1,0 +1,274 @@
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.Label"}}
+    </h4>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.energie" value="{{this.energie}}" 
+       
+        />
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.LATERAL.Espoir"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.espoir" value="{{this.espoir}}" 
+       
+        />
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.morph.activation">
+            {{#select this.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>           
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea data-capacite="morph" data-type="duree" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.duree}}px;" name="system.evolutions.liste.{{key}}.capacites.morph.duree">{{this.duree}}</textarea>
+    </label>
+    <label class="longspan separation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.NbreCapacites"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.capacites" value="{{this.capacites}}" 
+       
+        />
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.VOL.Label"}}
+    </h4>
+    <textarea data-capacite="morph" data-type="vol" data-min="130" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.vol}}px;" name="system.evolutions.liste.{{key}}.capacites.morph.vol.description">{{this.vol.description}}</textarea>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.PHASE.Label"}}
+    </h4>
+    <textarea data-capacite="morph" data-type="phase" data-min="115" style="height:{{this.textarea.phase}}px;" name="system.evolutions.liste.{{key}}.capacites.morph.phase.description">{{this.phase.description}}</textarea>
+    <label class="shortspan simpleSeparation">
+        <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.phase.energie" value="{{this.phase.energie}}" 
+       
+        />
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.morph.phase.activation">
+            {{#select this.phase.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea data-capacite="morph" data-type="phaseDuree" data-min="50" style="height:{{this.textarea.phaseDuree}}px;" name="system.evolutions.liste.{{key}}.capacites.morph.phase.duree">{{this.phase.duree}}</textarea>
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.Label"}}
+    </h4>
+    <textarea data-capacite="morph" data-type="etirement" data-min="130" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.etirement}}px;" name="system.evolutions.liste.{{key}}.capacites.morph.etirement.description">{{this.etirement.description}}</textarea>
+    <label class="shortspan simpleSeparation">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.morph.etirement.portee" 
+        data-capacite="morph" data-type="etirementPortee" data-min="50" style="height:{{this.textarea.etirementPortee}}px;" 
+       >{{this.etirement.portee}}</textarea>
+    </label>
+    <label class="longspan separation absolute">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.Bonus"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.etirement.bonus" value="{{this.etirement.bonus}}" 
+       
+        />
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.METAL.Label"}}
+    </h4>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.BONUS.ChampDeForce"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.metal.bonus.champDeForce" value="{{this.metal.bonus.champDeForce}}" 
+       
+        />
+    </label>
+</div>
+
+<div class="data double">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.FLUIDE.Label"}}
+    </h4>
+    <div class="double">
+        <label class="doubleLine">
+            <span>{{localize "KNIGHT.BONUS.Defense"}}</span>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.fluide.bonus.defense" value="{{this.fluide.bonus.defense}}" 
+            />
+        </label>
+        <label class="doubleLine">
+            <span>{{localize "KNIGHT.BONUS.Reaction"}}</span>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.fluide.bonus.reaction" value="{{this.fluide.bonus.reaction}}" 
+            />
+        </label>
+    </div>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}}
+    </h4>
+    <textarea data-capacite="morph" data-type="polymorphie" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.polymorphie}}px;" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.description">{{this.polymorphie.description}}</textarea>
+    <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe"}}</h4>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.griffe.portee">
+            {{#select this.polymorphie.griffe.portee}}
+            <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+            <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+            <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+            <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+            <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <div class="double">
+        <div class="doubleLine">
+            <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.griffe.degats.dice" value="{{this.polymorphie.griffe.degats.dice}}" 
+               
+                />
+                <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+            </label>
+        </div>
+        <div class="doubleLine">
+            <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.griffe.violence.dice" value="{{this.polymorphie.griffe.violence.dice}}" 
+               
+                />
+                <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+            </label>
+        </div>
+    </div>
+    <div class="effets">
+        {{#each this.polymorphie.griffe.effets.liste as | key effet|}}
+            <div>
+                <span class="label">{{key.name}}</span>
+                <img class="info" src="systems/knight/assets/icons/info.svg" />
+                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+            </div>
+        {{/each}}
+        <a class="edit" data-path="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.griffe.effets">
+            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+        </a>
+    </div>
+
+    <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame"}}</h4>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.lame.portee">
+            {{#select this.polymorphie.lame.portee}}
+            <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+            <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+            <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+            <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+            <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+            {{/select}}
+        </select>
+    </label>
+
+    <div class="double">
+        <div class="doubleLine">
+            <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.lame.degats.dice" value="{{this.polymorphie.lame.degats.dice}}" 
+               
+                />
+                <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+            </label>
+        </div>
+        <div class="doubleLine">
+            <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.lame.violence.dice" value="{{this.polymorphie.lame.violence.dice}}" 
+               
+                />
+                <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+            </label>
+        </div>
+    </div>
+    <div class="effets">
+        {{#each this.polymorphie.lame.effets.liste as | key effet|}}
+            <div>
+                <span class="label">{{key.name}}</span>
+                <img class="info" src="systems/knight/assets/icons/info.svg" />
+                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+            </div>
+        {{/each}}
+        <a class="edit" data-path="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.lame.effets">
+            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+        </a>
+    </div>
+
+    <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon"}}</h4>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.canon.portee">
+            {{#select this.polymorphie.canon.portee}}
+            <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+            <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+            <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+            <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+            <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <div class="double">
+        <div class="doubleLine">
+            <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.canon.degats.dice" value="{{this.polymorphie.canon.degats.dice}}" 
+               
+                />
+                <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+            </label>
+        </div>
+        <div class="doubleLine">
+            <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.canon.violence.dice" value="{{this.polymorphie.canon.violence.dice}}" 
+               
+                />
+                <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+            </label>
+        </div>
+    </div>
+    <div class="effets">
+        {{#each this.polymorphie.canon.effets.liste as | key effet|}}
+            <div>
+                <span class="label">{{key.name}}</span>
+                <img class="info" src="systems/knight/assets/icons/info.svg" />
+                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+            </div>
+        {{/each}}
+        <a class="edit" data-path="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.canon.effets">
+            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+        </a>
+    </div>
+</div>

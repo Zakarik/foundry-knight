@@ -1,0 +1,59 @@
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.IMPREGNATION.Label"}}
+    </h4>
+    <h4>{{localize "KNIGHT.AUTRE.JetsPossibles"}}</h4>
+    <div class="line">
+        <select name="system.evolutions.liste.{{key}}.special.impregnation.jets.c1a" class="center">
+            <option value=""></option>
+            {{#select this.jets.c1a}}
+                {{#each this.aspects as | key aspect|}}
+                    <optgroup label="{{key.label}}">
+                        {{#each key.liste as | key carac|}}
+                            <option value="{{carac}}">{{key}}</option>
+                        {{/each}}
+                    </optgroup>
+                {{/each}}                    
+            {{/select}}
+        </select>
+        <select name="system.evolutions.liste.{{key}}.special.impregnation.jets.c2a" class="center">
+            <option value=""></option>
+            {{#select this.jets.c2a}}
+                {{#each this.aspects as | key aspect|}}
+                    <optgroup label="{{key.label}}">
+                        {{#each key.liste as | key carac|}}
+                            <option value="{{carac}}">{{key}}</option>
+                        {{/each}}
+                    </optgroup>
+                {{/each}}                    
+            {{/select}}
+        </select>
+    </div>
+    <div class="line">
+        <select name="system.evolutions.liste.{{key}}.special.impregnation.jets.c1b" class="center">
+            <option value=""></option>
+            {{#select this.jets.c1b}}
+                {{#each this.aspects as | key aspect|}}
+                    <optgroup label="{{key.label}}">
+                        {{#each key.liste as | key carac|}}
+                            <option value="{{carac}}">{{key}}</option>
+                        {{/each}}
+                    </optgroup>
+                {{/each}}                    
+            {{/select}}
+        </select>
+        <select name="system.evolutions.liste.{{key}}.special.impregnation.jets.c2b" class="center">
+            <option value=""></option>
+            {{#select this.jets.c2b}}
+                {{#each this.aspects as | key aspect|}}
+                    <optgroup label="{{key.label}}">
+                        {{#each key.liste as | key carac|}}
+                            <option value="{{carac}}">{{key}}</option>
+                        {{/each}}
+                    </optgroup>
+                {{/each}}                    
+            {{/select}}
+        </select>
+    </div>
+</div>

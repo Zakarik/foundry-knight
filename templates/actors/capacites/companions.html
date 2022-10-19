@@ -1,0 +1,755 @@
+<div class="companions">
+    <h3 class="header">
+        <i class="far fa-plus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Label"}}
+
+        {{#if ("armure" @root/systemData/wear)}}
+        <div class="blockMultiline">
+            {{#unless this.active.lion}}
+            {{#unless this.active.wolf}}
+            {{#unless this.active.crow}}
+            <select class="energie" name="system.equipements.armure.capacites.companions.energie">
+                {{#select @root/systemData/equipements/armure/capacites/companions/energie}}
+                <option value="0">0 {{#if @root/actor/armureData/system/espoir/remplaceEnergie}}{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEspoirS"}}{{else}}{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEnergieS"}}{{/if}}</option>
+                    {{#each @root/systemData/equipements/armure/capacites/companions/energieDisponible as | key energie|}}
+                        {{#if (hasPE key @root/actor/armureData/system/espoir/remplaceEnergie @root/systemData/energie/value @root/systemData/espoir/value)}}
+                        <option value="{{key}}">{{key}} {{#if @root/actor/armureData/system/espoir/remplaceEnergie}}{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEspoirP"}}{{else}}{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEnergieP"}}{{/if}}</option>
+                        {{/if}}
+                    {{/each}}
+                {{/select}}
+            </select>
+            {{/unless}}
+            {{/unless}}
+            {{/unless}}
+
+            {{#unless this.active.wolf}}
+            {{#unless this.active.crow}}
+            <button class="
+                {{#unless this.active.lion}}
+                activation
+                {{else}}
+                desactivation
+                {{/unless}}
+                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="lion"
+                data-cout="{{this.energie.base}}+{{@root/systemData/equipements/armure/capacites/companions/energie}}" data-donPe="{{@root/systemData/equipements/armure/capacites/companions/energie}}">
+                {{#unless this.active.lion}}
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
+                {{else}}
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
+                {{/unless}}
+            </button>
+            {{/unless}}
+            {{/unless}}
+
+            {{#unless this.active.lion}}
+            {{#unless this.active.crow}}
+            <button class="
+                {{#unless this.active.wolf}}
+                activation
+                {{else}}
+                desactivation
+                {{/unless}}
+                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="wolf"
+                data-cout="{{this.energie.base}}+{{@root/systemData/equipements/armure/capacites/companions/energie}}" data-donPe="{{@root/systemData/equipements/armure/capacites/companions/energie}}">
+                {{#unless this.active.wolf}}
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
+                {{else}}
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
+                {{/unless}}
+            </button>
+            {{/unless}}
+            {{/unless}}
+
+            {{#unless this.active.lion}}
+            {{#unless this.active.wolf}}
+            <button class="
+                {{#unless this.active.crow}}
+                activation
+                {{else}}
+                desactivation
+                {{/unless}}
+                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="crow"
+                data-cout="{{this.energie.base}}+{{@root/systemData/equipements/armure/capacites/companions/energie}}" data-donPe="{{@root/systemData/equipements/armure/capacites/companions/energie}}">
+                {{#unless this.active.crow}}
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
+                {{else}}
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
+                {{/unless}}
+            </button>
+            {{/unless}}
+            {{/unless}}
+
+
+            {{#if this.active.base}}
+            <button class="
+                prolonger
+                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
+                data-cout="{{this.energie.prolonger}}">
+                {{localize "KNIGHT.AUTRE.Prolonger"}}
+            </button>
+            {{/if}}
+
+            {{#if this.active.wolf}}
+                <select class="type" name="system.equipements.armure.capacites.companions.type">
+                    {{#select @root/systemData/equipements/armure/capacites/companions/type}}
+                    <option value=""></option>
+                    <option value="labor">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.LABOR.Label"}}</option>
+                    <option value="medic">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.MEDIC.Label"}}</option>
+                    <option value="tech">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.TECH.Label"}}</option>
+                    <option value="recon">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.RECON.Label"}}</option>
+                    <option value="fighter">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.FIGHTER.Label"}}</option>
+                    {{/select}}
+                </select>
+
+                <button class="configurationWolf" data-configuration="{{@root/systemData/equipements/armure/capacites/companions/type}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
+                </button>
+            {{/if}}
+        </div>
+        {{/if}}
+    </h3>
+
+    <span class="description" style="display:none">{{{this.description}}}</span>
+
+    <div class="mainData" style="display:none">
+        <div class="data">
+            <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+            <div class="longspan">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.Base"}}</span>
+                <span class="score">{{this.energie.base}}</span>
+            </div>
+            <div class="longspan">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.Prolonger"}}</span>
+                <span class="score">{{this.energie.prolonger}}</span>
+            </div>
+            <div class="shortspan separation">
+                <span class="header">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <span class="score">{{getActivation this.activation}}</span>
+            </div>
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.DUREE.Label"}}</span>
+                <span class="score">{{this.duree}}</span>
+            </div>
+        </div>
+
+        <div class="data">
+            <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}}</h4>
+            <div class="longspan">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Pointgloiredepart"}}</span>
+                <span class="score">{{this.lion.PG}}</span>
+            </div>
+        </div>
+
+        <div class="lion">
+            <h4 class="title header">
+                <i class="far fa-plus-square"></i>
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}}
+            </h4>
+            <div class="aspects" style="display:none;">
+                 {{#each this.lion.aspects as | key aspect|}}
+                    <div class="col">
+                        <h5>{{key.label}}</h5>
+                        <div>
+                            <span class="header">{{localize "KNIGHT.ASPECTS.Aspect"}}</span>
+                            <span class="score">{{key.value}}</span>
+                        </div>
+                        <div class="full">
+                            <span class="header">{{localize "KNIGHT.ASPECTS.Exceptionnel-short"}}</span>
+                            <span class="score">{{key.labelAE}} ({{key.ae}})</span>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+            <div class="derives" style="display:none;">
+                <div class="col">
+                    <h5>{{localize "KNIGHT.LATERAL.Defense"}}</h5>
+                    <span>{{this.lion.defense.base}}</span>
+                </div>
+                <div class="col">
+                    <h5>{{localize "KNIGHT.LATERAL.Reaction"}}</h5>
+                    <span>{{this.lion.reaction.base}}</span>
+                </div>
+                <div class="col">
+                    <h5>{{localize "KNIGHT.LATERAL.Initiative"}}</h5>
+                    <span>{{this.lion.initiative.value}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.lion.initiative.fixe}}</span>                  
+                </div>
+                <div class="col">
+                    <h5>{{localize "KNIGHT.LATERAL.Armure"}}</h5>
+                    <span>{{this.lion.armure.base}}</span>
+                </div>
+                <div class="col">
+                    <h5>{{localize "KNIGHT.LATERAL.ChampDeForce"}}</h5>
+                    <span>{{this.lion.champDeForce.base}}</span>
+                </div>
+            </div>
+            <div class="armes" style="display:none;">
+                <h5>{{localize "KNIGHT.COMBAT.ARMES.CONTACT.Label"}}</h5>
+                <div class="line">
+                    <span class="label">{{localize "KNIGHT.Nom"}}</span>
+                    <span class="degats">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                    <span class="violence">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                    <span class="portee">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                </div>
+                <div class="line">
+                    <span class="label">{{this.lion.armes.contact.coups.label}}</span>
+                    <span class="degats">{{this.lion.armes.contact.coups.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.lion.armes.contact.coups.degats.fixe}}</span>
+                    <span class="violence">{{this.lion.armes.contact.coups.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.lion.armes.contact.coups.violence.fixe}}</span>
+                    <span class="portee">{{getPortee this.lion.armes.contact.coups.portee}}</span>
+                </div>
+                <div class="effets">
+                    {{#each this.lion.armes.contact.coups.effets.liste as | key effet|}}
+                        <div>
+                            <span class="label">{{key.name}}</span>
+                            <img class="info" src="systems/knight/assets/icons/info.svg" />
+                            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="modulesLion" style="display:none;">
+                <h5>
+                    {{localize "KNIGHT.ITEMS.MODULE.Label"}}
+                </h5>
+                {{#each this.lion.modules as | kLion module|}}
+                <div class="bModule">
+                    <header class="summary header" data-item-id="{{kLion._id}}">
+                        <i class="far fa-plus-square extendButton"></i>                        
+
+                        <div class="gestionButton">
+                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                        </div>
+                        <span>{{{kLion.name}}}</span>
+                    </header>
+                    
+                    <img class="profile-img" style="display:none;" src="{{kLion.img}}" title="{{kLion.name}}" />
+                    <span class="description" style="display:none;">{{{kLion.system.description}}}</span>
+
+                    <div class="mainBlock" style="display:none;">
+                        <div class="line">
+                            <div class="data">
+                                <div class="middlespan">
+                                    <span class="header">{{localize "KNIGHT.ITEMS.MODULE.CATEGORIE.Label"}}</span>
+                                    <span class="score">{{getCategorie kLion.system.categorie}}</span>
+                                </div>
+                                <div class="middlespan">
+                                    <span class="header">{{localize "KNIGHT.ITEMS.MODULE.RARETE.Label"}}</span>
+                                    <span class="score">{{getRarete kLion.system.rarete}}</span>
+                                </div>
+                                <div class="middlespan">
+                                    <span class="header">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                                    <span class="score">{{getActivation kLion.system.activation}}</span>
+                                </div>
+                                <div class="middlespan">
+                                    <span class="header">
+                                        {{localize "KNIGHT.LATERAL.Energie"}} / {{localize "KNIGHT.AUTRE.Tour"}}
+                                    </span>
+                                    <span class="score">{{kLion.system.energie.tour}}</span>
+                                </div>
+                                <div class="middlespan">
+                                    <span class="header">
+                                        {{localize "KNIGHT.LATERAL.Energie"}} / {{localize "KNIGHT.AUTRE.Minute"}}
+                                    </span>
+                                    <span class="score">{{kLion.system.energie.minute}}</span>
+                                </div>
+                                <div class="middlespan">
+                                    <span class="header">
+                                        {{localize "KNIGHT.AUTRE.EnergieSupplementaire"}}
+                                    </span>
+                                    <span class="score">{{kLion.system.energie.supplementaire}}</span>
+                                </div>
+                                <div class="middlespan">
+                                    <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                                    <span class="score">{{getPortee kLion.system.portee}}</span>
+                                </div>
+                                <span class="oneLine lightBlack">{{localize "KNIGHT.DUREE.Label"}}</span>
+                                {{#if kLion.system.permanent}}
+                                <span class="button">{{localize "KNIGHT.DUREE.Permanent"}}</span>
+                                {{else}}
+                                <span class="textarea">{{{capaciteDescription kLion.system.duree}}}</span>
+                                {{/if}}
+                            </div>
+                            
+                            {{#if kLion.system.bonus.has}}
+                            <div class="data">
+                                <h4 class="title">{{localize "KNIGHT.BONUS.Label"}}</h4>
+                                {{#if kLion.system.bonus.armure.has}}
+                                    <div class="middlespan">
+                                        <span class="header">{{localize "KNIGHT.LATERAL.Armure"}}</span>
+                                        <span class="score">{{kLion.system.bonus.armure.value}}</span>
+                                    </div>
+                                {{/if}}
+
+                                {{#if kLion.system.bonus.champDeForce.has}}
+                                    <div class="middlespan">
+                                        <span class="header">{{localize "KNIGHT.LATERAL.ChampDeForce"}}</span>
+                                        <span class="score">{{kLion.system.bonus.champDeForce.value}}</span>
+                                    </div>
+                                {{/if}}
+
+                                {{#if kLion.system.bonus.energie.has}}
+                                    <div class="middlespan">
+                                        <span class="header">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                                        <span class="score">{{kLion.system.bonus.energie.value}}</span>
+                                    </div>
+                                {{/if}}
+
+                                {{#if kLion.system.bonus.energie.has}}
+                                    <div class="middlespan">
+                                        <span class="header">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                                        <span class="score">{{kLion.system.bonus.energie.value}}</span>
+                                    </div>
+                                {{/if}}
+
+                                {{#if kLion.system.bonus.degats.has}}
+                                    <h4 class="separation">{{localize "KNIGHT.BONUS.Degats"}}</h4>
+                                    <span class="oneLine borderBottom">{{getWpnType kLion.system.bonus.degats.type}}</span>
+                                    {{#unless kLion.system.bonus.degats.variable.has}}
+                                    <div class="middlespan noSeparation">
+                                        <span class="header">{{localize "KNIGHT.AUTRE.Total"}}</span>
+                                        <span class="score">{{kLion.system.bonus.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kLion.system.bonus.degats.fixe}}</span>
+                                    </div>
+                                    {{else}}
+                                    <div class="middlespan noSeparation">
+                                        <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
+                                        <span class="score">{{kLion.system.bonus.degats.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kLion.system.bonus.degats.variable.min.fixe}}</span>
+                                    </div>
+                                    <div class="middlespan">
+                                        <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
+                                        <span class="score">{{kLion.system.bonus.degats.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kLion.system.bonus.degats.variable.max.fixe}}</span>
+                                    </div>
+                                    {{/unless}}
+                                {{/if}}
+
+                                {{#if kLion.system.bonus.violence.has}}
+                                    <h4 class="separation">{{localize "KNIGHT.BONUS.Violence"}}</h4>
+                                    <span class="oneLine borderBottom">{{getWpnType kLion.system.bonus.violence.type}}</span>
+                                    {{#unless kLion.system.bonus.violence.variable.has}}
+                                    <div class="middlespan noSeparation">
+                                        <span class="header">{{localize "KNIGHT.AUTRE.Total"}}</span>
+                                        <span class="score">{{kLion.system.bonus.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kLion.system.bonus.violence.fixe}}</span>
+                                    </div>
+                                    {{else}}
+                                    <div class="middlespan noSeparation">
+                                        <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
+                                        <span class="score">{{kLion.system.bonus.violence.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kLion.system.bonus.violence.variable.min.fixe}}</span>
+                                    </div>
+                                    <div class="middlespan">
+                                        <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
+                                        <span class="score">{{kLion.system.bonus.violence.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kLion.system.bonus.violence.variable.max.fixe}}</span>
+                                    </div>
+                                    {{/unless}}
+                                {{/if}}
+                            </div>
+                            {{/if}}
+
+                            {{#if kLion.system.arme.has}}
+                            <div class="data">
+                                <h4 class="title">{{localize "KNIGHT.ITEMS.MODULE.ARME.Label"}}</h4>
+                                <div class="middlespan">
+                                    <span class="header">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Label"}}</span>
+                                    <span class="score">{{getWpnType kLion.system.arme.type}}</span>
+                                </div>
+                                <div class="middlespan">
+                                    <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                                    <span class="score">{{getPortee kLion.system.arme.portee}}</span>
+                                </div>
+                                
+                                <h4 class="separation">{{localize "KNIGHT.AUTRE.Degats"}}</h4>
+                                {{#unless kLion.system.arme.degats.variable.has}}
+                                <div class="middlespan noSeparation">
+                                    <span class="header">{{localize "KNIGHT.AUTRE.Total"}}</span>
+                                    <span class="score">{{kLion.system.arme.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kLion.system.arme.degats.fixe}}</span>
+                                </div>
+                                {{else}}
+                                <div class="middlespan noSeparation">
+                                    <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
+                                    <span class="score">{{kLion.system.arme.degats.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kLion.system.arme.degats.variable.min.fixe}}</span>
+                                </div>
+                                <div class="middlespan">
+                                    <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
+                                    <span class="score">{{kLion.system.arme.degats.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kLion.system.arme.degats.variable.max.fixe}}</span>
+                                </div>
+                                {{/unless}}
+                                
+                                <h4 class="separation">{{localize "KNIGHT.AUTRE.Violence"}}</h4>
+                                {{#unless kLion.system.arme.violence.variable.has}}
+                                <div class="middlespan noSeparation">
+                                    <span class="header">{{localize "KNIGHT.AUTRE.Total"}}</span>
+                                    <span class="score">{{kLion.system.arme.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kLion.system.arme.violence.fixe}}</span>
+                                </div>
+                                {{else}}
+                                <div class="middlespan noSeparation">
+                                    <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
+                                    <span class="score">{{kLion.system.arme.violence.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kLion.system.arme.violence.variable.min.fixe}}</span>
+                                </div>
+                                <div class="middlespan">
+                                    <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
+                                    <span class="score">{{kLion.system.arme.violence.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kLion.system.arme.violence.variable.max.fixe}}</span>
+                                </div>
+                                {{/unless}}
+                                <div class="effets">
+                                    {{#each kLion.system.arme.effets.liste as | key effet|}}
+                                        <div>
+                                            <span class="label">{{kLion.name}}</span>
+                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
+                                            <span class="hideInfo">{{{getEffetsDescription kLion.description}}}</span>
+                                        </div>
+                                    {{/each}}
+                                </div>
+                                {{#if (isWpnDistance kLion.system.arme.type)}}
+                                <div class="effets">
+                                    {{#each kLion.system.arme.distance.liste as | key effet|}}
+                                        <div>
+                                            <span class="label">{{kLion.name}}</span>
+                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
+                                            <span class="hideInfo">{{{getEffetsDescription kLion.description}}}</span>
+                                        </div>
+                                    {{/each}}
+                                </div>
+                                {{else}}
+                                <div class="effets">
+                                    {{#each kLion.system.arme.structurelles.liste as | key effet|}}
+                                        <div>
+                                            <span class="label">{{kLion.name}}</span>
+                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
+                                            <span class="hideInfo">{{{getEffetsDescription kLion.description}}}</span>
+                                        </div>
+                                    {{/each}}
+                                </div>
+                                <div class="effets">
+                                    {{#each kLion.system.arme.ornementales.liste as | key effet|}}
+                                        <div>
+                                            <span class="label">{{kLion.name}}</span>
+                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
+                                            <span class="hideInfo">{{{getEffetsDescription kLion.description}}}</span>
+                                        </div>
+                                    {{/each}}
+                                </div>
+                                {{/if}}
+                            </div>
+                            {{/if}}
+
+                            {{#if kLion.system.pnj.has}}
+                            <div class="data fullWidth pnj">
+                                <h4 class="title">{{localize "KNIGHT.ITEMS.MODULE.PNJ.LabelP"}}</h4>
+                                {{#each kLion.system.pnj.liste as | kPnj pnj|}}
+                                    <div class="mainBlock">
+                                        <span class="pnjName">{{kPnj.nom}} ({{getPnjType kPnj.type}})</span>
+                                        {{#if kPnj.aspects.has}}
+                                        <div class="aspects">
+                                            {{#each kPnj.aspects.liste  as | kAsp aspect|}}
+                                                <div>
+                                                    <div class="middlespan noSeparation">
+                                                        <span class="header">{{getAspect aspect}}</span>
+                                                        <span class="score">{{kAsp.value}}</span>
+                                                    </div>
+                                                    <h4 class="separation">{{localize "KNIGHT.ASPECTS.Exceptionnels"}}</h4>
+                                                    <div class="middlespan noSeparation">
+                                                        <span class="header">{{localize "KNIGHT.AUTRE.Mineur"}}</span>
+                                                        <span class="score">{{kAsp.ae.mineur}}</span>
+                                                    </div>
+                                                    <div class="middlespan">
+                                                        <span class="header">{{localize "KNIGHT.AUTRE.Majeur"}}</span>
+                                                        <span class="score">{{kAsp.ae.majeur}}</span>
+                                                    </div>
+                                                </div>
+                                            {{/each}}
+                                        </div>
+                                        {{/if}}
+
+                                        <div class="col3">
+                                            {{#if (isBande kPnj.type)}}
+                                                <div class="middlespan noSeparation">
+                                                    <span class="header">{{localize "KNIGHT.AUTRE.Debordement"}}</span>
+                                                    <span class="score">{{kPnj.debordement}}</span>
+                                                </div>
+                                            {{/if}}
+                                            <div class="middlespan {{#unless (isBande kPnj.type)}}noSeparation{{/unless}}">
+                                                <span class="header">{{localize "KNIGHT.LATERAL.Initiative"}}</span>
+                                                <span class="score">{{kPnj.initiative.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kPnj.initiative.fixe}}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col3">
+                                            <div class="middlespan noSeparation">
+                                                <span class="header">{{localize "KNIGHT.LATERAL.Reaction"}}</span>
+                                                <span class="score">{{kPnj.reaction}}</span>
+                                            </div>
+                                            <div class="middlespan">
+                                                <span class="header">{{localize "KNIGHT.LATERAL.Defense"}}</span>
+                                                <span class="score">{{kPnj.defense}}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col3">
+                                            <div class="middlespan noSeparation">
+                                                <span class="header">{{localize "KNIGHT.LATERAL.Armure"}}</span>
+                                                <span class="score">{{kPnj.armure}}</span>
+                                            </div>
+                                            <div class="middlespan">
+                                                <span class="header">{{localize "KNIGHT.LATERAL.ChampDeForce"}}</span>
+                                                <span class="score">{{kPnj.champDeForce}}</span>
+                                            </div>
+                                        </div>
+
+                                        {{#if kPnj.armes.has}}
+                                        <div class="armes">
+                                            <h4>
+                                                {{localize "KNIGHT.ITEMS.MODULE.ARME.Label"}}
+                                            </h3>
+                                            {{#each kPnj.armes.liste  as | kArme arme|}}
+                                            <div>
+                                                <div class="line">
+                                                    <span class="nom">
+                                                        {{kArme.nom}}
+                                                    </span>
+                                                    <span class="type">
+                                                        {{getWpnType kArme.type}}
+                                                    </span>
+                                                </div>
+                                                <div class="header">
+                                                    <span class="portee">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                                                    <span class="degats">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                                                    <span class="violence">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                                                </div>
+                                                <div class="line">
+                                                    <span class="portee">{{getPortee kArme.portee}}</span>
+                                                    <span class="degats">{{kArme.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kArme.degats.fixe}}</span>
+                                                    <span class="violence">{{kArme.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kArme.violence.fixe}}</span>
+                                                </div>
+                                                <div class="effets">
+                                                    {{#each kArme.effets.liste as | kEffet effet|}}
+                                                        <div>
+                                                            <span class="label">{{kEffet.name}}</span>
+                                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
+                                                            <span class="hideInfo">{{{getEffetsDescription kEffet.description}}}</span>
+                                                        </div>
+                                                    {{/each}}
+                                                </div>
+                                            </div>
+                                            {{/each}}
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                {{/each}}
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="wolf">
+            <h4 class="title header">
+                <i class="far fa-plus-square"></i>
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label"}}
+            </h4>
+            <div class="aspects" style="display:none;">
+                 {{#each this.wolf.aspects as | key aspect|}}
+                    <div class="col">
+                        <h5>{{key.label}}</h5>
+                        <div>
+                            <span class="header">{{localize "KNIGHT.ASPECTS.Aspect"}}</span>
+                            <span class="score">{{key.value}}</span>
+                        </div>
+                        <div class="full">
+                            <span class="header">{{localize "KNIGHT.ASPECTS.Exceptionnel-short"}}</span>
+                            <span class="score">{{key.labelAE}} ({{key.ae}})</span>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+            <div class="derives" style="display:none;">
+                <div class="col">
+                    <h5>{{localize "KNIGHT.LATERAL.Defense"}}</h5>
+                    <span>{{this.wolf.defense.base}}</span>
+                </div>
+                <div class="col">
+                    <h5>{{localize "KNIGHT.LATERAL.Reaction"}}</h5>
+                    <span>{{this.wolf.reaction.base}}</span>
+                </div>
+                <div class="col">
+                    <h5>{{localize "KNIGHT.LATERAL.Initiative"}}</h5>
+                    <span>{{this.wolf.initiative.value}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.wolf.initiative.fixe}}</span>                
+                </div>
+                <div class="col">
+                    <h5>{{localize "KNIGHT.LATERAL.Armure"}}</h5>
+                    <span>{{this.wolf.armure.base}}</span>
+                </div>
+                <div class="col">
+                    <h5>{{localize "KNIGHT.LATERAL.ChampDeForce"}}</h5>
+                    <span>{{this.wolf.champDeForce.base}}</span>
+                </div>
+            </div>
+            <div class="armes" style="display:none;">
+                <h5>{{localize "KNIGHT.COMBAT.ARMES.CONTACT.Label"}}</h5>
+                <div class="line">
+                    <span class="label">{{localize "KNIGHT.Nom"}}</span>
+                    <span class="degats">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                    <span class="violence">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                    <span class="portee">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                </div>
+                {{#each this.wolf.armes.contact as | key arme|}}
+                    <div class="line {{#unless @first}} separation {{/unless}}">
+                        <span class="label">{{key.label}}</span>
+                        <span class="degats">{{key.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.degats.fixe}}</span>
+                        <span class="violence">{{key.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.violence.fixe}}</span>
+                        <span class="portee">{{getPortee key.portee}}</span>
+                    </div>
+                    <div class="effets">
+                        {{#each key.effets.liste as | key effet|}}
+                            <div>
+                                <span class="label">{{key.name}}</span>
+                                <img class="info" src="systems/knight/assets/icons/info.svg" />
+                                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                            </div>
+                        {{/each}}
+                    </div>
+                {{/each}}
+            </div>
+            <div class="configurations" style="display:none;">
+                <h5>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}}</h5>
+                <div class="configuration">
+                    <h6>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.LABOR.Label"}}</h6>
+                    <span>{{{this.wolf.configurations.labor.description}}}</span>
+                    <div class="longspan">
+                        <span class="header">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                        <span class="score">{{this.wolf.configurations.labor.energie}}</span>
+                    </div>
+                    <div class="longspan">
+                        <span class="header">{{localize "KNIGHT.BONUS.Jet"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
+                        <span class="score">{{this.wolf.configurations.labor.bonus.roll}}{{localize "KNIGHT.JETS.Des-short"}}</span>
+                    </div>
+                </div>
+
+                <div class="configuration">
+                    <h6>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.MEDIC.Label"}}</h6>
+                    <span>{{{capaciteDescription this.wolf.configurations.medic.description}}}</span>
+                    <div class="longspan">
+                        <span class="header">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                        <span class="score">{{this.wolf.configurations.medic.energie}}</span>
+                    </div>
+                    <div class="longspan">
+                        <span class="header">{{localize "KNIGHT.BONUS.Jet"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
+                        <span class="score">{{this.wolf.configurations.medic.bonus.roll}}{{localize "KNIGHT.JETS.Des-short"}}</span>
+                    </div>
+                    <div class="longspan">
+                        <span class="header">{{localize "KNIGHT.BONUS.Soins"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
+                        <span class="score">{{this.wolf.configurations.medic.bonus.soins}}{{localize "KNIGHT.AUTRE.PointSante-short"}}</span>
+                    </div>
+                </div>
+                
+                <div class="configuration">
+                    <h6>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.TECH.Label"}}</h6>
+                    <span>{{{capaciteDescription this.wolf.configurations.tech.description}}}</span>
+                    <div class="longspan">
+                        <span class="header">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                        <span class="score">{{this.wolf.configurations.tech.energie}}</span>
+                    </div>
+                    <div class="longspan">
+                        <span class="header">{{localize "KNIGHT.BONUS.Jet"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
+                        <span class="score">{{this.wolf.configurations.tech.bonus.roll}}{{localize "KNIGHT.JETS.Des-short"}}</span>
+                    </div>
+                    <div class="longspan">
+                        <span class="header">{{localize "KNIGHT.BONUS.Reparation"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
+                        <span class="score">{{this.wolf.configurations.tech.bonus.reparation}}{{localize "KNIGHT.AUTRE.PointArmure-short"}}</span>
+                    </div>
+                </div>
+
+                <div class="configuration">
+                    <h6>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.RECON.Label"}}</h6>
+                    <span>{{{capaciteDescription  this.wolf.configurations.recon.description}}}</span>
+                    <div class="longspan">
+                        <span class="header">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                        <span class="score">{{this.wolf.configurations.recon.energie}}</span>
+                    </div>
+                    <div class="longspan">
+                        <span class="header">{{localize "KNIGHT.BONUS.Jet"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
+                        <span class="score">{{this.wolf.configurations.recon.bonus.roll}}{{localize "KNIGHT.JETS.Des-short"}}</span>
+                    </div>
+                </div>
+
+                <div class="configuration">
+                    <h6>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.FIGHTER.Label"}}</h6>
+                    <span>{{this.wolf.configurations.fighter.description}}</span>
+                    <div class="longspan">
+                        <span class="header">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                        <span class="score">{{this.wolf.configurations.fighter.energie}}</span>
+                    </div>
+                    <div class="longspan">
+                        <span class="header">{{localize "KNIGHT.BONUS.Jet"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
+                        <span class="score">{{this.wolf.configurations.fighter.bonus.roll}}{{localize "KNIGHT.JETS.Des-short"}}</span>
+                    </div>
+                    <div class="longspan">
+                        <span class="header">{{localize "KNIGHT.AUTRE.Degats"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
+                        <span class="score">{{this.wolf.configurations.fighter.degats}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                    <div class="longspan">
+                        <span class="header">{{localize "KNIGHT.AUTRE.Violence"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
+                        <span class="score">{{this.wolf.configurations.fighter.violence}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                    <span class="title">{{localize "KNIGHT.EFFETS.Label"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
+                    <div class="effets">
+                        {{#each this.wolf.configurations.fighter.bonus.effets.liste as | key effet|}}
+                            <div>
+                                <span class="label">{{key.name}}</span>
+                                <img class="info" src="systems/knight/assets/icons/info.svg" />
+                                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="crow">
+            <h4 class="title header">
+                <i class="far fa-plus-square"></i>
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label"}}
+            </h4>
+            <div class="aspects" style="display:none;">
+                 {{#each this.crow.aspects as | key aspect|}}
+                    <div class="col">
+                        <h5>{{key.label}}</h5>
+                        <div>
+                            <span class="header">{{localize "KNIGHT.ASPECTS.Aspect"}}</span>
+                            <span class="score">{{key.value}}</span>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+            <div class="derives" style="display:none;">
+                <div class="col">
+                    <h5>{{localize "KNIGHT.LATERAL.Defense"}}</h5>
+                    <span>{{this.crow.defense.base}}</span>
+                </div>
+                <div class="col">
+                    <h5>{{localize "KNIGHT.LATERAL.Reaction"}}</h5>
+                    <span>{{this.crow.reaction.base}}</span>
+                </div>
+                <div class="col">
+                    <h5>{{localize "KNIGHT.LATERAL.Initiative"}}</h5>
+                    <span>{{this.crow.initiative.value}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.crow.initiative.fixe}}</span>                  
+                </div>
+                <div class="col">
+                    <h5>{{localize "KNIGHT.LATERAL.Cohesion"}}</h5>
+                    <span>{{this.crow.cohesion.base}}</span>
+                </div>
+                <div class="col">
+                    <h5>{{localize "KNIGHT.LATERAL.ChampDeForce"}}</h5>
+                    <span>{{this.crow.champDeForce.base}}</span>
+                </div>
+            </div>
+            <div class="debordement" style="display:none;">
+                <div class="col">
+                    <h5>{{localize "KNIGHT.AUTRE.Debordement"}}</h5>
+                    <span>{{this.crow.debordement.base}}</span>
+                </div>
+                <span class="capacites">{{this.crow.capacites}}</span>
+            </div>
+        </div>
+    </div>
+</div>

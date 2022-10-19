@@ -1,0 +1,106 @@
+<div class="recolteflux">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.special.selected.recolteflux.description" button=true owner="../owner" editable="../editable"}}
+
+    <div class="mainData">
+        <div class="data">
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXHORSCONFLIT.Label"}}</h4>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXHORSCONFLIT.FluxParCreature"}}</span>
+                <input type="number" name="system.special.selected.recolteflux.horsconflit.base" 
+                value="{{this.horsconflit.base}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.AUTRE.Limite"}}</span>
+                <input type="number" name="system.special.selected.recolteflux.horsconflit.limite" 
+                value="{{this.horsconflit.limite}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="shortspan separation">
+                <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+                <select name="system.special.selected.recolteflux.horsconflit.portee"
+                    {{#if this.softlock}}disabled{{/if}} >
+                    {{#select this.horsconflit.portee}}
+                        <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+                        <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+                        <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+                        <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+                        <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+        </div>
+
+        <div class="data">
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.Label"}}</h4>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.DebutConflit"}}</span>
+                <input type="number" name="system.special.selected.recolteflux.conflit.base" 
+                value="{{this.conflit.base}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.ParTour"}}</span>
+                <input type="number" name="system.special.selected.recolteflux.conflit.tour" 
+                value="{{this.conflit.tour}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.ParHostile"}}</span>
+                <input type="number" name="system.special.selected.recolteflux.conflit.hostile" 
+                value="{{this.conflit.hostile}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.ParSalopard"}}</span>
+                <input type="number" name="system.special.selected.recolteflux.conflit.salopard" 
+                value="{{this.conflit.salopard}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.ParPatron"}}</span>
+                <input type="number" name="system.special.selected.recolteflux.conflit.patron" 
+                value="{{this.conflit.patron}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="shortspan separation">
+                <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+                <select name="system.special.selected.recolteflux.conflit.portee"
+                    {{#if this.softlock}}disabled{{/if}} >
+                    {{#select this.conflit.portee}}
+                        <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+                        <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+                        <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+                        <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+                        <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+        </div>
+    </div>
+</div>

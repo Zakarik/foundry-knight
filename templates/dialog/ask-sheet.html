@@ -1,0 +1,9 @@
+<span>{{what}}</span>
+{{#if select.has}}
+    <select class="whatSelect">
+        <option value=""></option>
+        {{#each select.liste as | key effet|}}
+            <option value="{{effet}}">{{key}}</option>
+        {{/each}}
+    </select>
+{{/if}}

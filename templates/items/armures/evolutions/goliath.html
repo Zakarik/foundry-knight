@@ -1,0 +1,123 @@
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.Label"}}
+    </h4>
+    <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.TailleBonus"}}</h4>
+    <label class="shortspan">
+        <span class="label">{{localize "KNIGHT.AUTRE.Maximum-short"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.goliath.taille.max" 
+        value="{{this.taille.max}}"
+        min="0"
+            />
+    </label>
+    <label class="shortspan separation">
+        <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.goliath.energie" 
+        value="{{this.energie}}" 
+        min="0"
+            />
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.goliath.activation" >
+            {{#select this.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan separationBottom">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.goliath.duree" 
+        data-capacite="goliath" data-type="duree" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.duree}}px;"     
+        >{{this.duree}}</textarea>
+    </label>
+    <h4 class="noSeparationBottom">{{localize "KNIGHT.BONUS.Succes"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.Metre"}}</h4>
+    <div class="double lightSeparation noSeparationBottom">
+        <div class="fullLine">
+            <span class="label">{{localize "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.Force"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.goliath.bonus.force.value" 
+                value="{{this.bonus.force.value}}" 
+                min="0"
+                />
+            </label>
+        </div>
+        <div class="fullLine">
+            <span class="label">{{localize "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.Endurance"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.goliath.bonus.endurance.value" 
+                value="{{this.bonus.endurance.value}}" 
+                min="0"
+                />
+            </label>
+        </div> 
+    </div>
+    <label class="singleLine singleLineSeparation">
+        <span class="simpleSeparation">{{localize "KNIGHT.BONUS.ChampDeForce"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.Metre"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.barbarian.selected.bonus.cdf.value" 
+        value="{{this.bonus.cdf.value}}" 
+        min="0"
+        />
+    </label>
+    <h4 class="separation noSeparationBottom">{{localize "KNIGHT.BONUS.DegatsViolence"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.Metre"}}</h4>
+    <div class="double lightSeparation">
+        <div class="doubleLine">
+            <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.goliath.bonus.degats.value" 
+                value="{{this.bonus.degats.dice}}" 
+                min="0"
+                    />                    
+                <span class="D6 {{#unless this.softlock}}notdisabled{{/unless}}">D6</span>
+            </label>
+        </div>
+        <div class="doubleLine">
+            <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.goliath.bonus.violence.value" 
+                value="{{this.bonus.violence.dice}}" 
+                min="0"
+                />
+                <span class="D6 {{#unless this.softlock}}notdisabled{{/unless}}">D6</span>
+            </label>
+        </div>
+    </div>
+    <h4 class="separation noSeparationBottom">{{localize "KNIGHT.MALUS.DefenseReaction"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.Metre"}}</h4>
+    <div class="double lightSeparation">
+        <div class="fullLine">
+            <span>{{localize "KNIGHT.LATERAL.Defense"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.goliath.malus.defense.value" 
+                value="{{this.malus.defense.value}}" 
+                min="0"
+                />
+            </label>
+            
+        </div>
+        <div class="fullLine">
+            <span>{{localize "KNIGHT.LATERAL.Reaction"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.goliath.malus.reaction.value" 
+                value="{{this.malus.reaction.value}}" 
+                min="0"
+                />
+            </label>
+        </div>
+    </div>
+    <button type="action" 
+    data-type="goliath" data-subtype="armesRack" data-key="{{key}}" data-name="active" data-value="{{this.armesRack.active}}" 
+    class="{{#if this.armesRack.active}} selected {{/if}}"
+    >{{this.armesRack.label}}</button>
+    <label class="shortspan {{#unless this.armesRack.active}} hidden {{/unless}}">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.TailleBonus"}}</span>
+        <input type="number" class="noBorderTop" name="system.evolutions.liste.{{key}}.capacites.goliath.armesRack.value" 
+        value="{{this.armesRack.value}}" 
+        min="0"
+        max="{{this.taille.max}}"
+        />
+    </label>
+</div>

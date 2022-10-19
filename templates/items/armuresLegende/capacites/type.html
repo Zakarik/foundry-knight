@@ -1,0 +1,83 @@
+
+<div class="type">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.capacites.selected.type.description" button=true owner="../owner" editable="../editable"}}
+
+    <div class="mainData">
+        <div class="data plainData">
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TypesPossedes"}}</span>
+                <input type="number" name="system.capacites.selected.type.nbreType" 
+                value="{{this.nbreType}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <h4 class="separation">{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.ENERGIE.Tour"}}</span>
+                <input type="number" name="system.capacites.selected.type.energie.tour" 
+                value="{{this.energie.tour}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.ENERGIE.Scene"}}</span>
+                <input type="number" name="system.capacites.selected.type.energie.scene" 
+                value="{{this.energie.scene}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="shortspan separation">
+                <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <select name="system.capacites.selected.type.activation" {{#if this.softlock}}disabled{{/if}}>
+                    {{#select this.activation}}
+                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+                <textarea name="system.capacites.selected.type.duree"
+                data-capacite="type" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;" 
+                {{#if this.softlock}}disabled{{/if}}>{{this.duree}}</textarea>
+            </label>
+        </div>
+        {{#each this.type as | key type|}}
+        <div class="data">
+            <h4 class="title">{{key.label}}</h4>
+            <h4>{{localize "KNIGHT.BONUS.Overdrives"}}</h4>
+            <div>
+                {{#each key.liste as | tKey dType|}}
+                    <label class="doubleLine">
+                        <span>{{tKey.label}}</span>
+                        <input type="number" name="system.capacites.selected.type.type.{{type}}.liste.{{dType}}.value" 
+                        value="{{this.value}}" 
+                        min="0"
+                        {{#if ../../this.softlock}}disabled{{/if}} />
+                    </label>
+                {{/each}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

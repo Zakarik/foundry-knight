@@ -1,0 +1,48 @@
+
+<div class="impregnation">
+    <h3 class="header">
+        <i class="far fa-plus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.IMPREGNATION.Label"}}
+
+        {{#if ("armure" @root/systemData/wear)}}
+        <div class="blockMultiline">
+            {{#if (getCarac this.jets.c1a)}}
+            <button class="roll" data-label="{{this.label}}" data-caracteristique="{{this.jets.c1a}}" data-caracAdd="{{this.jets.c2a}}" data-caracLock="{{this.jets.c1a}},{{this.jets.c2a}}">
+                {{localize "KNIGHT.JETS.Label"}} : {{getCarac this.jets.c1a}} / {{getCarac this.jets.c2a}}
+            </button>
+            {{/if}}
+
+            {{#if (getCarac this.jets.c1b)}}
+            <button class="roll" data-label="{{this.label}}" data-caracteristique="{{this.jets.c1b}}" data-caracAdd="{{this.jets.c2b}}" data-caracLock="{{this.jets.c1b}},{{this.jets.c2b}}">
+                {{localize "KNIGHT.JETS.Label"}} : {{getCarac this.jets.c1b}} / {{getCarac this.jets.c2b}}
+            </button>
+            {{/if}}
+        </div>
+        {{/if}}
+    </h3>
+
+    <span class="description" style="display:none">{{{this.description}}}</span>
+
+    <div class="mainData" style="display:none">
+        <div class="data">
+            <h4 class="title">{{localize "KNIGHT.AUTRE.JetsPossibles"}}</h4>
+            <div class="line">
+                <div class="doubleLine">
+                    <span class="button">{{getCarac this.jets.c1a}}</span>
+                </div>
+                <div class="doubleLine">
+                    <span class="button">{{getCarac this.jets.c2a}}</span>
+                </div>
+            </div>
+            <div class="line">
+                <div class="doubleLine">
+                    <span class="button">{{getCarac this.jets.c1b}}</span>
+                </div>
+                <div class="doubleLine">
+                    <span class="button">{{getCarac this.jets.c2b}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

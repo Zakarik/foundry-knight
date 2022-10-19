@@ -1,0 +1,45 @@
+
+<div class="vision">
+    <h3 class="header">
+        <i class="far fa-plus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.VISION.Label"}}
+
+        {{#if ("armure" @root/systemData/wear)}}
+        <div class="blockMultiline">
+            <label class="allies">
+                <input type="number" name="system.equipements.armure.capacites.vision.energie" data-capacite="{{this.key}}" value="{{@root/systemData/equipements/armure/capacites/vision/energie}}"
+                min="{{this.energie.min}}" max="{{this.energie.max}}" />
+                <span>{{localize "KNIGHT.AUTRE.PointEnergie-short"}}</span>
+            </label>
+            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
+                data-cout="{{@root/systemData/equipements/armure/capacites/vision/energie}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.VISION.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
+            </button>
+        </div>
+        {{/if}}
+    </h3>
+
+    <span class="description" style="display:none">{{{this.description}}}</span>
+
+    <div class="mainData" style="display:none">
+        <div class="data">
+            <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
+                <span class="score">{{this.energie.min}}</span>
+            </div>
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
+                <span class="score">{{this.energie.max}}</span>
+            </div>
+            <div class="shortspan separation">
+                <span class="header">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <span class="score">{{getActivation this.activation}}</span>
+            </div>
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.DUREE.Label"}}</span>
+                <span class="score">{{this.duree}}</span>
+            </div>
+        </div>
+    </div>
+</div>

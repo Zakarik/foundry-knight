@@ -1,0 +1,237 @@
+
+.motivationMineure,
+.langue,
+.contact,
+.carteHeroique,
+.capaciteHeroique {
+
+  header.sheet-header {
+    flex:none;
+
+    h1.charname {
+      width:100%;
+      border:0px;
+      margin:0px;
+      padding:0px;
+  
+      input[type="text"] {
+        margin: 0px;
+        width: 100%;
+        text-align: center;
+        border-top: 0px;
+        border-right: 0px;
+        border-left: 0px;
+        border-radius: 0px;
+        border-width: unset;
+        border-color: @white;
+        background:transparent;
+      }
+    }
+  }
+  
+
+  div.description {
+    margin-top:10px;
+  }
+}
+
+.blessure,
+.trauma {
+  .header();
+
+  header.sheet-header {
+    flex:none;
+
+    h1.charname {
+      width:100%;
+      border:0px;
+      margin:0px;
+      padding:0px;
+  
+      input[type="text"] {
+        margin: 0px;
+        width: 100%;
+        text-align: center;
+        border-top: 0px;
+        border-right: 0px;
+        border-left: 0px;
+        border-radius: 0px;
+        border-width: unset;
+        border-color: @white;
+        background:transparent;
+      }
+    }
+  }
+  
+  div.main {
+    display:flex;
+    width:100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+
+    div.gain {
+      display:flex;
+      width:100%;
+      
+      label {
+        display:flex;
+        justify-content: space-between;
+        width:calc(50% - 5px);
+        line-height:26px;
+        border:1px solid @lightBlue;
+        margin-right:auto;
+  
+        span {
+          width:calc(100% - 50px);
+          padding-left:5px;
+          background:@lightBlack;
+        }
+  
+        input {
+          width:50px;
+          text-align: center;
+          border-top:0px;
+          border-right:0px;
+          border-bottom:0px;
+          border-radius: 0px;
+          background:@black;
+        }
+      }
+    }
+
+    .button {
+      width: calc(50% - 5px);
+      line-height: 27px;
+      color: @white;
+      text-align: center;
+      padding: 0px;
+      border-radius: 0px;
+      margin: 0px;
+      cursor:pointer;
+
+      &.unclicked {
+        background:@black;
+        border:2px solid @lightBlack;
+      }
+
+      &.clicked {
+        background:@lightBlack;
+        border:2px solid @black;
+      }
+
+      &:first-of-type {
+        margin-right:auto;
+      }
+
+      &:last-of-type {
+        margin-left:auto;
+      }
+    }
+
+    div.aspect {
+      display:flex;
+      width:calc(50% - 5px);
+      flex:none;
+      align-items:flex-start;
+      align-content: flex-start;
+      flex-wrap: wrap;
+      background:@lightBlack;
+      border:1px solid @lightBlue;
+      margin-top:5px;
+
+      input[type="number"].aspect {
+        width:25%;
+        height:81px;
+        border-left:0px;
+        border-top:0px;
+        border-bottom:0px;
+        border-right:1px solid @lightBlack;
+        border-radius:0px;
+        text-align: center;
+        background:@black;
+        font-size:50px;
+      }
+
+      div.caracteristiques {
+        display:flex;
+        width:75%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        div.line {
+          display:flex;
+          justify-content: space-between;
+          width:100%;
+
+          label.carac {
+            display:flex;
+            justify-content: space-between;
+            width:100%;
+            line-height:26px;
+            border-top:0px;
+            border-left:0px;
+            border-bottom:0px;
+            border-right:1px solid @lightBlack;
+
+            span {
+              width:calc(100% - 50px);
+              padding-left:5px;
+            }
+
+            input {
+              width:50px;
+              text-align: center;
+              border-radius: 0px;
+              background:@black;
+            }
+          }
+
+          &:not(:last-of-type) {
+            span {
+              border-bottom:1px solid @black;
+            }
+
+            input {
+              border-top:0px;
+              border-left:0px;
+              border-right:0px;
+              border-bottom:@lightBlack;
+            }
+          }
+
+          &:last-of-type {
+            span {
+              border-bottom:0px;
+            }
+
+            input {
+              border-top:0px;
+              border-left:0px;
+              border-right:0px;
+              border-bottom:0px;
+            }
+          }
+        }
+      }
+
+      &:not(:last-of-type) {
+        margin-bottom:5px;
+
+        &:nth-of-type(odd) {
+          margin-right:auto;
+        }
+
+        &:nth-of-type(even) {
+          margin-left:auto;
+        }
+      }
+    }
+  }
+
+  div.description {
+    margin-top:5px;
+    margin-bottom:5px;
+  }
+}

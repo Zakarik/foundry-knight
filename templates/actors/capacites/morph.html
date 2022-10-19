@@ -1,0 +1,366 @@
+
+<div class="morph">
+    <h3 class="header">
+        <i class="far fa-plus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.Label"}}
+
+        {{#if ("armure" @root/systemData/wear)}}
+        <div class="blockMultiline">
+            <button class="
+                {{#unless this.active.morph}}
+                activation
+                {{else}}
+                desactivation
+                {{/unless}}
+                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="active"
+                data-cout="{{this.energie}}">
+                {{#unless this.active.morph}}
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
+                {{else}}
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
+                {{/unless}}
+            </button>
+
+            {{#if this.active.morph}}
+                {{#unless this.choisi.fait}}
+                    <button class="
+                        {{#unless this.choisi.vol}}
+                        activation
+                        {{else}}
+                        desactivation
+                        {{/unless}}
+                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="vol"
+                        data-cout="0" data-nbreC="{{this.capacites}}">
+                        {{#unless this.choisi.vol}}
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.VOL.Label"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
+                        {{else}}
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.VOL.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
+                        {{/unless}}
+                    </button>
+
+                    <button class="
+                        {{#unless this.choisi.phase}}
+                        activation
+                        {{else}}
+                        desactivation
+                        {{/unless}}
+                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="phase"
+                        data-cout="0" data-nbreC="{{this.capacites}}">
+                        {{#unless this.choisi.phase}}
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.PHASE.Label"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
+                        {{else}}
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.PHASE.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
+                        {{/unless}}
+                    </button>
+
+                    <button class="
+                        {{#unless this.choisi.etirement}}
+                        activation
+                        {{else}}
+                        desactivation
+                        {{/unless}}
+                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="etirement"
+                        data-cout="0" data-nbreC="{{this.capacites}}">
+                        {{#unless this.choisi.etirement}}
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.Label"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
+                        {{else}}
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
+                        {{/unless}}
+                    </button>
+
+                    <button class="
+                        {{#unless this.choisi.metal}}
+                        activation
+                        {{else}}
+                        desactivation
+                        {{/unless}}
+                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="metal"
+                        data-cout="0" data-nbreC="{{this.capacites}}">
+                        {{#unless this.choisi.metal}}
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.METAL.Label"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
+                        {{else}}
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.METAL.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
+                        {{/unless}}
+                    </button>
+
+                    <button class="
+                        {{#unless this.choisi.fluide}}
+                        activation
+                        {{else}}
+                        desactivation
+                        {{/unless}}
+                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="fluide"
+                        data-cout="0" data-nbreC="{{this.capacites}}">
+                        {{#unless this.choisi.fluide}}
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.FLUIDE.Label"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
+                        {{else}}
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.FLUIDE.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
+                        {{/unless}}
+                    </button>
+
+                    <button class="
+                        {{#unless this.choisi.polymorphie}}
+                        activation
+                        {{else}}
+                        desactivation
+                        {{/unless}}
+                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="polymorphie"
+                        data-cout="0" data-nbreC="{{this.capacites}}">
+                        {{#unless this.choisi.polymorphie}}
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
+                        {{else}}
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
+                        {{/unless}}
+                    </button>
+                {{else}}
+                    {{#if this.choisi.vol}}
+                    <span class="button">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.VOL.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}</span>
+                    {{/if}}
+
+                    {{#if this.choisi.phase}}
+                    <span class="button">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.PHASE.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}</span>
+                    {{/if}}
+
+                    {{#if this.choisi.etirement}}
+                    <span class="button">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}</span>
+                    
+                    <button class="roll" data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.Immobilisation"}}" data-reussiteBonus="{{this.etirement.bonus}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.JetImmobilisation"}}
+                    </button>
+                    {{/if}}
+
+                    {{#if this.choisi.metal}}
+                    <span class="button">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.METAL.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}</span>
+                    {{/if}}
+
+                    {{#if this.choisi.fluide}}
+                    <span class="button">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.FLUIDE.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}</span>
+                    {{/if}}
+
+                    {{#if this.choisi.polymorphie}}
+                        {{#unless this.poly.fait}}
+                            <button class="
+                                {{#unless this.active.polymorphieLame}}
+                                activation
+                                {{else}}
+                                desactivation
+                                {{/unless}}
+                                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="polymorphieLame"
+                                data-cout="0">
+                                {{#unless this.active.polymorphieLame}}
+                                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame"}}) : {{localize "KNIGHT.AUTRE.Activer"}}
+                                {{else}}
+                                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame"}}) : {{localize "KNIGHT.AUTRE.Desactiver"}}
+                                {{/unless}}
+                            </button>
+
+                            <button class="
+                                {{#unless this.active.polymorphieGriffe}}
+                                activation
+                                {{else}}
+                                desactivation
+                                {{/unless}}
+                                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="polymorphieGriffe"
+                                data-cout="0">
+                                {{#unless this.active.polymorphieGriffe}}
+                                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe"}}) : {{localize "KNIGHT.AUTRE.Activer"}}
+                                {{else}}
+                                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe"}}) : {{localize "KNIGHT.AUTRE.Desactiver"}}
+                                {{/unless}}
+                            </button>
+
+                            <button class="
+                                {{#unless this.active.polymorphieCanon}}
+                                activation
+                                {{else}}
+                                desactivation
+                                {{/unless}}
+                                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="polymorphieCanon"
+                                data-cout="0">
+                                {{#unless this.active.polymorphieCanon}}
+                                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon"}}) : {{localize "KNIGHT.AUTRE.Activer"}}
+                                {{else}}
+                                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon"}}) : {{localize "KNIGHT.AUTRE.Desactiver"}}
+                                {{/unless}}
+                            </button>
+                        {{else}}
+                            {{#if this.active.polymorphieLame}}
+                                <span class="button">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame"}} : {{localize "KNIGHT.AUTRE.Choisi"}}</span>
+                            {{/if}}
+                            {{#if this.active.polymorphieGriffe}}
+                                <span class="button">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe"}} : {{localize "KNIGHT.AUTRE.Choisi"}}</span>
+                            {{/if}}
+                            {{#if this.active.polymorphieCanon}}
+                                <span class="button">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon"}} : {{localize "KNIGHT.AUTRE.Choisi"}}</span>
+                            {{/if}}
+                        {{/unless}}
+                    {{/if}}
+                {{/unless}}
+            {{/if}}
+        </div>
+        {{/if}}
+    </h3>
+
+    <span class="description" style="display:none">{{{this.description}}}</span>
+
+    <div class="mainData" style="display:none">
+        <div class="data">
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                <span class="score">{{this.energie}}</span>
+            </div>
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.LATERAL.Espoir"}}</span>
+                <span class="score">{{this.espoir}}</span>
+            </div>
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <span class="score">{{getActivation this.activation}}</span>
+            </div>           
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.DUREE.Label"}}</span>
+                <span class="score">{{this.duree}}</span>
+            </div>
+            <div class="longspan separation">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.NbreCapacites"}}</span>
+                <span class="score">{{this.capacites}}</span>
+            </div>
+        </div>
+
+        <div class="data">
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.VOL.Label"}}</h4>
+            <span class="description">{{this.vol.description}}</span>
+        </div>
+
+        <div class="data">
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.PHASE.Label"}}</h4>
+            <span class="description">{{this.phase.description}}</span>
+            <div class="shortspan simpleSeparation">
+                <span class="header">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                <span class="score">{{this.phase.energie}}</span>
+            </div>
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <span class="score">{{getActivation this.phase.activation}}</span>
+            </div>
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.DUREE.Label"}}</span>
+                <span class="score">{{this.phase.duree}}</span>
+            </div>
+        </div>
+
+        <div class="data">
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.Label"}}</h4>
+            <span class="description">{{this.etirement.description}}</span>
+            <div class="shortspan simpleSeparation">
+                <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                <span class="score">{{this.etirement.portee}}</span>
+            </div>
+            <div class="longspan separation">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.Bonus"}}</span>
+                <span class="score">{{this.etirement.bonus}}</span>
+            </div>
+        </div>
+
+        <div class="data">
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.METAL.Label"}}</h4>
+            <div class="longspan">
+                <span class="header">{{localize "KNIGHT.BONUS.ChampDeForce"}}</span>
+                <span class="score">{{this.metal.bonus.champDeForce}}</span>
+            </div>
+        </div>
+
+        <div class="data double">
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.FLUIDE.Label"}}</h4>
+            <div class="line">
+                 <div class="doubleLine">
+                    <span class="header">{{localize "KNIGHT.BONUS.Defense"}}</span>
+                    <span class="score">{{this.fluide.bonus.defense}}</span>
+                </div>
+                <div class="doubleLine">
+                    <span class="header">{{localize "KNIGHT.BONUS.Reaction"}}</span>
+                    <span class="score">{{this.fluide.bonus.reaction}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="data">
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}}</h4>
+            <span class="description">{{this.polymorphie.description}}</span>
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe"}}</h4>
+            <div class="shortspan noSeparation">
+                <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                <span class="score">{{getPortee this.polymorphie.griffe.portee}}</span>
+            </div>
+            <div class="line separationTop">
+                <div class="doubleLine">
+                    <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                    <span class="score">{{this.polymorphie.griffe.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                </div>
+                <div class="doubleLine">
+                    <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                    <span class="score">{{this.polymorphie.griffe.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                </div>
+            </div>
+            <div class="effets noSeparationTop">
+                {{#each this.polymorphie.griffe.effets.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+            </div>
+
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame"}}</h4>
+            <div class="shortspan noSeparation">
+                <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                <span class="score">{{getPortee this.polymorphie.lame.portee}}</span>
+            </div>
+            <div class="line separationTop">
+                <div class="doubleLine">
+                    <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                    <span class="score">{{this.polymorphie.lame.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                </div>
+                <div class="doubleLine">
+                    <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                    <span class="score">{{this.polymorphie.lame.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                </div>
+            </div>
+            <div class="effets noSeparationTop">
+                {{#each this.polymorphie.lame.effets.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+            </div>
+
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon"}}</h4>
+            <div class="shortspan noSeparation">
+                <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                <span class="score">{{getPortee this.polymorphie.canon.portee}}</span>
+            </div>
+            <div class="line separationTop">
+                <div class="doubleLine">
+                    <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                    <span class="score">{{this.polymorphie.canon.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                </div>
+                <div class="doubleLine">
+                    <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                    <span class="score">{{this.polymorphie.canon.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                </div>
+            </div>            
+            <div class="effets noSeparationTop">
+                {{#each this.polymorphie.canon.effets.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

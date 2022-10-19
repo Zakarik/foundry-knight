@@ -1,0 +1,14 @@
+<div class="personnalise">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PERSONNALISE.Label"}}
+        <div>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.capacites.selected.personnalise.description" button=true owner="../owner" editable="../editable"}}
+</div>
+

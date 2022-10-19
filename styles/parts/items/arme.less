@@ -1,0 +1,252 @@
+.arme {
+    form.armeWindows {
+        .header();
+
+        display:flex;
+        align-items: flex-start;
+        align-content: flex-start;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        div.img {
+            display:flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            align-content: flex-start;
+
+            height:262px;
+            width:212px;
+
+            img.profile-img {
+                height:262px;
+                width:212px;
+                background:@lightBlack;
+                border:1px solid @white;
+            }
+
+            label.oneLine {
+                display:flex;
+                width:100%;
+                justify-content: space-between;
+                border:1px solid @lightBlue;
+                margin-top:5px;
+
+                span {
+                    width:50%;
+                    padding-left:5px;
+                    line-height: 22px;
+                    background:@lightBlack;
+                    font-variant: small-caps;
+                }
+
+                select {
+                    width:50%;
+                    height:22px;
+                    padding:0px;
+                    margin:0px;
+                    border:0px;
+                    border-radius:0px;
+                    background:@black;
+                    color:@white;
+
+                    option {
+                        background:@black;
+                        color:@white;
+                    }
+                }
+
+                input {
+                    width:50%;
+                    height:22px;
+                    padding:0px;
+                    margin:0px;
+                    border:0px;
+                    border-radius:0px;
+                    background:@black;
+                    color:@white;
+                    text-align: center;
+                }
+            }
+        }
+
+        
+
+        div.description {
+            width:100%;
+            flex:none;
+            margin-bottom:5px;
+
+            div.editor {
+                width:100%;
+                min-height:130px;
+                border-bottom: 1px solid @lightBlue;
+                border-left: 1px solid @lightBlue;
+                border-right: 1px solid @lightBlue;
+                background:@lightBlack;
+        
+                div.editor-content {
+                    padding-left:5px;
+                    padding-right:5px;
+                }
+            }
+        }
+
+        header {
+            display:flex;
+            width:calc(100% - 222px);
+            flex-wrap: wrap;
+            flex-direction: initial;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            h1.charname {
+                display: flex;
+                justify-content: space-between;
+                width:100%;
+                border:0px;
+                margin:0px;
+                padding:0px;
+                flex:none;
+                border-bottom:3px solid @white;
+            
+                input[type="text"] {
+                  margin: 0px;
+                  width: 100%;
+                  text-align: center;
+                  border: 0px;
+                  border-radius: 0px;
+                  border-width: unset;
+                  border-color: @white;
+                  background:transparent;
+                }
+            }
+
+            label {
+                display:flex;
+                width:calc((100% / 2) - 5px);
+                flex-wrap: wrap;
+                border:1px solid @lightBlue;
+                flex:none;
+
+                span {
+                    display: inline-block;
+                    line-height: 26px;
+                    background:@lightBlack;
+                    text-align: center;
+                    font-variant: small-caps;
+
+                    &.header {
+                        width:100%;
+                    }
+                }
+
+                select {
+                    width:100%;
+                    color: @white;
+                    height: 26px;
+                    margin: 0px;
+                    text-align: center;
+                    border: 0px;
+                    border-radius: 0px;
+                    border-width: unset;
+                    border-color: @white;
+                    background:@black;
+
+                    option {
+                        background:@black;
+                        color:@white;
+                    }
+                }
+
+                div {
+                    display:flex;
+                    width:100%;
+                    justify-content: space-between;
+
+                    span {
+                        width:24px;
+                        background:@black;
+                    }
+
+                    input {
+                        width:calc((100% / 2) - 12px);
+                        border:0px;
+                        padding:0px;
+                        margin:0px;
+                        background:@black;
+                        
+                        &:first-of-type {
+                            text-align: right;
+                        }
+
+                        &:last-of-type {
+                            text-align: left;
+                        }
+                    }
+                }
+            }
+
+            div.tourelle {
+                display:flex;
+                width:100%;
+                justify-content: space-between;
+                align-items: flex-start;
+                align-content: flex-start;
+
+                button {
+                    flex:none;
+                    width: calc(50% - 5px);
+                    color: @white;
+                    cursor: pointer;
+                    border: 2px solid;
+                    margin-top:10px;  
+                    border-radius:0px;              
+
+                    &.unselected {
+                        background:@black;
+                        border-color:@lightBlack;
+                    }
+
+                    &.selected {
+                        background:@lightBlack;
+                        border-color:@lightBlack;
+                    }
+                }
+
+                label {
+                    margin-top:10px;
+                }
+            }
+        }
+
+        div.blockEffets {
+            display:flex;
+            width:100%;
+            flex-wrap: wrap;
+            margin-top:5px;
+
+            div.effets,
+            div.distance,
+            div.structurelles,
+            div.ornementales {
+                display: flex;
+                position:relative;
+                width: 100%;
+                justify-content: space-evenly;
+                flex-wrap: wrap;
+                
+                padding-right: 5px;
+                padding-bottom: 19px;
+                padding-left: 5px;
+                border: 1px solid @lightBlue;
+                flex:none;
+
+                .effets();
+    
+                &.hidden {
+                    display:none;
+                }
+            }
+        }   
+    } 
+}

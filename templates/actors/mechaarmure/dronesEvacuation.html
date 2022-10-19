@@ -1,0 +1,54 @@
+<div class="blockModule">
+    <h3 class="header">
+        <i class="far fa-plus-square"></i>
+        {{{getMAModule this.key}}}
+        
+        {{#if this.config}}
+        <div>
+            <a class="delete supprimerModule" data-type="{{this.type}}" data-value="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+        {{else}}
+        <div class="blockMultiline">
+            <select name="system.configurations.liste.{{this.type}}.modules.{{this.key}}.noyaux.actuel">
+                {{#select this.noyaux.actuel}}
+                    {{#each (whileBetweenNumber this.noyaux.min this.noyaux.max) as | key number|}}
+                    <option value="{{key}}">
+                        {{#if (isHigherThan key 1)}}
+                        {{key}} {{localize "KNIGHT.LATERAL.Noyaux"}}
+                        {{else}}
+                        {{key}} {{localize "KNIGHT.LATERAL.Noyau"}}
+                        {{/if}}
+                    </option>
+                    {{/each}}
+                {{/select}}
+            </select>
+            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true">
+                {{localize "KNIGHT.AUTRE.Activer"}}
+            </button>
+        </div>
+        {{/if}}
+    </h3>
+
+    <span class="description" style="display:none;">
+        {{{getMAModuleDescription this.key}}}
+    </span>
+
+    {{#unless this.config}}
+    <div class="block" style="display:none;">
+        <div class="longspan">
+            <span class="label">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+            <span class="value">{{getActivation this.activation}}</span>
+        </div>
+        <div class="longspan">
+            <span class="label">{{localize "KNIGHT.DUREE.Label"}}</span>
+            <span class="value">{{this.duree}} {{localize "KNIGHT.AUTRE.Tour"}}</span>
+        </div>
+        <div class="longspan">
+            <span class="label">{{localize "KNIGHT.PORTEE.Label"}}</span>
+            <span class="value">{{this.portee}}</span>
+        </div>
+    </div>
+    {{/unless}}
+</div>

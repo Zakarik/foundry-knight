@@ -1,0 +1,56 @@
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Label"}}
+    </h4>
+    <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+    <div class="middlespan withSpecialLong noSeparation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.ENERGIE.Matérialiser"}}</span>
+        <label>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.totem.energie.base" 
+            value="{{this.energie.base}}" 
+            min="0"
+             />
+            <span> / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Totem"}}</span>
+        </label>
+    </div>
+    <div class="middlespan withSpecialLong">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.ENERGIE.Prolonger"}}</span>
+        <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.totem.energie.prolonger" 
+            value="{{this.energie.prolonger}}" 
+            min="0"
+             />
+            <span> / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Totem"}}</span>
+        </label>
+    </div>
+    <label class="longspan separation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Nombre"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.totem.nombre" 
+        value="{{this.nombre}}" 
+        min="0"
+         />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.AUTRE.GainImpregnation"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.totem.impregnation" 
+        value="{{this.impregnation}}" 
+        min="0"
+         />
+    </label>
+    <label class="shortspan separation">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.totem.activation" >
+            {{#select this.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea data-capacite="totem" data-type="duree" data-min="50" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.duree}}px;" name="system.evolutions.liste.{{key}}.capacites.totem.duree" >{{this.duree}}</textarea>
+    </label>
+</div>

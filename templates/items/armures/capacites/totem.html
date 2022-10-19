@@ -1,0 +1,77 @@
+
+<div class="totem">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.capacites.selected.totem.description" button=true owner="../owner" editable="../editable"}}
+
+    <div class="mainData">
+        <div class="data">
+            <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+            <div class="double">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.ENERGIE.Matérialiser"}}</span>
+                <label class="block">
+                    <input type="number" name="system.capacites.selected.totem.energie.base" 
+                    value="{{this.energie.base}}" 
+                    min="0"
+                    {{#if this.softlock}}disabled{{/if}} />
+                    <span> / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Totem"}}</span>
+                </label>
+            </div>
+            <div class="double">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.ENERGIE.Prolonger"}}</span>
+                <label class="block">
+                        <input type="number" name="system.capacites.selected.totem.energie.prolonger" 
+                    value="{{this.energie.prolonger}}" 
+                    min="0"
+                    {{#if this.softlock}}disabled{{/if}} />
+                    <span> / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Totem"}}</span>
+                </label>
+            </div>
+            <label class="longspan separation">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Nombre"}}</span>
+                <input type="number" name="system.capacites.selected.totem.nombre" 
+                value="{{this.nombre}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.AUTRE.GainImpregnation"}}</span>
+                <input type="number" name="system.capacites.selected.totem.impregnation" 
+                value="{{this.impregnation}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="shortspan separation">
+                <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <select name="system.capacites.selected.totem.activation" {{#if this.softlock}}disabled{{/if}}>
+                    {{#select this.activation}}
+                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+                <textarea data-capacite="totem" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;" name="system.capacites.selected.totem.duree" {{#if this.softlock}}disabled{{/if}}>{{this.duree}}</textarea>
+            </label>
+        </div>
+    </div>
+</div>

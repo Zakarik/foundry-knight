@@ -1,0 +1,619 @@
+<form class="mainFlex {{cssClass}}" autocomplete="off">
+    {{!-- Sheet Header --}}
+    <header class="sheet-header flexrow">
+        <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
+        <div class="headerData">
+            <div class="data">
+                <h1 class="charname">
+                    <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+                </h1>
+
+                {{#unless systemData.options.noPilote}}
+                <div class="pilote">
+                    <span class="label">
+                        {{localize "KNIGHT.MECHAARMURE.Pilote"}}
+                    </span>
+                    
+                    {{#unless (isEmpty actor.pilote)}}
+                        <span class="value">
+                            {{actor.pilote.surnom}} ({{actor.pilote.name}})
+
+                            <div class="gestionButton">
+                                <a class="item-control pilote-delete" title="{{localize "KNIGHT.VEHICULE.DeletePilote"}}"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </span>
+                    {{else}}
+                        <span class="noData">{{localize "KNIGHT.MECHAARMURE.PasPilote"}}</span>
+                    {{/unless}}
+                </div>
+                {{/unless}}
+            </div>
+        </div>
+    </header>
+
+    {{!-- MENU LATERAL  --}}
+    <section class="menu">
+        {{#unless systemData.options.noPilote}}
+        <section class="mainBlock">
+            <div class="styleCombat">
+                <span class="label">{{localize "KNIGHT.COMBAT.STYLES.Label"}}</span>
+                <span class="info {{#if systemData.combat.styleDeploy}} clicked {{/if}}">?</span>
+                <span class="{{#if systemData.combat.styleDeploy}} showInfo {{else}} hideInfo {{/if}}">{{{systemData.combat.styleInfo}}}</span>
+                <select name="system.combat.style">
+                    {{#select systemData.combat.style}}
+                    <option value="standard">{{localize "KNIGHT.COMBAT.STYLES.STANDARD.Label"}}</option>
+                    <option value="acouvert">{{localize "KNIGHT.COMBAT.STYLES.ACOUVERT.Label"}}</option>
+                    <option value="agressif">{{localize "KNIGHT.COMBAT.STYLES.AGRESSIF.Label"}}</option>
+                    <option value="akimbo">{{localize "KNIGHT.COMBAT.STYLES.AKIMBO.Label"}}</option>
+                    <option value="ambidextre">{{localize "KNIGHT.COMBAT.STYLES.AMBIDEXTRE.Label"}}</option>
+                    <option value="defensif">{{localize "KNIGHT.COMBAT.STYLES.DEFENSIF.Label"}}</option>
+                    <option value="pilonnage">{{localize "KNIGHT.COMBAT.STYLES.PILONNAGE.Label"}}</option>
+                    <option value="precis">{{localize "KNIGHT.COMBAT.STYLES.PRECIS.Label"}}</option>
+                    <option value="puissant">{{localize "KNIGHT.COMBAT.STYLES.PUISSANT.Label"}}</option>
+                    <option value="suppression">{{localize "KNIGHT.COMBAT.STYLES.SUPPRESSION.Label"}}</option>
+                    {{/select}}
+                </select>
+            </div>
+        </section>
+        {{/unless}}
+
+         <section class="mainBlock">
+            <div class="resilience">
+                <div class="line">
+                    <span class="option {{#unless systemData.resilience.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="resilience"></span>
+                    <span class="label {{#unless systemData.resilience.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.LATERAL.Resilience"}}</span>
+                    <input class="{{#unless systemData.resilience.optionDeploy}} withBorder {{/unless}}" type="number" name="system.resilience.value" min="0" max="{{systemData.resilience.max}}" value="{{systemData.resilience.value}}" />
+                    <span class="separation {{#unless systemData.resilience.optionDeploy}} withBorder {{/unless}}">/</span>
+                    <span class="score {{#unless systemData.resilience.optionDeploy}} withBorder {{/unless}}" title="{{systemData.resilience.base}} + {{systemData.resilience.mod}} = {{systemData.resilience.max}}">{{systemData.resilience.max}}</span>
+                </div>
+                <div class="subLine {{#if systemData.resilience.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                    <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
+                    <input type="number" name="system.resilience.base" data-type="resilience" min="0" value="{{systemData.resilience.base}}" />
+                </div>
+                <div class="subLine {{#if systemData.resilience.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                    <span class="label withBorder">{{localize "KNIGHT.BONUS.Label"}}</span>
+                    <input class="withBorder" type="number" name="system.resilience.bonus.user" data-type="resilience" min="0" value="{{systemData.resilience.bonus.user}}" />
+                </div>
+            </div>
+
+            <div class="blindage">
+                <div class="line">
+                    <span class="label withBorder">{{localize "KNIGHT.LATERAL.Blindage"}}</span>
+                    <input class="withBorder" type="number" name="system.blindage.value" min="0" max="{{systemData.blindage.max}}" value="{{systemData.blindage.value}}" />
+                    <span class="separation withBorder">/</span>
+                    <input class="withBorder" type="number" name="system.blindage.max" min="0" value="{{systemData.blindage.max}}" />
+                </div>
+            </div>
+
+            <div class="champDeForce">
+                <div class="line">
+                    <span class="option {{#unless systemData.champDeForce.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="champDeForce"></span>
+                    <span class="label {{#unless systemData.champDeForce.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.LATERAL.ChampDeForce-short"}}</span>
+                    <span class="score {{#unless systemData.champDeForce.optionDeploy}} withBorder {{/unless}}" title="{{systemData.champDeForce.base}} + {{systemData.champDeForce.mod}} = {{systemData.champDeForce.value}}">{{systemData.champDeForce.value}}</span>
+                </div>
+                <div class="subLine  {{#if systemData.champDeForce.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                    <span class="label withBorder">{{localize "KNIGHT.AUTRE.Base"}}</span>
+                    <input type="number" class="withBorder" name="system.champDeForce.base" data-type="champDeForce" min="0" value="{{systemData.champDeForce.base}}" />
+                </div>
+            </div>
+            
+            {{#unless systemData.options.noEnergie}}
+            <div class="energie">
+                <div class="line">
+                    <span class="label withBorder">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                    <input class="withBorder" type="number" name="system.energie.value" min="0" max="{{systemData.energie.max}}" value="{{systemData.energie.value}}" />
+                    <span class="separation withBorder">/</span>
+                    <input class="withBorder" type="number" name="system.energie.max" min="0" value="{{systemData.energie.max}}" />
+                </div>
+            </div>
+            {{/unless}}
+        </section>
+
+        {{#unless systemData.options.isPod}}
+        <section class="mainBlock">
+            {{#unless systemData.options.noRD}}
+            <div class="reaction">
+                <div class="line">
+                    <span class="label withBorder">{{localize "KNIGHT.LATERAL.Reaction"}}</span>
+                    <span class="score withBorder">{{systemData.reaction.value}}</span>
+                </div>
+            </div>
+            
+            <div class="defense">
+                <div class="line">
+                    <span class="label withBorder">{{localize "KNIGHT.LATERAL.Defense"}}</span>
+                    <span class="score withBorder">{{systemData.defense.value}}</span>
+                </div>
+            </div>    
+            {{/unless}}        
+
+            {{#unless systemData.options.noInitiative}}
+            <div class="initiative">
+                <div class="line">
+                    <span class="label withBorder">{{localize "KNIGHT.LATERAL.Initiative"}}</span>
+                    <span class="score withBorder">
+                        {{systemData.initiative.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{systemData.initiative.value}}
+                    </span>
+                </div>
+            </div>
+            {{/unless}}
+        </section>
+        {{/unless}}
+    </section>
+
+    {{!-- Sheet Body --}}
+    <section class="body">
+        {{!-- Sheet Tab Navigation --}}
+        <nav class="sheet-tabs tabs" data-group="primary">
+            <a class="item" data-tab="mechaarmure">{{localize "KNIGHT.MECHAARMURE.Label"}}</a>
+            {{#unless systemData.options.noPilote}}
+            <a class="item" data-tab="pilote">{{localize "KNIGHT.MECHAARMURE.Pilote"}}</a>
+            {{/unless}}
+            {{#unless systemData.options.noCarac}}
+            <a class="item" data-tab="caracteristiques">{{localize "KNIGHT.MECHAARMURE.Caracteristiques"}}</a>
+            {{/unless}}
+            <a class="item" data-tab="combat">{{localize "KNIGHT.COMBAT.Label"}}</a>
+            {{#unless systemData.options.isPod}}
+            <a class="item" data-tab="configurations">{{localize "KNIGHT.MECHAARMURE.CONFIGURATIONS.Label"}}</a>
+            {{/unless}}
+        </nav>
+
+        {{!-- Personnage Tab --}}
+        <div class="tab mecha" data-group="primary" data-tab="mechaarmure">
+            <div class="description">
+                <h2 class="header">{{localize "KNIGHT.Description"}}</h2>
+
+                {{editor systemData.description target="system.description" button=true owner=owner editable=editable}}
+            </div>
+        </div>
+
+        <div class="tab pilote" data-group="primary" data-tab="pilote">
+            <div class="listeAspects">
+                {{#each actor.pilote.aspects as | key aspect|}}
+                <div class="aspect">
+                    <h2 class="header">
+                        {{getAspect aspect}}
+                    </h2>
+                    <span class="aspectLabel">{{key.value}}</span>
+                    <div class="caracteristiques">
+                        {{#each key.caracteristiques as | keyCar caracteristique|}}
+                            <div class="line roll" title="{{localize "KNIGHT.JETS.Label"}}" data-caracteristique="{{caracteristique}}">
+                                <img src="systems/knight/assets/icons/D6Black.svg" class="roll" />
+                                <label class="carac">
+                                    <span class="label">{{getCarac caracteristique}}</span>
+                                    <span class="score">{{keyCar.value}}</span>
+                                </label>
+                                <label class="overdrive">
+                                    <span class="label">{{localize "KNIGHT.ASPECTS.OD"}}</span>
+                                    <span class="score">{{keyCar.overdrive.value}}</span>
+                                </label>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="tab caracteristiques" data-group="primary" data-tab="caracteristiques">
+            <div class="main">
+                <div class="mainBlock">
+                    <div class="block">
+                        <div class="line">
+                            <span class="option {{#unless systemData.vitesse.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="vitesse"></span>
+                            <span class="label {{#unless systemData.vitesse.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.VEHICULE.Vitesse"}}</span>
+                            <span class="score {{#unless systemData.vitesse.optionDeploy}} withBorder {{/unless}}" title="{{systemData.vitesse.base}} + {{systemData.vitesse.mod}} = {{systemData.vitesse.value}}">{{systemData.vitesse.value}}</span>
+                            <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice" data-type="vitesse" data-label="{{localize "KNIGHT.VEHICULE.Vitesse"}}" />
+                        </div>
+                        <div class="subLine {{#if systemData.vitesse.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                            <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
+                            <input type="number" name="system.vitesse.base" data-type="vitesse" min="0" value="{{systemData.vitesse.base}}" />
+                        </div>
+                        <div class="subLine {{#if systemData.vitesse.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                            <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
+                            <input type="number" name="system.vitesse.bonus.user" data-type="vitesse" min="0" value="{{systemData.vitesse.bonus.user}}" />
+                        </div>
+                        <div class="subLine {{#if systemData.vitesse.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                            <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
+                            <input class="withBorder" type="number" name="system.vitesse.malus.user" data-type="vitesse" min="0" value="{{systemData.vitesse.malus.user}}" />
+                        </div>
+                    </div>
+
+                    <div class="block">
+                        <div class="line">
+                            <span class="option {{#unless systemData.manoeuvrabilite.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="manoeuvrabilite"></span>
+                            <span class="label {{#unless systemData.manoeuvrabilite.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.VEHICULE.Manoeuvrabilite"}}</span>
+                            <span class="score {{#unless systemData.manoeuvrabilite.optionDeploy}} withBorder {{/unless}}" title="{{systemData.manoeuvrabilite.base}} + {{systemData.manoeuvrabilite.mod}} = {{systemData.manoeuvrabilite.value}}">{{systemData.manoeuvrabilite.value}}</span>
+                            <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice" data-type="manoeuvrabilite" data-label="{{localize "KNIGHT.MECHAARMURE.Manoeuvrabilite"}}" />
+                        </div>
+                        <div class="subLine {{#if systemData.manoeuvrabilite.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                            <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
+                            <input type="number" name="system.manoeuvrabilite.base" data-type="manoeuvrabilite" min="0" value="{{systemData.manoeuvrabilite.base}}" />
+                        </div>
+                        <div class="subLine {{#if systemData.manoeuvrabilite.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                            <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
+                            <input type="number" name="system.manoeuvrabilite.bonus.user" data-type="manoeuvrabilite" min="0" value="{{systemData.manoeuvrabilite.bonus.user}}" />
+                        </div>
+                        <div class="subLine {{#if systemData.manoeuvrabilite.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                            <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
+                            <input class="withBorder" type="number" name="system.manoeuvrabilite.malus.user" data-type="manoeuvrabilite" min="0" value="{{systemData.manoeuvrabilite.malus.user}}" />
+                        </div>
+                    </div>
+
+                    <div class="block">
+                        <div class="line">
+                            <span class="option {{#if systemData.puissance.optionDeploy}} withoutBorder  {{/if}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="puissance"></span>
+                            <span class="label">{{localize "KNIGHT.MECHAARMURE.Puissance"}}</span>
+                            <span class="score" title="{{systemData.puissance.base}} + {{systemData.puissance.mod}} = {{systemData.puissance.value}}">{{systemData.puissance.value}}</span>
+                            <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice" data-type="puissance" data-label="{{localize "KNIGHT.MECHAARMURE.Puissance"}}" />
+                        </div>
+                        <div class="subLine {{#if systemData.puissance.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                            <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
+                            <input type="number" name="system.puissance.base" data-type="puissance" min="0" value="{{systemData.puissance.base}}" />
+                        </div>
+                        <div class="subLine {{#if systemData.puissance.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                            <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
+                            <input type="number" name="system.puissance.bonus.user" data-type="puissance" min="0" value="{{systemData.puissance.bonus.user}}" />
+                        </div>
+                        <div class="subLine {{#if systemData.puissance.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                            <span class="label">{{localize "KNIGHT.MALUS.Label"}}</span>
+                            <input type="number" name="system.puissance.malus.user" data-type="puissance" min="0" value="{{systemData.puissance.malus.user}}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mainBlock">
+                    <div class="block">
+                        <div class="line">
+                            <span class="option {{#unless systemData.senseurs.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="senseurs"></span>
+                            <span class="label {{#unless systemData.senseurs.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.MECHAARMURE.Senseurs"}}</span>
+                            <span class="score {{#unless systemData.senseurs.optionDeploy}} withBorder {{/unless}}" title="{{systemData.senseurs.base}} + {{systemData.senseurs.mod}} = {{systemData.senseurs.value}}">{{systemData.senseurs.value}}</span>
+                            <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice" data-type="senseurs" data-label="{{localize "KNIGHT.MECHAARMURE.Senseurs"}}" />
+                        </div>
+                        <div class="subLine {{#if systemData.senseurs.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                            <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
+                            <input type="number" name="system.senseurs.base" data-type="senseurs" min="0" value="{{systemData.senseurs.base}}" />
+                        </div>
+                        <div class="subLine {{#if systemData.senseurs.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                            <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
+                            <input type="number" name="system.senseurs.bonus.user" data-type="senseurs" min="0" value="{{systemData.senseurs.bonus.user}}" />
+                        </div>
+                        <div class="subLine {{#if systemData.senseurs.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                            <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
+                            <input class="withBorder" type="number" name="system.senseurs.malus.user" data-type="senseurs" min="0" value="{{systemData.senseurs.malus.user}}" />
+                        </div>
+                    </div>
+
+                    <div class="block">
+                        <div class="line">
+                            <span class="option {{#if systemData.systemes.optionDeploy}} withoutBorder  {{/if}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="systemes"></span>
+                            <span class="label">{{localize "KNIGHT.MECHAARMURE.Systemes"}}</span>
+                            <span class="score" title="{{systemData.systemes.base}} + {{systemData.systemes.mod}} = {{systemData.systemes.value}}">{{systemData.systemes.value}}</span>
+                            <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice" data-type="systemes" data-label="{{localize "KNIGHT.MECHAARMURE.Systemes"}}" />
+                        </div>
+                        <div class="subLine {{#if systemData.systemes.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                            <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
+                            <input type="number" name="system.systemes.base" data-type="systemes" min="0" value="{{systemData.systemes.base}}" />
+                        </div>
+                        <div class="subLine {{#if systemData.systemes.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                            <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
+                            <input type="number" name="system.systemes.bonus.user" data-type="systemes" min="0" value="{{systemData.systemes.bonus.user}}" />
+                        </div>
+                        <div class="subLine {{#if systemData.systemes.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                            <span class="label">{{localize "KNIGHT.MALUS.Label"}}</span>
+                            <input type="number" name="system.systemes.malus.user" data-type="systemes" min="0" value="{{systemData.systemes.malus.user}}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab combat" data-group="primary" data-tab="combat">
+            <div class="main">
+                <button type="action" class="configuration {{#if (isValue systemData.configurations.actuel 'c1')}}selected{{/if}}" data-type="c1">
+                    {{#if (isValue systemData.configurations.liste.c1.name "")}}
+                        {{localize "KNIGHT.MECHAARMURE.CONFIGURATIONS.NomC1"}}
+                    {{else}}
+                        {{systemData.configurations.liste.c1.name}}
+                    {{/if}}
+                </button>
+
+                <button type="action" class="configuration {{#if (isValue systemData.configurations.actuel 'c2')}}selected{{/if}}" data-type="c2">
+                    {{#if (isValue systemData.configurations.liste.c2.name "")}}
+                        {{localize "KNIGHT.MECHAARMURE.CONFIGURATIONS.NomC2"}}
+                    {{else}}
+                        {{systemData.configurations.liste.c2.name}}
+                    {{/if}}
+                </button>
+
+                {{#unless systemData.options.isPod}}
+                <div class="modules">
+                    <h2 class="header">
+                        <i class="far fa-minus-square"></i>
+                        {{localize "KNIGHT.MECHAARMURE.MODULES.BASE.Label"}}
+                    </h2>
+                    {{#unless (isEmpty systemData.configurations.liste.base.modules)}}
+                        <div class="liste">
+                            {{#each systemData.configurations.liste.base.modules as | key module|}}
+                                {{~> (mechaarmure key=module type='base' config=false)}}
+                            {{/each}}
+                        </div>
+                    {{/unless}}
+                </div>
+
+                {{#if (isValue systemData.configurations.actuel 'c1')}}
+                <div class="modules">
+                    <h2 class="header">
+                        <i class="far fa-minus-square"></i>
+                        {{#if (isValue systemData.configurations.liste.c1.name "")}}
+                        {{localize "KNIGHT.MECHAARMURE.CONFIGURATIONS.NomC1"}}
+                        {{else}}
+                            {{systemData.configurations.liste.c1.name}}
+                        {{/if}}
+                    </h2>
+                    {{#unless (isEmpty systemData.configurations.liste.c1.modules)}}
+                        <div class="liste">
+                            {{#each systemData.configurations.liste.c1.modules as | key module|}}
+                                {{~> (mechaarmure key=module type='c1' config=false)}}
+                            {{/each}}
+                        </div>
+                    {{/unless}}
+                </div>
+                {{/if}}
+
+                {{#if (isValue systemData.configurations.actuel 'c2')}}
+                <div class="modules">
+                    <h2 class="header">
+                        <i class="far fa-minus-square"></i>
+                        {{#if (isValue systemData.configurations.liste.c2.name "")}}
+                        {{localize "KNIGHT.MECHAARMURE.CONFIGURATIONS.NomC2"}}
+                        {{else}}
+                            {{systemData.configurations.liste.c2.name}}
+                        {{/if}}
+                    </h2>
+                    {{#unless (isEmpty systemData.configurations.liste.c2.modules)}}
+                        <div class="liste">
+                            {{#each systemData.configurations.liste.c2.modules as | key module|}}
+                                {{~> (mechaarmure key=module type='c2' config=false)}}
+                            {{/each}}
+                        </div>
+                    {{/unless}}
+                </div>
+                {{/if}}
+
+                <div class="armesImprovisees">
+                    <h2 class="header">
+                        <i class="far fa-plus-square"></i>
+                        {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.LabelContact"}}
+                    </h2>
+                    {{#each systemData.combat.armesimprovisees.liste as | kAI armesimprovisees|}}
+                        {{#each kAI.liste as | key arme|}}
+                            <div class="wpn" style="display:none;">
+                                <span class="name">
+                                    {{getAI armesimprovisees arme}}
+                                </span>
+                                <div class="line">
+                                    <div class="doubleLine">
+                                        <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                                        <span>{{key.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                                    </div>
+                                    <div class="doubleLine">
+                                        <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                                        <span>{{key.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                                    </div>
+
+                                    <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn" 
+                                    data-id="contact"
+                                    data-name="{{armesimprovisees}}" 
+                                    data-isDistance="armesimprovisees" 
+                                    data-num="{{arme}}" data-caracteristiques="{{@root/systemData/combat/armesimprovisees/contact}},force" />
+                                </div>
+                            </div>
+                        {{/each}}
+                    {{/each}}
+                </div>
+
+                <div class="armesImprovisees">
+                    <h2 class="header">
+                        <i class="far fa-plus-square"></i>
+                        {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.LabelDistance"}}
+                    </h2>
+                    {{#each systemData.combat.armesimprovisees.liste as | kAI armesimprovisees|}}
+                        {{#each kAI.liste as | key arme|}}
+                            <div class="wpn" style="display:none;">
+                                <span class="name">
+                                    {{getAI armesimprovisees arme}}
+                                </span>
+                                <div class="line">
+                                    <div class="doubleLine">
+                                        <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                                        <span>{{key.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                                    </div>
+                                    <div class="doubleLine">
+                                        <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                                        <span>{{key.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                                    </div>
+
+                                    <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn" 
+                                    data-id="distance" 
+                                    data-name="{{armesimprovisees}}" 
+                                    data-isDistance="armesimprovisees" data-num="{{arme}}"
+                                    data-caracteristiques="{{@root/systemData/combat/armesimprovisees/distance}},force" />
+                                </div>
+                            </div>
+                        {{/each}}
+                    {{/each}}
+                </div>
+                {{/unless}}
+
+                {{#if systemData.options.isPod}}
+                <div class="modules">
+                    <h2 class="header">
+                        <i class="far fa-minus-square"></i>
+                        {{localize "KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.Label"}}
+                    </h2>
+                    
+                    <div class="blockModule">
+                        <h3 class="header">
+                            {{localize "KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.RecuperationPS"}}
+    
+                            <div class="blockMultiline">
+                                <button class="podmiracle" data-type="recuperationps">
+                                    {{localize "KNIGHT.AUTRE.Activer"}}
+                                </button>
+                            </div>
+                        </h3>
+                    </div>
+
+                    <div class="blockModule">
+                        <h3 class="header">
+                            {{localize "KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.RecuperationPA"}}
+    
+                            <div class="blockMultiline">
+                                <button class="podmiracle" data-type="recuperationpa">
+                                    {{localize "KNIGHT.AUTRE.Activer"}}
+                                </button>
+                            </div>
+                        </h3>
+                    </div>
+
+                    <div class="blockModule">
+                        <h3 class="header">
+                            {{localize "KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.RecuperationBlindage"}}
+    
+                            <div class="blockMultiline">
+                                <button class="podmiracle" data-type="recuperationblindage">
+                                    {{localize "KNIGHT.AUTRE.Activer"}}
+                                </button>
+                            </div>
+                        </h3>
+                    </div>
+
+                    <div class="blockModule">
+                        <h3 class="header">
+                            {{localize "KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.RecuperationResilience"}}
+    
+                            <div class="blockMultiline">
+                                <button class="podmiracle" data-type="recuperationresilience">
+                                    {{localize "KNIGHT.AUTRE.Activer"}}
+                                </button>
+                            </div>
+                        </h3>
+                    </div>
+
+                    <div class="blockModule">
+                        <h3 class="header">
+                            {{localize "KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.Destruction"}}
+    
+                            <div class="blockMultiline">
+                                <button class="podmiracle" data-type="destruction">
+                                    {{localize "KNIGHT.AUTRE.Activer"}}
+                                </button>
+                            </div>
+                        </h3>
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+
+        <div class="tab configurations" data-group="primary" data-tab="configurations">
+            <div class="main">
+                <label class="nomConfig">
+                    <span>{{localize "KNIGHT.MECHAARMURE.CONFIGURATIONS.NomC1"}}</span>
+                    <input type="text" name="system.configurations.liste.c1.name" value="{{systemData.configurations.liste.c1.name}}"  />
+                </label>
+
+                <label class="nomConfig">
+                    <span>{{localize "KNIGHT.MECHAARMURE.CONFIGURATIONS.NomC2"}}</span>
+                    <input type="text" name="system.configurations.liste.c2.name" value="{{systemData.configurations.liste.c2.name}}"  />
+                </label>
+            </div>
+            <div class="modules">
+                <h2 class="header">
+                    <i class="far fa-minus-square"></i>
+                    {{localize "KNIGHT.MECHAARMURE.MODULES.BASE.Label"}}
+                </h2>
+                <div class="gestionButton">
+                    <button type="action" class="ajouterModule" data-type="base">{{localize "KNIGHT.AUTRE.Ajouter"}}</button>
+                    <select name="system.modules.actuel.base">
+                        {{#select systemData.modules.actuel.base}}
+                            <option value=""></option>
+                            {{#each actor.modules as | key module|}}
+                                <option value="{{key}}">{{getMAModule key}}</option>
+                            {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+
+                {{#unless (isEmpty systemData.configurations.liste.base.modules)}}
+                <div class="liste">
+                    {{#each systemData.configurations.liste.base.modules as | key module|}}
+                        {{~> (mechaarmure key=module type='base' config=true)}}
+                    {{/each}}
+                </div>
+                {{/unless}}
+            </div>
+
+            <div class="modules">
+                <h2 class="header">
+                    <i class="far fa-minus-square"></i>
+                    {{#if (isValue systemData.configurations.liste.c1.name "")}}
+                    {{localize "KNIGHT.MECHAARMURE.CONFIGURATIONS.NomC1"}}
+                    {{else}}
+                        {{systemData.configurations.liste.c1.name}}
+                    {{/if}}
+                </h2>
+                <div class="gestionButton">
+                    <button type="action" class="ajouterModule" data-type="c1">{{localize "KNIGHT.AUTRE.Ajouter"}}</button>
+                    <select name="system.modules.actuel.c1">
+                        {{#select systemData.modules.actuel.c1}}
+                            <option value=""></option>
+                            {{#each actor.modules as | key module|}}
+                                <option value="{{key}}">{{getMAModule key}}</option>
+                            {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+
+                {{#unless (isEmpty systemData.configurations.liste.c1.modules)}}
+                <div class="liste">
+                    {{#each systemData.configurations.liste.c1.modules as | key module|}}
+                        {{~> (mechaarmure key=module type='c1' config=true)}}
+                    {{/each}}
+                </div>
+                {{/unless}}
+            </div>
+
+            <div class="modules">
+                <h2 class="header">
+                    <i class="far fa-minus-square"></i>
+                    {{#if (isValue systemData.configurations.liste.c2.name "")}}
+                    {{localize "KNIGHT.MECHAARMURE.CONFIGURATIONS.NomC2"}}
+                    {{else}}
+                        {{systemData.configurations.liste.c2.name}}
+                    {{/if}}
+                </h2>
+                <div class="gestionButton">
+                    <button type="action" class="ajouterModule" data-type="c2">{{localize "KNIGHT.AUTRE.Ajouter"}}</button>
+                    <select name="system.modules.actuel.c2">
+                        {{#select systemData.modules.actuel.c2}}
+                            <option value=""></option>
+                            {{#each actor.modules as | key module|}}
+                                <option value="{{key}}">{{getMAModule key}}</option>
+                            {{/each}}
+                        {{/select}}
+                    </select>
+                </div>
+
+                {{#unless (isEmpty systemData.configurations.liste.c2.modules)}}
+                <div class="liste">
+                    {{#each systemData.configurations.liste.c2.modules as | key module|}}
+                        {{~> (mechaarmure key=module type='c2' config=true)}}
+                    {{/each}}
+                </div>
+                {{/unless}}
+            </div>
+        </div>
+    </section>
+</form>

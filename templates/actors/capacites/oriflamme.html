@@ -1,0 +1,62 @@
+
+<div class="oriflamme">
+    <h3 class="header">
+        <i class="far fa-plus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label"}}
+
+        {{#if ("armure" @root/systemData/wear)}}
+        <div class="blockMultiline">
+            <button class="degats" data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label"}}" data-degats="{{this.degats.dice}}" data-degatsFixe="{{this.degats.fixe}}" data-cout="{{this.energie}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label"}} : {{localize "KNIGHT.AUTRE.Degats"}}
+            </button>
+
+            <button class="violence" data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label"}}" data-violence="{{this.violence.dice}}" data-violenceFixe="{{this.violence.fixe}}" data-cout="{{this.energie}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label"}} : {{localize "KNIGHT.AUTRE.Violence"}}
+            </button>
+        </div>
+        {{/if}}
+    </h3>
+
+    <span class="description" style="display:none">{{{this.description}}}</span>
+
+    <div class="mainData" style="display:none">
+        <div class="data">
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                <span class="score">{{this.energie}}</span>
+            </div>
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <span class="score">{{getActivation this.activation}}</span>
+            </div>
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.DUREE.Label"}}</span>
+                <span class="score">{{this.duree}}</span>
+            </div>
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                <span class="score">{{getPortee this.portee}}</span>
+            </div>
+        </div>
+
+        <div class="data">
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                <span class="score">{{this.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.degats.fixe}}</span>
+            </div>
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                <span class="score">{{this.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.violence.fixe}}</span>
+            </div>
+            <div class="effets">
+            {{#each this.effets.liste as | key effet|}}
+                <div>
+                    <span class="label">{{key.name}}</span>
+                    <img class="info" src="systems/knight/assets/icons/info.svg" />
+                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                </div>
+            {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

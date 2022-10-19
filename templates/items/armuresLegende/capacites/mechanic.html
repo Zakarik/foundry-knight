@@ -1,0 +1,102 @@
+
+<div class="mechanic">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MECHANIC.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.capacites.selected.mechanic.description" button=true owner="../owner" editable="../editable"}}
+
+    <div class="mainData">
+        <div class="data">
+            <h4>{{localize "KNIGHT.AUTRE.Contact"}}</h4>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                <input type="number" name="system.capacites.selected.mechanic.energie.contact" value="{{this.energie.contact}}" 
+                {{#if this.softlock}}disabled{{/if}}
+                />
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <select name="system.capacites.selected.mechanic.activation.contact" {{#if this.softlock}}disabled{{/if}}>
+                    {{#select this.activation.contact}}
+                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+            <div class="shortspan triple">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MECHANIC.Reparation"}}</span>
+                <label>
+                    <input type="number" name="system.capacites.selected.mechanic.reparation.contact.dice" value="{{this.reparation.contact.dice}}" 
+                    {{#if this.softlock}}disabled{{/if}}
+                    />
+                    <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number" name="system.capacites.selected.mechanic.reparation.contact.fixe" value="{{this.reparation.contact.fixe}}" 
+                    {{#if this.softlock}}disabled{{/if}}
+                    />
+                </label>
+            </div>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+                <textarea name="system.capacites.selected.mechanic.reparation.contact.duree" 
+                data-capacite="mechanic" data-type="dureeContact" data-min="50" style="height:{{this.textarea.dureeContact}}px;" 
+                {{#if this.softlock}}disabled{{/if}}>{{this.reparation.contact.duree}}</textarea>
+            </label>
+        </div>
+
+        <div class="data">
+            <h4>{{localize "KNIGHT.AUTRE.Distance"}}</h4>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                <input type="number" name="system.capacites.selected.mechanic.energie.distance" value="{{this.energie.distance}}" 
+                {{#if this.softlock}}disabled{{/if}}
+                />
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <select name="system.capacites.selected.mechanic.activation.distance" {{#if this.softlock}}disabled{{/if}}>
+                    {{#select this.activation.distance}}
+                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+            <div class="shortspan triple">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MECHANIC.Reparation"}}</span>
+                <label>
+                    <input type="number" name="system.capacites.selected.mechanic.reparation.distance.dice" value="{{this.reparation.distance.dice}}" 
+                    {{#if this.softlock}}disabled{{/if}}
+                    />
+                    <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number" name="system.capacites.selected.mechanic.reparation.distance.fixe" value="{{this.reparation.distance.fixe}}" 
+                    {{#if this.softlock}}disabled{{/if}}
+                    />
+                </label>
+            </div>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+                <textarea name="system.capacites.selected.mechanic.reparation.distance.duree" 
+                data-capacite="mechanic" data-type="dureeDistance" data-min="50" style="height:{{this.textarea.dureeDistance}}px;" 
+                {{#if this.softlock}}disabled{{/if}}>{{this.reparation.distance.duree}}</textarea>
+            </label>
+        </div>
+    </div>
+</div>

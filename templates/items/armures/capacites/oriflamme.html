@@ -1,0 +1,107 @@
+
+<div class="oriflamme">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.capacites.selected.oriflamme.description" button=true owner="../owner" editable="../editable"}}
+
+    <div class="mainData">
+        <div class="data">
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                <input type="number" name="system.capacites.selected.oriflamme.energie" 
+                value="{{this.energie}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <select name="system.capacites.selected.oriflamme.activation" {{#if this.softlock}}disabled{{/if}}>
+                    {{#select this.activation}}
+                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+                    <option value="toutes">{{localize "KNIGHT.ACTIVATION.Toutes"}}</option>
+                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+                <textarea name="system.capacites.selected.oriflamme.duree" 
+                data-capacite="oriflamme" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;"  
+                {{#if this.softlock}}disabled{{/if}}>{{this.duree}}</textarea>
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+                <select name="system.capacites.selected.oriflamme.portee" {{#if this.softlock}}disabled{{/if}}>
+                    {{#select this.portee}}
+                    <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+                    <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+                    <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+                    <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+                    <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+        </div>
+
+        <div class="data">
+            <div class="double">
+                <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                <label>
+                    <input type="number" name="system.capacites.selected.oriflamme.degats.dice" 
+                    value="{{this.degats.dice}}" 
+                    min="0"
+                    {{#if this.softlock}}disabled{{/if}} />
+                    <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number" name="system.capacites.selected.oriflamme.degats.fixe" 
+                    value="{{this.degats.fixe}}" 
+                    min="0"
+                    {{#if this.softlock}}disabled{{/if}} />
+                </label>
+            </div>
+            <div class="double">
+                <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                <label>
+                    <input type="number" name="system.capacites.selected.oriflamme.violence.dice" 
+                    value="{{this.violence.dice}}" 
+                    min="0"
+                    {{#if this.softlock}}disabled{{/if}} />
+                    <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number" name="system.capacites.selected.oriflamme.violence.fixe" 
+                    value="{{this.violence.fixe}}" 
+                    min="0"
+                    {{#if this.softlock}}disabled{{/if}} />
+                </label>
+            </div>
+            <div class="effets">
+            {{#each this.effets.liste as | key effet|}}
+                <div>
+                    <span class="label">{{key.name}}</span>
+                    <img class="info" src="systems/knight/assets/icons/info.svg" />
+                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                </div>
+            {{/each}}
+                <a class="edit" data-path="data.capacites.selected.oriflamme.effets">
+                    <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

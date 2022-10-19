@@ -1,0 +1,767 @@
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}}
+    </h4>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.rage.activation" >
+            {{#select this.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea data-capacite="rage" data-type="duree" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.duree}}px;" name="system.evolutions.liste.{{key}}.capacites.rage.duree" >{{this.duree}}</textarea>
+    </label>
+    <label class="longspan separation">
+        <span>{{localize "KNIGHT.AUTRE.CoutEspoir"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.espoir" value="{{this.espoir}}" />
+    </label>
+</div>
+
+<div class="data rageFull">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}} :
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.NOURRI.Label"}}
+    </h4>
+    <textarea data-capacite="rage" data-type="nourri" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.nourri}}px;" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.description" >{{this.nourri.description}}</textarea>
+    <div class="table">
+        <div class="col1">
+            <span>{{localize "KNIGHT.TYPE.LabelEnnemi"}}</span>
+            <span>{{localize "KNIGHT.TYPE.Humain"}}</span>
+            <span>{{localize "KNIGHT.TYPE.Anatheme"}}</span>
+        </div>
+        <div class="colA">
+            <span>{{localize "KNIGHT.TYPE.Hostile"}}</span>
+            <div>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.humain.hostile.dice" value="{{this.nourri.humain.hostile.dice}}" />
+                <span>{{localize "KNIGHT.JETS.Des-short"}}</span>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.humain.hostile.face" value="{{this.nourri.humain.hostile.face}}" />
+                <span>+</span>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.humain.hostile.fixe" value="{{this.nourri.humain.hostile.fixe}}" />
+            </div>
+            <div>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.anatheme.hostile.dice" value="{{this.nourri.anatheme.hostile.dice}}" />
+                <span>{{localize "KNIGHT.JETS.Des-short"}}</span>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.anatheme.hostile.face" value="{{this.nourri.anatheme.hostile.face}}" />
+                <span>+</span>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.anatheme.hostile.fixe" value="{{this.nourri.anatheme.hostile.fixe}}" />
+            </div>
+        </div>
+        <div class="colA">
+            <span>{{localize "KNIGHT.TYPE.Salopard"}}</span>
+            <div>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.humain.salopard.dice" value="{{this.nourri.humain.salopard.dice}}" />
+                <span>{{localize "KNIGHT.JETS.Des-short"}}</span>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.humain.salopard.face" value="{{this.nourri.humain.salopard.face}}" />
+                <span>+</span>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.humain.salopard.fixe" value="{{this.nourri.humain.salopard.fixe}}" />
+            </div>
+            <div>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.anatheme.salopard.dice" value="{{this.nourri.anatheme.salopard.dice}}" />
+                <span>{{localize "KNIGHT.JETS.Des-short"}}</span>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.anatheme.salopard.face" value="{{this.nourri.anatheme.salopard.face}}" />
+                <span>+</span>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.anatheme.salopard.fixe" value="{{this.nourri.anatheme.salopard.fixe}}" />
+            </div>
+        </div>
+        <div class="colA">
+            <span>{{localize "KNIGHT.TYPE.Patron"}}</span>
+            <div>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.humain.patron.dice" value="{{this.nourri.humain.patron.dice}}" />
+                <span>{{localize "KNIGHT.JETS.Des-short"}}</span>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.humain.patron.face" value="{{this.nourri.humain.patron.face}}" />
+                <span>+</span>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.humain.patron.fixe" value="{{this.nourri.humain.patron.fixe}}" />
+            </div>
+            <div>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.anatheme.patron.dice" value="{{this.nourri.anatheme.patron.dice}}" />
+                <span>{{localize "KNIGHT.JETS.Des-short"}}</span>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.anatheme.patron.face" value="{{this.nourri.anatheme.patron.face}}" />
+                <span>+</span>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.anatheme.patron.fixe" value="{{this.nourri.anatheme.patron.fixe}}" />
+            </div>
+        </div>
+        <div class="colA">
+            <span>{{localize "KNIGHT.TYPE.Bande"}}</span>
+            <div>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.humain.bande.dice" value="{{this.nourri.humain.bande.dice}}" />
+                <span>{{localize "KNIGHT.JETS.Des-short"}}</span>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.humain.bande.face" value="{{this.nourri.humain.bande.face}}" />
+                <span>+</span>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.humain.bande.fixe" value="{{this.nourri.humain.bande.fixe}}" />
+            </div>
+            <div>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.anatheme.bande.dice" value="{{this.nourri.anatheme.bande.dice}}" />
+                <span>{{localize "KNIGHT.JETS.Des-short"}}</span>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.anatheme.bande.face" value="{{this.nourri.anatheme.bande.face}}" />
+                <span>+</span>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.nourri.anatheme.bande.fixe" value="{{this.nourri.anatheme.bande.fixe}}" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col">
+    <div class="data">
+        <h4 class="title">
+            <i class="far fa-minus-square"></i>
+            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}} :
+            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.COLERE.Label"}}
+        </h4>
+        <label class="size50">
+            <span>{{localize "KNIGHT.BONUS.Degats"}}</span>
+            <select name="system.evolutions.liste.{{key}}.capacites.rage.colere.degats"  class="center">
+                {{#select this.colere.degats}}
+                <option value="chair">{{localize "KNIGHT.ASPECTS.CHAIR.Label"}}</option>
+                <option value="bete">{{localize "KNIGHT.ASPECTS.BETE.Label"}}</option>
+                <option value="machine">{{localize "KNIGHT.ASPECTS.MACHINE.Label"}}</option>
+                <option value="dame">{{localize "KNIGHT.ASPECTS.DAME.Label"}}</option>
+                <option value="masque">{{localize "KNIGHT.ASPECTS.MASQUE.Label"}}</option>
+                {{/select}}
+            </select>
+        </label>
+        <label class="size50">
+            <span>{{localize "KNIGHT.BONUS.Violence"}}</span>
+            <select name="system.evolutions.liste.{{key}}.capacites.rage.colere.violence" class="center">
+                {{#select this.colere.violence}}
+                <option value="chair">{{localize "KNIGHT.ASPECTS.CHAIR.Label"}}</option>
+                <option value="bete">{{localize "KNIGHT.ASPECTS.BETE.Label"}}</option>
+                <option value="machine">{{localize "KNIGHT.ASPECTS.MACHINE.Label"}}</option>
+                <option value="dame">{{localize "KNIGHT.ASPECTS.DAME.Label"}}</option>
+                <option value="masque">{{localize "KNIGHT.ASPECTS.MASQUE.Label"}}</option>
+                {{/select}}
+            </select>
+        </label>
+        <label class="size50">
+            <span>{{localize "KNIGHT.BONUS.Egide"}}</span>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.colere.egide" value="{{this.colere.egide}}" />
+        </label>
+        <label class="size50">
+            <span>{{localize "KNIGHT.MALUS.Defense"}}</span>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.colere.defense" value="{{this.colere.defense}}" />
+        </label>
+        <label class="size50">
+            <span>{{localize "KNIGHT.MALUS.Reaction"}}</span>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.colere.reaction" value="{{this.colere.reaction}}" />
+        </label>
+        <label class="size50 doubleInline">
+            <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.DegatsSubis"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.colere.subis" value="{{this.colere.subis}}" />
+                <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+            </label>
+        </label>
+        <button type="action" class="{{#if this.colere.combosBonus.has}}selected{{/if}}"
+        data-key="{{key}}" data-type="rage" data-subtype="colere" data-anothersubtype="combosBonus" data-name="has" data-value="{{this.colere.combosBonus.has}}"
+        >
+            {{this.colere.combosBonus.label}}
+        </button>
+        <div class="blockSecondaire">
+            <label class="size50 {{#unless this.colere.combosBonus.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.colere.combosBonus.liste.c1" >
+                    <option value=""></option>
+                    {{#select this.colere.combosBonus.liste.c1}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.colere.combosBonus.has}} hidden {{/unless}}">
+            <span>{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+            <select name="system.evolutions.liste.{{key}}.capacites.rage.colere.combosBonus.liste.c2" >
+                <option value=""></option>
+                {{#select this.colere.combosBonus.liste.c2}}
+                {{#each this.aspects as | key aspect|}}
+                    <optgroup label="{{getAspect aspect}}">
+                        {{#each key.liste as | key carac|}}
+                            <option value="{{carac}}">{{getCarac carac}}</option>
+                        {{/each}}
+                    </optgroup>
+                {{/each}}                    
+                {{/select}}
+            </select>
+            </label>
+            <label class="size50 {{#unless this.colere.combosBonus.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.colere.combosBonus.liste.c3" >
+                    <option value=""></option>
+                    {{#select this.colere.combosBonus.liste.c3}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+        </div>
+
+        <button type="action" class="{{#if this.colere.combosInterdits.has}}selected{{/if}}"
+        data-key="{{key}}" data-type="rage" data-subtype="colere" data-anothersubtype="combosInterdits" data-name="has" data-value="{{this.colere.combosInterdits.has}}"
+        >
+            {{this.colere.combosInterdits.label}}
+        </button>
+        <div class="blockSecondaire">
+            <label class="size50 {{#unless this.colere.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.colere.combosInterdits.liste.c1" >
+                    <option value=""></option>
+                    {{#select this.colere.combosInterdits.liste.c1}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.colere.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.colere.combosInterdits.liste.c2" >
+                    <option value=""></option>
+                    {{#select this.colere.combosInterdits.liste.c2}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.colere.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.colere.combosInterdits.liste.c3" >
+                    <option value=""></option>
+                    {{#select this.colere.combosInterdits.liste.c3}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.colere.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.colere.combosInterdits.liste.c4" >
+                    <option value=""></option>
+                    {{#select this.colere.combosInterdits.liste.c4}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.colere.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.colere.combosInterdits.liste.c5" >
+                    <option value=""></option>
+                    {{#select this.colere.combosInterdits.liste.c5}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.colere.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.colere.combosInterdits.liste.c6" >
+                    <option value=""></option>
+                    {{#select this.colere.combosInterdits.liste.c6}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+        </div>
+        
+    </div>
+
+    <div class="data">
+        <h4 class="title">
+            <i class="far fa-minus-square"></i>
+            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}} :
+            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.RAGE.Label"}}
+        </h4>
+        <textarea data-capacite="rage" data-type="rage" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.rage}}px;" name="system.evolutions.liste.{{key}}.capacites.rage.rage.description" >{{this.rage.description}}</textarea>
+        <label class="size50 separation">
+            <span>{{localize "KNIGHT.BONUS.Degats"}}</span>
+            <select name="system.evolutions.liste.{{key}}.capacites.rage.rage.degats" class="center">
+                {{#select this.rage.degats}}
+                <option value="chair">{{localize "KNIGHT.ASPECTS.CHAIR.Label"}}</option>
+                <option value="bete">{{localize "KNIGHT.ASPECTS.BETE.Label"}}</option>
+                <option value="machine">{{localize "KNIGHT.ASPECTS.MACHINE.Label"}}</option>
+                <option value="dame">{{localize "KNIGHT.ASPECTS.DAME.Label"}}</option>
+                <option value="masque">{{localize "KNIGHT.ASPECTS.MASQUE.Label"}}</option>
+                {{/select}}
+            </select>
+        </label>
+        <label class="size50">
+            <span>{{localize "KNIGHT.BONUS.Violence"}}</span>
+            <select name="system.evolutions.liste.{{key}}.capacites.rage.rage.violence" class="center">
+                {{#select this.rage.violence}}
+                <option value="chair">{{localize "KNIGHT.ASPECTS.CHAIR.Label"}}</option>
+                <option value="bete">{{localize "KNIGHT.ASPECTS.BETE.Label"}}</option>
+                <option value="machine">{{localize "KNIGHT.ASPECTS.MACHINE.Label"}}</option>
+                <option value="dame">{{localize "KNIGHT.ASPECTS.DAME.Label"}}</option>
+                <option value="masque">{{localize "KNIGHT.ASPECTS.MASQUE.Label"}}</option>
+                {{/select}}
+            </select>
+        </label>
+        <label class="size50">
+            <span>{{localize "KNIGHT.BONUS.Egide"}}</span>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.rage.egide" value="{{this.rage.egide}}" />
+        </label>
+        <label class="size50">
+            <span>{{localize "KNIGHT.MALUS.Defense"}}</span>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.rage.defense" value="{{this.rage.defense}}" />
+        </label>
+        <label class="size50">
+            <span>{{localize "KNIGHT.MALUS.Reaction"}}</span>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.rage.reaction" value="{{this.rage.reaction}}" />
+        </label>
+        <label class="size50 doubleInline">
+            <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.DegatsSubis"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.rage.subis" value="{{this.rage.subis}}" />
+                <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+            </label>
+        </label>
+        <button type="action" class="{{#if this.rage.combosBonus.has}}selected{{/if}}"
+        data-key="{{key}}" data-type="rage" data-subtype="rage" data-anothersubtype="combosBonus" data-name="has" data-value="{{this.rage.combosBonus.has}}"
+        >
+            {{this.rage.combosBonus.label}}
+        </button>
+        <div class="blockSecondaire">
+            <label class="size50 {{#unless this.rage.combosBonus.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.rage.combosBonus.liste.c1" >
+                    <option value=""></option>
+                    {{#select this.rage.combosBonus.liste.c1}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.rage.combosBonus.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.rage.combosBonus.liste.c2" >
+                    <option value=""></option>
+                    {{#select this.rage.combosBonus.liste.c2}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.rage.combosBonus.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.rage.combosBonus.liste.c3" >
+                    <option value=""></option>
+                    {{#select this.rage.combosBonus.liste.c3}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+        </div>
+        
+        <button type="action" class="{{#if this.rage.combosInterdits.has}}selected{{/if}}"
+        data-key="{{key}}" data-type="rage" data-subtype="rage" data-anothersubtype="combosInterdits" data-name="has" data-value="{{this.rage.combosInterdits.has}}"
+        >
+            {{this.rage.combosInterdits.label}}
+        </button>
+
+        <div class="blockSecondaire">
+            <label class="size50 {{#unless this.rage.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.rage.combosInterdits.liste.c1" >
+                    <option value=""></option>
+                    {{#select this.rage.combosInterdits.liste.c1}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.rage.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.rage.combosInterdits.liste.c2" >
+                    <option value=""></option>
+                    {{#select this.rage.combosInterdits.liste.c2}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.rage.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.rage.combosInterdits.liste.c3" >
+                    <option value=""></option>
+                    {{#select this.rage.combosInterdits.liste.c3}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.rage.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.rage.combosInterdits.liste.c4" >
+                    <option value=""></option>
+                    {{#select this.rage.combosInterdits.liste.c4}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.rage.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.rage.combosInterdits.liste.c5" >
+                    <option value=""></option>
+                    {{#select this.rage.combosInterdits.liste.c5}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.rage.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.rage.combosInterdits.liste.c6" >
+                    <option value=""></option>
+                    {{#select this.rage.combosInterdits.liste.c6}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+        </div>
+    </div>
+</div>
+
+<div class="col">
+    <div class="data">
+        <h4 class="title">
+            <i class="far fa-minus-square"></i>
+            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}} :
+            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.FUREUR.Label"}}
+        </h4>
+        <textarea data-capacite="rage" data-type="fureur" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.fureur}}px;" name="system.evolutions.liste.{{key}}.capacites.rage.fureur.description" >{{this.fureur.description}}</textarea>
+        <label class="size50 separation">
+            <span>{{localize "KNIGHT.BONUS.Degats"}}</span>
+            <select name="system.evolutions.liste.{{key}}.capacites.rage.fureur.degats" class="center">
+                {{#select this.fureur.degats}}
+                <option value="chair">{{localize "KNIGHT.ASPECTS.CHAIR.Label"}}</option>
+                <option value="bete">{{localize "KNIGHT.ASPECTS.BETE.Label"}}</option>
+                <option value="machine">{{localize "KNIGHT.ASPECTS.MACHINE.Label"}}</option>
+                <option value="dame">{{localize "KNIGHT.ASPECTS.DAME.Label"}}</option>
+                <option value="masque">{{localize "KNIGHT.ASPECTS.MASQUE.Label"}}</option>
+                {{/select}}
+            </select>
+        </label>
+        <label class="size50">
+            <span>{{localize "KNIGHT.BONUS.Violence"}}</span>
+            <select name="system.evolutions.liste.{{key}}.capacites.rage.fureur.violence" class="center">
+                {{#select this.fureur.violence}}
+                <option value="chair">{{localize "KNIGHT.ASPECTS.CHAIR.Label"}}</option>
+                <option value="bete">{{localize "KNIGHT.ASPECTS.BETE.Label"}}</option>
+                <option value="machine">{{localize "KNIGHT.ASPECTS.MACHINE.Label"}}</option>
+                <option value="dame">{{localize "KNIGHT.ASPECTS.DAME.Label"}}</option>
+                <option value="masque">{{localize "KNIGHT.ASPECTS.MASQUE.Label"}}</option>
+                {{/select}}
+            </select>
+        </label>
+        <label class="size50">
+            <span>{{localize "KNIGHT.BONUS.Egide"}}</span>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.fureur.egide" value="{{this.fureur.egide}}" />
+        </label>
+        <label class="size50">
+            <span>{{localize "KNIGHT.MALUS.Defense"}}</span>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.fureur.defense" value="{{this.fureur.defense}}" />
+        </label>
+        <label class="size50">
+            <span>{{localize "KNIGHT.MALUS.Reaction"}}</span>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.fureur.reaction" value="{{this.fureur.reaction}}" />
+        </label>
+        <label class="size50 doubleInline">
+            <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.DegatsSubis"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.fureur.subis" value="{{this.fureur.subis}}" />
+                <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+            </label>
+        </label>
+        <button type="action" class="{{#if this.fureur.combosBonus.has}}selected{{/if}}"
+        data-key="{{key}}" data-type="rage" data-subtype="fureur" data-anothersubtype="combosBonus" data-name="has" data-value="{{this.fureur.combosBonus.has}}"
+        >
+            {{this.fureur.combosBonus.label}}
+        </button>
+        <div class="blockSecondaire">
+            <label class="size50 {{#unless this.fureur.combosBonus.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.fureur.combosBonus.liste.c1" >
+                    <option value=""></option>
+                    {{#select this.fureur.combosBonus.liste.c1}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.fureur.combosBonus.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.fureur.combosBonus.liste.c2" >
+                    <option value=""></option>
+                    {{#select this.fureur.combosBonus.liste.c2}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.fureur.combosBonus.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.fureur.combosBonus.liste.c3" >
+                    <option value=""></option>
+                    {{#select this.fureur.combosBonus.liste.c3}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+        </div>
+        
+        <button type="action" class="{{#if this.fureur.combosInterdits.has}}selected{{/if}}"
+        data-key="{{key}}" data-type="rage" data-subtype="fureur" data-anothersubtype="combosInterdits" data-name="has" data-value="{{this.fureur.combosInterdits.has}}"
+        >
+            {{this.fureur.combosInterdits.label}}
+        </button>
+        <div class="blockSecondaire">
+            <label class="size50 {{#unless this.fureur.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.fureur.combosInterdits.liste.c1" >
+                    <option value=""></option>
+                    {{#select this.fureur.combosInterdits.liste.c1}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.fureur.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.fureur.combosInterdits.liste.c2" >
+                    <option value=""></option>
+                    {{#select this.fureur.combosInterdits.liste.c2}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.fureur.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.fureur.combosInterdits.liste.c3" >
+                    <option value=""></option>
+                    {{#select this.fureur.combosInterdits.liste.c3}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.fureur.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.fureur.combosInterdits.liste.c4" >
+                    <option value=""></option>
+                    {{#select this.fureur.combosInterdits.liste.c4}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.fureur.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.fureur.combosInterdits.liste.c5" >
+                    <option value=""></option>
+                    {{#select this.fureur.combosInterdits.liste.c5}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+            <label class="size50 {{#unless this.fureur.combosInterdits.has}} hidden {{/unless}}">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                <select name="system.evolutions.liste.{{key}}.capacites.rage.fureur.combosInterdits.liste.c6" >
+                    <option value=""></option>
+                    {{#select this.fureur.combosInterdits.liste.c6}}
+                    {{#each this.aspects as | key aspect|}}
+                        <optgroup label="{{getAspect aspect}}">
+                            {{#each key.liste as | key carac|}}
+                                <option value="{{carac}}">{{getCarac carac}}</option>
+                            {{/each}}
+                        </optgroup>
+                    {{/each}}                    
+                    {{/select}}
+                </select>
+            </label>
+        </div>
+        
+    </div>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}} :
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}}
+    </h4>
+    <h4 class="title">{{this.blaze.label}}</h4>
+    <textarea data-capacite="rage" data-type="blaze" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.blaze}}px;" name="system.evolutions.liste.{{key}}.capacites.rage.blaze.description" >{{this.blaze.description}}</textarea>
+    <label class="doubleInline separation">
+        <span class="title">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+        <label>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.blaze.degats" value="{{this.blaze.degats}}" />
+            <span class="special">D6</span>
+        </label>
+        
+    </label>
+    <label class="doubleInline">
+        <span class="title">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+        <label>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.blaze.violence" value="{{this.blaze.violence}}" />
+            <span class="special">D6</span>
+        </label>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.rage.blaze.portee" >
+            {{#select this.blaze.portee}}
+            <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+            <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+            <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+            <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+            <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <h4 class="separation">{{localize "KNIGHT.AUTRE.CoutEspoir"}}</h4>
+    <label class="longspan noSeparation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Utiliser"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.blaze.espoir.base" value="{{this.blaze.espoir.base}}" />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Prolonger"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.blaze.espoir.prolonger" value="{{this.blaze.espoir.prolonger}}" />
+    </label>
+</div>

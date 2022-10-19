@@ -1,0 +1,40 @@
+
+<div class="porteurlumiere">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.PORTEURLUMIERE.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.special.selected.porteurlumiere.description" button=true owner="../owner" editable="../editable"}}
+
+    <div class="mainData">
+        <div class="data">
+            <h4>{{localize "KNIGHT.BONUS.Effets"}}</h4>
+            <div class="effets">
+                {{#each this.bonus.effets.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+                <a class="edit" data-path="data.special.selected.porteurlumiere.bonus.effets">
+                    <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

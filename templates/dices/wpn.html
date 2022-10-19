@@ -1,0 +1,82 @@
+<div class="dice-roll knight-roll">
+    {{#if flavor}}
+    <div class="dice-flavor flavor-wpn">{{flavor}}</div>
+    {{/if}}
+    {{#if this.main.portee}}
+    <div class="dice-result style">
+        <div class="dice-total">{{this.main.portee}}</div>
+    </div>
+    {{/if}}
+    {{#if style}}
+    <div class="dice-result style">
+        <div class="dice-total">
+            {{style}}
+        </div>
+    </div>
+    {{/if}}
+    <div class="dice-result">
+        {{#if this.main.isSuccess}}
+            <div class="dice-formula">
+                {{#if this.main.isExploit}}
+                    <span class="explode">{{localize "KNIGHT.JETS.Exploit"}}</span>
+                {{/if}}
+                {{#if this.main.isRollEFailed}}
+                    <span class="epicFail">{{localize "KNIGHT.JETS.EchecCritique"}}</span>
+                {{/if}}
+                {{#if this.main.isAttack}}
+                    {{#if this.main.caracs}}
+                        <span class="caracs">
+                            {{#each this.main.caracs}}
+                                {{#unless @first}}
+                                /
+                                {{/unless}}
+                                {{this}}
+                            {{/each}}
+                        </span>
+                    {{/if}}
+                {{/if}}
+            </div>
+        {{else}}
+            {{#if this.main.formula}}
+                <div class="dice-formula">
+                    {{this.main.formula}}
+                </div>
+            {{/if}}
+        {{/if}}
+        {{{this.main.tooltip}}}
+        <div class="dice-total">
+            <h4 class="dice-total">
+                {{this.main.total}}{{#if this.main.isSuccess}} {{localize "KNIGHT.JETS.Succes"}}{{/if}}
+            </h4>
+            {{#each this.include as | key include|}}
+                <span title="{{key.desc}}">{{key.name}}</span>
+            {{/each}}
+        </div>
+        
+    </div>
+    {{#each this.sub as | key sub|}}
+        <div class="dice-result subResult">
+            <div class="dice-formula">
+                <div class="oneLine">
+                    <span class="label">{{key.name}}</span>
+                    <span class="result">{{key.total}}</span>
+                </div>
+                <span class="description">{{{getEffetsDescription key.desc}}}</span>
+            </div>            
+            {{{key.tooltip}}}
+        </div>
+    {{/each}}
+    {{#if this.other}}
+        <div class="dice-result otherResults">
+            <div class="dice-formula">
+                <div class="oneLine">
+                    <span class="label">{{localize "KNIGHT.JETS.OtherEffects"}}</span>
+                </div>
+                {{#each this.other as | key other|}}
+                    <span class="label" title="{{{key.desc}}}">{{key.name}}</span>
+                    {{#unless @last}} / {{/unless}}
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+</div>

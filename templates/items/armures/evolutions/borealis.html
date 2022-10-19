@@ -1,0 +1,138 @@
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.SUPPORT.Label"}}
+    </h4>
+    <textarea data-capacite="borealis" data-type="descriptionESupport" data-evolution="true" data-min="120" data-key="{{key}}" style="height:{{this.textarea.descriptionESupport}}px;" name="system.evolutions.liste.{{key}}.capacites.borealis.support.description">{{this.support.description}}</textarea>
+    <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.SUPPORT.Base"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.borealis.support.energie.base" value="{{this.support.energie.base}}" 
+       
+        />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.SUPPORT.Allie"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.borealis.support.energie.allie" value="{{this.support.energie.allie}}" 
+       
+        />
+    </label>
+    <label class="shortspan separation">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.borealis.support.activation">
+            {{#select this.support.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="toutes">{{localize "KNIGHT.ACTIVATION.Toutes"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea data-capacite="borealis" data-type="dureeESupport" data-evolution="true" data-min="50" data-key="{{key}}" style="height:{{this.textarea.dureeESupport}}px;" name="system.evolutions.liste.{{key}}.capacites.borealis.support.duree">{{this.support.duree}}</textarea>
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label"}}
+    </h4>
+    <textarea data-capacite="borealis" data-type="descriptionEOffensif" data-evolution="true" data-min="85" data-key="{{key}}" style="height:{{this.textarea.descriptionEOffensif}}px;" name="system.evolutions.liste.{{key}}.capacites.borealis.offensif.description">{{this.offensif.description}}</textarea>
+    <label class="longspan simpleSeparation">
+        <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.borealis.offensif.energie" value="{{this.offensif.energie}}"/>
+    </label>
+    <div class="double">
+        <div class="doubleLine">
+            <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.borealis.offensif.degats.dice" value="{{this.offensif.degats.dice}}" 
+               
+                />
+                <span>D6</span>
+            </label>                
+        </div>
+        <div class="doubleLine">
+            <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.borealis.offensif.violence.dice" value="{{this.offensif.violence.dice}}" 
+               
+                />
+                <span>D6</span>
+            </label>                
+        </div>
+    </div>            
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.borealis.offensif.activation">
+            {{#select this.offensif.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="toutes">{{localize "KNIGHT.ACTIVATION.Toutes"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.borealis.offensif.portee">
+            {{#select this.offensif.portee}}
+            <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+            <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+            <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+            <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+            <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea data-capacite="borealis" data-type="dureeEOffensif" data-evolution="true" data-min="50" data-key="{{key}}" style="height:{{this.textarea.dureeEOffensif}}px;" name="system.evolutions.liste.{{key}}.capacites.borealis.offensif.duree">{{this.offensif.duree}}</textarea>
+    </label>
+    <div class="effets">
+    {{#each this.offensif.effets.liste as | key effet|}}
+        <div>
+            <span class="label">{{key.name}}</span>
+            <img class="info" src="systems/knight/assets/icons/info.svg" />
+            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+        </div>
+    {{/each}}
+        <a class="edit borealisEdit" data-path="data.evolutions.liste.{{key}}.capacites.borealis.offensif.effets">
+            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+        </a>
+    </div>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.UTILITAIRE.Label"}}
+    </h4>
+    <textarea data-capacite="borealis" data-type="descriptionEUtilitaire" data-min="150" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.descriptionEUtilitaire}}px;" name="system.evolutions.liste.{{key}}.capacites.borealis.utilitaire.description">{{this.utilitaire.description}}</textarea>
+    <label class="longspan simpleSeparation">
+        <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.borealis.utilitaire.energie" value="{{this.utilitaire.energie}}" 
+       
+        />
+    </label>
+    <label class="shortspan separation">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.borealis.utilitaire.activation">
+            {{#select this.utilitaire.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="toutes">{{localize "KNIGHT.ACTIVATION.Toutes"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea data-capacite="borealis" data-type="dureeEUtilitaire" data-min="50" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.dureeEUtilitaire}}px;" name="system.evolutions.liste.{{key}}.capacites.borealis.utilitaire.duree">{{this.utilitaire.duree}}</textarea>
+    </label>
+</div>

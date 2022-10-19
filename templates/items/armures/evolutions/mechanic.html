@@ -1,0 +1,80 @@
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MECHANIC.Label"}}
+    </h4>
+    <h4>{{localize "KNIGHT.AUTRE.Contact"}}</h4>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.mechanic.energie.contact" value="{{this.energie.contact}}" 
+       
+        />
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.mechanic.activation">
+            {{#select this.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <div class="shortspan withSpecial">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MECHANIC.Reparation"}}</span>
+        <label>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.mechanic.reparation.contact.dice" value="{{this.reparation.contact.dice}}" 
+           
+            />
+            <span>D6+</span>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.mechanic.reparation.contact.fixe" value="{{this.reparation.contact.fixe}}" 
+           
+            />
+        </label>
+    </div>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.mechanic.reparation.contact.duree" 
+        data-capacite="mechanic" data-type="dureeContact" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.dureeContact}}px;" 
+       >{{this.reparation.contact.duree}}</textarea>
+    </label>
+    <h4 class="separation">{{localize "KNIGHT.AUTRE.Distance"}}</h4>
+    <label class="shortspan noSeparation">
+        <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.mechanic.energie.distance" value="{{this.energie.distance}}" 
+       
+        />
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.mechanic.activation">
+            {{#select this.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <div class="shortspan withSpecial">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MECHANIC.Reparation"}}</span>
+        <label>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.mechanic.reparation.distance.dice" value="{{this.reparation.distance.dice}}" 
+           
+            />
+            <span>D6+</span>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.mechanic.reparation.distance.fixe" value="{{this.reparation.distance.fixe}}" 
+           
+            />
+        </label>
+    </div>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.mechanic.reparation.distance.duree" 
+        data-capacite="mechanic" data-type="dureeDistance" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.dureeDistance}}px;" 
+       >{{this.reparation.distance.duree}}</textarea>
+    </label>
+</div>
+
+{{log this}}

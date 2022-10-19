@@ -1,0 +1,57 @@
+
+<div class="vision">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.VISION.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.capacites.selected.vision.description" button=true owner="../owner" editable="../editable"}}
+
+    <div class="mainData">
+        <div class="data">
+            <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.AUTRE.Minimum"}}</span>
+                <input type="text" name="system.capacites.selected.vision.energie.min" value="{{this.energie.min}}" 
+                {{#if this.softlock}}disabled{{/if}}
+                />
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.AUTRE.Maximum"}}</span>
+                <input type="text" name="system.capacites.selected.vision.energie.max" value="{{this.energie.max}}" 
+                {{#if this.softlock}}disabled{{/if}}
+                />
+            </label>
+            <label class="shortspan separation">
+                <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <select name="system.capacites.selected.vision.activation" {{#if this.softlock}}disabled{{/if}}>
+                    {{#select this.activation}}
+                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+                    <option value="toutes">{{localize "KNIGHT.ACTIVATION.Toutes"}}</option>
+                    <option value="combat6Sec">{{localize "KNIGHT.ACTIVATION.Combat6Sec"}}</option>
+                    <option value="deplacement6Sec">{{localize "KNIGHT.ACTIVATION.Deplacement6Sec"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+                <textarea name="system.capacites.selected.vision.duree"
+                data-capacite="vision" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;" 
+                {{#if this.softlock}}disabled{{/if}}>{{this.duree}}</textarea>
+            </label>
+        </div>
+    </div>
+</div>

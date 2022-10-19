@@ -1,0 +1,37 @@
+
+    
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.FALCON.Label"}}
+    </h4>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.falcon.energie" 
+        value="{{this.energie}}" 
+        min="0"
+         />
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.falcon.activation" >
+            {{#select this.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.falcon.duree" 
+        data-capacite="falcon" data-type="duree" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.duree}}px;" 
+        >{{this.duree}}</textarea>
+    </label>
+    <div class="plainData">
+        <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.FALCON.INFORMATIONS.Label"}}</h4>
+        {{editor this.informations target=(whatTargetFalcon key=key) button=true owner="../owner" editable="../editable"}}
+    </div>
+</div>
+

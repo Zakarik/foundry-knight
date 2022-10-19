@@ -1,0 +1,81 @@
+<div class="changeling">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.capacites.selected.changeling.description" button=true owner="../owner" editable="../editable"}}
+
+    <div class="mainData">
+        <div class="data">
+            <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.ENERGIE.Personnelle"}}</span>
+                <input type="number" name="system.capacites.selected.changeling.energie.personnel" 
+                value="{{this.energie.personnel}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.ENERGIE.Etendue"}}</span>
+                <input type="number" name="system.capacites.selected.changeling.energie.etendue" 
+                value="{{this.energie.etendue}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.ENERGIE.ParFauxEtres"}}</span>
+                <input type="number" name="system.capacites.selected.changeling.energie.fauxEtre.value" 
+                value="{{this.energie.fauxEtre.value}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="longspan separation">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.FauxEtresMax"}}</span>
+                <input type="number" name="system.capacites.selected.changeling.energie.fauxEtre.max" 
+                value="{{this.energie.fauxEtre.max}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+        </div>
+
+        <div class="data">
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <select name="system.capacites.selected.changeling.activation" {{#if this.softlock}}disabled{{/if}}>
+                    {{#select this.activation}}
+                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+                    <option value="tour6Sec">{{localize "KNIGHT.ACTIVATION.Tour6Sec"}}</option>
+                    <option value="combat3Sec">{{localize "KNIGHT.ACTIVATION.Combat3Sec"}}</option>
+                    <option value="deplacement3Sec">{{localize "KNIGHT.ACTIVATION.Deplacement3Sec"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+                <textarea name="system.capacites.selected.changeling.duree" 
+                data-capacite="changeling" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;" 
+                {{#if this.softlock}}disabled{{/if}}>{{this.duree}}</textarea>
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+                <textarea name="system.capacites.selected.changeling.portee" 
+                    data-capacite="changeling" data-type="portee" data-min="50" style="height:{{this.textarea.portee}}px;" 
+                    {{#if this.softlock}}disabled{{/if}}>{{this.portee}}</textarea>
+            </label>
+        </div>
+    </div>
+</div>

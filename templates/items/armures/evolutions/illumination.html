@@ -1,0 +1,262 @@
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Label"}}
+    </h4>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.illumination.activation">
+            {{#select this.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea data-capacite="illumination" data-type="duree" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.duree}}px;" name="system.evolutions.liste.{{key}}.capacites.illumination.duree">{{this.duree}}</textarea>
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Label"}} : 
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.CANDLE.Label"}}
+    </h4>
+    <textarea data-capacite="illumination" data-type="candle" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.candle}}px;" name="system.evolutions.liste.{{key}}.capacites.illumination.candle.description">{{this.candle.description}}</textarea>
+    <label class="shortspan separation">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.illumination.candle.portee">
+            {{#select this.candle.portee}}
+            <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+            <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+            <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+            <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+            <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="doubleInline">
+        <span class="title">{{localize "KNIGHT.LATERAL.Espoir"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.candle.espoir" value="{{this.candle.espoir}}"/>
+        <span class="special">D6</span>
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Label"}} : 
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.TORCH.Label"}}
+    </h4>
+    <textarea data-capacite="illumination" data-type="torch" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.torch}}px;" name="system.evolutions.liste.{{key}}.capacites.illumination.torch.description">{{this.torch.description}}</textarea>
+    <label class="longspan separation">
+        <span>{{localize "KNIGHT.BONUS.Egide"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.torch.bonus" value="{{this.torch.bonus}}"/>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.illumination.torch.portee">
+            {{#select this.torch.portee}}
+            <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+            <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+            <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+            <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+            <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <h4 class="separation">{{localize "KNIGHT.AUTRE.CoutEspoir"}}</h4>
+    <label class="longspan noSeparation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Utiliser"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.torch.espoir.base" value="{{this.torch.espoir.base}}"/>
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Prolonger"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.torch.espoir.prolonger" value="{{this.torch.espoir.prolonger}}"/>
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Label"}} : 
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LIGHTHOUSE.Label"}}
+    </h4>
+    <textarea data-capacite="illumination" data-type="lighthouse" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.lighthouse}}px;" name="system.evolutions.liste.{{key}}.capacites.illumination.lighthouse.description">{{this.lighthouse.description}}</textarea>
+    <label class="shortspan separation">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.illumination.lighthouse.portee">
+            {{#select this.lighthouse.portee}}
+            <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+            <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+            <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+            <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+            <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <h4 class="separation">{{localize "KNIGHT.AUTRE.CoutEspoir"}}</h4>
+    <label class="longspan noSeparation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Utiliser"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.lighthouse.espoir.base" value="{{this.lighthouse.espoir.base}}"/>
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Prolonger"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.lighthouse.espoir.prolonger" value="{{this.lighthouse.espoir.prolonger}}"/>
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Label"}} : 
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label"}}
+    </h4>
+    <textarea data-capacite="illumination" data-type="lantern" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.lantern}}px;" name="system.evolutions.liste.{{key}}.capacites.illumination.lantern.description">{{this.lantern.description}}</textarea>
+    <label class="doubleInline separation">
+        <span class="title">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.lantern.degats" value="{{this.lantern.degats}}"/>
+        <span class="special">D6</span>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.illumination.lantern.portee">
+            {{#select this.lantern.portee}}
+            <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+            <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+            <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+            <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+            <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <h4 class="separation">{{localize "KNIGHT.AUTRE.CoutEspoir"}}</h4>
+    <label class="longspan noSeparation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Utiliser"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.lantern.espoir.base" value="{{this.lantern.espoir.base}}"/>
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Prolonger"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.lantern.espoir.prolonger" value="{{this.lantern.espoir.prolonger}}"/>
+    </label>
+    <div class="effets">
+        {{#each this.lantern.effets.liste as | key effet|}}
+            <div>
+                <span class="label">{{key.name}}</span>
+                <img class="info" src="systems/knight/assets/icons/info.svg" />
+                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+            </div>
+        {{/each}}
+        <a class="edit lanternEdit" data-path="data.evolutions.liste.{{key}}.capacites.illumination.lantern.effets">
+            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+        </a>
+    </div>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Label"}} : 
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}}
+    </h4>
+    <textarea data-capacite="illumination" data-type="blaze" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.blaze}}px;" name="system.evolutions.liste.{{key}}.capacites.illumination.blaze.description">{{this.blaze.description}}</textarea>
+    <label class="doubleInline separation">
+        <span class="title">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.blaze.degats" value="{{this.blaze.degats}}"/>
+        <span class="special">D6</span>
+    </label>
+    <label class="doubleInline">
+        <span class="title">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.blaze.violence" value="{{this.blaze.violence}}"/>
+        <span class="special">D6</span>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.illumination.blaze.portee">
+            {{#select this.blaze.portee}}
+            <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+            <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+            <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+            <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+            <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <h4 class="separation">{{localize "KNIGHT.AUTRE.CoutEspoir"}}</h4>
+    <label class="longspan noSeparation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Utiliser"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.blaze.espoir.base" value="{{this.blaze.espoir.base}}"/>
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Prolonger"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.blaze.espoir.prolonger" value="{{this.blaze.espoir.prolonger}}"/>
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Label"}} : 
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BEACON.Label"}}
+    </h4>
+    <textarea data-capacite="illumination" data-type="beacon" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.beacon}}px;" name="system.evolutions.liste.{{key}}.capacites.illumination.beacon.description">{{this.beacon.description}}</textarea>
+    <label class="longspan separation">
+        <span>{{localize "KNIGHT.BONUS.Reussites"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.beacon.bonus" value="{{this.beacon.bonus}}"/>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.illumination.beacon.portee">
+            {{#select this.beacon.portee}}
+            <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+            <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+            <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+            <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+            <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <h4 class="separation">{{localize "KNIGHT.AUTRE.CoutEspoir"}}</h4>
+    <label class="longspan noSeparation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Utiliser"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.beacon.espoir.base" value="{{this.beacon.espoir.base}}"/>
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Prolonger"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.beacon.espoir.prolonger" value="{{this.beacon.espoir.prolonger}}"/>
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Label"}} : 
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.PROJECTOR.Label"}}
+    </h4>
+    <textarea data-capacite="illumination" data-type="projector" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.projector}}px;" name="system.evolutions.liste.{{key}}.capacites.illumination.projector.description">{{this.projector.description}}</textarea>
+    <label class="shortspan separation">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.illumination.projector.portee">
+            {{#select this.projector.portee}}
+            <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+            <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+            <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+            <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+            <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <h4 class="separation">{{localize "KNIGHT.AUTRE.CoutEspoir"}}</h4>
+    <label class="longspan noSeparation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Utiliser"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.projector.espoir.base" value="{{this.projector.espoir.base}}"/>
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Prolonger"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.projector.espoir.prolonger" value="{{this.projector.espoir.prolonger}}"/>
+    </label>
+</div>

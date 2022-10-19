@@ -1,0 +1,88 @@
+<div class="recolteflux">
+    <h3 class="header">
+        <i class="far fa-plus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.Label"}}
+
+        {{#if ("armure" @root/systemData/wear)}}
+        <div class="blockMultiline">
+            <label class="flux">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXHORSCONFLIT.NbreCreature"}} : </span>
+                <input type="number" name="system.equipements.armure.special.flux" value="{{@root/systemData/equipements/armure/special/flux}}"
+                min="1" />
+            </label>
+
+            <button class="specialLegende" data-special="{{this.key}}" data-name="{{this.label}}" data-note="horsConflit" data-value="{{this.horsconflit.base}}*{{@root/systemData/equipements/armure/special/flux}}" data-limite="{{{this.horsconflit.limite}}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXHORSCONFLIT.Label"}}
+            </button>
+
+            <button class="specialLegende" data-special="{{this.key}}" data-name="{{this.label}}" data-note="enConflit" data-value="{{{this.conflit.base}}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.DebutConflit"}}
+            </button>
+
+            <button class="specialLegende" data-special="{{this.key}}" data-name="{{this.label}}" data-note="enConflit" data-value="{{{this.conflit.tour}}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.ParTour"}}
+            </button>
+
+            <button class="specialLegende" data-special="{{this.key}}" data-name="{{this.label}}" data-note="enConflit" data-value="{{{this.conflit.hostile}}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.HostileTue"}}
+            </button>
+
+            <button class="specialLegende" data-special="{{this.key}}" data-name="{{this.label}}" data-note="enConflit" data-value="{{{this.conflit.salopard}}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.SalopardTue"}}
+            </button>
+
+            <button class="specialLegende" data-special="{{this.key}}" data-name="{{this.label}}" data-note="enConflit" data-value="{{{this.conflit.patron}}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.PatronTue"}}
+            </button>
+        </div>
+        {{/if}}        
+    </h3>
+
+    <span class="description" style="display:none">{{{this.description}}}</span>
+
+    <div class="mainData" style="display:none">
+        <div class="data">
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXHORSCONFLIT.Label"}}</h4>
+            <div class="longspan">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXHORSCONFLIT.FluxParCreature"}}</span>
+                <span class="score">{{{this.horsconflit.base}}}</span>
+            </div>
+            <div class="longspan">
+                <span class="header">{{localize "KNIGHT.AUTRE.Limite"}}</span>
+                <span class="score">{{{this.horsconflit.limite}}}</span>
+            </div>
+            <div class="shortspan separation">
+                <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                <span class="score">{{{getPortee this.horsconflit.portee}}}</span>
+            </div>
+        </div>
+
+        <div class="data">
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.Label"}}</h4>
+            <div class="longspan">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.DebutConflit"}}</span>
+                <span class="score">{{{this.conflit.base}}}</span>
+            </div>
+            <div class="longspan">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.ParTour"}}</span>
+                <span class="score">{{{this.conflit.tour}}}</span>
+            </div>
+            <div class="longspan">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.ParHostile"}}</span>
+                <span class="score">{{{this.conflit.hostile}}}</span>
+            </div>
+            <div class="longspan">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.ParSalopard"}}</span>
+                <span class="score">{{{this.conflit.salopard}}}</span>
+            </div>
+            <div class="longspan">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.ParPatron"}}</span>
+                <span class="score">{{{this.conflit.patron}}}</span>
+            </div>
+            <div class="shortspan separation">
+                <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                <span class="score">{{{getPortee this.conflit.portee}}}</span>
+            </div>
+        </div>
+    </div>
+</div>

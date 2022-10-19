@@ -1,0 +1,73 @@
+<div class="nanoc">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.capacites.selected.nanoc.description" button=true owner="../owner" editable="../editable"}}
+
+    <div class="mainData">
+        <div class="data">
+            <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetBase"}}</span>
+                <input type="number" name="system.capacites.selected.nanoc.energie.base" 
+                value="{{this.energie.base}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}}/>
+            </label>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetDetaille"}}</span>
+                <input type="number" name="system.capacites.selected.nanoc.energie.detaille" 
+                value="{{this.energie.detaille}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}}/>
+            </label>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetMecanique"}}</span>
+                <input type="number" name="system.capacites.selected.nanoc.energie.mecanique" 
+                value="{{this.energie.mecanique}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}}/>
+            </label>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.AUTRE.Prolonger"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ParMinute"}}</span>
+                <input type="number" name="system.capacites.selected.nanoc.energie.prolonger" 
+                value="{{this.energie.prolonger}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}}/>
+            </label>
+            <label class="shortspan separation">
+                <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <select name="system.capacites.selected.nanoc.activation" {{#if this.softlock}}disabled{{/if}}>
+                    {{#select this.activation}}
+                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+                    <option value="toutes">{{localize "KNIGHT.ACTIVATION.Toutes"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+                <textarea name="system.capacites.selected.nanoc.duree"
+                data-capacite="nanoc" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;" 
+                {{#if this.softlock}}disabled{{/if}}>{{this.duree}}</textarea>
+            </label>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,107 @@
+
+<div class="discord">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.DISCORD.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.capacites.selected.discord.description" button=true owner="../owner" editable="../editable"}}
+
+    <div class="mainData">
+        <div class="data">
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.DISCORD.Tour"}}</h4>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.LATERAL.Flux"}}</span>
+                <input type="number" name="system.capacites.selected.discord.tour.flux" value="{{this.tour.flux}}" 
+                {{#if this.softlock}}disabled{{/if}}
+                />
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                <input type="number" name="system.capacites.selected.discord.tour.energie" value="{{this.tour.energie}}" 
+                {{#if this.softlock}}disabled{{/if}}
+                />
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <select name="system.capacites.selected.discord.tour.activation" {{#if this.softlock}}disabled{{/if}}>
+                    {{#select this.tour.activation}}
+                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+                <textarea data-capacite="discord" data-type="dureeTour" data-min="50" style="height:{{this.textarea.dureeTour}}px;" name="system.capacites.selected.discord.tour.duree" {{#if this.softlock}}disabled{{/if}}>{{this.tour.duree}}</textarea>
+            </label>
+        </div>
+
+        <div class="data">
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.DISCORD.Scene"}}</h4>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.LATERAL.Flux"}}</span>
+                <input type="number" name="system.capacites.selected.discord.scene.flux" value="{{this.scene.flux}}" 
+                {{#if this.softlock}}disabled{{/if}}
+                />
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                <input type="number" name="system.capacites.selected.discord.scene.energie" value="{{this.scene.energie}}" 
+                {{#if this.softlock}}disabled{{/if}}
+                />
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <select name="system.capacites.selected.discord.scene.activation" {{#if this.softlock}}disabled{{/if}}>
+                    {{#select this.scene.activation}}
+                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+                <textarea data-capacite="discord" data-type="dureeScene" data-min="50" style="height:{{this.textarea.dureeTour}}px;" name="system.capacites.selected.discord.scene.duree" {{#if this.softlock}}disabled{{/if}}>{{this.scene.duree}}</textarea>
+            </label>
+        </div>
+
+        <div class="data fullWidth">
+            <label class="doubleLine">
+                <span>{{localize "KNIGHT.MALUS.Actions"}}</span>
+                <input type="number" name="system.capacites.selected.discord.malus.actions" value="{{this.malus.actions}}" 
+                {{#if this.softlock}}disabled{{/if}}
+                />
+            </label>
+            <label class="doubleLine">
+                <span>{{localize "KNIGHT.MALUS.Reaction"}}</span>
+                <input type="number" name="system.capacites.selected.discord.malus.reaction" value="{{this.malus.reaction}}" 
+                {{#if this.softlock}}disabled{{/if}}
+                />
+            </label>
+            <label class="doubleLine">
+                <span>{{localize "KNIGHT.MALUS.Defense"}}</span>
+                <input type="number" name="system.capacites.selected.discord.malus.defense" value="{{this.malus.defense}}" 
+                {{#if this.softlock}}disabled{{/if}}
+                />
+            </label>
+        </div>
+    </div>
+</div>

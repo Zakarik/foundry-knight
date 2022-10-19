@@ -1,0 +1,49 @@
+<div class="plusespoir">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.PLUSESPOIR.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.special.selected.plusespoir.description" button=true owner="../owner" editable="../editable"}}
+
+    <div class="mainData">
+        <div class="data">
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.PLUSESPOIR.ESPOIR.Label"}}</span>
+                <input type="number" name="system.special.selected.plusespoir.espoir.base" 
+                    value="{{this.espoir.base}}" 
+                    min="0"
+                    {{#if this.softlock}}disabled{{/if}} />
+            </label>
+        </div>
+
+        <div class="data">
+            <button type="action" class="{{#unless this.softlock}}notDisabled{{/unless}} {{#if this.espoir.recuperation.value}}selected{{/if}}"
+            data-type="plusespoir" data-subtype="espoir" data-anothersubtype="recuperation" data-name="value" data-value="{{this.espoir.recuperation.value}}"
+            {{#if this.softlock}}disabled{{/if}}>
+                {{this.espoir.recuperation.label}}
+            </button>
+        </div>
+
+        <div class="data">
+            <button type="action" class="{{#unless this.softlock}}notDisabled{{/unless}} {{#if this.espoir.perte.value}}selected{{/if}}"
+            data-type="plusespoir" data-subtype="espoir" data-anothersubtype="perte" data-name="value" data-value="{{this.espoir.perte.value}}"
+            {{#if this.softlock}}disabled{{/if}}>
+                {{this.espoir.perte.label}}
+            </button>
+        </div>
+    </div>
+</div>

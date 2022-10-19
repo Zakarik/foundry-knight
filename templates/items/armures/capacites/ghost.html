@@ -1,0 +1,117 @@
+
+<div class="ghost">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.capacites.selected.ghost.description" button=true owner="../owner" editable="../editable"}}
+
+    <div class="mainData">
+        <div class="data">
+            <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ENERGIE.Tour"}}</span>
+                <input type="number" name="system.capacites.selected.ghost.energie.tour" 
+                value="{{this.energie.tour}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ENERGIE.Minute"}}</span>
+                <input type="number" name="system.capacites.selected.ghost.energie.minute" 
+                value="{{this.energie.minute}}" 
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} />
+            </label>
+            <label class="shortspan separation">
+                <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <select name="system.capacites.selected.ghost.activation" {{#if this.softlock}}disabled{{/if}}>
+                    {{#select this.activation}}
+                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+                <textarea name="system.capacites.selected.ghost.duree" 
+                data-capacite="ghost" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;" 
+                {{#if this.softlock}}disabled{{/if}}>{{this.duree}}</textarea>
+            </label>
+            <button type="action" class="{{#unless this.softlock}}notDisabled{{/unless}} {{#if this.interruption.actif}}selected{{/if}}"
+            data-type="ghost" data-subtype="interruption" data-name="actif" data-value="{{this.interruption.actif}}"
+            {{#if this.softlock}}disabled{{/if}}>
+                {{this.interruption.label}}
+            </button>
+        </div>
+
+        <div class="data">
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.BonusPasserInaperçu"}}</span>
+                <input type="number" name="system.capacites.selected.ghost.bonus.reussites" value="{{this.bonus.reussites}}" min="0" {{#if this.softlock}}disabled{{/if}}/>
+            </label>
+            <label class="middlespan separation">
+                <span>{{localize "KNIGHT.BONUS.Attaque"}}</span>
+                <select name="system.capacites.selected.ghost.bonus.attaque" {{#if this.softlock}}disabled{{/if}}>
+                    {{#select this.bonus.attaque}}
+                        <option value=""></option>
+                        {{#each this.bonus.aspects as | key aspect|}}
+                            <optgroup label="{{getAspect aspect}}">
+                                {{#each key.liste as | keyCarac caracteristique|}}
+                                    <option value="{{caracteristique}}">{{getCarac caracteristique}}</option>
+                                {{/each}}
+                            </optgroup>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+            <h4 class="separation">{{localize "KNIGHT.BONUS.Degats"}}</h4>
+            <label class="middlespan noseparation">
+                <span>{{localize "KNIGHT.ITEMS.Caracteristique"}}</span>
+                <select name="system.capacites.selected.ghost.bonus.degats.caracteristique" {{#if this.softlock}}disabled{{/if}}>
+                    {{#select this.bonus.degats.caracteristique}}
+                        <option value=""></option>
+                        {{#each this.bonus.aspects as | key aspect|}}
+                            <optgroup label="{{getAspect aspect}}">
+                                {{#each key.liste as | keyCarac caracteristique|}}
+                                    <option value="{{caracteristique}}">{{getCarac caracteristique}}</option>
+                                {{/each}}
+                            </optgroup>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+            <button type="action" class="{{#unless this.softlock}}notDisabled{{/unless}} {{#if this.bonus.degats.od}}selected{{/if}}"
+            data-type="ghost" data-subtype="bonus" data-anothersubtype="degats" data-name="od" data-value="{{this.bonus.degats.od}}"
+            {{#if this.softlock}}disabled{{/if}}>
+                {{this.bonus.degats.inclus.od}}
+            </button>
+            <button type="action" class="{{#unless this.softlock}}notDisabled{{/unless}} {{#if this.bonus.degats.dice}}selected{{/if}}"
+            data-type="ghost" data-subtype="bonus" data-anothersubtype="degats" data-name="dice" data-value="{{this.bonus.degats.dice}}"
+            {{#if this.softlock}}disabled{{/if}}>
+                {{this.bonus.degats.inclus.dice}}
+            </button>
+            <button type="action" class="{{#unless this.softlock}}notDisabled{{/unless}} {{#if this.bonus.degats.fixe}}selected{{/if}}"
+            data-type="ghost" data-subtype="bonus" data-anothersubtype="degats" data-name="fixe" data-value="{{this.bonus.degats.fixe}}"
+            {{#if this.softlock}}disabled{{/if}}>
+                {{this.bonus.degats.inclus.fixe}}
+            </button>
+        </div>
+    </div>
+</div>

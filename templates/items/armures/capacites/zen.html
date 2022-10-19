@@ -1,0 +1,47 @@
+<div class="zen">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ZEN.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.capacites.selected.zen.description" button=true owner="../owner" editable="../editable"}}
+
+    <div class="mainData">
+        <div class="data">
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ZEN.Caracteristiques"}}</h4>
+            <div class="fullWidth">
+                <label class="longspan demiWidth">
+                    <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ZEN.Difficulte"}}</span>
+                    <input type="number" name="system.capacites.selected.zen.difficulte" 
+                    value="{{this.difficulte}}" 
+                    min="0"
+                    {{#if this.softlock}}disabled{{/if}} />
+                </label>
+            </div>
+            {{#each this.aspects  as | key aspect|}}
+
+                <div class="aspect demiWidth">
+                    <h4>{{getAspect aspect}}</h4>
+                    {{#each key.caracteristiques  as | keyCarac caracteristique|}}
+                        <button type="action" 
+                        data-type="zen" data-caracteristique="true" data-aspect="{{aspect}}" data-name="{{caracteristique}}" data-value="{{keyCarac.value}}"
+                        class="{{#if keyCarac.value}}selected{{/if}} {{#unless ../../this.softlock}}notDisabled{{/unless}}">{{getCarac caracteristique}}</button>
+                    {{/each}}
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

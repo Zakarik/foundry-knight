@@ -1,0 +1,117 @@
+<div class="cea">
+    <h3 class="header">
+        <i class="far fa-plus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.Label"}}
+    </h3>
+
+    <span class="description" style="display:none">{{{this.description}}}</span>
+
+    <div class="mainData" style="display:none">
+        <div class="col">
+            <div class="data">
+                <div class="shortspan">
+                    <span class="header">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                    <span class="score">{{this.energie}}</span>
+                </div>
+                <div class="shortspan">
+                    <span class="header">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                    <span class="score">{{getActivation this.activation}}</span>
+                </div>
+                <div class="shortspan">
+                    <span class="header">{{localize "KNIGHT.DUREE.Label"}}</span>
+                    <span class="score">{{this.duree}}</span>
+                </div>
+                <div class="longspan separation">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.Espoir"}}</span>
+                    <span class="score">{{this.espoir}}</span>
+                </div>
+            </div>
+
+            <div class="data">
+                <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label"}}</h4>
+                <span class="description">{{{capaciteDescription this.salve.description}}}</span>
+                <div class="line">
+                    <div class="doubleLine">
+                        <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                        <span class="score">{{this.salve.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                    <div class="doubleLine">
+                        <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                        <span class="score">{{this.salve.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                </div>
+                <div class="shortspan noSeparation">
+                    <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                    <span class="score">{{this.salve.portee}}</span>
+                </div>
+                <div class="effets">
+                {{#each this.salve.effets.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="data">
+                <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label"}}</h4>
+                <span class="description">{{{capaciteDescription this.vague.description}}}</span>
+                <div class="line">
+                    <div class="doubleLine">
+                        <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                        <span class="score">{{this.vague.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                    <div class="doubleLine">
+                        <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                        <span class="score">{{this.vague.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                </div>
+                <div class="shortspan noSeparation">
+                    <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                    <span class="score">{{this.vague.portee}}</span>
+                </div>
+                <div class="effets">
+                {{#each this.vague.effets.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+                </div>
+            </div>
+
+            <div class="data">
+                <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label"}}</h4>
+                <span class="description">{{{capaciteDescription this.rayon.description}}}</span>
+                <div class="line">
+                    <div class="doubleLine">
+                        <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                        <span class="score">{{this.rayon.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                    <div class="doubleLine">
+                        <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                        <span class="score">{{this.rayon.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                </div>
+                <div class="shortspan noSeparation">
+                    <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                    <span class="score">{{this.rayon.portee}}</span>
+                </div>
+                <div class="effets">
+                {{#each this.rayon.effets.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

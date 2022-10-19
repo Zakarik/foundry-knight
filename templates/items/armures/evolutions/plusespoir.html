@@ -1,0 +1,25 @@
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.PLUSESPOIR.Label"}}
+    </h4>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.PLUSESPOIR.ESPOIR.Label"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.special.plusespoir.espoir.base" 
+            value="{{this.espoir.base}}" 
+            min="0"
+            />
+    </label>
+    <button type="action" class="{{#if this.espoir.recuperation.value}}selected{{/if}}"
+    data-special="true" data-key="{{key}}" data-evolution="true"
+    data-type="plusespoir" data-subtype="espoir" data-anothersubtype="recuperation" data-name="value" data-value="{{this.espoir.recuperation.value}}"
+    >
+        {{this.espoir.recuperation.label}}
+    </button>
+    <button type="action" class="{{#if this.espoir.perte.value}}selected{{/if}}"
+    data-special="true" data-key="{{key}}" data-evolution="true"
+    data-type="plusespoir" data-subtype="espoir" data-anothersubtype="perte" data-name="value" data-value="{{this.espoir.perte.value}}"
+    >
+        {{this.espoir.perte.label}}
+    </button>
+</div>

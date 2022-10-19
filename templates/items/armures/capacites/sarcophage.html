@@ -1,0 +1,68 @@
+<div class="sarcophage">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SARCOPHAGE.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.capacites.selected.sarcophage.description" button=true owner="../owner" editable="../editable"}}
+
+    <div class="mainData">
+        <div class="data">
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SARCOPHAGE.Paliers"}}</span>
+                <input type="number" name="system.capacites.selected.sarcophage.bonus.paliers" class="paliers" value="{{this.bonus.paliers}}"
+                min="0"
+                {{#if this.softlock}}disabled{{/if}} /> 
+            </label>
+        </div>
+        <div class="data fullWidth">
+            <div class="line">
+                <h4 class="PG">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SARCOPHAGE.Pg"}}
+                </h4>
+                <h4 class="bonus">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SARCOPHAGE.Bonus"}}
+                </h4>
+            </div>
+            {{#each this.bonus.liste as | key bonus|}}
+                
+                <div class="line">
+                    <div class="PG {{#if @last}}last{{/if}}">
+                        <input type="number" name="system.capacites.selected.sarcophage.bonus.liste.{{bonus}}.pg.min" value="{{this.pg.min}}" 
+                            min="0" 
+                            {{#if ../this.softlock}}disabled{{/if}}/> 
+                        {{#unless @last}}
+                        <span class="middle">-</span>
+
+                        <input type="number" name="system.capacites.selected.sarcophage.bonus.liste.{{bonus}}.pg.max" value="{{this.pg.max}}" 
+                            min="{{this.pg.min}}" 
+                            {{#if ../this.softlock}}disabled{{/if}}/>
+                        {{/unless}}
+                        {{#if @last}}
+                        <span class="middle last">+</span>
+                        {{/if}}
+                        <span class="label {{#if @last}}last{{/if}}">{{localize "KNIGHT.AUTRE.PointGloire-short"}}</span>
+                    </div>
+                    
+                    <textarea style="height:{{lookup ../this.textarea @bonus }}px" 
+                        data-capacite="sarcophage" data-type="{{bonus}}" data-min="50" 
+                        name="system.capacites.selected.sarcophage.bonus.liste.{{bonus}}.offert"
+                    {{#if ../this.softlock}}disabled{{/if}}>{{this.offert}}</textarea>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="wpn">
+    <header class="summary header"  data-item-id="{{this._id}}">
+        <i class="far fa-plus-square extendButton"></i>
+        {{#unless this.system.noRack}}
+            <div class="gestionButton {{#if this.system.rack}}large{{/if}}">
+                {{#unless this.system.tourelle.has}}
+                    {{#if this.system.rack}}
+                        {{#if this.system.rack}}
+                        <a class="item-unrack" title="{{localize "KNIGHT.COMBAT.ARMES.Poser"}}"><img src="systems/knight/assets/icons/weaponsArmoury.svg"/></a>
+                        {{/if}}
+                        {{#unless this.system.equipped}}
+                        <a class="item-equip" title="{{localize "KNIGHT.COMBAT.ARMES.Equiper"}}"><img src="systems/knight/assets/icons/weaponsRack.svg"/></a>
+                        {{else}}
+                        <a class="item-unequip" title="{{localize "KNIGHT.COMBAT.ARMES.Desequiper"}}"><img src="systems/knight/assets/icons/weaponsUnwear.svg"/></a>
+                        {{/unless}}
+                    {{else}}
+                        <a class="item-rack" title="{{localize "KNIGHT.COMBAT.ARMES.Prendre"}}"><img src="systems/knight/assets/icons/weaponsWear.svg"/></a>
+                    {{/if}}
+                {{/unless}}
+                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+            </div>
+        {{else}}
+            {{#if this.system.pnj}}
+                <div class="gestionButton">
+                    <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                    <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                </div>
+            {{/if}}
+        {{/unless}}
+        <span class="name">{{this.name}}</span>
+        <div class="line">
+            <div class="doubleLine">
+                <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                <span>
+                    {{#unless this.system.capacite}}
+                        {{getPortee this.system.portee}}
+                        {{else}}
+                        {{this.system.portee}}
+                    {{/unless}}
+                </span>
+            </div>
+            <div class="doubleLine">
+                <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                <span>{{this.system.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.system.degats.fixe}}</span>
+            </div>
+            <div class="doubleLine">
+                <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                <span>{{this.system.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.system.violence.fixe}}</span>
+            </div>
+            {{#if this.equipped}}
+                <img src="systems/knight/assets/icons/D6Black.svg" class="jetWpn dice" data-name="{{this.name}}" data-id="{{this._id}}" data-isDistance="{{#if this.system.tourelle.has}}tourelle{{else}}{{this.system.type}}{{/if}}" data-num="{{num}}" />
+            {{/if}}
+        </div>
+        
+    </header>
+    
+    <div class="effets" style="display:none;">
+        <div class="blockEffets">
+            {{#each this.system.effets.liste as | key effet|}}
+                <div>
+                    <span class="label">{{key.name}}</span>
+                    <img class="info" src="systems/knight/assets/icons/info.svg" />
+                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+    {{#if (isWpnDistance this.system.type)}}
+    <div class="effets" style="display:none;">
+        <div class="blockEffets">
+            {{#each this.system.distance.liste as | key effet|}}
+                <div>
+                    <span class="label">{{key.name}}</span>
+                    <img class="info" src="systems/knight/assets/icons/info.svg" />
+                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+    {{else}}
+    <div class="effets" style="display:none;">
+        <div class="blockEffets">
+            {{#each this.system.structurelles.liste as | key effet|}}
+                <div>
+                    <span class="label">{{key.name}}</span>
+                    <img class="info" src="systems/knight/assets/icons/info.svg" />
+                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+    <div class="effets" style="display:none;">
+        <div class="blockEffets">
+            {{#each this.system.ornementales.liste as | key effet|}}
+                <div>
+                    <span class="label">{{key.name}}</span>
+                    <img class="info" src="systems/knight/assets/icons/info.svg" />
+                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+</div>

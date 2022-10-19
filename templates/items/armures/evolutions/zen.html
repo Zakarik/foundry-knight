@@ -1,0 +1,24 @@
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ZEN.Label"}}
+    </h4>
+    <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ZEN.Caracteristiques"}}</h4>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ZEN.Difficulte"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.zen.difficulte" 
+        value="{{this.difficulte}}" 
+        min="0"
+            />
+    </label>
+    {{#each this.aspects  as | key aspect|}}
+        <div class="aspect">
+            <h4 class="separation">{{getAspect aspect}}</h4>
+            {{#each key.caracteristiques  as | keyCarac caracteristique|}}
+                <button type="action" 
+                data-type="zen" data-caracteristique="true" data-key="{{../../key}}" data-aspect="{{aspect}}" data-name="{{caracteristique}}" data-value="{{keyCarac.value}}"
+                class="{{#if keyCarac.value}}selected{{/if}}">{{getCarac caracteristique}}</button>
+            {{/each}}
+        </div>
+    {{/each}}
+</div>

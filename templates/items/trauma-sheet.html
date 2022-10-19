@@ -1,0 +1,39 @@
+<form class="flexcol {{cssClass}}" autocomplete="off">
+    <header class="sheet-header flexrow">
+        <div class="flexcol aData">
+            <h1 class="charname">
+                <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+            </h1>
+        </div>
+    </header>
+    <div class="description">
+        <h2 class="header">{{localize "KNIGHT.Description"}}</h2>
+
+        {{editor systemData.description target="system.description" button=true owner=owner editable=editable}}
+    </div>
+    <div class="main">
+        <div class="gain">
+            <label>
+                <span>{{localize "KNIGHT.ITEMS.BLESSURETRAUMA.GainEspoir"}}</span>
+                <input class="gainEspoir" type="number" name="system.gainEspoir.value" value="{{systemData.gainEspoir.value}}" min="0" />
+            </label>
+        </div>
+        
+        {{#each systemData.aspects as | key aspect|}}
+        <div class="aspect">
+            <h2 class="header">{{key.label}}</h2>
+            <input class="aspect" type="number" name="system.aspects.{{aspect}}.value" value="{{key.value}}" min="0" max="9" />
+            <div class="caracteristiques">
+                {{#each key.caracteristiques as | keyCar caracteristique|}}
+                    <div class="line">
+                        <label class="carac">
+                            <span>{{keyCar.label}}</span>
+                            <input type="number" name="system.aspects.{{aspect}}.caracteristiques.{{caracteristique}}.value" value="{{keyCar.value}}" min="0" max="9" />
+                        </label>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</form>

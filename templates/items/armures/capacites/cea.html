@@ -1,0 +1,206 @@
+<div class="cea">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.capacites.selected.cea.description" button=true owner="../owner" editable="../editable"}}
+
+    <div class="mainData">
+        <div class="col">
+            <div class="data">
+                <label class="shortspan">
+                    <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                    <input type="number" name="system.capacites.selected.cea.energie" 
+                    value="{{this.energie}}" 
+                    min="0"
+                    {{#if this.softlock}}disabled{{/if}} />
+                </label>
+                <label class="shortspan">
+                    <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                    <select name="system.capacites.selected.cea.activation" {{#if this.softlock}}disabled{{/if}}>
+                        {{#select this.activation}}
+                        <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+                        <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+                        <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+                        <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+                        <option value="toutes">{{localize "KNIGHT.ACTIVATION.Toutes"}}</option>
+                        {{/select}}
+                    </select>
+                </label>
+                <label class="shortspan">
+                    <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+                    <textarea name="system.capacites.selected.cea.duree" 
+                    data-capacite="cea" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;" 
+                    {{#if this.softlock}}disabled{{/if}}>{{this.duree}}</textarea>
+                </label>
+                <label class="longspan separation">
+                    <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.Espoir"}}</span>
+                    <input type="number" name="system.capacites.selected.cea.espoir" 
+                    value="{{this.espoir}}" 
+                    min="0"
+                    {{#if this.softlock}}disabled{{/if}} />
+                </label>
+            </div>
+
+            <div class="data">
+                <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label"}}</h4>
+                <textarea name="system.capacites.selected.cea.salve.description"
+                data-capacite="cea" data-type="descriptionSalve" data-min="70" style="height:{{this.textarea.descriptionSalve}}px;" 
+                {{#if this.softlock}}disabled{{/if}}>{{this.salve.description}}</textarea>
+                <div class="line">
+                    <div class="doubleLine">
+                        <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                        <label>
+                            <input type="number" name="system.capacites.selected.cea.salve.degats.dice" 
+                            value="{{this.salve.degats.dice}}" 
+                            min="0"
+                            {{#if this.softlock}}disabled{{/if}} />
+                            <span class="{{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                        </label>
+                    </div>
+
+                    <div class="doubleLine">
+                        <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                        <label>
+                            <input type="number" name="system.capacites.selected.cea.salve.violence.dice" 
+                            value="{{this.salve.violence.dice}}" 
+                            min="0"
+                            {{#if this.softlock}}disabled{{/if}} />
+                            <span class="{{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                        </label>
+                    </div>
+                </div>
+                <label class="shortspan">
+                    <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+                    <textarea name="system.capacites.selected.cea.salve.portee" 
+                        data-capacite="cea" data-type="porteeSalve" data-min="50" style="height:{{this.textarea.porteeSalve}}px;" 
+                        {{#if this.softlock}}disabled{{/if}}>{{this.salve.portee}}</textarea>
+                </label>
+                <div class="effets">
+                {{#each this.salve.effets.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+                    <a class="edit" data-path="data.capacites.selected.cea.salve.effets">
+                        <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="data">
+                <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label"}}</h4>
+                <textarea name="system.capacites.selected.cea.vague.description"
+                data-capacite="cea" data-type="descriptionVague" data-min="70" style="height:{{this.textarea.descriptionVague}}px;" 
+                {{#if this.softlock}}disabled{{/if}}>{{this.vague.description}}</textarea>
+                <div class="line">
+                    <div class="doubleLine">
+                        <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                        <label>
+                            <input type="number" name="system.capacites.selected.cea.vague.degats.dice" 
+                            value="{{this.vague.degats.dice}}" 
+                            min="0"
+                            {{#if this.softlock}}disabled{{/if}} />
+                            <span class="{{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                        </label>
+                    </div>
+
+                    <div class="doubleLine">
+                        <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                        <label>
+                            <input type="number" name="system.capacites.selected.cea.vague.violence" 
+                            value="{{this.vague.violence.dice}}" 
+                            min="0"
+                            {{#if this.softlock}}disabled{{/if}} />
+                            <span class="{{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                        </label>
+                    </div>
+                </div>
+                <label class="shortspan">
+                    <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+                    <textarea name="system.capacites.selected.cea.vague.portee" 
+                        data-capacite="cea" data-type="porteeVague" data-min="50" style="height:{{this.textarea.porteeVague}}px;" 
+                        {{#if this.softlock}}disabled{{/if}}>{{this.vague.portee}}</textarea>
+                </label>
+                <div class="effets">
+                {{#each this.vague.effets.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+                    <a class="edit" data-path="data.capacites.selected.cea.vague.effets">
+                        <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="data">
+                <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label"}}</h4>
+                <textarea name="system.capacites.selected.cea.rayon.description"
+                data-capacite="cea" data-type="descriptionRayon" data-min="150" style="height:{{this.textarea.descriptionRayon}}px;" 
+                {{#if this.softlock}}disabled{{/if}}>{{this.rayon.description}}</textarea>
+                <div class="line">
+                    <div class="doubleLine">
+                        <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                        <label>
+                            <input type="number" name="system.capacites.selected.cea.rayon.degats.dice" 
+                            value="{{this.rayon.degats.dice}}" 
+                            min="0"
+                            {{#if this.softlock}}disabled{{/if}} />
+                            <span class="{{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                        </label>
+                    </div>
+
+                    <div class="doubleLine">
+                        <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                        <label>
+                            <input type="number" name="system.capacites.selected.cea.rayon.violence" 
+                            value="{{this.rayon.violence.dice}}" 
+                            min="0"
+                            {{#if this.softlock}}disabled{{/if}} />
+                            <span class="{{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                        </label>
+                    </div>
+                </div>
+                <label class="shortspan">
+                    <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+                    <textarea name="system.capacites.selected.cea.rayon.portee" 
+                        data-capacite="cea" data-type="porteeRayon" data-min="50" style="height:{{this.textarea.porteeRayon}}px;" 
+                        {{#if this.softlock}}disabled{{/if}}>{{this.rayon.portee}}</textarea>
+                </label>
+                <div class="effets">
+                {{#each this.rayon.effets.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+                    <a class="edit" data-path="data.capacites.selected.cea.rayon.effets">
+                        <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

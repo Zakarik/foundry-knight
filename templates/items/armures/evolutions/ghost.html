@@ -1,0 +1,94 @@
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label"}}
+    </h4>
+    <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ENERGIE.Tour"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.ghost.energie.tour" 
+        value="{{this.energie.tour}}" 
+        min="0"
+            />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ENERGIE.Minute"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.ghost.energie.minute" 
+        value="{{this.energie.minute}}" 
+        min="0"
+            />
+    </label>
+    <label class="shortspan separation">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.ghost.activation" >
+            {{#select this.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.ghost.duree" 
+        data-capacite="ghost" data-type="duree" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.duree}}px;" 
+        >{{this.duree}}</textarea>
+    </label>
+    <button type="action" class=" {{#if this.interruption.actif}}selected{{/if}}"
+    data-type="ghost" data-key="{{key}}" data-subtype="interruption" data-name="actif" data-value="{{this.interruption.actif}}"
+    >
+        {{this.interruption.label}}
+    </button>
+    <label class="longspan noSeparation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.BonusPasserInaperçu"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.ghost.bonus.reussites" value="{{this.bonus.reussites}}" min="0" {{#if this.softlock}}disabled{{/if}}/>
+    </label>
+    <label class="middlespan separation">
+        <span>{{localize "KNIGHT.BONUS.Attaque"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.ghost.bonus.attaque" >
+            {{#select this.bonus.attaque}}
+                <option value=""></option>
+                {{#each this.bonus.aspects as | key aspect|}}
+                    <optgroup label="{{getAspect aspect}}">
+                        {{#each key.liste as | keyCarac caracteristique|}}
+                            <option value="{{caracteristique}}">{{getCarac caracteristique}}</option>
+                        {{/each}}
+                    </optgroup>
+                {{/each}}
+            {{/select}}
+        </select>
+    </label>
+    <h4 class="separation">{{localize "KNIGHT.BONUS.Degats"}}</h4>
+    <label class="middlespan noSeparation">
+        <span>{{localize "KNIGHT.ITEMS.Caracteristique"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.ghost.bonus.degats.caracteristique" >
+            {{#select this.bonus.degats.caracteristique}}
+                <option value=""></option>
+                {{#each this.bonus.aspects as | key aspect|}}
+                    <optgroup label="{{getAspect aspect}}">
+                        {{#each key.liste as | keyCarac caracteristique|}}
+                            <option value="{{caracteristique}}">{{getCarac caracteristique}}</option>
+                        {{/each}}
+                    </optgroup>
+                {{/each}}
+            {{/select}}
+        </select>
+    </label>
+    <button type="action" class=" {{#if this.bonus.degats.od}}selected{{/if}}"
+    data-type="ghost" data-key="{{key}}" data-subtype="bonus" data-anothersubtype="degats" data-name="od" data-value="{{this.bonus.degats.od}}"
+    >
+        {{this.bonus.degats.inclus.od}}
+    </button>
+    <button type="action" class=" {{#if this.bonus.degats.dice}}selected{{/if}}"
+    data-type="ghost" data-key="{{key}}" data-subtype="bonus" data-anothersubtype="degats" data-name="dice" data-value="{{this.bonus.degats.dice}}"
+    >
+        {{this.bonus.degats.inclus.dice}}
+    </button>
+    <button type="action" class=" {{#if this.bonus.degats.fixe}}selected{{/if}}"
+    data-type="ghost" data-key="{{key}}" data-subtype="bonus" data-anothersubtype="degats" data-name="fixe" data-value="{{this.bonus.degats.fixe}}"
+    >
+        {{this.bonus.degats.inclus.fixe}}
+    </button>
+</div>

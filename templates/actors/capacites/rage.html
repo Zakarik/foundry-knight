@@ -1,0 +1,404 @@
+
+<div class="rage">
+    <h3 class="header">
+        <i class="far fa-plus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}}
+
+        {{#if ("armure" @root/systemData/wear)}}
+        <div class="blockMultiline">
+            {{#if this.active}}
+            <span class="button">
+                {{#if this.niveau.colere}}
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.COLERE.Label"}}
+                {{/if}}
+                {{#if this.niveau.rage}}
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.RAGE.Label"}}
+                {{/if}}
+                {{#if this.niveau.fureur}}
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.FUREUR.Label"}}
+                {{/if}}
+            </span>
+            {{/if}}
+            <button class="
+                {{#unless this.active}}
+                activation
+                {{else}}
+                desactivation
+                {{/unless}}
+                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="active"
+                data-cout="0">
+                {{#unless this.active}}
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
+                {{else}}
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
+                {{/unless}}
+            </button>
+
+            {{#if this.active}}
+
+            {{#unless this.niveau.fureur}}
+            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="niveau" data-niveau="espoir"
+                data-cout="0">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Espoir"}}
+            </button>
+
+            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="niveau" data-niveau="ennemi"
+                data-cout="0">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Ennemi"}}
+            </button>
+            {{/unless}}
+
+             <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="degats"
+                data-cout="0" data-dgts="
+                    {{#if this.niveau.colere}}
+                        {{this.colere.subis}}D6
+                    {{/if}}
+                    {{#if this.niveau.rage}}
+                        {{this.rage.subis}}D6
+                    {{/if}}
+                    {{#if this.niveau.fureur}}
+                        {{this.fureur.subis}}D6
+                    {{/if}}
+                ">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.SubirDegats"}}
+            </button>
+
+            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
+                data-cout="0" data-recuperation="0d6+1" data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Proche"}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Proche"}}
+            </button>
+
+            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
+                data-cout="0" data-recuperation="{{this.nourri.humain.hostile.dice}}D{{this.nourri.humain.hostile.face}}+{{this.nourri.humain.hostile.fixe}}"
+                data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} - {{localize "KNIGHT.TYPE.Hostile"}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} : {{localize "KNIGHT.TYPE.Hostile"}}
+            </button>
+
+            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
+                data-cout="0" data-recuperation="{{this.nourri.humain.salopard.dice}}D{{this.nourri.humain.salopard.face}}+{{this.nourri.humain.salopard.fixe}}"
+                data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} - {{localize "KNIGHT.TYPE.Salopard"}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} : {{localize "KNIGHT.TYPE.Salopard"}}
+            </button>
+
+            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
+                data-cout="0" data-recuperation="{{this.nourri.humain.patron.dice}}D{{this.nourri.humain.patron.face}}+{{this.nourri.humain.patron.fixe}}"
+                data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} - {{localize "KNIGHT.TYPE.Patron"}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} : {{localize "KNIGHT.TYPE.Patron"}}
+            </button>
+
+            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
+                data-cout="0" data-recuperation="{{this.nourri.humain.bande.dice}}D{{this.nourri.humain.bande.face}}+{{this.nourri.humain.bande.fixe}}"
+                data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} - {{localize "KNIGHT.TYPE.Bande"}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} : {{localize "KNIGHT.TYPE.Bande"}}
+            </button>
+
+            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
+                data-cout="0" data-recuperation="{{this.nourri.anatheme.hostile.dice}}D{{this.nourri.anatheme.hostile.face}}+{{this.nourri.anatheme.hostile.fixe}}"
+                data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} - {{localize "KNIGHT.TYPE.Hostile"}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} : {{localize "KNIGHT.TYPE.Hostile"}}
+            </button>
+
+            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
+                data-cout="0" data-recuperation="{{this.nourri.anatheme.salopard.dice}}D{{this.nourri.anatheme.salopard.face}}+{{this.nourri.anatheme.salopard.fixe}}"
+                data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} - {{localize "KNIGHT.TYPE.Salopard"}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} : {{localize "KNIGHT.TYPE.Salopard"}}
+            </button>
+
+            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
+                data-cout="0" data-recuperation="{{this.nourri.anatheme.patron.dice}}D{{this.nourri.anatheme.patron.face}}+{{this.nourri.anatheme.patron.fixe}}"
+                data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} - {{localize "KNIGHT.TYPE.Patron"}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} : {{localize "KNIGHT.TYPE.Patron"}}
+            </button>
+
+            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
+                data-cout="0" data-recuperation="{{this.nourri.anatheme.bande.dice}}D{{this.nourri.anatheme.bande.face}}+{{this.nourri.anatheme.bande.fixe}}"
+                data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} - {{localize "KNIGHT.TYPE.Bande"}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} : {{localize "KNIGHT.TYPE.Bande"}}
+            </button>
+            {{/if}}
+        </div>
+        {{/if}}
+    </h3>
+
+    <span class="description" style="display:none">{{{this.description}}}</span>
+
+    <div class="mainData" style="display:none">
+        <div class="data">
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <span class="score">{{getActivation this.activation}}</span>
+            </div>
+            <div class="shortspan">
+                <span class="header">{{localize "KNIGHT.DUREE.Label"}}</span>
+                <span class="score textarea">{{this.duree}}</span>
+            </div>
+            <div class="longspan separation">
+                <span class="header">{{localize "KNIGHT.AUTRE.CoutEspoir"}}</span>
+                <span class="score">{{this.espoir}}</span>
+            </div>
+        </div>
+
+        <div class="data fullWidth">
+            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.NOURRI.Label"}}</h4>
+            <span class="description noBorderBottom">{{this.nourri.description}}</span>
+            <div class="table5">
+                <div class="col1">
+                    <span class="header">{{localize "KNIGHT.TYPE.LabelEnnemi"}}</span>
+                    <span class="score">{{localize "KNIGHT.TYPE.Humain"}}</span>
+                    <span class="score">{{localize "KNIGHT.TYPE.Anatheme"}}</span>
+                </div>
+                <div class="colA">
+                    <span class="header">{{localize "KNIGHT.TYPE.Hostile"}}</span>
+                    <span class="score">{{this.nourri.humain.hostile.dice}}{{localize "KNIGHT.JETS.Des-short"}}{{this.nourri.humain.hostile.face}} + {{this.nourri.humain.hostile.fixe}}</span>
+                    <span class="score">{{this.nourri.anatheme.hostile.dice}}{{localize "KNIGHT.JETS.Des-short"}}{{this.nourri.anatheme.hostile.face}} + {{this.nourri.anatheme.hostile.fixe}}</span>
+                </div>
+                <div class="colA">
+                    <span class="header">{{localize "KNIGHT.TYPE.Salopard"}}</span>
+                    <span class="score">{{this.nourri.humain.salopard.dice}}{{localize "KNIGHT.JETS.Des-short"}}{{this.nourri.humain.salopard.face}} + {{this.nourri.humain.salopard.fixe}}</span>
+                    <span class="score">{{this.nourri.anatheme.salopard.dice}}{{localize "KNIGHT.JETS.Des-short"}}{{this.nourri.anatheme.salopard.face}} + {{this.nourri.anatheme.salopard.fixe}}</span>
+                </div>
+                <div class="colA">
+                    <span class="header">{{localize "KNIGHT.TYPE.Patron"}}</span>
+                    <span class="score">{{this.nourri.humain.patron.dice}}{{localize "KNIGHT.JETS.Des-short"}}{{this.nourri.humain.patron.face}} + {{this.nourri.humain.patron.fixe}}</span>
+                    <span class="score">{{this.nourri.anatheme.patron.dice}}{{localize "KNIGHT.JETS.Des-short"}}{{this.nourri.anatheme.patron.face}} + {{this.nourri.anatheme.patron.fixe}}</span>
+                </div>
+                <div class="colA">
+                    <span class="header">{{localize "KNIGHT.TYPE.Bande"}}</span>
+                    <span class="score">{{this.nourri.humain.bande.dice}}{{localize "KNIGHT.JETS.Des-short"}}{{this.nourri.humain.bande.face}} + {{this.nourri.humain.bande.fixe}}</span>
+                    <span class="score">{{this.nourri.anatheme.bande.dice}}{{localize "KNIGHT.JETS.Des-short"}}{{this.nourri.anatheme.bande.face}} + {{this.nourri.anatheme.bande.fixe}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="data">
+                <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.COLERE.Label"}}</h4>
+                <span class="description">{{this.colere.description}}</span>
+                <div class="middlespan separation">
+                    <span class="header">{{localize "KNIGHT.BONUS.Degats"}}</span>
+                    <span class="score">{{getAspect this.colere.degats}}</span>
+                </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.BONUS.Violence"}}</span>
+                    <span class="score">{{getAspect this.colere.violence}}</span>
+                </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.BONUS.Egide"}}</span>
+                    <span class="score">{{this.colere.egide}}</span>
+                </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.MALUS.Defense"}}</span>
+                    <span class="score">{{this.colere.defense}}</span>
+                </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.MALUS.Reaction"}}</span>
+                    <span class="score">{{this.colere.reaction}}</span>
+                </div>
+                <div class="middlespan wBlock">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.DegatsSubis"}}</span>
+                    <span class="score">{{this.colere.subis}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                </div>
+                <span class="button">{{this.colere.combosBonus.label}}</span>
+                <div class="middlespan {{#unless this.colere.combosBonus.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                    <span class="score">{{getCarac this.colere.combosBonus.liste.c1}}</span>
+                </div>
+                <div class="middlespan {{#unless this.colere.combosBonus.has}} hide {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                    <span class="score">{{getCarac this.colere.combosBonus.liste.c2}}</span>
+                </div>
+                <div class="middlespan {{#unless this.colere.combosBonus.has}} hide {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                    <span class="score">{{getCarac this.colere.combosBonus.liste.c3}}</span>
+                </div>
+                <span class="button">{{this.colere.combosInterdits.label}}</span>
+                <div class="middlespan {{#unless this.colere.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.colere.combosInterdits.liste.c1}}</span>
+                </div>
+                <div class="middlespan {{#unless this.colere.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.colere.combosInterdits.liste.c2}}</span>
+                </div>
+                <div class="middlespan {{#unless this.colere.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.colere.combosInterdits.liste.c3}}</span>
+                </div>
+                <div class="middlespan {{#unless this.colere.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.colere.combosInterdits.liste.c4}}</span>
+                </div>
+                <div class="middlespan {{#unless this.colere.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.colere.combosInterdits.liste.c5}}</span>
+                </div>
+                <div class="middlespan {{#unless this.colere.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.colere.combosInterdits.liste.c6}}</span>
+                </div>
+            </div>
+
+            <div class="data">
+                <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.FUREUR.Label"}}</h4>
+                <span class="description">{{this.fureur.description}}</span>
+                <div class="middlespan separation">
+                    <span class="header">{{localize "KNIGHT.BONUS.Degats"}}</span>
+                    <span class="score">{{getAspect this.fureur.degats}}</span>
+                </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.BONUS.Violence"}}</span>
+                    <span class="score">{{getAspect this.fureur.violence}}</span>
+                </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.BONUS.Egide"}}</span>
+                    <span class="score">{{this.fureur.egide}}</span>
+                </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.MALUS.Defense"}}</span>
+                    <span class="score">{{this.fureur.defense}}</span>
+                </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.MALUS.Reaction"}}</span>
+                    <span class="score">{{this.fureur.reaction}}</span>
+                </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.DegatsSubis"}}</span>
+                    <span class="score">{{this.fureur.subis}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                </div>
+                <span class="button">{{this.fureur.combosBonus.label}}</span>
+                <div class="middlespan {{#unless this.fureur.combosBonus.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                    <span class="score">{{getCarac this.fureur.combosBonus.liste.c1}}</span>
+                </div>
+                <div class="middlespan {{#unless this.fureur.combosBonus.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                    <span class="score">{{getCarac this.fureur.combosBonus.liste.c2}}</span>
+                </div>
+                <div class="middlespan {{#unless this.fureur.combosBonus.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                    <span class="score">{{getCarac this.fureur.combosBonus.liste.c3}}</span>
+                </div>
+                <span class="button">{{this.fureur.combosInterdits.label}}</span>
+                <div class="middlespan {{#unless this.fureur.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.fureur.combosInterdits.liste.c1}}</span>
+                </div>
+                <div class="middlespan {{#unless this.fureur.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.fureur.combosInterdits.liste.c2}}</span>
+                </div>
+                <div class="middlespan {{#unless this.fureur.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.fureur.combosInterdits.liste.c3}}</span>
+                </div>
+                <div class="middlespan {{#unless this.fureur.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.fureur.combosInterdits.liste.c4}}</span>
+                </div>
+                <div class="middlespan {{#unless this.fureur.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.fureur.combosInterdits.liste.c5}}</span>
+                </div>
+                <div class="middlespan {{#unless this.fureur.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.fureur.combosInterdits.liste.c6}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="data">
+                <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.RAGE.Label"}}</h4>
+                <span class="description">{{this.rage.description}}</span>
+                <div class="middlespan separation">
+                    <span class="header">{{localize "KNIGHT.BONUS.Degats"}}</span>
+                    <span class="score">{{getAspect this.rage.degats}}</span>
+                </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.BONUS.Violence"}}</span>
+                    <span class="score">{{getAspect this.rage.violence}}</span>
+                </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.BONUS.Egide"}}</span>
+                    <span class="score">{{this.rage.egide}}</span>
+                </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.MALUS.Defense"}}</span>
+                    <span class="score">{{this.rage.defense}}</span>
+                </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.MALUS.Reaction"}}</span>
+                    <span class="score">{{this.rage.reaction}}</span>
+                </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.DegatsSubis"}}</span>
+                    <span class="score">{{this.rage.subis}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                </div>
+                <span class="button">{{this.rage.combosBonus.label}}</span>
+                <div class="middlespan {{#unless this.rage.combosBonus.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                    <span class="score">{{getCarac this.rage.combosBonus.liste.c1}}</span>
+                </div>
+                <div class="middlespan {{#unless this.rage.combosBonus.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                    <span class="score">{{getCarac this.rage.combosBonus.liste.c2}}</span>
+                </div>
+                <div class="middlespan {{#unless this.rage.combosBonus.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.BONUS.Caracteristique"}}</span>
+                    <span class="score">{{getCarac this.rage.combosBonus.liste.c3}}</span>
+                </div>
+                <span class="button">{{this.rage.combosInterdits.label}}</span>
+                <div class="middlespan {{#unless this.rage.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.rage.combosInterdits.liste.c1}}</span>
+                </div>
+                <div class="middlespan {{#unless this.rage.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.rage.combosInterdits.liste.c2}}</span>
+                </div>
+                <div class="middlespan {{#unless this.rage.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.rage.combosInterdits.liste.c3}}</span>
+                </div>
+                <div class="middlespan {{#unless this.rage.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.rage.combosInterdits.liste.c4}}</span>
+                </div>
+                <div class="middlespan {{#unless this.rage.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.rage.combosInterdits.liste.c5}}</span>
+                </div>
+                <div class="middlespan {{#unless this.rage.combosInterdits.has}} hidden {{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.CaracteristiqueInterdite"}}</span>
+                    <span class="score">{{getCarac this.rage.combosInterdits.liste.c6}}</span>
+                </div>
+            </div>
+
+            <div class="data">
+                <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}}</h4>
+                <span class="description">{{this.blaze.description}}</span>
+                <div class="shortspan separation">
+                    <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                    <span class="score">{{this.blaze.degats}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                </div>
+                <div class="shortspan">
+                    <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                    <span class="score">{{this.blaze.violence}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                </div>
+                <div class="shortspan">
+                    <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                    <span class="score">{{getPortee this.blaze.portee}}</span>
+                </div>
+                <h4 class="separation">{{localize "KNIGHT.AUTRE.CoutEspoir"}}</h4>
+                <div class="longspan">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Utiliser"}}</span>
+                    <span class="score">{{this.blaze.espoir.base}}</span>
+                </div>
+                <div class="longspan">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Prolonger"}}</span>
+                    <span class="score">{{this.blaze.espoir.prolonger}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

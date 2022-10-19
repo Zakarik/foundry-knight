@@ -1,0 +1,203 @@
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.Label"}}
+    </h4>
+    <button type="action" class="{{#if this.relance.value}}selected{{/if}}"
+    data-special="true" data-key="{{key}}" data-evolution="true"
+    data-type="contrecoups" data-subtype="relance" data-name="value" data-value="{{this.relance.value}}"
+    >
+        {{this.relance.label}}
+    </button>
+
+    <div class="tripleLine">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.BaseJet"}}</span>
+        <select name="system.evolutions.liste.{{key}}.special.contrecoups.jet.c1">
+            <option value=""></option>
+            {{#select this.jet.c1}}
+                {{#each this.jet.aspects as | key aspect|}}
+                    <optgroup label="{{getAspect aspect}}">
+                        {{#each key.liste as | key carac|}}
+                            <option value="{{carac}}">{{getCarac carac}}</option>
+                        {{/each}}
+                    </optgroup>
+                {{/each}}                    
+            {{/select}}
+        </select>
+        <select name="system.evolutions.liste.{{key}}.special.contrecoups.jet.c2">
+            <option value=""></option>
+            {{#select this.jet.c2}}
+                {{#each this.jet.aspects as | key aspect|}}
+                    <optgroup label="{{getAspect aspect}}">
+                        {{#each key.liste as | key carac|}}
+                            <option value="{{carac}}">{{getCarac carac}}</option>
+                        {{/each}}
+                    </optgroup>
+                {{/each}}                    
+            {{/select}}
+        </select>
+    </div>
+
+    <button type="action" class="{{#unless this.softlock}}notDisabled{{/unless}} {{#unless this.armedistance.value}}selected{{/unless}}"
+    data-special="true" data-key="{{key}}" data-evolution="true"
+    data-type="contrecoups" data-subtype="armedistance" data-name="value" data-value="{{this.armedistance.value}}"
+    {{#if this.softlock}}disabled{{/if}}>
+        {{this.armedistance.label}}
+    </button>
+
+    <button type="action" class="{{#unless this.softlock}}notDisabled{{/unless}} {{#if this.maxeffets.value}}selected{{/if}}"
+        data-special="true" data-key="{{key}}" data-evolution="true"
+        data-type="contrecoups" data-subtype="maxeffets" data-name="value" data-value="{{this.maxeffets.value}}"
+        {{#if this.softlock}}disabled{{/if}}>
+            {{this.maxeffets.label}}
+    </button>
+    <label class="longspan {{#unless this.maxeffets.value}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.MaxEffetsLabel"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.special.contrecoups.maxeffets.max" value="{{this.maxeffets.max}}" min="1" {{#if this.softlock}}disabled{{/if}}/>
+    </label>
+</div>
+
+<div class="data fullWidth">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.Label"}}
+    </h4>
+    <div class="table7">
+        <div class="col1">
+            <span class="header"></span>
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>5</span>
+            <span>6</span>
+        </div>
+        <div class="colA">
+            <span class="header">1</span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c1.l1" value="{{this.tableau.c1.l1}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c1.l2" value="{{this.tableau.c1.l2}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c1.l3" value="{{this.tableau.c1.l3}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c1.l4" value="{{this.tableau.c1.l4}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c1.l5" value="{{this.tableau.c1.l5}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c1.l6" value="{{this.tableau.c1.l6}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+        </div>
+        <div class="colA">
+            <span class="header">2</span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c2.l1" value="{{this.tableau.c2.l1}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c2.l2" value="{{this.tableau.c2.l2}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c2.l3" value="{{this.tableau.c2.l3}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c2.l4" value="{{this.tableau.c2.l4}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c2.l5" value="{{this.tableau.c2.l5}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c2.l6" value="{{this.tableau.c2.l6}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+        </div>
+        <div class="colA">
+            <span class="header">3</span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c3.l1" value="{{this.tableau.c3.l1}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c3.l2" value="{{this.tableau.c3.l2}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c3.l3" value="{{this.tableau.c3.l3}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c3.l4" value="{{this.tableau.c3.l4}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c3.l5" value="{{this.tableau.c3.l5}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c3.l6" value="{{this.tableau.c3.l6}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+        </div>
+        <div class="colA">
+            <span class="header">4</span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c4.l1" value="{{this.tableau.c4.l1}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c4.l2" value="{{this.tableau.c4.l2}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c4.l3" value="{{this.tableau.c4.l3}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c4.l4" value="{{this.tableau.c4.l4}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c4.l5" value="{{this.tableau.c4.l5}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c4.l6" value="{{this.tableau.c4.l6}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+        </div>
+        <div class="colA">
+            <span class="header">5</span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c5.l1" value="{{this.tableau.c5.l1}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c5.l2" value="{{this.tableau.c5.l2}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c5.l3" value="{{this.tableau.c5.l3}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c5.l4" value="{{this.tableau.c5.l4}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c5.l5" value="{{this.tableau.c5.l5}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c5.l6" value="{{this.tableau.c5.l6}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+        </div>
+        <div class="colA">
+            <span class="header">6</span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c6.l1" value="{{this.tableau.c6.l1}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c6.l2" value="{{this.tableau.c6.l2}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c6.l3" value="{{this.tableau.c6.l3}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c6.l4" value="{{this.tableau.c6.l4}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c6.l5" value="{{this.tableau.c6.l5}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+            <span>
+                <input type="text" name="system.evolutions.liste.{{key}}.special.contrecoups.tableau.c6.l6" value="{{this.tableau.c6.l6}}" {{#if this.softlock}}disabled{{/if}}/>
+            </span>
+        </div>
+    </div>
+</div>

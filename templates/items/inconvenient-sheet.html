@@ -1,0 +1,138 @@
+<form class="flexcol {{cssClass}}" autocomplete="off">
+    <header class="sheet-header flexrow">
+        <div class="flexcol aData">
+            <h1 class="charname">
+                <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+            </h1>
+            <div class="main">
+                <div class="col">
+                    <label class="sante">
+                        <span>
+                            {{localize "KNIGHT.ITEMS.DESAVANTAGE.MalusSante"}}
+                        </span>
+                        <input type="number" name="system.malus.sante" min="0" value="{{systemData.malus.sante}}" />
+                    </label>
+    
+                    <label class="espoir">
+                        <span>
+                            {{localize "KNIGHT.ITEMS.DESAVANTAGE.MalusEspoir"}}
+                        </span>
+                        <input type="number" name="system.malus.espoir" min="0" value="{{systemData.malus.espoir}}" />
+                    </label>
+
+                    <div class="initiative">
+                        <span class="label">{{localize "KNIGHT.ITEMS.DESAVANTAGE.MalusInitiative"}}</span>
+                        <div class="block">
+                            <input type="number" name="system.malus.initiative.dice" min="0" value="{{systemData.malus.initiative.dice}}" />
+                            <span>D6+</span>
+                            <input type="number" name="system.malus.initiative.fixe" min="0" value="{{systemData.malus.initiative.fixe}}" />
+                        </div>
+                        <button type="action" class="button {{#if systemData.malus.initiative.ifEmbuscade.has}} buttonChecked {{else}} buttonUnchecked {{/if}}">{{localize "KNIGHT.ITEMS.DESAVANTAGE.MalusEmbuscade"}}</button>
+                        <span class="{{#if systemData.malus.initiative.ifEmbuscade.has}} label {{else}} hiddenLabel {{/if}}">{{localize "KNIGHT.ITEMS.DESAVANTAGE.MalusEmbuscade"}}</span>
+                        <div class="{{#if systemData.malus.initiative.ifEmbuscade.has}} block {{else}} hiddenBlock {{/if}}">
+                            <input type="number" name="system.malus.initiative.ifEmbuscade.dice" min="0" value="{{systemData.malus.initiative.ifEmbuscade.dice}}" />
+                            <span>D6+</span>
+                            <input type="number" name="system.malus.initiative.ifEmbuscade.fixe" min="0" value="{{systemData.malus.initiative.ifEmbuscade.fixe}}" />
+                        </div>
+                    </div>
+    
+                    <div class="augmentationCout">
+                        <button type="action" class="button {{#if systemData.malus.coutsAugmentes.has}} buttonChecked {{else}} buttonUnchecked {{/if}}">{{localize "KNIGHT.ITEMS.DESAVANTAGE.AugmentationCout"}}</button>
+                        <div class="{{#if systemData.malus.coutsAugmentes.has}} blockAspect {{else}} hiddenBlock {{/if}}">
+                            <span class="label">
+                                {{localize "KNIGHT.ITEMS.Aspects"}}
+                            </span>
+                            <label>
+                                <span>{{localize "KNIGHT.ITEMS.DESAVANTAGE.Multiplier"}}</span>
+                                <input type="number" name="system.malus.coutsAugmentes.aspect.multiplie" min="0" value="{{systemData.malus.coutsAugmentes.aspect.multiplie}}" />
+                            </label>
+                            <label>
+                                <span>{{localize "KNIGHT.ITEMS.DESAVANTAGE.Augmenter"}}</span>
+                                <input type="number" name="system.malus.coutsAugmentes.aspect.value" min="0" value="{{systemData.malus.coutsAugmentes.aspect.value}}" />
+                            </label>
+                        </div>
+                        <div class="{{#if systemData.malus.coutsAugmentes.has}} blockCaracteristiques {{else}} hiddenBlock {{/if}}">
+                            <span class="label">
+                                {{localize "KNIGHT.ITEMS.Caracteristiques"}}
+                            </span>
+                            <label>
+                                <span>{{localize "KNIGHT.ITEMS.DESAVANTAGE.Multiplier"}}</span>
+                                <input type="number" name="system.malus.coutsAugmentes.caracteristique.multiplie" min="0" value="{{systemData.malus.coutsAugmentes.caracteristique.multiplie}}" />
+                            </label>
+                            <label>
+                                <span>{{localize "KNIGHT.ITEMS.DESAVANTAGE.Augmenter"}}</span>
+                                <input type="number" name="system.malus.coutsAugmentes.caracteristique.value" min="0" value="{{systemData.malus.coutsAugmentes.caracteristique.value}}" />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="colL">
+                    <label class="recuperationSante">
+                        <span>
+                            {{localize "KNIGHT.ITEMS.DESAVANTAGE.RecuperationSante"}}
+                        </span>
+                        <input type="number" name="system.malus.recuperation.sante" value="{{systemData.malus.recuperation.sante}}" />
+                    </label>
+    
+                    <label class="recuperationArmure">
+                        <span>
+                            {{localize "KNIGHT.ITEMS.DESAVANTAGE.RecuperationArmure"}}
+                        </span>
+                        <input type="number" name="system.malus.recuperation.armure" value="{{systemData.malus.recuperation.armure}}" />
+                    </label>
+    
+                    <label class="recuperationEnergie">
+                        <span>
+                            {{localize "KNIGHT.ITEMS.DESAVANTAGE.RecuperationEnergie"}}
+                        </span>
+                        <input type="number" name="system.malus.recuperation.energie" value="{{systemData.malus.recuperation.energie}}" />
+                    </label>
+    
+                    <label class="recuperationEspoir">
+                        <span>
+                            {{localize "KNIGHT.ITEMS.DESAVANTAGE.RecuperationEspoir"}}
+                        </span>
+                        <input type="number" name="system.malus.recuperation.espoir" value="{{systemData.malus.recuperation.espoir}}" />
+                    </label> 
+                    
+                    <button type="action" class="button espoir {{#if systemData.limitations.espoir.aucunGain}} buttonChecked {{else}} buttonUnchecked {{/if}}">{{localize "KNIGHT.ITEMS.DESAVANTAGE.AucunGainEspoir"}}</button>  
+                </div>
+
+                <div class="limitations">
+                    <header>
+                        {{localize "KNIGHT.ITEMS.DESAVANTAGE.LIMITATIONSCORE.Label"}}
+                    </header>
+                    <div>
+                        <button type="action" class="button {{#if systemData.limitations.aspects.all.has}} buttonChecked {{else}} buttonUnchecked {{/if}}" data-type="all">{{localize "KNIGHT.ITEMS.DESAVANTAGE.LIMITATIONSCORE.TousAspects"}}</button>
+                        <input type="number" class="inputAll {{#if systemData.limitations.aspects.all.has}} inputShow {{else}} inputHidden {{/if}}" name="system.limitations.aspects.all.value" value="{{systemData.limitations.aspects.all.value}}" min="1" max="9" />
+                    </div>
+                    <div>
+                        <button type="action" class="button {{#if systemData.limitations.aspects.bete.has}} buttonChecked {{else}} buttonUnchecked {{/if}}" data-type="bete">{{localize "KNIGHT.ITEMS.DESAVANTAGE.LIMITATIONSCORE.AspectBete"}}</button>
+                        <input type="number" class="{{#if systemData.limitations.aspects.bete.has}} inputShow {{else}} inputHidden {{/if}}"name="system.limitations.aspects.bete.value" value="{{systemData.limitations.aspects.bete.value}}" min="1" max="{{systemData.limitations.aspects.bete.max}}" />
+                    </div>
+                    <div>
+                        <button type="action" class="button {{#if systemData.limitations.aspects.chair.has}} buttonChecked {{else}} buttonUnchecked {{/if}}" data-type="chair">{{localize "KNIGHT.ITEMS.DESAVANTAGE.LIMITATIONSCORE.AspectChair"}}</button>
+                        <input type="number" class="{{#if systemData.limitations.aspects.chair.has}} inputShow {{else}} inputHidden {{/if}}"name="system.limitations.aspects.chair.value" value="{{systemData.limitations.aspects.chair.value}}" min="1" max="{{systemData.limitations.aspects.chair.max}}" />
+                    </div>
+                    <div>
+                        <button type="action" class="button {{#if systemData.limitations.aspects.machine.has}} buttonChecked {{else}} buttonUnchecked {{/if}}" data-type="machine">{{localize "KNIGHT.ITEMS.DESAVANTAGE.LIMITATIONSCORE.AspectMachine"}}</button>
+                        <input type="number" class="{{#if systemData.limitations.aspects.machine.has}} inputShow {{else}} inputHidden {{/if}}"name="system.limitations.aspects.machine.value" value="{{systemData.limitations.aspects.machine.value}}" min="1" max="{{systemData.limitations.aspects.machine.max}}" />
+                    </div>
+                    <div>
+                        <button type="action" class="button {{#if systemData.limitations.aspects.dame.has}} buttonChecked {{else}} buttonUnchecked {{/if}}" data-type="dame">{{localize "KNIGHT.ITEMS.DESAVANTAGE.LIMITATIONSCORE.AspectDame"}}</button>
+                        <input type="number" class="{{#if systemData.limitations.aspects.dame.has}} inputShow {{else}} inputHidden {{/if}}"name="system.limitations.aspects.dame.value" value="{{systemData.limitations.aspects.dame.value}}" min="1" max="{{systemData.limitations.aspects.dame.max}}" />
+                    </div>
+                    <div>
+                        <button type="action" class="button {{#if systemData.limitations.aspects.masque.has}} buttonChecked {{else}} buttonUnchecked {{/if}}" data-type="masque">{{localize "KNIGHT.ITEMS.DESAVANTAGE.LIMITATIONSCORE.AspectMasque"}}</button>
+                        <input type="number" class="{{#if systemData.limitations.aspects.masque.has}} inputShow {{else}} inputHidden {{/if}}"name="system.limitations.aspects.masque.value" value="{{systemData.limitations.aspects.masque.value}}" min="1" max="{{systemData.limitations.aspects.masque.max}}" />
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </header>
+    <div class="description">
+        <h2 class="header">{{localize "KNIGHT.Description"}}</h2>
+
+        {{editor systemData.description target="system.description" button=true owner=owner editable=editable}}
+    </div>
+</form>

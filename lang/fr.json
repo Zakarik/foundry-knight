@@ -1,0 +1,2283 @@
+{
+  "ACTOR":{
+    "TypeKnight":"Knight",
+    "TypePnj":"PNJ",
+    "TypeCreature":"Créature",
+    "TypeBande":"Bande",
+    "TypeVehicule":"Véhicule",
+    "TypeMechaarmure":"Mécha-armure"
+  },
+  "ITEM":{
+    "TypeAvantage":"Avantage",
+    "TypeInconvenient": "Inconvénient",
+    "TypeMotivationmineure": "Motivation Mineure",
+    "TypeLangue": "Langue",
+    "TypeContact": "Contact",
+    "TypeBlessure": "Blessure Grave",
+    "TypeTrauma": "Trauma",
+    "TypeArmure": "Méta-Armure",
+    "TypeModule": "Module",
+    "TypeArme": "Arme",
+    "TypeArmurelegende":"Méta-Armure de légende",
+    "TypeCapacite":"Capacité (PNJ)",
+    "TypeCarteheroique":"Carte du destin",
+    "TypeCapaciteheroique":"Capacité héroïque"
+  },
+  "KNIGHT": {
+    "Nom":"Nom",
+    "Surnom":"Surnom",
+    "Age":"Âge",
+    "Archetype":"Archetype",
+    "HautFait":"Haut-Fait",
+    "Section":"Section d'origine",
+    "Blason":"Blason",
+    "Description":"Description",
+    "PointsFaibles":"Points Faibles",
+    "Tactique":"Tactique",
+    "VEHICULE":{
+      "Manoeuvrabilite":"Manoeuvrabilité",
+      "Vitesse":"Vitesse",
+      "Pilotage":"Pilotage",
+      "Pilote":"Pilote",
+      "PasPilote":"Aucun pilote",
+      "Passagers":"Passagers",
+      "PasPassager":"Glissez - déposez un personnage pour l'ajouter au véhicule",
+      "DeletePilote":"Supprimer le pilote",
+      "DeletePassager":"Supprimer le passager",
+      "PasserPilote":"Faire passer en pilote",
+      "PasserPassager":"Faire passer en passager",
+      "ArmeUtiliseePar":"Arme utilisée par"
+    },
+    "MECHAARMURE":{
+      "Label":"Mécha-armure",
+      "Pilote":"Pilote",
+      "Caracteristiques":"Caractéristiques",
+      "PasPilote":"Glissez - déposez un personnage pour l'ajouter à la mécha-armure",
+      "Puissance":"Puissance",
+      "Senseurs":"Senseurs",
+      "Systemes":"Systèmes",
+      "CONFIGURATIONS":{
+        "Label":"Configuration",
+        "Configurations":"Configurations",
+        "NomC1":"Nom de la configuration 1",
+        "NomC2":"Nom de la configuration 2"
+      },
+      "MODULES":{
+        "BASE":{
+          "Label":"Modules et Armes de base"
+        },
+        "VOLMARKIV":{
+          "Label":"Vol Mark IV",
+          "Description":"L’Archangel peut voler constamment à une vitesse égale à 3 ou en vol stationnaire, sans dépenser de noyau d’énergie. Grâce à ce module, il peut monter jusqu’à 3000 mètres de hauteur. Tant qu’il utilise ce module, il reçoit un bonus de 3 à sa manœuvrabilité et peut se déplacer à portée moyenne pour une simple action de déplacement."
+        },
+        "SAUTMARKIV":{
+          "Label":"Saut Mark IV",
+          "Description":"Grâce à ce module, la mecha-armure peut sauter à une longueur et une hauteur égale à portée longue. Le temps de saut est égal à un tour complet. Le Nephilim peut parfaitement agir durant le saut. Lorsque la mecha-armure atterrit, elle perd automatiquement 1 point de résilience.",
+          "Atterrissage":"Atterrissage"
+        },
+        "VAGUESOIN":{
+          "Label":"Vague de soin",
+          "Description":"L’Archangel peut déployer une vague de soin à portée longue. Chaque allié dans la vague (en dehors d’une mecha-armure ou d’un véhicule) récupère 40 PS. La vague de soin peut cibler à la place une bande alliée pour lui rendre 150 points de cohésion."
+        },
+        "CANONMETATRON":{
+          "Label":"Canon Métatron",
+          "Description":"Grâce à ce canon lançant une nuée de nanomachines, l’Archangel peut cibler un ennemi à portée longue. Lorsque le pilote attaque une mecha-armure avec le canon et cherche à utiliser briser la résilience, alors la perte de points de résilience de la cible est augmentée de 6.<br/><br/><b>Attention :</b> Le canon Métatron ne fonctionne que contre les mecha-armures, les véhicules, les méta-armures et les ennemis possédant une technologie de pointe."
+        },
+        "CANONNOE":{
+          "Label":"Canon Noé",
+          "Description":"L’Archangel peut tirer des nanoC jusqu’à portée longue sur une mecha-armure, des méta-armures ou des véhicules alliés pour leur faire recouvrer du blindage ou des PA. Jusqu’à six chevaliers ou trois véhicules alliés peuvent être ciblés. Les véhicules ou méta-armures alliés visés récupèrent automatiquement 30 PA. Une mecha-armure (et une seule) peut être ciblée. Elle récupère dans ce cas 20 points de blindage ou 1D6 points de résilience."
+        },
+        "CANONMAGMA":{
+          "Label":"Canon Magma",
+          "Description":"Le Nephilim dispose de deux canons puissants capables de déverser du plasma en fusion sur ses ennemis. En termes de jeu, le Nephilim peut décider de tirer avec ses canons pour infliger des dégâts ou de la violence de manière normale.<br/><br/>Cependant, en utilisant une action de combat et en dépensant 3 noyaux d’énergie supplémentaires, le pilote peut décider de déverser la fureur de ses canons Magma sur une bande ennemie. S’il décide d’effectuer cette action, alors une bande ennemie d’une cohésion égale ou inférieure à 300 est simplement éliminée.<br/><br/>Puisqu’il dispose de deux canons magmas, le chevalier peut utiliser une action de combat pour chacun et donc tirer avec les deux lors de son tour.",
+          "AneantirBande":"Anéantir une bande"
+        },
+        "LAMESCINETIQUESGEANTES":{
+          "Label":"Lames Cinétiques Géantes",
+          "Description":"Deux lames cinétiques rétractiles de 3 mètres chacune sont dissimulées dans les avant-bras de la mecha-armure et peuvent être déployées d’un geste. Ce sont les armes principales de la Mécha-Armure. Le pilote peut utiliser chacune des lames durant son tour en dépensant deux actions.<br/><br/>Spécial – La Mécha-armure peut dépenser 1 noyau d’énergie pour obtenir l’effet pénétrant 10. Il peut aussi en dépenser 2 pour obtenir l’effet ignore CdF."
+        },
+        "MITRAILLEUSESSURTUR":{
+          "Label":"Mitrailleuses Surtur",
+          "Description":"Ces quatre mitrailleuses sur pivot permettent de nettoyer une zone à portée moyenne et de protéger le Nephilim des bandes. Lorsque le pilote utilise ces mitrailleuses, toutes les bandes à portée moyenne sont touchées."
+        },
+        "TOURELLESLASERSAUTOMATISEES":{
+          "Label":"Tourelles Lasers Automatisées",
+          "Description":"Ces deux tourelles lasers automatisées permettent de nettoyer une zone à portée courte et de protéger le Demon des bandes et des ennemis proches. Le pilote active les tourelles lasers d’une simple pensée. S’il le fait, toutes les bandes et ennemis à portée courte subissent automatiquement 6D6 points de dégâts ou 10D6 points de violence avec l’effet anti-Anathème."
+        },
+        "MISSILESJERICHO":{
+          "Label":"Missiles Jericho",
+          "Description":"La configuration Anak équipe le Nephilim de quatre lanceurs de missiles Jericho. Ces derniers-nés de la technologie de la Byrd Corporation sont des missiles intelligents, lancés par lot de 10, qui éclatent à portée moyenne de leur objectif pour se diviser en centaines de projectiles autopropulsés, traquant leurs cibles sur des kilomètres.<br/><br/>Le chevalier dans la mecha-armure peut dépenser 1 noyau d’énergie pour cibler une zone extérieure à celle où il est présent.<br/><br/>Lorsque les missiles Jericho sont utilisés, ce sont tous les ennemis de cette zone, bande, hostiles, salopards, patrons et colosses qui sont touchés.",
+          "ZoneExterieure":"Zone extérieure"
+        },
+        "SOUFFLEDEMONIAQUE":{
+          "Label":"Souffle Démoniaque",
+          "Description":"Par la gueule du Demon, le pilote peut relâcher un puissant souffle de nanomachines destiné à briser la résilience des mecha-armures adverses.<br/><br/><b>Effet :</b> À portée contact, le Demon peut propulser un puissant souffle de nanomachines depuis sa gueule. Les systèmes de défense de la mecha-armure ou du véhicule ciblé sont alors perturbés et les plaques de blindage sont déformées sous l’effet du souffle."
+        },
+        "POINGSSONIQUES":{
+          "Label":"Poings Soniques",
+          "Description":"Une paire de bras est ajoutée au torse de la mechaarmure pour lui donner un impact encore plus grand au combat. Chaque bras supplémentaire est terminé par un énorme poing sonique libérant des ondes sonores à portée contact à même de briser les murs et les véhicules les plus résistants.<br/><br/><b>Effet :</b> Avec sa mecha-armure, en dépensant les noyaux d’énergie adéquats, le pilote peut effectuer à son tour une action gratuite avec les bras additionnels pour utiliser les poings soniques (et uniquement avec eux). De plus, le chevalier peut activer de nouveau ses poings soniques grâce à une action de combat normale."
+        },
+        "CHOCSONIQUE":{
+          "Label":"Choc Sonique",
+          "Description":"En frappant sur le sol, de ses poings soniques, la mechaarmure libère une onde sonore à même de paralyser la majorité des ennemis."
+        },
+        "BOUCLIERAMRITA":{
+          "Label":"Boucliers Amrita",
+          "Description":"Sur les bras additionnels de la mecha-armure peuvent être déployés deux boucliers escamotables de 6 mètres de hauteur pour 3 mètres de large. Composés de plaques d’élément alpha alvéolées et pourvus de leur propre champ de force, ces deux boucliers sont quasiment indestructibles.<br/><br/><b>Effet :</b> Lorsque le Demon active les boucliers Amrita, il ne peut plus utiliser ses bras additionnels pour frapper et ne bénéficie plus de l’action de combat bonus octroyée par les poings soniques. Cependant, il reçoit un bonus de 4 à sa résilience maximale, de 4 à sa défense, de 4 à sa réaction et de 4 à son CdF.",
+          "Duree":"Jusqu’à désactivation (désactiver les boucliers Amrita ne coûte aucune action)"
+        },
+        "OFFERING":{
+          "Label":"Offering",
+          "Description":"S’il verrouille une mecha-armure alliée, l’Archangel peut lui donner plusieurs bonus en sacrifiant une partie de ses noyaux d’énergie. La mecha-armure ainsi augmentée peut agir plus vite ou voir ses capacités renforcées. Un Archangel ne peut pas effectuer la capacité Offering sur un autre Archangel en configuration Gabriel.<br/><br/><b>Attention :</b> Un Archangel peut utiliser plusieurs fois les effets de la capacité Offering lors d’un même tour en utilisant ses actions de combat, mais seulement pour appliquer des effets différents (et uniquement différents).<br/><br/><b>Effet :</b> En dépensant des noyaux d’énergie, l’Archangel en configuration Gabriel peut appliquer les effets suivants sur une ou deux mecha-armures alliées à portée moyenne (1 au choix par activation de la capacité). Les effets de la capacité Offering ne peuvent pas se cumuler sur une même mecha-armure.<br/><br/><b>1 noyau d’énergie :</b> Augmenter les dégâts et la violence de la mecha-armure alliée de 4D6.<br/><b>1 noyau d’énergie :</b> Augmenter de 3 points un score de caractéristique parmi manœuvrabilité, senseurs, systèmes et puissance.<br/><b>2 noyau d’énergie :</b> Octroyer une action supplé- mentaire à une mecha-armure alliée.<br/><b>2 noyau d’énergie :</b> Augmenter de 5 le CdF d’une mecha-armure alliée.<br/><b>1 à 5 noyau d’énergie :</b> Octroyer 1 à 5 noyaux d’énergie (en fonction des noyaux dépensés) à une méta-armure alliée."
+        },
+        "CURSE":{
+          "Label":"Curse",
+          "Description":"En activant la capacité Curse, le pilote choisit de perturber une mecha-armure ou un colosse ennemi. Il va alors sacrifier son énergie pour brouiller les sens ennemis ou tout simplement rendre plus hasardeux son fonctionnement.<br/><br/><b>Attention :</b> Un Archangel peut utiliser plusieurs fois les effets de la capacité Curse lors d’un même tour en utilisant ses actions de combat, mais seulement pour appliquer des effets différents (et uniquement différents).<br/><br/><b>Effet :</b> En dépensant des noyaux d’énergie, l’Archangel en configuration Gabriel peut appliquer les effets suivants sur une ou deux mecha-armures ennemies ou un colosse à portée moyenne (1 au choix par activation de la capacité). Les effets de la capacité Curse ne peuvent pas se cumuler sur un même ennemi.<br/><br/><b>1 noyau d’énergie :</b> Diminuer les dégâts et la violence d’une mecha-armure ennemie de 4D6.<br/><b>1 noyau d’énergie :</b> Retirer 4 réussites aux tests de la cible pendant son prochain tour.<br/><b>2 noyaux d’énergie :</b> Baisser automatiquement la résilience d’une mecha-armure ennemie de 1D6 points ou de 3 points (au choix), ce malus n’a pas de limite de durée.<br/><b>3 noyaux d’énergie :</b> Annuler le CdF d’une mechaarmure ennemie pendant 1 tour.<br/><b>5 noyaux d’énergie :</b> Annuler la résilience d’une mecha-armure ennemie pendant 1 tour.<b>5 noyaux d’énergie :</b> Infliger automatiquement l’effet choc 1D3 + 1 à une mecha-armure ou un colosse ennemi.",
+          "DiminuerDegatsViolence":"Diminuer les dégâts et la violence",
+          "DiminueDegatsViolence":"Diminue les dégâts et la violence",
+          "RetirerReussite":"Retirer des réussites",
+          "RetireReussite":"Retire des réussites",
+          "BaisserResilience":"Baisser la résilience",
+          "BaisseResilience":"Baisse de la résilience",
+          "AnnulerChampDeForce":"Annuler le champ de force",
+          "AnnuleChampDeForce":"Annule le champ de force",
+          "AnnulerResilience":"Annuler la résilience",
+          "AnnuleResilience":"Annule la résilience",
+          "Choc":"Infliger Choc 1D3+1"
+        },
+        "PODMIRACLE":{
+          "Label":"Pod Miracle",
+          "Description":"Le pod Miracle permet à l’Archangel de planter au sol une machine, semblable à une petite tour de 6 mètres de haut surmontée d’un prisme, diffusant sur une surface égale à portée courte, une brume de nanoM et de nanoC. Les alliés à l’intérieur sont soignés et réparés pendant 2D6 tours.<br/><br/><b>Effet :</b> Tous les alliés pris dans la brume récupèrent par tour 3D6 PS et 3D6 PA. Les mecha-armures dans la zone récupèrent 1D6 points de blindage et 1 de résilience par tour. Le pod dispose de 60 points de blindage, d’une résilience de 1 et d’un CdF de 10. Il peut être pris pour cible par un ennemi qui le touche automatiquement s’il est à portée. Une fois le pod détruit, l’effet disparaît. Les effets de plusieurs pods Miracle ne peuvent pas se cumuler sur une même cible.",
+          "RecuperationPS":"Récupération de PS",
+          "RecuperationPA":"Récupération de PA",
+          "RecuperationBlindage":"Récupération de Blindage",
+          "RecuperationResilience":"Récupération de Resilience",
+          "Destruction":"Destruction du Pod"
+        },
+        "PODINVULNERABILITE":{
+          "Label":"Pod Invulnérabilité",
+          "Description":"Le module d’invulnérabilité permet au Nephilim de déployer un pod au niveau du sol (et uniquement au niveau du sol) pouvant générer un dôme de force sécurisant une surface dont la taille est égale à portée courte.<br/><br/><b>Effets :</b> À l’intérieur du dôme, les alliés (de la taille d’une méta-armure Paladin au maximum) sont protégés de la grande majorité des attaques à distance. Seules les attaques des armes possédant une violence ou des dégâts supérieurs à 12D6 peuvent pénétrer le dôme. De plus, les véhicules situés à l’intérieur qui ne possèdent pas de résilience reçoivent 10 points de résilience et la règle invulnérabilité.<br/><br/>Les personnages qui veulent y entrer ou en sortir doivent manifester une force colossale (aspect Chair ou Bête de 14 ou plus ou aspect exceptionnel Chair ou Bête de 8 au plus) ou simplement être des mecha-armures. Si un personnage y entre ou en sort, le pod est détruit. Le dôme créé par le pod d’invulnérabilité peut durer jusqu’à 2D6 tours, même si la mecha-armure du pilote qui l’a lancé est détruite ou foldée. Seuls le pilote, Merlin ou Gauvain peuvent décider de l’annuler avant.<br/><br/>Les effets de plusieurs pods d’invulnérabilité ne peuvent pas se cumuler."
+        },
+        "DRONESEVACUATION":{
+          "Label":"Drones d'évacuation",
+          "Description":"L’Archangel peut lancer une série de drones d’évacuation, en nuée de 1 à 20 unités. Ils permettent d’évacuer des chevaliers ou des civils depuis toute une zone vers une zone en sécurité en s’accrochant à eux et en les téléportant. Les drones sont déployés depuis le dos de la mecha-armure et volent très rapidement vers leur cible.<br/><br/><b>Effet :</b> Sur toute une zone, jusqu’à 20 unités de taille humaine ou légèrement supérieure (taille de métaarmure Paladin au maximum) peuvent être téléportées vers une zone en sécurité grâce aux drones. Ceux-ci peuvent être utilisés une fois par tour seulement en dehors du tour du PJ pour prévenir par exemple la mort de civils, de chevaliers et les pertes qui en découleraient.",
+          "Portee":"Zone entière"
+        },
+        "DRONESAIRAIN":{
+          "Label":"Drones d'airain",
+          "Description":"Le Nephilim peut lancer jusqu’à portée longue une série de six drones déployant des couverts sur une surface égale à portée courte, permettant aux chevaliers et soldats alliés de se mettre en sécurité. Six autres drones s’envolent et viennent protéger les mecha-armures alliées proches tant qu’elles restent à portée d’effet. Lorsque les drones d’airain sont déployés, chaque allié de taille normale (de la taille d’une méta-armure Paladin maximum) reçoit un bonus de 4 en réaction et de 4 en défense. De plus, les mecha-armures alliées reçoivent un bonus de 4 à leur total de résilience et voient leur résilience augmenter de 4. Les bandes alliées voient leur cohésion augmenter de 100 et leur débordement augmenter de 4.<br/><br/>Plusieurs drones d’airain ne peuvent pas être déployés sur une même zone."
+        },
+        "MODULEEMBLEM":{
+          "Label":"Module Emblem",
+          "Description":"Le Nephilim peut enclencher le module Emblem pour inciter tous les ennemis situés à portée longue et disposant d’un score de Machine ou Masque inférieur à 14 à l’attaquer ou à lui tirer dessus. Le Nephilim devient ainsi la cible prioritaire de tous les ennemis. De plus, si une ou plusieurs bandes sont à portée moyenne du Nephilim, seul lui subit le débordement. Un seul module Emblem peut être activé sur une même zone.",
+          "Duree":"Spécial – L’effet du module Emblem dure jusqu’à ce que l’attention des ennemis soit attirée par autre chose"
+        },
+        "MODULEINFERNO":{
+          "Label":"Module Inferno",
+          "Description":"S’il est acculé par ses ennemis, le Demon peut déclencher le module Inferno pour provoquer autour de lui une explosion d’énergie rouge et brûlante à portée courte.<br/><br/><b>Effet :</b> Les ennemis de taille humaine (taille d’une méta-armure Paladin maximum) sans CdF ou bouclier pris dans l’explosion sont automatiquement annihilés. Les ennemis de taille supérieure de type hostile, bande ou salopard qui ne sont pas des mecha-armures ou des colosses subissent automatiquement 10D6 + 20 de dégâts ou de violence sans CdF. Les mecha-armures et colosses à portée courte subissent quant à eux 10D6 + 20 points de dégâts.<br/><br/>Attention : Lorsque le pilote déclenche le module Inferno, son CdF se désactive durant 1D3 tours.",
+          "Cdf":"Désactivation du Champ De Force"
+        },
+        "MODULEWRAITH":{
+          "Label":"Module Wraith",
+          "Description":"Le module Wraith permet au pilote de rendre sa mecha-armure quasi invisible et de disparaître sur les systèmes sensoriels des mecha-armures et équipements adverses en phasant. Le Demon peut ainsi s’approcher suffisamment de ses ennemis pour leur infliger une puissante attaque. Juste après cette attaque, l’invisibilité de la mecha-armure s’arrête.<br/><br/><b>Effet :</b> Le module Wraith fonctionne exactement comme le mode Ghost de la méta-armure Rogue, à ceci près que les armes utilisées par le Demon n’ont pas besoin de l’effet silencieux pour que les bonus octroyés aux tests et aux dégâts soient appliqués. De plus, si le Demon réussit à surprendre une mecha-armure ou un colosse ennemi, il inflige son maximum de dégâts. Un test base Discrétion (auquel s’ajoute la manœuvrabilité) peut être demandé. Pour activer le module, il faut être hors de vue des ennemis ou à portée moyenne au moins.",
+          "Duree":"Jusqu'au début du prochain tour du chevalier",
+          "PasMax":"N'inflige pas le maximum de dégâts",
+          "Max":"Inflige le maximum de dégâts"
+        },
+        "STATIONDEFENSEAUTOMATISE":{
+          "Label":"Station de Défense Automatisée",
+          "Description":"La configuration Og met aussi à disposition du pilote plusieurs grands drones de déploiement de station de défense automatisée destinée à renforcer la puissance de feu des alliés lors d’une bataille.<br/><br/><b>Effets :</b> Ces stations peuvent être déployées à portée moyenne ou inférieure et s’ouvrent comme des fleurs hexagonales de 30 mètres de diamètre pourvues de six bunkers blindés ultra-résistants, de dix shotguns automatiques lourds montés en tourelle intelligente, de dix railguns sur pivot, d’un énorme stock de munitions, de nods et de grenades, d’une tour de communication, d’un champ de force Shrine, d’une station médicale et d’une station de réparation.<br/><br/>Grâce à cet équipement, la station est considérée comme possédant et infligeant un débordement de 10 aux ennemis à portée moyenne. De plus, chaque mechaarmure et véhicule ennemi possédant de la résilience et situé à portée moyenne de la station perd 1 point de résilience par tour.<br/><br/>De plus, la station dispose de plus d’une tour d’artillerie pouvant être contrôlée par le pilote. Elle est équipée d’un pod missile et d’un pod roquette pouvant tirer jusqu’à portée longue depuis la station et avec des munitions illimitées. Une fois par tour en phase de conflit, le pilote de la mecha-armure peut décider de tirer sans dépenser d’action avec un des deux pods de la station. Le tir touche automatiquement. On considère qu’il commande à la station de tirer. Il n’a pas besoin d’être dans la même zone pour utiliser cette capacité.<br/><br/>La station dispose de 80 points de blindage, d’une résilience de 1 et d’un CdF de 10. Elle peut être prise pour cible par un ennemi qui la touche automatiquement s’il est à portée. Une fois la station détruite, l’effet disparaît. Une seule station peut être déployée en même temps. Pour en déployer une nouvelle, il faut que l’ancienne station de défense soit détruite.",
+          "Destruction":"Destruction de la station"
+        },
+        "MODESIEGETOWER":{
+          "Label":"Mode Siege Tower",
+          "Description":"La configuration Anak permet au Nephilim de s’ancrer dans le sol, à l’instar de la méta-armure Paladin, pour tirer plus efficacement parti des puissants canons qui le hérissent. Lorsque le mode Siege Tower est enclenché, la mecha-armure ne peut plus effectuer d’action de déplacement comme marcher ou sauter, cependant elle peut tirer plus souvent grâce à la mise en route de systèmes de refroidissement dernière génération. Aussi, le Nephilim devient presque indélogeable car, sur sa structure, apparaissent d’énormes plaques de blindage en élément alpha, presque impossibles à détruire.<br/><br/><b>Effets :</b> Lorsque le mode Siege Tower est enclenché, la mecha-armure ne peut plus se déplacer, de n’importe quelle manière. En contrepartie, elle reçoit une action de combat supplémentaire, à dépenser pour utiliser les missiles Jericho ou les canons Magma, qui ne rentre pas dans la limite d’utilisation des armes lors d’un même tour de conflit. De plus, tant qu’il est en mode Siege Tower, la mécha-armure gagne 10 points de résilience à ajouter à son maximum. Tant qu’elle est dans ce mode, la mecha-armure ne peut pas regagner de point de résilience.",
+          "Duree":"Sans limite, mais désactiver le mode Siege Tower s’effectue à la fin d’un tour et doit être clairement annoncé. Le chevalier ne peut pas réactiver le mode Siege Tower durant le tour qui suit sa désactivation. Il doit attendre au moins un tour complet."
+        },
+        "NANOBRUME":{
+          "Label":"Nanobrume",
+          "Description":"La configuration Djinn permet aussi de déployer à portée courte des nanomachines se dispersant en une brume brouillant la vue et les systèmes ennemis : un outil idéal pour se désengager d’un combat et redevenir invisible.<br/><br/><b>Effet :</b> La nanobrume permet au Demon de recevoir un bonus temporaire de 3 en défense et en réaction tant qu’il est à l’intérieur. De plus, tant qu’il est dans la nanobrume, le Demon peut utiliser son module Wraith comme s’il était hors de vue des ennemis."
+        }
+      }
+    },
+    "ARMURE":{
+      "Label":"Armure",
+      "CreerArmure": "Créer l'armure",
+      "Guardian":"Guardian",
+      "TenueCivile": "Tenue Civile"
+    },
+    "LATERAL":{
+      "Sante":"Santé",
+      "Armure":"Armure",
+      "Cohesion":"Cohésion",
+      "Energie":"Energie",
+      "Egide":"Egide",
+      "Flux":"Flux",
+      "ChampDeForce":"Champ de force",
+      "ChampDeForce-short":"CDF",
+      "Espoir":"Espoir",
+      "Heroisme":"Héroïsme",
+      "Reaction":"Réaction",
+      "Defense":"Défense",
+      "Initiative": "Initiative",
+      "Blindage":"Blindage",
+      "Resilience":"Résilience",
+      "Bouclier":"Bouclier",
+      "Noyaux":"Noyaux d'énergie",
+      "Noyau":"Noyau d'énergie"
+    },
+    "PERSONNAGE":{
+      "Label":"Personnage",
+      "MotivationMajeure":"Motivation majeure",
+      "MotivationMineures":"Motivations mineures",
+      "MotivationAccomplie":"Motivation accomplie",
+      "Avantages": "Avantages",
+      "Inconvenient": "Inconvénient"
+    },
+    "ASPECTS": {
+      "Label":"Aspects et caractéristiques",
+      "Aspect":"Aspect",
+      "Aspects":"Aspects",
+      "Exceptionnels":"Aspects exceptionnels",
+      "Exceptionnel-short":"AE",
+      "OD": "OD",
+      "CHAIR":{
+        "Label": "Chair",
+        "CARACTERISTIQUES":{
+          "DEPLACEMENT": {
+            "Label":"Déplacement",
+            "OD":"Calculateur de trajectoire et servomoteurs améliorés",
+            "OD1":"Le héros peut parcourir en une action de déplacement une distance égale ou inférieure à portée courte. En cas d’utilisation du module de course avec cet overdrive, l’action de déplacement citée plus haut est gratuite et ne compte pas comme une action de déplacement. Une seule peut être effectuée par tour.",
+            "OD2":"Le personnage devient extrêmement agile, même si son armure semble ne pas pouvoir le permettre. Lorsqu’il effectue une action de déplacement, les obstacles de sa taille ne le gênent pas (muret, couvert, camionnette, portail, etc.). Il peut les passer sans effectuer de test. Attention, cela ne veut pas dire qu’il est silencieux.",
+            "OD3":"Le héros peut parcourir en une action de déplacement une distance égale ou inférieure à portée moyenne. En cas d’utilisation du module de course avec cet overdrive, cette action est gratuite et ne compte pas comme une action de déplacement. Une seule peut être effectuée par tour.",
+            "OD4":"Le personnage devient aussi agile qu’un félin, même si son armure semble ne pas pouvoir le permettre. Lorsqu’il effectue une action de déplacement, les obstacles dont la taille est égale ou inférieure à 5 mètres ne le gênent pas (mur, fenêtre du premier étage, remorque de camion, etc.). Il peut les passer sans effectuer de test.",
+            "OD5":"En méta-armure, le personnage est si agile qu’il ne subit les dégâts et malus de chute que depuis des hauteurs égales à 50 mètres et plus. En dessous, il sait se réceptionner sans dégâts."
+          },
+          "FORCE": {
+            "Label":"Force",
+            "OD":"Fibres musculaires et endosquelette augmenté",
+            "OD1":"Le personnage peut soulever 500 kg, il ajoute 3 points à ses dégâts au contact.",
+            "OD2":"Le personnage peut soulever 2 tonnes, il ajoute désormais 6 points à ses dégâts au contact.",
+            "OD3":"Le personnage peut soulever 10 tonnes, il ajoute désormais 9 points à ses dégâts au contact.",
+            "OD4":"Le personnage peut soulever 30 tonnes, il ajoute désormais 12 points à ses dégâts au contact.",
+            "OD5":"Le personnage peut soulever 80 tonnes, il ajoute désormais 15 points à ses dégâts au contact."
+          },
+          "ENDURANCE": {
+            "Label": "Endurance",
+            "OD":"Compensateur de dégâts",
+            "OD2":"Le personnage ne subit plus l’effet choc 1 .",
+            "OD3":"Tant qu’il porte sa méta-armure, le personnage gagne 6 points de santé.",
+            "OD4":"Le personnage ne subit plus les effets choc 2 et inférieurs.",
+            "OD5":"Le personnage soustrait toujours son score d’Endurance (sans les overdrives) au score de débordement des bandes. Ainsi, si une bande provoque un malus de débordement de 8 et que le héros a un score d’Endurance de 4, il ne se voit infliger que 4 points de dégâts (8 – 4 = 4). Lorsque le malus s’accumule, le personnage soustrait son Endurance à chaque addition du malus. Ainsi, si la bande doit infliger 16 points de dégâts après 2 tours de phase de conflit (8 au premier tour plus 8 au second), le héros soustrait son Endurance à chaque fois, c’est-à-dire 4 dans l’exemple, et ne se voit infliger ainsi que 8 points de dégâts."
+          }
+        },
+        "AE":{
+          "Mineur":"Le PNJ soustrait toujours son score de l’aspect exceptionnel Chair aux dégâts qu’il reçoit.",
+          "Majeur":"Le PNJ ignore purement les effets barrage X, choc X et meurtrier des armes."
+        }
+      },
+      "BETE":{
+        "Label": "Bête",
+        "CARACTERISTIQUES":{
+          "HARGNE": {
+            "Label":"Hargne",
+            "OD":"Booster d'adrénaline",
+            "OD3":"Le personnage ne meurt pas lorsqu’il tombe à 0 point de santé. En lieu et place, il combat la mort et reste debout, vivant, capable d’agir mais subit tout de même une blessure grave. Si un ennemi réussit de nouveau une attaque sur le personnage ou si le personnage subit de nouveau des dégâts sur sa santé (peu importe les dégâts subis), il tombe à l’agonie et subit les effets habituels.",
+            "OD4":"Le personnage est un roc. Lorsqu’il tombe à 0 point de santé, il peut agir normalement. Il ne subit pas de blessure grave. À chaque nouveau dégât sur sa santé, au début de son tour de jeu, le héros doit réussir un test base Hargne dont la difficulté est la somme des dégâts qu’il a subis sur sa santé lors du dernier tour multipliée par deux. S’il rate, il tombe à l’agonie et subit les effets habituels. S’il réussit, il continue à combattre malgré les blessures. Quoi qu’il arrive, pour chaque tranche de 5 points de santé perdus après avoir atteint 0 point de santé, le personnage subit une blessure grave.",
+            "OD5":"Le personnage ignore purement et simplement la capacité Anathème."
+          },
+          "COMBAT": {
+            "Label":"Combat",
+            "OD":"IA de close combat",
+            "OD2":"Lorsqu’il entre dans une phase de conflit dans laquelle il combat et tant qu’il se bat au corps à corps, le personnage gagne un bonus de 2 en réaction. Cela représente le fait qu’il se sert de son ou ses ennemis pour se protéger des tirs.",
+            "OD3":"Le personnage peut utiliser le style akimbo avec les armes de contact, en ayant seulement un malus de 1 dé à ses jets d’attaque.",
+            "OD4":"Le personnage peut utiliser le style ambidextre avec les armes de contact, en ayant seulement un malus de 1 dé à ses jets d’attaque.",
+            "OD5":"Lorsqu’une bande est présente dans un combat contre un hostile, un salopard, un patron ou un colosse, le personnage peut décider, avec une seule et même attaque de combat par tour, d’infliger la violence de ses armes à la bande et les dégâts de son attaque à l’ennemi visé. L’attaque doit toucher l’ennemi ciblé, la violence sur la bande n’étant qu’un effet bonus."
+          },
+          "INSTINCT": {
+            "Label": "Instinct",
+            "OD":"Activateur cérébral",
+            "OD2":"Au début d’une phase de conflit, le personnage teste toujours deux fois son initiative et choisit le meilleur score.",
+            "OD3":"Pour chaque overdrive d’Instinct, le personnage ajoute désormais 3 points à son score d’initiative.",
+            "OD4":"Lorsqu’il est attaqué par surprise, le personnage conserve toujours ses scores de défense et de réaction normaux ainsi que son CdF.",
+            "OD5":"Le personnage ressent lorsque des ennemis invisibles sont présents dans le lieu où il se trouve. Il ne peut jamais être pris en embuscade. Ses alliés profitent de cette capacité."
+          }
+        },
+        "AE":{
+          "Mineur":"Le PNJ ajoute à ses dégâts au contact son score de l’aspect exceptionnel Bête.",
+          "Majeur":"Le PNJ ajoute à ses dégâts au contact son score de l’aspect Bête (en plus du score de l’aspect exceptionnel)."
+        }
+      },
+      "MACHINE":{
+        "Label": "Machine",
+        "CARACTERISTIQUES":{
+          "TIR": {
+            "Label":"Tir",
+            "OD":"Assistance au tir",
+            "OD2":"Le personnage ignore le premier malus de portée. S’il veut tirer à portée moyenne avec une arme à portée courte, il ne reçoit pas de malus. Cependant, s’il veut tirer à portée longue avec une arme à portée courte, il reçoit le malus précisé par les règles, et ainsi de suite. Seul le premier malus est annulé.",
+            "OD3":"Le personnage peut utiliser le style akimbo avec les armes à distance en ayant seulement un malus de 1 dé à ses jets d’attaque.",
+            "OD4":"Le personnage peut utiliser le style ambidextre avec les armes à distance en ayant seulement un malus de 1 dé à ses jets d’attaque. Ce bonus ne fonctionne pas avec le mode Watchtower de la méta-armure Paladin.",
+            "OD5":"Lorsqu’une bande est présente dans une phase de conflit contre un hostile, un salopard, un patron ou un colosse, le personnage peut décider, avec une seule et même attaque de tir par tour, d’infliger la violence de ses armes à la bande et les dégâts de son attaque à l’ennemi visé. L’attaque doit toucher l’ennemi ciblé, la violence sur la bande n’étant qu’un effet bonus."
+          },
+          "SAVOIR": {
+            "Label":"Savoir",
+            "OD":"IA évoluée",
+            "OD1":"Le personnage a instantanément accès aux banques d’information standard et aux encyclopédies sur la RA.",
+            "OD2":"Grâce à l’IA, le personnage peut obtenir des informations en temps réel sur une situation proche (à moins de 2 kilomètres). L’IA se connecte aux flux d’informations, aux caméras locales, aux satellites, etc. Pour que ce bonus fonctionne, il faut que le personnage interroge l’IA. Le MJ doit répondre aux questions de manière honnête, mais ne doit pas tout révéler.",
+            "OD3":"Désormais, lorsque le personnage soigne un être vivant, il lui rend 1D6 points de santé supplémentaire (maximum une fois par scène). L’IA l’assiste et le guide lors des soins qu’il procure, même lors des opérations de chirurgie.",
+            "OD4":"Le personnage a maintenant accès à toutes les bases de données du Knight et des immortels grâce à son IA. Il connaît la fiche d’identité et l’histoire de chaque personne répertoriée en quelques secondes seulement. Pour que ce bonus fonctionne, il faut que le personnage interroge l’IA. Au MJ d’improviser et de donner ces informations de manière honnête.",
+            "OD5":"L’IA, très évoluée, empêche le personnage de s’enfoncer dans des situations dangereuses ou grotesques. Par des conseils ou un léger pilotage automatique de quelques millièmes de seconde, elle permet au héros d’éviter les catastrophes. Dès à présent, le personnage ignore purement et simplement les échecs critiques sur n’importe quel test."
+          },
+          "TECHNIQUE": {
+            "Label":"Technique",
+            "OD":"Système d'ingénierie intégré (gant outil, bras articulé, etc.)",
+            "OD1":"Le personnage peut se connecter, s’il est à portée de contact, à n’importe quel appareil technologique, n’importe quelle machine, etc., pour peu qu’il n’y ait pas de pare-feu. En se connectant, le personnage peut récupérer des données, mais aussi voir l’état de la machine, etc.",
+            "OD2":"Le héros peut effectuer un test base Technique pour connaître le fonctionnement, réparer, hacker, modifier, bricoler ou démonter n’importe quel objet technologique ou machine, même ceux qu’il ne connaît pas et dont il n’a jamais entendu parler. La difficulté du test dépend de la complexité de l’objet, elle est donc à la discrétion du MJ.",
+            "OD3":"Le personnage peut se connecter à n’importe quel objet technologique ou machine à portée lointaine grâce au wifi. Il peut en outre passer directement les pare-feu les plus simples, sans effectuer de test, toujours à la discrétion du MJ.",
+            "OD4":"Comme action de déplacement, le personnage peut décider d’effectuer une réparation d’urgence d’une méta-armure, d’une arme cassée ou d’un véhicule. En réussissant un test base Technique difficulté très difficile (9), le personnage peut rendre 6 PA à une méta-armure ou à un véhicule. Dans le cas d’une arme cassée, le personnage réussit à la réparer lorsqu’il réussit le test. Rater la réparation d’une arme cassée empêche quiconque de la réparer et il faudra la faire remplacer à Camelot.",
+            "OD5":"Le personnage peut bidouiller instinctivement des virus, des programmes de contrôle ou encore des routines qu’il peut inclure à distance dans une machine ou un objet technologique. La puissance du programme est égale à un test base Technique lors de sa création. Cette puissance doit être opposée à une difficulté pouvant représenter un pare-feu ou encore la distance entre le héros et la machine. Le personnage peut faire fonctionner en simultanée un nombre de programmes égal à son score de Technique sans les overdrives. Il ne peut lancer qu’un programme par tour de jeu et, en phase de conflit, cela lui coûte son action de déplacement. Enfin, lors de la création d’un programme, le héros doit discuter de ses effets avec le MJ. Les effets doivent rester simples (activer et commander un véhicule à distance, récupérer des données après un compte à rebours, détruire des données via un virus, etc.)."
+          } 
+        },
+        "AE":{
+          "Mineur":"Le PNJ ajoute son score de Machine exceptionnelle à son score de réaction.",
+          "Majeur":"Le PNJ est insensible aux capacités d’armure qui jouent sur les sens telles que le mode Ghost ou le mode Changeling. L’invisibilité comme les illusions ou les leurres n’ont pas d’effet sur lui."
+        }
+      },
+      "DAME":{
+        "Label": "Dame",
+        "CARACTERISTIQUES":{
+          "AURA": {
+            "Label": "Aura",
+            "OD":"Régulateur de phéromone",
+            "OD2":"Le personnage, lorsqu’il combat des humains, est toujours attaqué en dernier par les hostiles ou les salopards.",
+            "OD3":"Lorsqu’il rencontre des humains, qu’il aide ou non, le personnage peut décider de s’en faire des contacts qui deviendront ses amis ou ses amants. Par scénario, le héros peut ainsi se créer deux contacts qu’il pourra joindre via le RA, qui pourront l’aider et même l’assister dans des situations variées, voire l’accompagner comme des pages. Attention, seuls les PNJ avec un score de Dame ou de Machine divisé par 2 inférieur au score d’Aura du héros peuvent devenir des contacts.",
+            "OD4":"Le personnage, par un simple test base Aura opposé au score de Machine divisé par 2 le plus haut parmi les PNJ, peut attirer toute l’attention sur lui, permettant ainsi de créer des diversions, de préparer un discours, etc. Il attire généralement l’attention pendant un tour de jeu complet (10 secondes). En combat, cette capacité peut fonctionner, mais est soumise à un test base Aura dont la difficulté est à la discrétion du MJ.",
+            "OD5":"Le personnage en impose tellement qu’il peut ajouter son score d’Aura à son total de défense."
+          },
+          "PAROLE": {
+            "Label":  "Parole",
+            "OD":"Modulateur de voix",
+            "OD1":"Lorsqu’un allié vient de tomber à 0 point de vie (il y a moins d’une minute), le héros peut décider de lui parler et de l’encourager à rester en vie. Tant que le héros lui parle, l’allié conserve un dernier souffle de vie et ne mourra pas, même s’il a subi la mort sur son tirage de blessure grave (dans ce cas, il doit effectuer un nouveau jet jusqu’à ce qu’il obtienne autre chose que la mort). Le héros ne peut rien faire d’autre qu’être au chevet de l’allié (un seul allié). Ce bonus ne modifie pas les autres effets des blessures et ceux des soins prodigués par les autorités compétentes.",
+            "OD2":"Par ses paroles, le personnage peut faire regagner 1D6 points d’espoir à un autre héros. Il doit déclamer un discours plein d’espoir. Il ne peut utiliser ce bonus qu’une fois par héros lors d’une mission.",
+            "OD3":"Le personnage est capable d’imiter la voix de n’importe quelle personne qu’il a déjà entendue parler sans effectuer de jet base Parole ou Discrétion.",
+            "OD4":"En modulant sa voix et en se concentrant sur un être humain (pas une créature ou un robot), le personnage est capable de l’hypnotiser tant qu’il parle, sur un jet base Parole opposé à son score de Machine divisé par 2. Si le test réussit, tant que le héros parle (au prix d’une action de combat lors d’une phase de conflit), la personne visée ne peut plus agir et est en pleine hypnose. Avec un test réussi base Parole contre le score de Machine divisé par 2 de la personne visée, le héros peut lui faire accomplir des actions simples (qui n’attentent à la vie de personne) tant qu’il reste concentré et tant qu’il parle. Les PNJ disposant d’un aspect Bête exceptionnelle majeure, Machine exceptionnelle majeure, Dame exceptionnelle majeure ou Masque exceptionnel majeur sont immunisés à cet effet.",
+            "OD5":"Par ses paroles, le personnage peut faire regagner 2D6 points d’espoir à un allié. Il doit déclamer un discours plein d’espoir. Il ne peut utiliser ce bonus qu’une fois par allié lors d’une mission. Cette capacité remplace celle du niveau 2."
+          },
+          "SANGFROID": {
+            "Label": "Sang-Froid",
+            "OD":"Diffuseur d'endorphine",
+            "OD2":"Très calme grâce à sa méta-armure, le personnage ignore toujours les malus de difficulté dus à une situation stressante que le MJ pourrait lui infliger.",
+            "OD3":"Le personnage peut relancer (une seule fois par test) un jet d’espoir raté (Hargne combo Sang-Froid). Il doit conserver le second résultat s’il choisi de relancer son jet.",
+            "OD4":"Le personnage ignore la capacité peur.",
+            "OD5":"Le personnage ignore la capacité domination."
+          }
+        },
+        "AE":{
+          "Mineur":"Le PNJ, s’il est accompagné d’autres PNJ de la même faction que lui, peut toujours décider de reporter les dégâts qu’il subit sur des alliés proches, à portée courte. Cela représente le fait que des PNJ alliés s’interposent pour sauvegarder sa vie.",
+          "Majeur":"Un PJ qui souhaite attaquer ce PNJ doit réussir un test base Hargne dont la difficulté est égale au score de la Dame exceptionnelle du PNJ. S’il ne réussit pas ce test, il est subjugué par le PNJ et ne se résout pas à l’attaquer."
+        }
+      },
+      "MASQUE":{
+        "Label": "Masque",
+        "CARACTERISTIQUES":{
+          "DISCRETION": {
+            "Label": "Discrétion",
+            "OD":"Atténuateur de bruit et camouflage intelligent",
+            "OD2":"Désormais, lorsqu’il attaque un ennemi qui ne le voit pas, le personnage ajoute son score de Discrétion (sans les overdrives) aux dégâts infligés. Ce bonus peut être cumulé avec d’autres modules ou effets.",
+            "OD3":"Le personnage ne peut jamais être repéré à cause de ses bruits de pas. S’il doit parcourir une distance courte ou moyenne alors qu’il a peu de chance d’être repéré, il ne fait pas de test et réussit automatiquement.",
+            "OD4":"Lorsqu’il reste immobile pour se cacher, le personnage se fond dans le décor. Les ennemis ayant un score de Machine ou de Masque inférieur à 12 ne le voient simplement pas. Pour les autres, il doit tout de même effectuer un test.",
+            "OD5":"Désormais, lorsqu’il attaque un ennemi qui ne le voit pas, le personnage ajoute son score de Discrétion (avec les overdrives) aux dégâts infligés. Ce bonus peut être cumulé avec d’autres modules ou effets. En outre, il peut toujours décider de commencer une phase de conflit en embuscade."
+          },
+          "DEXTERITE": {
+            "Label": "Dextérité",
+            "OD":"Système d'aide à la coordination",
+            "OD3":"Le personnage ne peut jamais être désarmé à cause d’une attaque ou d’une défense ratée en phase de conflit, même en cas d’échec critique. En outre, il ne peut pas tomber ou être renversé à cause d’un malus d’environnement (pluie, boue, givre, etc.).",
+            "OD4":"Le personnage ignore l’effet lourd des armes. En outre, lors d’un test base Combat ou Tir, il peut toujours décider de remplacer ces caractéristiques par la Dextérité.",
+            "OD5":"Le personnage peut parer les projectiles et les tirs avec ses armes. Dès à présent, il peut utiliser son score de défense au lieu de son score de réaction pour éviter (parer dans ce cas) les tirs et les choses qui lui sont lancées."
+          },
+          "PERCEPTION": {
+            "Label": "Perception",
+            "OD":"Afficheur tête haute et sens augmentés",
+            "OD1":"Le personnage dispose d’un zoom x400. Il peut ainsi zoomer sur des détails situés à portée lointaine.",
+            "OD2":"Le personnage dispose maintenant d’un zoom audio lui permettant d’entendre des conversations situées à portée lointaine.",
+            "OD3":"Désormais, le personnage possède un zoom olfactif, lui permettant de sentir des odeurs à portée lointaine, mais aussi de les identifier via la base de données. De plus, le héros dispose d’un « zoom » pour son sens du toucher. Il peut ainsi repérer des aspérités minuscules en touchant une surface ou encore ressentir les vibrations. Ces zooms nécessitent d’être activés volontairement via une pensée.",
+            "OD4":"L’afficheur tête haute affiche maintenant une série d’informations sur tout objet, personne ou bâtiment sur lequel le personnage se concentre. Voici la liste des informations disponibles pour les objets, machines : nom, poids, taille, diamètre, dangerosité, carburant ou munitions utilisés, concepteur, date de fabrication, détails supplémentaires si répertoriés.<br/>Pour les bâtiments : nom, date de création, créateur, taille, nombre de pièces, état du bâtiment, appartenance actuelle, détails supplémentaires si répertoriés.<br/>Pour les personnes : poids, taille, âge, nom, niveau de menace si répertoriés, origines, détails supplémentaires si répertoriés. Si le personnage appartient à une arche, ses relations, sa profession et son casier judiciaire sont disponibles.",
+            "OD5":"Désormais, le personnage dispose d’un sonar constamment actif. Il repère les êtres vivants situés à portée moyenne autour de lui (qu’ils soient situés plus haut ou plus bas) malgré les obstacles (murs, sol, plafond…). Lorsqu’il est attaqué par surprise, dans le dos ou par un ennemi invisible, le personnage conserve toujours ses scores de défense et de réaction normaux."
+          }
+        },
+        "AE":{
+          "Mineur":"Le PNJ ajoute son score de Masque exceptionnel à son score de défense.",
+          "Majeur":"Le PNJ agit toujours, peu importe son nombre d’actions, comme s’il avait un score d’initiative de 30. Le MJ ne lance pas les dés."
+        }
+      }
+    },
+    "CAPACITES":{
+      "Label":"Capacités"
+    },
+    "COMBAT": {
+      "Label": "Combat",
+      "STYLES": {
+        "Label": "Style de combat",
+        "STANDARD": {
+          "FullLabel":"Style Standard",
+          "Label": "Standard",
+          "Info": "Pas de bonus, ni de malus."
+        },
+        "ACOUVERT": {
+          "FullLabel":"Style à Couvert",
+          "Label": "À Couvert",
+          "Info": "<b>Bonus :</b> +2 Réaction. <br/><br/><b>Malus :</b> -3D Attaque."
+        },
+        "AGRESSIF": {
+          "FullLabel":"Style Agressif",
+          "Label": "Agressif",
+          "Info": "<b>Bonus :</b> +3D Attaque. <br/><br/><b>Malus :</b> -2 Réaction / -2 Défense."
+        },
+        "AKIMBO": {
+          "FullLabel":"Style Akimbo",
+          "Label": "Akimbo",
+          "Info": "<b>Bonus :</b> Peut effectuer une attaque avec deux armes simultanéments. Cumule les dés de Dégâts de ses deux armes. Additionne la moitié des dés de Violence de la seconde arme avec ceux de la première. <br/><br/><b>Malus :</b> -3D Attaque."
+        },
+        "AMBIDEXTRE": {
+          "FullLabel":"Style Ambidextre",
+          "Label": "Ambidextre",
+          "Info": "<b>Bonus :</b> Peut effectuer une attaque avec chacune de ses armes en main. <br/><br/><b>Malus :</b> -3D Attaque."
+        },
+        "DEFENSIF": {
+          "FullLabel":"Style Défensif",
+          "Label": "Défensif",
+          "Info": "<b>Bonus :</b> +2 Défense. <br/><br/><b>Malus :</b> -3D Attaque."
+        },
+        "PRECIS": {
+          "FullLabel":"Style Précis",
+          "Label": "Précis",
+          "Info": "<b>Limitations :</b> Uniquement armes au contact à deux mains. <br/><br/><b>Bonus :</b> +1 Caractéristique (parmi Dextérité, Savoir, Instinct ou Sang-Froid), sauf OD. <br/><br/><b>Malus :</b> Utilisation d'action de combat + déplacement."
+        },
+        "PILONNAGE": {
+          "FullLabel":"Style Pilonnage",
+          "Label": "Pilonnage",
+          "Info": "<b>Limitations :</b> Uniquement armes de tir à deux mains. <br/><br/><b>Bonus :</b> +1 Dégâts ou Violence par Attaques successives sur la même cible après la première. (max +6D) <br/><br/><b>Malus :</b> -2D Attaque.",
+          "Tourspasses":"Tours passés à tirer"
+        },
+        "PUISSANT": {
+          "FullLabel":"Style Puissant",
+          "Label": "Puissant",
+          "Info": "<b>Limitations :</b> Uniquement armes de contact avec l'effet Lourd. <br/><br/><b>Bonus :</b> Peut sacrifier 1D à l'Attaque pour 1D de Dégâts ou de Violence supplémentaire. (max -6D / +6D) <br/><br/><b>Malus :</b> -2 Réaction / -2 Défense.",
+          "Sacrifice":"Sacrifice dés d'attaques"
+        },
+        "SUPPRESSION": {
+          "FullLabel":"Style Suppression",
+          "Label": "Suppression",
+          "Info": "<b>Limitations :</b> Uniquement armes de tir avec l'effet Lourd. <br/><br/><b>Bonus :</b> Au choix : Peut sacrifier 2D de Dégâts pour retirer 1D de dégâts aux attaques d'un hostile, salopard ou patron. (max 6D sacrifiés) / Au choix : Peut sacrifier 2D de Violence pour retirer 1D de Débordement aux attaques d'une bande. (max 8D sacrifiés)",
+          "Sacrifice":"Sacrifice de dés",
+          "Info-short-degats":"La moitié de ces dés sont soustrait aux dégâts de la cible",
+          "Info-short-violence":"La moitié de ces dés sont soustrait au débordement de la cible"
+        }
+      },
+      "ARMES":{
+        "Label":"Armes",
+        "Equiper":"Déployer l'arme",
+        "Desequiper":"Ranger l'arme",
+        "Poser":"Poser l'arme à l'armurerie",
+        "Prendre":"Prendre l'arme sur soi",
+        "Rack":"Rack",
+        "Armoury":"Armurerie",
+        "CONTACT":{
+          "Label": "Armes de contact"
+        },
+        "DISTANCE":{
+          "Label": "Armes à distance"
+        },
+        "TOURELLE":{
+          "Label": "Armes sur tourelle"
+        }
+      },
+      "NODS":{
+        "Label":"Nods",
+        "SoiMeme":"Sur Soi-même",
+        "Autrui":"Sur Autrui",
+        "Soin":"Soin",
+        "Armure":"Armure",
+        "Energie":"Energie"
+      },
+      "GRENADES":{
+        "Label": "Grenades",
+        "Singulier": "Grenade",
+        "Shrapnel": "Shrapnel",
+        "Flashbang": "Flashbang",
+        "Antiblindage": "Antiblindage",
+        "Iem": "IEM",
+        "Explosive": "Explosive"
+      },
+      "ARMESIMPROVISEES":{
+        "LabelDistance":"Armes improvisées (Distance)",
+        "LabelContact":"Armes improvisées (Contact)",
+        "ODForce":"OD de Force",
+        "Chair":"Chair Exceptionnelle",
+        "AI1":{
+          "1":"Lampadaire, panneau, petit arbre, cadavre, etc.",
+          "2":"Citerne d’essence, transformateur électrique, etc.",
+          "3":"Moto, petit véhicule, etc."
+        },
+        "AI2":{
+          "1":"Arbre, poteau en béton, etc.",
+          "2":"Petit château d’eau, cuve industrielle pleine, etc.",
+          "3":"Voiture, véhicule de taille moyenne, etc."
+        },
+        "AI3":{
+          "1":"Charpente métallique, gros arbre, etc.",
+          "2":"Façade de maison, morceau de route, rails, etc.",
+          "3":"Camionnette, gros 4x4, etc."
+        },
+        "AI4":{
+          "1":"Façade de petit immeuble, remorque de camion, etc.",
+          "2":"Camion, petit véhicule de chantier, etc."
+        },
+        "AI5":{
+          "1":"Façade d’immeuble, grue, container plein, etc.",
+          "2":"Yacht de 20 mètres, blindé, mécha-armure, etc."
+        }
+      }
+    },
+    "HISTORIQUE": {
+      "Label": "Historique",
+      "Langues": "Langues",
+      "Contacts": "Contacts",
+      "Blessures": "Blessures Graves",
+      "Traumas": "Traumas",
+      "Histoire": "Histoire"
+    },
+    "OPTIONS":{
+      "Label":"Options",
+      "KRAKEN":{
+        "Has":"Membre de la section Kraken",
+        "Hasnt":"Pas membre de la section Kraken"
+      },
+      "ENERGIE":{
+        "Has":"A de l'énergie",
+        "Hasnt":"N'a pas d'énergie"
+      },
+      "ARMURE":{
+        "Has":"A de l'armure",
+        "Hasnt":"N'a pas d'armure"
+      },
+      "BOUCLIER":{
+        "Has":"A un bouclier",
+        "Hasnt":"N'a pas de bouclier"
+      },
+      "CHAMPDEFORCE":{
+        "Has":"A un champ de force",
+        "Hasnt":"N'a pas de champ de force"
+      },
+      "SANTE":{
+        "Has":"A de la santé",
+        "Hasnt":"N'a pas de santé"
+      },
+      "RESILIENCE":{
+        "Has":"A de la résilience",
+        "Hasnt":"N'a pas de résilience"
+      },
+      "ESPOIR":{
+        "Has":"A de l'espoir",
+        "Hasnt":"N'a pas d'espoir"
+      },
+      "MODULES":{
+        "Has":"Peut recevoir des modules",
+        "Hasnt":"Ne peut pas recevoir des modules"
+      },
+      "PHASE2":{
+        "Has":"Possède une Phase 2",
+        "Hasnt":"Ne possède pas de Phase 2"
+      }
+    },
+    "EFFETS":{
+      "Label":"Effets",
+      "Edit":"Modifier les effet",
+      "Add":"Effets possibles à ajouter",
+      "Presents":"Effets présents",
+      "CUSTOM":{
+        "Label":"Effet personnalisé",
+        "Nocondition":"Bonus non conditionnel",
+        "Condition":"Bonus conditionnel",
+        "CaracFixe":"Bonus de caractéristique fixe",
+        "CaracJet":"Bonus de caractéristique au jet",
+        "AspectFixe":"Bonus d'aspect fixe",
+        "AspectJet":"Bonus d'aspect au jet",
+        "OdInclusJet":"OD Inclus dans le jet",
+        "NoOdInclusJet":"OD Non-Inclus dans le jet",
+        "OdInclusFixe":"OD Inclus dans le bonus fixe",
+        "NoOdInclusFixe":"OD Non-Inclus dans le bonus fixe",
+        "AeInclusJet":"Aspect Exceptionnel Inclus dans le jet",
+        "NoAeInclusJet":"Aspect Exceptionnel Non-Inclus dans le jet",
+        "AeInclusFixe":"Aspect Exceptionnel Inclus dans le bonus fixe",
+        "NoAeInclusFixe":"Aspect Exceptionnel Non-Inclus dans le bonus fixe"
+      },
+      "ANATHEME": {
+        "Label":"Anathème",
+        "Description":"Le PJ peut décider d’infliger ses dégâts sur les points d’espoir plutôt que sur les points de santé. Le CdF fonctionne, mais pas les points d’armure. Si le PNJ est tué, les PJ ayant subi cet effet récupèrent 1D6 points d’espoir par tranche complète de 6 points d’espoir perdus",
+        "Description-short":"Peut infliger les dégâts sur les points d'espoir plutôt que sur les PS, ignore l'armure."
+      },
+      "ANTIANATHEME": {
+        "Label":"Anti-Anathème",
+        "Description":"L'arme ignore purement et simplement la valeur de bouclier et de _Chair_ exceptionnelle (qu'elle soit majeure ou mineure) de la créature de l'Anathème prise pour cible. Les PA, puis la santé de la cible sont directement touchés. Lorsqu'une arme de ce type touche une bande de créatures de l'Anathème, ses scores de bouclier et de Chair exceptionnelle sont ignorés.",
+        "Description-short":"Ignore le bouclier et la Chair exceptionnelle majeure et mineure."
+      },
+      "ANTIVEHICULE": {
+        "Label":"Anti-Véhicule",
+        "Description":"Les armes possédant cet effet sont conçues pour détruire les véhicules, les blindés et abattre les ennemis de type colosse. Lorsque l'arme tire sur un véhicule ou un colosse, elle inflige ses dégâts normaux et n'a pas besoin d'infliger des tranches de 10 points de dégâts pour en infliger 1 à ces énormes ennemis.",
+        "Description-short":"Lorsque l'arme tire sur un véhicule ou un colosse, elle inflige ses dégâts normaux."
+      },
+      "ARTILLERIE": {
+        "Label":"Artillerie",
+        "Description":"Si la cible a préalablement été désignée, l'arme peut tirer sans les malus de portée et sans ligne de vue (il faut quand même une ligne de tir direct). La cible ne bénéficie d'aucun bonus de couvert. Attention, il faut que la munition puisse atteindre la cible d'une manière ou d'une autre et qu'un test de tir soit effectué. Une cible préalablement désignée est toujours atteignable, quelle que soit la distance et le « couvert », sans avoir besoin de ligne de tir dégagée.",
+        "Description-short":"Aucun malus de portée, et aucun bonus de couvert, si la cible est désignée. "
+      },
+      "ASSASSIN": {
+        "Label":"Assassin",
+        "Description":"Ajoute XD6 aux dégâts lors des attaques surprises.",
+        "Description-short":"En cas d'attaque surprise."
+      },
+      "ASSISTANCEATTAQUE": {
+        "Label":"Assistance à l'attaque",
+        "Description":"Lorsqu'un jet pour toucher est effectué avec cette arme, chaque réussite excédentaire au-dessus du score de _réaction_ (dans le cas d'un tir) ou de _défense_ (dans le cas d'une attaque au contact) de la cible permet de lui infliger 1 point de dégât (ou de violence dans le cas d'une bande) supplémentaire.",
+        "Description-short":"+1 par succès excédentaire sur l'attaque."
+      },
+      "AUCUNDEGATSVIOLENCE":{
+        "Label":"Aucun dégâts / violence",
+        "Description":"N'inflige pas de dégâts, ni de violence."
+      },
+      "BARRAGE": {
+        "Label":"Barrage",
+        "Description":"Au lieu de faire une attaque, le chevalier peut décider, au prix de son action de combat, de diminuer la _défense_ et la _réaction_ de la bande ou du PNJ ciblé d'un nombre de points égal à X jusqu'au début de son prochain tour, permettant ainsi à ses alliés de toucher plus facilement. L'effet s'applique automatiquement. Aucun autre effet, et aucun dégât de l'arme ne s'applique. Plusieurs effets _barrage_ peuvent s'appliquer sur une même cible et se cumulent. Mais attention, l'effet _barrage_ infligé par l'arme d'un PJ prend fin au début de son tour de jeu suivant (dès ce que c'est à lui de jouer de nouveau).",
+        "Description-short":"Le chevalier peut décider de diminuer la défense et la réaction d'un nombre de points égal à X jusqu'au début de son prochain tour. L'effet s'applique automatiquement. Aucun autre effet, et aucun dégât de l'arme ne s'applique. Cumulatif.",
+        "Active":"Barrage activé",
+        "Desactive":"Barrage désactivé"
+      },
+      "BOURREAU": {
+        "Label":"Bourreau",
+        "Description":"Quand lance les dés de dégâts, tout résultat inférieur ou égal à X est considéré comme un 4.",
+        "Description-short":"Quand lance les dés de dégâts, tout résultat inférieur ou égal à X est considéré comme un 4."
+      },
+      "BRISERLARESILIENCE": {
+        "Label":"Briser la résilience",
+        "Description":"Le personnage, s’il décide d’attaquer normalement la cible, fait baisser en plus la résilience de la cible de 1D6 points. Cette règle s’applique en plus des dégâts éventuellement infligés. Si le personnage décide de faire baisser la résilience de la cible, alors il ajoute 1D6 supplémentaire aux points de résilience qu’il retire.",
+        "Description-short":"Peut attaquer normalement la cible et faire baisser la résilience de 1D6 en plus, ou viser directement la résilience et la faire baisser de 1D6 supplémentaire.",
+        "Description-active":"Fait baisser la résilience de 1D6 supplémentaire.",
+        "Description-unactive":"Fait baisser la résilience de 1D6 en plus",
+        "Active":"Cible la résilience",
+        "Desactive":"Attaque normalement"
+      },
+      "CADENCE": {
+        "Label":"Cadence",
+        "Description":"L’arme est très rapide et peut cibler X adversaires par action de combat au lieu d’un seul. Une attaque doit être réalisée pour chacune des cibles, avec 3 dés de malus. Chacune des cibles ne peut être distante de plus de 2 mètres.",
+        "Description-short":"L’arme est très rapide et peut cibler X adversaires par action de combat au lieu d’un seul, avec 3 dés de malus.",
+        "Active":"Cadence activé",
+        "Desactive":"Cadence désactivé"
+      },
+      "CHARGEUR": {
+        "Label":"Chargeur",
+        "Description":"L’arme ou le module dispose d’un nombre d’utilisations indiqué par X. Une fois utilisé autant de fois que X, on estime qu’il n’a plus de munitions et ne peut donc plus faire feu. L’arme ou le module doit être rechargé (gratuitement) à Camelot entre deux missions.",
+        "Description-short":"L’arme ou le module dispose d’un nombre d’utilisations indiqué par X."
+      },
+      "CHOC": {
+        "Label":"Choc",
+        "Description":"Si le jet pour toucher avec l'arme est supérieur au score de l'aspect _Chair_ (divisé par 2 pour un PNJ) de la cible, celle-ci perd ses X prochaines actions. Cet effet ne fonctionne pas contre les bandes. Attention, l'effet ne peut pas se cumuler alors que la cible est déjà sous l'effet _choc_. Dans certaines circonstances, l'effet _choc_ peut être considéré comme automatique et ne prend donc pas en compte le score de l'aspect _Chair_. Lorsque l'effet _choc_ est censé s'appliquer automatiquement, il faut tout de même que le personnage touche sa cible. En revanche, son résultat n'a pas besoin d'égaler l'aspect _Chair_ divisé par deux de la cible pour que l'effet fonctionne. En fonction des circonstances, le MJ peut décider qu'un personnage sous l'effet choc subit un malus de 2 à sa _réaction_ et à sa _défense_. L'effet ne se cumule pas avec _parasitage X_.",
+        "Description-short":"Si le nombre de succès est supérieur à l'aspect Chair (ou Chair / 2 pour un PNJ), la cible perd ses X prochaines actions."
+      },
+      "CONVICTION": {
+        "Label":"Conviction",
+        "Description":"Quand vainc un ennemi, reçoit 1PEs (max 1 par attaque), 3PEs si vainc une bande.",
+        "Description-short":"Quand vainc un ennemi, reçoit 1PEs (max 1 par attaque), 3PEs si vainc une bande."
+      },
+      "DEFENSE": {
+        "Label":"Défense",
+        "Description":"L’utilisateur reçoit un modificateur de _défense_, X représentant cette valeur, tant qu’il utilise cette arme ou module. Les modificateurs reçus peuvent se cumuler tant que le personnage peut recevoir l’effet.",
+        "Description-short":"L’utilisateur reçoit un modificateur de défense, X représentant cette valeur, tant qu’il utilise cette arme ou module."
+      },
+      "DEGATSCONTINUS": {
+        "Label":"Dégâts continus",
+        "Description":"L'arme inflige X points de dégâts à chaque tour durant 1D6 tours. Les dégâts sont subis par la cible à chacun de ses tours de jeu et ignorent les éventuels scores de CdF ou de bouclier. Au regard de la technologie utilisée, l'effet ne peut se stopper que si la cible reçoit les soins appropriés ou s'il se termine de lui-même. Typiquement, cet effet se retrouve sur les armes causant des brûlures. Cet effet ne peut être cumulé sur une même créature tant que l'effet est déjà présent au moins une fois.",
+        "Description-short":"L'arme inflige X points de dégâts à chaque tour durant 1D6 tours."
+      },
+      "DEMORALISANT": {
+        "Label":"Démoralisant",
+        "Description":"Avec une attaque réussie, l'arme enlève 2 points au score de débordement que les bandes composées d'humains infligent, avant calcul des dégâts effectifs. Les dégâts effectifs du tour sont donc égaux débordement moins 2 multiplié par le nombre de tours écoulés à ce tour. Autrement dit, démoralisant réduit le débordement pour le tour en cours, et uniquement le tour en cours.\r\n**Précision** : Si l'effet _démoralisant_ est appliqué plusieurs fois, cela se cumule en ajoutant un tour de durée (et non pas en sous-trayant des points supplémentaires au débordement de la bande ciblée).",
+        "Description-short":"Si l'attaque réussie, retire 2 points au débordement de la Bande."
+      },
+      "DEUXMAINS": {
+        "Label":"Deux mains",
+        "Description":"Cet effet signifie simplement que le chevalier doit utiliser ses deux mains pour frapper ou tirer avec l'arme. Utiliser à une main une arme possédant cet effet est impossible, l'arme étant trop lourde ou possédant trop de recul pour toucher efficacement.",
+        "Description-short":"Cet effet signifie simplement que le chevalier doit utiliser ses deux mains pour frapper ou tirer avec l'arme."
+      },
+      "DESIGNATION": {
+        "Label":"Désignation",
+        "Description":"L'arme peut désigner une cible (une seule cible, pas une bande) une fois par tour. Son utilisateur et ses alliés reçoivent un bonus de 1 réussite automatique pour toucher la cible et ignorent toujours les éventuels échecs critiques qu'ils pourraient subir lorsqu'ils tentent de la toucher. Désigner une cible ne coûte pas d'action. Il n'y a aucun test à effectuer pour désigner une cible et la portée de la _désignation_ est celle de l'arme utilisée. La cible demeure désignée durant toute la scène ou toute la phase de conflit. Une fois désignée, l'armure va suivre les mouvements et les bruits de la cible et représenter sa position, ce qui permet au chevalier de lui tirer dessus avec une arme disposant de l'effet _artillerie_ notamment, ou d'utiliser automatiquement tout effet venant de ses éventuelles visions alternatives. L'effet permet par exemple, couplé avec un module de type vision prédatrice, de voir la cible à travers les murs, silhouettée sur la visière à Réalité Augmentée de la méta-armure. Tant que la signature de la cible reste visible par la méta-armure, la cible reste désignée.\r\n**Attention** : L'effet ne peut être cumulé sur une même cible.",
+        "Description-short":"L'arme peut désigner une cible (une seule cible, pas une bande) une fois par tour. Son utilisateur et ses alliés reçoivent un bonus de 1 réussite automatique pour toucher la cible et ignorent toujours les éventuels échecs critiques qu'ils pourraient subir lorsqu'ils tentent de la toucher."
+      },
+      "DESTRUCTEUR": {
+        "Label":"Destructeur",
+        "Description":"Lorsque les dégâts impactent les points d'armure de la cible, si elle a des PA, on ajoute 2D6 au total de dégâts. Si un seul point de dégâts passe le bouclier et le CdF de la cible, l'effet est appliqué.",
+        "Description-short":"Lorsque les dégâts impactent les points d'armure de la cible."
+      },
+      "DEVASTATION": {
+        "Label":"Dévastation",
+        "Description":"Quand lance les dés de violence, tout résultat inférieur ou égal à X est considéré comme un 5.",
+        "Description-short":"Quand lance les dés de violence, tout résultat inférieur ou égal à X est considéré comme un 5."
+      },
+      "DISPERSION": {
+        "Label":"Dispersion",
+        "Description":"L'arme peut toucher plusieurs ennemis et ses dégâts peuvent donc s'appliquer à plusieurs du moment que ces ennemis sont à moins de deux mètres les uns des autres. X représente le nombre d'ennemis que l'arme peut toucher dans une même action. Un seul jet d'attaque est à effectuer contre un seul ennemi. Les autres ennemis proches subissent automatiquement les dégâts et les autres effets que _dispersion_, à condition que le résultat du test d'attaque dépasse leur score d'opposition. Typiquement, les lance-flammes ou les armes explosives infligent cet effet. Cet effet n'affecte pas les bandes contre lesquelles seule la violence peut s'appliquer.\r\n**Attention** : Si l'effet est utilisé contre des ennemis au contact avec un autre PJ, ce dernier subit aussi les dégâts de la _dispersion_.",
+        "Description-short":"L'arme peut toucher plusieurs ennemis et ses dégâts peuvent donc s'appliquer à plusieurs du moment que ces ennemis sont à moins de deux mètres les uns des autres. X représente le nombre d'ennemis."
+      },
+      "ENCHAINE": {
+        "Label":"En chaîne",
+        "Description":"Lorsque le PJ utilisant cette arme réussit à éliminer (pas forcément à tuer, neutraliser suffit) un hostile ou un salopard, il peut effectuer au prix de 3 PE, au même tour et à la même _initiative_, une autre attaque sur un autre hostile ou un autre salopard qui se trouve à portée de son arme (un test pour toucher est de nouveau nécessaire). Si cette deuxième attaque élimine la cible, l'effet peut s'appliquer une nouvelle fois et ainsi de suite. Le coût en énergie intervient en plus de l'éventuel coût en énergie de l'arme. Chaque nouvelle attaque doit donner lieu à une dépense d'énergie en conséquence. Dans le cas où plusieurs ennemis sont éliminés en même temps, l'effet en chaîne ne s'applique qu'une seule fois.",
+        "Description-short":"Lorsque le PJ utilisant cette arme réussit à éliminer (pas forcément à tuer, neutraliser suffit) un hostile ou un salopard, il peut effectuer au prix de 3 PE une autre attaque sur un autre hostile ou un autre salopard."
+      },
+      "ESPERANCE": {
+        "Label":"Espérance",
+        "Description":"S’il le veut, un PJ peut décider d’échanger les dégâts qu’il devrait infliger contre l’application de l’effet _espérance_. Les PNJ désespérés touchés par l’attaque peuvent effectuer un test de _Bête_ difficulté (5) pour combattre le désespoir. Chaque attaque supplémentaire infligée par l’équipement à un même désespéré et appliquant l’effet _espérance_ fait baisser le niveau de difficulté du test de 1. Si le désespéré réussit son test, alors il a réussi à vaincre le désespoir et n’est plus un ennemi.",
+        "Description-short":"S’il le veut, un PJ peut décider d’échanger les dégâts qu’il devrait infliger contre l’application de l’effet _espérance_. Les PNJ désespérés touchés par l’attaque peuvent effectuer un test de _Bête_ difficulté (5) pour combattre le désespoir. Chaque attaque supplémentaire infligée par l’équipement à un même désespéré et appliquant l’effet _espérance_ fait baisser le niveau de difficulté du test de 1. Si le désespéré réussit son test, alors il a réussi à vaincre le désespoir et n’est plus un ennemi."
+      },
+      "EXCELLENCE": {
+        "Label":"Excellence",
+        "Description":"Sur test d'attaque, chaque réussite excédentaire (OD compris) inflige 2 points de dégâts (ou de violence) supplémentaire.",
+        "Description-short":"Sur test d'attaque, chaque réussite excédentaire (OD compris) inflige 2 points de dégâts (ou de violence) supplémentaire."
+      },
+      "FUREUR": {
+        "Label":"Fureur",
+        "Description":"Lorsque l'arme est utilisée contre une bande avec un score d'aspect _Chair_ de 10 ou plus, la violence de l'arme est augmentée de 4D6.",
+        "Description-short":"Si la bande a un score de Chair de 10 ou plus. "
+      },
+      "GUIDAGE": {
+        "Label":"Guidage",
+        "Description":"À chaque test d'attaque, 5 PE pour compter les impairs comme réussite plutôt que les pairs.",
+        "Description-short":"À chaque test d'attaque, 5 PE pour compter les impairs comme réussite plutôt que les pairs.",
+        "Active":"Guidage activé",
+        "Desactive":"Guidage désactivé"
+      },
+      "IGNOREARMURE": {
+        "Label":"Ignore Armure",
+        "Description":"L'arme ignore purement et simplement la valeur de points d'armure d'un adversaire. La santé de la cible est directement touchée si les dégâts passent le CdF ou le bouclier.",
+        "Description-short":"L'arme ignore purement et simplement la valeur de points d'armure d'un adversaire. La santé de la cible est directement touchée si les dégâts passent le CdF ou le bouclier."
+      },
+      "IGNORECHAMPDEFORCE": {
+        "Label":"Ignore Champ De Force",
+        "Description":"L'arme ignore purement et simplement le champ de force d'un adversaire. Les PS de la cible sont directement touchée si les dégâts passent les PA ou le bouclier.",
+        "Description-short":"L'arme ignore purement et simplement le champ de force d'un adversaire. Les PS de la cible sont directement touchée si les dégâts passent les PA ou le bouclier."
+      },
+      "JUMELEAKIMBO": {
+        "Label":"Jumelé (akimbo)",
+        "Description":"Lorsqu’on utilise deux exemplaires de cette arme en style akimbo, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
+        "Description-short":"Lorsqu’on utilise deux exemplaires de cette arme en style akimbo, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3)."
+      },
+      "JUMELEAMBIDEXTRIE": {
+        "Label":"Jumelé (ambidextrie)",
+        "Description":"Lorsqu’on utilise deux armes disposant de cet effet en style ambidextre, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
+        "Description-short":"Lorsqu’on utilise deux armes disposant de cet effet en style ambidextre, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
+        "Active":"Jumelé (ambidextrie) activé",
+        "Desactive":"Jumelé (ambidextrie) désactivé"
+      },
+      "LESTE": {
+        "Label":"Lesté",
+        "Description":"Lorsque l’arme est utilisée, son utilisateur ajoute le score de la caractéristique _Force_ multipliée par deux (ou Chair complet pour un PNJ) lorsqu’il détermine les dégâts plutôt que sa _Force_ seule (ou _Chair_ divisé par 2). Seuls les PJ ayant un score de _Force_ égal ou supérieur à 4 ou possédant un overdrive de _Force_ peuvent utiliser une arme avec un tel effet.",
+        "Description-short":"Lorsque l’arme est utilisée, son utilisateur ajoute le score de la caractéristique Force multipliée par deux (ou Chair complet pour un PNJ) lorsqu’il détermine les dégâts plutôt que sa Force seule (ou _Chair_ divisé par 2)."
+      },
+      "LOURD": {
+        "Label":"Lourd",
+        "Description":"Pour utiliser cette arme, vous devez dépenser une (et une seule) action de déplacement et une (et une seule) action de combat. Les actions supplémentaires acquises ne sont pas touchées par cet effet.",
+        "Description-short":"Pour utiliser cette arme, vous devez dépenser une (et une seule) action de déplacement et une (et une seule) action de combat."
+      },
+      "LUMIERE": {
+        "Label":"Lumière",
+        "Description":"Lorsque l'arme frappe une créature de l'Anathème ou une bande de l'Anathème, ses scores de _défense_ et de _réaction_ sont réduits d'une certaine valeur jusqu'à la fin du prochain tour du PJ qui a infligé l'effet _lumière_. X représente cette valeur. Cet effet ne peut pas se cumuler sur une même cible.",
+        "Description-short":"Lorsque l'arme frappe une créature de l'Anathème ou une bande de l'Anathème, ses scores de défense et de réaction sont réduits de X jusqu'à la fin du prochain tour du PJ qui a infligé l'effet lumière."
+      },
+      "MEURTRIER": {
+        "Label":"Meurtrier",
+        "Description":"Lorsque les dégâts impactent la santé de la cible, on ajoute 2D6 au total des dégâts. Si un seul point de dégâts passe l'armure, le bouclier et le CdF de la cible, l'effet _meurtrier_ est appliqué.",
+        "Description-short":"Lorsque les dégâts impactent la santé de la cible."
+      },
+      "OBLITERATION": {
+        "Label":"Oblitération",
+        "Description":"Ces équipements particulièrement puissants infligent des dégâts considérables aux cibles les moins résistantes. Contre un ennemi de type hostile, ils infligent toujours les dégâts maximum.",
+        "Description-short":"Contre un ennemi de type hostile, ils infligent toujours les dégâts maximum.",
+        "Active":"Obliteration activé",
+        "Desactive":"Obliteration désactivé"
+      },
+      "ORFEVRERIE": {
+        "Label":"Orfévrerie",
+        "Description":"Lorsque l’arme est utilisée, son utilisateur ajoute sa caractéristique _Dextérité_ (+ 1 point de dégâts par overdrive) (ou _Masque_ divisé par 2, arrondi à l’entier supérieur, pour un PNJ) lorsqu’il détermine les dégâts en plus d’autres caractéristiques déjà incluses.",
+        "Description-short":"Lorsque l’arme est utilisée, son utilisateur ajoute sa caractéristique Dextérité (+ 1 point de dégâts par overdrive)."
+      },
+      "PARASITAGE": {
+        "Label":"Parasitage",
+        "Description":"Cet effet s'applique uniquement aux méta-armures, exosquelettes, robots, véhicules, créatures de la Machine et tous les ennemis possédant la capacité _sensibilité IEM_. La cible touchée par une attaque avec _parasitage X_ perd automatiquement ses X prochaines actions.\r\n**Attention** : l'effet ne peut pas se cumuler alors que la cible est déjà sous l'effet _parasitage X_ et ne se cumule pas avec l'effet _choc X_.",
+        "Description-short":"Cet effet s'applique uniquement aux machines. La cible touchée perd automatiquement ses X prochaines actions."
+      },
+      "PENETRANT": {
+        "Label":"Pénétrant",
+        "Description":"L'arme ignore une certaine valeur de champ de force, X représentant cette valeur. Si la valeur est égale ou supérieure au champ de force de l'ennemi, celui-ci est tout simplement ignoré et les points d'armure (ou les points de santé si la cible n'a pas de PA) sont directement touchés. Cet effet ne fonctionne pas contre le score de bouclier d'une cible.",
+        "Description-short":"L'arme ignore une certaine valeur de champ de force, X représentant cette valeur."
+      },
+      "PERCEARMURE": {
+        "Label":"Perce Armure",
+        "Description":"L'arme ignore une certaine valeur d'armure, X représentant cette valeur. Si la valeur est égale ou supérieure aux points d'armure de l'ennemi, le total de PA est simplement ignoré et la santé est directement touchée.",
+        "Description-short":"L'arme ignore une certaine valeur d'armure, X représentant cette valeur.."
+      },
+      "PRECISION": {
+        "Label":"Precision",
+        "Description":"Lorsque l’arme est utilisée, son utilisateur ajoute sa caractéristique _Tir_ (+ 1 point de dégâts par overdrive) (ou _Machine_ divisé par 2, arrondi à l’entier supérieur, pour un PNJ) lorsqu’il détermine les dégâts.",
+        "Description-short":"Lorsque l’arme est utilisée, son utilisateur ajoute sa caractéristique Tir (+ 1 point de dégâts par overdrive)."
+      },
+      "REACTION": {
+        "Label":"Réaction",
+        "Description":"L’utilisateur bénéficie d’un bonus en _réaction_, X représentant cette valeur, tant qu’il utilise cette arme ou module. Les bonus reçus peuvent se cumuler tant que le personnage peut bénéficier de l’effet.",
+        "Description-short":"L’utilisateur bénéficie d’un bonus en réaction, X représentant cette valeur, tant qu’il utilise cette arme ou module."
+      },
+      "REGULARITE": {
+        "Label":"Régularité",
+        "Description":"Sur les tests d'attaque, chaque 6 obtenu ajoute 3 au calcul des dégâts.",
+        "Description-short":"Sur les tests d'attaque, chaque 6 obtenu ajoute 3 au calcul des dégâts."
+      },
+      "SILENCIEUX": {
+        "Label":"Silencieux",
+        "Description":"Le personnage ne peut être repéré par un autre personnage parce qu'il utilise son arme. Lorsque cet effet est utilisé pendant une attaque surprise, une invisibilité, un mode Ghost ou un mode Changeling, le score de la caractéristique _Discrétion_ (plus les éventuels OD) du PJ est ajouté aux dégâts. Dans le cas des PNJ, c'est la moitié du score de _Masque_ (plus le score de _Masque_ exceptionnel éventuel) qui est ajouté aux dégâts. Cet effet peut s'ajouter à ceux du mode Ghost et du niveau 2 de l'overdrive de _Discrétion_.",
+        "Description-short":"En cas d'attaque surprise."
+      },
+      "SOUMISSION": {
+        "Label":"Silencieux",
+        "Description":"Après avoir touché sa cible avec un effet _soumission_, l’attaquant peut soumettre sa cible physiquement et l’empêcher de se déplacer ou d’attaquer qui que ce soit d’autre que l’attaquant, et ce au contact. Pour se libérer de l’effet _soumission_, la cible touchée doit, à son tour, réussir un test base _Déplacement_ ou _Combat_ (aspect _Chair_ ou _Bête_) dont la difficulté est définie par le nombre de réussites de l’attaquant. Si la cible n’a pas pu se libérer à son tour, l’attaquant peut maintenir la soumission sans relancer les dés et infliger des dégâts normalement, ou relancer un test d’attaque afin de renforcer sa prise. Si le jet est à nouveau réussi, les dégâts sont infligés sans prendre en considération tout éventuel champ de force ou bouclier (pour les créatures de l’Anathème). L’effet _soumission_ ne peut impacter les colosses."
+      },
+      "TENEBRICIDE": {
+        "Label":"Ténébricide",
+        "Description":"L’équipement a été pensé pour anéantir les créatures de l’Anathème et uniquement celles-ci. Contre des ennemis humains, il n’inflige que la moitié de ses dés de dégâts et de ses dés de violence.",
+        "Description-short":"Contre des ennemis humains, il n’inflige que la moitié de ses dés de dégâts et de ses dés de violence.",
+        "Active":"Ténébricide activé",
+        "Desactive":"Ténébricide désactivé"
+      },
+      "TIRENRAFALE": {
+        "Label":"Tir en rafale",
+        "Description":"Lors du calcul des dégâts, il est possible, une fois par attaque, d’annuler tous les résultats et de relancer les dés. Le nouveau résultat remplace le premier et doit être conservé. Il n’est pas possible de prendre la moyenne des dégâts en utilisant cet effet.",
+        "Description-short":"Lors du calcul des dégâts, il est possible, une fois par attaque, d’annuler tous les résultats et de relancer les dés. Le nouveau résultat remplace le premier et doit être conservé. Il n’est pas possible de prendre la moyenne des dégâts en utilisant cet effet.",
+        "Relance":"Relance les dégâts"
+      },
+      "TIRENSECURITE": {
+        "Label":"Tir en sécurité",
+        "Description":"Grâce à une caméra sur le bout du canon ou à un canon déformable, le porteur de l’arme peut tirer tout en bénéficiant des bonus du style à couvert sans subir de malus au tir.",
+        "Description-short":"Grâce à une caméra sur le bout du canon ou à un canon déformable, le porteur de l’arme peut tirer tout en bénéficiant des bonus du style à couvert sans subir de malus au tir."
+      },
+      "ULTRAVIOLENCE": {
+        "Label":"Ultraviolence",
+        "Description":"Lorsque l'arme est utilisée contre une bande avec un score d'aspect _Chair_ de moins de 10, la violence de l'arme est augmentée de 2D6.",
+        "Description-short":"Lorsque l'arme est utilisée contre une bande avec un score d'aspect _Chair_ de moins de 10."
+      }
+    },
+    "AMELIORATIONS":{
+      "LABEL":{
+        "Distance":"Améliorations",
+        "Structurelles":"Améliorations structurelles",
+        "Ornementales":"Améliorations ornementales"
+      },
+      "EDIT":{
+        "Distance":"Modifier les améliorations",
+        "Structurelles":"Modifier les améliorations structurelles",
+        "Ornementales":"Modifier les améliorations ornementales"
+      },
+      "AGRESSIVE":{
+        "Label":"Agressive",
+        "Description":"Lorsque le personnage se bat en style agressif avec l’arme, celle-ci voit ses dégâts augmenter de 1D6 (3).",
+        "Description-short":"Lorsque le personnage se bat en style agressif avec l’arme, celle-ci voit ses dégâts augmenter de 1D6 (3)."
+      },
+      "ALLEGEE":{
+        "Label":"Allégée",
+        "Description":"L’arme perd 1D6 (3) aux dégâts qu’elle infligeait à l’origine. En contrepartie, elle perd l’effet deux mains et peut donc être manipulée à une main.",
+        "Description-short":"L’arme perd 1D6 (3) aux dégâts qu’elle infligeait à l’origine. En contrepartie, elle perd l’effet deux mains et peut donc être manipulée à une main."
+      },
+      "ARABESQUESIRIDESCENTES":{
+        "Label":"Arabesques iridescentes",
+        "Description":"L’arme possède désormais l’effet lumière 1 ou octroie un bonus de 1 à l’effet lumière X.\r\nLorsque l'arme frappe une créature de l'Anathème ou une bande de l'Anathème, ses scores de _défense_ et de _réaction_ sont réduits d'une certaine valeur jusqu'à la fin du prochain tour du PJ qui a infligé l'effet _lumière_. X représente cette valeur. Cet effet ne peut pas se cumuler sur une même cible.",
+        "Description-short":"Lorsque l'arme frappe une créature de l'Anathème ou une bande de l'Anathème, ses scores de _défense_ et de _réaction_ sont réduits d'une certaine valeur jusqu'à la fin du prochain tour du PJ qui a infligé l'effet _lumière_. X représente cette valeur. Cet effet ne peut pas se cumuler sur une même cible."
+      },
+      "ARMEAZURINE":{
+        "Label":"Arme azurine",
+        "Description":"L’arme reçoit un bonus de 1D6 (3) points de dégâts et 1D6 (3) points de violence lorsqu’elle cible une créature de la Dame.",
+        "Description-short":"Lorsque cible une créature de la Dame."
+      },
+      "ARMEROUGESANG":{
+        "Label":"Arme rouge sang",
+        "Description":"L’arme reçoit un bonus de 1D6 (3) points de dégâts et 1D6 (3) points de violence lorsqu’elle cible une créature de la Chair.",
+        "Description-short":"Lorsque cible une créature de la Chair."
+      },
+      "ARMUREGRAVEE":{
+        "Label":"Armure gravée",
+        "Description":"Lorsque le chevalier l’a en main, l’arme lui procure désormais un bonus de 2 au champ de force de sa méta-armure et de sa combinaison Guardian.",
+        "Description-short":"Donne un bonus de 2 au champ de force de sa méta-armure et de sa combinaison Guardian."
+      },
+      "ASSASSINE":{
+        "Label":"Assassine",
+        "Description":"Désormais, l’arme possède l’effet silencieux.\r\nLe personnage ne peut être repéré par un autre personnage parce qu'il utilise son arme. Lorsque cet effet est utilisé pendant une attaque surprise, une invisibilité, un mode Ghost ou un mode Changeling, le score de la caractéristique _Discrétion_ (plus les éventuels OD) du PJ est ajouté aux dégâts. Dans le cas des PNJ, c'est la moitié du score de _Masque_ (plus le score de _Masque_ exceptionnel éventuel) qui est ajouté aux dégâts. Cet effet peut s'ajouter à ceux du mode Ghost et du niveau 2 de l'overdrive de _Discrétion_.",
+        "Description-short":"En cas d'attaque surprise."
+      },
+      "BARBELEE":{
+        "Label":"Barbelée",
+        "Description":"L’arme gagne l’effet meurtrier.\r\nLorsque les dégâts impactent la santé de la cible, on ajoute 2D6 au total des dégâts. Si un seul point de dégâts passe l'armure, le bouclier et le CdF de la cible, l'effet _meurtrier_ est appliqué.",
+        "Description-short":"Lorsque les dégâts impactent la santé de la cible."
+      },
+      "BLASONCHEVALIER":{
+        "Label":"Blason du chevalier",
+        "Description":"Désormais, lorsque le chevalier accomplit la motivation mineure liée à son blason et que l’arme l’a aidé pour cela, il gagne un point d’espoir supplémentaire à ajouter à sa valeur actuelle.",
+        "Description-short":"Désormais, lorsque le chevalier accomplit la motivation mineure liée à son blason et que l’arme l’a aidé pour cela, il gagne un point d’espoir supplémentaire."
+      },
+      "BOUCLIERGRAVE":{
+        "Label":"Bouclier gravé",
+        "Description":"L’arme procure l’effet défense 1 ou octroie un bonus de 1 à l’effet défense X.\r\nL’utilisateur reçoit un modificateur de _défense_, X représentant cette valeur, tant qu’il utilise cette arme ou module. Les modificateurs reçus peuvent se cumuler tant que le personnage peut recevoir l’effet.",
+        "Description-short":"L’arme procure l’effet défense 1 ou octroie un bonus de 1 à l’effet défense X."
+      },
+      "CANONLONG":{
+        "Label":"Canon long",
+        "Description":"L’arme offre une réussite automatique (en plus des éventuels effets octroyant des réussites automatiques) lorsque le tireur fait feu à portée moyenne ou supérieure. À portée courte ou inférieure, la difficulté des tirs est augmentée de 3 (comme si la réaction des ennemis était augmentée de 3 points).",
+        "Description-short":"À portée moyenne ou supérieure, offre une réussite automatique. À portée courte ou inférieure, la difficulté des tirs est augmentée de 3."
+      },
+      "CANONRACCOURCI":{
+        "Label":"Canon raccourci",
+        "Description":"À portée courte ou inférieure, l’arme possède l’effet dispersion 3. En revanche, à portée moyenne ou supérieure, la difficulté des tirs est augmentée de 3 (comme si la réaction des ennemis était augmentée de 3 points).",
+        "Description-short":"À portée courte ou inférieure, offre dispersion 3. À portée moyenne ou supérieure, la difficulté des tirs est augmentée de 3."
+      },
+      "CHAMBREDOUBLE":{
+        "Label":"Chambre double",
+        "Description":"L’arme gagne l’effet cadence 2.\r\nL’arme est très rapide et peut cibler 2 adversaires par action de combat au lieu d’un seul. Une attaque doit être réalisée pour chacune des cibles, avec 3 dés de malus. Chacune des cibles ne peut être distante de plus de 2 mètres.",
+        "Active":"Chambre double activé",
+        "Desactive":"Chambre double désactivé"
+      },
+      "CHARGEURBALLESGRAPPES":{
+        "Label":"Chargeur et balles grappes",
+        "Description":"L’arme voit sa violence augmenter de 1D6, en revanche, ses dégâts diminuent de 1D6."
+      },
+      "CHARGEURMUNITIONSEXPLOSIVES":{
+        "Label":"Chargeur et munitions explosives",
+        "Description":"L’arme voit ses dégâts augmenter de 1D6, en revanche, sa violence diminue de 1D6."
+      },
+      "CHENESCULPTE":{
+        "Label":"Chêne sculpté",
+        "Description":"L’arme reçoit un bonus de 2D6 (6) points de dégâts lorsqu’elle cible un colosse de l’Anathème.",
+        "Description-short":"Lorsque cible un colosse de l’Anathème."
+      },
+      "CHROMELIGNESLUMINEUSES":{
+        "Label":"Chromée avec lignes lumineuses et colorées",
+        "Description":"L’arme possède désormais l’effet cadence 2.\r\nL’arme est très rapide et peut cibler 2 adversaires par action de combat au lieu d’un seul. Une attaque doit être réalisée pour chacune des cibles, avec 3 dés de malus. Chacune des cibles ne peut être distante de plus de 2 mètres.",
+        "Description-short":"L’arme est très rapide et peut cibler 2 adversaires par action de combat au lieu d’un seul. Une attaque doit être réalisée pour chacune des cibles, avec 3 dés de malus. Chacune des cibles ne peut être distante de plus de 2 mètres.",
+        "Active":"Chromée avec lignes lumineuses et colorées activé",
+        "Desactive":"Chromée avec lignes lumineuses et colorées désactivé"
+      },
+      "CODEKNIGHTGRAVE":{
+        "Label":"Code du Knight gravé",
+        "Description":"Lorsque le chevalier a l’arme en main, ses pertes d’espoir sont réduites de 1 point. Ce bonus peut se cumuler avec d’autres réductions.",
+        "Description-short":"Lorsque le chevalier a l’arme en main, ses pertes d’espoir sont réduites de 1 point."
+      },
+      "CONNECTEE":{
+        "Label":"Connectée",
+        "Description":"L’arme possède désormais l’effet assistance à l’attaque.\r\nLorsqu'un jet pour toucher est effectué avec cette arme, chaque réussite excédentaire au-dessus du score de _réaction_ (dans le cas d'un tir) ou de _défense_ (dans le cas d'une attaque au contact) de la cible permet de lui infliger 1 point de dégât (ou de violence dans le cas d'une bande) supplémentaire.",
+        "Description-short":"+1 par succès excédentaire sur l'attaque."
+      },
+      "CRANERIEURGRAVE":{
+        "Label":"Crâne rieur gravé",
+        "Description":"L’arme possède désormais l’effet oblitération.\r\nCes équipements particulièrement puissants infligent des dégâts considérables aux cibles les moins résistantes. Contre un ennemi de type hostile, ils infligent toujours les dégâts maximum.",
+        "Description-short":"Contre un ennemi de type hostile, ils infligent toujours les dégâts maximum.",
+        "Active":"Crâne rieur gravé activé",
+        "Desactive":"Crâne rieur gravé désactivé"
+      },
+      "ELECTRIFIEE":{
+        "Label":"Électrifiée",
+        "Description":"L’arme gagne l’effet choc 1.\r\nSi le jet pour toucher avec l'arme est supérieur au score de l'aspect _Chair_ (divisé par 2 pour un PNJ) de la cible, celle-ci perd sa prochaine action. Cet effet ne fonctionne pas contre les bandes. Attention, l'effet ne peut pas se cumuler alors que la cible est déjà sous l'effet _choc_. Dans certaines circonstances, l'effet _choc_ peut être considéré comme automatique et ne prend donc pas en compte le score de l'aspect _Chair_. Lorsque l'effet _choc_ est censé s'appliquer automatiquement, il faut tout de même que le personnage touche sa cible. En revanche, son résultat n'a pas besoin d'égaler l'aspect _Chair_ divisé par deux de la cible pour que l'effet fonctionne. En fonction des circonstances, le MJ peut décider qu'un personnage sous l'effet choc subit un malus de 2 à sa _réaction_ et à sa _défense_. L'effet ne se cumule pas avec _parasitage X_.",
+        "Description-short":"Si le nombre de succès est supérieur à l'aspect Chair (ou Chair / 2 pour un PNJ), la cible perd sa prochaines actions."
+      },
+      "FAUCHEUSEGRAVEE":{
+        "Label":"Faucheuse gravée",
+        "Description":"L’arme reçoit un bonus de 1D6 (3) à ses dégâts.",
+        "Description-short":"L’arme reçoit un bonus de 1D6 (3) à ses dégâts."
+      },
+      "FAUCONPLUMESLUMINESCENTES":{
+        "Label":"Faucon et plumes luminescentes",
+        "Description":"L’arme possède désormais l’effet anti-Anathème.\r\nL'arme ignore purement et simplement la valeur de bouclier et de _Chair_ exceptionnelle (qu'elle soit majeure ou mineure) de la créature de l'Anathème prise pour cible. Les PA, puis la santé de la cible sont directement touchés. Lorsqu'une arme de ce type touche une bande de créatures de l'Anathème, ses scores de bouclier et de Chair exceptionnelle sont ignorés.",
+        "Description-short":"Ignore le bouclier et la Chair exceptionnelle majeure et mineure."
+      },
+      "FLAMMESSTYLISEES":{
+        "Label":"Flammes stylisées",
+        "Description":"L’arme reçoit un bonus de 1D6 (3) à sa violence.",
+        "Description-short":"L’arme reçoit un bonus de 1D6 (3) à sa violence."
+      },
+      "GRIFFURESGRAVEES":{
+        "Label":"Griffures gravées",
+        "Description":"L’arme reçoit un bonus de 1D6 (3) points de dégâts et 1D6 (3) points de violence lorsqu’elle cible une créature de la Bête.",
+        "Description-short":"Lorsque cible une créature de la Bête."
+      },
+      "INDESTRUCTIBLE":{
+        "Label":"Indestructible",
+        "Description":"L’arme est indestructible. Elle ne peut pas être brisée, broyée, cassée, démantelée, brûlée, etc.",
+        "Description-short":"L’arme est indestructible. Elle ne peut pas être brisée, broyée, cassée, démantelée, brûlée, etc."
+      },
+      "INTERFACEGUIDAGE":{
+        "Label":"Interface de guidage",
+        "Description":"L’arme gagne l’effet tir en sécurité.\r\nGrâce à une caméra sur le bout du canon ou à un canon déformable, le porteur de l’arme peut tirer tout en bénéficiant des bonus du style à couvert sans subir de malus au tir."
+      },
+      "JUMELLE":{
+        "Label":"Jumelle",
+        "Description":"Lorsque l’arme est utilisée de concert avec sa jumelle, les deux armes gagnent l’effet jumelé (akimbo).\r\nLorsqu’on utilise deux exemplaires de cette arme en style akimbo, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
+        "Description-short":"Lorsqu’on utilise deux exemplaires de cette arme en style akimbo, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3)."
+      },
+      "JUMELAGEAKIMBO":{
+        "Label":"Jumelage (Akimbo)",
+        "Description":"Les armes gagnent l’effet jumelage (akimbo)\r\nLorsqu’on utilise deux exemplaires de cette arme en style akimbo, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
+        "Description-short":"Lorsqu’on utilise deux exemplaires de cette arme en style akimbo, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3)."
+      },
+      "JUMELAGEAMBIDEXTRIE":{
+        "Label":"Jumelage (Ambidextrie)",
+        "Description":"Les armes gagnent l’effet jumelage (ambidextrie)\r\nLorsqu’on utilise deux armes disposant de cet effet en style ambidextre, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
+        "Description-short":"Lorsqu’on utilise deux armes disposant de cet effet en style ambidextre, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
+        "Active":"Jumelage (Ambidextrie) activé",
+        "Desactive":"Jumelage (Ambidextrie) désactivé"
+      },
+      "LUMINEUSE":{
+        "Label":"Lumineuse",
+        "Description":"Désormais l’arme possède l’effet lumière 2.\r\nLorsque l'arme frappe une créature de l'Anathème ou une bande de l'Anathème, ses scores de _défense_ et de _réaction_ sont réduits de 2 valeur jusqu'à la fin du prochain tour du PJ qui a infligé l'effet _lumière_. Cet effet ne peut pas se cumuler sur une même cible.",
+        "Description-short":"Lorsque l'arme frappe une créature de l'Anathème ou une bande de l'Anathème, ses scores de défense et de réaction sont réduits de 2 jusqu'à la fin du prochain tour du PJ qui a infligé l'effet lumière."
+      },
+      "LUNETTEINTELLIGENTE":{
+        "Label":"Lunette intelligente",
+        "Description":"Les armes à deux mains voient leur portée augmenter d’un niveau, sans malus.",
+        "Description-short":"Les armes à deux mains voient leur portée augmenter d’un niveau, sans malus."
+      },
+      "MASQUEBRISESCULPTE":{
+        "Label":"Masque brisé sculpté",
+        "Description":"L’arme reçoit un bonus de 1D6 (3) points de dégâts et 1D6 (3) points de violence lorsqu’elle cible une créature du Masque.",
+        "Description-short":"Lorsque cible une créature de la Masque."
+      },
+      "MASSIVE":{
+        "Label":"Massive",
+        "Description":"Désormais, l’arme possède l’effet lesté. En revanche, lorsqu’il a l’arme en main, le chevalier voit sa défense diminuer de 1 point.\r\nLorsque l’arme est utilisée, son utilisateur ajoute le score de la caractéristique _Force_ multipliée par deux (ou Chair complet pour un PNJ) lorsqu’il détermine les dégâts plutôt que sa _Force_ seule (ou _Chair_ divisé par 2). Seuls les PJ ayant un score de _Force_ égal ou supérieur à 4 ou possédant un overdrive de _Force_ peuvent utiliser une arme avec un tel effet.",
+        "Description-short":"Lorsque l’arme est utilisée, son utilisateur ajoute le score de la caractéristique Force multipliée par deux (ou Chair complet pour un PNJ) lorsqu’il détermine les dégâts plutôt que sa Force seule (ou _Chair_ divisé par 2). De plus, la défense du chevalier est diminuée de 1."
+      },
+      "MUNITIONSDRONES":{
+        "Label":"Munitions drones",
+        "Description":"L’amélioration confère un bonus de 3 réussites automatiques au tir contre une cible.",
+        "Description-short":"L’amélioration confère un bonus de 3 réussites automatiques au tir contre une cible."
+      },
+      "MUNITIONSHYPERVELOCITE":{
+        "Label":"Munitions hyper vélocité",
+        "Description":"L’arme bénéficie de l’effet assistance à l’attaque. Une arme légère gagne l’effet deux mains, une arme à deux mains gagne l’effet lourd.\r\nLorsqu'un jet pour toucher est effectué avec cette arme, chaque réussite excédentaire au-dessus du score de _réaction_ (dans le cas d'un tir) ou de _défense_ (dans le cas d'une attaque au contact) de la cible permet de lui infliger 1 point de dégât (ou de violence dans le cas d'une bande) supplémentaire.",
+        "Description-short":"+1 par succès excédentaire sur l'attaque."
+      },
+      "MUNITIONSIEM":{
+        "Label":"Munitions IEM",
+        "Description":"L’arme gagne l’effet parasitage 2, mais perd 1D6 de dégâts et de violence.\r\nCet effet s'applique uniquement aux méta-armures, exosquelettes, robots, véhicules, créatures de la Machine et tous les ennemis possédant la capacité _sensibilité IEM_. La cible touchée par une attaque avec _parasitage 2_ perd automatiquement ses 2 prochaines actions.\r\n**Attention** : l'effet ne peut pas se cumuler alors que la cible est déjà sous l'effet _parasitage X_ et ne se cumule pas avec l'effet _choc X_.",
+        "Description-short":"Cet effet s'applique uniquement aux machines. La cible touchée perd automatiquement ses 2 prochaines actions. Perd 1D6 de dégâts et de violence."
+      },
+      "MUNITIONSNONLETALES":{
+        "Label":"Munitions non létales",
+        "Description":"Les tirs de l’arme ne peuvent pas tuer la cible.",
+        "Description-short":"Les tirs de l’arme ne peuvent pas tuer la cible."
+      },
+      "MUNITIONSSUBSONIQUES":{
+        "Label":"Munitions subsoniques",
+        "Description":"L’arme possède l’effet silencieux.\r\nLe personnage ne peut être repéré par un autre personnage parce qu'il utilise son arme. Lorsque cet effet est utilisé pendant une attaque surprise, une invisibilité, un mode Ghost ou un mode Changeling, le score de la caractéristique _Discrétion_ (plus les éventuels OD) du PJ est ajouté aux dégâts. Dans le cas des PNJ, c'est la moitié du score de _Masque_ (plus le score de _Masque_ exceptionnel éventuel) qui est ajouté aux dégâts. Cet effet peut s'ajouter à ceux du mode Ghost et du niveau 2 de l'overdrive de _Discrétion_.",
+        "Description-short":"En cas d'attaque surprise."
+      },
+      "POINTEURLASER":{
+        "Label":"Pointeur laser",
+        "Description":"L’arme procure une réussite automatique au tireur.",
+        "Description-short":"L’arme procure une réussite automatique au tireur."
+      },
+      "PROTECTIONARME":{
+        "Label":"Protection d'arme",
+        "Description":"La réaction du tireur est augmentée de 2.",
+        "Description-short":"La réaction du tireur est augmentée de 2."
+      },
+      "PROTECTRICE":{
+        "Label":"Protectrice",
+        "Description":"Si le personnage se bat en style défensif, le malus n’est que de -1D lorsqu’il attaque avec l’arme. Attention, s’il porte plusieurs attaques avec des armes différentes, toutes doivent posséder l’amélioration protectrice pour que le bonus soit effectif.",
+        "Description-short":"Si le personnage se bat en style défensif, le malus n’est que de -1D lorsqu’il attaque avec l’arme."
+      },
+      "REVETEMENTOMEGA":{
+        "Label":"Revêtement omega",
+        "Description":"L’arme gagne l’effet assassin 2.\r\nAjoute 2D6 aux dégâts lors des attaques surprises.",
+        "Description-short":"En cas d'attaque surprise."
+      },
+      "ROUAGESCASSESGRAVES":{
+        "Label":"Rouages cassés gravés",
+        "Description":"L’arme reçoit un bonus de 1D6 (3) points de dégâts et 1D6 (3) points de violence lorsqu’elle cible une créature de la Machine.",
+        "Description-short":"Lorsque cible une créature de la Machine."
+      },
+      "SILLONSLIGNESFLECHES":{
+        "Label":"Sillons formant des lignes et des flèches",
+        "Description":"L’arme reçoit un bonus de +3 permanent aux dégâts qu’elle inflige.",
+        "Description-short":"L’arme reçoit un bonus de +3 permanent aux dégâts qu’elle inflige."
+      },
+      "SOEUR":{
+        "Label":"Soeur",
+        "Description":"Lorsque l’arme est utilisée avec une autre arme à une main en style ambidextrie, elle gagne l’effet jumelé (ambidextrie). Le malus n’est diminué que sur l’attaque effectuée avec l’arme possédant l’amélioration et uniquement celle-ci.\r\nLorsqu’on utilise deux armes disposant de cet effet en style ambidextre, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
+        "Description-short":"Lorsqu’on utilise deux armes disposant de cet effet en style ambidextre, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
+        "Active":"Soeur activé",
+        "Desactive":"Soeur désactivé"
+      },
+      "SOURNOISE":{
+        "Label":"Sournoise",
+        "Description":"L’arme gagne l’effet orfèvrerie.\r\nLorsque l’arme est utilisée, son utilisateur ajoute sa caractéristique _Dextérité_ (+ 1 point de dégâts par overdrive) (ou _Masque_ divisé par 2, arrondi à l’entier supérieur, pour un PNJ) lorsqu’il détermine les dégâts en plus d’autres caractéristiques déjà incluses.",
+        "Description-short":"Lorsque l’arme est utilisée, son utilisateur ajoute sa caractéristique Dextérité (+ 1 point de dégâts par overdrive)."
+      },
+      "STRUCTUREALPHA":{
+        "Label":"Structure alpha",
+        "Description":"L’arme est indestructible. Elle ne peut pas être brisée, broyée, cassée, démantelée, brûlée, etc.",
+        "Description-short":"L’arme est indestructible. Elle ne peut pas être brisée, broyée, cassée, démantelée, brûlée, etc."
+      },
+      "SURMESURE":{
+        "Label":"Sur mesure",
+        "Description":"Désormais, lorsqu’il touche une cible avec cette arme, le personnage ajoute son score dans la caractéristique Combat (OD inclus) aux dégâts qu’il lui inflige.",
+        "Description-short":"Lorsque l’arme est utilisée, son utilisateur ajoute sa caractéristique Combat (+ 1 point de dégâts par overdrive)."
+      },
+      "SYSTEMEREFROIDISSEMENT":{
+        "Label":"Système de refroidissement",
+        "Description":"L’arme concernée gagne l’effet tir en rafale et barrage 1. Une arme légère gagne l’effet deux mains, une arme à deux mains gagne l’effet lourd.\r\nLors du calcul des dégâts, il est possible, une fois par attaque, d’annuler tous les résultats et de relancer les dés. Le nouveau résultat remplace le premier et doit être conservé. Il n’est pas possible de prendre la moyenne des dégâts en utilisant cet effet.\r\nAu lieu de faire une attaque, le chevalier peut décider, au prix de son action de combat, de diminuer la _défense_ et la _réaction_ de la bande ou du PNJ ciblé d'un nombre de points égal à 1 jusqu'au début de son prochain tour, permettant ainsi à ses alliés de toucher plus facilement. L'effet s'applique automatiquement. Aucun autre effet, et aucun dégât de l'arme ne s'applique. Plusieurs effets _barrage_ peuvent s'appliquer sur une même cible et se cumulent. Mais attention, l'effet _barrage_ infligé par l'arme d'un PJ prend fin au début de son tour de jeu suivant (dès ce que c'est à lui de jouer de nouveau).",
+        "Description-short":"L’arme concernée gagne l’effet tir en rafale et barrage 1. Lors du calcul des dégâts, il est possible, une fois par attaque, d’annuler tous les résultats et de relancer les dés. Le nouveau résultat remplace le premier et doit être conservé. \r\nAu lieu de faire une attaque, le chevalier peut décider, au prix de son action de combat, de diminuer la _défense_ et la _réaction_ de la bande ou du PNJ ciblé d'un nombre de points égal à 1 jusqu'au début de son prochain tour.",
+        "Active":"Système de refroidissement (Barrage) activé",
+        "Desactive":"Système de refroidissement (Barrage) désactivé",
+        "Tirenrafale":"Système de refroidissement (Tir en rafale)"
+      }
+    },
+    "ITEMS":{
+      "Aspects": "Aspects",
+      "Caracteristique": "Caractéristique",
+      "Caracteristiques": "Caractéristiques",
+      "AVANTAGE":{
+        "BonusSante": "Bonus à la santé",
+        "BonusEspoir": "Bonus à l'espoir",
+        "BonusInitiative": "Bonus à l'initiative",
+        "BonusEmbuscade": "Bonus si pris en embuscade",
+        "RecuperationSante": "Bonus de récupération de Santé",
+        "RecuperationArmure": "Bonus de récupération d'Armure",
+        "RecuperationEnergie": "Bonus de récupération d'Energie",
+        "RecuperationEspoir": "Bonus de récupération d'Espoir",
+        "DiminutionCout": "Diminution des coûts en XP",
+        "Diviser": "Divisé par",
+        "Diminuer": "Diminué de"
+      },
+      "DESAVANTAGE":{
+        "MalusSante": "Malus à la santé",
+        "MalusEspoir": "Malus à l'espoir",
+        "MalusInitiative": "Malus à l'initiative",
+        "MalusEmbuscade": "Malus si pris en embuscade",
+        "RecuperationSante": "Malus à la récupération de Santé",
+        "RecuperationArmure": "Malus à la récupération d'Armure",
+        "RecuperationEnergie": "Malus à la récupération d'Energie",
+        "RecuperationEspoir": "Malus à la récupération d'Espoir",
+        "AugmentationCout": "Augmentation des coûts en XP",
+        "Multiplier": "Multiplié par",
+        "Augmenter": "Augmenté de",
+        "LIMITATIONSCORE": {
+          "Label": "Limitation des scores",
+          "TousAspects": "Tous les aspects",
+          "AspectBete": "Bête",
+          "AspectChair": "Chair",
+          "AspectMachine": "Machine",
+          "AspectDame": "Dame",
+          "AspectMasque": "Masque"
+        },
+        "AucunGainEspoir": "Aucun gain d'espoir"
+      },
+      "BLESSURETRAUMA":{
+        "SoinImplant": "Soigné par un implant cybernétique",
+        "SoinReconstruction": "Soigné par une thérapie de reconstruction corporelle",
+        "GainEspoir": "Gain d'Espoir",
+        "AppliquerGain": "Appliquer le gain d'espoir",
+        "CHAIR":{
+          "Label": "Malus en Chair",
+          "CARACTERISTIQUES":{
+            "Deplacement": "Malus en Déplacement",
+            "Force": "Malus en Force",
+            "Endurance": "Malus en Endurance"
+          }
+        },
+        "BETE":{
+          "Label": "Malus en Bête",
+          "CARACTERISTIQUES":{
+            "Hargne": "Malus en Hargne",
+            "Combat": "Malus en Combat",
+            "Instinct": "Malus en Instinct"
+          }
+        },
+        "MACHINE":{
+          "Label": "Malus en Machine",
+          "CARACTERISTIQUES":{
+            "Tir": "Malus en Tir",
+            "Savoir": "Malus en Savoir",
+            "Technique": "Malus en Technique"
+          }
+        },
+        "DAME":{
+          "Label": "Malus en Dame",
+          "CARACTERISTIQUES":{
+            "Aura": "Malus en Aura",
+            "Parole": "Malus en Parole",
+            "SangFroid": "Malus en Sang-Froid"
+          }
+        },
+        "MASQUE":{
+          "Label": "Malus en Masque",
+          "CARACTERISTIQUES":{
+            "Discretion": "Malus en Discrétion",
+            "Dexterite": "Malus en Dextérité",
+            "Perception": "Malus en Perception"
+          }
+        }
+      },
+      "ARMURE":{
+        "CAPACITES":{
+          "ASCENSION":{
+            "Label":"Mode Ascension",
+            "Description":"Le chevalier peut matérialiser son IA dans un corps nommé « Ascension ». Ce corps est une réplique exacte de la méta-armure du chevalier, avec ses modules, ses valeurs totales et actuelles, mais sans ses armes.\r\nLe chevalier peut matérialiser son IA en mode Ascension. Pour la matérialiser, il doit lui octroyer une partie de ses propres PE temporairement soustraits à son total. La valeur totale des PE du chevalier est abaissée de ce montant durant toute la durée de la matérialisation de l’IA. L’IA en mode Ascension possède la même fiche de personnage que le chevalier (mêmes aspects, caractéristiques, OD, valeurs dérivées, score totaux, CdF, etc.), mais elle ne dispose pas de score de santé et est détruite lorsque ses PA tombent à 0. Elle peut bien entendu être réparée avant que ses PA n’atteignent 0.\r\nElle possède les mêmes modules que le chevalier (qui peuvent être des modules d’armement), le même nombre de nods actuels et de munitions, mais pas ses armes, ni ses grenades intelligentes. L’intelligence ainsi incorporée dans un corps agit de manière indépendante, sans aucune limite de portée, et obéit aux ordres du chevalier si elle les considère justifiés. Elle peut refuser un ordre qui lui semblerait injuste ou hors de propos. Ce n’est pas le MJ qui joue cette IA, mais le PJ qui doit tenter de la jouer de la manière la plus appropriée qui soit, en fonction de la personnalité de l’IA.",
+            "SansArmure":"Activable si l'armure est fold",
+            "NoSansArmure":"Pas Activable si l'armure est fold"
+          },
+          "BOREALIS": {
+            "Label": "Mode Borealis",
+            "Description":"La méta-armure Wizard est constellée d'un réseau de canaux où circule le plasma en fusion. En activant le mode Borealis, le porteur diffuse depuis des évents une grande quantité de volutes de plasma lumineux. Grâce à son puissant champ de force et à des gants conçus pour, le porteur de l'armure peut manipuler ces volutes dans l'air autour de lui, comme s'il pratiquait une forme de télékinésie, avec une exactitude telle qu'il peut recouvrir les armes alliées et créer, devant les canons des armes à feu, une nappe de plasma qui baigne les munitions tirées d'une lumière éclatante. Une torture pour les abominations ténébreuses. Il existe trois effets indépendants les uns des autres.",
+            "SUPPORT":{
+              "Label":"Support",
+              "Description":"Un allié à portée courte ou moins (ou le chevalier lui-même) gagne l’effet anti-Anathème sur l’ensemble des armes qu’il utilise actuellement (tourelles d’épaule et pods inclus, mais pas les tourelles automatisées). Plusieurs alliés (ou le chevalier lui-même) peuvent bénéficier de cet effet pour un coût de 2 PE supplémentaires par allié.",
+              "Base":"Base",
+              "Allie":"Par allié supplémentaire",
+              "AllieAffecte":"Allié(s) affecté(s)"
+            },
+            "OFFENSIF":{
+              "Label":"Offensif",
+              "Description":"Les volutes de plasma peuvent bien évidemment être manipulées pour infliger des dégâts aux cibles adverses. Dans ce cas, il s’agit d’une action de combat de type combat ou tir en fonction de la portée."
+            },
+            "UTILITAIRE":{
+              "Label":"Utilitaire",
+              "Description":"Enfin, le plasma peut être manipulé pour servir d’outil comme un globe de plasma lumineux, une clé de plasma destinée à faire fondre une serrure ou encore une simple nappe déposée pour créer un départ de feu. La matière, liquide et capable de brûler à peu près n’importe quoi, peut être manipulée facilement pour créer des formes simples. Au PJ d’improviser et au MJ d’accepter ou non les idées proposées."
+            }
+          },
+          "CEA": {
+            "Label": "Mode Céa",
+            "Description":"Le mode Céa permet au porteur de l'armure Monk de propulser de l'énergie alpha depuis ses gantelets. Cette énergie peut être déployée en 3 types de propulsion différents : en vague, en salve ou en rayon.\r\n**Spécial** : Le chevalier n'a jamais besoin de ses deux gantelets pour propulser l'énergie alpha. Il peut en utiliser un seul pour envoyer de l'énergie et donc utiliser une arme à une main (c'est-à-dire une arme sans l'effet [deux mains](/effect/deux-mains/)) dans son autre gantelet.\r\nGrâce à une action de combat, le chevalier peut utiliser son gantelet pour propulser de l'énergie de l'une des 3 manières ci-dessous, sans aucun malus. Il peut toujours utiliser le style ambidextre pour utiliser à la fois son arme à une main et envoyer de l'énergie alpha. Dans tous les cas, pour chacune de ses attaques, il doit effectuer un jet. Utiliser le mode Céa peut se faire avec la caractéristique Tir, si l'ennemi est à portée courte ou plus ou avec Combat si l'ennemi est au contact.\r\nEnfin, il est à noter qu'un chevalier peut utiliser ses deux gantelets pour propulser de l'énergie alpha, auquel cas, il doit utiliser le style ambidextre (dans ce cas, il peut utiliser deux types de propulsion différents) ou le style akimbo (dans ce cas, il doit utiliser le même type de propulsion, avec les bonus et malus habituels et en dépensant deux fois son énergie, comme s'il utilisait le mode deux fois).\r\n**Spécial – Perte d'espoir** : Chaque utilisation du mode Céa fait perdre **1 point d'espoir** au chevalier (sans aucune réduction possible grâce à un avantage, un module ou une capacité). On considère que la circulation de l'énergie alpha dans l'armure est une torture pour l'esprit de son porteur. Ces points perdus sont à inscrire à part, car ils peuvent être récupérés à la fin d'un combat grâce au mode Zen.",
+            "Espoir":"Coût en espoir (à consigner, récupérable)",
+            "VAGUE":{
+              "Label":"Vague d'énergie",
+              "Description":"D’un mouvement ample et brusque du bras, le chevalier envoie une puissante vague d’énergie bousculant les ennemis et paralysant les systèmes électroniques."
+            },
+            "SALVE":{
+              "Label":"Salve d'énergie",
+              "Description":"D’un mouvement rapide du bras vers l’avant, le chevalier propulse plusieurs projectiles bleu nuit qui explosent au moindre contact en puissantes novas d’énergie alpha."
+            },
+            "RAYON":{
+              "Label":"Rayon d'énergie",
+              "Description":"D'un mouvement lent du bras tendu vers l'avant, le gantelet du chevalier émet un rayon bleu nuit d'énergie alpha concentré et extrêmement destructeur.\r\n\r\nSpécial : Pour chaque tour où le rayon est maintenu sur un même ennemi, le chevalier peut ajouter 1D6 à ses dégâts. Les dés de dégâts ainsi générés se cumulent tant que le rayon cible un même ennemi."
+            }
+          },
+          "CHANGELING": {
+            "Label": "Mode Changeling",
+            "Description":"Grâce aux nanomachines, la méta-armure peut se faire passer pour une créature, une personne, un être différent. Cette transformation par les nanomachines peut être étendue jusqu’à 3 mètres de rayon autour de l’armure pour générer des « faux êtres » de nanomachines supplémentaires. Le chevalier peut ainsi faire croire qu’il est accompagné ou augmenter la taille de sa fausse apparence pour se faire passer pour un être plus grand.\r\n<b>Attention :</b> Les nanomachines permettant ces transformations sont toujours en mouvement et créent une sorte d’enveloppe molle sur la méta-armure. Le personnage transformé peut prendre ou ramasser des choses, mais si quelqu’un entre en contact avec lui, il lui est aisé de repérer la supercherie.",
+            "Portee": "3m de rayon",
+            "FauxEtresMax": "« Faux être » maximum",
+            "DesactivationExplosive": "Désactivation explosive",
+            "NoDesactivationExplosive": "Pas de désactivation explosive",
+            "TransformationPersonnelle":"Personnelle",
+            "TransformationEtendue":"Étendue",
+            "FauxEtres":"Faux êtres",
+            "ENERGIE":{
+              "Personnelle":"Transformation personnelle",
+              "Etendue":"Transformation étendue",
+              "ParFauxEtres": "Par « faux être »"
+            }
+          },
+          "COMPANIONS": {
+            "Label": "Mode Companions",
+            "Companion":"Companion",
+            "Description":"La méta-armure Druid est capable de générer trois types de compagnons différents. Un seul type peut être généré à la fois et uniquement de la manière dont il est présenté plus loin. Deux ou trois types de compagnons ne peuvent être créés en même temps lors d'une même scène ou d'une même phase de conflit, un seul type pouvant exister à la fois. Lorsque le chevalier génère un compagnon, il déploie des nanomachines depuis la paume de son gantelet, nanomachines qui se matérialisent en un ou plusieurs alliés robotiques.\r\nChaque type de compagnon dure le temps d'une scène ou d'une phase de conflit. Pour prolonger la « vie » d'un type de compagnon lors de la scène ou de la phase de conflit suivante, le chevalier doit dépenser la moitié des PE qu'il dépenserait normalement. L'activation coûte 6 secondes, ou un tour complet. Désactiver un compagnon ne coûte ni PE, ni action.\r\nSi un chevalier souhaite changer de type de compagnon alors qu'un type est déjà présent, il doit de nouveau payer le coût normal en PE et utiliser l'activation standard du mod. Le compagnon présent tombe en scories de nanomachines alors qu'un autre se crée, ses PA et ses PE étant au maximum.\r\nDans tous les cas, si les PA (ou la cohésion) du type de compagnon créé tombent à zéro, il est détruit. Un nouveau type de compagnon peut être créé pour un coût normal en énergie.\r\nL'effet [ignore armure](/effect/ignore-armure/) n'a aucun effet sur les PA du compagnon, les dégâts sont appliqués normalement. En outre, il ignore toutes les capacités de type _domination_ et _peur X_.\r\nLes compagnons ne peuvent jamais s'éloigner du porteur de la méta-armure Druid d'une distance supérieure à la portée longue. Si un compagnon dépasse cette distance, il tombe en scories de nano-machines et est considéré comme détruit.\r\nLes compagnons agissent à leur _initiative_, le chevalier n'a besoin d'aucune action pour les faire agir.\r\nEnfin, les compagnons peuvent recevoir les bénéfices apportés par les nods et toutes les capacités appropriées. Leurs PE se rechargent de la même manière que ceux des chevaliers et ils peuvent récupérer des PA en étant réparés, grâce à des capacités ou des nods.\r\n**Génération de compagnon**\r\nLorsque le chevalier crée un type de compagnon, il doit décider de lui octroyer un minimum de PE depuis son propre noyau d'énergie. Pour effectuer cela, il doit choisir de baisser temporairement son total de PE de 10, 20, 30, 40 ou 50 points. Ses PE actuels sont diminués du nombre de PE totaux sacrifiés. Attention, un chevalier ne peut pas sacrifier plus de PE de son total qu'il n'en possède dans son score actuel.\r\nCes points sont sacrifiés tant que le type de compagnon est présent et forment le total de PE du compagnon ainsi que ses PE actuels. Pour utiliser ses modules, le type de compagnon devra dépenser ces PE.\r\nLorsque le compagnon est détruit ou lorsqu'il disparaît, le chevalier récupère son total de PE et ses PE actuels sont augmentés à hauteur de ceux que possédait le compagnon à sa destruction.",
+            "Coups":"Coups",
+            "ADistribuer": "Évolutions à distribuer entre compagnons",
+            "AspectsRepartir":"Points d'aspects à répartir",
+            "AspectsRestantRepartir":"Points d'aspects restant à répartir",
+            "AspectsRepartirMax":"Maximum de points dans un même aspect",
+            "AspectsExceptionnelsRepartir":"Points d'aspects exceptionnels à répartir",
+            "AspectsExceptionnelsRestantRepartir":"Points d'aspects exceptionnels restant à répartir",
+            "NiveauConfigurationRestant":"Niveau restant à répartir",
+            "ENERGIE":{
+              "Base":"Générer un compagnon",
+              "Prolonger":"Prolonger un compagnon",
+              "OctroyerEnergieS":"PE Octroyé",
+              "OctroyerEnergieP":"PE Octroyés",
+              "OctroyerEspoirS":"PE Octroyé",
+              "OctroyerEspoirP":"PE Octroyés"
+            },
+            "LION":{
+              "Label":"Lion",
+              "CEvolutions":"Chaque évolution du Lion",
+              "Pointgloiredepart":"Points de gloires de départ",
+              "BonusPointgloire":"Points de gloire bonus pour des modules",
+              "Modulelion":"Module pour le Lion ?",
+              "Ajoutermodule":"Ajouter le module au companion Lion ?"
+            },
+            "WOLF":{
+              "Label":"Wolf",
+              "CEvolutions":"Chaque évolution du Wolf",
+              "BonusRepartir":"Nombre de configurations à augmenter",
+              "EvolutionConfigurations":"Evolution des configurations",
+              "CONFIGURATIONS":{
+                "Label":"Configurations",
+                "Active":"Configuration active",
+                "Disponible":"Configurations disponibles",
+                "LABOR":{
+                  "Label":"Labor",
+                  "Description":"Les compagnons sont équipés d’outils permettant le transport ou le levage de lourdes charges. Chaque compagnon peut porter à lui seul 150 kg et peut donc transporter des choses pour le chevalier."
+                },
+                "MEDIC":{
+                  "Label":"Medic",
+                  "Description":"Les compagnons sont équipés d’un petit matériel médical intégré ainsi que de systèmes d’analyses et de prélèvements."
+                },
+                "TECH":{
+                  "Label":"Tech",
+                  "Description":"Les compagnons disposent d’outils intégrés et de modules permettant de se connecter aux appareils informatiques ou électroniques."
+                },
+                "FIGHTER":{
+                  "Label":"Fighter",
+                  "Description":"Les compagnons assistent le chevalier dans son combat, en frappant et en gênant son ou ses adversaires."
+                },
+                "RECON":{
+                  "Label":"Recon",
+                  "Description":"Les compagnons sont dotés de systèmes d’enquête et d’observation afin d’assister le chevalier dans ses recherches. Le chevalier peut observer, entendre, sentir et toucher directement depuis un des compagnons (au choix)."
+                }
+              }
+            },
+            "CROW":{
+              "Label":"Crow",
+              "CEvolutions":"Chaque évolution du Crow",
+              "Cohesion":"Bonus de cohésion",
+              "Debordement":"Bonus de débordement",
+              "ChampDeForce":"Bonus de champ de force",
+              "Vol":"Vol : Peut parcourir une distance équivalente à portée longue par tour (une vitesse égale à 3 si on la compare à celle des véhicules). Le vol est permanent."
+            }
+          },
+          "DISCORD":{
+            "Label":"Mode Discord",
+            "Description":"En activant le mode Discord, le chevalier peut troubler la circulation du flux lors d’un combat, corrompant les ordres et rendant les actions des créatures moins sûres et efficaces.",
+            "Tour":"Un tour",
+            "Scene":"Une scène ou une phase de conflit"
+          },
+          "FALCON": {
+            "Label": "Mode Falcon",
+            "Description":"Disposant d’un analyseur dernière génération, la Warmaster est capable de détecter les faiblesses et les forces des ennemis. En activant cette capacité, le chevalier perçoit des données sur chaque cicatrice, chaque mouvement, chaque attitude d’un ennemi, qu’il soit humain, monstre des ténèbres ou machine. Par un jeu de reconstitution des faisceaux d’information, la méta-armure analyse les forces et faiblesses de la cible visée et dévoile au chevalier celles qui semblent les plus probables. Utiliser le mode Falcon coûte une action de déplacement.",
+            "INFORMATIONS":{
+              "Label":"Informations obtenables",
+              "Details":"Découvrir tous les aspects d’un PNJ (hostile, salopard, patron ou colosse).\r\nDécouvrir les scores de réaction et de défense d’un PNJ (hostile, salopard, patron ou colosse).\r\nDécouvrir tous les aspects exceptionnels d’un PNJ (hostile, salopard, patron ou colosse).\r\nDécouvrir le ou les points faibles d’un PNJ (salopard, patron ou colosse).\r\nDécouvrir les armes (et leurs statistiques) d’un PNJ (hostile, salopard, patron ou colosse).\r\nDécouvrir les scores de bouclier, d’armure et de santé d’un PNJ (hostile, salopard, patron ou colosse).\r\nDécouvrir toutes les capacités d’un PNJ (hostile, salopard, patron ou colosse).\r\nDécouvrir tous les aspects et valeurs dérivées d’une bande."
+            }
+          },
+          "GOLIATH": {
+            "Label": "Mode Goliath",
+            "Description":"La méta-armure, en générant de la matière grâce aux nanomachines qui composent son enveloppe, peut augmenter sa masse musculaire et ainsi augmenter en taille à mesure qu’elle gagne en puissance. En activant ce mode, la méta-armure peut ainsi atteindre 6 mètres de haut pour un gain en force et en endurance considérable… Au détriment des réflexes et de la rapidité.",
+            "ArmesRack":"Les armes rackent à",
+            "ArmesNoRack":"Les armes ne rackent jamais.",
+            "TailleBonus": "Taille Bonus",
+            "Metre": "Mètre",
+            "MetreBonus": "Mètre(s) bonus",
+            "MBonus": "Mètre bonus"
+          },
+          "GHOST": {
+            "Label": "Mode Ghost",
+            "Description":"Grâce au mode Ghost, le personnage devient totalement invisible à l’œil nu et ne peut quasiment pas être entendu (seules les communications inter-casques peuvent être effectuées) grâce à un champ réducteur de son.",
+            "Interruption":"S'interrompt en cas d'attaque",
+            "NoInterruption":"Ne s'interrompt pas en cas d'attaque",
+            "ActivationHorsConflit":"Hors conflit",
+            "ActivationConflit":"En conflit",
+            "JetPasserInaperçu":"Jet : Passer inaperçu",
+            "BonusPasserInaperçu":"Réussite bonus pour passer inaperçu",
+            "ENERGIE":{
+              "Tour":"Pour un tour en conflit",
+              "Minute":"Pour une minute hors conflit"
+            }
+          },
+          "FORWARD": {
+            "Label": "Mode Forward",
+            "Description":"La méta-armure est capable d’accélérer le temps sur elle-même pour se déplacer plus rapidement.\r\nLes portées de déplacement du chevalier – que ce soit son déplacement normal ou ceux octroyés par les modules de course, de saut ou de vol – sont augmentées d’un niveau jusqu’à un maximum égal à portée longue. Une portée contact devient ainsi une portée courte, une portée courte devient une portée moyenne et une portée moyenne devient une portée longue. Au-delà, l’intégrité de l’armure est trop en danger pour que l’IA autorise un tel déplacement. Le déplacement en véhicule, les déplacements accordés par l’OD de Déplacement de niveau 1 ou 3 et par le module de téléportation ne sont pas affectés par cette capacité.",
+            "Energie":"Energie par niveau de portée bonus",
+            "NiveauPortee":"Niveau(x) de portée bonus"
+          },
+          "ILLUMINATION":{
+            "Label":"Mode Illumination",
+            "Description":"L’énergie apeiron dégagée par le noyau de la méta-armure peut être déployée tout autour d’elle pour provoquer différents effets. En fonction de l’intensité de la lumière ou de son état, six effets différents peuvent s’appliquer. Tous les effets de ce mode, sauf Candle, peuvent être prolongés pour le coût en points d’espoir indiqué.\r\n**Attention** : À l’obtention de la méta-armure, le chevalier doit choisir trois des sept effets listés ici et peut les utiliser. Il ne peut obtenir les autres que grâce aux évolutions de la méta-armure.",
+            "Utiliser":"Utiliser l'effet",
+            "Prolonger":"Prolonger l'effet",
+            "CapacitesPossedes":"Nombre de capacités possédées",
+            "BLAZE":{
+              "Label":"Blaze",
+              "Description":"La lumière autour de l’armure peut être modelée en volutes brûlantes qui blessent les créatures de l’Anathème à portée contact.\r\n\r\nTant que l’effet est activé, les créatures de l’Anathème à portée contact de l’armure subissent des dégâts et de la violence à chaque tour en phase de conflit ou toutes les 6 secondes lors d’une scène. Le score de bouclier est ignoré. De plus, les ténèbres de type nuit ou pénombre s’éloignent à portée courte."
+            },
+            "CANDLE":{
+              "Label":"Candle",
+              "Description":"La méta-armure Berserk peut déployer de petites étincelles de lumière douce et chaude qui permettent à un allié de recouvrer de l’espoir.\r\n\r\nEn sacrifiant des points d’espoir (sans aucune réduction possible), le chevalier peut redonner à un allié, PJ ou PNJ, le même nombre de points d’espoir.",
+              "SacrificeGainEspoir":"Candle : Sacrifice d'Espoir / Gain d'Espoir"
+            },
+            "BEACON":{
+              "Label":"Beacon",
+              "Description":"La lumière luisant de l’armure renforce la détermination des alliés, les rendant plus hargneux. Tant que l’effet est activé, lorsqu’un PJ ou un allié à portée courte de l’armure effectue un test, il reçoit des réussites automatiques aux jets effectués contre les créatures de l’Anathème (combat, poursuite, etc.)."
+            },
+            "TORCH":{
+              "Label":"Torch",
+              "Description":"La lumière se solidifie autour du personnage, créant une sorte de brume lumineuse. Les humains et animaux qui ne sont pas désespérés et qui sont à portée courte reçoivent un score d’égide ou augmentent leur score d’égide de lorsqu’ils sont la cible de créatures ou d’effets de l’Anathème. En outre, les ténèbres situées à portée courte de l’armure sont considérées comme étant d’une intensité d’un niveau moindre. L’obscurité devient de la nuit, la nuit devient de la pénombre et la pénombre s’efface simplement."
+            },
+            "PROJECTOR":{
+              "Label":"Projector",
+              "Description":"La lumière émanant du noyau de la méta-armure peut être concentrée sur une créature de l’Anathème en un rayon puissant. En pleine lumière, la nature horrible de la cible change, elle semble devenir plus belle et se détacher des ténèbres.\r\n\r\nTant que l’effet est activé, la créature ciblée à portée courte, hostile ou salopard, ne peut plus utiliser une de ses capacités. La capacité peut être choisie par le chevalier, mais il doit l’avoir identifiée et pouvoir en décrire les effets. Sinon, c’est le MJ qui choisit."
+            },
+            "LIGHTHOUSE":{
+              "Label":"Lighthouse",
+              "Description":"La lumière de la méta-armure pulse et trouble les créatures de l’Anathème les plus proches. Le flux qui existe entre elles est comme déchiré et sensiblement amoindri par l’énergie apeiron.\r\n\r\nTant que l’effet est activé, les créatures de l’Anathème de type hostile à portée courte perdent une action lors de leur tour de jeu."
+            },
+            "LANTERN":{
+              "Label":"Lantern",
+              "Description":"Une lumière douce et rassurante émane de la méta-armure. Elle remotive les alliés et paraît même pouvoir anéantir le désespoir.\r\n\r\nTant que l’effet est actif, les désespérés à portée courte de la méta-armure subissent des dégâts avec des effets associés."
+            }
+          },
+          "LONGBOW": {
+            "Label": "Fusil de précision Longbow",
+            "Description":"La méta-armure Ranger et le fusil Longbow ne sont qu’une seule machinerie qui concilie la puissance et la précision d’un fusil anti-matériel avec la polyvalence nécessaire à celui qui évolue seul dans les territoires de l’Anathème. Le fusil Longbow est sans doute l’arme principale d’un chevalier en armure Ranger. Le fusil de précision Longbow peut être racké. Il compte dans la limite des armes contenues dans le rack de la méta-armure. De plus, au même titre qu’une autre arme de tir, il peut recevoir des améliorations d’armes, mais dans la limite de deux (et seulement deux) maximum, avec les mêmes restrictions que les armes possédant l’effet lourd.",
+            "Cout":"Coût",
+            "EFFETS":{
+              "Cout":"Coût des effets",
+              "Base":"Effets de base",
+              "AccesL3":"Accès à la liste d'effets 3",
+              "NoAccesL3":"Pas d'accès à la liste d'effets 3",
+              "Liste1":"Liste d'effets 1",
+              "Liste2":"Liste d'effets 2",
+              "Liste3":"Liste d'effets 3"
+            },
+            "PORTEE":{
+              "Cout":"Energie par augmentation",
+              "Min":"Portée minimum",
+              "Max":"Portée maximum"
+            },
+            "DEGATS":{
+              "Cout":"Energie par augmentation",
+              "Min":"Dégâts minimums",
+              "Max":"Dégâts maximums"
+            },
+            "VIOLENCE":{
+              "Cout":"Energie par augmentation",
+              "Min":"Violence minimum",
+              "Max":"Violence maximum"
+            }
+          },
+          "MECHANIC": {
+            "Label": "Mode Mechanic",
+            "Description":"Le personnage peut ainsi réparer la méta-armure, le véhicule ou l’équipement d’une personne ou d’un allié.",
+            "Reparation":"Réparation"
+          },
+          "MORPH":{
+            "Label":"Mode Morph",
+            "Description":"Lorsqu'il active le mode Morph, le chevalier entre en mode de combat. Habituellement, son corps devient métal et les nanomachines qui le composent sont plus visibles.\r\n**Spécial – Perte d'espoir** : Chaque activation du mode Morph fait perdre 1 point d'espoir au chevalier (sans aucune réduction possible grâce à un avantage, un module ou une capacité). On considère que la métamorphose corporelle est une torture pour l'esprit du personnage.\r\n*Effet** : Lorsque le mode Morph est actif, le personnage bénéficie automatiquement de 3 des capacités listées ci-dessous. Pour changer de configuration, il doit de nouveau activer le mode Morph et payer son coût en énergie.",
+            "NbreCapacites":"Limite de capacités actives en même temps",
+            "CAPACITES":{
+              "VOL":{
+                "Label":"Vol en nuée",
+                "Description":"Le chevalier vol en nuée de nanomachines. Il bénéficie des effets du module de vol au niveau 1, sans pour autant dépenser l’énergie que lui coûterait l’utilisation du module. Lorsqu’il vole en nuée, le chevalier ne peut utiliser aucun autre module ni aucune arme. Il peut activer le vol pour une action de déplacement et le désactiver gratuitement."
+              },
+              "PHASE":{
+                "Label":"Phase",
+                "Description":"Le chevalier peut passer au travers de la matière lorsqu’il active le mode. Il bénéficie des effets du module de phase au niveau 1 et, contrairement au vol en nuée, il doit dépenser l’énergie requise pour l’utilisation du module. Il peut activer la phase pour une action de déplacement et la désactiver gratuitement.",
+                "Duree":"1 action pour 50 centimètres de matière"
+              },
+              "ETIREMENT":{
+                "Label":"Étirement",
+                "Description":"Le chevalier, composé de nanomachines, peut étirer ses membres. Lors de scènes, il peut étendre ses membres jusqu’à une dizaine de mètres. En phase de conflit, on considère que ses attaques de contact peuvent aller jusqu’à portée courte. S’il cherche à immobiliser une cible de taille humaine ou plus petite que lui, il reçoit un bonus de 3 réussites automatiques.",
+                "Portee":"10m ou portée courte",
+                "Bonus":"Réussites bonus pour immobiliser si cible de taille humaine ou inférieure",
+                "Immobilisation":"Immobilisation",
+                "JetImmobilisation":"Jet : Immobilisation"
+              },
+              "METAL":{
+                "Label":"Corps de métal"
+              },
+              "FLUIDE":{
+                "Label":"Corps fluide"
+              },
+              "POLYMORPHIE":{
+                "Label":"Polymorphie de guerre",
+                "Griffe":"Griffes de combat",
+                "Lame":"Lame de bras",
+                "Canon":"Canon de bras",
+                "Description":"Par tour, le personnage peut gratuitement générer un module de son choix parmi ceux-ci (il peut les générer en même temps sur chacune de ses mains et donc utiliser le style akimbo ou ambidextre) :\r\n\r\n- Griffes de combat au niveau 1\r\n- Lame de bras au niveau 1\r\n- Canon de bras au niveau 1.\r\n\r\nLes effets à choisir à l'achat sont ici à choisir directement à la création de personnage et ne peuvent être modifiés."
+              }
+            }
+          },
+          "NANOC":{
+            "Label": "Mode nanoC",
+            "Description":"Grâce au mode nanoC, le personnage peut créer des formes simples et géométriques en nanomachines métalliques et grouillantes, d’une taille de 3 mètres cubes maximum.\r\nIl peut aussi créer des objets détaillés d’une taille de 2 mètres cubes maximum.\r\nIl peut enfin créer des objets mécaniques, électriques ou électroniques de 1 mètre cube maximum.\r\nC’est au MJ de déterminer les limites du mode nanoC avec le joueur possédant la méta-armure Priest. Dans tous les cas, si une construction paraît trop complexe, il peut augmenter le temps de création et le coût en énergie. Bien entendu, il peut refuser toutes les constructions qui lui paraissent impossibles.",
+            "ObjetBase":"Forme de base",
+            "ObjetDetaille":"Objet détaillé",
+            "ObjetMecanique":"Objet mécanique, de haute technique, informatique, etc.",
+            "ParMinute":"Minute supplémentaire"
+          },
+          "ORIFLAMME":{
+            "Label": "Mode Oriflamme",
+            "Description":"La méta-armure peut déployer autour d'elle une vague d'étincelles de plasma et de poudre de magnésium très dense qui explose en une lumière éclatante, efficace contre l'Anathème. Toutes les créatures de l'Anathème prises dans le champ de lumière se voient infliger de terribles dégâts. Seul bémol, le mode est coûteux à activer.\r\n**Effet** : Lorsque le mode est activé, la méta-armure génère un champ de lumière à portée courte. Toutes les créatures de l'Anathème présentes à l'intérieur subissent les dégâts ou la violence du mode. Celles qui se trouvent à portée moyenne autour du champ subissent la moitié des dégâts ou de la violence du mode. Aucun test n'est nécessaire pour toucher les ennemis à portée. Les ennemis à couvert ne subissent pas de dégâts ou de violence. Le mode nécessitant une action de déplacement pour s'activer, un chevalier peut l'activer aussi pour une action de combat en transformant son action de combat en action de déplacement."
+          },
+          "PUPPET":{
+            "Label":"Mode Puppet Master",
+            "Description":"Un chevalier, en manipulant le flux, peut imposer des ordres simples à des créatures de l'Anathème (ou à des désespérés).\r\n**Effet** : Lorsque le mode Puppet Master est activé, le personnage peut donner un ordre simple, composé de un à trois mots, à une créature de l'Anathème ou à un désespéré (forcément un PNJ) situé à portée moyenne. Il peut par exemple s'agir de fuir, d'attaquer une cible (même une autre créature de l'Anathème), ou encore de défendre le personnage.\r\nLa cible ne peut être que de type hostile et accomplit, en phase de conflit, l'ordre à son tour de jeu, c'est-à-dire en utilisant toutes ses actions disponibles (en dehors d'une phase de conflit, elle doit pouvoir accomplir son ordre en moins de 10 secondes). Elle obéit à l'ordre de la manière la plus simple et rapide qui soit, quitte à mettre sa vie en danger. Une fois l'ordre accompli, la créature l'ayant suivi reprend ses esprits, redevient maîtresse d'elle-même et a, logiquement, terminé son tour de jeu.\r\nPour accomplir l'ordre, c'est le MJ qui lance les dés et qui décide (honnêtement) de l'aspect à utiliser et, si le cas s'y prête, des capacités à utiliser.\r\nLe chevalier peut décider de prolonger son contrôle sur la cible, en renouvelant le même ordre et en dépensant quelques points de flux et d'énergie supplémentaires.\r\nIl peut aussi décider de donner un ordre (et un seul) à plusieurs créatures en même temps, toujours en dépensant plus d'énergie et de flux.",
+            "Max":"Créatures affectées maximum",
+            "Ordre":"Donner un ordre",
+            "Creature":"Inclure une créature supplémentaire",
+            "Prolonger":"Prolonger l'ordre sur une créature déjà contrôlée"
+          },
+          "RAGE":{
+            "Label":"Mode Rage",
+            "Description":"Pour récupérer des points d'espoir, le chevalier doit nourrir la lumière de la méta-armure. L'énergie apeiron ne peut être alimentée que par le sacrifice d'une créature de l'Anathème ou autre, comme si le seul fait de dévorer quelque chose pouvait la faire perdurer.\r\nEn activant ce mode, le chevalier se laisse envahir par la lumière de la méta-armure et tente de faire renaître son propre espoir ainsi que l'énergie de son noyau. Il entre alors en rage et est habité par la lumière qui émane de lui en une fumée brûlante et brillante. Ce mode ne peut être activé qu'en phase de conflit. Les effets du mode Illumination peuvent être utilisés simultanément.\r\nEn activant ce mode, le personnage peut entrer dans différents niveaux de rage qui lui font subir des effets de plus en plus puissants, mais aussi de plus en plus dangereux. Attention, chaque niveau de rage atteint possède les effets du niveau précédent. Pour atteindre un niveau de rage supérieur, le chevalier doit tuer un ennemi ou sacrifier de lui-même 1D6 points d'espoir (sans aucune réduction possible).",
+            "CoutEspoir":"Coût en espoir pour fuir",
+            "DegatsSubis":"Dégâts subis / tour",
+            "CaracteristiqueInterdite":"Caractéristique interdite",
+            "SubirDegats":"Subir des dégâts",
+            "TUE":{
+              "Humain":"Humain tué",
+              "Anatheme": "Anathème tué",
+              "Proche": "Ennemi tué à portée courte"
+            },
+            "UP":{
+              "Label":"Rage supérieure",
+              "Espoir":"Sacrifice d'espoir",
+              "Ennemi":"Ennemi tué"
+            },
+            "COMBOS":{
+              "Bonus":"Ajoute des caractéristiques au combo",
+              "NoBonus":"N'ajoute pas de caractéristiques au combo",
+              "Interdits":"A des caractéristiques interdites",
+              "NoInterdits":"M'a pas de caractéristiques interdites"
+            },
+            "NOURRI":{
+              "Label":"Nourri par la rage (passif)",
+              "Description":"Lorsqu’il est dans le mode Rage, chaque créature ou être humain que le chevalier tue lui fait récupérer un certain nombre de points d’espoir. De plus, si une créature des ténèbres est tuée à portée courte de l’armure, il récupère 1 point d’espoir tant qu’il est dans ce mode"
+            },
+            "COLERE":{
+              "Label":"Colère - Niveau 1"
+            },
+            "RAGE":{
+              "Label":"Rage - Niveau 2",
+              "Description":"Le niveau n’est pas cumulé avec le précédent, mais il annule et remplace le précédent (les cumuls sont déjà calculés)\r\n\r\nIl ne peut plus perdre de points d’espoir en dehors du coût de ses capacités.\r\n\r\nIl doit attaquer la créature des ténèbres ou l’ennemi le plus proche en s’approchant le plus possible.\r\n\r\nIl tue ou met automatiquement à l’agonie un ennemi qu’il devrait simplement mettre hors combat."
+            },
+            "FUREUR":{
+              "Label":"Fureur - Niveau 3",
+              "Description":"Le niveau n’est pas cumulé avec le précédent, mais il annule et remplace le précédent (les cumuls sont déjà calculés)\r\n\r\nIl ne peut plus perdre de points d’espoir en dehors du coût de ses capacités.\r\n\r\nIl doit attaquer la créature des ténèbres ou l’ennemi le plus proche en s’approchant le plus possible.\r\n\r\nIl tue ou met automatiquement à l’agonie un ennemi qu’il devrait simplement mettre hors combat.\r\n\r\nIl ignore les effets choc X, parasitage X, domination et anathème.\r\n\r\nToutes les créatures de l’Anathème à portée contact attaquent le PJ au lieu de suivre leur tactique. L’effet du module Banner surpasse cet effet."
+            }
+          },
+          "RECORD":{
+            "Label":"Mode Record",
+            "Description":"Grâce à ce mode, le chevalier peut manipuler le temps pour enregistrer une attaque qu’il va effectuer et faire en sorte qu’un double du passé apparaisse fugacement pour la reproduire jusqu’à 6 secondes plus tard. Ainsi, il peut enregistrer une attaque d’un tour donné, se déplacer et frapper au tour suivant, tout en reproduisant l’attaque enregistrée.\r\nEn activant ce mode, le chevalier déclenche l’enregistrement de la prochaine attaque qu’il va accomplir durant ce tour. Il doit activer le mode avant de faire son attaque. Elle peut être effectuée avec une arme ou un module. Au tour suivant, il peut effectuer ses actions normalement et activer le mode sans coût en énergie pour reproduire exactement son attaque effectuée au tour précédent, un double de lui-même, comme une rémanence, apparaissant pour frapper ou tirer de nouveau.\r\nL’action d’attaque enregistrée est reproduite à l’identique. Cela signifie que le jet d’attaque, le jet de dégâts ou de violence, la portée et les effets sont exactement les mêmes (même si le joueur a dépensé un point d’héroïsme pour faire le maximum de dégâts). L’énergie dépensée pour augmenter les dégâts ou ajouter des effets, ainsi que les munitions, ne sont pas à déduire de nouveau. L’attaque peut cependant être portée sur la même cible ou une autre. En conséquence, si le jet d’attaque n’est pas suffisant pour toucher, l’attaque rate simplement et aura été enregistrée pour rien.\r\nReproduire une attaque ne coûte aucun PE.\r\nEnregistrer l'attaque ainsi que la reproduire ne coûte aucune action. Cependant, une seule attaque peut être enregistrée par tour.\r\nL'attaque enregistrée lors d'un tour doit être reproduite au tour suivant, sinon elle et l'énergie sont perdues."
+          },
+          "REWIND":{
+            "Label":"Mode Rewind",
+            "Description":"Dans un flash incolore suivi d'un mouvement rapide presque invisible, la méta-armure (et par conséquent son porteur) peut disparaître et revenir à l'état et à la position qu'elle avait exactement 6 secondes auparavant, récupérant ce qu'elle avait perdu durant ce laps de temps ou annulant ce qui lui avait été infligé. L'environnement autour ne se modifie pas, seule la Warlock subit ce retour temporel.\r\nActiver cette capacité permet ainsi d'obtenir les effets suivants :\r\n- Revenir aux points de santé possédés il y a moins de 6 secondes (ou au tour de jeu précédent), qu'ils soient inférieurs ou supérieurs.\r\n- Revenir aux points d'armure possédés il y a moins de 6 secondes (ou au tour de jeu précédent), qu'ils soient inférieurs ou supérieurs.\r\n- Annuler une blessure grave reçue il y a moins de 6 secondes (ou au tour de jeu précédent).\r\n- Récupérer la(les) munition(s) d'un module (et seulement d'un module) utilisée(s) il y a moins de 6 secondes (ou au tour de jeu précédent).\r\n- Récupérer un(des) nod(s) utilisé(s) il y a moins de 6 secondes (ou au tour de jeu précédent).\r\n- Se déplacer instantanément à sa position d'il y a 6 secondes (ou au tour de jeu précédent).\r\nL'ensemble des effets s'activent en même temps. C'est au PJ de réguler ses scores et ses équipements. Les points d'espoir et les points d'énergie ne sont pas concernés par ces effets. Les armes cassées et tous les équipements autres que les nods et munitions de modules utilisés ne sont pas affectés non plus.\r\n**Attention** : L'effet est personnel et est restreint à la méta-armure elle-même, à son porteur, à ses armes, à ses modules et à l'équipement situé dans son pack. Ce qui est présent autour de la méta-armure ou en contact avec elle (comme un allié) n'est pas affecté. S'il advenait qu'un élément empêche le retour de la méta-armure et de son porteur à sa position antérieure, alors ils se rapprochent simplement le plus possible de cette position sans entrer en collision avec.\r\nLe chevalier doit l'activer à son tour de jeu en combat. Il doit attendre 6s après un Rewind pour l'activer de nouveau. Cela signifie qu'en phase de conflit, il ne peut faire qu'un Rewind/tour."
+          },
+          "SARCOPHAGE":{
+            "Label": "Armure Sarcophage",
+            "Description":"Lorsqu’un chevalier meurt, il peut décider de continuer l’aventure en insérant sa conscience dans une armure Necromancer. Il perd alors son ancienne méta-armure, ses capacités, et tous ses overdrives. Il peut conserver ses armes et ses modules, même ceux de prestige.\r\nEn contrepartie de la perte de sa méta-armure et en fonction des PG accumulés, le chevalier reçoit un certain nombre de modules comme indiqué ci-dessous. Il ne les reçoit que lorsqu’il investit la Necromancer pour la première fois et il peut choisir ceux qu’il désire (overdrives, modules de combat, etc.) dans le cadre de la disponibilité indiquée, peu importe leur coût en PG, et peut bien entendu faire évoluer un module plutôt qu’en acheter un nouveau.",
+            "Paliers":"Nombre de paliers de bonus",
+            "Pg": "PG cumulés",
+            "Bonus": "Bonus offerts",
+            "LISTE":{
+              "b0":"Un module standard à choisir dans la liste des modules.",
+              "b1":"Deux modules standards à choisir dans la liste des modules.",
+              "b2":"Deux modules standards et un module avancé à choisir dans la liste des modules.",
+              "b3":"Trois modules standards et deux modules avancés à choisir dans la liste des modules.",
+              "b4":"Trois modules standards, trois modules avancés et un module rare à choisir dans la liste des modules.",
+              "b5":"Trois modules standards, trois modules avancés et deux modules rares à choisir dans la liste des modules.",
+              "b6":"Trois modules standards, trois modules avancés et trois modules rares à choisir dans la liste des modules."
+            }
+          },
+          "SHRINE": {
+            "Label": "Champ de Force Shrine",
+            "Description":"La méta-armure peut déployer autour d’elle un champ de force très puissant nommé Shrine qui prend la forme d’un dôme bleuté de 6 mètres de diamètre, pouvant abriter d’autres personnes et/ou méta-armures.",
+            "Portee":"Personnelle / Moyenne",
+            "ENERGIE":{
+              "Personnel": "Personnelle",
+              "Distance": "Distance",
+              "Acces6Tours": "Accès à la dépense d'énergie / 6 tours",
+              "Personnel6Tours": "Personnelle / 6 tours",
+              "Distance6Tours": "Distance / 6 tours"
+            }
+          },
+          "TOTEM":{
+            "Label":"Mode Totem",
+            "Description":"Le chevalier peut matérialiser son IA en un ou plusieurs corps. Ceux-ci sont grossièrement détaillés et ressemblent à la méta-armure du chevalier, mais dans une version pixélisée ou mal façonnée. Ces corps sont nommés « totems » et peuvent aider le chevalier dans de nombreuses tâches. Ils sont énergétiquement très coûteux à matérialiser et à maintenir en état. L’IA peut bien entendu subir les effets de l’imprégnation lorsqu’elle est dans un ou plusieurs totems. Les totems doivent rester à portée moyenne du chevalier pour exister. Ils peuvent l’assister dans toutes les tâches, mais sont extrêmement sensibles à toutes formes d’agression. Le moindre choc violent les fait tout simplement disparaître. Les totems peuvent se déplacer, agir avec précision, communiquer, mais ils ne peuvent pas agir sans ordre de la part du chevalier, ni prendre d’initiative.\r\nLe chevalier peut matérialiser des totems. En termes de jeu, un totem est simplement détruit par une attaque qui le cible (les attaques qui le ciblent touchent automatiquement, car un totem ne se défend pas). Le chevalier peut utiliser ses totems pour ajouter une de ses caractéristiques supplémentaires par totem, sans les overdrives, à un test qu’il effectue. Comme lors d’une entraide, les caractéristiques doivent être différentes à chaque fois. Ils peuvent être utilisés en combat ou pour toute autre action. Les totems peuvent être utilisés pour la plupart des tests, mais le PJ doit toujours argumenter sur leur utilisation et les utiliser avec l’accord du MJ.",
+            "Totem":"Totem",
+            "Totems":"Totem(s)",
+            "Nombre":"Maximum de Totem",
+            "ENERGIE":{
+              "Matérialiser":"Materialiser",
+              "Prolonger":"Prolonger"
+            }            
+          },
+          "TYPE":{
+            "Label":"Type",
+            "Description":"La méta-armure Warrior ne possède pas de capacité active de base, mais des types lui offrant une plus grande polyvalence. Chaque type est dédié à un aspect et apporte au chevalier un overdrive dans les 3 caractéristiques de l'aspect auquel il est lié, au choix du joueur. À la création, le chevalier choisit 3 types que sa méta-armure possède de base.\r\nLes overdrives acquis grâce aux types s'ajoutent à ceux achetés ou offerts. Ils apportent exactement tous les avantages normalement obtenus par chaque overdrive (réussite automatique, bonus et capacités). Même si la limite de niveaux d'overdrive est de 5, ceux apportés par les différents types ne comptent pas dans cette limite. Ce qui veut dire que, grâce aux types, le chevalier peut passer à 6 OD dans une ou plusieurs caractéristiques, voire plus (évidemment, cela n'arrive que lorsque beaucoup de PG ont été accumulés).\r\nUn seul type peut être activé à la fois, et activer un type prend une action de déplacement. Il s'active lors de cette action de déplacement et perdure jusqu'au début du prochain tour du personnage. Le chevalier peut dépenser de l'énergie pour prolonger le type. Cela ne lui coûte aucune action. Quoi qu'il arrive, un chevalier en méta-armure Warrior ne peut pas changer de type plusieurs fois par tour, même quand l'activation d'un type ne coûte plus d'action.",
+            "TypesPossedes":"Types possédés",
+            "ENERGIE":{
+              "Tour":"Pour un tour en conflit",
+              "Scene":"Pour une scène hors conflit"
+            },
+            "TYPE":{
+              "Soldier":"Soldier",
+              "Hunter":"Hunter",
+              "Scholar":"Scholar",
+              "Herald":"Herald",
+              "Scout":"Scout"
+            }
+           },
+          "VISION": {
+            "Label":"Vision",
+            "Description":"Grâce au système de vision de l’armure Ranger, le personnage peut voir, pendant quelques secondes, des choses qui ne devraient pas être vues. Grâce à la « Vision », le personnage peut distinguer les gaz, le vent, les maladies, la respiration, les créatures microscopiques, les ondes radio, l’Anathème, les pensées, etc. C’est au joueur de dire au MJ ce qu’il désire voir. En fonction de la difficulté de la vision, le chevalier doit dépenser de 5 à 10 points d’énergie, au choix du MJ.\r\nLe MJ décrit ensuite au PJ ce qu’il voit durant quelques secondes, il peut être très précis ou, à l’inverse, nébuleux, la Vision étant parfois peu précise.\r\nLa Vision ne passe bien entendu que par la vue. Si le PJ choisit par exemple de voir les pensées d’une personne, il voit des mots ou des images, mais n’entend aucun son."
+          },
+          "WARLORD": {
+            "Label":"Mode Warlord",
+            "Description":"Le porteur de l'armure peut améliorer à distance les méta-armures des chevaliers pendant un certain temps. Ces améliorations, appelées « impulsions », offrent des bonus substantiels aux membres de la coterie alliés. Une armure Warmaster possède au départ 3 impulsions différentes, à choisir parmi celles proposées, représentées par des grésillements de couleur lorsqu'elles sont utilisées.\r\n\r\nUtiliser une impulsion coûte une action de déplacement. Les impulsions possèdent toutes une portée lointaine et peuvent être lancées sur les chevaliers alliés, même si le personnage ne possède pas de ligne vue sur eux ou s'ils sont invisibles.\r\nQuand c'est indiqué, le porteur de la méta-armure peut décider de se cibler lui-même. Le chevalier peut aussi décider de recevoir l'effet bonus offert à un ou plusieurs alliés pour un coût en énergie supplémentaire égal à la moitié du coût de base en énergie de l'impulsion (arrondi à l'entier supérieur). Viser plusieurs alliés et se viser soi-même avec une impulsion ne coûte aucune action supplémentaire autre que celle de base.\r\n\r\nQuand c'est indiqué, certaines impulsions peuvent être prolongées pour un coût égal à la moitié du coût total d'activation de l'impulsion (en comptabilisant le coût d'éventuelles cibles supplémentaires), avec un minimum de 1 PE dépensé. Le chevalier décide à chaque tour de prolonger ou non une impulsion. Il dépense l'énergie à chaque tour où il décide de prolonger une impulsion. Prolonger une impulsion ne coûte aucune action. Il est tout à fait possible de prolonger plusieurs impulsions en même temps, mais on ne peut pas cumuler plusieurs fois la même impulsion sur une cible.\r\nExemple : _Le personnage de Nicolas utilise une impulsion d'esquive sur un allié, il doit donc dépenser 3 PE. Il décide cependant d'utiliser cette impulsion aussi sur lui-même. Il dépense donc la moitié du coût de base en énergie, c'est-à-dire 2, et bénéficie de l'effet. Au total, pour son allié et lui-même, l'impulsion aura coûté 5 PE._",
+            "NombresModes":"Nombres d'impulsions à choisir",
+            "ACTIVATION":{
+              "Porteur":"Porteur",
+              "Allie":"Allie(s)"
+            },
+            "IMPULSIONS":{
+              "Allie":"Pour le(s) allié(s)",
+              "Porteur":"Pour le porteur",
+              "AlliesPorteur":"Par tour pour chaque allie affecté et le porteur (s'il s'est octroyé le bonus)",
+              "ACTION":{
+                "Label":"Impulsion d'action",
+                "Bonus":"Un allié (et un seul) au choix du porteur de la méta-armure obtient une action de combat ou de déplacement supplémentaire lors de son prochain tour."
+              },
+              "ESQUIVE":{
+                "Label":"Impulsion d'esquive"
+              },
+              "FORCE":{
+                "Label":"Impulsion de force"
+              },
+              "GUERRE":{
+                "Label":"Impulsion de guerre"
+              },
+              "ENERGIE":{
+                "Label":"Impulsion d'énergie",
+                "Bonus":"Un allié en méta-armure, au choix du PJ, reçoit une partie de l’énergie de la Warmaster. 1 à 5 points d’énergie, à la discrétion du joueur, peuvent être octroyés à un allié, mais pas à la Warmaster elle-même."
+              }
+            }
+          },
+          "WATCHTOWER": {
+            "Label":"Mode Watchtower",
+            "Description":"La méta-armure peut déployer sur ses jambes deux modules de stabilisation qui lui permettent de tirer avec plus de rapidité."
+          },
+          "WINDTALKER": {
+            "Label":"Mode Windtalker",
+            "Description":"En activant ce mode, le chevalier peut lire le flux émis par les créatures de l’Anathème, comprendre leurs tactiques et leurs futures actions.\r\n**Effet** : Lorsque le chevalier active ce mode, il prend connaissance des tactiques d’un type de créature de l’Anathème (bande, hostile, salopard ou patron) présent dans la scène ou dans la phase de conflit. De plus, au tour où le mode est activé, le MJ doit annoncer la prochaine action (et uniquement la prochaine) de chaque créature de l’Anathème présente dans la scène ou dans la phase de conflit à portée moyenne du personnage."
+          },
+          "ZEN": {
+            "Label":"Mode Zen",
+            "Description":"Après un combat particulièrement éprouvant pour son esprit et son espoir, le chevalier peut demander à l’IA de son armure d’activer le mode Zen. Dans ce mode, le chevalier se met à genou, les mains sur les cuisses et se perd dans des rêveries lointaines provoquées par l’IA et destinées à nettoyer son esprit du désespoir.",
+            "Caracteristiques":"Caractéristiques du jet",
+            "Difficulte":"Difficulté du jet"
+          },
+          "PERSONNALISE": {
+            "Label": "Personnalisé"
+          }
+        },
+        "SPECIAL":{
+          "APEIRON":{
+            "Label":"Noyau Apeiron",
+            "Description":"Tant qu’il porte la méta-armure, le personnage augmente son total de points d’espoir. De plus, toutes ses pertes d’espoir (en dehors des pertes causées par les capacités de la méta-armure) sont réduites. L’effet est cumulable avec d’autres avantages ou effets."
+          },
+          "CONTRECOUPS":{
+            "Label":"Contrecoups",
+            "Description":"La puissance de la Warlock n'est pas sans contrepartie. Ces deux contrecoups sont cumulatifs : l'un est constant, l'autre peut se déclencher après l'utilisation d'une des capacités Rewind, Forward ou Record.\r\n**DÉFAILLANCE TEMPORELLE**\r\nToutes les armes à projectiles ou un peu trop évoluées technologiquement subissent des défaillances ou de graves incidents lorsque le porteur de la méta-armure Warlock utilise ses capacités.\r\nL'arsenal interdit aux porteurs de méta-armure Warlock d'acquérir des armes à distance. De plus, il leur est interdit de recevoir des armes de contact possédant 5 effets ou plus, effets d'amélioration inclus (en dehors des armes de prestige et des effets offerts par la Forge appliqués sur l'arme).\r\n**PARADOXE TEMPOREL**\r\nL'utilisation des capacités de cette méta-armure met à mal l'intégrité temporelle du personnage. À chaque fois qu'il active une de ses trois capacités de méta-armure durant une scène ou une phase de conflit, le personnage doit le noter. Une fois la scène ou la phase terminée, il peut effacer ses notes.\r\nAprès la première utilisation, à chaque fois qu'il utilise une de ses trois capacités de méta-armure, le personnage doit effectuer un test base _Sang-Froid_ ou _Hargne_, sans prendre en compte les overdrives, pour résister aux effets temporels. La difficulté du test est égale au nombre d'utilisations de capacités de la méta-armure durant la scène ou la phase de conflit.\r\nSi le teste échoue, le personnage doit lancer 2D6 et se référer au tableau dans l'atlas.\r\n- **Déchirure** : Le corps du personnage est déchiré dans le temps. Il reçoit une blessure grave au hasard qui s'applique automatiquement.\r\n- **Défaillance** : Le CdF de la méta-armure tombe à 0 durant 1D3 tours\r\n- **Désagrégation** : La méta-armure du personnage subit 3D6 points de dégâts sans CdF. La capacité Rewind ne peut les annuler.\r\n- **Désorientation** : Le chevalier est mentalement désorienté. Il subit une perte d'1D6 points d'espoir.\r\n- **Disparition** : Disparition : Dans un flash, le personnage disparaît de la scène et n'en revient qu'à la fin.\r\n- **Fragmentation** : Le personnage subit des dégâts sur sa psyché et oublie qui il est pendant 1D6 tours. Au MJ et PJ d'improviser.\r\n- **Incident** : Le personnage subit 4D6 points de dégâts directement sur la santé. La capacité Rewind ne peut pas annuler ces dégâts.\r\n- **Siphon** : L'énergie du personnage est instantanément baissée de 6D6 points.\r\n- **Sursaut** : Pendant 1D6 tours, la méta-armure saute constamment dans le temps. Il doit retirer 2 réussites à chacun de ses tests.",
+            "TABLEAU":{
+              "Dechirure":"Déchirure",
+              "Disparition":"Disparition",
+              "Incident":"Incident",
+              "Siphon":"Siphon",
+              "Sursaut":"Sursaut",
+              "Fragmentation":"Fragmentation",
+              "Desorientation":"Désorientation",
+              "Desagregation":"Désagrégation",
+              "Defaillance":"Défaillance"
+            },
+            "JetBase":"Jet base",
+            "BaseJet":"Base du jet",
+            "NoRelance":"Ne peut pas relancer les 2D6",
+            "Relance":"Peut relancer les 2D6",
+            "ArmeDistance":"Peut utiliser des armes à distance",
+            "NoArmeDistance":"Ne peut pas utiliser des armes à distance",
+            "MaxEffets":"À un nombre maximum d'effets sur les armes de contact",
+            "NoMaxEffets":"N'a pas de nombre maximum d'effets sur les armes de contact",
+            "MaxEffetsLabel":"Maximum d'effets sur les armes au contact"
+          },
+          "IMPREGNATION":{
+            "Label":"Imprégnation",
+            "Description":"L’IA risque de subir l’imprégnation et donc de ne plus pouvoir être dépossédée du corps dans lequel elle s’incarne. Ces points se cumulent.\r\nAprès la première fois, le chevalier doit effectuer un test pour déployer son IA avec le risque minimal. La difficulté du test est égale au nombre de points cumulés par le MJ.\r\nDes points peuvent être enlevés à ce total si le chevalier prend soin de son IA ou si l’IA n’est pas déployée pendant un certain temps, à la discrétion du MJ. Les points cumulés sont remis à 0 à chaque début de mission ou d’intermission."
+          },
+          "LENTEETLOURDE":{
+            "Label":"Lente et lourde",
+            "Description":"La méta-armure Paladin ne peut pas utiliser de module de course, de module de déplacement silencieux ou de module de saut. En outre, le MJ peut toujours décider qu’il est risqué pour l’armure de passer sur certains types de sols, trop fragiles. Enfin, la difficulté des tests base Discrétion et Déplacement avec la méta-armure Paladin est toujours augmentée d’un niveau (si la difficulté de base est facile (1), la difficulté passe à faisable (2))."
+          },
+          "PLUSESPOIR":{
+            "Label": "Il n'y a plus d'espoir",
+            "Description":"En investissant la méta-armure, le chevalier ne possède plus que 10 points d’espoir. Ces points d’espoir ne peuvent être perdus que dans le cas d’une mise à l’agonie liée à la première spécificité des armures de 4e génération (rappel : sur une mise à l’agonie, le chevalier doit réussir un test base Sang-froid combo Hargne pour rester vivant et perdre uniquement 1D6 points d’espoir). Toutes les autres pertes éventuelles sont simplement ignorées par le chevalier. En contrepartie, le chevalier ne peut plus récupérer de points d’espoir, de quelque manière que ce soit et ne peut plus activer de mode héroïque (mais il peut toujours recevoir des points d’héroïsme et les dépenser autrement).",
+            "ESPOIR":{
+              "Label":"Nouvelle valeur d'espoir de base",
+              "Recuperation":"Peut récupérer de l'espoir",
+              "NonRecuperation":"Ne peut pas récupérer de l'espoir",
+              "Perte":"Peut perdre de l'espoir",
+              "NonPerte":"Ne peut pas perdre de l'espoir (sauf agonie)"
+            }
+          },
+          "PORTEURLUMIERE":{
+            "Label":"Porteur de lumière",
+            "Description":"Toutes les attaques portées par le chevalier en méta-armure reçoivent des effets bonus."
+          },
+          "RECOLTEFLUX":{
+            "Label":"Récolte du flux",
+            "Description":"En combat, contre des créatures de l'Anathème ou des désespérés et uniquement contre ces types d'ennemis, un chevalier en méta-armure Psion peut récolter du flux. Au début d'une phase de conflit, le chevalier reçoit automatiquement **2 points de flux** et, à chaque tour suivant, il en reçoit **1** (pour les symboliser, prenez des pièces ou des pions). Si un ennemi à portée moyenne est tué par un chevalier de la coterie ou par un allié (donc pas par une créature de l'Anathème ou un désespéré), le chevalier en méta-armure Psion reçoit automatiquement le nombre de points de flux suivants par ennemi tué :\r\nIl est à noter que le flux peut être récolté en dehors d'une phase de conflit si le chevalier est en présence d'une ou plusieurs créatures de l'Anathème à une certaine portée de l'armure. On considère alors qu'il reçoit des points de flux par créature présente à portée, dans ume certaine limite, durant la scène. Ces points ne sont reçus qu'une fois par scène.\r\nLe flux récolté par le chevalier lors d'un combat lui permet d'utiliser les modes ci-dessous qui ont un coût en flux. Attention : Chacun des modes décrits ne peut être utilisé que contre les créatures de l'Anathème ou contre les désespérés.\r\n**Attention** : Si à la fin d'une scène ou d'une phase de conflit le flux absorbé n'a pas été utilisé, il est définitivement perdu.",
+            "FLUXENCONFLIT":{
+              "Label":"Flux en conflit",
+              "DebutConflit":"Début du conflit",
+              "ParTour":"Par Tour",
+              "ParHostile":"Par Hostile tué",
+              "ParSalopard":"Par Salopard tué",
+              "ParPatron":"Par Patron tué",
+              "HostileTue":"Hostile tué",
+              "SalopardTue":"Salopard tué",
+              "PatronTue":"Patron tué"
+            },
+            "FLUXHORSCONFLIT":{
+              "Label":"Flux hors conflit",
+              "FluxParCreature":"Flux par créature",
+              "NbreCreature":"Nombre de créatures"
+            }
+          },
+          "PERSONNALISE": {
+            "Label": "Personnalisé"
+          }
+        },
+        "Generation": "Génération d'Armure",
+        "BonusEgide": "Bonus à l'Egide",
+        "BonusEspoir": "Bonus à l'Espoir",
+        "EspoirRemplaceEnergie":"L'Espoir remplace l'Energie",
+        "Special": "Spécial",
+        "SLOTS": {
+          "Label": "Slots",
+          "Tete": "Tête",
+          "Torse": "Torse",
+          "BrasGauche": "Bras Gauche",
+          "BrasDroit": "Bras Droit",
+          "JambeGauche": "Jambe Gauche",
+          "JambeDroite": "Jambe Droite"
+        },
+        "Overdrive": "Overdrive",
+        "Overdrives": "Overdrives",
+        "EVOLUTIONS": {
+          "Label": "Évolutions",
+          "LabelParPaliers": "Évolutions tous les : ",
+          "AAcheter": "Les paliers d'évolutions sont à acheter",
+          "NoAAcheter": "Les paliers d'évolutions ne sont pas à acheter",
+          "NbrePaliers": "Nombre de paliers d'évolutions",
+          "EvolutionDisponible":"Evolution d'armure disponible",
+          "EvolutionCompanion":"Evolution des companions",
+          "EvolutionCompanionDisponible":"Evolution des companions disponible"
+        }
+      },
+      "MODULE":{
+        "Label":"Modules",
+        "DepenseSupplementaire":"Dépense d'énergie supplémentaire",
+        "ARME":{
+          "Label":"Arme",
+          "Has":"Est une arme",
+          "Hasnt":"N'est pas une arme",
+          "TYPE":{
+            "Label":"Type",
+            "Contact":"Arme de contact",
+            "Distance":"Arme à distance"
+          },
+          "DEGATS":{
+            "Variable":"Dégâts variable",
+            "NoVariable":"Dégâts invariable"
+          },
+          "VIOLENCE":{
+            "Variable":"Violence variable",
+            "NoVariable":"Violence invariable"
+          }
+        },
+        "PNJ":{
+          "LabelS":"Créature indépendante",
+          "LabelP":"Créatures indépendantes",
+          "Has":"Peut devenir une/des créature(s) indépendante(s)",
+          "Hasnt":"Ne peut pas devenir une/des créature(s) indépendante(s)",
+          "ASPECTS":{
+            "Has":"A des aspects",
+            "Hasnt":"N'a pas d'aspects"
+          },
+          "ARMES":{
+            "Has":"A des armes",
+            "Hasnt":"N'a pas d'arme"
+          },
+          "JETSPECIAL":{
+            "Label":"Jets spécifiques",
+            "Has":"A des jets spécifiques",
+            "Hasnt":"N'a pas de jets spécifiques"
+          }
+        },
+        "CATEGORIE":{
+          "Label":"Catégorie",
+          "Amelioration":"Amélioration",
+          "Contact":"Contact",
+          "Automatise":"Automatisé",
+          "Distance":"Distance",
+          "Defense":"Défense",
+          "Deplacement":"Déplacement",
+          "Tactique":"Tactique",
+          "Utilitaire":"Utilitaire",
+          "Visée":"Visée",
+          "PrestigeAigle":"Prestige Aigle",
+          "PrestigeCerf":"Prestige Cerf",
+          "PrestigeCheval":"Prestige Cheval",
+          "PrestigeDragon":"Prestige Dragon",
+          "PrestigeCorbeau":"Prestige Corbeau",
+          "PrestigeLoup":"Prestige Loup",
+          "PrestigeOurs":"Prestige Ours",
+          "PrestigeFaucon":"Prestige Faucon",
+          "PrestigeSanglier":"Prestige Sanglier",
+          "PrestigeSerpent":"Prestige Serpent",
+          "PrestigeTaureau":"Prestige Taureau"
+        },
+        "RARETE":{
+          "Label":"Rareté",
+          "Standard":"Standard",
+          "Avance":"Avancé",
+          "Rare":"Rare",
+          "Prestige":"Prestige"
+        },
+        "DUREE":{
+          "Permanent":"L'effet est permanent",
+          "NotPermanent":"L'effet n'est pas permanent"
+        },
+        "JET":{
+          "Jet":"Nécessite un jet",
+          "NoJet":"Ne nécessite pas de jet",
+          "Predefini":"Le jet est prédéfini",
+          "NoPredefini":"Le jet n'est pas prédéfini"
+        },
+        "ARMURE":{
+          "Bonus":"Bonus à l'Armure",
+          "NoBonus":"Aucun bonus à l'Armure"
+        },
+        "CDF":{
+          "Bonus":"Bonus au Champ De Force",
+          "NoBonus":"Aucun bonus au Champ De Force"
+        },
+        "ENERGIE":{
+          "Bonus":"Bonus à l'Energie",
+          "NoBonus":"Aucun bonus à l'Energie"
+        },
+        "DEGATS":{
+          "Bonus":"Bonus aux Dégâts",
+          "NoBonus":"Aucun bonus aux Dégâts",
+          "Variable":"Bonus aux dégâts variable",
+          "NoVariable":"Bonus aux dégâts invariable",
+          "Minimum":"Dégâts minimum",
+          "Maximum":"Dégâts maximum",
+          "DesMinimum":"Bonus aux dés minimum",
+          "DesMaximum":"Bonus aux dés maximum",
+          "FixeMinimum":"Bonus fixe minimum",
+          "FixeMaximum":"Bonus fixe maximum"
+        },
+        "VIOLENCE":{
+          "Bonus":"Bonus à la Violence",
+          "NoBonus":"Aucun bonus à la Violence",
+          "Variable":"Bonus à la violence variable",
+          "NoVariable":"Bonus à la violence invariable",
+          "Minimum":"Violence minimum",
+          "Maximum":"Violence maximum",
+          "DesMinimum":"Bonus aux dés minimum",
+          "DesMaximum":"Bonus aux dés maximum",
+          "FixeMinimum":"Bonus fixe minimum",
+          "FixeMaximum":"Bonus fixe maximum"
+        },
+        "BONUS":{
+          "Has":"Donne des bonus",
+          "Hasnt":"Ne donne pas de bonus"
+        },
+        "OVERDRIVES":{
+          "Label":"Niveaux d'overdrives offerts",
+          "Has":"Donne des niveaux d'overdrives",
+          "Hasnt":"Ne donne pas de niveaux d'overdrives",
+          "Labelbonus":"Bonus aux overdrives",
+          "Hasbonus":"Bonus aux overdrives",
+          "Hasntbonus":"Aucun bonus aux overdrives"
+        },
+        "GRENADES":{
+          "Has":"Bonus aux grenades",
+          "Hasnt":"Aucun bonus aux grenades"
+        },
+        "ERSATZ":{
+          "ROGUE":{
+            "Label":"Camouflage optique (ersatz rogue)",
+            "Has":"Est un camouflage optique (ersatz rogue)",
+            "Hasnt":"N'est pas un camouflage optique (ersatz rogue)"
+          },
+          "BARD":{
+            "Label":"Déguisement (ersatz bard)",
+            "Has":"Est un déguisement (ersatz bard)",
+            "Hasnt":"N'est pas un Déguisement (ersatz bard)"
+          }
+        }
+      },
+      "ARME":{
+        "Nom":"Nom de l'arme",
+        "TypeArme":"Type d'arme",
+        "TOURELLE":{
+          "Has":"Arme montée en tourelle automatique",
+          "Hasnt":"Arme non montée en tourelle automatique"
+        }
+      },
+      "CAPACITES":{
+        "ASPECT":{
+          "Has":"Bonus lié à un aspect",
+          "Hasnt":"Bonus non lié à un aspect"
+        },
+        "ISPHASE2":{
+          "Has":"Est une capacité de phase 2",
+          "Hasnt":"N'est pas une capacité de phase 2"
+        },
+        "ASPECTSUPP":{
+          "Label":"Aspect lié supplémentaire",
+          "Has":"Ajoute un aspect aux capacités liées à un aspect",
+          "Hasnt":"N'ajoute pas un aspect aux capacités liées à un aspect"
+        },
+        "SANTE":{
+          "Has":"Donne un bonus à la santé",
+          "Hasnt":"Ne donne pas un bonus à la santé"
+        },
+        "ARMURE":{
+          "Has":"Donne un bonus à l'armure",
+          "Hasnt":"Ne donne pas un bonus à l'armure"
+        },
+        "ASPECTMAX":{
+          "Has":"Augmente le maximum d'un aspect",
+          "Hasnt":"N'augmente pas le maximum d'un aspect"
+        },
+        "DEGATS":{
+          "Label":"Inflige des dégâts (sans jet d'attaque)",
+          "Has":"Fait des dégâts (sans jet d'attaque)",
+          "Hasnt":"Ne fait pas de dégâts (sans jet d'attaque)"
+        },
+        "ATTAQUE":{
+          "Label":"Attaque",
+          "Has":"Est une attaque",
+          "Hasnt":"N'est pas une attaque"
+        },
+        "AspectBonus":"Aspect bonus",
+        "Multiplie":"Valeur multipliée par",
+        "AspectMaximum":"Aspect maximum",
+        "AEMaximum":"Aspect Exceptionnel maximum"
+      }
+    },
+    "JETS":{
+      "Label":"Jet",
+      "Nom":"Nom du jet",
+      "Des": "Dés",
+      "JetNormal":"Jet normal",
+      "JetEntraide":"Jet d'entraide",
+      "Base":"Base du jet",
+      "AutreCarac":"Autres caractéristiques",
+      "Succes":"Succès",
+      "Echec":"Echec",
+      "Exploit":"Exploit",
+      "EchecCritique":"Echec critique",
+      "Des-short":"D",
+      "Modificateur":"Modificateur",
+      "ModificateurDegats":"Modificateur de dégâts",
+      "ModificateurViolence":"Modificateur de violence",
+      "JetEspoir":"Jet d'espoir",
+      "JetEgide":"Jet d'egide",
+      "OtherEffects":"Autres effets",
+      "Notenergie":"Pas assez d'énergie",
+      "Notespoir":"Pas assez d'espoir",
+      "Depenseenergie":"Dépense d'énergie",
+      "Depenseespoir":"Dépense d'espoir",
+      "ODTir3" : "OD Tir 3 inclus",
+      "ODTir4" : "OD Tir 4 inclus",
+      "ODCombat3" : "OD Combat 3 inclus",
+      "ODCombat4" : "OD Combat 4 inclus",
+      "ODForce" : "OD Force",      
+      "ODDiscretion" : "OD Discrétion",      
+      "AttaqueSurprise" : "En cas d'attaque surprise.",
+      "Nodssoin":"Nods de Soin",
+      "Nodsarmure":"Nods d'Armure",
+      "Nodsenergie":"Nods d'Energie",
+      "JetPilotage":"Jet de pilotage",
+      "BETE":{
+        "Mineur":"Bête mineur",
+        "Majeur":"Bête majeur"
+      }
+    },
+    "AUTRE": {
+      "Label":"Autre",
+      "Base":"Base",
+      "Total": "Total",
+      "Maximum": "Maximum",
+      "Maximum-short": "Max",
+      "Minimum": "Minimum",
+      "Mineur": "Mineur",
+      "Majeur": "Majeur",
+      "Ajouter":"Ajouter",
+      "Supprimer": "Supprimer",
+      "Supprime": "Supprimé",
+      "NoSupprime": "Pas supprimé",
+      "Attaque": "Attaque",
+      "Degats": "Dégâts",
+      "Violence": "Violence",
+      "Debordement": "Débordement",
+      "Editer": "Editer",
+      "Valider": "Valider",
+      "Annuler": "Annuler",
+      "Oui": "Oui",
+      "Non": "Non",
+      "Soigne": "Soigné",
+      "Personnalise": "Personnalisé",
+      "Contact": "Contact",
+      "Distance": "Distance",
+      "Energie": "Énergie",
+      "EnergieSupplementaire": "Énergie supplémentaire",
+      "EspoirSupplementaire": "Espoir supplémentaire",
+      "PointEnergie-short": "PE",
+      "PointGloire": "Points de Gloire",
+      "PointGloire-short": "PG",
+      "PointSante-short":"PS",
+      "PointArmure-short":"PA",
+      "CoutEspoir":"Coût en espoir",
+      "JetsPossibles":"Jets possibles",
+      "GainImpregnation":"Gains d'imprégnations",
+      "Verrouiller":"Verrouiller",
+      "Deverouiller":"Déverrouiller",
+      "Activer":"Activer",
+      "Desactiver":"Désactiver",
+      "Prolonger":"Prolonger",
+      "Limite":"Limite",
+      "Choisir":"Choisir",
+      "Choisi":"Choisi",
+      "CibleSupplementaire":"Cible(s) supplémentaire(s)",
+      "HorsConflit": "Hors conflit",
+      "EnConflit": "En conflit",
+      "Inclus":"Inclus",
+      "Tour":"Tour",
+      "Tours":"Tours",
+      "Minute":"Minute",
+      "CliquezIci":"Cliquez ici",
+      "Points":"Points"
+    },
+    "PHASE2":{
+      "Label":"Phase 2",
+      "Bonus":"Bonus de Phase 2",
+      "Phase2Activate":"Phase 2 Activée",
+      "ActivatePhase2":"Activer Phase 2"
+    },
+    "RESILIENCE":{
+      "Calcul":"Calculer",
+      "CalculResilience":"Calculer la résilience",
+      "TYPES":{
+        "Label":"Type de créature",
+        "COLOSSE":{
+          "Recrue":"Colosse / Recrue",
+          "Initie":"Colosse / Initié",
+          "Heros":"Colosse / Héros"
+        },
+        "PATRON":{
+          "Recrue":"Patron / Recrue",
+          "Initie":"Patron / Initié",
+          "Heros":"Patron / Héros"
+        }
+      }
+    },
+    "GAINS":{
+      "Espoir":"Gain d'espoir"
+    },
+    "INCLUS":{
+      "Od": "OD inclus",
+      "Dice": "Bonus aux dés inclus",
+      "Fixe": "Bonus fixe inclus"
+    },
+    "NOINCLUS":{
+      "Od": "OD non inclus",
+      "Dice": "Bonus aux dés non inclus",
+      "Fixe": "Bonus fixe non inclus"
+    },
+    "DUREE": {
+      "Label": "Durée",
+      "Instantanee": "Instantanée",
+      "UnTour": "Un tour",
+      "Tour": "1 tour",
+      "Tour6Seconde": "1 tour ou 6 secondes",
+      "TourSeconde": "1 tour ou 10 secondes",
+      "TourMinute": "1 tour ou 1 minute",
+      "TourProlonge": "1 tour (peut être prolongé)",
+      "Seconde": "6 secondes",
+      "Minute": "6 tours ou 1 minute",
+      "Minute10": "1 minute ou 10 tours",
+      "Scene":"Une scène, une phase ou une heure, peu importe la phase",
+      "Desactivation":"Jusqu'à désactivation",
+      "TourScene":"1 tour ou une scène",
+      "ConflitPhase":"Une phase / scène",
+      "ConflitScene":"Une phase de conflit ou une scène",
+      "ConflitTuer":"Jusqu'à la fin de la phase de conflit ou jusqu'à ce que le chevalier ait réussi à tuer un ennemi.",
+      "ConflitSceneProlonger":"Une scène ou une phase de conflit, peut être prolongé en conservant exactement la même valeur de PE octroyée.",
+      "Permanent":"Permanent",
+      "Sanslimite":"Sanslimite"
+    },
+    "ACTIVATION": {
+      "Label": "Activation",
+      "Aucune": "Aucune",
+      "Instantanee": "Instantanée",
+      "Deplacement": "Action de déplacement",
+      "Deplacement3Sec": "Action de déplacement / 3 secondes",
+      "Deplacement6Sec": "Action de déplacement / 6 secondes",
+      "Combat": "Action de Combat",
+      "Combat3Sec": "Action de Combat / 3 secondes",
+      "Combat6Sec": "Action de Combat / 6 secondes",
+      "Tour": "1 tour",
+      "Tour6Sec": "1 tour / 6 secondes",
+      "Toutes": "Action de déplacement, de combat ou 1 tour"
+    },
+    "BONUS":{
+      "Label": "Bonus",
+      "Effets":"Effets bonus",
+      "Jet":"Bonus au jet",
+      "Fixe":"Bonus fixe",
+      "Reussites":"Réussites automatiques",
+      "Succes":"Succès bonus",
+      "Soins":"Bonus aux soins",
+      "Reparation":"Bonus aux réparations",
+      "Espoir": "Bonus d'espoir",
+      "Egide": "Bonus d'égide",
+      "ChampDeForce": "Bonus de champ de force",
+      "Attaque":"Bonus à l'attaque",
+      "Degats":"Bonus aux dégâts",
+      "DesDegats":"Bonus en dés aux dégâts",
+      "FixeDegats":"Bonus fixe aux dégâts",
+      "Violence":"Bonus à la violence",
+      "DesViolence":"Bonus en dés à la violence",
+      "FixeViolence":"Bonus fixe à la violence",
+      "DegatsViolence":"Bonus aux Dégâts et à la Violence",
+      "Defense":"Bonus à la défense",
+      "Reaction":"Bonus à la réaction",
+      "Overdrives":"Bonus aux overdrives",
+      "Caracteristique":"Caractéristique bonus",
+      "BonusCaracteristique":"Bonus à une caractéristique",
+      "Contact":"Bonus aux armes de contacts",
+      "Distance":"Bonus aux armes à distance",
+      "Aspectmax":"Bonus aux maximum des aspects",
+      "Sante":"Bonus à la santé",
+      "Armure":"Bonus à l'armure",
+      "Action":"Action supplémentaire",
+      "Noyau":"Octroyer noyau d'énergie",
+      "Noyaux":"Octroyer noyaux d'énergie"
+    },
+    "MALUS":{
+      "Label":"Malus",
+      "Actions":"Malus aux actions",
+      "Reaction":"Malus à la réaction",
+      "Defense":"Malus à la défense",
+      "DefenseReaction":"Malus à la Défense et à la Réaction"
+    },
+    "PORTEE":{
+      "Label": "Portée",
+      "Personnelle":"Personnelle",
+      "Contact":"Contact",
+      "Courte":"Courte",
+      "Moyenne":"Moyenne",
+      "Longue":"Longue",
+      "Lointaine":"Lointaine"
+    },
+    "REQUIS":{
+      "Force": "Force requise",
+      "Chair": "Chair requis"
+    },
+    "REDUCTION":{
+      "Espoir":"Réduction des pertes d'espoir",
+      "CoutEspoir":"Divise les coûts d'espoir des modules et armes par"
+    },
+    "TYPE":{
+      "Label":"Type",
+      "LabelEnnemi":"Type ennemi",
+      "Humain":"Humain",
+      "Anatheme":"Anathème",
+      "Hostile":"Hostile",
+      "Salopard":"Salopard",
+      "Patron":"Patron",
+      "Bande":"Bande",
+      "Pnj":"PNJ"
+    },
+    "PROGRESSION":{
+      "Label":"Progression",
+      "EXPERIENCE":{
+        "Label":"Points d'Expériences",
+        "ListeDepense":"Liste des dépenses de Points d'Expériences"
+      },
+      "GLOIRE":{
+        "Label":"Points de Gloires",
+        "ListeDepense":"Liste des dépenses de Points de Gloires"
+      },
+      "Actuel":"Actuel",
+      "Utilise":"Utilisé",
+      "Cout":"Coût",
+      "Gratuit":"Gratuit",
+      "Payant":"Payant",
+      "EvolutionArmure":"Evolution de Méta-Armure",
+      "AcheterEvolutionArmure":"Acheter l'évolution de la Méta-Armure",
+      "AcheterEvolutionCompanion":"Acheter l'évolution des Companions"
+    },
+    "SETTINGS":{
+      "ARMURES":{
+        "Egide":"Accès à l'Egide",
+        "2038": "Capacités des armures de 2038",
+        "2038Hint": "Inclure les capacités et spéciaux des armures de base de 2038 (Sauf les capacités et spéciaux de la Necromancer et de la Sorcerer).",
+        "Codex": "Capacités des armures du Codex 1.5",
+        "CodexHint": "Inclure les capacités et spéciaux des armures du Codex 1.5.",
+        "Atlas": "Capacités des armures de l'Atlas",
+        "AtlasHint": "Inclure les capacités et spéciaux des armures de base de l'Atlas (Sauf les capacités et spéciaux de la Berserk).",
+        "AtlasSpecial": "Inclure la Berserk",
+        "AtlasSpecialHint": "Inclure les capacités et spéciaux de l'armure spéciale de l'Atlas (Berserk).",
+        "2038sorcerer": "Inclure la Sorcerer",
+        "2038sorcererHint": "Inclure les capacités et spéciaux la Sorcerer de 2038.",
+        "2038necromancer": "Inclure la Necromancer",
+        "2038necromancerHint": "Inclure les capacités et spéciaux la Necromancer de 2038."
+      }
+    },
+    "GM":{
+      "TOOL":{
+        "Label":"Boîte à outil du MJ",
+        "Rafraichir":"Rafraichir",
+        "Reset":"Reset",
+        "INITIATIVE":{
+          "Label":"Gestion de l'initiative",
+          "Embuscade":"Initiative : Embuscade",
+          "QuiSubi":"Qui la subit ?",
+          "QuiProvoque":"Qui la provoque ?",
+          "PJ":"PJ",
+          "PNJ":"PNJ"
+        },
+        "GMMONITOR":{
+          "Label":"Détails des PJ"
+        }
+      }
+    },
+    "HEROISME":{
+      "CAPACITE":{
+        "Label":"Capacité héroïque"
+      },
+      "CARTE":{
+        "Label":"Carte du destin"
+      }
+    }
+  }
+}

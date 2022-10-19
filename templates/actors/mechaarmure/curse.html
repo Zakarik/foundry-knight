@@ -1,0 +1,65 @@
+<div class="blockModule">
+    <h3 class="header">
+        <i class="far fa-plus-square"></i>
+        {{{getMAModule this.key}}}
+        
+        {{#if this.config}}
+        <div>
+            <a class="delete supprimerModule" data-type="{{this.type}}" data-value="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+        {{else}}
+        <div class="blockMultiline">
+            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true" data-special="1" data-special2="degats">
+                    {{localize "KNIGHT.AUTRE.Activer"}} : {{localize "KNIGHT.MECHAARMURE.MODULES.CURSE.DiminuerDegatsViolence"}}
+            </button>
+
+            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true" data-special="1" data-special2="reussite">
+                    {{localize "KNIGHT.AUTRE.Activer"}} : {{localize "KNIGHT.MECHAARMURE.MODULES.CURSE.RetirerReussite"}}
+            </button>
+
+            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true" data-special="2" data-special2="baisserresilienceroll">
+                    {{localize "KNIGHT.AUTRE.Activer"}} : {{localize "KNIGHT.MECHAARMURE.MODULES.CURSE.BaisserResilience"}} (1{{localize "KNIGHT.JETS.Des-short"}}6)
+            </button>
+
+            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true" data-special="2" data-special2="baisserresiliencefixe">
+                    {{localize "KNIGHT.AUTRE.Activer"}} : {{localize "KNIGHT.MECHAARMURE.MODULES.CURSE.BaisserResilience"}} (3 {{localize "KNIGHT.AUTRE.Points"}})
+            </button>
+
+            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true" data-special="3" data-special2="champdeforce">
+                    {{localize "KNIGHT.AUTRE.Activer"}} : {{localize "KNIGHT.MECHAARMURE.MODULES.CURSE.AnnulerChampDeForce"}}
+            </button>
+
+            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true" data-special="5" data-special2="annulerresilience">
+                    {{localize "KNIGHT.AUTRE.Activer"}} : {{localize "KNIGHT.MECHAARMURE.MODULES.CURSE.AnnulerResilience"}}
+            </button>
+
+            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true" data-special="5" data-special2="choc">
+                    {{localize "KNIGHT.AUTRE.Activer"}} : {{localize "KNIGHT.MECHAARMURE.MODULES.CURSE.Choc"}}
+            </button>
+        </div>
+        {{/if}}
+    </h3>
+
+    <span class="description" style="display:none;">
+        {{{getMAModuleDescription this.key}}}
+    </span>
+
+    {{#unless this.config}}
+    <div class="block" style="display:none;">
+        <div class="longspan">
+            <span class="label">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+            <span class="value">{{getActivation this.activation}}</span>
+        </div>
+        <div class="longspan">
+            <span class="label">{{localize "KNIGHT.DUREE.Label"}}</span>
+            <span class="value">{{this.duree}}{{localize "KNIGHT.JETS.Des-short"}}3 {{localize "KNIGHT.AUTRE.Tours"}}</span>
+        </div>
+        <div class="longspan">
+            <span class="label">{{localize "KNIGHT.PORTEE.Label"}}</span>
+            <span class="value">{{getPortee this.portee}}</span>
+        </div>
+    </div>
+    {{/unless}}
+</div>

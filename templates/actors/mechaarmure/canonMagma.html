@@ -1,0 +1,62 @@
+<div class="blockModule">
+    <h3 class="header">
+        <i class="far fa-plus-square"></i>
+        {{{getMAModule this.key}}}
+        
+        {{#if this.config}}
+        <div>
+            <a class="delete supprimerModule" data-type="{{this.type}}" data-value="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+        {{else}}
+        <div class="blockMultiline">
+            <button class="attaque" data-key="{{this.key}}" data-type="{{this.type}}">
+                {{localize "KNIGHT.AUTRE.Attaque"}}
+            </button>
+
+            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true">
+                {{localize "KNIGHT.MECHAARMURE.MODULES.CANONMAGMA.AneantirBande"}}
+            </button>
+        </div>
+        {{/if}}
+    </h3>
+
+    <span class="description" style="display:none;">
+        {{{getMAModuleDescription this.key}}}
+    </span>
+
+    {{#unless this.config}}
+    <div class="block" style="display:none;">
+        <div class="longspan">
+            <span class="label">{{localize "KNIGHT.LATERAL.Noyaux"}}</span>
+            <span class="value">{{this.noyaux}}</span>
+        </div>
+        <div class="longspan">
+            <span class="label">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+            <span class="value">{{this.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.degats.fixe}}</span>
+        </div>
+        <div class="longspan">
+            <span class="label">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+            <span class="value">{{this.violence.dice}}{{KNIGHT.JETS.Des-short}}6</span>
+        </div>
+        <div class="longspan">
+            <span class="label">{{localize "KNIGHT.PORTEE.Label"}}</span>
+            <span class="value">{{getPortee this.portee}}</span>
+        </div>
+        <div class="longspan">
+            <span class="label">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+            <span class="value">{{getActivation this.activation}}</span>
+        </div>
+        <div class="effets">
+            {{#each this.effets.liste as | key effet|}}
+            <div class="effetNormal">
+                <span class="label">{{key.name}}</span>
+                <img class="info" src="systems/knight/assets/icons/info.svg" />
+                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    {{/unless}}
+</div>

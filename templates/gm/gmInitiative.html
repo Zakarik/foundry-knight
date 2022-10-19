@@ -1,0 +1,53 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <div class="main">
+        <div class="initiative embuscadeSubi">
+            <h2 class="header">
+                {{#unless object.embuscadeSubi}}
+                <i class="far fa-plus-square" data-type="embuscadeSubi" data-value="{{object.embuscadeSubi}}"></i>
+                {{else}}
+                <i class="far fa-minus-square" data-type="embuscadeSubi" data-value="{{object.embuscadeSubi}}"></i>
+                {{/unless}}
+                {{localize "KNIGHT.GM.TOOL.INITIATIVE.Embuscade"}}<br/>
+                {{localize "KNIGHT.GM.TOOL.INITIATIVE.QuiSubi"}}
+            </h2>
+            <div class="pj" {{#unless object.embuscadeSubi}}style="display:none;"{{/unless}}>
+                <h3>{{localize "KNIGHT.GM.TOOL.INITIATIVE.PJ"}}</h3>
+                {{#each object.pj as | key pj|}}
+                <span class="{{key.selectedSubi}}" data-id="{{pj}}" data-type="pj">{{key.name}}</span>
+                {{/each}}
+            </div>
+
+            <div class="pnj" {{#unless object.embuscadeSubi}}style="display:none;"{{/unless}}>
+                <h3>{{localize "KNIGHT.GM.TOOL.INITIATIVE.PNJ"}}</h3>
+                {{#each object.pnj as | key pnj|}}
+                <span class="{{key.selectedSubi}}" data-id="{{pnj}}" data-type="pnj">{{key.name}}</span>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="initiative embuscadePris">
+            <h2 class="header">
+                {{#unless object.embuscadePris}}
+                <i class="far fa-plus-square" data-type="embuscadePris" data-value="{{object.embuscadePris}}"></i>
+                {{else}}
+                <i class="far fa-minus-square" data-type="embuscadePris" data-value="{{object.embuscadePris}}"></i>
+                {{/unless}}
+                {{localize "KNIGHT.GM.TOOL.INITIATIVE.Embuscade"}}<br/>
+                {{localize "KNIGHT.GM.TOOL.INITIATIVE.QuiProvoque"}}
+            </h2>
+            <div class="pj" {{#unless object.embuscadePris}}style="display:none;"{{/unless}}>
+                <h3>{{localize "KNIGHT.GM.TOOL.INITIATIVE.PJ"}}</h3>
+                {{#each object.pj as | key pj|}}
+                <span class="{{key.selectedPris}}" data-id="{{pj}}" data-type="pj">{{key.name}}</span>
+                {{/each}}
+            </div>
+
+            <div class="pnj" {{#unless object.embuscadePris}}style="display:none;"{{/unless}}>
+                <h3>{{localize "KNIGHT.GM.TOOL.INITIATIVE.PNJ"}}</h3>
+                {{#each object.pnj as | key pnj|}}
+                <span class="{{key.selectedPris}}" data-id="{{pnj}}" data-type="pnj">{{key.name}}</span>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</form>

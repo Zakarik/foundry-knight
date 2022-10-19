@@ -1,0 +1,283 @@
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.Label"}}
+    </h4>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.NombresModes"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.selection" 
+        value="{{this.impulsions.selection}}" 
+        min="0"
+         />
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.ACTION.Label"}}
+    </h4>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.BONUS.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.action.bonus.description"
+        data-capacite="warlord" data-type="bonusAction" data-min="85"  data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.bonusAction}}px;" 
+        >{{this.impulsions.action.bonus.description}}</textarea>
+    </label>
+    <h4 class="separationTB">{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+    <label class="longspan noSeparation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Allie"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.action.energie.allie" 
+        value="{{this.impulsions.action.energie.allie}}" 
+        min="0"
+         />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Porteur"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.action.energie.porteur" 
+        value="{{this.impulsions.action.energie.porteur}}" 
+        min="0"
+         />
+    </label>
+    <label class="shortspan separation">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.action.activation" >
+            {{#select this.impulsions.action.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.action.duree"
+        data-capacite="warlord" data-type="dureeAction" data-min="50"  data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.dureeAction}}px;" 
+        >{{this.impulsions.action.duree}}</textarea>
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.FORCE.Label"}}
+    </h4>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.BONUS.ChampDeForce"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.force.bonus.champDeForce" 
+        value="{{this.impulsions.force.bonus.champDeForce}}"
+        min="0"
+         />
+    </label>
+    <h4 class="separationTB">{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+    <label class="longspan ">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Allie"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.force.energie.allie" 
+        value="{{this.impulsions.force.energie.allie}}" 
+        min="0"
+         />
+    </label>
+    <label class="longspan noSeparation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Porteur"}}</span>
+        <input class="absolute"  type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.force.energie.porteur" 
+        value="{{this.impulsions.force.energie.porteur}}" 
+        min="0"
+         />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.AlliesPorteur"}}</span>
+        <input class="absolute"  type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.force.energie.prolonger" 
+        value="{{this.impulsions.force.energie.prolonger}}" 
+        min="0"
+         />
+    </label>
+    <label class="shortspan separation">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.force.activation" >
+            {{#select this.impulsions.force.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.force.duree"
+        data-capacite="warlord" data-type="dureeForce" data-min="50"  data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.dureeForce}}px;" 
+        >{{this.impulsions.force.duree}}</textarea>
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.ENERGIE.Label"}}
+    </h4>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.BONUS.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.energie.bonus.description"
+        data-capacite="warlord" data-type="bonusEnergie" data-min="110"  data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.bonusEnergie}}px;" 
+        >{{this.impulsions.energie.bonus.description}}</textarea>
+    </label>
+    <h4 class="separationTB">{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+    <label class="longspan noSeparation">
+        <span>{{localize "KNIGHT.AUTRE.Minimum"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.energie.energie.min" 
+        value="{{this.impulsions.energie.energie.min}}" 
+        min="0"
+        max="{{this.impulsions.energie.energie.max}}"
+         />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.AUTRE.Maximum"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.energie.energie.max" 
+        value="{{this.impulsions.energie.energie.max}}" 
+        min="{{this.impulsions.energie.energie.min}}"
+         />
+    </label>
+    <label class="shortspan separation">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.energie.activation" >
+            {{#select this.impulsions.energie.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.energie.duree"
+        data-capacite="warlord" data-type="dureeEnergie" data-min="50"  data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.dureeEnergie}}px;" 
+        >{{this.impulsions.energie.duree}}</textarea>
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.ESQUIVE.Label"}}
+    </h4>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.BONUS.Defense"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.esquive.bonus.defense" 
+        value="{{this.impulsions.esquive.bonus.defense}}" 
+        min="0"
+         />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.BONUS.Reaction"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.esquive.bonus.reaction" 
+        value="{{this.impulsions.esquive.bonus.reaction}}" 
+        min="0"
+         />
+    </label>
+    <h4 class="separationTB">{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+    <label class="longspan noSeparation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Allie"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.esquive.energie.allie" 
+        value="{{this.impulsions.esquive.energie.allie}}" 
+        min="0"
+         />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Porteur"}}</span>
+        <input class="absolute"  type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.esquive.energie.porteur" 
+        value="{{this.impulsions.esquive.energie.porteur}}" 
+        min="0"
+         />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.AlliesPorteur"}}</span>
+        <input class="absolute"  type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.esquive.energie.prolonger" 
+        value="{{this.impulsions.esquive.energie.porteur}}" 
+        min="0"
+         />
+    </label>
+    <label class="shortspan separation">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.action.activation" >
+            {{#select this.impulsions.action.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.esquive.duree"
+        data-capacite="warlord" data-type="dureeEsquive" data-min="50"  data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.dureeEsquive}}px;" 
+        >{{this.impulsions.esquive.duree}}</textarea>
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.GUERRE.Label"}}
+    </h4>
+    <div class="longspan withSpecial">
+        <span>{{localize "KNIGHT.BONUS.Degats"}}</span>
+        <label>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.guerre.bonus.degats" 
+            value="{{this.impulsions.guerre.bonus.degats}}"
+            min="0"
+             />
+            <span>D6</span>
+        </label>
+    </div>
+    <div class="longspan withSpecial">
+        <span>{{localize "KNIGHT.BONUS.Violence"}}</span>
+        <label>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.guerre.bonus.violence" 
+            value="{{this.impulsions.guerre.bonus.violence}}"
+            min="0"
+             />
+            <span>D6</span>
+        </label>
+    </div>
+    <h4 class="separationTB">{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+    <label class="longspan noSeparation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Allie"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.guerre.energie.allie" 
+        value="{{this.impulsions.guerre.energie.allie}}" 
+        min="0"
+         />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Porteur"}}</span>
+        <input class="absolute" type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.guerre.energie.prolonger" 
+        value="{{this.impulsions.guerre.energie.porteur}}" 
+        min="0"
+         />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.AlliesPorteur"}}</span>
+        <input class="absolute" type="number" name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.guerre.energie.porteur" 
+        value="{{this.impulsions.guerre.energie.porteur}}" 
+        min="0"
+         />
+    </label>
+    <label class="shortspan separation">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.guerre.activation" >
+            {{#select this.impulsions.guerre.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.guerre.duree"
+        data-capacite="warlord" data-type="dureeGuerre" data-min="50"  data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.dureeGuerre}}px;" 
+        >{{this.impulsions.guerre.duree}}</textarea>
+    </label>
+</div>

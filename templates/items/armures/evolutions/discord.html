@@ -1,0 +1,80 @@
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.DISCORD.Label"}}
+    </h4>
+    <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.DISCORD.Tour"}}</h4>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.LATERAL.Flux"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.discord.tour.flux" value="{{this.tour.flux}}" 
+        
+        />
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.discord.tour.energie" value="{{this.tour.energie}}" 
+        
+        />
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.discord.tour.activation" >
+            {{#select this.tour.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea data-capacite="discord" data-type="dureeTour" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.dureeTour}}px;" name="system.evolutions.liste.{{key}}.capacites.discord.tour.duree" >{{this.tour.duree}}</textarea>
+    </label>
+    <h4 class="separation">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.DISCORD.Scene"}}</h4>
+    <label class="shortspan noSeparation">
+        <span>{{localize "KNIGHT.LATERAL.Flux"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.discord.scene.flux" value="{{this.scene.flux}}" 
+        
+        />
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.discord.scene.energie" value="{{this.scene.energie}}" 
+        
+        />
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.discord.scene.activation" >
+            {{#select this.scene.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea data-capacite="discord" data-type="dureeScene" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.dureeTour}}px;" name="system.evolutions.liste.{{key}}.capacites.discord.scene.duree" >{{this.scene.duree}}</textarea>
+    </label>
+    <label class="longspan separation">
+        <span>{{localize "KNIGHT.MALUS.Actions"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.discord.malus.actions" value="{{this.malus.actions}}" 
+        
+        />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.MALUS.Reaction"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.discord.malus.reaction" value="{{this.malus.reaction}}" 
+        
+        />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.MALUS.Defense"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.discord.malus.defense" value="{{this.malus.defense}}" 
+        
+        />
+    </label>
+</div>

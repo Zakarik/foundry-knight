@@ -1,0 +1,204 @@
+<form class="mainFlex {{cssClass}}" autocomplete="off">
+
+    {{!-- Sheet Header --}}
+    <header class="sheet-header flexrow">
+        <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
+        <div class="headerData">
+            <div class="data">
+                <h1 class="charname">
+                    <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+                </h1>
+
+                <div class="pilote">
+                    <span class="label">{{localize "KNIGHT.VEHICULE.Pilote"}}</span>
+                    {{#if systemData.equipage.pilote.name}}
+                        <span class="value">
+                            {{systemData.equipage.pilote.name}}
+                            <div class="gestionButton">
+                                <a class="item-control pilote-edit" title="{{localize "KNIGHT.VEHICULE.PasserPassager"}}"><i class="fa-solid fa-user"></i></i></a>
+                                <a class="item-control pilote-delete" title="{{localize "KNIGHT.VEHICULE.DeletePilote"}}"><i class="fas fa-trash"></i></a>
+                            </div>
+                        </span>
+                    {{else}}
+                        <span class="value">{{localize "KNIGHT.VEHICULE.PasPilote"}}</span>
+                    {{/if}}
+                </div>
+
+                <div class="passagers">
+                    <span class="label">{{localize "KNIGHT.VEHICULE.Passagers"}}</span>
+                    {{#if (isEmpty this.data.system.equipage.passagers false)}}
+                        <span class="value">{{localize "KNIGHT.VEHICULE.PasPassager"}}</span>
+                    {{else}}
+                        {{#each systemData.equipage.passagers as | key passager|}}
+                            <span class="value" data-id="{{passager}}">
+                                {{key.name}}
+                                <div class="gestionButton">
+                                    <a class="item-control passager-edit" title="{{localize "KNIGHT.VEHICULE.PasserPilote"}}"><i class="fa-solid fa-user"></i></i></a>
+                                    <a class="item-control passager-delete" title="{{localize "KNIGHT.VEHICULE.DeletePassager"}}"><i class="fas fa-trash"></i></a>
+                                </div>
+                            </span>
+                        {{/each}}
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {{!-- MENU LATERAL  --}}
+    <section class="menu">
+        <section class="mainBlock">
+            <div class="manoeuvrabilite">
+                <div class="line">
+                    <span class="label">{{localize "KNIGHT.VEHICULE.Manoeuvrabilite"}}</span>
+                    <input type="number" name="system.manoeuvrabilite" value="{{systemData.manoeuvrabilite}}" />
+                </div>
+                <button type="action" class="jetPilotage">{{localize "KNIGHT.JETS.JetPilotage"}}</button>
+            </div>
+            <div class="passagers">
+                <div class="line">
+                    <span class="label">{{localize "KNIGHT.VEHICULE.Passagers"}}</span>
+                    <input type="number" name="system.passagers" value="{{systemData.passagers}}" min="0" />
+                </div>
+            </div>
+            <div class="vitesse">
+                <div class="line">
+                    <span class="label">{{localize "KNIGHT.VEHICULE.Vitesse"}}</span>
+                    <input type="number" name="system.vitesse" value="{{systemData.vitesse}}" min="0" max="5" />
+                </div>
+            </div>
+        </section>
+        <section class="mainBlock">
+            <div class="armure">
+                <div class="line">
+                    <span class="label">{{localize "KNIGHT.LATERAL.Armure"}}</span>
+                    <input type="number" name="system.armure.value" min="0" max="{{systemData.armure.max}}" value="{{systemData.armure.value}}" />
+                    <span class="separation">/</span>
+                    <input type="number" name="system.armure.max" min="0" value="{{systemData.armure.max}}" />
+                </div>
+            </div>
+
+            <div class="energie">
+                <div class="line">
+                    <span class="label">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                    <input type="number" name="system.energie.value" min="0" max="{{systemData.energie.max}}" value="{{systemData.energie.value}}" />
+                    <span class="separation">/</span>
+                    <input type="number" name="system.energie.max" min="0" value="{{systemData.energie.max}}" />
+                </div>
+            </div>
+
+            <div class="champDeForce">
+                <div class="line">
+                    <span class="label" title="{{localize "KNIGHT.LATERAL.ChampDeForce"}}">{{localize "KNIGHT.LATERAL.ChampDeForce-short"}}</span>
+                    <input type="number" name="system.champDeForce.value" min="0" 
+                    value="{{systemData.champDeForce.value}}" />
+                </div>
+            </div>
+        </section>
+
+        <section class="mainBlock">
+            <div class="reaction">
+                <div class="line">
+                    <span class="label">{{localize "KNIGHT.LATERAL.Reaction"}}</span>
+                    <span class="score">{{systemData.reaction.value}}</span>
+                </div>
+            </div>
+            
+            <div class="defense">
+                <div class="line">
+                    <span class="label">{{localize "KNIGHT.LATERAL.Defense"}}</span>
+                    <span class="score">{{systemData.defense.value}}</span>
+                </div>
+            </div>
+
+            <div class="initiative">
+                <div class="line">
+                    <span class="label">{{localize "KNIGHT.LATERAL.Initiative"}}</span>
+                    <span class="score">
+                        {{systemData.initiative.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{systemData.initiative.value}}
+                    </span>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    {{!-- Sheet Body --}}
+    <section class="body">
+        {{!-- Sheet Tab Navigation --}}
+        <nav class="sheet-tabs tabs" data-group="primary">
+            <a class="item" data-tab="combat">{{localize "KNIGHT.COMBAT.Label"}}</a>
+        </nav>
+
+        <div class="tab combat" data-group="primary" data-tab="combat">
+            <div class="main">                
+                <div class="armesDistance">
+                    <div class="block">
+                        <h2 class="header">
+                            {{localize "KNIGHT.COMBAT.ARMES.DISTANCE.Label"}}
+                            <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="distance"><i class="fas fa-plus"></i></a>
+                        </h2>
+
+                        {{#each actor.armesDistance as | key arme|}}
+                            <div class="wpn">
+                                <header class="summary header"  data-item-id="{{this._id}}">
+                                    <i class="far fa-plus-square extendButton"></i>
+                                    <div class="gestionButton">
+                                        <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                                        <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                                    </div>
+                                    <span class="name">{{this.name}}</span>
+                                    <select class="whoActivate" data-id="{{this._id}}">
+                                        {{#select this.system.whoActivate}}
+                                        <option value=""></option>
+                                            {{#each @root/data/system/equipage/passagers as | kPass passager|}}
+                                                <option value="{{kPass.id}}">{{localize "KNIGHT.VEHICULE.ArmeUtiliseePar"}} : {{kPass.name}}</option>
+                                            {{/each}}
+                                        {{/select}}
+                                    </select>
+                                    <div class="line">
+                                        <div class="doubleLine">
+                                            <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                                            <span>{{getPortee this.system.portee}}</span>
+                                        </div>
+                                        <div class="doubleLine">
+                                            <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                                            <span>{{this.system.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.system.degats.fixe}}</span>
+                                        </div>
+                                        <div class="doubleLine">
+                                            <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                                            <span>{{this.system.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.system.violence.fixe}}</span>
+                                        </div>
+                                        <img src="systems/knight/assets/icons/D6Black.svg" class="jetWpn dice" data-name="{{this.name}}" data-id="{{this._id}}" data-isDistance="{{this.system.type}}" data-num="{{@index}}" data-who="{{this.system.whoActivate}}" />
+                                    </div>
+                                    
+                                </header>
+                                
+                                <div class="effets" style="display:none;">
+                                    <div class="blockEffets">
+                                        {{#each this.system.effets.liste as | key effet|}}
+                                            <div>
+                                                <span class="label">{{key.name}}</span>
+                                                <img class="info" src="systems/knight/assets/icons/info.svg" />
+                                                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                                            </div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                                <div class="effets" style="display:none;">
+                                    <div class="blockEffets">
+                                        {{#each this.system.distance.liste as | key effet|}}
+                                            <div>
+                                                <span class="label">{{key.name}}</span>
+                                                <img class="info" src="systems/knight/assets/icons/info.svg" />
+                                                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                                            </div>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

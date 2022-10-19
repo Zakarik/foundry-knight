@@ -1,0 +1,192 @@
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.Label"}}
+    </h4>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.cea.energie" 
+        value="{{this.energie}}" 
+        min="0"
+         />
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.cea.activation" >
+            {{#select this.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            <option value="toutes">{{localize "KNIGHT.ACTIVATION.Toutes"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.cea.duree" 
+        data-capacite="cea" data-type="duree" data-min="50" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.duree}}px;" 
+        >{{this.duree}}</textarea>
+    </label>
+    <label class="longspan separation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.Espoir"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.cea.espoir" 
+        value="{{this.espoir}}" 
+        min="0"
+         />
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label"}}
+    </h4>
+    <textarea name="system.evolutions.liste.{{key}}.capacites.cea.salve.description"
+    data-capacite="cea" data-type="descriptionSalve" data-min="70" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.descriptionSalve}}px;" 
+    >{{this.salve.description}}</textarea>
+    <div class="double">
+        <div class="doubleLine">
+            <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.cea.salve.degats.dice" 
+                value="{{this.salve.degats.dice}}" 
+                min="0"
+                 />
+                <span>D6</span>
+            </label>
+        </div>
+
+        <div class="doubleLine">
+            <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.cea.salve.violence.dice" 
+                value="{{this.salve.violence.dice}}" 
+                min="0"
+                 />
+                <span>D6</span>
+            </label>
+        </div>
+    </div>
+    <label class="shortspan simpleSeparation">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.cea.salve.portee" 
+        data-capacite="cea" data-type="porteeSalve" data-min="50" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.porteeSalve}}px;" 
+        >{{this.salve.portee}}</textarea>
+    </label>
+    <div class="effets">
+    {{#each this.salve.effets.liste as | key effet|}}
+        <div>
+            <span class="label">{{key.name}}</span>
+            <img class="info" src="systems/knight/assets/icons/info.svg" />
+            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+        </div>
+    {{/each}}
+        <a class="edit ceaEdit" data-path="data.evolutions.liste.{{key}}.capacites.cea.salve.effets">
+            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+        </a>
+    </div>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label"}}
+    </h4>
+    <textarea name="system.evolutions.liste.{{key}}.capacites.cea.vague.description"
+    data-capacite="cea" data-type="descriptionVague" data-min="70" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.descriptionVague}}px;" 
+    >{{this.vague.description}}</textarea>
+    <div class="double">
+        <div class="doubleLine">
+            <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.cea.vague.degats.dice" 
+                value="{{this.vague.degats.dice}}" 
+                min="0"
+                 />
+                <span>D6</span>
+            </label>
+        </div>
+
+        <div class="doubleLine">
+            <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.cea.vague.violence.dice" 
+                value="{{this.vague.violence.dice}}" 
+                min="0"
+                 />
+                <span>D6</span>
+            </label>
+        </div>
+    </div>
+    <label class="shortspan simpleSeparation">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.cea.vague.portee" 
+        data-capacite="cea" data-type="porteeVague" data-min="50" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.porteeVague}}px;" 
+        >{{this.vague.portee}}</textarea>
+    </label>
+    <div class="effets">
+    {{#each this.vague.effets.liste as | key effet|}}
+        <div>
+            <span class="label">{{key.name}}</span>
+            <img class="info" src="systems/knight/assets/icons/info.svg" />
+            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+        </div>
+    {{/each}}
+        <a class="edit ceaEdit" data-path="data.evolutions.liste.{{key}}.capacites.cea.vague.effets">
+            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+        </a>
+    </div>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label"}}
+    </h4>
+    <textarea name="system.evolutions.liste.{{key}}.capacites.cea.rayon.description"
+    data-capacite="cea" data-type="descriptionRayon" data-min="150" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.descriptionRayon}}px;" 
+    >{{this.rayon.description}}</textarea>
+    <div class="double">
+        <div class="doubleLine">
+            <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.cea.rayon.degats.dice" 
+                value="{{this.rayon.degats.dice}}" 
+                min="0"
+                 />
+                <span>D6</span>
+            </label>
+        </div>
+
+        <div class="doubleLine">
+            <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+            <label>
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.cea.rayon.violence.dice" 
+                value="{{this.rayon.violence.dice}}" 
+                min="0"
+                 />
+                <span>D6</span>
+            </label>
+        </div>
+    </div>
+    
+    <label class="shortspan simpleSeparation">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <textarea name="system.evolutions.liste.{{key}}.capacites.cea.rayon.portee" 
+        data-capacite="cea" data-type="porteeRayon" data-min="50" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.porteeRayon}}px;" 
+        >{{this.rayon.portee}}</textarea>
+    </label>
+    <div class="effets">
+    {{#each this.rayon.effets.liste as | key effet|}}
+        <div>
+            <span class="label">{{key.name}}</span>
+            <img class="info" src="systems/knight/assets/icons/info.svg" />
+            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+        </div>
+    {{/each}}
+        <a class="edit ceaEdit" data-path="data.evolutions.liste.{{key}}.capacites.cea.rayon.effets">
+            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+        </a>
+    </div>
+</div>

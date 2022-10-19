@@ -1,0 +1,80 @@
+<div class="impregnation">
+    <h3 class="header">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.IMPREGNATION.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.special.selected.impregnation.description" button=true owner="../owner" editable="../editable"}}
+
+    <div class="mainData">
+        <div class="data">
+            <h4 class="title">{{localize "KNIGHT.AUTRE.JetsPossibles"}}</h4>
+            <div class="line">
+                <select name="system.special.selected.impregnation.jets.c1a" {{#if this.softlock}}disabled{{/if}}>
+                    <option value=""></option>
+                    {{#select this.jets.c1a}}
+                        {{#each this.aspects as | key aspect|}}
+                            <optgroup label="{{getAspect aspect}}">
+                                {{#each key.liste as | key carac|}}
+                                    <option value="{{carac}}">{{getCarac carac}}</option>
+                                {{/each}}
+                            </optgroup>
+                        {{/each}}                    
+                    {{/select}}
+                </select>
+                <select name="system.special.selected.impregnation.jets.c2a" {{#if this.softlock}}disabled{{/if}}>
+                    <option value=""></option>
+                    {{#select this.jets.c2a}}
+                        {{#each this.aspects as | key aspect|}}
+                            <optgroup label="{{getAspect aspect}}">
+                                {{#each key.liste as | key carac|}}
+                                    <option value="{{carac}}">{{getCarac carac}}</option>
+                                {{/each}}
+                            </optgroup>
+                        {{/each}}                    
+                    {{/select}}
+                </select>
+            </div>
+            <div class="line">
+                <select name="system.special.selected.impregnation.jets.c1b" {{#if this.softlock}}disabled{{/if}}>
+                    <option value=""></option>
+                    {{#select this.jets.c1b}}
+                        {{#each this.aspects as | key aspect|}}
+                            <optgroup label="{{getAspect aspect}}">
+                                {{#each key.liste as | key carac|}}
+                                    <option value="{{carac}}">{{getCarac carac}}</option>
+                                {{/each}}
+                            </optgroup>
+                        {{/each}}                    
+                    {{/select}}
+                </select>
+                <select name="system.special.selected.impregnation.jets.c2b" {{#if this.softlock}}disabled{{/if}}>
+                    <option value=""></option>
+                    {{#select this.jets.c2b}}
+                        {{#each this.aspects as | key aspect|}}
+                            <optgroup label="{{getAspect aspect}}">
+                                {{#each key.liste as | key carac|}}
+                                    <option value="{{carac}}">{{getCarac carac}}</option>
+                                {{/each}}
+                            </optgroup>
+                        {{/each}}                    
+                    {{/select}}
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+

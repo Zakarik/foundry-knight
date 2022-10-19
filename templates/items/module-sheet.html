@@ -1,0 +1,949 @@
+<form class="flexcol {{cssClass}}" autocomplete="off">
+    <header class="sheet-header">
+        <h1 class="charname">
+            <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+        </h1>
+    </header>
+    
+     <div class="main">
+        <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
+        <div class="description">
+            <h2 class="header">{{localize "KNIGHT.Description"}}</h2>
+
+            {{editor systemData.description target="system.description" button=true owner=owner editable=editable}}
+        </div>
+
+        <div class="fullData">
+            <h2 class="header">
+                <i class="far fa-minus-square"></i>
+                {{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Label"}}
+            </h2>
+            <div class="line slots">
+                <label class="block">
+                    <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Tete"}}</span>
+                    <input type="number" name="system.slots.tete" value="{{systemData.slots.tete}}" min="0" />
+                </label>
+
+                <label class="block">
+                    <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.BrasGauche"}}</span>
+                    <input type="number" name="system.slots.brasGauche" value="{{systemData.slots.brasGauche}}" min="0" />
+                </label>
+
+                <label class="block">
+                    <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.BrasDroit"}}</span>
+                    <input type="number" name="system.slots.brasDroit" value="{{systemData.slots.brasDroit}}" min="0" />
+                </label>
+
+                <label class="block">
+                    <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Torse"}}</span>
+                    <input type="number" name="system.slots.torse" value="{{systemData.slots.torse}}" min="0" />
+                </label>
+
+                <label class="block">
+                    <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.JambeGauche"}}</span>
+                    <input type="number" name="system.slots.jambeGauche" value="{{systemData.slots.jambeGauche}}" min="0" />
+                </label>
+
+                <label class="block">
+                    <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.JambeDroite"}}</span>
+                    <input type="number" name="system.slots.jambeDroite" value="{{systemData.slots.jambeDroite}}" min="0" />
+                </label>
+            </div>
+        </div>
+
+        <div class="col">
+            <label class="twoLine">
+                <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                <select name="system.activation">
+                    {{#select systemData.activation}}
+                        <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+                        <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+                        <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+
+            <div class="twoLine">
+                <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+                <button type="action" class="button
+                {{#if systemData.permanent}}
+                active noBorderBottom
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="permanent" data-value="{{systemData.permanent}}">{{systemData.labels.duree}}</button>
+                <textarea class="{{#if systemData.permanent}}hidden{{/if}}" data-type="duree" data-min="22" style="height:{{systemData.textarea.duree}}px;" name="system.duree">{{systemData.duree}}</textarea>
+            </div>
+        </div>
+
+        <div class="col">
+            <label class="oneLine">
+                <span>{{localize "KNIGHT.ITEMS.MODULE.CATEGORIE.Label"}}</span>
+                <select name="system.categorie">
+                    {{#select systemData.categorie}}
+                        <option value=""></option>
+                        {{#each systemData.listes.categorie  as | key categorie|}}
+                            <option value="{{categorie}}">{{key}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+
+            <label class="oneLine">
+                <span>{{localize "KNIGHT.ITEMS.MODULE.RARETE.Label"}}</span>
+                <select name="system.rarete">
+                    {{#select systemData.rarete}}
+                        <option value=""></option>
+                        {{#each systemData.listes.rarete  as | key rarete|}}
+                            <option value="{{rarete}}">{{key}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+
+            <label class="oneLine">
+                <span>{{localize "KNIGHT.AUTRE.PointGloire"}}</span>
+                <input type="number" name="system.prix" value="{{systemData.prix}}" min="0" />
+            </label>
+
+            <div class="twoLine">
+                <label class="oneLine">
+                    <span>{{localize "KNIGHT.LATERAL.Energie"}} / {{localize "KNIGHT.AUTRE.Tour"}}</span>
+                    <input type="number" name="system.energie.tour" value="{{systemData.energie.tour}}" min="0" />
+                </label>
+                <label class="oneLine">
+                    <span>{{localize "KNIGHT.LATERAL.Energie"}} / {{localize "KNIGHT.AUTRE.Minute"}}</span>
+                    <input type="number" name="system.energie.minute" value="{{systemData.energie.minute}}" min="0" />
+                </label>
+                <label class="oneLine">
+                    <span>{{localize "KNIGHT.AUTRE.EnergieSupplementaire"}}</span>
+                    <input type="number" name="system.energie.supplementaire" value="{{systemData.energie.supplementaire}}" min="0" />
+                </label>
+            </div>
+
+            <label class="oneLine">
+                <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+                <select name="system.portee">
+                    {{#select systemData.portee}}
+                        <option value="personnelle">{{localize "KNIGHT.PORTEE.Personnelle"}}</option>
+                        <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+                        <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+                        <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+                        <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+                        <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="col">
+            <div class="oneLine">
+                <button type="action" class="button
+                {{#if systemData.bonus.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="bonus" data-subtype="has" data-value="{{systemData.bonus.has}}">{{systemData.labels.bonus}}</button>
+            </div>
+
+            <div class="oneLine">
+                <button type="action" class="button
+                {{#if systemData.pnj.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="pnj" data-subtype="has" data-value="{{systemData.pnj.has}}">{{systemData.labels.pnj}}</button>
+            </div>
+
+            <div class="oneLine">
+                <button type="action" class="button
+                {{#if systemData.ersatz.rogue.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="ersatz" data-subtype="rogue" data-name="has" data-value="{{systemData.ersatz.rogue.has}}">{{systemData.labels.ersatzRogue}}</button>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="oneLine">
+                <button type="action" class="button
+                {{#if systemData.arme.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="arme" data-subtype="has" data-value="{{systemData.arme.has}}">{{systemData.labels.arme}}</button>
+            </div>
+
+            <div class="oneLine">
+                <button type="action" class="button
+                {{#if systemData.overdrives.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="overdrives" data-subtype="has" data-value="{{systemData.overdrives.has}}">{{systemData.labels.overdrives}}</button>
+            </div>
+
+            <div class="oneLine">
+                <button type="action" class="button
+                {{#if systemData.ersatz.bard.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="ersatz" data-subtype="bard" data-name="has" data-value="{{systemData.ersatz.bard.has}}">{{systemData.labels.ersatzBard}}</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main bonus {{#unless systemData.bonus.has}}hidden{{/unless}}">
+        <h2 class="header">
+            <i class="far fa-minus-square"></i>
+            {{localize "KNIGHT.BONUS.Label"}}
+        </h2>
+
+        <div class="col">
+            <div class="twoLine">
+                <button type="action" class="button
+                {{#if systemData.bonus.armure.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="bonus" data-subtype="armure" data-name="has" data-value="{{systemData.bonus.armure.has}}">{{systemData.labels.armure}}</button>
+                <label class="oneLine {{#unless systemData.bonus.armure.has}}hidden{{/unless}}">
+                    <span>{{localize "KNIGHT.LATERAL.Armure"}}</span>
+                    <input type="number" name="system.bonus.armure.value" value="{{systemData.bonus.armure.value}}" min="0" />
+                </label>
+            </div>
+
+            <div class="twoLine">
+                <button type="action" class="button
+                {{#if systemData.bonus.champDeForce.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="bonus" data-subtype="champDeForce" data-name="has" data-value="{{systemData.bonus.champDeForce.has}}">{{systemData.labels.champDeForce}}</button>
+                <label class="oneLine {{#unless systemData.bonus.champDeForce.has}}hidden{{/unless}}">
+                    <span>{{localize "KNIGHT.LATERAL.ChampDeForce"}}</span>
+                    <input type="number" name="system.bonus.champDeForce.value" value="{{systemData.bonus.champDeForce.value}}" min="0" />
+                </label>
+            </div>
+
+            <div class="twoLine">
+                <button type="action" class="button
+                {{#if systemData.bonus.energie.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="bonus" data-subtype="energie" data-name="has" data-value="{{systemData.bonus.energie.has}}">{{systemData.labels.energie}}</button>
+                <label class="oneLine {{#unless systemData.bonus.energie.has}}hidden{{/unless}}">
+                    <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                    <input type="number" name="system.bonus.energie.value" value="{{systemData.bonus.energie.value}}" min="0" />
+                </label>
+            </div>
+
+            <div class="twoLine">
+                <button type="action" class="button
+                {{#if systemData.bonus.grenades.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="bonus" data-subtype="grenades" data-name="has" data-value="{{systemData.bonus.grenades.has}}">{{systemData.labels.bonusGrenades}}</button>
+    
+                {{#each systemData.bonus.grenades.liste  as | key grenade|}}
+                    <h3 class="title {{#unless @root/systemData/bonus/grenades/has}}hidden{{/unless}}">{{getGrenadeName grenade}}</h3>
+                    <label class="oneLinewOnlyDice {{#unless @root/systemData/bonus/grenades/has}}hidden{{/unless}}">
+                        <span>{{localize "KNIGHT.BONUS.DesDegats"}}</span>
+                        <div>
+                            <input type="number" name="system.bonus.grenades.liste.{{grenade}}.degats.dice" value="{{key.degats.dice}}" min="0" />
+                            <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                        </div>
+                    </label>
+                    <label class="oneLinewOnlyDice {{#unless @last}}borderBottom{{/unless}} {{#unless @root/systemData/bonus/grenades/has}}hidden{{/unless}}">
+                        <span>{{localize "KNIGHT.BONUS.DesViolence"}}</span>
+                        <div>
+                            <input type="number" name="system.bonus.grenades.liste.{{grenade}}.violence.dice" value="{{key.violence.dice}}" min="0" />
+                            <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                        </div>
+                    </label>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="twoLine">
+                <button type="action" class="button 
+                {{#if systemData.bonus.degats.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="bonus" data-subtype="degats" data-name="has" data-value="{{systemData.bonus.degats.has}}">{{systemData.labels.degatsBonus}}</button>
+                <select name="system.bonus.degats.type" class="{{#unless systemData.bonus.degats.has}}hidden{{/unless}}">
+                    {{#select systemData.bonus.degats.type}}
+                    <option value="contact">{{localize "KNIGHT.BONUS.Contact"}}</option>
+                    <option value="distance">{{localize "KNIGHT.BONUS.Distance"}}</option>
+                    {{/select}}
+                </select>
+                <button type="action" class="button borderTop noBorderBottom
+                {{#if systemData.bonus.degats.variable.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                {{#unless systemData.bonus.degats.has}}hidden{{/unless}}
+                " data-type="bonus" data-subtype="degats" data-name="variable" data-subname="has" data-value="{{systemData.bonus.degats.variable.has}}">{{systemData.labels.degatsVariable}}</button>
+                <div class="oneLinewDice {{#unless systemData.bonus.degats.has}}hidden{{else}}{{#if systemData.bonus.degats.variable.has}}hidden{{/if}}{{/unless}}">
+                    <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                    <div>
+                        <input type="number" name="system.bonus.degats.dice" value="{{systemData.bonus.degats.dice}}" min="0" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                        <input type="number" name="system.bonus.degats.fixe" value="{{systemData.bonus.degats.fixe}}" min="0" />
+                    </div>
+                </div>
+                <div class="oneLinewOnlyDice {{#unless systemData.bonus.degats.has}}hidden{{else}}{{#unless systemData.bonus.degats.variable.has}}hidden{{/unless}}{{/unless}}">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.Minimum"}}</span>
+                    <div>
+                        <input type="number" name="system.bonus.degats.variable.min.dice" value="{{systemData.bonus.degats.variable.min.dice}}" min="0" max="{{systemData.bonus.degats.variable.max.dice}}" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                </div>
+                <div class="oneLinewOnlyDice {{#unless systemData.bonus.degats.has}}hidden{{else}}{{#unless systemData.bonus.degats.variable.has}}hidden{{/unless}}{{/unless}}">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.Maximum"}}</span>
+                    <div>
+                        <input type="number" name="system.bonus.degats.variable.max.dice" value="{{systemData.bonus.degats.variable.max.dice}}" min="{{systemData.bonus.degats.variable.min.dice}}" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                   </div>
+                </div>
+                <div class="oneLine {{#unless systemData.bonus.degats.has}}hidden{{else}}{{#unless systemData.bonus.degats.variable.has}}hidden{{/unless}}{{/unless}}">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.Minimum"}}</span>
+                    <input type="number" name="system.bonus.degats.variable.min.fixe" value="{{systemData.bonus.degats.variable.min.fixe}}" min="0" max="{{systemData.bonus.degats.variable.max.fixe}}" />
+                </div>
+                <div class="oneLine {{#unless systemData.bonus.degats.has}}hidden{{else}}{{#unless systemData.bonus.degats.variable.has}}hidden{{/unless}}{{/unless}}">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.Maximum"}}</span>
+                    <input type="number" name="system.bonus.degats.variable.max.fixe" value="{{systemData.bonus.degats.variable.max.fixe}}" min="{{systemData.bonus.degats.variable.min.fixe}}" />
+                </div>
+            </div>
+            
+            <div class="twoLine">
+                <button type="action" class="button
+                {{#if systemData.bonus.violence.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="bonus" data-subtype="violence" data-name="has" data-value="{{systemData.bonus.violence.has}}">{{systemData.labels.violenceBonus}}</button>
+                <select name="system.bonus.violence.type" class="{{#unless systemData.bonus.violence.has}}hidden{{/unless}}">
+                    {{#select systemData.bonus.violence.type}}
+                    <option value="contact">{{localize "KNIGHT.BONUS.Contact"}}</option>
+                    <option value="distance">{{localize "KNIGHT.BONUS.Distance"}}</option>
+                    {{/select}}
+                </select>
+                <button type="action" class="button borderTop noBorderBottom
+                {{#if systemData.bonus.violence.variable.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                {{#unless systemData.bonus.violence.has}}hidden{{/unless}}
+                " data-type="bonus" data-subtype="violence" data-name="variable" data-subname="has" data-value="{{systemData.bonus.violence.variable.has}}">{{systemData.labels.violenceVariable}}</button>
+                <div class="oneLinewDice {{#unless systemData.bonus.violence.has}}hidden{{else}}{{#if systemData.bonus.violence.variable.has}}hidden{{/if}}{{/unless}}">
+                    <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                    <div>
+                        <input type="number" name="system.bonus.violence.dice" value="{{systemData.bonus.violence.dice}}" min="0" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                        <input type="number" name="system.bonus.violence.fixe" value="{{systemData.bonus.violence.fixe}}" min="0" />
+                    </div>
+                </div>
+                <div class="oneLinewOnlyDice {{#unless systemData.bonus.violence.has}}hidden{{else}}{{#unless systemData.bonus.violence.variable.has}}hidden{{/unless}}{{/unless}}">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.DesMinimum"}}</span>
+                    <div>
+                        <input type="number" name="system.bonus.violence.variable.min.dice" value="{{systemData.bonus.violence.variable.min.dice}}" min="0" max="{{systemData.bonus.violence.variable.max.dice}}" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                </div>
+                <div class="oneLinewOnlyDice {{#unless systemData.bonus.violence.has}}hidden{{else}}{{#unless systemData.bonus.violence.variable.has}}hidden{{/unless}}{{/unless}}">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.DesMaximum"}}</span>
+                    <div>
+                        <input type="number" name="system.bonus.violence.variable.max.dice" value="{{systemData.bonus.violence.variable.max.dice}}" min="{{systemData.bonus.violence.variable.min.dice}}" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                </div>
+                <div class="oneLine {{#unless systemData.bonus.violence.has}}hidden{{else}}{{#unless systemData.bonus.violence.variable.has}}hidden{{/unless}}{{/unless}}">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.FixeMinimum"}}</span>
+                    <input type="number" name="system.bonus.violence.variable.min.fixe" value="{{systemData.bonus.violence.variable.min.fixe}}" min="0" max="{{systemData.bonus.violence.variable.max.fixe}}" />
+                </div>
+                <div class="oneLine {{#unless systemData.bonus.violence.has}}hidden{{else}}{{#unless systemData.bonus.violence.variable.has}}hidden{{/unless}}{{/unless}}">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.FixeMaximum"}}</span>
+                    <input type="number" name="system.bonus.violence.variable.max.fixe" value="{{systemData.bonus.violence.variable.max.fixe}}" min="{{systemData.bonus.violence.variable.min.fixe}}" />
+                </div>
+            </div>
+
+            <div class="oneLine">
+                <button type="action" class="button borderTop noBorderBottom
+                {{#if systemData.bonus.overdrives.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="bonus" data-subtype="overdrives" data-name="has" data-value="{{systemData.bonus.overdrives.has}}">{{systemData.labels.bonusOverdrives}}</button>
+            </div>
+        </div>
+
+        <div class="main overdrives {{#unless systemData.bonus.overdrives.has}}hidden{{/unless}}">
+            <h2 class="header">
+                <i class="far fa-minus-square"></i>
+                {{localize "KNIGHT.ITEMS.MODULE.OVERDRIVES.Labelbonus"}}
+            </h2>
+
+            {{#each systemData.bonus.overdrives.aspects  as | kAspect aspect|}}
+                <div class="col3">
+                    <h3>{{getAspect aspect}}</h3>
+                    {{#each kAspect  as | kCarac carac|}}
+                        <label class="oneLine">
+                            <span>{{getCarac carac}}</span>
+                            <input type="number" name="system.bonus.overdrives.aspects.{{aspect}}.{{carac}}" value="{{kCarac}}" />
+                        </label>
+                    {{/each}}
+                </div>
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="main arme {{#unless systemData.arme.has}}hidden{{/unless}}">
+        <h2 class="header">
+            <i class="far fa-minus-square"></i>
+            {{localize "KNIGHT.ITEMS.MODULE.ARME.Label"}}
+        </h2>
+
+        <div class="col">
+            <label class="oneLine">
+                <span>{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Label"}}</span>
+                <select name="system.arme.type">
+                    {{#select systemData.arme.type}}
+                    <option value="contact">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Contact"}}</option>
+                    <option value="distance">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Distance"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+
+            <label class="oneLine">
+                <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+                <select name="system.arme.portee">
+                    {{#select systemData.arme.portee}}
+                    <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+                    <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+                    <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+                    <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+                    <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+                    {{/select}}
+                </select>
+            </label>
+        </div>
+
+        <div class="col">
+            <div class="twoLine">
+                <button type="action" class="button borderTop noBorderBottom
+                {{#if systemData.arme.degats.variable.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="arme" data-subtype="degats" data-name="variable" data-subname="has" data-value="{{systemData.arme.degats.variable.has}}">{{systemData.labels.armeDegatsVariable}}</button>
+                <div class="oneLinewDice {{#if systemData.arme.degats.variable.has}}hidden{{/if}}">
+                    <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                    <div>
+                        <input type="number" class="dgtsDBase" name="system.arme.degats.dice" value="{{systemData.arme.degats.dice}}" min="0" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                        <input type="number" class="dgtsF dgtsFBase" name="system.arme.degats.fixe" value="{{systemData.arme.degats.fixe}}" min="0" />
+                    </div>
+                </div>
+                <div class="oneLinewDice {{#unless systemData.arme.degats.variable.has}}hidden{{/unless}}">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.Minimum"}}</span>
+                    <div>
+                        <input type="number" class="dgtsD" name="system.arme.degats.variable.min.dice" value="{{systemData.arme.degats.variable.min.dice}}" min="0" max="{{systemData.arme.degats.variable.max.dice}}" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                        <input type="number" class="dgtsF dgtsMin" name="system.arme.degats.variable.min.fixe" value="{{systemData.arme.degats.fixe}}" />
+                    </div>
+                </div>
+                <div class="oneLinewDice {{#unless systemData.arme.degats.variable.has}}hidden{{/unless}}">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.Maximum"}}</span>
+                    <div>
+                        <input type="number" name="system.arme.degats.variable.max.dice" value="{{systemData.arme.degats.variable.max.dice}}" min="{{systemData.arme.degats.variable.min.dice}}" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                        <input type="number" class="dgtsF dgtsMax" name="system.arme.degats.variable.max.fixe" value="{{systemData.arme.degats.fixe}}" />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="twoLine">
+                <button type="action" class="button borderTop noBorderBottom
+                {{#if systemData.arme.violence.variable.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="arme" data-subtype="violence" data-name="variable" data-subname="has" data-value="{{systemData.arme.violence.variable.has}}">{{systemData.labels.armeViolenceVariable}}</button>
+                <div class="oneLinewDice {{#if systemData.arme.violence.variable.has}}hidden{{/if}}">
+                    <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                    <div>
+                        <input type="number" class="violenceDBase" name="system.arme.violence.dice" value="{{systemData.arme.violence.dice}}" min="0" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                        <input type="number" class="violenceF violenceFBase" name="system.arme.violence.fixe" value="{{systemData.arme.violence.fixe}}" min="0" />
+                    </div>
+                </div>
+                <div class="oneLinewDice {{#unless systemData.arme.violence.variable.has}}hidden{{/unless}}">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.Minimum"}}</span>
+                    <div>
+                        <input type="number" class="violenceD" name="system.arme.violence.variable.min.dice" value="{{systemData.arme.violence.variable.min.dice}}" min="0" max="{{systemData.arme.violence.variable.max.dice}}" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                        <input type="number" class="violenceF violenceMin" name="system.arme.violence.variable.min.fixe" value="{{systemData.arme.violence.fixe}}" min="0" />
+                    </div>
+                </div>
+                <div class="oneLinewDice {{#unless systemData.arme.violence.variable.has}}hidden{{/unless}}">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.Maximum"}}</span>
+                    <div>
+                        <input type="number" name="system.arme.violence.variable.max.dice" value="{{systemData.arme.violence.variable.max.dice}}" min="{{systemData.arme.violence.variable.min.dice}}" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                        <input type="number" class="violenceF violenceMax" name="system.arme.violence.variable.max.fixe" value="{{systemData.arme.violence.fixe}}" min="0" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="blockEffets space">
+            <h2 class="header">
+                {{localize "KNIGHT.EFFETS.Label"}}
+            </h2>
+            <div class="effets">
+                {{#each systemData.arme.effets.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+                <a class="edit" data-path="data.arme.effets">
+                    <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+                </a>
+            </div>
+        </div>
+
+        {{#if (isWpnDistance systemData.arme.type)}}
+        <div class="blockEffets">
+            <h2 class="header">
+                {{localize "KNIGHT.AMELIORATIONS.LABEL.Distance"}}
+            </h2>
+            <div class="effets">
+                {{#each systemData.arme.distance.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+                <a class="edit" data-path="data.arme.distance" data-type="distance">
+                    <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+                </a>
+            </div>
+        </div>
+
+        {{else}}
+        <div class="blockEffets">
+            <h2 class="header">
+                {{localize "KNIGHT.AMELIORATIONS.LABEL.Structurelles"}}
+            </h2>
+            <div class="effets">
+                {{#each systemData.arme.structurelles.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+                <a class="edit" data-path="data.arme.structurelles" data-type="structurelles">
+                    <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="blockEffets">
+            <h2 class="header">
+                {{localize "KNIGHT.AMELIORATIONS.LABEL.Ornementales"}}
+            </h2>
+            <div class="effets">
+                {{#each systemData.arme.ornementales.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+                <a class="edit" data-path="data.arme.ornementales"  data-type="ornementales">
+                    <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+                </a>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+
+    <div class="main pnj {{#unless systemData.pnj.has}}hidden{{/unless}}">
+        <h2 class="header">
+            <i class="far fa-minus-square"></i>
+            {{systemData.labels.pnjTitle}}
+
+            <a class="create" data-type="pnj" title="Create Item">
+                <i class="fas fa-plus"></i>
+            </a>
+        </h2>
+        {{#each systemData.pnj.liste  as | key pnj|}}
+            <div class="creature baseW">
+                <div class="line header">
+                    <select name="system.pnj.liste.{{pnj}}.type" class="typePNJ" data-id="{{pnj}}">
+                        {{#select key.type}}
+                        <option value="pnj">{{localize "KNIGHT.TYPE.Pnj"}}</option>
+                        <option value="bande">{{localize "KNIGHT.TYPE.Bande"}}</option>
+                        {{/select}}
+                    </select>
+                    <input type="text" name="system.pnj.liste.{{pnj}}.nom" value="{{key.nom}}" />
+                    <a class="delete" data-type="pnj" data-id="{{pnj}}" title="Delete Item">
+                        <i class="fas fa-minus"></i>
+                    </a>
+                </div>
+
+                <div class="line">
+                    <button type="action" class="button
+                    {{#if key.aspects.has}}
+                    active
+                    {{else}}
+                    unactive
+                    {{/if}}
+                    " data-type="pnj" data-subtype="liste" data-name="array" data-num="{{pnj}}" data-subname="aspects" data-special="has" data-value="{{key.aspects.has}}">
+                    {{#if key.aspects.has}}
+                    {{localize "KNIGHT.ITEMS.MODULE.PNJ.ASPECTS.Has"}}
+                    {{else}}
+                    {{localize "KNIGHT.ITEMS.MODULE.PNJ.ASPECTS.Hasnt"}}
+                    {{/if}}
+                    </button>
+
+                    {{#unless (isBande key.type)}}
+                        <button type="action" class="button
+                        {{#if key.armes.has}}
+                        active
+                        {{else}}
+                        unactive
+                        {{/if}}
+                        " data-type="pnj" data-subtype="liste" data-name="array" data-num="{{pnj}}" data-subname="armes" data-special="has" data-value="{{key.armes.has}}">
+                        {{#if key.armes.has}}
+                        {{localize "KNIGHT.ITEMS.MODULE.PNJ.ARMES.Has"}}
+                        {{else}}
+                        {{localize "KNIGHT.ITEMS.MODULE.PNJ.ARMES.Hasnt"}}
+                        {{/if}}
+                        </button>
+                    {{/unless}}
+
+                    <button type="action" class="button
+                    {{#if key.jetSpecial.has}}
+                    active
+                    {{else}}
+                    unactive
+                    {{/if}}
+                    " data-type="pnj" data-subtype="liste" data-name="array" data-num="{{pnj}}" data-subname="jetSpecial" data-special="has" data-value="{{key.jetSpecial.has}}">
+                    {{#if key.jetSpecial.has}}
+                    {{localize "KNIGHT.ITEMS.MODULE.PNJ.JETSPECIAL.Has"}}
+                    {{else}}
+                    {{localize "KNIGHT.ITEMS.MODULE.PNJ.JETSPECIAL.Hasnt"}}
+                    {{/if}}
+                    </button>
+                </div>
+
+                <div class="aspects {{#unless key.aspects.has}}hidden{{/unless}}">
+                {{#each key.aspects.liste  as | kAsp aspect|}}
+                    <div>
+                        <label class="oneLine">
+                            <span>{{getAspect aspect}}</span>
+                            <input type="number" name="system.pnj.liste.{{pnj}}.aspects.liste.{{aspect}}.value" value="{{kAsp.value}}" min="0" max="20" />
+                        </label>
+                        <h3>{{localize "KNIGHT.ASPECTS.Exceptionnels"}}</h3>
+                        <label class="oneLine">
+                            <span>{{localize "KNIGHT.AUTRE.Mineur"}}</span>
+                            <input type="number" name="system.pnj.liste.{{pnj}}.aspects.liste.{{aspect}}.ae.mineur" value="{{kAsp.ae.mineur}}" min="0" max="10" />
+                        </label>
+                        <label class="oneLine">
+                            <span>{{localize "KNIGHT.AUTRE.Majeur"}}</span>
+                            <input type="number" name="system.pnj.liste.{{pnj}}.aspects.liste.{{aspect}}.ae.majeur" value="{{kAsp.ae.majeur}}" min="0" max="10" />
+                        </label>
+                    </div>
+                {{/each}}
+                </div>
+
+                <div class="col3">
+                    <label class="oneLine {{#unless (isBande key.type)}}hidden{{/unless}}">
+                        <span>{{localize "KNIGHT.AUTRE.Debordement"}}</span>
+                        <input type="number" name="system.pnj.liste.{{pnj}}.debordement" value="{{key.debordement}}"/>
+                    </label>
+
+                    <div class="oneLinewDice {{#unless (isBande key.type)}}noMarginTop{{/unless}}">
+                        <span>{{localize "KNIGHT.LATERAL.Initiative"}}</span>
+                        <div>
+                            <input type="number" name="system.pnj.liste.{{pnj}}.initiative.dice" value="{{key.initiative.dice}}" min="0" />
+                            <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                            <input type="number" name="system.pnj.liste.{{pnj}}.initiative.fixe" value="{{key.initiative.fixe}}" min="0" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col3">
+                    <label class="oneLine">
+                        <span>{{localize "KNIGHT.LATERAL.Reaction"}}</span>
+                        <input type="number" name="system.pnj.liste.{{pnj}}.reaction" value="{{key.reaction}}"/>
+                    </label>
+
+                    <label class="oneLine">
+                        <span>{{localize "KNIGHT.LATERAL.Defense"}}</span>
+                        <input type="number" name="system.pnj.liste.{{pnj}}.defense" value="{{key.defense}}"/>
+                    </label>
+                </div>
+
+                <div class="col3">
+                    <label class="oneLine">
+                        <span>{{localize "KNIGHT.LATERAL.Armure"}}</span>
+                        <input type="number" name="system.pnj.liste.{{pnj}}.armure" value="{{key.armure}}"/>
+                    </label>
+
+                    <label class="oneLine">
+                        <span>{{localize "KNIGHT.LATERAL.ChampDeForce"}}</span>
+                        <input type="number" name="system.pnj.liste.{{pnj}}.champDeForce" value="{{key.champDeForce}}"/>
+                    </label>
+                </div>
+
+                {{#unless (isBande key.type)}}
+                    <div class="armes {{#unless key.armes.has}}hidden{{/unless}}">
+                        <h3>
+                            {{localize "KNIGHT.ITEMS.MODULE.ARME.Label"}}
+                            <a class="create" data-type="armes" data-id="{{pnj}}" title="Create Item">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                        </h3>
+                        {{#each key.armes.liste  as | aKey arme|}}
+                            <div>
+                                <div class="header">
+                                    <span class="nom">{{localize "KNIGHT.Nom"}}</span>
+                                    <span class="type">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Label"}}</span>
+
+                                    <a class="delete" data-type="armes" data-pnj="{{pnj}}" data-id="{{arme}}" title="Delete Item">
+                                        <i class="fas fa-minus"></i>
+                                    </a>
+                                </div>
+                                <div class="line">
+                                    <div class="nom">
+                                        <input type="text" name="system.pnj.liste.{{pnj}}.armes.liste.{{arme}}.nom" value="{{aKey.nom}}" />
+                                    </div>
+
+                                    <div class="type">
+                                        <select name="system.pnj.liste.{{pnj}}.armes.liste.{{arme}}.type">
+                                            {{#select aKey.type}}
+                                            <option value="contact">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Contact"}}</option>
+                                            <option value="distance">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Distance"}}</option>
+                                            {{/select}}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="header">
+                                    <span class="portee">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                                    <span class="degats">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                                    <span class="violence">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                                </div>
+                                <div class="line">
+                                    <div class="portee">
+                                        <select name="system.pnj.liste.{{pnj}}.armes.liste.{{arme}}.portee">
+                                            {{#select aKey.portee}}
+                                            <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+                                            <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+                                            <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+                                            <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+                                            <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+                                            {{/select}}
+                                        </select>
+                                    </div>
+
+                                    <div class="degats">
+                                        <input type="number" name="system.pnj.liste.{{pnj}}.armes.liste.{{arme}}.degats.dice" value="{{aKey.degats.dice}}" min="0" />
+                                        <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                                        <input type="number" name="system.pnj.liste.{{pnj}}.armes.liste.{{arme}}.degats.fixe" value="{{aKey.degats.fixe}}" min="0" />
+                                    </div>
+
+                                    <div class="violence">
+                                        <input type="number" name="system.pnj.liste.{{pnj}}.armes.liste.{{arme}}.violence.dice" value="{{aKey.violence.dice}}" min="0" />
+                                        <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                                        <input type="number" name="system.pnj.liste.{{pnj}}.armes.liste.{{arme}}.violence.fixe" value="{{aKey.violence.fixe}}" min="0" />
+                                    </div>
+                                </div>
+                                <div class="effets">
+                                    {{#each aKey.effets.liste as | kEffet effet|}}
+                                        <div>
+                                            <span class="label">{{kEffet.name}}</span>
+                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
+                                            <span class="hideInfo">{{{getEffetsDescription kEffet.description}}}</span>
+                                        </div>
+                                    {{/each}}
+                                    <a class="edit" data-path="pnj.liste.{{pnj}}.armes.liste.{{arme}}.effets">
+                                        <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+                                    </a>
+                                </div>       
+                            </div>
+                        {{/each}}
+                    </div>
+                {{/unless}}
+
+                <div class="jetsSpecifiques {{#unless key.jetSpecial.has}}hidden{{/unless}}">
+                    <h3>
+                        {{localize "KNIGHT.ITEMS.MODULE.PNJ.JETSPECIAL.Label"}}
+                        <a class="create" data-type="jetSpecifiques" data-id="{{pnj}}" title="Create Item">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </h3>
+                    {{#each key.jetSpecial.liste  as | kJet jet|}}
+                        <div>
+                            <div class="header">
+                                <input type="text" name="system.pnj.liste.{{pnj}}.jetSpecial.liste.{{jet}}.nom" value="{{kJet.nom}}" placeholder="{{localize "KNIGHT.Nom"}}"/>
+                                <a class="delete" data-type="jetSpecifiques" data-pnj="{{pnj}}" data-id="{{jet}}" title="Delete Item">
+                                    <i class="fas fa-minus"></i>
+                                </a>
+                            </div>
+
+                            <label class="dice">
+                                <input type="number" name="system.pnj.liste.{{pnj}}.jetSpecial.liste.{{jet}}.dice" value="{{kJet.dice}}" min="0" />
+                                <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                            </label>
+
+                            <label class="od">
+                                <span>{{localize "KNIGHT.ASPECTS.OD"}}</span>
+                                <input type="number" name="system.pnj.liste.{{pnj}}.jetSpecial.liste.{{jet}}.overdrive" value="{{kJet.overdrive}}" min="0" />
+                            </label>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+        {{/each}}
+    </div>
+
+    <div class="main overdrives {{#unless systemData.overdrives.has}}hidden{{/unless}}">
+        <h2 class="header">
+            <i class="far fa-minus-square"></i>
+            {{localize "KNIGHT.ITEMS.MODULE.OVERDRIVES.Label"}}
+        </h2>
+
+        {{#each systemData.overdrives.aspects  as | kAspect aspect|}}
+            <div class="col3">
+                <h3>{{getAspect aspect}}</h3>
+                {{#each kAspect  as | kCarac carac|}}
+                    <label class="oneLine">
+                        <span>{{getCarac carac}}</span>
+                        <input type="number" name="system.overdrives.aspects.{{aspect}}.{{carac}}" value="{{kCarac}}" />
+                    </label>
+                {{/each}}
+            </div>
+        {{/each}}
+    </div>
+
+    <div class="main rogue {{#unless systemData.ersatz.rogue.has}}hidden{{/unless}}">
+        <h2 class="header">
+            <i class="far fa-minus-square"></i>
+            {{localize "KNIGHT.ITEMS.MODULE.ERSATZ.ROGUE.Label"}}
+        </h2>
+
+        <div class="col">
+            <label class="longspan">
+                <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.BonusPasserInaperçu"}}</span>
+                <input type="number" name="system.ersatz.rogue.reussites" value="{{systemData.ersatz.rogue.reussites}}" min="0" />
+            </label>
+            
+            <div class="oneLine">
+                <button type="action" class="button {{#if systemData.ersatz.rogue.interruption.actif}}active{{/if}}"
+                data-type="ersatz" data-subtype="rogue" data-name="interruption" data-subname="actif" data-value="{{systemData.ersatz.rogue.interruption.actif}}">
+                    {{#if systemData.ersatz.rogue.interruption.actif}}
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Interruption"}}
+                    {{else}}
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.NoInterruption"}}
+                    {{/if}}
+                </button>
+            </div>
+            
+            <label class="oneLine">
+                <span>{{localize "KNIGHT.BONUS.Attaque"}}</span>
+                <select name="system.ersatz.rogue.attaque">
+                    {{#select systemData.ersatz.rogue.attaque}}
+                        <option value=""></option>
+                        {{#each systemData.aspects as | key aspect|}}
+                            <optgroup label="{{getAspect aspect}}">
+                                {{#each key.liste as | keyCarac caracteristique|}}
+                                    <option value="{{caracteristique}}">{{getCarac caracteristique}}</option>
+                                {{/each}}
+                            </optgroup>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+        </div>
+
+        <div class="col">
+            <h3 class="title">{{localize "KNIGHT.BONUS.Degats"}}</h3>
+            <div class="twoLine">
+                <label class="oneLine borderBottom noBorderTop">
+                    <span>{{localize "KNIGHT.ITEMS.Caracteristique"}}</span>
+                    <select name="system.ersatz.rogue.degats.caracteristique">
+                        {{#select systemData.ersatz.rogue.degats.caracteristique}}
+                            <option value=""></option>
+                            {{#each systemData.aspects as | key aspect|}}
+                                <optgroup label="{{getAspect aspect}}">
+                                    {{#each key.liste as | keyCarac caracteristique|}}
+                                        <option value="{{caracteristique}}">{{getCarac caracteristique}}</option>
+                                    {{/each}}
+                                </optgroup>
+                            {{/each}}
+                        {{/select}}
+                    </select>
+                </label>
+
+                <button type="action" class="button {{#if systemData.ersatz.rogue.degats.od}}active{{/if}}"
+                data-type="ersatz" data-subtype="rogue" data-name="degats" data-subname="od" data-value="{{systemData.ersatz.rogue.degats.od}}">
+                    {{#if systemData.ersatz.rogue.degats.od}}
+                    {{localize "KNIGHT.INCLUS.Od"}}
+                    {{else}}
+                    {{localize "KNIGHT.NOINCLUS.Od"}}
+                    {{/if}}
+                </button>
+
+                <button type="action" class="button {{#if systemData.ersatz.rogue.degats.dice}}active{{/if}}"
+                data-type="ersatz" data-subtype="rogue" data-name="degats" data-subname="dice" data-value="{{systemData.ersatz.rogue.degats.dice}}">
+                    {{#if systemData.ersatz.rogue.degats.dice}}
+                    {{localize "KNIGHT.INCLUS.Dice"}}
+                    {{else}}
+                    {{localize "KNIGHT.NOINCLUS.Dice"}}
+                    {{/if}}
+                </button>
+                
+                <button type="action" class="button {{#if systemData.ersatz.rogue.degats.fixe}}active{{/if}}"
+                data-type="ersatz" data-subtype="rogue" data-name="degats" data-subname="fixe" data-value="{{systemData.ersatz.rogue.degats.fixe}}">
+                    {{#if systemData.ersatz.rogue.degats.fixe}}
+                    {{localize "KNIGHT.INCLUS.Fixe"}}
+                    {{else}}
+                    {{localize "KNIGHT.NOINCLUS.Fixe"}}
+                    {{/if}}
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

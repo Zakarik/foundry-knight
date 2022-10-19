@@ -1,0 +1,25 @@
+{
+  "name": "knight",
+  "title": "Knight",
+  "description": "Une implémentation officielle, supportée par l'éditeur, pour le jeu Awaken.",
+  "version": "1.0.0",
+  "minimumCoreVersion": "0.9",
+  "compatibleCoreVersion": "10",
+  "author": "Zakarik",
+  "esmodules": ["module/knight.mjs"],
+  "styles": ["styles/knight.css"],
+  "packs": [],
+  "languages": [
+    {
+      "lang": "fr",
+      "name": "French",
+      "path": "lang/fr.json"
+    }
+  ],
+  "gridDistance": 5,
+  "gridUnits": "m",
+  "primaryTokenAttribute": "",
+  "url": "https://github.com/Zakarik/foundry-awaken",
+  "manifest": "https://github.com/Zakarik/foundry-awaken/blob/main/system.json",
+  "download": "https://github.com/Zakarik/foundry-awaken/archive/refs/heads/main.zip"
+}

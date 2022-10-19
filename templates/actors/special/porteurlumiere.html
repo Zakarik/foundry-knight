@@ -1,0 +1,24 @@
+
+<div class="porteurlumiere">
+    <h3 class="header">
+        <i class="far fa-plus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.PORTEURLUMIERE.Label"}}
+    </h3>
+
+    <span class="description" style="display:none">{{{this.description}}}</span>
+
+    <div class="mainData" style="display:none">
+        <div class="data">
+            <h4>{{localize "KNIGHT.BONUS.Effets"}}</h4>
+            <div class="effets">
+                {{#each this.bonus.effets.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

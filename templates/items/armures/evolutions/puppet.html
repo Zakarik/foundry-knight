@@ -1,0 +1,71 @@
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Label"}}
+    </h4>
+    <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Ordre"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.puppet.energie.ordre" value="{{this.energie.ordre}}" 
+        
+        />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Creature"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.puppet.energie.supplementaire" value="{{this.energie.supplementaire}}" 
+        
+        />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Prolonger"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.puppet.energie.prolonger" value="{{this.energie.prolonger}}" 
+        
+        />
+    </label>
+    <label class="shortspan separation">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.evolutions.liste.{{key}}.capacites.puppet.activation" >
+            {{#select this.activation}}
+            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+            {{/select}}
+        </select>
+    </label>
+    <label class="shortspan">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea data-capacite="puppet" data-type="duree" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.duree}}px;" name="system.evolutions.liste.{{key}}.capacites.puppet.duree" >{{this.duree}}</textarea>
+    </label>
+</div>
+
+<div class="data">
+    <h4 class="title">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Label"}} : {{localize "KNIGHT.LATERAL.Flux"}}
+    </h4>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Ordre"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.puppet.flux.ordre" value="{{this.flux.ordre}}" 
+        
+        />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Creature"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.puppet.flux.supplementaire" value="{{this.flux.supplementaire}}" 
+        
+        />
+    </label>
+    <label class="longspan">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Prolonger"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.puppet.flux.prolonger" value="{{this.flux.prolonger}}" 
+        
+        />
+    </label>
+    <label class="longspan separation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Max"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.puppet.creatures" value="{{this.creatures}}" 
+        
+        />
+    </label>
+</div>
