@@ -1389,6 +1389,7 @@
             "NoInterruption":"Ne s'interrompt pas en cas d'attaque",
             "ActivationHorsConflit":"Hors conflit",
             "ActivationConflit":"En conflit",
+            "PasserInaperçu":"Passer inaperçu",
             "JetPasserInaperçu":"Jet : Passer inaperçu",
             "BonusPasserInaperçu":"Réussite bonus pour passer inaperçu",
             "ENERGIE":{
