@@ -19,8 +19,8 @@
   "gridDistance": 5,
   "gridUnits": "m",
   "url": "https://github.com/Zakarik/foundry-knight",
-  "manifest": "https://github.com/Zakarik/foundry-knight/releases/download/v1.0/system.json",
-  "download": "https://github.com/Zakarik/foundry-knight/releases/download/v1.0/knight.zip",
+  "manifest": "https://github.com/Zakarik/foundry-knight/releases/download/v1.0.1/system.json",
+  "download": "https://github.com/Zakarik/foundry-knight/releases/download/v1.0.1/knight.zip",
   "id": "knight",
   "authors": [{
     "name":"Zakarik",
