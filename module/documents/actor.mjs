@@ -248,6 +248,16 @@ export class KnightActor extends Actor {
     const machineMax = Math.max(data.aspects.machine.caracteristiques.tir.value, data.aspects.machine.caracteristiques.savoir.value, data.aspects.machine.caracteristiques.technique.value);
     const dameMax = Math.max(data.aspects.dame.caracteristiques.aura.value, data.aspects.dame.caracteristiques.parole.value, data.aspects.dame.caracteristiques.sangFroid.value);
     const masqueMax = Math.max(data.aspects.masque.caracteristiques.discretion.value, data.aspects.masque.caracteristiques.dexterite.value, data.aspects.masque.caracteristiques.perception.value);
+    
+    const beteWODMax = Math.max(data.aspects.bete.caracteristiques.hargne.value+data.aspects.bete.caracteristiques.hargne.overdrive.value, 
+      data.aspects.bete.caracteristiques.combat.value+data.aspects.bete.caracteristiques.combat.overdrive.value, 
+      data.aspects.bete.caracteristiques.instinct.value+data.aspects.bete.caracteristiques.instinct.overdrive.value);
+    const machineWODMax = Math.max(data.aspects.machine.caracteristiques.tir.value+data.aspects.machine.caracteristiques.tir.overdrive.value, 
+      data.aspects.machine.caracteristiques.savoir.value+data.aspects.machine.caracteristiques.savoir.overdrive.value, 
+      data.aspects.machine.caracteristiques.technique.value+data.aspects.machine.caracteristiques.technique.overdrive.value);
+    const masqueWODMax = Math.max(data.aspects.masque.caracteristiques.discretion.value+data.aspects.masque.caracteristiques.discretion.overdrive.value, 
+      data.aspects.masque.caracteristiques.dexterite.value+data.aspects.masque.caracteristiques.dexterite.overdrive.value, 
+      data.aspects.masque.caracteristiques.perception.value+data.aspects.masque.caracteristiques.perception.overdrive.value);
 
     // SANTE
     if(dataJauges.sante) {
@@ -447,7 +457,7 @@ export class KnightActor extends Actor {
     // INITIATIVE
     const hasEmbuscadeSubis = data.options?.embuscadeSubis || false;
     const hasEmbuscadePris = data.options?.embuscadePris || false;
-    const userIBase = masqueMax;
+    const userIBase = dataWear === 'armure' || dataWear === 'ascension' ? masqueWODMax : masqueMax;
     const initiativeDataDiceBase = data.initiative.diceBase;
     const initiativeDataDiceBonus = data.initiative.diceBonus;
     const initiativeDataDiceMalus = data.initiative.diceMalus;
@@ -499,7 +509,7 @@ export class KnightActor extends Actor {
     data.initiative.complet = `${data.initiative.dice}D6+${data.initiative.value}`;
 
     // REACTION
-    const userRBase = machineMax;
+    const userRBase = dataWear === 'armure' || dataWear === 'ascension' ? machineWODMax : machineMax;
     const reactionDataBonus = data.reaction.bonus;
     const reactionDataMalus = data.reaction.malus;
 
@@ -521,7 +531,7 @@ export class KnightActor extends Actor {
     data.reaction.value = Math.max(userRBase+reactionBonus-reactionMalus, 0);
 
     // DEFENSE
-    const userDBase = beteMax;
+    const userDBase = 'armure' || dataWear === 'ascension' ? beteWODMax : beteMax;
     const defenseDataBonus = data.defense.bonus;
     const defenseDataMalus = data.defense.malus;
 
