@@ -1,9 +1,9 @@
 {
   "name": "knight",
   "title": "Knight",
-  "description": "Une implémentation officielle, supportée par l'éditeur, pour le jeu Awaken.",
+  "description": "Une fiche pour le JDR Knight.",
   "version": "1.0.0",
-  "minimumCoreVersion": "0.9",
+  "minimumCoreVersion": "0.10",
   "compatibleCoreVersion": "10",
   "author": "Zakarik",
   "esmodules": ["module/knight.mjs"],
@@ -19,7 +19,7 @@
   "gridDistance": 5,
   "gridUnits": "m",
   "primaryTokenAttribute": "",
-  "url": "https://github.com/Zakarik/foundry-awaken",
-  "manifest": "https://github.com/Zakarik/foundry-awaken/blob/main/system.json",
-  "download": "https://github.com/Zakarik/foundry-awaken/archive/refs/heads/main.zip"
+  "url": "https://github.com/Zakarik/foundry-knight",
+  "manifest": "https://github.com/Zakarik/foundry-knight/blob/main/system.json",
+  "download": "https://github.com/Zakarik/foundry-knight/archive/refs/heads/main.zip"
 }
