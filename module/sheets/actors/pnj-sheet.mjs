@@ -776,31 +776,63 @@ export class PNJSheet extends ActorSheet {
       system: data
     };
 
-    /*switch(type) {
-      case "equipement":
-          itemData.img = "systems/awaken/assets/icons/equipement.svg";
-          break;
-
-      case "armement":
-          itemData.img = "systems/awaken/assets/icons/armement.svg";
+    switch(type) {
+      case "arme":
+          itemData.img = "systems/knight/assets/icons/arme.svg";
           break;
 
       case "armure":
-          itemData.img = "systems/awaken/assets/icons/armure.svg";
+          itemData.img = "systems/knight/assets/icons/armure.svg";
           break;
 
-      case "prodige":
-          itemData.img = "systems/awaken/assets/icons/prodige.svg";
+      case "avantage":
+          itemData.img = "systems/knight/assets/icons/avantage.svg";
           break;
 
-      case "specialisation":
-          itemData.img = "systems/awaken/assets/icons/specialisation.svg";
+      case "inconvenient":
+          itemData.img = "systems/knight/assets/icons/inconvenient.svg";
           break;
 
-      case "reputation":
-          itemData.img = "systems/awaken/assets/icons/reputation.svg";
+      case "motivationMineure":
+          itemData.img = "systems/knight/assets/icons/motivationMineure.svg";
           break;
-    }*/
+
+      case "langue":
+          itemData.img = "systems/knight/assets/icons/langue.svg";
+          break;
+
+      case "contact":
+          itemData.img = "systems/knight/assets/icons/contact.svg";
+          break;
+
+      case "blessure":
+          itemData.img = "systems/knight/assets/icons/blessureGrave.svg";
+          break;
+
+      case "trauma":
+          itemData.img = "systems/knight/assets/icons/trauma.svg";
+          break;
+
+      case "module":
+          itemData.img = "systems/knight/assets/icons/module.svg";
+          break;
+
+      case "capacite":
+          itemData.img = "systems/knight/assets/icons/capacite.svg";
+          break;
+
+      case "armurelegende":
+          itemData.img = "systems/knight/assets/icons/armureLegende.svg";
+          break;
+
+      case "carteheroique":
+          itemData.img = "systems/knight/assets/icons/carteheroique.svg";
+          break;
+
+      case "capaciteheroique":
+          itemData.img = "systems/knight/assets/icons/capaciteheroique.svg";
+          break;
+    }
 
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.system["type"];
