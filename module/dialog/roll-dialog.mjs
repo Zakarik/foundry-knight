@@ -970,7 +970,7 @@ export class KnightRollDialog extends Application {
     if(caracs[0] === undefined) { caracs = ''; }
     let pAttack = {};
     
-    const style = data.style;
+    const style = isPNJ ? {selected:''} : data.style;
     const eSub = listAllE.attack.list;
     const eInclude = listAllE.attack.include;
     const other = listAllE.other.concat(addOtherEffects).sort(SortByName);
@@ -1204,8 +1204,8 @@ export class KnightRollDialog extends Application {
   async _getAllEffets(actor, dataWpn, typeWpn, isPNJ = false) {
     const idActor = this.data.actor;
     const data = this.data;
-    const style = this.data.style;
-    const getStyle = getModStyle(style.raw);
+    const style = isPNJ ? {raw:''} : this.data.style;
+    const getStyle = isPNJ ? {} : getModStyle(style.raw);
 
     const effetsWpn = dataWpn.effets;
     const distanceWpn = dataWpn?.distance || {raw:[], custom:[]};
@@ -1251,7 +1251,7 @@ export class KnightRollDialog extends Application {
     const typeStyle = style.type;
     const sacrificeStyle = +style.sacrifice;
 
-    let getAttackOtherDiceMod = getStyle.bonus.attaque-getStyle.malus.attaque;
+    let getAttackOtherDiceMod = isPNJ ? 0 : getStyle.bonus.attaque-getStyle.malus.attaque;
     let getAttackSpecialDiceMod = 0;
     let getDgtsOtherDiceMod = 0;
     let getDgtsOtherFixeMod = 0;

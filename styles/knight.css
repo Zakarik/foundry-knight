@@ -13984,14 +13984,18 @@
   flex-wrap: wrap;
   align-items: flex-start;
   align-content: flex-start;
-  height: 262px;
   width: 212px;
 }
-.arme form.armeWindows div.img img.profile-img {
+.arme form.armeWindows div.img div.blockImg {
   height: 262px;
   width: 212px;
   background: RGB(76 74 90);
   border: 1px solid white;
+  display: flex;
+  align-items: center;
+}
+.arme form.armeWindows div.img div.blockImg img.profile-img {
+  border: 0px;
 }
 .arme form.armeWindows div.img label.oneLine {
   display: flex;

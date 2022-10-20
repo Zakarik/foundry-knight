@@ -5383,6 +5383,7 @@
     },
     "arme":{
       "templates": ["generique"],
+      "rarete":"standard",
       "type":"contact",
       "portee":"contact",
       "prix":0,
