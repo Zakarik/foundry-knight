@@ -26,6 +26,7 @@ export class ModuleSheet extends ItemSheet {
     this._listeRarete(context);
     this._translate(context);
     this._prepareEffetsListe(context);
+    this._prepareEnergieTranslate(context);
 
     context.systemData = context.data.system;
 
@@ -504,5 +505,15 @@ export class ModuleSheet extends ItemSheet {
         arme.effets.liste = listEffects(rArme, cArme, labelsA);
       }
     }
+  }
+
+  _prepareEnergieTranslate(context) {
+    const energie = context.data.system.energie;
+    const update = {};
+    
+    if(energie.tour.label === "") update["system.energie.tour.label"] = `${game.i18n.localize("KNIGHT.AUTRE.Tour")}`;
+    if(energie.minute.label === "") update["system.energie.minute.label"] = `${game.i18n.localize("KNIGHT.AUTRE.Minute")}`;
+
+    if (!foundry.utils.isEmpty(update)) this.item.update(update);
   }
 }

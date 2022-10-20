@@ -3,7 +3,14 @@
         <div class="flexcol aData">
             <h1 class="charname">
                 <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+                <select name="system.type">
+                    {{#select systemData.type}}
+                        <option value="standard">{{localize "KNIGHT.AUTRE.Standard"}}</option>
+                        <option value="ia">{{localize "KNIGHT.IA.Label"}}</option>
+                    {{/select}}
+                </select>
             </h1>
+            {{#if (isValue systemData.type 'standard')}}
             <div class="main">
                 <div class="col">
                     <label class="sante">
@@ -96,6 +103,7 @@
                     </label>
                 </div>
             </div>
+            {{/if}}
         </div>
     </header>
     <div class="description">

@@ -200,8 +200,16 @@
         }
       }
     },
+    "IA":{
+      "Label":"IA",
+      "Caractere":"Caractère",
+      "IDENTITE":{
+        "Label":"Identité",
+        "Code":"Code de fabrication"
+      }
+    },
     "ARMURE":{
-      "Label":"Armure",
+      "Label":"Méta-Armure",
       "CreerArmure": "Créer l'armure",
       "Guardian":"Guardian",
       "TenueCivile": "Tenue Civile"
@@ -2024,6 +2032,7 @@
     },
     "AUTRE": {
       "Label":"Autre",
+      "Standard":"Standard",
       "Base":"Base",
       "Total": "Total",
       "Maximum": "Maximum",
@@ -2049,7 +2058,7 @@
       "Contact": "Contact",
       "Distance": "Distance",
       "Energie": "Énergie",
-      "EnergieSupplementaire": "Énergie supplémentaire",
+      "EnergieSupplementaire": "Supplémentaire",
       "EspoirSupplementaire": "Espoir supplémentaire",
       "PointEnergie-short": "PE",
       "PointGloire": "Points de Gloire",

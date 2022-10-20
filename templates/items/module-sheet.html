@@ -106,15 +106,18 @@
                 <span>{{localize "KNIGHT.AUTRE.PointGloire"}}</span>
                 <input type="number" name="system.prix" value="{{systemData.prix}}" min="0" />
             </label>
-
+    
             <div class="twoLine">
+                <span>
+                    {{localize "KNIGHT.LATERAL.Energie"}}
+                </span>
                 <label class="oneLine">
-                    <span>{{localize "KNIGHT.LATERAL.Energie"}} / {{localize "KNIGHT.AUTRE.Tour"}}</span>
-                    <input type="number" name="system.energie.tour" value="{{systemData.energie.tour}}" min="0" />
+                    <input class="label" type="text" name="system.energie.tour.label" value="{{systemData.energie.tour.label}}" />
+                    <input type="number" name="system.energie.tour.value" value="{{systemData.energie.tour.value}}" min="0" />
                 </label>
                 <label class="oneLine">
-                    <span>{{localize "KNIGHT.LATERAL.Energie"}} / {{localize "KNIGHT.AUTRE.Minute"}}</span>
-                    <input type="number" name="system.energie.minute" value="{{systemData.energie.minute}}" min="0" />
+                    <input class="label" type="text" name="system.energie.minute.label" value="{{systemData.energie.minute.label}}" />
+                    <input type="number" name="system.energie.minute.value" value="{{systemData.energie.minute.value}}" min="0" />
                 </label>
                 <label class="oneLine">
                     <span>{{localize "KNIGHT.AUTRE.EnergieSupplementaire"}}</span>

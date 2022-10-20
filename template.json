@@ -483,6 +483,11 @@
       },
       "equipements":{
         "modules":{},
+        "ia":{
+          "code":"",
+          "surnom":"",
+          "caractere":""
+        },
         "ascension":{
           "jauges":{
             "armure":true,
@@ -5419,6 +5424,7 @@
     },
     "avantage":{
       "templates": ["generique"],
+      "type":"standard",
       "bonus":{
         "sante":0,
         "espoir":0,
@@ -5452,6 +5458,7 @@
     },
     "inconvenient":{
       "templates": ["generique"],
+      "type":"standard",
       "limitations":{
         "aspects":{
           "all":{
@@ -5691,8 +5698,14 @@
       "rarete":"standard",
       "prix":0,
       "energie":{
-        "tour":0,
-        "minute":0,
+        "tour":{
+          "value":0,
+          "label":""
+        },
+        "minute":{
+          "value":0,
+          "label":""
+        },
         "supplementaire":0
       },
       "activation":"aucune",

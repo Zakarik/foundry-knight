@@ -267,6 +267,18 @@ export class KnightRollDialog extends Application {
     });
   }
 
+  async setWpnLongbow(wpnLongbow) {
+    this.data.longbow = wpnLongbow;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.longbow
+        );
+      }, 0);
+    });
+  }
+
   async setWraith(wraith) {
     this.data.hasWraith = wraith;
 

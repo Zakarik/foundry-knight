@@ -1,5 +1,7 @@
 .avantage {
     h1.charname {
+      display:flex;
+      justify-content: space-between;
       width:100%;
       border:0px;
       margin:0px;
@@ -7,7 +9,7 @@
   
       input[type="text"] {
         margin: 0px;
-        width: 100%;
+        width: calc(100% - 200px);
         text-align: center;
         border-top: 0px;
         border-right: 0px;
@@ -16,6 +18,25 @@
         border-width: unset;
         border-color: @white;
         background:transparent;
+      }
+
+      select {
+        margin: 0px;
+        width: 200px;
+        text-align: center;
+        border-top: 0px;
+        border-right: 0px;
+        border-left: 0px;
+        border-radius: 0px;
+        border-width: unset;
+        border-color: @white;
+        background:transparent;
+        height:48px;
+        color:@white;
+
+        option {
+          background:@black;
+        }
       }
     }
   
