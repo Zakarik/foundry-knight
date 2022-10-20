@@ -2,7 +2,7 @@
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "1.2.0";
+    static NEEDED_VERSION = "1.2.5";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -116,6 +116,23 @@ Applique les modifications par la mise à jour au Monde.
                         label:""
                     };
                 }
+            }
+            
+            item.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("1.2.5")) {
+            const update = {};
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'arme') {
+                const rarete = system?.rarete || false;
+                const liste = system?.listes || false;
+                
+                if(rarete === false) update['system.rarete'] = 'standard';
+                if(liste === false) update['system.listes'] = {};
             }
             
             item.update(update);

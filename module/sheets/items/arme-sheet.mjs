@@ -21,7 +21,8 @@ export class ArmeSheet extends ItemSheet {
   getData() {
     const context = super.getData();
     const actor = this.actor;
-
+    
+    this._listeRarete(context);
     this._prepareEffets(context);
     this._prepareDistance(context);
     this._prepareOrnementales(context);
@@ -47,6 +48,7 @@ export class ArmeSheet extends ItemSheet {
     }
 
     context.systemData = context.data.system;
+
 
     return context;
   }
@@ -192,5 +194,27 @@ export class ArmeSheet extends ItemSheet {
     const labels = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
 
     bEffets.liste = listEffects(bRaw, bCustom, labels);
+  }
+
+  _listeRarete(context) {
+    const rare = CONFIG.KNIGHT.module.rarete;
+    const rar = [];
+    const rarObject = {};
+
+    for (let [key, rarete] of Object.entries(rare)) {
+      rar.push(
+        {
+          key:key,
+          label:game.i18n.localize(rarete)
+        }
+      );
+    }
+
+    for (let i = 0;i < rar.length;i++) {
+      rarObject[rar[i].key] = {};
+      rarObject[rar[i].key] = rar[i].label;
+    };
+    
+    context.data.system.listes.rarete = rarObject;
   }
 }

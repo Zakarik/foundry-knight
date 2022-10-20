@@ -13,16 +13,20 @@
             flex-wrap: wrap;
             align-items: flex-start;
             align-content: flex-start;
-
-            height:262px;
             width:212px;
 
-            img.profile-img {
-                height:262px;
-                width:212px;
-                background:@lightBlack;
-                border:1px solid @white;
-            }
+            div.blockImg {
+                height: 262px;
+                width: 212px;
+                background: @lightBlack;
+                border: 1px solid @white;
+                display: flex;
+                align-items: center;
+
+                img.profile-img {
+                    border:0px;
+                }
+            }            
 
             label.oneLine {
                 display:flex;

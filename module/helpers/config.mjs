@@ -1040,6 +1040,7 @@ KNIGHT.module = {
       "cheval":"KNIGHT.ITEMS.MODULE.CATEGORIE.PrestigeCheval",
       "dragon":"KNIGHT.ITEMS.MODULE.CATEGORIE.PrestigeDragon",
       "corbeau":"KNIGHT.ITEMS.MODULE.CATEGORIE.PrestigeCorbeau",
+      "lion":"KNIGHT.ITEMS.MODULE.CATEGORIE.PrestigeLion",
       "loup":"KNIGHT.ITEMS.MODULE.CATEGORIE.PrestigeLoup",
       "ours":"KNIGHT.ITEMS.MODULE.CATEGORIE.PrestigeOurs",
       "faucon":"KNIGHT.ITEMS.MODULE.CATEGORIE.PrestigeFaucon",
