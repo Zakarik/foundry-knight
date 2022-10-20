@@ -21,7 +21,10 @@ export class KnightSheet extends ActorSheet {
       template: "systems/knight/templates/actors/knight-sheet.html",
       width: 900,
       height: 600,
-      tabs: [{navSelector: ".sheet-tabs", contentSelector: ".body", initial: "description"}],
+      tabs: [
+        {navSelector: ".sheet-tabs", contentSelector: ".body", initial: "description"}, 
+        {navSelector:".tabArmure", contentSelector:".tab-armure", initial:"metaarmure"}
+      ],
     });
   }
 
@@ -3915,7 +3918,7 @@ export class KnightSheet extends ActorSheet {
       this.actor.update(updateActor);
     });
 
-    html.find('div.armure button.armure').click(ev => {
+    html.find('div.buttonSelectArmure button.armure').click(ev => {
       const type = $(ev.currentTarget).data("type");
       const data = this.object.system;
       let armure = 0;
@@ -4559,32 +4562,6 @@ export class KnightSheet extends ActorSheet {
       system: data
     };
 
-    /*switch(type) {
-      case "equipement":
-          itemData.img = "systems/awaken/assets/icons/equipement.svg";
-          break;
-
-      case "armement":
-          itemData.img = "systems/awaken/assets/icons/armement.svg";
-          break;
-
-      case "armure":
-          itemData.img = "systems/awaken/assets/icons/armure.svg";
-          break;
-
-      case "prodige":
-          itemData.img = "systems/awaken/assets/icons/prodige.svg";
-          break;
-
-      case "specialisation":
-          itemData.img = "systems/awaken/assets/icons/specialisation.svg";
-          break;
-
-      case "reputation":
-          itemData.img = "systems/awaken/assets/icons/reputation.svg";
-          break;
-    }*/
-
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.system["type"];
     const hasCapaciteCompanions = data.actor?.armureData?.system?.capacites?.selected?.companions || false;
@@ -4596,6 +4573,15 @@ export class KnightSheet extends ActorSheet {
           has:header.dataset.tourelle
         },
         addOrder:gloireMax+1
+      };
+      delete itemData.system["subtype"];
+    }
+
+    if (type === 'avantage' || type === 'inconvenient') {
+      const subtype = header.dataset?.subtype || "standard";
+
+      itemData.system = {
+        type:subtype
       };
       delete itemData.system["subtype"];
     }
@@ -4839,6 +4825,8 @@ export class KnightSheet extends ActorSheet {
 
     const avantage = [];
     const inconvenient = [];
+    const avantageIA = [];
+    const inconvenientIA = [];
     const motivationMineure = [];
     const langue = [];
     const contact = [];
@@ -6170,36 +6158,44 @@ export class KnightSheet extends ActorSheet {
 
       // AVANTAGE.
       if (i.type === 'avantage') {
-        avantage.push(i);   
+        if(data.type === 'standard') {
+          avantage.push(i); 
 
-        sante.bonus.avantages.push(bonus.sante);
-        espoir.bonus.avantages.push(bonus.espoir);
-        espoir.recuperationBonus.push(bonus.recuperation.espoir);
-        nods.soin.recuperationBonus.push(bonus.recuperation.sante);
-        nods.armure.recuperationBonus.push(bonus.recuperation.armure);
-        nods.energie.recuperationBonus.push(bonus.recuperation.energie);
-        initiative.diceBonus.avantages.push(bonus.initiative.dice);
-        initiative.bonus.avantages.push(bonus.initiative.fixe);
-        
-        if(bonus.initiative.ifEmbuscade.has) {
-          bonusDiceEmbuscadeSubis += +bonus.initiative.ifEmbuscade.dice;
-          bonusFixeEmbuscadeSubis += +bonus.initiative.ifEmbuscade.fixe;
-        }
+          sante.bonus.avantages.push(bonus.sante);
+          espoir.bonus.avantages.push(bonus.espoir);
+          espoir.recuperationBonus.push(bonus.recuperation.espoir);
+          nods.soin.recuperationBonus.push(bonus.recuperation.sante);
+          nods.armure.recuperationBonus.push(bonus.recuperation.armure);
+          nods.energie.recuperationBonus.push(bonus.recuperation.energie);
+          initiative.diceBonus.avantages.push(bonus.initiative.dice);
+          initiative.bonus.avantages.push(bonus.initiative.fixe);
+          
+          if(bonus.initiative.ifEmbuscade.has) {
+            bonusDiceEmbuscadeSubis += +bonus.initiative.ifEmbuscade.dice;
+            bonusFixeEmbuscadeSubis += +bonus.initiative.ifEmbuscade.fixe;
+          }
+        } else if(data.type === 'ia') {
+          avantageIA.push(i); 
+        } 
       }
 
       // INCONVENIENT.
       if (i.type === 'inconvenient') {
-        inconvenient.push(i);
+        if(data.type === 'standard') {
+          inconvenient.push(i);
 
-        sante.malus.desavantages.push(malus.sante);
-        espoir.malus.desavantages.push(malus.espoir);
-        espoir.recuperationMalus.push(malus.recuperation.espoir);
-        initiative.diceMalus.desavantages.push(malus.initiative.dice);
-        initiative.malus.desavantages.push(malus.initiative.fixe);
+          sante.malus.desavantages.push(malus.sante);
+          espoir.malus.desavantages.push(malus.espoir);
+          espoir.recuperationMalus.push(malus.recuperation.espoir);
+          initiative.diceMalus.desavantages.push(malus.initiative.dice);
+          initiative.malus.desavantages.push(malus.initiative.fixe);
 
-        if(!espoir.aucun) {
-          espoir.aucun = limitations.espoir.aucunGain;
-        }
+          if(!espoir.aucun) {
+            espoir.aucun = limitations.espoir.aucunGain;
+          }
+        } else if(data.type === 'ia') {
+          inconvenientIA.push(i); 
+        } 
       }
 
       // MOTIVATION MINEURE
@@ -6384,123 +6380,11 @@ export class KnightSheet extends ActorSheet {
     armesTourelles.sort(SortByName);
     avantage.sort(SortByName);
     inconvenient.sort(SortByName);
+    avantageIA.sort(SortByName);
+    inconvenientIA.sort(SortByName);
     langue.sort(SortByName);
     contact.sort(SortByName);
     depensePG.sort(SortByAddOrder)
-
-    /*if(eListeIsArray) {
-      for(let i = 0;i < experienceListe.length;i++) {
-        const carac = experienceListe.caracteristique;
-        
-        switch(carac) {
-          case 'chair':
-            aspects.chair.bonus += experienceListe.bonus;
-            break;
-
-          case 'bete':
-            aspects.bete.bonus += experienceListe.bonus;
-            break;
-
-          case 'machine':
-            aspects.machine.bonus += experienceListe.bonus;
-            break;
-
-          case 'dame':
-            aspects.dame.bonus += experienceListe.bonus;
-            break;
-
-          case 'masque':
-            aspects.masque.bonus += experienceListe.bonus;
-            break;
-
-          case 'deplacement':
-          case 'force':
-          case 'endurance':
-            aspects.chair.caracteristiques[carac].bonus += experienceListe.bonus;
-            break;
-
-          case 'combat':
-          case 'hargne':
-          case 'instinct':
-            aspects.bete.caracteristiques[carac].bonus += experienceListe.bonus;
-            break;
-
-          case 'tir':
-          case 'savoir':
-          case 'technique':
-            aspects.machine.caracteristiques[carac].bonus += experienceListe.bonus;
-            break;
-
-          case 'parole':
-          case 'aura':
-          case 'sangFroid':
-            aspects.dame.caracteristiques[carac].bonus += experienceListe.bonus;
-            break;
-
-          case 'discretion':
-          case 'dexterite':
-          case 'perception':
-            aspects.masque.caracteristiques[carac].bonus += experienceListe.bonus;
-            break;
-        }
-      }
-    } else {
-      for(let [key, depense] of Object.entries(experienceListe)) {
-        const carac = depense.caracteristique;
-        
-        switch(carac) {
-          case 'chair':
-            aspects.chair.bonus += experienceListe.bonus;
-            break;
-
-          case 'bete':
-            aspects.bete.bonus += experienceListe.bonus;
-            break;
-
-          case 'machine':
-            aspects.machine.bonus += experienceListe.bonus;
-            break;
-
-          case 'dame':
-            aspects.dame.bonus += experienceListe.bonus;
-            break;
-
-          case 'masque':
-            aspects.masque.bonus += experienceListe.bonus;
-            break;
-
-          case 'deplacement':
-          case 'force':
-          case 'endurance':
-            aspects.chair.caracteristiques[carac].bonus += depense.bonus;
-            break;
-
-          case 'combat':
-          case 'hargne':
-          case 'instinct':
-            aspects.bete.caracteristiques[carac].bonus += depense.bonus;
-            break;
-
-          case 'tir':
-          case 'savoir':
-          case 'technique':
-            aspects.machine.caracteristiques[carac].bonus += depense.bonus;
-            break;
-
-          case 'parole':
-          case 'aura':
-          case 'sangFroid':
-            aspects.dame.caracteristiques[carac].bonus += depense.bonus;
-            break;
-
-          case 'discretion':
-          case 'dexterite':
-          case 'perception':
-            aspects.masque.caracteristiques[carac].bonus += depense.bonus;
-            break;
-        }
-      }
-    }*/
     
     for(let i = 0;i < armesContactEquipee.length;i++) {
       armesContactEquipee[i].system.degats.module = {};
@@ -6621,6 +6505,8 @@ export class KnightSheet extends ActorSheet {
     actorData.moduleErsatz = moduleErsatz;
     actorData.avantages = avantage;
     actorData.inconvenient = inconvenient;
+    actorData.avantagesIA = avantageIA;
+    actorData.inconvenientIA = inconvenientIA;
     actorData.motivationMineure = motivationMineure;
     actorData.langue = langue;
     actorData.contact = contact;
@@ -8181,11 +8067,12 @@ export class KnightSheet extends ActorSheet {
     capacites.system.aspects.masque.caracteristiques.dexterite.overdrive.bonus.type = 0;
     capacites.system.aspects.masque.caracteristiques.perception.overdrive.bonus.type = 0;
    
-    let rollUi = this._getKnightRoll();
+
+    let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
     const longbow = this.actor?.longbow || false;
 
-    if(rollUi && longbow !== false) {
-      rollUi.data.longbow = longbow;
+    if(rollUi !== false && longbow !== false) {
+      await rollUi.setWpnLongbow(longbow);
 
       rollUi.render(true);
     }

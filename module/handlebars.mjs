@@ -240,6 +240,10 @@
         return game.i18n.localize(`KNIGHT.ACTIVATION.${value.charAt(0).toUpperCase()+value.substr(1)}`);
     });
 
+    Handlebars.registerHelper('getEnergie', function (value) {
+        return game.i18n.localize(`KNIGHT.ENERGIE.${value.charAt(0).toUpperCase()+value.substr(1)}`);
+    });
+
     Handlebars.registerHelper('getDuree', function (value) {
         return game.i18n.localize(`KNIGHT.DUREE.${value.charAt(0).toUpperCase()+value.substr(1)}`);
     });
@@ -342,6 +346,7 @@
     });
 
     Handlebars.registerHelper('isHigherThan', function (value, compare) {
+        console.log(value);
         let result = false;
 
         if(value > compare) result = true;

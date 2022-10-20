@@ -111,7 +111,7 @@
         }
       }
 
-      div.armure {
+      div.buttonSelectArmure {
         display:flex;
         width:100%;
         justify-content: space-between;
@@ -1288,6 +1288,214 @@
 
     div.armure {
       .header();
+
+      nav {
+        display: flex;
+        width: 100%;
+        position: relative;
+        justify-content: space-around;
+  
+        a {
+          font-variant: small-caps;
+          display: block;
+          text-align: center;
+          width: 200px;
+          color: white;
+          cursor: pointer;
+          border: 2px solid @lightBlack;
+          position: relative;
+          line-height: 28px;
+
+          &.active {
+            background:@lightBlack;
+          }
+        }
+      }
+
+      div.tab-armure {
+        display:none;
+
+        &.active {
+          display:block;
+          width:100%;
+        }
+      }
+
+      section.tab-armure {
+        margin-top:5px;
+      }
+
+      div.ia {
+        display:flex;
+        width:100%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        align-content: flex-start;
+
+        div.editor {
+          min-height: 55px;
+          width:100%;
+
+          &.tinymce {
+            min-height:150px;
+          }
+
+          div.tox-tinymce {
+            border-radius:0px;
+          }
+        }
+
+        div.col {
+          display:flex;
+          flex-wrap: wrap;
+          align-items: flex-start;
+          align-content: flex-start;
+          width:calc(50% - 5px);
+        }
+
+        div.data {
+          display:flex;
+          flex-wrap: wrap;
+          align-items: flex-start;
+          align-content: flex-start;
+          width:100%;
+          border:1px solid @lightBlue;
+
+          h2 {
+            display: block;
+            position: relative;
+            width: 100%;
+            text-transform: uppercase;
+            color: @white;
+            background: @lightBlue;
+            border-left: 1px solid @lightBlue;
+            border-right: 1px solid @lightBlue;
+            margin: 0px;
+            border: 0px;
+            line-height: 21px;
+            padding-top: 2px;
+            font-size: 20px;
+            padding-left: 5px;
+            font-weight: bold;
+            letter-spacing: 1px;
+          }
+
+          label {
+            display:flex;
+            width:100%;
+            justify-content: space-between;
+
+            &.middle {
+              span {
+                display:flex;
+                width:50%;
+                background:@lightBlack;
+                padding-left:5px;
+                line-height: 26px;
+              }
+
+              input {
+                width:50%;
+                border:0px;
+                background:@black;
+                padding:0px;
+                padding-left:5px;
+                height:26px;
+              }
+            }
+
+            &:not(:first-of-type) {
+              span {
+                border-top:1px solid @black;
+              }
+
+              input {
+                border-top:1px solid @lightBlack;
+              }
+            }
+          }
+
+          div.description {
+            display:flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            align-content: flex-start;
+            width:100%;
+          }
+        }
+
+        div.avantages,
+        div.inconvenients {
+          display:flex;
+          width:100%;
+          align-items:flex-start;
+          align-content: flex-start;
+          flex-wrap:wrap;
+          margin-top:5px;
+
+          h2.header {
+            a {
+              position:absolute;
+              right:5px;
+              line-height:22px;
+            }
+          }
+
+          div.block {
+            display:flex;
+            width:100%;
+            flex-wrap: wrap;
+            border:1px solid @lightBlue;
+
+            header {
+              display:flex;
+              width:100%;
+              justify-content: space-between;
+              position:relative;
+
+              i.extendButton {
+                line-height: 26px;
+                position:absolute;
+                font-size:26px;
+                color:@white;
+                cursor:pointer;
+
+                &:hover {
+                  text-shadow:0 0 10px @blue;
+                }
+              }
+
+              span {
+                width:100%;
+                text-align: center;
+                font-variant: small-caps;
+                line-height: 26px;;
+              }
+
+              div.gestionButton {
+                display:flex;
+                height:26px;
+                justify-content: space-between;
+                position:absolute;
+                right:5px;
+                width: 30px;
+                align-items: center;
+              }
+            }
+
+            span.description {
+              display:none;
+              padding-left:2px;
+              padding-right:2px;
+              width:100%;
+              text-align: justify;
+              word-break:break-all;
+              background:@lightBlack;
+            }
+          }
+        }
+      }
 
       div.capacites,
       div.special {

@@ -34,6 +34,7 @@ import { KnightCompanionsDialog } from "./dialog/companions-dialog.mjs";
 import { KnightRollDialog } from "./dialog/roll-dialog.mjs";
 import { KnightEditDialog } from "./dialog/edit-dialog.mjs";
 import { KnightEffetsDialog } from "./dialog/effets-dialog.mjs";
+import { MigrationKnight } from "./migration.mjs";
 
 // GM Helper
 import { GmTool } from "./gm/gmTool.mjs";
@@ -70,6 +71,7 @@ Hooks.once('init', async function() {
       GmMonitor
     },
     RollKnight,
+    migrations: MigrationKnight
   };
 
   // Add custom constants for configuration.

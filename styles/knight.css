@@ -2858,6 +2858,8 @@
   padding-right: 5px;
 }
 .avantage h1.charname {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
   border: 0px;
   margin: 0px;
@@ -2865,7 +2867,7 @@
 }
 .avantage h1.charname input[type="text"] {
   margin: 0px;
-  width: 100%;
+  width: calc(100% - 200px);
   text-align: center;
   border-top: 0px;
   border-right: 0px;
@@ -2874,6 +2876,23 @@
   border-width: unset;
   border-color: white;
   background: transparent;
+}
+.avantage h1.charname select {
+  margin: 0px;
+  width: 200px;
+  text-align: center;
+  border-top: 0px;
+  border-right: 0px;
+  border-left: 0px;
+  border-radius: 0px;
+  border-width: unset;
+  border-color: white;
+  background: transparent;
+  height: 48px;
+  color: white;
+}
+.avantage h1.charname select option {
+  background: RGB(43 42 51);
 }
 .avantage div.main {
   display: flex;
@@ -3115,6 +3134,8 @@
   margin-top: 10px;
 }
 .inconvenient h1.charname {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
   border: 0px;
   margin: 0px;
@@ -3122,7 +3143,7 @@
 }
 .inconvenient h1.charname input[type="text"] {
   margin: 0px;
-  width: 100%;
+  width: calc(100% - 200px);
   text-align: center;
   border-top: 0px;
   border-right: 0px;
@@ -3131,6 +3152,22 @@
   border-width: unset;
   border-color: white;
   background: transparent;
+}
+.inconvenient h1.charname select {
+  margin: 0px;
+  width: 200px;
+  text-align: center;
+  border-top: 0px;
+  border-right: 0px;
+  border-left: 0px;
+  border-radius: 0px;
+  border-width: unset;
+  border-color: white;
+  background: transparent;
+  color: white;
+}
+.inconvenient h1.charname select option {
+  background: RGB(43 42 51);
 }
 .inconvenient div.main {
   display: flex;
@@ -13213,6 +13250,19 @@
   color: white;
   text-align: center;
 }
+.module div.main div.col > label.twoLine div.oneLine input.label,
+.module div.main div.col3 > label.twoLine div.oneLine input.label,
+.module div.main div.col > div.twoLine div.oneLine input.label,
+.module div.main div.col3 > div.twoLine div.oneLine input.label,
+.module div.main div.col > label.twoLine label.oneLine input.label,
+.module div.main div.col3 > label.twoLine label.oneLine input.label,
+.module div.main div.col > div.twoLine label.oneLine input.label,
+.module div.main div.col3 > div.twoLine label.oneLine input.label {
+  width: 50%;
+  background: RGB(76 74 90);
+  font-variant: small-caps;
+  font-size: 14px;
+}
 .module div.main div.col > label.twoLine div.oneLinewDice,
 .module div.main div.col3 > label.twoLine div.oneLinewDice,
 .module div.main div.col > div.twoLine div.oneLinewDice,
@@ -14609,12 +14659,12 @@ form.capacite div.main div.effets a.edit {
   border-color: white;
   padding-top: 10px;
 }
-.knight header.sheet-header .headerData div.armure,
-.pnj header.sheet-header .headerData div.armure,
-.creature header.sheet-header .headerData div.armure,
-.bande header.sheet-header .headerData div.armure,
-.vehicule header.sheet-header .headerData div.armure,
-.mechaarmure header.sheet-header .headerData div.armure {
+.knight header.sheet-header .headerData div.buttonSelectArmure,
+.pnj header.sheet-header .headerData div.buttonSelectArmure,
+.creature header.sheet-header .headerData div.buttonSelectArmure,
+.bande header.sheet-header .headerData div.buttonSelectArmure,
+.vehicule header.sheet-header .headerData div.buttonSelectArmure,
+.mechaarmure header.sheet-header .headerData div.buttonSelectArmure {
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -14622,12 +14672,12 @@ form.capacite div.main div.effets a.edit {
   padding-left: 10px;
   padding-right: 10px;
 }
-.knight header.sheet-header .headerData div.armure div.blockArmure,
-.pnj header.sheet-header .headerData div.armure div.blockArmure,
-.creature header.sheet-header .headerData div.armure div.blockArmure,
-.bande header.sheet-header .headerData div.armure div.blockArmure,
-.vehicule header.sheet-header .headerData div.armure div.blockArmure,
-.mechaarmure header.sheet-header .headerData div.armure div.blockArmure {
+.knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
+.pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
+.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
+.bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
+.vehicule header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
+.mechaarmure header.sheet-header .headerData div.buttonSelectArmure div.blockArmure {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14636,90 +14686,90 @@ form.capacite div.main div.effets a.edit {
   border: 2px solid;
   position: relative;
 }
-.knight header.sheet-header .headerData div.armure div.blockArmure button,
-.pnj header.sheet-header .headerData div.armure div.blockArmure button,
-.creature header.sheet-header .headerData div.armure div.blockArmure button,
-.bande header.sheet-header .headerData div.armure div.blockArmure button,
-.vehicule header.sheet-header .headerData div.armure div.blockArmure button,
-.mechaarmure header.sheet-header .headerData div.armure div.blockArmure button {
+.knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
+.pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
+.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
+.bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
+.vehicule header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
+.mechaarmure header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button {
   width: calc(200px - 25px - 25px);
   border: 0px;
   background: transparent;
 }
-.knight header.sheet-header .headerData div.armure div.blockArmure a.item-edit,
-.pnj header.sheet-header .headerData div.armure div.blockArmure a.item-edit,
-.creature header.sheet-header .headerData div.armure div.blockArmure a.item-edit,
-.bande header.sheet-header .headerData div.armure div.blockArmure a.item-edit,
-.vehicule header.sheet-header .headerData div.armure div.blockArmure a.item-edit,
-.mechaarmure header.sheet-header .headerData div.armure div.blockArmure a.item-edit {
+.knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
+.pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
+.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
+.bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
+.vehicule header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
+.mechaarmure header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit {
   position: absolute;
   cursor: pointer;
   left: 5px;
 }
-.knight header.sheet-header .headerData div.armure div.blockArmure a.item-delete,
-.pnj header.sheet-header .headerData div.armure div.blockArmure a.item-delete,
-.creature header.sheet-header .headerData div.armure div.blockArmure a.item-delete,
-.bande header.sheet-header .headerData div.armure div.blockArmure a.item-delete,
-.vehicule header.sheet-header .headerData div.armure div.blockArmure a.item-delete,
-.mechaarmure header.sheet-header .headerData div.armure div.blockArmure a.item-delete {
+.knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
+.pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
+.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
+.bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
+.vehicule header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
+.mechaarmure header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete {
   position: absolute;
   cursor: pointer;
   right: 5px;
 }
-.knight header.sheet-header .headerData div.armure div.blockArmure.unselected,
-.pnj header.sheet-header .headerData div.armure div.blockArmure.unselected,
-.creature header.sheet-header .headerData div.armure div.blockArmure.unselected,
-.bande header.sheet-header .headerData div.armure div.blockArmure.unselected,
-.vehicule header.sheet-header .headerData div.armure div.blockArmure.unselected,
-.mechaarmure header.sheet-header .headerData div.armure div.blockArmure.unselected {
+.knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
+.pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
+.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
+.bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
+.vehicule header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
+.mechaarmure header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected {
   background: RGB(43 42 51);
   border-color: RGB(76 74 90);
 }
-.knight header.sheet-header .headerData div.armure div.blockArmure.selected,
-.pnj header.sheet-header .headerData div.armure div.blockArmure.selected,
-.creature header.sheet-header .headerData div.armure div.blockArmure.selected,
-.bande header.sheet-header .headerData div.armure div.blockArmure.selected,
-.vehicule header.sheet-header .headerData div.armure div.blockArmure.selected,
-.mechaarmure header.sheet-header .headerData div.armure div.blockArmure.selected {
+.knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
+.pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
+.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
+.bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
+.vehicule header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
+.mechaarmure header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected {
   background: RGB(76 74 90);
   border-color: RGB(43 42 51);
 }
-.knight header.sheet-header .headerData div.armure button,
-.pnj header.sheet-header .headerData div.armure button,
-.creature header.sheet-header .headerData div.armure button,
-.bande header.sheet-header .headerData div.armure button,
-.vehicule header.sheet-header .headerData div.armure button,
-.mechaarmure header.sheet-header .headerData div.armure button {
+.knight header.sheet-header .headerData div.buttonSelectArmure button,
+.pnj header.sheet-header .headerData div.buttonSelectArmure button,
+.creature header.sheet-header .headerData div.buttonSelectArmure button,
+.bande header.sheet-header .headerData div.buttonSelectArmure button,
+.vehicule header.sheet-header .headerData div.buttonSelectArmure button,
+.mechaarmure header.sheet-header .headerData div.buttonSelectArmure button {
   width: 200px;
   color: white;
   cursor: pointer;
   border: 2px solid;
   position: relative;
 }
-.knight header.sheet-header .headerData div.armure button.unselected,
-.pnj header.sheet-header .headerData div.armure button.unselected,
-.creature header.sheet-header .headerData div.armure button.unselected,
-.bande header.sheet-header .headerData div.armure button.unselected,
-.vehicule header.sheet-header .headerData div.armure button.unselected,
-.mechaarmure header.sheet-header .headerData div.armure button.unselected {
+.knight header.sheet-header .headerData div.buttonSelectArmure button.unselected,
+.pnj header.sheet-header .headerData div.buttonSelectArmure button.unselected,
+.creature header.sheet-header .headerData div.buttonSelectArmure button.unselected,
+.bande header.sheet-header .headerData div.buttonSelectArmure button.unselected,
+.vehicule header.sheet-header .headerData div.buttonSelectArmure button.unselected,
+.mechaarmure header.sheet-header .headerData div.buttonSelectArmure button.unselected {
   background: RGB(43 42 51);
   border-color: RGB(76 74 90);
 }
-.knight header.sheet-header .headerData div.armure button.selected,
-.pnj header.sheet-header .headerData div.armure button.selected,
-.creature header.sheet-header .headerData div.armure button.selected,
-.bande header.sheet-header .headerData div.armure button.selected,
-.vehicule header.sheet-header .headerData div.armure button.selected,
-.mechaarmure header.sheet-header .headerData div.armure button.selected {
+.knight header.sheet-header .headerData div.buttonSelectArmure button.selected,
+.pnj header.sheet-header .headerData div.buttonSelectArmure button.selected,
+.creature header.sheet-header .headerData div.buttonSelectArmure button.selected,
+.bande header.sheet-header .headerData div.buttonSelectArmure button.selected,
+.vehicule header.sheet-header .headerData div.buttonSelectArmure button.selected,
+.mechaarmure header.sheet-header .headerData div.buttonSelectArmure button.selected {
   background: RGB(76 74 90);
   border-color: RGB(43 42 51);
 }
-.knight header.sheet-header .headerData div.armure.centered,
-.pnj header.sheet-header .headerData div.armure.centered,
-.creature header.sheet-header .headerData div.armure.centered,
-.bande header.sheet-header .headerData div.armure.centered,
-.vehicule header.sheet-header .headerData div.armure.centered,
-.mechaarmure header.sheet-header .headerData div.armure.centered {
+.knight header.sheet-header .headerData div.buttonSelectArmure.centered,
+.pnj header.sheet-header .headerData div.buttonSelectArmure.centered,
+.creature header.sheet-header .headerData div.buttonSelectArmure.centered,
+.bande header.sheet-header .headerData div.buttonSelectArmure.centered,
+.vehicule header.sheet-header .headerData div.buttonSelectArmure.centered,
+.mechaarmure header.sheet-header .headerData div.buttonSelectArmure.centered {
   justify-content: center;
 }
 .knight section.menu,
@@ -15918,6 +15968,188 @@ form.capacite div.main div.effets a.edit {
 }
 .knight section.body div.armure h2.header .far {
   cursor: pointer;
+}
+.knight section.body div.armure nav {
+  display: flex;
+  width: 100%;
+  position: relative;
+  justify-content: space-around;
+}
+.knight section.body div.armure nav a {
+  font-variant: small-caps;
+  display: block;
+  text-align: center;
+  width: 200px;
+  color: white;
+  cursor: pointer;
+  border: 2px solid RGB(76 74 90);
+  position: relative;
+  line-height: 28px;
+}
+.knight section.body div.armure nav a.active {
+  background: RGB(76 74 90);
+}
+.knight section.body div.armure div.tab-armure {
+  display: none;
+}
+.knight section.body div.armure div.tab-armure.active {
+  display: block;
+  width: 100%;
+}
+.knight section.body div.armure section.tab-armure {
+  margin-top: 5px;
+}
+.knight section.body div.armure div.ia {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.knight section.body div.armure div.ia div.editor {
+  min-height: 55px;
+  width: 100%;
+}
+.knight section.body div.armure div.ia div.editor.tinymce {
+  min-height: 150px;
+}
+.knight section.body div.armure div.ia div.editor div.tox-tinymce {
+  border-radius: 0px;
+}
+.knight section.body div.armure div.ia div.col {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  width: calc(50% - 5px);
+}
+.knight section.body div.armure div.ia div.data {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  width: 100%;
+  border: 1px solid RGB(87 110 178);
+}
+.knight section.body div.armure div.ia div.data h2 {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 20px;
+  padding-left: 5px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.knight section.body div.armure div.ia div.data label {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.knight section.body div.armure div.ia div.data label.middle span {
+  display: flex;
+  width: 50%;
+  background: RGB(76 74 90);
+  padding-left: 5px;
+  line-height: 26px;
+}
+.knight section.body div.armure div.ia div.data label.middle input {
+  width: 50%;
+  border: 0px;
+  background: RGB(43 42 51);
+  padding: 0px;
+  padding-left: 5px;
+  height: 26px;
+}
+.knight section.body div.armure div.ia div.data label:not(:first-of-type) span {
+  border-top: 1px solid RGB(43 42 51);
+}
+.knight section.body div.armure div.ia div.data label:not(:first-of-type) input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.knight section.body div.armure div.ia div.data div.description {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  width: 100%;
+}
+.knight section.body div.armure div.ia div.avantages,
+.knight section.body div.armure div.ia div.inconvenients {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 5px;
+}
+.knight section.body div.armure div.ia div.avantages h2.header a,
+.knight section.body div.armure div.ia div.inconvenients h2.header a {
+  position: absolute;
+  right: 5px;
+  line-height: 22px;
+}
+.knight section.body div.armure div.ia div.avantages div.block,
+.knight section.body div.armure div.ia div.inconvenients div.block {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  border: 1px solid RGB(87 110 178);
+}
+.knight section.body div.armure div.ia div.avantages div.block header,
+.knight section.body div.armure div.ia div.inconvenients div.block header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  position: relative;
+}
+.knight section.body div.armure div.ia div.avantages div.block header i.extendButton,
+.knight section.body div.armure div.ia div.inconvenients div.block header i.extendButton {
+  line-height: 26px;
+  position: absolute;
+  font-size: 26px;
+  color: white;
+  cursor: pointer;
+}
+.knight section.body div.armure div.ia div.avantages div.block header i.extendButton:hover,
+.knight section.body div.armure div.ia div.inconvenients div.block header i.extendButton:hover {
+  text-shadow: 0 0 10px RGB(37 85 228);
+}
+.knight section.body div.armure div.ia div.avantages div.block header span,
+.knight section.body div.armure div.ia div.inconvenients div.block header span {
+  width: 100%;
+  text-align: center;
+  font-variant: small-caps;
+  line-height: 26px;
+}
+.knight section.body div.armure div.ia div.avantages div.block header div.gestionButton,
+.knight section.body div.armure div.ia div.inconvenients div.block header div.gestionButton {
+  display: flex;
+  height: 26px;
+  justify-content: space-between;
+  position: absolute;
+  right: 5px;
+  width: 30px;
+  align-items: center;
+}
+.knight section.body div.armure div.ia div.avantages div.block span.description,
+.knight section.body div.armure div.ia div.inconvenients div.block span.description {
+  display: none;
+  padding-left: 2px;
+  padding-right: 2px;
+  width: 100%;
+  text-align: justify;
+  word-break: break-all;
+  background: RGB(76 74 90);
 }
 .knight section.body div.armure div.capacites,
 .knight section.body div.armure div.special {

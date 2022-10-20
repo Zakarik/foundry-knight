@@ -73,4 +73,12 @@ export const RegisterSettings = function () {
         default: false,
         type: Boolean,
     });
+
+    game.settings.register("knight", "systemVersion", {
+        name: "Version du Système",
+        scope: "world",
+        config: false,
+        type: String,
+        default: 0,
+    });
 };
