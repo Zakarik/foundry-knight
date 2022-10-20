@@ -1943,8 +1943,8 @@ export class KnightRollDialog extends Application {
     const degatsFixe = this.data.degatsBonus.fixe;
     const violenceDice = this.data.violenceBonus.dice;
     const violenceFixe = this.data.violenceBonus.fixe;
-    const sacrifice = this.data.style.sacrifice;
-    const tourspasses = this.data.style.tourspasses;
+    const sacrifice = this.data?.style?.sacrifice || undefined;
+    const tourspasses = this.data?.style?.tourspasses || undefined;
 
     const update = isPNJ ? {
       system:{

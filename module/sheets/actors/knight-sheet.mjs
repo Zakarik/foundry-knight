@@ -7,6 +7,8 @@ import {
   sum
 } from "../../helpers/common.mjs";
 
+import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
+
 /**
  * @extends {ActorSheet}
  */
@@ -6763,7 +6765,7 @@ export class KnightSheet extends ActorSheet {
     this.actor.update(update);
 
     // ON ACTUALISE ROLL UI S'IL EST OUVERT
-    let rollUi = this._getKnightRoll();
+    let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
 
     if(rollUi !== false) {
       await rollUi.setWpnContact(armesContactEquipee);
@@ -7778,17 +7780,27 @@ export class KnightSheet extends ActorSheet {
   }
 
   _getKnightRoll() {
-    const appId = this?.object?.system?.knightRoll?.id || false;
-    const result = ui?.windows?.[appId] || false;
-
-    let r;
-
-    if(result !== false) {
-      r = result.constructor.name === 'KnightRollDialog' ? result : false;
-    } else r = false;
+    const result = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? new game.knight.applications.KnightRollDialog({
+      title:this.actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
+      buttons: {
+        button1: {
+          label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
+          callback: async () => {},
+          icon: `<i class="fas fa-dice"></i>`
+        },
+        button2: {
+          label: game.i18n.localize("KNIGHT.JETS.JetEntraide"),
+          callback: async () => {},
+          icon: `<i class="fas fa-dice-d6"></i>`
+        },
+        button3: {
+          label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
+          icon: `<i class="fas fa-times"></i>`
+        }
+      }
+    });
     
-    
-    return r;
+    return result;
   }
 
   async _rollDice(label, caracteristique, difficulte = false, toAdd = [], toLock = [], isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, reussitesBonus=0) {
@@ -7814,98 +7826,30 @@ export class KnightSheet extends ActorSheet {
 
     if(select === '') { bonus.shift(); }
 
-    if(!rollApp) {
-      const roll = new game.knight.applications.KnightRollDialog({
-        title: this.actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
-        actor:this.actor.id,
-        label:label,
-        aspects:aspects,
-        base:base,
-        autre:bonus,
-        lock:mCombos.lock,
-        difficulte:difficulte,
-        listWpnContact:data.actor.armesContactEquipee,
-        listWpnDistance:data.actor.armesDistanceEquipee,
-        listWpnTourelle:data.actor.armesTourelles,
-        listGrenades:data.systemData.combat.grenades.liste,
-        listWpnImprovisees:{
-          contact:data.systemData.combat.armesimprovisees.liste,
-          distance:data.systemData.combat.armesimprovisees.liste
-        },
-        longbow:data.actor.longbow,
-        num:num,
-        isWpn:isWpn,
-        idWpn:idWpn,
-        nameWpn:nameWpn,
-        typeWpn:typeWpn,
-        barrage:hasBarrage,
-        jumeleambidextrie:true,
-        soeur:true,
-        jumelageambidextrie:true,
-        succesBonus:data.data.system.combat.data.succesbonus+reussitesBonus,
-        modificateur:data.data.system.combat.data.modificateur,
-        degatsBonus:{
-          dice:data.data.system.combat.data.degatsbonus.dice,
-          fixe:data.data.system.combat.data.degatsbonus.fixe
-        },
-        violenceBonus:{
-          dice:data.data.system.combat.data.violencebonus.dice,
-          fixe:data.data.system.combat.data.violencebonus.fixe
-        },
-        style:{
-          fulllabel:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.FullLabel`),
-          label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Label`),
-          raw:style,
-          info:data.systemData.combat.styleInfo,
-          caracteristiques:getStyle.caracteristiques,
-          tourspasses:data.data.system.combat.data.tourspasses,
-          type:data.data.system.combat.data.type,
-          sacrifice:data.data.system.combat.data.sacrifice,
-          maximum:6
-        },
-        deploy:{
-          wpnContact:deployWpnContact,
-          wpnDistance:deployWpnDistance,
-          wpnTourelle:deployWpnTourelle,
-          wpnArmesImproviseesContact:deployWpnImproviseesContact,
-          wpnArmesImproviseesDistance:deployWpnImproviseesDistance,
-          grenades:deployGrenades,
-          longbow:deployLongbow
-        },
-        buttons: {
-          button1: {
-            label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
-            callback: async () => {},
-            icon: `<i class="fas fa-dice"></i>`
-          },
-          button2: {
-            label: game.i18n.localize("KNIGHT.JETS.JetEntraide"),
-            callback: async () => {},
-            icon: `<i class="fas fa-dice-d6"></i>`
-          },
-          button3: {
-            label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
-            icon: `<i class="fas fa-times"></i>`
-          }
-        }
-      }).render(true);
+    await rollApp.setActor(this.actor.id);
+    await rollApp.setAspects(aspects);
+    await rollApp.setEffets(hasBarrage, true, true, true);
+    await rollApp.setStyle({
+      fulllabel:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.FullLabel`),
+      label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Label`),
+      raw:style,
+      info:data.systemData.combat.styleInfo,
+      caracteristiques:getStyle.caracteristiques,
+      tourspasses:data.data.system.combat.data.tourspasses,
+      type:data.data.system.combat.data.type,
+      sacrifice:data.data.system.combat.data.sacrifice,
+      maximum:6
+    });
+    await rollApp.setData(label, select, bonus, mCombos.lock, difficulte,
+      data.data.system.combat.data.modificateur, data.data.system.combat.data.succesbonus+reussitesBonus,
+      {dice:data.data.system.combat.data.degatsbonus.dice, fixe:data.data.system.combat.data.degatsbonus.fixe},
+      {dice:data.data.system.combat.data.violencebonus.dice, fixe:data.data.system.combat.data.violencebonus.fixe},
+      data.actor.armesContactEquipee, data.actor.armesDistanceEquipee, data.actor.armesTourelles, data.systemData.combat.grenades.liste, {contact:data.systemData.combat.armesimprovisees.liste, distance:data.systemData.combat.armesimprovisees.liste}, [], data.actor.longbow,
+      isWpn, idWpn, nameWpn, typeWpn, num,
+      deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, deployGrenades, deployLongbow, false,
+      false, false);
 
-      const kRoll = {
-        id:roll.appId
-      };
-
-      this.actor.update({[`system.knightRoll`]:kRoll});
-    } else {
-      await rollApp.setData(label, base, bonus, mCombos.lock, difficulte,
-        data.data.system.combat.data.modificateur, data.data.system.combat.data.succesbonus+reussitesBonus, 
-        data.actor.armesContactEquipee, data.actor.armesDistanceEquipee, data.actor.armesTourelles, data.systemData.combat.grenades.liste, {contact:data.systemData.combat.armesimprovisees.liste, distance:data.systemData.combat.armesimprovisees.liste}, [], 
-        isWpn, idWpn, nameWpn, typeWpn, num,
-        deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, deployGrenades, deployLongbow, false,
-        false, false);
-        
-      rollApp.bringToTop();
-      rollApp.render(true);
-    }
+    rollApp.render(true);
   }
 
   async _resetArmureCapacites() {

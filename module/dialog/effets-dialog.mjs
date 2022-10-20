@@ -93,14 +93,15 @@ export class KnightEffetsDialog extends FormApplication {
             }
           }
         }
-      }
+      },
+      this.object.title = object.title
   }
 
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
         template: "systems/knight/templates/dialog/effets-sheet.html",
         classes: ["dialog", "knight", "effetsDialog"],
-        title: "TEST",
+        title: "",
         width: 700,
         height: 500,
         resizable: true,
@@ -111,6 +112,7 @@ export class KnightEffetsDialog extends FormApplication {
   }
 
   async getData(options = null) {
+    console.log(this);
     const tEffets = this.object.typeEffets;
     const possibles = CONFIG.KNIGHT.effets;
     const distance = CONFIG.KNIGHT.AMELIORATIONS.distance;
@@ -312,6 +314,8 @@ export class KnightEffetsDialog extends FormApplication {
 
     liste.sort(_sortByName);
 
+    this.options.title = this.object.title;
+
     return {
         ...super.getData(options),
         cssClass:this.options.classes.join(" "),
@@ -328,7 +332,8 @@ export class KnightEffetsDialog extends FormApplication {
             liste:liste,
             ePossibles:ePossibles,
             custom:this.object.data.custom
-          }
+          },
+          title:""
         },
         options: this.options,
         title: this.title
@@ -413,7 +418,7 @@ export class KnightEffetsDialog extends FormApplication {
       const dataCustom = this.object.data.custom;
 
       custom.push({
-        label:dataCustom.nom === undefined ? '' : dataCustom.nom,
+        label:dataCustom.nom === undefined || dataCustom.nom === "" ? game.i18n.localize("KNIGHT.AUTRE.NonNomme") : dataCustom.nom,
         description:dataCustom.description === undefined ? '' : dataCustom.description,
         attaque:{
           reussite:dataCustom.attaque.reussite === undefined ? 0 : dataCustom.attaque.reussite,
