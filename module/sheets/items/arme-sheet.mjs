@@ -85,7 +85,7 @@ export class ArmeSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
     });
 
     html.find('div.distance a.edit').click(async ev => {
@@ -97,7 +97,7 @@ export class ArmeSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, typeEffets:'distance'}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, typeEffets:'distance', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.Distance")}`}).render(true);
     });
 
     html.find('div.ornementales a.edit').click(async ev => {
@@ -109,7 +109,7 @@ export class ArmeSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, typeEffets:'ornementales'}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, typeEffets:'ornementales', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.Ornementales")}`}).render(true);
     });
 
     html.find('div.structurelles a.edit').click(async ev => {
@@ -121,7 +121,7 @@ export class ArmeSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, typeEffets:'structurelles'}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, typeEffets:'structurelles', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.Structurelles")}`}).render(true);
     });
 
     html.find('img.info').click(ev => {

@@ -2075,7 +2075,8 @@
       "Tours":"Tours",
       "Minute":"Minute",
       "CliquezIci":"Cliquez ici",
-      "Points":"Points"
+      "Points":"Points",
+      "NonNomme":"Non nommé"
     },
     "PHASE2":{
       "Label":"Phase 2",

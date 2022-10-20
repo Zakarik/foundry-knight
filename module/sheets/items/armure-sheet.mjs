@@ -1010,7 +1010,7 @@ export class ArmureSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?.system?._id || null, item:this.item.system._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:this.getData().data.system.overdrives}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?.system?._id || null, item:this.item.system._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:this.getData().data.system.overdrives, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
     });
 
     html.find('div.evolutions h4 .far').click(ev => {

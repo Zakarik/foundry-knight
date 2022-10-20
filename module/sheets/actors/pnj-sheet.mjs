@@ -7,6 +7,8 @@ import {
   sum
 } from "../../helpers/common.mjs";
 
+import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
+
 /**
  * @extends {ActorSheet}
  */

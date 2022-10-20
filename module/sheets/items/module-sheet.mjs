@@ -125,7 +125,27 @@ export class ModuleSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?.system?._id || null, item:this.item.system._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:this.getData().data.system.overdrives, typeEffets:type}).render(true);
+      let label = '';
+
+      switch(type) {
+        case 'distance':
+          label = label = `${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.Distance")}`
+          break;
+
+        case 'ornementales':
+          label = `${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.Ornementales")}`
+          break;
+
+        case 'structurelles':
+          label = `${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.Structurelles")}`
+          break;
+
+        default:
+          label = `${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`
+          break;
+      }
+
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?.system?._id || null, item:this.item.system._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:this.getData().data.system.overdrives, typeEffets:type, title:label}).render(true);
     });
 
     html.find('img.info').click(ev => {
