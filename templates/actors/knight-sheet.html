@@ -934,36 +934,42 @@
                                             <span class="header">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                                             <span class="score">{{getActivation key.system.activation}}</span>
                                         </div>
+                                        {{#if (isHigherThan key.system.energie.tour.value 0)}}
                                         <div class="middlespan">
                                             <span class="header">
                                                 {{#unless @root/actor/armureData/system/espoir/remplaceEnergie}}
                                                 {{localize "KNIGHT.LATERAL.Energie"}}
                                                 {{else}}
                                                 {{localize "KNIGHT.LATERAL.Espoir"}}
-                                                {{/unless}} / {{localize "KNIGHT.AUTRE.Tour"}}
+                                                {{/unless}} / {{key.system.energie.tour.label}}
                                             </span>
-                                            <span class="score">{{key.system.energie.tour}}</span>
+                                            <span class="score">{{key.system.energie.tour.value}}</span>
                                         </div>
+                                        {{/if}}
+                                        {{#if (isHigherThan key.system.energie.minute.value 0)}}
                                         <div class="middlespan">
                                             <span class="header">
                                                 {{#unless @root/actor/armureData/system/espoir/remplaceEnergie}}
                                                 {{localize "KNIGHT.LATERAL.Energie"}}
                                                 {{else}}
                                                 {{localize "KNIGHT.LATERAL.Espoir"}}
-                                                {{/unless}} / {{localize "KNIGHT.AUTRE.Minute"}}
+                                                {{/unless}} / {{key.system.energie.tour.label}}
                                             </span>
-                                            <span class="score">{{key.system.energie.minute}}</span>
+                                            <span class="score">{{key.system.energie.minute.value}}</span>
                                         </div>
+                                        {{/if}}
+                                        {{#if (isHigherThan key.system.energie.supplementaire 0)}}
                                         <div class="middlespan">
                                             <span class="header">
                                                 {{#unless @root/actor/armureData/system/espoir/remplaceEnergie}}
-                                                {{localize "KNIGHT.AUTRE.EnergieSupplementaire"}}
+                                                {{localize "KNIGHT.AUTRE.EnergieSupplementaireComplet"}}
                                                 {{else}}
-                                                {{localize "KNIGHT.LATERAL.EspoirSupplementaire"}}
+                                                {{localize "KNIGHT.LATERAL.EspoirSupplementaireComplet"}}
                                                 {{/unless}}
                                             </span>
                                             <span class="score">{{key.system.energie.supplementaire}}</span>
                                         </div>
+                                        {{/if}}
                                         <div class="middlespan">
                                             <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
                                             <span class="score">{{getPortee key.system.portee}}</span>
