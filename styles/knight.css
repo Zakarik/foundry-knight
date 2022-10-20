@@ -4772,6 +4772,32 @@
   padding: 0px;
   border-top: 1px solid RGB(76 74 90);
 }
+.armure form.armureWindows div.evolutions div.mainData div.data div.shortspan.withSpecialMiddle label {
+  display: flex;
+  width: calc(100% - 90px);
+  justify-content: space-between;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.shortspan.withSpecialMiddle label input {
+  position: relative;
+  width: calc(50% - (25px / 2));
+  text-align: right;
+  height: 27px;
+  border-top: 1px solid RGB(76 74 90);
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.shortspan.withSpecialMiddle label input:last-of-type {
+  text-align: left;
+  right: 0;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.shortspan.withSpecialMiddle label span {
+  position: absolute;
+  right: calc(50% - (25px / 2));
+  line-height: 26px;
+  width: 25px;
+  text-align: left;
+  background: RGB(43 42 51);
+  padding: 0px;
+  border-top: 1px solid RGB(76 74 90);
+}
 .armure form.armureWindows div.evolutions div.mainData div.data div.shortspan.withSpecialLong label {
   display: flex;
   width: calc(100% - 90px);

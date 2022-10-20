@@ -930,6 +930,38 @@
                                 }
                             }
 
+                            &.withSpecialMiddle {
+                                label {
+                                    display:flex;
+                                    width:calc(100% - 90px);
+                                    justify-content: space-between;
+    
+                                    input {
+                                        position:relative;
+                                        width:calc(50% - (25px / 2));
+                                        text-align: right;
+                                        height:27px;
+                                        border-top:1px solid @lightBlack;
+    
+                                        &:last-of-type {
+                                            text-align: left;
+                                            right:0;
+                                        }
+                                    }
+    
+                                    span {
+                                        position:absolute;
+                                        right:calc(50% - (25px / 2));
+                                        line-height: 26px;
+                                        width:25px;
+                                        text-align: left;
+                                        background:@black;
+                                        padding:0px;
+                                        border-top:1px solid @lightBlack;
+                                    }
+                                }
+                            }
+
                             &.withSpecialLong {
                                 label {
                                     display:flex;
