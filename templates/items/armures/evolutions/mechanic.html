@@ -10,10 +10,11 @@
        
         />
     </label>
+    {{log this}}
     <label class="shortspan">
         <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
-        <select name="system.evolutions.liste.{{key}}.capacites.mechanic.activation">
-            {{#select this.activation}}
+        <select name="system.evolutions.liste.{{key}}.capacites.mechanic.activation.contact">
+            {{#select this.activation.contact}}
             <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
             <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
             <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
@@ -21,16 +22,12 @@
             {{/select}}
         </select>
     </label>
-    <div class="shortspan withSpecial">
+    <div class="shortspan withSpecialMiddle">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MECHANIC.Reparation"}}</span>
         <label>
-            <input type="number" name="system.evolutions.liste.{{key}}.capacites.mechanic.reparation.contact.dice" value="{{this.reparation.contact.dice}}" 
-           
-            />
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.mechanic.reparation.contact.dice" value="{{this.reparation.contact.dice}}" />
             <span>D6+</span>
-            <input type="number" name="system.evolutions.liste.{{key}}.capacites.mechanic.reparation.contact.fixe" value="{{this.reparation.contact.fixe}}" 
-           
-            />
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.mechanic.reparation.contact.fixe" value="{{this.reparation.contact.fixe}}" />
         </label>
     </div>
     <label class="shortspan">
@@ -48,8 +45,8 @@
     </label>
     <label class="shortspan">
         <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
-        <select name="system.evolutions.liste.{{key}}.capacites.mechanic.activation">
-            {{#select this.activation}}
+        <select name="system.evolutions.liste.{{key}}.capacites.mechanic.activation.distance">
+            {{#select this.activation.distance}}
             <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
             <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
             <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
@@ -57,7 +54,7 @@
             {{/select}}
         </select>
     </label>
-    <div class="shortspan withSpecial">
+    <div class="shortspan withSpecialMiddle">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MECHANIC.Reparation"}}</span>
         <label>
             <input type="number" name="system.evolutions.liste.{{key}}.capacites.mechanic.reparation.distance.dice" value="{{this.reparation.distance.dice}}" 
