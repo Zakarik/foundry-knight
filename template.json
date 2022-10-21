@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["knight", "pnj", "creature", "bande", "vehicule", "mechaarmure"],
+    "types": ["knight", "ia", "pnj", "creature", "bande", "vehicule", "mechaarmure"],
     "templates":{
       "generique": {
         "combat":{
@@ -1053,6 +1053,10 @@
       "options":{
         "kraken":false
       }
+    },
+    "ia":{
+      "code":"",
+      "caractere":""
     },
     "pnj":{
       "templates": ["generique", "creature"],
@@ -2262,7 +2266,7 @@
     }
   },
   "Item": {
-    "types": ["arme", "armure", "avantage", "inconvenient", "motivationMineure", "langue", "contact", "blessure", "trauma", "module", "capacite", "armurelegende", "carteheroique", "capaciteheroique"],
+    "types": ["arme", "armure", "avantage", "inconvenient", "motivationMineure", "langue", "contact", "blessure", "trauma", "module", "capacite", "armurelegende", "carteheroique", "capaciteheroique", "effet"],
     "templates":{
       "generique":{
         "description":""
@@ -5387,6 +5391,7 @@
       "type":"contact",
       "portee":"contact",
       "prix":0,
+      "listes":{},
       "tourelle":{
         "has":false,
         "attaque":{
@@ -6931,6 +6936,85 @@
     },
     "capaciteheroique":{
       "templates": ["generique"]
+    },
+    "effet":{
+      "templates": ["generique"],
+      "type":"effets",
+      "attaque":{
+        "reussite":0,
+        "jet":0,
+        "carac":{
+          "fixe":"",
+          "labelFixe":"",
+          "odInclusFixe":false,
+          "jet":"",
+          "labelJet":"",
+          "odInclusJet":false
+        },
+        "aspect":{
+          "fixe":"",
+          "labelFixe":"",
+          "aeInclusFixe":false,
+          "jet":"",
+          "labelJet":"",
+          "aeInclusJet":false
+        },
+        "conditionnel":{
+          "has":false,
+          "label":"",
+          "condition":""
+        }
+      },
+      "degats":{
+        "fixe":0,
+        "jet":0,
+        "carac":{
+          "fixe":"",
+          "labelFixe":"",
+          "odInclusFixe":false,
+          "jet":"",
+          "labelJet":"",
+          "odInclusJet":false
+        },
+        "aspect":{
+          "fixe":"",
+          "labelFixe":"",
+          "aeInclusFixe":false,
+          "jet":"",
+          "labelJet":"",
+          "aeInclusJet":false
+        },
+        "conditionnel":{
+          "has":false,
+          "label":"",
+          "condition":""
+        }
+      },
+      "violence":{
+        "fixe":0,
+        "jet":0,
+        "carac":{
+          "fixe":"",
+          "labelFixe":"",
+          "odInclusFixe":false,
+          "jet":"",
+          "labelJet":"",
+          "odInclusJet":false
+        },
+        "aspect":{
+          "fixe":"",
+          "labelFixe":"",
+          "aeInclusFixe":false,
+          "jet":"",
+          "labelJet":"",
+          "aeInclusJet":false
+        },
+        "conditionnel":{
+          "has":false,
+          "label":"",
+          "condition":""
+        }
+      }
     }
   }
 }

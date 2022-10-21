@@ -31,7 +31,6 @@ export class BandeSheet extends ActorSheet {
   getData() {
     const context = super.getData();
     
-    console.log(context);
     this._prepareCharacterItems(context);
     this._prepareAE(context);
 
@@ -387,7 +386,8 @@ export class BandeSheet extends ActorSheet {
     itemBaseType === 'armure' || itemBaseType === 'avantage' || 
     itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' || 
     itemBaseType === 'contact' || itemBaseType === 'blessure' || 
-    itemBaseType === 'trauma' || itemBaseType === 'langue' || itemBaseType === 'armurelegende') return;
+    itemBaseType === 'trauma' || itemBaseType === 'langue' || itemBaseType === 'armurelegende' ||
+    itemBaseType === 'effet') return;
 
     const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
 
@@ -717,7 +717,7 @@ export class BandeSheet extends ActorSheet {
         armure:{
           bonus:{
             modules:armure.bonus.modules.reduce(sum),
-            modules:armure.bonus.capacites.reduce(sum)
+            capacites:armure.bonus.capacites.reduce(sum)
           }
         },
         reaction:{

@@ -1,0 +1,76 @@
+<form class="mainFlex {{cssClass}}" autocomplete="off">
+
+    {{!-- Sheet Header --}}
+    <header class="sheet-header flexrow">
+        <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
+        <div class="headerData">
+            <div class="data">
+                <h1 class="charname">
+                    <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+                </h1>
+
+                <label class="middle">
+                    <span>{{localize "KNIGHT.IA.IDENTITE.Code"}}</span>
+                    <input type="text" name="system.code" value="{{systemData.code}}" />
+                </label>
+
+                <div class="caractere">
+                     <h2 class="header">
+                        {{localize "KNIGHT.IA.Caractere"}}
+                    </h2>
+                    {{editor systemData.caractere target="system.caractere" button=true owner=owner editable=editable}}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {{!-- Sheet Body --}}
+    <section class="body">
+        {{!-- IA Tab --}}
+        <div class="iaTab">
+            <div class="avantages">
+                <h2 class="header">
+                    {{localize "KNIGHT.PERSONNAGE.Avantages"}}
+                    <a class="item-control item-create" title="Create Item" data-type="avantage"><i class="fas fa-plus"></i></a>
+                </h2>
+                {{#each actor.avantages as | key avantages|}}
+                <div class="block">
+                    <header class="summary header" data-item-id="{{key._id}}">
+                        <i class="far fa-plus-square extendButton"></i>
+                        <div class="gestionButton">
+                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                        </div>
+                        <span>{{key.name}}</span>
+                    </header>
+                    <span class="description">
+                        {{{key.system.description}}}
+                    </span>
+                </div>
+                {{/each}}
+            </div>
+
+            <div class="inconvenients">
+                <h2 class="header">
+                    {{localize "KNIGHT.PERSONNAGE.Inconvenient"}}
+                    <a class="item-control item-create" title="Create Item" data-type="inconvenient"><i class="fas fa-plus"></i></a>
+                </h2>
+                {{#each actor.inconvenient as | key inconvenient|}}
+                <div class="block">
+                    <header class="summary header" data-item-id="{{key._id}}">
+                        <i class="far fa-plus-square extendButton"></i>
+                        <div class="gestionButton">
+                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                        </div>
+                        <span>{{key.name}}</span>
+                    </header>
+                    <span class="description">
+                        {{{key.system.description}}}
+                    </span>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+</form>

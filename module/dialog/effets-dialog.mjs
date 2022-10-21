@@ -16,7 +16,7 @@ export class KnightEffetsDialog extends FormApplication {
       this.object.data = {
         custom:{
           nom:'',
-          description:'',
+          description:'Description',
           attaque:{
             reussite:0,
             jet:0,
@@ -316,6 +316,8 @@ export class KnightEffetsDialog extends FormApplication {
 
     this.options.title = this.object.title;
 
+    console.log(this);
+
     return {
         ...super.getData(options),
         cssClass:this.options.classes.join(" "),
@@ -578,6 +580,263 @@ export class KnightEffetsDialog extends FormApplication {
       this.render();
     });
 
+    html.find('.effetCustom button.update').click(ev => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      const custom = this.object.custom === undefined ? [] : this.object.custom;
+      const dataCustom = this.object.data.custom;
+      const index = dataCustom.index;
+      const isExist = custom?.[index] || false;
+
+      if(!isExist) return;
+
+      custom[index] = {
+        label:dataCustom.nom === undefined || dataCustom.nom === "" ? game.i18n.localize("KNIGHT.AUTRE.NonNomme") : dataCustom.nom,
+        description:dataCustom.description === undefined ? '' : dataCustom.description,
+        attaque:{
+          reussite:dataCustom.attaque.reussite === undefined ? 0 : dataCustom.attaque.reussite,
+          jet:dataCustom.attaque.jet === undefined ? 0 : dataCustom.attaque.jet,
+          carac:{
+            labelFixe:dataCustom.attaque.carac?.labelFixe || undefined === undefined ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe") : dataCustom.attaque.carac.labelFixe,
+            odInclusFixe:dataCustom.attaque.carac?.odInclusFixe || undefined === undefined ? false : dataCustom.attaque.carac.odInclusFixe,
+            labelJet:dataCustom.attaque.carac?.labelJet || undefined === undefined ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe") : dataCustom.attaque.carac.labelJet,
+            odInclusJet:dataCustom.attaque.carac?.odInclusJet || undefined === undefined ? false : dataCustom.attaque.carac.odInclusJet,
+            fixe:dataCustom.attaque.carac?.fixe || undefined === undefined ? '' : dataCustom.attaque.carac.fixe,
+            jet:dataCustom.attaque.carac?.jet || undefined === undefined ? '' : dataCustom.attaque.carac.jet
+          },
+          aspect:{
+            labelFixe:dataCustom.attaque.aspect?.labelFixe || undefined === undefined ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusFixe") : dataCustom.attaque.aspect.labelFixe,
+            odInclusFixe:dataCustom.attaque.aspect?.odInclusFixe || undefined === undefined ? false : dataCustom.attaque.aspect.aeInclusFixe,
+            labelJet:dataCustom.attaque.aspect?.labelJet || undefined === undefined ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusFixe") : dataCustom.attaque.aspect.labelJet,
+            odInclusJet:dataCustom.attaque.aspect?.odInclusJet || undefined === undefined ? false : dataCustom.attaque.aspect.aeInclusJet,
+            fixe:dataCustom.attaque.aspect?.fixe || undefined === undefined ? '' : dataCustom.attaque.aspect.fixe,
+            jet:dataCustom.attaque.aspect?.jet || undefined === undefined ? '' : dataCustom.attaque.aspect.jet
+          },
+          conditionnel:{
+            has:dataCustom.attaque.conditionnel.has === undefined ? false : dataCustom.attaque.conditionnel.has,
+            condition:dataCustom.attaque.conditionnel.condition === undefined ? '' : dataCustom.attaque.conditionnel.condition
+          },
+        },
+        degats:{
+          fixe:dataCustom.degats.fixe === undefined ? 0 : dataCustom.degats.fixe,
+          jet:dataCustom.degats.jet === undefined ? 0 : dataCustom.degats.jet,
+          carac:{
+            labelFixe:dataCustom.degats.carac?.labelFixe || undefined === undefined ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe") : dataCustom.degats.carac.labelFixe,
+            odInclusFixe:dataCustom.degats.carac?.odInclusFixe || undefined === undefined ? false : dataCustom.degats.carac.odInclusFixe,
+            labelJet:dataCustom.degats.carac?.labelJet || undefined === undefined ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe") : dataCustom.degats.carac.labelJet,
+            odInclusJet:dataCustom.degats.carac?.odInclusJet || undefined === undefined ? false : dataCustom.degats.carac.odInclusJet,
+            fixe:dataCustom.degats.carac?.fixe || undefined === undefined ? '' : dataCustom.degats.carac.fixe,
+            jet:dataCustom.degats.carac?.jet || undefined === undefined ? '' : dataCustom.degats.carac.jet
+          },
+          aspect:{
+            labelFixe:dataCustom.degats.aspect?.labelFixe || undefined === undefined ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusFixe") : dataCustom.degats.aspect.labelFixe,
+            odInclusFixe:dataCustom.degats.aspect?.odInclusFixe || undefined === undefined ? false : dataCustom.degats.aspect.aeInclusFixe,
+            labelJet:dataCustom.degats.aspect?.labelJet || undefined === undefined ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusFixe") : dataCustom.degats.aspect.labelJet,
+            odInclusJet:dataCustom.degats.aspect?.odInclusJet || undefined === undefined ? false : dataCustom.degats.aspect.aeInclusJet,
+            fixe:dataCustom.degats.aspect?.fixe || undefined === undefined ? '' : dataCustom.degats.aspect.fixe,
+            jet:dataCustom.degats.aspect?.jet || undefined === undefined ? '' : dataCustom.degats.aspect.jet
+          },
+          conditionnel:{
+            has:dataCustom.degats.conditionnel.has === undefined ? false : dataCustom.degats.conditionnel.has,
+            condition:dataCustom.degats.conditionnel.condition === undefined ? '' : dataCustom.degats.conditionnel.condition
+          },
+        },
+        violence:{
+          fixe:dataCustom.violence.fixe === undefined ? 0 : dataCustom.violence.fixe,
+          jet:dataCustom.violence.jet === undefined ? 0 : dataCustom.violence.jet,
+          carac:{
+            labelFixe:dataCustom.violence.carac?.labelFixe || undefined === undefined ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe") : dataCustom.violence.carac.labelFixe,
+            odInclusFixe:dataCustom.violence.carac?.odInclusFixe || undefined === undefined ? false : dataCustom.violence.carac.odInclusFixe,
+            labelJet:dataCustom.violence.carac?.labelJet || undefined === undefined ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe") : dataCustom.violence.carac.labelJet,
+            odInclusJet:dataCustom.violence.carac?.odInclusJet || undefined === undefined ? false : dataCustom.violence.carac.odInclusJet,
+            fixe:dataCustom.violence.carac?.fixe || undefined === undefined ? '' : dataCustom.violence.carac.fixe,
+            jet:dataCustom.violence.carac?.jet || undefined === undefined ? '' : dataCustom.violence.carac.jet
+          },
+          aspect:{
+            labelFixe:dataCustom.violence.aspect?.labelFixe || undefined === undefined ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusFixe") : dataCustom.violence.aspect.labelFixe,
+            odInclusFixe:dataCustom.violence.aspect?.odInclusFixe || undefined === undefined ? false : dataCustom.violence.aspect.aeInclusFixe,
+            labelJet:dataCustom.violence.aspect?.labelJet || undefined === undefined ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusFixe") : dataCustom.violence.aspect.labelJet,
+            odInclusJet:dataCustom.violence.aspect?.odInclusJet || undefined === undefined ? false : dataCustom.violence.aspect.aeInclusJet,
+            fixe:dataCustom.violence.aspect?.fixe || undefined === undefined ? '' : dataCustom.violence.aspect.fixe,
+            jet:dataCustom.violence.aspect?.jet || undefined === undefined ? '' : dataCustom.violence.aspect.jet
+          },
+          conditionnel:{
+            has:dataCustom.violence.conditionnel.has === undefined ? false : dataCustom.violence.conditionnel.has,
+            condition:dataCustom.violence.conditionnel.condition === undefined ? '' : dataCustom.violence.conditionnel.condition
+          },
+        },
+      };
+
+      this.object.custom = custom;
+      this.object.data.custom = {
+        nom:'',
+        description:'',
+        attaque:{
+          reussite:0,
+          jet:0,
+          carac:{
+            labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+            labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet"),
+            odInclusFixe:false,
+            odInclusJet:false,
+            fixe:'',
+            jet:''
+          },
+          aspect:{
+            labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusFixe"),
+            labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusJet"),
+            odInclusFixe:false,
+            odInclusJet:false,
+            fixe:'',
+            jet:''
+          },
+          conditionnel:{
+            label:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Nocondition"),
+            has:false,
+            condition:''
+          },
+        },
+        degats:{
+          fixe:0,
+          jet:0,
+          carac:{
+            labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+            labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet"),
+            odInclusFixe:false,
+            odInclusJet:false,
+            fixe:'',
+            jet:''
+          },
+          aspect:{
+            labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusFixe"),
+            labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusJet"),
+            odInclusFixe:false,
+            odInclusJet:false,
+            fixe:'',
+            jet:''
+          },
+          conditionnel:{
+            label:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Nocondition"),
+            has:false,
+            condition:''
+          },
+        },
+        violence:{
+          fixe:0,
+          jet:0,
+          carac:{
+            labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+            labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet"),
+            odInclusFixe:false,
+            odInclusJet:false,
+            fixe:'',
+            jet:''
+          },
+          aspect:{
+            labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusFixe"),
+            labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusJet"),
+            odInclusFixe:false,
+            odInclusJet:false,
+            fixe:'',
+            jet:''
+          },
+          conditionnel:{
+            label:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Nocondition"),
+            has:false,
+            condition:''
+          },
+        },
+      };
+
+      this.render();
+    });
+
+    html.find('.effetCustom button.supprimer').click(ev => {
+      this.object.data.custom = {
+        edit:false,
+        index:0,
+        nom:'',
+        description:'',
+        attaque:{
+          reussite:0,
+          jet:0,
+          carac:{
+            labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+            labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet"),
+            odInclusFixe:false,
+            odInclusJet:false,
+            fixe:'',
+            jet:''
+          },
+          aspect:{
+            labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusFixe"),
+            labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusJet"),
+            odInclusFixe:false,
+            odInclusJet:false,
+            fixe:'',
+            jet:''
+          },
+          conditionnel:{
+            label:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Nocondition"),
+            has:false,
+            condition:''
+          },
+        },
+        degats:{
+          fixe:0,
+          jet:0,
+          carac:{
+            labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+            labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet"),
+            odInclusFixe:false,
+            odInclusJet:false,
+            fixe:'',
+            jet:''
+          },
+          aspect:{
+            labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusFixe"),
+            labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusJet"),
+            odInclusFixe:false,
+            odInclusJet:false,
+            fixe:'',
+            jet:''
+          },
+          conditionnel:{
+            label:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Nocondition"),
+            has:false,
+            condition:''
+          },
+        },
+        violence:{
+          fixe:0,
+          jet:0,
+          carac:{
+            labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+            labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet"),
+            odInclusFixe:false,
+            odInclusJet:false,
+            fixe:'',
+            jet:''
+          },
+          aspect:{
+            labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusFixe"),
+            labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusJet"),
+            odInclusFixe:false,
+            odInclusJet:false,
+            fixe:'',
+            jet:''
+          },
+          conditionnel:{
+            label:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Nocondition"),
+            has:false,
+            condition:''
+          },
+        },
+      };
+
+      this.render();
+    });
+
     html.find('.effetCustom select').change(ev => {
       ev.preventDefault();
       ev.stopPropagation();
@@ -687,6 +946,25 @@ export class KnightEffetsDialog extends FormApplication {
 
       this.render();
     });
+
+    html.find('img.edit').click(ev => {
+      const index = $(ev.currentTarget).data("index");
+      const data = this.object.custom[index];
+
+      this.object.data.custom = {
+        edit:true,
+        index:index,
+        nom:data.label,
+        description:data.description,
+        attaque:data.attaque,
+        degats:data.degats,
+        violence:data.violence
+      };
+
+      console.log(this.object.data.custom);
+
+      this.render();
+    });
   }
 
   async _render(force = false, options = {}) {
@@ -720,6 +998,8 @@ export class KnightEffetsDialog extends FormApplication {
 
   async _updateObject(event, formData) {
     this.object.data.custom = {
+      edit:this.object.data.custom.edit,
+      index:this.object.data.custom.index,
       nom:formData['custom.nom'],
       description:formData['custom.description'],
       attaque:{
@@ -732,6 +1012,14 @@ export class KnightEffetsDialog extends FormApplication {
           odInclusJet:this.object.data.custom.attaque.carac.odInclusJet,
           fixe:this.object.data.custom.attaque.carac.fixe,
           jet:this.object.data.custom.attaque.carac.jet          
+        },
+        aspect:{
+          fixe:this.object.data.custom.attaque.aspect.fixe,
+          labelFixe:this.object.data.custom.attaque.aspect.labelFixe,
+          aeInclusFixe:this.object.data.custom.attaque.aspect.aeInclusFixe,
+          jet:this.object.data.custom.attaque.aspect.jet,
+          labelJet:this.object.data.custom.attaque.aspect.labelJet,
+          aeInclusJet:this.object.data.custom.attaque.aspect.aeInclusJet
         },
         conditionnel:{
           label:this.object.data.custom.attaque.conditionnel.label,
@@ -750,6 +1038,14 @@ export class KnightEffetsDialog extends FormApplication {
           fixe:this.object.data.custom.degats.carac.fixe,
           jet:this.object.data.custom.degats.carac.jet
         },
+        aspect:{
+          fixe:this.object.data.custom.degats.aspect.fixe,
+          labelFixe:this.object.data.custom.degats.aspect.labelFixe,
+          aeInclusFixe:this.object.data.custom.degats.aspect.aeInclusFixe,
+          jet:this.object.data.custom.degats.aspect.jet,
+          labelJet:this.object.data.custom.degats.aspect.labelJet,
+          aeInclusJet:this.object.data.custom.degats.aspect.aeInclusJet
+        },
         conditionnel:{
           label:this.object.data.custom.degats.conditionnel.label,
           has:this.object.data.custom.degats.conditionnel.has,
@@ -766,6 +1062,14 @@ export class KnightEffetsDialog extends FormApplication {
           odInclusJet:this.object.data.custom.violence.carac.odInclusJet,
           fixe:this.object.data.custom.violence.carac.fixe,
           jet:this.object.data.custom.violence.carac.jet
+        },
+        aspect:{
+          fixe:this.object.data.custom.violence.aspect.fixe,
+          labelFixe:this.object.data.custom.violence.aspect.labelFixe,
+          aeInclusFixe:this.object.data.custom.violence.aspect.aeInclusFixe,
+          jet:this.object.data.custom.violence.aspect.jet,
+          labelJet:this.object.data.custom.violence.aspect.labelJet,
+          aeInclusJet:this.object.data.custom.violence.aspect.aeInclusJet
         },
         conditionnel:{
           label:this.object.data.custom.attaque.carac.label,

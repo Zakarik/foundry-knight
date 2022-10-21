@@ -298,7 +298,7 @@ export class KnightSheet extends ActorSheet {
       if(item.type === 'armure') {
         const idLegende = this._getArmorLegendeId();
 
-        if(idLegende !== false) {
+        if(idLegende !== 0) {
           const armorLegende = this.actor.items.get(idLegende);
 
           armorLegende.delete();
@@ -4719,7 +4719,8 @@ export class KnightSheet extends ActorSheet {
     itemData = itemData instanceof Array ? itemData : [itemData];
     const itemBaseType = itemData[0].type;
 
-    if(itemBaseType === 'capacite') return;
+    if(itemBaseType === 'capacite' ||
+    itemBaseType === 'effet') return;
 
     if(itemBaseType === 'module' && hasCapaciteCompanions) {
       const hasArmure = actorData.equipements.armure.hasArmor;
@@ -4868,6 +4869,30 @@ export class KnightSheet extends ActorSheet {
       
       return itemCreate;
     }
+  }
+
+  async _onDrop(event) {
+    const data = TextEditor.getDragEventData(event);
+    const cls = getDocumentClass(data?.type);
+    if ( !cls || !(cls.collectionName in Adventure.contentFields) ) return;
+    const document = await cls.fromDropData(data);
+    const type = document.type;
+
+    if(type === 'ia') {
+      const update = {};
+
+      update['system.equipements.ia.code'] = document.system.code;
+      update['system.equipements.ia.surnom'] = document.name;
+      update['system.equipements.ia.caractere'] = document.system.caractere;
+
+      const items = document.items;
+
+      for (let i of items) {
+        await this._onDropItemCreate(i);
+      }; 
+
+      this.actor.update(update);
+    }    
   }
 
   async _prepareCharacterItems(sheetData) {
@@ -5310,6 +5335,8 @@ export class KnightSheet extends ActorSheet {
       const bonus = data.bonus;
       const malus = data.malus;
       const limitations = data.limitations;
+
+      console.log(i);
 
       // ARMURE.
       if (i.type === 'armure') {

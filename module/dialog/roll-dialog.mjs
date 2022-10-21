@@ -1258,6 +1258,7 @@ export class KnightRollDialog extends Application {
     let getViolenceDiceMod = 0;
     let maximizeDgts = false;
 
+    const baseForce = getCaracValue('force', idActor);
     const force = getODValue('force', idActor);
     const tir = getODValue('tir', idActor);
     const combat = getODValue('combat', idActor);
@@ -1266,6 +1267,17 @@ export class KnightRollDialog extends Application {
 
     const bete = +getAspectValue('bete', idActor);
     const beteAE = getAEValue('bete', idActor);
+
+    // Base de Force pour les armes de contact
+    if(typeWpn === 'contact' && baseForce > 0 && !isPNJ) {
+      const bForce = baseForce;
+      getDgtsOtherFixeMod += bForce;
+
+      lDgtsOtherInclude.push({
+        name:`+${bForce} ${game.i18n.localize('KNIGHT.ASPECTS.CHAIR.FORCE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+        desc:``
+      });
+    }
 
     // STYLES
     if(typeWpn !== 'tourelle' && typeWpn !== 'armesimprovisees' && !isPNJ) {

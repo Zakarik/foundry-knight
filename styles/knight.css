@@ -1,4 +1,5 @@
 .knight .window-content,
+.ia .window-content,
 .pnj .window-content,
 .creature .window-content,
 .bande .window-content,
@@ -13,6 +14,7 @@
   --color-shadow-primary: RGB(37 85 228);
 }
 .knight .window-content .mainFlex,
+.ia .window-content .mainFlex,
 .pnj .window-content .mainFlex,
 .creature .window-content .mainFlex,
 .bande .window-content .mainFlex,
@@ -28,6 +30,7 @@
   align-content: flex-start;
 }
 .knight .window-content input,
+.ia .window-content input,
 .pnj .window-content input,
 .creature .window-content input,
 .bande .window-content input,
@@ -39,6 +42,7 @@
   color: inherit;
 }
 .knight .window-content .item.active,
+.ia .window-content .item.active,
 .pnj .window-content .item.active,
 .creature .window-content .item.active,
 .bande .window-content .item.active,
@@ -50,6 +54,7 @@
   background-color: RGB(87 110 178);
 }
 .knight .window-content a:hover,
+.ia .window-content a:hover,
 .pnj .window-content a:hover,
 .creature .window-content a:hover,
 .bande .window-content a:hover,
@@ -61,6 +66,7 @@
   text-shadow: 0 0 10px RGB(37 85 228);
 }
 .knight .window-content nav.tabs,
+.ia .window-content nav.tabs,
 .pnj .window-content nav.tabs,
 .creature .window-content nav.tabs,
 .bande .window-content nav.tabs,
@@ -302,6 +308,9 @@
 .effetsDialog div.dialog-content div.effets div {
   padding-left: 25px;
 }
+.effetsDialog div.dialog-content div.effets div.wEdit {
+  padding-left: 40px;
+}
 .effetsDialog div.dialog-content div.effets div img.delete {
   display: inline-block;
   position: absolute;
@@ -315,6 +324,21 @@
 }
 .effetsDialog div.dialog-content div.effets div img.delete.clicked,
 .effetsDialog div.dialog-content div.effets div img.delete:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+.effetsDialog div.dialog-content div.effets div img.edit {
+  display: inline-block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 0px;
+  background: RGB(76 74 90);
+  top: 4px;
+  left: 20px;
+  cursor: pointer;
+}
+.effetsDialog div.dialog-content div.effets div img.edit.clicked,
+.effetsDialog div.dialog-content div.effets div img.edit:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
 .effetsDialog div.dialog-content div.effetsAdd div {
@@ -406,6 +430,25 @@
   color: white;
 }
 .effetsDialog div.dialog-content div.effetCustom div.header button.ajouter {
+  width: 100px;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  background: RGB(76 74 90);
+}
+.effetsDialog div.dialog-content div.effetCustom div.header.edit input.nom {
+  width: calc(100% - 200px);
+}
+.effetsDialog div.dialog-content div.effetCustom div.header.edit button.update,
+.effetsDialog div.dialog-content div.effetCustom div.header.edit button.supprimer {
+  width: 100px;
+  background: RGB(76 74 90);
+}
+.effetsDialog div.dialog-content div.effetCustom div.header.edit button.update {
+  width: 100px;
+  border-left: 1px solid black;
+  background: RGB(76 74 90);
+}
+.effetsDialog div.dialog-content div.effetCustom div.header.edit button.supprimer {
   width: 100px;
   border-left: 1px solid black;
   border-right: 1px solid black;
@@ -2894,6 +2937,9 @@
 .avantage h1.charname select option {
   background: RGB(43 42 51);
 }
+.avantage h1.charname.full input[type="text"] {
+  width: 100%;
+}
 .avantage div.main {
   display: flex;
   width: 100%;
@@ -3164,10 +3210,14 @@
   border-width: unset;
   border-color: white;
   background: transparent;
+  height: 48px;
   color: white;
 }
 .inconvenient h1.charname select option {
   background: RGB(43 42 51);
+}
+.inconvenient h1.charname.full input[type="text"] {
+  width: 100%;
 }
 .inconvenient div.main {
   display: flex;
@@ -14548,7 +14598,447 @@ form.capacite div.main div.effets a.edit {
   color: white;
   font-variant: small-caps;
 }
+.effet h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.effet h2.header .headerScore {
+  position: absolute;
+  width: 40px;
+  background: RGB(76 74 90);
+  line-height: 21px;
+  text-align: center;
+  right: 1px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 1px;
+}
+.effet h2.header .headerQuantity {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 48px;
+  background: RGB(76 74 90);
+  line-height: 22px;
+  height: 22px;
+  text-align: center;
+  right: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 0px;
+}
+.effet h2.header .headerQuantity input {
+  text-align: center;
+  width: 20px;
+  height: 22px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
+}
+.effet h2.header .headerQuantity span {
+  width: 8px;
+  line-height: 22px;
+  color: white;
+}
+.effet h2.header a.verrouillage {
+  position: absolute;
+  right: 5px;
+  width: max-content;
+  line-height: 21px;
+  color: white;
+  font-variant: small-caps;
+  font-size: 12px;
+}
+.effet h2.header a.verrouillage:hover {
+  text-shadow: 0 0 10px white;
+}
+.effet h2.header .far {
+  cursor: pointer;
+}
+.effet header.sheet-header div.aData {
+  display: flex;
+  justify-content: space-between;
+}
+.effet header.sheet-header div.aData h1 {
+  width: calc(100% - 230px);
+}
+.effet header.sheet-header div.aData h1 input {
+  margin: 0px;
+  width: 100%;
+  border: 0px;
+  text-align: center;
+}
+.effet header.sheet-header div.aData select {
+  width: 230px;
+  height: 48px;
+  line-height: 48px;
+  font-size: inherit;
+  border-top: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+  border-left: 1px solid white;
+  color: white;
+  border-radius: 0px;
+}
+.effet header.sheet-header div.aData select option {
+  background: RGB(76 74 90);
+}
+.effet div.editor {
+  border-top: 1px solid white;
+}
+.effet div.editor .tox {
+  min-height: inherit;
+}
+.effet .editor-edit {
+  background: RGB(43 42 51);
+}
+.effet .tox-editor-container {
+  background: whitesmoke;
+}
+.effet div.effetCustom {
+  display: flex;
+  position: relative;
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-bottom: 5px;
+}
+.effet div.effetCustom div.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.effet div.effetCustom div.header input.nom {
+  width: calc(100% - 100px);
+  height: 32px;
+  padding-top: 10px;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid white;
+  border-radius: 0px;
+  font-variant: small-caps;
+}
+.effet div.effetCustom div.header input.nom::placeholder {
+  color: white;
+}
+.effet div.effetCustom div.header button.ajouter {
+  width: 100px;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  background: RGB(76 74 90);
+}
+.effet div.effetCustom div.header.edit input.nom {
+  width: calc(100% - 200px);
+}
+.effet div.effetCustom div.header.edit button.update,
+.effet div.effetCustom div.header.edit button.supprimer {
+  width: 100px;
+  background: RGB(76 74 90);
+}
+.effet div.effetCustom div.header.edit button.update {
+  width: 100px;
+  border-left: 1px solid black;
+  background: RGB(76 74 90);
+}
+.effet div.effetCustom div.header.edit button.supprimer {
+  width: 100px;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  background: RGB(76 74 90);
+}
+.effet div.effetCustom div.attaque,
+.effet div.effetCustom div.degats,
+.effet div.effetCustom div.violence {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  width: calc(100% / 2);
+  flex-wrap: wrap;
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  border-bottom: 1px solid RGB(87 110 178);
+}
+.effet div.effetCustom div.attaque h2,
+.effet div.effetCustom div.degats h2,
+.effet div.effetCustom div.violence h2 {
+  font-size: 14px;
+  padding: 0px;
+  text-align: center;
+}
+.effet div.effetCustom div.attaque label,
+.effet div.effetCustom div.degats label,
+.effet div.effetCustom div.violence label {
+  display: flex;
+  position: relative;
+  width: 100%;
+  line-height: 26px;
+  justify-content: space-between;
+  flex: none;
+}
+.effet div.effetCustom div.attaque label span,
+.effet div.effetCustom div.degats label span,
+.effet div.effetCustom div.violence label span {
+  background: RGB(76 74 90);
+  padding-left: 5px;
+}
+.effet div.effetCustom div.attaque label span.simpleSeparation,
+.effet div.effetCustom div.degats label span.simpleSeparation,
+.effet div.effetCustom div.violence label span.simpleSeparation {
+  border-top: 1px solid black;
+}
+.effet div.effetCustom div.attaque label input,
+.effet div.effetCustom div.degats label input,
+.effet div.effetCustom div.violence label input,
+.effet div.effetCustom div.attaque label select,
+.effet div.effetCustom div.degats label select,
+.effet div.effetCustom div.violence label select {
+  color: white;
+  border: 0px;
+  padding: 0px;
+  background: RGB(43 42 51);
+  border-radius: 0px;
+}
+.effet div.effetCustom div.attaque label input,
+.effet div.effetCustom div.degats label input,
+.effet div.effetCustom div.violence label input {
+  text-align: center;
+  position: absolute;
+  right: 0px;
+  height: 100%;
+}
+.effet div.effetCustom div.attaque label select,
+.effet div.effetCustom div.degats label select,
+.effet div.effetCustom div.violence label select {
+  text-align: left;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  border-radius: 0px;
+}
+.effet div.effetCustom div.attaque label select option,
+.effet div.effetCustom div.degats label select option,
+.effet div.effetCustom div.violence label select option,
+.effet div.effetCustom div.attaque label select optgroup,
+.effet div.effetCustom div.degats label select optgroup,
+.effet div.effetCustom div.violence label select optgroup {
+  background: RGB(76 74 90);
+}
+.effet div.effetCustom div.attaque label select.center,
+.effet div.effetCustom div.degats label select.center,
+.effet div.effetCustom div.violence label select.center {
+  text-align: center;
+  padding-left: 15px;
+}
+.effet div.effetCustom div.attaque label textarea,
+.effet div.effetCustom div.degats label textarea,
+.effet div.effetCustom div.violence label textarea {
+  color: white;
+  border: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: left;
+  background: RGB(43 42 51);
+  font-family: 'Signika';
+  height: 26px;
+  border-radius: 0px;
+}
+.effet div.effetCustom div.attaque label.longspan span,
+.effet div.effetCustom div.degats label.longspan span,
+.effet div.effetCustom div.violence label.longspan span {
+  width: calc(100% - 50px);
+}
+.effet div.effetCustom div.attaque label.longspan input,
+.effet div.effetCustom div.degats label.longspan input,
+.effet div.effetCustom div.violence label.longspan input,
+.effet div.effetCustom div.attaque label.longspan select,
+.effet div.effetCustom div.degats label.longspan select,
+.effet div.effetCustom div.violence label.longspan select {
+  width: 50px;
+}
+.effet div.effetCustom div.attaque label.shortspan span,
+.effet div.effetCustom div.degats label.shortspan span,
+.effet div.effetCustom div.violence label.shortspan span {
+  width: 90px;
+}
+.effet div.effetCustom div.attaque label.shortspan input,
+.effet div.effetCustom div.degats label.shortspan input,
+.effet div.effetCustom div.violence label.shortspan input,
+.effet div.effetCustom div.attaque label.shortspan select,
+.effet div.effetCustom div.degats label.shortspan select,
+.effet div.effetCustom div.violence label.shortspan select,
+.effet div.effetCustom div.attaque label.shortspan textarea,
+.effet div.effetCustom div.degats label.shortspan textarea,
+.effet div.effetCustom div.violence label.shortspan textarea {
+  width: calc(100% - 90px);
+}
+.effet div.effetCustom div.attaque label.shortspan textarea,
+.effet div.effetCustom div.degats label.shortspan textarea,
+.effet div.effetCustom div.violence label.shortspan textarea {
+  max-width: calc(100% - 90px);
+  min-width: calc(100% - 90px);
+}
+.effet div.effetCustom div.attaque label.middlespan span,
+.effet div.effetCustom div.degats label.middlespan span,
+.effet div.effetCustom div.violence label.middlespan span {
+  width: 200px;
+}
+.effet div.effetCustom div.attaque label.middlespan input,
+.effet div.effetCustom div.degats label.middlespan input,
+.effet div.effetCustom div.violence label.middlespan input,
+.effet div.effetCustom div.attaque label.middlespan select,
+.effet div.effetCustom div.degats label.middlespan select,
+.effet div.effetCustom div.violence label.middlespan select {
+  width: calc(100% - 200px);
+}
+.effet div.effetCustom div.attaque label.doubleInline span.title,
+.effet div.effetCustom div.degats label.doubleInline span.title,
+.effet div.effetCustom div.violence label.doubleInline span.title {
+  width: calc(100% - 50px);
+}
+.effet div.effetCustom div.attaque label.doubleInline label,
+.effet div.effetCustom div.degats label.doubleInline label,
+.effet div.effetCustom div.violence label.doubleInline label {
+  width: 50px;
+}
+.effet div.effetCustom div.attaque label.doubleInline label span.special,
+.effet div.effetCustom div.degats label.doubleInline label span.special,
+.effet div.effetCustom div.violence label.doubleInline label span.special {
+  position: absolute;
+  right: 0px;
+  width: 50%;
+  background: RGB(43 42 51);
+  text-align: left;
+  border-top: 1px solid RGB(76 74 90);
+  padding: 0px;
+}
+.effet div.effetCustom div.attaque label.doubleInline label input,
+.effet div.effetCustom div.degats label.doubleInline label input,
+.effet div.effetCustom div.violence label.doubleInline label input,
+.effet div.effetCustom div.attaque label.doubleInline label select,
+.effet div.effetCustom div.degats label.doubleInline label select,
+.effet div.effetCustom div.violence label.doubleInline label select {
+  left: 0px;
+  width: 50%;
+  text-align: right;
+}
+.effet div.effetCustom div.attaque label.hidden,
+.effet div.effetCustom div.degats label.hidden,
+.effet div.effetCustom div.violence label.hidden {
+  display: none;
+}
+.effet div.effetCustom div.attaque label:not(:first-of-type) span,
+.effet div.effetCustom div.degats label:not(:first-of-type) span,
+.effet div.effetCustom div.violence label:not(:first-of-type) span {
+  border-top: 1px solid RGB(43 42 51);
+}
+.effet div.effetCustom div.attaque label:not(:first-of-type) span.simpleSeparation,
+.effet div.effetCustom div.degats label:not(:first-of-type) span.simpleSeparation,
+.effet div.effetCustom div.violence label:not(:first-of-type) span.simpleSeparation {
+  border-top: 1px solid black;
+}
+.effet div.effetCustom div.attaque label:not(:first-of-type) input,
+.effet div.effetCustom div.degats label:not(:first-of-type) input,
+.effet div.effetCustom div.violence label:not(:first-of-type) input,
+.effet div.effetCustom div.attaque label:not(:first-of-type) select,
+.effet div.effetCustom div.degats label:not(:first-of-type) select,
+.effet div.effetCustom div.violence label:not(:first-of-type) select,
+.effet div.effetCustom div.attaque label:not(:first-of-type) textarea,
+.effet div.effetCustom div.degats label:not(:first-of-type) textarea,
+.effet div.effetCustom div.violence label:not(:first-of-type) textarea {
+  border-top: 1px solid RGB(76 74 90);
+}
+.effet div.effetCustom div.attaque label:not(:first-of-type) input.noBorderTop,
+.effet div.effetCustom div.degats label:not(:first-of-type) input.noBorderTop,
+.effet div.effetCustom div.violence label:not(:first-of-type) input.noBorderTop,
+.effet div.effetCustom div.attaque label:not(:first-of-type) select.noBorderTop,
+.effet div.effetCustom div.degats label:not(:first-of-type) select.noBorderTop,
+.effet div.effetCustom div.violence label:not(:first-of-type) select.noBorderTop,
+.effet div.effetCustom div.attaque label:not(:first-of-type) textarea.noBorderTop,
+.effet div.effetCustom div.degats label:not(:first-of-type) textarea.noBorderTop,
+.effet div.effetCustom div.violence label:not(:first-of-type) textarea.noBorderTop {
+  border-top: 0px;
+}
+.effet div.effetCustom div.attaque label:not(:first-of-type).doubleInline span.special,
+.effet div.effetCustom div.degats label:not(:first-of-type).doubleInline span.special,
+.effet div.effetCustom div.violence label:not(:first-of-type).doubleInline span.special {
+  border-top-color: RGB(76 74 90);
+}
+.effet div.effetCustom div.attaque label:not(:first-of-type).doubleInline label span,
+.effet div.effetCustom div.degats label:not(:first-of-type).doubleInline label span,
+.effet div.effetCustom div.violence label:not(:first-of-type).doubleInline label span {
+  border-top: 1px solid RGB(76 74 90);
+}
+.effet div.effetCustom div.attaque textarea,
+.effet div.effetCustom div.degats textarea,
+.effet div.effetCustom div.violence textarea {
+  color: white;
+  border: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: left;
+  background: RGB(43 42 51);
+  font-family: 'Signika';
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+}
+.effet div.effetCustom div.attaque textarea.hidden,
+.effet div.effetCustom div.degats textarea.hidden,
+.effet div.effetCustom div.violence textarea.hidden {
+  display: none;
+}
+.effet div.effetCustom button {
+  border-left: 0px;
+  border-top: 1px solid black;
+  border-right: 0px;
+  border-bottom: 1px solid black;
+  font-variant: small-caps;
+  border-radius: 0px;
+  color: white;
+  margin: 0px;
+  cursor: pointer;
+}
+.effet div.effetCustom button.selected {
+  background: RGB(76 74 90);
+}
+.effet div.effetCustom div.editor {
+  min-height: 150px;
+  width: 100%;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  border-bottom: 1px solid white;
+}
+.knight div.editor,
+.ia div.editor,
+.pnj div.editor,
+.creature div.editor,
+.bande div.editor,
+.vehicule div.editor,
+.mechaarmure div.editor {
+  padding-left: 2px;
+  padding-right: 2px;
+}
 .knight div.editor .tox,
+.ia div.editor .tox,
 .pnj div.editor .tox,
 .creature div.editor .tox,
 .bande div.editor .tox,
@@ -14556,7 +15046,17 @@ form.capacite div.main div.effets a.edit {
 .mechaarmure div.editor .tox {
   min-height: inherit;
 }
+.knight div.editor div.tox-tinymce,
+.ia div.editor div.tox-tinymce,
+.pnj div.editor div.tox-tinymce,
+.creature div.editor div.tox-tinymce,
+.bande div.editor div.tox-tinymce,
+.vehicule div.editor div.tox-tinymce,
+.mechaarmure div.editor div.tox-tinymce {
+  border-radius: 0px;
+}
 .knight .editor-edit,
+.ia .editor-edit,
 .pnj .editor-edit,
 .creature .editor-edit,
 .bande .editor-edit,
@@ -14565,6 +15065,7 @@ form.capacite div.main div.effets a.edit {
   background: RGB(43 42 51);
 }
 .knight .tox-editor-container,
+.ia .tox-editor-container,
 .pnj .tox-editor-container,
 .creature .tox-editor-container,
 .bande .tox-editor-container,
@@ -14573,6 +15074,7 @@ form.capacite div.main div.effets a.edit {
   background: whitesmoke;
 }
 .knight header.sheet-header,
+.ia header.sheet-header,
 .pnj header.sheet-header,
 .creature header.sheet-header,
 .bande header.sheet-header,
@@ -14584,6 +15086,7 @@ form.capacite div.main div.effets a.edit {
   flex: none;
 }
 .knight header.sheet-header .profile-img,
+.ia header.sheet-header .profile-img,
 .pnj header.sheet-header .profile-img,
 .creature header.sheet-header .profile-img,
 .bande header.sheet-header .profile-img,
@@ -14596,6 +15099,7 @@ form.capacite div.main div.effets a.edit {
   margin-right: 0px;
 }
 .knight header.sheet-header .headerData,
+.ia header.sheet-header .headerData,
 .pnj header.sheet-header .headerData,
 .creature header.sheet-header .headerData,
 .bande header.sheet-header .headerData,
@@ -14609,6 +15113,7 @@ form.capacite div.main div.effets a.edit {
   flex: none;
 }
 .knight header.sheet-header .headerData .data,
+.ia header.sheet-header .headerData .data,
 .pnj header.sheet-header .headerData .data,
 .creature header.sheet-header .headerData .data,
 .bande header.sheet-header .headerData .data,
@@ -14623,6 +15128,7 @@ form.capacite div.main div.effets a.edit {
   flex: none;
 }
 .knight header.sheet-header .headerData .data h1.charname,
+.ia header.sheet-header .headerData .data h1.charname,
 .pnj header.sheet-header .headerData .data h1.charname,
 .creature header.sheet-header .headerData .data h1.charname,
 .bande header.sheet-header .headerData .data h1.charname,
@@ -14635,6 +15141,7 @@ form.capacite div.main div.effets a.edit {
   align-self: flex-start;
 }
 .knight header.sheet-header .headerData .data h1.charname input,
+.ia header.sheet-header .headerData .data h1.charname input,
 .pnj header.sheet-header .headerData .data h1.charname input,
 .creature header.sheet-header .headerData .data h1.charname input,
 .bande header.sheet-header .headerData .data h1.charname input,
@@ -14653,6 +15160,7 @@ form.capacite div.main div.effets a.edit {
   background: transparent;
 }
 .knight header.sheet-header .headerData .data label,
+.ia header.sheet-header .headerData .data label,
 .pnj header.sheet-header .headerData .data label,
 .creature header.sheet-header .headerData .data label,
 .bande header.sheet-header .headerData .data label,
@@ -14666,6 +15174,7 @@ form.capacite div.main div.effets a.edit {
   margin-top: 5px;
 }
 .knight header.sheet-header .headerData .data label span,
+.ia header.sheet-header .headerData .data label span,
 .pnj header.sheet-header .headerData .data label span,
 .creature header.sheet-header .headerData .data label span,
 .bande header.sheet-header .headerData .data label span,
@@ -14676,6 +15185,7 @@ form.capacite div.main div.effets a.edit {
   margin-right: 5px;
 }
 .knight header.sheet-header .headerData .data label input,
+.ia header.sheet-header .headerData .data label input,
 .pnj header.sheet-header .headerData .data label input,
 .creature header.sheet-header .headerData .data label input,
 .bande header.sheet-header .headerData .data label input,
@@ -14690,6 +15200,7 @@ form.capacite div.main div.effets a.edit {
   padding-top: 10px;
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure,
+.ia header.sheet-header .headerData div.buttonSelectArmure,
 .pnj header.sheet-header .headerData div.buttonSelectArmure,
 .creature header.sheet-header .headerData div.buttonSelectArmure,
 .bande header.sheet-header .headerData div.buttonSelectArmure,
@@ -14703,6 +15214,7 @@ form.capacite div.main div.effets a.edit {
   padding-right: 10px;
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
+.ia header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
 .pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
 .creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
 .bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
@@ -14717,6 +15229,7 @@ form.capacite div.main div.effets a.edit {
   position: relative;
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
+.ia header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
 .pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
 .creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
 .bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
@@ -14727,6 +15240,7 @@ form.capacite div.main div.effets a.edit {
   background: transparent;
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
+.ia header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
 .pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
 .creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
 .bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
@@ -14737,6 +15251,7 @@ form.capacite div.main div.effets a.edit {
   left: 5px;
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
+.ia header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
 .pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
 .creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
 .bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
@@ -14747,6 +15262,7 @@ form.capacite div.main div.effets a.edit {
   right: 5px;
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
+.ia header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
 .pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
 .creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
 .bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
@@ -14756,6 +15272,7 @@ form.capacite div.main div.effets a.edit {
   border-color: RGB(76 74 90);
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
+.ia header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
 .pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
 .creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
 .bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
@@ -14765,6 +15282,7 @@ form.capacite div.main div.effets a.edit {
   border-color: RGB(43 42 51);
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure button,
+.ia header.sheet-header .headerData div.buttonSelectArmure button,
 .pnj header.sheet-header .headerData div.buttonSelectArmure button,
 .creature header.sheet-header .headerData div.buttonSelectArmure button,
 .bande header.sheet-header .headerData div.buttonSelectArmure button,
@@ -14777,6 +15295,7 @@ form.capacite div.main div.effets a.edit {
   position: relative;
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure button.unselected,
+.ia header.sheet-header .headerData div.buttonSelectArmure button.unselected,
 .pnj header.sheet-header .headerData div.buttonSelectArmure button.unselected,
 .creature header.sheet-header .headerData div.buttonSelectArmure button.unselected,
 .bande header.sheet-header .headerData div.buttonSelectArmure button.unselected,
@@ -14786,6 +15305,7 @@ form.capacite div.main div.effets a.edit {
   border-color: RGB(76 74 90);
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure button.selected,
+.ia header.sheet-header .headerData div.buttonSelectArmure button.selected,
 .pnj header.sheet-header .headerData div.buttonSelectArmure button.selected,
 .creature header.sheet-header .headerData div.buttonSelectArmure button.selected,
 .bande header.sheet-header .headerData div.buttonSelectArmure button.selected,
@@ -14795,6 +15315,7 @@ form.capacite div.main div.effets a.edit {
   border-color: RGB(43 42 51);
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure.centered,
+.ia header.sheet-header .headerData div.buttonSelectArmure.centered,
 .pnj header.sheet-header .headerData div.buttonSelectArmure.centered,
 .creature header.sheet-header .headerData div.buttonSelectArmure.centered,
 .bande header.sheet-header .headerData div.buttonSelectArmure.centered,
@@ -14803,6 +15324,7 @@ form.capacite div.main div.effets a.edit {
   justify-content: center;
 }
 .knight section.menu,
+.ia section.menu,
 .pnj section.menu,
 .creature section.menu,
 .bande section.menu,
@@ -21987,6 +22509,266 @@ form.capacite div.main div.effets a.edit {
 .knight section.body div.options div.main button.selected {
   background: RGB(76 74 90);
   border-color: RGB(43 42 51);
+}
+.ia header.sheet-header .headerData {
+  min-height: 200px;
+  height: auto;
+}
+.ia header.sheet-header .headerData .data {
+  min-height: 160px;
+  height: auto;
+  align-items: flex-start;
+}
+.ia header.sheet-header .headerData .data div.caractere {
+  min-height: 120px;
+  border-bottom: 1px solid white;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  width: calc(50% - 5px);
+}
+.ia header.sheet-header .headerData .data div.caractere h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.ia header.sheet-header .headerData .data div.caractere h2.header .headerScore {
+  position: absolute;
+  width: 40px;
+  background: RGB(76 74 90);
+  line-height: 21px;
+  text-align: center;
+  right: 1px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 1px;
+}
+.ia header.sheet-header .headerData .data div.caractere h2.header .headerQuantity {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 48px;
+  background: RGB(76 74 90);
+  line-height: 22px;
+  height: 22px;
+  text-align: center;
+  right: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 0px;
+}
+.ia header.sheet-header .headerData .data div.caractere h2.header .headerQuantity input {
+  text-align: center;
+  width: 20px;
+  height: 22px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
+}
+.ia header.sheet-header .headerData .data div.caractere h2.header .headerQuantity span {
+  width: 8px;
+  line-height: 22px;
+  color: white;
+}
+.ia header.sheet-header .headerData .data div.caractere h2.header a.verrouillage {
+  position: absolute;
+  right: 5px;
+  width: max-content;
+  line-height: 21px;
+  color: white;
+  font-variant: small-caps;
+  font-size: 12px;
+}
+.ia header.sheet-header .headerData .data div.caractere h2.header a.verrouillage:hover {
+  text-shadow: 0 0 10px white;
+}
+.ia header.sheet-header .headerData .data div.caractere h2.header .far {
+  cursor: pointer;
+}
+.ia header.sheet-header .headerData .data div.caractere div.editor {
+  min-height: 120px;
+}
+.ia header.sheet-header .headerData .data div.caractere div.editor div.tox-tinymce {
+  min-height: 200px;
+}
+.ia div.iaTab {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.ia div.iaTab h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.ia div.iaTab h2.header .headerScore {
+  position: absolute;
+  width: 40px;
+  background: RGB(76 74 90);
+  line-height: 21px;
+  text-align: center;
+  right: 1px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 1px;
+}
+.ia div.iaTab h2.header .headerQuantity {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 48px;
+  background: RGB(76 74 90);
+  line-height: 22px;
+  height: 22px;
+  text-align: center;
+  right: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 0px;
+}
+.ia div.iaTab h2.header .headerQuantity input {
+  text-align: center;
+  width: 20px;
+  height: 22px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
+}
+.ia div.iaTab h2.header .headerQuantity span {
+  width: 8px;
+  line-height: 22px;
+  color: white;
+}
+.ia div.iaTab h2.header a.verrouillage {
+  position: absolute;
+  right: 5px;
+  width: max-content;
+  line-height: 21px;
+  color: white;
+  font-variant: small-caps;
+  font-size: 12px;
+}
+.ia div.iaTab h2.header a.verrouillage:hover {
+  text-shadow: 0 0 10px white;
+}
+.ia div.iaTab h2.header .far {
+  cursor: pointer;
+}
+.ia div.iaTab div.editor {
+  min-height: 55px;
+  width: 100%;
+}
+.ia div.iaTab div.editor.tinymce {
+  min-height: 150px;
+}
+.ia div.iaTab div.editor div.tox-tinymce {
+  border-radius: 0px;
+}
+.ia div.iaTab div.avantages,
+.ia div.iaTab div.inconvenients {
+  display: flex;
+  width: calc(50% - 5px);
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 5px;
+}
+.ia div.iaTab div.avantages h2.header a,
+.ia div.iaTab div.inconvenients h2.header a {
+  position: absolute;
+  right: 5px;
+  line-height: 22px;
+}
+.ia div.iaTab div.avantages div.block,
+.ia div.iaTab div.inconvenients div.block {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  border: 1px solid RGB(87 110 178);
+}
+.ia div.iaTab div.avantages div.block header,
+.ia div.iaTab div.inconvenients div.block header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  position: relative;
+}
+.ia div.iaTab div.avantages div.block header i.extendButton,
+.ia div.iaTab div.inconvenients div.block header i.extendButton {
+  line-height: 26px;
+  position: absolute;
+  font-size: 26px;
+  color: white;
+  cursor: pointer;
+}
+.ia div.iaTab div.avantages div.block header i.extendButton:hover,
+.ia div.iaTab div.inconvenients div.block header i.extendButton:hover {
+  text-shadow: 0 0 10px RGB(37 85 228);
+}
+.ia div.iaTab div.avantages div.block header span,
+.ia div.iaTab div.inconvenients div.block header span {
+  width: 100%;
+  text-align: center;
+  font-variant: small-caps;
+  line-height: 26px;
+}
+.ia div.iaTab div.avantages div.block header div.gestionButton,
+.ia div.iaTab div.inconvenients div.block header div.gestionButton {
+  display: flex;
+  height: 26px;
+  justify-content: space-between;
+  position: absolute;
+  right: 5px;
+  width: 30px;
+  align-items: center;
+}
+.ia div.iaTab div.avantages div.block span.description,
+.ia div.iaTab div.inconvenients div.block span.description {
+  display: none;
+  padding-left: 2px;
+  padding-right: 2px;
+  width: 100%;
+  text-align: justify;
+  word-break: break-all;
+  background: RGB(76 74 90);
+}
+.ia section.body {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-start;
 }
 .pnj section.menu {
   padding-bottom: 1px;

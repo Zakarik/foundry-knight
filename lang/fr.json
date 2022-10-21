@@ -1,6 +1,7 @@
 {
   "ACTOR":{
     "TypeKnight":"Knight",
+    "TypeIa":"IA",
     "TypePnj":"PNJ",
     "TypeCreature":"Créature",
     "TypeBande":"Bande",
@@ -21,7 +22,8 @@
     "TypeArmurelegende":"Méta-Armure de légende",
     "TypeCapacite":"Capacité (PNJ)",
     "TypeCarteheroique":"Carte du destin",
-    "TypeCapaciteheroique":"Capacité héroïque"
+    "TypeCapaciteheroique":"Capacité héroïque",
+    "TypeEffet":"Effet d'arme personnalisé"
   },
   "KNIGHT": {
     "Nom":"Nom",
@@ -600,6 +602,7 @@
     },
     "EFFETS":{
       "Label":"Effets",
+      "Effet":"Effet",
       "Edit":"Modifier les effet",
       "Add":"Effets possibles à ajouter",
       "Presents":"Effets présents",
@@ -884,7 +887,10 @@
     "AMELIORATIONS":{
       "LABEL":{
         "Distance":"Améliorations",
+        "DistanceLong":"Amélioration d'arme à distance",
+        "Structurelle":"Amélioration structurelle",
         "Structurelles":"Améliorations structurelles",
+        "Ornementale":"Amélioration ornementale",
         "Ornementales":"Améliorations ornementales"
       },
       "EDIT":{
@@ -2050,6 +2056,7 @@
       "Violence": "Violence",
       "Debordement": "Débordement",
       "Editer": "Editer",
+      "MettreAJour": "Mettre à jour",
       "Valider": "Valider",
       "Annuler": "Annuler",
       "Oui": "Oui",
@@ -2073,8 +2080,8 @@
       "GainImpregnation":"Gains d'imprégnations",
       "Verrouiller":"Verrouiller",
       "Deverouiller":"Déverrouiller",
-      "Activer":"Activer",
-      "Desactiver":"Désactiver",
+      "Activer":"Activé",
+      "Desactiver":"Désactivé",
       "Prolonger":"Prolonger",
       "Limite":"Limite",
       "Choisir":"Choisir",

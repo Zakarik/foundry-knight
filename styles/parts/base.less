@@ -1,4 +1,5 @@
 .knight,
+.ia,
 .pnj,
 .creature,
 .bande,
@@ -166,6 +167,10 @@
     div.effets {
       div {
         padding-left:25px;
+
+        &.wEdit {
+          padding-left:40px;
+        }
         
         img.delete {
           display: inline-block;
@@ -176,6 +181,23 @@
           background: @lightBlack;
           top: 4px;
           left: 2px;
+          cursor: pointer;
+  
+            &.clicked,
+            &:hover {
+                filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+            }
+        }
+
+        img.edit {
+          display: inline-block;
+          position: absolute;
+          width: 15px;
+          height: 15px;
+          border: 0px;
+          background: @lightBlack;
+          top: 4px;
+          left: 20px;
           cursor: pointer;
   
             &.clicked,
@@ -297,6 +319,31 @@
           border-left:1px solid black;
           border-right:1px solid black;
           background:@lightBlack;
+        }
+
+        &.edit {
+          input.nom {
+            width:calc(100% - 200px);
+          }
+
+          button.update,
+          button.supprimer {
+            width:100px;
+            background:@lightBlack;
+          }
+
+          button.update {
+            width:100px;
+            border-left:1px solid black;
+            background:@lightBlack;
+          }
+
+          button.supprimer {
+            width:100px;
+            border-left:1px solid black;
+            border-right:1px solid black;
+            background:@lightBlack;
+          }
         }
       }
       

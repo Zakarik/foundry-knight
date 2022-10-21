@@ -1137,7 +1137,8 @@ export class MechaArmureSheet extends ActorSheet {
     itemBaseType === 'armure' || itemBaseType === 'avantage' || 
     itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' || 
     itemBaseType === 'contact' || itemBaseType === 'blessure' || 
-    itemBaseType === 'trauma' || itemBaseType === 'armurelegende' || itemBaseType === 'arme') return;
+    itemBaseType === 'trauma' || itemBaseType === 'armurelegende' || itemBaseType === 'arme' ||
+    itemBaseType === 'effet') return;
 
     const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
 

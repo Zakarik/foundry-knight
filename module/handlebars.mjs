@@ -346,7 +346,6 @@
     });
 
     Handlebars.registerHelper('isHigherThan', function (value, compare) {
-        console.log(value);
         let result = false;
 
         if(value > compare) result = true;

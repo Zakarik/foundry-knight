@@ -20,6 +20,8 @@ export class AvantageSheet extends ItemSheet {
   getData() {
     const context = super.getData();
 
+    if(this.actor.type === 'ia') context.data.system.onlyIA = true;
+
     context.systemData = context.data.system;
 
     return context;
