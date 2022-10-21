@@ -12,6 +12,7 @@ export class ArmeSheet extends ItemSheet {
       width: 700,
       height: 450,
       scrollY: [".attributes"],
+      dragDrop: [{dropSelector:'.armeWindows'}]
     });
   }
 
@@ -49,7 +50,7 @@ export class ArmeSheet extends ItemSheet {
 
     context.systemData = context.data.system;
 
-
+    console.log(context);
     return context;
   }
 
@@ -99,7 +100,7 @@ export class ArmeSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, typeEffets:'distance', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.Distance")}`}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, typeEffets:'distance', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Distance")}`}).render(true);
     });
 
     html.find('div.ornementales a.edit').click(async ev => {
@@ -111,7 +112,7 @@ export class ArmeSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, typeEffets:'ornementales', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.Ornementales")}`}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, typeEffets:'ornementales', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Ornementales")}`}).render(true);
     });
 
     html.find('div.structurelles a.edit').click(async ev => {
@@ -123,7 +124,7 @@ export class ArmeSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, typeEffets:'structurelles', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.Structurelles")}`}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, typeEffets:'structurelles', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Structurelles")}`}).render(true);
     });
 
     html.find('img.info').click(ev => {
@@ -154,6 +155,199 @@ export class ArmeSheet extends ItemSheet {
       span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
       $(ev.currentTarget).toggleClass("clicked");
     });
+  }
+  
+  async _onDrop(event) {
+    const data = TextEditor.getDragEventData(event);
+    const cls = getDocumentClass(data?.type);
+    if ( !cls || !(cls.collectionName in Adventure.contentFields) ) return;
+    const document = await cls.fromDropData(data);
+    const getData = this.getData().data.system;
+    const type = document.type;
+    const typeEffet = document.system.type;
+
+    if(type === 'effet') {
+      const newData = [];
+      const base = getData[typeEffet].custom;
+      const attaque = document.system.attaque;
+      const degats = document.system.degats;
+      const violence = document.system.violence;
+
+      if(getData.type === 'distance') {
+        if(typeEffet === 'effets' || typeEffet === 'distance') {          
+          newData.push({
+            label:document.name,
+            description:document.system.description,
+            attaque:{
+              jet:attaque.jet,
+              reussite:attaque.reussite,
+              aspect:{
+                aeInclusFixe:attaque.aspect.aeInclusFixe,
+                aeInclusJet:attaque.aspect.aeInclusJet,
+                fixe:attaque.aspect.fixe,
+                jet:attaque.aspect.jet,
+                labelFixe:attaque.aspect.aeInclusFixe ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusFixe") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+                labelJet:attaque.aspect.aeInclusJet ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusJet") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet")
+              },
+              carac:{
+                odInclusFixe:attaque.carac.odInclusFixe,
+                odInclusJet:attaque.carac.odInclusJet,
+                fixe:attaque.carac.fixe,
+                jet:attaque.carac.jet,
+                labelFixe:attaque.carac.odInclusFixe ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusFixe") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+                labelJet:attaque.carac.odInclusJet ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusJet") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet")
+              },
+              conditionnel:{
+                has:attaque.conditionnel.has,
+                conditione:attaque.conditionnel.condition,
+                label:attaque.conditionnel.has ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Condition") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoCondition")
+              },
+            },
+            degats:{
+              jet:degats.jet,
+              reussite:degats.reussite,
+              aspect:{
+                aeInclusFixe:degats.aspect.aeInclusFixe,
+                aeInclusJet:degats.aspect.aeInclusJet,
+                fixe:degats.aspect.fixe,
+                jet:degats.aspect.jet,
+                labelFixe:degats.aspect.aeInclusFixe ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusFixe") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+                labelJet:degats.aspect.aeInclusJet ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusJet") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet")
+              },
+              carac:{
+                odInclusFixe:degats.carac.odInclusFixe,
+                odInclusJet:degats.carac.odInclusJet,
+                fixe:degats.carac.fixe,
+                jet:degats.carac.jet,
+                labelFixe:degats.carac.odInclusFixe ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusFixe") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+                labelJet:degats.carac.odInclusJet ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusJet") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet")
+              },
+              conditionnel:{
+                has:degats.conditionnel.has,
+                conditione:degats.conditionnel.condition,
+                label:degats.conditionnel.has ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Condition") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoCondition")
+              },
+            },
+            violence:{
+              jet:violence.jet,
+              reussite:violence.reussite,
+              aspect:{
+                aeInclusFixe:violence.aspect.aeInclusFixe,
+                aeInclusJet:violence.aspect.aeInclusJet,
+                fixe:violence.aspect.fixe,
+                jet:violence.aspect.jet,
+                labelFixe:violence.aspect.aeInclusFixe ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusFixe") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+                labelJet:violence.aspect.aeInclusJet ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusJet") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet")
+              },
+              carac:{
+                odInclusFixe:violence.carac.odInclusFixe,
+                odInclusJet:violence.carac.odInclusJet,
+                fixe:violence.carac.fixe,
+                jet:violence.carac.jet,
+                labelFixe:violence.carac.odInclusFixe ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusFixe") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+                labelJet:violence.carac.odInclusJet ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusJet") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet")
+              },
+              conditionnel:{
+                has:violence.conditionnel.has,
+                conditione:violence.conditionnel.condition,
+                label:violence.conditionnel.has ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Condition") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoCondition")
+              },
+            },
+          });
+
+          let update = newData.concat(base);
+
+          this.item.update({[`system.${typeEffet}.custom`]:update});
+        }
+      } else if(getData.type === 'contact') {
+        if(typeEffet === 'effets' || typeEffet === 'structurelles' || typeEffet === 'ornementales') {          
+          newData.push({
+            label:document.name,
+            description:document.system.description,
+            attaque:{
+              jet:attaque.jet,
+              reussite:attaque.reussite,
+              aspect:{
+                aeInclusFixe:attaque.aspect.aeInclusFixe,
+                aeInclusJet:attaque.aspect.aeInclusJet,
+                fixe:attaque.aspect.fixe,
+                jet:attaque.aspect.jet,
+                labelFixe:attaque.aspect.aeInclusFixe ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusFixe") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+                labelJet:attaque.aspect.aeInclusJet ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusJet") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet")
+              },
+              carac:{
+                odInclusFixe:attaque.carac.odInclusFixe,
+                odInclusJet:attaque.carac.odInclusJet,
+                fixe:attaque.carac.fixe,
+                jet:attaque.carac.jet,
+                labelFixe:attaque.carac.odInclusFixe ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusFixe") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+                labelJet:attaque.carac.odInclusJet ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusJet") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet")
+              },
+              conditionnel:{
+                has:attaque.conditionnel.has,
+                conditione:attaque.conditionnel.condition,
+                label:attaque.conditionnel.has ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Condition") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Nocondition")
+              },
+            },
+            degats:{
+              jet:degats.jet,
+              reussite:degats.reussite,
+              aspect:{
+                aeInclusFixe:degats.aspect.aeInclusFixe,
+                aeInclusJet:degats.aspect.aeInclusJet,
+                fixe:degats.aspect.fixe,
+                jet:degats.aspect.jet,
+                labelFixe:degats.aspect.aeInclusFixe ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusFixe") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+                labelJet:degats.aspect.aeInclusJet ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusJet") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet")
+              },
+              carac:{
+                odInclusFixe:degats.carac.odInclusFixe,
+                odInclusJet:degats.carac.odInclusJet,
+                fixe:degats.carac.fixe,
+                jet:degats.carac.jet,
+                labelFixe:degats.carac.odInclusFixe ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusFixe") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+                labelJet:degats.carac.odInclusJet ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusJet") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet")
+              },
+              conditionnel:{
+                has:degats.conditionnel.has,
+                conditione:degats.conditionnel.condition,
+                label:degats.conditionnel.has ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Condition") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Nocondition")
+              },
+            },
+            violence:{
+              jet:violence.jet,
+              reussite:violence.reussite,
+              aspect:{
+                aeInclusFixe:violence.aspect.aeInclusFixe,
+                aeInclusJet:violence.aspect.aeInclusJet,
+                fixe:violence.aspect.fixe,
+                jet:violence.aspect.jet,
+                labelFixe:violence.aspect.aeInclusFixe ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusFixe") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+                labelJet:violence.aspect.aeInclusJet ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusJet") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet")
+              },
+              carac:{
+                odInclusFixe:violence.carac.odInclusFixe,
+                odInclusJet:violence.carac.odInclusJet,
+                fixe:violence.carac.fixe,
+                jet:violence.carac.jet,
+                labelFixe:violence.carac.odInclusFixe ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusFixe") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
+                labelJet:violence.carac.odInclusJet ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusJet") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet")
+              },
+              conditionnel:{
+                has:violence.conditionnel.has,
+                conditione:violence.conditionnel.condition,
+                label:violence.conditionnel.has ? game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Condition") : game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Nocondition")
+              },
+            },
+          });
+
+          let update = newData.concat(base);
+
+          this.item.update({[`system.${typeEffet}.custom`]:update});
+        }
+      }
+    }
+
   }
 
   _prepareEffets(context) {

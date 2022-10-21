@@ -130,15 +130,15 @@ export class ModuleSheet extends ItemSheet {
 
       switch(type) {
         case 'distance':
-          label = label = `${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.Distance")}`
+          label = label = `${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Distance")}`
           break;
 
         case 'ornementales':
-          label = `${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.Ornementales")}`
+          label = `${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Ornementales")}`
           break;
 
         case 'structurelles':
-          label = `${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.Structurelles")}`
+          label = `${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Structurelles")}`
           break;
 
         default:

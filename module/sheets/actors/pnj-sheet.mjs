@@ -864,7 +864,8 @@ export class PNJSheet extends ActorSheet {
     itemBaseType === 'armure' || itemBaseType === 'avantage' || 
     itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' || 
     itemBaseType === 'contact' || itemBaseType === 'blessure' || 
-    itemBaseType === 'trauma' || itemBaseType === 'armurelegende') return;
+    itemBaseType === 'trauma' || itemBaseType === 'armurelegende' ||
+    itemBaseType === 'effet') return;
 
     const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
 

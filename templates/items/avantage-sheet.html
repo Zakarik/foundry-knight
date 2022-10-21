@@ -1,14 +1,16 @@
 <form class="flexcol {{cssClass}}" autocomplete="off">
     <header class="sheet-header flexrow">
         <div class="flexcol aData">
-            <h1 class="charname">
+            <h1 class="charname {{#if systemData.onlyIA}}full{{/if}}">
                 <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+                {{#unless systemData.onlyIA}}
                 <select name="system.type">
                     {{#select systemData.type}}
                         <option value="standard">{{localize "KNIGHT.AUTRE.Standard"}}</option>
                         <option value="ia">{{localize "KNIGHT.IA.Label"}}</option>
                     {{/select}}
                 </select>
+                {{/unless}}
             </h1>
             {{#if (isValue systemData.type 'standard')}}
             <div class="main">

@@ -5,6 +5,7 @@ import { RollKnight } from "./documents/roll.mjs";
 
 // Import sheet classes.
 import { KnightSheet } from "./sheets/actors/knight-sheet.mjs";
+import { IASheet } from "./sheets/actors/ia-sheet.mjs";
 import { PNJSheet } from "./sheets/actors/pnj-sheet.mjs";
 import { CreatureSheet } from "./sheets/actors/creature-sheet.mjs";
 import { BandeSheet } from "./sheets/actors/bande-sheet.mjs";
@@ -21,6 +22,7 @@ import { ArmureSheet } from "./sheets/items/armure-sheet.mjs";
 import { ArmureLegendeSheet } from "./sheets/items/armurelegende-sheet.mjs";
 import { ModuleSheet } from "./sheets/items/module-sheet.mjs";
 import { ArmeSheet } from "./sheets/items/arme-sheet.mjs";
+import { EffetSheet } from "./sheets/items/effet-sheet.mjs";
 import { CapaciteSheet } from "./sheets/items/capacite-sheet.mjs";
 import { CarteHeroiqueSheet } from "./sheets/items/carteheroique-sheet.mjs";
 import { CapaciteHeroiqueSheet } from "./sheets/items/capaciteheroique-sheet.mjs";
@@ -53,6 +55,7 @@ Hooks.once('init', async function() {
   game.knight = {
     applications: {
       KnightSheet,
+      IASheet,
       PNJSheet,
       CreatureSheet,
       BandeSheet,
@@ -108,6 +111,11 @@ Hooks.once('init', async function() {
 
   Actors.registerSheet("knight", KnightSheet, { 
     types: ["knight"],
+    makeDefault: true 
+  });
+
+  Actors.registerSheet("ia", IASheet, { 
+    types: ["ia"],
     makeDefault: true 
   });
 
@@ -203,6 +211,11 @@ Hooks.once('init', async function() {
 
   Items.registerSheet("capaciteheroique", CapaciteHeroiqueSheet, { 
     types: ["capaciteheroique"],
+    makeDefault: true 
+  });
+
+  Items.registerSheet("effet", EffetSheet, { 
+    types: ["effet"],
     makeDefault: true 
   });
 });

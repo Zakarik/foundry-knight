@@ -1,0 +1,294 @@
+<form class="flexcol {{cssClass}}" autocomplete="off">
+    <header class="sheet-header flexrow">
+        <div class="aData">
+            <h1 class="charname">
+                <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+            </h1>
+            <select name="system.type">
+                {{#select systemData.type}}
+                    <option value="effets">{{localize "KNIGHT.EFFETS.Effet"}}</option>
+                    <option value="distance">{{localize "KNIGHT.AMELIORATIONS.LABEL.DistanceLong"}}</option>
+                    <option value="structurelles">{{localize "KNIGHT.AMELIORATIONS.LABEL.Structurelle"}}</option>
+                    <option value="ornementales">{{localize "KNIGHT.AMELIORATIONS.LABEL.Ornementale"}}</option>
+                {{/select}}
+            </select>
+        </div>
+    </header>
+    <div class="effetCustom">        
+        {{editor systemData.description target="system.description" button=true owner="owner" editable="editable"}}
+
+        <div class="attaque">
+            <h2 class="header">{{localize "KNIGHT.BONUS.Attaque"}}</h2>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.BONUS.Succes"}}</span>
+                <input type="number" name="system.attaque.reussite" value="{{systemData.attaque.reussite}}" min="0"/>
+            </label>
+            <label class="doubleInline">
+                <span class="title">{{localize "KNIGHT.BONUS.Jet"}}</span>
+                <label>
+                    <input type="number" name="system.attaque.jet" value="{{systemData.attaque.jet}}" min="0"/>
+                    <span class="special">D</span>
+                </label>
+            </label>
+            <label class="middlespan">
+                <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.CaracFixe"}}</span>
+                <select name="system.attaque.carac.fixe" data-type="attaque" data-subtype="fixe">
+                    {{#select systemData.attaque.carac.fixe}}
+                        <option value=""></option>
+                        {{#each systemData.aspects as | key aspect|}}
+                            <optgroup label="{{getAspect aspect}}">
+                                {{#each key as | keyCarac caracteristique|}}
+                                    <option value="{{keyCarac}}">{{getCarac keyCarac}}</option>
+                                {{/each}}
+                            </optgroup>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+            <button type="action" class="{{#if systemData.attaque.carac.odInclusFixe}}selected{{else}}unselected{{/if}}"
+            data-type="attaque" data-subtype="odInclusFixe">
+                {{systemData.attaque.carac.labelFixe}}
+            </button>
+            <label class="middlespan">
+                <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.CaracJet"}}</span>
+                <select class="noBorderTop" name="system.attaque.carac.jet" data-type="attaque" data-subtype="jet">
+                    {{#select systemData.attaque.carac.jet}}
+                        <option value=""></option>
+                        {{#each systemData.aspects as | key aspect|}}
+                            <optgroup label="{{getAspect aspect}}">
+                                {{#each key as | keyCarac caracteristique|}}
+                                    <option value="{{keyCarac}}">{{getCarac keyCarac}}</option>
+                                {{/each}}
+                            </optgroup>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+            <button type="action" class="{{#if systemData.attaque.carac.odInclusJet}}selected{{else}}unselected{{/if}}"
+            data-type="attaque" data-subtype="odInclusJet">
+                {{systemData.attaque.carac.labelJet}}
+            </button>
+
+            <!-- POUR LES PNJ -->
+            <label class="middlespan">
+                <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.AspectFixe"}}</span>
+                <select class="noBorderTop" name="system.attaque.aspect.fixe" data-type="attaque" data-subtype="fixe" data-pnj="true">
+                    {{#select systemData.attaque.aspect.fixe}}
+                        <option value=""></option>
+                        {{#each systemData.aspects as | key aspect|}}
+                            <option value="{{aspect}}">{{getAspect aspect}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+            <button type="action" class="{{#if systemData.attaque.aspect.aeInclusFixe}}selected{{else}}unselected{{/if}}"
+            data-type="attaque" data-subtype="aeInclusFixe">
+                {{systemData.attaque.aspect.labelFixe}}
+            </button>
+            <label class="middlespan">
+                <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.CaracJet"}}</span>
+                <select class="noBorderTop" name="system.attaque.aspect.jet" data-type="attaque" data-subtype="jet" data-pnj="true">
+                    {{#select systemData.attaque.aspect.jet}}
+                        <option value=""></option>
+                        {{#each systemData.aspects as | key aspect|}}
+                                <option value="{{aspect}}">{{getAspect aspect}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+            <button type="action" class="{{#if systemData.attaque.aspect.aeInclusJet}}selected{{else}}unselected{{/if}}"
+            data-type="attaque" data-subtype="aeInclusJet">
+                {{systemData.attaque.aspect.labelJet}}
+            </button>
+            <!-- FIN POUR LES PNJ -->
+
+            <button type="action" class="{{#if systemData.attaque.conditionnel.has}}selected{{else}}unselected{{/if}}"
+            data-type="attaque" data-subtype="conditionnel">
+                {{systemData.attaque.conditionnel.label}}
+            </button>
+            <textarea class="{{#unless systemData.attaque.conditionnel.has}}hidden{{/unless}}" name="system.attaque.conditionnel.condition">{{systemData.attaque.conditionnel.condition}}</textarea>
+        </div>
+        <div class="degats">
+            <h2 class="header">{{localize "KNIGHT.BONUS.Degats"}}</h2>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.BONUS.Fixe"}}</span>
+                <input type="number" name="system.degats.fixe" value="{{systemData.degats.fixe}}" min="0"/>
+            </label>
+            <label class="doubleInline">
+                <span class="title">{{localize "KNIGHT.BONUS.Jet"}}</span>
+                <label>
+                    <input type="number" name="system.degats.jet" value="{{systemData.degats.jet}}" min="0"/>
+                    <span class="special">D</span>
+                </label>
+            </label>
+            <label class="middlespan">
+                <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.CaracFixe"}}</span>
+                <select name="system.degats.carac.fixe" data-type="degats" data-subtype="fixe">
+                    {{#select systemData.degats.carac.fixe}}
+                        <option value=""></option>
+                        {{#each systemData.aspects as | key aspect|}}
+                            <optgroup label="{{getAspect aspect}}">
+                                {{#each key as | keyCarac caracteristique|}}
+                                    <option value="{{keyCarac}}">{{getCarac keyCarac}}</option>
+                                {{/each}}
+                            </optgroup>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+            <button type="action" class="{{#if systemData.degats.carac.odInclusFixe}}selected{{else}}unselected{{/if}}"
+            data-type="degats" data-subtype="odInclusFixe">
+                {{systemData.degats.carac.labelFixe}}
+            </button>
+            <label class="middlespan">
+                <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.CaracJet"}}</span>
+                <select class="noBorderTop" name="system.degats.carac.jet" data-type="degats" data-subtype="jet">
+                    {{#select systemData.degats.carac.jet}}
+                        <option value=""></option>
+                        {{#each systemData.aspects as | key aspect|}}
+                            <optgroup label="{{getAspect aspect}}">
+                                {{#each key as | keyCarac caracteristique|}}
+                                    <option value="{{keyCarac}}">{{getCarac keyCarac}}</option>
+                                {{/each}}
+                            </optgroup>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+            <button type="action" class="{{#if systemData.degats.carac.odInclusJet}}selected{{else}}unselected{{/if}}"
+            data-type="degats" data-subtype="odInclusJet">
+                {{systemData.degats.carac.labelJet}}
+            </button>
+
+            <!-- POUR LES PNJ -->
+            <label class="middlespan">
+                <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.AspectFixe"}}</span>
+                <select class="noBorderTop" name="system.degats.aspect.fixe" data-type="degats" data-subtype="fixe" data-pnj="true">
+                    {{#select systemData.degats.aspect.fixe}}
+                        <option value=""></option>
+                        {{#each systemData.aspects as | key aspect|}}
+                            <option value="{{aspect}}">{{getAspect aspect}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+            <button type="action" class="{{#if systemData.degats.aspect.aeInclusFixe}}selected{{else}}unselected{{/if}}"
+            data-type="degats" data-subtype="aeInclusFixe">
+                {{systemData.degats.aspect.labelFixe}}
+            </button>
+            <label class="middlespan">
+                <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.AspectJet"}}</span>
+                <select class="noBorderTop" name="system.degats.aspect.jet" data-type="degats" data-subtype="jet" data-pnj="true">
+                    {{#select systemData.degats.aspect.jet}}
+                        <option value=""></option>
+                        {{#each systemData.aspects as | key aspect|}}
+                                <option value="{{aspect}}">{{getAspect aspect}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+            <button type="action" class="{{#if systemData.degats.aspect.aeInclusJet}}selected{{else}}unselected{{/if}}"
+            data-type="degats" data-subtype="aeInclusJet">
+                {{systemData.degats.aspect.labelJet}}
+            </button>
+            <!-- FIN POUR LES PNJ -->
+
+            <button type="action" class="{{#if systemData.degats.conditionnel.has}}selected{{else}}unselected{{/if}}"
+            data-type="degats" data-subtype="conditionnel">
+                {{systemData.degats.conditionnel.label}}
+            </button>
+            <textarea class="{{#unless systemData.degats.conditionnel.has}}hidden{{/unless}}" name="system.degats.conditionnel.condition">{{systemData.degats.conditionnel.condition}}</textarea>
+        </div>
+        <div class="violence">
+            <h2 class="header">{{localize "KNIGHT.BONUS.Violence"}}</h2>
+            <label class="longspan">
+                <span>{{localize "KNIGHT.BONUS.Fixe"}}</span>
+                <input type="number" name="system.violence.fixe" value="{{systemData.violence.fixe}}" min="0"/>
+            </label>
+            <label class="doubleInline">
+                <span class="title">{{localize "KNIGHT.BONUS.Jet"}}</span>
+                <label>
+                    <input type="number" name="system.violence.jet" value="{{systemData.violence.jet}}" min="0"/>
+                    <span class="special">D</span>
+                </label>
+            </label>
+            <label class="middlespan">
+                <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.CaracFixe"}}</span>
+                <select name="system.violence.carac.fixe" data-type="violence" data-subtype="fixe">
+                    {{#select systemData.violence.carac.fixe}}
+                        <option value=""></option>
+                        {{#each systemData.aspects as | key aspect|}}
+                            <optgroup label="{{getAspect aspect}}">
+                                {{#each key as | keyCarac caracteristique|}}
+                                    <option value="{{keyCarac}}">{{getCarac keyCarac}}</option>
+                                {{/each}}
+                            </optgroup>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+            <button type="action" class="{{#if systemData.violence.carac.odInclusFixe}}selected{{else}}unselected{{/if}}"
+            data-type="violence" data-subtype="odInclusFixe">
+                {{systemData.violence.carac.labelFixe}}
+            </button>
+            <label class="middlespan">
+                <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.CaracJet"}}</span>
+                <select class="noBorderTop" name="system.violence.carac.jet" data-type="violence" data-subtype="jet">
+                    {{#select systemData.violence.carac.jet}}
+                        <option value=""></option>
+                        {{#each systemData.aspects as | key aspect|}}
+                            <optgroup label="{{getAspect aspect}}">
+                                {{#each key as | keyCarac caracteristique|}}
+                                    <option value="{{keyCarac}}">{{getCarac keyCarac}}</option>
+                                {{/each}}
+                            </optgroup>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+            <button type="action" class="{{#if systemData.violence.carac.odInclusJet}}selected{{else}}unselected{{/if}}"
+            data-type="violence" data-subtype="odInclusJet">
+                {{systemData.violence.carac.labelJet}}
+            </button>
+
+            <!-- POUR LES PNJ -->
+            <label class="middlespan">
+                <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.AspectFixe"}}</span>
+                <select class="noBorderTop" name="system.violence.aspect.fixe" data-type="violence" data-subtype="fixe" data-pnj="true">
+                    {{#select systemData.violence.aspect.fixe}}
+                        <option value=""></option>
+                        {{#each systemData.aspects as | key aspect|}}
+                            <option value="{{aspect}}">{{getAspect aspect}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+            <button type="action" class="{{#if systemData.violence.aspect.aeInclusFixe}}selected{{else}}unselected{{/if}}"
+            data-type="violence" data-subtype="aeInclusFixe">
+                {{systemData.violence.aspect.labelFixe}}
+            </button>
+            <label class="middlespan">
+                <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.AspectJet"}}</span>
+                <select class="noBorderTop" name="system.violence.aspect.jet" data-type="violence" data-subtype="jet" data-pnj="true">
+                    {{#select systemData.violence.aspect.jet}}
+                        <option value=""></option>
+                        {{#each systemData.aspects as | key aspect|}}
+                                <option value="{{aspect}}">{{getAspect aspect}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+            <button type="action" class="{{#if systemData.violence.aspect.aeInclusJet}}selected{{else}}unselected{{/if}}"
+            data-type="violence" data-subtype="aeInclusJet">
+                {{systemData.violence.aspect.labelJet}}
+            </button>
+            <!-- FIN POUR LES PNJ -->
+
+            <button type="action" class="{{#if systemData.violence.conditionnel.has}}selected{{else}}unselected{{/if}}"
+            data-type="violence" data-subtype="conditionnel">
+                {{systemData.violence.conditionnel.label}}
+            </button>
+            <textarea class="{{#unless systemData.violence.conditionnel.has}}hidden{{/unless}}" name="system.violence.conditionnel.condition">{{systemData.violence.conditionnel.condition}}</textarea>
+        </div>
+    </div>
+</form>

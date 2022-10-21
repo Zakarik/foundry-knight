@@ -3,12 +3,17 @@
         <h2 class="header">{{localize "KNIGHT.EFFETS.Presents"}}</h2>
         <div class="effets">
             {{#each object.data.liste as | key effet|}}
-                <div>
+                <div class="{{#if key.custom}}wEdit{{/if}}">
                     <img class="delete" title="{{localize "KNIGHT.AUTRE.Supprimer"}}" data-custom="{{key.custom}}" data-index="{{key.id}}" src="systems/knight/assets/icons/delete.svg" />
+                    {{#if key.custom}}
+                        <img src="systems/knight/assets/icons/optionWhite.svg" data-index="{{key.id}}" class="edit" title="{{localize "KNIGHT.AUTRE.Editer"}}">
+                    {{/if}}
                     <span class="label">{{key.name}}</span>
                     <img class="info" src="systems/knight/assets/icons/info.svg" />
                     <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
                 </div>
+
+                {{log key effet}}
             {{/each}}
         </div>
         <h2 class="header">{{localize "KNIGHT.EFFETS.Add"}}</h2>
@@ -33,11 +38,20 @@
         </div>
         <h2 class="header">{{localize "KNIGHT.EFFETS.CUSTOM.Label"}}</h2>
         <div class="effetCustom">
-            <div class="header">
+            <div class="header {{#if object.data.custom.edit}}edit{{/if}}">
                 <input type="text" class="nom" name="custom.nom" value="{{object.data.custom.nom}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+                {{#if object.data.custom.edit}}
+                <button type="action" class="update">
+                    {{localize "KNIGHT.AUTRE.MettreAJour"}}
+                </button>
+                <button type="action" class="supprimer">
+                    {{localize "KNIGHT.AUTRE.Annuler"}}
+                </button>
+                {{else}}
                 <button type="action" class="ajouter">
                     {{localize "KNIGHT.AUTRE.Ajouter"}}
                 </button>
+                {{/if}}
             </div>
             
             {{editor object.data.custom.description target="custom.description" button=true owner="owner" editable="editable"}}

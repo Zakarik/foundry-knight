@@ -16,6 +16,10 @@ export class KnightActor extends Actor {
           data.img = "systems/knight/assets/icons/knight.svg";
           break;
 
+        case "ia":
+          data.img = "systems/knight/assets/icons/ia.svg";
+          break;
+
         case "pnj":
           data.img = "icons/svg/mystery-man-black.svg";
           break;
