@@ -112,7 +112,6 @@ export class KnightEffetsDialog extends FormApplication {
   }
 
   async getData(options = null) {
-    console.log(this);
     const tEffets = this.object.typeEffets;
     const possibles = CONFIG.KNIGHT.effets;
     const distance = CONFIG.KNIGHT.AMELIORATIONS.distance;
@@ -315,8 +314,6 @@ export class KnightEffetsDialog extends FormApplication {
     liste.sort(_sortByName);
 
     this.options.title = this.object.title;
-
-    console.log(this);
 
     return {
         ...super.getData(options),
@@ -960,8 +957,6 @@ export class KnightEffetsDialog extends FormApplication {
         degats:data.degats,
         violence:data.violence
       };
-
-      console.log(this.object.data.custom);
 
       this.render();
     });

@@ -22,8 +22,6 @@ export class IASheet extends ActorSheet {
     this._prepareCharacterItems(context);
 
     context.systemData = context.data.system;
-
-    console.log(context);
     
     return context;
   }

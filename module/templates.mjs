@@ -81,6 +81,7 @@ export const PreloadTemplates = async function() {
     `${path}/items/armures/evolutions/impregnation.html`,
     `${path}/items/armures/evolutions/contrecoups.html`,
     `${path}/items/armures/evolutions/apeiron.html`,
+    `${path}/items/armures/evolutions/recolteflux.html`,
     `${path}/actors/capacites/ascension.html`,
     `${path}/actors/capacites/sarcophage.html`,
     `${path}/actors/capacites/shrine.html`,

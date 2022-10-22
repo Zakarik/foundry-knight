@@ -5026,7 +5026,8 @@
                 "tour":1,
                 "hostile":2,
                 "salopard":3,
-                "patron":4
+                "patron":4,
+                "portee":"moyenne"
               },
               "horsconflit":{
                 "base":1,
