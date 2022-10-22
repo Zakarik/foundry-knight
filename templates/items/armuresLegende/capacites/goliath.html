@@ -26,15 +26,15 @@
                 <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.TailleBonus"}}</h4>
                 <label class="shortspan">
                     <span class="label">{{localize "KNIGHT.AUTRE.Maximum-short"}}</span>
-                    <input type="number" name="system.capacites.selected.goliath.taille.max" 
+                    <input type="number" name="system.capacites.selected.goliath.taille.max"
                     value="{{this.taille.max}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>
                 <label class="longspan separation">
                     <span>{{localize "KNIGHT.LATERAL.Energie"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.MBonus"}}</span>
-                    <input type="number" name="system.capacites.selected.goliath.energie" 
-                    value="{{this.energie}}" 
+                    <input type="number" name="system.capacites.selected.goliath.energie"
+                    value="{{this.energie}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>
@@ -51,35 +51,35 @@
                 </label>
                 <label class="shortspan">
                     <span>{{localize "KNIGHT.DUREE.Label"}}</span>
-                    <textarea name="system.capacites.selected.goliath.duree" 
-                    data-capacite="goliath" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;"     
+                    <textarea name="system.capacites.selected.goliath.duree"
+                    data-capacite="goliath" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;"
                     {{#if this.softlock}}disabled{{/if}}>{{this.duree}}</textarea>
                 </label>
             </div>
-    
+
             <div class="data">
                 <h4>{{localize "KNIGHT.BONUS.Succes"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.Metre"}}</h4>
                 <label class="doubleLine">
-                    <span class="label">{{localize "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.Force"}}</span>
-                    <input type="number" name="system.capacites.selected.goliath.bonus.force.value" 
-                    value="{{this.bonus.force.value}}" 
+                    <span class="label">{{localize "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.FORCE.Label"}}</span>
+                    <input type="number" name="system.capacites.selected.goliath.bonus.force.value"
+                    value="{{this.bonus.force.value}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}}/>
-                </label>   
+                </label>
                 <label class="doubleLine">
-                    <span class="label">{{localize "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.Endurance"}}</span>
-                    <input type="number" name="system.capacites.selected.goliath.bonus.endurance.value" 
-                    value="{{this.bonus.endurance.value}}" 
+                    <span class="label">{{localize "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.ENDURANCE.Label"}}</span>
+                    <input type="number" name="system.capacites.selected.goliath.bonus.endurance.value"
+                    value="{{this.bonus.endurance.value}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}}/>
-                </label> 
+                </label>
             </div>
 
             <div class="data">
                 <label class="singleLine">
                     <span>{{localize "KNIGHT.BONUS.ChampDeForce"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.Metre"}}</span>
-                    <input type="number" name="system.capacites.barbarian.selected.bonus.cdf.value" 
-                    value="{{this.bonus.cdf.value}}" 
+                    <input type="number" name="system.capacites.barbarian.selected.bonus.cdf.value"
+                    value="{{this.bonus.cdf.value}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}}/>
                 </label>
@@ -92,52 +92,52 @@
                 <div class="doubleLine double">
                     <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
                     <label>
-                        <input type="number" name="system.capacites.selected.goliath.bonus.degats.value" 
-                        value="{{this.bonus.degats.dice}}" 
+                        <input type="number" name="system.capacites.selected.goliath.bonus.degats.value"
+                        value="{{this.bonus.degats.dice}}"
                         min="0"
-                        {{#if this.softlock}}disabled{{/if}} />                    
+                        {{#if this.softlock}}disabled{{/if}} />
                         <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
                     </label>
                 </div>
                 <div class="doubleLine double">
                     <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                     <label>
-                        <input type="number" name="system.capacites.selected.goliath.bonus.violence.value" 
-                        value="{{this.bonus.violence.dice}}" 
+                        <input type="number" name="system.capacites.selected.goliath.bonus.violence.value"
+                        value="{{this.bonus.violence.dice}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}}/>
                         <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
                     </label>
                 </div>
             </div>
-    
+
             <div class="data">
                 <h4>{{localize "KNIGHT.MALUS.DefenseReaction"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.Metre"}}</h4>
                 <label class="doubleLine">
                     <span>{{localize "KNIGHT.LATERAL.Defense"}}</span>
-                    <input type="number" name="system.capacites.selected.goliath.malus.defense.value" 
-                    value="{{this.malus.defense.value}}" 
+                    <input type="number" name="system.capacites.selected.goliath.malus.defense.value"
+                    value="{{this.malus.defense.value}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}}/>
-                </label> 
+                </label>
                 <label class="doubleLine">
                     <span>{{localize "KNIGHT.LATERAL.Reaction"}}</span>
-                    <input type="number" name="system.capacites.selected.goliath.malus.reaction.value" 
-                    value="{{this.malus.reaction.value}}" 
+                    <input type="number" name="system.capacites.selected.goliath.malus.reaction.value"
+                    value="{{this.malus.reaction.value}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}}/>
-                </label> 
+                </label>
             </div>
-    
+
             <div class="data">
-                <button type="action" 
-                data-type="goliath" data-subtype="armesRack" data-name="active" data-value="{{this.armesRack.active}}" 
+                <button type="action"
+                data-type="goliath" data-subtype="armesRack" data-name="active" data-value="{{this.armesRack.active}}"
                 class="{{#if this.armesRack.active}} selected {{/if}} {{#unless this.softlock}}notDisabled{{/unless}}"
                 {{#if this.softlock}}disabled{{/if}}>{{this.armesRack.label}}</button>
                 <label class="shortspan {{#unless this.armesRack.active}} hidden {{/unless}}">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.TailleBonus"}}</span>
-                    <input type="number" name="system.capacites.selected.goliath.armesRack.value" 
-                    value="{{this.armesRack.value}}" 
+                    <input type="number" name="system.capacites.selected.goliath.armesRack.value"
+                    value="{{this.armesRack.value}}"
                     min="0"
                     max="{{this.taille.max}}"
                     {{#if this.softlock}}disabled{{/if}}/>
