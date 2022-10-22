@@ -19,8 +19,9 @@ export class AvantageSheet extends ItemSheet {
   /** @inheritdoc */
   getData() {
     const context = super.getData();
+    const type = this?.actor?.type || false;
 
-    if(this.actor.type === 'ia') context.data.system.onlyIA = true;
+    if(type !== false && type === 'ia') context.data.system.onlyIA = true;
 
     context.systemData = context.data.system;
 

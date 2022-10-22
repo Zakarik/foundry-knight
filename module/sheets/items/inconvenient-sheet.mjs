@@ -19,6 +19,9 @@ export class InconvenientSheet extends ItemSheet {
   /** @inheritdoc */
   getData() {
     const context = super.getData();
+    const type = this?.actor?.type || false;
+
+    if(type !== false && type === 'ia') context.data.system.onlyIA = true;
 
     context.systemData = context.data.system;
 

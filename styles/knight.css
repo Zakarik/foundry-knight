@@ -3956,6 +3956,7 @@
   width: 212px;
   background: RGB(76 74 90);
   border: 1px solid white;
+  object-fit: contain;
 }
 .armure form.armureWindows header {
   display: flex;
@@ -12607,6 +12608,7 @@
 }
 .module div.main img.profile-img {
   width: 153px;
+  object-fit: contain;
 }
 .module div.main div.description {
   width: calc(100% - 160px);
@@ -14046,6 +14048,7 @@
 }
 .arme form.armeWindows div.img div.blockImg img.profile-img {
   border: 0px;
+  object-fit: contain;
 }
 .arme form.armeWindows div.img label.oneLine {
   display: flex;
@@ -14330,6 +14333,7 @@ form.capacite img.profile-img {
   width: 212px;
   background: RGB(76 74 90);
   border: 1px solid white;
+  object-fit: contain;
 }
 form.capacite header.sheet-header {
   display: flex;
@@ -15097,6 +15101,7 @@ form.capacite div.main div.effets a.edit {
   border-color: white;
   background: RGB(76 74 90);
   margin-right: 0px;
+  object-fit: contain;
 }
 .knight header.sheet-header .headerData,
 .ia header.sheet-header .headerData,
@@ -19803,6 +19808,7 @@ form.capacite div.main div.effets a.edit {
   border-right: 1px solid var(--color-border-dark);
   border-radius: 0px;
   width: 153px;
+  object-fit: contain;
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion span.description,
 .knight section.body div.armure div.special div.mainData div.lion div.modulesLion span.description,
@@ -20269,6 +20275,7 @@ form.capacite div.main div.effets a.edit {
   border-right: 1px solid var(--color-border-dark);
   border-radius: 0px;
   width: 153px;
+  object-fit: contain;
 }
 .knight section.body div.armure div.modules span.description {
   display: block;
@@ -23839,6 +23846,7 @@ form.capacite div.main div.effets a.edit {
   border-right: 1px solid var(--color-border-dark);
   border-radius: 0px;
   width: 153px;
+  object-fit: contain;
 }
 .pnj section.body div.capacites div.modules span.description {
   display: block;
@@ -24770,6 +24778,7 @@ form.capacite div.main div.effets a.edit {
   border-right: 1px solid var(--color-border-dark);
   border-radius: 0px;
   width: 153px;
+  object-fit: contain;
 }
 .pnj section.body div.capacites div.capacite span.description {
   display: block;
@@ -26891,6 +26900,7 @@ form.capacite div.main div.effets a.edit {
   border-right: 1px solid var(--color-border-dark);
   border-radius: 0px;
   width: 153px;
+  object-fit: contain;
 }
 .creature section.body div.capacites div.capacite span.description {
   display: block;
@@ -28959,6 +28969,7 @@ form.capacite div.main div.effets a.edit {
   border-right: 1px solid var(--color-border-dark);
   border-radius: 0px;
   width: 153px;
+  object-fit: contain;
 }
 .bande section.body div.capacites div.capacite span.description {
   display: block;
@@ -32245,6 +32256,7 @@ form.capacite div.main div.effets a.edit {
   border-color: white;
   background: RGB(76 74 90);
   margin-right: 0px;
+  object-fit: contain;
 }
 .limited section.body.full {
   width: 100%;

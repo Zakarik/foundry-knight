@@ -41,8 +41,6 @@ export class CreatureSheet extends ActorSheet {
     this._prepareAE(context);
 
     context.systemData = context.data.system;
-
-    console.log(context);
     
     return context;
   }
@@ -1162,7 +1160,6 @@ export class CreatureSheet extends ActorSheet {
     let result = {};
 
     for (let [key, aspect] of Object.entries(listAspects)){
-      console.log(aspect);
       const aeMineur = +aspect.ae.mineur.value;
       const aeMajeur = +aspect.ae.majeur.value;
       const lMineur = `KNIGHT.ASPECTS.${key.toUpperCase()}.AE.Mineur`;

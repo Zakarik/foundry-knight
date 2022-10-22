@@ -4871,10 +4871,10 @@ export class KnightSheet extends ActorSheet {
     }
   }
 
-  async _onDrop(event) {
-    const data = TextEditor.getDragEventData(event);
+  async _onDropActor(event, data) {
+    if ( !this.actor.isOwner ) return false;
+
     const cls = getDocumentClass(data?.type);
-    if ( !cls || !(cls.collectionName in Adventure.contentFields) ) return;
     const document = await cls.fromDropData(data);
     const type = document.type;
 
@@ -4885,15 +4885,25 @@ export class KnightSheet extends ActorSheet {
       update['system.equipements.ia.surnom'] = document.name;
       update['system.equipements.ia.caractere'] = document.system.caractere;
 
+      const itemsActuels = this.actor.items;
+      for (let i of itemsActuels) {
+        if(i.type === 'avantage' || i.type === 'inconvenient') {
+          if(i.system.type === 'ia') {
+            i.delete();
+          }
+        }
+      };
+
       const items = document.items;
 
       for (let i of items) {
         await this._onDropItemCreate(i);
-      }; 
+      };
 
       this.actor.update(update);
-    }    
+    }
   }
+
 
   async _prepareCharacterItems(sheetData) {
     const actorData = sheetData.actor;
@@ -5335,8 +5345,6 @@ export class KnightSheet extends ActorSheet {
       const bonus = data.bonus;
       const malus = data.malus;
       const limitations = data.limitations;
-
-      console.log(i);
 
       // ARMURE.
       if (i.type === 'armure') {
