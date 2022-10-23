@@ -1,16 +1,16 @@
 import {
-  SortByName, 
-  searchTrueValue, 
+  SortByName,
+  searchTrueValue,
   getAspectValue,
   getAEValue,
   getCaracValue,
   getODValue,
   getCaracPiloteValue,
   getODPiloteValue,
-  getEffets, 
-  getDistance, 
-  getStructurelle, 
-  getOrnementale, 
+  getEffets,
+  getDistance,
+  getStructurelle,
+  getOrnementale,
   getCapacite,
   getModuleBonus,
   getModStyle
@@ -126,16 +126,16 @@ export class KnightRollDialog extends Application {
         buttons: buttons
       }
     }
-  
-  async setData(label, 
+
+  async setData(label,
     base, bonus, lock, difficulte, modificateur, succesBonus, degatsBonus, violenceBonus,
-    wpnContact, wpnDistance, wpnTourelles, wpnGrenade, wpnImprovisees, wpnMA, wpnLongbow, 
+    wpnContact, wpnDistance, wpnTourelles, wpnGrenade, wpnImprovisees, wpnMA, wpnLongbow,
     isWpn, idWpn, nameWpn, typeWpn, num,
     deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseeContact, deployWpnImproviseeDistance, deployGrenades, deployLongbow, deployWpnMA,
     isPNJ=false, isMA=false) {
-    
+
     this.data.label = label;
-    
+
     this.data.base = base;
     this.data.autre = bonus;
     this.data.lock = lock;
@@ -358,7 +358,7 @@ export class KnightRollDialog extends Application {
     html.find(".button1").click(this._onClickButton.bind(this));
     html.find(".button2").click(this._onClickEButton.bind(this));
     html.find(".button3").click(this.close.bind(this));
-    
+
     html.find('.header .far').click(ev => {
       const data = $(ev.currentTarget);
       const deploy = data.data("deploy");
@@ -377,37 +377,37 @@ export class KnightRollDialog extends Application {
 
       this.data.succesBonus = value;
     });
-    
+
     html.find(".modificateur").change(ev => {
       const value = +$(ev.currentTarget).val();
 
       this.data.modificateur = value;
     });
-    
+
     html.find(".degatsBonusDice").change(ev => {
       const value = +$(ev.currentTarget).val();
 
       this.data.degatsBonus.dice = value;
     });
-    
+
     html.find(".degatsBonusFixe").change(ev => {
       const value = +$(ev.currentTarget).val();
 
       this.data.degatsBonus.fixe = value;
     });
-    
+
     html.find(".violenceBonusDice").change(ev => {
       const value = +$(ev.currentTarget).val();
 
       this.data.violenceBonus.dice = value;
     });
-    
+
     html.find(".violenceBonusFixe").change(ev => {
       const value = +$(ev.currentTarget).val();
 
       this.data.violenceBonus.fixe = value;
     });
-                    
+
     html.find("div.wpn span.unselected").click(ev => {
       const type = $(ev.currentTarget);
       const effet = type.data("type");
@@ -416,7 +416,7 @@ export class KnightRollDialog extends Application {
 
       this.render(true)
     });
-    
+
     html.find("div.wpn span.relanceDgts").click(ev => {
       const cTarget = $(ev.currentTarget);
       const id = cTarget.data("id");
@@ -425,7 +425,7 @@ export class KnightRollDialog extends Application {
 
       this._doRoll(ev, false, false, true, false, id, type, name);
     });
-                    
+
     html.find("div.longbow span.unselected").click(ev => {
       const type = $(ev.currentTarget);
       const effet = type.data("type");
@@ -443,7 +443,7 @@ export class KnightRollDialog extends Application {
 
       this.render(true)
     });
-    
+
     html.find("div.longbow span.relanceDgts").click(ev => {
       const cTarget = $(ev.currentTarget);
       const id = cTarget.data("id");
@@ -452,7 +452,7 @@ export class KnightRollDialog extends Application {
 
       this._doRoll(ev, false, false, true, false, id, type, name);
     });
-                    
+
     html.find("div.grenades span.unselected").click(ev => {
       const type = $(ev.currentTarget);
       const effet = type.data("type");
@@ -461,7 +461,7 @@ export class KnightRollDialog extends Application {
 
       this.render(true)
     });
-    
+
     html.find("div.grenades span.relanceDgts").click(ev => {
       const cTarget = $(ev.currentTarget);
       const type = cTarget.data("type");
@@ -478,7 +478,7 @@ export class KnightRollDialog extends Application {
 
     html.find('div.styleCombat > span.info').click(ev => {
       const actuel = this.data.style.deploy || false;
-      
+
       let result = false;
 
       if(actuel) {
@@ -581,7 +581,7 @@ export class KnightRollDialog extends Application {
             position = "left";
             borderRadius = "border-top-left-radius";
           }
-        }        
+        }
       } else {
         if($(ev.currentTarget).parents("div.effets").position().left > width) {
           position = "right";
@@ -627,7 +627,7 @@ export class KnightRollDialog extends Application {
 
       if(type === 'portee') {
         const rangeToNumber = data.rangeToNumber;
-        
+
         cout = rangeToNumber[value];
 
         data.value = value;
@@ -640,7 +640,7 @@ export class KnightRollDialog extends Application {
 
         data.dice = value;
       }
-      
+
       data.cout = cout;
       this.render(true);
     });
@@ -667,7 +667,7 @@ export class KnightRollDialog extends Application {
     const button = this.data.buttons[id];
     this._doRoll(event, true);
   }
-  
+
   async _doRoll(event, entraide=false, attackOnly=false, dgtsOnly=false, violenceOnly=false, wpnId='', wpnType='', wpnName='') {
     const id = this.data.actor;
     const isPNJ = this.data?.pnj || false;
@@ -695,7 +695,7 @@ export class KnightRollDialog extends Application {
     else if(isMA) {
       carac = getCaracPiloteValue(data.base, id);
       od = getODPiloteValue(data.base, id);
-    } 
+    }
     else {
       carac = getCaracValue(data.base, id);
       od = getODValue(data.base, id);
@@ -711,7 +711,7 @@ export class KnightRollDialog extends Application {
           od += getODValue(data.autre[i], id);
         }
       }
-  
+
       data.autre.forEach(function(c) {
         otherC.push(game.i18n.localize(CONFIG.KNIGHT.caracteristiques[c]));
       });
@@ -742,11 +742,11 @@ export class KnightRollDialog extends Application {
         case 'contact':
           wpn = this.data.listWpnContact[numWpn].system;
           break;
-        
+
         case 'distance':
           wpn = this.data.listWpnDistance[numWpn].system;
           break;
-        
+
         case 'tourelle':
           wpn = this.data.listWpnTourelle[numWpn].system;
           break;
@@ -760,7 +760,7 @@ export class KnightRollDialog extends Application {
           break;
 
         case 'armesimprovisees':
-          wpn = this.data.listWpnImprovisees[this.data.idWpn][nameWpn].liste[numWpn];          
+          wpn = this.data.listWpnImprovisees[this.data.idWpn][nameWpn].liste[numWpn];
           break;
       }
 
@@ -769,7 +769,7 @@ export class KnightRollDialog extends Application {
       const otherWpnAttEffet = [];
       const listAllE = await this._getAllEffets (actor, wpn, typeWpn, isPNJ);
       const totalDepenseEnergie = listAllE.depenseEnergie+energieSpecial;
-   
+
       let nRoll = listAllE.nRoll;
       let onlyDgts = dgtsOnly == false ? listAllE.onlyDgts : dgtsOnly;
       let onlyViolence = violenceOnly == false ? listAllE.onlyViolence : violenceOnly;
@@ -805,7 +805,7 @@ export class KnightRollDialog extends Application {
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgEnergie),
             sound: CONFIG.sounds.dice
           };
-      
+
           ChatMessage.create(msgEnergieData);
 
           return;
@@ -840,7 +840,7 @@ export class KnightRollDialog extends Application {
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgEspoir),
             sound: CONFIG.sounds.dice
           };
-      
+
           ChatMessage.create(msgEspoirData);
 
           return;
@@ -873,13 +873,13 @@ export class KnightRollDialog extends Application {
           ChatMessage.create(rollMsgData);
         }
 
-        if(!onlyDgts || !onlyViolence) { 
+        if(!onlyDgts || !onlyViolence) {
           totalDice += listAllE.attack.totalDice;
           totalBonus += listAllE.attack.totalBonus;
 
           if(totalDice <= 0) totalDice = 1;
 
-          const attack = await this._doAttack(actor, data, wpn, otherC, carac, od, wpn?.capacite || false, totalDice, totalBonus, listAllE, addNum, barrage, systemerefroidissement, barrageValue, otherWpnAttEffet); 
+          const attack = await this._doAttack(actor, data, wpn, otherC, carac, od, wpn?.capacite || false, totalDice, totalBonus, listAllE, addNum, barrage, systemerefroidissement, barrageValue, otherWpnAttEffet);
 
           regularite += attack.regularite;
         }
@@ -950,7 +950,7 @@ export class KnightRollDialog extends Application {
     } else if(isPNJ) {
       execAtt._base = game.i18n.localize(CONFIG.KNIGHT.aspects[data.base]);
     }
-    
+
     let details = '';
 
     if(wpnType === 'tourelle') {
@@ -960,7 +960,7 @@ export class KnightRollDialog extends Application {
     } else {
       details = `${carac}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')}) + ${data.modificateur}d6 (${game.i18n.localize('KNIGHT.JETS.Modificateur')}) + ${od} (${game.i18n.localize('KNIGHT.ITEMS.ARMURE.Overdrive')}) + ${data.succesBonus} (${game.i18n.localize('KNIGHT.BONUS.Succes')})`;
     }
-    
+
     execAtt._difficulte = data.difficulte;
     execAtt._pairOrImpair = listAllE.guidage ? 1 : 0;
     execAtt._details = details;
@@ -969,7 +969,7 @@ export class KnightRollDialog extends Application {
     let caracs = [execAtt._base].concat(execAtt._autre)[0] === '' ? [] : [execAtt._base].concat(execAtt._autre);
     if(caracs[0] === undefined) { caracs = ''; }
     let pAttack = {};
-    
+
     const style = isPNJ ? {selected:''} : data.style;
     const eSub = listAllE.attack.list;
     const eInclude = listAllE.attack.include;
@@ -1073,7 +1073,7 @@ export class KnightRollDialog extends Application {
     const tenebricide = this.data.tenebricide;
     const bourreau = listAllEffets.bourreau;
     const bourreauValue = listAllEffets.bourreauValue;
-    
+
     const dgtsDice = dataWpn?.degats?.dice || 0;
     const dgtsFixe = dataWpn?.degats?.fixe || 0;
 
@@ -1135,7 +1135,7 @@ export class KnightRollDialog extends Application {
       content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegats),
       sound: CONFIG.sounds.dice
     };
-    
+
     ChatMessage.create(dgtsMsgData);
   }
 
@@ -1161,12 +1161,12 @@ export class KnightRollDialog extends Application {
     const execViolence = new game.knight.RollKnight(`${totalViolence}`, actor.system);
     execViolence._success = false;
     execViolence._hasMin = devastation ? true : false;
-    
+
     if(devastation) {
       execViolence._seuil = devastationValue;
       execViolence._min = 5;
     }
-    
+
     await execViolence.evaluate(listAllEffets.violence.minMax);
 
     let sub = listAllEffets.violence.list;
@@ -1274,7 +1274,7 @@ export class KnightRollDialog extends Application {
       getDgtsOtherFixeMod += bForce;
 
       lDgtsOtherInclude.push({
-        name:`+${bForce} ${game.i18n.localize('KNIGHT.ASPECTS.CHAIR.FORCE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+        name:`+${bForce} ${game.i18n.localize('KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.FORCE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
         desc:``
       });
     }
@@ -1486,7 +1486,7 @@ export class KnightRollDialog extends Application {
                 name:`+${discretion}  ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.MODULEWRAITH.Label`)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
                 desc:``
               });
-              
+
               if(this.data.moduleWraith) {
                 maximizeDgts = true;
               }
@@ -1512,7 +1512,7 @@ export class KnightRollDialog extends Application {
                 name:`+${discretion}  ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.MODULEWRAITH.Label`)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
                 desc:``
               });
-              
+
               if(this.data.moduleWraith) {
                 maximizeDgts = true;
               }
@@ -1537,7 +1537,7 @@ export class KnightRollDialog extends Application {
                 name:`+${discretion}  ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.MODULEWRAITH.Label`)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
                 desc:``
               });
-              
+
               if(this.data.moduleWraith) {
                 maximizeDgts = true;
               }
@@ -1569,7 +1569,7 @@ export class KnightRollDialog extends Application {
       }
     }
 
-    // ATTAQUE    
+    // ATTAQUE
     const attackDice = lEffetAttack.totalDice+lDistanceAttack.totalDice+lStructurellesAttack.totalDice+lOrnementaleAttack.totalDice+lCapaciteAttack.dice+bonusModule.attack.dice+getAttackOtherDiceMod+getAttackSpecialDiceMod;
     const attackBonus = lEffetAttack.totalBonus+lDistanceAttack.totalBonus+lStructurellesAttack.totalBonus+lOrnementaleAttack.totalBonus+lCapaciteAttack.fixe+bonusModule.attack.fixe;
     const attackInclude = lEffetAttack.include.concat(lDistanceAttack.include, lStructurellesAttack.include, lOrnementaleAttack.include, lAttOtherInclude, lCapaciteAttack.include, bonusModule.attack.include);
@@ -1580,7 +1580,7 @@ export class KnightRollDialog extends Application {
     const degatsBonus = lEffetDegats.totalBonus+lDistanceDegats.totalBonus+lStructurellesDegats.totalBonus+lOrnementaleDegats.totalBonus+lCapaciteDegats.fixe+bonusModule.degats.fixe+getDgtsOtherFixeMod;
     const degatsInclude = lEffetDegats.include.concat(lDistanceDegats.include, lStructurellesDegats.include, lOrnementaleDegats.include, lDgtsOtherInclude, lCapaciteDegats.include, bonusModule.degats.include);
     const degatsList = lEffetDegats.list.concat(lDistanceDegats.list, lStructurellesDegats.list, lOrnementaleDegats.list, lDgtsOtherList, lCapaciteDegats.list);
-    const minMaxDgts = maximizeDgts ? { 
+    const minMaxDgts = maximizeDgts ? {
       minimize:false,
       maximize:true,
       async:true} : lEffetDegats.minMax;
@@ -1710,7 +1710,7 @@ export class KnightRollDialog extends Application {
         }
       }
     }
-    
+
 
     this.render(true);
   }
@@ -1742,13 +1742,13 @@ export class KnightRollDialog extends Application {
     const actType = this.data.typeWpn;
     const actNum = this.data.num;
     const isPnj = this.data.pnj;
-    
+
     if(type === 'armesimprovisees') {
       if(id === actId && type === actType && name === actName && num === actNum) {
         this.data.idWpn = '';
         this.data.nameWpn = '';
         this.data.typeWpn = '';
-        this.data.num = -1;      
+        this.data.num = -1;
       } else {
         this.data.label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[name][num]);
         this.data.idWpn = id;
@@ -1769,7 +1769,7 @@ export class KnightRollDialog extends Application {
       this.data.idWpn = '';
       this.data.nameWpn = '';
       this.data.typeWpn = '';
-      this.data.num = -1;      
+      this.data.num = -1;
     } else {
       this.data.label = name;
       this.data.idWpn = id;
@@ -1882,17 +1882,17 @@ export class KnightRollDialog extends Application {
     const cout = +target.data("cost");
     const liste = target.data("liste");
     const nbre = +target.data("selectedonlist") || 0;
-    
+
     const effetsRaw = this.data.longbow.effets.raw;
     const hasEffet = effetsRaw.find(str => { if(str.includes(raw)) return true; });
 
     const coutActuel = +this.data.longbow.effets[liste].cout;
 
     if(hasEffet) {
-      for( let i = 0; i < effetsRaw.length; i++){ 
-    
-        if (effetsRaw[i] === raw) { 
-    
+      for( let i = 0; i < effetsRaw.length; i++){
+
+        if (effetsRaw[i] === raw) {
+
           effetsRaw.splice(i, 1);
         }
       }
@@ -1914,17 +1914,17 @@ export class KnightRollDialog extends Application {
     const raw = target.data("raw");
     const cout = +target.data("cost");
     const liste = target.data("liste");
-    
+
     const effetsRaw = this.data.listWpnSpecial[num].effets.raw;
     const hasEffet = effetsRaw.find(str => { if(str.includes(raw)) return true; });
 
     const coutActuel = +this.data.listWpnSpecial[num].energie;
 
     if(hasEffet) {
-      for( let i = 0; i < effetsRaw.length; i++){ 
-    
-        if (effetsRaw[i] === raw) { 
-    
+      for( let i = 0; i < effetsRaw.length; i++){
+
+        if (effetsRaw[i] === raw) {
+
           effetsRaw.splice(i, 1);
         }
       }
@@ -2050,7 +2050,7 @@ export class KnightRollDialog extends Application {
         switch(type) {
           case 'module':
             const items = actor.items.get(data._id);
-            
+
             if(dgts.variable.has) {
               items.update({[`system.arme.degats.dice`]:dgts.dice});
             }
@@ -2062,7 +2062,7 @@ export class KnightRollDialog extends Application {
         }
       }
     }
-    
+
 
     if ( this.data.close ) this.data.close(this.options.jQuery ? this.element : this.element[0]);
     $(document).off('keydown.chooseDefault');
@@ -2071,7 +2071,7 @@ export class KnightRollDialog extends Application {
 
   _depensePE(actor, depense) {
     const isMA = this.data?.ma || false;
-    const remplaceEnergie = isMA ? false : actor.items.get(actor.system.equipements.armure.id).system.espoir.remplaceEnergie || false;    
+    const remplaceEnergie = isMA ? false : actor.items.get(actor.system.equipements.armure.id).system.espoir.remplaceEnergie || false;
     const type = remplaceEnergie ? 'espoir' : 'energie';
     const hasJauge = isMA ? true : actor.system.jauges[type];
 
@@ -2081,7 +2081,7 @@ export class KnightRollDialog extends Application {
     };
 
     const actuel = remplaceEnergie ? +actor.system.espoir.value : +actor.system.energie.value;
-    const substract = actuel-depense;  
+    const substract = actuel-depense;
 
     if(substract < 0) {
       return {
@@ -2120,7 +2120,7 @@ export class KnightRollDialog extends Application {
     };
 
     const actuel = +actor.system.espoir.value;
-    const substract = actuel-depense;  
+    const substract = actuel-depense;
 
     if(substract < 0) {
       return {
