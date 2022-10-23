@@ -49,10 +49,10 @@ Applique les modifications par la mise à jour au Monde.
             }
         }
 
-        /*await game.settings.set("knight", "systemVersion", game.system.version);
+        await game.settings.set("knight", "systemVersion", game.system.version);
         ui.notifications.info(`Migration du système de Knight à la version ${game.system.version} terminé!`, {
             permanent: true,
-        });*/
+        });
     }
 
     static _migrationActor(actor, options = { force:false }) {
