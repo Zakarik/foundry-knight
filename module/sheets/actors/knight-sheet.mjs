@@ -6590,7 +6590,7 @@ export class KnightSheet extends ActorSheet {
             const oBonus = OD?.bonus || false;
             const oMalus = OD?.malus || false;
             
-            if(oBase !== false) aspects[keyA].caracteristiques[keyC].overdrive.base = Math.max(oBase);
+            if(oBase !== false) aspects[keyA].caracteristiques[keyC].overdrive.base = Math.max(...oBase);
             if(oBonus !== false) aspects[keyA].caracteristiques[keyC].overdrive.bonus = oBonus.reduce(sum);
             if(oMalus !== false) aspects[keyA].caracteristiques[keyC].overdrive.malus = oMalus.reduce(sum);
           }
