@@ -22,8 +22,7 @@ export class KnightSheet extends ActorSheet {
       width: 900,
       height: 600,
       tabs: [
-        {navSelector: ".sheet-tabs", contentSelector: ".body", initial: "description"}, 
-        {navSelector:".tabArmure", contentSelector:".tab-armure", initial:"metaarmure"}
+        {navSelector: ".sheet-tabs", contentSelector: ".body", initial: "personnage"}
       ],
     });
   }
@@ -328,6 +327,41 @@ export class KnightSheet extends ActorSheet {
 
       item.delete();
       header.slideUp(200, () => this.render(false));
+    });
+
+    html.find('div.armure section.buttonTabs a').click(ev => {
+      const target = $(ev.currentTarget);
+      const tab = target.data("tab");
+
+      const update = {};
+
+      switch(tab) {
+        case 'MAarmure':
+          update[`system.MATabs`] = {
+            'MAarmure':true,
+            'MAmodule':false,
+            'MAia':false,
+          };
+          break;
+        case 'MAmodule':
+          update[`system.MATabs`] = {
+            'MAarmure':false,
+            'MAmodule':true,
+            'MAia':false,
+          };
+          break;
+        case 'MAia':
+          update[`system.MATabs`] = {
+            'MAarmure':false,
+            'MAmodule':false,
+            'MAia':true,
+          };
+          break;
+      }
+
+      console.log(update);
+
+      this.actor.update(update);
     });
 
     html.find('section.menu div.armure input.value').change(ev => {
@@ -1454,6 +1488,10 @@ export class KnightSheet extends ActorSheet {
           },
           options:{
             noAspects:dataModule.aspects.has ? false : true,
+            noArmesImprovisees:dataModule.aspects.has ? false : true,
+            noCapacites:true,
+            noGrenades:true,
+            noNods:true,
             espoir:false,
             bouclier:false,
             sante:false,
@@ -1493,26 +1531,41 @@ export class KnightSheet extends ActorSheet {
         if(dataModule.armes.has && dataModule.type !== 'bande') {
           const items = [];
 
-          for (let [key, arme] of Object.entries(dataModule.armes.liste)) {      
+          for (let [key, arme] of Object.entries(dataModule.armes.liste)) {
+            const wpnType = arme.type === 'tourelle' ? 'distance' : arme.type;
+
+            let wpn = {
+              type:wpnType,
+              portee:arme.portee,
+              degats:{
+                dice:arme.degats.dice,
+                fixe:arme.degats.fixe
+              },
+              violence:{
+                dice:arme.violence.dice,
+                fixe:arme.violence.fixe
+              },
+              effets:{
+                raw:arme.effets.raw,
+                custom:arme.effets.custom
+              }
+            };
+
+            if(arme.type === 'tourelle') {
+              wpn['tourelle'] = {
+                has:true,
+                attaque:{
+                  dice:arme.attaque.dice,
+                  fixe:arme.attaque.fixe
+                }
+              }
+            }
+            
             const nItem = {
               name:arme.nom,
               type:'arme',
-              system:{
-                type:arme.type,
-                portee:arme.portee,
-                degats:{
-                  dice:arme.degats.dice,
-                  fixe:arme.degats.fixe
-                },
-                violence:{
-                  dice:arme.violence.dice,
-                  fixe:arme.violence.fixe
-                },
-                effets:{
-                  raw:arme.effets.raw,
-                  custom:arme.effets.custom
-                }
-              }};
+              system:wpn,
+              };
 
               items.push(nItem);      
           }
@@ -3793,6 +3846,7 @@ export class KnightSheet extends ActorSheet {
 
       const rEgide = new game.knight.RollKnight(value, this.actor.system);
       rEgide._flavor = game.i18n.localize("KNIGHT.JETS.JetEgide");
+      rEgide._success = true;
       await rEgide.toMessage({
         speaker: {
         actor: this.actor?.id || null,
@@ -4903,7 +4957,6 @@ export class KnightSheet extends ActorSheet {
       this.actor.update(update);
     }
   }
-
 
   async _prepareCharacterItems(sheetData) {
     const actorData = sheetData.actor;
@@ -6057,15 +6110,6 @@ export class KnightSheet extends ActorSheet {
           }
 
         } else {
-          module.push(i);
-          depensePG.push({
-            order:data.addOrder,
-            name:i.name,
-            id:i._id,
-            gratuit:data.gratuit,
-            value:data.gratuit ? 0 : data.prix
-          });
-
           slots.tete += itemSlots.tete;
           slots.torse += itemSlots.torse;
           slots.brasGauche += itemSlots.brasGauche;
@@ -6245,6 +6289,25 @@ export class KnightSheet extends ActorSheet {
               }
             }
           }
+
+          if(!data.permanent) {
+            if(itemBonus.has || itemArme.has || itemOD.has || eRogue.has || eBard.has) {
+              i.system.buttonsBase = true;
+            }
+          }
+
+          if(data.pnj.has) {
+            i.system.buttonPNJ = true;
+          }
+
+          module.push(i);
+          depensePG.push({
+            order:data.addOrder,
+            name:i.name,
+            id:i._id,
+            gratuit:data.gratuit,
+            value:data.gratuit ? 0 : data.prix
+          });
         }
         
       }

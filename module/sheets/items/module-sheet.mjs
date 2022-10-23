@@ -30,6 +30,8 @@ export class ModuleSheet extends ItemSheet {
 
     context.systemData = context.data.system;
 
+    console.log(context);
+
     return context;
   }
 
@@ -120,10 +122,12 @@ export class ModuleSheet extends ItemSheet {
     html.find('div.effets a.edit').click(async ev => {
       const stringPath = $(ev.currentTarget).data("path");
       const type = $(ev.currentTarget).data("type");
-      let path = this.getData().data.system;
+      let data = this.getData().data;
+      let path = data;
 
       stringPath.split(".").forEach(function(key){
         path = path[key];
+        
       });
 
       let label = '';
@@ -146,7 +150,7 @@ export class ModuleSheet extends ItemSheet {
           break;
       }
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?.system?._id || null, item:this.item.system._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:this.getData().data.system.overdrives, typeEffets:type, title:label}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:data.system.overdrives, typeEffets:type, title:label}).render(true);
     });
 
     html.find('img.info').click(ev => {

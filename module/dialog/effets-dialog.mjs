@@ -368,6 +368,7 @@ export class KnightEffetsDialog extends FormApplication {
       ev.preventDefault();
       ev.stopPropagation();
       const objectToUpdate = this.object.actor === null ? game.items.get(this.object.id) : game.actors.get(this.object.actor).items.get(this.object.id);
+
       const update = {
         [`${this.object.toUpdate}.raw`]:this.object.raw,
         [`${this.object.toUpdate}.custom`]:this.object.custom

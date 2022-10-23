@@ -449,6 +449,11 @@
       "blason":"",
       "histoire": "",
       "wear":"tenueCivile",
+      "MATabs":{
+        "MAarmure":true,
+        "MAmodule":false,
+        "MAia":false
+      },
       "jauges":{
         "armure":false,
         "champDeForce":false,
@@ -6028,6 +6033,10 @@
               "nom":"",
               "type":"contact",
               "portee":"contact",
+              "attaque":{
+                "dice":0,
+                "fixe":0
+              },
               "degats":{
                 "dice":0,
                 "fixe":0

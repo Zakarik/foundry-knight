@@ -1299,25 +1299,28 @@
     div.armure {
       .header();
 
-      nav {
-        display: flex;
-        width: 100%;
-        position: relative;
-        justify-content: space-around;
-  
-        a {
-          font-variant: small-caps;
-          display: block;
-          text-align: center;
-          width: 200px;
-          color: white;
-          cursor: pointer;
-          border: 2px solid @lightBlack;
+      section {
+        &.buttonTabs {
+          display: flex;
+          width: 100%;
           position: relative;
-          line-height: 28px;
+          justify-content: space-around;
+          margin-bottom:5px;
+    
+          a {
+            font-variant: small-caps;
+            display: block;
+            text-align: center;
+            width: 200px;
+            color: white;
+            cursor: pointer;
+            border: 2px solid @lightBlack;
+            position: relative;
+            line-height: 28px;
 
-          &.active {
-            background:@lightBlack;
+            &.active {
+              background:@lightBlack;
+            }
           }
         }
       }

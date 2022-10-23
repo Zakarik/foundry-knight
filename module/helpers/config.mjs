@@ -1054,5 +1054,6 @@ KNIGHT.module = {
     "avance":"KNIGHT.ITEMS.MODULE.RARETE.Avance",
     "rare":"KNIGHT.ITEMS.MODULE.RARETE.Rare",
     "prestige":"KNIGHT.ITEMS.MODULE.RARETE.Prestige",
+    "espoir":"KNIGHT.ITEMS.MODULE.RARETE.Espoir",
   }
 };

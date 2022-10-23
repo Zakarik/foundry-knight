@@ -1812,7 +1812,8 @@
           "TYPE":{
             "Label":"Type",
             "Contact":"Arme de contact",
-            "Distance":"Arme à distance"
+            "Distance":"Arme à distance",
+            "Tourelle":"Arme sur tourelle"
           },
           "DEGATS":{
             "Variable":"Dégâts variable",
@@ -1871,7 +1872,8 @@
           "Standard":"Standard",
           "Avance":"Avancé",
           "Rare":"Rare",
-          "Prestige":"Prestige"
+          "Prestige":"Prestige",
+          "Espoir":"Relique d'espoir"
         },
         "DUREE":{
           "Permanent":"L'effet est permanent",

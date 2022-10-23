@@ -12841,6 +12841,7 @@
 .module div.main div.armes > div div.header span.portee {
   width: calc(100% / 3);
 }
+.module div.main div.armes > div div.header span.attaque,
 .module div.main div.armes > div div.header span.degats,
 .module div.main div.armes > div div.header span.violence {
   width: calc(100% / 3);
@@ -12930,6 +12931,7 @@
 .module div.main div.armes > div div.line div.portee select option {
   background: RGB(43 42 51);
 }
+.module div.main div.armes > div div.line div.attaque,
 .module div.main div.armes > div div.line div.degats,
 .module div.main div.armes > div div.line div.violence {
   display: flex;
@@ -12939,6 +12941,7 @@
   background: RGB(43 42 51);
   width: calc(100% / 3);
 }
+.module div.main div.armes > div div.line div.attaque input,
 .module div.main div.armes > div div.line div.degats input,
 .module div.main div.armes > div div.line div.violence input {
   width: calc(50% - 12px);
@@ -12950,14 +12953,17 @@
   background: RGB(43 42 51);
   color: white;
 }
+.module div.main div.armes > div div.line div.attaque input:first-of-type,
 .module div.main div.armes > div div.line div.degats input:first-of-type,
 .module div.main div.armes > div div.line div.violence input:first-of-type {
   text-align: right;
 }
+.module div.main div.armes > div div.line div.attaque input:last-of-type,
 .module div.main div.armes > div div.line div.degats input:last-of-type,
 .module div.main div.armes > div div.line div.violence input:last-of-type {
   text-align: left;
 }
+.module div.main div.armes > div div.line div.attaque span,
 .module div.main div.armes > div div.line div.degats span,
 .module div.main div.armes > div div.line div.violence span {
   width: 24px;
@@ -16526,13 +16532,14 @@ form.capacite div.main div.effets a.edit {
 .knight section.body div.armure h2.header .far {
   cursor: pointer;
 }
-.knight section.body div.armure nav {
+.knight section.body div.armure section.buttonTabs {
   display: flex;
   width: 100%;
   position: relative;
   justify-content: space-around;
+  margin-bottom: 5px;
 }
-.knight section.body div.armure nav a {
+.knight section.body div.armure section.buttonTabs a {
   font-variant: small-caps;
   display: block;
   text-align: center;
@@ -16543,7 +16550,7 @@ form.capacite div.main div.effets a.edit {
   position: relative;
   line-height: 28px;
 }
-.knight section.body div.armure nav a.active {
+.knight section.body div.armure section.buttonTabs a.active {
   background: RGB(76 74 90);
 }
 .knight section.body div.armure div.tab-armure {
