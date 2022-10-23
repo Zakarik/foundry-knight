@@ -1067,7 +1067,6 @@ export class KnightEffetsDialog extends FormApplication {
           aeInclusJet:this.object.data.custom.violence.aspect.aeInclusJet
         },
         conditionnel:{
-          label:this.object.data.custom.attaque.carac.label,
           label:this.object.data.custom.violence.conditionnel.label,
           has:this.object.data.custom.violence.conditionnel.has,
           condition:formData['custom.violence.conditionnel.condition']
