@@ -2,7 +2,7 @@
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "1.3.2";
+    static NEEDED_VERSION = "1.3.4";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -91,7 +91,7 @@ Applique les modifications par la mise à jour au Monde.
             actor.update(update);
         }
 
-        if (options?.force || MigrationKnight.needUpdate("1.3.2")) {
+        if (options?.force || MigrationKnight.needUpdate("1.3.4")) {
             const update = {};
             const system = actor.system;
 
@@ -101,8 +101,10 @@ Applique les modifications par la mise à jour au Monde.
             for (let item of actor.items) {
                 const updateItem = {};
 
+                console.log(item);
+
                 if(item.type === 'armure') {
-                    const listeEvolutions = system?.evolutions.liste;
+                    const listeEvolutions = item.system?.evolutions.liste;
     
                     for (let [key, evo] of Object.entries(listeEvolutions)) {
                         const eGoliath = evo.capacites?.goliath || false;
@@ -116,8 +118,8 @@ Applique les modifications par la mise à jour au Monde.
                 }
 
                 if(item.type === 'armurelegende') {
-                    const alBarbarian = system.capacites?.barbarian || false;
-                    const alGoliath = system.capacites.selected?.goliath || false;
+                    const alBarbarian = item.system.capacites?.barbarian || false;
+                    const alGoliath = item.system.capacites.selected?.goliath || false;
     
                     if(alGoliath !== false && alBarbarian !== false) {
                         update[`system.capacites.selected.selected.goliath`] = alBarbarian.selected;
