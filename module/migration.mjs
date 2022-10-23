@@ -2,7 +2,7 @@
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "1.3.0";
+    static NEEDED_VERSION = "1.3.2";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -49,10 +49,10 @@ Applique les modifications par la mise à jour au Monde.
             }
         }
 
-        await game.settings.set("knight", "systemVersion", game.system.version);
+        /*await game.settings.set("knight", "systemVersion", game.system.version);
         ui.notifications.info(`Migration du système de Knight à la version ${game.system.version} terminé!`, {
             permanent: true,
-        });
+        });*/
     }
 
     static _migrationActor(actor, options = { force:false }) {
@@ -82,6 +82,46 @@ Applique les modifications par la mise à jour au Monde.
                             value:vEnergieM,
                             label:""
                         };
+                    }
+                }
+
+                item.update(updateItem);
+            }
+
+            actor.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("1.3.2")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            // MISE A JOUR DES ITEMS PORTES
+            for (let item of actor.items) {
+                const updateItem = {};
+
+                if(item.type === 'armure') {
+                    const listeEvolutions = system?.evolutions.liste;
+    
+                    for (let [key, evo] of Object.entries(listeEvolutions)) {
+                        const eGoliath = evo.capacites?.goliath || false;
+                        const eBarbarian = evo.capacites?.barbarian || false;
+        
+                        if(eGoliath !== false && eBarbarian !== false) {
+                            update[`system.evolutions.liste.${key}.capacites.goliath`] = eBarbarian.selected;
+                            update[`system.evolutions.liste.${key}.capacites.-=barbarian`] = null;
+                        }
+                    }
+                }
+
+                if(item.type === 'armurelegende') {
+                    const alBarbarian = system.capacites?.barbarian || false;
+                    const alGoliath = system.capacites.selected?.goliath || false;
+    
+                    if(alGoliath !== false && alBarbarian !== false) {
+                        update[`system.capacites.selected.selected.goliath`] = alBarbarian.selected;
+                        update[`system.capacites.-=barbarian`] = null;
                     }
                 }
 
@@ -133,6 +173,39 @@ Applique les modifications par la mise à jour au Monde.
                 
                 if(rarete === false) update['system.rarete'] = 'standard';
                 if(liste === false) update['system.listes'] = {};
+            }
+            
+            item.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("1.3.2")) {
+            const update = {};
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'armure') {
+                const listeEvolutions = system?.evolutions.liste;
+
+                for (let [key, evo] of Object.entries(listeEvolutions)) {
+                    const eGoliath = evo.capacites?.goliath || false;
+                    const eBarbarian = evo.capacites?.barbarian || false;
+
+                    if(eGoliath !== false && eBarbarian !== false) {
+                        update[`system.evolutions.liste.${key}.capacites.goliath`] = eBarbarian.selected;
+                        update[`system.evolutions.liste.${key}.capacites.-=barbarian`] = null;
+                    }
+                }
+            }
+
+            if(item.type === 'armurelegende') {
+                const alBarbarian = system.capacites?.barbarian || false;
+                const alGoliath = system.capacites.selected?.goliath || false;
+
+                if(alGoliath !== false && alBarbarian !== false) {
+                    update[`system.capacites.selected.selected.goliath`] = alBarbarian.selected;
+                    update[`system.capacites.-=barbarian`] = null;
+                }
             }
             
             item.update(update);

@@ -1777,6 +1777,7 @@
                         <select name="system.progression.experience.depense.liste.{{depense}}.nom">
                             {{#select key.nom}}
                                 <option value=""></option>
+                                <option value="autre">{{localize "KNIGHT.AUTRE.Label"}}</option>
                                 <option value="capaciteheroique">{{localize "KNIGHT.HEROISME.CAPACITE.Label"}}</option>
                                 {{#each @root/systemData/aspects as | key aspect|}}
                                     <option value="{{aspect}}">{{getAspect aspect}}</option>
@@ -1789,7 +1790,11 @@
                         {{#if (isValue key.nom 'capaciteheroique')}}
                         <span class="value"></span>
                         {{else}}
-                        <input type="number" name="system.progression.experience.depense.liste.{{depense}}.bonus" value="{{key.bonus}}" min="0" />
+                            {{#if (isValue key.nom 'autre')}}
+                            <span class="value"></span>
+                            {{else}}
+                            <input type="number" name="system.progression.experience.depense.liste.{{depense}}.bonus" value="{{key.bonus}}" min="0" />
+                            {{/if}}
                         {{/if}}
                         <input type="number" name="system.progression.experience.depense.liste.{{depense}}.cout" value="{{key.cout}}" min="0" />
                     </div>
