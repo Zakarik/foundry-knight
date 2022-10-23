@@ -9,7 +9,7 @@ export class RollKnight extends Roll {
      this._formula = this.constructor.getFormula(this.terms);
      this._evaluated = false;
      this._total = undefined;
-     this._success = true;
+     this._success = false;
      this._table = false;
      this._tableau = {};
      this._base = '';
@@ -67,7 +67,7 @@ export class RollKnight extends Roll {
 
   /** @override */
   async toMessage(messageData={}, {rollMode, create=true}={}) {
-
+    console.log(this);
     // Perform the roll, if it has not yet been rolled
     if ( !this._evaluated ) await this.evaluate({async: true});
 
@@ -101,6 +101,7 @@ export class RollKnight extends Roll {
         });
 
         const c = new this.constructor(`${dices.length}d6${operator}${mod}`, this.data, this.options);
+        c._success = true;
         c._flavor = this._flavor;
         c._canExploit = false;
         c._isExploit = true;

@@ -503,7 +503,7 @@ export class VehiculeSheet extends ActorSheet {
     await rollApp.setAspects(actor.system.aspects);
     await rollApp.setEffets(hasBarrage, false, false, false);
     await rollApp.setData(label, select, [], [], difficulte,
-      data.data.system.combat.data.modificateur, data.data.system.combat.data.succesbonus+reussitesBonus,
+      data.combat.data.modificateur, data.combat.data.succesbonus+desBonus, 
       {dice:0, fixe:0},
       {dice:0, fixe:0},
       [], armesDistance, [], [], {contact:{}, distance:{}}, [], [],
@@ -531,7 +531,7 @@ export class VehiculeSheet extends ActorSheet {
     const armesDistance = isWpn ? this.actor.armesDistance : {};
 
     await rollApp.setData(label, caracteristique, [], [], difficulte,
-      data.data.system.combat.data.modificateur, data.data.system.combat.data.succesbonus+reussitesBonus, 
+      data.combat.data.modificateur, data.combat.data.succesbonus+desBonus, 
       {dice:0, fixe:0},
       {dice:0, fixe:0},
       {}, armesDistance, {}, {}, {contact:{}, distance:{}}, [], [], 

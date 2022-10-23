@@ -1180,6 +1180,16 @@ export class PNJSheet extends ActorSheet {
           }
         }
 
+        if(!data.permanent) {
+          if(itemBonus.has || itemArme.has) {
+            i.system.buttonsBase = true;
+          }
+        }
+
+        if(data.pnj.has) {
+          i.system.buttonPNJ = true;
+        }
+
         modules.push(i);      
       }
 
@@ -1502,19 +1512,19 @@ export class PNJSheet extends ActorSheet {
     const result = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? new game.knight.applications.KnightRollDialog({
       title:this.actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
       buttons: {
-        buttons: {
-          button1: {
-            label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
-            callback: async () => {},
-            icon: `<i class="fas fa-dice"></i>`
-          },
-          button3: {
-            label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
-            icon: `<i class="fas fa-times"></i>`
-          }
+        button1: {
+          label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
+          callback: async () => {},
+          icon: `<i class="fas fa-dice"></i>`
+        },
+        button3: {
+          label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
+          icon: `<i class="fas fa-times"></i>`
         }
       }
     });
+
+    console.log(result);
     
     return result;
   }

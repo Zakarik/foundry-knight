@@ -541,7 +541,7 @@
                         <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
                     </div>
                 {{/each}}
-                <a class="edit" data-path="data.arme.effets">
+                <a class="edit" data-path="system.arme.effets">
                     <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
                 </a>
             </div>
@@ -560,7 +560,7 @@
                         <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
                     </div>
                 {{/each}}
-                <a class="edit" data-path="data.arme.distance" data-type="distance">
+                <a class="edit" data-path="system.arme.distance" data-type="distance">
                     <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
                 </a>
             </div>
@@ -579,7 +579,7 @@
                         <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
                     </div>
                 {{/each}}
-                <a class="edit" data-path="data.arme.structurelles" data-type="structurelles">
+                <a class="edit" data-path="system.arme.structurelles" data-type="structurelles">
                     <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
                 </a>
             </div>
@@ -597,7 +597,7 @@
                         <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
                     </div>
                 {{/each}}
-                <a class="edit" data-path="data.arme.ornementales"  data-type="ornementales">
+                <a class="edit" data-path="system.arme.ornementales"  data-type="ornementales">
                     <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
                 </a>
             </div>
@@ -763,6 +763,7 @@
                                             {{#select aKey.type}}
                                             <option value="contact">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Contact"}}</option>
                                             <option value="distance">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Distance"}}</option>
+                                            <option value="tourelle">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Tourelle"}}</option>
                                             {{/select}}
                                         </select>
                                     </div>
@@ -797,6 +798,18 @@
                                         <input type="number" name="system.pnj.liste.{{pnj}}.armes.liste.{{arme}}.violence.fixe" value="{{aKey.violence.fixe}}" min="0" />
                                     </div>
                                 </div>
+                                {{#if (isValue aKey.type 'tourelle')}}
+                                <div class="header">
+                                    <span class="attaque">{{localize "KNIGHT.AUTRE.Attaque"}}</span>
+                                </div>
+                                <div class="line">
+                                    <div class="attaque">
+                                        <input type="number" name="system.pnj.liste.{{pnj}}.armes.liste.{{arme}}.attaque.dice" value="{{aKey.attaque.dice}}" min="0" />
+                                        <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                                        <input type="number" name="system.pnj.liste.{{pnj}}.armes.liste.{{arme}}.attaque.fixe" value="{{aKey.attaque.fixe}}" min="0" />
+                                    </div>
+                                </div>
+                                {{/if}}
                                 <div class="effets">
                                     {{#each aKey.effets.liste as | kEffet effet|}}
                                         <div>
@@ -805,7 +818,7 @@
                                             <span class="hideInfo">{{{getEffetsDescription kEffet.description}}}</span>
                                         </div>
                                     {{/each}}
-                                    <a class="edit" data-path="pnj.liste.{{pnj}}.armes.liste.{{arme}}.effets">
+                                    <a class="edit" data-path="system.pnj.liste.{{pnj}}.armes.liste.{{arme}}.effets">
                                         <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
                                     </a>
                                 </div>       

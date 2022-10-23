@@ -905,6 +905,7 @@ export class KnightRollDialog extends Application {
       if(capacite.roll.string !== '') sDetails += ` +${capacite.roll.string}`;
 
       const exec = new game.knight.RollKnight(`${totalDice}d6+${totalBonus}`, actor.system);
+      exec._success = true;
       exec._flavor = this.data.label;
       exec._base = isPNJ ? game.i18n.localize(CONFIG.KNIGHT.aspects[data.base]) : game.i18n.localize(CONFIG.KNIGHT.caracteristiques[data.base]);
       exec._autre = otherC;
@@ -944,6 +945,7 @@ export class KnightRollDialog extends Application {
     const wpnType = this.data.typeWpn
 
     const execAtt = new game.knight.RollKnight(`${totalDice}d6+${totalBonus}`, actor.system);
+    execAtt._success = true;
     if(wpnType !== 'tourelle' && !isPNJ) {
       execAtt._base = game.i18n.localize(CONFIG.KNIGHT.caracteristiques[data.base]);
       execAtt._autre = otherC;
