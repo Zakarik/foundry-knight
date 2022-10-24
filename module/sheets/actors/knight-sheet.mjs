@@ -6290,16 +6290,6 @@ export class KnightSheet extends ActorSheet {
             }
           }
 
-          if(!data.permanent) {
-            if(itemBonus.has || itemArme.has || itemOD.has || eRogue.has || eBard.has) {
-              i.system.buttonsBase = true;
-            }
-          }
-
-          if(data.pnj.has) {
-            i.system.buttonPNJ = true;
-          }
-
           module.push(i);
           depensePG.push({
             order:data.addOrder,
