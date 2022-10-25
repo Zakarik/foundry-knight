@@ -301,7 +301,7 @@ export class ArmureSheet extends ItemSheet {
       }
 
       let update = {
-        data:{
+        system:{
           evolutions:{
             aAcheter:{
               value:result
@@ -321,7 +321,13 @@ export class ArmureSheet extends ItemSheet {
           if(i != 0) {
             previousValue = update.system.evolutions.liste[i-1]?.value || false;
 
-            if(previousValue === false) { previousValue = evolutions[i-1].value; }
+            if(previousValue === false) { 
+              previousValue = evolutions[i-1]?.value || false; 
+
+              if(previousValue === false) {
+                previousValue = 0;
+              }
+            }
           
             if(newValue <= previousValue) {
               newValue = previousValue+1;

@@ -4111,6 +4111,9 @@
   line-height: 30px;
   height: 30px;
 }
+.armure form.armureWindows div.description div.editor {
+  display: none;
+}
 .armure form.armureWindows div.description,
 .armure form.armureWindows div.capacites,
 .armure form.armureWindows div.special,
@@ -5385,6 +5388,7 @@
   flex-wrap: wrap;
 }
 .armure form.armureWindows div.evolutions div.liste div.editor {
+  display: none;
   min-height: 80px;
 }
 .armure form.armureWindows div.evolutions div.liste:not(:first-of-type) {
@@ -9163,6 +9167,9 @@
 .armure form.armureWindows div.capacites div.totem div.mainData div.data div.double:not(:first-of-type) label span {
   border-top: 1px solid RGB(76 74 90);
 }
+.armure form.armureWindows div.capacites > div {
+  display: none;
+}
 .armure form.armureWindows div.special {
   border: 1px solid RGB(87 110 178);
 }
@@ -9761,6 +9768,9 @@
 .armure form.armureWindows div.special div.recolteflux div.mainData div.data h4.title {
   font-variant: small-caps;
   font-size: 17px;
+}
+.armure form.armureWindows div.special > div {
+  display: none;
 }
 .armurelegende form.armureWindows {
   display: flex;
