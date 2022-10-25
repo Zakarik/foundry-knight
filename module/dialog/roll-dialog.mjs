@@ -1071,6 +1071,9 @@ export class KnightRollDialog extends Application {
   }
 
   async _doDgts(actor, dataWpn, wpnType, listAllEffets, regularite=0, addNum='') {
+    const isPNJ = this.data?.pnj || false
+    const style = isPNJ ? {raw:''} : this.data.style;
+    
     //DEGATS
     const tenebricide = this.data.tenebricide;
     const bourreau = listAllEffets.bourreau;
@@ -1081,6 +1084,10 @@ export class KnightRollDialog extends Application {
 
     let diceDgts = dgtsDice+listAllEffets.degats.totalDice;
     let bonusDgts = dgtsFixe+listAllEffets.degats.totalBonus;
+
+    if(style.raw === 'akimbo') {
+      diceDgts += diceDgts;
+    }    
 
     bonusDgts += regularite;
 
@@ -1142,6 +1149,9 @@ export class KnightRollDialog extends Application {
   }
 
   async _doViolence(actor, dataWpn, wpnType, listAllEffets, bViolence=0, addNum='') {
+    const isPNJ = this.data?.pnj || false
+    const style = isPNJ ? {raw:''} : this.data.style;
+    
     //VIOLENCE
     const tenebricide = this.data.tenebricide;
     const devastation = listAllEffets.devastation;
@@ -1152,6 +1162,10 @@ export class KnightRollDialog extends Application {
 
     let diceViolence = violenceDice+listAllEffets.violence.totalDice;
     let bonusViolence = violenceFixe+listAllEffets.violence.totalBonus;
+
+    if(style.raw === 'akimbo') {
+      diceViolence += Math.ceil(diceViolence/2);
+    }
 
     bonusViolence += bViolence;
 
@@ -1284,15 +1298,12 @@ export class KnightRollDialog extends Application {
     // STYLES
     if(typeWpn !== 'tourelle' && typeWpn !== 'armesimprovisees' && !isPNJ) {
       // AKIMBO
-      const eAkimbo = effetsWpn.raw.find(str => { if(str.includes('jumeleakimbo')) return true; });
+      const eAkimbo = effetsWpn.raw.find(str => { if(str.includes('jumeleakimbo')) return true; }) !== undefined ? true : false;
       const jumelageakimbo = typeWpn === 'distance' ? distanceWpn.raw.find(str => { if(str.includes('jumelageakimbo')) return true; }) : false;
       const jumelle = typeWpn === 'contact' ? structurellesWpn.raw.find(str => { if(str.includes('jumelle')) return true; }) : false;
       const eJAkimbo = searchTrueValue([eAkimbo, jumelageakimbo, jumelle]);
 
       if(style.raw === 'akimbo') {
-        getDgtsOtherDiceMod += lEffetDegats.totalDice+lDistanceDegats.totalDice+lStructurellesDegats.totalDice+lOrnementaleDegats.totalDice;
-        getViolenceDiceMod += Math.ceil((lEffetViolence.totalDice+lDistanceViolence.totalDice+lStructurellesViolence.totalDice+lOrnementaleViolence.totalDice)/2);
-
         if(eJAkimbo) getAttackOtherDiceMod += 2;
         else if(typeWpn === 'distance' && tir >= 3) {
           getAttackOtherDiceMod += 2;

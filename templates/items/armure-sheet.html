@@ -75,7 +75,7 @@
 
     <div class="description">
         <h2 class="header">
-            <i class="far fa-plus-square"></i>
+            <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.Description"}}
         </h2>
 
@@ -84,10 +84,10 @@
 
     <div class="capacites">
         <h2 class="header">
-            <i class="far fa-plus-square"></i>
+            <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.CAPACITES.Label"}}
         </h2>
-        <div class="add" style="display:none;">
+        <div class="add">
             <a data-value="{{systemData.capacites.actuel}}">{{localize "KNIGHT.AUTRE.Ajouter"}}</a>
             <select name="system.capacites.actuel">
                 {{#select systemData.capacites.actuel}}
@@ -105,10 +105,10 @@
 
     <div class="special">
         <h2 class="header">
-            <i class="far fa-plus-square"></i>
+            <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.ITEMS.ARMURE.Special"}}
         </h2>
-        <div class="add" style="display:none;">
+        <div class="add">
             <a data-value="{{systemData.special.actuel}}">{{localize "KNIGHT.AUTRE.Ajouter"}}</a>
             <select name="system.special.actuel">
                 {{#select systemData.special.actuel}}
@@ -165,12 +165,12 @@
 
     <div class="overdrives">
         <h2 class="header">
-            <i class="far fa-plus-square"></i>
+            <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.ITEMS.ARMURE.Overdrives"}}
         </h2>
 
         {{#each systemData.overdrives as | key aspect|}}
-        <div class="aspect" style="display:none;">
+        <div class="aspect">
             <h2 class="header">
                 {{getAspect aspect}}
             </h2>
@@ -200,7 +200,7 @@
         {{#each systemData.evolutions.liste as | key evolution|}}
         <div class="liste">
             <h2 class="header">
-                <i class="far fa-plus-square"></i>
+                <i class="far fa-minus-square"></i>
                 {{localize "KNIGHT.ITEMS.ARMURE.EVOLUTIONS.Label"}}
 
                 <label>
@@ -211,7 +211,7 @@
 
             {{editor this.description target=(whatTargetE) button=true owner="../owner" editable="../editable"}}
 
-            <div class="mainData" style="display:none;">
+            <div class="mainData">
             {{#each key.capacites as | kCap capacite |}}
                 {{~> (evolutions) key=evolution}}
             {{/each}}

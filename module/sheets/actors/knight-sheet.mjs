@@ -1358,45 +1358,11 @@ export class KnightSheet extends ActorSheet {
             armure.update(itemUpdate);
             break;
           case "type":
-            const bonus = armorCapacites.type.type[special].liste;
             itemUpdate.system.capacites.selected[capacite].type = {};
             itemUpdate.system.capacites.selected[capacite].type[special] = {};
             itemUpdate.system.capacites.selected[capacite].type[special][variant] = true;
   
-            switch(special) {
-              case "soldier":
-                update.system.aspects.chair.caracteristiques.deplacement.overdrive.bonus.type = bonus.deplacement.value;
-                update.system.aspects.chair.caracteristiques.force.overdrive.bonus.type = bonus.force.value;
-                update.system.aspects.chair.caracteristiques.endurance.overdrive.bonus.type = bonus.endurance.value;
-                break;
-  
-              case "hunter":
-                update.system.aspects.bete.caracteristiques.hargne.overdrive.bonus.type = bonus.hargne.value;
-                update.system.aspects.bete.caracteristiques.combat.overdrive.bonus.type = bonus.combat.value;
-                update.system.aspects.bete.caracteristiques.instinct.overdrive.bonus.type = bonus.instinct.value;
-                break;
-  
-              case "scholar":
-                update.system.aspects.machine.caracteristiques.tir.overdrive.bonus.type = bonus.tir.value;
-                update.system.aspects.machine.caracteristiques.savoir.overdrive.bonus.type = bonus.savoir.value;
-                update.system.aspects.machine.caracteristiques.technique.overdrive.bonus.type = bonus.technique.value;
-                break;
-  
-              case "herald":
-                update.system.aspects.dame.caracteristiques.aura.overdrive.bonus.type = bonus.aura.value;
-                update.system.aspects.dame.caracteristiques.parole.overdrive.bonus.type = bonus.parole.value;
-                update.system.aspects.dame.caracteristiques.sangFroid.overdrive.bonus.type = bonus.sangFroid.value;
-                break;
-  
-              case "scout":
-                update.system.aspects.masque.caracteristiques.discretion.overdrive.bonus.type = bonus.discretion.value;
-                update.system.aspects.masque.caracteristiques.dexterite.overdrive.bonus.type = bonus.dexterite.value;
-                update.system.aspects.masque.caracteristiques.perception.overdrive.bonus.type = bonus.perception.value;
-                break;
-            }
-  
             armure.update(itemUpdate);
-            this.actor.update(update);
             break;
         }
       }
@@ -2239,45 +2205,11 @@ export class KnightSheet extends ActorSheet {
           armure.update(itemUpdate);
           break;
         case "type":
-          const bonus = armorCapacites.type.type[special].liste;
           itemUpdate.system.capacites.selected[capacite].type = {};
           itemUpdate.system.capacites.selected[capacite].type[special] = {};
           itemUpdate.system.capacites.selected[capacite].type[special][variant] = true;
 
-          switch(special) {
-            case "soldier":
-              update.system.aspects.chair.caracteristiques.deplacement.overdrive.bonus.type = bonus.deplacement.value;
-              update.system.aspects.chair.caracteristiques.force.overdrive.bonus.type = bonus.force.value;
-              update.system.aspects.chair.caracteristiques.endurance.overdrive.bonus.type = bonus.endurance.value;
-              break;
-
-            case "hunter":
-              update.system.aspects.bete.caracteristiques.hargne.overdrive.bonus.type = bonus.hargne.value;
-              update.system.aspects.bete.caracteristiques.combat.overdrive.bonus.type = bonus.combat.value;
-              update.system.aspects.bete.caracteristiques.instinct.overdrive.bonus.type = bonus.instinct.value;
-              break;
-
-            case "scholar":
-              update.system.aspects.machine.caracteristiques.tir.overdrive.bonus.type = bonus.tir.value;
-              update.system.aspects.machine.caracteristiques.savoir.overdrive.bonus.type = bonus.savoir.value;
-              update.system.aspects.machine.caracteristiques.technique.overdrive.bonus.type = bonus.technique.value;
-              break;
-
-            case "herald":
-              update.system.aspects.dame.caracteristiques.aura.overdrive.bonus.type = bonus.aura.value;
-              update.system.aspects.dame.caracteristiques.parole.overdrive.bonus.type = bonus.parole.value;
-              update.system.aspects.dame.caracteristiques.sangFroid.overdrive.bonus.type = bonus.sangFroid.value;
-              break;
-
-            case "scout":
-              update.system.aspects.masque.caracteristiques.discretion.overdrive.bonus.type = bonus.discretion.value;
-              update.system.aspects.masque.caracteristiques.dexterite.overdrive.bonus.type = bonus.dexterite.value;
-              update.system.aspects.masque.caracteristiques.perception.overdrive.bonus.type = bonus.perception.value;
-              break;
-          }
-
           armure.update(itemUpdate);
-          this.actor.update(update);
           break;
       }
     });
@@ -3746,10 +3678,10 @@ export class KnightSheet extends ActorSheet {
       this.actor.update(update);
     });
 
-    html.find('div.styleCombat > select').change(ev => {
+    html.find('div.styleCombat > select').change(async ev => {
       const style = $(ev.currentTarget).val();
       const mods = getModStyle(style);
-      const knightRoll = this._getKnightRoll();
+      const data = this.getData();
 
       const update = {
         system: {
@@ -3780,18 +3712,21 @@ export class KnightSheet extends ActorSheet {
 
       this.actor.update(update);
 
-      if(knightRoll) {
-        knightRoll.data.style.fulllabel = game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.FullLabel`);
-        knightRoll.data.style.label = game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Label`);
-        knightRoll.data.style.raw = style;
-        knightRoll.data.style.selected = '';
-        knightRoll.data.style.tourspasses = 1;
-        knightRoll.data.style.sacrifice = 0;
-        knightRoll.data.style.type = "degats";
-        knightRoll.data.style.maximum = 6;
-        knightRoll.data.style.caracteristiques = mods.caracteristiques;
-        knightRoll.data.style.info = game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Info`);
-        knightRoll.render(true);
+      // ON ACTUALISE ROLL UI S'IL EST OUVERT
+      let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
+
+      if(rollUi !== false) {
+        await rollUi.setStyle({
+          fulllabel:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.FullLabel`),
+          label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Label`),
+          raw:style,
+          info:data.systemData.combat.styleInfo,
+          caracteristiques:mods.caracteristiques,
+          tourspasses:data.data.system.combat.data.tourspasses,
+          type:data.data.system.combat.data.type,
+          sacrifice:data.data.system.combat.data.sacrifice,
+          maximum:6
+        });
       }
     });
 
@@ -5851,6 +5786,18 @@ export class KnightSheet extends ActorSheet {
               }
               break;
             
+            case "type":
+              const arrayTypes = Object.entries(capacite.type)
+              const filterTypes = arrayTypes.filter(([key, value]) => (value.selectionne === true && value.conflit === true) || (value.selectionne === true && value.horsconflit === true));
+              const bonus = filterTypes?.[0]?.[1] || false;
+
+              if(bonus !== false) {
+                for (let [keyC, carac] of Object.entries(bonus.liste)){
+                  aspects[bonus.aspect].caracteristiques[keyC].overdrive.bonus += carac.value;
+                }
+              }
+              break;
+
             case "vision":
               if(armorData.capacites.vision.energie < capacite.energie.min) armorData.capacites.vision.energie = capacite.energie.min;
               break;
@@ -6511,6 +6458,18 @@ export class KnightSheet extends ActorSheet {
 
         for (let [key, capacite] of Object.entries(armorCapacites)) {
           switch(key) {
+            case "type":
+              const arrayTypes = Object.entries(capacite.type)
+              const filterTypes = arrayTypes.filter(([key, value]) => (value.selectionne === true && value.conflit === true) || (value.selectionne === true && value.horsconflit === true));
+              const bonus = filterTypes?.[0]?.[1] || false;
+
+              if(bonus !== false) {
+                for (let [keyC, carac] of Object.entries(bonus.liste)){
+                  aspects[bonus.aspect].caracteristiques[keyC].overdrive.bonus += carac.value;
+                }
+              }
+              break;
+              
             case "vision":
               if(armorData.capacites.vision.energie < capacite.energie.min) armorData.capacites.vision.energie = capacite.energie.min;
               break;
@@ -7852,6 +7811,7 @@ export class KnightSheet extends ActorSheet {
     const deployGrenades = typeWpn === 'grenades' ? true : false;
     const deployLongbow = typeWpn === 'longbow' ? true : false;
     const hasBarrage = typeWpn === 'grenades' ? data.data.system.combat.grenades.liste[nameWpn].effets.raw.find(str => { if(str.includes('barrage')) return true; }) : false;
+    const rBonus = reussitesBonus === 0 ? data.data.system.combat.data.succesbonus : reussitesBonus;
     let base = select === '' ? bonus[0] : caracteristique;
 
     if(base === undefined) {base = '';}
@@ -7873,7 +7833,7 @@ export class KnightSheet extends ActorSheet {
       maximum:6
     });
     await rollApp.setData(label, select, bonus, mCombos.lock, difficulte,
-      data.data.system.combat.data.modificateur, data.data.system.combat.data.succesbonus+reussitesBonus,
+      data.data.system.combat.data.modificateur, rBonus,
       {dice:data.data.system.combat.data.degatsbonus.dice, fixe:data.data.system.combat.data.degatsbonus.fixe},
       {dice:data.data.system.combat.data.violencebonus.dice, fixe:data.data.system.combat.data.violencebonus.fixe},
       data.actor.armesContactEquipee, data.actor.armesDistanceEquipee, data.actor.armesTourelles, data.systemData.combat.grenades.liste, {contact:data.systemData.combat.armesimprovisees.liste, distance:data.systemData.combat.armesimprovisees.liste}, [], data.actor.longbow,
