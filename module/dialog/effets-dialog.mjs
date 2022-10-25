@@ -374,6 +374,8 @@ export class KnightEffetsDialog extends FormApplication {
         [`${this.object.toUpdate}.custom`]:this.object.custom
       }
 
+      console.log(objectToUpdate);
+
       objectToUpdate.update(update);
 
       await this.close({ submit: true, force: true });
