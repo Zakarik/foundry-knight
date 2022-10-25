@@ -322,10 +322,10 @@ export class VehiculeSheet extends ActorSheet {
     return create;
   }
 
-  async _onDrop(event) {
-    const data = TextEditor.getDragEventData(event);
+  async _onDropActor(event, data) {
+    if ( !this.actor.isOwner ) return false;
+
     const cls = getDocumentClass(data?.type);
-    if ( !cls || !(cls.collectionName in Adventure.contentFields) ) return;
     const document = await cls.fromDropData(data);
     const type = document.type;
 
@@ -345,7 +345,7 @@ export class VehiculeSheet extends ActorSheet {
       });
 
       this.actor.update(update);
-    }    
+    } 
   }
 
   async _onDropItemCreate(itemData) {
