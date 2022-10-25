@@ -885,7 +885,7 @@
           "aspects":{},
           "caracteristiques":{}
         }
-      },      
+      },
       "espoir":{
         "bonus": {
           "user":0
@@ -989,7 +989,7 @@
                 "raw":[
                   "aucundegatsviolence",
                   "barrage 2",
-                  "choc 1",                
+                  "choc 1",
                   "dispersion 6"
                 ],
                 "custom":[]
@@ -1021,7 +1021,7 @@
               },
               "effets":{
                 "liste":[],
-                "raw":[               
+                "raw":[
                   "dispersion 6",
                   "meurtrier",
                   "ultraviolence"
@@ -1181,7 +1181,7 @@
                 "raw":[
                   "aucundegatsviolence",
                   "barrage 2",
-                  "choc 1",                
+                  "choc 1",
                   "dispersion 6"
                 ],
                 "custom":[]
@@ -1213,7 +1213,7 @@
               },
               "effets":{
                 "liste":[],
-                "raw":[               
+                "raw":[
                   "dispersion 6",
                   "meurtrier",
                   "ultraviolence"
@@ -2409,7 +2409,7 @@
                 "descriptionEUtilitaire":140,
                 "descriptionEOffensif":85,
                 "dureeESupport":50,
-                "dureeEUtilitaire":50,              
+                "dureeEUtilitaire":50,
                 "dureeEOffensif":50
               }
             },
@@ -2421,10 +2421,10 @@
               "descriptionEUtilitaire":140,
               "descriptionEOffensif":85,
               "dureeSupport":50,
-              "dureeUtilitaire":50,              
+              "dureeUtilitaire":50,
               "dureeOffensif":50,
               "dureeESupport":50,
-              "dureeEUtilitaire":50,              
+              "dureeEUtilitaire":50,
               "dureeEOffensif":50
             }
           },
@@ -3438,7 +3438,7 @@
               "descriptionSalve":75,
               "descriptionRayon":150,
               "porteeVague":50,
-              "porteeSalve":50,              
+              "porteeSalve":50,
               "porteeRayon":50,
               "duree":50
             },
@@ -3513,7 +3513,7 @@
                 "descriptionSalve":75,
                 "descriptionRayon":150,
                 "porteeVague":50,
-                "porteeSalve":50,              
+                "porteeSalve":50,
                 "porteeRayon":50,
                 "duree":50
               }
@@ -3920,8 +3920,8 @@
                 }
               },
               "canon":{
-                "portee":"distance",
-                "type":"moyenne",
+                "portee":"moyenne",
+                "type":"distance",
                 "energie":1,
                 "degats":{
                   "dice":3,
@@ -4680,44 +4680,44 @@
                   "dice":0,
                   "face":0,
                   "fixe":1
-                },       
+                },
                 "salopard":{
                   "dice":1,
                   "face":3,
                   "fixe":0
-                },          
+                },
                 "patron":{
                   "dice":1,
                   "face":6,
                   "fixe":3
-                },             
+                },
                 "bande":{
                   "dice":1,
                   "face":6,
                   "fixe":0
-                }               
+                }
               },
               "anatheme":{
                 "hostile":{
                   "dice":1,
                   "face":6,
                   "fixe":0
-                },       
+                },
                 "salopard":{
                   "dice":1,
                   "face":6,
                   "fixe":3
-                },          
+                },
                 "patron":{
                   "dice":1,
                   "face":6,
                   "fixe":6
-                },             
+                },
                 "bande":{
                   "dice":2,
                   "face":6,
                   "fixe":0
-                }               
+                }
               }
             },
             "colere":{
@@ -4838,44 +4838,44 @@
                     "dice":0,
                     "face":0,
                     "fixe":1
-                  },       
+                  },
                   "salopard":{
                     "dice":1,
                     "face":3,
                     "fixe":0
-                  },          
+                  },
                   "patron":{
                     "dice":1,
                     "face":6,
                     "fixe":3
-                  },             
+                  },
                   "bande":{
                     "dice":1,
                     "face":6,
                     "fixe":0
-                  }               
+                  }
                 },
                 "anatheme":{
                   "hostile":{
                     "dice":1,
                     "face":6,
                     "fixe":0
-                  },       
+                  },
                   "salopard":{
                     "dice":1,
                     "face":6,
                     "fixe":3
-                  },          
+                  },
                   "patron":{
                     "dice":1,
                     "face":6,
                     "fixe":6
-                  },             
+                  },
                   "bande":{
                     "dice":2,
                     "face":6,
                     "fixe":0
-                  }               
+                  }
                 }
               },
               "colere":{
@@ -5481,7 +5481,7 @@
             "has":false,
             "value":9,
             "max":9
-          },        
+          },
           "chair":{
             "has":false,
             "value":9,
@@ -5501,7 +5501,7 @@
             "has":false,
             "value":9,
             "max":9
-          }    
+          }
         },
         "espoir":{
           "aucunGain":false
@@ -5875,7 +5875,7 @@
                 "dice": 0
               }
             }
-          }          
+          }
         }
       },
       "arme":{
