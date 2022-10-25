@@ -1073,7 +1073,7 @@ export class KnightRollDialog extends Application {
   async _doDgts(actor, dataWpn, wpnType, listAllEffets, regularite=0, addNum='') {
     const isPNJ = this.data?.pnj || false
     const style = isPNJ ? {raw:''} : this.data.style;
-    
+
     //DEGATS
     const tenebricide = this.data.tenebricide;
     const bourreau = listAllEffets.bourreau;
@@ -1087,7 +1087,7 @@ export class KnightRollDialog extends Application {
 
     if(style.raw === 'akimbo') {
       diceDgts += diceDgts;
-    }    
+    }
 
     bonusDgts += regularite;
 
@@ -1151,7 +1151,7 @@ export class KnightRollDialog extends Application {
   async _doViolence(actor, dataWpn, wpnType, listAllEffets, bViolence=0, addNum='') {
     const isPNJ = this.data?.pnj || false
     const style = isPNJ ? {raw:''} : this.data.style;
-    
+
     //VIOLENCE
     const tenebricide = this.data.tenebricide;
     const devastation = listAllEffets.devastation;
@@ -2084,7 +2084,8 @@ export class KnightRollDialog extends Application {
 
   _depensePE(actor, depense) {
     const isMA = this.data?.ma || false;
-    const remplaceEnergie = isMA ? false : actor.items.get(actor.system.equipements.armure.id).system.espoir.remplaceEnergie || false;
+    const getArmure = actor.items.get(actor.system.equipements.armure.id).system;
+    const remplaceEnergie = isMA ? false : getArmure.espoir.remplaceEnergie || false;
     const type = remplaceEnergie ? 'espoir' : 'energie';
     const hasJauge = isMA ? true : actor.system.jauges[type];
 
@@ -2093,8 +2094,9 @@ export class KnightRollDialog extends Application {
       type:type
     };
 
+    const coutCalcule = (remplaceEnergie && getArmure.espoir.cout > 0 && type === 'module') ? Math.floor(depense / getArmure.espoir.cout) : depense;
     const actuel = remplaceEnergie ? +actor.system.espoir.value : +actor.system.energie.value;
-    const substract = actuel-depense;
+    const substract = actuel-coutCalcule;
 
     if(substract < 0) {
       return {

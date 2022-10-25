@@ -4,12 +4,12 @@
         <h1 class="charname">
             <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
         </h1>
-        
+
         <label class="generationArmure">
             <span>{{localize "KNIGHT.ITEMS.ARMURE.Generation"}}</span>
             <input type="number" class="generation" name="system.generation" value="{{systemData.generation}}" min="1" max="4" />
         </label>
-        
+
         <button type="action" data-value="{{systemData.espoir.bonus}}" class="buttonEspoir {{#if systemData.espoir.bonus}} selected {{else}} unselected {{/if}}">
             {{localize "KNIGHT.ITEMS.ARMURE.BonusEspoir"}}
         </button>
@@ -92,7 +92,7 @@
             <select name="system.capacites.actuel">
                 {{#select systemData.capacites.actuel}}
                 <option value=""></option>
-                    {{#each systemData.capacites.liste  as | key capacite|}} 
+                    {{#each systemData.capacites.liste  as | key capacite|}}
                         <option value="{{key.key}}">{{key.label}}</option>
                     {{/each}}
                 {{/select}}
@@ -113,7 +113,7 @@
             <select name="system.special.actuel">
                 {{#select systemData.special.actuel}}
                 <option value=""></option>
-                {{#each systemData.special.liste  as | key special|}} 
+                {{#each systemData.special.liste  as | key special|}}
                     <option value="{{key.key}}">{{key.label}}</option>
                 {{/each}}
                 {{/select}}
@@ -188,13 +188,13 @@
         {{#each systemData.evolutions.special as | key evolution|}}
             {{~> (evolutions) key=evolution}}
         {{/each}}
-        
+
         <label class="paliers">
             <span>{{localize "KNIGHT.ITEMS.ARMURE.EVOLUTIONS.NbrePaliers"}}</span>
             <input type="number" name="system.evolutions.paliers" min="0" value="{{systemData.evolutions.paliers}}" />
             <button type="action" data-value="{{systemData.evolutions.paliers}}">{{localize "KNIGHT.AUTRE.Valider"}}</button>
         </label>
-        
+
         <button class="aAcheter {{#if systemData.evolutions.aAcheter.value}} selected {{else}} unselected {{/if}}" data-value="{{systemData.evolutions.aAcheter.value}}">
         {{systemData.evolutions.aAcheter.label}}</button>
         {{#each systemData.evolutions.liste as | key evolution|}}
