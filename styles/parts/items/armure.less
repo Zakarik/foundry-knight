@@ -173,6 +173,12 @@
             }
         }
 
+        div.description {
+            div.editor {
+                display:none;
+            }
+        }
+
         div.description,
         div.capacites,
         div.special,
@@ -1645,6 +1651,7 @@
                 flex-wrap: wrap;
 
                 div.editor {
+                    display:none;
                     min-height:80px;
                 }
 
@@ -1656,6 +1663,7 @@
 
         div.capacites {
             border:1px solid @lightBlue;
+
             div.add {
                 display:flex;
                 width:100%;
@@ -4576,10 +4584,15 @@
                 }
             
             }
+
+            >div {
+                display:none;
+            }
         }
 
         div.special {
             border:1px solid @lightBlue;
+
             div.add {
                 display:flex;
                 width:100%;
@@ -5052,6 +5065,10 @@
                         }
                     }
                 }
+            }
+
+            >div {
+                display:none;
             }
         }
     } 
