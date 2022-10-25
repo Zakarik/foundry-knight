@@ -27,6 +27,7 @@ export const RegisterSettings = function () {
         config: true,
         default: true,
         type: Boolean,
+        onChange: () => Hooks.call('knightSettingsChange', 'include-capacite2038')
     });
 
     game.settings.register("knight", "include-capacite2038necromancer", {
@@ -54,6 +55,7 @@ export const RegisterSettings = function () {
         config: true,
         default: true,
         type: Boolean,
+        onChange: () => Hooks.call('knightSettingsChange', 'include-capacitecodex')
     });
 
     game.settings.register("knight", "include-capaciteatlas", {
@@ -63,6 +65,7 @@ export const RegisterSettings = function () {
         config: true,
         default: true,
         type: Boolean,
+        onChange: () => Hooks.call('knightSettingsChange', 'include-capaciteatlas')
     });
 
     game.settings.register("knight", "include-capaciteatlasspecial", {
