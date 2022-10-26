@@ -37,6 +37,7 @@ import { KnightRollDialog } from "./dialog/roll-dialog.mjs";
 import { KnightEditDialog } from "./dialog/edit-dialog.mjs";
 import { KnightEffetsDialog } from "./dialog/effets-dialog.mjs";
 import { MigrationKnight } from "./migration.mjs";
+import toggler from './helpers/toggler.js';
 
 // GM Helper
 import { GmTool } from "./gm/gmTool.mjs";
@@ -49,7 +50,6 @@ import HooksKnight from "./hooks.mjs";
 /* -------------------------------------------- */
 
 Hooks.once('init', async function() {
-
   // Add utility classes to the global game object so that they're more easily
   // accessible in global contexts.
   game.knight = {
@@ -109,114 +109,114 @@ Hooks.once('init', async function() {
   Actors.unregisterSheet("core", ActorSheet);
   Items.unregisterSheet("core", ItemSheet);
 
-  Actors.registerSheet("knight", KnightSheet, { 
+  Actors.registerSheet("knight", KnightSheet, {
     types: ["knight"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Actors.registerSheet("ia", IASheet, { 
+  Actors.registerSheet("ia", IASheet, {
     types: ["ia"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Actors.registerSheet("pnj", PNJSheet, { 
+  Actors.registerSheet("pnj", PNJSheet, {
     types: ["pnj"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Actors.registerSheet("creature", CreatureSheet, { 
+  Actors.registerSheet("creature", CreatureSheet, {
     types: ["creature"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Actors.registerSheet("bande", BandeSheet, { 
+  Actors.registerSheet("bande", BandeSheet, {
     types: ["bande"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Actors.registerSheet("vehicule", VehiculeSheet, { 
+  Actors.registerSheet("vehicule", VehiculeSheet, {
     types: ["vehicule"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Actors.registerSheet("mechaarmure", MechaArmureSheet, { 
+  Actors.registerSheet("mechaarmure", MechaArmureSheet, {
     types: ["mechaarmure"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Items.registerSheet("avantage", AvantageSheet, { 
+  Items.registerSheet("avantage", AvantageSheet, {
     types: ["avantage"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Items.registerSheet("inconvenient", InconvenientSheet, { 
+  Items.registerSheet("inconvenient", InconvenientSheet, {
     types: ["inconvenient"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Items.registerSheet("motivationMineure", MotivationMineureSheet, { 
+  Items.registerSheet("motivationMineure", MotivationMineureSheet, {
     types: ["motivationMineure"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Items.registerSheet("langue", LangueSheet, { 
+  Items.registerSheet("langue", LangueSheet, {
     types: ["langue"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Items.registerSheet("contact", ContactSheet, { 
+  Items.registerSheet("contact", ContactSheet, {
     types: ["contact"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Items.registerSheet("blessure", BlessureSheet, { 
+  Items.registerSheet("blessure", BlessureSheet, {
     types: ["blessure"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Items.registerSheet("trauma", TraumaSheet, { 
+  Items.registerSheet("trauma", TraumaSheet, {
     types: ["trauma"],
     makeDefault: true
   });
 
-  Items.registerSheet("armure", ArmureSheet, { 
+  Items.registerSheet("armure", ArmureSheet, {
     types: ["armure"],
     makeDefault: true
   });
 
-  Items.registerSheet("armurelegende", ArmureLegendeSheet, { 
+  Items.registerSheet("armurelegende", ArmureLegendeSheet, {
     types: ["armurelegende"],
     makeDefault: true
   });
 
-  Items.registerSheet("module", ModuleSheet, { 
+  Items.registerSheet("module", ModuleSheet, {
     types: ["module"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Items.registerSheet("arme", ArmeSheet, { 
+  Items.registerSheet("arme", ArmeSheet, {
     types: ["arme"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Items.registerSheet("capacite", CapaciteSheet, { 
+  Items.registerSheet("capacite", CapaciteSheet, {
     types: ["capacite"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Items.registerSheet("carteheroique", CarteHeroiqueSheet, { 
+  Items.registerSheet("carteheroique", CarteHeroiqueSheet, {
     types: ["carteheroique"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Items.registerSheet("capaciteheroique", CapaciteHeroiqueSheet, { 
+  Items.registerSheet("capaciteheroique", CapaciteHeroiqueSheet, {
     types: ["capaciteheroique"],
-    makeDefault: true 
+    makeDefault: true
   });
 
-  Items.registerSheet("effet", EffetSheet, { 
+  Items.registerSheet("effet", EffetSheet, {
     types: ["effet"],
-    makeDefault: true 
+    makeDefault: true
   });
 });
 
@@ -229,3 +229,6 @@ Hooks.once("ready", async function() {
 });
 
 Hooks.once("ready", HooksKnight.ready);
+
+Hooks.on('deleteItem', doc => toggler.clearForId(doc.id));
+Hooks.on('deleteActor', doc => toggler.clearForId(doc.id));
