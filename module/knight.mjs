@@ -37,6 +37,7 @@ import { KnightRollDialog } from "./dialog/roll-dialog.mjs";
 import { KnightEditDialog } from "./dialog/edit-dialog.mjs";
 import { KnightEffetsDialog } from "./dialog/effets-dialog.mjs";
 import { MigrationKnight } from "./migration.mjs";
+import toggler from './helpers/toggler.js';
 
 // GM Helper
 import { GmTool } from "./gm/gmTool.mjs";
@@ -49,7 +50,6 @@ import HooksKnight from "./hooks.mjs";
 /* -------------------------------------------- */
 
 Hooks.once('init', async function() {
-
   // Add utility classes to the global game object so that they're more easily
   // accessible in global contexts.
   game.knight = {
@@ -229,3 +229,6 @@ Hooks.once("ready", async function() {
 });
 
 Hooks.once("ready", HooksKnight.ready);
+
+Hooks.on('deleteItem', doc => toggler.clearForId(doc.id));
+Hooks.on('deleteActor', doc => toggler.clearForId(doc.id));
