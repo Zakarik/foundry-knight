@@ -9,6 +9,7 @@ import {
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
+import toggler from '../../helpers/toggler.js';
 
 /**
  * @extends {ActorSheet}
@@ -57,17 +58,19 @@ export class MechaArmureSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    html.find('.header .far').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square");
-      $(ev.currentTarget).toggleClass("fa-minus-square");
-      $(ev.currentTarget).parents(".header").siblings().toggle();
-    });
+    toggler.init(this.id, html, '.header > .far');
 
-    html.find('header .far').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square");
-      $(ev.currentTarget).toggleClass("fa-minus-square");
-      $(ev.currentTarget).parents(".summary").siblings().toggle();
-    });
+    // html.find('.header .far').click(ev => {
+    //   $(ev.currentTarget).toggleClass("fa-plus-square");
+    //   $(ev.currentTarget).toggleClass("fa-minus-square");
+    //   $(ev.currentTarget).parents(".header").siblings().toggle();
+    // });
+    //
+    // html.find('header .far').click(ev => {
+    //   $(ev.currentTarget).toggleClass("fa-plus-square");
+    //   $(ev.currentTarget).toggleClass("fa-minus-square");
+    //   $(ev.currentTarget).parents(".summary").siblings().toggle();
+    // });
 
     html.find('img.dice').hover(ev => {
       $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6White.svg");

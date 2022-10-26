@@ -1,5 +1,6 @@
 import { SortByLabel } from "../../helpers/common.mjs";
 import { listEffects } from "../../helpers/common.mjs";
+import toggler from '../../helpers/toggler.js';
 /**
  * @extends {ItemSheet}
  */
@@ -21,13 +22,13 @@ export class ArmureLegendeSheet extends ItemSheet {
   /** @inheritdoc */
   getData() {
     const context = super.getData();
-    
+
     this._prepareCapacitesTranslation(context);
     this._prepareSpecialTranslation(context);
     this._prepareDurationTranslation(context);
     this._prepareRangeTranslation(context);
     this._createCapaciteList(context);
-    
+
     context.systemData = context.data.system;
 
     return context;
@@ -39,11 +40,13 @@ export class ArmureLegendeSheet extends ItemSheet {
 	activateListeners(html) {
     super.activateListeners(html);
 
-    html.find('.header .far').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square");
-      $(ev.currentTarget).toggleClass("fa-minus-square");
-      $(ev.currentTarget).parents(".header").siblings().toggle();
-    });
+    toggler.init(this.id, html, '.header > .far');
+
+    // html.find('.header .far').click(ev => {
+    //   $(ev.currentTarget).toggleClass("fa-plus-square");
+    //   $(ev.currentTarget).toggleClass("fa-minus-square");
+    //   $(ev.currentTarget).parents(".header").siblings().toggle();
+    // });
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
@@ -128,7 +131,7 @@ export class ArmureLegendeSheet extends ItemSheet {
 
       textarea.height(min);
       const height = ev.currentTarget.scrollHeight+1;
-      
+
       textarea.height(Math.max(height, min));
       if(evo) {
         if(special === true) {
@@ -136,7 +139,7 @@ export class ArmureLegendeSheet extends ItemSheet {
         } else {
           this.item.update({[`system.evolutions.liste.${key}.capacites.${capacite}.textarea.${type}`]:Math.max(height, min)});
         }
-        
+
       } else {
         this.item.update({[`system.capacites.selected.${capacite}.textarea.${type}`]:Math.max(height, min)});
       }
@@ -182,7 +185,7 @@ export class ArmureLegendeSheet extends ItemSheet {
 
       textarea.height(min);
       const height = ev.currentTarget.scrollHeight+1;
-      
+
       textarea.height(Math.max(height, min));
       if(evo) {
         if(special === true) {
@@ -190,7 +193,7 @@ export class ArmureLegendeSheet extends ItemSheet {
         } else {
           this.item.update({[`system.evolutions.liste.${key}.capacites.${capacite}.textarea.${type}`]:Math.max(height, min)});
         }
-        
+
       } else {
         this.item.update({[`system.capacites.selected.${capacite}.textarea.${type}`]:Math.max(height, min)});
       }
@@ -283,7 +286,7 @@ export class ArmureLegendeSheet extends ItemSheet {
 
   _prepareGhostSelectedTranslation(context) {
     const degats = context.data.system.capacites.selected?.ghost?.bonus?.degats || false;
- 
+
     if(!degats) return;
 
     const odInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["odinclus"]);
@@ -340,7 +343,7 @@ export class ArmureLegendeSheet extends ItemSheet {
       for (let [keyType, dType] of Object.entries(type.liste)){
         dType.label = game.i18n.localize(CONFIG.KNIGHT.caracteristiques[keyType]);
         labels[key][keyType] = game.i18n.localize(CONFIG.KNIGHT.caracteristiques[keyType]);
-      } 
+      }
     }
   }
 
@@ -409,7 +412,7 @@ export class ArmureLegendeSheet extends ItemSheet {
       const cLEffets = lEffets.contact.coups.effets;
       const cLRaw = cLEffets.raw;
       const cLCustom = cLEffets.custom;
-  
+
       cLEffets.liste = listEffects(cLRaw, cLCustom, labels);
     }
 
@@ -430,18 +433,18 @@ export class ArmureLegendeSheet extends ItemSheet {
   }
 
   _prepareDurationTranslation(context) {
-    const listCapacite = ["changeling", "falcon", "goliath", "ghost", "nanoc", "oriflamme", "shrine", "type", "vision", "puppet", "windtalker", "companions", "totem", "record", "rewind"];    
+    const listCapacite = ["changeling", "falcon", "goliath", "ghost", "nanoc", "oriflamme", "shrine", "type", "vision", "puppet", "windtalker", "companions", "totem", "record", "rewind"];
 
     for(let i = 0;i < listCapacite.length;i++) {
       const capacite = context.data.system.capacites.all[listCapacite[i]];
 
       capacite.duree = game.i18n.localize(CONFIG.KNIGHT[listCapacite[i]].duree);
-      
+
     }
   }
 
   _prepareRangeTranslation(context) {
-    const listCapacite = ["changeling", "mechanic"];    
+    const listCapacite = ["changeling", "mechanic"];
 
     for(let i = 0;i < listCapacite.length;i++) {
       const capacite = context.data.system.capacites.all[listCapacite[i]];
