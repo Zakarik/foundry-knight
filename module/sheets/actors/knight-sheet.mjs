@@ -5309,10 +5309,10 @@ export class KnightSheet extends ActorSheet {
     };
     let egide = {
       bonus:{
-        armure:[]
+        armure:[0]
       },
       malus:{
-        armure:[]
+        armure:[0]
       }
     }
     let lion = {
