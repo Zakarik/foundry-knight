@@ -1,4 +1,4 @@
-import { 
+import {
   getEffets,
   getAspectValue,
   getAEValue,
@@ -41,7 +41,7 @@ export class PNJSheet extends ActorSheet {
     this._prepareAE(context);
 
     context.systemData = context.data.system;
-    
+
     return context;
   }
 
@@ -90,7 +90,7 @@ export class PNJSheet extends ActorSheet {
       const option = $(ev.currentTarget).data("option");
       const actuel = this.getData().data.system[option]?.optionDeploy || false;
 
-      let result = false;      
+      let result = false;
       if(actuel) {
         result = false;
       } else {
@@ -172,7 +172,7 @@ export class PNJSheet extends ActorSheet {
       $(ev.currentTarget).toggleClass("clicked");
     });
 
-    html.find('.extendButton').click(ev => {      
+    html.find('.extendButton').click(ev => {
       $(ev.currentTarget).toggleClass("fa-plus-square fa-minus-square");
 
       if($(ev.currentTarget).hasClass("fa-minus-square")) {
@@ -269,10 +269,10 @@ export class PNJSheet extends ActorSheet {
           content: await renderTemplate('systems/knight/templates/dices/wpn.html', pAttack),
           sound: CONFIG.sounds.dice
         };
-    
+
         ChatMessage.create(attackMsgData);
       } else {
-        
+
         this._doDgts(label, degats, allEffets, false);
         this._doViolence(label, violence, allEffets);
       }
@@ -327,7 +327,7 @@ export class PNJSheet extends ActorSheet {
 
     html.find('.capacites div.modules .supplementaire').click(async ev => {
       const cout = eval($(ev.currentTarget).data("cout"));
-      
+
       this._depensePE(cout, true);
     });
 
@@ -361,7 +361,7 @@ export class PNJSheet extends ActorSheet {
             type = 'sante';
             base = data.data.system.sante.value;
             max = data.data.system.sante.max;
-            
+
             break;
 
           case 'energie':
@@ -532,7 +532,7 @@ export class PNJSheet extends ActorSheet {
               };
 
               let calcul = 0;
-              
+
               switch(selected) {
                 case 'colosseRecrue':
                   if(hasSante) calcul = Math.floor(dataSante/10);
@@ -618,7 +618,7 @@ export class PNJSheet extends ActorSheet {
 
     html.find('.armure .supplementaire').click(async ev => {
       const cout = eval($(ev.currentTarget).data("cout"));
-      
+
       this._depensePE(cout, true);
     });
 
@@ -860,10 +860,10 @@ export class PNJSheet extends ActorSheet {
     const itemBaseType = itemData[0].type;
     const options = actorData.options;
 
-    if((itemBaseType === 'module' && !options.modules) || 
-    itemBaseType === 'armure' || itemBaseType === 'avantage' || 
-    itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' || 
-    itemBaseType === 'contact' || itemBaseType === 'blessure' || 
+    if((itemBaseType === 'module' && !options.modules) ||
+    itemBaseType === 'armure' || itemBaseType === 'avantage' ||
+    itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' ||
+    itemBaseType === 'contact' || itemBaseType === 'blessure' ||
     itemBaseType === 'trauma' || itemBaseType === 'armurelegende' ||
     itemBaseType === 'effet') return;
 
@@ -875,7 +875,7 @@ export class PNJSheet extends ActorSheet {
   async _prepareCharacterItems(sheetData) {
     const actorData = sheetData.actor;
     const system = sheetData.data.system;
-    
+
     const armesContact = [];
     const armesDistance = [];
     const armesTourelles = [];
@@ -1063,7 +1063,7 @@ export class PNJSheet extends ActorSheet {
 
       // LANGUE
       if (i.type === 'langue') {
-        langue.push(i);      
+        langue.push(i);
       }
 
       // MODULES
@@ -1085,7 +1085,7 @@ export class PNJSheet extends ActorSheet {
             if(iBArmure.has) { armure.bonus.modules.push(iBArmure.value); }
             if(iBCDF.has) { champDeForce.bonus.modules.push(iBCDF.value); }
             if(iBEnergie.has) { energie.bonus.modules.push(iBEnergie.value); }
-            if(iBDgts.has) { 
+            if(iBDgts.has) {
               if(iBDgtsVariable.has) {
                 moduleBonusDgtsVariable[iBDgts.type].push({
                   label:i.name,
@@ -1112,7 +1112,7 @@ export class PNJSheet extends ActorSheet {
                 });
               }
             }
-            if(iBViolence.has) { 
+            if(iBViolence.has) {
               if(iBViolenceVariable.has) {
                 moduleBonusViolenceVariable[iBViolence.type].push({
                   label:i.name,
@@ -1190,7 +1190,7 @@ export class PNJSheet extends ActorSheet {
           i.system.buttonPNJ = true;
         }
 
-        modules.push(i);      
+        modules.push(i);
       }
 
       // CAPACITES
@@ -1257,7 +1257,7 @@ export class PNJSheet extends ActorSheet {
               armesContact.push(capaciteWpn);
             } else if(attaque.type === 'distance') {
               armesDistance.push(capaciteWpn);
-            } 
+            }
           }
         } else if(isPhase2 && system.phase2Activate) {
           if(aLieSupp.has) aspectLieSupp.push(aLieSupp.value);
@@ -1306,7 +1306,7 @@ export class PNJSheet extends ActorSheet {
               armesContact.push(capaciteWpn);
             } else if(attaque.type === 'distance') {
               armesDistance.push(capaciteWpn);
-            } 
+            }
           }
         }
 
@@ -1524,8 +1524,6 @@ export class PNJSheet extends ActorSheet {
       }
     });
 
-    console.log(result);
-    
     return result;
   }
 
@@ -1542,7 +1540,7 @@ export class PNJSheet extends ActorSheet {
     const hasBarrage = typeWpn === 'grenades' ? data.data.system.combat.grenades.liste[nameWpn].effets.raw.find(str => { if(str.includes('barrage')) return true; }) : false;
 
     await rollApp.setData(label, select, [], [], difficulte,
-      data.data.system.combat.data.modificateur, data.data.system.combat.data.succesbonus+reussitesBonus, 
+      data.data.system.combat.data.modificateur, data.data.system.combat.data.succesbonus+reussitesBonus,
       {dice:data.data.system.combat.data.degatsbonus.dice, fixe:data.data.system.combat.data.degatsbonus.fixe},
       {dice:data.data.system.combat.data.violencebonus.dice, fixe:data.data.system.combat.data.violencebonus.fixe},
       data.actor.armesContact, data.actor.armesDistance, data.actor.armesTourelles, data.systemData.combat.grenades.liste, {contact:data.systemData.combat.armesimprovisees.liste, distance:data.systemData.combat.armesimprovisees.liste}, [], [],
@@ -1569,7 +1567,7 @@ export class PNJSheet extends ActorSheet {
       const aeMajeur = +aspect.ae.majeur.value;
       const lMineur = `KNIGHT.ASPECTS.${key.toUpperCase()}.AE.Mineur`;
       const lMajeur = `KNIGHT.ASPECTS.${key.toUpperCase()}.AE.Majeur`;
-      
+
       if(aeMineur > 0 || aeMajeur > 0) result[key] = {}
 
       if(aeMineur > 0) {
@@ -1587,7 +1585,7 @@ export class PNJSheet extends ActorSheet {
 
   _depensePE(depense, autosubstract=true) {
     const getData = this.getData();
-    
+
     const actuel = +getData.systemData.energie.value;
     const substract = actuel-depense;
 
@@ -1613,11 +1611,11 @@ export class PNJSheet extends ActorSheet {
 
   async _doDgts(label, dataWpn, listAllEffets, regularite=0, addNum='', tenebricide) {
     const actor = this.actor;
-   
+
     //DEGATS
     const bourreau = listAllEffets.bourreau;
     const bourreauValue = listAllEffets.bourreauValue;
-    
+
     const dgtsDice = dataWpn?.dice || 0;
     const dgtsFixe = dataWpn?.fixe || 0;
 
@@ -1679,7 +1677,7 @@ export class PNJSheet extends ActorSheet {
       content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegats),
       sound: CONFIG.sounds.dice
     };
-    
+
     ChatMessage.create(dgtsMsgData);
   }
 
@@ -1707,12 +1705,12 @@ export class PNJSheet extends ActorSheet {
     const execViolence = new game.knight.RollKnight(`${totalViolence}`, actor.system);
     execViolence._success = false;
     execViolence._hasMin = devastation ? true : false;
-    
+
     if(devastation) {
       execViolence._seuil = devastationValue;
       execViolence._min = 5;
     }
-    
+
     await execViolence.evaluate(listAllEffets.violence.minMax);
 
     let sub = listAllEffets.violence.list;
@@ -1794,7 +1792,7 @@ export class PNJSheet extends ActorSheet {
     const lEffetViolence = listEffets.violence;
     const lEffetOther = listEffets.other;
 
-    // ATTAQUE    
+    // ATTAQUE
     const attackDice = lEffetAttack.totalDice;
     const attackBonus = lEffetAttack.totalBonus;
     const attackInclude = lEffetAttack.include;
