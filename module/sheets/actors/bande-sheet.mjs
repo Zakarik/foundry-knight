@@ -1,4 +1,4 @@
-import { 
+import {
   getEffets,
   getAspectValue,
   getAEValue,
@@ -8,6 +8,7 @@ import {
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
+import toggler from '../../helpers/toggler.js';
 
 /**
  * @extends {ActorSheet}
@@ -30,12 +31,12 @@ export class BandeSheet extends ActorSheet {
   /** @inheritdoc */
   getData() {
     const context = super.getData();
-    
+
     this._prepareCharacterItems(context);
     this._prepareAE(context);
 
     context.systemData = context.data.system;
-    
+
     return context;
   }
 
@@ -56,17 +57,19 @@ export class BandeSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    html.find('.header .far').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square");
-      $(ev.currentTarget).toggleClass("fa-minus-square");
-      $(ev.currentTarget).parents(".header").siblings().toggle();
-    });
+    toggler.init(this.id, html, '.header > .far');
 
-    html.find('header .far').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square");
-      $(ev.currentTarget).toggleClass("fa-minus-square");
-      $(ev.currentTarget).parents(".summary").siblings().toggle();
-    });
+    // html.find('.header .far').click(ev => {
+    //   $(ev.currentTarget).toggleClass("fa-plus-square");
+    //   $(ev.currentTarget).toggleClass("fa-minus-square");
+    //   $(ev.currentTarget).parents(".header").siblings().toggle();
+    // });
+    //
+    // html.find('header .far').click(ev => {
+    //   $(ev.currentTarget).toggleClass("fa-plus-square");
+    //   $(ev.currentTarget).toggleClass("fa-minus-square");
+    //   $(ev.currentTarget).parents(".summary").siblings().toggle();
+    // });
 
     html.find('img.dice').hover(ev => {
       $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6White.svg");
@@ -78,7 +81,7 @@ export class BandeSheet extends ActorSheet {
       const option = $(ev.currentTarget).data("option");
       const actuel = this.getData().data.system[option]?.optionDeploy || false;
 
-      let result = false;      
+      let result = false;
       if(actuel) {
         result = false;
       } else {
@@ -96,7 +99,7 @@ export class BandeSheet extends ActorSheet {
       this.actor.update(update);
     });
 
-    html.find('.extendButton').click(ev => {      
+    html.find('.extendButton').click(ev => {
       $(ev.currentTarget).toggleClass("fa-plus-square fa-minus-square");
 
       if($(ev.currentTarget).hasClass("fa-minus-square")) {
@@ -214,7 +217,7 @@ export class BandeSheet extends ActorSheet {
 
       this.actor.update({[`system.options.${option}`]:result});
     });
-    
+
     html.find('.activatePhase2').click(ev => {
       const data = this.getData().data.system;
       const phase2 = data.phase2;
@@ -382,10 +385,10 @@ export class BandeSheet extends ActorSheet {
     itemData = itemData instanceof Array ? itemData : [itemData];
     const itemBaseType = itemData[0].type;
 
-    if(itemBaseType === 'arme' || itemBaseType === 'module' || 
-    itemBaseType === 'armure' || itemBaseType === 'avantage' || 
-    itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' || 
-    itemBaseType === 'contact' || itemBaseType === 'blessure' || 
+    if(itemBaseType === 'arme' || itemBaseType === 'module' ||
+    itemBaseType === 'armure' || itemBaseType === 'avantage' ||
+    itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' ||
+    itemBaseType === 'contact' || itemBaseType === 'blessure' ||
     itemBaseType === 'trauma' || itemBaseType === 'langue' || itemBaseType === 'armurelegende' ||
     itemBaseType === 'effet') return;
 
@@ -397,7 +400,7 @@ export class BandeSheet extends ActorSheet {
   async _prepareCharacterItems(sheetData) {
     const actorData = sheetData.actor;
     const system = sheetData.data.system;
-    
+
     const capacites = [];
     const aspects = {
       "chair":system.aspects.chair.value,
@@ -563,7 +566,7 @@ export class BandeSheet extends ActorSheet {
               armesContact.push(capaciteWpn);
             } else if(attaque.type === 'distance') {
               armesDistance.push(capaciteWpn);
-            } 
+            }
           }
         } else if(isPhase2 && system.phase2Activate) {
           if(aLieSupp.has) aspectLieSupp.push(aLieSupp.value);
@@ -612,7 +615,7 @@ export class BandeSheet extends ActorSheet {
               armesContact.push(capaciteWpn);
             } else if(attaque.type === 'distance') {
               armesDistance.push(capaciteWpn);
-            } 
+            }
           }
         }
 
@@ -769,7 +772,7 @@ export class BandeSheet extends ActorSheet {
         }
       }
     });
-    
+
     return result;
   }
 
@@ -788,7 +791,7 @@ export class BandeSheet extends ActorSheet {
     await rollApp.setAspects(data.data.system.aspects);
     await rollApp.setEffets(hasBarrage, false, false, false);
     await rollApp.setData(label, select, [], [], difficulte,
-      data.data.system.combat.data.modificateur, data.data.system.combat.data.succesbonus+reussitesBonus, 
+      data.data.system.combat.data.modificateur, data.data.system.combat.data.succesbonus+reussitesBonus,
       {dice:0, fixe:0},
       {dice:0, fixe:0},
       [], [], [], [], {contact:[], distance:[]}, [], [],
@@ -813,7 +816,7 @@ export class BandeSheet extends ActorSheet {
       const aeMajeur = +aspect.ae.majeur.value;
       const lMineur = `KNIGHT.ASPECTS.${key.toUpperCase()}.AE.Mineur`;
       const lMajeur = `KNIGHT.ASPECTS.${key.toUpperCase()}.AE.Majeur`;
-      
+
       if(aeMineur > 0 || aeMajeur > 0) result[key] = {}
 
       if(aeMineur > 0) {
@@ -831,7 +834,7 @@ export class BandeSheet extends ActorSheet {
 
   async _doDebordement(label, dgtsDice) {
     const actor = this.actor;
-   
+
     //DEGATS
     const labelDgt = `${label} : ${game.i18n.localize('KNIGHT.AUTRE.Debordement')}`;
 
@@ -862,18 +865,18 @@ export class BandeSheet extends ActorSheet {
       content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegats),
       sound: CONFIG.sounds.dice
     };
-    
+
     ChatMessage.create(dgtsMsgData);
   }
 
   async _doDgts(label, dataWpn, listAllEffets, regularite=0, addNum='') {
     const actor = this.actor;
-   
+
     //DEGATS
     const tenebricide = true;
     const bourreau = listAllEffets.bourreau;
     const bourreauValue = listAllEffets.bourreauValue;
-    
+
     const dgtsDice = dataWpn?.dice || 0;
     const dgtsFixe = dataWpn?.fixe || 0;
 
@@ -935,7 +938,7 @@ export class BandeSheet extends ActorSheet {
       content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegats),
       sound: CONFIG.sounds.dice
     };
-    
+
     ChatMessage.create(dgtsMsgData);
   }
 
@@ -985,7 +988,7 @@ export class BandeSheet extends ActorSheet {
     const lEffetViolence = listEffets.violence;
     const lEffetOther = listEffets.other;
 
-    // ATTAQUE    
+    // ATTAQUE
     const attackDice = lEffetAttack.totalDice;
     const attackBonus = lEffetAttack.totalBonus;
     const attackInclude = lEffetAttack.include;
