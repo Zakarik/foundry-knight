@@ -1,10 +1,11 @@
-import { 
+import {
   getModStyle,
   listEffects,
   SortByName
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
+import toggler from '../../helpers/toggler.js';
 
 /**
  * @extends {ActorSheet}
@@ -27,11 +28,11 @@ export class VehiculeSheet extends ActorSheet {
   /** @inheritdoc */
   getData() {
     const context = super.getData();
-    
+
     this._prepareCharacterItems(context);
 
     context.systemData = context.data.system;
-    
+
     return context;
   }
 
@@ -52,17 +53,19 @@ export class VehiculeSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    html.find('.header .far').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square");
-      $(ev.currentTarget).toggleClass("fa-minus-square");
-      $(ev.currentTarget).parents(".header").siblings().toggle();
-    });
+    toggler.init(this.id, html, '.header > .far');
 
-    html.find('header .far').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square");
-      $(ev.currentTarget).toggleClass("fa-minus-square");
-      $(ev.currentTarget).parents(".summary").siblings().toggle();
-    });
+    // html.find('.header .far').click(ev => {
+    //   $(ev.currentTarget).toggleClass("fa-plus-square");
+    //   $(ev.currentTarget).toggleClass("fa-minus-square");
+    //   $(ev.currentTarget).parents(".header").siblings().toggle();
+    // });
+    //
+    // html.find('header .far').click(ev => {
+    //   $(ev.currentTarget).toggleClass("fa-plus-square");
+    //   $(ev.currentTarget).toggleClass("fa-minus-square");
+    //   $(ev.currentTarget).parents(".summary").siblings().toggle();
+    // });
 
     html.find('img.dice').hover(ev => {
       $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6White.svg");
@@ -74,7 +77,7 @@ export class VehiculeSheet extends ActorSheet {
       const option = $(ev.currentTarget).data("option");
       const actuel = this.getData().data.system[option]?.optionDeploy || false;
 
-      let result = false;      
+      let result = false;
       if(actuel) {
         result = false;
       } else {
@@ -92,7 +95,7 @@ export class VehiculeSheet extends ActorSheet {
       this.actor.update(update);
     });
 
-    html.find('.extendButton').click(ev => {      
+    html.find('.extendButton').click(ev => {
       $(ev.currentTarget).toggleClass("fa-plus-square fa-minus-square");
 
       if($(ev.currentTarget).hasClass("fa-minus-square")) {
@@ -137,7 +140,7 @@ export class VehiculeSheet extends ActorSheet {
       const data = this.getData().data.system;
       const oldPassager = data.equipage.passagers;
       oldPassager.splice(id,1);
-      
+
       this.actor.update({[`system.equipage.passagers`]:oldPassager});
     });
 
@@ -145,7 +148,7 @@ export class VehiculeSheet extends ActorSheet {
       const target = $(ev.currentTarget).parents(".value");
       const id = target.data("id");
       const data = this.getData().data.system;
-      
+
       this.actor.update({[`system.equipage.pilote`]:{
         name:'',
         id:''
@@ -200,7 +203,7 @@ export class VehiculeSheet extends ActorSheet {
         this._rollDicePNJ(label, actorId, '', false, false, '' , '', '', -1, manoeuvrabilite);
       } else if(actor.type === 'knight') {
         this._rollDicePJ(label, actorId, '', false, false, '', '', '', -1, manoeuvrabilite)
-      }      
+      }
     });
 
     html.find('.jetWpn').click(ev => {
@@ -345,7 +348,7 @@ export class VehiculeSheet extends ActorSheet {
       });
 
       this.actor.update(update);
-    } 
+    }
   }
 
   async _onDropItemCreate(itemData) {
@@ -354,9 +357,9 @@ export class VehiculeSheet extends ActorSheet {
     const armeType = itemData[0].system.type;
 
     if((itemBaseType === 'arme' && armeType === 'contact') || itemBaseType === 'module' || itemBaseType === 'capacite' ||
-    itemBaseType === 'armure' || itemBaseType === 'avantage' || 
-    itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' || 
-    itemBaseType === 'contact' || itemBaseType === 'blessure' || 
+    itemBaseType === 'armure' || itemBaseType === 'avantage' ||
+    itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' ||
+    itemBaseType === 'contact' || itemBaseType === 'blessure' ||
     itemBaseType === 'trauma' || itemBaseType === 'armurelegende' ||
     itemBaseType === 'effet') return;
 
@@ -463,7 +466,7 @@ export class VehiculeSheet extends ActorSheet {
         }
       }
     });
-    
+
     return result;
   }
 
@@ -482,7 +485,7 @@ export class VehiculeSheet extends ActorSheet {
         }
       }
     });
-    
+
     return result;
   }
 
@@ -503,14 +506,14 @@ export class VehiculeSheet extends ActorSheet {
     await rollApp.setAspects(actor.system.aspects);
     await rollApp.setEffets(hasBarrage, false, false, false);
     await rollApp.setData(label, select, [], [], difficulte,
-      data.combat.data.modificateur, data.combat.data.succesbonus+desBonus, 
+      data.combat.data.modificateur, data.combat.data.succesbonus+desBonus,
       {dice:0, fixe:0},
       {dice:0, fixe:0},
       [], armesDistance, [], [], {contact:{}, distance:{}}, [], [],
       isWpn, idWpn, nameWpn, typeWpn, num,
       deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, false, false, false,
       true, false);
-      
+
     rollApp.render(true);
   }
 
@@ -531,10 +534,10 @@ export class VehiculeSheet extends ActorSheet {
     const armesDistance = isWpn ? this.actor.armesDistance : {};
 
     await rollApp.setData(label, caracteristique, [], [], difficulte,
-      data.combat.data.modificateur, data.combat.data.succesbonus+desBonus, 
+      data.combat.data.modificateur, data.combat.data.succesbonus+desBonus,
       {dice:0, fixe:0},
       {dice:0, fixe:0},
-      {}, armesDistance, {}, {}, {contact:{}, distance:{}}, [], [], 
+      {}, armesDistance, {}, {}, {contact:{}, distance:{}}, [], [],
       isWpn, idWpn, nameWpn, typeWpn, num,
       deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, deployGrenades, deployLongbow, false,
       false, false);

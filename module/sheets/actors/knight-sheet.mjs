@@ -8,6 +8,7 @@ import {
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
+import toggler from '../../helpers/toggler.js';
 
 /**
  * @extends {ActorSheet}
@@ -216,17 +217,19 @@ export class KnightSheet extends ActorSheet {
       $(ev.currentTarget).toggleClass("clicked");
     });
 
-    html.find('.header .far').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square");
-      $(ev.currentTarget).toggleClass("fa-minus-square");
-      $(ev.currentTarget).parents(".header").siblings().toggle();
-    });
+    toggler.init(this.id, html, '.header > .far');
 
-    html.find('header .far').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square");
-      $(ev.currentTarget).toggleClass("fa-minus-square");
-      $(ev.currentTarget).parents(".summary").siblings().toggle();
-    });
+    // html.find('.header .far').click(ev => {
+    //   $(ev.currentTarget).toggleClass("fa-plus-square");
+    //   $(ev.currentTarget).toggleClass("fa-minus-square");
+    //   $(ev.currentTarget).parents(".header").siblings().toggle();
+    // });
+    //
+    // html.find('header .far').click(ev => {
+    //   $(ev.currentTarget).toggleClass("fa-plus-square");
+    //   $(ev.currentTarget).toggleClass("fa-minus-square");
+    //   $(ev.currentTarget).parents(".summary").siblings().toggle();
+    // });
 
     html.find('img.option').click(ev => {
       const option = $(ev.currentTarget).data("option");
