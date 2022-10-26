@@ -359,8 +359,6 @@ export class KnightSheet extends ActorSheet {
           break;
       }
 
-      console.log(update);
-
       this.actor.update(update);
     });
 
