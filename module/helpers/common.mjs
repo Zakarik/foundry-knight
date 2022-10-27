@@ -37,7 +37,7 @@ export function listEffects(raw, custom, labels) {
       const other = Object.values(secondSplit);
       let complet = name;
 
-      if(other.length > 1) { 
+      if(other.length > 1) {
         other.splice(0, 1);
         complet += ` ${other.join(" ").replace("<space>", " ")}`;
       }
@@ -45,15 +45,15 @@ export function listEffects(raw, custom, labels) {
       if(sub != undefined) { complet += " "+sub; }
 
       liste.push({
-        name:complet, 
+        name:complet,
         description:game.i18n.localize(labels[secondSplit[0]].description)
       });
     }
-    
+
     for(let n = 0;n < custom.length;n++) {
       liste.push({
-        id:n, 
-        name:custom[n].label, 
+        id:n,
+        name:custom[n].label,
         description:custom[n].description,
         custom:true
       });
@@ -74,7 +74,7 @@ export function searchTrueValue(array) {
     const length = array.length;
 
     let result = false;
-    
+
     for(let i = 0;i < length;i++) {
         if(array[i] === true) {
             result = true;
@@ -119,7 +119,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
     const electrifiee = typeWpn === 'contact' ? structurellesWpn.raw.find(str => { if(str.includes('electrifiee')) return true; }) : false;
     const jumelle = typeWpn === 'contact' ? structurellesWpn.raw.find(str => { if(str.includes('jumelle')) return true; }) : false;
     const soeur = typeWpn === 'contact' ? structurellesWpn.raw.find(str => { if(str.includes('soeur')) return true; }) : false;
-    
+
     const arabesqueiridescentes = typeWpn === 'contact' ? ornementalesWpn.raw.find(str => { if(str.includes('arabesqueiridescentes')) return true; }) : false;
     const boucliergrave = typeWpn === 'contact' ? ornementalesWpn.raw.find(str => { if(str.includes('boucliergrave')) return true; }) : false;
     const cranerieur = typeWpn === 'contact' ? ornementalesWpn.raw.find(str => { if(str.includes('cranerieurgrave')) return true; }) : false;
@@ -128,7 +128,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
     const sIAttack = [];
     const sPAttack = [];
     const sSAttack = [];
-    
+
     const sPDegats = [];
     const sIDegats = [];
     const sSDegats = [];
@@ -187,7 +187,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
       let includeViolence = false;
       let seconViolence = false;
       let other = false;
-      
+
       switch(name) {
         case 'anatheme':
           priorDegats = true;
@@ -270,7 +270,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
             sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
           } else {
             priorDegats = true;
-          
+
             const aSDice = tenebricide === true ? Math.floor(value/2) : value;
 
             const aSub = new game.knight.RollKnight(`${aSDice}D6`, actor.system);
@@ -329,7 +329,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           } else {
             sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
             sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
-          }          
+          }
           break;
 
         case 'jumeleambidextrie':
@@ -357,7 +357,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
             onlyAttack = true;
           }
           break;
-        
+
         case 'cadence':
           const cadence = data.cadence;
 
@@ -403,14 +403,14 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           other = true;
 
           const vLumiere = arabesqueiridescentes ? value+1 : value;
-          
+
           sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${vLumiere}`;
           sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
           break;
 
         case 'choc':
           if(electrifiee && value > 1) priorAttack = true;
-          else other = true;          
+          else other = true;
 
           sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${value}`;
           sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
@@ -428,7 +428,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${value} (${dcSub._total} ${tour})`;
           sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
           break;
-        
+
         case 'destructeur':
           priorDegats = true;
 
@@ -479,7 +479,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
 
             sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
             sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
-          }          
+          }
           break;
 
         case 'fureur':
@@ -504,7 +504,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           sub.total = devastation && fSub._total <= devastationValue ? 5 : fSub._total;
           sub.formula = fSub._formula;
           break;
-    
+
         case 'leste':
           if(typeWpn === 'tourelle') {
             other = true;
@@ -517,9 +517,9 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
             sub.name = `+${force} ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
             sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
             dgtsBonus += force;
-          }          
+          }
           break;
-    
+
         case 'orfevrerie':
           if(typeWpn === 'tourelle') {
             other = true;
@@ -535,7 +535,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
             dgtsBonus += dexterite+dexteriteOD;
           }
           break;
-    
+
         case 'precision':
           if(typeWpn === 'tourelle') {
             other = true;
@@ -551,7 +551,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
             dgtsBonus += tir+tirOD;
           }
           break;
-    
+
         case 'silencieux':
           if(typeWpn === 'tourelle') {
             other = true;
@@ -569,14 +569,14 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
             } else {
               if((hasGhost && !isPNJ) || (hasChangeling && !isPNJ)) {
                 includeDegats = true;
-    
+
                 sub.name = `+${discretion+discretionOD} ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
                 sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
-    
+
                 dgtsBonus += discretion+discretionOD;
               } else {
                 priorDegats = true;
-    
+
                 sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
                 sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
                 sub.total = discretion+discretionOD;
@@ -584,7 +584,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
             }
           }
           break;
-      
+
         case 'ultraviolence':
           priorViolence = true;
 
@@ -607,7 +607,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           sub.total = devastation && uvSub._total <= devastationValue ? 5 : uvSub._total;
           sub.formula = uvSub._formula;
           break;
-      
+
         case 'tenebricide':
           if(tenebricide) {
             includeDegats = true;
@@ -622,7 +622,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
             sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
           }
           break;
-      
+
         case 'obliteration':
           if(obliteration && !cranerieur) {
             includeDegats = true;
@@ -643,14 +643,14 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
             sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
             sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
           break;
-      
+
         case 'bourreau':
           includeDegats = true;
 
           sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
           sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
           break;
-      
+
         case 'devastation':
           includeViolence = true;
 
@@ -686,11 +686,11 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
           sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
           break;
-      
+
         case 'aucundegatsviolence':
           other = true;
           onlyAttack = true;
-          
+
           sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
           sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
           break;
@@ -756,9 +756,9 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         CACDiceT += cACDice;
         CACDiceB += cACFixe;
 
-        if(cACDCar !== '' && !isPNJ) { 
+        if(cACDCar !== '' && !isPNJ) {
           CACDiceT += getCaracValue(cACDCar, this.data.actor);
-          
+
           if(cACDOD) { CACDiceT += getODValue(cACDCar, this.data.actor); }
         }
 
@@ -768,9 +768,9 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           if(cACFOD) { CACDiceB += getODValue(cACFCar, this.data.actor); }
         }
 
-        if(cACDAsp !== '' && isPNJ) { 
+        if(cACDAsp !== '' && isPNJ) {
           CACDiceT += getAspectValue(cACDAsp, this.data.actor);
-          
+
           if(cACDAE) { CACDiceT += getAEValue(cACDAsp, this.data.actor); }
         }
 
@@ -814,16 +814,16 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         const cAIFAsp = dataAttack.aspect.fixe;
         const cAIFAE = dataAttack.aspect.odInclusFixe;
         const cAIDAE = dataAttack.aspect.odInclusJet;
-        
+
         let CAIDiceT = 0;
         let CAIDiceB = 0;
 
         CAIDiceT += cAIDice;
         CAIDiceB += cAIFixe;
 
-        if(cAIDCar !== '' && !isPNJ) { 
+        if(cAIDCar !== '' && !isPNJ) {
           CAIDiceT += getCaracValue(cAIDCar, this.data.actor);
-          
+
           if(cAIDOD) { CAIDiceT += getODValue(cAIDCar, this.data.actor); }
         }
 
@@ -833,9 +833,9 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           if(cAIFOD) { CAIDiceB += getODValue(cAIFCar, this.data.actor); }
         }
 
-        if(cAIDCar !== '' && isPNJ) { 
+        if(cAIDCar !== '' && isPNJ) {
           CAIDiceT += getAspectValue(cAIDAsp, this.data.actor);
-          
+
           if(cAIDAE) { CAIDiceT += getAEValue(cAIDAsp, this.data.actor); }
         }
 
@@ -880,9 +880,9 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         CDCDiceT += cDCDice;
         CDCDiceB += cDCFixe;
 
-        if(cDCDCar !== '' && !isPNJ) { 
+        if(cDCDCar !== '' && !isPNJ) {
           CDCDiceT += getCaracValue(cDCDCar, this.data.actor);
-          
+
           if(cDCDOD) { CDCDiceT += getODValue(cDCDCar, this.data.actor); }
         }
 
@@ -892,9 +892,9 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           if(cDCFOD) { CDCDiceB += getODValue(cDCFCar, this.data.actor); }
         }
 
-        if(cDCDAsp !== '' && isPNJ) { 
+        if(cDCDAsp !== '' && isPNJ) {
           CDCDiceT += getAspectValue(cDCDAsp, this.data.actor);
-          
+
           if(cDCDAE) { CDCDiceT += getAEValue(cDCDAsp, this.data.actor); }
         }
 
@@ -937,21 +937,21 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         const cDIDCar = dataDegats.carac.jet;
         const cDIFCar = dataDegats.carac.fixe;
         const cDIDOD = dataDegats.carac.odInclusJet;
-        const cDIFOD = dataDegats.carac.odInclusFixe;        
+        const cDIFOD = dataDegats.carac.odInclusFixe;
         const cDIDAsp = dataDegats.aspect.jet;
         const cDIFAsp = dataDegats.aspect.fixe;
         const cDIDAE = dataDegats.aspect.odInclusJet;
-        const cDIFAE = dataDegats.aspect.odInclusFixe;        
-        
+        const cDIFAE = dataDegats.aspect.odInclusFixe;
+
         let CDIDiceT = 0;
         let CDIDiceB = 0;
 
         CDIDiceT += cDIDice;
         CDIDiceB += cDIFixe;
 
-        if(cDIDCar !== '' && !isPNJ) { 
+        if(cDIDCar !== '' && !isPNJ) {
           CDIDiceT += getCaracValue(cDIDCar, this.data.actor);
-          
+
           if(cDIDOD) { CDIDiceT += getODValue(cDIDCar, this.data.actor); }
         }
 
@@ -961,9 +961,9 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           if(cDIFOD) { CDIDiceB += getODValue(cDIFCar, this.data.actor); }
         }
 
-        if(cDIDAsp !== '' && isPNJ) { 
+        if(cDIDAsp !== '' && isPNJ) {
           CDIDiceT += getAspectValue(cDIDAsp, this.data.actor);
-          
+
           if(cDIDAE) { CDIDiceT += getAEValue(cDIDAsp, this.data.actor); }
         }
 
@@ -1008,9 +1008,9 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         CVCDiceT += cVCDice;
         CVCDiceB += cVCFixe;
 
-        if(cVCDCar !== '' && !isPNJ) { 
+        if(cVCDCar !== '' && !isPNJ) {
           CVCDiceT += getCaracValue(cVCDCar, this.data.actor);
-          
+
           if(cVCDOD) { CVCDiceT += getODValue(cVCDCar, this.data.actor); }
         }
 
@@ -1020,9 +1020,9 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           if(cVCFOD) { CVCDiceB += getODValue(cVCFCar, this.data.actor); }
         }
 
-        if(cVCDAsp !== '' && isPNJ) { 
+        if(cVCDAsp !== '' && isPNJ) {
           CVCDiceT += getAspectValue(cVCDAsp, this.data.actor);
-          
+
           if(cVCDAE) { CVCDiceT += getAEValue(cVCDAsp, this.data.actor); }
         }
 
@@ -1065,21 +1065,21 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         const cVIDCar = dataViolence.carac.jet;
         const cVIFCar = dataViolence.carac.fixe;
         const cVIDOD = dataViolence.carac.odInclusJet;
-        const cVIFOD = dataViolence.carac.odInclusFixe;        
+        const cVIFOD = dataViolence.carac.odInclusFixe;
         const cVIDAsp = dataViolence.aspect.jet;
         const cVIFAsp = dataViolence.aspect.fixe;
         const cVIDAE = dataViolence.aspect.odInclusJet;
-        const cVIFAE = dataViolence.aspect.odInclusFixe;        
-        
+        const cVIFAE = dataViolence.aspect.odInclusFixe;
+
         let CVIDiceT = 0;
         let CVIDiceB = 0;
 
         CVIDiceT += cVIDice;
         CVIDiceB += cVIFixe;
 
-        if(cVIDCar !== '' && !isPNJ) { 
+        if(cVIDCar !== '' && !isPNJ) {
           CVIDiceT += getCaracValue(cVIDCar, this.data.actor);
-          
+
           if(cVIDOD) { CVIDiceT += getODValue(cVIDCar, this.data.actor); }
         }
 
@@ -1089,9 +1089,9 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           if(cVIFOD) { CVIDiceB += getODValue(cVIFCar, this.data.actor); }
         }
 
-        if(cVIDAsp !== '' && isPNJ) { 
+        if(cVIDAsp !== '' && isPNJ) {
           CVIDiceT += getAspectValue(cVIDAsp, this.data.actor);
-          
+
           if(cVIDAE) { CVIDiceT += getAEValue(cVIDAsp, this.data.actor); }
         }
 
@@ -1164,7 +1164,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
     const sAttack = sPAttack.concat(sSAttack);
     const sDegats = sPDegats.concat(sSDegats);
     const sViolence = sPViolence.concat(sSViolence);
-    
+
     return {
       guidage:guidage ? true : false,
       regularite:regularite ? true : false,
@@ -1242,7 +1242,7 @@ let dgtsBonus = 0;
 let violenceDice = 0;
 let violenceBonus = 0;
 
-if(typeWpn === 'contact' || typeWpn === 'grenades' || typeWpn === 'longbow' || typeWpn === 'armesimprovisees' 
+if(typeWpn === 'contact' || typeWpn === 'grenades' || typeWpn === 'longbow' || typeWpn === 'armesimprovisees'
 || typeWpn === 'base' || typeWpn === 'c1' || typeWpn === 'c2') return {
     onlyAttack:onlyAttack,
     nRoll:nRoll,
@@ -1313,7 +1313,7 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
     let includeViolence = false;
     let seconViolence = false;
     let other = false;
-    
+
     switch(name) {
     case 'canonlong':
         priorAttack = true;
@@ -1321,7 +1321,7 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
         sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
         sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
     break;
-    
+
     case 'canonraccourci':
         priorAttack = true;
 
@@ -1346,7 +1346,7 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
         sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
         }
         break;
-    
+
     case 'chargeurballesgrappes':
         includeDegats = true;
         includeViolence = true;
@@ -1360,7 +1360,7 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
         dgtsDice -= 1;
         violenceDice += 1;
     break;
-    
+
     case 'chargeurmunitionsexplosives':
         includeDegats = true;
         includeViolence = true;
@@ -1374,14 +1374,14 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
         dgtsDice += 1;
         violenceDice -= 1;
     break;
-    
+
     case 'interfaceguidage':
         includeAttack = true;
 
         sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
         sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
     break;
-    
+
     case 'jumelageakimbo':
         if(typeWpn === 'tourelle' || isPNJ) other = true;
         else includeAttack = true;
@@ -1389,7 +1389,7 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
         sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} ${details} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
         sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
     break;
-    
+
     case 'jumelageambidextrie':
         if(!data.jumelageambidextrie || typeWpn === 'tourelle' || isPNJ) other = true;
         else if(data.jumelageambidextrie) includeAttack = true;
@@ -1403,7 +1403,7 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
         sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
         }
     break;
-    
+
     case 'lunetteintelligente':
     case 'munitionshypervelocite':
         priorAttack = true;
@@ -1411,7 +1411,7 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
         sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
         sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
     break;
-    
+
     case 'munitionsdrones':
     case 'pointeurlaser':
         includeAttack = true;
@@ -1421,7 +1421,7 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
 
         attackBonus += 1;
     break;
-    
+
     case 'munitionsiem':
         priorAttack = true;
         includeDegats = true;
@@ -1439,7 +1439,7 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
         dgtsDice -= 1;
         violenceDice -= 1;
     break;
-    
+
     case 'munitionsnonletales':
         seconDegats = true;
         seconViolence = true;
@@ -1460,29 +1460,29 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
           if(!silencieux) {
             const discretion = isPNJ ? +actor.system.aspects.masque.value : +actor.system.aspects.masque.caracteristiques.discretion.value;
             const discretionOD = isPNJ ? +actor.system.aspects.masque.ae.mineur.value + +actor.system.aspects.masque.ae.majeur.value : +actor.system.aspects.masque.caracteristiques.discretion.overdrive.value;
-    
+
             if((hasGhost && !isPNJ) || (hasChangeling && isPNJ)) {
                 includeDegats = true;
-    
+
                 subDgts.name = `+${discretion+discretionOD} ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
                 subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-    
+
                 dgtsBonus += discretion+discretionOD;
             } else {
                 priorDegats = true;
-    
+
                 subDgts.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
                 subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
                 subDgts.total = discretion+discretionOD;
             }
           } else {
             other = true;
-    
+
             sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
             sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
           }
         }
-        
+
         break;
 
     case 'protectionarme':
@@ -1498,7 +1498,7 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
 
         if(!assassin) {
         priorDegats = true;
-        
+
         const aSDice = tenebricide === true ? Math.floor(value/2) : value;
 
         const aSub = new game.knight.RollKnight(`${aSDice}D6`, actor.system);
@@ -1524,7 +1524,7 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
             sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
         } else {
             priorDegats = true;
-        
+
             const aSDice = tenebricide === true ? Math.floor(value/2) : value;
 
             const aSub = new game.knight.RollKnight(`${aSDice}D6`, actor.system);
@@ -1619,9 +1619,9 @@ for(let i = 0;i < distanceWpn.custom.length;i++) {
       CACDiceT += cACDice;
       CACDiceB += cACFixe;
 
-      if(cACDCar !== '' && !isPNJ) { 
+      if(cACDCar !== '' && !isPNJ) {
         CACDiceT += getCaracValue(cACDCar, this.data.actor);
-        
+
         if(cACDOD) { CACDiceT += getODValue(cACDCar, this.data.actor); }
       }
 
@@ -1631,9 +1631,9 @@ for(let i = 0;i < distanceWpn.custom.length;i++) {
         if(cACFOD) { CACDiceB += getODValue(cACFCar, this.data.actor); }
       }
 
-      if(cACDAsp !== '' && isPNJ) { 
+      if(cACDAsp !== '' && isPNJ) {
         CACDiceT += getAspectValue(cACDAsp, this.data.actor);
-        
+
         if(cACDAE) { CACDiceT += getAEValue(cACDAsp, this.data.actor); }
       }
 
@@ -1677,16 +1677,16 @@ for(let i = 0;i < distanceWpn.custom.length;i++) {
       const cAIFAsp = dataAttack.aspect.fixe;
       const cAIFAE = dataAttack.aspect.odInclusFixe;
       const cAIDAE = dataAttack.aspect.odInclusJet;
-      
+
       let CAIDiceT = 0;
       let CAIDiceB = 0;
 
       CAIDiceT += cAIDice;
       CAIDiceB += cAIFixe;
 
-      if(cAIDCar !== '' && !isPNJ) { 
+      if(cAIDCar !== '' && !isPNJ) {
         CAIDiceT += getCaracValue(cAIDCar, this.data.actor);
-        
+
         if(cAIDOD) { CAIDiceT += getODValue(cAIDCar, this.data.actor); }
       }
 
@@ -1696,9 +1696,9 @@ for(let i = 0;i < distanceWpn.custom.length;i++) {
         if(cAIFOD) { CAIDiceB += getODValue(cAIFCar, this.data.actor); }
       }
 
-      if(cAIDCar !== '' && isPNJ) { 
+      if(cAIDCar !== '' && isPNJ) {
         CAIDiceT += getAspectValue(cAIDAsp, this.data.actor);
-        
+
         if(cAIDAE) { CAIDiceT += getAEValue(cAIDAsp, this.data.actor); }
       }
 
@@ -1743,9 +1743,9 @@ for(let i = 0;i < distanceWpn.custom.length;i++) {
       CDCDiceT += cDCDice;
       CDCDiceB += cDCFixe;
 
-      if(cDCDCar !== '' && !isPNJ) { 
+      if(cDCDCar !== '' && !isPNJ) {
         CDCDiceT += getCaracValue(cDCDCar, this.data.actor);
-        
+
         if(cDCDOD) { CDCDiceT += getODValue(cDCDCar, this.data.actor); }
       }
 
@@ -1755,9 +1755,9 @@ for(let i = 0;i < distanceWpn.custom.length;i++) {
         if(cDCFOD) { CDCDiceB += getODValue(cDCFCar, this.data.actor); }
       }
 
-      if(cDCDAsp !== '' && isPNJ) { 
+      if(cDCDAsp !== '' && isPNJ) {
         CDCDiceT += getAspectValue(cDCDAsp, this.data.actor);
-        
+
         if(cDCDAE) { CDCDiceT += getAEValue(cDCDAsp, this.data.actor); }
       }
 
@@ -1800,21 +1800,21 @@ for(let i = 0;i < distanceWpn.custom.length;i++) {
       const cDIDCar = dataDegats.carac.jet;
       const cDIFCar = dataDegats.carac.fixe;
       const cDIDOD = dataDegats.carac.odInclusJet;
-      const cDIFOD = dataDegats.carac.odInclusFixe;        
+      const cDIFOD = dataDegats.carac.odInclusFixe;
       const cDIDAsp = dataDegats.aspect.jet;
       const cDIFAsp = dataDegats.aspect.fixe;
       const cDIDAE = dataDegats.aspect.odInclusJet;
-      const cDIFAE = dataDegats.aspect.odInclusFixe;        
-      
+      const cDIFAE = dataDegats.aspect.odInclusFixe;
+
       let CDIDiceT = 0;
       let CDIDiceB = 0;
 
       CDIDiceT += cDIDice;
       CDIDiceB += cDIFixe;
 
-      if(cDIDCar !== '' && !isPNJ) { 
+      if(cDIDCar !== '' && !isPNJ) {
         CDIDiceT += getCaracValue(cDIDCar, this.data.actor);
-        
+
         if(cDIDOD) { CDIDiceT += getODValue(cDIDCar, this.data.actor); }
       }
 
@@ -1824,9 +1824,9 @@ for(let i = 0;i < distanceWpn.custom.length;i++) {
         if(cDIFOD) { CDIDiceB += getODValue(cDIFCar, this.data.actor); }
       }
 
-      if(cDIDAsp !== '' && isPNJ) { 
+      if(cDIDAsp !== '' && isPNJ) {
         CDIDiceT += getAspectValue(cDIDAsp, this.data.actor);
-        
+
         if(cDIDAE) { CDIDiceT += getAEValue(cDIDAsp, this.data.actor); }
       }
 
@@ -1871,9 +1871,9 @@ for(let i = 0;i < distanceWpn.custom.length;i++) {
       CVCDiceT += cVCDice;
       CVCDiceB += cVCFixe;
 
-      if(cVCDCar !== '' && !isPNJ) { 
+      if(cVCDCar !== '' && !isPNJ) {
         CVCDiceT += getCaracValue(cVCDCar, this.data.actor);
-        
+
         if(cVCDOD) { CVCDiceT += getODValue(cVCDCar, this.data.actor); }
       }
 
@@ -1883,9 +1883,9 @@ for(let i = 0;i < distanceWpn.custom.length;i++) {
         if(cVCFOD) { CVCDiceB += getODValue(cVCFCar, this.data.actor); }
       }
 
-      if(cVCDAsp !== '' && isPNJ) { 
+      if(cVCDAsp !== '' && isPNJ) {
         CVCDiceT += getAspectValue(cVCDAsp, this.data.actor);
-        
+
         if(cVCDAE) { CVCDiceT += getAEValue(cVCDAsp, this.data.actor); }
       }
 
@@ -1928,21 +1928,21 @@ for(let i = 0;i < distanceWpn.custom.length;i++) {
       const cVIDCar = dataViolence.carac.jet;
       const cVIFCar = dataViolence.carac.fixe;
       const cVIDOD = dataViolence.carac.odInclusJet;
-      const cVIFOD = dataViolence.carac.odInclusFixe;        
+      const cVIFOD = dataViolence.carac.odInclusFixe;
       const cVIDAsp = dataViolence.aspect.jet;
       const cVIFAsp = dataViolence.aspect.fixe;
       const cVIDAE = dataViolence.aspect.odInclusJet;
-      const cVIFAE = dataViolence.aspect.odInclusFixe;        
-      
+      const cVIFAE = dataViolence.aspect.odInclusFixe;
+
       let CVIDiceT = 0;
       let CVIDiceB = 0;
 
       CVIDiceT += cVIDice;
       CVIDiceB += cVIFixe;
 
-      if(cVIDCar !== '' && !isPNJ) { 
+      if(cVIDCar !== '' && !isPNJ) {
         CVIDiceT += getCaracValue(cVIDCar, this.data.actor);
-        
+
         if(cVIDOD) { CVIDiceT += getODValue(cVIDCar, this.data.actor); }
       }
 
@@ -1952,9 +1952,9 @@ for(let i = 0;i < distanceWpn.custom.length;i++) {
         if(cVIFOD) { CVIDiceB += getODValue(cVIFCar, this.data.actor); }
       }
 
-      if(cVIDAsp !== '' && isPNJ) { 
+      if(cVIDAsp !== '' && isPNJ) {
         CVIDiceT += getAspectValue(cVIDAsp, this.data.actor);
-        
+
         if(cVIDAE) { CVIDiceT += getAEValue(cVIDAsp, this.data.actor); }
       }
 
@@ -2096,7 +2096,7 @@ let violenceBonus = 0;
 
 let vDefense = 0;
 
-if(typeWpn === 'distance' || typeWpn === 'grenades' || typeWpn === 'longbow' || typeWpn === 'tourelle' || typeWpn === 'armesimprovisees' 
+if(typeWpn === 'distance' || typeWpn === 'grenades' || typeWpn === 'longbow' || typeWpn === 'tourelle' || typeWpn === 'armesimprovisees'
 || typeWpn === 'base' || typeWpn === 'c1' || typeWpn === 'c2') return {
     onlyAttack:onlyAttack,
     nRoll:nRoll,
@@ -2165,17 +2165,17 @@ for(let i = 0;i < structurellesWpn.raw.length;i++) {
     let includeViolence = false;
     let seconViolence = false;
     let other = false;
-    
+
     switch(name) {
     case 'agressive':
         if(style === 'agressif' && !isPNJ) includeDegats = true;
         else other = true;
-        
+
         if(other) {
         sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].label)}`;
         sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].description}-short`);
         } else {
-        subDgts.name = `+1${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+        subDgts.name = `+1${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
         subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
 
         dgtsDice += 1;
@@ -2267,11 +2267,11 @@ for(let i = 0;i < structurellesWpn.raw.length;i++) {
         else other = true;
 
         if(other) {
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].label)}`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].description}-short`);
         } else {
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${details} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].label)} ${details} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].description}-short`);
         }
         break;
 
@@ -2280,11 +2280,11 @@ for(let i = 0;i < structurellesWpn.raw.length;i++) {
         else other = true;
 
         if(other) {
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].label)}`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].description}-short`);
         } else {
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].description}-short`);
         }
         break;
 
@@ -2300,11 +2300,11 @@ for(let i = 0;i < structurellesWpn.raw.length;i++) {
         else other = true;
 
         if(other) {
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].label)}`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].description}-short`);
         } else {
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${details} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].label)} ${details} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].description}-short`);
         }
         break;
 
@@ -2399,9 +2399,9 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
       CACDiceT += cACDice;
       CACDiceB += cACFixe;
 
-      if(cACDCar !== '' && !isPNJ) { 
+      if(cACDCar !== '' && !isPNJ) {
         CACDiceT += getCaracValue(cACDCar, this.data.actor);
-        
+
         if(cACDOD) { CACDiceT += getODValue(cACDCar, this.data.actor); }
       }
 
@@ -2411,9 +2411,9 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
         if(cACFOD) { CACDiceB += getODValue(cACFCar, this.data.actor); }
       }
 
-      if(cACDAsp !== '' && isPNJ) { 
+      if(cACDAsp !== '' && isPNJ) {
         CACDiceT += getAspectValue(cACDAsp, this.data.actor);
-        
+
         if(cACDAE) { CACDiceT += getAEValue(cACDAsp, this.data.actor); }
       }
 
@@ -2457,16 +2457,16 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
       const cAIFAsp = dataAttack.aspect.fixe;
       const cAIFAE = dataAttack.aspect.odInclusFixe;
       const cAIDAE = dataAttack.aspect.odInclusJet;
-      
+
       let CAIDiceT = 0;
       let CAIDiceB = 0;
 
       CAIDiceT += cAIDice;
       CAIDiceB += cAIFixe;
 
-      if(cAIDCar !== '' && !isPNJ) { 
+      if(cAIDCar !== '' && !isPNJ) {
         CAIDiceT += getCaracValue(cAIDCar, this.data.actor);
-        
+
         if(cAIDOD) { CAIDiceT += getODValue(cAIDCar, this.data.actor); }
       }
 
@@ -2476,9 +2476,9 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
         if(cAIFOD) { CAIDiceB += getODValue(cAIFCar, this.data.actor); }
       }
 
-      if(cAIDCar !== '' && isPNJ) { 
+      if(cAIDCar !== '' && isPNJ) {
         CAIDiceT += getAspectValue(cAIDAsp, this.data.actor);
-        
+
         if(cAIDAE) { CAIDiceT += getAEValue(cAIDAsp, this.data.actor); }
       }
 
@@ -2523,9 +2523,9 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
       CDCDiceT += cDCDice;
       CDCDiceB += cDCFixe;
 
-      if(cDCDCar !== '' && !isPNJ) { 
+      if(cDCDCar !== '' && !isPNJ) {
         CDCDiceT += getCaracValue(cDCDCar, this.data.actor);
-        
+
         if(cDCDOD) { CDCDiceT += getODValue(cDCDCar, this.data.actor); }
       }
 
@@ -2535,9 +2535,9 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
         if(cDCFOD) { CDCDiceB += getODValue(cDCFCar, this.data.actor); }
       }
 
-      if(cDCDAsp !== '' && isPNJ) { 
+      if(cDCDAsp !== '' && isPNJ) {
         CDCDiceT += getAspectValue(cDCDAsp, this.data.actor);
-        
+
         if(cDCDAE) { CDCDiceT += getAEValue(cDCDAsp, this.data.actor); }
       }
 
@@ -2580,21 +2580,21 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
       const cDIDCar = dataDegats.carac.jet;
       const cDIFCar = dataDegats.carac.fixe;
       const cDIDOD = dataDegats.carac.odInclusJet;
-      const cDIFOD = dataDegats.carac.odInclusFixe;        
+      const cDIFOD = dataDegats.carac.odInclusFixe;
       const cDIDAsp = dataDegats.aspect.jet;
       const cDIFAsp = dataDegats.aspect.fixe;
       const cDIDAE = dataDegats.aspect.odInclusJet;
-      const cDIFAE = dataDegats.aspect.odInclusFixe;        
-      
+      const cDIFAE = dataDegats.aspect.odInclusFixe;
+
       let CDIDiceT = 0;
       let CDIDiceB = 0;
 
       CDIDiceT += cDIDice;
       CDIDiceB += cDIFixe;
 
-      if(cDIDCar !== '' && !isPNJ) { 
+      if(cDIDCar !== '' && !isPNJ) {
         CDIDiceT += getCaracValue(cDIDCar, this.data.actor);
-        
+
         if(cDIDOD) { CDIDiceT += getODValue(cDIDCar, this.data.actor); }
       }
 
@@ -2604,9 +2604,9 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
         if(cDIFOD) { CDIDiceB += getODValue(cDIFCar, this.data.actor); }
       }
 
-      if(cDIDAsp !== '' && isPNJ) { 
+      if(cDIDAsp !== '' && isPNJ) {
         CDIDiceT += getAspectValue(cDIDAsp, this.data.actor);
-        
+
         if(cDIDAE) { CDIDiceT += getAEValue(cDIDAsp, this.data.actor); }
       }
 
@@ -2651,9 +2651,9 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
       CVCDiceT += cVCDice;
       CVCDiceB += cVCFixe;
 
-      if(cVCDCar !== '' && !isPNJ) { 
+      if(cVCDCar !== '' && !isPNJ) {
         CVCDiceT += getCaracValue(cVCDCar, this.data.actor);
-        
+
         if(cVCDOD) { CVCDiceT += getODValue(cVCDCar, this.data.actor); }
       }
 
@@ -2663,9 +2663,9 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
         if(cVCFOD) { CVCDiceB += getODValue(cVCFCar, this.data.actor); }
       }
 
-      if(cVCDAsp !== '' && isPNJ) { 
+      if(cVCDAsp !== '' && isPNJ) {
         CVCDiceT += getAspectValue(cVCDAsp, this.data.actor);
-        
+
         if(cVCDAE) { CVCDiceT += getAEValue(cVCDAsp, this.data.actor); }
       }
 
@@ -2708,21 +2708,21 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
       const cVIDCar = dataViolence.carac.jet;
       const cVIFCar = dataViolence.carac.fixe;
       const cVIDOD = dataViolence.carac.odInclusJet;
-      const cVIFOD = dataViolence.carac.odInclusFixe;        
+      const cVIFOD = dataViolence.carac.odInclusFixe;
       const cVIDAsp = dataViolence.aspect.jet;
       const cVIFAsp = dataViolence.aspect.fixe;
       const cVIDAE = dataViolence.aspect.odInclusJet;
-      const cVIFAE = dataViolence.aspect.odInclusFixe;        
-      
+      const cVIFAE = dataViolence.aspect.odInclusFixe;
+
       let CVIDiceT = 0;
       let CVIDiceB = 0;
 
       CVIDiceT += cVIDice;
       CVIDiceB += cVIFixe;
 
-      if(cVIDCar !== '' && !isPNJ) { 
+      if(cVIDCar !== '' && !isPNJ) {
         CVIDiceT += getCaracValue(cVIDCar, this.data.actor);
-        
+
         if(cVIDOD) { CVIDiceT += getODValue(cVIDCar, this.data.actor); }
       }
 
@@ -2732,9 +2732,9 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
         if(cVIFOD) { CVIDiceB += getODValue(cVIFCar, this.data.actor); }
       }
 
-      if(cVIDAsp !== '' && isPNJ) { 
+      if(cVIDAsp !== '' && isPNJ) {
         CVIDiceT += getAspectValue(cVIDAsp, this.data.actor);
-        
+
         if(cVIDAE) { CVIDiceT += getAEValue(cVIDAsp, this.data.actor); }
       }
 
@@ -2875,7 +2875,7 @@ let dgtsBonus = 0;
 let violenceDice = 0;
 let violenceBonus = 0;
 
-if(typeWpn === 'distance' || typeWpn === 'grenades' || typeWpn === 'longbow' || typeWpn === 'tourelle' || typeWpn === 'armesimprovisees' 
+if(typeWpn === 'distance' || typeWpn === 'grenades' || typeWpn === 'longbow' || typeWpn === 'tourelle' || typeWpn === 'armesimprovisees'
 || typeWpn === 'base' || typeWpn === 'c1' || typeWpn === 'c2') return {
     onlyAttack:onlyAttack,
     nRoll:nRoll,
@@ -2934,7 +2934,7 @@ for(let i = 0;i < ornementalesWpn.raw.length;i++) {
     let includeViolence = false;
     let seconViolence = false;
     let other = false;
-    
+
     switch(name) {
     case 'arabesqueiridescentes':
         other = true;
@@ -3007,7 +3007,7 @@ for(let i = 0;i < ornementalesWpn.raw.length;i++) {
         subDgts.total = aCSub._total;
         subDgts.formula = aCSub._formula;
     break;
-    
+
     case 'armuregravee':
     case 'blasonchevalier':
     case 'codeknightgrave':
@@ -3157,9 +3157,9 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
       CACDiceT += cACDice;
       CACDiceB += cACFixe;
 
-      if(cACDCar !== '' && !isPNJ) { 
+      if(cACDCar !== '' && !isPNJ) {
         CACDiceT += getCaracValue(cACDCar, this.data.actor);
-        
+
         if(cACDOD) { CACDiceT += getODValue(cACDCar, this.data.actor); }
       }
 
@@ -3169,9 +3169,9 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
         if(cACFOD) { CACDiceB += getODValue(cACFCar, this.data.actor); }
       }
 
-      if(cACDAsp !== '' && isPNJ) { 
+      if(cACDAsp !== '' && isPNJ) {
         CACDiceT += getAspectValue(cACDAsp, this.data.actor);
-        
+
         if(cACDAE) { CACDiceT += getAEValue(cACDAsp, this.data.actor); }
       }
 
@@ -3215,16 +3215,16 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
       const cAIFAsp = dataAttack.aspect.fixe;
       const cAIFAE = dataAttack.aspect.odInclusFixe;
       const cAIDAE = dataAttack.aspect.odInclusJet;
-      
+
       let CAIDiceT = 0;
       let CAIDiceB = 0;
 
       CAIDiceT += cAIDice;
       CAIDiceB += cAIFixe;
 
-      if(cAIDCar !== '' && !isPNJ) { 
+      if(cAIDCar !== '' && !isPNJ) {
         CAIDiceT += getCaracValue(cAIDCar, this.data.actor);
-        
+
         if(cAIDOD) { CAIDiceT += getODValue(cAIDCar, this.data.actor); }
       }
 
@@ -3234,9 +3234,9 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
         if(cAIFOD) { CAIDiceB += getODValue(cAIFCar, this.data.actor); }
       }
 
-      if(cAIDCar !== '' && isPNJ) { 
+      if(cAIDCar !== '' && isPNJ) {
         CAIDiceT += getAspectValue(cAIDAsp, this.data.actor);
-        
+
         if(cAIDAE) { CAIDiceT += getAEValue(cAIDAsp, this.data.actor); }
       }
 
@@ -3281,9 +3281,9 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
       CDCDiceT += cDCDice;
       CDCDiceB += cDCFixe;
 
-      if(cDCDCar !== '' && !isPNJ) { 
+      if(cDCDCar !== '' && !isPNJ) {
         CDCDiceT += getCaracValue(cDCDCar, this.data.actor);
-        
+
         if(cDCDOD) { CDCDiceT += getODValue(cDCDCar, this.data.actor); }
       }
 
@@ -3293,9 +3293,9 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
         if(cDCFOD) { CDCDiceB += getODValue(cDCFCar, this.data.actor); }
       }
 
-      if(cDCDAsp !== '' && isPNJ) { 
+      if(cDCDAsp !== '' && isPNJ) {
         CDCDiceT += getAspectValue(cDCDAsp, this.data.actor);
-        
+
         if(cDCDAE) { CDCDiceT += getAEValue(cDCDAsp, this.data.actor); }
       }
 
@@ -3338,21 +3338,21 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
       const cDIDCar = dataDegats.carac.jet;
       const cDIFCar = dataDegats.carac.fixe;
       const cDIDOD = dataDegats.carac.odInclusJet;
-      const cDIFOD = dataDegats.carac.odInclusFixe;        
+      const cDIFOD = dataDegats.carac.odInclusFixe;
       const cDIDAsp = dataDegats.aspect.jet;
       const cDIFAsp = dataDegats.aspect.fixe;
       const cDIDAE = dataDegats.aspect.odInclusJet;
-      const cDIFAE = dataDegats.aspect.odInclusFixe;        
-      
+      const cDIFAE = dataDegats.aspect.odInclusFixe;
+
       let CDIDiceT = 0;
       let CDIDiceB = 0;
 
       CDIDiceT += cDIDice;
       CDIDiceB += cDIFixe;
 
-      if(cDIDCar !== '' && !isPNJ) { 
+      if(cDIDCar !== '' && !isPNJ) {
         CDIDiceT += getCaracValue(cDIDCar, this.data.actor);
-        
+
         if(cDIDOD) { CDIDiceT += getODValue(cDIDCar, this.data.actor); }
       }
 
@@ -3362,9 +3362,9 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
         if(cDIFOD) { CDIDiceB += getODValue(cDIFCar, this.data.actor); }
       }
 
-      if(cDIDAsp !== '' && isPNJ) { 
+      if(cDIDAsp !== '' && isPNJ) {
         CDIDiceT += getAspectValue(cDIDAsp, this.data.actor);
-        
+
         if(cDIDAE) { CDIDiceT += getAEValue(cDIDAsp, this.data.actor); }
       }
 
@@ -3409,9 +3409,9 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
       CVCDiceT += cVCDice;
       CVCDiceB += cVCFixe;
 
-      if(cVCDCar !== '' && !isPNJ) { 
+      if(cVCDCar !== '' && !isPNJ) {
         CVCDiceT += getCaracValue(cVCDCar, this.data.actor);
-        
+
         if(cVCDOD) { CVCDiceT += getODValue(cVCDCar, this.data.actor); }
       }
 
@@ -3421,9 +3421,9 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
         if(cVCFOD) { CVCDiceB += getODValue(cVCFCar, this.data.actor); }
       }
 
-      if(cVCDAsp !== '' && isPNJ) { 
+      if(cVCDAsp !== '' && isPNJ) {
         CVCDiceT += getAspectValue(cVCDAsp, this.data.actor);
-        
+
         if(cVCDAE) { CVCDiceT += getAEValue(cVCDAsp, this.data.actor); }
       }
 
@@ -3466,21 +3466,21 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
       const cVIDCar = dataViolence.carac.jet;
       const cVIFCar = dataViolence.carac.fixe;
       const cVIDOD = dataViolence.carac.odInclusJet;
-      const cVIFOD = dataViolence.carac.odInclusFixe;        
+      const cVIFOD = dataViolence.carac.odInclusFixe;
       const cVIDAsp = dataViolence.aspect.jet;
       const cVIFAsp = dataViolence.aspect.fixe;
       const cVIDAE = dataViolence.aspect.odInclusJet;
-      const cVIFAE = dataViolence.aspect.odInclusFixe;        
-      
+      const cVIFAE = dataViolence.aspect.odInclusFixe;
+
       let CVIDiceT = 0;
       let CVIDiceB = 0;
 
       CVIDiceT += cVIDice;
       CVIDiceB += cVIFixe;
 
-      if(cVIDCar !== '' && !isPNJ) { 
+      if(cVIDCar !== '' && !isPNJ) {
         CVIDiceT += getCaracValue(cVIDCar, this.data.actor);
-        
+
         if(cVIDOD) { CVIDiceT += getODValue(cVIDCar, this.data.actor); }
       }
 
@@ -3490,9 +3490,9 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
         if(cVIFOD) { CVIDiceB += getODValue(cVIFCar, this.data.actor); }
       }
 
-      if(cVIDAsp !== '' && isPNJ) { 
+      if(cVIDAsp !== '' && isPNJ) {
         CVIDiceT += getAspectValue(cVIDAsp, this.data.actor);
-        
+
         if(cVIDAE) { CVIDiceT += getAEValue(cVIDAsp, this.data.actor); }
       }
 
@@ -3660,7 +3660,7 @@ if(getArmorData !== false) {
 
     let bonusRollFixe = 0;
     let bonusRollString = ''
-    
+
     let bonusAttackDice = 0;
     let bonusAttackFixe = 0;
 
@@ -3679,9 +3679,9 @@ if(getArmorData !== false) {
             if((active && typeWpn === 'contact' && !isLumiere) || (active && typeWpn === 'distance' && isSilencieux)) {
                 const dataBonus = capacite.bonus;
                 const degatsBonus = dataBonus.degats;
-                
+
                 bonusAttackDice += getCaracValue(dataBonus.attaque, actorId)+getODValue(dataBonus.attaque, actorId);
-                
+
                 if(degatsBonus.fixe) bonusDegatsFixe += getCaracValue(degatsBonus.caracteristique, actorId);
                 if(degatsBonus.dice) bonusDegatsDice += getCaracValue(degatsBonus.caracteristique, actorId);
                 if(degatsBonus.od && degatsBonus.dice) bonusDegatsDice += getODValue(degatsBonus.caracteristique, actorId);
@@ -3726,7 +3726,7 @@ if(getArmorData !== false) {
                 bonusRollString = `${bonusRollFixe} ${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.${key.toUpperCase()}.Label`)}`;
             }
             break;
-    
+
         case 'warlord':
           active = isActive?.guerre?.porteur || false;
 
@@ -3737,7 +3737,7 @@ if(getArmorData !== false) {
             bonusViolenceDice += +impGuerre.violence;
           }
           break;
-        
+
         case 'rage':
           const rNiveau = capacite.niveau;
           const rNColere = rNiveau?.colere || false;
@@ -3756,7 +3756,7 @@ if(getArmorData !== false) {
               bonusViolenceFixe += getAspectValue(capacite.rage.violence, actorId);
             }
           }
-          
+
           break;
     };
 
@@ -3796,7 +3796,7 @@ if(getArmorData !== false) {
         desc:`${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.${key.toUpperCase()}.Description`)}`
     })
 
-    
+
     if(bonusViolenceDice > 0) violenceInclude.push({
         name:`+${bonusViolenceDice}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.${key.toUpperCase()}.Label`)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
         desc:`${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.${key.toUpperCase()}.Description`)}`
@@ -3870,7 +3870,7 @@ if(getArmorData !== false && wear === 'armure') {
   let raw = [];
   let custom = [];
 
-  for (let [key, special] of Object.entries(specialList)) {  
+  for (let [key, special] of Object.entries(specialList)) {
     switch(key) {
         case 'porteurlumiere':
             const lEPorteur = special.bonus.effets;
@@ -3910,7 +3910,7 @@ export function getModuleBonus(actor, actorId, typeWpn, dataWpn, effetsWpn, dist
   };
 
   if(isPNJ) return result;
-  
+
   const actorModuleErsatz = actor?.moduleErsatz || {};
   const dataDgts = dataWpn?.degats?.module || {fixe:{}, variable:{}};
   const dataViolence = dataWpn?.violence?.module || {fixe:{}, variable:{}};
@@ -3942,7 +3942,7 @@ export function getModuleBonus(actor, actorId, typeWpn, dataWpn, effetsWpn, dist
         desc:data.description
       });
     }
-    
+
     result.degats.dice += dice;
     result.degats.fixe += fixe;
   }
@@ -4005,7 +4005,7 @@ export function getModuleBonus(actor, actorId, typeWpn, dataWpn, effetsWpn, dist
         desc:dataViolence.variable[i].description
       });
     }
-    
+
     result.violence.dice += dice;
     result.violence.fixe += fixe;
   }
@@ -4015,7 +4015,7 @@ export function getModuleBonus(actor, actorId, typeWpn, dataWpn, effetsWpn, dist
     let bonusAttack = getCaracValue(data.attaque, actorId)+getODValue(data.attaque, actorId);
     let bonusDgtsDice = 0;
     let bonusDgtsFixe = 0;
-    
+
     if(data.degats.fixe) bonusDgtsFixe += getCaracValue(data.degats.caracteristique, actorId);
     if(data.degats.dice) bonusDgtsDice += getCaracValue(data.degats.caracteristique, actorId);
     if(data.degats.od && data.degats.dice) bonusDgtsDice += getODValue(data.degats.caracteristique, actorId);
@@ -4082,7 +4082,7 @@ export function getCaracValue(c, id) {
     if(tCarac !== false) {
       return tCarac;
     }
-    
+
   }
 
   return result;
@@ -4103,7 +4103,7 @@ export function getODValue(c, id) {
     if(tCarac !== false) {
       if(wear === 'armure' || wear === 'ascension') { return tCarac.overdrive.value; }
     }
-    
+
   }
 
   return result;
@@ -4121,7 +4121,7 @@ export function getCaracPiloteValue(c, id) {
 
     if(tCarac !== false) {
       return tCarac;
-    }    
+    }
   }
 
   return result;
@@ -4141,7 +4141,7 @@ export function getODPiloteValue(c, id) {
     if(tCarac !== false) {
       return tCarac.overdrive.value;
     }
-    
+
   }
 
   return result;
