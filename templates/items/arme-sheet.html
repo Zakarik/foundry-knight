@@ -21,7 +21,7 @@
             </select>
         </label>
     </div>
-    
+
     <header class="sheet-header flexrow">
         <h1 class="charname">
             <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
@@ -54,7 +54,7 @@
                 <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
                 {{/select}}
             </select>
-        </label>      
+        </label>
 
         <label>
             <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
@@ -99,7 +99,7 @@
     </header>
 
     <div class="blockEffets">
-        <h2 class="header">
+        <h2 class="header js-toggler">
             <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.EFFETS.Label"}}
         </h2>
@@ -120,11 +120,11 @@
 
     {{#unless (isWpnDistance systemData.type)}}
     <div class="blockEffets">
-        <h2 class="header">
+        <h2 class="header js-toggler">
             <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.AMELIORATIONS.LABEL.Structurelles"}}
         </h2>
-        
+
         <div class="structurelles">
             {{#each systemData.structurelles.liste as | key effet|}}
                 <div>
@@ -140,11 +140,11 @@
     </div>
 
     <div class="blockEffets">
-        <h2 class="header">
+        <h2 class="header js-toggler">
             <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.AMELIORATIONS.LABEL.Ornementales"}}
         </h2>
-        
+
         <div class="ornementales">
             {{#each systemData.ornementales.liste as | key effet|}}
                 <div>
@@ -162,11 +162,11 @@
 
     {{#if (isWpnDistance systemData.type)}}
     <div class="blockEffets">
-        <h2 class="header">
+        <h2 class="header js-toggler">
             <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.AMELIORATIONS.LABEL.Distance"}}
         </h2>
-        
+
         <div class="distance">
             {{#each systemData.distance.liste as | key effet|}}
                 <div>
