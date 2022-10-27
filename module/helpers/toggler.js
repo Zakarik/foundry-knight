@@ -4,6 +4,8 @@ class Toggler {
   }
 
   init(id, html, selector) {
+    id = this._cleanId(id);
+
     html[0].querySelectorAll(selector).forEach((element, index) => {
       const visible = this.toggles.get(this._getKey(id, index));
 
@@ -30,13 +32,19 @@ class Toggler {
   }
 
   clearForId(id) {
+    id = this._cleanId(id);
+
     this.toggles.forEach((value, key) => {
-      if (key.includes(id)) {
+      if (key.startsWith(id)) {
         this.toggles.delete(key);
       }
     });
 
     this._save();
+  }
+
+  _cleanId(id) {
+    return id.split('-').pop();
   }
 
   _getSiblings(element) {
