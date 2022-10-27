@@ -1,4 +1,4 @@
-import { 
+import {
   getEffets,
   getAspectValue,
   getAEValue,
@@ -41,7 +41,7 @@ export class CreatureSheet extends ActorSheet {
     this._prepareAE(context);
 
     context.systemData = context.data.system;
-    
+
     return context;
   }
 
@@ -90,7 +90,7 @@ export class CreatureSheet extends ActorSheet {
       const option = $(ev.currentTarget).data("option");
       const actuel = this.getData().data.system[option]?.optionDeploy || false;
 
-      let result = false;      
+      let result = false;
       if(actuel) {
         result = false;
       } else {
@@ -166,7 +166,7 @@ export class CreatureSheet extends ActorSheet {
       $(ev.currentTarget).toggleClass("clicked");
     });
 
-    html.find('.extendButton').click(ev => {      
+    html.find('.extendButton').click(ev => {
       $(ev.currentTarget).toggleClass("fa-plus-square fa-minus-square");
 
       if($(ev.currentTarget).hasClass("fa-minus-square")) {
@@ -272,7 +272,7 @@ export class CreatureSheet extends ActorSheet {
             type = 'sante';
             base = data.data.system.sante.value;
             max = data.data.system.sante.max;
-            
+
             break;
 
           case 'energie':
@@ -388,7 +388,7 @@ export class CreatureSheet extends ActorSheet {
               };
 
               let calcul = 0;
-              
+
               switch(selected) {
                 case 'colosseRecrue':
                   if(hasSante) calcul = Math.floor(dataSante/10);
@@ -639,10 +639,10 @@ export class CreatureSheet extends ActorSheet {
     const itemBaseType = itemData[0].type;
     const options = actorData.options;
 
-    if(itemBaseType === 'module' || 
-    itemBaseType === 'armure' || itemBaseType === 'avantage' || 
-    itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' || 
-    itemBaseType === 'contact' || itemBaseType === 'blessure' || 
+    if(itemBaseType === 'module' ||
+    itemBaseType === 'armure' || itemBaseType === 'avantage' ||
+    itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' ||
+    itemBaseType === 'contact' || itemBaseType === 'blessure' ||
     itemBaseType === 'trauma' || itemBaseType === 'armurelegende' ||
     itemBaseType === 'effet') return;
 
@@ -656,7 +656,7 @@ export class CreatureSheet extends ActorSheet {
     const system = sheetData.data.system;
     const phase2Activate = system.phase2Activate;
     const options = system.options;
-    
+
     const armesContact = [];
     const armesDistance = [];
     const armesTourelles = [];
@@ -889,7 +889,7 @@ export class CreatureSheet extends ActorSheet {
               armesContact.push(capaciteWpn);
             } else if(attaque.type === 'distance') {
               armesDistance.push(capaciteWpn);
-            } 
+            }
           }
         } else if(isPhase2 && phase2Activate) {
           if(aLieSupp.has) aspectLieSupp.push(aLieSupp.value);
@@ -938,7 +938,7 @@ export class CreatureSheet extends ActorSheet {
               armesContact.push(capaciteWpn);
             } else if(attaque.type === 'distance') {
               armesDistance.push(capaciteWpn);
-            } 
+            }
           }
         }
 
@@ -989,7 +989,7 @@ export class CreatureSheet extends ActorSheet {
     actorData.armesTourelles = armesTourelles;
     actorData.langue = langue;
     actorData.capacites = capacites;
-    
+
     const update = {
       system:{
         aspects:{
@@ -1052,7 +1052,7 @@ export class CreatureSheet extends ActorSheet {
         armure:{
           bonus:{
             modules:armure.bonus.modules.reduce(sum),
-            modules:armure.bonus.capacites.reduce(sum)
+            capacites:armure.bonus.capacites.reduce(sum)
           }
         },
         energie:{
@@ -1120,7 +1120,7 @@ export class CreatureSheet extends ActorSheet {
         }
       }
     });
-    
+
     return result;
   }
 
@@ -1146,7 +1146,7 @@ export class CreatureSheet extends ActorSheet {
       isWpn, idWpn, nameWpn, typeWpn, num,
       deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, false, false, false,
       true, false);
-      
+
     rollApp.render(true);
   }
 
@@ -1164,7 +1164,7 @@ export class CreatureSheet extends ActorSheet {
       const aeMajeur = +aspect.ae.majeur.value;
       const lMineur = `KNIGHT.ASPECTS.${key.toUpperCase()}.AE.Mineur`;
       const lMajeur = `KNIGHT.ASPECTS.${key.toUpperCase()}.AE.Majeur`;
-      
+
       if(aeMineur > 0 || aeMajeur > 0) result[key] = {}
 
       if(aeMineur > 0) {
@@ -1182,7 +1182,7 @@ export class CreatureSheet extends ActorSheet {
 
   _depensePE(depense, autosubstract=true) {
     const getData = this.getData();
-    
+
     const actuel = +getData.systemData.energie.value;
     const substract = actuel-depense;
 
@@ -1208,12 +1208,12 @@ export class CreatureSheet extends ActorSheet {
 
   async _doDgts(label, dataWpn, listAllEffets, regularite=0, addNum='') {
     const actor = this.actor;
-   
+
     //DEGATS
     const tenebricide = true;
     const bourreau = listAllEffets.bourreau;
     const bourreauValue = listAllEffets.bourreauValue;
-    
+
     const dgtsDice = dataWpn?.dice || 0;
     const dgtsFixe = dataWpn?.fixe || 0;
 
@@ -1275,7 +1275,7 @@ export class CreatureSheet extends ActorSheet {
       content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegats),
       sound: CONFIG.sounds.dice
     };
-    
+
     ChatMessage.create(dgtsMsgData);
   }
 
@@ -1325,7 +1325,7 @@ export class CreatureSheet extends ActorSheet {
     const lEffetViolence = listEffets.violence;
     const lEffetOther = listEffets.other;
 
-    // ATTAQUE    
+    // ATTAQUE
     const attackDice = lEffetAttack.totalDice;
     const attackBonus = lEffetAttack.totalBonus;
     const attackInclude = lEffetAttack.include;

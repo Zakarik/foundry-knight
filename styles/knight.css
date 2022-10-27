@@ -1723,12 +1723,9 @@
   color: white;
   padding: 2px;
 }
-.rollDialog div.dialog-content div.bonus div.styleCombat span.select {
-  display: inline-block;
+.rollDialog div.dialog-content div.bonus div.styleCombat select {
   width: 100%;
-  height: 27px;
-  line-height: 27px;
-  padding: 0px;
+  padding-left: 13px;
   border: 0px;
   margin: 0px;
   padding-top: 0px;
@@ -1738,9 +1735,11 @@
   background: RGB(43 42 51);
   color: white;
   font-variant: small-caps;
-  border-left: 1px solid RGB(76 74 90);
-  border-right: 1px solid RGB(76 74 90);
   border-radius: 0px;
+  border-left: 1px solid RGB(76 74 90);
+}
+.rollDialog div.dialog-content div.bonus div.styleCombat select option {
+  background: RGB(43 42 51);
 }
 .rollDialog div.dialog-content div.bonus div.degatsBonus,
 .rollDialog div.dialog-content div.bonus div.violenceBonus {

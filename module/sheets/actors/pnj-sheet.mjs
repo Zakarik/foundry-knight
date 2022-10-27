@@ -1450,7 +1450,7 @@ export class PNJSheet extends ActorSheet {
         armure:{
           bonus:{
             modules:armure.bonus.modules.reduce(sum),
-            modules:armure.bonus.capacites.reduce(sum)
+            capacites:armure.bonus.capacites.reduce(sum)
           }
         },
         champDeForce:{
