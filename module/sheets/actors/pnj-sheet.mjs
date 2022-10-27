@@ -1524,8 +1524,6 @@ export class PNJSheet extends ActorSheet {
       }
     });
 
-    console.log(result);
-
     return result;
   }
 
