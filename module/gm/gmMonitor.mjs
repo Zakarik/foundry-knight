@@ -33,13 +33,15 @@
         }
         this.position.width = "auto";
         this.position.height = "auto";
-        
+
         const pj = {};
 
         for (const actor of game.actors) {
             if(actor.type === 'knight') {
+                const surname = actor.system.surnom;
+
                 pj[actor.id] = {
-                    name:actor.system.surnom,
+                    name: '' !== surname ? surname : actor.name,
                     aspects:actor.system.aspects,
                     defense:actor.system.defense.value,
                     reaction:actor.system.reaction.value,
