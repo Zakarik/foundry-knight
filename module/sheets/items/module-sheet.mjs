@@ -30,8 +30,6 @@ export class ModuleSheet extends ItemSheet {
 
     context.systemData = context.data.system;
 
-    console.log(context);
-
     return context;
   }
 
@@ -127,7 +125,7 @@ export class ModuleSheet extends ItemSheet {
 
       stringPath.split(".").forEach(function(key){
         path = path[key];
-        
+
       });
 
       let label = '';
@@ -235,7 +233,7 @@ export class ModuleSheet extends ItemSheet {
     html.find('select.typePNJ').change(ev => {
       const id = $(ev.currentTarget).data("id");
       const value = $(ev.currentTarget).val();
-    
+
       const dice = value === 'bande' ? 0 : 3;
       const fixe = value === 'bande' ? 1 : 0;
       const update = {data:{pnj:{liste:{[id]:{initiative:{dice:dice, fixe:fixe}}}}}}
@@ -296,7 +294,7 @@ export class ModuleSheet extends ItemSheet {
 
       textarea.height(min);
       const height = ev.currentTarget.scrollHeight+1;
-      
+
       textarea.height(Math.max(height, min));
 
       this.item.update({[`system.textarea.${type}`]:Math.max(height, min)});
@@ -436,10 +434,10 @@ export class ModuleSheet extends ItemSheet {
 
     if(aHas) { data.labels.arme = game.i18n.localize("KNIGHT.ITEMS.MODULE.ARME.Has"); }
     else { data.labels.arme = game.i18n.localize("KNIGHT.ITEMS.MODULE.ARME.Hasnt"); }
-    
+
     if(aDeg) { data.labels.armeDegatsVariable = game.i18n.localize("KNIGHT.ITEMS.MODULE.ARME.DEGATS.Variable"); }
     else { data.labels.armeDegatsVariable = game.i18n.localize("KNIGHT.ITEMS.MODULE.ARME.DEGATS.NoVariable"); }
-    
+
     if(aVio) { data.labels.armeViolenceVariable = game.i18n.localize("KNIGHT.ITEMS.MODULE.ARME.VIOLENCE.Variable"); }
     else { data.labels.armeViolenceVariable = game.i18n.localize("KNIGHT.ITEMS.MODULE.ARME.VIOLENCE.NoVariable"); }
 
@@ -465,7 +463,7 @@ export class ModuleSheet extends ItemSheet {
     const structurelles = context.data.system.arme.structurelles || false;
     const ornementales = context.data.system.arme.ornementales || false;
     const pnjListe = context.data.system.pnj.liste;
-    
+
     if(effets !== false) {
       const raw = effets.raw;
       const custom = effets.custom;
@@ -473,7 +471,7 @@ export class ModuleSheet extends ItemSheet {
 
       effets.liste = listEffects(raw, custom, labelsE);
     }
-    
+
     if(distance !== false) {
       const raw = distance.raw;
       const custom = distance.custom;
@@ -481,7 +479,7 @@ export class ModuleSheet extends ItemSheet {
 
       distance.liste = listEffects(raw, custom, labelsD);
     }
-    
+
     if(structurelles !== false) {
       const raw = structurelles.raw;
       const custom = structurelles.custom;
@@ -489,7 +487,7 @@ export class ModuleSheet extends ItemSheet {
 
       structurelles.liste = listEffects(raw, custom, labelsS);
     }
-    
+
     if(ornementales !== false) {
       const raw = ornementales.raw;
       const custom = ornementales.custom;
@@ -505,7 +503,7 @@ export class ModuleSheet extends ItemSheet {
         const rArme = arme.effets.raw;
         const cArme = arme.effets.custom;
         const labelsA = CONFIG.KNIGHT.effets;
-  
+
         arme.effets.liste = listEffects(rArme, cArme, labelsA);
       }
     }
@@ -514,7 +512,7 @@ export class ModuleSheet extends ItemSheet {
   _prepareEnergieTranslate(context) {
     const energie = context.data.system.energie;
     const update = {};
-    
+
     if(energie.tour.label === "") update["system.energie.tour.label"] = `${game.i18n.localize("KNIGHT.AUTRE.Tour")}`;
     if(energie.minute.label === "") update["system.energie.minute.label"] = `${game.i18n.localize("KNIGHT.AUTRE.Minute")}`;
 

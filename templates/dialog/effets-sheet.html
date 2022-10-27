@@ -12,8 +12,6 @@
                     <img class="info" src="systems/knight/assets/icons/info.svg" />
                     <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
                 </div>
-
-                {{log key effet}}
             {{/each}}
         </div>
         <h2 class="header">{{localize "KNIGHT.EFFETS.Add"}}</h2>
@@ -32,7 +30,7 @@
                         data-label="{{key.key}}" data-double="{{key.double}}" data-text="{{key.text}}">
                         <i class="fas fa-plus"></i>
                     </a>
-                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>            
+                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
                 </div>
             {{/each}}
         </div>
@@ -53,7 +51,7 @@
                 </button>
                 {{/if}}
             </div>
-            
+
             {{editor object.data.custom.description target="custom.description" button=true owner="owner" editable="editable"}}
 
             <div class="attaque">
