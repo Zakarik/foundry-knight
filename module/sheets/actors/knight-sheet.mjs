@@ -6800,9 +6800,23 @@ export class KnightSheet extends ActorSheet {
     let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
 
     if(rollUi !== false) {
+      const style = system.combat.style;
+      const getStyle = getModStyle(style);
+
       await rollUi.setWpnContact(armesContactEquipee);
       await rollUi.setWpnDistance(armesDistanceEquipee);
       await rollUi.setWpnTourelle(armesTourelles);
+      await rollUi.setStyle({
+        fulllabel:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.FullLabel`),
+        label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Label`),
+        raw:style,
+        info:system.combat.styleInfo,
+        caracteristiques:getStyle.caracteristiques,
+        tourspasses:system.combat.data.tourspasses,
+        type:system.combat.data.type,
+        sacrifice:system.combat.data.sacrifice,
+        maximum:6
+      });
 
       rollUi.render(true);
     }
