@@ -62,7 +62,7 @@
                 </div>
             </div>
             {{/if}}
-            
+
             {{#if systemData.options.blindage}}
             <div class="blindage">
                 <div class="line">
@@ -156,7 +156,7 @@
                     <input class="withBorder" type="number" name="system.reaction.malus.user" min="0" value="{{systemData.reaction.malus.user}}" />
                 </div>
             </div>
-            
+
             <div class="defense">
                 <div class="line">
                     <span class="option {{#unless systemData.defense.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="defense"></span>
@@ -279,7 +279,7 @@
 
             {{#if systemData.options.jetsSpeciaux}}
             <div class="jetsSpeciaux">
-                <h2 class="header">
+                <h2 class="header js-toggler">
                     <i class="far fa-minus-square"></i>
                     {{localize "KNIGHT.ITEMS.MODULE.PNJ.JETSPECIAL.Label"}}
                 </h2>
@@ -295,17 +295,17 @@
 
             {{#unless systemData.options.noCapacites}}
             <div class="capacite">
-                <h2 class="header">
+                <h2 class="header js-toggler">
                     <i class="far fa-minus-square"></i>
                     {{localize "KNIGHT.CAPACITES.Label"}}
 
                     <a class="item-control item-create" title="Create Item" data-type="capacite"><i class="fas fa-plus"></i></a>
                 </h2>
-                
+
                 {{#each actor.capacites as | key module|}}
                 <div class="bCapacite">
-                    <header class="summary header" data-item-id="{{key._id}}">
-                        <i class="far fa-plus-square extendButton"></i>                        
+                    <header class="summary header js-toggler" data-item-id="{{key._id}}">
+                        <i class="far fa-plus-square extendButton"></i>
 
                         <div class="gestionButton">
                             <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
@@ -341,7 +341,7 @@
                             {{/if}}
                         </div>
                     </header>
-                    
+
                     <img class="profile-img" style="display:none;" src="{{key.img}}" title="{{key.name}}" />
                     <span class="description" style="display:none;">{{{key.system.description}}}</span>
 
@@ -461,7 +461,7 @@
                                 </div>
                             </div>
                             {{/if}}
- 
+
                         </div>
                     </div>
                 </div>
@@ -470,14 +470,14 @@
             {{/unless}}
 
             <div class="aspectsexceptionnels">
-                <h2 class="header">
+                <h2 class="header js-toggler">
                     <i class="far fa-minus-square"></i>
                     {{localize "KNIGHT.ASPECTS.Exceptionnels"}}
                 </h2>
 
                 {{#each actor.aspectexceptionnel as | key aspect|}}
                 <div class="data">
-                    <h3 class="header">
+                    <h3 class="header js-toggler">
                         <i class="far fa-plus-square"></i>
 
                         {{getAspect aspect}}
@@ -579,11 +579,11 @@
                                     <option value="{{key}}">{{localize "KNIGHT.AUTRE.Majeur"}} ({{key}})</option>
                                 {{/each}}
                             {{/select}}
-                        </select>                        
+                        </select>
                     </div>
                     {{/each}}
                 </div>
-                
+
             </div>
             {{/if}}
         </div>
