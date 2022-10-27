@@ -19,7 +19,7 @@
         {{/each}}
     </div>
     {{/unless}}
-    
+
 
     {{!-- Sheet Header --}}
     <header class="sheet-header flexrow">
@@ -34,27 +34,27 @@
                     <span>{{localize "KNIGHT.Surnom"}} : </span>
                     <input type="text" name="system.surnom" value="{{systemData.surnom}}" />
                 </label>
-    
+
                 <label>
                     <span>{{localize "KNIGHT.Archetype"}} : </span>
                     <input type="text" name="system.archetype" value="{{systemData.archetype}}" />
                 </label>
-    
+
                 <label>
                     <span>{{localize "KNIGHT.Age"}} : </span>
                     <input type="text" name="system.age" value="{{systemData.age}}" />
                 </label>
-    
+
                 <label>
                     <span>{{localize "KNIGHT.Section"}} : </span>
                     <input type="text" name="system.section" value="{{systemData.section}}" />
                 </label>
-    
+
                 <label>
                     <span>{{localize "KNIGHT.Blason"}} : </span>
                     <input type="text" name="system.blason" value="{{systemData.blason}}" />
                 </label>
-    
+
                 <label>
                     <span>{{localize "KNIGHT.HautFait"}} : </span>
                     <input type="text" name="system.hautFait" value="{{systemData.hautFait}}" />
@@ -77,7 +77,7 @@
                     </div>
                     {{/if}}
                 {{/unless}}
-                
+
                 {{#if systemData.jauges.sante}}
                 <button type="action" class="armure {{#if (guardian systemData.wear)}} selected {{else}} unselected {{/if}}" data-type="guardian">{{localize "KNIGHT.ARMURE.Guardian"}}</button>
                 <button type="action" class="armure {{#if (civil systemData.wear)}} selected {{else}} unselected {{/if}}" data-type="tenueCivile">{{localize "KNIGHT.ARMURE.TenueCivile"}}</button>
@@ -140,17 +140,17 @@
                 </div>
                 <div class="subLine {{#if systemData.egide.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
-                    <input type="number" name="system.egide.base" data-type="egide"  min="0" 
+                    <input type="number" name="system.egide.base" data-type="egide"  min="0"
                     value="{{systemData.egide.base}}" />
                 </div>
                 <div class="subLine {{#if systemData.egide.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
-                    <input type="number" name="system.egide.bonus.user" data-type="egide"  min="0" 
+                    <input type="number" name="system.egide.bonus.user" data-type="egide"  min="0"
                     value="{{systemData.egide.bonus.user}}" />
                 </div>
                 <div class="subLine {{#if systemData.egide.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
                     <span class="label">{{localize "KNIGHT.MALUS.Label"}}</span>
-                    <input type="number" name="system.egide.malus.user" data-type="egide"  min="0" 
+                    <input type="number" name="system.egide.malus.user" data-type="egide"  min="0"
                     value="{{systemData.egide.malus.user}}" />
                 </div>
                 <button type="action" class="jetEgide" data-value="{{systemData.egide.value}}D6">{{localize "KNIGHT.JETS.JetEgide"}}</button>
@@ -240,7 +240,7 @@
                 </div>
                 <div class="subLine {{#if systemData.champDeForce.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
-                    <input type="number" name="system.equipements.{{this.systemData.wear}}.champDeForce.bonus.user" data-type="champDeForce"  min="0" 
+                    <input type="number" name="system.equipements.{{this.systemData.wear}}.champDeForce.bonus.user" data-type="champDeForce"  min="0"
                     value="{{#if (guardian systemData.wear)}}{{systemData.equipements.guardian.champDeForce.bonus.user}}{{/if}}{{#if (armure systemData.wear)}}{{systemData.equipements.armure.champDeForce.bonus.user}}{{/if}}{{#if (ascension systemData.wear)}}{{systemData.equipements.ascension.champDeForce.bonus.user}}{{/if}}" />
                 </div>
                 <div class="subLine {{#if systemData.champDeForce.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
@@ -294,7 +294,7 @@
                     <input class="withBorder" type="number" name="system.reaction.malus.user" min="0" value="{{systemData.reaction.malus.user}}" />
                 </div>
             </div>
-            
+
             <div class="defense">
                 <div class="line">
                     <span class="option {{#unless systemData.defense.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="defense"></span>
@@ -539,7 +539,7 @@
                             {{~> (affichageSpecial . key)}}
                         {{/each}}
                     </div>
-                    
+
                     {{#unless (isEmpty actor.armureLegendeData)}}
                     <div class="capacites capacitesLegende">
                         <h2 class="header">
@@ -551,7 +551,7 @@
                         {{/each}}
                     </div>
                     {{/unless}}
-                    
+
                     {{#unless (isEmpty actor.armureLegendeData)}}
                     <div class="capacites specialLegende">
                         <h2 class="header">
@@ -589,7 +589,7 @@
                         {{/each}}
                     </div>
                 </div>
-                
+
                 <div class="tab-armure MAmodule {{#if systemData.MATabs.MAmodule}}active{{/if}}">
                     <div class="slots">
                         <h2 class="header">
@@ -649,11 +649,11 @@
 
                             <a class="item-control item-create" title="Create Item" data-type="module"><i class="fas fa-plus"></i></a>
                         </h2>
-                        
+
                         {{#each actor.modules as | key module|}}
                         <div class="bModule">
                             <header class="summary header" data-item-id="{{key._id}}">
-                                <i class="far fa-plus-square extendButton"></i>                        
+                                <i class="far fa-plus-square extendButton"></i>
 
                                 <div class="gestionButton">
                                     <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
@@ -702,7 +702,7 @@
                                                     {{localize "KNIGHT.ITEMS.MODULE.DepenseSupplementaire"}}
                                                 </button>
                                             {{/if}}
-                                        {{/if}}                                            
+                                        {{/if}}
                                         {{#unless key.system.active.pnj}}
                                             {{#each key.system.pnj.liste as | keyPnj pnj|}}
                                                 {{#if (isHigherThan key.system.energie.tour.value 0)}}
@@ -713,7 +713,7 @@
                                                         </button>
                                                     {{/unless}}
                                                 {{/if}}
-                                                
+
                                                 {{#if (isHigherThan key.system.energie.minute.value 0)}}
                                                     {{#unless key.system.active.pnj}}
                                                         <button class="activation" data-type="modulePnj" data-module="{{key._id}}"
@@ -779,7 +779,7 @@
                                                     {{localize "KNIGHT.ITEMS.MODULE.DepenseSupplementaire"}}
                                                 </button>
                                             {{/if}}
-                                        {{/if}}                                            
+                                        {{/if}}
                                         {{#unless key.system.active.pnj}}
                                             {{#each key.system.pnj.liste as | keyPnj pnj|}}
                                                 {{#if (isHigherThan key.system.energie.tour.value 0)}}
@@ -790,7 +790,7 @@
                                                         </button>
                                                     {{/unless}}
                                                 {{/if}}
-                                                
+
                                                 {{#if (isHigherThan key.system.energie.minute.value 0)}}
                                                     {{#unless key.system.active.pnj}}
                                                         <button class="activation" data-type="modulePnj" data-module="{{key._id}}"
@@ -817,7 +817,7 @@
                                     {{/if}}
                                 {{/if}}
                             </header>
-                            
+
                             <img class="profile-img" style="display:none;" src="{{key.img}}" title="{{key.name}}" />
                             <span class="description" style="display:none;">{{{key.system.description}}}</span>
 
@@ -917,7 +917,7 @@
                                         <span class="textarea">{{{capaciteDescription key.system.duree}}}</span>
                                         {{/if}}
                                     </div>
-                                    
+
                                     {{#if key.system.bonus.has}}
                                     <div class="data">
                                         <h4 class="title">{{localize "KNIGHT.BONUS.Label"}}</h4>
@@ -1002,7 +1002,7 @@
                                             <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
                                             <span class="score">{{getPortee key.system.arme.portee}}</span>
                                         </div>
-                                        
+
                                         <h4 class="separation">{{localize "KNIGHT.AUTRE.Degats"}}</h4>
                                         {{#unless key.system.arme.degats.variable.has}}
                                         <div class="middlespan noSeparation">
@@ -1019,7 +1019,7 @@
                                             <span class="score">{{key.system.arme.degats.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.degats.variable.max.fixe}}</span>
                                         </div>
                                         {{/unless}}
-                                        
+
                                         <h4 class="separation">{{localize "KNIGHT.AUTRE.Violence"}}</h4>
                                         {{#unless key.system.arme.violence.variable.has}}
                                         <div class="middlespan noSeparation">
@@ -1297,7 +1297,7 @@
                         {{/each}}
                     </div>
                 </div>
-                
+
                 {{#unless systemData.restrictions.noArmeDistance}}
                     <div class="armesDistance">
                         <div class="block">
@@ -1365,10 +1365,10 @@
                                             <span>{{key.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
                                         </div>
 
-                                        <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn" 
+                                        <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn"
                                         data-id="contact"
-                                        data-name="{{armesimprovisees}}" 
-                                        data-isDistance="armesimprovisees" 
+                                        data-name="{{armesimprovisees}}"
+                                        data-isDistance="armesimprovisees"
                                         data-num="{{arme}}" data-caracteristiques="{{@root/systemData/combat/armesimprovisees/contact}},force" />
                                     </div>
                                 </div>
@@ -1402,9 +1402,9 @@
                                             <span>{{key.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
                                         </div>
 
-                                        <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn" 
-                                        data-id="distance" 
-                                        data-name="{{armesimprovisees}}" 
+                                        <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn"
+                                        data-id="distance"
+                                        data-name="{{armesimprovisees}}"
                                         data-isDistance="armesimprovisees" data-num="{{arme}}"
                                         data-caracteristiques="{{@root/systemData/combat/armesimprovisees/distance}},force" />
                                     </div>
@@ -1440,7 +1440,7 @@
                             </div>
                             {{/each}}
                         </div>
-                        
+
                         <div class="blockRoll">
                             <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn" data-name="{{grenades}}" data-id="" data-isDistance="grenades" data-num="" />
                         </div>
@@ -1479,9 +1479,9 @@
                                 <input type="number" name="system.combat.nods.{{nods}}.max" value="{{key.max}}" />
                             </div>
                             <div class="blockRoll">
-                                <img src="systems/knight/assets/icons/D6Black.svg" title='{{localize "KNIGHT.COMBAT.NODS.SoiMeme"}}' class="dice" 
+                                <img src="systems/knight/assets/icons/D6Black.svg" title='{{localize "KNIGHT.COMBAT.NODS.SoiMeme"}}' class="dice"
                                     data-nods="{{nods}}" data-number="{{key.value}}" />
-                                <img src="systems/knight/assets/icons/D6TargetBlack.svg" title='{{localize "KNIGHT.COMBAT.NODS.Autrui"}}' class="diceTarget" 
+                                <img src="systems/knight/assets/icons/D6TargetBlack.svg" title='{{localize "KNIGHT.COMBAT.NODS.Autrui"}}' class="diceTarget"
                                     data-nods="{{nods}}" data-number="{{key.value}}" />
                             </div>
                         </div>
@@ -1517,7 +1517,7 @@
                         {{localize "KNIGHT.HISTORIQUE.Contacts"}}
                         <a class="item-control item-create" title="Create Item" data-type="contact"><i class="fas fa-plus"></i></a>
                         <span class="headerScore">{{systemData.contacts.value}}</span>
-                        
+
                     </h2>
                     {{#each actor.contact as | key contact|}}
                     <div class="block">
@@ -1595,17 +1595,17 @@
             <div class="main">
                 <div class="dataExperience">
                     <h2 class="header">
-                        {{localize "KNIGHT.PROGRESSION.EXPERIENCE.Label"}}                    
+                        {{localize "KNIGHT.PROGRESSION.EXPERIENCE.Label"}}
                     </h2>
                     <label>
                         <span class="label">
-                            {{localize "KNIGHT.PROGRESSION.Actuel"}}  
+                            {{localize "KNIGHT.PROGRESSION.Actuel"}}
                         </span>
                         <input type="number" name="system.progression.experience.actuel" value="{{systemData.progression.experience.actuel}}" />
                     </label>
                     <label>
                         <span class="label">
-                            {{localize "KNIGHT.PROGRESSION.Utilise"}}  
+                            {{localize "KNIGHT.PROGRESSION.Utilise"}}
                         </span>
                         <span class="score">
                             {{systemData.progression.experience.depense.total}}
@@ -1613,7 +1613,7 @@
                     </label>
                     <label>
                         <span class="label">
-                            {{localize "KNIGHT.AUTRE.Total"}}  
+                            {{localize "KNIGHT.AUTRE.Total"}}
                         </span>
                         <span class="score">
                             {{systemData.progression.experience.total}}
@@ -1623,17 +1623,17 @@
 
                 <div class="dataPG">
                     <h2 class="header">
-                        {{localize "KNIGHT.PROGRESSION.GLOIRE.Label"}}                    
+                        {{localize "KNIGHT.PROGRESSION.GLOIRE.Label"}}
                     </h2>
                     <label>
                         <span class="label">
-                            {{localize "KNIGHT.PROGRESSION.Actuel"}}  
+                            {{localize "KNIGHT.PROGRESSION.Actuel"}}
                         </span>
                         <input type="number" name="system.progression.gloire.actuel" value="{{systemData.progression.gloire.actuel}}" />
                     </label>
                     <label>
                         <span class="label">
-                            {{localize "KNIGHT.PROGRESSION.Utilise"}}  
+                            {{localize "KNIGHT.PROGRESSION.Utilise"}}
                         </span>
                         <span class="score">
                             {{systemData.progression.gloire.depense.total}}
@@ -1641,7 +1641,7 @@
                     </label>
                     <label>
                         <span class="label">
-                            {{localize "KNIGHT.AUTRE.Total"}}  
+                            {{localize "KNIGHT.AUTRE.Total"}}
                         </span>
                         <span class="score">
                             {{systemData.progression.gloire.total}}
@@ -1691,7 +1691,7 @@
                         <div class="armure">
                             <span class="label">{{localize "KNIGHT.PROGRESSION.EvolutionArmure"}}</span>
                             <span class="value">{{key.value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}</span>
-                        </div>                        
+                        </div>
                         {{/unless}}
                     </div>
                     {{/each}}
@@ -1739,7 +1739,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="tab options" data-group="primary" data-tab="options">
             <div class="main">
                 <button type="action" data-value="{{systemData.options.kraken}}" data-option="kraken" class="{{#if systemData.options.kraken}}selected{{else}}unselected{{/if}}">

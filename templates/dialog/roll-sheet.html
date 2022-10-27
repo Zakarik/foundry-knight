@@ -34,13 +34,13 @@
             </span>
 
             <span class="autreJet">
-                {{localize "KNIGHT.JETS.AutreCarac"}} : 
-                {{#each autre}} {{#unless @first}} / {{/unless}}<u>{{getCarac this}}</u> {{/each}} 
+                {{localize "KNIGHT.JETS.AutreCarac"}} :
+                {{#each autre}} {{#unless @first}} / {{/unless}}<u>{{getCarac this}}</u> {{/each}}
                 {{#if style.selected}} / {{getCarac style.selected}} {{/if}}
             </span>
         {{/if}}
     </div>
-    
+
     <div class="bonus">
         <label>
             <span>{{localize "KNIGHT.BONUS.Succes"}}</span>
@@ -55,11 +55,22 @@
             <span class="label">{{localize "KNIGHT.COMBAT.STYLES.Label"}}</span>
             <span class="info {{#if style.deploy}} clicked {{/if}}">?</span>
             <span class="{{#if style.deploy}} showInfo {{else}} hideInfo {{/if}}">{{{style.info}}}</span>
-            <span class="select">
-                {{style.label}}
-            </span>
+            <select class="selectStyle">
+                {{#select style.raw}}
+                <option value="standard">{{localize "KNIGHT.COMBAT.STYLES.STANDARD.Label"}}</option>
+                <option value="acouvert">{{localize "KNIGHT.COMBAT.STYLES.ACOUVERT.Label"}}</option>
+                <option value="agressif">{{localize "KNIGHT.COMBAT.STYLES.AGRESSIF.Label"}}</option>
+                <option value="akimbo">{{localize "KNIGHT.COMBAT.STYLES.AKIMBO.Label"}}</option>
+                <option value="ambidextre">{{localize "KNIGHT.COMBAT.STYLES.AMBIDEXTRE.Label"}}</option>
+                <option value="defensif">{{localize "KNIGHT.COMBAT.STYLES.DEFENSIF.Label"}}</option>
+                <option value="pilonnage">{{localize "KNIGHT.COMBAT.STYLES.PILONNAGE.Label"}}</option>
+                <option value="precis">{{localize "KNIGHT.COMBAT.STYLES.PRECIS.Label"}}</option>
+                <option value="puissant">{{localize "KNIGHT.COMBAT.STYLES.PUISSANT.Label"}}</option>
+                <option value="suppression">{{localize "KNIGHT.COMBAT.STYLES.SUPPRESSION.Label"}}</option>
+                {{/select}}
+            </select>
         </div>
-        
+
         <div class="buttons" {{#if (hasStyle 'precis' style.raw)}}{{#if (canUseStyle 'precis' typeWpn idActor idWpn)}}style="display:flex;"{{/if}}{{/if}}>
             {{#each style.caracteristiques as | key caracteristique|}}
             <button type="action" data-select="{{key}}" class="{{hasRollStyleSelected @root/style/selected key}}">
@@ -123,7 +134,7 @@
         </div>
         {{/if}}
     </div>
-    
+
     {{#unless (isEmpty listWpnContact)}}
     <div class="wpn">
         <h2 class="header">
@@ -326,7 +337,7 @@
                             </div>
                         {{/if}}
                     {{/if}}
-                    
+
                     {{#if (hasEffet 'tenebricide' 'effets' key -1)}}
                         <div class="blockBtn">
                             <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
@@ -334,12 +345,12 @@
                         </div>
                     {{/if}}
                 </div>
-            </div>            
+            </div>
         {{/each}}
     </div>
     {{/unless}}
 
-    {{#unless (isEmpty listWpnDistance)}}    
+    {{#unless (isEmpty listWpnDistance)}}
     <div class="wpn">
         <h2 class="header">
             {{#if deploy.wpnDistance}}
@@ -456,7 +467,7 @@
                             <span class="relance relanceDgts" data-id="{{key._id}}" data-type="distance" data-name="{{key.name}}" title="{{localize "KNIGHT.EFFETS.TIRENRAFALE.Relance"}}">{{localize "KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Tirenrafale"}}</span>
                         {{/if}}
                     {{/if}}
-                    
+
                     {{#if (hasEffet 'barrage' 'effets' key -1)}}
                     <div class="blockBtn">
                         <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
@@ -511,7 +522,7 @@
                             <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="true">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
                         </div>
                     {{/if}}
-                    
+
                     {{#if (hasEffet 'tenebricide' 'effets' key -1)}}
                     <div class="blockBtn">
                         <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
@@ -641,7 +652,7 @@
                             <span class="relance relanceDgts" data-id="{{key._id}}" data-type="distance" data-name="{{key.name}}" title="{{localize "KNIGHT.EFFETS.TIRENRAFALE.Relance"}}">{{localize "KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Tirenrafale"}}</span>
                         {{/if}}
                     {{/if}}
-                    
+
                     {{#if (hasEffet 'barrage' 'effets' key -1)}}
                     <div class="blockBtn">
                         <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
@@ -696,7 +707,7 @@
                             <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="true">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
                         </div>
                     {{/if}}
-                    
+
                     {{#if (hasEffet 'tenebricide' 'effets' key -1)}}
                     <div class="blockBtn">
                         <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
@@ -729,7 +740,7 @@
                     {{#if (hasEffet 'tirenrafale' 'effets' key -1)}}
                         <span class="relance relanceDgts" data-type="grenades" data-name="{{grenade}}" title="{{localize "KNIGHT.EFFETS.TIRENRAFALE.Relance"}}">{{localize "KNIGHT.EFFETS.TIRENRAFALE.Label"}}</span>
                     {{/if}}
-                    
+
                     {{#if (hasEffet 'barrage' 'effets' key -1)}}
                         <div class="blockBtn">
                             <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
@@ -763,7 +774,7 @@
                             <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="true">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
                         </div>
                     {{/if}}
-                    
+
                     {{#if (hasEffet 'tenebricide' 'effets' key -1)}}
                         <div class="blockBtn">
                             <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
@@ -782,7 +793,7 @@
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label"}}
             </h2>
             <div class="button">
-                <button type="action"  data-type="longbow" data-name="longbow" class="{{#if (rollSelectOther 'longbow' 'longbow' nameWpn typeWpn)}}selected{{/if}}">
+                <button type="action" data-id="-1" data-type="longbow" data-name="longbow" class="{{#if (rollSelectOther 'longbow' 'longbow' nameWpn typeWpn)}}selected{{/if}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label"}}
 
                     {{#if (rollSelectOther 'longbow' 'longbow' nameWpn typeWpn)}}
@@ -795,7 +806,7 @@
                     {{#if (hasEffet 'tirenrafale' 'effets' longbow -1)}}
                         <span class="relance relanceDgts" data-id="{{key._id}}" data-type="distance" data-name="{{key.name}}" title="{{localize "KNIGHT.EFFETS.TIRENRAFALE.Relance"}}">{{localize "KNIGHT.EFFETS.TIRENRAFALE.Label"}}</span>
                     {{/if}}
-                    
+
                     {{#if (hasEffet 'barrage' 'effets' longbow -1)}}
                     <div class="blockBtn">
                         <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
@@ -830,7 +841,7 @@
                             <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="true">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
                         </div>
                     {{/if}}
-                    
+
                     {{#if (hasEffet 'tenebricide' 'effets' longbow -1)}}
                     <div class="blockBtn">
                         <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
@@ -884,8 +895,8 @@
                             {{#each longbow.effets.liste1.liste as | key effet|}}
                                 <div class="{{#if (hasEffet key.raw 'effets' @root/longbow -1)}}selected{{/if}}">
                                     <span class="label"
-                                        data-raw="{{key.raw}}" 
-                                        data-cost="{{@root/longbow/effets/liste1/energie}}" 
+                                        data-raw="{{key.raw}}"
+                                        data-cost="{{@root/longbow/effets/liste1/energie}}"
                                         data-selectedOnList="{{@root/longbow/effets/liste1/selected}}"
                                         data-liste="liste1">
                                         {{key.name}}
@@ -907,9 +918,9 @@
                         <div class="liste">
                             {{#each longbow.effets.liste2.liste as | key effet|}}
                                 <div class="{{#if (hasEffet key.raw 'effets' @root/longbow -1)}}selected{{/if}}">
-                                    <span class="label" 
-                                        data-raw="{{key.raw}}" 
-                                        data-cost="{{@root/longbow/effets/liste2/energie}}" 
+                                    <span class="label"
+                                        data-raw="{{key.raw}}"
+                                        data-cost="{{@root/longbow/effets/liste2/energie}}"
                                         data-selectedOnList="{{@root/longbow/effets/liste2/selected}}"
                                         data-liste="liste2">
                                         {{key.name}}
@@ -919,7 +930,7 @@
                                 </div>
                             {{/each}}
                         </div>
-                        
+
                     </div>
                     {{#if longbow.effets.liste3.acces}}
                         <div class="effets w33 liste3">
@@ -934,9 +945,9 @@
                             <div class="liste">
                                 {{#each longbow.effets.liste3.liste as | key effet|}}
                                     <div class="{{#if (hasEffet key.raw 'effets' @root/longbow -1)}}selected{{/if}}">
-                                        <span class="label" 
-                                            data-raw="{{key.raw}}" 
-                                            data-cost="{{@root/longbow/effets/liste3/energie}}" 
+                                        <span class="label"
+                                            data-raw="{{key.raw}}"
+                                            data-cost="{{@root/longbow/effets/liste3/energie}}"
                                             data-selectedOnList="{{@root/longbow/effets/liste3/selected}}"
                                             data-liste="liste3">
                                             {{key.name}}
@@ -946,7 +957,7 @@
                                     </div>
                                 {{/each}}
                             </div>
-                            
+
                         </div>
                     {{/if}}
                 </div>
@@ -1012,7 +1023,7 @@
                             <span class="{{#if @root/briserlaresilience}}selected{{else}}unselected{{/if}}" data-type="briserlaresilience" data-value="true">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Active"}}</span>
                         </div>
                         {{/if}}
-                        
+
                         {{#if (hasEffet 'barrage' 'effets' key -1)}}
                         <div class="blockBtn">
                             <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
@@ -1040,7 +1051,7 @@
                                 <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="true">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
                             </div>
                         {{/if}}
-                        
+
                         {{#if (hasEffet 'tenebricide' 'effets' key -1)}}
                         <div class="blockBtn">
                             <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
@@ -1072,7 +1083,7 @@
                     {{#if (hasEffet 'tirenrafale' 'effets' key -1)}}
                         <span class="relance relanceDgts" data-id="{{key._id}}" data-type="special" data-name="{{key.name}}" title="{{localize "KNIGHT.EFFETS.TIRENRAFALE.Relance"}}">{{localize "KNIGHT.EFFETS.TIRENRAFALE.Label"}}</span>
                     {{/if}}
-                    
+
                     {{#if (hasEffet 'barrage' 'effets' key -1)}}
                     <div class="blockBtn">
                         <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
@@ -1107,7 +1118,7 @@
                             <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="true">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
                         </div>
                     {{/if}}
-                    
+
                     {{#if (hasEffet 'tenebricide' 'effets' key -1)}}
                     <div class="blockBtn">
                         <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
@@ -1129,7 +1140,7 @@
                             {{#each key.eff1.effets.liste as | keyE1 effet|}}
                                 <div class="{{#if (hasEffet keyE1.raw 'effets' key -1)}}selected{{/if}}">
                                     <span class="label"
-                                        data-raw="{{keyE1.raw}}" 
+                                        data-raw="{{keyE1.raw}}"
                                         data-cost="{{key.eff1.value}}"
                                         data-liste="eff1",
                                         data-num="{{distance}}">
@@ -1153,7 +1164,7 @@
                             {{#each key.eff2.effets.liste as | keyE2 effet|}}
                                 <div class="{{#if (hasEffet keyE2.raw 'effets' key -1)}}selected{{/if}}">
                                     <span class="label"
-                                        data-raw="{{keyE2.raw}}" 
+                                        data-raw="{{keyE2.raw}}"
                                         data-cost="{{key.eff2.value}}"
                                         data-liste="eff2",
                                         data-num="{{distance}}">
@@ -1164,7 +1175,7 @@
                                 </div>
                             {{/each}}
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -1301,7 +1312,7 @@
                                     <span class="relance relanceDgts" data-id="{{key._id}}" data-type="distance" data-name="{{key.name}}" title="{{localize "KNIGHT.EFFETS.TIRENRAFALE.Relance"}}">{{localize "KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Tirenrafale"}}</span>
                                 {{/if}}
                             {{/if}}
-                            
+
                             {{#if (hasEffet 'barrage' 'effets' key -1)}}
                             <div class="blockBtn">
                                 <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
@@ -1349,7 +1360,7 @@
                                     <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="true">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
                                 </div>
                             {{/if}}
-                            
+
                             {{#if (hasEffet 'tenebricide' 'effets' key -1)}}
                             <div class="blockBtn">
                                 <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
@@ -1398,7 +1409,7 @@
                                     <span class="relance relanceDgts" data-id="{{key._id}}" data-type="distance" data-name="{{key.name}}" title="{{localize "KNIGHT.EFFETS.TIRENRAFALE.Relance"}}">{{localize "KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Tirenrafale"}}</span>
                                 {{/if}}
                             {{/if}}
-                            
+
                             {{#if (hasEffet 'barrage' 'effets' key -1)}}
                             <div class="blockBtn">
                                 <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
@@ -1446,7 +1457,7 @@
                                     <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="true">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
                                 </div>
                             {{/if}}
-                            
+
                             {{#if (hasEffet 'tenebricide' 'effets' key -1)}}
                             <div class="blockBtn">
                                 <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>

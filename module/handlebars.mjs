@@ -11,7 +11,7 @@
         return value === "guardian";
     });
 
-    Handlebars.registerHelper('armure', function (value) {        
+    Handlebars.registerHelper('armure', function (value) {
         return value === "armure";
     });
 
@@ -39,7 +39,7 @@
     });
 
     Handlebars.registerHelper('mechaarmure', function (mecha) {
-        
+
         if(mecha.hash.config) {
             mecha.data.root.systemData.configurations.liste[mecha.hash.type].modules[mecha.hash.key].config = true;
         }
@@ -51,7 +51,7 @@
         return `systems/knight/templates/actors/capacites/${capacite.key}.html`;
     });
 
-    
+
     Handlebars.registerHelper('affichageCapaciteLegende', function (capacite) {
         return `systems/knight/templates/actors/capacitesLegende/${capacite.key}.html`;
     });
@@ -83,7 +83,7 @@
     Handlebars.registerHelper('capaciteDescription', function (value) {
         const description = value
         .replaceAll(/(?:\r\n|\r|\n)/g, "<br/>");
- 
+
         return description;
     });
 
@@ -112,7 +112,7 @@
 
     Handlebars.registerHelper('hasRollStyleSelected', function (list, carac) {
         let result = '';
-        
+
         if(list === carac) result = 'selected';
 
         return result;
@@ -128,14 +128,23 @@
     Handlebars.registerHelper('canUseStyle', function (style, typeWpn, idActor=-1, idWpn=-1) {
         let result = false;
 
-        if(idActor === -1 || idWpn === -1 || typeWpn === '') return result;
+        if(idActor === -1 || (idWpn === -1 && typeWpn !== 'longbow') || typeWpn === '') return result;
 
         const actor = game.actors.get(idActor);
-        const wpn = actor.items.get(idWpn).system;
+        const wpn = typeWpn === 'longbow' ? actor.longbow : actor.items.get(idWpn).system;
 
-        const effets = wpn.effets.raw;
-        const structurelle = wpn.structurelles.raw;
-        const distance = wpn.distance.raw;
+        let effets = [];
+        if(typeWpn === 'longbow') {
+            effets = effets.concat(wpn.effets.base.raw, wpn.effets.liste1.raw, wpn.effets.liste2.raw);
+
+            if(wpn.effets.liste3.acces) effets = effets.concat(wpn.effets.liste3.raw);
+
+        } else {
+            effets = wpn.effets.raw;
+        }
+
+        const structurelle = typeWpn === 'longbow' ? [] : wpn.structurelles.raw;
+        const distance = typeWpn === 'longbow' ? [] : wpn.distance.raw;
 
         const hasDeuxmains = effets.includes('deuxmains');
         const hasLourd = effets.includes('lourd');
@@ -153,7 +162,7 @@
             break;
 
             case 'pilonnage':
-                if(typeWpn === 'distance') {
+                if(typeWpn === 'distance' || typeWpn === 'longbow') {
                     if(hasDeuxmains || hasLourd || hasHypervelocite || hasRefroidissement) result = true;
                 }
             break;
@@ -165,7 +174,7 @@
             break;
 
             case 'suppression':
-                if(typeWpn === 'distance') {
+                if(typeWpn === 'distance' || typeWpn === 'longbow') {
                     if(hasLourd || (hasDeuxmains && hasHypervelocite) || (hasDeuxmains && hasRefroidissement) || (hasHypervelocite && hasRefroidissement)) result = true;
                 }
             break;
@@ -222,7 +231,7 @@
         const has = choix[type] || false;
         return has;
     });
-    
+
     Handlebars.registerHelper('isBande', function (value) {
         const result = value === 'bande' ? true : false;
         return result;
@@ -322,7 +331,7 @@
     Handlebars.registerHelper('hasPE', function (pe, isEspoir, energieA, espoirA) {
         const peA = isEspoir === false ? energieA : espoirA;
         let result = false;
-        
+
         if(pe <= peA) { result = true; }
 
         return result;
@@ -331,7 +340,7 @@
     Handlebars.registerHelper('hasSpecial', function (value, special) {
         const spe = special?.[value] || false;
         let result = true;
-        
+
         if(spe === false) { result = false; }
 
         return result;
@@ -402,7 +411,7 @@
                 if(array.length !== 0) result = false;
             }
         }
-        
+
         return result;
     });
 
@@ -411,7 +420,7 @@
         const length = array.length;
 
         let result = false;
-        
+
         for(let i = 0;i < length;i++) {
             if(array[i] === true) {
                 result = true;
@@ -443,7 +452,7 @@
         const hasArme = system.arme.has;
 
         if(energieMinute === 0 && energieTour === 0 && !hasPNJ && !isPermanent) result = true;
-        
+
         if((energieMinute > 0 && !isPermanent) || (energieTour > 0  && !isPermanent)) {
             if(hasBard || hasRogue || hasOD || hasBonus || hasArme) result = true;
         };

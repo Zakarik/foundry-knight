@@ -644,6 +644,22 @@ export class KnightRollDialog extends Application {
       data.cout = cout;
       this.render(true);
     });
+
+    html.find('div.styleCombat select.selectStyle').change(ev => {
+      const style = $(ev.currentTarget).val();
+      const id = this.data.actor;
+      const actor = game.actors.get(id);
+
+      const update = {
+        system: {
+          combat:{
+            style: style
+          }
+        }
+      };
+
+      actor.update(update);
+    });
   }
 
   /**
@@ -1082,8 +1098,10 @@ export class KnightRollDialog extends Application {
     const dgtsDice = dataWpn?.degats?.dice || 0;
     const dgtsFixe = dataWpn?.degats?.fixe || 0;
 
-    let diceDgts = dgtsDice+listAllEffets.degats.totalDice;
-    let bonusDgts = dgtsFixe+listAllEffets.degats.totalBonus;
+    let diceDgts = +dgtsDice;
+    let bonusDgts = +dgtsFixe;
+    diceDgts += +listAllEffets.degats.totalDice;
+    bonusDgts += +listAllEffets.degats.totalBonus;
 
     if(style.raw === 'akimbo') {
       diceDgts += diceDgts;
@@ -1160,8 +1178,11 @@ export class KnightRollDialog extends Application {
     const violenceDice = dataWpn?.violence?.dice || 0;
     const violenceFixe = dataWpn?.violence?.fixe || 0;
 
-    let diceViolence = violenceDice+listAllEffets.violence.totalDice;
-    let bonusViolence = violenceFixe+listAllEffets.violence.totalBonus;
+    let diceViolence = violenceDice;
+    let bonusViolence = violenceFixe;
+
+    diceViolence += +listAllEffets.violence.totalDice;
+    bonusViolence += +listAllEffets.violence.totalBonus;
 
     if(style.raw === 'akimbo') {
       diceViolence += Math.ceil(diceViolence/2);
@@ -1856,7 +1877,7 @@ export class KnightRollDialog extends Application {
     const actType = this.data.typeWpn;
 
     if(type === actType && name === actName) {
-      this.data.idWpn = '';
+      this.data.idWpn = -1;
       this.data.nameWpn = '';
       this.data.typeWpn = '';
       this.data.num = -1;
@@ -1867,7 +1888,7 @@ export class KnightRollDialog extends Application {
       this.data.longbow.portee.raw = [];
     } else {
       this.data.label = `${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label`)}`;
-      this.data.idWpn = '';
+      this.data.idWpn = -1;
       this.data.nameWpn = name;
       this.data.typeWpn = type;
       this.data.num = '';
