@@ -67,7 +67,6 @@ export class RollKnight extends Roll {
 
   /** @override */
   async toMessage(messageData={}, {rollMode, create=true}={}) {
-    console.log(this);
     // Perform the roll, if it has not yet been rolled
     if ( !this._evaluated ) await this.evaluate({async: true});
 
@@ -82,7 +81,7 @@ export class RollKnight extends Roll {
       let result = 0;
       for(let i = 0;i < dices.length;i++) {
         const r = dices[i];
-        
+
         result += r%2 === this._pairOrImpair ? 1 : 0;
       }
 
@@ -114,9 +113,9 @@ export class RollKnight extends Roll {
         c._canEFail = this._canEFail;
         c._totalSuccess = nSuccess;
         c._pairOrImpair = this._pairOrImpair;
-        
+
         c.toMessage(messageData);
-        
+
       } else {
         switch(operator) {
           case '+':
@@ -182,23 +181,23 @@ export class RollKnight extends Roll {
       if(isExploit) {
         r.rolls = r.rolls.concat(pRolls[0]);
       }
-      
+
       let result = 0;
 
       for(let i = 0;i < r.rolls.length;i++) {
         const roll = +r.rolls[i].result;
-        
+
         result += roll%2 === pairOrImpair ? 1 : 0;
         const reussite = pairOrImpair === 0 ? 0 : 1;
         const echec = pairOrImpair === 1 ? 0 : 1;
-        
+
         r.rolls[i].classes = r.rolls[i].classes.replace(' min', '');
         r.rolls[i].classes = r.rolls[i].classes.replace(' max', '');
 
         if(roll%2 === reussite) {
-          r.rolls[i].classes += ' max'; 
+          r.rolls[i].classes += ' max';
         } else if(roll%2 === echec) {
-          r.rolls[i].classes += ' min'; 
+          r.rolls[i].classes += ' min';
         }
       }
 
@@ -231,7 +230,7 @@ export class RollKnight extends Roll {
           if(roll <= seuil) { r.rolls[i].result = min; }
 
           result += +r.rolls[i].result;
-                    
+
           r.rolls[i].classes = r.rolls[i].classes.replace(' min', '');
         }
 
@@ -263,7 +262,7 @@ export class RollKnight extends Roll {
       roll._dice = (data.dice || []).map(t => DiceTerm.fromData(t));
       roll._evaluated = true;
     }
- 
+
     roll._flavor = data.flavor;
     roll._style = data.style;
     roll._canExploit = data.canExploit;
@@ -292,7 +291,7 @@ export class RollKnight extends Roll {
 
     // Step 1 - Replace intermediate terms with evaluated numbers
     const intermediate = [];
-    
+
     for ( let term of this.terms ) {
       if ( !(term instanceof RollTerm) ) {
         throw new Error("Roll evaluation encountered an invalid term which was not a RollTerm instance");
@@ -331,7 +330,7 @@ export class RollKnight extends Roll {
     let result = 0;
     for(let i = 0;i < dices.length;i++) {
       const r = dices[i];
-      
+
       result += r%2 === this._pairOrImpair ? 1 : 0;
     }
 
@@ -348,7 +347,7 @@ export class RollKnight extends Roll {
       const c = new this.constructor(`${dices.length}d6`, this.data, this.options);
       c._canExploit = false;
       c._success = this._success;
-      
+
       await c.evaluateSuccess();
 
       const rolls = c.dice.map(function(d) {
@@ -389,7 +388,7 @@ export class RollKnight extends Roll {
 
       for(let i = 0;i < terms.length;i++) {
         const roll = +terms[i].result;
-        
+
         if(roll <= this._seuil) {
           terms[i].result = this._min;
         }
@@ -398,7 +397,7 @@ export class RollKnight extends Roll {
 
     const expression = this.terms.map(t => t.total).join(" ");
     const total = Roll.safeEval(expression);
-    
+
     if ( !Number.isNumeric(total) ) {
       throw new Error(game.i18n.format("DICE.ErrorNonNumeric", {formula: this.formula}));
     }
@@ -411,7 +410,7 @@ export class RollKnight extends Roll {
 
     for(let i = 0;i < terms.length;i++) {
       const roll = +terms[i].result;
-      
+
       if(roll === 6) { result += 1; }
     }
 

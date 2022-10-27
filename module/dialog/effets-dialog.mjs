@@ -143,25 +143,25 @@ export class KnightEffetsDialog extends FormApplication {
         const other = Object.values(secondSplit);
         let complet = name;
 
-        if(other.length > 1) { 
+        if(other.length > 1) {
           other.splice(0, 1);
           complet += ` ${other.join(" ").replace("<space>", " ")}`;
         }
-  
+
         if(sub != undefined) { complet += " "+sub; }
-  
+
         liste.push({
-          id:n, 
-          name:complet, 
+          id:n,
+          name:complet,
           description:game.i18n.localize(CONFIG.KNIGHT.effets[secondSplit[0]].description),
           custom:false
         });
       }
-      
+
       for(let n = 0;n < custom.length;n++) {
         liste.push({
-          id:n, 
-          name:custom[n].label, 
+          id:n,
+          name:custom[n].label,
           description:custom[n].description,
           custom:true
         });
@@ -190,7 +190,7 @@ export class KnightEffetsDialog extends FormApplication {
         const other = Object.values(secondSplit);
         let complet = name;
 
-        if(other.length > 1) { 
+        if(other.length > 1) {
           other.splice(0, 1);
           complet += ` ${other.join(" ").replace("<space>", " ")}`;
         }
@@ -198,17 +198,17 @@ export class KnightEffetsDialog extends FormApplication {
         if(sub != undefined) { complet += " "+sub; }
 
         liste.push({
-          id:n, 
-          name:complet, 
+          id:n,
+          name:complet,
           description:game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[secondSplit[0]].description),
           custom:false
         });
       }
-      
+
       for(let n = 0;n < custom.length;n++) {
         liste.push({
-          id:n, 
-          name:custom[n].label, 
+          id:n,
+          name:custom[n].label,
           description:custom[n].description,
           custom:true
         });
@@ -235,25 +235,25 @@ export class KnightEffetsDialog extends FormApplication {
         const other = Object.values(secondSplit);
         let complet = name;
 
-        if(other.length > 1) { 
+        if(other.length > 1) {
           other.splice(0, 1);
           complet += ` ${other.join(" ").replace("<space>", " ")}`;
         }
-  
+
         if(sub != undefined) { complet += " "+sub; }
-  
+
         liste.push({
-          id:n, 
-          name:complet, 
+          id:n,
+          name:complet,
           description:game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.structurelles[secondSplit[0]].description),
           custom:false
         });
       }
-      
+
       for(let n = 0;n < custom.length;n++) {
         liste.push({
-          id:n, 
-          name:custom[n].label, 
+          id:n,
+          name:custom[n].label,
           description:custom[n].description,
           custom:true
         });
@@ -280,25 +280,25 @@ export class KnightEffetsDialog extends FormApplication {
         const other = Object.values(secondSplit);
         let complet = name;
 
-        if(other.length > 1) { 
+        if(other.length > 1) {
           other.splice(0, 1);
           complet += ` ${other.join(" ").replace("<space>", " ")}`;
         }
-  
+
         if(sub != undefined) { complet += " "+sub; }
-  
+
         liste.push({
-          id:n, 
-          name:complet, 
+          id:n,
+          name:complet,
           description:game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.ornementales[secondSplit[0]].description),
           custom:false
         });
       }
-      
+
       for(let n = 0;n < custom.length;n++) {
         liste.push({
-          id:n, 
-          name:custom[n].label, 
+          id:n,
+          name:custom[n].label,
           description:custom[n].description,
           custom:true
         });
@@ -374,8 +374,6 @@ export class KnightEffetsDialog extends FormApplication {
         [`${this.object.toUpdate}.custom`]:this.object.custom
       }
 
-      console.log(objectToUpdate);
-
       objectToUpdate.update(update);
 
       await this.close({ submit: true, force: true });
@@ -390,7 +388,7 @@ export class KnightEffetsDialog extends FormApplication {
 
     html.find('a.add').click(ev => {
       const countEffets = this.object.raw.length;
-      
+
       if(this.object.maxEffets !== undefined) {
         if(countEffets === this.object.maxEffets) return;
       }
@@ -1009,7 +1007,7 @@ export class KnightEffetsDialog extends FormApplication {
           labelJet:this.object.data.custom.attaque.carac.labelJet,
           odInclusJet:this.object.data.custom.attaque.carac.odInclusJet,
           fixe:this.object.data.custom.attaque.carac.fixe,
-          jet:this.object.data.custom.attaque.carac.jet          
+          jet:this.object.data.custom.attaque.carac.jet
         },
         aspect:{
           fixe:this.object.data.custom.attaque.aspect.fixe,
