@@ -3,28 +3,25 @@ class Toggler {
     this.toggles = this._load();
   }
 
-  init(id, html, selector) {
+  init(id, html) {
     id = this._cleanId(id);
 
-    html[0].querySelectorAll(selector).forEach((element, index) => {
+    html[0].querySelectorAll('.js-toggler').forEach((element, index) => {
       const visible = this.toggles.get(this._getKey(id, index));
 
       if ('undefined' !== typeof visible) {
         this._getSiblings(element).toggle(visible);
-
-        if (!visible) {
-          this._toggleClasses(element);
-        }
+        this._toggleClasses(element.querySelector('i:first-child'), visible);
       }
 
-      element.addEventListener('click', e => {
+      element.querySelector('i:first-child').addEventListener('click', e => {
         e.preventDefault();
 
         const target = e.currentTarget;
 
         this._toggleClasses(target);
 
-        this._getSiblings(target).toggle({
+        this._getSiblings(element).toggle({
           complete: () => this._setElementVisibility(id, index, element),
         });
       });
@@ -48,12 +45,24 @@ class Toggler {
   }
 
   _getSiblings(element) {
-    return $(element).parents('.header').siblings();
+    return $(element).siblings();
   }
 
-  _toggleClasses(element) {
-    element.classList.toggle('fa-plus-square');
-    element.classList.toggle('fa-minus-square');
+  _toggleClasses(element, forcedVisibility) {
+    if ('undefined' === typeof forcedVisibility) {
+      element.classList.toggle('fa-plus-square');
+      element.classList.toggle('fa-minus-square');
+
+      return;
+    }
+
+    if (forcedVisibility) {
+      element.classList.remove('fa-plus-square');
+      element.classList.add('fa-minus-square');
+    } else {
+      element.classList.add('fa-plus-square');
+      element.classList.remove('fa-minus-square');
+    }
   }
 
   _setElementVisibility(id, index, element) {
@@ -65,7 +74,7 @@ class Toggler {
   }
 
   _getToggleTarget(element) {
-    return element.parentElement.nextElementSibling;
+    return element.nextElementSibling;
   }
 
   _getKey(id, index) {
