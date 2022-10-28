@@ -2,7 +2,7 @@
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "1.3.5";
+    static NEEDED_VERSION = "1.4.8";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -49,10 +49,10 @@ Applique les modifications par la mise à jour au Monde.
             }
         }
 
-        await game.settings.set("knight", "systemVersion", game.system.version);
+        /*await game.settings.set("knight", "systemVersion", game.system.version);
         ui.notifications.info(`Migration du système de Knight à la version ${game.system.version} terminé!`, {
             permanent: true,
-        });
+        });*/
     }
 
     static _migrationActor(actor, options = { force:false }) {
@@ -76,7 +76,7 @@ Applique les modifications par la mise à jour au Monde.
                             label:""
                         };
                     }
-    
+
                     if(!isNaN(vEnergieM)) {
                         updateItem["system.energie.minute"] = {
                             value:vEnergieM,
@@ -103,11 +103,11 @@ Applique les modifications par la mise à jour au Monde.
 
                 if(item.type === 'armure') {
                     const listeEvolutions = item.system?.evolutions.liste;
-    
+
                     for (let [key, evo] of Object.entries(listeEvolutions)) {
                         const eGoliath = evo.capacites?.goliath || false;
                         const eBarbarian = evo.capacites?.barbarian || false;
-        
+
                         if(eGoliath !== false && eBarbarian !== false) {
                             updateItem[`system.evolutions.liste.${key}.capacites.goliath`] = eBarbarian.selected;
                             updateItem[`system.evolutions.liste.${key}.capacites.-=barbarian`] = null;
@@ -118,7 +118,7 @@ Applique les modifications par la mise à jour au Monde.
                 if(item.type === 'armurelegende') {
                     const alBarbarian = item.system.capacites?.barbarian || false;
                     const alGoliath = item.system.capacites.selected?.goliath || false;
-    
+
                     if(alGoliath !== false && alBarbarian !== false) {
                         updateItem[`system.capacites.selected.selected.goliath`] = alBarbarian.selected;
                         updateItem[`system.capacites.-=barbarian`] = null;
@@ -144,25 +144,25 @@ Applique les modifications par la mise à jour au Monde.
                 if(item.type === 'module') {
                     const isPNJ = item.system.pnj.has;
                     const listePNJ = item.system.pnj.liste;
-    
+
                     updateItem[`system.pnj.modele.armes.modele.attaque`] = {
                         dice:0,
                         fixe:0
                     };
-    
+
                     if(isPNJ) {
                         for (let [key, pnj] of Object.entries(listePNJ)) {
                             const hasWPN = pnj.armes.has;
                             const listePNJWPN = pnj.armes.liste;
-    
+
                             updateItem[`system.pnj.liste.${key}.armes.modele.attaque`] = {
                                 dice:0,
                                 fixe:0
                             };
-    
+
                             if(hasWPN) {
                                 for (let [kWPN, wpn] of Object.entries(listePNJWPN)) {
-    
+
                                     updateItem[`system.pnj.liste.${key}.armes.liste.${kWPN}.attaque`] = {
                                         dice:0,
                                         fixe:0
@@ -184,6 +184,32 @@ Applique les modifications par la mise à jour au Monde.
 
             actor.update(update);
         }
+
+        if (options?.force || MigrationKnight.needUpdate("1.4.8")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            // MISE A JOUR DES ITEMS PORTES
+            for (let item of actor.items) {
+                const updateItem = {};
+
+                if(item.type === 'armure') {
+                    const listeEvolutions = item.system?.evolutions.liste;
+
+                    for (let [key, evo] of Object.entries(listeEvolutions)) {
+                        updateItem[`system.evolutions.liste.${key}.data`] = {
+                            armure:0,
+                            champDeForce:0,
+                            energie:0
+                        };
+                    }
+                }
+
+                item.update(updateItem);
+            }
+        }
     }
 
     static _migrationItems(item, options = { force:false }) {
@@ -196,7 +222,7 @@ Applique les modifications par la mise à jour au Monde.
             if(item.type === 'module') {
                 const vEnergieT = system.energie.tour;
                 const vEnergieM = system.energie.minute;
-                
+
                 if(!isNaN(vEnergieT)) {
                     update["system.energie.tour"] = {
                         value:vEnergieT,
@@ -211,7 +237,7 @@ Applique les modifications par la mise à jour au Monde.
                     };
                 }
             }
-            
+
             item.update(update);
         }
 
@@ -224,11 +250,11 @@ Applique les modifications par la mise à jour au Monde.
             if(item.type === 'arme') {
                 const rarete = system?.rarete || false;
                 const liste = system?.listes || false;
-                
+
                 if(rarete === false) update['system.rarete'] = 'standard';
                 if(liste === false) update['system.listes'] = {};
             }
-            
+
             item.update(update);
         }
 
@@ -261,7 +287,7 @@ Applique les modifications par la mise à jour au Monde.
                     update[`system.capacites.-=barbarian`] = null;
                 }
             }
-            
+
             item.update(update);
         }
 
@@ -302,7 +328,28 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 }
             }
-            
+
+            item.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("1.4.8")) {
+            const update = {};
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'armure') {
+                const listeEvolutions = system?.evolutions.liste;
+
+                for (let [key, evo] of Object.entries(listeEvolutions)) {
+                    update[`system.evolutions.liste.${key}.data`] = {
+                        armure:0,
+                        champDeForce:0,
+                        energie:0
+                    };
+                }
+            }
+
             item.update(update);
         }
     }

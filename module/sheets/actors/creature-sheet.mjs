@@ -895,7 +895,7 @@ export class CreatureSheet extends ActorSheet {
           if(aLieSupp.has) aspectLieSupp.push(aLieSupp.value);
 
           if(cSante.has) {
-            if(cSante.aspect.lie) {
+            if(cSante.aspect?.lie || false) {
               sante.bonus += aspects[cSante.aspect.value]*cSante.aspect.multiplie;
             } else {
               sante.bonus += cSante.value;
@@ -903,7 +903,7 @@ export class CreatureSheet extends ActorSheet {
           }
 
           if(cArmure.has) {
-            if(armure.aspect.lie) {
+            if(armure.aspect?.lie || false) {
               armure.bonus.capacites.push(aspects[cArmure.aspect.value]*cArmure.aspect.multiplie);
             } else {
               armure.bonus.capacites.push(cArmure.value);
