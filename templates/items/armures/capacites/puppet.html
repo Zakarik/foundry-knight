@@ -1,6 +1,6 @@
 
 <div class="puppet">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Label"}}
         <div>
@@ -25,19 +25,19 @@
             <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Ordre"}}</span>
-                <input type="number" name="system.capacites.selected.puppet.energie.ordre" value="{{this.energie.ordre}}" 
+                <input type="number" name="system.capacites.selected.puppet.energie.ordre" value="{{this.energie.ordre}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Creature"}}</span>
-                <input type="number" name="system.capacites.selected.puppet.energie.supplementaire" value="{{this.energie.supplementaire}}" 
+                <input type="number" name="system.capacites.selected.puppet.energie.supplementaire" value="{{this.energie.supplementaire}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Prolonger"}}</span>
-                <input type="number" name="system.capacites.selected.puppet.energie.prolonger" value="{{this.energie.prolonger}}" 
+                <input type="number" name="system.capacites.selected.puppet.energie.prolonger" value="{{this.energie.prolonger}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
@@ -62,25 +62,25 @@
             <h4>{{localize "KNIGHT.LATERAL.Flux"}}</h4>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Ordre"}}</span>
-                <input type="number" name="system.capacites.selected.puppet.flux.ordre" value="{{this.flux.ordre}}" 
+                <input type="number" name="system.capacites.selected.puppet.flux.ordre" value="{{this.flux.ordre}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Creature"}}</span>
-                <input type="number" name="system.capacites.selected.puppet.flux.supplementaire" value="{{this.flux.supplementaire}}" 
+                <input type="number" name="system.capacites.selected.puppet.flux.supplementaire" value="{{this.flux.supplementaire}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Prolonger"}}</span>
-                <input type="number" name="system.capacites.selected.puppet.flux.prolonger" value="{{this.flux.prolonger}}" 
+                <input type="number" name="system.capacites.selected.puppet.flux.prolonger" value="{{this.flux.prolonger}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
             <label class="longspan separation">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Max"}}</span>
-                <input type="number" name="system.capacites.selected.puppet.creatures" value="{{this.creatures}}" 
+                <input type="number" name="system.capacites.selected.puppet.creatures" value="{{this.creatures}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>

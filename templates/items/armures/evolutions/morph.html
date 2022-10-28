@@ -1,18 +1,18 @@
 <div class="data">
-    <h4 class="title">
+    <h4 class="title js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.Label"}}
     </h4>
     <label class="shortspan">
         <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.energie" value="{{this.energie}}" 
-       
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.energie" value="{{this.energie}}"
+
         />
     </label>
     <label class="shortspan">
         <span>{{localize "KNIGHT.LATERAL.Espoir"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.espoir" value="{{this.espoir}}" 
-       
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.espoir" value="{{this.espoir}}"
+
         />
     </label>
     <label class="shortspan">
@@ -25,21 +25,21 @@
             <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
             {{/select}}
         </select>
-    </label>           
+    </label>
     <label class="shortspan">
         <span>{{localize "KNIGHT.DUREE.Label"}}</span>
         <textarea data-capacite="morph" data-type="duree" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.duree}}px;" name="system.evolutions.liste.{{key}}.capacites.morph.duree">{{this.duree}}</textarea>
     </label>
     <label class="longspan separation">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.NbreCapacites"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.capacites" value="{{this.capacites}}" 
-       
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.capacites" value="{{this.capacites}}"
+
         />
     </label>
 </div>
 
 <div class="data">
-    <h4 class="title">
+    <h4 class="title js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.VOL.Label"}}
     </h4>
@@ -47,15 +47,15 @@
 </div>
 
 <div class="data">
-    <h4 class="title">
+    <h4 class="title js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.PHASE.Label"}}
     </h4>
     <textarea data-capacite="morph" data-type="phase" data-min="115" style="height:{{this.textarea.phase}}px;" name="system.evolutions.liste.{{key}}.capacites.morph.phase.description">{{this.phase.description}}</textarea>
     <label class="shortspan simpleSeparation">
         <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.phase.energie" value="{{this.phase.energie}}" 
-       
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.phase.energie" value="{{this.phase.energie}}"
+
         />
     </label>
     <label class="shortspan">
@@ -76,59 +76,59 @@
 </div>
 
 <div class="data">
-    <h4 class="title">
+    <h4 class="title js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.Label"}}
     </h4>
     <textarea data-capacite="morph" data-type="etirement" data-min="130" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.etirement}}px;" name="system.evolutions.liste.{{key}}.capacites.morph.etirement.description">{{this.etirement.description}}</textarea>
     <label class="shortspan simpleSeparation">
         <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
-        <textarea name="system.evolutions.liste.{{key}}.capacites.morph.etirement.portee" 
-        data-capacite="morph" data-type="etirementPortee" data-min="50" style="height:{{this.textarea.etirementPortee}}px;" 
+        <textarea name="system.evolutions.liste.{{key}}.capacites.morph.etirement.portee"
+        data-capacite="morph" data-type="etirementPortee" data-min="50" style="height:{{this.textarea.etirementPortee}}px;"
        >{{this.etirement.portee}}</textarea>
     </label>
     <label class="longspan separation absolute">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.Bonus"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.etirement.bonus" value="{{this.etirement.bonus}}" 
-       
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.etirement.bonus" value="{{this.etirement.bonus}}"
+
         />
     </label>
 </div>
 
 <div class="data">
-    <h4 class="title">
+    <h4 class="title js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.METAL.Label"}}
     </h4>
     <label class="longspan">
         <span>{{localize "KNIGHT.BONUS.ChampDeForce"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.metal.bonus.champDeForce" value="{{this.metal.bonus.champDeForce}}" 
-       
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.metal.bonus.champDeForce" value="{{this.metal.bonus.champDeForce}}"
+
         />
     </label>
 </div>
 
 <div class="data double">
-    <h4 class="title">
+    <h4 class="title js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.FLUIDE.Label"}}
     </h4>
     <div class="double">
         <label class="doubleLine">
             <span>{{localize "KNIGHT.BONUS.Defense"}}</span>
-            <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.fluide.bonus.defense" value="{{this.fluide.bonus.defense}}" 
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.fluide.bonus.defense" value="{{this.fluide.bonus.defense}}"
             />
         </label>
         <label class="doubleLine">
             <span>{{localize "KNIGHT.BONUS.Reaction"}}</span>
-            <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.fluide.bonus.reaction" value="{{this.fluide.bonus.reaction}}" 
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.fluide.bonus.reaction" value="{{this.fluide.bonus.reaction}}"
             />
         </label>
     </div>
 </div>
 
 <div class="data">
-    <h4 class="title">
+    <h4 class="title js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label"}}
     </h4>
@@ -150,8 +150,8 @@
         <div class="doubleLine">
             <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
             <label>
-                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.griffe.degats.dice" value="{{this.polymorphie.griffe.degats.dice}}" 
-               
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.griffe.degats.dice" value="{{this.polymorphie.griffe.degats.dice}}"
+
                 />
                 <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
             </label>
@@ -159,8 +159,8 @@
         <div class="doubleLine">
             <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
             <label>
-                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.griffe.violence.dice" value="{{this.polymorphie.griffe.violence.dice}}" 
-               
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.griffe.violence.dice" value="{{this.polymorphie.griffe.violence.dice}}"
+
                 />
                 <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
             </label>
@@ -197,8 +197,8 @@
         <div class="doubleLine">
             <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
             <label>
-                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.lame.degats.dice" value="{{this.polymorphie.lame.degats.dice}}" 
-               
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.lame.degats.dice" value="{{this.polymorphie.lame.degats.dice}}"
+
                 />
                 <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
             </label>
@@ -206,8 +206,8 @@
         <div class="doubleLine">
             <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
             <label>
-                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.lame.violence.dice" value="{{this.polymorphie.lame.violence.dice}}" 
-               
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.lame.violence.dice" value="{{this.polymorphie.lame.violence.dice}}"
+
                 />
                 <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
             </label>
@@ -243,8 +243,8 @@
         <div class="doubleLine">
             <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
             <label>
-                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.canon.degats.dice" value="{{this.polymorphie.canon.degats.dice}}" 
-               
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.canon.degats.dice" value="{{this.polymorphie.canon.degats.dice}}"
+
                 />
                 <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
             </label>
@@ -252,8 +252,8 @@
         <div class="doubleLine">
             <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
             <label>
-                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.canon.violence.dice" value="{{this.polymorphie.canon.violence.dice}}" 
-               
+                <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.polymorphie.canon.violence.dice" value="{{this.polymorphie.canon.violence.dice}}"
+
                 />
                 <span class="{{localize "KNIGHT.JETS.Des-short"}}6 {{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
             </label>

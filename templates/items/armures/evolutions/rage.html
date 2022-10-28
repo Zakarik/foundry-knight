@@ -1,5 +1,5 @@
 <div class="data">
-    <h4 class="title">
+    <h4 class="title js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}}
     </h4>
@@ -25,7 +25,7 @@
 </div>
 
 <div class="data rageFull">
-    <h4 class="title">
+    <h4 class="title js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}} :
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.NOURRI.Label"}}
@@ -110,7 +110,7 @@
 
 <div class="col">
     <div class="data">
-        <h4 class="title">
+        <h4 class="title js-toggler">
             <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}} :
             {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.COLERE.Label"}}
@@ -175,7 +175,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -190,7 +190,7 @@
                             <option value="{{carac}}">{{getCarac carac}}</option>
                         {{/each}}
                     </optgroup>
-                {{/each}}                    
+                {{/each}}
                 {{/select}}
             </select>
             </label>
@@ -205,7 +205,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -228,7 +228,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -243,7 +243,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -258,7 +258,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -273,7 +273,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -288,7 +288,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -303,16 +303,16 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
         </div>
-        
+
     </div>
 
     <div class="data">
-        <h4 class="title">
+        <h4 class="title js-toggler">
             <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}} :
             {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.RAGE.Label"}}
@@ -378,7 +378,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -393,7 +393,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -408,12 +408,12 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
         </div>
-        
+
         <button type="action" class="{{#if this.rage.combosInterdits.has}}selected{{/if}}"
         data-key="{{key}}" data-type="rage" data-subtype="rage" data-anothersubtype="combosInterdits" data-name="has" data-value="{{this.rage.combosInterdits.has}}"
         >
@@ -432,7 +432,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -447,7 +447,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -462,7 +462,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -477,7 +477,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -492,7 +492,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -507,7 +507,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -517,7 +517,7 @@
 
 <div class="col">
     <div class="data">
-        <h4 class="title">
+        <h4 class="title js-toggler">
             <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}} :
             {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.FUREUR.Label"}}
@@ -583,7 +583,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -598,7 +598,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -613,12 +613,12 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
         </div>
-        
+
         <button type="action" class="{{#if this.fureur.combosInterdits.has}}selected{{/if}}"
         data-key="{{key}}" data-type="rage" data-subtype="fureur" data-anothersubtype="combosInterdits" data-name="has" data-value="{{this.fureur.combosInterdits.has}}"
         >
@@ -636,7 +636,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -651,7 +651,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -666,7 +666,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -681,7 +681,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -696,7 +696,7 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
@@ -711,17 +711,17 @@
                                 <option value="{{carac}}">{{getCarac carac}}</option>
                             {{/each}}
                         </optgroup>
-                    {{/each}}                    
+                    {{/each}}
                     {{/select}}
                 </select>
             </label>
         </div>
-        
+
     </div>
 </div>
 
 <div class="data">
-    <h4 class="title">
+    <h4 class="title js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}} :
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}}
@@ -734,7 +734,7 @@
             <input type="number" name="system.evolutions.liste.{{key}}.capacites.rage.blaze.degats" value="{{this.blaze.degats}}" />
             <span class="special">D6</span>
         </label>
-        
+
     </label>
     <label class="doubleInline">
         <span class="title">{{localize "KNIGHT.AUTRE.Violence"}}</span>

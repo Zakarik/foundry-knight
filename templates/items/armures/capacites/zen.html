@@ -1,5 +1,5 @@
 <div class="zen">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ZEN.Label"}}
         <div>
@@ -25,8 +25,8 @@
             <div class="fullWidth">
                 <label class="longspan demiWidth">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ZEN.Difficulte"}}</span>
-                    <input type="number" name="system.capacites.selected.zen.difficulte" 
-                    value="{{this.difficulte}}" 
+                    <input type="number" name="system.capacites.selected.zen.difficulte"
+                    value="{{this.difficulte}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>
@@ -36,7 +36,7 @@
                 <div class="aspect demiWidth">
                     <h4>{{getAspect aspect}}</h4>
                     {{#each key.caracteristiques  as | keyCarac caracteristique|}}
-                        <button type="action" 
+                        <button type="action"
                         data-type="zen" data-caracteristique="true" data-aspect="{{aspect}}" data-name="{{caracteristique}}" data-value="{{keyCarac.value}}"
                         class="{{#if keyCarac.value}}selected{{/if}} {{#unless ../../this.softlock}}notDisabled{{/unless}}">{{getCarac caracteristique}}</button>
                     {{/each}}

@@ -1,5 +1,5 @@
 <div class="cea">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.Label"}}
         <div>
@@ -24,8 +24,8 @@
             <div class="data">
                 <label class="shortspan">
                     <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                    <input type="number" name="system.capacites.selected.cea.energie" 
-                    value="{{this.energie}}" 
+                    <input type="number" name="system.capacites.selected.cea.energie"
+                    value="{{this.energie}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>
@@ -43,14 +43,14 @@
                 </label>
                 <label class="shortspan">
                     <span>{{localize "KNIGHT.DUREE.Label"}}</span>
-                    <textarea name="system.capacites.selected.cea.duree" 
-                    data-capacite="cea" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;" 
+                    <textarea name="system.capacites.selected.cea.duree"
+                    data-capacite="cea" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;"
                     {{#if this.softlock}}disabled{{/if}}>{{this.duree}}</textarea>
                 </label>
                 <label class="longspan separation">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.Espoir"}}</span>
-                    <input type="number" name="system.capacites.selected.cea.espoir" 
-                    value="{{this.espoir}}" 
+                    <input type="number" name="system.capacites.selected.cea.espoir"
+                    value="{{this.espoir}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>
@@ -59,14 +59,14 @@
             <div class="data">
                 <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label"}}</h4>
                 <textarea name="system.capacites.selected.cea.salve.description"
-                data-capacite="cea" data-type="descriptionSalve" data-min="70" style="height:{{this.textarea.descriptionSalve}}px;" 
+                data-capacite="cea" data-type="descriptionSalve" data-min="70" style="height:{{this.textarea.descriptionSalve}}px;"
                 {{#if this.softlock}}disabled{{/if}}>{{this.salve.description}}</textarea>
                 <div class="line">
                     <div class="doubleLine">
                         <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
                         <label>
-                            <input type="number" name="system.capacites.selected.cea.salve.degats.dice" 
-                            value="{{this.salve.degats.dice}}" 
+                            <input type="number" name="system.capacites.selected.cea.salve.degats.dice"
+                            value="{{this.salve.degats.dice}}"
                             min="0"
                             {{#if this.softlock}}disabled{{/if}} />
                             <span class="{{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
@@ -76,8 +76,8 @@
                     <div class="doubleLine">
                         <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                         <label>
-                            <input type="number" name="system.capacites.selected.cea.salve.violence.dice" 
-                            value="{{this.salve.violence.dice}}" 
+                            <input type="number" name="system.capacites.selected.cea.salve.violence.dice"
+                            value="{{this.salve.violence.dice}}"
                             min="0"
                             {{#if this.softlock}}disabled{{/if}} />
                             <span class="{{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
@@ -86,8 +86,8 @@
                 </div>
                 <label class="shortspan">
                     <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
-                    <textarea name="system.capacites.selected.cea.salve.portee" 
-                        data-capacite="cea" data-type="porteeSalve" data-min="50" style="height:{{this.textarea.porteeSalve}}px;" 
+                    <textarea name="system.capacites.selected.cea.salve.portee"
+                        data-capacite="cea" data-type="porteeSalve" data-min="50" style="height:{{this.textarea.porteeSalve}}px;"
                         {{#if this.softlock}}disabled{{/if}}>{{this.salve.portee}}</textarea>
                 </label>
                 <div class="effets">
@@ -104,19 +104,19 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col">
             <div class="data">
                 <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label"}}</h4>
                 <textarea name="system.capacites.selected.cea.vague.description"
-                data-capacite="cea" data-type="descriptionVague" data-min="70" style="height:{{this.textarea.descriptionVague}}px;" 
+                data-capacite="cea" data-type="descriptionVague" data-min="70" style="height:{{this.textarea.descriptionVague}}px;"
                 {{#if this.softlock}}disabled{{/if}}>{{this.vague.description}}</textarea>
                 <div class="line">
                     <div class="doubleLine">
                         <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
                         <label>
-                            <input type="number" name="system.capacites.selected.cea.vague.degats.dice" 
-                            value="{{this.vague.degats.dice}}" 
+                            <input type="number" name="system.capacites.selected.cea.vague.degats.dice"
+                            value="{{this.vague.degats.dice}}"
                             min="0"
                             {{#if this.softlock}}disabled{{/if}} />
                             <span class="{{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
@@ -126,8 +126,8 @@
                     <div class="doubleLine">
                         <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                         <label>
-                            <input type="number" name="system.capacites.selected.cea.vague.violence" 
-                            value="{{this.vague.violence.dice}}" 
+                            <input type="number" name="system.capacites.selected.cea.vague.violence"
+                            value="{{this.vague.violence.dice}}"
                             min="0"
                             {{#if this.softlock}}disabled{{/if}} />
                             <span class="{{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
@@ -136,8 +136,8 @@
                 </div>
                 <label class="shortspan">
                     <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
-                    <textarea name="system.capacites.selected.cea.vague.portee" 
-                        data-capacite="cea" data-type="porteeVague" data-min="50" style="height:{{this.textarea.porteeVague}}px;" 
+                    <textarea name="system.capacites.selected.cea.vague.portee"
+                        data-capacite="cea" data-type="porteeVague" data-min="50" style="height:{{this.textarea.porteeVague}}px;"
                         {{#if this.softlock}}disabled{{/if}}>{{this.vague.portee}}</textarea>
                 </label>
                 <div class="effets">
@@ -157,14 +157,14 @@
             <div class="data">
                 <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label"}}</h4>
                 <textarea name="system.capacites.selected.cea.rayon.description"
-                data-capacite="cea" data-type="descriptionRayon" data-min="150" style="height:{{this.textarea.descriptionRayon}}px;" 
+                data-capacite="cea" data-type="descriptionRayon" data-min="150" style="height:{{this.textarea.descriptionRayon}}px;"
                 {{#if this.softlock}}disabled{{/if}}>{{this.rayon.description}}</textarea>
                 <div class="line">
                     <div class="doubleLine">
                         <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
                         <label>
-                            <input type="number" name="system.capacites.selected.cea.rayon.degats.dice" 
-                            value="{{this.rayon.degats.dice}}" 
+                            <input type="number" name="system.capacites.selected.cea.rayon.degats.dice"
+                            value="{{this.rayon.degats.dice}}"
                             min="0"
                             {{#if this.softlock}}disabled{{/if}} />
                             <span class="{{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
@@ -174,8 +174,8 @@
                     <div class="doubleLine">
                         <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                         <label>
-                            <input type="number" name="system.capacites.selected.cea.rayon.violence" 
-                            value="{{this.rayon.violence.dice}}" 
+                            <input type="number" name="system.capacites.selected.cea.rayon.violence"
+                            value="{{this.rayon.violence.dice}}"
                             min="0"
                             {{#if this.softlock}}disabled{{/if}} />
                             <span class="{{#unless this.softlock}}notdisabled{{/unless}}">{{localize "KNIGHT.JETS.Des-short"}}6</span>
@@ -184,8 +184,8 @@
                 </div>
                 <label class="shortspan">
                     <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
-                    <textarea name="system.capacites.selected.cea.rayon.portee" 
-                        data-capacite="cea" data-type="porteeRayon" data-min="50" style="height:{{this.textarea.porteeRayon}}px;" 
+                    <textarea name="system.capacites.selected.cea.rayon.portee"
+                        data-capacite="cea" data-type="porteeRayon" data-min="50" style="height:{{this.textarea.porteeRayon}}px;"
                         {{#if this.softlock}}disabled{{/if}}>{{this.rayon.portee}}</textarea>
                 </label>
                 <div class="effets">

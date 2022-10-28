@@ -1,6 +1,6 @@
 
 <div class="contrecoups">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.Label"}}
         <div>
@@ -57,7 +57,7 @@
                                     <option value="{{carac}}">{{getCarac carac}}</option>
                                 {{/each}}
                             </optgroup>
-                        {{/each}}                    
+                        {{/each}}
                     {{/select}}
                 </select>
                 <select name="system.special.selected.contrecoups.jet.c2" {{#if this.softlock}}disabled{{/if}}>
@@ -69,7 +69,7 @@
                                     <option value="{{carac}}">{{getCarac carac}}</option>
                                 {{/each}}
                             </optgroup>
-                        {{/each}}                    
+                        {{/each}}
                     {{/select}}
                 </select>
             </div>

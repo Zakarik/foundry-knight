@@ -1,5 +1,5 @@
 <div class="wpn">
-    <header class="summary header"  data-item-id="{{this._id}}">
+    <header class="summary header js-toggler" data-item-id="{{this._id}}">
         <i class="far fa-plus-square extendButton"></i>
         {{#unless this.system.noRack}}
             <div class="gestionButton {{#if this.system.rack}}large{{/if}}">
@@ -52,9 +52,9 @@
                 <img src="systems/knight/assets/icons/D6Black.svg" class="jetWpn dice" data-name="{{this.name}}" data-id="{{this._id}}" data-isDistance="{{#if this.system.tourelle.has}}tourelle{{else}}{{this.system.type}}{{/if}}" data-num="{{num}}" />
             {{/if}}
         </div>
-        
+
     </header>
-    
+
     <div class="effets" style="display:none;">
         <div class="blockEffets">
             {{#each this.system.effets.liste as | key effet|}}

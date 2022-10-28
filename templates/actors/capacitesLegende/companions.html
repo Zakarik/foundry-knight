@@ -1,5 +1,5 @@
 <div class="companions">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-plus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Label"}}
 
@@ -162,7 +162,7 @@
         </div>
 
         <div class="lion">
-            <h4 class="title header">
+            <h4 class="title header js-toggler">
                 <i class="far fa-plus-square"></i>
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}}
             </h4>
@@ -192,7 +192,7 @@
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Initiative"}}</h5>
-                    <span>{{this.lion.initiative.value}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.lion.initiative.fixe}}</span>                  
+                    <span>{{this.lion.initiative.value}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.lion.initiative.fixe}}</span>
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Armure"}}</h5>
@@ -233,8 +233,8 @@
                 </h5>
                 {{#each this.lion.modules as | kLion module|}}
                 <div class="bModule">
-                    <header class="summary header" data-item-id="{{kLion._id}}">
-                        <i class="far fa-plus-square extendButton"></i>                        
+                    <header class="summary header js-toggler" data-item-id="{{kLion._id}}">
+                        <i class="far fa-plus-square extendButton"></i>
 
                         <div class="gestionButton">
                             <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
@@ -242,7 +242,7 @@
                         </div>
                         <span>{{{kLion.name}}}</span>
                     </header>
-                    
+
                     <img class="profile-img" style="display:none;" src="{{kLion.img}}" title="{{kLion.name}}" />
                     <span class="description" style="display:none;">{{{kLion.system.description}}}</span>
 
@@ -290,7 +290,7 @@
                                 <span class="textarea">{{{capaciteDescription kLion.system.duree}}}</span>
                                 {{/if}}
                             </div>
-                            
+
                             {{#if kLion.system.bonus.has}}
                             <div class="data">
                                 <h4 class="title">{{localize "KNIGHT.BONUS.Label"}}</h4>
@@ -375,7 +375,7 @@
                                     <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
                                     <span class="score">{{getPortee kLion.system.arme.portee}}</span>
                                 </div>
-                                
+
                                 <h4 class="separation">{{localize "KNIGHT.AUTRE.Degats"}}</h4>
                                 {{#unless kLion.system.arme.degats.variable.has}}
                                 <div class="middlespan noSeparation">
@@ -392,7 +392,7 @@
                                     <span class="score">{{kLion.system.arme.degats.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kLion.system.arme.degats.variable.max.fixe}}</span>
                                 </div>
                                 {{/unless}}
-                                
+
                                 <h4 class="separation">{{localize "KNIGHT.AUTRE.Violence"}}</h4>
                                 {{#unless kLion.system.arme.violence.variable.has}}
                                 <div class="middlespan noSeparation">
@@ -564,7 +564,7 @@
         </div>
 
         <div class="wolf">
-            <h4 class="title header">
+            <h4 class="title header js-toggler">
                 <i class="far fa-plus-square"></i>
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label"}}
             </h4>
@@ -594,7 +594,7 @@
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Initiative"}}</h5>
-                    <span>{{this.wolf.initiative.value}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.wolf.initiative.fixe}}</span>                
+                    <span>{{this.wolf.initiative.value}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.wolf.initiative.fixe}}</span>
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Armure"}}</h5>
@@ -662,7 +662,7 @@
                         <span class="score">{{this.wolf.configurations.medic.bonus.soins}}{{localize "KNIGHT.AUTRE.PointSante-short"}}</span>
                     </div>
                 </div>
-                
+
                 <div class="configuration">
                     <h6>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.TECH.Label"}}</h6>
                     <span>{{{capaciteDescription this.wolf.configurations.tech.description}}}</span>
@@ -727,7 +727,7 @@
         </div>
 
         <div class="crow">
-            <h4 class="title header">
+            <h4 class="title header js-toggler">
                 <i class="far fa-plus-square"></i>
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label"}}
             </h4>
@@ -753,7 +753,7 @@
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Initiative"}}</h5>
-                    <span>{{this.crow.initiative.value}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.crow.initiative.fixe}}</span>                  
+                    <span>{{this.crow.initiative.value}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.crow.initiative.fixe}}</span>
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Cohesion"}}</h5>

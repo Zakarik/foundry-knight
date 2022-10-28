@@ -1,6 +1,6 @@
 
 <div class="vision">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.VISION.Label"}}
         <div>
@@ -25,13 +25,13 @@
             <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
             <label class="shortspan">
                 <span>{{localize "KNIGHT.AUTRE.Minimum"}}</span>
-                <input type="text" name="system.capacites.selected.vision.energie.min" value="{{this.energie.min}}" 
+                <input type="text" name="system.capacites.selected.vision.energie.min" value="{{this.energie.min}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
             <label class="shortspan">
                 <span>{{localize "KNIGHT.AUTRE.Maximum"}}</span>
-                <input type="text" name="system.capacites.selected.vision.energie.max" value="{{this.energie.max}}" 
+                <input type="text" name="system.capacites.selected.vision.energie.max" value="{{this.energie.max}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
@@ -49,7 +49,7 @@
             <label class="shortspan">
                 <span>{{localize "KNIGHT.DUREE.Label"}}</span>
                 <textarea name="system.capacites.selected.vision.duree"
-                data-capacite="vision" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;" 
+                data-capacite="vision" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;"
                 {{#if this.softlock}}disabled{{/if}}>{{this.duree}}</textarea>
             </label>
         </div>

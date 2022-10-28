@@ -1,6 +1,6 @@
 
 <div class="oriflamme">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label"}}
         <div>
@@ -24,8 +24,8 @@
         <div class="data">
             <label class="shortspan">
                 <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                <input type="number" name="system.capacites.selected.oriflamme.energie" 
-                value="{{this.energie}}" 
+                <input type="number" name="system.capacites.selected.oriflamme.energie"
+                value="{{this.energie}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
@@ -43,8 +43,8 @@
             </label>
             <label class="shortspan">
                 <span>{{localize "KNIGHT.DUREE.Label"}}</span>
-                <textarea name="system.capacites.selected.oriflamme.duree" 
-                data-capacite="oriflamme" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;"  
+                <textarea name="system.capacites.selected.oriflamme.duree"
+                data-capacite="oriflamme" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;"
                 {{#if this.softlock}}disabled{{/if}}>{{this.duree}}</textarea>
             </label>
             <label class="shortspan">
@@ -65,13 +65,13 @@
             <div class="double">
                 <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
                 <label>
-                    <input type="number" name="system.capacites.selected.oriflamme.degats.dice" 
-                    value="{{this.degats.dice}}" 
+                    <input type="number" name="system.capacites.selected.oriflamme.degats.dice"
+                    value="{{this.degats.dice}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                     <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                    <input type="number" name="system.capacites.selected.oriflamme.degats.fixe" 
-                    value="{{this.degats.fixe}}" 
+                    <input type="number" name="system.capacites.selected.oriflamme.degats.fixe"
+                    value="{{this.degats.fixe}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>
@@ -79,13 +79,13 @@
             <div class="double">
                 <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                 <label>
-                    <input type="number" name="system.capacites.selected.oriflamme.violence.dice" 
-                    value="{{this.violence.dice}}" 
+                    <input type="number" name="system.capacites.selected.oriflamme.violence.dice"
+                    value="{{this.violence.dice}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                     <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                    <input type="number" name="system.capacites.selected.oriflamme.violence.fixe" 
-                    value="{{this.violence.fixe}}" 
+                    <input type="number" name="system.capacites.selected.oriflamme.violence.fixe"
+                    value="{{this.violence.fixe}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>

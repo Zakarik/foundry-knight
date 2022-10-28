@@ -1,13 +1,13 @@
 
 <div class="borealis">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-plus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label"}}
 
         {{#if ("armure" @root/systemData/wear)}}
             <div class="blockMultiline">
                 <label class="allies">
-                    
+
                     <input type="number" name="system.equipements.armure.capacites.borealis.allie" value="{{@root/systemData/equipements/armure/capacites/borealis/allie}}"
                     min="0" />
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.SUPPORT.AllieAffecte"}}</span>
