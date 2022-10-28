@@ -1,6 +1,6 @@
 
 <div class="borealis">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label"}}
         <div>
@@ -27,13 +27,13 @@
             <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.SUPPORT.Base"}}</span>
-                <input type="number" name="system.capacites.selected.borealis.support.energie.base" value="{{this.support.energie.base}}" 
+                <input type="number" name="system.capacites.selected.borealis.support.energie.base" value="{{this.support.energie.base}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.SUPPORT.Allie"}}</span>
-                <input type="number" name="system.capacites.selected.borealis.support.energie.allie" value="{{this.support.energie.allie}}" 
+                <input type="number" name="system.capacites.selected.borealis.support.energie.allie" value="{{this.support.energie.allie}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
@@ -60,7 +60,7 @@
             <textarea data-capacite="borealis" data-type="descriptionOffensif" data-min="85" style="height:{{this.textarea.descriptionOffensif}}px;" name="system.capacites.selected.borealis.offensif.description" {{#if this.softlock}}disabled{{/if}}>{{this.offensif.description}}</textarea>
             <label class="longspan simpleSeparation">
                 <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                <input type="number" name="system.capacites.selected.borealis.offensif.energie" value="{{this.offensif.energie}}" 
+                <input type="number" name="system.capacites.selected.borealis.offensif.energie" value="{{this.offensif.energie}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
@@ -68,22 +68,22 @@
                 <div class="doubleLine">
                     <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
                     <label>
-                        <input type="number" name="system.capacites.selected.borealis.offensif.degats.dice" value="{{this.offensif.degats.dice}}" 
+                        <input type="number" name="system.capacites.selected.borealis.offensif.degats.dice" value="{{this.offensif.degats.dice}}"
                         {{#if this.softlock}}disabled{{/if}}
                         />
                         <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
-                    </label>                
+                    </label>
                 </div>
                 <div class="doubleLine">
                     <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                     <label>
-                        <input type="number" name="system.capacites.selected.borealis.offensif.violence.dice" value="{{this.offensif.violence.dice}}" 
+                        <input type="number" name="system.capacites.selected.borealis.offensif.violence.dice" value="{{this.offensif.violence.dice}}"
                         {{#if this.softlock}}disabled{{/if}}
                         />
                         <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
-                    </label>                
+                    </label>
                 </div>
-            </div>            
+            </div>
             <label class="shortspan">
                 <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                 <select name="system.capacites.selected.borealis.offensif.activation" {{#if this.softlock}}disabled{{/if}}>
@@ -131,7 +131,7 @@
             <textarea data-capacite="borealis" data-type="descriptionUtilitaire" data-min="150" style="height:{{this.textarea.descriptionUtilitaire}}px;" name="system.capacites.selected.borealis.utilitaire.description" {{#if this.softlock}}disabled{{/if}}>{{this.utilitaire.description}}</textarea>
             <label class="longspan simpleSeparation">
                 <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                <input type="number" name="system.capacites.selected.borealis.utilitaire.energie" value="{{this.utilitaire.energie}}" 
+                <input type="number" name="system.capacites.selected.borealis.utilitaire.energie" value="{{this.utilitaire.energie}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>

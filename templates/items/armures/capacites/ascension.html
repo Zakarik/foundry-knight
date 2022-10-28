@@ -1,6 +1,6 @@
 
 <div class="ascension">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ASCENSION.Label"}}
         <div>
@@ -25,24 +25,24 @@
             <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
             <label class="longspan">
                 <span>{{localize "KNIGHT.AUTRE.Minimum"}}</span>
-                <input type="number" name="system.capacites.selected.ascension.energie.min" 
-                value="{{this.energie.min}}" 
+                <input type="number" name="system.capacites.selected.ascension.energie.min"
+                value="{{this.energie.min}}"
                 min="0"
                 max="{{this.energie.max}}"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
             <label class="longspan">
                 <span>{{localize "KNIGHT.AUTRE.Maximum"}}</span>
-                <input type="number" name="system.capacites.selected.ascension.energie.max" 
-                value="{{this.energie.max}}" 
+                <input type="number" name="system.capacites.selected.ascension.energie.max"
+                value="{{this.energie.max}}"
                 min="0"
                 max="{{this.energie.limite}}"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
             <label class="longspan separation">
                 <span>{{localize "KNIGHT.AUTRE.GainImpregnation"}}</span>
-                <input type="number" name="system.capacites.selected.ascension.impregnation" 
-                value="{{this.impregnation}}" 
+                <input type="number" name="system.capacites.selected.ascension.impregnation"
+                value="{{this.impregnation}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>

@@ -35,7 +35,7 @@
                 </h2>
                 {{#each actor.avantages as | key avantages|}}
                 <div class="block">
-                    <header class="summary header" data-item-id="{{key._id}}">
+                    <header class="summary header js-toggler" data-item-id="{{key._id}}">
                         <i class="far fa-plus-square extendButton"></i>
                         <div class="gestionButton">
                             <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
@@ -57,7 +57,7 @@
                 </h2>
                 {{#each actor.inconvenient as | key inconvenient|}}
                 <div class="block">
-                    <header class="summary header" data-item-id="{{key._id}}">
+                    <header class="summary header js-toggler" data-item-id="{{key._id}}">
                         <i class="far fa-plus-square extendButton"></i>
                         <div class="gestionButton">
                             <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>

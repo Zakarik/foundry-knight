@@ -22,7 +22,7 @@ export class IASheet extends ActorSheet {
     this._prepareCharacterItems(context);
 
     context.systemData = context.data.system;
-    
+
     return context;
   }
 
@@ -42,16 +42,6 @@ export class IASheet extends ActorSheet {
   /** @inheritdoc */
   activateListeners(html) {
     super.activateListeners(html);
-
-    html.find('.extendButton').click(ev => {      
-      $(ev.currentTarget).toggleClass("fa-plus-square fa-minus-square");
-
-      if($(ev.currentTarget).hasClass("fa-minus-square")) {
-        $(ev.currentTarget).parents(".summary").siblings().css("display", "block");
-      } else {
-        $(ev.currentTarget).parents(".summary").siblings().css("display", "none");
-      }
-    });
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
@@ -84,7 +74,7 @@ export class IASheet extends ActorSheet {
     const data = duplicate(header.dataset);
     // Initialize a default name.
     const name = `${game.i18n.localize(`ITEM.Type${type.capitalize()}`)}`;
-    // Prepare the item object.    
+    // Prepare the item object.
     const itemData = {
       name: name,
       type: type,
@@ -163,9 +153,9 @@ export class IASheet extends ActorSheet {
     itemData = itemData instanceof Array ? itemData : [itemData];
     const itemBaseType = itemData[0].type;
 
-    if(itemBaseType === 'arme' || itemBaseType === 'module' || 
-    itemBaseType === 'armure' || itemBaseType === 'motivationMineure' || 
-    itemBaseType === 'contact' || itemBaseType === 'blessure' || 
+    if(itemBaseType === 'arme' || itemBaseType === 'module' ||
+    itemBaseType === 'armure' || itemBaseType === 'motivationMineure' ||
+    itemBaseType === 'contact' || itemBaseType === 'blessure' ||
     itemBaseType === 'trauma' || itemBaseType === 'langue' || itemBaseType === 'armurelegende' ||
     (itemBaseType === 'avantage' && itemData[0].system.type !== 'ia') ||
     (itemBaseType === 'inconvenient' && itemData[0].system.type !== 'ia') ||
@@ -178,7 +168,7 @@ export class IASheet extends ActorSheet {
 
   async _prepareCharacterItems(sheetData) {
     const actorData = sheetData.actor;7
-    
+
     const avantageIA = [];
     const inconvenientIA = [];
 
@@ -190,7 +180,7 @@ export class IASheet extends ActorSheet {
 
       // INCONVENIENT.
       if (i.type === 'inconvenient') {
-        inconvenientIA.push(i); 
+        inconvenientIA.push(i);
       }
     }
 

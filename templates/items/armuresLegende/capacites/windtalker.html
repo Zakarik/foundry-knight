@@ -1,6 +1,6 @@
 
 <div class="windtalker">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WINDTALKER.Label"}}
         <div>
@@ -24,13 +24,13 @@
         <div class="data">
             <label class="shortspan">
                 <span>{{localize "KNIGHT.LATERAL.Flux"}}</span>
-                <input type="number" name="system.capacites.selected.windtalker.flux" value="{{this.flux}}" 
+                <input type="number" name="system.capacites.selected.windtalker.flux" value="{{this.flux}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
             <label class="shortspan">
                 <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                <input type="number" name="system.capacites.selected.windtalker.energie" value="{{this.energie}}" 
+                <input type="number" name="system.capacites.selected.windtalker.energie" value="{{this.energie}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>

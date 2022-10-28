@@ -95,13 +95,7 @@ export class ArmureSheet extends ItemSheet {
 	activateListeners(html) {
     super.activateListeners(html);
 
-    toggler.init(this.id, html, '.header > .far');
-
-    // html.find('.header .far').click(ev => {
-    //   $(ev.currentTarget).toggleClass("fa-plus-square");
-    //   $(ev.currentTarget).toggleClass("fa-minus-square");
-    //   $(ev.currentTarget).parents(".header").siblings().toggle();
-    // });
+    toggler.init(this.id, html);
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;

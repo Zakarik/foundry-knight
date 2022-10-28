@@ -1,6 +1,6 @@
 
 <div class="forward">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.FORWARD.Label"}}
         <div>
@@ -24,8 +24,8 @@
         <div class="data">
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.FORWARD.Energie"}}</span>
-                <input type="number" name="system.capacites.selected.forward.energie" 
-                value="{{this.energie}}" 
+                <input type="number" name="system.capacites.selected.forward.energie"
+                value="{{this.energie}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
@@ -42,8 +42,8 @@
             </label>
             <label class="shortspan">
                 <span>{{localize "KNIGHT.DUREE.Label"}}</span>
-                <textarea name="system.capacites.selected.forward.duree" 
-                data-capacite="forward" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;" 
+                <textarea name="system.capacites.selected.forward.duree"
+                data-capacite="forward" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;"
                 {{#if this.softlock}}disabled{{/if}}>{{this.duree}}</textarea>
             </label>
         </div>

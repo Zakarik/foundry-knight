@@ -13,12 +13,12 @@
                     <span>{{localize "KNIGHT.Surnom"}} : </span>
                     <input type="text" name="system.surnom" value="{{systemData.surnom}}" />
                 </label>
-    
+
                 <label>
                     <span>{{localize "KNIGHT.Archetype"}} : </span>
                     <input type="text" name="system.archetype" value="{{systemData.archetype}}" />
                 </label>
-    
+
                 <label>
                     <span>{{localize "KNIGHT.Age"}} : </span>
                     <input type="text" name="system.age" value="{{systemData.age}}" />
@@ -28,17 +28,17 @@
                     <span>{{localize "KNIGHT.ARMURE.Label"}} : </span>
                     <input type="text" name="system.wear" value="{{systemData.wear}}" />
                 </label>
-    
+
                 <label>
                     <span>{{localize "KNIGHT.Section"}} : </span>
                     <input type="text" name="system.section" value="{{systemData.section}}" />
                 </label>
-    
+
                 <label>
                     <span>{{localize "KNIGHT.Blason"}} : </span>
                     <input type="text" name="system.blason" value="{{systemData.blason}}" />
                 </label>
-    
+
                 <label>
                     <span>{{localize "KNIGHT.HautFait"}} : </span>
                     <input type="text" name="system.hautFait" value="{{systemData.hautFait}}" />
@@ -221,7 +221,7 @@
                     <input class="withBorder" type="number" name="system.reaction.malus.user" min="0" value="{{systemData.reaction.malus.user}}" />
                 </div>
             </div>
-            
+
             <div class="defense">
                 <div class="line">
                     <span class="option {{#unless systemData.defense.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="defense"></span>
@@ -353,7 +353,7 @@
 
             {{#if systemData.options.wolfConfiguration}}
             <div class="wolf">
-                <h2 class="header">
+                <h2 class="header js-toggler">
                     <i class="far fa-minus-square"></i>
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}}
                 </h2>
@@ -366,11 +366,11 @@
                         <div class="blockMultiline">
                             <button class="wolfFighter" data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.FIGHTER.Label"}}">
                                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.FIGHTER.Label"}} : {{localize "KNIGHT.AUTRE.Degats"}} / {{localize "KNIGHT.AUTRE.Violence"}}
-                            </button>       
+                            </button>
 
                             <button class="wolfFighter" data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.FIGHTER.Label"}}" data-barrage="true">
                                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.FIGHTER.Label"}} : {{localize "KNIGHT.EFFETS.BARRAGE.Label"}}
-                            </button>                 
+                            </button>
                         </div>
                         {{/if}}
                     </h3>
@@ -408,7 +408,7 @@
                         </div>
                     </div>
                     {{/if}}
-                    
+
                     {{#if (isValue systemData.configurationActive 'tech')}}
                     <div class="configuration">
                         <h6>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.TECH.Label"}}</h6>
@@ -478,7 +478,7 @@
                 </div>
 
                 <div class="liste">
-                    <h3 class="header">
+                    <h3 class="header js-toggler">
                         <i class="far fa-plus-square"></i>
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Disponible"}}
                     </h3>
@@ -516,7 +516,7 @@
                         </div>
                     </div>
                     {{/unless}}
-                    
+
                     {{#unless (isValue systemData.configurationActive 'tech')}}
                     <div class="configuration" style="display:none;">
                         <h6>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.TECH.Label"}}</h6>
@@ -589,7 +589,7 @@
 
             {{#if systemData.options.jetsSpeciaux}}
             <div class="jetsSpeciaux">
-                <h2 class="header">
+                <h2 class="header js-toggler">
                     <i class="far fa-minus-square"></i>
                     {{localize "KNIGHT.ITEMS.MODULE.PNJ.JETSPECIAL.Label"}}
                 </h2>
@@ -605,17 +605,17 @@
 
             {{#unless systemData.options.noCapacites}}
             <div class="capacite">
-                <h2 class="header">
+                <h2 class="header js-toggler">
                     <i class="far fa-minus-square"></i>
                     {{localize "KNIGHT.CAPACITES.Label"}}
 
                     <a class="item-control item-create" title="Create Item" data-type="capacite"><i class="fas fa-plus"></i></a>
                 </h2>
-                
+
                 {{#each actor.capacites as | key module|}}
                 <div class="bCapacite">
-                    <header class="summary header" data-item-id="{{key._id}}">
-                        <i class="far fa-plus-square extendButton"></i>                        
+                    <header class="summary header js-toggler" data-item-id="{{key._id}}">
+                        <i class="far fa-plus-square extendButton"></i>
 
                         <div class="gestionButton">
                             <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
@@ -653,7 +653,7 @@
                             {{/if}}
                         </div>
                     </header>
-                    
+
                     <img class="profile-img" style="display:none;" src="{{key.img}}" title="{{key.name}}" />
                     <span class="description" style="display:none;">{{{key.system.description}}}</span>
 
@@ -773,7 +773,7 @@
                                 </div>
                             </div>
                             {{/if}}
- 
+
                         </div>
                     </div>
                 </div>
@@ -783,7 +783,7 @@
 
             {{#if systemData.options.modules}}
             <div class="modules">
-                <h2 class="header">
+                <h2 class="header js-toggler">
                     <i class="far fa-minus-square"></i>
                     {{localize "KNIGHT.ITEMS.MODULE.Label"}}
 
@@ -792,8 +792,8 @@
 
                 {{#each actor.modules as | key module|}}
                 <div class="bModule">
-                    <header class="summary header" data-item-id="{{key._id}}">
-                        <i class="far fa-plus-square extendButton"></i>                        
+                    <header class="summary header js-toggler" data-item-id="{{key._id}}">
+                        <i class="far fa-plus-square extendButton"></i>
 
                         <div class="gestionButton">
                             <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
@@ -841,7 +841,7 @@
                                         {{localize "KNIGHT.ITEMS.MODULE.DepenseSupplementaire"}}
                                     </button>
                                 {{/if}}
-                            {{/if}}                                            
+                            {{/if}}
                             {{#unless key.system.active.pnj}}
                                 {{#each key.system.pnj.liste as | keyPnj pnj|}}
                                     {{#if (isHigherThan key.system.energie.tour.value 0)}}
@@ -852,7 +852,7 @@
                                             </button>
                                         {{/unless}}
                                     {{/if}}
-                                    
+
                                     {{#if (isHigherThan key.system.energie.minute.value 0)}}
                                         {{#unless key.system.active.pnj}}
                                             <button class="activation" data-type="modulePnj" data-module="{{key._id}}"
@@ -877,7 +877,7 @@
                             {{/if}}
                         </div>
                     </header>
-                    
+
                     <img class="profile-img" style="display:none;" src="{{key.img}}" title="{{key.name}}" />
                     <span class="description" style="display:none;">{{{key.system.description}}}</span>
 
@@ -925,7 +925,7 @@
                                 <span class="textarea">{{{capaciteDescription key.system.duree}}}</span>
                                 {{/if}}
                             </div>
-                            
+
                             {{#if key.system.bonus.has}}
                             <div class="data">
                                 <h4 class="title">{{localize "KNIGHT.BONUS.Label"}}</h4>
@@ -1010,7 +1010,7 @@
                                     <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
                                     <span class="score">{{getPortee key.system.arme.portee}}</span>
                                 </div>
-                                
+
                                 <h4 class="separation">{{localize "KNIGHT.AUTRE.Degats"}}</h4>
                                 {{#unless key.system.arme.degats.variable.has}}
                                 <div class="middlespan noSeparation">
@@ -1027,7 +1027,7 @@
                                     <span class="score">{{key.system.arme.degats.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.degats.variable.max.fixe}}</span>
                                 </div>
                                 {{/unless}}
-                                
+
                                 <h4 class="separation">{{localize "KNIGHT.AUTRE.Violence"}}</h4>
                                 {{#unless key.system.arme.violence.variable.has}}
                                 <div class="middlespan noSeparation">
@@ -1199,14 +1199,14 @@
             {{/if}}
 
             <div class="aspectsexceptionnels">
-                <h2 class="header">
+                <h2 class="header js-toggler">
                     <i class="far fa-minus-square"></i>
                     {{localize "KNIGHT.ASPECTS.Exceptionnels"}}
                 </h2>
 
                 {{#each actor.aspectexceptionnel as | key aspect|}}
                 <div class="data">
-                    <h3 class="header">
+                    <h3 class="header js-toggler">
                         <i class="far fa-plus-square"></i>
 
                         {{getAspect aspect}}
@@ -1241,7 +1241,7 @@
                         {{/each}}
                     </div>
                 </div>
-                
+
                 <div class="armesDistance">
                     <div class="block">
                         <h2 class="header">
@@ -1259,13 +1259,13 @@
             {{#unless systemData.options.noArmesImprovisees}}
             <div class="main">
                 <div class="armesImprovisees">
-                    <h2 class="header">
+                    <h2 class="header js-toggler">
                         <i class="far fa-plus-square"></i>
                         {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.LabelContact"}}
                     </h2>
                     {{#each systemData.combat.armesimprovisees.liste as | kAI armesimprovisees|}}
                         <div class="block">
-                            <h3 class="header">
+                            <h3 class="header js-toggler">
                                 <i class="far fa-plus-square"></i>
                                 {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Chair"}} : {{#each kAI.chair as | kChair chair|}} {{#unless @first}}/{{/unless}} {{kChair}}{{/each}}
                             </h3>
@@ -1284,10 +1284,10 @@
                                             <span>{{key.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
                                         </div>
 
-                                        <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn" 
+                                        <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn"
                                         data-id="contact"
-                                        data-name="{{armesimprovisees}}" 
-                                        data-isDistance="armesimprovisees" 
+                                        data-name="{{armesimprovisees}}"
+                                        data-isDistance="armesimprovisees"
                                         data-num="{{arme}}" data-aspect="{{@root/systemData/combat/armesimprovisees/aspect}}" />
                                     </div>
                                 </div>
@@ -1302,7 +1302,7 @@
                     </h2>
                     {{#each systemData.combat.armesimprovisees.liste as | kAI armesimprovisees|}}
                         <div class="block">
-                            <h3 class="header">
+                            <h3 class="header js-toggler">
                                 <i class="far fa-plus-square"></i>
                                 {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Chair"}} : {{#each kAI.chair as | kChair chair|}} {{#unless @first}}/{{/unless}} {{kChair}}{{/each}}
                             </h3>
@@ -1321,9 +1321,9 @@
                                             <span>{{key.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
                                         </div>
 
-                                        <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn" 
-                                        data-id="distance" 
-                                        data-name="{{armesimprovisees}}" 
+                                        <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn"
+                                        data-id="distance"
+                                        data-name="{{armesimprovisees}}"
                                         data-isDistance="armesimprovisees" data-num="{{arme}}"
                                         data-aspect="{{@root/systemData/combat/armesimprovisees/aspect}}" />
                                     </div>
@@ -1359,7 +1359,7 @@
                             </div>
                             {{/each}}
                         </div>
-                        
+
                         <div class="blockRoll">
                             <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn" data-name="{{grenades}}" data-id="" data-isDistance="grenades" data-num="" />
                         </div>
@@ -1381,7 +1381,7 @@
                             {{/each}}
                         </div>
                     </div>
-                    
+
                     {{#unless systemData.options.noNods}}
                     <div class="nods">
                         <h2 class="header">
@@ -1397,9 +1397,9 @@
                                 <input type="number" name="system.combat.nods.{{nods}}.max" value="{{key.max}}" />
                             </div>
                             <div class="blockRoll">
-                                <img src="systems/knight/assets/icons/D6Black.svg" title='{{localize "KNIGHT.COMBAT.NODS.SoiMeme"}}' class="dice" 
+                                <img src="systems/knight/assets/icons/D6Black.svg" title='{{localize "KNIGHT.COMBAT.NODS.SoiMeme"}}' class="dice"
                                     data-nods="{{nods}}" data-number="{{key.value}}" />
-                                <img src="systems/knight/assets/icons/D6TargetBlack.svg" title='{{localize "KNIGHT.COMBAT.NODS.Autrui"}}' class="diceTarget" 
+                                <img src="systems/knight/assets/icons/D6TargetBlack.svg" title='{{localize "KNIGHT.COMBAT.NODS.Autrui"}}' class="diceTarget"
                                     data-nods="{{nods}}" data-number="{{key.value}}" />
                             </div>
                         </div>
@@ -1561,11 +1561,11 @@
                                     <option value="{{key}}">{{localize "KNIGHT.AUTRE.Majeur"}} ({{key}})</option>
                                 {{/each}}
                             {{/select}}
-                        </select>                        
+                        </select>
                     </div>
                     {{/each}}
                 </div>
-                
+
             </div>
             {{/if}}
         </div>

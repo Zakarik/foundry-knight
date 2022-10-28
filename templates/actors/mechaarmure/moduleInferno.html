@@ -1,8 +1,8 @@
 <div class="blockModule">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-plus-square"></i>
         {{{getMAModule this.key}}}
-        
+
         {{#if this.config}}
         <div>
             <a class="delete supprimerModule" data-type="{{this.type}}" data-value="{{this.key}}">
@@ -43,7 +43,7 @@
         <div class="longspan">
             <span class="label">{{localize "KNIGHT.DUREE.Label"}}</span>
             <span class="value">{{getDuree this.duree}}</span>
-        </div>        
+        </div>
     </div>
     {{/unless}}
 </div>

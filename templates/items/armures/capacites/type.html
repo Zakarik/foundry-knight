@@ -1,6 +1,6 @@
 
 <div class="type">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.Label"}}
         <div>
@@ -24,23 +24,23 @@
         <div class="data plainData">
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TypesPossedes"}}</span>
-                <input type="number" name="system.capacites.selected.type.nbreType" 
-                value="{{this.nbreType}}" 
+                <input type="number" name="system.capacites.selected.type.nbreType"
+                value="{{this.nbreType}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
             <h4 class="separation">{{localize "KNIGHT.LATERAL.Energie"}}</h4>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.ENERGIE.Tour"}}</span>
-                <input type="number" name="system.capacites.selected.type.energie.tour" 
-                value="{{this.energie.tour}}" 
+                <input type="number" name="system.capacites.selected.type.energie.tour"
+                value="{{this.energie.tour}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.ENERGIE.Scene"}}</span>
-                <input type="number" name="system.capacites.selected.type.energie.scene" 
-                value="{{this.energie.scene}}" 
+                <input type="number" name="system.capacites.selected.type.energie.scene"
+                value="{{this.energie.scene}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
@@ -58,7 +58,7 @@
             <label class="shortspan">
                 <span>{{localize "KNIGHT.DUREE.Label"}}</span>
                 <textarea name="system.capacites.selected.type.duree"
-                data-capacite="type" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;" 
+                data-capacite="type" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;"
                 {{#if this.softlock}}disabled{{/if}}>{{this.duree}}</textarea>
             </label>
         </div>
@@ -70,8 +70,8 @@
                 {{#each key.liste as | tKey dType|}}
                     <label class="doubleLine">
                         <span>{{tKey.label}}</span>
-                        <input type="number" name="system.capacites.selected.type.type.{{type}}.liste.{{dType}}.value" 
-                        value="{{this.value}}" 
+                        <input type="number" name="system.capacites.selected.type.type.{{type}}.liste.{{dType}}.value"
+                        value="{{this.value}}"
                         min="0"
                         {{#if ../../this.softlock}}disabled{{/if}} />
                     </label>
