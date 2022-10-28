@@ -83,6 +83,8 @@ export class ArmureSheet extends ItemSheet {
 
     context.systemData = context.data.system;
 
+    console.log(context);
+
     return context;
   }
 
@@ -194,7 +196,7 @@ export class ArmureSheet extends ItemSheet {
 
       if(actor && value > max) {
         this.item.update({[`system.armure.value`]:max});
-        actor.update({[`system.armure.value`]:max});
+        actor.update({[`system.armure.value`]:max});2
       }
     });
 
@@ -455,10 +457,11 @@ export class ArmureSheet extends ItemSheet {
 
     html.find('.evolutions label.paliers button').click(ev => {
       const value = +$(ev.currentTarget).data('value');
-      const capacites = this.getData().data.system.capacites.selected;
-      const special = this.getData().data.system.special.selected;
-      const aAcheter = this.getData().data.system.evolutions.aAcheter.value;
-      const evolution = this.getData().data.system.evolutions.liste;
+      const getData = this.getData();
+      const capacites = getData.data.system.capacites.selected;
+      const special = getData.data.system.special.selected;
+      const aAcheter = getData.data.system.evolutions.aAcheter.value;
+      const evolution = getData.data.system.evolutions.liste;
       const length = Object.entries(evolution).length;
 
       let update = {
@@ -488,6 +491,11 @@ export class ArmureSheet extends ItemSheet {
               update.system.evolutions.liste[i] = {};
               update.system.evolutions.liste[i].value = prevValue;
               update.system.evolutions.liste[i].description = "";
+              update.system.evolutions.liste[i].data = {
+                armure:0,
+                champDeForce:0,
+                energie:0
+              };
               update.system.evolutions.liste[i].capacites = {};
               update.system.evolutions.liste[i].special = {};
 
@@ -506,6 +514,11 @@ export class ArmureSheet extends ItemSheet {
               update.system.evolutions.liste[i] = {};
               update.system.evolutions.liste[i].value = 0;
               update.system.evolutions.liste[i].description = "";
+              update.system.evolutions.liste[i].data = {
+                armure:0,
+                champDeForce:0,
+                energie:0
+              };
               update.system.evolutions.liste[i].capacites = {};
               update.system.evolutions.liste[i].special = {};
 
@@ -524,6 +537,65 @@ export class ArmureSheet extends ItemSheet {
       }
 
       this.item.update(update);
+    });
+
+    html.find('.evolutions input.palier').change(ev => {
+      const getData = this.getData();
+      const aAcheter = getData.data.system.evolutions.aAcheter.value;
+      const evolution = getData.data.system.evolutions.liste;
+      const target = $(ev.currentTarget);
+      const keyAct = +target.data('key');
+      const value = +target.val();
+      const oldValue = evolution[keyAct].value;
+
+      const length = Object.entries(evolution).length;
+
+      let update = {
+        system:{
+          evolutions:{
+            liste:{}
+          }
+        }
+      };
+
+      let val = 0;
+
+      if(!aAcheter) {
+        if(value > oldValue) {
+          for (let i = keyAct+1;i < length;i++) {
+            if(i !== keyAct) {
+              const newValue = Math.max(val, value);
+              const actValue = +evolution[i].value;
+
+              if(actValue <= newValue) val = newValue+1;
+
+              if(actValue <= val) {
+                update.system.evolutions.liste[i] = {};
+                update.system.evolutions.liste[i].value = val;
+              }
+            }
+          }
+        }
+
+        if(value < oldValue) {
+          for (let i = keyAct-1;i > -1;i--) {
+            if(i !== keyAct) {
+              const newValue = val > 0 ? Math.min(val, value) : value;
+              const actValue = +evolution[i].value;
+
+              if(actValue >= newValue) val = newValue-1;
+
+              if(actValue >= val) {
+                update.system.evolutions.liste[i] = {};
+                update.system.evolutions.liste[i].value = val;
+              }
+            }
+          }
+        }
+
+
+        this.item.update(update);
+      }
     });
 
     html.find('div.capacites div button').click(ev => {

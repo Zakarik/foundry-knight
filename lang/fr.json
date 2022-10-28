@@ -346,7 +346,7 @@
             "OD3":"Le personnage peut se connecter à n’importe quel objet technologique ou machine à portée lointaine grâce au wifi. Il peut en outre passer directement les pare-feu les plus simples, sans effectuer de test, toujours à la discrétion du MJ.",
             "OD4":"Comme action de déplacement, le personnage peut décider d’effectuer une réparation d’urgence d’une méta-armure, d’une arme cassée ou d’un véhicule. En réussissant un test base Technique difficulté très difficile (9), le personnage peut rendre 6 PA à une méta-armure ou à un véhicule. Dans le cas d’une arme cassée, le personnage réussit à la réparer lorsqu’il réussit le test. Rater la réparation d’une arme cassée empêche quiconque de la réparer et il faudra la faire remplacer à Camelot.",
             "OD5":"Le personnage peut bidouiller instinctivement des virus, des programmes de contrôle ou encore des routines qu’il peut inclure à distance dans une machine ou un objet technologique. La puissance du programme est égale à un test base Technique lors de sa création. Cette puissance doit être opposée à une difficulté pouvant représenter un pare-feu ou encore la distance entre le héros et la machine. Le personnage peut faire fonctionner en simultanée un nombre de programmes égal à son score de Technique sans les overdrives. Il ne peut lancer qu’un programme par tour de jeu et, en phase de conflit, cela lui coûte son action de déplacement. Enfin, lors de la création d’un programme, le héros doit discuter de ses effets avec le MJ. Les effets doivent rester simples (activer et commander un véhicule à distance, récupérer des données après un compte à rebours, détruire des données via un virus, etc.)."
-          } 
+          }
         },
         "AE":{
           "Mineur":"Le PNJ ajoute son score de Machine exceptionnelle à son score de réaction.",
@@ -1628,7 +1628,7 @@
             "ENERGIE":{
               "Matérialiser":"Materialiser",
               "Prolonger":"Prolonger"
-            }            
+            }
           },
           "TYPE":{
             "Label":"Type",
@@ -2027,8 +2027,8 @@
       "ODTir4" : "OD Tir 4 inclus",
       "ODCombat3" : "OD Combat 3 inclus",
       "ODCombat4" : "OD Combat 4 inclus",
-      "ODForce" : "OD Force",      
-      "ODDiscretion" : "OD Discrétion",      
+      "ODForce" : "OD Force",
+      "ODDiscretion" : "OD Discrétion",
       "AttaqueSurprise" : "En cas d'attaque surprise.",
       "Nodssoin":"Nods de Soin",
       "Nodsarmure":"Nods d'Armure",
@@ -2183,6 +2183,7 @@
       "Reparation":"Bonus aux réparations",
       "Espoir": "Bonus d'espoir",
       "Egide": "Bonus d'égide",
+      "Energie": "Bonus d'énergie",
       "ChampDeForce": "Bonus de champ de force",
       "Attaque":"Bonus à l'attaque",
       "Degats":"Bonus aux dégâts",
