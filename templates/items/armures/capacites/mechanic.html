@@ -1,6 +1,6 @@
 
 <div class="mechanic">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MECHANIC.Label"}}
         <div>
@@ -25,7 +25,7 @@
             <h4>{{localize "KNIGHT.AUTRE.Contact"}}</h4>
             <label class="shortspan">
                 <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                <input type="number" name="system.capacites.selected.mechanic.energie.contact" value="{{this.energie.contact}}" 
+                <input type="number" name="system.capacites.selected.mechanic.energie.contact" value="{{this.energie.contact}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
@@ -43,19 +43,19 @@
             <div class="shortspan triple">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MECHANIC.Reparation"}}</span>
                 <label>
-                    <input type="number" name="system.capacites.selected.mechanic.reparation.contact.dice" value="{{this.reparation.contact.dice}}" 
+                    <input type="number" name="system.capacites.selected.mechanic.reparation.contact.dice" value="{{this.reparation.contact.dice}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                     <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                    <input type="number" name="system.capacites.selected.mechanic.reparation.contact.fixe" value="{{this.reparation.contact.fixe}}" 
+                    <input type="number" name="system.capacites.selected.mechanic.reparation.contact.fixe" value="{{this.reparation.contact.fixe}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
             </div>
             <label class="shortspan">
                 <span>{{localize "KNIGHT.DUREE.Label"}}</span>
-                <textarea name="system.capacites.selected.mechanic.reparation.contact.duree" 
-                data-capacite="mechanic" data-type="dureeContact" data-min="50" style="height:{{this.textarea.dureeContact}}px;" 
+                <textarea name="system.capacites.selected.mechanic.reparation.contact.duree"
+                data-capacite="mechanic" data-type="dureeContact" data-min="50" style="height:{{this.textarea.dureeContact}}px;"
                 {{#if this.softlock}}disabled{{/if}}>{{this.reparation.contact.duree}}</textarea>
             </label>
         </div>
@@ -64,7 +64,7 @@
             <h4>{{localize "KNIGHT.AUTRE.Distance"}}</h4>
             <label class="shortspan">
                 <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                <input type="number" name="system.capacites.selected.mechanic.energie.distance" value="{{this.energie.distance}}" 
+                <input type="number" name="system.capacites.selected.mechanic.energie.distance" value="{{this.energie.distance}}"
                 {{#if this.softlock}}disabled{{/if}}
                 />
             </label>
@@ -82,19 +82,19 @@
             <div class="shortspan triple">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MECHANIC.Reparation"}}</span>
                 <label>
-                    <input type="number" name="system.capacites.selected.mechanic.reparation.distance.dice" value="{{this.reparation.distance.dice}}" 
+                    <input type="number" name="system.capacites.selected.mechanic.reparation.distance.dice" value="{{this.reparation.distance.dice}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                     <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                    <input type="number" name="system.capacites.selected.mechanic.reparation.distance.fixe" value="{{this.reparation.distance.fixe}}" 
+                    <input type="number" name="system.capacites.selected.mechanic.reparation.distance.fixe" value="{{this.reparation.distance.fixe}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
             </div>
             <label class="shortspan">
                 <span>{{localize "KNIGHT.DUREE.Label"}}</span>
-                <textarea name="system.capacites.selected.mechanic.reparation.distance.duree" 
-                data-capacite="mechanic" data-type="dureeDistance" data-min="50" style="height:{{this.textarea.dureeDistance}}px;" 
+                <textarea name="system.capacites.selected.mechanic.reparation.distance.duree"
+                data-capacite="mechanic" data-type="dureeDistance" data-min="50" style="height:{{this.textarea.dureeDistance}}px;"
                 {{#if this.softlock}}disabled{{/if}}>{{this.reparation.distance.duree}}</textarea>
             </label>
         </div>

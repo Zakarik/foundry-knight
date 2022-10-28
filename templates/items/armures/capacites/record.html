@@ -1,6 +1,6 @@
 
 <div class="record">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RECORD.Label"}}
         <div>
@@ -24,8 +24,8 @@
         <div class="data">
             <label class="shortspan">
                 <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                <input type="number" name="system.capacites.selected.record.energie" 
-                value="{{this.energie}}" 
+                <input type="number" name="system.capacites.selected.record.energie"
+                value="{{this.energie}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
@@ -42,8 +42,8 @@
             </label>
             <label class="shortspan">
                 <span>{{localize "KNIGHT.DUREE.Label"}}</span>
-                <textarea name="system.capacites.selected.record.duree" 
-                data-capacite="record" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;" 
+                <textarea name="system.capacites.selected.record.duree"
+                data-capacite="record" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;"
                 {{#if this.softlock}}disabled{{/if}}>{{this.duree}}</textarea>
             </label>
         </div>

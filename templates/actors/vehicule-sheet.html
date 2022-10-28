@@ -89,7 +89,7 @@
             <div class="champDeForce">
                 <div class="line">
                     <span class="label" title="{{localize "KNIGHT.LATERAL.ChampDeForce"}}">{{localize "KNIGHT.LATERAL.ChampDeForce-short"}}</span>
-                    <input type="number" name="system.champDeForce.value" min="0" 
+                    <input type="number" name="system.champDeForce.value" min="0"
                     value="{{systemData.champDeForce.value}}" />
                 </div>
             </div>
@@ -102,7 +102,7 @@
                     <span class="score">{{systemData.reaction.value}}</span>
                 </div>
             </div>
-            
+
             <div class="defense">
                 <div class="line">
                     <span class="label">{{localize "KNIGHT.LATERAL.Defense"}}</span>
@@ -129,7 +129,7 @@
         </nav>
 
         <div class="tab combat" data-group="primary" data-tab="combat">
-            <div class="main">                
+            <div class="main">
                 <div class="armesDistance">
                     <div class="block">
                         <h2 class="header">
@@ -139,7 +139,7 @@
 
                         {{#each actor.armesDistance as | key arme|}}
                             <div class="wpn">
-                                <header class="summary header"  data-item-id="{{this._id}}">
+                                <header class="summary header js-toggler" data-item-id="{{this._id}}">
                                     <i class="far fa-plus-square extendButton"></i>
                                     <div class="gestionButton">
                                         <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
@@ -169,9 +169,9 @@
                                         </div>
                                         <img src="systems/knight/assets/icons/D6Black.svg" class="jetWpn dice" data-name="{{this.name}}" data-id="{{this._id}}" data-isDistance="{{this.system.type}}" data-num="{{@index}}" data-who="{{this.system.whoActivate}}" />
                                     </div>
-                                    
+
                                 </header>
-                                
+
                                 <div class="effets" style="display:none;">
                                     <div class="blockEffets">
                                         {{#each this.system.effets.liste as | key effet|}}

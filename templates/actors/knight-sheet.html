@@ -389,7 +389,7 @@
                     </h2>
                     {{#each actor.avantages as | key avantages|}}
                     <div class="block">
-                        <header class="summary header" data-item-id="{{key._id}}">
+                        <header class="summary header js-toggler" data-item-id="{{key._id}}">
                             <i class="far fa-plus-square extendButton"></i>
                             <div class="gestionButton">
                                 <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
@@ -411,7 +411,7 @@
                     </h2>
                     {{#each actor.inconvenient as | key inconvenient|}}
                     <div class="block">
-                        <header class="summary header" data-item-id="{{key._id}}">
+                        <header class="summary header js-toggler" data-item-id="{{key._id}}">
                             <i class="far fa-plus-square extendButton"></i>
                             <div class="gestionButton">
                                 <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
@@ -435,7 +435,7 @@
                     </h2>
                     {{#each actor.carteHeroique as | key heroisme|}}
                     <div class="block">
-                        <header class="summary header" data-item-id="{{key._id}}">
+                        <header class="summary header js-toggler" data-item-id="{{key._id}}">
                             <i class="far fa-plus-square extendButton"></i>
                             <div class="gestionButton">
                                 <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
@@ -457,7 +457,7 @@
                     </h2>
                     {{#each actor.capaciteHeroique as | key heroisme|}}
                     <div class="block">
-                        <header class="summary header" data-item-id="{{key._id}}">
+                        <header class="summary header js-toggler" data-item-id="{{key._id}}">
                             <i class="far fa-plus-square extendButton"></i>
                             <div class="gestionButton">
                                 <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
@@ -521,7 +521,7 @@
             <section class="tabArmure">
                 <div class="tab-armure MAarmure {{#if systemData.MATabs.MAarmure}}active{{/if}}">
                     <div class="capacites">
-                        <h2 class="header">
+                        <h2 class="header js-toggler">
                             <i class="far fa-minus-square"></i>
                             {{localize "KNIGHT.CAPACITES.Label"}}
                         </h2>
@@ -531,7 +531,7 @@
                     </div>
 
                     <div class="special">
-                        <h2 class="header">
+                        <h2 class="header js-toggler">
                             <i class="far fa-minus-square"></i>
                             {{localize "KNIGHT.ITEMS.ARMURE.Special"}}
                         </h2>
@@ -542,7 +542,7 @@
 
                     {{#unless (isEmpty actor.armureLegendeData)}}
                     <div class="capacites capacitesLegende">
-                        <h2 class="header">
+                        <h2 class="header js-toggler">
                             <i class="far fa-minus-square"></i>
                             {{localize "ITEM.TypeArmurelegende"}} : {{localize "KNIGHT.CAPACITES.Label"}}
                         </h2>
@@ -554,7 +554,7 @@
 
                     {{#unless (isEmpty actor.armureLegendeData)}}
                     <div class="capacites specialLegende">
-                        <h2 class="header">
+                        <h2 class="header js-toggler">
                             <i class="far fa-minus-square"></i>
                             {{localize "ITEM.TypeArmurelegende"}} : {{localize "KNIGHT.ITEMS.ARMURE.Special"}}
                         </h2>
@@ -565,7 +565,7 @@
                     {{/unless}}
 
                     <div class="overdrives">
-                        <h2 class="header">
+                        <h2 class="header js-toggler">
                             <i class="far fa-minus-square"></i>
                             {{localize "KNIGHT.ITEMS.ARMURE.Overdrives"}}
                         </h2>
@@ -573,7 +573,7 @@
                         {{#each actor.overdrives as | kAspect aspect|}}
                             {{#each kAspect as | kCarac carac|}}
                                 <div class="data">
-                                    <h3 class="header">
+                                    <h3 class="header js-toggler">
                                         <i class="far fa-plus-square"></i>
 
                                         {{getCarac carac}}
@@ -592,7 +592,7 @@
 
                 <div class="tab-armure MAmodule {{#if systemData.MATabs.MAmodule}}active{{/if}}">
                     <div class="slots">
-                        <h2 class="header">
+                        <h2 class="header js-toggler">
                             <i class="far fa-minus-square"></i>
                             {{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Label"}}
                         </h2>
@@ -643,7 +643,7 @@
                     </div>
 
                     <div class="modules">
-                        <h2 class="header">
+                        <h2 class="header js-toggler">
                             <i class="far fa-minus-square"></i>
                             {{localize "KNIGHT.ITEMS.MODULE.Label"}}
 
@@ -652,7 +652,7 @@
 
                         {{#each actor.modules as | key module|}}
                         <div class="bModule">
-                            <header class="summary header" data-item-id="{{key._id}}">
+                            <header class="summary header js-toggler" data-item-id="{{key._id}}">
                                 <i class="far fa-plus-square extendButton"></i>
 
                                 <div class="gestionButton">
@@ -1212,7 +1212,7 @@
                                 </h2>
                                 {{#each actor.avantagesIA as | key avantages|}}
                                 <div class="block">
-                                    <header class="summary header" data-item-id="{{key._id}}">
+                                    <header class="summary header js-toggler" data-item-id="{{key._id}}">
                                         <i class="far fa-plus-square extendButton"></i>
                                         <div class="gestionButton">
                                             <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
@@ -1243,7 +1243,7 @@
                                 </h2>
                                 {{#each actor.inconvenientIA as | key inconvenient|}}
                                 <div class="block">
-                                    <header class="summary header" data-item-id="{{key._id}}">
+                                    <header class="summary header js-toggler" data-item-id="{{key._id}}">
                                         <i class="far fa-plus-square extendButton"></i>
                                         <div class="gestionButton">
                                             <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
@@ -1340,13 +1340,13 @@
 
             <div class="main">
                 <div class="armesImprovisees">
-                    <h2 class="header">
-                        <i class="far fa-plus-square"></i>
+                    <h2 class="header js-toggler">
+                        <i class="far fa-minus-square"></i>
                         {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.LabelContact"}}
                     </h2>
                     {{#each systemData.combat.armesimprovisees.liste as | kAI armesimprovisees|}}
                         <div class="block">
-                            <h3 class="header">
+                            <h3 class="header js-toggler">
                                 <i class="far fa-plus-square"></i>
                                 {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.ODForce"}} : {{kAI.force}}
                             </h3>
@@ -1383,7 +1383,7 @@
                     </h2>
                     {{#each systemData.combat.armesimprovisees.liste as | kAI armesimprovisees|}}
                         <div class="block">
-                            <h3 class="header">
+                            <h3 class="header js-toggler">
                                 <i class="far fa-plus-square"></i>
                                 {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.ODForce"}} : {{kAI.force}}
                             </h3>
@@ -1418,7 +1418,7 @@
             <div class="main">
                 {{#unless (ascension systemData.wear)}}
                 <div class="grenades">
-                    <h2 class="header">
+                    <h2 class="header js-toggler">
                         <i class="far fa-minus-square"></i>
                         {{localize "KNIGHT.COMBAT.GRENADES.Label"}}
                         <div class="headerQuantity">
@@ -1521,7 +1521,7 @@
                     </h2>
                     {{#each actor.contact as | key contact|}}
                     <div class="block">
-                        <header class="summary" data-item-id="{{key._id}}">
+                        <header class="summary js-toggler" data-item-id="{{key._id}}">
                             <i class="far fa-plus-square extendButton"></i>
                             <div class="gestionButton">
                                 <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
@@ -1543,7 +1543,7 @@
                     </h2>
                     {{#each actor.blessure as | key blessure|}}
                     <div class="block">
-                        <header class="summary" data-item-id="{{key._id}}">
+                        <header class="summary js-toggler" data-item-id="{{key._id}}">
                             <i class="far fa-plus-square extendButton"></i>
                             <div class="gestionButton">
                                 <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
@@ -1565,7 +1565,7 @@
                     </h2>
                     {{#each actor.trauma as | key trauma|}}
                     <div class="block">
-                        <header class="summary" data-item-id="{{key._id}}">
+                        <header class="summary js-toggler" data-item-id="{{key._id}}">
                             <i class="far fa-plus-square extendDescriptionButton"></i>
                             <div class="gestionButton">
                                 <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
@@ -1658,7 +1658,7 @@
                 {{/unless}}
 
                 <div class="tableauPG">
-                    <h2 class="header">
+                    <h2 class="header js-toggler">
                         <i class="far fa-minus-square"></i>
                         {{localize "KNIGHT.PROGRESSION.GLOIRE.ListeDepense"}}
                     </h2>
@@ -1698,7 +1698,7 @@
                 </div>
 
                 <div class="tableauPX">
-                    <h2 class="header">
+                    <h2 class="header js-toggler">
                         <i class="far fa-minus-square"></i>
                         {{localize "KNIGHT.PROGRESSION.EXPERIENCE.ListeDepense"}}
                         <a class="experience-create" title="Create Item"><i class="fas fa-plus"></i></a>

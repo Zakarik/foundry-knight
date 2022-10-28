@@ -1,9 +1,9 @@
 
 <div class="oriflamme">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-plus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label"}}
-        
+
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
             <button class="degats" data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label"}}" data-degats="{{this.degats.dice}}" data-degatsFixe="{{this.degats.fixe}}" data-cout="{{this.energie}}">

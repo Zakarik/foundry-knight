@@ -278,7 +278,7 @@
             {{/if}}
 
             <div class="capacite">
-                <h2 class="header">
+                <h2 class="header js-toggler">
                     <i class="far fa-minus-square"></i>
                     {{localize "KNIGHT.CAPACITES.Label"}}
 
@@ -287,7 +287,7 @@
 
                 {{#each actor.capacites as | key module|}}
                 <div class="bCapacite">
-                    <header class="summary header" data-item-id="{{key._id}}">
+                    <header class="summary header js-toggler" data-item-id="{{key._id}}">
                         <i class="far fa-plus-square extendButton"></i>
 
                         <div class="gestionButton">
@@ -632,14 +632,14 @@
             {{/if}}
 
             <div class="aspectsexceptionnels">
-                <h2 class="header">
+                <h2 class="header js-toggler">
                     <i class="far fa-minus-square"></i>
                     {{localize "KNIGHT.ASPECTS.Exceptionnels"}}
                 </h2>
 
                 {{#each actor.aspectexceptionnel as | key aspect|}}
                 <div class="data">
-                    <h3 class="header">
+                    <h3 class="header js-toggler">
                         <i class="far fa-plus-square"></i>
 
                         {{getAspect aspect}}
@@ -691,13 +691,13 @@
 
             <div class="main">
                 <div class="armesImprovisees">
-                    <h2 class="header">
-                        <i class="far fa-plus-square"></i>
+                    <h2 class="header js-toggler">
+                        <i class="far fa-minus-square"></i>
                         {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.LabelContact"}}
                     </h2>
                     {{#each systemData.combat.armesimprovisees.liste as | kAI armesimprovisees|}}
                         <div class="block">
-                            <h3 class="header">
+                            <h3 class="header js-toggler">
                                 <i class="far fa-plus-square"></i>
                                 {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Chair"}} : {{#each kAI.chair as | kChair chair|}} {{#unless @first}}/{{/unless}} {{kChair}}{{/each}}
                             </h3>
@@ -734,7 +734,7 @@
                     </h2>
                     {{#each systemData.combat.armesimprovisees.liste as | kAI armesimprovisees|}}
                         <div class="block">
-                            <h3 class="header">
+                            <h3 class="header js-toggler">
                                 <i class="far fa-plus-square"></i>
                                 {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Chair"}} : {{#each kAI.chair as | kChair chair|}} {{#unless @first}}/{{/unless}} {{kChair}}{{/each}}
                             </h3>

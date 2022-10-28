@@ -4,12 +4,12 @@
             <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
         </h1>
     </header>
-    
+
      <div class="main">
         <div class="blockImg">
             <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
         </div>
-        
+
         <div class="description">
             <h2 class="header">{{localize "KNIGHT.Description"}}</h2>
 
@@ -17,7 +17,7 @@
         </div>
 
         <div class="fullData">
-            <h2 class="header">
+            <h2 class="header js-toggler">
                 <i class="far fa-minus-square"></i>
                 {{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Label"}}
             </h2>
@@ -109,7 +109,7 @@
                 <span>{{localize "KNIGHT.AUTRE.PointGloire"}}</span>
                 <input type="number" name="system.prix" value="{{systemData.prix}}" min="0" />
             </label>
-    
+
             <div class="twoLine">
                 <span>
                     {{localize "KNIGHT.LATERAL.Energie"}}
@@ -211,7 +211,7 @@
     </div>
 
     <div class="main bonus {{#unless systemData.bonus.has}}hidden{{/unless}}">
-        <h2 class="header">
+        <h2 class="header js-toggler">
             <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.BONUS.Label"}}
         </h2>
@@ -267,7 +267,7 @@
                 unactive
                 {{/if}}
                 " data-type="bonus" data-subtype="grenades" data-name="has" data-value="{{systemData.bonus.grenades.has}}">{{systemData.labels.bonusGrenades}}</button>
-    
+
                 {{#each systemData.bonus.grenades.liste  as | key grenade|}}
                     <h3 class="title {{#unless @root/systemData/bonus/grenades/has}}hidden{{/unless}}">{{getGrenadeName grenade}}</h3>
                     <label class="oneLinewOnlyDice {{#unless @root/systemData/bonus/grenades/has}}hidden{{/unless}}">
@@ -290,7 +290,7 @@
 
         <div class="col">
             <div class="twoLine">
-                <button type="action" class="button 
+                <button type="action" class="button
                 {{#if systemData.bonus.degats.has}}
                 active
                 {{else}}
@@ -342,7 +342,7 @@
                     <input type="number" name="system.bonus.degats.variable.max.fixe" value="{{systemData.bonus.degats.variable.max.fixe}}" min="{{systemData.bonus.degats.variable.min.fixe}}" />
                 </div>
             </div>
-            
+
             <div class="twoLine">
                 <button type="action" class="button
                 {{#if systemData.bonus.violence.has}}
@@ -409,7 +409,7 @@
         </div>
 
         <div class="main overdrives {{#unless systemData.bonus.overdrives.has}}hidden{{/unless}}">
-            <h2 class="header">
+            <h2 class="header js-toggler">
                 <i class="far fa-minus-square"></i>
                 {{localize "KNIGHT.ITEMS.MODULE.OVERDRIVES.Labelbonus"}}
             </h2>
@@ -429,7 +429,7 @@
     </div>
 
     <div class="main arme {{#unless systemData.arme.has}}hidden{{/unless}}">
-        <h2 class="header">
+        <h2 class="header js-toggler">
             <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.ITEMS.MODULE.ARME.Label"}}
         </h2>
@@ -493,7 +493,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="twoLine">
                 <button type="action" class="button borderTop noBorderBottom
                 {{#if systemData.arme.violence.variable.has}}
@@ -606,7 +606,7 @@
     </div>
 
     <div class="main pnj {{#unless systemData.pnj.has}}hidden{{/unless}}">
-        <h2 class="header">
+        <h2 class="header js-toggler">
             <i class="far fa-minus-square"></i>
             {{systemData.labels.pnjTitle}}
 
@@ -821,7 +821,7 @@
                                     <a class="edit" data-path="system.pnj.liste.{{pnj}}.armes.liste.{{arme}}.effets">
                                         <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
                                     </a>
-                                </div>       
+                                </div>
                             </div>
                         {{/each}}
                     </div>
@@ -860,7 +860,7 @@
     </div>
 
     <div class="main overdrives {{#unless systemData.overdrives.has}}hidden{{/unless}}">
-        <h2 class="header">
+        <h2 class="header js-toggler">
             <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.ITEMS.MODULE.OVERDRIVES.Label"}}
         </h2>
@@ -879,7 +879,7 @@
     </div>
 
     <div class="main rogue {{#unless systemData.ersatz.rogue.has}}hidden{{/unless}}">
-        <h2 class="header">
+        <h2 class="header js-toggler">
             <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.ITEMS.MODULE.ERSATZ.ROGUE.Label"}}
         </h2>
@@ -889,7 +889,7 @@
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.BonusPasserInaperçu"}}</span>
                 <input type="number" name="system.ersatz.rogue.reussites" value="{{systemData.ersatz.rogue.reussites}}" min="0" />
             </label>
-            
+
             <div class="oneLine">
                 <button type="action" class="button {{#if systemData.ersatz.rogue.interruption.actif}}active{{/if}}"
                 data-type="ersatz" data-subtype="rogue" data-name="interruption" data-subname="actif" data-value="{{systemData.ersatz.rogue.interruption.actif}}">
@@ -900,7 +900,7 @@
                     {{/if}}
                 </button>
             </div>
-            
+
             <label class="oneLine">
                 <span>{{localize "KNIGHT.BONUS.Attaque"}}</span>
                 <select name="system.ersatz.rogue.attaque">
@@ -954,7 +954,7 @@
                     {{localize "KNIGHT.NOINCLUS.Dice"}}
                     {{/if}}
                 </button>
-                
+
                 <button type="action" class="button {{#if systemData.ersatz.rogue.degats.fixe}}active{{/if}}"
                 data-type="ersatz" data-subtype="rogue" data-name="degats" data-subname="fixe" data-value="{{systemData.ersatz.rogue.degats.fixe}}">
                     {{#if systemData.ersatz.rogue.degats.fixe}}

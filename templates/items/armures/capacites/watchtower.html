@@ -1,5 +1,5 @@
 <div class="watchtower">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WATCHTOWER.Label"}}
         <div>
@@ -23,8 +23,8 @@
         <div class="data">
             <label class="shortspan">
                 <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                <input type="number" name="system.capacites.selected.watchtower.energie" 
-                value="{{this.energie}}" 
+                <input type="number" name="system.capacites.selected.watchtower.energie"
+                value="{{this.energie}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
@@ -42,7 +42,7 @@
             <label class="shortspan">
                 <span>{{localize "KNIGHT.DUREE.Label"}}</span>
                 <textarea name="system.capacites.selected.watchtower.duree"
-                data-capacite="watchtower" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;" 
+                data-capacite="watchtower" data-type="duree" data-min="50" style="height:{{this.textarea.duree}}px;"
                 {{#if this.softlock}}disabled{{/if}}>{{this.duree}}</textarea>
             </label>
         </div>

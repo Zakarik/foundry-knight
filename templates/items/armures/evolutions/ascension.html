@@ -1,29 +1,29 @@
 <div class="data">
-    <h4 class="title">
+    <h4 class="title js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ASCENSION.Label"}}
     </h4>
     <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
     <label class="longspan">
         <span>{{localize "KNIGHT.AUTRE.Minimum"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.ascension.energie.min" 
-        value="{{this.energie.min}}" 
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.ascension.energie.min"
+        value="{{this.energie.min}}"
         min="0"
         max="{{this.energie.max}}"
          />
     </label>
     <label class="longspan">
         <span>{{localize "KNIGHT.AUTRE.Maximum"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.ascension.energie.max" 
-        value="{{this.energie.max}}" 
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.ascension.energie.max"
+        value="{{this.energie.max}}"
         min="0"
         max="{{this.energie.limite}}"
          />
     </label>
     <label class="longspan separation">
         <span>{{localize "KNIGHT.AUTRE.GainImpregnation"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.ascension.impregnation" 
-        value="{{this.impregnation}}" 
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.ascension.impregnation"
+        value="{{this.impregnation}}"
         min="0"
          />
     </label>

@@ -1,5 +1,5 @@
 <div class="plusespoir">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.PLUSESPOIR.Label"}}
         <div>
@@ -23,8 +23,8 @@
         <div class="data">
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.PLUSESPOIR.ESPOIR.Label"}}</span>
-                <input type="number" name="system.special.selected.plusespoir.espoir.base" 
-                    value="{{this.espoir.base}}" 
+                <input type="number" name="system.special.selected.plusespoir.espoir.base"
+                    value="{{this.espoir.base}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
             </label>

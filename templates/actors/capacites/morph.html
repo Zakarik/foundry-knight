@@ -1,6 +1,6 @@
 
 <div class="morph">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-plus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.Label"}}
 
@@ -123,7 +123,7 @@
 
                     {{#if this.choisi.etirement}}
                     <span class="button">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}</span>
-                    
+
                     <button class="roll" data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.Immobilisation"}}" data-reussiteBonus="{{this.etirement.bonus}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.ETIREMENT.JetImmobilisation"}}
                     </button>
@@ -216,7 +216,7 @@
             <div class="shortspan">
                 <span class="header">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                 <span class="score">{{getActivation this.activation}}</span>
-            </div>           
+            </div>
             <div class="shortspan">
                 <span class="header">{{localize "KNIGHT.DUREE.Label"}}</span>
                 <span class="score">{{this.duree}}</span>
@@ -351,7 +351,7 @@
                     <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
                     <span class="score">{{this.polymorphie.canon.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
                 </div>
-            </div>            
+            </div>
             <div class="effets noSeparationTop">
                 {{#each this.polymorphie.canon.effets.liste as | key effet|}}
                     <div>

@@ -1,6 +1,6 @@
 
 <div class="contrecoups">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-plus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.Label"}}
 
@@ -28,11 +28,11 @@
             <span class="button noBorderTop {{#if this.relance.value}}selected{{/if}}">{{this.relance.label}}</span>
 
             <span class="button {{#if this.maxeffets.value}}selected borderBottom{{/if}}">{{this.maxeffets.label}}</span>
-        
+
             <div class="longspan {{#unless this.maxeffets.value}}hidden{{/unless}}">
                 <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.MaxEffetsLabel"}}</span>
                 <span class="score">{{this.maxeffets.max}}</span>
-            </div>                
+            </div>
         </div>
 
         <div class="data">
