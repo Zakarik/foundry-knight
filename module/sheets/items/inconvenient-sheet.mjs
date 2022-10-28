@@ -40,7 +40,7 @@ export class InconvenientSheet extends ItemSheet {
     html.find('div.initiative button').click(ev => {
       ev.preventDefault();
       const actuel = this.getData().data.data.malus.initiative.ifEmbuscade.has || false;
-      
+
       let result = false;
 
       if(!actuel)  {
@@ -65,7 +65,7 @@ export class InconvenientSheet extends ItemSheet {
     html.find('div.augmentationCout button').click(ev => {
       ev.preventDefault();
       const actuel = this.getData().data.data.malus.coutsAugmentes.has || false;
-      
+
       let result = false;
 
       if(!actuel)  {
@@ -73,7 +73,7 @@ export class InconvenientSheet extends ItemSheet {
       }
 
       const update = {
-        data: {
+        system: {
           malus: {
             coutsAugmentes: {
                 has:result
@@ -89,7 +89,7 @@ export class InconvenientSheet extends ItemSheet {
       ev.preventDefault();
       const type = $(ev.currentTarget).data("type");
       const actuel = this.getData().data.data.limitations.aspects[type].has || false;
-      
+
       let result = false;
 
       if(!actuel)  {
@@ -97,7 +97,7 @@ export class InconvenientSheet extends ItemSheet {
       }
 
       const update = {
-        data: {
+        system: {
           limitations: {
             aspects:{
               [type]: {
@@ -155,7 +155,7 @@ export class InconvenientSheet extends ItemSheet {
     html.find('button.espoir').click(ev => {
       ev.preventDefault();
       const actuel = this.getData().data.data.limitations.espoir.aucunGain || false;
-      
+
       let result = false;
 
       if(!actuel)  {
