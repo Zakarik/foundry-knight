@@ -4280,6 +4280,7 @@ export class KnightSheet extends ActorSheet {
       const id = target.data("num");
       const dataArmor = this.actor.items.get(this._getArmorId());
       const listEvolutions = dataArmor.system.evolutions.liste;
+      const dataEArmor = listEvolutions[id].data;
       const capacites = listEvolutions[id].capacites;
       let special = listEvolutions[id].special;
       const gloireListe = this.getData().data.system.progression.gloire.depense.liste;
@@ -4299,6 +4300,15 @@ export class KnightSheet extends ActorSheet {
       }
 
       dataArmor.update({['system']:{
+        armure:{
+          base:dataArmor.system.armure.base+dataEArmor.armure
+        },
+        champDeForce:{
+          base:dataArmor.system.champDeForce.base+dataEArmor.champDeForce
+        },
+        energie:{
+          base:dataArmor.system.energie.base+dataEArmor.energie
+        },
         capacites:{
           selected:capacites
         },
@@ -4502,6 +4512,7 @@ export class KnightSheet extends ActorSheet {
       const value = +target.data("value");
       const dataArmor = this.actor.items.get(this._getArmorId());
       const listEvolutions = dataArmor.system.evolutions.liste;
+      const dataEArmor = listEvolutions[id].data;
       const capacites = listEvolutions[id].capacites;
       let special = listEvolutions[id].special;
       const dataGloire = this.getData().data.system.progression.gloire;
@@ -4524,6 +4535,15 @@ export class KnightSheet extends ActorSheet {
         }
 
         dataArmor.update({['system']:{
+          armure:{
+            base:dataArmor.system.armure.base+dataEArmor.armure
+          },
+          champDeForce:{
+            base:dataArmor.system.champDeForce.base+dataEArmor.champDeForce
+          },
+          energie:{
+            base:dataArmor.system.energie.base+dataEArmor.energie
+          },
           capacites:{
             selected:capacites
           },
