@@ -544,6 +544,7 @@ export class CreatureSheet extends ActorSheet {
     const header = event.currentTarget;
     // Get the type of item to create.
     const type = header.dataset.type;
+    const subtype = header.dataset?.subtype || false;
     // Grab any data associated with this control.
     const data = duplicate(header.dataset);
     // Initialize a default name.
@@ -616,6 +617,8 @@ export class CreatureSheet extends ActorSheet {
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.system["type"];
 
+    if(subtype && subtype === 'phase2') itemData.system.isPhase2 = true;
+
     if (type === 'arme') {
       itemData.system = {
         type:header.dataset.subtype,
@@ -662,6 +665,7 @@ export class CreatureSheet extends ActorSheet {
     const armesTourelles = [];
     const langue = [];
     const capacites = [];
+    const capacitesPhase2 = [];
     const aspects = {
       "chair":system.aspects.chair.value,
       "bete":system.aspects.bete.value,
@@ -827,9 +831,12 @@ export class CreatureSheet extends ActorSheet {
 
       // CAPACITES
       if (i.type === 'capacite') {
-        capacites.push(i);
-
         const isPhase2 = data.isPhase2;
+
+        if(isPhase2) capacitesPhase2.push(i);
+        else capacites.push(i);
+
+
         const bonus = data.bonus;
         const attaque = data.attaque;
 
@@ -989,6 +996,7 @@ export class CreatureSheet extends ActorSheet {
     actorData.armesTourelles = armesTourelles;
     actorData.langue = langue;
     actorData.capacites = capacites;
+    actorData.capacitesPhase2 = capacitesPhase2;
 
     const update = {
       system:{

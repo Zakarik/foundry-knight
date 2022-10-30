@@ -1584,7 +1584,7 @@ export class KnightRollDialog extends Application {
     // Aspects Exceptionnels
     if(typeWpn !== 'tourelle' && isPNJ) {
       const bAEMajeur = +beteAE.majeur;
-      const bAEMineur = +beteAE.majeur;
+      const bAEMineur = +beteAE.mineur;
 
       if(bAEMineur > 0 && bAEMajeur === 0) {
         lDgtsOtherInclude.push({
@@ -1601,6 +1601,8 @@ export class KnightRollDialog extends Application {
 
         getDgtsOtherFixeMod += bAEMineur+bAEMajeur+bete;
       }
+
+      console.log(bAEMajeur, bAEMineur, bete);
     }
 
     // ATTAQUE
