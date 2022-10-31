@@ -2176,7 +2176,7 @@ for(let i = 0;i < structurellesWpn.raw.length;i++) {
         sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].description}-short`);
         } else {
         subDgts.name = `+1${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+        subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].description}-short`);
 
         dgtsDice += 1;
         }

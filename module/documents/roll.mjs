@@ -37,6 +37,25 @@ export class RollKnight extends Roll {
   static CHAT_TEMPLATE = "systems/knight/templates/dices/roll.html";
   static TOOLTIP_TEMPLATE = "systems/knight/templates/dices/tooltip.html";
 
+  evaluate({minimize=false, maximize=false, async}={}) {
+    if ( this._evaluated ) {
+      throw new Error(`The ${this.constructor.name} has already been evaluated and is now immutable`);
+    }
+    this._evaluated = true;
+    if ( CONFIG.debug.dice ) console.debug(`Evaluating roll with formula ${this.formula}`);
+
+    // Migration path for async rolls
+    if ( minimize || maximize ) async = false;
+    if ( async === undefined ) {
+      foundry.utils.logCompatibilityWarning("Roll#evaluate is becoming asynchronous. In the short term, you may pass "
+        + "async=true or async=false to evaluation options to nominate your preferred behavior.", {since: 8, until: 10});
+      async = true;
+    }
+
+    console.log(minimize, maximize, async);
+    return async ? this._evaluate({minimize, maximize}) : this._evaluateSync({minimize, maximize});
+  }
+
   async render({flavor, template=this.constructor.CHAT_TEMPLATE, isPrivate=false}={}) {
     if ( !this._evaluated ) await this.evaluate({async: true});
     const dices = this._table ? this.dice[0].results : 0;
@@ -291,7 +310,6 @@ export class RollKnight extends Roll {
 
     // Step 1 - Replace intermediate terms with evaluated numbers
     const intermediate = [];
-
     for ( let term of this.terms ) {
       if ( !(term instanceof RollTerm) ) {
         throw new Error("Roll evaluation encountered an invalid term which was not a RollTerm instance");
@@ -315,6 +333,7 @@ export class RollKnight extends Roll {
 
     // Step 4 - Evaluate the final expression
     this._total = this._evaluateTotal();
+    return this;
   }
 
   async evaluateSuccess() {
