@@ -3375,7 +3375,7 @@ export class KnightSheet extends ActorSheet {
       const flux = $(ev.currentTarget).data("flux") || false;
 
       const update = {
-        data:{
+        system:{
           equipements:{
             armure:{
               champDeForce:{
@@ -3882,7 +3882,7 @@ export class KnightSheet extends ActorSheet {
               }
 
               let update = {
-                data:{
+                system:{
                   aspects:{
                     [aspect]:{
                       base:baseAspect,
@@ -3913,7 +3913,7 @@ export class KnightSheet extends ActorSheet {
       let total = actuel+value;
 
       const updateItem = {
-        data:{
+        system:{
           gainEspoir:{
             applique:true
           }
@@ -3923,7 +3923,7 @@ export class KnightSheet extends ActorSheet {
       if(total > max) { total = max; }
 
       const updateActor = {
-        data:{
+        system:{
           espoir:{
             value:total
           }
@@ -4080,7 +4080,7 @@ export class KnightSheet extends ActorSheet {
       const item = this.actor.items.get(header.data("item-id"));
 
       const update = {
-        data:{
+        system:{
           equipped:true,
           rack:false
         }
@@ -4094,7 +4094,7 @@ export class KnightSheet extends ActorSheet {
       const item = this.actor.items.get(header.data("item-id"));
 
       const update = {
-        data:{
+        system:{
           equipped:false,
           rack:true
         }
@@ -4108,7 +4108,7 @@ export class KnightSheet extends ActorSheet {
       const item = this.actor.items.get(header.data("item-id"));
 
       const update = {
-        data:{
+        system:{
           equipped:false,
           rack:true
         }
@@ -4122,7 +4122,7 @@ export class KnightSheet extends ActorSheet {
       const item = this.actor.items.get(header.data("item-id"));
 
       const update = {
-        data:{
+        system:{
           equipped:false,
           rack:false
         }
