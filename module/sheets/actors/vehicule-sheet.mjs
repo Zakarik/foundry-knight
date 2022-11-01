@@ -1,7 +1,8 @@
-import { 
+import {
   getModStyle,
   listEffects,
-  SortByName
+  SortByName,
+  sum
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
@@ -18,7 +19,7 @@ export class VehiculeSheet extends ActorSheet {
       template: "systems/knight/templates/actors/vehicule-sheet.html",
       width: 900,
       height: 600,
-      tabs: [{navSelector: ".sheet-tabs", contentSelector: ".body", initial: "description"}],
+      tabs: [{navSelector: ".sheet-tabs", contentSelector: ".body", initial: "vehicule"}],
     });
   }
 
@@ -27,11 +28,11 @@ export class VehiculeSheet extends ActorSheet {
   /** @inheritdoc */
   getData() {
     const context = super.getData();
-    
+
     this._prepareCharacterItems(context);
 
     context.systemData = context.data.system;
-    
+
     return context;
   }
 
@@ -74,7 +75,7 @@ export class VehiculeSheet extends ActorSheet {
       const option = $(ev.currentTarget).data("option");
       const actuel = this.getData().data.system[option]?.optionDeploy || false;
 
-      let result = false;      
+      let result = false;
       if(actuel) {
         result = false;
       } else {
@@ -92,7 +93,7 @@ export class VehiculeSheet extends ActorSheet {
       this.actor.update(update);
     });
 
-    html.find('.extendButton').click(ev => {      
+    html.find('.extendButton').click(ev => {
       $(ev.currentTarget).toggleClass("fa-plus-square fa-minus-square");
 
       if($(ev.currentTarget).hasClass("fa-minus-square")) {
@@ -104,6 +105,26 @@ export class VehiculeSheet extends ActorSheet {
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
+
+    html.find('.modules .activation').click(async ev => {
+      const target = $(ev.currentTarget);
+      const module = target.data("module");
+      const name = target.data("name");
+      const cout = eval(target.data("cout"));
+
+      const depense = await this._depensePE(name, cout);
+
+      if(!depense) return;
+
+      this.actor.items.get(module).update({[`system.active.base`]:true});
+    });
+
+    html.find('.modules .desactivation').click(async ev => {
+      const target = $(ev.currentTarget);
+      const module = target.data("module");
+
+      this.actor.items.get(module).update({[`system.active.base`]:false});
+    });
 
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
@@ -137,7 +158,7 @@ export class VehiculeSheet extends ActorSheet {
       const data = this.getData().data.system;
       const oldPassager = data.equipage.passagers;
       oldPassager.splice(id,1);
-      
+
       this.actor.update({[`system.equipage.passagers`]:oldPassager});
     });
 
@@ -145,7 +166,7 @@ export class VehiculeSheet extends ActorSheet {
       const target = $(ev.currentTarget).parents(".value");
       const id = target.data("id");
       const data = this.getData().data.system;
-      
+
       this.actor.update({[`system.equipage.pilote`]:{
         name:'',
         id:''
@@ -200,7 +221,7 @@ export class VehiculeSheet extends ActorSheet {
         this._rollDicePNJ(label, actorId, '', false, false, '' , '', '', -1, manoeuvrabilite);
       } else if(actor.type === 'knight') {
         this._rollDicePJ(label, actorId, '', false, false, '', '', '', -1, manoeuvrabilite)
-      }      
+      }
     });
 
     html.find('.jetWpn').click(ev => {
@@ -345,7 +366,7 @@ export class VehiculeSheet extends ActorSheet {
       });
 
       this.actor.update(update);
-    } 
+    }
   }
 
   async _onDropItemCreate(itemData) {
@@ -353,10 +374,10 @@ export class VehiculeSheet extends ActorSheet {
     const itemBaseType = itemData[0].type;
     const armeType = itemData[0].system.type;
 
-    if((itemBaseType === 'arme' && armeType === 'contact') || itemBaseType === 'module' || itemBaseType === 'capacite' ||
-    itemBaseType === 'armure' || itemBaseType === 'avantage' || 
-    itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' || 
-    itemBaseType === 'contact' || itemBaseType === 'blessure' || 
+    if((itemBaseType === 'arme' && armeType === 'contact') || itemBaseType === 'capacite' ||
+    itemBaseType === 'armure' || itemBaseType === 'avantage' ||
+    itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' ||
+    itemBaseType === 'contact' || itemBaseType === 'blessure' ||
     itemBaseType === 'trauma' || itemBaseType === 'armurelegende' ||
     itemBaseType === 'effet') return;
 
@@ -369,21 +390,66 @@ export class VehiculeSheet extends ActorSheet {
     const actorData = sheetData.actor;
 
     const armesDistance = [];
+    const module = [];
     let reaction = {
       bonus:{
-        armes:0
+        armes:0,
+        modules:0
       },
       malus:{
-        armes:0
+        armes:0,
+        modules:0
       }
     };
     let defense = {
       bonus:{
-        armes:0
+        armes:0,
+        modules:0
       },
       malus:{
-        armes:0
+        armes:0,
+        modules:0
       }
+    };
+    let armure = {
+      bonus:{
+        modules:[0]
+      },
+      malus:{
+        modules:[0]
+      }
+    };
+    let energie = {
+      bonus:{
+        modules:[0]
+      },
+      malus:{
+        modules:[0]
+      }
+    };
+    let champDeForce = {
+      bonus:{
+        modules:[0]
+      },
+      malus:{
+        modules:[0]
+      }
+    };
+    const moduleBonusDgts = {
+      "contact":[],
+      "distance":[]
+    };
+    const moduleBonusDgtsVariable = {
+      "contact":[],
+      "distance":[]
+    };
+    const moduleBonusViolence = {
+      "contact":[],
+      "distance":[]
+    };
+    const moduleBonusViolenceVariable = {
+      "contact":[],
+      "distance":[]
     };
 
     for (let i of sheetData.items) {
@@ -412,22 +478,162 @@ export class VehiculeSheet extends ActorSheet {
 
         armesDistance.push(i);
       }
+
+      // MODULE
+      if (i.type === 'module') {
+        const itemBonus = data.bonus;
+        const itemArme = data.arme;
+        const itemActive = data?.active?.base || false;
+
+        if(data.permanent || itemActive) {
+          if(itemBonus.has) {
+            const iBArmure = itemBonus.armure;
+            const iBCDF = itemBonus.champDeForce;
+            const iBEnergie = itemBonus.energie;
+            const iBDgts = itemBonus.degats;
+            const iBDgtsVariable = iBDgts.variable;
+            const iBViolence = itemBonus.violence;
+            const iBViolenceVariable = iBViolence.variable;
+
+            if(iBArmure.has) { armure.bonus.modules.push(iBArmure.value); }
+            if(iBCDF.has) { champDeForce.bonus.modules.push(iBCDF.value); }
+            if(iBEnergie.has) { energie.bonus.modules.push(iBEnergie.value); }
+            if(iBDgts.has) {
+              if(iBDgtsVariable.has) {
+                moduleBonusDgtsVariable[iBDgts.type].push({
+                  label:i.name,
+                  description:i.system.description,
+                  selected:{
+                    dice:0,
+                    fixe:0
+                  },
+                  min:{
+                    dice:iBDgtsVariable.min.dice,
+                    fixe:iBDgtsVariable.min.fixe
+                  },
+                  max:{
+                    dice:iBDgtsVariable.max.dice,
+                    fixe:iBDgtsVariable.max.fixe
+                  }
+                });
+              } else {
+                moduleBonusDgts[iBDgts.type].push({
+                  label:i.name,
+                  description:i.system.description,
+                  dice:iBDgts.dice,
+                  fixe:iBDgts.fixe
+                });
+              }
+            }
+            if(iBViolence.has) {
+              if(iBViolenceVariable.has) {
+                moduleBonusViolenceVariable[iBViolence.type].push({
+                  label:i.name,
+                  description:i.system.description,
+                  selected:{
+                    dice:0,
+                    fixe:0
+                  },
+                  min:{
+                    dice:iBViolenceVariable.min.dice,
+                    fixe:iBViolenceVariable.min.fixe
+                  },
+                  max:{
+                    dice:iBViolenceVariable.max.dice,
+                    fixe:iBViolenceVariable.max.fixe
+                  }
+                });
+              } else {
+                moduleBonusViolence[iBViolence.type].push({
+                  label:i.name,
+                  description:i.system.description,
+                  dice:iBViolence.dice,
+                  fixe:iBViolence.fixe
+                });
+              }
+            }
+          }
+
+          if(itemArme.has) {
+            const moduleEffets = itemArme.effets;
+            const moiduleEffetsRaw = moduleEffets.raw.concat(armorSpecialRaw);
+            const moduleEffetsCustom = moduleEffets.custom.concat(armorSpecialCustom) || [];
+            const moduleEffetsFinal = {
+              raw:[...new Set(moiduleEffetsRaw)],
+              custom:moduleEffetsCustom,
+              liste:moduleEffets.liste
+            };
+
+            const moduleWpn = {
+              _id:i._id,
+              name:i.name,
+              type:'module',
+              system:{
+                noRack:true,
+                type:itemArme.type,
+                portee:itemArme.portee,
+                degats:itemArme.degats,
+                violence:itemArme.violence,
+                effets:moduleEffetsFinal
+              }
+            }
+
+            const bDefense = moduleEffetsFinal.raw.find(str => { if(str.includes('defense')) return str; });
+            const bReaction = moduleEffetsFinal.raw.find(str => { if(str.includes('reaction')) return str; });
+
+            if(bDefense !== undefined) defense.bonus.modules += +bDefense.split(' ')[1];
+            if(bReaction !== undefined) reaction.bonus.modules += +bReaction.split(' ')[1];
+
+            if(itemArme.type === 'distance') {
+              armesDistance.push(moduleWpn);
+            }
+          }
+        }
+
+        module.push(i);
+      }
     }
 
     armesDistance.sort(SortByName);
 
+    for(let i = 0;i < armesDistance.length;i++) {
+      armesDistance[i].system.degats.module = {};
+      armesDistance[i].system.degats.module.fixe = moduleBonusDgts.distance;
+      armesDistance[i].system.degats.module.variable = moduleBonusDgtsVariable.distance;
+
+      armesDistance[i].system.violence.module = {};
+      armesDistance[i].system.violence.module.fixe = moduleBonusViolence.distance;
+      armesDistance[i].system.violence.module.variable = moduleBonusViolenceVariable.distance;
+    }
+
     actorData.armesDistance = armesDistance;
+    actorData.modules = module;
 
     const update = {
       system:{
         reaction:{
-          bonus:reaction.bonus.armes,
-          malus:reaction.malus.armes
+          bonus:reaction.bonus.armes+reaction.bonus.modules,
+          malus:reaction.malus.armes+reaction.malus.modules
         },
         defense:{
-          bonus:defense.bonus.armes,
-          malus:defense.malus.armes
-        }
+          bonus:defense.bonus.armes+defense.bonus.modules,
+          malus:defense.malus.armes+defense.malus.modules
+        },
+        armure:{
+          bonus:{
+            modules:armure.bonus.modules.reduce(sum)
+          }
+        },
+        champDeForce:{
+          bonus:{
+            modules:champDeForce.bonus.modules.reduce(sum)
+          }
+        },
+        energie:{
+          bonus:{
+            modules:energie.bonus.modules.reduce(sum)
+          }
+        },
       }
     };
 
@@ -463,7 +669,7 @@ export class VehiculeSheet extends ActorSheet {
         }
       }
     });
-    
+
     return result;
   }
 
@@ -482,8 +688,56 @@ export class VehiculeSheet extends ActorSheet {
         }
       }
     });
-    
+
     return result;
+  }
+
+  async _depensePE(label, depense, autosubstract=true) {
+    const data = this.getData();
+    const actuel = +data.systemData.energie.value;
+    const substract = actuel-depense;
+
+    if(substract < 0) {
+      const lNot = game.i18n.localize('KNIGHT.JETS.Notenergie');
+
+      const msgEnergie = {
+        flavor:`${label}`,
+        main:{
+          total:`${lNot}`
+        }
+      };
+
+      const msgEnergieData = {
+        user: game.user.id,
+        speaker: {
+          actor: this.actor?.id || null,
+          token: this.actor?.token?.id || null,
+          alias: this.actor?.name || null,
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgEnergie),
+        sound: CONFIG.sounds.dice
+      };
+
+      ChatMessage.create(msgEnergieData);
+
+      return false;
+    } else {
+
+      if(autosubstract) {
+        let update = {
+          system:{
+            energie:{
+              value:substract
+            }
+          }
+        }
+
+        this.actor.update(update);
+      }
+
+      return true;
+    }
   }
 
   async _rollDicePNJ(label, actorId, aspect = '', difficulte = false, isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, desBonus=0) {
@@ -503,14 +757,14 @@ export class VehiculeSheet extends ActorSheet {
     await rollApp.setAspects(actor.system.aspects);
     await rollApp.setEffets(hasBarrage, false, false, false);
     await rollApp.setData(label, select, [], [], difficulte,
-      data.combat.data.modificateur, data.combat.data.succesbonus+desBonus, 
+      data.combat.data.modificateur, data.combat.data.succesbonus+desBonus,
       {dice:0, fixe:0},
       {dice:0, fixe:0},
       [], armesDistance, [], [], {contact:{}, distance:{}}, [], [],
       isWpn, idWpn, nameWpn, typeWpn, num,
       deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, false, false, false,
       true, false);
-      
+
     rollApp.render(true);
   }
 
@@ -531,10 +785,10 @@ export class VehiculeSheet extends ActorSheet {
     const armesDistance = isWpn ? this.actor.armesDistance : {};
 
     await rollApp.setData(label, caracteristique, [], [], difficulte,
-      data.combat.data.modificateur, data.combat.data.succesbonus+desBonus, 
+      data.combat.data.modificateur, data.combat.data.succesbonus+desBonus,
       {dice:0, fixe:0},
       {dice:0, fixe:0},
-      {}, armesDistance, {}, {}, {contact:{}, distance:{}}, [], [], 
+      {}, armesDistance, {}, {}, {contact:{}, distance:{}}, [], [],
       isWpn, idWpn, nameWpn, typeWpn, num,
       deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, deployGrenades, deployLongbow, false,
       false, false);

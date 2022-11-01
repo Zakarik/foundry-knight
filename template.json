@@ -1436,15 +1436,23 @@
       "passagers":0,
       "champDeForce":{
         "value":0,
-        "max":0
+        "base":0,
+        "bonus":{},
+        "malus":{}
       },
       "energie":{
         "value":0,
-        "max":0
+        "max":0,
+        "base":0,
+        "bonus":{},
+        "malus":{}
       },
       "armure":{
         "value":0,
-        "max":0
+        "max":0,
+        "base":0,
+        "bonus":{},
+        "malus":{}
       },
       "initiative":{
         "dice":3,

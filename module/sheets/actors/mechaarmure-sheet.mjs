@@ -1,4 +1,4 @@
-import { 
+import {
   getEffets,
   getAspectValue,
   getAEValue,
@@ -36,7 +36,7 @@ export class MechaArmureSheet extends ActorSheet {
     this._prepareEffetsModules(context);
 
     context.systemData = context.data.system;
-    
+
     return context;
   }
 
@@ -79,7 +79,7 @@ export class MechaArmureSheet extends ActorSheet {
       const option = $(ev.currentTarget).data("option");
       const actuel = this.getData().data.system[option]?.optionDeploy || false;
 
-      let result = false;      
+      let result = false;
       if(actuel) {
         result = false;
       } else {
@@ -152,11 +152,11 @@ export class MechaArmureSheet extends ActorSheet {
       $(ev.currentTarget).children('img').attr("src", "systems/knight/assets/icons/D6Black.svg");
     });
 
-    html.find('.pilote-delete').click(ev => {      
+    html.find('.pilote-delete').click(ev => {
       this.actor.update({[`system.pilote`]:0});
     });
 
-    html.find('.ajouterModule').click(ev => {    
+    html.find('.ajouterModule').click(ev => {
       const target = $(ev.currentTarget);
       const type = target.data("type");
       const data = this.getData().data.system;
@@ -165,16 +165,16 @@ export class MechaArmureSheet extends ActorSheet {
 
       modules['key'] = value;
       modules['type'] = type;
-      
+
       this.actor.update({[`system.modules.actuel.${type}`]:''});
       this.actor.update({[`system.configurations.liste.${type}.modules.${value}`]:modules});
     });
 
-    html.find('.supprimerModule').click(ev => {    
+    html.find('.supprimerModule').click(ev => {
       const target = $(ev.currentTarget);
       const type = target.data("type");
       const value = target.data("value");
-      
+
       this.actor.update({[`system.configurations.liste.${type}.modules.-=${value}`]:null});
     });
 
@@ -258,9 +258,9 @@ export class MechaArmureSheet extends ActorSheet {
           content: await renderTemplate('systems/knight/templates/dices/wpn.html', msg),
           sound: CONFIG.sounds.dice
         };
-    
+
         ChatMessage.create(msgData);
-      }      
+      }
     });
 
     html.find('div.combat .attaque').click(ev => {
@@ -313,7 +313,7 @@ export class MechaArmureSheet extends ActorSheet {
                 formula: rNoe._formula
               }
             };
-      
+
             const msgNoeData = {
               user: game.user.id,
               speaker: {
@@ -325,7 +325,7 @@ export class MechaArmureSheet extends ActorSheet {
               content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgNoe),
               sound: CONFIG.sounds.dice
             };
-        
+
             ChatMessage.create(msgNoeData);
           } else {
             newEnergie = await this._depenseNE(+data.noyaux, `${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`);
@@ -339,7 +339,7 @@ export class MechaArmureSheet extends ActorSheet {
 
           if(!newEnergie) return
           break;
-        
+
         case 'chocSonique':
           newEnergie = await this._depenseNE(+data.noyaux, `${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`);
 
@@ -350,14 +350,14 @@ export class MechaArmureSheet extends ActorSheet {
           for (let [key, effet] of Object.entries(data.effets.liste)){
             chocSoniqueE.push(effet.name);
           }
-          
+
           const msgChocS = {
             flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
             main:{
               total:chocSoniqueE.join(' / ')
             }
           };
-    
+
           const msgChocSData = {
             user: game.user.id,
             speaker: {
@@ -369,10 +369,10 @@ export class MechaArmureSheet extends ActorSheet {
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgChocS),
             sound: CONFIG.sounds.dice
           };
-      
+
           ChatMessage.create(msgChocSData);
           break;
-        
+
         case 'bouclierAmrita':
           newEnergie = await this._depenseNE(+data.noyaux, `${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`);
 
@@ -380,13 +380,13 @@ export class MechaArmureSheet extends ActorSheet {
 
           this.actor.update({[`system.resilience.value`]:+getData.resilience.value + data.bonus.resilience});
           break;
-      
+
         case 'offering':
           newEnergie = await this._depenseNE(+special, `${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`);
 
           if(!newEnergie) return
           break;
-      
+
         case 'curse':
           newEnergie = await this._depenseNE(+special, `${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`);
 
@@ -479,10 +479,10 @@ export class MechaArmureSheet extends ActorSheet {
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCurse),
             sound: CONFIG.sounds.dice
           };
-      
+
           ChatMessage.create(msgBRCurseData);
           break;
-          
+
         case 'podMiracle':
           newEnergie = await this._depenseNE(+data.noyaux, `${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`);
 
@@ -529,7 +529,7 @@ export class MechaArmureSheet extends ActorSheet {
               formula: rPod._formula
             }
           };
-    
+
           const msgPodData = {
             user: game.user.id,
             speaker: {
@@ -541,10 +541,10 @@ export class MechaArmureSheet extends ActorSheet {
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgPod),
             sound: CONFIG.sounds.dice
           };
-      
+
           ChatMessage.create(msgPodData);
           break;
-        
+
         case 'podInvulnerabilite':
           newEnergie = await this._depenseNE(+data.noyaux, `${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`);
 
@@ -562,7 +562,7 @@ export class MechaArmureSheet extends ActorSheet {
               formula: rInv._formula
             }
           };
-    
+
           const msgInvData = {
             user: game.user.id,
             speaker: {
@@ -574,7 +574,7 @@ export class MechaArmureSheet extends ActorSheet {
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgInv),
             sound: CONFIG.sounds.dice
           };
-      
+
           ChatMessage.create(msgInvData);
           break;
 
@@ -659,7 +659,7 @@ export class MechaArmureSheet extends ActorSheet {
           if(!newEnergie) return;
           break;
       }
-      
+
     });
 
     html.find('div.combat .desactivation').click(ev => {
@@ -723,7 +723,7 @@ export class MechaArmureSheet extends ActorSheet {
           }});
           break;
 
-        
+
           break;
       }
     });
@@ -772,7 +772,7 @@ export class MechaArmureSheet extends ActorSheet {
       const cout = target?.data("cout") || false;
       const getData = this.getData();
 
-      
+
       if(cout !== false) {
         const tCout = eval(cout);
 
@@ -815,7 +815,7 @@ export class MechaArmureSheet extends ActorSheet {
               formula: rInf._formula
             }
           };
-    
+
           const msgInfData = {
             user: game.user.id,
             speaker: {
@@ -827,7 +827,7 @@ export class MechaArmureSheet extends ActorSheet {
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgInf),
             sound: CONFIG.sounds.dice
           };
-      
+
           ChatMessage.create(msgInfData);
           break;
       }
@@ -886,7 +886,7 @@ export class MechaArmureSheet extends ActorSheet {
               formula: rInf._formula
             }
           };
-    
+
           const msgInfData = {
             user: game.user.id,
             speaker: {
@@ -898,7 +898,7 @@ export class MechaArmureSheet extends ActorSheet {
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgInf),
             sound: CONFIG.sounds.dice
           };
-      
+
           ChatMessage.create(msgInfData);
           break;
       }
@@ -915,7 +915,7 @@ export class MechaArmureSheet extends ActorSheet {
       let result = type;
 
       if(data === type) result = "";
-      
+
       this.actor.update({['system.configurations.actuel']:result});
     });
 
@@ -927,7 +927,7 @@ export class MechaArmureSheet extends ActorSheet {
 
     html.find('div.styleCombat > span.info').click(ev => {
       const actuel = this.getData().data.system.combat?.styleDeploy || false;
-      
+
       let result = false;
 
       if(actuel) {
@@ -960,7 +960,7 @@ export class MechaArmureSheet extends ActorSheet {
             },
             malus:{
               other:mods.malus.reaction
-            }            
+            }
           },
           defense: {
             bonus:{
@@ -968,7 +968,7 @@ export class MechaArmureSheet extends ActorSheet {
             },
             malus:{
               other:mods.malus.defense
-            }            
+            }
           },
           combat:{
             data:{
@@ -1133,10 +1133,10 @@ export class MechaArmureSheet extends ActorSheet {
     const itemBaseType = itemData[0].type;
     const options = actorData.options;
 
-    if((itemBaseType === 'module' && !options.modules) || 
-    itemBaseType === 'armure' || itemBaseType === 'avantage' || 
-    itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' || 
-    itemBaseType === 'contact' || itemBaseType === 'blessure' || 
+    if((itemBaseType === 'module' && !options.modules) ||
+    itemBaseType === 'armure' || itemBaseType === 'avantage' ||
+    itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' ||
+    itemBaseType === 'contact' || itemBaseType === 'blessure' ||
     itemBaseType === 'trauma' || itemBaseType === 'armurelegende' || itemBaseType === 'arme' ||
     itemBaseType === 'effet') return;
 
@@ -1190,8 +1190,10 @@ export class MechaArmureSheet extends ActorSheet {
     let moduleWraith = false;
 
     if(piloteId !== 0) {
-      const piloteData = game.actors.get(piloteId);
-      const piloteSystem = piloteData.system;
+      const piloteData = game.actors?.get(piloteId) || false;
+
+      if(piloteData !== false) {
+        const piloteSystem = piloteData.system;
 
       pilote.name = piloteData.name;
       pilote.surnom = piloteSystem.surnom;
@@ -1200,43 +1202,46 @@ export class MechaArmureSheet extends ActorSheet {
       const dataRD = ['reaction', 'defense'];
 
       for(let i = 0;i < dataRD.length;i++) {
-        const isKraken = piloteSystem.options.kraken;
-        const dataBonus = piloteSystem[dataRD[i]].bonus;
-        const dataMalus = piloteSystem[dataRD[i]].malus;
-        const dataMABonus = system[dataRD[i]].bonus;
-        const dataMAMalus = system[dataRD[i]].malus;
-        const base = piloteSystem[dataRD[i]].base;
+          const isKraken = piloteSystem.options.kraken;
+          const dataBonus = piloteSystem[dataRD[i]].bonus;
+          const dataMalus = piloteSystem[dataRD[i]].malus;
+          const dataMABonus = system[dataRD[i]].bonus;
+          const dataMAMalus = system[dataRD[i]].malus;
+          const base = piloteSystem[dataRD[i]].base;
 
-        let bonus = isKraken ? 1 : 0;
-        let malus = 0;
+          let bonus = isKraken ? 1 : 0;
+          let malus = 0;
 
-        for(const bonusList in dataBonus) {
-          if(bonusList === 'user') bonus += dataBonus[bonusList];
+          for(const bonusList in dataBonus) {
+            if(bonusList === 'user') bonus += dataBonus[bonusList];
+          }
+
+          for(const malusList in dataMalus) {
+            if(malusList === 'user') malus += dataMalus[malusList];
+          }
+
+          for(const bonusList in dataMABonus) {
+            bonus += dataMABonus[bonusList];
+          }
+
+          for(const malusList in dataMAMalus) {
+            malus += dataMAMalus[malusList];
+          }
+
+          if(dataRD[i] === 'defense') {
+            const ODAura = +piloteSystem.aspects.aspectscts?.dame?.caracteristiques?.aura?.overdrive?.value || 0;
+
+            if(ODAura >= 5) bonus += +piloteSystem.aspects.dame.caracteristiques.aura.value;
+          }
+
+          system[dataRD[i]].value = base+bonus-malus;
         }
-  
-        for(const malusList in dataMalus) {
-          if(malusList === 'user') malus += dataMalus[malusList];
-        }
 
-        for(const bonusList in dataMABonus) {
-          bonus += dataMABonus[bonusList];
-        }
-  
-        for(const malusList in dataMAMalus) {
-          malus += dataMAMalus[malusList];
-        }
-
-        if(dataRD[i] === 'defense') {
-          const ODAura = +piloteSystem.aspects.aspectscts?.dame?.caracteristiques?.aura?.overdrive?.value || 0;
-
-          if(ODAura >= 5) bonus += +piloteSystem.aspects.dame.caracteristiques.aura.value;
-        }
-
-        system[dataRD[i]].value = base+bonus-malus;
+        system.initiative.dice = piloteSystem.initiative.dice;
+        system.initiative.value = piloteSystem.initiative.value;
       }
 
-      system.initiative.dice = piloteSystem.initiative.dice;
-      system.initiative.value = piloteSystem.initiative.value;
+
     }
 
     const listWpn = ['canonMetatron', 'canonMagma', 'mitrailleusesSurtur', 'souffleDemoniaque', 'poingsSoniques'];
@@ -1287,7 +1292,7 @@ export class MechaArmureSheet extends ActorSheet {
 
         if(listWpn.includes(name)) {
           let noyaux = 0;
-          
+
           switch(name) {
             case 'canonMagma':
               noyaux = +data.noyaux.simple;
@@ -1334,7 +1339,7 @@ export class MechaArmureSheet extends ActorSheet {
     }
 
     modules.sort();
-    
+
     actorData.modules = modules;
     actorData.wpn = wpn;
     actorData.wpnSpecial = wpnSpecial;
@@ -1432,7 +1437,7 @@ export class MechaArmureSheet extends ActorSheet {
 
             effets1.push({
               raw:baseE1.raw[n],
-              name:complet, 
+              name:complet,
               description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
             });
           }
@@ -1447,7 +1452,7 @@ export class MechaArmureSheet extends ActorSheet {
 
             effets2.push({
               raw:baseE2.raw[n],
-              name:complet, 
+              name:complet,
               description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
             });
           }
@@ -1479,7 +1484,7 @@ export class MechaArmureSheet extends ActorSheet {
 
             effets1.push({
               raw:baseE1.raw[n],
-              name:complet, 
+              name:complet,
               description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
             });
           }
@@ -1494,7 +1499,7 @@ export class MechaArmureSheet extends ActorSheet {
 
             effets2.push({
               raw:baseE2.raw[n],
-              name:complet, 
+              name:complet,
               description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
             });
           }
@@ -1526,7 +1531,7 @@ export class MechaArmureSheet extends ActorSheet {
 
             effets1.push({
               raw:baseE1.raw[n],
-              name:complet, 
+              name:complet,
               description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
             });
           }
@@ -1541,7 +1546,7 @@ export class MechaArmureSheet extends ActorSheet {
 
             effets2.push({
               raw:baseE2.raw[n],
-              name:complet, 
+              name:complet,
               description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
             });
           }
@@ -1607,11 +1612,11 @@ export class MechaArmureSheet extends ActorSheet {
         }
       }
     });
-    
+
     return result;
   }
 
-  async _rollDice(label, isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, caracs='', toAdd=[], reussitesBonus=0, resetModificateur=0) {   
+  async _rollDice(label, isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, caracs='', toAdd=[], reussitesBonus=0, resetModificateur=0) {
     const data = this.getData();
     const rollApp = this._getKnightRoll();
     const deployWpnImproviseesDistance = typeWpn === 'armesimprovisees' && idWpn === 'distance' ? true : false;
@@ -1626,7 +1631,7 @@ export class MechaArmureSheet extends ActorSheet {
     if(caracs === '') { bonus.shift(); }
 
     await rollApp.setData(label, base, bonus, [], false,
-      modificateur, data.data.system.combat.data.succesbonus+reussitesBonus, 
+      modificateur, data.data.system.combat.data.succesbonus+reussitesBonus,
       {dice:data.data.system.combat.data.degatsbonus.dice, fixe:data.data.system.combat.data.degatsbonus.fixe},
       {dice:data.data.system.combat.data.violencebonus.dice, fixe:data.data.system.combat.data.violencebonus.fixe},
       [], [], [], [], {contact:data.systemData.combat.armesimprovisees.liste, distance:data.systemData.combat.armesimprovisees.liste}, data.actor.wpn, [],
@@ -1647,17 +1652,17 @@ export class MechaArmureSheet extends ActorSheet {
     await rollApp.setActor(this.actor.id);
     await rollApp.setAspects(aspects);
     await rollApp.setWraith(data.actor.moduleWraith);
-      
+
     rollApp.render(true);
   }
 
   async _doDgts(label, dataWpn, listAllEffets, regularite=0, addNum='', tenebricide) {
     const actor = this.actor;
-   
+
     //DEGATS
     const bourreau = listAllEffets.bourreau;
     const bourreauValue = listAllEffets.bourreauValue;
-    
+
     const dgtsDice = dataWpn?.dice || 0;
     const dgtsFixe = dataWpn?.fixe || 0;
 
@@ -1719,7 +1724,7 @@ export class MechaArmureSheet extends ActorSheet {
       content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegats),
       sound: CONFIG.sounds.dice
     };
-    
+
     ChatMessage.create(dgtsMsgData);
   }
 
@@ -1747,12 +1752,12 @@ export class MechaArmureSheet extends ActorSheet {
     const execViolence = new game.knight.RollKnight(`${totalViolence}`, actor.system);
     execViolence._success = false;
     execViolence._hasMin = devastation ? true : false;
-    
+
     if(devastation) {
       execViolence._seuil = devastationValue;
       execViolence._min = 5;
     }
-    
+
     await execViolence.evaluate(listAllEffets.violence.minMax);
 
     let sub = listAllEffets.violence.list;
@@ -1811,7 +1816,7 @@ export class MechaArmureSheet extends ActorSheet {
     const lEffetViolence = listEffets.violence;
     const lEffetOther = listEffets.other;
 
-    // ATTAQUE    
+    // ATTAQUE
     const attackDice = lEffetAttack.totalDice;
     const attackBonus = lEffetAttack.totalBonus;
     const attackInclude = lEffetAttack.include;
@@ -1914,7 +1919,7 @@ export class MechaArmureSheet extends ActorSheet {
         content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgEnergie),
         sound: CONFIG.sounds.dice
       };
-  
+
       ChatMessage.create(msgEnergieData);
 
       return false;
