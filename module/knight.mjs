@@ -2,7 +2,6 @@
 import { KnightActor } from "./documents/actor.mjs";
 import { KnightItem } from "./documents/item.mjs";
 import { RollKnight } from "./documents/roll.mjs";
-import { RollTableKnight } from "./documents/rollTable.mjs";
 
 // Import sheet classes.
 import { KnightSheet } from "./sheets/actors/knight-sheet.mjs";
