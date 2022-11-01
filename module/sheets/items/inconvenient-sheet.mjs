@@ -48,7 +48,7 @@ export class InconvenientSheet extends ItemSheet {
       }
 
       const update = {
-        data: {
+        system: {
           malus: {
             initiative: {
               ifEmbuscade: {
