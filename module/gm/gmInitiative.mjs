@@ -33,36 +33,39 @@
         }
         this.position.width = "auto";
         this.position.height = "auto";
-        
+
         const pj = {};
         const pnj = {};
         const hasScene = game?.scenes?.viewed?.tokens || false;
 
         if(hasScene !== false) {
             for (const actor of game.scenes.viewed.tokens) {
-                const actorData = game.actors.get(actor.actorId);
-                const hasEmbuscadeSubi = actorData.system.options?.embuscadeSubis || false;
-                const hasEmbuscadePris = actorData.system.options?.embuscadePris || false;
-                let selectedSubi = '';
-                let selectedPris = '';
+                const actorData = game.actors?.get(actor.actorId) || false;
 
-                if(hasEmbuscadeSubi) selectedSubi = 'selected';
-                if(hasEmbuscadePris) selectedPris = 'selected';
+                if(actorData !== false) {
+                    const hasEmbuscadeSubi = actorData.system.options?.embuscadeSubis || false;
+                    const hasEmbuscadePris = actorData.system.options?.embuscadePris || false;
+                    let selectedSubi = '';
+                    let selectedPris = '';
 
-                if(actorData.type === 'knight') {
-                    pj[actor.actorId] = {
-                        name:actorData.name,
-                        selectedSubi:selectedSubi,
-                        selectedPris:selectedPris
-                    };
-                }
+                    if(hasEmbuscadeSubi) selectedSubi = 'selected';
+                    if(hasEmbuscadePris) selectedPris = 'selected';
 
-                if(actorData.type === 'pnj' || actorData.type === 'creature') {
-                    pnj[actor.actorId] = {
-                        name:actorData.name,
-                        selectedSubi:selectedSubi,
-                        selectedPris:selectedPris
-                    };
+                    if(actorData.type === 'knight') {
+                        pj[actor.actorId] = {
+                            name:actorData.name,
+                            selectedSubi:selectedSubi,
+                            selectedPris:selectedPris
+                        };
+                    }
+
+                    if(actorData.type === 'pnj' || actorData.type === 'creature') {
+                        pnj[actor.actorId] = {
+                            name:actorData.name,
+                            selectedSubi:selectedSubi,
+                            selectedPris:selectedPris
+                        };
+                    }
                 }
             }
         }

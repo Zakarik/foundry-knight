@@ -1,4 +1,5 @@
 <div class="dice-roll knight-roll">
+    {{log this}}
     {{#if flavor}}
     <div class="dice-flavor flavor-wpn">{{flavor}}</div>
     {{/if}}
@@ -52,7 +53,7 @@
                 <span title="{{key.desc}}">{{key.name}}</span>
             {{/each}}
         </div>
-        
+
     </div>
     {{#each this.sub as | key sub|}}
         <div class="dice-result subResult">
@@ -62,7 +63,7 @@
                     <span class="result">{{key.total}}</span>
                 </div>
                 <span class="description">{{{getEffetsDescription key.desc}}}</span>
-            </div>            
+            </div>
             {{{key.tooltip}}}
         </div>
     {{/each}}

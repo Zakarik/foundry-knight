@@ -4950,6 +4950,7 @@ export class KnightSheet extends ActorSheet {
     const armorSpecial = getSpecial(this.actor);
     const armorSpecialRaw = armorSpecial?.raw || [];
     const armorSpecialCustom = armorSpecial?.custom || [];
+    const depenseXP = system.progression.experience.depense.liste;
 
     const avantage = [];
     const inconvenient = [];
@@ -6547,6 +6548,70 @@ export class KnightSheet extends ActorSheet {
     contact.sort(SortByName);
     depensePG.sort(SortByAddOrder)
 
+    for (let [key, XP] of Object.entries(depenseXP)){
+
+      if(XP.nom === undefined) return;
+
+      let aspect = '';
+
+      switch(XP.nom) {
+        case 'chair':
+        case 'deplacement':
+        case 'force':
+        case 'endurance':
+          aspect = 'chair';
+          break;
+
+        case 'bete':
+        case 'hargne':
+        case 'combat':
+        case 'instinct':
+          aspect = 'bete';
+          break;
+
+        case 'machine':
+        case 'tir':
+        case 'savoir':
+        case 'technique':
+          aspect = 'machine';
+          break;
+
+        case 'dame':
+        case 'aura':
+        case 'parole':
+        case 'sangFroid':
+          aspect = 'dame';
+          break;
+
+        case 'masque':
+        case 'discretion':
+        case 'dexterite':
+        case 'perception':
+          aspect = 'masque';
+          break;
+      }
+
+      const aspectExist = aspectsUpdate?.[aspect] || false;
+
+      if(!aspectExist) aspectsUpdate[aspect] = {};
+
+      if(XP.nom !== 'chair' && XP.nom !== 'dame' && XP.nom !== 'machine' && XP.nom !== 'bete' && XP.nom !== 'masque') {
+        const CLExist = aspectsUpdate?.[aspect]?.caracteristiques || false;
+        const CExist = aspectsUpdate?.[aspect]?.caracteristiques?.[XP.nom] || false;
+        const CBExist = aspectsUpdate?.[aspect]?.caracteristiques?.[XP.nom]?.bonus || false;
+
+        if(!CLExist) aspectsUpdate[aspect].caracteristiques = {};
+        if(!CExist) aspectsUpdate[aspect].caracteristiques[XP.nom] = {};
+        if(!CBExist) aspectsUpdate[aspect].caracteristiques[XP.nom].bonus = [];
+
+        aspectsUpdate[aspect].caracteristiques[XP.nom].bonus.push(XP.bonus);
+      } else if(XP.nom === 'chair' || XP.nom === 'dame' || XP.nom === 'machine' || XP.nom === 'bete' || XP.nom === 'masque') {
+        const ABExist = aspectsUpdate?.[aspect]?.bonus || false;
+
+        if(!ABExist) aspectsUpdate[aspect].bonus = [];
+      }
+    }
+
     for(let i = 0;i < armesContactEquipee.length;i++) {
       armesContactEquipee[i].system.degats.module = {};
       armesContactEquipee[i].system.degats.module.fixe = moduleBonusDgts.contact;
@@ -6577,15 +6642,19 @@ export class KnightSheet extends ActorSheet {
 
     for (let [keyA, aspect] of Object.entries(aspectsUpdate)) {
       const caracteristiquesExist = aspect?.caracteristiques || false;
+      const aspectsBonus = aspect?.bonus || false;
       const aspectsMalus = aspect?.malus || false;
 
       if(aspectsMalus !== false) aspects[keyA].malus = aspectsMalus.reduce(sum);
+      if(aspectsBonus !== false) aspects[keyA].bonus = aspectsBonus.reduce(sum);
 
       if(caracteristiquesExist !== false) {
         for (let [keyC, carac] of Object.entries(aspect.caracteristiques)) {
           const cBonus = carac?.bonus || false;
           const cMalus = carac?.malus || false;
           const OD = carac?.overdrive || false;
+
+          console.log(carac, aspect)
 
           if(cBonus !== false) aspects[keyA].caracteristiques[keyC].bonus = cBonus.reduce(sum);
           if(cMalus !== false) aspects[keyA].caracteristiques[keyC].malus = cMalus.reduce(sum);

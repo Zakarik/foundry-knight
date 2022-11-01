@@ -2,7 +2,7 @@
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "1.4.8";
+    static NEEDED_VERSION = "1.5.3";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -208,6 +208,30 @@ Applique les modifications par la mise à jour au Monde.
                 }
 
                 item.update(updateItem);
+            }
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("1.5.3")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            // MISE A JOUR DES ITEMS PORTES
+            if(actor.type === 'vehicule') {
+                update["system.armure.base"] = system.armure.max;
+                update["system.armure.bonus"] = {};
+                update["system.armure.malus"] = {};
+
+                update["system.energie.base"] = system.energie.max;
+                update["system.energie.bonus"] = {};
+                update["system.energie.malus"] = {};
+
+                update["system.champDeForce.base"] = system.champDeForce.value;
+                update["system.champDeForce.bonus"] = {};
+                update["system.champDeForce.malus"] = {};
+
+                actor.update(update);
             }
         }
     }
