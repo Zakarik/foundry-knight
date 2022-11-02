@@ -6609,6 +6609,8 @@ export class KnightSheet extends ActorSheet {
         const ABExist = aspectsUpdate?.[aspect]?.bonus || false;
 
         if(!ABExist) aspectsUpdate[aspect].bonus = [];
+
+        aspectsUpdate[aspect].bonus.push(XP.bonus);
       }
     }
 
@@ -6653,8 +6655,6 @@ export class KnightSheet extends ActorSheet {
           const cBonus = carac?.bonus || false;
           const cMalus = carac?.malus || false;
           const OD = carac?.overdrive || false;
-
-          console.log(aspectsUpdate, keyA, keyC, aspect, carac)
 
           if(cBonus !== false) aspects[keyA].caracteristiques[keyC].bonus = cBonus.reduce(sum);
           if(cMalus !== false) aspects[keyA].caracteristiques[keyC].malus = cMalus.reduce(sum);
