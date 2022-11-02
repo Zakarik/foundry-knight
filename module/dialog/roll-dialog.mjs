@@ -1368,7 +1368,7 @@ export class KnightRollDialog extends Application {
       }
 
       // DEFENSIF
-      const protectrice = typeWpn === 'contact' ? structurellesWpn.raw.find(str => { if(str.includes('jumelle')) return true; }) : false;
+      const protectrice = typeWpn === 'contact' ? structurellesWpn.raw.find(str => { if(str.includes('protectrice')) return true; }) : false;
 
       if(style.raw === 'defensif' && protectrice) getAttackOtherDiceMod += 2;
 

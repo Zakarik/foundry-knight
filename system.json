@@ -1,7 +1,7 @@
 {
   "title": "Knight",
   "description": "Une fiche pour le JDR Knight.",
-  "version": "1.5.7",
+  "version": "1.5.8",
   "esmodules": [
     "module/knight.mjs"
   ],
@@ -20,7 +20,7 @@
   "gridUnits": "m",
   "url": "https://github.com/Zakarik/foundry-knight",
   "manifest": "https://raw.githubusercontent.com/Zakarik/foundry-knight/main/system.json",
-  "download": "https://github.com/Zakarik/foundry-knight/releases/download/v1.5.7/knight.zip",
+  "download": "https://github.com/Zakarik/foundry-knight/releases/download/v1.5.8/knight.zip",
   "id": "knight",
   "authors": [
     {

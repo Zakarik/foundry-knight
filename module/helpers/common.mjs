@@ -2246,10 +2246,12 @@ for(let i = 0;i < structurellesWpn.raw.length;i++) {
         break;
 
     case 'electrifiee':
-        const vChoc = +choc.split(' ')[1] || 0;
+        if(choc) {
+          const vChoc = +choc.split(' ')[1] || 0;
 
-        if(choc && vChoc > 1) other = true;
-        else priorAttack = true;
+          if(vChoc > 1) other = true;
+          else priorAttack = true;
+        } else priorAttack = true;
 
         sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].label)}`;
         sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].description}-short`);
