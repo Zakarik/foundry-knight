@@ -1,19 +1,19 @@
 <div class="data">
-    <h4 class="title">
+    <h4 class="title js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SHRINE.Label"}}
     </h4>
     <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
     <label class="longspan">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SHRINE.ENERGIE.Personnel"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.shrine.energie.personnel" value="{{this.energie.personnel}}" 
-        
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.shrine.energie.personnel" value="{{this.energie.personnel}}"
+
         />
     </label>
     <label class="longspan">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SHRINE.ENERGIE.Distance"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.shrine.energie.distance" value="{{this.energie.distance}}" 
-        
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.shrine.energie.distance" value="{{this.energie.distance}}"
+
         />
     </label>
     <button type="action" data-key="{{key}}" data-type="shrine" data-subtype="energie" data-name="acces6tours" data-value="{{this.energie.acces6tours}}"
@@ -21,14 +21,14 @@
     >{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SHRINE.ENERGIE.Acces6Tours"}}</button>
     <label class="longspan {{#unless this.energie.acces6tours}}hidden{{/unless}} noSeparation">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SHRINE.ENERGIE.Personnel6Tours"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.shrine.energie.personnel6tours" value="{{this.energie.personnel6tours}}" 
-        
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.shrine.energie.personnel6tours" value="{{this.energie.personnel6tours}}"
+
         />
     </label>
     <label class="longspan {{#unless this.energie.acces6tours}}hidden{{/unless}}">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SHRINE.ENERGIE.Distance6Tours"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.shrine.energie.distance6tours" value="{{this.energie.distance6tours}}" 
-        
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.shrine.energie.distance6tours" value="{{this.energie.distance6tours}}"
+
         />
     </label>
     <label class="shortspan separation">

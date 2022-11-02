@@ -8,6 +8,7 @@ import {
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
+import toggler from '../../helpers/toggler.js';
 
 /**
  * @extends {ActorSheet}
@@ -62,17 +63,7 @@ export class CreatureSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    html.find('.header .far').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square");
-      $(ev.currentTarget).toggleClass("fa-minus-square");
-      $(ev.currentTarget).parents(".header").siblings().toggle();
-    });
-
-    html.find('header .far').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square");
-      $(ev.currentTarget).toggleClass("fa-minus-square");
-      $(ev.currentTarget).parents(".summary").siblings().toggle();
-    });
+    toggler.init(this.id, html);
 
     html.find('img.dice').hover(ev => {
       $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6White.svg");
@@ -164,16 +155,6 @@ export class CreatureSheet extends ActorSheet {
 
       span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
       $(ev.currentTarget).toggleClass("clicked");
-    });
-
-    html.find('.extendButton').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square fa-minus-square");
-
-      if($(ev.currentTarget).hasClass("fa-minus-square")) {
-        $(ev.currentTarget).parents(".summary").siblings().css("display", "block");
-      } else {
-        $(ev.currentTarget).parents(".summary").siblings().css("display", "none");
-      }
     });
 
     html.find('div.bCapacite img.info').click(ev => {

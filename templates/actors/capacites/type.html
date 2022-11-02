@@ -1,6 +1,6 @@
 
 <div class="type">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-plus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.Label"}}
 
@@ -32,7 +32,7 @@
                         {{/unless}}
                     </button>
                     {{/unless}}
-                    
+
                     {{#unless this.type.soldier.conflit}}
                     <button class="
                         {{#unless this.type.soldier.horsconflit}}
@@ -98,7 +98,7 @@
                         {{/unless}}
                     </button>
                     {{/unless}}
-                    
+
                     {{#unless this.type.hunter.conflit}}
                     <button class="
                         {{#unless this.type.hunter.horsconflit}}
@@ -164,7 +164,7 @@
                         {{/unless}}
                     </button>
                     {{/unless}}
-                    
+
                     {{#unless this.type.scholar.conflit}}
                     <button class="
                         {{#unless this.type.scholar.horsconflit}}
@@ -230,7 +230,7 @@
                         {{/unless}}
                     </button>
                     {{/unless}}
-                    
+
                     {{#unless this.type.herald.conflit}}
                     <button class="
                         {{#unless this.type.herald.horsconflit}}
@@ -296,7 +296,7 @@
                         {{/unless}}
                     </button>
                     {{/unless}}
-                    
+
                     {{#unless this.type.scout.conflit}}
                     <button class="
                         {{#unless this.type.scout.horsconflit}}
@@ -345,7 +345,7 @@
                     {{else}}
                     choisi
                     {{/unless}}
-                    " data-type="capacites" data-capacite="{{this.key}}" data-special="soldier" 
+                    " data-type="capacites" data-capacite="{{this.key}}" data-special="soldier"
                     data-value="{{this.type.soldier.selectionne}}">
                     {{#unless this.type.soldier.selectionne}}
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Soldier"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
@@ -360,7 +360,7 @@
                     {{else}}
                     choisi
                     {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-special="hunter" 
+                " data-type="capacites" data-capacite="{{this.key}}" data-special="hunter"
                     data-value="{{this.type.hunter.selectionne}}">
                     {{#unless this.type.hunter.selectionne}}
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Hunter"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
@@ -375,7 +375,7 @@
                     {{else}}
                     choisi
                     {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-special="scholar" 
+                " data-type="capacites" data-capacite="{{this.key}}" data-special="scholar"
                     data-value="{{this.type.scholar.selectionne}}">
                     {{#unless this.type.scholar.selectionne}}
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scholar"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
@@ -390,7 +390,7 @@
                     {{else}}
                     choisi
                     {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-special="herald" 
+                " data-type="capacites" data-capacite="{{this.key}}" data-special="herald"
                     data-value="{{this.type.herald.selectionne}}">
                     {{#unless this.type.herald.selectionne}}
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Herald"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
@@ -405,7 +405,7 @@
                     {{else}}
                     choisi
                     {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-special="scout" 
+                " data-type="capacites" data-capacite="{{this.key}}" data-special="scout"
                     data-value="{{this.type.scout.selectionne}}">
                     {{#unless this.type.scout.selectionne}}
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scout"}} : {{localize "KNIGHT.AUTRE.Choisir"}}

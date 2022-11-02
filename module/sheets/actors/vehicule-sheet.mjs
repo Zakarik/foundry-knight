@@ -6,6 +6,7 @@ import {
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
+import toggler from '../../helpers/toggler.js';
 
 /**
  * @extends {ActorSheet}
@@ -53,17 +54,7 @@ export class VehiculeSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    html.find('.header .far').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square");
-      $(ev.currentTarget).toggleClass("fa-minus-square");
-      $(ev.currentTarget).parents(".header").siblings().toggle();
-    });
-
-    html.find('header .far').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square");
-      $(ev.currentTarget).toggleClass("fa-minus-square");
-      $(ev.currentTarget).parents(".summary").siblings().toggle();
-    });
+    toggler.init(this.id, html);
 
     html.find('img.dice').hover(ev => {
       $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6White.svg");
@@ -91,16 +82,6 @@ export class VehiculeSheet extends ActorSheet {
       };
 
       this.actor.update(update);
-    });
-
-    html.find('.extendButton').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square fa-minus-square");
-
-      if($(ev.currentTarget).hasClass("fa-minus-square")) {
-        $(ev.currentTarget).parents(".summary").siblings().css("display", "block");
-      } else {
-        $(ev.currentTarget).parents(".summary").siblings().css("display", "none");
-      }
     });
 
     // Everything below here is only needed if the sheet is editable

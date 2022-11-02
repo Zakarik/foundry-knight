@@ -2276,6 +2276,10 @@
         "2038sorcererHint": "Inclure les capacités et spéciaux la Sorcerer de 2038.",
         "2038necromancer": "Inclure la Necromancer",
         "2038necromancerHint": "Inclure les capacités et spéciaux la Necromancer de 2038."
+      },
+      "TOGGLERS": {
+        "Label": "Réinitialiser les panels pliants",
+        "Hint": "Remet les panels pliants à leur état d'origine sur toutes les fiches."
       }
     },
     "GM":{

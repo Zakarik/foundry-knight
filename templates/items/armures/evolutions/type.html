@@ -1,27 +1,27 @@
     <div class="data">
-        <h4 class="title">
+        <h4 class="title js-toggler">
             <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.Label"}}
         </h4>
         <label class="longspan">
             <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TypesPossedes"}}</span>
-            <input type="number" name="system.evolutions.liste.{{key}}.capacites.type.nbreType" 
-            value="{{this.nbreType}}" 
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.type.nbreType"
+            value="{{this.nbreType}}"
             min="0"
             />
         </label>
         <h4 class="separation">{{localize "KNIGHT.LATERAL.Energie"}}</h4>
         <label class="longspan">
             <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.ENERGIE.Tour"}}</span>
-            <input type="number" name="system.evolutions.liste.{{key}}.capacites.type.energie.tour" 
-            value="{{this.energie.tour}}" 
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.type.energie.tour"
+            value="{{this.energie.tour}}"
             min="0"
              />
         </label>
         <label class="longspan">
             <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.ENERGIE.Scene"}}</span>
-            <input type="number" name="system.evolutions.liste.{{key}}.capacites.type.energie.scene" 
-            value="{{this.energie.scene}}" 
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.type.energie.scene"
+            value="{{this.energie.scene}}"
             min="0"
              />
         </label>
@@ -39,14 +39,14 @@
         <label class="shortspan">
             <span>{{localize "KNIGHT.DUREE.Label"}}</span>
             <textarea name="system.evolutions.liste.{{key}}.capacites.type.duree"
-            data-capacite="type" data-type="duree" data-min="50" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.duree}}px;" 
+            data-capacite="type" data-type="duree" data-min="50" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.duree}}px;"
             >{{this.duree}}</textarea>
         </label>
     </div>
 
     {{#each this.type as | tKey type|}}
         <div class="data">
-            <h4 class="title">
+            <h4 class="title js-toggler">
                 <i class="far fa-minus-square"></i>
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.Label"}} : {{tKey.label}}
             </h4>
@@ -55,8 +55,8 @@
                 {{#each tKey.liste as | lKey dType|}}
                     <label class="tripleLine">
                         <span>{{lKey.label}}</span>
-                        <input type="number" name="system.evolutions.liste.{{../../key}}.capacites.type.type.{{type}}.liste.{{dType}}.value" 
-                        value="{{this.value}}" 
+                        <input type="number" name="system.evolutions.liste.{{../../key}}.capacites.type.type.{{type}}.liste.{{dType}}.value"
+                        value="{{this.value}}"
                         min="0"
                         />
                     </label>
@@ -64,4 +64,3 @@
             </div>
         </div>
     {{/each}}
-    

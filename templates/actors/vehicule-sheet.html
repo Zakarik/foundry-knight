@@ -67,7 +67,6 @@
                 </div>
             </div>
         </section>
-
         <section class="mainBlock">
             <div class="armure">
                 <div class="line">
@@ -164,7 +163,7 @@
 
                 {{#each actor.modules as | key module|}}
                 <div class="bModule">
-                    <header class="summary header" data-item-id="{{key._id}}">
+                    <header class="summary header js-toggler" data-item-id="{{key._id}}">
                         <i class="far fa-plus-square extendButton"></i>
 
                         <div class="gestionButton">
@@ -634,7 +633,7 @@
 
                         {{#each actor.armesDistance as | key arme|}}
                             <div class="wpn">
-                                <header class="summary header"  data-item-id="{{this._id}}">
+                                <header class="summary header js-toggler" data-item-id="{{this._id}}">
                                     <i class="far fa-plus-square extendButton"></i>
                                     <div class="gestionButton">
                                         <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>

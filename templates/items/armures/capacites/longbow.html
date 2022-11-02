@@ -1,6 +1,6 @@
 
 <div class="longbow">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label"}}
         <div>
@@ -26,7 +26,7 @@
                 <h4>{{localize "KNIGHT.PORTEE.Label"}}</h4>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.PORTEE.Cout"}}</span>
-                    <input type="number" name="system.capacites.selected.longbow.portee.energie" value="{{this.portee.energie}}" 
+                    <input type="number" name="system.capacites.selected.longbow.portee.energie" value="{{this.portee.energie}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
@@ -58,19 +58,19 @@
                 <h4>{{localize "KNIGHT.AUTRE.Degats"}}</h4>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.DEGATS.Cout"}}</span>
-                    <input type="number" name="system.capacites.selected.longbow.degats.energie" value="{{this.degats.energie}}" 
+                    <input type="number" name="system.capacites.selected.longbow.degats.energie" value="{{this.degats.energie}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.DEGATS.Min"}}</span>
-                    <input type="number" name="system.capacites.selected.longbow.degats.min" value="{{this.degats.min}}" 
+                    <input type="number" name="system.capacites.selected.longbow.degats.min" value="{{this.degats.min}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.DEGATS.Max"}}</span>
-                    <input type="number" name="system.capacites.selected.longbow.degats.max" value="{{this.degats.max}}" 
+                    <input type="number" name="system.capacites.selected.longbow.degats.max" value="{{this.degats.max}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
@@ -80,19 +80,19 @@
                 <h4>{{localize "KNIGHT.AUTRE.Violence"}}</h4>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.VIOLENCE.Cout"}}</span>
-                    <input type="number" name="system.capacites.selected.longbow.violence.energie" value="{{this.violence.energie}}" 
+                    <input type="number" name="system.capacites.selected.longbow.violence.energie" value="{{this.violence.energie}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.VIOLENCE.Min"}}</span>
-                    <input type="number" name="system.capacites.selected.longbow.violence.min" value="{{this.violence.min}}" 
+                    <input type="number" name="system.capacites.selected.longbow.violence.min" value="{{this.violence.min}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.VIOLENCE.Max"}}</span>
-                    <input type="number" name="system.capacites.selected.longbow.violence.max" value="{{this.violence.max}}" 
+                    <input type="number" name="system.capacites.selected.longbow.violence.max" value="{{this.violence.max}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
@@ -120,7 +120,7 @@
                 <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.Liste1"}}</h4>
                 <label class="longspan borderBottom">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.Cout"}}</span>
-                    <input type="number" name="system.capacites.selected.longbow.effets.liste1.energie" value="{{this.effets.liste1.energie}}" 
+                    <input type="number" name="system.capacites.selected.longbow.effets.liste1.energie" value="{{this.effets.liste1.energie}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
@@ -142,7 +142,7 @@
                 <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.Liste2"}}</h4>
                 <label class="longspan borderBottom">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.Cout"}}</span>
-                    <input type="number" name="system.capacites.selected.longbow.effets.liste2.energie" value="{{this.effets.liste2.energie}}" 
+                    <input type="number" name="system.capacites.selected.longbow.effets.liste2.energie" value="{{this.effets.liste2.energie}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
@@ -169,7 +169,7 @@
                 </button>
                 <label class="longspan  borderBottom {{#unless this.effets.liste3.acces}}hidden{{/unless}}">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.Cout"}}</span>
-                    <input type="number" name="system.capacites.selected.longbow.effets.liste3.energie" value="{{this.effets.liste3.energie}}" 
+                    <input type="number" name="system.capacites.selected.longbow.effets.liste3.energie" value="{{this.effets.liste3.energie}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
