@@ -1582,7 +1582,7 @@ export class KnightRollDialog extends Application {
     }
 
     // Aspects Exceptionnels
-    if(typeWpn !== 'tourelle' && isPNJ) {
+    if(typeWpn !== 'tourelle' && isPNJ && typeWpn === 'distance') {
       const bAEMajeur = +beteAE.majeur;
       const bAEMineur = +beteAE.mineur;
 
@@ -1601,8 +1601,6 @@ export class KnightRollDialog extends Application {
 
         getDgtsOtherFixeMod += bAEMineur+bAEMajeur+bete;
       }
-
-      console.log(bAEMajeur, bAEMineur, bete);
     }
 
     // ATTAQUE
