@@ -6550,7 +6550,7 @@ export class KnightSheet extends ActorSheet {
 
     for (let [key, XP] of Object.entries(depenseXP)){
 
-      if(XP.nom === undefined) return;
+      if(XP.nom === undefined || XP.nom === 'autre' || XP.nom === 'capaciteheroique') return;
 
       let aspect = '';
 
@@ -6654,7 +6654,7 @@ export class KnightSheet extends ActorSheet {
           const cMalus = carac?.malus || false;
           const OD = carac?.overdrive || false;
 
-          console.log(carac, aspect)
+          console.log(aspectsUpdate, keyA, keyC, aspect, carac)
 
           if(cBonus !== false) aspects[keyA].caracteristiques[keyC].bonus = cBonus.reduce(sum);
           if(cMalus !== false) aspects[keyA].caracteristiques[keyC].malus = cMalus.reduce(sum);
