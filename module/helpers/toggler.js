@@ -40,6 +40,12 @@ class Toggler {
     this._save();
   }
 
+  clearAll() {
+    this.toggles = new Map();
+
+    this._save();
+  }
+
   _cleanId(id) {
     return id.split('-').pop();
   }
