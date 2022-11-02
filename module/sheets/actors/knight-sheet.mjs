@@ -5257,10 +5257,9 @@ export class KnightSheet extends ActorSheet {
         "effets":{
           "liste":[],
           "raw":[
-            "destructeur",
-            "dispersion 6",
-            "penetrant 6",
-            "percearmure 20"
+            "antivehicule",
+            "choc 1",
+            "dispersion 3"
           ],
           "custom":[]
         }
@@ -5275,10 +5274,9 @@ export class KnightSheet extends ActorSheet {
         "effets":{
           "liste":[],
           "raw":[
-            "destructeur",
             "dispersion 6",
-            "penetrant 6",
-            "percearmure 20"
+            "meurtrier",
+            "ultraviolence"
           ],
           "custom":[]
         }
