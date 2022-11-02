@@ -6,7 +6,7 @@
     </header>
 
     <div class="capacites">
-        <h2 class="header">
+        <h2 class="header js-toggler">
             <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.CAPACITES.Label"}}
         </h2>
@@ -15,7 +15,7 @@
             <select name="system.capacites.actuel">
                 {{#select systemData.capacites.actuel}}
                 <option value=""></option>
-                    {{#each systemData.capacites.liste  as | key capacite|}} 
+                    {{#each systemData.capacites.liste  as | key capacite|}}
                         <option value="{{key.key}}">{{key.label}}</option>
                     {{/each}}
                 {{/select}}
@@ -27,7 +27,7 @@
     </div>
 
     <div class="special">
-        <h2 class="header">
+        <h2 class="header js-toggler">
             <i class="far fa-minus-square"></i>
             {{localize "KNIGHT.ITEMS.ARMURE.Special"}}
         </h2>

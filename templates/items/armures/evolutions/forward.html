@@ -1,12 +1,12 @@
 <div class="data">
-    <h4 class="title">
+    <h4 class="title js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.FORWARD.Label"}}
     </h4>
     <label class="shortspan">
         <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.forward.energie" 
-        value="{{this.energie}}" 
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.forward.energie"
+        value="{{this.energie}}"
         min="0"
          />
     </label>
@@ -23,8 +23,8 @@
     </label>
     <label class="shortspan">
         <span>{{localize "KNIGHT.DUREE.Label"}}</span>
-        <textarea name="system.evolutions.liste.{{key}}.capacites.forward.duree" 
-        data-capacite="forward" data-type="duree" data-min="50" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.duree}}px;" 
+        <textarea name="system.evolutions.liste.{{key}}.capacites.forward.duree"
+        data-capacite="forward" data-type="duree" data-min="50" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.duree}}px;"
         >{{this.duree}}</textarea>
     </label>
 </div>

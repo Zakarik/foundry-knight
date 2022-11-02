@@ -1,4 +1,6 @@
 import { listEffects } from "../../helpers/common.mjs";
+import toggler from '../../helpers/toggler.js';
+
 /**
  * @extends {ItemSheet}
  */
@@ -22,7 +24,7 @@ export class ArmeSheet extends ItemSheet {
   getData() {
     const context = super.getData();
     const actor = this.actor;
-    
+
     this._listeRarete(context);
     this._prepareEffets(context);
     this._prepareDistance(context);
@@ -36,7 +38,7 @@ export class ArmeSheet extends ItemSheet {
         const hasMaxEffets = contrecoups.maxeffets.value;
         const hasArmeDistance = contrecoups.armedistance.value;
         context.data.system.restrictions = {};
-        
+
         if(hasMaxEffets) {
           context.data.system.restrictions.contact = {};
           context.data.system.restrictions.contact.has = contrecoups.maxeffets.value;
@@ -49,7 +51,7 @@ export class ArmeSheet extends ItemSheet {
     }
 
     context.systemData = context.data.system;
-    
+
     return context;
   }
 
@@ -59,11 +61,7 @@ export class ArmeSheet extends ItemSheet {
 	activateListeners(html) {
     super.activateListeners(html);
 
-    html.find('.header .far').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square");
-      $(ev.currentTarget).toggleClass("fa-minus-square");
-      $(ev.currentTarget).parents(".header").siblings().toggle();
-    });
+    toggler.init(this.id, html);
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
@@ -155,7 +153,7 @@ export class ArmeSheet extends ItemSheet {
       $(ev.currentTarget).toggleClass("clicked");
     });
   }
-  
+
   async _onDrop(event) {
     const data = TextEditor.getDragEventData(event);
     const cls = getDocumentClass(data?.type);
@@ -173,7 +171,7 @@ export class ArmeSheet extends ItemSheet {
       const violence = document.system.violence;
 
       if(getData.type === 'distance') {
-        if(typeEffet === 'effets' || typeEffet === 'distance') {          
+        if(typeEffet === 'effets' || typeEffet === 'distance') {
           newData.push({
             label:document.name,
             description:document.system.description,
@@ -259,7 +257,7 @@ export class ArmeSheet extends ItemSheet {
           this.item.update({[`system.${typeEffet}.custom`]:update});
         }
       } else if(getData.type === 'contact') {
-        if(typeEffet === 'effets' || typeEffet === 'structurelles' || typeEffet === 'ornementales') {          
+        if(typeEffet === 'effets' || typeEffet === 'structurelles' || typeEffet === 'ornementales') {
           newData.push({
             label:document.name,
             description:document.system.description,
@@ -407,7 +405,7 @@ export class ArmeSheet extends ItemSheet {
       rarObject[rar[i].key] = {};
       rarObject[rar[i].key] = rar[i].label;
     };
-    
+
     context.data.system.listes.rarete = rarObject;
   }
 }

@@ -1,5 +1,5 @@
 <div class="companions">
-    <h3 class="header">
+    <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Label"}}
         <div>
@@ -24,15 +24,15 @@
             <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.Base"}}</span>
-                <input type="number" name="system.capacites.selected.companions.energie.base" 
-                value="{{this.energie.base}}" 
+                <input type="number" name="system.capacites.selected.companions.energie.base"
+                value="{{this.energie.base}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.Prolonger"}}</span>
-                <input type="number" name="system.capacites.selected.companions.energie.prolonger" 
-                value="{{this.energie.prolonger}}" 
+                <input type="number" name="system.capacites.selected.companions.energie.prolonger"
+                value="{{this.energie.prolonger}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
@@ -57,15 +57,15 @@
             <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}}</h4>
             <label class="longspan">
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Pointgloiredepart"}}</span>
-                <input type="number" name="system.capacites.selected.companions.lion.PG" 
-                value="{{this.lion.PG}}" 
+                <input type="number" name="system.capacites.selected.companions.lion.PG"
+                value="{{this.lion.PG}}"
                 min="0"
                 {{#if this.softlock}}disabled{{/if}} />
             </label>
         </div>
 
         <div class="lion">
-            <h4 class="title header">
+            <h4 class="title header js-toggler">
                 <i class="far fa-plus-square"></i>
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}}
             </h4>
@@ -75,8 +75,8 @@
                         <h5>{{getAspect aspect}}</h5>
                         <label>
                             <span>{{localize "KNIGHT.ASPECTS.Aspect"}}</span>
-                            <input type="number" name="system.capacites.selected.companions.lion.aspects.{{aspect}}.value" 
-                            value="{{key.value}}" 
+                            <input type="number" name="system.capacites.selected.companions.lion.aspects.{{aspect}}.value"
+                            value="{{key.value}}"
                             min="0"
                             {{#if ../this.softlock}}disabled{{/if}} />
                         </label>
@@ -104,43 +104,43 @@
             <div class="derives" style="display:none;">
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Defense"}}</h5>
-                    <input type="number" name="system.capacites.selected.companions.lion.defense.base" 
-                    value="{{this.lion.defense.base}}" 
+                    <input type="number" name="system.capacites.selected.companions.lion.defense.base"
+                    value="{{this.lion.defense.base}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Reaction"}}</h5>
-                    <input type="number" name="system.capacites.selected.companions.lion.reaction.base" 
-                    value="{{this.lion.reaction.base}}" 
+                    <input type="number" name="system.capacites.selected.companions.lion.reaction.base"
+                    value="{{this.lion.reaction.base}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Initiative"}}</h5>
                     <div class="block">
-                        <input type="number" name="system.capacites.selected.companions.lion.initiative.value" 
-                        value="{{this.lion.initiative.value}}" 
+                        <input type="number" name="system.capacites.selected.companions.lion.initiative.value"
+                        value="{{this.lion.initiative.value}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                         <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                        <input type="number" name="system.capacites.selected.companions.lion.initiative.fixe" 
+                        <input type="number" name="system.capacites.selected.companions.lion.initiative.fixe"
                         value="{{this.lion.initiative.fixe}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
-                    </div>                    
+                    </div>
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Armure"}}</h5>
-                    <input type="number" name="system.capacites.selected.companions.lion.armure.base" 
-                    value="{{this.lion.armure.base}}" 
+                    <input type="number" name="system.capacites.selected.companions.lion.armure.base"
+                    value="{{this.lion.armure.base}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.ChampDeForce"}}</h5>
-                    <input type="number" name="system.capacites.selected.companions.lion.champDeForce.base" 
-                    value="{{this.lion.champDeForce.base}}" 
+                    <input type="number" name="system.capacites.selected.companions.lion.champDeForce.base"
+                    value="{{this.lion.champDeForce.base}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </div>
@@ -156,7 +156,7 @@
                 {{#each this.lion.armes.contact as | key arme|}}
                     <div class="line {{#unless @first}} separation {{/unless}}">
                         <div class="label">
-                            <input type="text" name="system.capacites.selected.companions.lion.armes.contact.{{arme}}.label" value="{{key.label}}" 
+                            <input type="text" name="system.capacites.selected.companions.lion.armes.contact.{{arme}}.label" value="{{key.label}}"
                             {{#if ../this.softlock}}disabled{{/if}}
                             />
                         </div>
@@ -208,7 +208,7 @@
         </div>
 
         <div class="wolf">
-            <h4 class="title header">
+            <h4 class="title header js-toggler">
                 <i class="far fa-plus-square"></i>
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label"}}
             </h4>
@@ -218,8 +218,8 @@
                         <h5>{{getAspect aspect}}</h5>
                         <label>
                             <span>{{localize "KNIGHT.ASPECTS.Aspect"}}</span>
-                            <input type="number" name="system.capacites.selected.companions.wolf.aspects.{{aspect}}.value" 
-                            value="{{key.value}}" 
+                            <input type="number" name="system.capacites.selected.companions.wolf.aspects.{{aspect}}.value"
+                            value="{{key.value}}"
                             min="0"
                             {{#if ../this.softlock}}disabled{{/if}} />
                         </label>
@@ -247,43 +247,43 @@
             <div class="derives" style="display:none;">
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Defense"}}</h5>
-                    <input type="number" name="system.capacites.selected.companions.wolf.defense.base" 
-                    value="{{this.wolf.defense.base}}" 
+                    <input type="number" name="system.capacites.selected.companions.wolf.defense.base"
+                    value="{{this.wolf.defense.base}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Reaction"}}</h5>
-                    <input type="number" name="system.capacites.selected.companions.wolf.reaction.base" 
-                    value="{{this.wolf.reaction.base}}" 
+                    <input type="number" name="system.capacites.selected.companions.wolf.reaction.base"
+                    value="{{this.wolf.reaction.base}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Initiative"}}</h5>
                     <div class="block">
-                        <input type="number" name="system.capacites.selected.companions.wolf.initiative.value" 
-                        value="{{this.wolf.initiative.value}}" 
+                        <input type="number" name="system.capacites.selected.companions.wolf.initiative.value"
+                        value="{{this.wolf.initiative.value}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                         <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                        <input type="number" name="system.capacites.selected.companions.wolf.initiative.fixe" 
+                        <input type="number" name="system.capacites.selected.companions.wolf.initiative.fixe"
                         value="{{this.wolf.initiative.fixe}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
-                    </div>                    
+                    </div>
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Armure"}}</h5>
-                    <input type="number" name="system.capacites.selected.companions.wolf.armure.base" 
-                    value="{{this.wolf.armure.base}}" 
+                    <input type="number" name="system.capacites.selected.companions.wolf.armure.base"
+                    value="{{this.wolf.armure.base}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.ChampDeForce"}}</h5>
-                    <input type="number" name="system.capacites.selected.companions.wolf.champDeForce.base" 
-                    value="{{this.wolf.champDeForce.base}}" 
+                    <input type="number" name="system.capacites.selected.companions.wolf.champDeForce.base"
+                    value="{{this.wolf.champDeForce.base}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </div>
@@ -299,7 +299,7 @@
                 {{#each this.wolf.armes.contact as | key arme|}}
                     <div class="line {{#unless @first}} separation {{/unless}}">
                         <div class="label">
-                            <input type="text" name="system.capacites.selected.companions.wolf.armes.contact.{{arme}}.label" value="{{key.label}}" 
+                            <input type="text" name="system.capacites.selected.companions.wolf.armes.contact.{{arme}}.label" value="{{key.label}}"
                             {{#if ../this.softlock}}disabled{{/if}}
                             />
                         </div>
@@ -357,15 +357,15 @@
                     {{#if this.softlock}}disabled{{/if}}>{{this.wolf.configurations.labor.description}}</textarea>
                     <label class="longspan">
                         <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.labor.energie" 
-                        value="{{this.wolf.configurations.labor.energie}}" 
+                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.labor.energie"
+                        value="{{this.wolf.configurations.labor.energie}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                     </label>
                     <label class="longspanWDice">
                         <span class="label">{{localize "KNIGHT.BONUS.Jet"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
-                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.labor.bonus.roll" 
-                        value="{{this.wolf.configurations.labor.bonus.roll}}" 
+                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.labor.bonus.roll"
+                        value="{{this.wolf.configurations.labor.bonus.roll}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                         <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}</span>
@@ -379,29 +379,29 @@
                     {{#if this.softlock}}disabled{{/if}}>{{this.wolf.configurations.medic.description}}</textarea>
                     <label class="longspan">
                         <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.medic.energie" 
-                        value="{{this.wolf.configurations.medic.energie}}" 
+                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.medic.energie"
+                        value="{{this.wolf.configurations.medic.energie}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                     </label>
                     <label class="longspanWDice">
                         <span class="label">{{localize "KNIGHT.BONUS.Jet"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
-                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.medic.bonus.roll" 
-                        value="{{this.wolf.configurations.medic.bonus.roll}}" 
+                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.medic.bonus.roll"
+                        value="{{this.wolf.configurations.medic.bonus.roll}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                         <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}</span>
                     </label>
                     <label class="longspanWSante">
                         <span class="label">{{localize "KNIGHT.BONUS.Soins"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
-                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.medic.bonus.soins" 
-                        value="{{this.wolf.configurations.medic.bonus.soins}}" 
+                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.medic.bonus.soins"
+                        value="{{this.wolf.configurations.medic.bonus.soins}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                         <span class="sante">{{localize "KNIGHT.AUTRE.PointSante-short"}}</span>
                     </label>
                 </div>
-                
+
                 <div class="configuration">
                     <h6>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.TECH.Label"}}</h6>
                     <textarea data-capacite="companions" data-type="tech" data-min="50" style="height:{{this.textarea.tech}}px;"
@@ -409,23 +409,23 @@
                     {{#if this.softlock}}disabled{{/if}}>{{this.wolf.configurations.tech.description}}</textarea>
                     <label class="longspan">
                         <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.tech.energie" 
-                        value="{{this.wolf.configurations.tech.energie}}" 
+                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.tech.energie"
+                        value="{{this.wolf.configurations.tech.energie}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                     </label>
                     <label class="longspanWDice">
                         <span class="label">{{localize "KNIGHT.BONUS.Jet"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
-                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.tech.bonus.roll" 
-                        value="{{this.wolf.configurations.tech.bonus.roll}}" 
+                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.tech.bonus.roll"
+                        value="{{this.wolf.configurations.tech.bonus.roll}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                         <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}</span>
                     </label>
                     <label class="longspanWArmure">
                         <span class="label">{{localize "KNIGHT.BONUS.Reparation"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
-                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.tech.bonus.reparation" 
-                        value="{{this.wolf.configurations.tech.bonus.reparation}}" 
+                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.tech.bonus.reparation"
+                        value="{{this.wolf.configurations.tech.bonus.reparation}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                         <span class="armure">{{localize "KNIGHT.AUTRE.PointArmure-short"}}</span>
@@ -439,15 +439,15 @@
                     {{#if this.softlock}}disabled{{/if}}>{{this.wolf.configurations.recon.description}}</textarea>
                     <label class="longspan">
                         <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.recon.energie" 
-                        value="{{this.wolf.configurations.recon.energie}}" 
+                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.recon.energie"
+                        value="{{this.wolf.configurations.recon.energie}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                     </label>
                     <label class="longspanWDice">
                         <span class="label">{{localize "KNIGHT.BONUS.Jet"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
-                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.recon.bonus.roll" 
-                        value="{{this.wolf.configurations.recon.bonus.roll}}" 
+                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.recon.bonus.roll"
+                        value="{{this.wolf.configurations.recon.bonus.roll}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                         <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}</span>
@@ -461,31 +461,31 @@
                     {{#if this.softlock}}disabled{{/if}}>{{this.wolf.configurations.fighter.description}}</textarea>
                     <label class="longspan">
                         <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.fighter.energie" 
-                        value="{{this.wolf.configurations.fighter.energie}}" 
+                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.fighter.energie"
+                        value="{{this.wolf.configurations.fighter.energie}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                     </label>
                     <label class="longspanWDice">
                         <span class="label">{{localize "KNIGHT.BONUS.Jet"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
-                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.fighter.bonus.roll" 
-                        value="{{this.wolf.configurations.fighter.bonus.roll}}" 
+                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.fighter.bonus.roll"
+                        value="{{this.wolf.configurations.fighter.bonus.roll}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                         <span class="dice">{{localize "KNIGHT.JETS.Des-short"}}</span>
                     </label>
                     <label class="longspanWDegats">
                         <span class="label">{{localize "KNIGHT.AUTRE.Degats"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
-                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.fighter.degats" 
-                        value="{{this.wolf.configurations.fighter.degats}}" 
+                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.fighter.degats"
+                        value="{{this.wolf.configurations.fighter.degats}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                         <span class="degats">{{localize "KNIGHT.JETS.Des-short"}}6</span>
                     </label>
                     <label class="longspanWViolence">
                         <span class="label">{{localize "KNIGHT.AUTRE.Violence"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
-                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.fighter.violence" 
-                        value="{{this.wolf.configurations.fighter.violence}}" 
+                        <input type="number" name="system.capacites.selected.companions.wolf.configurations.fighter.violence"
+                        value="{{this.wolf.configurations.fighter.violence}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                         <span class="violence">{{localize "KNIGHT.JETS.Des-short"}}6</span>
@@ -508,7 +508,7 @@
         </div>
 
         <div class="crow">
-            <h4 class="title header">
+            <h4 class="title header js-toggler">
                 <i class="far fa-plus-square"></i>
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label"}}
             </h4>
@@ -518,8 +518,8 @@
                         <h5>{{getAspect aspect}}</h5>
                         <label>
                             <span>{{localize "KNIGHT.ASPECTS.Aspect"}}</span>
-                            <input type="number" name="system.capacites.selected.companions.crow.aspects.{{aspect}}.value" 
-                            value="{{key.value}}" 
+                            <input type="number" name="system.capacites.selected.companions.crow.aspects.{{aspect}}.value"
+                            value="{{key.value}}"
                             min="0"
                             {{#if ../this.softlock}}disabled{{/if}} />
                         </label>
@@ -529,43 +529,43 @@
             <div class="derives" style="display:none;">
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Defense"}}</h5>
-                    <input type="number" name="system.capacites.selected.companions.crow.defense.base" 
-                    value="{{this.crow.defense.base}}" 
+                    <input type="number" name="system.capacites.selected.companions.crow.defense.base"
+                    value="{{this.crow.defense.base}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Reaction"}}</h5>
-                    <input type="number" name="system.capacites.selected.companions.crow.reaction.base" 
-                    value="{{this.crow.reaction.base}}" 
+                    <input type="number" name="system.capacites.selected.companions.crow.reaction.base"
+                    value="{{this.crow.reaction.base}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Initiative"}}</h5>
                     <div class="block">
-                        <input type="number" name="system.capacites.selected.companions.crow.initiative.value" 
-                        value="{{this.crow.initiative.value}}" 
+                        <input type="number" name="system.capacites.selected.companions.crow.initiative.value"
+                        value="{{this.crow.initiative.value}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
                         <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                        <input type="number" name="system.capacites.selected.companions.crow.initiative.fixe" 
+                        <input type="number" name="system.capacites.selected.companions.crow.initiative.fixe"
                         value="{{this.crow.initiative.fixe}}"
                         min="0"
                         {{#if this.softlock}}disabled{{/if}} />
-                    </div>                    
+                    </div>
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.Cohesion"}}</h5>
-                    <input type="number" name="system.capacites.selected.companions.crow.cohesion.base" 
-                    value="{{this.crow.cohesion.base}}" 
+                    <input type="number" name="system.capacites.selected.companions.crow.cohesion.base"
+                    value="{{this.crow.cohesion.base}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </div>
                 <div class="col">
                     <h5>{{localize "KNIGHT.LATERAL.ChampDeForce"}}</h5>
-                    <input type="number" name="system.capacites.selected.companions.crow.champDeForce.base" 
-                    value="{{this.crow.champDeForce.base}}" 
+                    <input type="number" name="system.capacites.selected.companions.crow.champDeForce.base"
+                    value="{{this.crow.champDeForce.base}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </div>
@@ -573,8 +573,8 @@
             <div class="debordement" style="display:none;">
                 <div class="col">
                     <h5>{{localize "KNIGHT.AUTRE.Debordement"}}</h5>
-                    <input type="number" name="system.capacites.selected.companions.crow.debordement.base" 
-                    value="{{this.crow.debordement.base}}" 
+                    <input type="number" name="system.capacites.selected.companions.crow.debordement.base"
+                    value="{{this.crow.debordement.base}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </div>

@@ -1,3 +1,5 @@
+import toggler from './helpers/toggler.js';
+
 export const RegisterSettings = function () {
     /* ------------------------------------ */
     /* User settings                        */
@@ -83,5 +85,21 @@ export const RegisterSettings = function () {
         config: false,
         type: String,
         default: 0,
+    });
+
+    game.settings.register("knight", "clearTogglers", {
+        name: "KNIGHT.SETTINGS.TOGGLERS.Label",
+        hint: "KNIGHT.SETTINGS.TOGGLERS.Hint",
+        scope: "client",
+        config: true,
+        type: Boolean,
+        default: false,
+        onChange: value => {
+            if (value) {
+                toggler.clearAll();
+
+                game.settings.set('knight', 'clearTogglers', false);
+            }
+        }
     });
 };

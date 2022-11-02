@@ -1,21 +1,21 @@
 
 <div class="data">
-    <h4 class="title">
+    <h4 class="title js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label"}}
     </h4>
     <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
     <label class="longspan">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ENERGIE.Tour"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.ghost.energie.tour" 
-        value="{{this.energie.tour}}" 
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.ghost.energie.tour"
+        value="{{this.energie.tour}}"
         min="0"
             />
     </label>
     <label class="longspan">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ENERGIE.Minute"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.ghost.energie.minute" 
-        value="{{this.energie.minute}}" 
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.ghost.energie.minute"
+        value="{{this.energie.minute}}"
         min="0"
             />
     </label>
@@ -32,8 +32,8 @@
     </label>
     <label class="shortspan">
         <span>{{localize "KNIGHT.DUREE.Label"}}</span>
-        <textarea name="system.evolutions.liste.{{key}}.capacites.ghost.duree" 
-        data-capacite="ghost" data-type="duree" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.duree}}px;" 
+        <textarea name="system.evolutions.liste.{{key}}.capacites.ghost.duree"
+        data-capacite="ghost" data-type="duree" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.duree}}px;"
         >{{this.duree}}</textarea>
     </label>
     <button type="action" class=" {{#if this.interruption.actif}}selected{{/if}}"

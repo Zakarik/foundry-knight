@@ -1,12 +1,12 @@
 <div class="data">
-    <h4 class="title">
+    <h4 class="title js-toggler">
         <i class="far fa-minus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WATCHTOWER.Label"}}
     </h4>
     <label class="shortspan">
         <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.watchtower.energie" 
-        value="{{this.energie}}" 
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.watchtower.energie"
+        value="{{this.energie}}"
         min="0"
          />
     </label>
@@ -24,7 +24,7 @@
     <label class="shortspan">
         <span>{{localize "KNIGHT.DUREE.Label"}}</span>
         <textarea name="system.evolutions.liste.{{key}}.capacites.watchtower.duree"
-        data-capacite="watchtower" data-type="duree" data-min="50" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.duree}}px;" 
+        data-capacite="watchtower" data-type="duree" data-min="50" data-evolution="true" data-key="{{key}}" style="height:{{this.textarea.duree}}px;"
         >{{this.duree}}</textarea>
     </label>
 </div>

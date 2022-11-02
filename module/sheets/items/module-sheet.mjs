@@ -1,5 +1,6 @@
 import { SortByLabel } from "../../helpers/common.mjs";
 import { listEffects } from "../../helpers/common.mjs";
+import toggler from '../../helpers/toggler.js';
 /**
  * @extends {ItemSheet}
  */
@@ -39,11 +40,7 @@ export class ModuleSheet extends ItemSheet {
 	activateListeners(html) {
     super.activateListeners(html);
 
-    html.find('.header .far').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square");
-      $(ev.currentTarget).toggleClass("fa-minus-square");
-      $(ev.currentTarget).parents(".header").siblings().toggle();
-    });
+    toggler.init(this.id, html);
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
