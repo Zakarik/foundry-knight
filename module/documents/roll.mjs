@@ -52,7 +52,6 @@ export class RollKnight extends Roll {
       async = true;
     }
 
-    console.log(minimize, maximize, async);
     return async ? this._evaluate({minimize, maximize}) : this._evaluateSync({minimize, maximize});
   }
 
