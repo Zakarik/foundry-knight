@@ -142,7 +142,7 @@ export class KnightSheet extends ActorSheet {
      */
    get template() {
     if (!game.user.isGM && this.actor.limited) {
-      return "systems/knight/templates/limited-sheet.html";
+      return "systems/knight/templates/actors/limited-sheet.html";
     }
     return this.options.template;
   }
@@ -219,6 +219,9 @@ export class KnightSheet extends ActorSheet {
 
     toggler.init(this.id, html);
 
+    // Everything below here is only needed if the sheet is editable
+    if ( !this.isEditable ) return;
+
     html.find('img.option').click(ev => {
       const option = $(ev.currentTarget).data("option");
       const actuel = this.getData().data.system[option]?.optionDeploy || false;
@@ -240,9 +243,6 @@ export class KnightSheet extends ActorSheet {
 
       this.actor.update(update);
     });
-
-    // Everything below here is only needed if the sheet is editable
-    if ( !this.isEditable ) return;
 
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
@@ -3181,6 +3181,7 @@ export class KnightSheet extends ActorSheet {
       const label = target.data("name");
       const value =  eval(target.data("value"));
       const note = target.data("note");
+      const base = target.data("base");
       const flux = +this.getData().data.system.flux.value;
       const armure = this.actor.items.get(this._getArmorId());
 
@@ -3212,6 +3213,9 @@ export class KnightSheet extends ActorSheet {
           };
 
           ChatMessage.create(msg);
+          break;
+        case 'contrecoups':
+          this._rollDice(label, base, false, [], [], false, '', '', '', -1, 0);
           break;
       }
     });
@@ -6161,10 +6165,12 @@ export class KnightSheet extends ActorSheet {
                 }
                 if(iBGrenades.has) {
                   for (let [key, grenade] of Object.entries(grenades)) {
-                    const data = iBGrenades.liste[key];
+                    if(key === 'antiblindage' || key === 'explosive' || key === 'shrapnel') {
+                      const data = iBGrenades.liste[key];
 
-                    grenade.degats.dice += data.degats.dice;
-                    grenade.violence.dice += data.violence.dice;
+                      grenade.degats.dice += data.degats.dice;
+                      grenade.violence.dice += data.violence.dice;
+                    }
                   };
                 }
               }
@@ -6515,73 +6521,73 @@ export class KnightSheet extends ActorSheet {
     inconvenientIA.sort(SortByName);
     langue.sort(SortByName);
     contact.sort(SortByName);
-    depensePG.sort(SortByAddOrder)
+    depensePG.sort(SortByAddOrder);
 
     for (let [key, XP] of Object.entries(depenseXP)){
+      if(XP.nom !== undefined && XP.nom !== 'autre' && XP.nom !== 'capaciteheroique')
+      {
+        let aspect = '';
 
-      if(XP.nom === undefined || XP.nom === 'autre' || XP.nom === 'capaciteheroique') return;
+        switch(XP.nom) {
+          case 'chair':
+          case 'deplacement':
+          case 'force':
+          case 'endurance':
+            aspect = 'chair';
+            break;
 
-      let aspect = '';
+          case 'bete':
+          case 'hargne':
+          case 'combat':
+          case 'instinct':
+            aspect = 'bete';
+            break;
 
-      switch(XP.nom) {
-        case 'chair':
-        case 'deplacement':
-        case 'force':
-        case 'endurance':
-          aspect = 'chair';
-          break;
+          case 'machine':
+          case 'tir':
+          case 'savoir':
+          case 'technique':
+            aspect = 'machine';
+            break;
 
-        case 'bete':
-        case 'hargne':
-        case 'combat':
-        case 'instinct':
-          aspect = 'bete';
-          break;
+          case 'dame':
+          case 'aura':
+          case 'parole':
+          case 'sangFroid':
+            aspect = 'dame';
+            break;
 
-        case 'machine':
-        case 'tir':
-        case 'savoir':
-        case 'technique':
-          aspect = 'machine';
-          break;
+          case 'masque':
+          case 'discretion':
+          case 'dexterite':
+          case 'perception':
+            aspect = 'masque';
+            break;
+        }
 
-        case 'dame':
-        case 'aura':
-        case 'parole':
-        case 'sangFroid':
-          aspect = 'dame';
-          break;
+        const aspectExist = aspectsUpdate?.[aspect] || false;
 
-        case 'masque':
-        case 'discretion':
-        case 'dexterite':
-        case 'perception':
-          aspect = 'masque';
-          break;
+        if(!aspectExist) aspectsUpdate[aspect] = {};
+
+        if(XP.nom !== 'chair' && XP.nom !== 'dame' && XP.nom !== 'machine' && XP.nom !== 'bete' && XP.nom !== 'masque') {
+          const CLExist = aspectsUpdate?.[aspect]?.caracteristiques || false;
+          const CExist = aspectsUpdate?.[aspect]?.caracteristiques?.[XP.nom] || false;
+          const CBExist = aspectsUpdate?.[aspect]?.caracteristiques?.[XP.nom]?.bonus || false;
+
+          if(!CLExist) aspectsUpdate[aspect].caracteristiques = {};
+          if(!CExist) aspectsUpdate[aspect].caracteristiques[XP.nom] = {};
+          if(!CBExist) aspectsUpdate[aspect].caracteristiques[XP.nom].bonus = [];
+
+          aspectsUpdate[aspect].caracteristiques[XP.nom].bonus.push(XP.bonus);
+        } else if(XP.nom === 'chair' || XP.nom === 'dame' || XP.nom === 'machine' || XP.nom === 'bete' || XP.nom === 'masque') {
+          const ABExist = aspectsUpdate?.[aspect]?.bonus || false;
+
+          if(!ABExist) aspectsUpdate[aspect].bonus = [];
+
+          aspectsUpdate[aspect].bonus.push(XP.bonus);
+        }
       }
-
-      const aspectExist = aspectsUpdate?.[aspect] || false;
-
-      if(!aspectExist) aspectsUpdate[aspect] = {};
-
-      if(XP.nom !== 'chair' && XP.nom !== 'dame' && XP.nom !== 'machine' && XP.nom !== 'bete' && XP.nom !== 'masque') {
-        const CLExist = aspectsUpdate?.[aspect]?.caracteristiques || false;
-        const CExist = aspectsUpdate?.[aspect]?.caracteristiques?.[XP.nom] || false;
-        const CBExist = aspectsUpdate?.[aspect]?.caracteristiques?.[XP.nom]?.bonus || false;
-
-        if(!CLExist) aspectsUpdate[aspect].caracteristiques = {};
-        if(!CExist) aspectsUpdate[aspect].caracteristiques[XP.nom] = {};
-        if(!CBExist) aspectsUpdate[aspect].caracteristiques[XP.nom].bonus = [];
-
-        aspectsUpdate[aspect].caracteristiques[XP.nom].bonus.push(XP.bonus);
-      } else if(XP.nom === 'chair' || XP.nom === 'dame' || XP.nom === 'machine' || XP.nom === 'bete' || XP.nom === 'masque') {
-        const ABExist = aspectsUpdate?.[aspect]?.bonus || false;
-
-        if(!ABExist) aspectsUpdate[aspect].bonus = [];
-
-        aspectsUpdate[aspect].bonus.push(XP.bonus);
-      }
-    }
+    };
 
     for(let i = 0;i < armesContactEquipee.length;i++) {
       armesContactEquipee[i].system.degats.module = {};
@@ -6591,7 +6597,7 @@ export class KnightSheet extends ActorSheet {
       armesContactEquipee[i].system.violence.module = {};
       armesContactEquipee[i].system.violence.module.fixe = moduleBonusViolence.contact;
       armesContactEquipee[i].system.violence.module.variable = moduleBonusViolenceVariable.contact;
-    }
+    };
 
     for(let i = 0;i < armesDistanceEquipee.length;i++) {
       armesDistanceEquipee[i].system.degats.module = {};
@@ -6601,7 +6607,7 @@ export class KnightSheet extends ActorSheet {
       armesDistanceEquipee[i].system.violence.module = {};
       armesDistanceEquipee[i].system.violence.module.fixe = moduleBonusViolence.distance;
       armesDistanceEquipee[i].system.violence.module.variable = moduleBonusViolenceVariable.distance;
-    }
+    };
 
     for (let [key, grenade] of Object.entries(grenades)){
       const effetsRaw = grenade.effets.raw.concat(armorSpecialRaw);
@@ -6640,7 +6646,7 @@ export class KnightSheet extends ActorSheet {
         }
       }
 
-    }
+    };
 
     for (let [kAI, armesimprovisees] of Object.entries(system.combat.armesimprovisees.liste)) {
       for (let [key, arme] of Object.entries(armesimprovisees.liste)) {
