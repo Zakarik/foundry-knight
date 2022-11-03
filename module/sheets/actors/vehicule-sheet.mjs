@@ -537,8 +537,8 @@ export class VehiculeSheet extends ActorSheet {
 
           if(itemArme.has) {
             const moduleEffets = itemArme.effets;
-            const moiduleEffetsRaw = moduleEffets.raw.concat(armorSpecialRaw);
-            const moduleEffetsCustom = moduleEffets.custom.concat(armorSpecialCustom) || [];
+            const moiduleEffetsRaw = moduleEffets.raw;
+            const moduleEffetsCustom = moduleEffets.custom;
             const moduleEffetsFinal = {
               raw:[...new Set(moiduleEffetsRaw)],
               custom:moduleEffetsCustom,
@@ -564,7 +564,7 @@ export class VehiculeSheet extends ActorSheet {
 
             if(bDefense !== undefined) defense.bonus.modules += +bDefense.split(' ')[1];
             if(bReaction !== undefined) reaction.bonus.modules += +bReaction.split(' ')[1];
-
+            console.log(itemArme);
             if(itemArme.type === 'distance') {
               armesDistance.push(moduleWpn);
             }
