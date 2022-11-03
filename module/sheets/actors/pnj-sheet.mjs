@@ -849,6 +849,10 @@ export class PNJSheet extends ActorSheet {
       case "capaciteheroique":
           itemData.img = "systems/knight/assets/icons/capaciteheroique.svg";
           break;
+
+      case "art":
+          itemData.img = "systems/knight/assets/icons/art.svg";
+          break;
     }
 
     // Remove the type from the dataset since it's in the itemData.type prop.
