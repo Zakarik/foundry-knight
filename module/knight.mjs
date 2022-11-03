@@ -23,6 +23,7 @@ import { ArmureLegendeSheet } from "./sheets/items/armurelegende-sheet.mjs";
 import { ModuleSheet } from "./sheets/items/module-sheet.mjs";
 import { ArmeSheet } from "./sheets/items/arme-sheet.mjs";
 import { EffetSheet } from "./sheets/items/effet-sheet.mjs";
+import { ArtSheet } from "./sheets/items/art-sheet.mjs";
 import { CapaciteSheet } from "./sheets/items/capacite-sheet.mjs";
 import { CarteHeroiqueSheet } from "./sheets/items/carteheroique-sheet.mjs";
 import { CapaciteHeroiqueSheet } from "./sheets/items/capaciteheroique-sheet.mjs";
@@ -216,6 +217,11 @@ Hooks.once('init', async function() {
 
   Items.registerSheet("effet", EffetSheet, {
     types: ["effet"],
+    makeDefault: true
+  });
+
+  Items.registerSheet("art", ArtSheet, {
+    types: ["art"],
     makeDefault: true
   });
 });

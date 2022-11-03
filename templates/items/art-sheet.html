@@ -1,0 +1,111 @@
+<form class="artWindows {{cssClass}}" autocomplete="off">
+    <div class="img">
+        <div class="blockImg">
+            <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
+        </div>
+    </div>
+
+    <header class="sheet-header flexrow">
+        <h1 class="charname">
+            <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+        </h1>
+
+        <div class="description">
+            <h2 class="header js-toggler">
+                <i class="far fa-minus-square"></i>
+                {{localize "KNIGHT.Description"}}
+            </h2>
+
+            {{editor systemData.description target="system.description" button=true owner=owner editable=editable}}
+        </div>
+
+        <label class="caracteristique">
+            <span>{{localize "KNIGHT.ITEMS.Caracteristique"}}</span>
+            <select name="system.jet.c1">
+                {{#select systemData.jet.c1}}
+                    {{#each systemData.aspects  as | key aspect|}}
+                        <option value="{{aspect}}">{{getAspect aspect}}</option>
+                        {{#each key as | kC carac|}}
+                        <option value="{{kC}}">{{getCarac kC}}</option>
+                        {{/each}}
+                    {{/each}}
+                {{/select}}
+            </select>
+        </label>
+
+        <label class="caracteristique">
+            <span>{{localize "KNIGHT.ITEMS.Caracteristique"}}</span>
+            <select name="system.jet.c2">
+                {{#select systemData.jet.c2}}
+                    {{#each systemData.aspects  as | key aspect|}}
+                        <option value="{{aspect}}">{{getAspect aspect}}</option>
+                        {{#each key as | kC carac|}}
+                        <option value="{{kC}}">{{getCarac kC}}</option>
+                        {{/each}}
+                    {{/each}}
+                {{/select}}
+            </select>
+        </label>
+
+        <button type="action" class="{{#if systemData.pratique.has}}selected{{else}}unselected{{/if}}" data-min="50" data-type="pratique" data-value="{{systemData.pratique.has}}">{{systemData.pratique.label}}</button>
+        <button type="action" class="{{#if systemData.oeuvre.has}}selected{{else}}unselected{{/if}}" data-min="50" data-type="oeuvre" data-value="{{systemData.oeuvre.has}}">{{systemData.oeuvre.label}}</button>
+    </header>
+
+    <div class="body">
+        {{#if systemData.pratique.has}}
+        <div class="pratique">
+            <h2 class="header js-toggler">
+                <i class="far fa-minus-square"></i>
+                {{localize "KNIGHT.ART.PRATIQUE.Label"}}
+            </h2>
+            <h3>{{localize "KNIGHT.ART.PRATIQUE.Base"}}</h3>
+            <textarea name="system.pratique.base" data-type="base" data-min="50" style="height:{{systemData.textarea.base}}px;">{{systemData.pratique.base}}</textarea>
+            <h3>{{localize "KNIGHT.ART.PRATIQUE.Apprenti"}}</h3>
+            <textarea name="system.pratique.apprenti" data-type="apprenti" data-min="50" style="height:{{systemData.textarea.apprenti}}px;">{{systemData.pratique.apprenti}}</textarea>
+            <h3>{{localize "KNIGHT.ART.PRATIQUE.Initie" data-type="base" data-min="50" style="height:{{systemData.textarea.base}}px;"}}</h3>
+            <textarea name="system.pratique.initie" data-type="initie" data-min="50" style="height:{{systemData.textarea.initie}}px;">{{systemData.pratique.initie}}</textarea>
+            <h3>{{localize "KNIGHT.ART.PRATIQUE.Maitre"}}</h3>
+            <textarea name="system.pratique.maitre" data-type="maitre" data-min="50" style="height:{{systemData.textarea.maitre}}px;">{{systemData.pratique.maitre}}</textarea>
+        </div>
+        {{/if}}
+
+        {{#if systemData.oeuvre.has}}
+        <div class="col">
+            <div class="oeuvre">
+                <h2 class="header js-toggler">
+                    <i class="far fa-minus-square"></i>
+                    {{localize "KNIGHT.ART.OEUVRE.Label"}}
+                </h2>
+                <label>
+                    <span>{{localize "KNIGHT.ART.OEUVRE.Court"}}</span>
+                    <input type="text" name="system.oeuvre.temps.court" value="{{systemData.oeuvre.temps.court}}">
+                </label>
+                <label>
+                    <span>{{localize "KNIGHT.ART.OEUVRE.Moyen"}}</span>
+                    <input type="text" name="system.oeuvre.temps.moyen" value="{{systemData.oeuvre.temps.moyen}}">
+                </label>
+                <label>
+                    <span>{{localize "KNIGHT.ART.OEUVRE.Long"}}</span>
+                    <input class="notBorderBottom" type="text" name="system.oeuvre.temps.long" value="{{systemData.oeuvre.temps.long}}">
+                </label>
+                <textarea name="system.oeuvre.base" data-type="oeuvrebase" data-min="50" style="height:{{systemData.textarea.oeuvrebase}}px;">{{systemData.oeuvre.base}}</textarea>
+            </div>
+
+            <div class="listeoeuvre">
+                <h2 class="header js-toggler">
+                    <i class="far fa-minus-square"></i>
+                    {{localize "KNIGHT.ART.OEUVRE.Liste"}}
+                    <a class="item-control item-create" title="Create Item"><i class="fas fa-plus"></i></a>
+                </h2>
+                {{#each systemData.oeuvre.liste  as | key oeuvre|}}
+                <div>
+                    <a class="item-control item-delete" title="Delete Item" data-key="{{oeuvre}}"><i class="fas fa-trash"></i></a>
+                    <input type="text" name="system.oeuvre.liste.{{oeuvre}}.name" value="{{key.name}}"/>
+                    <textarea name="system.oeuvre.liste.{{oeuvre}}.description" data-type="oeuvreliste" data-key="{{oeuvre}}" data-min="50" style="height:{{key.textarea}}px;">{{key.description}}</textarea>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        {{/if}}
+    </div>
+</form>

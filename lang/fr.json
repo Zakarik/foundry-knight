@@ -23,7 +23,8 @@
     "TypeCapacite":"Capacité (PNJ)",
     "TypeCarteheroique":"Carte du destin",
     "TypeCapaciteheroique":"Capacité héroïque",
-    "TypeEffet":"Effet d'arme personnalisé"
+    "TypeEffet":"Effet d'arme personnalisé",
+    "TypeArt":"Art"
   },
   "KNIGHT": {
     "Nom":"Nom",
@@ -559,6 +560,10 @@
     },
     "OPTIONS":{
       "Label":"Options",
+      "ART":{
+        "Has":"Possède de l'Art",
+        "Hasnt":"Ne possède pas d'Art"
+      },
       "KRAKEN":{
         "Has":"Membre de la section Kraken",
         "Hasnt":"Pas membre de la section Kraken"
@@ -2082,8 +2087,8 @@
       "GainImpregnation":"Gains d'imprégnations",
       "Verrouiller":"Verrouiller",
       "Deverouiller":"Déverrouiller",
-      "Activer":"Activé",
-      "Desactiver":"Désactivé",
+      "Activer":"Activer",
+      "Desactiver":"Désactiver",
       "Prolonger":"Prolonger",
       "Limite":"Limite",
       "Choisir":"Choisir",
@@ -2306,6 +2311,28 @@
       },
       "CARTE":{
         "Label":"Carte du destin"
+      }
+    },
+    "ART":{
+      "Label":"Art",
+      "RecuperationEspoir":"Récupération d'espoir",
+      "PRATIQUE":{
+        "Label":"Effets pratiques",
+        "Has":"A un effet pratique",
+        "Hasnt":"N'a pas d'effet pratique",
+        "Base":"Effet de base",
+        "Apprenti":"Niveau Apprenti (3 à 5 réussites)",
+        "Initie":"Niveau Initié (6 à 8 réussites)",
+        "Maitre":"Niveau Maître (9+ réussites)"
+      },
+      "OEUVRE":{
+        "Label":"Effets d'oeuvres",
+        "Liste":"Liste des oeuvres",
+        "Has":"A un effet d'oeuvre",
+        "Hasnt":"N'a pas d'effet d'oeuvre",
+        "Court":"Temps court",
+        "Moyen":"Temps moyen",
+        "Long":"Temps long"
       }
     }
   }

@@ -444,6 +444,42 @@ export class PNJSheet extends ActorSheet {
       this._rollDice(label, aspect, false, false, '', '', '', -1, reussites);
     });
 
+    html.find('.rollRecuperationArt').click(async ev => {
+      const target = $(ev.currentTarget);
+      const value = target.data("value");
+
+      const rEspoir = new game.knight.RollKnight(`${value}`, this.actor.system);
+      rEspoir._flavor = game.i18n.localize("KNIGHT.ART.RecuperationEspoir");
+      rEspoir._success = false;
+      await rEspoir.toMessage({
+        speaker: {
+        actor: this.actor?.id || null,
+        token: this.actor?.token?.id || null,
+        alias: this.actor?.name || null,
+        }
+      });
+    });
+
+    html.find('.art-say').click(async ev => {
+      const target = $(ev.currentTarget);
+      const type = target.data("type");
+      const name = game.i18n.localize(`KNIGHT.ART.PRATIQUE.${type.charAt(0).toUpperCase()+type.substr(1)}`);
+      const data = this.getData().actor.art.system.pratique[type];
+
+      const msg = {
+        user: game.user.id,
+        speaker: {
+          actor: this.actor?.id || null,
+          token: this.actor?.token?.id || null,
+          alias: this.actor?.name || null,
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        content: `<span style="display:flex;width:100%;font-weight:bold;">${name}</span><span style="display:flex;width:100%;text-align:justify;justify-content:left;word-break:break-all;">${data}</span>`
+      };
+
+      ChatMessage.create(msg);
+    });
+
     html.find('.jetWpn').click(ev => {
       const target = $(ev.currentTarget);
       const name = target.data("name");
@@ -839,6 +875,7 @@ export class PNJSheet extends ActorSheet {
 
     itemData = itemData instanceof Array ? itemData : [itemData];
     const itemBaseType = itemData[0].type;
+    const itemId = itemData[0].id;
     const options = actorData.options;
 
     if((itemBaseType === 'module' && !options.modules) ||
@@ -849,6 +886,23 @@ export class PNJSheet extends ActorSheet {
     itemBaseType === 'effet') return;
 
     const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
+
+    const oldArtId = actorData?.art || 0;
+
+      if (itemBaseType === 'art') {
+        const update = {
+          system:{
+            art:itemId
+          }
+        };
+
+        if(oldArtId !== 0) {
+          const oldArt = this.actor.items?.get(oldArtId) || false;
+          if(oldArt !== false) oldArt.delete();
+        }
+
+        this.actor.update(update);
+      }
 
     return itemCreate;
   }
@@ -888,6 +942,7 @@ export class PNJSheet extends ActorSheet {
     };
     const aspectLieSupp = [];
 
+    let art = {};
     let aspectsMax = {
       chair:{
         max:20,
@@ -1297,6 +1352,11 @@ export class PNJSheet extends ActorSheet {
           data.degats.system.effets.liste = listEffects(data.degats.system.effets.raw, data.degats.system.effets.custom, labels);
         }
       }
+
+      // ART
+      if (i.type === 'art') {
+        art = i;
+      }
     }
 
     armesContact.sort(SortByName);
@@ -1368,6 +1428,7 @@ export class PNJSheet extends ActorSheet {
     actorData.langue = langue;
     actorData.capacites = capacites;
     actorData.modules = modules;
+    actorData.art = art;
 
     const update = {
       system:{

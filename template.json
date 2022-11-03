@@ -1055,8 +1055,12 @@
           "actuel":0
         }
       },
+      "art":{
+        "oeuvres":{}
+      },
       "options":{
-        "kraken":false
+        "kraken":false,
+        "art":false
       }
     },
     "ia":{
@@ -2279,7 +2283,7 @@
     }
   },
   "Item": {
-    "types": ["arme", "armure", "avantage", "inconvenient", "motivationMineure", "langue", "contact", "blessure", "trauma", "module", "capacite", "armurelegende", "carteheroique", "capaciteheroique", "effet"],
+    "types": ["arme", "armure", "avantage", "inconvenient", "motivationMineure", "langue", "contact", "blessure", "trauma", "module", "capacite", "armurelegende", "carteheroique", "capaciteheroique", "effet", "art"],
     "templates":{
       "generique":{
         "description":""
@@ -7032,6 +7036,43 @@
           "label":"",
           "condition":""
         }
+      }
+    },
+    "art":{
+      "templates": ["generique"],
+      "aspects":{
+        "chair":["deplacement", "force", "endurance"],
+        "bete":["hargne", "combat", "instinct"],
+        "machine":["tir", "savoir", "technique"],
+        "masque":["discretion", "dexterite", "perception"]
+      },
+      "jet":{
+        "c1":"chair",
+        "c2":"chair"
+      },
+      "pratique":{
+        "has":false,
+        "base":"",
+        "apprenti":"",
+        "initie":"",
+        "maitre":""
+      },
+      "oeuvre":{
+        "has":false,
+        "base":"",
+        "temps":{
+          "court":"",
+          "moyen":"",
+          "long":""
+        },
+        "liste":{}
+      },
+      "textarea":{
+        "base":50,
+        "apprenti":50,
+        "initie":50,
+        "maitre":50,
+        "oeuvrebase":50
       }
     }
   }

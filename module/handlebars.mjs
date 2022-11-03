@@ -459,4 +459,20 @@
 
         return result;
     });
+
+    Handlebars.registerHelper('canRoll', function (type, roll) {
+        let result = true;
+
+        if(type === 'pj') {
+            if(roll === 'chair' || roll === 'bete' || roll === 'machine' || roll === 'dame' || roll === 'masque') result = false;
+        } else if(type === 'pnj') {
+            if(roll === 'force' || roll === 'deplacement' || roll === 'endurance' ||
+            roll === 'combat' || roll === 'hargne' || roll === 'instinct' ||
+            roll === 'tir' || roll === 'savoir' || roll === 'technique' ||
+            roll === 'aura' || roll === 'parole' || roll === 'sangFroid' ||
+            roll === 'discretion' || roll === 'dexterite' || roll === 'perception') result = false;
+        }
+
+        return result;
+    });
  };
