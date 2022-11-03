@@ -2249,8 +2249,8 @@
         "ListeDepense":"Liste des dépenses de Points d'Expériences"
       },
       "GLOIRE":{
-        "Label":"Points de Gloires",
-        "ListeDepense":"Liste des dépenses de Points de Gloires"
+        "Label":"Points de Gloire",
+        "ListeDepense":"Liste des dépenses de Points de Gloire"
       },
       "Actuel":"Actuel",
       "Utilise":"Utilisé",

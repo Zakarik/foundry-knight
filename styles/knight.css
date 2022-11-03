@@ -1340,14 +1340,9 @@
 .gmInitiative div.initiative:not(:first-of-type) {
   border-top: 1px solid black;
 }
-.gmMonitor {
-  display: flex;
-  width: 800px;
-  height: 400px;
-  opacity: 0.7;
-}
 .gmMonitor form {
-  max-height: 400px;
+  display: flex;
+  opacity: 0.9;
   overflow: auto;
 }
 .gmMonitor div h2.header {
@@ -1423,48 +1418,8 @@
   cursor: pointer;
 }
 .gmMonitor div.main {
-  display: flex;
-  position: relative;
-  justify-content: space-between;
-  align-items: flex-start;
-  align-content: flex-start;
-  flex-wrap: wrap;
   width: 100%;
-}
-.gmMonitor div.main header {
-  display: flex;
-  position: relative;
-  justify-content: space-between;
-  align-items: flex-start;
-  align-content: flex-start;
-  width: 100%;
-  font-variant: small-caps;
-}
-.gmMonitor div.main header span.name {
-  display: flex;
-  width: 90px;
-}
-.gmMonitor div.main header div.aspect {
-  width: calc((100% / 5) - (90px / 5) - (100px / 5));
-  border-left: 1px solid RGB(76 74 90);
-}
-.gmMonitor div.main header div.aspect span {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  text-align: center;
-}
-.gmMonitor div.main header div.data {
-  display: flex;
-  width: 100px;
-  border-left: 1px solid RGB(76 74 90);
-  flex-wrap: wrap;
-}
-.gmMonitor div.main header div.data span {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  text-align: center;
+  height: 100%;
 }
 .gmMonitor div.main > div {
   display: flex;
@@ -1490,7 +1445,7 @@
 }
 .gmMonitor div.main > div div.aspect {
   display: flex;
-  width: calc((100% / 5) - (90px / 5) - (100px / 5));
+  width: calc((100% / 5) - (90px / 5) - (120px / 5));
   border-left: 1px solid RGB(76 74 90);
   flex-wrap: wrap;
   align-content: flex-start;
@@ -1511,7 +1466,7 @@
 }
 .gmMonitor div.main > div div.data {
   display: flex;
-  width: 100px;
+  width: 120px;
   border-left: 1px solid RGB(76 74 90);
   flex-wrap: wrap;
   align-content: flex-start;
@@ -5050,6 +5005,34 @@
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.line select:not(:first-of-type) {
   border-left: 1px solid RGB(76 74 90);
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.tripleLine {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 5px;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.tripleLine span {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background: RGB(76 74 90);
+  line-height: 26px;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.tripleLine select {
+  width: 100%;
+  text-align: center;
+  color: white;
+  border: 0px;
+  padding: 0px;
+  background: RGB(43 42 51);
+  border-radius: 0px;
+  padding-left: 15px;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.tripleLine select option {
+  background: RGB(76 74 90);
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.tripleLine select:not(:first-of-type) {
+  border-top: 1px solid RGB(76 74 90);
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div:not(:first-of-type) span {
   border-top: 1px solid RGB(43 42 51);
@@ -16449,6 +16432,8 @@ form.capacite div.main div.effets a.edit {
   background: RGB(76 74 90);
   border: 0px;
   border-radius: 0px;
+  color: white;
+  font-size: 12px;
 }
 .knight section.body div.aspectsCaracteristiques div.listeAspects div.aspect:not(:last-of-type) {
   margin-bottom: 5px;

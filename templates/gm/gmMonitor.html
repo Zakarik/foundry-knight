@@ -1,26 +1,5 @@
-<form class="{{cssClass}}" autocomplete="off">
+<form class="{{cssClass}} full" autocomplete="off">
     <div class="main">
-        <header>
-            <span class="name">{{localize "KNIGHT.Nom"}}</span>
-            <div class="aspect">
-                <span class="header">{{localize "KNIGHT.ASPECTS.CHAIR.Label"}}</span>
-            </div>
-            <div class="aspect">
-                <span class="header">{{localize "KNIGHT.ASPECTS.BETE.Label"}}</span>
-            </div>
-            <div class="aspect">
-                <span class="header">{{localize "KNIGHT.ASPECTS.MACHINE.Label"}}</span>
-            </div>
-            <div class="aspect">
-                <span class="header">{{localize "KNIGHT.ASPECTS.DAME.Label"}}</span>
-            </div>
-            <div class="aspect">
-                <span class="header">{{localize "KNIGHT.ASPECTS.MASQUE.Label"}}</span>
-            </div>
-            <div class="data">
-
-            </div>
-        </header>
         {{#each object.pj as | key pj|}}
         <div>
             <div class="name">
@@ -36,7 +15,7 @@
             </div>
             <div class="aspect">
                 <span class="label">
-                    {{key.aspects.chair.value}}
+                    {{localize "KNIGHT.ASPECTS.CHAIR.Label"}} : {{key.aspects.chair.value}}
                 </span>
                 <span>
                     {{localize "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.DEPLACEMENT.Label"}} : {{key.aspects.chair.caracteristiques.deplacement.value}}
@@ -53,10 +32,10 @@
                     <br/>
                     {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.chair.caracteristiques.endurance.overdrive.value}}
                 </span>
-            </div> 
+            </div>
             <div class="aspect">
                 <span class="label">
-                    {{key.aspects.bete.value}}
+                    {{localize "KNIGHT.ASPECTS.BETE.Label"}} : {{key.aspects.bete.value}}
                 </span>
                 <span>
                     {{localize "KNIGHT.ASPECTS.BETE.CARACTERISTIQUES.HARGNE.Label"}} : {{key.aspects.bete.caracteristiques.hargne.value}}
@@ -73,10 +52,10 @@
                     <br/>
                     {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.bete.caracteristiques.instinct.overdrive.value}}
                 </span>
-            </div> 
+            </div>
             <div class="aspect">
                 <span class="label">
-                    {{key.aspects.machine.value}}
+                    {{localize "KNIGHT.ASPECTS.MACHINE.Label"}} : {{key.aspects.machine.value}}
                 </span>
                 <span>
                     {{localize "KNIGHT.ASPECTS.MACHINE.CARACTERISTIQUES.TIR.Label"}} : {{key.aspects.machine.caracteristiques.tir.value}}
@@ -93,10 +72,10 @@
                     <br/>
                     {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.machine.caracteristiques.technique.overdrive.value}}
                 </span>
-            </div> 
+            </div>
             <div class="aspect">
                 <span class="label">
-                    {{key.aspects.dame.value}}
+                    {{localize "KNIGHT.ASPECTS.DAME.Label"}} : {{key.aspects.dame.value}}
                 </span>
                 <span>
                     {{localize "KNIGHT.ASPECTS.DAME.CARACTERISTIQUES.AURA.Label"}} : {{key.aspects.dame.caracteristiques.aura.value}}
@@ -113,10 +92,10 @@
                     <br/>
                     {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.dame.caracteristiques.sangFroid.overdrive.value}}
                 </span>
-            </div> 
+            </div>
             <div class="aspect">
                 <span class="label">
-                    {{key.aspects.masque.value}}
+                    {{localize "KNIGHT.ASPECTS.MASQUE.Label"}} : {{key.aspects.masque.value}}
                 </span>
                 <span>
                     {{localize "KNIGHT.ASPECTS.MASQUE.CARACTERISTIQUES.DISCRETION.Label"}} : {{key.aspects.masque.caracteristiques.discretion.value}}
@@ -133,7 +112,7 @@
                     <br/>
                     {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.masque.caracteristiques.perception.overdrive.value}}
                 </span>
-            </div> 
+            </div>
             <div class="data">
                 <span>
                     {{localize "KNIGHT.LATERAL.ChampDeForce-short"}} : {{key.cdf}}

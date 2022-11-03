@@ -12,10 +12,13 @@
             title: game.i18n.localize("KNIGHT.GM.TOOL.GMMONITOR.Label"),
             left: x - ((x / 2) + 400),
             top: y - ((y / 2) + 200),
+            height: 400,
+            width: 600,
             closeOnSubmit: false,
             submitOnClose: false,
             submitOnChange: true,
-            minimizable: false
+            minimizable: false,
+            resizable:true
         });
     }
 
@@ -28,11 +31,10 @@
     }
 
     async render(force = false, options = {}) {
+
         if (!game.user.isGM) {
             return false;
         }
-        this.position.width = "auto";
-        this.position.height = "auto";
 
         const pj = {};
 
