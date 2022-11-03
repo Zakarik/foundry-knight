@@ -133,6 +133,8 @@ export class KnightSheet extends ActorSheet {
 
     context.systemData = context.data.system;
 
+    console.log(context);
+
     return context;
   }
 
@@ -3743,6 +3745,42 @@ export class KnightSheet extends ActorSheet {
       this._rollDice(label, caracteristique, false, caracAdd, caracLock, false, '', '', '', -1, reussites);
     });
 
+    html.find('.rollRecuperationArt').click(async ev => {
+      const target = $(ev.currentTarget);
+      const value = target.data("value");
+
+      const rEspoir = new game.knight.RollKnight(`${value}`, this.actor.system);
+      rEspoir._flavor = game.i18n.localize("KNIGHT.ART.RecuperationEspoir");
+      rEspoir._success = false;
+      await rEspoir.toMessage({
+        speaker: {
+        actor: this.actor?.id || null,
+        token: this.actor?.token?.id || null,
+        alias: this.actor?.name || null,
+        }
+      });
+    });
+
+    html.find('.art-say').click(async ev => {
+      const target = $(ev.currentTarget);
+      const type = target.data("type");
+      const name = game.i18n.localize(`KNIGHT.ART.PRATIQUE.${type.charAt(0).toUpperCase()+type.substr(1)}`);
+      const data = this.getData().actor.art.system.pratique[type];
+
+      const msg = {
+        user: game.user.id,
+        speaker: {
+          actor: this.actor?.id || null,
+          token: this.actor?.token?.id || null,
+          alias: this.actor?.name || null,
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        content: `<span style="display:flex;width:100%;font-weight:bold;">${name}</span><span style="display:flex;width:100%;text-align:justify;justify-content:left;word-break:break-all;">${data}</span>`
+      };
+
+      ChatMessage.create(msg);
+    });
+
     html.find('.jetEspoir').click(ev => {
       this._rollDice(game.i18n.localize('KNIGHT.JETS.JetEspoir'), 'hargne', false, ['sangFroid'], ['hargne', 'sangFroid']);
     });
@@ -4878,6 +4916,23 @@ export class KnightSheet extends ActorSheet {
         this.actor.update(update);
       }
 
+      const oldArtId = actorData?.art || 0;
+
+      if (itemType === 'art') {
+        const update = {
+          system:{
+            art:itemId
+          }
+        };
+
+        if(oldArtId !== 0) {
+          const oldArt = this.actor.items?.get(oldArtId) || false;
+          if(oldArt !== false) oldArt.delete();
+        }
+
+        this.actor.update(update);
+      }
+
       return itemCreate;
     }
   }
@@ -4973,6 +5028,7 @@ export class KnightSheet extends ActorSheet {
     let armureData = {};
     let armureLegendeData = {};
     let longbow = {};
+    let art = {};
     let aspects = {
       "chair":{
         "bonus":0,
@@ -6483,6 +6539,7 @@ export class KnightSheet extends ActorSheet {
         }
       }
 
+      // ARMURE DE LEGENDE
       if (i.type === 'armurelegende') {
         armureLegendeData = i;
 
@@ -6507,6 +6564,11 @@ export class KnightSheet extends ActorSheet {
               break;
           }
         }
+      }
+
+      // ART
+      if (i.type === 'art') {
+        art = i;
       }
     }
 
@@ -6725,6 +6787,7 @@ export class KnightSheet extends ActorSheet {
     actorData.armesDistanceRack = armesDistanceRack;
     actorData.armesDistanceArmoury = armesDistanceArmoury;
     actorData.armesTourelles = armesTourelles;
+    actorData.art = art;
 
     const update = {
       system:{

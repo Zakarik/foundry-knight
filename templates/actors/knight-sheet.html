@@ -341,6 +341,9 @@
         <nav class="sheet-tabs tabs" data-group="primary">
             <a class="item" data-tab="personnage">{{localize "KNIGHT.PERSONNAGE.Label"}}</a>
             <a class="item" data-tab="aspectsCaracteristiques">{{localize "KNIGHT.ASPECTS.Label"}}</a>
+            {{#if systemData.options.art}}
+            <a class="item" data-tab="art">{{localize "KNIGHT.ART.Label"}}</a>
+            {{/if}}
             {{#if systemData.equipements.armure.hasArmor}}
                 <a class="item" data-tab="armure">{{systemData.equipements.armure.label}}</a>
             {{/if}}
@@ -507,6 +510,115 @@
                     <textarea name="system.aspects.{{aspect}}.description">{{key.description}}</textarea>
                 </div>
                 {{/each}}
+            </div>
+        </div>
+
+        <div class="tab art" data-group="primary" data-tab="art">
+            <div class="artFull">
+                <h2 class="header summary" data-item-id="{{actor.art._id}}">
+                    {{#if actor.art._id}}
+
+                    {{actor.art.name}}
+                    <div class="multiButton">
+                        {{#if (canRoll 'pj' actor.art.system.jet.c1)}}
+                        <button type="action" class="roll" data-caracteristique="{{actor.art.system.jet.c1}}" data-caraclock="{{actor.art.system.jet.c1}}" data-label="{{actor.art.name}}">
+                            {{localize "KNIGHT.JETS.Label"}} : {{getCarac actor.art.system.jet.c1}}
+                        </button>
+                        {{/if}}
+                        {{#if (canRoll 'pj' actor.art.system.jet.c2)}}
+                        <button type="action" class="roll" data-caracteristique="{{actor.art.system.jet.c2}}" data-caraclock="{{actor.art.system.jet.c2}}" data-label="{{actor.art.name}}">
+                            {{localize "KNIGHT.JETS.Label"}} : {{getCarac actor.art.system.jet.c2}}
+                        </button>
+                        {{/if}}
+                    </div>
+                    <div class="gestionButton">
+                        <a class="item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                        <a class="item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                    </div>
+
+                    {{else}}
+                    {{localize "KNIGHT.ART.Label"}}
+                    <a class="item-control item-create" title="Create Item" data-type="art"><i class="fas fa-plus"></i></a>
+                    {{/if}}
+                </h2>
+                <span class="description">
+                    {{{actor.art.system.description}}}
+                </span>
+                {{#if actor.art.system.pratique.has}}
+                    <div class="col">
+                        <div class="pratique">
+                            <h2 class="header js-toggler">
+                                <i class="far fa-minus-square"></i>
+                                {{localize "KNIGHT.ART.PRATIQUE.Label"}}
+                            </h2>
+                            <h3>{{localize "KNIGHT.ART.PRATIQUE.Base"}}
+                                <a class="art-say" data-type="base"><i class="fa-solid fa-comment-dots"></i></a>
+                            </h3>
+                            <span>{{{capaciteDescription actor.art.system.pratique.base}}}</span>
+                            <h3>{{localize "KNIGHT.ART.PRATIQUE.Apprenti"}}
+                                <a class="art-say" data-type="apprenti"><i class="fa-solid fa-comment-dots"></i></a>
+                            </h3>
+                            <span>{{{capaciteDescription actor.art.system.pratique.apprenti}}}</span>
+                            <h3>{{localize "KNIGHT.ART.PRATIQUE.Initie"}}
+                                <a class="art-say" data-type="initie"><i class="fa-solid fa-comment-dots"></i></a>
+                            </h3>
+                            <span>{{{capaciteDescription actor.art.system.pratique.initie}}}</span>
+                            <h3>
+                                {{localize "KNIGHT.ART.PRATIQUE.Maitre"}}
+                                <a class="art-say" data-type="maitre"><i class="fa-solid fa-comment-dots"></i></a>
+                            </h3>
+                            <span>{{{capaciteDescription actor.art.system.pratique.maitre}}}</span>
+                        </div>
+
+                        <div class="recuperation">
+                            <h2 class="header js-toggler">
+                                <i class="far fa-minus-square"></i>
+                                {{localize "KNIGHT.ART.RecuperationEspoir"}}
+                            </h2>
+                            <button type="action" class="rollRecuperationArt" data-value="1D6">1{{localize "KNIGHT.JETS.Des-short"}}6</button>
+                            <button type="action" class="rollRecuperationArt" data-value="2D6">2{{localize "KNIGHT.JETS.Des-short"}}6</button>
+                            <button type="action" class="rollRecuperationArt" data-value="3D6">3{{localize "KNIGHT.JETS.Des-short"}}6</button>
+                            <button type="action" class="rollRecuperationArt" data-value="4D6">4{{localize "KNIGHT.JETS.Des-short"}}6</button>
+                        </div>
+                    </div>
+                {{/if}}
+
+                {{#if actor.art.system.oeuvre.has}}
+                    <div class="col">
+                        <div class="oeuvre">
+                            <h2 class="header js-toggler">
+                                <i class="far fa-minus-square"></i>
+                                {{localize "KNIGHT.ART.OEUVRE.Label"}}
+                            </h2>
+                            <div class="shortspan">
+                                <span class="label">{{localize "KNIGHT.ART.OEUVRE.Court"}}</span>
+                                <span class="score">{{actor.art.system.oeuvre.temps.court}}</span>
+                            </div>
+                            <div class="shortspan">
+                                <span class="label">{{localize "KNIGHT.ART.OEUVRE.Moyen"}}</span>
+                                <span class="score">{{actor.art.system.oeuvre.temps.moyen}}</span>
+                            </div>
+                            <div class="shortspan">
+                                <span class="label">{{localize "KNIGHT.ART.OEUVRE.Long"}}</span>
+                                <span class="score">{{actor.art.system.oeuvre.temps.moyen}}</span>
+                            </div>
+                            <span class="description">{{{capaciteDescription actor.art.system.oeuvre.base}}}</span>
+                        </div>
+
+                        <div class="listeoeuvre">
+                            <h2 class="header js-toggler">
+                                <i class="far fa-minus-square"></i>
+                                {{localize "KNIGHT.ART.OEUVRE.Liste"}}
+                            </h2>
+                            {{#each actor.art.system.oeuvre.liste  as | key oeuvre|}}
+                            <div>
+                                <span class="label">{{key.name}}</span>
+                                <span class="description">{{{capaciteDescription key.description}}}</span>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                {{/if}}
             </div>
         </div>
 
@@ -1748,6 +1860,14 @@
                         {{localize "KNIGHT.OPTIONS.KRAKEN.Has"}}
                     {{else}}
                         {{localize "KNIGHT.OPTIONS.KRAKEN.Hasnt"}}
+                    {{/if}}
+                </button>
+
+                <button type="action" data-value="{{systemData.options.art}}" data-option="art" class="{{#if systemData.options.art}}selected{{else}}unselected{{/if}}">
+                    {{#if systemData.options.art}}
+                        {{localize "KNIGHT.OPTIONS.ART.Has"}}
+                    {{else}}
+                        {{localize "KNIGHT.OPTIONS.ART.Hasnt"}}
                     {{/if}}
                 </button>
             </div>

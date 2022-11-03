@@ -31,8 +31,6 @@
         if (!game.user.isGM) {
             return false;
         }
-        this.position.width = "auto";
-        this.position.height = "auto";
 
         const pj = {};
         const pnj = {};
