@@ -719,6 +719,9 @@
   border-right: 1px solid white;
   border-bottom: 1px solid white;
 }
+.effetsDialog div.dialog-buttons {
+  margin-bottom: 5px;
+}
 .effetsDialog div.dialog-buttons button {
   cursor: pointer;
   background: RGB(76 74 90);
@@ -1950,6 +1953,18 @@
 }
 .rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.paramsTwoLine:not(:first-of-type) select {
   border-left: 1px solid RGB(76 74 90);
+}
+.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams select.choixmain,
+.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams select.choixmunition {
+  border: 0px;
+  width: 100%;
+  color: white;
+  font-variant: small-caps;
+  text-align: center;
+}
+.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams select.choixmain option,
+.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams select.choixmunition option {
+  background: RGB(43 42 51);
 }
 .rollDialog div.dialog-content div.wpn div.button span {
   display: flex;
@@ -14179,14 +14194,16 @@
 }
 .arme form.armeWindows header div.tourelle {
   display: flex;
-  width: 100%;
+  width: calc(50% - 5px);
   justify-content: space-between;
   align-items: flex-start;
   align-content: flex-start;
+  flex-wrap: wrap;
+  flex: none;
 }
 .arme form.armeWindows header div.tourelle button {
   flex: none;
-  width: calc(50% - 5px);
+  width: 100%;
   color: white;
   cursor: pointer;
   border: 2px solid;
@@ -14203,6 +14220,92 @@
 }
 .arme form.armeWindows header div.tourelle label {
   margin-top: 10px;
+}
+.arme form.armeWindows header button.options2Mains {
+  flex: none;
+  width: calc(50% - 5px);
+  color: white;
+  cursor: pointer;
+  border: 2px solid;
+  margin-top: 10px;
+  border-radius: 0px;
+}
+.arme form.armeWindows header button.options2Mains.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+.arme form.armeWindows header button.options2Mains.selected {
+  background: RGB(76 74 90);
+  border-color: RGB(76 74 90);
+}
+.arme form.armeWindows header div.munitions {
+  display: flex;
+  width: calc(50% - 5px);
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  flex: none;
+}
+.arme form.armeWindows header div.munitions button.optionsMunitions {
+  flex: none;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 2px solid;
+  margin-top: 10px;
+  border-radius: 0px;
+}
+.arme form.armeWindows header div.munitions button.optionsMunitions.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+.arme form.armeWindows header div.munitions button.optionsMunitions.selected {
+  background: RGB(76 74 90);
+  border-color: RGB(76 74 90);
+}
+.arme form.armeWindows header div.munitions button.optionsMunitionsValider {
+  flex: none;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 2px solid;
+  margin-top: 0px;
+  border-radius: 0px;
+  background: RGB(76 74 90);
+  border-color: RGB(76 74 90);
+}
+.arme form.armeWindows header div.munitions label {
+  display: flex;
+  width: calc(100% + 1px);
+  justify-content: space-between;
+  border: 0px;
+  border-left: 1px solid RGB(43 42 51);
+  border-right: 1px solid RGB(76 74 90);
+}
+.arme form.armeWindows header div.munitions label span {
+  width: 50%;
+  justify-content: left;
+  text-align: left;
+  line-height: 26px;
+  padding-left: 5px;
+  background: RGB(76 74 90);
+  border-top: 1px solid RGB(43 42 51);
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.arme form.armeWindows header div.munitions label input {
+  width: 50%;
+  line-height: 26px;
+  padding-left: 5px;
+  background: RGB(43 42 51);
+  border: 0px;
+  text-align: center;
+}
+.arme form.armeWindows header div.munitions label.munitionListe:not(:last-of-type) span {
+  border-bottom: 0px;
+}
+.arme form.armeWindows header div.munitions label.munitionListe input {
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .arme form.armeWindows div.blockEffets {
   display: flex;
@@ -22159,9 +22262,30 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.combat div.main div.armesDistance div.wpn header div.gestionButton.large {
   width: 70px !important;
 }
+.knight section.body div.combat div.main div.armesContact div.wpn select,
+.knight section.body div.combat div.main div.armesDistance div.wpn select {
+  border: 0px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-variant: small-caps;
+}
+.knight section.body div.combat div.main div.armesContact div.wpn select option,
+.knight section.body div.combat div.main div.armesDistance div.wpn select option {
+  background: RGB(43 42 51);
+}
 .knight section.body div.combat div.main div.armesContact div.wpn div.effets,
 .knight section.body div.combat div.main div.armesDistance div.wpn div.effets {
   width: 100%;
+}
+.knight section.body div.combat div.main div.armesContact div.wpn div.effets h3,
+.knight section.body div.combat div.main div.armesDistance div.wpn div.effets h3 {
+  width: 100%;
+  font-size: 13px;
+  font-variant: small-caps;
+  border: 0px;
+  text-align: center;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets,
 .knight section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets {
@@ -26295,9 +26419,30 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.combat div.main div.armesDistance div.wpn header div.gestionButton.large {
   width: 70px !important;
 }
+.pnj section.body div.combat div.main div.armesContact div.wpn select,
+.pnj section.body div.combat div.main div.armesDistance div.wpn select {
+  border: 0px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-variant: small-caps;
+}
+.pnj section.body div.combat div.main div.armesContact div.wpn select option,
+.pnj section.body div.combat div.main div.armesDistance div.wpn select option {
+  background: RGB(43 42 51);
+}
 .pnj section.body div.combat div.main div.armesContact div.wpn div.effets,
 .pnj section.body div.combat div.main div.armesDistance div.wpn div.effets {
   width: 100%;
+}
+.pnj section.body div.combat div.main div.armesContact div.wpn div.effets h3,
+.pnj section.body div.combat div.main div.armesDistance div.wpn div.effets h3 {
+  width: 100%;
+  font-size: 13px;
+  font-variant: small-caps;
+  border: 0px;
+  text-align: center;
+  border-top: 1px solid RGB(76 74 90);
 }
 .pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets,
 .pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets {
@@ -28417,9 +28562,30 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.body div.combat div.main div.armesDistance div.wpn header div.gestionButton.large {
   width: 70px !important;
 }
+.creature section.body div.combat div.main div.armesContact div.wpn select,
+.creature section.body div.combat div.main div.armesDistance div.wpn select {
+  border: 0px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-variant: small-caps;
+}
+.creature section.body div.combat div.main div.armesContact div.wpn select option,
+.creature section.body div.combat div.main div.armesDistance div.wpn select option {
+  background: RGB(43 42 51);
+}
 .creature section.body div.combat div.main div.armesContact div.wpn div.effets,
 .creature section.body div.combat div.main div.armesDistance div.wpn div.effets {
   width: 100%;
+}
+.creature section.body div.combat div.main div.armesContact div.wpn div.effets h3,
+.creature section.body div.combat div.main div.armesDistance div.wpn div.effets h3 {
+  width: 100%;
+  font-size: 13px;
+  font-variant: small-caps;
+  border: 0px;
+  text-align: center;
+  border-top: 1px solid RGB(76 74 90);
 }
 .creature section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets,
 .creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets {
@@ -32606,6 +32772,14 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets {
   width: 100%;
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets h3 {
+  width: 100%;
+  font-size: 13px;
+  font-variant: small-caps;
+  border: 0px;
+  text-align: center;
+  border-top: 1px solid RGB(76 74 90);
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets {
   display: flex;

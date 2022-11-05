@@ -27,7 +27,7 @@
                     border:0px;
                     object-fit: contain;
                 }
-            }            
+            }
 
             label.oneLine {
                 display:flex;
@@ -74,8 +74,6 @@
             }
         }
 
-        
-
         div.description {
             width:100%;
             flex:none;
@@ -88,7 +86,7 @@
                 border-left: 1px solid @lightBlue;
                 border-right: 1px solid @lightBlue;
                 background:@lightBlack;
-        
+
                 div.editor-content {
                     padding-left:5px;
                     padding-right:5px;
@@ -113,7 +111,7 @@
                 padding:0px;
                 flex:none;
                 border-bottom:3px solid @white;
-            
+
                 input[type="text"] {
                   margin: 0px;
                   width: 100%;
@@ -179,7 +177,7 @@
                         padding:0px;
                         margin:0px;
                         background:@black;
-                        
+
                         &:first-of-type {
                             text-align: right;
                         }
@@ -193,19 +191,21 @@
 
             div.tourelle {
                 display:flex;
-                width:100%;
+                width:calc(50% - 5px);
                 justify-content: space-between;
                 align-items: flex-start;
                 align-content: flex-start;
+                flex-wrap: wrap;
+                flex:none;
 
                 button {
                     flex:none;
-                    width: calc(50% - 5px);
+                    width: 100%;
                     color: @white;
                     cursor: pointer;
                     border: 2px solid;
-                    margin-top:10px;  
-                    border-radius:0px;              
+                    margin-top:10px;
+                    border-radius:0px;
 
                     &.unselected {
                         background:@black;
@@ -221,6 +221,112 @@
                 label {
                     margin-top:10px;
                 }
+            }
+
+            button.options2Mains {
+                flex:none;
+                width: calc(50% - 5px);
+                color: @white;
+                cursor: pointer;
+                border: 2px solid;
+                margin-top:10px;
+                border-radius:0px;
+
+                &.unselected {
+                    background:@black;
+                    border-color:@lightBlack;
+                }
+
+                &.selected {
+                    background:@lightBlack;
+                    border-color:@lightBlack;
+                }
+            }
+
+            div.munitions {
+                display:flex;
+                width:calc(50% - 5px);
+                justify-content: space-between;
+                align-items: flex-start;
+                align-content: flex-start;
+                flex-wrap: wrap;
+                flex:none;
+
+                button {
+                    &.optionsMunitions {
+                        flex:none;
+                        width: 100%;
+                        color: @white;
+                        cursor: pointer;
+                        border: 2px solid;
+                        margin-top:10px;
+                        border-radius:0px;
+
+                        &.unselected {
+                            background:@black;
+                            border-color:@lightBlack;
+                        }
+
+                        &.selected {
+                            background:@lightBlack;
+                            border-color:@lightBlack;
+                        }
+                    }
+
+                    &.optionsMunitionsValider {
+                        flex:none;
+                        width: 100%;
+                        color: @white;
+                        cursor: pointer;
+                        border: 2px solid;
+                        margin-top:0px;
+                        border-radius:0px;
+                        background:@lightBlack;
+                        border-color:@lightBlack;
+                    }
+                }
+
+                label {
+                    display:flex;
+                    width:calc(100% + 1px);
+                    justify-content: space-between;
+                    border:0px;
+                    border-left:1px solid @black;
+                    border-right:1px solid @lightBlack;
+
+                    span {
+                        width:50%;
+                        justify-content: left;
+                        text-align: left;
+                        line-height: 26px;
+                        padding-left:5px;
+                        background:@lightBlack;
+                        border-top:1px solid @black;
+                        border-bottom:1px solid @black;
+                    }
+
+                    input {
+                        width:50%;
+                        line-height: 26px;
+                        padding-left:5px;
+                        background:@black;
+                        border:0px;
+                        text-align: center;
+                    }
+
+                    &.munitionListe {
+                        &:not(:last-of-type) {
+                            span {
+                                border-bottom:0px;
+                            }
+                        }
+
+                        input {
+                            border-bottom:1px solid @lightBlack;
+                        }
+                    }
+                }
+
             }
         }
 
@@ -239,7 +345,7 @@
                 width: 100%;
                 justify-content: space-evenly;
                 flex-wrap: wrap;
-                
+
                 padding-right: 5px;
                 padding-bottom: 19px;
                 padding-left: 5px;
@@ -247,11 +353,11 @@
                 flex:none;
 
                 .effets();
-    
+
                 &.hidden {
                     display:none;
                 }
             }
-        }   
-    } 
+        }
+    }
 }

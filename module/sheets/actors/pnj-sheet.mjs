@@ -212,6 +212,22 @@ export class PNJSheet extends ActorSheet {
       header.slideUp(200, () => this.render(false));
     });
 
+    html.find('div.combat div.armesContact select.wpnMainChange').change(ev => {
+      const target = $(ev.currentTarget);
+      const id = target.data("id");
+      const value = target.val();
+
+      this.actor.items.get(id).update({['system.options2mains.actuel']:value});
+    });
+
+    html.find('div.combat div.armesDistance select.wpnMunitionChange').change(ev => {
+      const target = $(ev.currentTarget);
+      const id = target.data("id");
+      const value = target.val();
+
+      this.actor.items.get(id).update({['system.optionsmunitions.actuel']:value});
+    });
+
     html.find('.capacites div.wolf .wolfFighter').click(async ev => {
       const target = $(ev.currentTarget);
       const label = target.data('label');
@@ -1056,26 +1072,39 @@ export class PNJSheet extends ActorSheet {
         data.noRack = true;
         data.pnj = true;
 
+        const options2mains = i.system.options2mains.has;
         const raw = data.effets.raw;
         const custom = data.effets.custom;
         const labels = CONFIG.KNIGHT.effets;
 
         data.effets.liste = listEffects(raw, custom, labels);
 
+        const main = i.system.options2mains.actuel;
         const effetsRaw = i.system.effets.raw;
+        const effets2Raw = i.system.effets2mains.raw;
         const bDefense = effetsRaw.find(str => { if(str.includes('defense')) return str; });
         const bReaction = effetsRaw.find(str => { if(str.includes('reaction')) return str; });
 
-        if(bDefense !== undefined) defense.bonus.armes += +bDefense.split(' ')[1];
-        if(bReaction !== undefined) reaction.bonus.armes += +bReaction.split(' ')[1];
+        if((bDefense !== undefined && main === '1main') || (bDefense !== undefined && options2mains === false)) defense.bonus.armes += +bDefense.split(' ')[1];
+        if((bReaction !== undefined && main === '1main') || (bReaction !== undefined && options2mains === false)) reaction.bonus.armes += +bReaction.split(' ')[1];
 
         if(type === 'distance') {
           const rawDistance = data.distance.raw;
           const customDistance = data.distance.custom;
           const labelsDistance = CONFIG.KNIGHT.AMELIORATIONS.distance;
+          const effetMunitionHas = data?.optionsmunitions?.has || false;
+          const effetMunition = data?.optionsmunitions?.liste || {};
 
           data.distance.liste = listEffects(rawDistance, customDistance, labelsDistance);
 
+          if(effetMunitionHas !== false) {
+            for (let [kM, munition] of Object.entries(effetMunition)) {
+              const bRaw2 = munition.raw || [];
+              const bCustom2 = munition.custom || [];
+
+              munition.liste = listEffects(bRaw2, bCustom2, labels);
+            }
+          }
         } else if(type === 'contact') {
           const rawStructurelles = data.structurelles.raw;
           const customStructurelles = data.structurelles.custom;
@@ -1091,6 +1120,19 @@ export class PNJSheet extends ActorSheet {
           const labelsOrnementales = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
 
           data.ornementales.liste = listEffects(rawOrnementales, customOrnementales, labelsOrnementales);
+
+          if(options2mains) {
+            const raw2 = data.effets2mains.raw;
+            const custom2 = data.effets2mains.custom;
+
+            data.effets2mains.liste = listEffects(raw2, custom2, labels);
+
+            const bDefense2 = effets2Raw.find(str => { if(str.includes('defense')) return str; });
+            const bReaction2 = effets2Raw.find(str => { if(str.includes('reaction')) return str; });
+
+            if(bDefense !== undefined && main === '2main' && options2mains === true) defense.bonus.armes += +bDefense2.split(' ')[1];
+            if(bReaction !== undefined && main === '2main' && options2mains === true) reaction.bonus.armes += +bReaction2.split(' ')[1];
+          }
         }
 
         if(tourelle.has && type === 'distance') {
@@ -1585,11 +1627,48 @@ export class PNJSheet extends ActorSheet {
     const deployGrenades = typeWpn === 'grenades' ? true : false;
     const hasBarrage = typeWpn === 'grenades' ? data.data.system.combat.grenades.liste[nameWpn].effets.raw.find(str => { if(str.includes('barrage')) return true; }) : false;
 
+    let armeDistance = data.actor.armesDistance;
+    let armeTourelle = data.actor.armesTourelles;
+
+    for(let i = 0;i < Object.entries(armeDistance).length;i++) {
+      const wpnData = armeDistance[i].system;
+      const wpnMunitions = wpnData.optionsmunitions;
+      const wpnMunitionActuel = wpnMunitions.actuel;
+      const wpnMunitionsListe = wpnMunitions.liste[wpnMunitionActuel];
+
+      if(wpnMunitions.has) {
+        const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
+        const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
+
+        armeDistance[i].system.effets = {
+          raw:[...new Set(eRaw)],
+          custom:[...new Set(eCustom)],
+        }
+      }
+    }
+
+    for(let i = 0;i < Object.entries(armeTourelle).length;i++) {
+      const wpnData = armeTourelle[i].system;
+      const wpnMunitions = wpnData.optionsmunitions;
+      const wpnMunitionActuel = wpnMunitions.actuel;
+      const wpnMunitionsListe = wpnMunitions.liste[wpnMunitionActuel];
+
+      if(wpnMunitions.has) {
+        const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
+        const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
+
+        armeTourelle[i].system.effets = {
+          raw:[...new Set(eRaw)],
+          custom:[...new Set(eCustom)],
+        }
+      }
+    }
+
     await rollApp.setData(label, select, [], [], difficulte,
       data.data.system.combat.data.modificateur, data.data.system.combat.data.succesbonus+reussitesBonus,
       {dice:data.data.system.combat.data.degatsbonus.dice, fixe:data.data.system.combat.data.degatsbonus.fixe},
       {dice:data.data.system.combat.data.violencebonus.dice, fixe:data.data.system.combat.data.violencebonus.fixe},
-      data.actor.armesContact, data.actor.armesDistance, data.actor.armesTourelles, data.systemData.combat.grenades.liste, {contact:data.systemData.combat.armesimprovisees.liste, distance:data.systemData.combat.armesimprovisees.liste}, [], [],
+      data.actor.armesContact, armeDistance, armeTourelle, data.systemData.combat.grenades.liste, {contact:data.systemData.combat.armesimprovisees.liste, distance:data.systemData.combat.armesimprovisees.liste}, [], [],
       isWpn, idWpn, nameWpn, typeWpn, num,
       deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, deployGrenades, false, false,
       true, false);

@@ -12,6 +12,7 @@
     "TypeAvantage":"Avantage",
     "TypeInconvenient": "Inconvénient",
     "TypeMotivationmineure": "Motivation Mineure",
+    "TypeMotivationMineure": "Motivation Mineure",
     "TypeLangue": "Langue",
     "TypeContact": "Contact",
     "TypeBlessure": "Blessure Grave",
@@ -1961,6 +1962,18 @@
         "TOURELLE":{
           "Has":"Arme montée en tourelle automatique",
           "Hasnt":"Arme non montée en tourelle automatique"
+        },
+        "DEUXMAINS":{
+          "Unemain":"Une main",
+          "Deuxmains":"Deux mains",
+          "Has":"Peut être porté à une ou deux mains",
+          "Hasnt":"Ne peut qu'être porté à une ou deux mains"
+        },
+        "MUNITIONS":{
+          "Label":"Munition",
+          "Has":"Possède plusieurs munitions possibles",
+          "Hasnt":"Ne possède qu'un seul type de munition",
+          "Combiens":"Combiens ?"
         }
       },
       "CAPACITES":{

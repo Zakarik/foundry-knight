@@ -244,7 +244,26 @@ export class KnightRollDialog extends Application {
   }
 
   async setWpnDistance(wpnDistance) {
-    this.data.listWpnDistance = wpnDistance;
+    let final = wpnDistance;
+
+    for(let i = 0;i < Object.entries(final).length;i++) {
+      const wpnData = final[i].system;
+      const wpnMunitions = wpnData.optionsmunitions;
+      const wpnMunitionActuel = wpnMunitions.actuel;
+      const wpnMunitionsListe = wpnMunitions.liste[wpnMunitionActuel];
+
+      if(wpnMunitions.has) {
+        const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
+        const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
+
+        final[i].system.effets = {
+          raw:[...new Set(eRaw)],
+          custom:[...new Set(eCustom)],
+        }
+      }
+    }
+
+    this.data.listWpnDistance = final;
 
     return new Promise(resolve => {
       setTimeout(() => {
@@ -256,7 +275,26 @@ export class KnightRollDialog extends Application {
   }
 
   async setWpnTourelle(wpnTourelle) {
-    this.data.listWpnTourelle = wpnTourelle;
+    let final = wpnTourelle;
+
+    for(let i = 0;i < Object.entries(final).length;i++) {
+      const wpnData = final[i].system;
+      const wpnMunitions = wpnData.optionsmunitions;
+      const wpnMunitionActuel = wpnMunitions.actuel;
+      const wpnMunitionsListe = wpnMunitions.liste[wpnMunitionActuel];
+
+      if(wpnMunitions.has) {
+        const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
+        const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
+
+        final[i].system.effets = {
+          raw:[...new Set(eRaw)],
+          custom:[...new Set(eCustom)],
+        }
+      }
+    }
+
+    this.data.listWpnTourelle = final;
 
     return new Promise(resolve => {
       setTimeout(() => {
@@ -553,6 +591,28 @@ export class KnightRollDialog extends Application {
 
       if(type === 'contact') this.data.listWpnContact[num].system[typeBonus].module.variable[variable].selected[fixeOrDice] = +value;
       else if(type === 'distance') this.data.listWpnDistance[num].system[typeBonus].module.variable[variable].selected[fixeOrDice] = +value;
+    });
+
+    html.find('select.choixmain').change(ev => {
+      const target = $(ev.currentTarget);
+      const value = target.val();
+      const id = this.data.actor;
+      const actor = game.actors.get(id);
+      const num = target.data("num");
+      const listWpnContact = this.data.listWpnContact[num];
+
+      actor.items.get(listWpnContact._id).update({['system.options2mains.actuel']:value});
+    });
+
+    html.find('select.choixmunition').change(ev => {
+      const target = $(ev.currentTarget);
+      const value = target.val();
+      const id = this.data.actor;
+      const actor = game.actors.get(id);
+      const num = target.data("num");
+      const listWpnDistance = this.data.listWpnDistance[num];
+
+      actor.items.get(listWpnDistance._id).update({['system.optionsmunitions.actuel']:value});
     });
 
     html.find('div.longbow div.data div.effets div img.info').click(ev => {
@@ -1184,58 +1244,61 @@ export class KnightRollDialog extends Application {
     diceViolence += +listAllEffets.violence.totalDice;
     bonusViolence += +listAllEffets.violence.totalBonus;
 
-    if(style.raw === 'akimbo') {
-      diceViolence += Math.ceil(diceViolence/2);
+    if((actor.type !== 'knight' && actor.type !== 'pnj' && actor.type !== 'mechaarmure' && diceViolence === 0 && bonusViolence === 0)) {}
+    else {
+      if(style.raw === 'akimbo') {
+        diceViolence += Math.ceil(diceViolence/2);
+      }
+
+      bonusViolence += bViolence;
+
+      const labelViolence = `${this.data.label} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}${addNum}`;
+      const totalDiceViolence = tenebricide === true ? Math.floor(diceViolence/2) : diceViolence;
+
+      const totalViolence = `${Math.max(totalDiceViolence, 0)}d6+${bonusViolence}`;
+
+      const execViolence = new game.knight.RollKnight(`${totalViolence}`, actor.system);
+      execViolence._success = false;
+      execViolence._hasMin = devastation ? true : false;
+
+      if(devastation) {
+        execViolence._seuil = devastationValue;
+        execViolence._min = 5;
+      }
+
+      await execViolence.evaluate(listAllEffets.violence.minMax);
+
+      let sub = listAllEffets.violence.list;
+      let include = listAllEffets.violence.include;
+
+      if(sub.length > 0) { sub.sort(SortByName); }
+      if(include.length > 0) { include.sort(SortByName); }
+
+      const pViolence = {
+        flavor:labelViolence,
+        main:{
+          total:execViolence._total,
+          tooltip:await execViolence.getTooltip(),
+          formula: execViolence._formula
+        },
+        sub:sub,
+        include:include
+      };
+
+      const violenceMsgData = {
+        user: game.user.id,
+        speaker: {
+          actor: actor?.id || null,
+          token: actor?.token?.id || null,
+          alias: actor?.name || null,
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', pViolence),
+        sound: CONFIG.sounds.dice
+      };
+
+      ChatMessage.create(violenceMsgData);
     }
-
-    bonusViolence += bViolence;
-
-    const labelViolence = `${this.data.label} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}${addNum}`;
-    const totalDiceViolence = tenebricide === true ? Math.floor(diceViolence/2) : diceViolence;
-
-    const totalViolence = `${Math.max(totalDiceViolence, 0)}d6+${bonusViolence}`;
-
-    const execViolence = new game.knight.RollKnight(`${totalViolence}`, actor.system);
-    execViolence._success = false;
-    execViolence._hasMin = devastation ? true : false;
-
-    if(devastation) {
-      execViolence._seuil = devastationValue;
-      execViolence._min = 5;
-    }
-
-    await execViolence.evaluate(listAllEffets.violence.minMax);
-
-    let sub = listAllEffets.violence.list;
-    let include = listAllEffets.violence.include;
-
-    if(sub.length > 0) { sub.sort(SortByName); }
-    if(include.length > 0) { include.sort(SortByName); }
-
-    const pViolence = {
-      flavor:labelViolence,
-      main:{
-        total:execViolence._total,
-        tooltip:await execViolence.getTooltip(),
-        formula: execViolence._formula
-      },
-      sub:sub,
-      include:include
-    };
-
-    const violenceMsgData = {
-      user: game.user.id,
-      speaker: {
-        actor: actor?.id || null,
-        token: actor?.token?.id || null,
-        alias: actor?.name || null,
-      },
-      type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-      content: await renderTemplate('systems/knight/templates/dices/wpn.html', pViolence),
-      sound: CONFIG.sounds.dice
-    };
-
-    ChatMessage.create(violenceMsgData);
   }
 
   async _getAllEffets(actor, dataWpn, typeWpn, isPNJ = false) {
@@ -1243,8 +1306,14 @@ export class KnightRollDialog extends Application {
     const data = this.data;
     const style = isPNJ ? {raw:''} : this.data.style;
     const getStyle = isPNJ ? {} : getModStyle(style.raw);
+    const options2mains = dataWpn?.options2mains || false;
 
-    const effetsWpn = dataWpn.effets;
+    let effetsWpn = dataWpn.effets;
+
+    if(typeWpn === 'contact' && options2mains !== false) {
+      if(options2mains.has && options2mains.actuel === '2main') {effetsWpn = dataWpn.effets2mains;}
+    }
+
     const distanceWpn = dataWpn?.distance || {raw:[], custom:[]};
     const ornementalesWpn = dataWpn?.ornementales || {raw:[], custom:[]};
     const structurellesWpn = dataWpn?.structurelles || {raw:[], custom:[]};

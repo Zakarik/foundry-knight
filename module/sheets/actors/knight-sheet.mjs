@@ -302,6 +302,22 @@ export class KnightSheet extends ActorSheet {
       header.slideUp(200, () => this.render(false));
     });
 
+    html.find('div.combat div.armesContact select.wpnMainChange').change(ev => {
+      const target = $(ev.currentTarget);
+      const id = target.data("id");
+      const value = target.val();
+
+      this.actor.items.get(id).update({['system.options2mains.actuel']:value});
+    });
+
+    html.find('div.combat div.armesDistance select.wpnMunitionChange').change(ev => {
+      const target = $(ev.currentTarget);
+      const id = target.data("id");
+      const value = target.val();
+
+      this.actor.items.get(id).update({['system.optionsmunitions.actuel']:value});
+    });
+
     html.find('div.armure section.buttonTabs a').click(ev => {
       const target = $(ev.currentTarget);
       const tab = target.data("tab");
@@ -4726,6 +4742,7 @@ export class KnightSheet extends ActorSheet {
             label: game.i18n.localize('KNIGHT.AUTRE.Non'),
             callback: async () => {
               itemData.system.addOrder = gloireMax+1;
+
               const create = await Item.create(itemData, {parent: this.actor});
 
               return create;
@@ -4737,6 +4754,8 @@ export class KnightSheet extends ActorSheet {
     } else {
       if(type === 'module') {
         itemData.system.addOrder = gloireMax+1;
+
+        console.log(itemData, data.permanent);
       }
 
       const create = await Item.create(itemData, {parent: this.actor});
@@ -4996,6 +5015,7 @@ export class KnightSheet extends ActorSheet {
     const blessures = [];
     const trauma = [];
     const module = [];
+    const modulepassifs = [];
     const moduleErsatz = {};
     const moduleBonusDgts = {
       "contact":[],
@@ -6329,7 +6349,8 @@ export class KnightSheet extends ActorSheet {
             }
           }
 
-          module.push(i);
+          if(data.permanent) modulepassifs.push(i);
+          else module.push(i);
           depensePG.push({
             order:data.addOrder,
             name:i.name,
@@ -6499,8 +6520,14 @@ export class KnightSheet extends ActorSheet {
         const armeRaw = i.system.effets.raw.concat(armorSpecialRaw);
         const armeCustom = i.system.effets.custom.concat(armorSpecialCustom);
 
+        const armeE2Raw = i.system.effets2mains.raw.concat(armorSpecialRaw);
+        const armeE2Custom = i.system.effets2mains.custom.concat(armorSpecialCustom);
+
         i.system.effets.raw = [...new Set(armeRaw)];
         i.system.effets.custom = armeCustom;
+
+        i.system.effets2mains.raw = [...new Set(armeE2Raw)];
+        i.system.effets2mains.custom = armeE2Custom;
 
         depensePG.push({
           order:data.addOrder,
@@ -6517,17 +6544,28 @@ export class KnightSheet extends ActorSheet {
           const equipped = data?.equipped || false;
           const rack = data?.rack || false;
 
+          const main = i.system.options2mains.actuel;
           const effetsRaw = i.system.effets.raw;
+
           const bDefense = effetsRaw.find(str => { if(str.includes('defense')) return str; });
           const bReaction = effetsRaw.find(str => { if(str.includes('reaction')) return str; });
 
           if (type === 'contact' && equipped === false && rack === false) { armesContactArmoury.push(i); }
           if (type === 'contact' && equipped === false && rack === true) { armesContactRack.push(i); }
           else if (type === 'contact' && equipped === true) {
-            const bMassive = i.system.structurelles.raw.find(str => { if(str.includes('massive')) return true; });
+            const options2mains = i.system.options2mains.has;
+            const effets2Raw = i.system.effets2mains.raw;
 
-            if(bDefense !== undefined) defense.bonus += +bDefense.split(' ')[1];
-            if(bReaction !== undefined) reaction.bonus += +bReaction.split(' ')[1];
+            const bMassive = i.system.structurelles.raw.find(str => { if(str.includes('massive')) return true; });
+            const bDefense2 = effets2Raw.find(str => { if(str.includes('defense')) return str; });
+            const bReaction2 = effets2Raw.find(str => { if(str.includes('reaction')) return str; });
+
+            if((bDefense !== undefined && main === '1main') || (bDefense !== undefined && options2mains === false)) defense.bonus += +bDefense.split(' ')[1];
+            if((bReaction !== undefined && main === '1main') || (bReaction !== undefined && options2mains === false)) reaction.bonus += +bReaction.split(' ')[1];
+
+            if(bDefense2 !== undefined && main === '2main' && options2mains === true) defense.bonus += +bDefense2.split(' ')[1];
+            if(bReaction2 !== undefined && main === '2main' && options2mains === true) reaction.bonus += +bReaction2.split(' ')[1];
+
             if(bMassive) defense.malus += 1;
 
             armesContactEquipee.push(i);
@@ -6773,6 +6811,7 @@ export class KnightSheet extends ActorSheet {
     actorData.armureData = armureData;
     actorData.armureLegendeData = armureLegendeData;
     actorData.modules = module;
+    actorData.modulespassifs = modulepassifs;
     actorData.moduleErsatz = moduleErsatz;
     actorData.avantages = avantage;
     actorData.inconvenient = inconvenient;
@@ -7565,6 +7604,7 @@ export class KnightSheet extends ActorSheet {
     const aDEffets = context.actor?.armesDistanceRack || false;
     const aCAEffets = context.actor?.armesContactArmoury || false;
     const aDAEffets = context.actor?.armesDistanceArmoury || false;
+    const aTEffets = context.actor?.armesTourelles || false;
 
     const labelsE = CONFIG.KNIGHT.effets;
     const labelsD = CONFIG.KNIGHT.AMELIORATIONS.distance;
@@ -7576,6 +7616,9 @@ export class KnightSheet extends ActorSheet {
       for (let [key, effets] of Object.entries(aCEffets)) {
         const bRaw = effets.system?.effets?.raw || [];
         const bCustom = effets.system?.effets?.custom || [];
+        const effet2mains = effets.system?.effets2mains || false;
+        const bRaw2 = effets.system?.effets2mains?.raw || [];
+        const bCustom2 = effets.system?.effets2mains?.custom || [];
 
         const bRDistance = effets.system?.distance?.raw || [];
         const bCDistance = effets.system?.distance?.custom || [];
@@ -7587,6 +7630,11 @@ export class KnightSheet extends ActorSheet {
         const bCOrnementales = effets.system?.ornementales?.custom || [];
 
         effets.system.effets.liste = listEffects(bRaw, bCustom, labelsE);
+
+        if(effet2mains !== false) {
+          effet2mains.liste = listEffects(bRaw2, bCustom2, labelsE);
+        }
+
         if(bRDistance.length !== 0) effets.system.distance.liste = listEffects(bRDistance, bCDistance, labelsD);
         if(bRStructurelles.length !== 0) effets.system.structurelles.liste = listEffects(bRStructurelles, bCStructurelles, labelsS);
         if(bROrnementales.length !== 0) effets.system.ornementales.liste = listEffects(bROrnementales, bCOrnementales, labelsO);
@@ -7611,6 +7659,15 @@ export class KnightSheet extends ActorSheet {
         if(bRDistance.length !== 0) effets.system.distance.liste = listEffects(bRDistance, bCDistance, labelsD);
         if(bRStructurelles.length !== 0) effets.system.structurelles.liste = listEffects(bRStructurelles, bCStructurelles, labelsS);
         if(bROrnementales.length !== 0) effets.system.ornementales.liste = listEffects(bROrnementales, bCOrnementales, labelsO);
+
+        const effetMunition = effets.system?.optionsmunitions?.liste || false;
+
+        for (let [kM, munition] of Object.entries(effetMunition)) {
+          const bRaw2 = munition.raw || [];
+          const bCustom2 = munition.custom || [];
+
+          munition.liste = listEffects(bRaw2, bCustom2, labelsE);
+        }
       };
 
     }
@@ -7619,6 +7676,9 @@ export class KnightSheet extends ActorSheet {
       for (let [key, effets] of Object.entries(aCEEffets)) {
         const bRaw = effets.system?.effets?.raw || [];
         const bCustom = effets.system?.effets?.custom || [];
+        const effet2mains = effets.system?.effets2mains || false;
+        const bRaw2 = effets.system?.effets2mains?.raw || [];
+        const bCustom2 = effets.system?.effets2mains?.custom || [];
 
         const bRDistance = effets.system?.distance?.raw || [];
         const bCDistance = effets.system?.distance?.custom || [];
@@ -7630,6 +7690,10 @@ export class KnightSheet extends ActorSheet {
         const bCOrnementales = effets.system?.ornementales?.custom || [];
 
         effets.system.effets.liste = listEffects(bRaw, bCustom, labelsE);
+
+        if(effet2mains !== false) {
+          effet2mains.liste = listEffects(bRaw2, bCustom2, labelsE);
+        }
 
         if(bRDistance.length !== 0) effets.system.distance.liste = listEffects(bRDistance, bCDistance, labelsD);
         if(bRStructurelles.length !== 0) effets.system.structurelles.liste = listEffects(bRStructurelles, bCStructurelles, labelsS);
@@ -7655,6 +7719,15 @@ export class KnightSheet extends ActorSheet {
         if(bRDistance.length !== 0) effets.system.distance.liste = listEffects(bRDistance, bCDistance, labelsD);
         if(bRStructurelles.length !== 0) effets.system.structurelles.liste = listEffects(bRStructurelles, bCStructurelles, labelsS);
         if(bROrnementales.length !== 0) effets.system.ornementales.liste = listEffects(bROrnementales, bCOrnementales, labelsO);
+
+        const effetMunition = effets.system?.optionsmunitions?.liste || false;
+
+        for (let [kM, munition] of Object.entries(effetMunition)) {
+          const bRaw2 = munition.raw || [];
+          const bCustom2 = munition.custom || [];
+
+          munition.liste = listEffects(bRaw2, bCustom2, labelsE);
+        }
       };
 
     }
@@ -7663,6 +7736,9 @@ export class KnightSheet extends ActorSheet {
       for (let [key, effets] of Object.entries(aCAEffets)) {
         const bRaw = effets.system?.effets?.raw || [];
         const bCustom = effets.system?.effets?.custom || [];
+        const effet2mains = effets.system?.effets2mains || false;
+        const bRaw2 = effets.system?.effets2mains?.raw || [];
+        const bCustom2 = effets.system?.effets2mains?.custom || [];
 
         const bRDistance = effets.system?.distance?.raw || [];
         const bCDistance = effets.system?.distance?.custom || [];
@@ -7674,6 +7750,11 @@ export class KnightSheet extends ActorSheet {
         const bCOrnementales = effets.system?.ornementales?.custom || [];
 
         effets.system.effets.liste = listEffects(bRaw, bCustom, labelsE);
+
+        if(effet2mains !== false) {
+          effet2mains.liste = listEffects(bRaw2, bCustom2, labelsE);
+        }
+
         if(bRDistance.length !== 0) effets.system.distance.liste = listEffects(bRDistance, bCDistance, labelsD);
         if(bRStructurelles.length !== 0) effets.system.structurelles.liste = listEffects(bRStructurelles, bCStructurelles, labelsS);
         if(bROrnementales.length !== 0) effets.system.ornementales.liste = listEffects(bROrnementales, bCOrnementales, labelsO);
@@ -7698,6 +7779,45 @@ export class KnightSheet extends ActorSheet {
         if(bRDistance.length !== 0) effets.system.distance.liste = listEffects(bRDistance, bCDistance, labelsD);
         if(bRStructurelles.length !== 0) effets.system.structurelles.liste = listEffects(bRStructurelles, bCStructurelles, labelsS);
         if(bROrnementales.length !== 0) effets.system.ornementales.liste = listEffects(bROrnementales, bCOrnementales, labelsO);
+
+        const effetMunition = effets.system?.optionsmunitions?.liste || false;
+
+        for (let [kM, munition] of Object.entries(effetMunition)) {
+          const bRaw2 = munition.raw || [];
+          const bCustom2 = munition.custom || [];
+
+          munition.liste = listEffects(bRaw2, bCustom2, labelsE);
+        }
+      };
+    }
+
+    if(aTEffets !== false) {
+      for (let [key, effets] of Object.entries(aTEffets)) {
+        const bRaw = effets.system?.effets?.raw || [];
+        const bCustom = effets.system?.effets?.custom || [];
+
+        const bRDistance = effets.system?.distance?.raw || [];
+        const bCDistance = effets.system?.distance?.custom || [];
+
+        const bRStructurelles = effets.system?.structurelles?.raw || [];
+        const bCStructurelles = effets.system?.structurelles?.custom || [];
+
+        const bROrnementales = effets.system?.ornementales?.raw || [];
+        const bCOrnementales = effets.system?.ornementales?.custom || [];
+
+        effets.system.effets.liste = listEffects(bRaw, bCustom, labelsE);
+        if(bRDistance.length !== 0) effets.system.distance.liste = listEffects(bRDistance, bCDistance, labelsD);
+        if(bRStructurelles.length !== 0) effets.system.structurelles.liste = listEffects(bRStructurelles, bCStructurelles, labelsS);
+        if(bROrnementales.length !== 0) effets.system.ornementales.liste = listEffects(bROrnementales, bCOrnementales, labelsO);
+
+        const effetMunition = effets.system?.optionsmunitions?.liste || false;
+
+        for (let [kM, munition] of Object.entries(effetMunition)) {
+          const bRaw2 = munition.raw || [];
+          const bCustom2 = munition.custom || [];
+
+          munition.liste = listEffects(bRaw2, bCustom2, labelsE);
+        }
       };
     }
   }
@@ -8005,6 +8125,43 @@ export class KnightSheet extends ActorSheet {
 
     if(select === '') { bonus.shift(); }
 
+    let armeDistanceEquipee = data.actor.armesDistanceEquipee;
+    let armeTourelle = data.actor.armesTourelles;
+
+    for(let i = 0;i < Object.entries(armeDistanceEquipee).length;i++) {
+      const wpnData = armeDistanceEquipee[i].system;
+      const wpnMunitions = wpnData.optionsmunitions;
+      const wpnMunitionActuel = wpnMunitions.actuel;
+      const wpnMunitionsListe = wpnMunitions.liste[wpnMunitionActuel];
+
+      if(wpnMunitions.has) {
+        const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
+        const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
+
+        armeDistanceEquipee[i].system.effets = {
+          raw:[...new Set(eRaw)],
+          custom:[...new Set(eCustom)],
+        }
+      }
+    }
+
+    for(let i = 0;i < Object.entries(armeTourelle).length;i++) {
+      const wpnData = armeTourelle[i].system;
+      const wpnMunitions = wpnData.optionsmunitions;
+      const wpnMunitionActuel = wpnMunitions.actuel;
+      const wpnMunitionsListe = wpnMunitions.liste[wpnMunitionActuel];
+
+      if(wpnMunitions.has) {
+        const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
+        const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
+
+        armeTourelle[i].system.effets = {
+          raw:[...new Set(eRaw)],
+          custom:[...new Set(eCustom)],
+        }
+      }
+    }
+
     await rollApp.setActor(this.actor.id);
     await rollApp.setAspects(aspects);
     await rollApp.setEffets(hasBarrage, true, true, true);
@@ -8023,7 +8180,7 @@ export class KnightSheet extends ActorSheet {
       data.data.system.combat.data.modificateur, rBonus,
       {dice:data.data.system.combat.data.degatsbonus.dice, fixe:data.data.system.combat.data.degatsbonus.fixe},
       {dice:data.data.system.combat.data.violencebonus.dice, fixe:data.data.system.combat.data.violencebonus.fixe},
-      data.actor.armesContactEquipee, data.actor.armesDistanceEquipee, data.actor.armesTourelles, data.systemData.combat.grenades.liste, {contact:data.systemData.combat.armesimprovisees.liste, distance:data.systemData.combat.armesimprovisees.liste}, [], data.actor.longbow,
+      data.actor.armesContactEquipee, armeDistanceEquipee, armeTourelle, data.systemData.combat.grenades.liste, {contact:data.systemData.combat.armesimprovisees.liste, distance:data.systemData.combat.armesimprovisees.liste}, [], data.actor.longbow,
       isWpn, idWpn, nameWpn, typeWpn, num,
       deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, deployGrenades, deployLongbow, false,
       false, false);

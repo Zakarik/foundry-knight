@@ -454,8 +454,19 @@ export class VehiculeSheet extends ActorSheet {
         const rawDistance = data.distance.raw;
         const customDistance = data.distance.custom;
         const labelsDistance = CONFIG.KNIGHT.AMELIORATIONS.distance;
+        const effetMunitionHas = data?.optionsmunitions?.has || false;
+        const effetMunition = data?.optionsmunitions?.liste || {};
 
         data.distance.liste = listEffects(rawDistance, customDistance, labelsDistance);
+
+        if(effetMunitionHas !== false) {
+          for (let [kM, munition] of Object.entries(effetMunition)) {
+            const bRaw2 = munition.raw || [];
+            const bCustom2 = munition.custom || [];
+
+            munition.liste = listEffects(bRaw2, bCustom2, labels);
+          }
+        }
 
         armesDistance.push(i);
       }
@@ -734,6 +745,25 @@ export class VehiculeSheet extends ActorSheet {
     const actor = game.actors.get(actorId);
     const armesDistance = isWpn ? this.actor.armesDistance : {};
 
+    let armeDistanceFinal = armesDistance;
+
+    for(let i = 0;i < Object.entries(armeDistanceFinal).length;i++) {
+      const wpnData = armeDistanceFinal[i].system;
+      const wpnMunitions = wpnData.optionsmunitions;
+      const wpnMunitionActuel = wpnMunitions.actuel;
+      const wpnMunitionsListe = wpnMunitions.liste[wpnMunitionActuel];
+
+      if(wpnMunitions.has) {
+        const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
+        const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
+
+        armeDistanceFinal[i].system.effets = {
+          raw:[...new Set(eRaw)],
+          custom:[...new Set(eCustom)],
+        }
+      }
+    }
+
     await rollApp.setActor(this.actor.id);
     await rollApp.setAspects(actor.system.aspects);
     await rollApp.setEffets(hasBarrage, false, false, false);
@@ -741,7 +771,7 @@ export class VehiculeSheet extends ActorSheet {
       data.combat.data.modificateur, data.combat.data.succesbonus+desBonus,
       {dice:0, fixe:0},
       {dice:0, fixe:0},
-      [], armesDistance, [], [], {contact:{}, distance:{}}, [], [],
+      [], armeDistanceFinal, [], [], {contact:{}, distance:{}}, [], [],
       isWpn, idWpn, nameWpn, typeWpn, num,
       deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, false, false, false,
       true, false);
@@ -765,11 +795,30 @@ export class VehiculeSheet extends ActorSheet {
     const hasBarrage = false;
     const armesDistance = isWpn ? this.actor.armesDistance : {};
 
+    let armeDistanceFinal = armesDistance;
+
+    for(let i = 0;i < Object.entries(armeDistanceFinal).length;i++) {
+      const wpnData = armeDistanceFinal[i].system;
+      const wpnMunitions = wpnData.optionsmunitions;
+      const wpnMunitionActuel = wpnMunitions.actuel;
+      const wpnMunitionsListe = wpnMunitions.liste[wpnMunitionActuel];
+
+      if(wpnMunitions.has) {
+        const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
+        const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
+
+        armeDistanceFinal[i].system.effets = {
+          raw:[...new Set(eRaw)],
+          custom:[...new Set(eCustom)],
+        }
+      }
+    }
+
     await rollApp.setData(label, caracteristique, [], [], difficulte,
       data.combat.data.modificateur, data.combat.data.succesbonus+desBonus,
       {dice:0, fixe:0},
       {dice:0, fixe:0},
-      {}, armesDistance, {}, {}, {contact:{}, distance:{}}, [], [],
+      {}, armeDistanceFinal, {}, {}, {contact:{}, distance:{}}, [], [],
       isWpn, idWpn, nameWpn, typeWpn, num,
       deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, deployGrenades, deployLongbow, false,
       false, false);
