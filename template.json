@@ -5410,6 +5410,16 @@
       "portee":"contact",
       "prix":0,
       "listes":{},
+      "options2mains":{
+        "has":false,
+        "actuel":"1main"
+      },
+      "optionsmunitions":{
+        "has":false,
+        "actuel":"0",
+        "value":1,
+        "liste":{}
+      },
       "tourelle":{
         "has":false,
         "attaque":{
@@ -5426,6 +5436,11 @@
         "fixe":0
       },
       "effets":{
+        "liste":[],
+        "raw":[],
+        "custom":[]
+      },
+      "effets2mains":{
         "liste":[],
         "raw":[],
         "custom":[]

@@ -34,6 +34,18 @@
                 </div>
             {{/each}}
         </div>
+    </div>
+    <div class="dialog-buttons">
+        <button class="dialog-button valider">
+            <i class="fas fa-check"></i>
+            {{localize "KNIGHT.AUTRE.Valider"}}
+        </button>
+        <button class="dialog-button annuler">
+            <i class="fas fa-times"></i>
+            {{localize "KNIGHT.AUTRE.Annuler"}}
+        </button>
+    </div>
+    <div class="dialog-content">
         <h2 class="header">{{localize "KNIGHT.EFFETS.CUSTOM.Label"}}</h2>
         <div class="effetCustom">
             <div class="header {{#if object.data.custom.edit}}edit{{/if}}">
@@ -328,15 +340,5 @@
                 <textarea class="{{#unless object.data.custom.violence.conditionnel.has}}hidden{{/unless}}" name="custom.violence.conditionnel.condition">{{object.data.custom.violence.conditionnel.condition}}</textarea>
             </div>
         </div>
-    </div>
-    <div class="dialog-buttons">
-        <button class="dialog-button valider">
-            <i class="fas fa-check"></i>
-            {{localize "KNIGHT.AUTRE.Valider"}}
-        </button>
-        <button class="dialog-button annuler">
-            <i class="fas fa-times"></i>
-            {{localize "KNIGHT.AUTRE.Annuler"}}
-        </button>
     </div>
 </form>

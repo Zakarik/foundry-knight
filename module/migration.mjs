@@ -2,7 +2,7 @@
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "1.5.3";
+    static NEEDED_VERSION = "1.7.3";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -234,6 +234,40 @@ Applique les modifications par la mise à jour au Monde.
                 actor.update(update);
             }
         }
+
+        if (options?.force || MigrationKnight.needUpdate("1.7.3")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            // MISE A JOUR DES ITEMS PORTES
+            for (let item of actor.items) {
+                const updateItem = {};
+
+                if(item.type === 'arme') {
+                    updateItem[`system.options2mains`] = {
+                        has:false,
+                        actuel:"1main"
+                    };
+
+                    updateItem[`system.effets2mains`] = {
+                        raw:[],
+                        custom:[],
+                        liste:[]
+                    };
+
+                    updateItem[`system.optionsmunitions`] = {
+                        has:false,
+                        actuel:"0",
+                        value:1,
+                        liste:{}
+                    };
+                }
+
+                item.update(updateItem);
+            }
+        }
     }
 
     static _migrationItems(item, options = { force:false }) {
@@ -372,6 +406,35 @@ Applique les modifications par la mise à jour au Monde.
                         energie:0
                     };
                 }
+            }
+
+            item.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("1.7.3")) {
+            const update = {};
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'arme') {
+                update[`system.options2mains`] = {
+                    has:false,
+                    actuel:"1main"
+                };
+
+                update[`system.effets2mains`] = {
+                    raw:[],
+                    custom:[],
+                    liste:[]
+                };
+
+                update[`system.optionsmunitions`] = {
+                    has:false,
+                    actuel:"0",
+                    value:1,
+                    liste:{}
+                };
             }
 
             item.update(update);

@@ -27,6 +27,8 @@ export class ArmeSheet extends ItemSheet {
 
     this._listeRarete(context);
     this._prepareEffets(context);
+    this._prepareEffets2Mains(context);
+    this._prepareEffetsMunition(context);
     this._prepareDistance(context);
     this._prepareOrnementales(context);
     this._prepareStructurelles(context);
@@ -52,6 +54,8 @@ export class ArmeSheet extends ItemSheet {
 
     context.systemData = context.data.system;
 
+    console.log(context);
+
     return context;
   }
 
@@ -72,6 +76,50 @@ export class ArmeSheet extends ItemSheet {
       const result = value === true ? false : true;
 
       this.item.update({[`system.tourelle.has`]:result});
+    });
+
+    html.find('button.options2Mains').click(ev => {
+      const target = $(ev.currentTarget);
+      const value = target.data("value");
+      const result = value === true ? false : true;
+
+      this.item.update({[`system.options2mains.has`]:result});
+    });
+
+    html.find('button.optionsMunitions').click(ev => {
+      const target = $(ev.currentTarget);
+      const value = target.data("value");
+      const result = value === true ? false : true;
+
+      this.item.update({[`system.optionsmunitions.has`]:result});
+    });
+
+    html.find('button.optionsMunitionsValider').click(ev => {
+      const target = $(ev.currentTarget);
+      const value = +target.data("value");
+      const data = this.getData().data.system.optionsmunitions.liste;
+      const length = Object.entries(data).length;
+
+      const update = {};
+
+      for(let i = 0; i < Math.max(length, value);i++) {
+        const isExist = data?.[i] || false;
+
+        if(length > i) {
+          update[`system.optionsmunitions.liste.-=${i}`] = null;
+        } else if(isExist === false) {
+          update[`system.optionsmunitions.liste.${i}`] = {
+            nom:game.i18n.localize("KNIGHT.Nom"),
+            raw:[],
+            custom:[],
+            liste:[]
+          };
+        }
+      }
+
+      console.log(update);
+
+      this.item.update(update);
     });
 
     html.find('div.effets a.edit').click(async ev => {
@@ -164,11 +212,21 @@ export class ArmeSheet extends ItemSheet {
     const typeEffet = document.system.type;
 
     if(type === 'effet') {
+      const target = $(event.target).parents('div.blockEffets');
+      const value = target.data("id");
+
       const newData = [];
-      const base = getData[typeEffet].custom;
       const attaque = document.system.attaque;
       const degats = document.system.degats;
       const violence = document.system.violence;
+
+      let base = getData[typeEffet].custom;
+
+      if(value !== undefined && typeEffet === 'effets' && getData.type === 'distance') {
+        base = getData.optionsmunitions.liste[value].custom;
+      } else if(value === 'deuxmains' && typeEffet === 'effets' && getData.type === 'contact') {
+        base = getData.effets2mains.custom;
+      }
 
       if(getData.type === 'distance') {
         if(typeEffet === 'effets' || typeEffet === 'distance') {
@@ -254,7 +312,15 @@ export class ArmeSheet extends ItemSheet {
 
           let update = newData.concat(base);
 
-          this.item.update({[`system.${typeEffet}.custom`]:update});
+          if(typeEffet === 'effets') {
+            if(value !== undefined) {
+              this.item.update({[`system.optionsmunitions.liste.${value}.custom`]:update});
+            } else {
+              this.item.update({[`system.${typeEffet}.custom`]:update});
+            }
+          } else {
+            this.item.update({[`system.${typeEffet}.custom`]:update});
+          }
         }
       } else if(getData.type === 'contact') {
         if(typeEffet === 'effets' || typeEffet === 'structurelles' || typeEffet === 'ornementales') {
@@ -340,11 +406,14 @@ export class ArmeSheet extends ItemSheet {
 
           let update = newData.concat(base);
 
-          this.item.update({[`system.${typeEffet}.custom`]:update});
+          if(typeEffet === 'effets' && value === 'deuxmains') {
+            this.item.update({[`system.effets2mains.custom`]:update});
+          } else {
+            this.item.update({[`system.${typeEffet}.custom`]:update});
+          }
         }
       }
     }
-
   }
 
   _prepareEffets(context) {
@@ -355,6 +424,31 @@ export class ArmeSheet extends ItemSheet {
     const labels = CONFIG.KNIGHT.effets;
 
     bEffets.liste = listEffects(bRaw, bCustom, labels);
+  }
+
+  _prepareEffets2Mains(context) {
+    const bEffets = context.data.system.effets2mains;
+
+    const bRaw = bEffets.raw;
+    const bCustom = bEffets.custom;
+    const labels = CONFIG.KNIGHT.effets;
+
+    bEffets.liste = listEffects(bRaw, bCustom, labels);
+  }
+
+  _prepareEffetsMunition(context) {
+    const data = context.data.system.optionsmunitions.liste;
+    const length = Object.entries(data).length;
+
+    for(let i = 0; i < length;i++) {
+      const bEffets = data[i];
+
+      const bRaw = bEffets.raw;
+      const bCustom = bEffets.custom;
+      const labels = CONFIG.KNIGHT.effets;
+
+      bEffets.liste = listEffects(bRaw, bCustom, labels);
+    }
   }
 
   _prepareDistance(context) {
