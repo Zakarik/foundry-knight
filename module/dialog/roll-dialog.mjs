@@ -1244,7 +1244,7 @@ export class KnightRollDialog extends Application {
     diceViolence += +listAllEffets.violence.totalDice;
     bonusViolence += +listAllEffets.violence.totalBonus;
 
-    if((actor.type !== 'knight' && actor.type !== 'pnj' && actor.type !== 'mechaarmure' && diceViolence === 0 && bonusViolence === 0)) {}
+    if((actor.type !== 'knight' && actor.type !== 'pnj' && actor.type !== 'mechaarmure' && actor.type !== 'vehicule' && diceViolence === 0 && bonusViolence === 0)) {}
     else {
       if(style.raw === 'akimbo') {
         diceViolence += Math.ceil(diceViolence/2);
