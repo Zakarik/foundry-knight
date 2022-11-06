@@ -1649,9 +1649,9 @@ export class PNJSheet extends ActorSheet {
 
     for(let i = 0;i < Object.entries(armeDistance).length;i++) {
       const wpnData = armeDistance[i].system;
-      const wpnMunitions = wpnData.optionsmunitions;
-      const wpnMunitionActuel = wpnMunitions.actuel;
-      const wpnMunitionsListe = wpnMunitions.liste[wpnMunitionActuel];
+      const wpnMunitions = wpnData?.optionsmunitions || {has:false};
+      const wpnMunitionActuel = wpnMunitions?.actuel || "";
+      const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
 
       if(wpnMunitions.has) {
         const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
@@ -1666,9 +1666,9 @@ export class PNJSheet extends ActorSheet {
 
     for(let i = 0;i < Object.entries(armeTourelle).length;i++) {
       const wpnData = armeTourelle[i].system;
-      const wpnMunitions = wpnData.optionsmunitions;
-      const wpnMunitionActuel = wpnMunitions.actuel;
-      const wpnMunitionsListe = wpnMunitions.liste[wpnMunitionActuel];
+      const wpnMunitions = wpnData?.optionsmunitions || {has:false};
+      const wpnMunitionActuel = wpnMunitions?.actuel || "";
+      const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
 
       if(wpnMunitions.has) {
         const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);

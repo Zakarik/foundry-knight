@@ -248,9 +248,9 @@ export class KnightRollDialog extends Application {
 
     for(let i = 0;i < Object.entries(final).length;i++) {
       const wpnData = final[i].system;
-      const wpnMunitions = wpnData.optionsmunitions;
-      const wpnMunitionActuel = wpnMunitions.actuel;
-      const wpnMunitionsListe = wpnMunitions.liste[wpnMunitionActuel];
+      const wpnMunitions = wpnData?.optionsmunitions || {has:false};
+      const wpnMunitionActuel = wpnMunitions?.actuel || "";
+      const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
 
       if(wpnMunitions.has) {
         const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
@@ -279,9 +279,9 @@ export class KnightRollDialog extends Application {
 
     for(let i = 0;i < Object.entries(final).length;i++) {
       const wpnData = final[i].system;
-      const wpnMunitions = wpnData.optionsmunitions;
-      const wpnMunitionActuel = wpnMunitions.actuel;
-      const wpnMunitionsListe = wpnMunitions.liste[wpnMunitionActuel];
+      const wpnMunitions = wpnData?.optionsmunitions || {has:false};
+      const wpnMunitionActuel = wpnMunitions?.actuel || "";
+      const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
 
       if(wpnMunitions.has) {
         const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
