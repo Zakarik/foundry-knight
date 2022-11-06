@@ -806,9 +806,9 @@ export class VehiculeSheet extends ActorSheet {
 
     for(let i = 0;i < Object.entries(armeDistanceFinal).length;i++) {
       const wpnData = armeDistanceFinal[i].system;
-      const wpnMunitions = wpnData.optionsmunitions;
-      const wpnMunitionActuel = wpnMunitions.actuel;
-      const wpnMunitionsListe = wpnMunitions.liste[wpnMunitionActuel];
+      const wpnMunitions = wpnData?.optionsmunitions || {has:false};
+      const wpnMunitionActuel = wpnMunitions?.actuel || "";
+      const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
 
       if(wpnMunitions.has) {
         const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
