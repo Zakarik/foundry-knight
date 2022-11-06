@@ -1072,18 +1072,36 @@ export class PNJSheet extends ActorSheet {
         data.noRack = true;
         data.pnj = true;
 
-        const options2mains = i.system.options2mains.has;
+        const optionsMunitions = data?.optionsmunitions?.has || false;
+        const options2mains = data?.options2mains?.has || false;
         const raw = data.effets.raw;
         const custom = data.effets.custom;
         const labels = CONFIG.KNIGHT.effets;
 
         data.effets.liste = listEffects(raw, custom, labels);
 
-        const main = i.system.options2mains.actuel;
-        const effetsRaw = i.system.effets.raw;
-        const effets2Raw = i.system.effets2mains.raw;
+        const main = data.options2mains.actuel;
+        const munition = data.optionsmunitions.actuel;
+        const effetsRaw = data.effets.raw;
+        const effets2Raw = data.effets2mains.raw;
         const bDefense = effetsRaw.find(str => { if(str.includes('defense')) return str; });
         const bReaction = effetsRaw.find(str => { if(str.includes('reaction')) return str; });
+
+        if(type === 'contact' && options2mains === true) {
+          data.degats.dice = data.options2mains[main].degats.dice;
+          data.degats.fixe = data.options2mains[main].degats.fixe;
+
+          data.violence.dice = data.options2mains[main].violence.dice;
+          data.violence.fixe = data.options2mains[main].violence.fixe;
+        }
+
+        if(type === 'distance' && optionsMunitions === true) {
+          data.degats.dice = data.optionsmunitions.liste[munition].degats.dice;
+          data.degats.fixe = data.optionsmunitions.liste[munition].degats.fixe;
+
+          data.violence.dice = data.optionsmunitions.liste[munition].violence.dice;
+          data.violence.fixe = data.optionsmunitions.liste[munition].violence.fixe;
+        }
 
         if((bDefense !== undefined && main === '1main') || (bDefense !== undefined && options2mains === false)) defense.bonus.armes += +bDefense.split(' ')[1];
         if((bReaction !== undefined && main === '1main') || (bReaction !== undefined && options2mains === false)) reaction.bonus.armes += +bReaction.split(' ')[1];
@@ -1092,12 +1110,11 @@ export class PNJSheet extends ActorSheet {
           const rawDistance = data.distance.raw;
           const customDistance = data.distance.custom;
           const labelsDistance = CONFIG.KNIGHT.AMELIORATIONS.distance;
-          const effetMunitionHas = data?.optionsmunitions?.has || false;
           const effetMunition = data?.optionsmunitions?.liste || {};
 
           data.distance.liste = listEffects(rawDistance, customDistance, labelsDistance);
 
-          if(effetMunitionHas !== false) {
+          if(optionsMunitions !== false) {
             for (let [kM, munition] of Object.entries(effetMunition)) {
               const bRaw2 = munition.raw || [];
               const bCustom2 = munition.custom || [];

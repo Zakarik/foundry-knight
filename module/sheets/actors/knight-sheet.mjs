@@ -6517,17 +6517,17 @@ export class KnightSheet extends ActorSheet {
         const type = data.type;
         const tourelle = data.tourelle;
 
-        const armeRaw = i.system.effets.raw.concat(armorSpecialRaw);
-        const armeCustom = i.system.effets.custom.concat(armorSpecialCustom);
+        const armeRaw = data.effets.raw.concat(armorSpecialRaw);
+        const armeCustom = data.effets.custom.concat(armorSpecialCustom);
 
-        const armeE2Raw = i.system.effets2mains.raw.concat(armorSpecialRaw);
-        const armeE2Custom = i.system.effets2mains.custom.concat(armorSpecialCustom);
+        const armeE2Raw = data.effets2mains.raw.concat(armorSpecialRaw);
+        const armeE2Custom = data.effets2mains.custom.concat(armorSpecialCustom);
 
-        i.system.effets.raw = [...new Set(armeRaw)];
-        i.system.effets.custom = armeCustom;
+        data.effets.raw = [...new Set(armeRaw)];
+        data.effets.custom = armeCustom;
 
-        i.system.effets2mains.raw = [...new Set(armeE2Raw)];
-        i.system.effets2mains.custom = armeE2Custom;
+        data.effets2mains.raw = [...new Set(armeE2Raw)];
+        data.effets2mains.custom = armeE2Custom;
 
         depensePG.push({
           order:data.addOrder,
@@ -6544,16 +6544,35 @@ export class KnightSheet extends ActorSheet {
           const equipped = data?.equipped || false;
           const rack = data?.rack || false;
 
-          const main = i.system.options2mains.actuel;
-          const effetsRaw = i.system.effets.raw;
+          const options2mains = data.options2mains.has;
+          const optionsmunitions = data.optionsmunitions.has;
+          const main = data.options2mains.actuel;
+          const munition = data.optionsmunitions.actuel;
+          const effetsRaw = data.effets.raw;
 
           const bDefense = effetsRaw.find(str => { if(str.includes('defense')) return str; });
           const bReaction = effetsRaw.find(str => { if(str.includes('reaction')) return str; });
 
+          if(type === 'contact' && options2mains === true) {
+            data.degats.dice = data.options2mains[main].degats.dice;
+            data.degats.fixe = data.options2mains[main].degats.fixe;
+
+            data.violence.dice = data.options2mains[main].violence.dice;
+            data.violence.fixe = data.options2mains[main].violence.fixe;
+          }
+
+          if(type === 'distance' && optionsmunitions === true) {
+            data.degats.dice = data.optionsmunitions.liste[munition].degats.dice;
+            data.degats.fixe = data.optionsmunitions.liste[munition].degats.fixe;
+
+            data.violence.dice = data.optionsmunitions.liste[munition].violence.dice;
+            data.violence.fixe = data.optionsmunitions.liste[munition].violence.fixe;
+          }
+
           if (type === 'contact' && equipped === false && rack === false) { armesContactArmoury.push(i); }
           if (type === 'contact' && equipped === false && rack === true) { armesContactRack.push(i); }
           else if (type === 'contact' && equipped === true) {
-            const options2mains = i.system.options2mains.has;
+
             const effets2Raw = i.system.effets2mains.raw;
 
             const bMassive = i.system.structurelles.raw.find(str => { if(str.includes('massive')) return true; });

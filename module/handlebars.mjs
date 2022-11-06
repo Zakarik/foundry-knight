@@ -430,6 +430,22 @@
         return result;
     });
 
+    Handlebars.registerHelper('wpnHasMunitions', function (isDistance, hasMunitions) {
+        let result = false;
+
+        if(isDistance === true && hasMunitions === true) result = true;
+
+        return result;
+    });
+
+    Handlebars.registerHelper('wpnHasDeuxMains', function (isDistance, hasDeuxMains) {
+        let result = false;
+
+        if(isDistance === false && hasDeuxMains === true) result = true;
+
+        return result;
+    });
+
     Handlebars.registerHelper('isValue', function (value1, value2) {
         let result = false;
 

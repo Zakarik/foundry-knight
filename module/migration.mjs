@@ -2,7 +2,7 @@
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "1.7.3";
+    static NEEDED_VERSION = "1.7.4";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -268,6 +268,61 @@ Applique les modifications par la mise à jour au Monde.
                 item.update(updateItem);
             }
         }
+
+        if (options?.force || MigrationKnight.needUpdate("1.7.4")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            // MISE A JOUR DES ITEMS PORTES
+            for (let item of actor.items) {
+                const updateItem = {};
+
+                if(item.type === 'arme') {
+                    updateItem[`system.options2mains`] = {
+                        "1main":{
+                            degats:{
+                                dice:0,
+                                fixe:0
+                            },
+                            violence:{
+                                dice:0,
+                                fixe:0
+                            }
+                        },
+                        "2main":{
+                            degats:{
+                                dice:0,
+                                fixe:0
+                            },
+                            violence:{
+                                dice:0,
+                                fixe:0
+                            }
+                        }
+                    };
+
+                    const optionsmunitions = item.system.optionsmunitions.liste;
+                    const length = Object.entries(optionsmunitions).length;
+
+                    for(let i = 0;i < length;i++) {
+                        updateItem[`system.optionsmunitions.liste.${i}`] = {
+                            degats:{
+                                dice:0,
+                                fixe:0
+                            },
+                            violence:{
+                                dice:0,
+                                fixe:0
+                            }
+                        }
+                    }
+                }
+
+                item.update(updateItem);
+            }
+        }
     }
 
     static _migrationItems(item, options = { force:false }) {
@@ -435,6 +490,56 @@ Applique les modifications par la mise à jour au Monde.
                     value:1,
                     liste:{}
                 };
+            }
+
+            item.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("1.7.4")) {
+            const update = {};
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'arme') {
+                update[`system.options2mains`] = {
+                    "1main":{
+                        degats:{
+                            dice:0,
+                            fixe:0
+                        },
+                        violence:{
+                            dice:0,
+                            fixe:0
+                        }
+                    },
+                    "2main":{
+                        degats:{
+                            dice:0,
+                            fixe:0
+                        },
+                        violence:{
+                            dice:0,
+                            fixe:0
+                        }
+                    }
+                };
+
+                const optionsmunitions = item.system.optionsmunitions.liste;
+                const length = Object.entries(optionsmunitions).length;
+
+                for(let i = 0;i < length;i++) {
+                    update[`system.optionsmunitions.liste.${i}`] = {
+                        degats:{
+                            dice:0,
+                            fixe:0
+                        },
+                        violence:{
+                            dice:0,
+                            fixe:0
+                        }
+                    }
+                }
             }
 
             item.update(update);
