@@ -1314,6 +1314,7 @@ export class KnightRollDialog extends Application {
       if(options2mains.has && options2mains.actuel === '2main') {effetsWpn = dataWpn.effets2mains;}
     }
 
+    const capaciteName = dataWpn?.capaciteName || "";
     const distanceWpn = dataWpn?.distance || {raw:[], custom:[]};
     const ornementalesWpn = dataWpn?.ornementales || {raw:[], custom:[]};
     const structurellesWpn = dataWpn?.structurelles || {raw:[], custom:[]};
@@ -1357,7 +1358,7 @@ export class KnightRollDialog extends Application {
     const typeStyle = style.type;
     const sacrificeStyle = +style.sacrifice;
 
-    let getAttackOtherDiceMod = isPNJ ? 0 : getStyle.bonus.attaque-getStyle.malus.attaque;
+    let getAttackOtherDiceMod = isPNJ || (capaciteName === 'cea' && style.raw === 'ambidextre') ? 0 : getStyle.bonus.attaque-getStyle.malus.attaque;
     let getAttackSpecialDiceMod = 0;
     let getDgtsOtherDiceMod = 0;
     let getDgtsOtherFixeMod = 0;
@@ -1375,7 +1376,7 @@ export class KnightRollDialog extends Application {
     const beteAE = getAEValue('bete', idActor);
 
     // Base de Force pour les armes de contact
-    if(typeWpn === 'contact' && baseForce > 0 && !isPNJ) {
+    if(typeWpn === 'contact' && baseForce > 0 && !isPNJ && capaciteName !== "cea") {
       const bForce = baseForce;
       getDgtsOtherFixeMod += bForce;
 
@@ -1416,7 +1417,7 @@ export class KnightRollDialog extends Application {
       const jumelageambidextrie = typeWpn === 'distance' ? distanceWpn.raw.find(str => { if(str.includes('jumelageambidextrie')) return true; }) : false;
       const soeur = typeWpn === 'contact' ? structurellesWpn.raw.find(str => { if(str.includes('soeur')) return true; }) : false;
 
-      if(style.raw === 'ambidextre') {
+      if(style.raw === 'ambidextre' && capaciteName !== 'cea') {
         if((eAmbidextrie && data.jumeleambidextrie)) getAttackOtherDiceMod += 2;
         else if(jumelageambidextrie && data.jumelageambidextrie) getAttackOtherDiceMod += 2;
         else if(soeur && data.soeur) getAttackOtherDiceMod += 2;
@@ -1523,7 +1524,7 @@ export class KnightRollDialog extends Application {
     }
 
     // OD Force
-    if(typeWpn === 'contact' && force > 0 && !isPNJ) {
+    if(typeWpn === 'contact' && force > 0 && !isPNJ && capaciteName !== "cea") {
       const bVForce = force*3;
       getDgtsOtherFixeMod += bVForce;
 
