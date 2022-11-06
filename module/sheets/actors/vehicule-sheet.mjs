@@ -461,11 +461,11 @@ export class VehiculeSheet extends ActorSheet {
         data.distance.liste = listEffects(rawDistance, customDistance, labelsDistance);
 
         if(optionsMunitions === true) {
-          data.degats.dice = data.optionsmunitions.liste[munition].degats.dice;
-          data.degats.fixe = data.optionsmunitions.liste[munition].degats.fixe;
+          data.degats.dice = data.optionsmunitions?.liste?.[munition]?.degats?.dice || 0;
+          data.degats.fixe = data.optionsmunitions?.liste?.[munition]?.degats?.fixe || 0
 
-          data.violence.dice = data.optionsmunitions.liste[munition].violence.dice;
-          data.violence.fixe = data.optionsmunitions.liste[munition].violence.fixe;
+          data.violence.dice = data.optionsmunitions?.liste?.[munition]?.violence?.dice || 0;
+          data.violence.fixe = data.optionsmunitions?.liste?.[munition]?.violence?.fixe || 0;
 
           for (let [kM, munition] of Object.entries(effetMunition)) {
             const bRaw2 = munition.raw || [];

@@ -800,19 +800,19 @@ export class CreatureSheet extends ActorSheet {
         if(bReaction !== undefined) reaction.bonus.armes += +bReaction.split(' ')[1];
 
         if(type === 'contact' && options2mains === true) {
-          data.degats.dice = data.options2mains[main].degats.dice;
-          data.degats.fixe = data.options2mains[main].degats.fixe;
+          data.degats.dice = data?.options2mains?.[main]?.degats?.dice || 0;
+          data.degats.fixe = data?.options2mains?.[main]?.degats?.fixe || 0;
 
-          data.violence.dice = data.options2mains[main].violence.dice;
-          data.violence.fixe = data.options2mains[main].violence.fixe;
+          data.violence.dice = data?.options2mains?.[main]?.violence?.dice || 0;
+          data.violence.fixe = data?.options2mains?.[main]?.violence?.fixe || 0;
         }
 
-        if(type === 'distance' && optionsMunitions === true) {
-          data.degats.dice = data.optionsmunitions.liste[munition].degats.dice;
-          data.degats.fixe = data.optionsmunitions.liste[munition].degats.fixe;
+        if(type === 'distance' && optionsmunitions === true) {
+          data.degats.dice = data.optionsmunitions?.liste?.[munition]?.degats?.dice || 0;
+          data.degats.fixe = data.optionsmunitions?.liste?.[munition]?.degats?.fixe || 0
 
-          data.violence.dice = data.optionsmunitions.liste[munition].violence.dice;
-          data.violence.fixe = data.optionsmunitions.liste[munition].violence.fixe;
+          data.violence.dice = data.optionsmunitions?.liste?.[munition]?.violence?.dice || 0;
+          data.violence.fixe = data.optionsmunitions?.liste?.[munition]?.violence?.fixe || 0;
         }
 
         if(type === 'distance') {
