@@ -454,12 +454,19 @@ export class VehiculeSheet extends ActorSheet {
         const rawDistance = data.distance.raw;
         const customDistance = data.distance.custom;
         const labelsDistance = CONFIG.KNIGHT.AMELIORATIONS.distance;
-        const effetMunitionHas = data?.optionsmunitions?.has || false;
+        const optionsMunitions = data?.optionsmunitions?.has || false;
+        const munition = data?.options2mains?.actuel || "";
         const effetMunition = data?.optionsmunitions?.liste || {};
 
         data.distance.liste = listEffects(rawDistance, customDistance, labelsDistance);
 
-        if(effetMunitionHas !== false) {
+        if(optionsMunitions === true) {
+          data.degats.dice = data.optionsmunitions.liste[munition].degats.dice;
+          data.degats.fixe = data.optionsmunitions.liste[munition].degats.fixe;
+
+          data.violence.dice = data.optionsmunitions.liste[munition].violence.dice;
+          data.violence.fixe = data.optionsmunitions.liste[munition].violence.fixe;
+
           for (let [kM, munition] of Object.entries(effetMunition)) {
             const bRaw2 = munition.raw || [];
             const bCustom2 = munition.custom || [];

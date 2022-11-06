@@ -5412,7 +5412,27 @@
       "listes":{},
       "options2mains":{
         "has":false,
-        "actuel":"1main"
+        "actuel":"1main",
+        "1main":{
+          "degats":{
+            "dice":0,
+            "fixe":0
+          },
+          "violence":{
+            "dice":0,
+            "fixe":0
+          }
+        },
+        "2main":{
+          "degats":{
+            "dice":0,
+            "fixe":0
+          },
+          "violence":{
+            "dice":0,
+            "fixe":0
+          }
+        }
       },
       "optionsmunitions":{
         "has":false,

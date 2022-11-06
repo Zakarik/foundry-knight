@@ -56,32 +56,74 @@
             </select>
         </label>
 
+        {{#unless (wpnHasMunitions (isWpnDistance systemData.type) systemData.optionsmunitions.has)}}
         <label>
-            <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+            <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}
+                {{#if (wpnHasDeuxMains (isWpnDistance systemData.type) systemData.options2mains.has)}}
+                    - {{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Unemain"}}
+                {{/if}}
+            </span>
             <div>
-                <input type="number" name="system.degats.dice" value="{{systemData.degats.dice}}" min="0" />
-                <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                <input type="number" name="system.degats.fixe" value="{{systemData.degats.fixe}}" />
+                {{#if (wpnHasDeuxMains (isWpnDistance systemData.type) systemData.options2mains.has)}}
+                    <input type="number" name="system.options2mains.1main.degats.dice" value="{{systemData.options2mains.1main.degats.dice}}" min="0" />
+                    <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number" name="system.options2mains.1main.degats.fixe" value="{{systemData.options2mains.1main.degats.fixe}}" />
+                {{else}}
+                    <input type="number" name="system.degats.dice" value="{{systemData.degats.dice}}" min="0" />
+                    <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number" name="system.degats.fixe" value="{{systemData.degats.fixe}}" />
+                {{/if}}
             </div>
         </label>
 
         <label>
-            <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+            <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}
+                {{#if (wpnHasDeuxMains (isWpnDistance systemData.type) systemData.options2mains.has)}}
+                    - {{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Unemain"}}
+                {{/if}}
+            </span>
             <div>
-                <input type="number" name="system.violence.dice" value="{{systemData.violence.dice}}" min="0" />
-                <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                <input type="number" name="system.violence.fixe" value="{{systemData.violence.fixe}}" />
+                {{#if (wpnHasDeuxMains (isWpnDistance systemData.type) systemData.options2mains.has)}}
+                    <input type="number" name="system.options2mains.1main.violence.dice" value="{{systemData.options2mains.1main.violence.dice}}" min="0" />
+                    <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number" name="system.options2mains.1main.violence.fixe" value="{{systemData.options2mains.1main.violence.fixe}}" />
+                {{else}}
+                    <input type="number" name="system.violence.dice" value="{{systemData.violence.dice}}" min="0" />
+                    <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number" name="system.violence.fixe" value="{{systemData.violence.fixe}}" />
+                {{/if}}
             </div>
         </label>
+        {{/unless}}
 
         {{#unless (isWpnDistance systemData.type)}}
-        <button type="action" class="options2Mains {{#if systemData.options2mains.has}}selected{{else}}unselected{{/if}}" data-value="{{systemData.options2mains.has}}">
             {{#if systemData.options2mains.has}}
-                {{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Has"}}
-            {{else}}
-                {{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Hasnt"}}
+                <label>
+                    <span class="header">{{localize "KNIGHT.AUTRE.Degats"}} - {{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Deuxmains"}}</span>
+                    <div>
+                        <input type="number" name="system.options2mains.2main.degats.dice" value="{{systemData.options2mains.2main.degats.dice}}" min="0" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                        <input type="number" name="system.options2mains.2main.degats.fixe" value="{{systemData.options2mains.2main.degats.fixe}}" />
+                    </div>
+                </label>
+
+                <label>
+                    <span class="header">{{localize "KNIGHT.AUTRE.Violence"}} - {{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Deuxmains"}}</span>
+                    <div>
+                        <input type="number" name="system.options2mains.2main.violence.dice" value="{{systemData.options2mains.2main.violence.dice}}" min="0" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                        <input type="number" name="system.options2mains.2main.violence.fixe" value="{{systemData.options2mains.2main.violence.fixe}}" />
+                    </div>
+                </label>
             {{/if}}
-        </button>
+
+            <button type="action" class="options2Mains {{#if systemData.options2mains.has}}selected{{else}}unselected{{/if}}" data-value="{{systemData.options2mains.has}}">
+                {{#if systemData.options2mains.has}}
+                    {{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Has"}}
+                {{else}}
+                    {{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Hasnt"}}
+                {{/if}}
+            </button>
         {{/unless}}
 
         {{#if (isWpnDistance systemData.type)}}
@@ -96,17 +138,11 @@
             {{#if systemData.optionsmunitions.has}}
                 <label>
                     <span class="header">{{localize "KNIGHT.ITEMS.ARME.MUNITIONS.Combiens"}}</span>
-                    <input type="number" name="system.optionsmunitions.value" value="{{systemData.optionsmunitions.value}}" />
+                    <input type="number" name="system.optionsmunitions.value" value="{{systemData.optionsmunitions.value}}" min="0" />
                 </label>
                 <button type="action" class="optionsMunitionsValider" data-value="{{systemData.optionsmunitions.value}}">
                     {{localize "KNIGHT.AUTRE.Valider"}}
                 </button>
-                {{#each systemData.optionsmunitions.liste as | key effet|}}
-                <label class="munitionListe">
-                    <span class="header">{{localize "KNIGHT.ITEMS.ARME.MUNITIONS.Label"}} : </span>
-                    <input type="text" name="system.optionsmunitions.liste.{{effet}}.nom" value="{{key.nom}}" />
-                </label>
-                {{/each}}
             {{/if}}
         </div>
         {{/if}}
@@ -134,6 +170,35 @@
         </div>
         {{/if}}
     </header>
+
+    {{#if (wpnHasMunitions (isWpnDistance systemData.type) systemData.optionsmunitions.has)}}
+    <div class="blockMunitions">
+        {{#each systemData.optionsmunitions.liste as | key effet|}}
+        <div>
+            <label class="munitionListe">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARME.MUNITIONS.Label"}} : </span>
+                <input type="text" name="system.optionsmunitions.liste.{{effet}}.nom" value="{{key.nom}}" />
+            </label>
+            <label class="demi">
+                <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                <div>
+                    <input type="number" name="system.optionsmunitions.liste.{{effet}}.degats.dice" value="{{key.degats.dice}}" min="0" />
+                    <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number" name="system.optionsmunitions.liste.{{effet}}.degats.fixe" value="{{key.degats.fixe}}" />
+                </div>
+            </label>
+            <label class="demi">
+                <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                <div>
+                    <input type="number" name="system.optionsmunitions.liste.{{effet}}.violence.dice" value="{{key.violence.dice}}" min="0" />
+                    <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                    <input type="number" name="system.optionsmunitions.liste.{{effet}}.violence.fixe" value="{{key.violence.fixe}}" />
+                </div>
+            </label>
+        </div>
+        {{/each}}
+    </div>
+    {{/if}}
 
     <div class="blockEffets">
         <h2 class="header js-toggler">
