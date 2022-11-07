@@ -967,16 +967,23 @@
       "CHAMBREDOUBLE":{
         "Label":"Chambre double",
         "Description":"L’arme gagne l’effet cadence 2.\r\nL’arme est très rapide et peut cibler 2 adversaires par action de combat au lieu d’un seul. Une attaque doit être réalisée pour chacune des cibles, avec 3 dés de malus. Chacune des cibles ne peut être distante de plus de 2 mètres.",
+        "Description-short":"L’arme gagne l’effet cadence 2.\r\nL’arme est très rapide et peut cibler 2 adversaires par action de combat au lieu d’un seul. Une attaque doit être réalisée pour chacune des cibles, avec 3 dés de malus. Chacune des cibles ne peut être distante de plus de 2 mètres.",
         "Active":"Chambre double activé",
         "Desactive":"Chambre double désactivé"
       },
       "CHARGEURBALLESGRAPPES":{
         "Label":"Chargeur et balles grappes",
-        "Description":"L’arme voit sa violence augmenter de 1D6, en revanche, ses dégâts diminuent de 1D6."
+        "Description":"L’arme voit sa violence augmenter de 1D6, en revanche, ses dégâts diminuent de 1D6.",
+        "Description-short":"L’arme voit sa violence augmenter de 1D6, en revanche, ses dégâts diminuent de 1D6.",
+        "Active":"Chargeur et balles grappes activé",
+        "Desactive":"Chargeur et balles grappes désactivé"
       },
       "CHARGEURMUNITIONSEXPLOSIVES":{
         "Label":"Chargeur et munitions explosives",
-        "Description":"L’arme voit ses dégâts augmenter de 1D6, en revanche, sa violence diminue de 1D6."
+        "Description":"L’arme voit ses dégâts augmenter de 1D6, en revanche, sa violence diminue de 1D6.",
+        "Description-short":"L’arme voit ses dégâts augmenter de 1D6, en revanche, sa violence diminue de 1D6.",
+        "Active":"Chargeur et munitions explosives activé",
+        "Desactive":"Chargeur et munitions explosives désactivé"
       },
       "CHENESCULPTE":{
         "Label":"Chêne sculpté",
@@ -1081,27 +1088,37 @@
       "MUNITIONSDRONES":{
         "Label":"Munitions drones",
         "Description":"L’amélioration confère un bonus de 3 réussites automatiques au tir contre une cible.",
-        "Description-short":"L’amélioration confère un bonus de 3 réussites automatiques au tir contre une cible."
+        "Description-short":"L’amélioration confère un bonus de 3 réussites automatiques au tir contre une cible.",
+        "Active":"Munitions drones activé",
+        "Desactive":"Munitions drones désactivé"
       },
       "MUNITIONSHYPERVELOCITE":{
         "Label":"Munitions hyper vélocité",
         "Description":"L’arme bénéficie de l’effet assistance à l’attaque. Une arme légère gagne l’effet deux mains, une arme à deux mains gagne l’effet lourd.\r\nLorsqu'un jet pour toucher est effectué avec cette arme, chaque réussite excédentaire au-dessus du score de _réaction_ (dans le cas d'un tir) ou de _défense_ (dans le cas d'une attaque au contact) de la cible permet de lui infliger 1 point de dégât (ou de violence dans le cas d'une bande) supplémentaire.",
-        "Description-short":"+1 par succès excédentaire sur l'attaque."
+        "Description-short":"+1 par succès excédentaire sur l'attaque.",
+        "Active":"Munitions hyper vélocité activé",
+        "Desactive":"Munitions hyper vélocité désactivé"
       },
       "MUNITIONSIEM":{
         "Label":"Munitions IEM",
         "Description":"L’arme gagne l’effet parasitage 2, mais perd 1D6 de dégâts et de violence.\r\nCet effet s'applique uniquement aux méta-armures, exosquelettes, robots, véhicules, créatures de la Machine et tous les ennemis possédant la capacité _sensibilité IEM_. La cible touchée par une attaque avec _parasitage 2_ perd automatiquement ses 2 prochaines actions.\r\n**Attention** : l'effet ne peut pas se cumuler alors que la cible est déjà sous l'effet _parasitage X_ et ne se cumule pas avec l'effet _choc X_.",
-        "Description-short":"Cet effet s'applique uniquement aux machines. La cible touchée perd automatiquement ses 2 prochaines actions. Perd 1D6 de dégâts et de violence."
+        "Description-short":"Cet effet s'applique uniquement aux machines. La cible touchée perd automatiquement ses 2 prochaines actions. Perd 1D6 de dégâts et de violence.",
+        "Active":"Munitions IEM activé",
+        "Desactive":"Munitions IEM désactivé"
       },
       "MUNITIONSNONLETALES":{
         "Label":"Munitions non létales",
         "Description":"Les tirs de l’arme ne peuvent pas tuer la cible.",
-        "Description-short":"Les tirs de l’arme ne peuvent pas tuer la cible."
+        "Description-short":"Les tirs de l’arme ne peuvent pas tuer la cible.",
+        "Active":"Munitions non létale activé",
+        "Desactive":"Munitions non létale désactivé"
       },
       "MUNITIONSSUBSONIQUES":{
         "Label":"Munitions subsoniques",
         "Description":"L’arme possède l’effet silencieux.\r\nLe personnage ne peut être repéré par un autre personnage parce qu'il utilise son arme. Lorsque cet effet est utilisé pendant une attaque surprise, une invisibilité, un mode Ghost ou un mode Changeling, le score de la caractéristique _Discrétion_ (plus les éventuels OD) du PJ est ajouté aux dégâts. Dans le cas des PNJ, c'est la moitié du score de _Masque_ (plus le score de _Masque_ exceptionnel éventuel) qui est ajouté aux dégâts. Cet effet peut s'ajouter à ceux du mode Ghost et du niveau 2 de l'overdrive de _Discrétion_.",
-        "Description-short":"En cas d'attaque surprise."
+        "Description-short":"En cas d'attaque surprise.",
+        "Active":"Munitions subsoniques activé",
+        "Desactive":"Munitions subsoniques désactivé"
       },
       "POINTEURLASER":{
         "Label":"Pointeur laser",
@@ -2115,7 +2132,9 @@
       "Minute":"Minute",
       "CliquezIci":"Cliquez ici",
       "Points":"Points",
-      "NonNomme":"Non nommé"
+      "NonNomme":"Non nommé",
+      "Confirmation":"Êtes vous sûre ?",
+      "ConfirmationSuppression":"Êtes vous sûre de vouloir supprimer cet objet ?"
     },
     "PHASE2":{
       "Label":"Phase 2",

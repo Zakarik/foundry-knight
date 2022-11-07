@@ -713,13 +713,13 @@ KNIGHT.cea = {
   "duree":"KNIGHT.DUREE.Instantanee",
   "vague":{
     "description":"KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Description"
-  },  
+  },
   "salve":{
     "description":"KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Description"
-  },  
+  },
   "rayon":{
     "description":"KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Description"
-  },  
+  },
 };
 
 KNIGHT.changeling = {
