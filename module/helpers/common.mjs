@@ -1291,6 +1291,8 @@ const devastation = effetsWpn.raw.find(str => { if(str.includes('devastation')) 
 const devastationValue = devastation ? devastation.split(' ')[1] : 0;
 const regularite = effetsWpn.raw.find(str => { if(str.includes('regularite')) return true; });
 
+console.log(data);
+
 if(obliteration) { minMaxDgts.maximize = true; }
 
 for(let i = 0;i < distanceWpn.raw.length;i++) {
@@ -1348,6 +1350,9 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
         break;
 
     case 'chargeurballesgrappes':
+      const hasGrappe = data.ameliorations.grappes;
+
+      if(hasGrappe !== false || hasGrappe === undefined) {
         includeDegats = true;
         includeViolence = true;
 
@@ -1359,9 +1364,18 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
 
         dgtsDice -= 1;
         violenceDice += 1;
+      } else {
+        other = true;
+
+        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+      }
     break;
 
     case 'chargeurmunitionsexplosives':
+      const hasExplosive = data.ameliorations.explosives;
+
+      if(hasExplosive !== false || hasExplosive === undefined) {
         includeDegats = true;
         includeViolence = true;
 
@@ -1373,6 +1387,12 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
 
         dgtsDice += 1;
         violenceDice -= 1;
+      } else {
+        other = true;
+
+        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+      }
     break;
 
     case 'interfaceguidage':
@@ -1405,14 +1425,46 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
     break;
 
     case 'lunetteintelligente':
-    case 'munitionshypervelocite':
         priorAttack = true;
 
         sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
         sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
     break;
 
+    case 'munitionshypervelocite':
+      const hasHVelocite = data.ameliorations.hypervelocite;
+
+      if(hasHVelocite !== false || hasHVelocite === undefined) {
+        priorAttack = true;
+
+        sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+      } else {
+        other = true;
+
+        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+      }
+    break;
+
     case 'munitionsdrones':
+      const hasHDrones = data.ameliorations.drones;
+
+      if(hasHDrones !== false || hasHDrones === undefined) {
+        includeAttack = true;
+
+        sub.name = `+1 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+
+        attackBonus += 1;
+      } else {
+        other = true;
+
+        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+      }
+    break;
+
     case 'pointeurlaser':
         includeAttack = true;
 
@@ -1423,6 +1475,9 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
     break;
 
     case 'munitionsiem':
+      const hasIEM = data.ameliorations.iem;
+
+      if(hasIEM !== false || hasIEM === undefined) {
         priorAttack = true;
         includeDegats = true;
         includeViolence = true;
@@ -1438,9 +1493,18 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
 
         dgtsDice -= 1;
         violenceDice -= 1;
+      } else {
+        other = true;
+
+        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+      }
     break;
 
     case 'munitionsnonletales':
+      const haNLetales = data.ameliorations.nonletales;
+
+      if(haNLetales !== false || haNLetales === undefined) {
         seconDegats = true;
         seconViolence = true;
 
@@ -1449,9 +1513,18 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
 
         subViolence.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
         subViolence.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+      } else {
+        other = true;
+
+        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+      }
     break;
 
     case 'munitionssubsoniques':
+      const haSubsoniques = data.ameliorations.subsoniques;
+
+      if(haSubsoniques !== false || haSubsoniques === undefined) {
         if(typeWpn === 'tourelle') {
           other = true;
           sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
@@ -1482,7 +1555,12 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
             sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
           }
         }
+      } else {
+        other = true;
 
+        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+      }
         break;
 
     case 'protectionarme':
@@ -4205,3 +4283,18 @@ export function getModStyle(style) {
 
   return result;
 }
+
+export async function confirmationDialog() {
+  const confirmation = await Dialog.confirm({
+    title:game.i18n.localize("KNIGHT.AUTRE.Confirmation"),
+    content:game.i18n.localize("KNIGHT.AUTRE.ConfirmationSuppression")
+  });
+
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(
+        confirmation
+      );
+    }, 0);
+  });
+};

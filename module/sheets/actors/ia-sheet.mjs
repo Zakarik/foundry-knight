@@ -1,3 +1,7 @@
+import {
+  confirmationDialog
+} from "../helpers/common.mjs";
+
 /**
  * @extends {ActorSheet}
  */
@@ -55,9 +59,11 @@ export class IASheet extends ActorSheet {
       item.sheet.render(true);
     });
 
-    html.find('.item-delete').click(ev => {
+    html.find('.item-delete').click(async ev => {
       const header = $(ev.currentTarget).parents(".summary");
       const item = this.actor.items.get(header.data("item-id"));
+
+      if(!await confirmationDialog()) return;
 
       item.delete();
       header.slideUp(200, () => this.render(false));

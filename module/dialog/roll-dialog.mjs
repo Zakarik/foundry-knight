@@ -112,6 +112,15 @@ export class KnightRollDialog extends Application {
         ma:this.data.ma,
         hasWraith:this.data.hasWraith,
         moduleWraith:this.data.moduleWraith,
+        ameliorations:{
+          subsoniques:this.data.ameliorations.subsoniques,
+          nonletales:this.data.ameliorations.nonletales,
+          iem:this.data.ameliorations.iem,
+          hypervelocite:this.data.ameliorations.hypervelocite,
+          drones:this.data.ameliorations.drones,
+          explosives:this.data.ameliorations.explosives,
+          grappes:this.data.ameliorations.grappes
+        },
         deploy:{
           wpnContact:this.data.deploy?.wpnContact || false,
           wpnDistance:this.data.deploy?.wpnDistance || false,
@@ -174,6 +183,16 @@ export class KnightRollDialog extends Application {
     this.data.degatsBonus = degatsBonus;
     this.data.violenceBonus = violenceBonus;
 
+    this.data.ameliorations = {
+      subsoniques:true,
+      nonletales:true,
+      iem:true,
+      hypervelocite:true,
+      drones:true,
+      explosives:true,
+      grappes:true
+    };
+
     return new Promise(resolve => {
       setTimeout(() => {
         resolve(
@@ -214,6 +233,7 @@ export class KnightRollDialog extends Application {
           this.data.succesBonus,
           this.data.degatsBonus,
           this.data.violenceBonus,
+          this.data.ameliorations,
         );
       }, 0);
     });
@@ -449,8 +469,16 @@ export class KnightRollDialog extends Application {
     html.find("div.wpn span.unselected").click(ev => {
       const type = $(ev.currentTarget);
       const effet = type.data("type");
+      const special = type?.data("special") || false;
       const value = type.data("value");
-      this.data[effet] = value;
+
+      if(special !== false) {
+        this.data[special][effet] = value;
+      } else {
+        this.data[effet] = value;
+      }
+
+      console.log(this.data);
 
       this.render(true)
     });
@@ -954,6 +982,8 @@ export class KnightRollDialog extends Application {
           totalBonus += listAllE.attack.totalBonus;
 
           if(totalDice <= 0) totalDice = 1;
+
+          console.log(data);
 
           const attack = await this._doAttack(actor, data, wpn, otherC, carac, od, wpn?.capacite || false, totalDice, totalBonus, listAllE, addNum, barrage, systemerefroidissement, barrageValue, otherWpnAttEffet);
 

@@ -340,11 +340,10 @@
             {{else}}
             <div class="blockMultiline">
                 <button class="
-                    {{#unless this.type.soldier.selectionne}}
                     aChoisir
-                    {{else}}
+                    {{#if this.type.soldier.selectionne}}
                     choisi
-                    {{/unless}}
+                    {{/if}}
                     " data-type="capacites" data-capacite="{{this.key}}Legende" data-special="soldier"
                     data-value="{{this.type.soldier.selectionne}}">
                     {{#unless this.type.soldier.selectionne}}
@@ -355,11 +354,10 @@
                 </button>
 
                 <button class="
-                    {{#unless this.type.hunter.selectionne}}
                     aChoisir
-                    {{else}}
+                    {{#if this.type.hunter.selectionne}}
                     choisi
-                    {{/unless}}
+                    {{/if}}
                 " data-type="capacites" data-capacite="{{this.key}}Legende" data-special="hunter"
                     data-value="{{this.type.hunter.selectionne}}">
                     {{#unless this.type.hunter.selectionne}}
@@ -370,11 +368,10 @@
                 </button>
 
                 <button class="
-                    {{#unless this.type.scholar.selectionne}}
                     aChoisir
-                    {{else}}
-                    choisi
-                    {{/unless}}
+                    {{#if this.type.scholar.selectionne}}
+                    aChoisir
+                    {{/if}}
                 " data-type="capacites" data-capacite="{{this.key}}Legende" data-special="scholar"
                     data-value="{{this.type.scholar.selectionne}}">
                     {{#unless this.type.scholar.selectionne}}
@@ -385,11 +382,10 @@
                 </button>
 
                 <button class="
-                    {{#unless this.type.herald.selectionne}}
                     aChoisir
-                    {{else}}
+                    {{#if this.type.herald.selectionne}}
                     choisi
-                    {{/unless}}
+                    {{/if}}
                 " data-type="capacites" data-capacite="{{this.key}}Legende" data-special="herald"
                     data-value="{{this.type.herald.selectionne}}">
                     {{#unless this.type.herald.selectionne}}
@@ -400,11 +396,10 @@
                 </button>
 
                 <button class="
-                    {{#unless this.type.scout.selectionne}}
                     aChoisir
-                    {{else}}
+                    {{#if this.type.scout.selectionne}}
                     choisi
-                    {{/unless}}
+                    {{/if}}
                 " data-type="capacites" data-capacite="{{this.key}}Legende" data-special="scout"
                     data-value="{{this.type.scout.selectionne}}">
                     {{#unless this.type.scout.selectionne}}

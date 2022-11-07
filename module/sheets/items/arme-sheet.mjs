@@ -102,22 +102,34 @@ export class ArmeSheet extends ItemSheet {
 
       const update = {};
 
-      for(let i = 0; i < Math.max(length, value);i++) {
-        const isExist = data?.[i] || false;
+      if(length < value) {
+        for(let i = 0; i < value;i++) {
+          const isExist = data?.[i] || false;
 
-        if(length > i) {
-          update[`system.optionsmunitions.liste.-=${i}`] = null;
-        } else if(isExist === false) {
-          update[`system.optionsmunitions.liste.${i}`] = {
-            nom:game.i18n.localize("KNIGHT.Nom"),
-            raw:[],
-            custom:[],
-            liste:[]
-          };
+          if(isExist === false) {
+            update[`system.optionsmunitions.liste.${i}`] = {
+              nom:game.i18n.localize("KNIGHT.Nom"),
+              degats:{
+                dice:0,
+                fixe:0
+              },
+              violence:{
+                dice:0,
+                fixe:0
+              },
+              raw:[],
+              custom:[],
+              liste:[]
+            };
+          }
+        }
+      } else if(length > value) {
+        for(let i = 0; i < length;i++) {
+          if(i > value-1) {
+            update[`system.optionsmunitions.liste.-=${i}`] = null;
+          }
         }
       }
-
-      console.log(update);
 
       this.item.update(update);
     });
