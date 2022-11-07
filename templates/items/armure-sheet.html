@@ -195,8 +195,6 @@
             <button type="action" data-value="{{systemData.evolutions.paliers}}">{{localize "KNIGHT.AUTRE.Valider"}}</button>
         </label>
 
-        <button class="aAcheter {{#if systemData.evolutions.aAcheter.value}} selected {{else}} unselected {{/if}}" data-value="{{systemData.evolutions.aAcheter.value}}">
-        {{systemData.evolutions.aAcheter.label}}</button>
         {{#each systemData.evolutions.liste as | key evolution|}}
         <div class="liste">
             <h2 class="header js-toggler">

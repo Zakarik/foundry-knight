@@ -76,6 +76,10 @@
         return `system.evolutions.special.${evolution.data.key}.description`;
     });
 
+    Handlebars.registerHelper('whatTargetLongbow', function (evolution) {
+        return `system.evolutions.special.${evolution.data.key}.${evolution.hash.num}.description`;
+    });
+
     Handlebars.registerHelper('whatTargetFalcon', function (falcon) {
         return `system.evolutions.liste.${falcon.hash.key}.capacites.${falcon.data.key}.informations`;
     });

@@ -2762,72 +2762,90 @@
                 "custom":[]
               }
             },
-            "evolutions":{
-              "degats":{
-                "energie":1,
-                "min":3,
-                "max":9
+            "specialEvolutions":{
+              "1":{
+                "value":50,
+                "description":"",
+                "effets":{
+                  "liste1":{
+                    "liste":[],
+                    "raw":[
+                      "choc 1",
+                      "degatscontinus 3",
+                      "designation",
+                      "percearmure 40",
+                      "silencieux",
+                      "ultraviolence"
+                    ],
+                    "custom":[]
+                  },
+                  "liste2":{
+                    "liste":[],
+                    "raw":[
+                      "antivehicule",
+                      "artillerie",
+                      "dispersion 3",
+                      "lumiere 4",
+                      "penetrant 6",
+                      "percearmure 60"
+                    ],
+                    "custom":[]
+                  },
+                  "liste3":{
+                    "label":"",
+                    "acces":true,
+                    "liste":[],
+                    "raw":[
+                      "antianatheme",
+                      "demoralisant",
+                      "enchaine",
+                      "fureur",
+                      "ignorearmure",
+                      "penetrant 10"
+                    ],
+                    "custom":[]
+                  }
+                }
               },
-              "violence":{
-                "energie":1,
-                "min":1,
-                "max":7
+              "2":{
+                "value":50,
+                "description":"",
+                "degats":{
+                  "min":5,
+                  "max":14
+                },
+                "violence":{
+                  "min":3,
+                  "max":12
+                }
               },
-              "portee":{
-                "energie":1,
-                "min":"moyenne",
-                "max":"lointaine"
+              "3":{
+                "value":50,
+                "description":"",
+                "effets":{
+                  "base":{
+                    "liste":[],
+                    "raw":[
+                      "assistanceattaque",
+                      "deuxmains"
+                    ],
+                    "custom":[]
+                  }
+                }
               },
-              "effets":{
-                "base":{
-                  "liste":[],
-                  "raw":[
-                    "assistanceattaque",
-                    "deuxmains",
-                    "lourd"
-                  ],
-                  "custom":[]
-                },
-                "liste1":{
-                  "energie":2,
-                  "liste":[],
-                  "raw":[
-                    "choc 1",
-                    "degatscontinus 3",
-                    "designation",
-                    "percearmure 40",
-                    "silencieux",
-                    "ultraviolence"
-                  ],
-                  "custom":[]
-                },
-                "liste2":{
-                  "energie":3,
-                  "liste":[],
-                  "raw":[
-                    "antivehicule",
-                    "artillerie",
-                    "dispersion 3",
-                    "lumiere 4",
-                    "penetrant 6",
-                    "percearmure 60"
-                  ],
-                  "custom":[]
-                },
-                "liste3":{
-                  "label":"",
-                  "acces":false,
-                  "energie":6,
-                  "liste":[],
-                  "raw":[
-                    "antianatheme",
-                    "demoralisant",
-                    "enchaine",
-                    "fureur",
-                    "ignorearmure",
-                    "penetrant 10"
-                  ],
-                  "custom":[]
+              "4":{
+                "value":100,
+                "description":"",
+                "effets":{
+                  "liste1":{
+                    "energie":1
+                  },
+                  "liste2":{
+                    "energie":1
+                  },
+                  "liste3":{
+                    "energie":4
+                  }
                 }
               }
             }
@@ -4323,6 +4341,7 @@
               "activation":"tour6Sec",
               "duree":"",
               "adistribuer":1,
+              "description":"",
               "energie":{
                 "base":16,
                 "prolonger":8

@@ -288,59 +288,6 @@ export class ArmureSheet extends ItemSheet {
       }
     });
 
-    html.find('.evolutions button.aAcheter').click(ev => {
-      const value = $(ev.currentTarget).data("value");
-      const evolutions = this.getData().data.system.evolutions.liste;
-      const length = Object.entries(evolutions).length;
-
-      let result = false;
-
-      if(!value) {
-        result = true;
-      }
-
-      let update = {
-        system:{
-          evolutions:{
-            aAcheter:{
-              value:result
-            },
-            liste:{}
-          }
-        }
-      };
-
-      if(result === false) {
-        let newValue = 0;
-        let previousValue = 0;
-
-        for(let i = 0+1;i < length;i++) {
-          newValue = evolutions[i].value;
-
-          if(i != 0) {
-            previousValue = update.system.evolutions.liste[i-1]?.value || false;
-
-            if(previousValue === false) {
-              previousValue = evolutions[i-1]?.value || false;
-
-              if(previousValue === false) {
-                previousValue = 0;
-              }
-            }
-
-            if(newValue <= previousValue) {
-              newValue = previousValue+1;
-
-              update.system.evolutions.liste[i] = {};
-              update.system.evolutions.liste[i].value = newValue;
-            }
-          }
-        }
-      }
-
-      this.item.update(update);
-    });
-
     html.find('.evolutions >div button').click(ev => {
       const carac = $(ev.currentTarget).data("caracteristique") || false;
       const aspect = $(ev.currentTarget).data("aspect");
@@ -348,6 +295,7 @@ export class ArmureSheet extends ItemSheet {
       const key = $(ev.currentTarget).data("key");
       const type = $(ev.currentTarget).data("type");
       const subtype = $(ev.currentTarget).data("subtype");
+      const evospecial = $(ev.currentTarget).data("evolutionspecial") || false;
       const aSubtype = $(ev.currentTarget).data("anothersubtype") || false;
       const name = $(ev.currentTarget).data("name");
       const value = $(ev.currentTarget).data("value");
@@ -388,7 +336,7 @@ export class ArmureSheet extends ItemSheet {
             }
           }
         };
-      } else if(!aSubtype) {
+      } else if(!aSubtype && !evospecial) {
         update = {
           system:{
             evolutions:{
@@ -397,6 +345,24 @@ export class ArmureSheet extends ItemSheet {
                   [capOrSpe]:{
                     [type]:{
                       [subtype]:{
+                        [name]:result
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+      } else if(!aSubtype) {
+        update = {
+          system:{
+            evolutions:{
+              special:{
+                [key]:{
+                  [evospecial]:{
+                    [subtype]:{
+                      [type]:{
                         [name]:result
                       }
                     }
@@ -457,7 +423,6 @@ export class ArmureSheet extends ItemSheet {
       const getData = this.getData();
       const capacites = getData.data.system.capacites.selected;
       const special = getData.data.system.special.selected;
-      const aAcheter = getData.data.system.evolutions.aAcheter.value;
       const evolution = getData.data.system.evolutions.liste;
       const length = Object.entries(evolution).length;
 
@@ -481,53 +446,30 @@ export class ArmureSheet extends ItemSheet {
 
           if(isExist == false) {
 
-            if(!aAcheter) {
-              const previous = evolution?.[i-1]?.value+1 || false;
-              const prevValue = previous === false ? update.system.evolutions.liste?.[i-1]?.value+1 || 1 : previous;
+            const previous = evolution?.[i-1]?.value+1 || false;
+            const prevValue = previous === false ? update.system.evolutions.liste?.[i-1]?.value+1 || 1 : previous;
 
-              update.system.evolutions.liste[i] = {};
-              update.system.evolutions.liste[i].value = prevValue;
-              update.system.evolutions.liste[i].description = "";
-              update.system.evolutions.liste[i].data = {
-                armure:0,
-                champDeForce:0,
-                energie:0
-              };
-              update.system.evolutions.liste[i].capacites = {};
-              update.system.evolutions.liste[i].special = {};
-
+            update.system.evolutions.liste[i] = {};
+            update.system.evolutions.liste[i].value = prevValue;
+            update.system.evolutions.liste[i].description = "";
+            update.system.evolutions.liste[i].data = {
+              armure:0,
+              champDeForce:0,
+              energie:0
+            };
+            update.system.evolutions.liste[i].capacites = {};
+            update.system.evolutions.liste[i].special = {};
 
 
-              for (let [key, capacite] of Object.entries(capacites)) {
-                if(key != "companions") {
-                  update.system.evolutions.liste[i].capacites[key] = capacite.evolutions;
-                }
+
+            for (let [key, capacite] of Object.entries(capacites)) {
+              if(key != "companions") {
+                update.system.evolutions.liste[i].capacites[key] = capacite.evolutions;
               }
+            }
 
-              for (let [key, spec] of Object.entries(special)) {
-                update.system.evolutions.liste[i].special[key] = spec.evolutions;
-              }
-            } else {
-              update.system.evolutions.liste[i] = {};
-              update.system.evolutions.liste[i].value = 0;
-              update.system.evolutions.liste[i].description = "";
-              update.system.evolutions.liste[i].data = {
-                armure:0,
-                champDeForce:0,
-                energie:0
-              };
-              update.system.evolutions.liste[i].capacites = {};
-              update.system.evolutions.liste[i].special = {};
-
-              for (let [key, capacite] of Object.entries(capacites)) {
-                  if(key != "companions") {
-                  update.system.evolutions.liste[i].capacites[key] = capacite.evolutions;
-                }
-              }
-
-              for (let [key, spec] of Object.entries(special)) {
-                update.system.evolutions.liste[i].special[key] = spec.evolutions;
-              }
+            for (let [key, spec] of Object.entries(special)) {
+              update.system.evolutions.liste[i].special[key] = spec.evolutions;
             }
           }
         }
@@ -538,7 +480,6 @@ export class ArmureSheet extends ItemSheet {
 
     html.find('.evolutions input.palier').change(ev => {
       const getData = this.getData();
-      const aAcheter = getData.data.system.evolutions.aAcheter.value;
       const evolution = getData.data.system.evolutions.liste;
       const target = $(ev.currentTarget);
       const keyAct = +target.data('key');
@@ -557,42 +498,40 @@ export class ArmureSheet extends ItemSheet {
 
       let val = 0;
 
-      if(!aAcheter) {
-        if(value > oldValue) {
-          for (let i = keyAct+1;i < length;i++) {
-            if(i !== keyAct) {
-              const newValue = Math.max(val, value);
-              const actValue = +evolution[i].value;
+      if(value > oldValue) {
+        for (let i = keyAct+1;i < length;i++) {
+          if(i !== keyAct) {
+            const newValue = Math.max(val, value);
+            const actValue = +evolution[i].value;
 
-              if(actValue <= newValue) val = newValue+1;
+            if(actValue <= newValue) val = newValue+1;
 
-              if(actValue <= val) {
-                update.system.evolutions.liste[i] = {};
-                update.system.evolutions.liste[i].value = val;
-              }
+            if(actValue <= val) {
+              update.system.evolutions.liste[i] = {};
+              update.system.evolutions.liste[i].value = val;
             }
           }
         }
-
-        if(value < oldValue) {
-          for (let i = keyAct-1;i > -1;i--) {
-            if(i !== keyAct) {
-              const newValue = val > 0 ? Math.min(val, value) : value;
-              const actValue = +evolution[i].value;
-
-              if(actValue >= newValue) val = newValue-1;
-
-              if(actValue >= val) {
-                update.system.evolutions.liste[i] = {};
-                update.system.evolutions.liste[i].value = val;
-              }
-            }
-          }
-        }
-
-
-        this.item.update(update);
       }
+
+      if(value < oldValue) {
+        for (let i = keyAct-1;i > -1;i--) {
+          if(i !== keyAct) {
+            const newValue = val > 0 ? Math.min(val, value) : value;
+            const actValue = +evolution[i].value;
+
+            if(actValue >= newValue) val = newValue-1;
+
+            if(actValue >= val) {
+              update.system.evolutions.liste[i] = {};
+              update.system.evolutions.liste[i].value = val;
+            }
+          }
+        }
+      }
+
+
+      this.item.update(update);
     });
 
     html.find('div.capacites div button').click(ev => {
@@ -702,12 +641,15 @@ export class ArmureSheet extends ItemSheet {
         }
       };
 
-      if(hasSpecial != false && alreadySpecial == false) {
+      if(hasSpecial != false && alreadySpecial == false && value !== 'longbow') {
         update.system.evolutions.special[value] = {};
         update.system.evolutions.special[value].value = 100;
         update.system.evolutions.special[value].description = "";
         update.system.evolutions.special[value].evolutions = {};
         update.system.evolutions.special[value].evolutions = hasSpecial;
+      } else if(hasSpecial != false && alreadySpecial == false && value === 'longbow') {
+        update.system.evolutions.special[value] = {};
+        update.system.evolutions.special[value] = hasSpecial;
       }
 
       if(rSpecial !== false) {
@@ -2314,11 +2256,6 @@ export class ArmureSheet extends ItemSheet {
   _prepareEvolutionsTranslation(context) {
     this._prepareEffetsListeEvolutions(context);
 
-    const evolutions = context.data.system.evolutions.aAcheter;
-
-    if(evolutions.value === true) { context.data.system.evolutions.aAcheter.label = game.i18n.localize(CONFIG.KNIGHT.evolutions["aAcheter"]); }
-    else { context.data.system.evolutions.aAcheter.label = game.i18n.localize(CONFIG.KNIGHT.evolutions["noAAcheter"]); }
-
     const eEvo = context.data.system.evolutions.liste;
 
     for (let [key, evo] of Object.entries(eEvo)) {
@@ -2547,12 +2484,13 @@ export class ArmureSheet extends ItemSheet {
   _prepareEffetsListeEvolutions(context) {
     const eEvo = context.data.system.evolutions.liste;
 
+    this._prepareEffetsEvolutionsLongbow(context);
+
     for (let [key, evo] of Object.entries(eEvo)) {
       this._prepareEffetsEvolutionsBorealis(key, context);
       this._prepareEffetsEvolutionsOriflamme(key, context);
       this._prepareEffetsEvolutionsChangeling(key, context);
       this._prepareEffetsEvolutionsIllumination(key, context);
-      this._prepareEffetsEvolutionsLongbow(key, context);
       this._prepareEffetsEvolutionsCea(key, context);
       this._prepareEffetsEvolutionsPorteurLumiere(key, context);
       this._prepareEffetsEvolutionsMorph(key, context);
@@ -2617,24 +2555,26 @@ export class ArmureSheet extends ItemSheet {
     iEffets.liste = listEffects(raw, custom, labels);
   }
 
-  _prepareEffetsEvolutionsLongbow(key, context) {
-    const lEffets = context.data.system.evolutions.liste?.[key].capacites?.longbow?.effets || false;
+  _prepareEffetsEvolutionsLongbow(context) {
+    const lEffets = context.data.system.evolutions.special?.longbow || false;
 
     if(!lEffets) return;
 
-    const lEB = lEffets.base;
+    console.log(lEffets['3']);
+
+    const lEB = lEffets['3'].effets.base;
     const lRB = lEB.raw;
     const lCB = lEB.custom;
 
-    const lE1 = lEffets.liste1;
+    const lE1 = lEffets['1'].effets.liste1;
     const lR1 = lE1.raw;
     const lC1 = lE1.custom;
 
-    const lE2 = lEffets.liste2;
+    const lE2 = lEffets['1'].effets.liste2;
     const lR2 = lE2.raw;
     const lC2 = lE2.custom;
 
-    const lE3 = lEffets.liste3;
+    const lE3 = lEffets['1'].effets.liste3;
     const lR3 = lE3.raw;
     const lC3 = lE3.custom;
 

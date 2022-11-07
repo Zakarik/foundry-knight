@@ -1817,8 +1817,6 @@
         "EVOLUTIONS": {
           "Label": "Évolutions",
           "LabelParPaliers": "Évolutions tous les : ",
-          "AAcheter": "Les paliers d'évolutions sont à acheter",
-          "NoAAcheter": "Les paliers d'évolutions ne sont pas à acheter",
           "NbrePaliers": "Nombre de paliers d'évolutions",
           "EvolutionDisponible":"Evolution d'armure disponible",
           "EvolutionCompanion":"Evolution des companions",
@@ -2295,7 +2293,7 @@
       "Gratuit":"Gratuit",
       "Payant":"Payant",
       "EvolutionArmure":"Evolution de Méta-Armure",
-      "AcheterEvolutionArmure":"Acheter l'évolution de la Méta-Armure",
+      "AcheterEvolutionLongbow":"Acheter l'évolution du Longbow",
       "AcheterEvolutionCompanion":"Acheter l'évolution des Companions"
     },
     "SETTINGS":{
