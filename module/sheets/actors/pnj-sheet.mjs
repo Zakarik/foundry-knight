@@ -1098,7 +1098,7 @@ export class PNJSheet extends ActorSheet {
           data.violence.fixe = data?.options2mains?.[main]?.violence?.fixe || 0;
         }
 
-        if(type === 'distance' && optionsmunitions === true) {
+        if(type === 'distance' && optionsMunitions === true) {
           data.degats.dice = data.optionsmunitions?.liste?.[munition]?.degats?.dice || 0;
           data.degats.fixe = data.optionsmunitions?.liste?.[munition]?.degats?.fixe || 0
 
