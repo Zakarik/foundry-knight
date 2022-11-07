@@ -1,6 +1,6 @@
 import {
   confirmationDialog
-} from "../helpers/common.mjs";
+} from "../../helpers/common.mjs";
 
 /**
  * @extends {ActorSheet}
