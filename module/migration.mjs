@@ -2,7 +2,7 @@
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "1.7.4";
+    static NEEDED_VERSION = "1.8.0";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -53,6 +53,15 @@ Applique les modifications par la mise à jour au Monde.
         ui.notifications.info(`Migration du système de Knight à la version ${game.system.version} terminé!`, {
             permanent: true,
         });
+
+        if(MigrationKnight.needUpdate("1.8.0")) {
+            ui.notifications.info(`Suite à une modification du système, la Ranger voit son système d'évolution modifié !
+            Si vous avez une Ranger dans votre équipe et qu'elle n'a pas encore eu d'évolution : Aucun problème.
+            Si vous avez une Ranger qui a déjà évolué, il est possible qu'elle doive racheter ses évolutions, ou recréer son armure : Vérifiez bien.
+            Désolé pour le dérangement`, {
+                permanent: true,
+            });
+        }
     }
 
     static _migrationActor(actor, options = { force:false }) {
@@ -323,6 +332,205 @@ Applique les modifications par la mise à jour au Monde.
                 item.update(updateItem);
             }
         }
+
+        if (options?.force || MigrationKnight.needUpdate("1.8.0")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            // MISE A JOUR DES ITEMS PORTES
+            for (let item of actor.items) {
+                const updateItem = {};
+
+                if(item.type === 'armure') {
+                    const listeEvolutions = item.system.evolutions.liste;
+                    const lengthEvolutions = Object.entries(listeEvolutions).length;
+
+                    updateItem[`system.capacites.base.longbow`] = {
+                        specialEvolutions:{
+                            "1":{
+                                value:50,
+                                description:"",
+                                effets:{
+                                    liste1:{
+                                    liste:[],
+                                    raw:[
+                                        "choc 1",
+                                        "degatscontinus 3",
+                                        "designation",
+                                        "percearmure 40",
+                                        "silencieux",
+                                        "ultraviolence"
+                                    ],
+                                    custom:[]
+                                    },
+                                    liste2:{
+                                    liste:[],
+                                    raw:[
+                                        "antivehicule",
+                                        "artillerie",
+                                        "dispersion 3",
+                                        "lumiere 4",
+                                        "penetrant 6",
+                                        "percearmure 60"
+                                    ],
+                                    custom:[]
+                                    },
+                                    liste3:{
+                                    label:"",
+                                    acces:true,
+                                    liste:[],
+                                    raw:[
+                                        "antianatheme",
+                                        "demoralisant",
+                                        "enchaine",
+                                        "fureur",
+                                        "ignorearmure",
+                                        "penetrant 10"
+                                    ],
+                                    custom:[]
+                                    }
+                                }
+                            },
+                            "2":{
+                                value:50,
+                                description:"",
+                                degats:{
+                                    min:5,
+                                    max:14
+                                },
+                                violence:{
+                                    min:3,
+                                    max:12
+                                }
+                            },
+                            "3":{
+                                value:50,
+                                description:"",
+                                effets:{
+                                    base:{
+                                        liste:[],
+                                        raw:["assistanceattaque", "deuxmains"],
+                                        custom:[]
+                                    }
+                                }
+                            },
+                            "4":{
+                                value:100,
+                                description:"",
+                                effets:{
+                                    liste1:{
+                                        energie:1
+                                    },
+                                    liste2:{
+                                        energie:1
+                                    },
+                                    liste3:{
+                                        energie:4
+                                    }
+                                }
+                            }
+                        }
+                    };
+                    updateItem[`system.capacites.base.longbow.-=evolutions`] = null;
+
+                    for(let i = 0;i < lengthEvolutions;i++) {
+                        const hasLongbowEvo = listeEvolutions[i]?.capacites?.longbow || false;
+
+                        if(hasLongbowEvo !== false) {
+                            updateItem[`system.evolutions.liste.${i}.capacites.-=longbow`] = null;
+                            updateItem[`system.evolutions.special.longbow.1`] = {
+                                value:50,
+                                description:"",
+                                effets:{
+                                    liste1:{
+                                    liste:[],
+                                    raw:[
+                                        "choc 1",
+                                        "degatscontinus 3",
+                                        "designation",
+                                        "percearmure 40",
+                                        "silencieux",
+                                        "ultraviolence"
+                                    ],
+                                    custom:[]
+                                    },
+                                    liste2:{
+                                    liste:[],
+                                    raw:[
+                                        "antivehicule",
+                                        "artillerie",
+                                        "dispersion 3",
+                                        "lumiere 4",
+                                        "penetrant 6",
+                                        "percearmure 60"
+                                    ],
+                                    custom:[]
+                                    },
+                                    liste3:{
+                                    label:"",
+                                    acces:true,
+                                    liste:[],
+                                    raw:[
+                                        "antianatheme",
+                                        "demoralisant",
+                                        "enchaine",
+                                        "fureur",
+                                        "ignorearmure",
+                                        "penetrant 10"
+                                    ],
+                                    custom:[]
+                                    }
+                                }
+                            };
+                            updateItem[`system.evolutions.special.longbow.2`] = {
+                                value:50,
+                                description:"",
+                                degats:{
+                                    min:5,
+                                    max:14
+                                },
+                                violence:{
+                                    min:3,
+                                    max:12
+                                }
+                            };
+                            updateItem[`system.evolutions.special.longbow.3`] = {
+                                value:50,
+                                description:"",
+                                effets:{
+                                    base:{
+                                        liste:[],
+                                        raw:["assistanceattaque", "deuxmains"],
+                                        custom:[]
+                                    }
+                                }
+                            };
+                            updateItem[`system.evolutions.special.longbow.4`] = {
+                                value:100,
+                                description:"",
+                                effets:{
+                                    liste1:{
+                                        energie:1
+                                    },
+                                    liste2:{
+                                        energie:1
+                                    },
+                                    liste3:{
+                                        energie:4
+                                    }
+                                }
+                            };
+                        }
+                    }
+
+                    console.log(updateItem);
+                }
+
+                item.update(updateItem);
+            }
+        }
     }
 
     static _migrationItems(item, options = { force:false }) {
@@ -538,6 +746,198 @@ Applique les modifications par la mise à jour au Monde.
                             dice:0,
                             fixe:0
                         }
+                    }
+                }
+            }
+
+            item.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("1.8.0")) {
+            const update = {};
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'armure') {
+                const listeEvolutions = item.system.evolutions.liste;
+                const lengthEvolutions = Object.entries(listeEvolutions).length;
+
+                update[`system.capacites.base.longbow`] = {
+                    specialEvolutions:{
+                        "1":{
+                            value:50,
+                            description:"",
+                            effets:{
+                                liste1:{
+                                liste:[],
+                                raw:[
+                                    "choc 1",
+                                    "degatscontinus 3",
+                                    "designation",
+                                    "percearmure 40",
+                                    "silencieux",
+                                    "ultraviolence"
+                                ],
+                                custom:[]
+                                },
+                                liste2:{
+                                liste:[],
+                                raw:[
+                                    "antivehicule",
+                                    "artillerie",
+                                    "dispersion 3",
+                                    "lumiere 4",
+                                    "penetrant 6",
+                                    "percearmure 60"
+                                ],
+                                custom:[]
+                                },
+                                liste3:{
+                                label:"",
+                                acces:true,
+                                liste:[],
+                                raw:[
+                                    "antianatheme",
+                                    "demoralisant",
+                                    "enchaine",
+                                    "fureur",
+                                    "ignorearmure",
+                                    "penetrant 10"
+                                ],
+                                custom:[]
+                                }
+                            }
+                        },
+                        "2":{
+                            value:50,
+                            description:"",
+                            degats:{
+                                min:5,
+                                max:14
+                            },
+                            violence:{
+                                min:3,
+                                max:12
+                            }
+                        },
+                        "3":{
+                            value:50,
+                            description:"",
+                            effets:{
+                                base:{
+                                    liste:[],
+                                    raw:["assistanceattaque", "deuxmains"],
+                                    custom:[]
+                                }
+                            }
+                        },
+                        "4":{
+                            value:100,
+                            description:"",
+                            effets:{
+                                liste1:{
+                                    energie:1
+                                },
+                                liste2:{
+                                    energie:1
+                                },
+                                liste3:{
+                                    energie:4
+                                }
+                            }
+                        }
+                    }
+                };
+                update[`system.capacites.base.longbow.-=evolutions`] = null;
+
+                for(let i = 0;i < lengthEvolutions;i++) {
+                    const hasLongbowEvo = listeEvolutions[i]?.capacites?.longbow || false;
+
+                    if(hasLongbowEvo !== false) {
+                        update[`system.evolutions.liste.${i}.capacites.-=longbow`] = null;
+                        update[`system.evolutions.special.longbow.1`] = {
+                            value:50,
+                            description:"",
+                            effets:{
+                                liste1:{
+                                liste:[],
+                                raw:[
+                                    "choc 1",
+                                    "degatscontinus 3",
+                                    "designation",
+                                    "percearmure 40",
+                                    "silencieux",
+                                    "ultraviolence"
+                                ],
+                                custom:[]
+                                },
+                                liste2:{
+                                liste:[],
+                                raw:[
+                                    "antivehicule",
+                                    "artillerie",
+                                    "dispersion 3",
+                                    "lumiere 4",
+                                    "penetrant 6",
+                                    "percearmure 60"
+                                ],
+                                custom:[]
+                                },
+                                liste3:{
+                                label:"",
+                                acces:true,
+                                liste:[],
+                                raw:[
+                                    "antianatheme",
+                                    "demoralisant",
+                                    "enchaine",
+                                    "fureur",
+                                    "ignorearmure",
+                                    "penetrant 10"
+                                ],
+                                custom:[]
+                                }
+                            }
+                        };
+                        update[`system.evolutions.special.longbow.2`] = {
+                            value:50,
+                            description:"",
+                            degats:{
+                                min:5,
+                                max:14
+                            },
+                            violence:{
+                                min:3,
+                                max:12
+                            }
+                        };
+                        update[`system.evolutions.special.longbow.3`] = {
+                            value:50,
+                            description:"",
+                            effets:{
+                                base:{
+                                    liste:[],
+                                    raw:["assistanceattaque", "deuxmains"],
+                                    custom:[]
+                                }
+                            }
+                        };
+                        update[`system.evolutions.special.longbow.4`] = {
+                            value:100,
+                            description:"",
+                            effets:{
+                                liste1:{
+                                    energie:1
+                                },
+                                liste2:{
+                                    energie:1
+                                },
+                                liste3:{
+                                    energie:4
+                                }
+                            }
+                        };
                     }
                 }
             }

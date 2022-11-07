@@ -4538,75 +4538,42 @@ export class KnightSheet extends ActorSheet {
       }).render(true);
     });
 
-    html.find('.acheter-evolution-armure').click(ev => {
+    html.find('.acheter-evolution-longbow').click(ev => {
       const target = $(ev.currentTarget);
       const id = +target.data("id");
       const value = +target.data("value");
       const dataArmor = this.actor.items.get(this._getArmorId());
-      const listEvolutions = dataArmor.system.evolutions.liste;
-      const dataEArmor = listEvolutions[id].data;
-      const capacites = listEvolutions[id].capacites;
-      let special = listEvolutions[id].special;
+      const listEvolutions = dataArmor.system.evolutions.special.longbow;
+      const capacites = listEvolutions[id];
       const dataGloire = this.getData().data.system.progression.gloire;
       const gloireActuel = +dataGloire.actuel;
       const gloireListe = dataGloire.depense.liste;
       const addOrder =  gloireListe.length === 0 ? 0 : Math.max(...gloireListe.map(o => o.order));
-      const filter = [];
 
       if(gloireActuel >= value) {
-        for (let [key, spec] of Object.entries(special)) {
-          const hasDelete = spec?.delete || false;
+        const update = {};
 
-          if(hasDelete !== false) {
-            if(hasDelete.value === true) {
-              dataArmor.update({[`system.special.selected.-=${key}`]:null});
-              filter.push(key);
-              delete special[key];
-            }
-          }
-        }
-
-        dataArmor.update({['system']:{
-          armure:{
-            base:dataArmor.system.armure.base+dataEArmor.armure
-          },
-          champDeForce:{
-            base:dataArmor.system.champDeForce.base+dataEArmor.champDeForce
-          },
-          energie:{
-            base:dataArmor.system.energie.base+dataEArmor.energie
-          },
+        update['system'] = {
           capacites:{
-            selected:capacites
-          },
-          special:{
-            selected:special
+            selected:{
+              longbow:capacites
+            }
           },
           evolutions:{
-            liste:{
-              [id]:{
-                applied:true,
-                addOrder:addOrder+1
+            special:{
+              longbow:{
+                [id]:{
+                  applied:true,
+                  addOrder:addOrder+1
+                }
               }
             }
           }
-        }});
+        };
+
+        dataArmor.update(update);
 
         this.actor.update({['system.progression.gloire.actuel']:gloireActuel-value});
-
-        for (let [key, evolutions] of Object.entries(listEvolutions)) {
-          const num = +key;
-
-          if(num > id) {
-            for(let i = 0;i < filter.length;i++) {
-              const hasSpecial = evolutions.special?.[filter[i]] || false;
-
-              if(hasSpecial !== false) {
-                dataArmor.update({[`system.evolutions.liste.${num}.special.-=${filter[i]}`]:null});
-              }
-            }
-          }
-        }
       }
     });
   }
@@ -5919,43 +5886,21 @@ export class KnightSheet extends ActorSheet {
 
         const totalPG = +system.progression.gloire.total;
 
-        if(!armorEvolutions.aAcheter.value) {
-          for (let [key, evolution] of Object.entries(armorEvolutions.liste)) {
-            const PGEvo = +evolution.value;
-            const AlreadyEvo = evolution.applied;
+        for (let [key, evolution] of Object.entries(armorEvolutions.liste)) {
+          const PGEvo = +evolution.value;
+          const AlreadyEvo = evolution.applied;
 
-            if(!AlreadyEvo && PGEvo <= totalPG) {
-              evolutionsAchetables.push({
-                id:key,
-                value:PGEvo
-              });
-            } else if(AlreadyEvo) {
-              depensePG.push({
-                order:evolution.addOrder,
-                isArmure:true,
-                value:PGEvo
-              });
-            }
-          }
-        } else {
-          for (let [key, evolution] of Object.entries(armorEvolutions.liste)) {
-            const PGEvo = +evolution.value;
-            const AlreadyEvo = evolution.applied;
-            const description = evolution.description;
-
-            if(!AlreadyEvo) {
-              evolutionsAAcheter.push({
-                id:key,
-                description:description.replaceAll('<p>', '').replaceAll('</p>', ''),
-                value:PGEvo
-              });
-            } else if(AlreadyEvo) {
-              depensePG.push({
-                order:evolution.addOrder,
-                isAcheter:true,
-                value:PGEvo
-              });
-            }
+          if(!AlreadyEvo && PGEvo <= totalPG) {
+            evolutionsAchetables.push({
+              id:key,
+              value:PGEvo
+            });
+          } else if(AlreadyEvo) {
+            depensePG.push({
+              order:evolution.addOrder,
+              isArmure:true,
+              value:PGEvo
+            });
           }
         }
 
@@ -5980,6 +5925,83 @@ export class KnightSheet extends ActorSheet {
               order:listeEvoApplied[n].addOrder,
               isArmure:true,
               value:listeEvoApplied[n].value
+            });
+          }
+        }
+
+        const longbowEvolutions = armorEvolutions?.special?.longbow || false;
+
+        if(longbowEvolutions !== false) {
+          const PGEvo1 = +longbowEvolutions['1'].value;
+          const AlreadyEvo1 = longbowEvolutions['1'].applied;
+          const description1 = longbowEvolutions['1'].description;
+
+          if(!AlreadyEvo1) {
+            evolutionsAAcheter.push({
+              id:1,
+              description:description1.replaceAll('<p>', '').replaceAll('</p>', ''),
+              value:PGEvo1
+            });
+          } else if(AlreadyEvo1) {
+            depensePG.push({
+              order:longbowEvolutions['1'].addOrder,
+              isAcheter:true,
+              value:PGEvo1
+            });
+
+          }
+
+          const PGEvo2 = +longbowEvolutions['2'].value;
+          const AlreadyEvo2 = longbowEvolutions['2'].applied;
+          const description2 = longbowEvolutions['2'].description;
+
+          if(!AlreadyEvo2) {
+            evolutionsAAcheter.push({
+              id:2,
+              description:description2.replaceAll('<p>', '').replaceAll('</p>', ''),
+              value:PGEvo2
+            });
+          } else if(AlreadyEvo2) {
+            depensePG.push({
+              order:longbowEvolutions['2'].addOrder,
+              isAcheter:true,
+              value:PGEvo2
+            });
+          }
+
+          const PGEvo3 = +longbowEvolutions['3'].value;
+          const AlreadyEvo3 = longbowEvolutions['3'].applied;
+          const description3 = longbowEvolutions['3'].description;
+
+          if(!AlreadyEvo3) {
+            evolutionsAAcheter.push({
+              id:3,
+              description:description3.replaceAll('<p>', '').replaceAll('</p>', ''),
+              value:PGEvo3
+            });
+          } else if(AlreadyEvo3) {
+            depensePG.push({
+              order:longbowEvolutions['3'].addOrder,
+              isAcheter:true,
+              value:PGEvo3
+            });
+          }
+
+          const PGEvo4 = +longbowEvolutions['4'].value;
+          const AlreadyEvo4 = longbowEvolutions['4'].applied;
+          const description4 = longbowEvolutions['4'].description;
+
+          if(!AlreadyEvo4) {
+            evolutionsAAcheter.push({
+              id:4,
+              description:description4.replaceAll('<p>', '').replaceAll('</p>', ''),
+              value:PGEvo4
+            });
+          } else if(AlreadyEvo4) {
+            depensePG.push({
+              order:longbowEvolutions['4'].addOrder,
+              isAcheter:true,
+              value:PGEvo4
             });
           }
         }
