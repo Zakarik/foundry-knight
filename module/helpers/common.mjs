@@ -84,7 +84,7 @@ export function searchTrueValue(array) {
     return result;
 }
 
-export async function getEffets(actor, typeWpn, style, data, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ = false) {
+export async function getEffets(actor, typeWpn, style, data, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ = false, energie=0) {
     const ghostConflit = actor?.armureData?.system?.capacites?.selected?.ghost?.active?.conflit || false;
     const ghostHConflit = actor?.armureData?.system?.capacites?.selected?.ghost?.active?.horsconflit || false;
     const ersatzRogue = actor?.moduleErsatz?.rogue?.has || false;
@@ -139,7 +139,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
 
     const sOther = [];
 
-    let depenseEnergie = 0;
+    let depenseEnergie = energie;
 
     const minMaxDgts = {
       minimize:false,

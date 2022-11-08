@@ -6330,7 +6330,7 @@ export class KnightSheet extends ActorSheet {
                     violence:itemArme.violence,
                     effets:moduleEffetsFinal
                   }
-                }
+                };
 
                 const bDefense = moduleEffetsFinal.raw.find(str => { if(str.includes('defense')) return str; });
                 const bReaction = moduleEffetsFinal.raw.find(str => { if(str.includes('reaction')) return str; });

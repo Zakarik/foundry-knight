@@ -1348,7 +1348,10 @@ export class KnightRollDialog extends Application {
     const ornementalesWpn = dataWpn?.ornementales || {raw:[], custom:[]};
     const structurellesWpn = dataWpn?.structurelles || {raw:[], custom:[]};
 
-    const listEffets = await getEffets(actor, typeWpn, style.raw, data, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ);
+    const energieDgts = dataWpn.degats.dice > dataWpn.degats.variable.min.dice && dataWpn.degats.variable.has ? (dataWpn.degats.dice-dataWpn.degats.variable.min.dice)*dataWpn.degats.variable.cout : 0;
+    const energieViolence = dataWpn.violence.dice > dataWpn.violence.variable.min.dice && dataWpn.violence.variable.has ? (dataWpn.violence.dice-dataWpn.violence.variable.min.dice)*dataWpn.violence.variable.cout : 0;
+
+    const listEffets = await getEffets(actor, typeWpn, style.raw, data, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ, energieDgts+energieViolence);
     const listDistance = await getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, isPNJ);
     const listStructurelles = await getStructurelle (actor, typeWpn, style.raw, data, effetsWpn, structurellesWpn, isPNJ);
     const listOrnementale = await getOrnementale (actor, typeWpn, data, effetsWpn, ornementalesWpn, isPNJ);
