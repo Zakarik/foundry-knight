@@ -1974,7 +1974,8 @@
           "Label":"Jet automatique",
           "Has":"Fait un jet automatique",
           "Hasnt":"Ne fait pas de jet automatique"
-        }
+        },
+        "CoutAugmentation":"Energie par augmentation"
       },
       "ARME":{
         "Nom":"Nom de l'arme",

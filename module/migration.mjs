@@ -2,7 +2,7 @@
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "1.8.0";
+    static NEEDED_VERSION = "1.8.3";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -555,6 +555,25 @@ Applique les modifications par la mise à jour au Monde.
                 item.update(updateItem);
             }
         }
+
+        if (options?.force || MigrationKnight.needUpdate("1.8.3")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            // MISE A JOUR DES ITEMS PORTES
+            for (let item of actor.items) {
+                const updateItem = {};
+
+                if(item.type === 'module') {
+                    updateItem[`system.arme.degats.variable.cout`] = 0;
+                    updateItem[`system.arme.violence.variable.cout`] = 0;
+                }
+
+                item.update(updateItem);
+            }
+        }
     }
 
     static _migrationItems(item, options = { force:false }) {
@@ -985,6 +1004,20 @@ Applique les modifications par la mise à jour au Monde.
                         custom:[]
                     }
                 }
+            }
+
+            item.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("1.8.3")) {
+            const update = {};
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'module') {
+                update[`system.arme.degats.variable.cout`] = 0;
+                update[`system.arme.violence.variable.cout`] = 0;
             }
 
             item.update(update);

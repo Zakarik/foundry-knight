@@ -5960,7 +5960,8 @@
             "max":{
               "dice":0,
               "fixe":0
-            }
+            },
+            "cout":0
           }
         },
         "violence":{
@@ -5975,7 +5976,8 @@
             "max":{
               "dice":0,
               "fixe":0
-            }
+            },
+            "cout":0
           }
         },
         "effets":{
