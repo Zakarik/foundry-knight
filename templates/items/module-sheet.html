@@ -175,6 +175,16 @@
                 {{/if}}
                 " data-type="ersatz" data-subtype="rogue" data-name="has" data-value="{{systemData.ersatz.rogue.has}}">{{systemData.labels.ersatzRogue}}</button>
             </div>
+
+            <div class="oneLine">
+                <button type="action" class="button
+                {{#if systemData.jetsimple.has}}
+                active
+                {{else}}
+                unactive
+                {{/if}}
+                " data-type="jetsimple" data-subtype="has" data-value="{{systemData.jetsimple.has}}">{{systemData.labels.jetSimple}}</button>
+            </div>
         </div>
 
         <div class="col">
@@ -963,6 +973,45 @@
                     {{localize "KNIGHT.NOINCLUS.Fixe"}}
                     {{/if}}
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main jetsimple {{#unless systemData.jetsimple.has}}hidden{{/unless}}">
+        <h2 class="header js-toggler">
+            <i class="far fa-minus-square"></i>
+            {{localize "KNIGHT.ITEMS.MODULE.JETSIMPLE.Label"}}
+        </h2>
+
+        <div class="col">
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.JETS.Nom"}}</span>
+                <input type="text" name="system.jetsimple.label" value="{{systemData.jetsimple.label}}"/>
+            </label>
+        </div>
+
+        <div class="col">
+            <label class="shortspan">
+                <span>{{localize "KNIGHT.JETS.Label"}}</span>
+                <input type="text" name="system.jetsimple.jet" value="{{systemData.jetsimple.jet}}"/>
+            </label>
+        </div>
+
+        <div class="blockEffets space">
+            <h2 class="header">
+                {{localize "KNIGHT.EFFETS.Label"}}
+            </h2>
+            <div class="effets">
+                {{#each systemData.jetsimple.effets.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+                <a class="edit" data-path="system.jetsimple.effets">
+                    <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+                </a>
             </div>
         </div>
     </div>

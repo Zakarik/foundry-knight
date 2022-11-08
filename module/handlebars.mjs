@@ -463,19 +463,12 @@
         const system = data.system;
         const isPermanent = system.permanent;
         const hasPNJ = system.pnj.has;
-        const hasBonus = system.bonus.has;
         const energieTour = system.energie.tour.value;
         const energieMinute = system.energie.minute.value;
-        const hasBard = system.ersatz.bard.has;
-        const hasRogue = system.ersatz.rogue.has;
-        const hasOD = system.overdrives.has;
-        const hasArme = system.arme.has;
 
         if(energieMinute === 0 && energieTour === 0 && !hasPNJ && !isPermanent) result = true;
 
-        if((energieMinute > 0 && !isPermanent) || (energieTour > 0  && !isPermanent)) {
-            if(hasBard || hasRogue || hasOD || hasBonus || hasArme) result = true;
-        };
+        if((energieMinute > 0 && !isPermanent) || (energieTour > 0  && !isPermanent)) result = true;
 
         return result;
     });

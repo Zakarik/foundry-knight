@@ -529,6 +529,32 @@ Applique les modifications par la mise à jour au Monde.
                 item.update(updateItem);
             }
         }
+
+        if (options?.force || MigrationKnight.needUpdate("1.8.2")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            // MISE A JOUR DES ITEMS PORTES
+            for (let item of actor.items) {
+                const updateItem = {};
+
+                if(item.type === 'module') {
+                    updateItem[`system.jetsimple`] = {
+                        has:false,
+                        label:"",
+                        jet:"0D0",
+                        effets:{
+                            raw:[],
+                            custom:[]
+                        }
+                    }
+                }
+
+                item.update(updateItem);
+            }
+        }
     }
 
     static _migrationItems(item, options = { force:false }) {
@@ -936,6 +962,27 @@ Applique les modifications par la mise à jour au Monde.
                                 }
                             }
                         };
+                    }
+                }
+            }
+
+            item.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("1.8.2")) {
+            const update = {};
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'module') {
+                update[`system.jetsimple`] = {
+                    has:false,
+                    label:"",
+                    jet:"0D0",
+                    effets:{
+                        raw:[],
+                        custom:[]
                     }
                 }
             }

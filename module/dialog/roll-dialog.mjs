@@ -1681,7 +1681,7 @@ export class KnightRollDialog extends Application {
     }
 
     // Aspects Exceptionnels
-    if(typeWpn !== 'tourelle' && isPNJ && typeWpn === 'distance') {
+    if(typeWpn !== 'tourelle' && isPNJ && typeWpn === 'contact') {
       const bAEMajeur = +beteAE.majeur;
       const bAEMineur = +beteAE.mineur;
 

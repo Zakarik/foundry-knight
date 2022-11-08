@@ -8,8 +8,7 @@ export class KnightActor extends Actor {
      * Create a new entity using provided input data
      * @override
      */
-  static async create(data, options = {}) {
-    // Replace default image
+  static async create(data, context={}) {
     if (data.img === undefined) {
       switch(data.type) {
         case "knight":
@@ -41,7 +40,10 @@ export class KnightActor extends Actor {
           break;
       }
     }
-    await super.create(data, options);
+
+    const createData = data instanceof Array ? data : [data];
+    const created = await this.createDocuments(createData, context);
+    return data instanceof Array ? created : created.shift();
   }
 
   /** @override */

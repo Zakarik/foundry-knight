@@ -5,7 +5,8 @@ import {
   SortByName,
   SortByAddOrder,
   sum,
-  confirmationDialog
+  confirmationDialog,
+  getEffets
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
@@ -1372,7 +1373,38 @@ export class KnightSheet extends ActorSheet {
       }
 
       if(type === 'module') {
-        this.actor.items.get(module).update({[`system.active.base`]:true})
+        const dataModule = this.actor.items.get(module);
+        dataModule.update({[`system.active.base`]:true})
+
+        if(dataModule.system.jetsimple.has) {
+          const jSREffects = await getEffets(this.actor, 'contact', 'standard', {}, dataModule.system.jetsimple.effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false);
+          const execJSR = new game.knight.RollKnight(dataModule.system.jetsimple.jet, this.actor.system);
+          await execJSR.evaluate();
+
+          let jSRoll = {
+            flavor:dataModule.system.jetsimple.label,
+            main:{
+              total:execJSR._total,
+              tooltip:await execJSR.getTooltip(),
+              formula: execJSR._formula
+            },
+            other:jSREffects.other
+          };
+
+          const jSRMsgData = {
+            user: game.user.id,
+            speaker: {
+              actor: this.actor?.id || null,
+              token: this.actor?.token?.id || null,
+              alias: this.actor?.name || null,
+            },
+            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+            content: await renderTemplate('systems/knight/templates/dices/wpn.html', jSRoll),
+            sound: CONFIG.sounds.dice
+          };
+
+          ChatMessage.create(jSRMsgData);
+        }
       }
 
       if(type === 'modulePnj') {
@@ -7615,6 +7647,10 @@ export class KnightSheet extends ActorSheet {
       const customO = module.system.arme.ornementales.custom;
       const labelsO = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
 
+      const rawM = module.system.jetsimple.effets.raw;
+      const customM = module.system.jetsimple.effets.custom;
+
+      module.system.jetsimple.effets.liste = listEffects(rawM, customM, labels);
       module.system.arme.effets.liste = listEffects(raw, custom, labels);
       module.system.arme.distance.liste = listEffects(rawD, customD, labelsD);
       module.system.arme.structurelles.liste = listEffects(rawS, customS, labelsS);

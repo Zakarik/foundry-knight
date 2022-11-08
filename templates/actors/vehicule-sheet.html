@@ -614,6 +614,30 @@
                                 {{/each}}
                             </div>
                             {{/if}}
+
+                            {{#if key.system.jetsimple.has}}
+                            <div class="data">
+                                <h4>{{localize "KNIGHT.ITEMS.MODULE.JETSIMPLE.Label"}}</h4>
+                                <div class="shortspan">
+                                    <span class="header">{{localize "KNIGHT.JETS.Nom"}}</span>
+                                    <span class="score">{{key.system.jetsimple.label}}</span>
+                                </div>
+                                <div class="shortspan">
+                                    <span class="header">{{localize "KNIGHT.JETS.Label"}}</span>
+                                    <span class="score">{{key.system.jetsimple.jet}}</span>
+                                </div>
+
+                                <div class="effets">
+                                    {{#each key.system.jetsimple.effets.liste as | key effet|}}
+                                        <div>
+                                            <span class="label">{{key.name}}</span>
+                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
+                                            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                                        </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                            {{/if}}
                         </div>
                     </div>
                 </div>

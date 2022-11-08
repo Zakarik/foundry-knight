@@ -6141,6 +6141,15 @@
           "has":false
         }
       },
+      "jetsimple":{
+        "has":false,
+        "label":"",
+        "jet":"0D0",
+        "effets":{
+          "raw":[],
+          "custom":[]
+        }
+      },
       "textarea":{
         "duree":22
       }
