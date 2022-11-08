@@ -1266,8 +1266,8 @@ export class KnightRollDialog extends Application {
     const violenceDice = dataWpn?.violence?.dice || 0;
     const violenceFixe = dataWpn?.violence?.fixe || 0;
 
-    let diceViolence = violenceDice;
-    let bonusViolence = violenceFixe;
+    let diceViolence = +violenceDice;
+    let bonusViolence = +violenceFixe;
     diceViolence += +listAllEffets.violence.totalDice;
     bonusViolence += +listAllEffets.violence.totalBonus;
     diceViolence += +this.data.violenceBonus.dice;
@@ -1348,8 +1348,18 @@ export class KnightRollDialog extends Application {
     const ornementalesWpn = dataWpn?.ornementales || {raw:[], custom:[]};
     const structurellesWpn = dataWpn?.structurelles || {raw:[], custom:[]};
 
-    const energieDgts = dataWpn.degats.dice > dataWpn.degats.variable.min.dice && dataWpn.degats.variable.has ? (dataWpn.degats.dice-dataWpn.degats.variable.min.dice)*dataWpn.degats.variable.cout : 0;
-    const energieViolence = dataWpn.violence.dice > dataWpn.violence.variable.min.dice && dataWpn.violence.variable.has ? (dataWpn.violence.dice-dataWpn.violence.variable.min.dice)*dataWpn.violence.variable.cout : 0;
+    let energieDgts = 0;
+    let energieViolence = 0;
+    const hasVariableDgts = dataWpn.degats?.variable?.has || false;
+    const hasVariableViolence = dataWpn.violence?.variable?.has || false;
+
+    if(hasVariableDgts !== false) {
+      energieDgts = dataWpn.degats.dice > dataWpn.degats.variable.min.dice ? (dataWpn.degats.dice-dataWpn.degats.variable.min.dice)*dataWpn.degats.variable.cout : 0;
+    }
+
+    if(hasVariableViolence !== false) {
+      energieViolence = dataWpn.violence.dice > dataWpn.violence.variable.min.dice ? (dataWpn.violence.dice-dataWpn.violence.variable.min.dice)*dataWpn.violence.variable.cout : 0;
+    }
 
     const listEffets = await getEffets(actor, typeWpn, style.raw, data, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ, energieDgts+energieViolence);
     const listDistance = await getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, isPNJ);
