@@ -134,8 +134,6 @@ export class KnightSheet extends ActorSheet {
 
     context.systemData = context.data.system;
 
-    console.log(context);
-
     return context;
   }
 
@@ -4724,8 +4722,6 @@ export class KnightSheet extends ActorSheet {
     } else {
       if(type === 'module') {
         itemData.system.addOrder = gloireMax+1;
-
-        console.log(itemData, data.permanent);
       }
 
       const create = await Item.create(itemData, {parent: this.actor});

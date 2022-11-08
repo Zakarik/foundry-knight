@@ -524,8 +524,6 @@ Applique les modifications par la mise à jour au Monde.
                             };
                         }
                     }
-
-                    console.log(updateItem);
                 }
 
                 item.update(updateItem);

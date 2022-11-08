@@ -585,7 +585,7 @@ export class VehiculeSheet extends ActorSheet {
 
             if(bDefense !== undefined) defense.bonus.modules += +bDefense.split(' ')[1];
             if(bReaction !== undefined) reaction.bonus.modules += +bReaction.split(' ')[1];
-            console.log(itemArme);
+
             if(itemArme.type === 'distance') {
               armesDistance.push(moduleWpn);
             }
