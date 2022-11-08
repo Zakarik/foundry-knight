@@ -41,6 +41,7 @@ export class PNJSheet extends ActorSheet {
 
     this._prepareCharacterItems(context);
     this._prepareAE(context);
+    this._prepareModuleTranslation(context);
 
     context.systemData = context.data.system;
 
@@ -631,7 +632,38 @@ export class PNJSheet extends ActorSheet {
       if(!depense) return;
 
       if(type === 'module') {
-        this.actor.items.get(module).update({[`system.active.base`]:true})
+        const dataModule = this.actor.items.get(module);
+        dataModule.update({[`system.active.base`]:true})
+
+        if(dataModule.system.jetsimple.has) {
+          const jSREffects = await getEffets(this.actor, 'contact', 'standard', {}, dataModule.system.jetsimple.effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false);
+          const execJSR = new game.knight.RollKnight(dataModule.system.jetsimple.jet, this.actor.system);
+          await execJSR.evaluate();
+
+          let jSRoll = {
+            flavor:dataModule.system.jetsimple.label,
+            main:{
+              total:execJSR._total,
+              tooltip:await execJSR.getTooltip(),
+              formula: execJSR._formula
+            },
+            other:jSREffects.other
+          };
+
+          const jSRMsgData = {
+            user: game.user.id,
+            speaker: {
+              actor: this.actor?.id || null,
+              token: this.actor?.token?.id || null,
+              alias: this.actor?.name || null,
+            },
+            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+            content: await renderTemplate('systems/knight/templates/dices/wpn.html', jSRoll),
+            sound: CONFIG.sounds.dice
+          };
+
+          ChatMessage.create(jSRMsgData);
+        }
       }
 
       if(type === 'modulePnj') {
@@ -673,6 +705,35 @@ export class PNJSheet extends ActorSheet {
     html.find('div.armure div.wolf img.info').click(ev => {
       const span = $(ev.currentTarget).siblings("span.hideInfo")
       const width = $(ev.currentTarget).parents("div.mainData").width() / 2;
+      const isW50 = $(ev.currentTarget).parents("div.data").width();
+      let position = "";
+      let borderRadius = "border-top-right-radius";
+
+      if(isW50 <= width) {
+        if($(ev.currentTarget).parents("div.data").position().left > width) {
+          position = "right";
+          borderRadius = "border-top-right-radius";
+        } else {
+          position = "left";
+          borderRadius = "border-top-left-radius";
+        }
+      } else {
+        if($(ev.currentTarget).parent().position().left > width) {
+          position = "right";
+          borderRadius = "border-top-right-radius";
+        } else {
+          position = "left";
+          borderRadius = "border-top-left-radius";
+        }
+      }
+
+      span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
+      $(ev.currentTarget).toggleClass("clicked");
+    });
+
+    html.find('div.capacites div.modules img.info').click(ev => {
+      const span = $(ev.currentTarget).siblings("span.hideInfo")
+      const width = $(ev.currentTarget).parents("div.mainBlock").width() / 2;
       const isW50 = $(ev.currentTarget).parents("div.data").width();
       let position = "";
       let borderRadius = "border-top-right-radius";
@@ -2014,5 +2075,55 @@ export class PNJSheet extends ActorSheet {
     };
 
     return result;
+  }
+
+  _prepareModuleTranslation(context) {
+    const modules = context.actor?.modules || false;
+
+    if(modules === false) return;
+
+    for (let [key, module] of Object.entries(modules)) {
+      const raw = module.system.arme.effets.raw;
+      const custom = module.system.arme.effets.custom;
+      const labels = CONFIG.KNIGHT.effets;
+
+      const rawD = module.system.arme.distance.raw;
+      const customD = module.system.arme.distance.custom;
+      const labelsD = CONFIG.KNIGHT.AMELIORATIONS.distance;
+
+      const rawS = module.system.arme.structurelles.raw;
+      const customS = module.system.arme.structurelles.custom;
+      const labelsS = CONFIG.KNIGHT.AMELIORATIONS.structurelles;
+
+      const rawO = module.system.arme.ornementales.raw;
+      const customO = module.system.arme.ornementales.custom;
+      const labelsO = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
+
+      const rawM = module.system.jetsimple.effets.raw;
+      const customM = module.system.jetsimple.effets.custom;
+
+
+
+      module.system.jetsimple.effets.liste = listEffects(rawM, customM, labels);
+      module.system.arme.effets.liste = listEffects(raw, custom, labels);
+      module.system.arme.distance.liste = listEffects(rawD, customD, labelsD);
+      module.system.arme.structurelles.liste = listEffects(rawS, customS, labelsS);
+      module.system.arme.ornementales.liste = listEffects(rawO, customO, labelsO);
+
+      const pnj = module.system.pnj.liste;
+
+      for (let [kNpc, npc] of Object.entries(pnj)) {
+        if(npc.armes.has) {
+          const armes = npc.armes.liste;
+
+          for (let [kArme, arme] of Object.entries(armes)) {
+            const rArme = arme.effets.raw;
+            const cArme = arme.effets.custom;
+
+            arme.effets.liste = listEffects(rArme, cArme, labels);
+          }
+        }
+      }
+    }
   }
 }

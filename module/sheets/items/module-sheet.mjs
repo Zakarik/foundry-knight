@@ -373,6 +373,7 @@ export class ModuleSheet extends ItemSheet {
     const ersatz = data.ersatz;
     const eRogue = ersatz.rogue;
     const eBard = ersatz.bard;
+    const jetSimple = data.jetsimple;
 
     const pHas = pnj?.has || false;
     const pLis = pnj?.liste?.length || 0;
@@ -395,6 +396,8 @@ export class ModuleSheet extends ItemSheet {
 
     const eRHas = eRogue?.has || false;
     const eBHas = eBard?.has || false;
+
+    const jSimple = jetSimple.has;
 
     if(duree) { data.labels.duree = game.i18n.localize("KNIGHT.ITEMS.MODULE.DUREE.Permanent"); }
     else { data.labels.duree = game.i18n.localize("KNIGHT.ITEMS.MODULE.DUREE.NotPermanent"); }
@@ -452,6 +455,9 @@ export class ModuleSheet extends ItemSheet {
 
     if(eBHas) { data.labels.ersatzBard = game.i18n.localize("KNIGHT.ITEMS.MODULE.ERSATZ.BARD.Has"); }
     else { data.labels.ersatzBard = game.i18n.localize("KNIGHT.ITEMS.MODULE.ERSATZ.BARD.Hasnt"); }
+
+    if(jSimple) { data.labels.jetSimple = game.i18n.localize("KNIGHT.ITEMS.MODULE.JETSIMPLE.Has"); }
+    else { data.labels.jetSimple = game.i18n.localize("KNIGHT.ITEMS.MODULE.JETSIMPLE.Hasnt"); }
   }
 
   _prepareEffetsListe(context) {
@@ -459,6 +465,7 @@ export class ModuleSheet extends ItemSheet {
     const distance = context.data.system.arme.distance || false;
     const structurelles = context.data.system.arme.structurelles || false;
     const ornementales = context.data.system.arme.ornementales || false;
+    const effetsJetSimple = context.data.system.jetsimple.effets || false;
     const pnjListe = context.data.system.pnj.liste;
 
     if(effets !== false) {
@@ -491,6 +498,14 @@ export class ModuleSheet extends ItemSheet {
       const labelsO = CONFIG.KNIGHT.AMELIORATIONS.structurelles;
 
       ornementales.liste = listEffects(raw, custom, labelsO);
+    }
+
+    if(effetsJetSimple !== false) {
+      const raw = effetsJetSimple.raw;
+      const custom = effetsJetSimple.custom;
+      const labelsE = CONFIG.KNIGHT.effets;
+
+      effetsJetSimple.liste = listEffects(raw, custom, labelsE);
     }
 
     for (let [key, pnj] of Object.entries(pnjListe)) {

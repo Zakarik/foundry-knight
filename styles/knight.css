@@ -13800,7 +13800,8 @@
 .module div.arme,
 .module div.pnj,
 .module div.overdrives,
-.module div.rogue {
+.module div.rogue,
+.module div.jetsimple {
   margin-top: 5px;
   border: 1px solid RGB(87 110 178);
 }
@@ -13808,14 +13809,16 @@
 .module div.arme div.col:first-of-type > *,
 .module div.pnj div.col:first-of-type > *,
 .module div.overdrives div.col:first-of-type > *,
-.module div.rogue div.col:first-of-type > * {
+.module div.rogue div.col:first-of-type > *,
+.module div.jetsimple div.col:first-of-type > * {
   border-left: 0px;
 }
 .module div.bonus div.col:last-of-type > *,
 .module div.arme div.col:last-of-type > *,
 .module div.pnj div.col:last-of-type > *,
 .module div.overdrives div.col:last-of-type > *,
-.module div.rogue div.col:last-of-type > * {
+.module div.rogue div.col:last-of-type > *,
+.module div.jetsimple div.col:last-of-type > * {
   border-right: 0px;
 }
 .module div.overdrives div.col3 {
@@ -13943,6 +13946,30 @@
 }
 .module div.rogue label.longspan input {
   width: 50px;
+  height: 22px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  border-radius: 0px;
+  background: RGB(43 42 51);
+  color: white;
+  text-align: center;
+}
+.module div.jetsimple label.shortspan {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  border-top: 1px solid RGB(87 110 178);
+}
+.module div.jetsimple label.shortspan span {
+  width: 90px;
+  padding-left: 5px;
+  line-height: 22px;
+  background: RGB(76 74 90);
+  font-variant: small-caps;
+}
+.module div.jetsimple label.shortspan input {
+  width: calc(100% - 90px);
   height: 22px;
   padding: 0px;
   margin: 0px;
@@ -26570,6 +26597,33 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   text-align: center;
   border-top: 1px solid RGB(76 74 90);
 }
+.pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.line,
+.pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.line {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.line div.doubleLine,
+.pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(100% / 2);
+}
+.pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.line div.doubleLine span,
+.pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine span {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.line div.doubleLine span.header,
+.pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine span.header {
+  font-weight: bold;
+  font-variant: small-caps;
+}
+.pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.line div.doubleLine:not(:first-of-type),
+.pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine:not(:first-of-type) {
+  border-left: 1px solid RGB(76 74 90);
+}
 .pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets,
 .pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets {
   display: flex;
@@ -28712,6 +28766,33 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border: 0px;
   text-align: center;
   border-top: 1px solid RGB(76 74 90);
+}
+.creature section.body div.combat div.main div.armesContact div.wpn div.effets div.line,
+.creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.line {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.creature section.body div.combat div.main div.armesContact div.wpn div.effets div.line div.doubleLine,
+.creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(100% / 2);
+}
+.creature section.body div.combat div.main div.armesContact div.wpn div.effets div.line div.doubleLine span,
+.creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine span {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.creature section.body div.combat div.main div.armesContact div.wpn div.effets div.line div.doubleLine span.header,
+.creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine span.header {
+  font-weight: bold;
+  font-variant: small-caps;
+}
+.creature section.body div.combat div.main div.armesContact div.wpn div.effets div.line div.doubleLine:not(:first-of-type),
+.creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine:not(:first-of-type) {
+  border-left: 1px solid RGB(76 74 90);
 }
 .creature section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets,
 .creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets {

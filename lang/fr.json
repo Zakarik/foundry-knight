@@ -1969,6 +1969,11 @@
             "Has":"Est un déguisement (ersatz bard)",
             "Hasnt":"N'est pas un Déguisement (ersatz bard)"
           }
+        },
+        "JETSIMPLE":{
+          "Label":"Jet automatique",
+          "Has":"Fait un jet automatique",
+          "Hasnt":"Ne fait pas de jet automatique"
         }
       },
       "ARME":{
