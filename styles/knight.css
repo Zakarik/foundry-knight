@@ -23421,6 +23421,31 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   border-color: RGB(76 74 90);
 }
+.knight section.body div.progression div.main div.evolutionsAAcheter button span.hideInfo {
+  display: none;
+  position: absolute;
+  width: 400px;
+  height: max-content;
+  border: 1px solid black;
+  background: RGB(43 42 51);
+  text-align: justify;
+  top: 25px;
+  z-index: 90;
+  border-radius: 10px;
+  color: white;
+  padding: 2px;
+}
+.knight section.body div.progression div.main div.evolutionsAAcheter button span.hideInfo.left {
+  border-top-left-radius: 0px;
+  left: 0px;
+}
+.knight section.body div.progression div.main div.evolutionsAAcheter button span.hideInfo.right {
+  border-top-right-radius: 0px;
+  right: 0px;
+}
+.knight section.body div.progression div.main div.evolutionsAAcheter button:hover span {
+  display: block;
+}
 .knight section.body div.progression div.main div button {
   width: calc(25% - 2px);
   color: white;

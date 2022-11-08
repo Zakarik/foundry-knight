@@ -219,6 +219,18 @@ export class KnightSheet extends ActorSheet {
       $(ev.currentTarget).toggleClass("clicked");
     });
 
+    html.find('div.progression div.evolutionsAAcheter button').hover(ev => {
+      const span = html.find('div.progression div.evolutionsAAcheter span.hideInfo');
+      const target = $(ev.currentTarget);
+      const width = html.find('div.progression div.evolutionsAAcheter').width() / 2;
+
+      if(target.position().left > width) {
+        span.toggleClass("right");
+      } else {
+        span.toggleClass("left");
+      }
+    });
+
     toggler.init(this.id, html);
 
     // Everything below here is only needed if the sheet is editable
@@ -4579,6 +4591,8 @@ export class KnightSheet extends ActorSheet {
       const gloireActuel = +dataGloire.actuel;
       const gloireListe = dataGloire.depense.liste;
       const addOrder =  gloireListe.length === 0 ? 0 : Math.max(...gloireListe.map(o => o.order));
+
+      delete capacites.description;
 
       if(gloireActuel >= value) {
         const update = {};

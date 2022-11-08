@@ -6517,6 +6517,39 @@
               white-space: nowrap;
               background:@black;
               border-color:@lightBlack;
+
+              span {
+                &.hideInfo {
+                  display:none;
+                  position: absolute;
+                  width: 400px;
+                  height: max-content;
+                  border: 1px solid black;
+                  background: RGB(43 42 51);
+                  text-align: justify;
+                  top: 25px;
+                  z-index: 90;
+                  border-radius: 10px;
+                  color: white;
+                  padding: 2px;
+
+                  &.left {
+                    border-top-left-radius:0px;
+                    left:0px;
+                  }
+
+                  &.right {
+                    border-top-right-radius:0px;
+                    right:0px;
+                  }
+                }
+              }
+
+              &:hover {
+                span {
+                  display:block;
+                }
+              }
             }
           }
 
