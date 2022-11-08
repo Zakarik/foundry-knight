@@ -33,8 +33,6 @@ export class ArtSheet extends ItemSheet {
 
     context.systemData = context.data.system;
 
-    console.log(context);
-
     return context;
   }
 

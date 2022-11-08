@@ -478,8 +478,6 @@ export class KnightRollDialog extends Application {
         this.data[effet] = value;
       }
 
-      console.log(this.data);
-
       this.render(true)
     });
 
@@ -983,8 +981,6 @@ export class KnightRollDialog extends Application {
 
           if(totalDice <= 0) totalDice = 1;
 
-          console.log(data);
-
           const attack = await this._doAttack(actor, data, wpn, otherC, carac, od, wpn?.capacite || false, totalDice, totalBonus, listAllE, addNum, barrage, systemerefroidissement, barrageValue, otherWpnAttEffet);
 
           regularite += attack.regularite;
@@ -1192,6 +1188,8 @@ export class KnightRollDialog extends Application {
     let bonusDgts = +dgtsFixe;
     diceDgts += +listAllEffets.degats.totalDice;
     bonusDgts += +listAllEffets.degats.totalBonus;
+    diceDgts += +this.data.degatsBonus.dice;
+    bonusDgts += +this.data.degatsBonus.fixe;
 
     if(style.raw === 'akimbo') {
       diceDgts += diceDgts;
@@ -1270,9 +1268,10 @@ export class KnightRollDialog extends Application {
 
     let diceViolence = violenceDice;
     let bonusViolence = violenceFixe;
-
     diceViolence += +listAllEffets.violence.totalDice;
     bonusViolence += +listAllEffets.violence.totalBonus;
+    diceViolence += +this.data.violenceBonus.dice;
+    bonusViolence += +this.data.violenceBonus.fixe;
 
     if((actor.type !== 'knight' && actor.type !== 'pnj' && actor.type !== 'mechaarmure' && actor.type !== 'vehicule' && diceViolence === 0 && bonusViolence === 0)) {}
     else {

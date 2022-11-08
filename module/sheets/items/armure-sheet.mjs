@@ -84,8 +84,6 @@ export class ArmureSheet extends ItemSheet {
 
     context.systemData = context.data.system;
 
-    console.log(context);
-
     return context;
   }
 
@@ -2559,8 +2557,6 @@ export class ArmureSheet extends ItemSheet {
     const lEffets = context.data.system.evolutions.special?.longbow || false;
 
     if(!lEffets) return;
-
-    console.log(lEffets['3']);
 
     const lEB = lEffets['3'].effets.base;
     const lRB = lEB.raw;

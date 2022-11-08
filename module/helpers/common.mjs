@@ -1291,8 +1291,6 @@ const devastation = effetsWpn.raw.find(str => { if(str.includes('devastation')) 
 const devastationValue = devastation ? devastation.split(' ')[1] : 0;
 const regularite = effetsWpn.raw.find(str => { if(str.includes('regularite')) return true; });
 
-console.log(data);
-
 if(obliteration) { minMaxDgts.maximize = true; }
 
 for(let i = 0;i < distanceWpn.raw.length;i++) {
