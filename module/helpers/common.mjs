@@ -106,12 +106,12 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
     const devastationValue = devastation ? devastation.split(' ')[1] : 0;
     const regularite = effetsWpn.raw.find(str => { if(str.includes('regularite')) return true; });
 
-    const hypervelocite = typeWpn === 'distance' || typeWpn === 'tourelle' ? distanceWpn.raw.find(str => { if(str.includes('munitionshypervelocite')) return true; }) : false;
-    const revetementomega = typeWpn === 'distance' || typeWpn === 'tourelle' ? distanceWpn.raw.find(str => { if(str.includes('revetementomega')) return true; }) : false;
-    const jumelageakimbo = typeWpn === 'distance' || typeWpn === 'tourelle' ? distanceWpn.raw.find(str => { if(str.includes('jumelageakimbo')) return true; }) : false;
-    const jumelageambidextrie = typeWpn === 'distance' || typeWpn === 'tourelle' ? distanceWpn.raw.find(str => { if(str.includes('jumelageambidextrie')) return true; }) : false;
-    const subsoniques = typeWpn === 'distance' || typeWpn === 'tourelle' ? distanceWpn.raw.find(str => { if(str.includes('munitionssubsoniques')) return true; }) : false;
-    const interfaceguidage = typeWpn === 'distance' || typeWpn === 'tourelle' ? distanceWpn.raw.find(str => { if(str.includes('interfaceguidage')) return true; }) : false;
+    const hypervelocite = typeWpn === 'distance' || typeWpn === 'tourelle' || typeWpn === 'longbow' ? distanceWpn.raw.find(str => { if(str.includes('munitionshypervelocite')) return true; }) : false;
+    const revetementomega = typeWpn === 'distance' || typeWpn === 'tourelle' || typeWpn === 'longbow' ? distanceWpn.raw.find(str => { if(str.includes('revetementomega')) return true; }) : false;
+    const jumelageakimbo = typeWpn === 'distance' || typeWpn === 'tourelle' || typeWpn === 'longbow' ? distanceWpn.raw.find(str => { if(str.includes('jumelageakimbo')) return true; }) : false;
+    const jumelageambidextrie = typeWpn === 'distance' || typeWpn === 'tourelle' || typeWpn === 'longbow' ? distanceWpn.raw.find(str => { if(str.includes('jumelageambidextrie')) return true; }) : false;
+    const subsoniques = typeWpn === 'distance' || typeWpn === 'tourelle' || typeWpn === 'longbow' ? distanceWpn.raw.find(str => { if(str.includes('munitionssubsoniques')) return true; }) : false;
+    const interfaceguidage = typeWpn === 'distance' || typeWpn === 'tourelle' || typeWpn === 'longbow' ? distanceWpn.raw.find(str => { if(str.includes('interfaceguidage')) return true; }) : false;
 
     const assassine = typeWpn === 'contact' ? structurellesWpn.raw.find(str => { if(str.includes('assassine')) return true; }) : false;
     const barbelee = typeWpn === 'contact' ? structurellesWpn.raw.find(str => { if(str.includes('barbelee')) return true; }) : false;
@@ -1242,7 +1242,7 @@ let dgtsBonus = 0;
 let violenceDice = 0;
 let violenceBonus = 0;
 
-if(typeWpn === 'contact' || typeWpn === 'grenades' || typeWpn === 'longbow' || typeWpn === 'armesimprovisees'
+if(typeWpn === 'contact' || typeWpn === 'grenades' || typeWpn === 'armesimprovisees'
 || typeWpn === 'base' || typeWpn === 'c1' || typeWpn === 'c2') return {
     onlyAttack:onlyAttack,
     nRoll:nRoll,
@@ -1414,11 +1414,11 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
         else other = true;
 
         if(other) {
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${details}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} ${details}`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
         } else {
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${details} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} ${details} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
         }
     break;
 
@@ -1525,8 +1525,8 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
       if(haSubsoniques !== false || haSubsoniques === undefined) {
         if(typeWpn === 'tourelle') {
           other = true;
-          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
         } else {
           if(!silencieux) {
             const discretion = isPNJ ? +actor.system.aspects.masque.value : +actor.system.aspects.masque.caracteristiques.discretion.value;

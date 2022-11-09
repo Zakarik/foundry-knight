@@ -2,7 +2,7 @@
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "1.8.3";
+    static NEEDED_VERSION = "1.8.5";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -574,6 +574,40 @@ Applique les modifications par la mise à jour au Monde.
                 item.update(updateItem);
             }
         }
+
+        if (options?.force || MigrationKnight.needUpdate("1.8.5")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            // MISE A JOUR DES ITEMS PORTES
+            for (let item of actor.items) {
+                const updateItem = {};
+
+                if(item.type === 'armure') {
+                    const hasLongbow = item.system.capacites.selected?.longbow || false;
+
+                    updateItem[`system.capacites.base.longbow`] = {
+                        distance:{
+                            raw:[],
+                            custom:[]
+                        }
+                    };
+
+                    if(hasLongbow !== false) {
+                        updateItem[`system.capacites.selected.longbow`] = {
+                            distance:{
+                                raw:[],
+                                custom:[]
+                            }
+                        };
+                    }
+                }
+
+                item.update(updateItem);
+            }
+        }
     }
 
     static _migrationItems(item, options = { force:false }) {
@@ -1018,6 +1052,35 @@ Applique les modifications par la mise à jour au Monde.
             if(item.type === 'module') {
                 update[`system.arme.degats.variable.cout`] = 0;
                 update[`system.arme.violence.variable.cout`] = 0;
+            }
+
+            item.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("1.8.5")) {
+            const update = {};
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'armure') {
+                const hasLongbow = system.capacites.selected?.longbow || false;
+
+                update[`system.capacites.base.longbow`] = {
+                    distance:{
+                        raw:[],
+                        custom:[]
+                    }
+                };
+
+                if(hasLongbow !== false) {
+                    update[`system.capacites.selected.longbow`] = {
+                        distance:{
+                            raw:[],
+                            custom:[]
+                        }
+                    };
+                }
             }
 
             item.update(update);

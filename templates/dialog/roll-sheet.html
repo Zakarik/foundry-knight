@@ -883,6 +883,55 @@
                         <span class="relance relanceDgts" data-id="{{key._id}}" data-type="distance" data-name="{{key.name}}" title="{{localize "KNIGHT.EFFETS.TIRENRAFALE.Relance"}}">{{localize "KNIGHT.EFFETS.TIRENRAFALE.Label"}}</span>
                     {{/if}}
 
+                    {{#if (hasEffet 'chargeurballesgrappes' 'distance' longbow -1)}}
+                    <div class="blockBtn">
+                        <span class="{{#unless @root/ameliorations/grappes}}selected{{else}}unselected{{/unless}}" data-type="grappes" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.CHARGEURBALLESGRAPPES.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/grappes}}selected{{else}}unselected{{/if}}" data-type="grappes" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.CHARGEURBALLESGRAPPES.Active"}}</span>
+                    </div>
+                    {{/if}}
+
+                    {{#if (hasEffet 'chargeurmunitionsexplosives' 'distance' longbow -1)}}
+                    <div class="blockBtn">
+                        <span class="{{#unless @root/ameliorations/explosives}}selected{{else}}unselected{{/unless}}" data-type="explosives" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.CHARGEURMUNITIONSEXPLOSIVES.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/explosives}}selected{{else}}unselected{{/if}}" data-type="explosives" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.CHARGEURMUNITIONSEXPLOSIVES.Active"}}</span>
+                    </div>
+                    {{/if}}
+
+                    {{#if (hasEffet 'munitionsdrones' 'distance' longbow -1)}}
+                    <div class="blockBtn">
+                        <span class="{{#unless @root/ameliorations/drones}}selected{{else}}unselected{{/unless}}" data-type="drones" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSDRONES.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/drones}}selected{{else}}unselected{{/if}}" data-type="drones" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSDRONES.Active"}}</span>
+                    </div>
+                    {{/if}}
+
+                    {{#if (hasEffet 'munitionshypervelocite' 'distance' longbow -1)}}
+                    <div class="blockBtn">
+                        <span class="{{#unless @root/ameliorations/hypervelocite}}selected{{else}}unselected{{/unless}}" data-type="hypervelocite" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/hypervelocite}}selected{{else}}unselected{{/if}}" data-type="hypervelocite" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Active"}}</span>
+                    </div>
+                    {{/if}}
+
+                    {{#if (hasEffet 'munitionsiem' 'distance' longbow -1)}}
+                    <div class="blockBtn">
+                        <span class="{{#unless @root/ameliorations/iem}}selected{{else}}unselected{{/unless}}" data-type="iem" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSIEM.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/iem}}selected{{else}}unselected{{/if}}" data-type="iem" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSIEM.Active"}}</span>
+                    </div>
+                    {{/if}}
+
+                    {{#if (hasEffet 'munitionsnonletales' 'distance' longbow -1)}}
+                    <div class="blockBtn">
+                        <span class="{{#unless @root/ameliorations/nonletales}}selected{{else}}unselected{{/unless}}" data-type="nonletales" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSNONLETALES.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/nonletales}}selected{{else}}unselected{{/if}}" data-type="nonletales" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSNONLETALES.Active"}}</span>
+                    </div>
+                    {{/if}}
+
+                    {{#if (hasEffet 'munitionssubsoniques' 'distance' longbow -1)}}
+                    <div class="blockBtn">
+                        <span class="{{#unless @root/ameliorations/subsoniques}}selected{{else}}unselected{{/unless}}" data-type="subsoniques" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSSUBSONIQUES.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/subsoniques}}selected{{else}}unselected{{/if}}" data-type="subsoniques" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSSUBSONIQUES.Active"}}</span>
+                    </div>
+                    {{/if}}
+
                     {{#if (hasEffet 'barrage' 'effets' longbow -1)}}
                     <div class="blockBtn">
                         <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>

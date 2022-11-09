@@ -2762,6 +2762,10 @@
                 "custom":[]
               }
             },
+            "distance":{
+              "raw":[],
+              "custom":[]
+            },
             "specialEvolutions":{
               "1":{
                 "value":50,

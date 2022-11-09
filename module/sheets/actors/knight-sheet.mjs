@@ -7423,119 +7423,22 @@ export class KnightSheet extends ActorSheet {
     const lR3 = lE3.raw;
     const lC3 = lE3.custom;
 
-    const effetsb = [];
-    const effets1 = [];
-    const effets2 = [];
-    const effets3 = [];
+    const lA = longbow.distance;
+    const lRA = lA.raw;
+    const lCA = lA.custom;
 
     const lEffets3 = lE3.acces;
 
-    for(let n = 0;n < lRB.length;n++) {
-      const split = lRB[n].split(" ");
-      const name = game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].label);
-      const sub = split[1];
-      let complet = name;
+    const labels = CONFIG.KNIGHT.effets;
+    const labelsA = CONFIG.KNIGHT.AMELIORATIONS.distance;
 
-      if(sub != undefined) { complet += " "+sub; }
+    console.log(lA);
 
-      effetsb.push({
-        name:complet,
-        description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
-      });
-    }
-
-    for(let n = 0;n < lCB.length;n++) {
-      effetsb.push({
-        name:lCB[n].label,
-        description:lCB[n].description,
-        custom:true
-      });
-    }
-
-    for(let n = 0;n < lR1.length;n++) {
-      const split = lR1[n].split(" ");
-      const name = game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].label);
-      const sub = split[1];
-      let complet = name;
-
-      if(sub != undefined) { complet += " "+sub; }
-
-      effets1.push({
-        raw:lR1[n],
-        name:complet,
-        description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
-      });
-    }
-
-    for(let n = 0;n < lC1.length;n++) {
-      effets1.push({
-        name:lC1[n].label,
-        description:lC1[n].description,
-        custom:true
-      });
-    }
-
-    for(let n = 0;n < lR2.length;n++) {
-      const split = lR2[n].split(" ");
-      const name = game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].label);
-      const sub = split[1];
-      let complet = name;
-
-      if(sub != undefined) { complet += " "+sub; }
-
-      effets2.push({
-        raw:lR2[n],
-        name:complet,
-        description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
-      });
-    }
-
-    for(let n = 0;n < lC2.length;n++) {
-      effets2.push({
-        name:lC2[n].label,
-        description:lC2[n].description,
-        custom:true
-      });
-    }
-
-    for(let n = 0;n < lR3.length;n++) {
-      const split = lR3[n].split(" ");
-      const name = game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].label);
-      const sub = split[1];
-      let complet = name;
-
-      if(sub != undefined) { complet += " "+sub; }
-
-      effets3.push({
-        raw:lR3[n],
-        name:complet,
-        description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
-      });
-    }
-
-    for(let n = 0;n < lC3.length;n++) {
-      effets3.push({
-        name:lC3[n].label,
-        description:lC3[n].description,
-        custom:true
-      });
-    }
-
-    function _sortByName(x, y){
-      if (x.name.toLowerCase() < y.name.toLowerCase()) {return -1;}
-      if (x.name.toLowerCase() > y.name.toLowerCase()) {return 1;}
-      return 0;
-    }
-
-    effetsb.sort(_sortByName);
-    effets1.sort(_sortByName);
-    effets2.sort(_sortByName);
-    effets3.sort(_sortByName);
-
-    longbow.effets.base.liste = effetsb;
-    longbow.effets.liste1.liste = effets1;
-    longbow.effets.liste2.liste = effets2;
-    longbow.effets.liste3.liste = effets3;
+    lEB.liste = listEffects(lRB, lCB, labels);
+    lE1.liste = listEffects(lR1, lC1, labels);
+    lE2.liste = listEffects(lR2, lC2, labels);
+    lE3.liste = listEffects(lR3, lC3, labels);
+    lA.liste = listEffects(lRA, lCA, labelsA);
 
     if(lEffets3) {
       lE3.label = game.i18n.localize(CONFIG.KNIGHT.longbow["effets3"]);
