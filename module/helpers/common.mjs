@@ -76,7 +76,8 @@ export function searchTrueValue(array) {
     let result = false;
 
     for(let i = 0;i < length;i++) {
-        if(array[i] === true) {
+      console.log(array[i]);
+        if(array[i] !== undefined || array[i] === true) {
             result = true;
         }
     }
@@ -3754,7 +3755,7 @@ if(getArmorData !== false) {
         case 'ghost':
             active = searchTrueValue(Object.entries(isActive)[0]);
 
-            if((active && typeWpn === 'contact' && !isLumiere) || (active && typeWpn === 'distance' && isSilencieux)) {
+            if((active && typeWpn === 'contact' && !isLumiere)) {
                 const dataBonus = capacite.bonus;
                 const degatsBonus = dataBonus.degats;
 
@@ -3764,11 +3765,23 @@ if(getArmorData !== false) {
                 if(degatsBonus.dice) bonusDegatsDice += getCaracValue(degatsBonus.caracteristique, actorId);
                 if(degatsBonus.od && degatsBonus.dice) bonusDegatsDice += getODValue(degatsBonus.caracteristique, actorId);
                 if(degatsBonus.od && degatsBonus.fixe) bonusDegatsFixe += getODValue(degatsBonus.caracteristique, actorId);
+            }
 
-                if(capacite.interruption.actif) {
-                actor.items.get(getArmorID).update({[`system.capacites.selected.ghost.active.horsconflit`]:false});
-                actor.items.get(getArmorID).update({[`system.capacites.selected.ghost.active.conflit`]:false});
-                }
+            if((active && typeWpn === 'distance' && isSilencieux)) {
+              const dataBonus = capacite.bonus;
+              const degatsBonus = dataBonus.degats;
+
+              bonusAttackDice += getCaracValue(dataBonus.attaque, actorId)+getODValue(dataBonus.attaque, actorId);
+
+              if(degatsBonus.fixe) bonusDegatsFixe += getCaracValue(degatsBonus.caracteristique, actorId);
+              if(degatsBonus.dice) bonusDegatsDice += getCaracValue(degatsBonus.caracteristique, actorId);
+              if(degatsBonus.od && degatsBonus.dice) bonusDegatsDice += getODValue(degatsBonus.caracteristique, actorId);
+              if(degatsBonus.od && degatsBonus.fixe) bonusDegatsFixe += getODValue(degatsBonus.caracteristique, actorId);
+            }
+
+            if(capacite.interruption.actif) {
+              actor.items.get(getArmorID).update({[`system.capacites.selected.ghost.active.horsconflit`]:false});
+              actor.items.get(getArmorID).update({[`system.capacites.selected.ghost.active.conflit`]:false});
             }
             break;
 
