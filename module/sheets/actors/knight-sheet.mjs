@@ -1415,7 +1415,12 @@ export class KnightSheet extends ActorSheet {
             sound: CONFIG.sounds.dice
           };
 
-          ChatMessage.create(jSRMsgData);
+          const rMode = game.settings.get("core", "rollMode");
+          const msgFData = ChatMessage.applyRollMode(jSRMsgData, rMode);
+
+          await ChatMessage.create(msgFData, {
+            rollMode:rMode
+          });
         }
       }
 
@@ -3275,7 +3280,12 @@ export class KnightSheet extends ActorSheet {
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', dataMsg)
           };
 
-          ChatMessage.create(msg);
+          const rMode = game.settings.get("core", "rollMode");
+          const msgFData = ChatMessage.applyRollMode(msg, rMode);
+
+          await ChatMessage.create(msgFData, {
+            rollMode:rMode
+          });
           break;
         case 'contrecoups':
           this._rollDice(label, base, false, [], [], false, '', '', '', -1, 0);
@@ -3319,7 +3329,12 @@ export class KnightSheet extends ActorSheet {
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', dataMsg)
           };
 
-          ChatMessage.create(msg);
+          const rMode = game.settings.get("core", "rollMode");
+          const msgFData = ChatMessage.applyRollMode(msg, rMode);
+
+          await ChatMessage.create(msgFData, {
+            rollMode:rMode
+          });
           break;
       }
     });
@@ -3839,7 +3854,12 @@ export class KnightSheet extends ActorSheet {
         content: `<span style="display:flex;width:100%;font-weight:bold;">${name}</span><span style="display:flex;width:100%;text-align:justify;justify-content:left;word-break:break-all;">${data}</span>`
       };
 
-      ChatMessage.create(msg);
+      const rMode = game.settings.get("core", "rollMode");
+      const msgFData = ChatMessage.applyRollMode(msg, rMode);
+
+      await ChatMessage.create(msgFData, {
+        rollMode:rMode
+      });
     });
 
     html.find('.jetEspoir').click(ev => {
@@ -7423,7 +7443,7 @@ export class KnightSheet extends ActorSheet {
     const lR3 = lE3.raw;
     const lC3 = lE3.custom;
 
-    const lA = longbow.distance;
+    const lA = longbow?.distance || {raw:[], custom:[]};
     const lRA = lA.raw;
     const lCA = lA.custom;
 
@@ -7431,8 +7451,6 @@ export class KnightSheet extends ActorSheet {
 
     const labels = CONFIG.KNIGHT.effets;
     const labelsA = CONFIG.KNIGHT.AMELIORATIONS.distance;
-
-    console.log(lA);
 
     lEB.liste = listEffects(lRB, lCB, labels);
     lE1.liste = listEffects(lR1, lC1, labels);
@@ -7899,7 +7917,12 @@ export class KnightSheet extends ActorSheet {
         sound: CONFIG.sounds.dice
       };
 
-      ChatMessage.create(msgEnergieData);
+      const rMode = game.settings.get("core", "rollMode");
+      const msgFData = ChatMessage.applyRollMode(msgEnergieData, rMode);
+
+      await ChatMessage.create(msgFData, {
+        rollMode:rMode
+      });
 
       return false;
     } else {

@@ -1365,7 +1365,12 @@ export class CreatureSheet extends ActorSheet {
       sound: CONFIG.sounds.dice
     };
 
-    ChatMessage.create(dgtsMsgData);
+    const rMode = game.settings.get("core", "rollMode");
+    const msgFData = ChatMessage.applyRollMode(dgtsMsgData, rMode);
+
+    await ChatMessage.create(msgFData, {
+      rollMode:rMode
+    });
   }
 
   async _getAllEffets(dataWpn, tenebricide, obliteration) {

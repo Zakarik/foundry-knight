@@ -129,7 +129,12 @@ export class VehiculeSheet extends ActorSheet {
           sound: CONFIG.sounds.dice
         };
 
-        ChatMessage.create(jSRMsgData);
+        const rMode = game.settings.get("core", "rollMode");
+        const msgData = ChatMessage.applyRollMode(jSRMsgData, rMode);
+
+        await ChatMessage.create(msgData, {
+          rollMode:rMode
+        });
       }
     });
 
@@ -753,7 +758,12 @@ export class VehiculeSheet extends ActorSheet {
         sound: CONFIG.sounds.dice
       };
 
-      ChatMessage.create(msgEnergieData);
+      const rMode = game.settings.get("core", "rollMode");
+      const msgData = ChatMessage.applyRollMode(msgEnergieData, rMode);
+
+      await ChatMessage.create(msgData, {
+        rollMode:rMode
+      });
 
       return false;
     } else {
