@@ -253,7 +253,12 @@ export class MechaArmureSheet extends ActorSheet {
           sound: CONFIG.sounds.dice
         };
 
-        ChatMessage.create(msgData);
+        const rMode = game.settings.get("core", "rollMode");
+        const msgFData = ChatMessage.applyRollMode(msgData, rMode);
+
+        await ChatMessage.create(msgFData, {
+          rollMode:rMode
+        });
       }
     });
 
@@ -320,7 +325,12 @@ export class MechaArmureSheet extends ActorSheet {
               sound: CONFIG.sounds.dice
             };
 
-            ChatMessage.create(msgNoeData);
+            const rMode = game.settings.get("core", "rollMode");
+            const msgFData = ChatMessage.applyRollMode(msgNoeData, rMode);
+
+            await ChatMessage.create(msgFData, {
+              rollMode:rMode
+            });
           } else {
             newEnergie = await this._depenseNE(+data.noyaux, `${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`);
 
@@ -364,7 +374,12 @@ export class MechaArmureSheet extends ActorSheet {
             sound: CONFIG.sounds.dice
           };
 
-          ChatMessage.create(msgChocSData);
+          const rMode = game.settings.get("core", "rollMode");
+          const msgFData = ChatMessage.applyRollMode(msgChocSData, rMode);
+
+          await ChatMessage.create(msgFData, {
+            rollMode:rMode
+          });
           break;
 
         case 'bouclierAmrita':
@@ -474,7 +489,12 @@ export class MechaArmureSheet extends ActorSheet {
             sound: CONFIG.sounds.dice
           };
 
-          ChatMessage.create(msgBRCurseData);
+          const rModeBRC = game.settings.get("core", "rollMode");
+          const msgFDataBRC = ChatMessage.applyRollMode(msgBRCurseData, rModeBRC);
+
+          await ChatMessage.create(msgFDataBRC, {
+            rollMode:rMode
+          });
           break;
 
         case 'podMiracle':
@@ -536,7 +556,12 @@ export class MechaArmureSheet extends ActorSheet {
             sound: CONFIG.sounds.dice
           };
 
-          ChatMessage.create(msgPodData);
+          const rModePod = game.settings.get("core", "rollMode");
+          const msgFDataPod = ChatMessage.applyRollMode(msgPodData, rModePod);
+
+          await ChatMessage.create(msgFDataPod, {
+            rollMode:rMode
+          });
           break;
 
         case 'podInvulnerabilite':
@@ -569,7 +594,12 @@ export class MechaArmureSheet extends ActorSheet {
             sound: CONFIG.sounds.dice
           };
 
-          ChatMessage.create(msgInvData);
+          const rModeInv = game.settings.get("core", "rollMode");
+          const msgFDataInv = ChatMessage.applyRollMode(msgInvData, rModeInv);
+
+          await ChatMessage.create(msgFDataInv, {
+            rollMode:rMode
+          });
           break;
 
         case 'dronesEvacuation':
@@ -822,7 +852,12 @@ export class MechaArmureSheet extends ActorSheet {
             sound: CONFIG.sounds.dice
           };
 
-          ChatMessage.create(msgInfData);
+          const rModeInf = game.settings.get("core", "rollMode");
+          const msgFDataInf = ChatMessage.applyRollMode(msgInfData, rModeInf);
+
+          await ChatMessage.create(msgFDataInf, {
+            rollMode:rMode
+          });
           break;
       }
 
@@ -893,7 +928,12 @@ export class MechaArmureSheet extends ActorSheet {
             sound: CONFIG.sounds.dice
           };
 
-          ChatMessage.create(msgInfData);
+          const rModeInf = game.settings.get("core", "rollMode");
+          const msgFDataInf = ChatMessage.applyRollMode(msgInfData, rModeInf);
+
+          await ChatMessage.create(msgFDataInf, {
+            rollMode:rMode
+          });
           break;
       }
 
@@ -1719,7 +1759,12 @@ export class MechaArmureSheet extends ActorSheet {
       sound: CONFIG.sounds.dice
     };
 
-    ChatMessage.create(dgtsMsgData);
+    const rMode = game.settings.get("core", "rollMode");
+    const msgFData = ChatMessage.applyRollMode(dgtsMsgData, rMode);
+
+    await ChatMessage.create(msgFData, {
+      rollMode:rMode
+    });
   }
 
   async _doViolence(label, dataWpn, listAllEffets, bViolence=0, addNum='') {
@@ -1783,7 +1828,12 @@ export class MechaArmureSheet extends ActorSheet {
       sound: CONFIG.sounds.dice
     };
 
-    ChatMessage.create(violenceMsgData);
+    const rMode = game.settings.get("core", "rollMode");
+    const msgFData = ChatMessage.applyRollMode(violenceMsgData, rMode);
+
+    await ChatMessage.create(msgFData, {
+      rollMode:rMode
+    });
   }
 
   async _getAllEffets(dataWpn, tenebricide, obliteration) {
@@ -1914,8 +1964,12 @@ export class MechaArmureSheet extends ActorSheet {
         sound: CONFIG.sounds.dice
       };
 
-      ChatMessage.create(msgEnergieData);
+      const rMode = game.settings.get("core", "rollMode");
+      const msgFData = ChatMessage.applyRollMode(msgEnergieData, rMode);
 
+      await ChatMessage.create(msgFData, {
+        rollMode:rMode
+      });
       return false;
     }
 

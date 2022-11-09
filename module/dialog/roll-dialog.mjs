@@ -978,7 +978,12 @@ export class KnightRollDialog extends Application {
             content: `<span style="display:block;width:100%;font-weight:bold;text-align:center;">--- ${game.i18n.localize('KNIGHT.AUTRE.Attaque')}${addNum} ---</span>`
           };
 
-          ChatMessage.create(rollMsgData);
+          const rMode = game.settings.get("core", "rollMode");
+          const msgData = ChatMessage.applyRollMode(rollMsgData, rMode);
+
+          await ChatMessage.create(msgData, {
+            rollMode:rMode
+          });
         }
 
         if(!onlyDgts || !onlyViolence) {
@@ -1169,7 +1174,12 @@ export class KnightRollDialog extends Application {
       sound: CONFIG.sounds.dice
     };
 
-    ChatMessage.create(attackMsgData);
+    const rMode = game.settings.get("core", "rollMode");
+    const msgData = ChatMessage.applyRollMode(attackMsgData, rMode);
+
+    await ChatMessage.create(msgData, {
+      rollMode:rMode
+    });
 
     const six = listAllE.regularite ? execAtt.getSix() : 0;
 
@@ -1234,6 +1244,8 @@ export class KnightRollDialog extends Application {
     if(sub.length > 0) { sub.sort(SortByName); }
     if(include.length > 0) { include.sort(SortByName); }
 
+    const rMode = game.settings.get("core", "rollMode");
+
     const pDegats = {
       flavor:labelDgt,
       main:{
@@ -1257,7 +1269,11 @@ export class KnightRollDialog extends Application {
       sound: CONFIG.sounds.dice
     };
 
-    ChatMessage.create(dgtsMsgData);
+    const msgData = ChatMessage.applyRollMode(dgtsMsgData, rMode);
+
+    await ChatMessage.create(msgData, {
+      rollMode:rMode
+    });
   }
 
   async _doViolence(actor, dataWpn, wpnType, listAllEffets, bViolence=0, addNum='') {
@@ -1332,7 +1348,12 @@ export class KnightRollDialog extends Application {
         sound: CONFIG.sounds.dice
       };
 
-      ChatMessage.create(violenceMsgData);
+      const rMode = game.settings.get("core", "rollMode");
+      const msgData = ChatMessage.applyRollMode(violenceMsgData, rMode);
+
+      await ChatMessage.create(msgData, {
+        rollMode:rMode
+      });
     }
   }
 

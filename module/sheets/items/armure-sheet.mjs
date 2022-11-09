@@ -1940,7 +1940,7 @@ export class ArmureSheet extends ItemSheet {
     const lR3 = lE3.raw;
     const lC3 = lE3.custom;
 
-    const lA = lAmelioration.distance;
+    const lA = lAmelioration?.distance || {raw:[], custom:[]};
     const lRA = lA.raw;
     const lCA = lA.custom;
 

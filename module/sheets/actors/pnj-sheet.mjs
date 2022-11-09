@@ -271,7 +271,12 @@ export class PNJSheet extends ActorSheet {
           sound: CONFIG.sounds.dice
         };
 
-        ChatMessage.create(attackMsgData);
+        const rMode = game.settings.get("core", "rollMode");
+        const msgData = ChatMessage.applyRollMode(attackMsgData, rMode);
+
+        await ChatMessage.create(msgData, {
+          rollMode:rMode
+        });
       } else {
 
         this._doDgts(label, degats, allEffets, false);
@@ -497,7 +502,12 @@ export class PNJSheet extends ActorSheet {
         content: `<span style="display:flex;width:100%;font-weight:bold;">${name}</span><span style="display:flex;width:100%;text-align:justify;justify-content:left;word-break:break-all;">${data}</span>`
       };
 
-      ChatMessage.create(msg);
+      const rMode = game.settings.get("core", "rollMode");
+      const msgData = ChatMessage.applyRollMode(msg, rMode);
+
+      await ChatMessage.create(msgData, {
+        rollMode:rMode
+      });
     });
 
     html.find('.jetWpn').click(ev => {
@@ -662,7 +672,12 @@ export class PNJSheet extends ActorSheet {
             sound: CONFIG.sounds.dice
           };
 
-          ChatMessage.create(jSRMsgData);
+          const rMode = game.settings.get("core", "rollMode");
+          const msgData = ChatMessage.applyRollMode(jSRMsgData, rMode);
+
+          await ChatMessage.create(msgData, {
+            rollMode:rMode
+          });
         }
       }
 
@@ -1884,7 +1899,12 @@ export class PNJSheet extends ActorSheet {
       sound: CONFIG.sounds.dice
     };
 
-    ChatMessage.create(dgtsMsgData);
+    const rMode = game.settings.get("core", "rollMode");
+    const msgData = ChatMessage.applyRollMode(dgtsMsgData, rMode);
+
+    await ChatMessage.create(msgData, {
+      rollMode:rMode
+    });
   }
 
   async _doViolence(label, dataWpn, listAllEffets, bViolence=0, addNum='') {
@@ -1948,7 +1968,12 @@ export class PNJSheet extends ActorSheet {
       sound: CONFIG.sounds.dice
     };
 
-    ChatMessage.create(violenceMsgData);
+    const rMode = game.settings.get("core", "rollMode");
+    const msgData = ChatMessage.applyRollMode(violenceMsgData, rMode);
+
+    await ChatMessage.create(msgData, {
+      rollMode:rMode
+    });
   }
 
   async _getAllEffets(dataWpn, tenebricide, obliteration) {
