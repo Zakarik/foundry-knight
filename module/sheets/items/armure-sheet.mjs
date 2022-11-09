@@ -1028,6 +1028,17 @@ export class ArmureSheet extends ItemSheet {
       await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:this.getData().data.system.overdrives, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
     });
 
+    html.find('div.distance a.edit').click(async ev => {
+      const stringPath = $(ev.currentTarget).data("path");
+      let path = this.getData().data;
+
+      stringPath.split(".").forEach(function(key){
+        path = path[key];
+      });
+
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:this.getData().data.system.overdrives, typeEffets:'distance', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Distance")}`}).render(true);
+    });
+
     html.find('div.evolutions h4 .far').click(ev => {
       $(ev.currentTarget).toggleClass("fa-plus-square");
       $(ev.currentTarget).toggleClass("fa-minus-square");
@@ -1910,6 +1921,7 @@ export class ArmureSheet extends ItemSheet {
 
   _prepareEffetsSelectedLongbow(context) {
     const lEffets = context.data.system.capacites.selected?.longbow?.effets || false;
+    const lAmelioration = context.data.system.capacites.selected?.longbow || false;
     if(!lEffets) return;
 
     const lEB = lEffets.base;
@@ -1928,7 +1940,12 @@ export class ArmureSheet extends ItemSheet {
     const lR3 = lE3.raw;
     const lC3 = lE3.custom;
 
+    const lA = lAmelioration.distance;
+    const lRA = lA.raw;
+    const lCA = lA.custom;
+
     const labels = CONFIG.KNIGHT.effets;
+    const labelsA = CONFIG.KNIGHT.AMELIORATIONS.distance;
 
     const lEffets3 = lE3.acces;
 
@@ -1936,6 +1953,7 @@ export class ArmureSheet extends ItemSheet {
     lE1.liste = listEffects(lR1, lC1, labels);
     lE2.liste = listEffects(lR2, lC2, labels);
     lE3.liste = listEffects(lR3, lC3, labels);
+    lA.liste = listEffects(lRA, lCA, labelsA);
 
     if(lEffets3) {
       lE3.label = game.i18n.localize(CONFIG.KNIGHT.longbow["effets3"]);

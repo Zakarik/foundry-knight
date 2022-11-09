@@ -6850,7 +6850,8 @@
 .armure form.armureWindows div.capacites div.longbow label.borderBottom {
   border-bottom: 1px solid RGB(76 74 90);
 }
-.armure form.armureWindows div.capacites div.longbow div.effets {
+.armure form.armureWindows div.capacites div.longbow div.effets,
+.armure form.armureWindows div.capacites div.longbow div.distance {
   display: flex;
   position: relative;
   width: 100%;
@@ -6861,7 +6862,8 @@
   padding-left: 5px;
   border-top: 1px solid black;
 }
-.armure form.armureWindows div.capacites div.longbow div.effets div {
+.armure form.armureWindows div.capacites div.longbow div.effets div,
+.armure form.armureWindows div.capacites div.longbow div.distance div {
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -6873,12 +6875,14 @@
   margin-top: 5px;
   border: 1px solid black;
 }
-.armure form.armureWindows div.capacites div.longbow div.effets div span.label {
+.armure form.armureWindows div.capacites div.longbow div.effets div span.label,
+.armure form.armureWindows div.capacites div.longbow div.distance div span.label {
   font-variant: small-caps;
   color: white;
   line-height: 20px;
 }
-.armure form.armureWindows div.capacites div.longbow div.effets div img.info {
+.armure form.armureWindows div.capacites div.longbow div.effets div img.info,
+.armure form.armureWindows div.capacites div.longbow div.distance div img.info {
   display: inline-block;
   position: absolute;
   width: 15px;
@@ -6890,10 +6894,13 @@
   cursor: pointer;
 }
 .armure form.armureWindows div.capacites div.longbow div.effets div img.info.clicked,
-.armure form.armureWindows div.capacites div.longbow div.effets div img.info:hover {
+.armure form.armureWindows div.capacites div.longbow div.distance div img.info.clicked,
+.armure form.armureWindows div.capacites div.longbow div.effets div img.info:hover,
+.armure form.armureWindows div.capacites div.longbow div.distance div img.info:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.armure form.armureWindows div.capacites div.longbow div.effets div span.hideInfo {
+.armure form.armureWindows div.capacites div.longbow div.effets div span.hideInfo,
+.armure form.armureWindows div.capacites div.longbow div.distance div span.hideInfo {
   display: none;
   position: absolute;
   background: RGB(76 74 90);
@@ -6910,14 +6917,16 @@
   text-align: justify;
   word-break: break-word;
 }
-.armure form.armureWindows div.capacites div.longbow div.effets a.edit {
+.armure form.armureWindows div.capacites div.longbow div.effets a.edit,
+.armure form.armureWindows div.capacites div.longbow div.distance a.edit {
   position: absolute;
   bottom: 0px;
   right: 5px;
   color: white;
   font-variant: small-caps;
 }
-.armure form.armureWindows div.capacites div.longbow div.effets.hidden {
+.armure form.armureWindows div.capacites div.longbow div.effets.hidden,
+.armure form.armureWindows div.capacites div.longbow div.distance.hidden {
   display: none;
 }
 .armure form.armureWindows div.capacites div.longbow div.col {
@@ -6935,6 +6944,10 @@
 }
 .armure form.armureWindows div.capacites div.longbow div.mainData div.data > button.selected {
   border-bottom: 1px solid black;
+}
+.armure form.armureWindows div.capacites div.longbow div.mainData div.dataFull {
+  width: 100%;
+  margin-top: 5px;
 }
 .armure form.armureWindows div.capacites div.mechanic div.mainData div.data div.triple {
   display: flex;

@@ -493,8 +493,14 @@ export class KnightRollDialog extends Application {
     html.find("div.longbow span.unselected").click(ev => {
       const type = $(ev.currentTarget);
       const effet = type.data("type");
+      const special = type?.data("special") || false;
       const value = type.data("value");
-      this.data[effet] = value;
+
+      if(special !== false) {
+        this.data[special][effet] = value;
+      } else {
+        this.data[effet] = value;
+      }
 
       this.render(true)
     });

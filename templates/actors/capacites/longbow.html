@@ -124,5 +124,19 @@
                 </div>
             </div>
         </div>
+
+        <div class="data fullWidth">
+            <h4 class="title">{{localize "KNIGHT.AMELIORATIONS.LABEL.Distance"}}</h4>
+            <div class="effets">
+                {{#each this.distance.liste as | key effet|}}
+                    <div>
+                        <span class="label">{{key.name}}</span>
+                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+
     </div>
 </div>
