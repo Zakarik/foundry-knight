@@ -301,7 +301,7 @@
         if(min === -1) {
             if(search !== undefined) result = true;
         } else {
-            const value = +search.split(" ")[1];
+            const value = +search?.split(" ")[1] || undefined;
 
             if(search !== undefined && isNaN(value)) result = true;
             else if(search !== undefined && !isNaN(value)) {
