@@ -488,4 +488,14 @@
 
         return result;
     });
+
+    Handlebars.registerHelper('getOtherListPG', function (id, type, data) {
+        let result = 0;
+
+        if(id !== undefined) {
+            result = data.progression.gloire.depense?.autre?.[id]?.[type] || '';
+        }
+
+        return result;
+    });
  };

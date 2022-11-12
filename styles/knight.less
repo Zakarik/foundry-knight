@@ -6296,6 +6296,13 @@
             border:1px solid @lightBlue;
             margin-top:5px;
 
+            h2.header {
+              a {
+                position: absolute;
+                right:5px;
+              }
+            }
+
             div {
               &.line,
               &.lineHeader {
@@ -6385,6 +6392,60 @@
                     width:25%;
                   }
 
+                  &.btn {
+                    width:25%;
+                  }
+                }
+              }
+
+              &.autre {
+                display:flex;
+                position:relative;
+                width:100%;
+                justify-content: space-between;
+
+                a {
+                  position: absolute;
+                  left:5px;
+                  top:5px;
+                }
+
+                input[type=text] {
+                  border:0px;
+                  width:50%;
+                  background:@black;
+                  border-right:1px solid @lightBlack;
+                  padding:0px;
+                  padding-left:25px;
+                  height:26px;
+                  line-height: 26px;
+                }
+
+                div {
+                  display:flex;
+                  justify-content: space-between;
+                  background:@black;
+                  width:25%;
+
+                  input {
+                    width:calc(50% - 2px);
+                    border:0px;
+                    background:transparent;
+                    text-align: right;
+                    padding:0px;
+                  }
+
+                  span {
+                    &.value {
+                      display:inline-block;
+                      width:calc(50% + 2px);
+                      text-align: left;
+                      line-height: 26px;
+                    }
+                  }
+                }
+
+                span {
                   &.btn {
                     width:25%;
                   }

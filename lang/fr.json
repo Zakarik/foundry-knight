@@ -2143,8 +2143,8 @@
     "PHASE2":{
       "Label":"Phase 2",
       "Bonus":"Bonus de Phase 2",
-      "Phase2Activate":"Phase 2 Activée",
-      "ActivatePhase2":"Activer Phase 2"
+      "ActivatePhase2":"Activer Phase 2",
+      "DesactivatePhase2":"Désactiver Phase 2"
     },
     "RESILIENCE":{
       "Calcul":"Calculer",

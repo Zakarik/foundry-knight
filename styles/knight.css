@@ -23257,6 +23257,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border: 1px solid RGB(87 110 178);
   margin-top: 5px;
 }
+.knight section.body div.progression div.main div.tableauPG h2.header a {
+  position: absolute;
+  right: 5px;
+}
 .knight section.body div.progression div.main div.tableauPG div.line,
 .knight section.body div.progression div.main div.tableauPG div.lineHeader {
   display: flex;
@@ -23327,6 +23331,49 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 25%;
 }
 .knight section.body div.progression div.main div.tableauPG div.acheter span.btn {
+  width: 25%;
+}
+.knight section.body div.progression div.main div.tableauPG div.autre {
+  display: flex;
+  position: relative;
+  width: 100%;
+  justify-content: space-between;
+}
+.knight section.body div.progression div.main div.tableauPG div.autre a {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+}
+.knight section.body div.progression div.main div.tableauPG div.autre input[type=text] {
+  border: 0px;
+  width: 50%;
+  background: RGB(43 42 51);
+  border-right: 1px solid RGB(76 74 90);
+  padding: 0px;
+  padding-left: 25px;
+  height: 26px;
+  line-height: 26px;
+}
+.knight section.body div.progression div.main div.tableauPG div.autre div {
+  display: flex;
+  justify-content: space-between;
+  background: RGB(43 42 51);
+  width: 25%;
+}
+.knight section.body div.progression div.main div.tableauPG div.autre div input {
+  width: calc(50% - 2px);
+  border: 0px;
+  background: transparent;
+  text-align: right;
+  padding: 0px;
+}
+.knight section.body div.progression div.main div.tableauPG div.autre div span.value {
+  display: inline-block;
+  width: calc(50% + 2px);
+  text-align: left;
+  line-height: 26px;
+}
+.knight section.body div.progression div.main div.tableauPG div.autre span.btn {
   width: 25%;
 }
 .knight section.body div.progression div.main div.tableauPX {

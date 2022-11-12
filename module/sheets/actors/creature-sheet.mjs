@@ -472,9 +472,12 @@ export class CreatureSheet extends ActorSheet {
                 majeur:{}
               }
             }
-          }
+          },
+          phase2:{}
         }
       };
+
+      update.system.phase2.old = {};
 
       if(options.sante) {
         const sante = data.sante;
@@ -483,6 +486,8 @@ export class CreatureSheet extends ActorSheet {
         update.system.sante = {};
         update.system.sante.base = tSante;
         update.system.sante.value = tSante + +sante.mod;
+
+        update.system.phase2.old.sante = sante.value;
       }
 
       if(options.armure) {
@@ -492,6 +497,8 @@ export class CreatureSheet extends ActorSheet {
         update.system.armure = {};
         update.system.armure.base = tArmure;
         update.system.armure.value = tArmure + +armure.mod;
+
+        update.system.phase2.old.armure = armure.value;
       }
 
       if(options.energie) {
@@ -501,6 +508,8 @@ export class CreatureSheet extends ActorSheet {
         update.system.energie = {};
         update.system.energie.base = tEnergie;
         update.system.energie.value = tEnergie + +energie.mod;
+
+        update.system.phase2.old.energie = energie.value;
       }
 
       const aspects = data.aspects;
@@ -524,6 +533,104 @@ export class CreatureSheet extends ActorSheet {
       update.system.aspects.masque.value = +aspects.masque.value + +phase2.aspects.masque.value;
       update.system.aspects.masque.ae.mineur.value = +aspects.masque.ae.mineur.value + +phase2.aspects.masque.ae.mineur;
       update.system.aspects.masque.ae.majeur.value = +aspects.masque.ae.majeur.value + +phase2.aspects.masque.ae.majeur;
+
+      this.actor.update(update);
+    });
+
+    html.find('.desactivatePhase2').click(ev => {
+      const data = this.getData().data.system;
+      const options = data.options;
+      const phase2 = data.phase2;
+
+      let update = {
+        system:{
+          phase2Activate:false,
+          aspects: {
+            chair:{
+              ae:{
+                mineur:{},
+                majeur:{}
+              }
+            },
+            bete:{
+              ae:{
+                mineur:{},
+                majeur:{}
+              }
+            },
+            machine:{
+              ae:{
+                mineur:{},
+                majeur:{}
+              }
+            },
+            dame:{
+              ae:{
+                mineur:{},
+                majeur:{}
+              }
+            },
+            masque:{
+              ae:{
+                mineur:{},
+                majeur:{}
+              }
+            }
+          }
+        }
+      };
+
+      if(options.sante) {
+        const sante = data.sante;
+        const tSante = +sante.base - +phase2.sante;
+
+        update.system.sante = {};
+        update.system.sante.base = tSante;
+        update.system.sante.value = phase2.old.sante;
+      }
+
+      if(options.armure) {
+        const armure = data.armure;
+        const tArmure = +armure.base - +phase2.armure;
+
+        update.system.armure = {};
+        update.system.armure.base = tArmure;
+        update.system.armure.value = phase2.old.armure;
+      }
+
+      if(options.energie) {
+        const energie = data.energie;
+        const tEnergie = +energie.base - +phase2.energie;
+
+        update.system.energie = {};
+        update.system.energie.base = tEnergie;
+        update.system.energie.value = phase2.old.energie;
+      }
+
+      const aspects = data.aspects;
+
+      update.system.aspects.chair.value = +aspects.chair.value - +phase2.aspects.chair.value;
+      update.system.aspects.bete.value = +aspects.bete.value - +phase2.aspects.bete.value;
+      update.system.aspects.machine.value = +aspects.machine.value - +phase2.aspects.machine.value;
+      update.system.aspects.dame.value = +aspects.dame.value - +phase2.aspects.dame.value;
+      update.system.aspects.masque.value = +aspects.masque.value - +phase2.aspects.masque.value;
+
+      const aeMin = html.find('select.selectAeMin');
+      const aeMaj = html.find('select.selectAeMaj');
+
+      for(let i = 0;i < aeMin.length;i++) {
+        const target = $(aeMin[i]);
+        const data = target.data("type");
+
+        target.val(+aspects[data].ae.mineur.value - +phase2.aspects[data].ae.mineur);
+      }
+
+      for(let i = 0;i < aeMaj.length;i++) {
+        const target = $(aeMaj[i]);
+        const data = target.data("type");
+
+        target.val(+aspects[data].ae.majeur.value - +phase2.aspects[data].ae.majeur);
+      }
 
       this.actor.update(update);
     });

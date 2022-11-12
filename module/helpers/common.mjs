@@ -74,12 +74,10 @@ export function searchTrueValue(array) {
     const length = array.length;
 
     let result = false;
-
     for(let i = 0;i < length;i++) {
-      console.log(array[i]);
-        if(array[i] !== undefined || array[i] === true) {
-            result = true;
-        }
+      if(typeof array[i] === 'string' || array[i] === true) {
+          result = true;
+      }
     }
 
     return result;
@@ -3124,7 +3122,9 @@ for(let i = 0;i < ornementalesWpn.raw.length;i++) {
         break;
 
     case 'cranerieurgrave':
-        if(obliteration) {
+        const cranerieur = data.cranerieur;
+
+        if(cranerieur) {
         includeDegats = true;
 
         subDgts.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.ornementales[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
@@ -3753,25 +3753,25 @@ if(getArmorData !== false) {
 
     switch(key) {
         case 'ghost':
-            active = searchTrueValue(Object.entries(isActive)[0]);
+            active = searchTrueValue([isActive.conflit, isActive.horsconflit]);
 
-            if((active && typeWpn === 'contact' && !isLumiere)) {
+            if((active === true && typeWpn === 'contact' && !isLumiere)) {
                 const dataBonus = capacite.bonus;
                 const degatsBonus = dataBonus.degats;
 
-                bonusAttackDice += getCaracValue(dataBonus.attaque, actorId)+getODValue(dataBonus.attaque, actorId);
+                bonusAttackDice += getCaracValue(dataBonus.attaque, actorId);
+                bonusAttackFixe += getODValue(dataBonus.attaque, actorId);
 
                 if(degatsBonus.fixe) bonusDegatsFixe += getCaracValue(degatsBonus.caracteristique, actorId);
                 if(degatsBonus.dice) bonusDegatsDice += getCaracValue(degatsBonus.caracteristique, actorId);
                 if(degatsBonus.od && degatsBonus.dice) bonusDegatsDice += getODValue(degatsBonus.caracteristique, actorId);
                 if(degatsBonus.od && degatsBonus.fixe) bonusDegatsFixe += getODValue(degatsBonus.caracteristique, actorId);
-            }
-
-            if((active && typeWpn === 'distance' && isSilencieux)) {
+            } else if((active === true && typeWpn === 'distance' && isSilencieux)) {
               const dataBonus = capacite.bonus;
               const degatsBonus = dataBonus.degats;
 
-              bonusAttackDice += getCaracValue(dataBonus.attaque, actorId)+getODValue(dataBonus.attaque, actorId);
+              bonusAttackDice += getCaracValue(dataBonus.attaque, actorId);
+              bonusAttackFixe += getODValue(dataBonus.attaque, actorId);
 
               if(degatsBonus.fixe) bonusDegatsFixe += getCaracValue(degatsBonus.caracteristique, actorId);
               if(degatsBonus.dice) bonusDegatsDice += getCaracValue(degatsBonus.caracteristique, actorId);
