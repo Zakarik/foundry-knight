@@ -454,10 +454,12 @@
             <button class="buttonPhase2
                 {{#unless systemData.phase2Activate}}
                 activatePhase2
+                {{else}}
+                desactivatePhase2
                 {{/unless}}
                 ">
                 {{#if systemData.phase2Activate}}
-                {{localize "KNIGHT.PHASE2.Phase2Activate"}}
+                {{localize "KNIGHT.PHASE2.DesactivatePhase2"}}
                 {{else}}
                 {{localize "KNIGHT.PHASE2.ActivatePhase2"}}
                 {{/if}}

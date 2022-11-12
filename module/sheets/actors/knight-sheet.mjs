@@ -4325,9 +4325,53 @@ export class KnightSheet extends ActorSheet {
       const target = $(ev.currentTarget);
       const value = target.data("value");
       const id = target.data("id");
+      const evo = target.data("evo");
+      const isLongbow = target?.data("longbow") || false;
       const result = value ? false : true;
 
-      this.actor.items.get(id).update({['system.gratuit']:result});
+      if(isLongbow) {
+        this.actor.items.get(id).update({[`system.evolutions.special.longbow.${evo}.gratuit`]:result});
+      } else {
+        this.actor.items.get(id).update({['system.gratuit']:result});
+      }
+    });
+
+    html.find('div.progression .tableauPG .gloire-create').click(ev => {
+      const dataGloire = this.getData().data.system.progression.gloire;
+      const gloireListe = dataGloire.depense.liste;
+      let addOrder =  gloireListe.length === 0 ? 0 : Math.max(...gloireListe.map(o => o.order));
+      const gloireAutre = dataGloire.depense?.autre || {};
+      let gloireAutreLength = gloireAutre.length;
+
+      const newData = [];
+
+      if(isNaN(addOrder)) {
+        addOrder = Object.keys(gloireListe).length;
+      }
+
+      if(isNaN(gloireAutreLength)) {
+        gloireAutreLength = Object.keys(gloireAutre).length;
+      }
+
+      for(let i = 0;i < gloireAutreLength;i++) {
+        newData.push(gloireAutre[i]);
+      }
+
+      newData.push({
+        order:addOrder+1,
+        nom:'',
+        cout:0,
+        gratuit:false
+      });
+
+      this.actor.update({[`system.progression.gloire.depense.autre`]:newData});
+    });
+
+    html.find('div.progression .tableauPG .gloire-delete').click(ev => {
+      const target = $(ev.currentTarget);
+      const id = +target.data("id");
+
+      this.actor.update({[`system.progression.gloire.depense.autre.-=${id}`]:null});
     });
 
     html.find('div.progression .tableauPX .experience-create').click(ev => {
@@ -5036,6 +5080,7 @@ export class KnightSheet extends ActorSheet {
     const armorSpecialRaw = armorSpecial?.raw || [];
     const armorSpecialCustom = armorSpecial?.custom || [];
     const depenseXP = system.progression.experience.depense.liste;
+    const depensePGAutre = system.progression.gloire.depense?.autre || {};
 
     const avantage = [];
     const inconvenient = [];
@@ -5994,6 +6039,7 @@ export class KnightSheet extends ActorSheet {
         const longbowEvolutions = armorEvolutions?.special?.longbow || false;
 
         if(longbowEvolutions !== false) {
+          const PGGratuit1 = +longbowEvolutions['1']?.gratuit || false;
           const PGEvo1 = +longbowEvolutions['1'].value;
           const AlreadyEvo1 = longbowEvolutions['1'].applied;
           const description1 = longbowEvolutions['1'].description;
@@ -6006,13 +6052,16 @@ export class KnightSheet extends ActorSheet {
             });
           } else if(AlreadyEvo1) {
             depensePG.push({
+              id:i._id,
               order:longbowEvolutions['1'].addOrder,
               isAcheter:true,
-              value:PGEvo1
+              value:PGGratuit1 ? 0 : PGEvo1,
+              gratuit:PGGratuit1,
+              evo:1
             });
-
           }
 
+          const PGGratuit2 = +longbowEvolutions['2']?.gratuit || false;
           const PGEvo2 = +longbowEvolutions['2'].value;
           const AlreadyEvo2 = longbowEvolutions['2'].applied;
           const description2 = longbowEvolutions['2'].description;
@@ -6025,12 +6074,16 @@ export class KnightSheet extends ActorSheet {
             });
           } else if(AlreadyEvo2) {
             depensePG.push({
+              id:i._id,
               order:longbowEvolutions['2'].addOrder,
               isAcheter:true,
-              value:PGEvo2
+              value:PGGratuit2 ? 0 : PGEvo2,
+              gratuit:PGGratuit2,
+              evo:2
             });
           }
 
+          const PGGratuit3 = +longbowEvolutions['3']?.gratuit || false;
           const PGEvo3 = +longbowEvolutions['3'].value;
           const AlreadyEvo3 = longbowEvolutions['3'].applied;
           const description3 = longbowEvolutions['3'].description;
@@ -6043,12 +6096,16 @@ export class KnightSheet extends ActorSheet {
             });
           } else if(AlreadyEvo3) {
             depensePG.push({
+              id:i._id,
               order:longbowEvolutions['3'].addOrder,
               isAcheter:true,
-              value:PGEvo3
+              value:PGGratuit3 ? 0 : PGEvo3,
+              gratuit:PGGratuit3,
+              evo:3
             });
           }
 
+          const PGGratuit4 = +longbowEvolutions['4']?.gratuit || false;
           const PGEvo4 = +longbowEvolutions['4'].value;
           const AlreadyEvo4 = longbowEvolutions['4'].applied;
           const description4 = longbowEvolutions['4'].description;
@@ -6061,14 +6118,17 @@ export class KnightSheet extends ActorSheet {
             });
           } else if(AlreadyEvo4) {
             depensePG.push({
+              id:i._id,
               order:longbowEvolutions['4'].addOrder,
               isAcheter:true,
-              value:PGEvo4
+              value:PGGratuit4 ? 0 : PGEvo4,
+              gratuit:PGGratuit4,
+              evo:4
             });
           }
         }
 
-        if(wear === 'armure') {
+        if(wear === 'armure' || wear === 'ascension') {
           for (let [key, special] of Object.entries(armorSpecial)) {
             switch(key) {
               case 'apeiron':
@@ -6097,25 +6157,25 @@ export class KnightSheet extends ActorSheet {
                 break;
             }
           }
-        }
 
-        for (let [keyA, aspect] of Object.entries(aspects)) {
-          for (let [keyC, carac] of Object.entries(aspect.caracteristiques)) {
-            const value = +armureData?.system?.overdrives?.[keyA]?.liste?.[keyC]?.value || 0;
-            const aspectExist = aspectsUpdate?.[keyA] || false;
-            const caracsListExist = aspectsUpdate?.[keyA]?.caracteristiques || false;
-            const caracsExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC] || false;
-            const odExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC]?.overdrive || false;
-            const odBaseExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC]?.overdrive?.base || false;
+          for (let [keyA, aspect] of Object.entries(aspects)) {
+            for (let [keyC, carac] of Object.entries(aspect.caracteristiques)) {
+              const value = +armureData?.system?.overdrives?.[keyA]?.liste?.[keyC]?.value || 0;
+              const aspectExist = aspectsUpdate?.[keyA] || false;
+              const caracsListExist = aspectsUpdate?.[keyA]?.caracteristiques || false;
+              const caracsExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC] || false;
+              const odExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC]?.overdrive || false;
+              const odBaseExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC]?.overdrive?.base || false;
 
-            if(value > 0) {
-              if(!aspectExist) aspectsUpdate[keyA] = {};
-              if(!caracsListExist) aspectsUpdate[keyA].caracteristiques = {}
-              if(!caracsExist) aspectsUpdate[keyA].caracteristiques[keyC] = {}
-              if(!odExist) aspectsUpdate[keyA].caracteristiques[keyC].overdrive = {}
-              if(!odBaseExist) aspectsUpdate[keyA].caracteristiques[keyC].overdrive.base = [];
+              if(value > 0) {
+                if(!aspectExist) aspectsUpdate[keyA] = {};
+                if(!caracsListExist) aspectsUpdate[keyA].caracteristiques = {}
+                if(!caracsExist) aspectsUpdate[keyA].caracteristiques[keyC] = {}
+                if(!odExist) aspectsUpdate[keyA].caracteristiques[keyC].overdrive = {}
+                if(!odBaseExist) aspectsUpdate[keyA].caracteristiques[keyC].overdrive.base = [];
 
-              aspectsUpdate[keyA].caracteristiques[keyC].overdrive.base.push(value);
+                aspectsUpdate[keyA].caracteristiques[keyC].overdrive.base.push(value);
+              }
             }
           }
         }
@@ -6527,13 +6587,15 @@ export class KnightSheet extends ActorSheet {
 
         if(i.system.soigne.implant || i.system.soigne.reconstruction) { i.name += ` (${soigne})`; }
 
+
+
         for (let [keyA, aspect] of Object.entries(aspects)) {
           const vAspect = +dataBlessure?.[keyA]?.value || false;
 
-          const aspectExist = aspectsUpdate?.[keyA] || false;
-          const aspectMalusExist = aspectsUpdate?.[keyA]?.malus || false;
-
           if(vAspect !== false) {
+            const aspectExist = aspectsUpdate?.[keyA] || false;
+            const aspectMalusExist = aspectsUpdate?.[keyA]?.malus || false;
+
             if(!aspectExist) aspectsUpdate[keyA] = {};
             if(!aspectMalusExist) aspectsUpdate[keyA].malus = [];
 
@@ -6543,11 +6605,12 @@ export class KnightSheet extends ActorSheet {
           for (let [keyC, carac] of Object.entries(aspect.caracteristiques)) {
             const vCaracs = +dataBlessure?.[keyA]?.caracteristiques?.[keyC].value || false;
 
-            const caracsListExist = aspectsUpdate?.[keyA]?.caracteristiques || false;
-            const caracsExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC] || false;
-            const caracsMalusExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC]?.malus || false;
-
             if(vCaracs > 0) {
+              const aspectExist = aspectsUpdate?.[keyA] || false;
+              const caracsListExist = aspectsUpdate?.[keyA]?.caracteristiques || false;
+              const caracsExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC] || false;
+              const caracsMalusExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC]?.malus || false;
+
               if(!aspectExist) aspectsUpdate[keyA] = {};
               if(!caracsListExist) aspectsUpdate[keyA].caracteristiques = {};
               if(!caracsExist) aspectsUpdate[keyA].caracteristiques[keyC] = {};
@@ -6568,10 +6631,10 @@ export class KnightSheet extends ActorSheet {
         for (let [keyA, aspect] of Object.entries(aspects)) {
           const vAspect = +dataTrauma?.[keyA]?.value || false;
 
-          const aspectExist = aspectsUpdate?.[keyA] || false;
-          const aspectMalusExist = aspectsUpdate?.[keyA]?.malus || false;
-
           if(vAspect !== false) {
+            const aspectExist = aspectsUpdate?.[keyA] || false;
+            const aspectMalusExist = aspectsUpdate?.[keyA]?.malus || false;
+
             if(!aspectExist) aspectsUpdate[keyA] = {};
             if(!aspectMalusExist) aspectsUpdate[keyA].malus = [];
 
@@ -6581,11 +6644,12 @@ export class KnightSheet extends ActorSheet {
           for (let [keyC, carac] of Object.entries(aspect.caracteristiques)) {
             const vCaracs = +dataTrauma?.[keyA]?.caracteristiques?.[keyC].value || false;
 
-            const caracsListExist = aspectsUpdate?.[keyA]?.caracteristiques || false;
-            const caracsExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC] || false;
-            const caracsMalusExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC]?.malus || false;
-
             if(vCaracs > 0) {
+              const aspectExist = aspectsUpdate?.[keyA] || false;
+              const caracsListExist = aspectsUpdate?.[keyA]?.caracteristiques || false;
+              const caracsExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC] || false;
+              const caracsMalusExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC]?.malus || false;
+
               if(!aspectExist) aspectsUpdate[keyA] = {};
               if(!caracsListExist) aspectsUpdate[keyA].caracteristiques = {};
               if(!caracsExist) aspectsUpdate[keyA].caracteristiques[keyC] = {};
@@ -6718,6 +6782,17 @@ export class KnightSheet extends ActorSheet {
       if (i.type === 'art') {
         art = i;
       }
+    }
+
+    for(let [key, PG] of Object.entries(depensePGAutre)) {
+      depensePG.push({
+        order:PG.order,
+        name:PG.nom,
+        id:key,
+        gratuit:PG.gratuit,
+        value:PG.cout,
+        isAutre:true
+      });
     }
 
     armesContactEquipee.sort(SortByName);

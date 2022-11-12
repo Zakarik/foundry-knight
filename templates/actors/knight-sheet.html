@@ -2347,6 +2347,7 @@
                     <h2 class="header js-toggler">
                         <i class="far fa-minus-square"></i>
                         {{localize "KNIGHT.PROGRESSION.GLOIRE.ListeDepense"}}
+                        <a class="gloire-create" title="Create Item"><i class="fas fa-plus"></i></a>
                     </h2>
                     <div class="lineHeader">
                         <span class="label">{{localize "KNIGHT.Nom"}}</span>
@@ -2360,18 +2361,38 @@
                             <div class="acheter">
                                 <span class="label">{{localize "KNIGHT.PROGRESSION.EvolutionArmure"}}</span>
                                 <span class="value">{{key.value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}</span>
-                                <span class="btn"></span>
+                                <button type="action" data-value="{{key.gratuit}}" data-longbow="true" data-evo="{{key.evo}}" data-id="{{key.id}}" class="{{#if key.gratuit}}selected{{else}}unselected{{/if}}">
+                                    {{#if key.gratuit}}
+                                        {{localize "KNIGHT.PROGRESSION.Gratuit"}}
+                                    {{else}}
+                                        {{localize "KNIGHT.PROGRESSION.Payant"}}
+                                    {{/if}}
+                                </button>
                             </div>
                             {{else}}
-                            <span class="label">{{key.name}}</span>
-                            <span class="value">{{key.value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}</span>
-                            <button type="action" data-value="{{key.gratuit}}" data-id="{{key.id}}" class="{{#if key.gratuit}}selected{{else}}unselected{{/if}}">
-                                {{#if key.gratuit}}
-                                    {{localize "KNIGHT.PROGRESSION.Gratuit"}}
-                                {{else}}
-                                    {{localize "KNIGHT.PROGRESSION.Payant"}}
+                                {{#if key.isAutre}}
+                                    <div class="autre">
+                                        <a class="gloire-delete" title="Delete Item" data-id="{{key.id}}"><i class="fas fa-trash"></i></a>
+                                        <input type="hidden" name="system.progression.gloire.depense.autre.{{key.id}}.order" value="{{getOtherListPG key.id 'order' @root/systemData}}" />
+                                        <input type="hidden" name="system.progression.gloire.depense.autre.{{key.id}}.gratuit" value="{{getOtherListPG key.id 'gratuit' @root/systemData}}" />
+                                        <input type="text" name="system.progression.gloire.depense.autre.{{key.id}}.nom" value="{{getOtherListPG key.id 'nom' @root/systemData}}"/>
+                                        <div class="pg">
+                                            <input type="number" name="system.progression.gloire.depense.autre.{{key.id}}.cout" value="{{getOtherListPG key.id 'cout' @root/systemData}}"/>
+                                            <span class="value">{{localize "KNIGHT.AUTRE.PointGloire-short"}}</span>
+                                        </div>
+                                        <span class="btn"></span>
+                                    </div>
+                                    {{else}}
+                                    <span class="label">{{key.name}}</span>
+                                    <span class="value">{{key.value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}</span>
+                                    <button type="action" data-value="{{key.gratuit}}" data-id="{{key.id}}" class="{{#if key.gratuit}}selected{{else}}unselected{{/if}}">
+                                        {{#if key.gratuit}}
+                                            {{localize "KNIGHT.PROGRESSION.Gratuit"}}
+                                        {{else}}
+                                            {{localize "KNIGHT.PROGRESSION.Payant"}}
+                                        {{/if}}
+                                    </button>
                                 {{/if}}
-                            </button>
                             {{/if}}
                         {{else}}
                         <div class="armure">
