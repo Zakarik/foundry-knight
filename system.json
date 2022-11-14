@@ -1,7 +1,7 @@
 {
   "title": "Knight",
   "description": "Une fiche pour le JDR Knight.",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "esmodules": [
     "module/knight.mjs"
   ],

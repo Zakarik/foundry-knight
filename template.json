@@ -5433,6 +5433,7 @@
       "type":"contact",
       "portee":"contact",
       "prix":0,
+      "energie":0,
       "listes":{},
       "options2mains":{
         "has":false,

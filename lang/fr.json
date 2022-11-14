@@ -2041,6 +2041,7 @@
     },
     "JETS":{
       "Label":"Jet",
+      "NoOd":"Sans OD",
       "Nom":"Nom du jet",
       "Des": "Dés",
       "JetNormal":"Jet normal",

@@ -2,7 +2,7 @@
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "1.8.8";
+    static NEEDED_VERSION = "1.9.1";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -650,6 +650,24 @@ Applique les modifications par la mise à jour au Monde.
                 item.update(updateItem);
             }
         }
+
+        if (options?.force || MigrationKnight.needUpdate("1.9.1")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            // MISE A JOUR DES ITEMS PORTES
+            for (let item of actor.items) {
+                const updateItem = {};
+
+                if(item.type === 'arme') {
+                    updateItem[`system.energie`] = 0;
+                }
+
+                item.update(updateItem);
+            }
+        }
     }
 
     static _migrationItems(item, options = { force:false }) {
@@ -1156,59 +1174,18 @@ Applique les modifications par la mise à jour au Monde.
 
             item.update(update);
         }
-    }
 
-    static async _migrateCompendium(pack, options = { force: false }) {
-        const docType = pack.metadata.type;
-        const wasLocked = pack.locked;
-        try {
-            // Unlock the pack for editing
-            await pack.configure({ locked: false });
+        if (options?.force || MigrationKnight.needUpdate("1.9.1")) {
+            const update = {};
+            const system = item.system;
 
-            // Begin by requesting server-side data model migration and get the migrated content
-            await pack.migrate();
-            const documents = await pack.getDocuments();
+            if(!system) return update;
 
-            // Iterate over compendium entries - applying fine-tuned migration functions
-            const updateDatasList = [];
-            for (let doc of documents) {
-                let updateData = {};
-
-                switch (docType) {
-                    case "Actor":
-
-                        updateData = MigrationKnight._migrationActor(doc);
-                        break;
-                    case "Item":
-                        console.log(doc);
-                        updateData = MigrationKnight._migrationItems(doc);
-                        break;
-                }
-                if (foundry.utils.isEmpty(updateData)) {
-                    continue;
-                }
-
-                // Add the entry, if data was changed
-                updateData["_id"] = doc._id;
-                updateDatasList.push(updateData);
-
-                console.log(
-                    `KNIGHT | Migration de.. ${docType} document ${doc.name}[${doc._id}] du Compendium ${pack.collection}`
-                );
+            if(item.type === 'arme') {
+                update[`system.energie`] = 0;
             }
 
-            // Save the modified entries
-            if (updateDatasList.length > 0) {
-                await pack.documentClass.updateDocuments(updateDatasList, { pack: pack.collection });
-            }
-        } catch (err) {
-            // Handle migration failures
-            err.message = `KNIGHT | Erreur dans la migration de ${docType} dans le pack ${pack.collection}: ${err.message}`;
-            console.error(err);
+            item.update(update);
         }
-
-        // Apply the original locked status for the pack
-        await pack.configure({ locked: wasLocked });
-        console.log(`KNIGHT | Migration de tous les ${docType} du Compendium ${pack.collection}`);
     }
  }

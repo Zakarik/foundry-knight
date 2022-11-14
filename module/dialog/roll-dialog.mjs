@@ -132,6 +132,7 @@ export class KnightRollDialog extends Application {
           wpnMA:this.data.deploy?.wpnMA || false,
           wpnArmesImprovisees:this.data.deploy?.wpnArmesImprovisees || false,
         },
+        noOd:this.data.noOd,
         buttons: buttons
       }
     }
@@ -403,6 +404,18 @@ export class KnightRollDialog extends Application {
     });
   }
 
+  async setIfOd(hasOd) {
+    this.data.noOd = hasOd;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.noOd
+        );
+      }, 0);
+    });
+  }
+
     /** @inheritdoc */
   activateListeners(html) {
     html.find(".aspect button").click(this._onSelectCaracteristique.bind(this));
@@ -558,6 +571,19 @@ export class KnightRollDialog extends Application {
       }
 
       this.data.style.deploy = result;
+      this.render(true);
+    });
+
+    html.find('button.noOd').click(async ev => {
+      const target = $(ev.currentTarget);
+      const value = target.data("value");
+
+      if(!value) {
+        await this.setIfOd(true);
+      } else {
+        await this.setIfOd(false);
+      }
+
       this.render(true);
     });
 
@@ -780,6 +806,7 @@ export class KnightRollDialog extends Application {
     const id = this.data.actor;
     const isPNJ = this.data?.pnj || false;
     const isMA = this.data?.ma || false;
+    const noOd = this.data?.noOd || false;
     const actor = game.actors.get(id);
     const data = this.data;
     const otherC = [];
@@ -802,21 +829,21 @@ export class KnightRollDialog extends Application {
     }
     else if(isMA) {
       carac = getCaracPiloteValue(data.base, id);
-      od = getODPiloteValue(data.base, id);
+      od = !noOd ? getODPiloteValue(data.base, id) : 0;
     }
     else {
       carac = getCaracValue(data.base, id);
-      od = getODValue(data.base, id);
+      od = !noOd ? getODValue(data.base, id) : 0;
     }
 
     if(!entraide && !isPNJ) {
       for(let i = 0;i < data.autre.length;i++) {
         if(isMA) {
           carac += getCaracPiloteValue(data.autre[i], id);
-          od += getODPiloteValue(data.autre[i], id);
+          od += !noOd ? getODPiloteValue(data.autre[i], id) : 0;
         } else {
           carac += getCaracValue(data.autre[i], id);
-          od += getODValue(data.autre[i], id);
+          od += !noOd ? getODValue(data.autre[i], id) : 0;
         }
       }
 
@@ -1005,7 +1032,12 @@ export class KnightRollDialog extends Application {
       }
     } else {
       totalDice += carac || 0;
-      totalBonus += od || 0;
+
+      if(!noOd && !isPNJ) {
+        console.log(noOd, isPNJ);
+        totalBonus += od || 0;
+      }
+
       totalDice += data.modificateur || 0;
       totalBonus += data.succesBonus || 0;
 
@@ -1013,7 +1045,15 @@ export class KnightRollDialog extends Application {
 
       totalBonus += capacite.roll.fixe;
 
-      let sDetails = isPNJ ? `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Aspects')}) + ${data.modificateur}d6 (${game.i18n.localize('KNIGHT.JETS.Modificateur')}) + ${od} (${game.i18n.localize('KNIGHT.ASPECTS.Exceptionnels')}) + ${data.succesBonus} (${game.i18n.localize('KNIGHT.BONUS.Succes')})` : `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')}) + ${data.modificateur}d6 (${game.i18n.localize('KNIGHT.JETS.Modificateur')}) + ${od} (${game.i18n.localize('KNIGHT.ITEMS.ARMURE.Overdrive')}) + ${data.succesBonus} (${game.i18n.localize('KNIGHT.BONUS.Succes')})`;
+      let sDetails;
+
+      if(isPNJ) {
+        sDetails = `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Aspects')}) + ${data.modificateur}d6 (${game.i18n.localize('KNIGHT.JETS.Modificateur')}) + ${od} (${game.i18n.localize('KNIGHT.ASPECTS.Exceptionnels')}) + ${data.succesBonus} (${game.i18n.localize('KNIGHT.BONUS.Succes')})`
+      } else if(noOd) {
+        sDetails = `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')}) + ${data.modificateur}d6 (${game.i18n.localize('KNIGHT.JETS.Modificateur')}) + ${data.succesBonus} (${game.i18n.localize('KNIGHT.BONUS.Succes')})`;
+      } else {
+        sDetails = `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')}) + ${data.modificateur}d6 (${game.i18n.localize('KNIGHT.JETS.Modificateur')}) + ${od} (${game.i18n.localize('KNIGHT.ITEMS.ARMURE.Overdrive')}) + ${data.succesBonus} (${game.i18n.localize('KNIGHT.BONUS.Succes')})`;
+      }
 
       if(capacite.roll.string !== '') sDetails += ` +${capacite.roll.string}`;
 
@@ -1963,6 +2003,7 @@ export class KnightRollDialog extends Application {
     this.data.jumeleambidextrie = true;
     this.data.soeur = true;
     this.data.jumelageambidextrie = true;
+    this.data.noOd = false;
 
     this.render(true);
   }
@@ -2003,6 +2044,7 @@ export class KnightRollDialog extends Application {
     this.data.jumeleambidextrie = true;
     this.data.soeur = true;
     this.data.jumelageambidextrie = true;
+    this.data.noOd = false;
 
     this.render(true);
   }
@@ -2045,6 +2087,7 @@ export class KnightRollDialog extends Application {
     this.data.jumeleambidextrie = true;
     this.data.soeur = true;
     this.data.jumelageambidextrie = true;
+    this.data.noOd = false;
 
     this.render(true);
   }
@@ -2078,6 +2121,8 @@ export class KnightRollDialog extends Application {
       this.data.longbow.effets[liste].selected = nbre + 1;
     }
 
+    this.data.noOd = false;
+
     this.render(true);
   }
 
@@ -2108,6 +2153,8 @@ export class KnightRollDialog extends Application {
       effetsRaw.push(raw);
       this.data.listWpnSpecial[num].energie = coutActuel + cout;
     }
+
+    this.data.noOd = false;
 
     this.render(true);
   }

@@ -366,6 +366,36 @@
                 }
               }
             }
+
+            &.noOd {
+              display:flex;
+              width:100%;
+
+              button {
+                width:100%;
+                color:@white;
+                background: @lightBlack;
+                cursor:pointer;
+                border-radius:0px;
+                margin:0px;
+                border-right:0px;
+
+                &:not(:last-of-type) {
+                  border-bottom:0px;
+                }
+
+                &.selected {
+                  background:@blue;
+                  text-decoration: underline;
+                  letter-spacing: 1px;
+                }
+
+                &:hover {
+                  background:@white;
+                  color:@black;
+                }
+              }
+            }
           }
 
         }

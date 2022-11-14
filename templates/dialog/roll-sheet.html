@@ -133,7 +133,16 @@
             </label>
         </div>
         {{/if}}
+        {{#unless pnj}}
+        <div class="noOd">
+            <button type="action" data-value="{{noOd}}" class="noOd {{#if noOd}}selected{{/if}}">
+                {{localize "KNIGHT.JETS.NoOd"}}
+            </button>
+        </div>
+        {{/unless}}
     </div>
+
+    {{log this}}
 
     {{#unless (isEmpty listWpnContact)}}
     <div class="wpn">
