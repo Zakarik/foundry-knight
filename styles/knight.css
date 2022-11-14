@@ -1818,6 +1818,31 @@
 .rollDialog div.dialog-content div.bonus div.puissant select option {
   background: RGB(43 42 51);
 }
+.rollDialog div.dialog-content div.bonus div.noOd {
+  display: flex;
+  width: 100%;
+}
+.rollDialog div.dialog-content div.bonus div.noOd button {
+  width: 100%;
+  color: white;
+  background: RGB(76 74 90);
+  cursor: pointer;
+  border-radius: 0px;
+  margin: 0px;
+  border-right: 0px;
+}
+.rollDialog div.dialog-content div.bonus div.noOd button:not(:last-of-type) {
+  border-bottom: 0px;
+}
+.rollDialog div.dialog-content div.bonus div.noOd button.selected {
+  background: RGB(37 85 228);
+  text-decoration: underline;
+  letter-spacing: 1px;
+}
+.rollDialog div.dialog-content div.bonus div.noOd button:hover {
+  background: white;
+  color: RGB(43 42 51);
+}
 .rollDialog div.dialog-content div.wpn {
   display: flex;
   width: calc((100% / 2) - 5px);

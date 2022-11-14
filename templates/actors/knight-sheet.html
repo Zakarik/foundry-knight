@@ -521,12 +521,12 @@
                     {{actor.art.name}}
                     <div class="multiButton">
                         {{#if (canRoll 'pj' actor.art.system.jet.c1)}}
-                        <button type="action" class="roll" data-caracteristique="{{actor.art.system.jet.c1}}" data-caraclock="{{actor.art.system.jet.c1}}" data-label="{{actor.art.name}}">
+                        <button type="action" class="roll" data-caracteristique="{{actor.art.system.jet.c1}}" data-caraclock="{{actor.art.system.jet.c1}}" data-label="{{actor.art.name}}" data-nood="true">
                             {{localize "KNIGHT.JETS.Label"}} : {{getCarac actor.art.system.jet.c1}}
                         </button>
                         {{/if}}
                         {{#if (canRoll 'pj' actor.art.system.jet.c2)}}
-                        <button type="action" class="roll" data-caracteristique="{{actor.art.system.jet.c2}}" data-caraclock="{{actor.art.system.jet.c2}}" data-label="{{actor.art.name}}">
+                        <button type="action" class="roll" data-caracteristique="{{actor.art.system.jet.c2}}" data-caraclock="{{actor.art.system.jet.c2}}" data-label="{{actor.art.name}}" data-nood="true">
                             {{localize "KNIGHT.JETS.Label"}} : {{getCarac actor.art.system.jet.c2}}
                         </button>
                         {{/if}}

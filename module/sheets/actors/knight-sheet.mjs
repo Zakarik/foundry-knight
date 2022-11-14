@@ -3812,13 +3812,14 @@ export class KnightSheet extends ActorSheet {
 
     html.find('.roll').click(ev => {
       const target = $(ev.currentTarget);
-      const label = target.data("label") || '';
+      const label = target?.data("label") || '';
+      const noOd = target?.data("nood") || false;
       const caracteristique = target.data("caracteristique") || '';
       const caracAdd = target.data("caracadd") === undefined ? [] : target.data("caracadd").split(',')
       const caracLock = target.data("caraclock") === undefined ? [] : target.data("caraclock").split(',');
       const reussites = +target.data("reussitebonus") || 0;
 
-      this._rollDice(label, caracteristique, false, caracAdd, caracLock, false, '', '', '', -1, reussites);
+      this._rollDice(label, caracteristique, false, caracAdd, caracLock, false, '', '', '', -1, reussites, noOd);
     });
 
     html.find('.rollRecuperationArt').click(async ev => {
@@ -8192,7 +8193,7 @@ export class KnightSheet extends ActorSheet {
     return result;
   }
 
-  async _rollDice(label, caracteristique, difficulte = false, toAdd = [], toLock = [], isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, reussitesBonus=0) {
+  async _rollDice(label, caracteristique, difficulte = false, toAdd = [], toLock = [], isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, reussitesBonus=0, noOd=false) {
     const data = this.getData();
     const rollApp = this._getKnightRoll();
     const mCombos = this._setCombos(data.data.system.aspects, toAdd, toLock);
@@ -8275,6 +8276,7 @@ export class KnightSheet extends ActorSheet {
       isWpn, idWpn, nameWpn, typeWpn, num,
       deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, deployGrenades, deployLongbow, false,
       false, false);
+    await rollApp.setIfOd(noOd);
 
     rollApp.render(true);
   }
