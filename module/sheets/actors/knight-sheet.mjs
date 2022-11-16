@@ -6786,14 +6786,20 @@ export class KnightSheet extends ActorSheet {
     }
 
     for(let [key, PG] of Object.entries(depensePGAutre)) {
-      depensePG.push({
-        order:PG.order,
-        name:PG.nom,
-        id:key,
-        gratuit:PG.gratuit,
-        value:PG.cout,
-        isAutre:true
-      });
+      const order = PG?.order || false;
+
+      if(order === false) {
+        this.actor.update({[`system.progression.gloire.depense.autre.-=${key}`]:null});
+      } else {
+        depensePG.push({
+          order:PG.order,
+          name:PG.nom,
+          id:key,
+          gratuit:PG.gratuit,
+          value:PG.cout,
+          isAutre:true
+        });
+      }
     }
 
     armesContactEquipee.sort(SortByName);
@@ -6810,7 +6816,7 @@ export class KnightSheet extends ActorSheet {
     depensePG.sort(SortByAddOrder);
 
     for (let [key, XP] of Object.entries(depenseXP)){
-      if(XP.nom !== undefined && XP.nom !== 'autre' && XP.nom !== 'capaciteheroique')
+      if(XP.nom !== undefined && XP.nom !== 'autre' && XP.nom !== 'capaciteheroique' && XP.nom !== '')
       {
         let aspect = '';
 
@@ -6913,9 +6919,12 @@ export class KnightSheet extends ActorSheet {
 
       if(caracteristiquesExist !== false) {
         for (let [keyC, carac] of Object.entries(aspect.caracteristiques)) {
+
           const cBonus = carac?.bonus || false;
           const cMalus = carac?.malus || false;
           const OD = carac?.overdrive || false;
+
+
 
           if(cBonus !== false) aspects[keyA].caracteristiques[keyC].bonus = cBonus.reduce(sum);
           if(cMalus !== false) aspects[keyA].caracteristiques[keyC].malus = cMalus.reduce(sum);
