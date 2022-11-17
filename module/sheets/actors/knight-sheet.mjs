@@ -780,7 +780,8 @@ export class KnightSheet extends ActorSheet {
                       "espoir":false,
                       "bouclier":false,
                       "noCapacites":true,
-                      "modules":true
+                      "modules":true,
+                      "phase2":false
                     }
                   },
                   items:dataLion.modules,
@@ -996,6 +997,9 @@ export class KnightSheet extends ActorSheet {
                     },
                     "reaction":{
                       "base":dataCrow.reaction.value
+                    },
+                    "debordement":{
+                      "value":dataCrow.debordement.base
                     },
                     "options":{
                       "resilience":false,
