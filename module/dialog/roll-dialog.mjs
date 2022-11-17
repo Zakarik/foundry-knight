@@ -1467,7 +1467,7 @@ export class KnightRollDialog extends Application {
     const typeStyle = style.type;
     const sacrificeStyle = +style.sacrifice;
 
-    let getAttackOtherDiceMod = isPNJ || (capaciteName === 'cea' && style.raw === 'ambidextre') ? 0 : getStyle.bonus.attaque-getStyle.malus.attaque;
+    let getAttackOtherDiceMod = isPNJ || (capaciteName === 'cea' && style.raw === 'ambidextre') || typeWpn === 'tourelle' ? 0 : getStyle.bonus.attaque-getStyle.malus.attaque;
     let getAttackSpecialDiceMod = 0;
     let getDgtsOtherDiceMod = 0;
     let getDgtsOtherFixeMod = 0;
