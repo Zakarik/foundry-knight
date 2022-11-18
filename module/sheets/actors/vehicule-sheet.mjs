@@ -885,7 +885,7 @@ export class VehiculeSheet extends ActorSheet {
       sacrifice:data.combat.data.sacrifice,
       maximum:6
     });
-    await rollApp.setActor(this.actor.id);
+    await rollApp.setActor(actorId);
     await rollApp.setAspects(data.aspects);
     await rollApp.setEffets(hasBarrage, true, true, true);
     rollApp.render(true);

@@ -823,6 +823,8 @@ export class KnightRollDialog extends Application {
     let carac = 0;
     let od = 0;
 
+    console.log(game.actors.get(id));
+
     if(isPNJ) {
       carac = getAspectValue(data.base, id);
       od = PNJAE.mineur+PNJAE.majeur;
@@ -1108,12 +1110,14 @@ export class KnightRollDialog extends Application {
 
     let details = '';
 
+    console.log(listAllE);
+
     if(wpnType === 'tourelle') {
       details = `${totalDice}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 + ${totalBonus}`;
     } else if(isPNJ) {
-      details = `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Aspects')}) + ${data.modificateur}d6 (${game.i18n.localize('KNIGHT.JETS.Modificateur')}) + ${od} (${game.i18n.localize('KNIGHT.ASPECTS.Exceptionnels')}) + ${data.succesBonus} (${game.i18n.localize('KNIGHT.BONUS.Succes')})`
+      details = `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Aspects')}) + ${data.modificateur}d6 (${game.i18n.localize('KNIGHT.JETS.Modificateur')}) + ${od} (${game.i18n.localize('KNIGHT.ASPECTS.Exceptionnels')}) + ${totalBonus-od} (${game.i18n.localize('KNIGHT.BONUS.Succes')})`
     } else {
-      details = `${carac}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')}) + ${data.modificateur}d6 (${game.i18n.localize('KNIGHT.JETS.Modificateur')}) + ${od} (${game.i18n.localize('KNIGHT.ITEMS.ARMURE.Overdrive')}) + ${data.succesBonus} (${game.i18n.localize('KNIGHT.BONUS.Succes')})`;
+      details = `${carac}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')}) + ${data.modificateur}d6 (${game.i18n.localize('KNIGHT.JETS.Modificateur')}) + ${od} (${game.i18n.localize('KNIGHT.ITEMS.ARMURE.Overdrive')}) + ${totalBonus-od} (${game.i18n.localize('KNIGHT.BONUS.Succes')})`;
     }
 
     execAtt._difficulte = data.difficulte;

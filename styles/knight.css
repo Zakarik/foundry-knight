@@ -2018,6 +2018,7 @@
   width: calc(100% / 2);
   border-top: 0px;
   cursor: pointer;
+  opacity: 0.5;
 }
 .rollDialog div.dialog-content div.wpn div.blockBtn {
   display: flex;

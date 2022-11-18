@@ -2716,6 +2716,8 @@ export class KnightSheet extends ActorSheet {
           case "watchtower":
             itemUpdate.system.capacites.selected[capacite].active = false;
 
+            console.log(itemUpdate);
+
             armure.update(itemUpdate);
             break;
           case "nanoc":
