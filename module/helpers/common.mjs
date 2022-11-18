@@ -1450,10 +1450,10 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
       if(hasHDrones !== false || hasHDrones === undefined) {
         includeAttack = true;
 
-        sub.name = `+1 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+        sub.name = `+3 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
         sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
 
-        attackBonus += 1;
+        attackBonus += 3;
       } else {
         other = true;
 
