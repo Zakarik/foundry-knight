@@ -609,6 +609,7 @@ export class VehiculeSheet extends ActorSheet {
               type:'module',
               system:{
                 noRack:true,
+                whoActivate:i.system.whoActivate || '',
                 type:itemArme.type,
                 portee:itemArme.portee,
                 degats:itemArme.degats,
