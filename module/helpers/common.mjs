@@ -1569,7 +1569,7 @@ for(let i = 0;i < distanceWpn.raw.length;i++) {
         break;
 
     case 'revetementomega':
-        const vAssassin = +assassin.split(' ')[1];
+        const vAssassin = +assassin?.split(' ')[1] || false;
 
         if(!assassin) {
         priorDegats = true;
