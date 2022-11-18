@@ -5349,7 +5349,8 @@ export class KnightSheet extends ActorSheet {
     };
     let champDeForce = {
       bonus:{
-        modules:[0]
+        modules:[0],
+        armes:0
       }
     };
     let energie = {
@@ -6732,6 +6733,7 @@ export class KnightSheet extends ActorSheet {
             const effets2Raw = i.system.effets2mains.raw;
 
             const bMassive = i.system.structurelles.raw.find(str => { if(str.includes('massive')) return true; });
+            const bArmuregravee = i.system.ornementales.raw.find(str => { if(str.includes('armuregravee')) return true; });
             const bDefense2 = effets2Raw.find(str => { if(str.includes('defense')) return str; });
             const bReaction2 = effets2Raw.find(str => { if(str.includes('reaction')) return str; });
 
@@ -6743,13 +6745,19 @@ export class KnightSheet extends ActorSheet {
 
             if(bMassive) defense.malus += 1;
 
+            if(bArmuregravee) champDeForce.bonus.armes += 2
+
             armesContactEquipee.push(i);
           }
           else if (type === 'distance' && equipped === false && rack === false) { armesDistanceArmoury.push(i); }
           else if (type === 'distance' && equipped === false && rack === true) { armesDistanceRack.push(i); }
           else if (type === 'distance' && equipped === true) {
+            const bProtectionarme = i.system.distance.raw.find(str => { if(str.includes('protectionarme')) return true; });
+
             if(bDefense !== undefined) defense.bonus += +bDefense.split(' ')[1];
             if(bReaction !== undefined) reaction.bonus += +bReaction.split(' ')[1];
+
+            if(bProtectionarme) reaction.bonus += 2;
 
             armesDistanceEquipee.push(i);
           }
@@ -7086,7 +7094,8 @@ export class KnightSheet extends ActorSheet {
             },
             champDeForce:{
               bonus:{
-                modules:champDeForce.bonus.modules.reduce(sum)
+                modules:champDeForce.bonus.modules.reduce(sum),
+                armes:champDeForce.bonus.armes
               }
             },
             energie:{
@@ -7103,7 +7112,8 @@ export class KnightSheet extends ActorSheet {
             },
             champDeForce:{
               bonus:{
-                modules:champDeForce.bonus.modules.reduce(sum)
+                modules:champDeForce.bonus.modules.reduce(sum),
+                armes:champDeForce.bonus.armes
               }
             },
             energie:{
