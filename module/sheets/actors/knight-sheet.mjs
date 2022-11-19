@@ -7506,13 +7506,13 @@ export class KnightSheet extends ActorSheet {
     const blaze = capacite.blaze;
     const projector = capacite.projector;
 
-    beacon.labelPortee = game.i18n.localize(`KNIGHT.AUTRE.PORTEE.${capacite.beacon.portee.charAt(0).toUpperCase()+capacite.beacon.portee.substr(1)}`);
-    candle.labelPortee = game.i18n.localize(`KNIGHT.AUTRE.PORTEE.${capacite.candle.portee.charAt(0).toUpperCase()+capacite.candle.portee.substr(1)}`);
-    torch.labelPortee = game.i18n.localize(`KNIGHT.AUTRE.PORTEE.${capacite.torch.portee.charAt(0).toUpperCase()+capacite.torch.portee.substr(1)}`);
-    lighthouse.labelPortee = game.i18n.localize(`KNIGHT.AUTRE.PORTEE.${capacite.lighthouse.portee.charAt(0).toUpperCase()+capacite.lighthouse.portee.substr(1)}`);
-    lantern.labelPortee = game.i18n.localize(`KNIGHT.AUTRE.PORTEE.${capacite.lantern.portee.charAt(0).toUpperCase()+capacite.lantern.portee.substr(1)}`);
-    blaze.labelPortee = game.i18n.localize(`KNIGHT.AUTRE.PORTEE.${capacite.blaze.portee.charAt(0).toUpperCase()+capacite.blaze.portee.substr(1)}`);
-    projector.labelPortee = game.i18n.localize(`KNIGHT.AUTRE.PORTEE.${capacite.projector.portee.charAt(0).toUpperCase()+capacite.projector.portee.substr(1)}`);
+    beacon.labelPortee = game.i18n.localize(`KNIGHT.PORTEE.${capacite.beacon.portee.charAt(0).toUpperCase()+capacite.beacon.portee.substr(1)}`);
+    candle.labelPortee = game.i18n.localize(`KNIGHT.PORTEE.${capacite.candle.portee.charAt(0).toUpperCase()+capacite.candle.portee.substr(1)}`);
+    torch.labelPortee = game.i18n.localize(`KNIGHT.PORTEE.${capacite.torch.portee.charAt(0).toUpperCase()+capacite.torch.portee.substr(1)}`);
+    lighthouse.labelPortee = game.i18n.localize(`KNIGHT.PORTEE.${capacite.lighthouse.portee.charAt(0).toUpperCase()+capacite.lighthouse.portee.substr(1)}`);
+    lantern.labelPortee = game.i18n.localize(`KNIGHT.PORTEE.${capacite.lantern.portee.charAt(0).toUpperCase()+capacite.lantern.portee.substr(1)}`);
+    blaze.labelPortee = game.i18n.localize(`KNIGHT.PORTEE.${capacite.blaze.portee.charAt(0).toUpperCase()+capacite.blaze.portee.substr(1)}`);
+    projector.labelPortee = game.i18n.localize(`KNIGHT.PORTEE.${capacite.projector.portee.charAt(0).toUpperCase()+capacite.projector.portee.substr(1)}`);
 
     const raw = lantern.effets.raw;
     const custom = lantern.effets.custom;
