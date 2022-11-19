@@ -565,7 +565,7 @@ export class KnightActor extends Actor {
     data.defense.value = Math.max(userDBase+defenseBonus-defenseMalus, 0);
 
     // LANGUES
-    const userLBase = Math.max(data.aspects.machine.caracteristiques.savoir.value-2, 1);
+    const userLBase = Math.max(data.aspects.machine.caracteristiques.savoir.value-1, 1);
     const userLBonus = data.langues.mod;
 
     data.langues.value = userLBase+userLBonus;
