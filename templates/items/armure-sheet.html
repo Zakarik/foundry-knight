@@ -232,6 +232,15 @@
                         min="0"
                         />
                     </label>
+                    {{#if @root/systemData/espoir/bonus}}
+                    <label class="longspan">
+                        <span>{{localize "KNIGHT.BONUS.Espoir"}}</span>
+                        <input type="number" name="system.evolutions.liste.{{evolution}}.data.espoir"
+                        value="{{this.data.espoir}}"
+                        min="0"
+                        />
+                    </label>
+                    {{/if}}
                 </div>
                 {{#each key.capacites as | kCap capacite |}}
                     {{~> (evolutions) key=evolution}}

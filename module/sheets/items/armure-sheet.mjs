@@ -453,7 +453,8 @@ export class ArmureSheet extends ItemSheet {
             update.system.evolutions.liste[i].data = {
               armure:0,
               champDeForce:0,
-              energie:0
+              energie:0,
+              espoir:0
             };
             update.system.evolutions.liste[i].capacites = {};
             update.system.evolutions.liste[i].special = {};

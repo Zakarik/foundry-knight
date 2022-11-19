@@ -2,7 +2,7 @@
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "1.9.1";
+    static NEEDED_VERSION = "1.9.8";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -668,6 +668,45 @@ Applique les modifications par la mise à jour au Monde.
                 item.update(updateItem);
             }
         }
+
+        if (options?.force || MigrationKnight.needUpdate("1.9.8")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            // MISE A JOUR DES ITEMS PORTES
+            for (let item of actor.items) {
+                const updateItem = {};
+
+                if(item.type === 'armure') {
+                    const hasIllumination = item.system.capacites.selected?.illumination || false;
+
+                    updateItem[`system.capacites.atlasSpecial.illumination.evolutions.nbreCapacitesSelected`] = 3;
+                    updateItem[`system.capacites.atlasSpecial.illumination.evolutions.nbreCapacitesTotale`] = 7;
+
+                    if(hasIllumination !== false) {
+                        updateItem[`system.capacites.selected.illumination.evolutions.nbreCapacitesSelected`] = 3;
+                        updateItem[`system.capacites.selected.illumination.evolutions.nbreCapacitesTotale`] = 7;
+                    }
+
+                    const listeEvolutions = item.system?.evolutions.liste;
+
+                    for (let [key, evo] of Object.entries(listeEvolutions)) {
+                        const eIllumination = evo.capacites?.illumination || false;
+
+                        updateItem[`system.evolutions.liste.${key}.data.espoir`] = 0;
+
+                        if(eIllumination !== false) {
+                            updateItem[`system.evolutions.liste.${key}.capacites.illumination.nbreCapacitesSelected`] = 3;
+                            updateItem[`system.evolutions.liste.${key}.capacites.illumination.nbreCapacitesTotale`] = 7;
+                        }
+                    }
+                }
+
+                item.update(updateItem);
+            }
+        }
     }
 
     static _migrationItems(item, options = { force:false }) {
@@ -1183,6 +1222,40 @@ Applique les modifications par la mise à jour au Monde.
 
             if(item.type === 'arme') {
                 update[`system.energie`] = 0;
+            }
+
+            item.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("1.9.8")) {
+            const update = {};
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'armure') {
+                const hasIllumination = item.system.capacites.selected?.illumination || false;
+
+                update[`system.capacites.atlasSpecial.illumination.evolutions.nbreCapacitesSelected`] = 3;
+                update[`system.capacites.atlasSpecial.illumination.evolutions.nbreCapacitesTotale`] = 7;
+
+                if(hasIllumination !== false) {
+                    update[`system.capacites.selected.illumination.evolutions.nbreCapacitesSelected`] = 3;
+                    update[`system.capacites.selected.illumination.evolutions.nbreCapacitesTotale`] = 7;
+                }
+
+                const listeEvolutions = item.system?.evolutions.liste;
+
+                for (let [key, evo] of Object.entries(listeEvolutions)) {
+                    const eIllumination = evo.capacites?.illumination || false;
+
+                    update[`system.evolutions.liste.${key}.capacites.data.espoir`] = 0;
+
+                    if(eIllumination !== false) {
+                        update[`system.evolutions.liste.${key}.capacites.illumination.nbreCapacitesSelected`] = 3;
+                        update[`system.evolutions.liste.${key}.capacites.illumination.nbreCapacitesTotale`] = 7;
+                    }
+                }
             }
 
             item.update(update);

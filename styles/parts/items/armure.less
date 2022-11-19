@@ -585,6 +585,36 @@
                                 }
                             }
 
+                            div.tripleLine {
+                                display:flex;
+                                width:calc(100% / 3);
+                                flex-wrap: wrap;
+                                border-top:1px solid black;
+
+                                span {
+                                    width:100%;
+                                    text-align: center;
+                                    border-top:0px;
+                                    padding:0px;
+                                    line-height: 26px;
+                                    background:@lightBlack;
+                                }
+
+                                input {
+                                    position:relative;
+                                    width:100%;
+                                    text-align: center;
+                                    height:26px;
+                                    border-top:0px;
+                                }
+
+                                &:not(:first-of-type) {
+                                    span {
+                                        border-left:1px solid @black;
+                                    }
+                                }
+                            }
+
                             div.fullLine {
                                 display:flex;
                                 width:50%;
@@ -1152,7 +1182,7 @@
                                         width:50%;
                                         text-align: right;
                                         border-radius:0px;
-                                        height:27px;
+                                        height:26px;
                                     }
                                 }
 
@@ -1165,6 +1195,46 @@
                                     select,
                                     textarea {
                                         border-top:1px solid @lightBlack;
+                                    }
+                                }
+                            }
+
+                            &.separationTop {
+                                >span {
+                                    border-top:1px solid @black !important;
+                                }
+
+                                &.withSpecial {
+                                    label {
+                                        border-top:1px solid @lightBlack !important;
+
+                                        input {
+                                            border-top:0px !important;
+                                        }
+
+                                        span {
+                                            border-top:0px !important;
+                                        }
+                                    }
+                                }
+                            }
+
+                            &.doubleSeparationTop {
+                                >span {
+                                    border-top:5px double @black !important;
+                                }
+
+                                &.withSpecial {
+                                    label {
+                                        border-top:5px double @lightBlack !important;
+
+                                        input {
+                                            border-top:0px !important;
+                                        }
+
+                                        span {
+                                            border-top:0px !important;
+                                        }
                                     }
                                 }
                             }
