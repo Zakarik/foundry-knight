@@ -4454,6 +4454,9 @@ export class KnightSheet extends ActorSheet {
         energie:{
           base:dataArmor.system.energie.base+dataEArmor.energie
         },
+        espoir:{
+          value:dataArmor.system.espoir.value+dataEArmor.espoir
+        },
         capacites:{
           selected:capacites
         },

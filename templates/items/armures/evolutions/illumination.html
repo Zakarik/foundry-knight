@@ -18,6 +18,10 @@
         <span>{{localize "KNIGHT.DUREE.Label"}}</span>
         <textarea data-capacite="illumination" data-type="duree" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.duree}}px;" name="system.evolutions.liste.{{key}}.capacites.illumination.duree">{{this.duree}}</textarea>
     </label>
+    <label class="longspan separation">
+        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.CapacitesPossedes"}}</span>
+        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.nbreCapacitesSelected" value="{{this.nbreCapacitesSelected}}" min="0" max="{{this.nbreCapacitesTotale}}"/>
+    </label>
 </div>
 
 <div class="data">
@@ -39,11 +43,13 @@
             {{/select}}
         </select>
     </label>
-    <label class="doubleInline">
-        <span class="title">{{localize "KNIGHT.LATERAL.Espoir"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.candle.espoir" value="{{this.candle.espoir}}"/>
-        <span class="special">D6</span>
-    </label>
+    <div class="longspan withSpecial separationTop">
+        <span>{{localize "KNIGHT.LATERAL.Espoir"}}</span>
+        <label>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.candle.espoir" value="{{this.candle.espoir}}"/>
+            <span>D6</span>
+        </label>
+    </div>
 </div>
 
 <div class="data">
@@ -164,17 +170,21 @@
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}}
     </h4>
     <textarea data-capacite="illumination" data-type="blaze" data-min="50" data-key="{{key}}" data-evolution="true" style="height:{{this.textarea.blaze}}px;" name="system.evolutions.liste.{{key}}.capacites.illumination.blaze.description">{{this.blaze.description}}</textarea>
-    <label class="doubleInline separation">
-        <span class="title">{{localize "KNIGHT.AUTRE.Degats"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.blaze.degats" value="{{this.blaze.degats}}"/>
-        <span class="special">D6</span>
-    </label>
-    <label class="doubleInline">
-        <span class="title">{{localize "KNIGHT.AUTRE.Violence"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.blaze.violence" value="{{this.blaze.violence}}"/>
-        <span class="special">D6</span>
-    </label>
-    <label class="shortspan">
+    <div class="longspan withSpecial doubleSeparationTop">
+        <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+        <label>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.blaze.degats" value="{{this.blaze.degats}}"/>
+            <span>D6</span>
+        </label>
+    </div>
+    <div class="longspan withSpecial separationTop">
+        <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+        <label>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.illumination.blaze.violence" value="{{this.blaze.violence}}"/>
+            <span>D6</span>
+        </label>
+    </div>
+    <label class="shortspan separation">
         <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
         <select name="system.evolutions.liste.{{key}}.capacites.illumination.blaze.portee">
             {{#select this.blaze.portee}}

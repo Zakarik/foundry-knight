@@ -1995,8 +1995,8 @@
   display: flex;
   text-align: center;
   justify-content: center;
-  line-height: 16px;
-  font-size: 13px;
+  line-height: 20px;
+  font-size: 15px;
   font-variant: small-caps;
   color: white;
   background: RGB(43 42 51);
@@ -4460,6 +4460,34 @@
 .armure form.armureWindows div.evolutions div.mainData div.data div.triple label.tripleLine:not(:first-of-type) span {
   border-left: 1px solid RGB(43 42 51);
 }
+.armure form.armureWindows div.evolutions div.mainData div.data div.double div.tripleLine,
+.armure form.armureWindows div.evolutions div.mainData div.data div.triple div.tripleLine {
+  display: flex;
+  width: calc(100% / 3);
+  flex-wrap: wrap;
+  border-top: 1px solid black;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.double div.tripleLine span,
+.armure form.armureWindows div.evolutions div.mainData div.data div.triple div.tripleLine span {
+  width: 100%;
+  text-align: center;
+  border-top: 0px;
+  padding: 0px;
+  line-height: 26px;
+  background: RGB(76 74 90);
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.double div.tripleLine input,
+.armure form.armureWindows div.evolutions div.mainData div.data div.triple div.tripleLine input {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  height: 26px;
+  border-top: 0px;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.double div.tripleLine:not(:first-of-type) span,
+.armure form.armureWindows div.evolutions div.mainData div.data div.triple div.tripleLine:not(:first-of-type) span {
+  border-left: 1px solid RGB(43 42 51);
+}
 .armure form.armureWindows div.evolutions div.mainData div.data div.double div.fullLine,
 .armure form.armureWindows div.evolutions div.mainData div.data div.triple div.fullLine {
   display: flex;
@@ -5005,7 +5033,7 @@
   width: 50%;
   text-align: right;
   border-radius: 0px;
-  height: 27px;
+  height: 26px;
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.longspan.withSpecial:not(:first-of-type) span {
   border-top: 1px solid RGB(76 74 90);
@@ -5014,6 +5042,30 @@
 .armure form.armureWindows div.evolutions div.mainData div.data div.longspan.withSpecial:not(:first-of-type) select,
 .armure form.armureWindows div.evolutions div.mainData div.data div.longspan.withSpecial:not(:first-of-type) textarea {
   border-top: 1px solid RGB(76 74 90);
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.longspan.separationTop > span {
+  border-top: 1px solid RGB(43 42 51) !important;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.longspan.separationTop.withSpecial label {
+  border-top: 1px solid RGB(76 74 90) !important;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.longspan.separationTop.withSpecial label input {
+  border-top: 0px !important;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.longspan.separationTop.withSpecial label span {
+  border-top: 0px !important;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.longspan.doubleSeparationTop > span {
+  border-top: 5px double RGB(43 42 51) !important;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.longspan.doubleSeparationTop.withSpecial label {
+  border-top: 5px double RGB(76 74 90) !important;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.longspan.doubleSeparationTop.withSpecial label input {
+  border-top: 0px !important;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.longspan.doubleSeparationTop.withSpecial label span {
+  border-top: 0px !important;
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.noSeparation span {
   border-top: 0px !important;

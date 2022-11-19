@@ -29,31 +29,33 @@
             </button>
         </div>
         {{else}}
-            {{#if this.sansarmure.acces}}
-            <div class="blockMultiline"></div>
-                <label class="energie">
-                    <input type="number" name="system.equipements.armure.capacites.ascension.energie" value="{{@root/systemData/equipements/armure/capacites/ascension/energie}}"
-                    min="{{this.energie.min}}" max="{{this.energie.max}}" />
-                    <span>{{localize "KNIGHT.AUTRE.PointEnergie-short"}}</span>
-                </label>
+            {{#unless ("ascension" @root/systemData/wear)}}
+                {{#if this.sansarmure.acces}}
+                <div class="blockMultiline">
+                    <label class="energie">
+                        <input type="number" name="system.equipements.armure.capacites.ascension.energie" value="{{@root/systemData/equipements/armure/capacites/ascension/energie}}"
+                        min="{{this.energie.min}}" max="{{this.energie.max}}" />
+                        <span>{{localize "KNIGHT.AUTRE.PointEnergie-short"}}</span>
+                    </label>
 
-                <button class="
-                    {{#unless this.active}}
-                    activation
-                    {{else}}
-                    desactivation
-                    {{/unless}}
-                    " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                    data-cout="{{@root/systemData/equipements/armure/capacites/ascension/energie}}"
-                    data-id="{{this.ascensionId}}" data-depense="{{this.depense}}">
-                    {{#unless this.active}}
-                    {{localize "KNIGHT.AUTRE.Activer"}}
-                    {{else}}
-                    {{localize "KNIGHT.AUTRE.Desactiver"}}
-                    {{/unless}}
-                </button>
-            </div>
-            {{/if}}
+                    <button class="
+                        {{#unless this.active}}
+                        activation
+                        {{else}}
+                        desactivation
+                        {{/unless}}
+                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
+                        data-cout="{{@root/systemData/equipements/armure/capacites/ascension/energie}}"
+                        data-id="{{this.ascensionId}}" data-depense="{{this.depense}}">
+                        {{#unless this.active}}
+                        {{localize "KNIGHT.AUTRE.Activer"}}
+                        {{else}}
+                        {{localize "KNIGHT.AUTRE.Desactiver"}}
+                        {{/unless}}
+                    </button>
+                </div>
+                {{/if}}
+            {{/unless}}
         {{/if}}
     </h3>
 
