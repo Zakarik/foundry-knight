@@ -3672,7 +3672,7 @@ return {
 }
 }
 
-export async function getCapacite(actor, typeWpn, baseC, otherC, actorId, effetsWpn, structurelleWpn, ornementaleWpn, distanceWpn, isPNJ=false) {
+export async function getCapacite(actor, typeWpn, baseC, otherC, actorId, effetsWpn, structurelleWpn, ornementaleWpn, distanceWpn, isPNJ=false, idWpn=-1) {
 const getArmorID = actor.system.wear === 'armure' ? actor?.system?.equipements?.armure?.id || false : false;
 const getArmorData = getArmorID !== false ? actor.items.get(getArmorID)?.system || false : false;
 
@@ -3809,7 +3809,7 @@ if(getArmorData !== false) {
                 bonusAttackFixe += metres*dataBonus.endurance.value;
                 }
 
-                if(typeWpn === 'contact') {
+                if(typeWpn === 'contact' || (typeWpn === 'armesimprovisees' && idWpn === "contact")) {
                 bonusDegatsDice += metres*dataBonus.degats.dice;
                 bonusViolenceDice += metres*dataBonus.violence.dice;
                 }

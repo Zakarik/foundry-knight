@@ -1403,6 +1403,7 @@ export class KnightRollDialog extends Application {
 
   async _getAllEffets(actor, dataWpn, typeWpn, isPNJ = false) {
     const idActor = this.data.actor;
+    const idWpn = this.data?.idWpn || -1;
     const data = this.data;
     const style = isPNJ ? {raw:''} : this.data.style;
     const getStyle = isPNJ ? {} : getModStyle(style.raw);
@@ -1432,11 +1433,13 @@ export class KnightRollDialog extends Application {
       energieViolence = dataWpn.violence.dice > dataWpn.violence.variable.min.dice ? (dataWpn.violence.dice-dataWpn.violence.variable.min.dice)*dataWpn.violence.variable.cout : 0;
     }
 
+    console.log(idWpn);
+
     const listEffets = await getEffets(actor, typeWpn, style.raw, data, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ, energieDgts+energieViolence);
     const listDistance = await getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, isPNJ);
     const listStructurelles = await getStructurelle (actor, typeWpn, style.raw, data, effetsWpn, structurellesWpn, isPNJ);
     const listOrnementale = await getOrnementale (actor, typeWpn, data, effetsWpn, ornementalesWpn, isPNJ);
-    const listCapacites = await getCapacite(actor, typeWpn, data.base, data.autre, idActor, effetsWpn, structurellesWpn, ornementalesWpn, distanceWpn, isPNJ);
+    const listCapacites = await getCapacite(actor, typeWpn, data.base, data.autre, idActor, effetsWpn, structurellesWpn, ornementalesWpn, distanceWpn, isPNJ, idWpn);
     const bonusModule = getModuleBonus(actor, idActor, typeWpn, dataWpn, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ);
 
     const lEffetAttack = listEffets.attack;
