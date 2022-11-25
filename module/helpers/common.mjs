@@ -46,7 +46,8 @@ export function listEffects(raw, custom, labels) {
 
       liste.push({
         name:complet,
-        description:game.i18n.localize(labels[secondSplit[0]].description)
+        description:game.i18n.localize(labels[secondSplit[0]].description),
+        raw:raw[n]
       });
     }
 
