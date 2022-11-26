@@ -823,8 +823,6 @@ export class KnightRollDialog extends Application {
     let carac = 0;
     let od = 0;
 
-    console.log(game.actors.get(id));
-
     if(isPNJ) {
       carac = getAspectValue(data.base, id);
       od = PNJAE.mineur+PNJAE.majeur;
@@ -856,7 +854,8 @@ export class KnightRollDialog extends Application {
 
     if((idWpn != '' && !entraide) || (typeWpn === 'grenades' && !entraide) || (typeWpn === 'longbow' && !entraide)) {
       if(typeWpn !== 'tourelle') totalDice += carac || 0;
-      if(typeWpn !== 'tourelle') totalBonus += od || 0;
+      if(typeWpn !== 'tourelle' && !noOd && !isPNJ) totalBonus += od || 0;
+      else if(typeWpn !== 'tourelle' && isPNJ) totalBonus += od || 0;
       totalDice += data.modificateur || 0;
       totalBonus += data.succesBonus || 0;
 
@@ -1036,7 +1035,8 @@ export class KnightRollDialog extends Application {
       totalDice += carac || 0;
 
       if(!noOd && !isPNJ) {
-        console.log(noOd, isPNJ);
+        totalBonus += od || 0;
+      } else if(isPNJ) {
         totalBonus += od || 0;
       }
 
@@ -1109,8 +1109,6 @@ export class KnightRollDialog extends Application {
     }
 
     let details = '';
-
-    console.log(listAllE);
 
     if(wpnType === 'tourelle') {
       details = `${totalDice}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 + ${totalBonus}`;
@@ -1432,8 +1430,6 @@ export class KnightRollDialog extends Application {
     if(hasVariableViolence !== false) {
       energieViolence = dataWpn.violence.dice > dataWpn.violence.variable.min.dice ? (dataWpn.violence.dice-dataWpn.violence.variable.min.dice)*dataWpn.violence.variable.cout : 0;
     }
-
-    console.log(idWpn);
 
     const listEffets = await getEffets(actor, typeWpn, style.raw, data, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ, energieDgts+energieViolence);
     const listDistance = await getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, isPNJ);
