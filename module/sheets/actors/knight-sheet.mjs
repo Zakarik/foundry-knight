@@ -1022,9 +1022,17 @@ export class KnightSheet extends ActorSheet {
             armure.update(itemUpdate);
             break;
           case "shrine":
+            const aShrine = armorCapacites.shrine.champdeforce;
+
             itemUpdate.system.capacites.selected[capacite].active = {};
             itemUpdate.system.capacites.selected[capacite].active.base = true;
             itemUpdate.system.capacites.selected[capacite].active[special] = true;
+
+            if(special === 'personnel') {
+              update.system.equipements.armure.champDeForce.bonus.shrine = aShrine;
+
+              this.actor.update(update);
+            }
 
             armure.update(itemUpdate);
             break;
@@ -2577,7 +2585,10 @@ export class KnightSheet extends ActorSheet {
             itemUpdate.system.capacites.selected[capacite].active.base = false;
             itemUpdate.system.capacites.selected[capacite].active[special] = false;
 
+            update.system.equipements.armure.champDeForce.bonus.shrine = 0;
+
             armure.update(itemUpdate);
+            this.actor.update(update);
             break;
           case "ghost":
             itemUpdate.system.capacites.selected[capacite].active = {};
