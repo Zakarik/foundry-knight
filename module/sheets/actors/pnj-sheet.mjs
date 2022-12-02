@@ -232,6 +232,17 @@ export class PNJSheet extends ActorSheet {
       this.actor.items.get(id).update({['system.optionsmunitions.actuel']:value});
     });
 
+    html.find('div.combat button.addbasechair').click(ev => {
+      const target = $(ev.currentTarget);
+      const id = target.data("id");
+      const value = target?.data("value") || false;
+      let result = true;
+
+      if(value) result = false;
+
+      this.actor.items.get(id).update({['system.degats.addchair']:result});
+    });
+
     html.find('.capacites div.wolf .wolfFighter').click(async ev => {
       const target = $(ev.currentTarget);
       const label = target.data('label');

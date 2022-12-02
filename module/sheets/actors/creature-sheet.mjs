@@ -217,6 +217,17 @@ export class CreatureSheet extends ActorSheet {
       this.actor.items.get(id).update({['system.options2mains.actuel']:value});
     });
 
+    html.find('div.combat button.addbasechair').click(ev => {
+      const target = $(ev.currentTarget);
+      const id = target.data("id");
+      const value = target?.data("value") || false;
+      let result = true;
+
+      if(value) result = false;
+
+      this.actor.items.get(id).update({['system.degats.addchair']:result});
+    });
+
     html.find('div.combat div.armesDistance select.wpnMunitionChange').change(ev => {
       const target = $(ev.currentTarget);
       const id = target.data("id");

@@ -2074,6 +2074,10 @@
       "Nodsarmure":"Nods d'Armure",
       "Nodsenergie":"Nods d'Energie",
       "JetPilotage":"Jet de pilotage",
+      "CHAIRD2": {
+        "Has":"Ajoute la Chair divisé par 2 aux dégâts",
+        "Hasnt":"N'ajoute pas la Chair divisé par 2 aux dégâts"
+      },
       "BETE":{
         "Mineur":"Bête mineur",
         "Majeur":"Bête majeur"

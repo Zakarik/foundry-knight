@@ -1422,6 +1422,7 @@ export class KnightRollDialog extends Application {
     let energieViolence = 0;
     const hasVariableDgts = dataWpn.degats?.variable?.has || false;
     const hasVariableViolence = dataWpn.violence?.variable?.has || false;
+    const hasAddChair = dataWpn.degats?.addchair || false;
 
     if(hasVariableDgts !== false) {
       energieDgts = dataWpn.degats.dice > dataWpn.degats.variable.min.dice ? (dataWpn.degats.dice-dataWpn.degats.variable.min.dice)*dataWpn.degats.variable.cout : 0;
@@ -1484,6 +1485,7 @@ export class KnightRollDialog extends Application {
     const discretion = getCaracValue('discretion', idActor);
     const discretionOD = getODValue('discretion', idActor);
 
+    const chair = +getAspectValue('chair', idActor);
     const bete = +getAspectValue('bete', idActor);
     const beteAE = getAEValue('bete', idActor);
 
@@ -1494,6 +1496,16 @@ export class KnightRollDialog extends Application {
 
       lDgtsOtherInclude.push({
         name:`+${bForce} ${game.i18n.localize('KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.FORCE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+        desc:``
+      });
+    }
+
+    // Si on doit ajouter chair divisé par 2... On ajoute chair divisé par 2.
+    if(typeWpn === 'contact' && isPNJ && hasAddChair && chair > 0) {
+      getDgtsOtherFixeMod += Math.floor(chair/2);
+
+      lDgtsOtherInclude.push({
+        name:`+${chair/2} ${game.i18n.localize('KNIGHT.ASPECTS.CHAIR.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
         desc:``
       });
     }

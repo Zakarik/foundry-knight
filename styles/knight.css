@@ -26866,6 +26866,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets.hidden {
   display: none;
 }
+.pnj section.body div.combat div.main div.armesContact div.wpn button.addbasechair,
+.pnj section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
+  border-top: 1px solid RGB(76 74 90);
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-radius: 0px;
+  color: white;
+  font-variant: small-caps;
+}
 .pnj section.body div.combat div.main div.armesContact div.wpn:not(:first-of-type),
 .pnj section.body div.combat div.main div.armesDistance div.wpn:not(:first-of-type) {
   border-top: 2px solid RGB(87 110 178);
@@ -29035,6 +29045,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets.hidden,
 .creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets.hidden {
   display: none;
+}
+.creature section.body div.combat div.main div.armesContact div.wpn button.addbasechair,
+.creature section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
+  border-top: 1px solid RGB(76 74 90);
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-radius: 0px;
+  color: white;
+  font-variant: small-caps;
 }
 .creature section.body div.combat div.main div.armesContact div.wpn:not(:first-of-type),
 .creature section.body div.combat div.main div.armesDistance div.wpn:not(:first-of-type) {
