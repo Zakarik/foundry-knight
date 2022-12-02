@@ -79,7 +79,17 @@
                 <img src="systems/knight/assets/icons/D6Black.svg" class="jetWpn dice" data-name="{{this.name}}" data-id="{{this._id}}" data-isDistance="{{#if this.system.tourelle.has}}tourelle{{else}}{{this.system.type}}{{/if}}" data-num="{{num}}" />
             {{/if}}
         </div>
-
+        {{#if this.system.pnj}}
+            {{#unless (isWpnDistance this.system.type)}}
+            <button type="action" class="addbasechair {{#if this.system.degats.addchair}}selected{{/if}}" data-value="{{this.system.degats.addchair}}" data-id="{{this._id}}">
+                {{#if this.system.degats.addchair}}
+                    {{localize "KNIGHT.JETS.CHAIRD2.Has"}}
+                {{else}}
+                    {{localize "KNIGHT.JETS.CHAIRD2.Hasnt"}}
+                {{/if}}
+            </button>
+            {{/unless}}
+        {{/if}}
     </header>
 
     <div class="effets" style="display:none;">
