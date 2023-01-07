@@ -294,9 +294,9 @@
         let result = false;
 
         if((isCapacite && type !== 'effets')) return result;
-
         const list = data[type]?.raw || [];
-        const search = list.find((string) => string.startsWith(name));
+        const listFilter = list.filter(item => item !== undefined);
+        const search = listFilter.find((string) => string.startsWith(name));
 
         if(min === -1) {
             if(search !== undefined) result = true;
