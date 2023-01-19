@@ -2,7 +2,7 @@
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "2.0.4";
+    static NEEDED_VERSION = "2.0.6";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -731,6 +731,32 @@ Applique les modifications par la mise à jour au Monde.
                 item.update(updateItem);
             }
         }
+
+        if (options?.force || MigrationKnight.needUpdate("2.0.6")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            // MISE A JOUR DES ITEMS PORTES
+            for (let item of actor.items) {
+                const updateItem = {};
+
+                if(item.type === 'armure') {
+                    const longbow = item.system?.capacites?.selected?.longbow || false;
+
+                    if(longbow !== false) {
+                        const distance = longbow?.distance || false;
+
+                        if(!distance) {
+                            updateItem[`system.capacites.selected.longbow.distance`] = {raw:[], custom:[]};
+                        }
+                    }
+                }
+
+                item.update(updateItem);
+            }
+        }
     }
 
     static _migrationItems(item, options = { force:false }) {
@@ -1298,6 +1324,27 @@ Applique les modifications par la mise à jour au Monde.
 
                 for (let [key, evo] of Object.entries(listeEvolutions)) {
                     update[`system.evolutions.liste.${key}.capacites.-=data`] = null;
+                }
+            }
+
+            item.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("2.0.6")) {
+            const update = {};
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'armure') {
+                const longbow = item.system?.capacites?.selected?.longbow || false;
+
+                if(longbow !== false) {
+                    const distance = longbow?.distance || false;
+
+                    if(!distance) {
+                        update[`system.capacites.selected.longbow.distance`] = {raw:[], custom:[]};
+                    }
                 }
             }
 
