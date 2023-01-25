@@ -72,11 +72,7 @@ import { GmMonitor } from "./gmMonitor.mjs";
         });
     }
 
-    /**
-     * This method is called upon form submission after form data is validated
-     * @param event    The initial triggering submission event
-     * @param formData The object of validated form data with which to update the object
-     * @returns        A Promise which resolves once the update operation has completed
-     * @override
-     */
+    async close(options={}) {
+        return;
+    }
  }
