@@ -8498,6 +8498,16 @@ export class KnightSheet extends ActorSheet {
               }
             }
           }
+        },
+        energie:{
+          malus:{
+            companions:0
+          }
+        },
+        espoir:{
+          malus:{
+            companions:0
+          }
         }
       }
     }
