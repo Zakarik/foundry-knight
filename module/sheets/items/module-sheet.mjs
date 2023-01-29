@@ -61,13 +61,13 @@ export class ModuleSheet extends ItemSheet {
 
       if(subtype === false) {
         update = {
-          data:{
+          system:{
             [type]:result
           }
         };
       } else if(name === false) {
         update = {
-          data:{
+          system:{
             [type]:{
               [subtype]:result
             }
@@ -75,7 +75,7 @@ export class ModuleSheet extends ItemSheet {
         };
       } else if(subname === false) {
         update = {
-          data:{
+          system:{
             [type]:{
               [subtype]:{
                 [name]:result
@@ -85,7 +85,7 @@ export class ModuleSheet extends ItemSheet {
         };
       } else if(special === false) {
         update = {
-          data:{
+          system:{
             [type]:{
               [subtype]:{
                 [name]:{
@@ -97,7 +97,7 @@ export class ModuleSheet extends ItemSheet {
         };
       } else {
         update = {
-          data:{
+          system:{
             [type]:{
               [subtype]:{
                 [name]:{
@@ -110,6 +110,8 @@ export class ModuleSheet extends ItemSheet {
           }
         };
       }
+
+      console.log(update);
 
       this.item.update(update);
     });
