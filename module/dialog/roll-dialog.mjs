@@ -2306,10 +2306,11 @@ export class KnightRollDialog extends Application {
 
   _depensePE(actor, depense) {
     const isMA = this.data?.ma || false;
-    const getArmure = actor.items.get(actor.system.equipements.armure.id).system;
+    console.log(actor);
+    const getArmure = actor.type === "knight" ? actor.items.get(actor.system.equipements.armure.id).system : actor.system;
     const remplaceEnergie = isMA ? false : getArmure.espoir.remplaceEnergie || false;
     const type = remplaceEnergie ? 'espoir' : 'energie';
-    const hasJauge = isMA ? true : actor.system.jauges[type];
+    const hasJauge = isMA || actor.type !== "knight" ? true : actor.system.jauges[type];
 
     if(!hasJauge) return {
       has:false,
