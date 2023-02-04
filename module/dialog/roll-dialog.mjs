@@ -1490,7 +1490,7 @@ export class KnightRollDialog extends Application {
     const beteAE = getAEValue('bete', idActor);
 
     // Base de Force pour les armes de contact
-    if(typeWpn === 'contact' && baseForce > 0 && !isPNJ && capaciteName !== "cea") {
+    if((typeWpn === 'contact' && baseForce > 0 && !isPNJ && capaciteName !== "cea") || (typeWpn === 'armesimprovisees' && this.data.idWpn === 'contact' && baseForce > 0 && !isPNJ && capaciteName !== "cea")) {
       const bForce = baseForce;
       getDgtsOtherFixeMod += bForce;
 
@@ -1501,7 +1501,7 @@ export class KnightRollDialog extends Application {
     }
 
     // Si on doit ajouter chair divisé par 2... On ajoute chair divisé par 2.
-    if(typeWpn === 'contact' && isPNJ && hasAddChair && chair > 0) {
+    if((typeWpn === 'contact' && isPNJ && hasAddChair && chair > 0) || (typeWpn === 'armesimprovisees' && this.data.idWpn === 'contact' && chair > 0 && isPNJ && hasAddChair)) {
       getDgtsOtherFixeMod += Math.floor(chair/2);
 
       lDgtsOtherInclude.push({
