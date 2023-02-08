@@ -1407,7 +1407,7 @@ export class KnightRollDialog extends Application {
     const getStyle = isPNJ ? {} : getModStyle(style.raw);
     const options2mains = dataWpn?.options2mains || false;
 
-    let effetsWpn = dataWpn.effets;
+    let effetsWpn = typeWpn === 'longbow' ? {raw:dataWpn.effets.base.raw.concat(dataWpn.effets.raw), custom:dataWpn.effets.base.custom.concat(dataWpn.effets.custom)} : dataWpn.effets;
 
     if(typeWpn === 'contact' && options2mains !== false) {
       if(options2mains.has && options2mains.actuel === '2main') {effetsWpn = dataWpn.effets2mains;}
@@ -2306,7 +2306,6 @@ export class KnightRollDialog extends Application {
 
   _depensePE(actor, depense) {
     const isMA = this.data?.ma || false;
-    console.log(actor);
     const getArmure = actor.type === "knight" ? actor.items.get(actor.system.equipements.armure.id).system : actor.system;
     const remplaceEnergie = isMA ? false : getArmure.espoir.remplaceEnergie || false;
     const type = remplaceEnergie ? 'espoir' : 'energie';
