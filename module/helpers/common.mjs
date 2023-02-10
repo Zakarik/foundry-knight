@@ -822,27 +822,27 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         CAIDiceB += cAIFixe;
 
         if(cAIDCar !== '' && !isPNJ) {
-          CAIDiceT += getCaracValue(cAIDCar, this.data.actor);
+          CAIDiceT += getCaracValue(cAIDCar, actor._id);
 
-          if(cAIDOD) { CAIDiceT += getODValue(cAIDCar, this.data.actor); }
+          if(cAIDOD) { CAIDiceT += getODValue(cAIDCar, actor._id); }
         }
 
         if(cAIFCar !== '' && !isPNJ) {
-          CAIDiceB += getCaracValue(cAIFCar, this.data.actor);
+          CAIDiceB += getCaracValue(cAIFCar, actor._id);
 
-          if(cAIFOD) { CAIDiceB += getODValue(cAIFCar, this.data.actor); }
+          if(cAIFOD) { CAIDiceB += getODValue(cAIFCar, actor._id); }
         }
 
         if(cAIDCar !== '' && isPNJ) {
-          CAIDiceT += getAspectValue(cAIDAsp, this.data.actor);
+          CAIDiceT += getAspectValue(cAIDAsp, actor._id);
 
-          if(cAIDAE) { CAIDiceT += getAEValue(cAIDAsp, this.data.actor); }
+          if(cAIDAE) { CAIDiceT += getAEValue(cAIDAsp, actor._id); }
         }
 
         if(cAIFAsp !== '' && isPNJ) {
-          CAIDiceB += getAspectValue(cAIFCar, this.data.actor);
+          CAIDiceB += getAspectValue(cAIFCar, actor._id);
 
-          if(cAIFAE) { CAIDiceB += getAEValue(cAIFAsp, this.data.actor); }
+          if(cAIFAE) { CAIDiceB += getAEValue(cAIFAsp, actor._id); }
         }
 
         let sJet = ``;
@@ -881,27 +881,27 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         CDCDiceB += cDCFixe;
 
         if(cDCDCar !== '' && !isPNJ) {
-          CDCDiceT += getCaracValue(cDCDCar, this.data.actor);
+          CDCDiceT += getCaracValue(cDCDCar, actor._id);
 
-          if(cDCDOD) { CDCDiceT += getODValue(cDCDCar, this.data.actor); }
+          if(cDCDOD) { CDCDiceT += getODValue(cDCDCar, actor._id); }
         }
 
         if(cDCFCar !== '' && !isPNJ) {
-          CDCDiceB += getCaracValue(cDCFCar, this.data.actor);
+          CDCDiceB += getCaracValue(cDCFCar, actor._id);
 
-          if(cDCFOD) { CDCDiceB += getODValue(cDCFCar, this.data.actor); }
+          if(cDCFOD) { CDCDiceB += getODValue(cDCFCar, actor._id); }
         }
 
         if(cDCDAsp !== '' && isPNJ) {
-          CDCDiceT += getAspectValue(cDCDAsp, this.data.actor);
+          CDCDiceT += getAspectValue(cDCDAsp, actor._id);
 
-          if(cDCDAE) { CDCDiceT += getAEValue(cDCDAsp, this.data.actor); }
+          if(cDCDAE) { CDCDiceT += getAEValue(cDCDAsp, actor._id); }
         }
 
         if(cDCFAsp !== '' && isPNJ) {
-          CDCDiceB += getCaracValue(cDCFAsp, this.data.actor);
+          CDCDiceB += getCaracValue(cDCFAsp, actor._id);
 
-          if(cDCFAE) { CDCDiceB += getAEValue(cDCFAsp, this.data.actor); }
+          if(cDCFAE) { CDCDiceB += getAEValue(cDCFAsp, actor._id); }
         }
 
         if(CDCDiceT > 0) {
@@ -950,27 +950,27 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         CDIDiceB += cDIFixe;
 
         if(cDIDCar !== '' && !isPNJ) {
-          CDIDiceT += getCaracValue(cDIDCar, this.data.actor);
+          CDIDiceT += getCaracValue(cDIDCar, actor._id);
 
-          if(cDIDOD) { CDIDiceT += getODValue(cDIDCar, this.data.actor); }
+          if(cDIDOD) { CDIDiceT += getODValue(cDIDCar, actor._id); }
         }
 
         if(cDIFCar !== '' && !isPNJ) {
-          CDIDiceB += getCaracValue(cDIFCar, this.data.actor);
+          CDIDiceB += getCaracValue(cDIFCar, actor._id);
 
-          if(cDIFOD) { CDIDiceB += getODValue(cDIFCar, this.data.actor); }
+          if(cDIFOD) { CDIDiceB += getODValue(cDIFCar, actor._id); }
         }
 
         if(cDIDAsp !== '' && isPNJ) {
-          CDIDiceT += getAspectValue(cDIDAsp, this.data.actor);
+          CDIDiceT += getAspectValue(cDIDAsp, actor._id);
 
-          if(cDIDAE) { CDIDiceT += getAEValue(cDIDAsp, this.data.actor); }
+          if(cDIDAE) { CDIDiceT += getAEValue(cDIDAsp, actor._id); }
         }
 
         if(cDIFAsp !== '' && isPNJ) {
-          CDIDiceB += getAspectValue(cDIFAsp, this.data.actor);
+          CDIDiceB += getAspectValue(cDIFAsp, actor._id);
 
-          if(cDIFAE) { CDIDiceB += getAEValue(cDIFAsp, this.data.actor); }
+          if(cDIFAE) { CDIDiceB += getAEValue(cDIFAsp, actor._id); }
         }
 
         let sJet = ``;
@@ -1009,27 +1009,27 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         CVCDiceB += cVCFixe;
 
         if(cVCDCar !== '' && !isPNJ) {
-          CVCDiceT += getCaracValue(cVCDCar, this.data.actor);
+          CVCDiceT += getCaracValue(cVCDCar, actor._id);
 
-          if(cVCDOD) { CVCDiceT += getODValue(cVCDCar, this.data.actor); }
+          if(cVCDOD) { CVCDiceT += getODValue(cVCDCar, actor._id); }
         }
 
         if(cVCFCar !== '' && !isPNJ) {
-          CVCDiceB += getCaracValue(cVCFCar, this.data.actor);
+          CVCDiceB += getCaracValue(cVCFCar, actor._id);
 
-          if(cVCFOD) { CVCDiceB += getODValue(cVCFCar, this.data.actor); }
+          if(cVCFOD) { CVCDiceB += getODValue(cVCFCar, actor._id); }
         }
 
         if(cVCDAsp !== '' && isPNJ) {
-          CVCDiceT += getAspectValue(cVCDAsp, this.data.actor);
+          CVCDiceT += getAspectValue(cVCDAsp, actor._id);
 
-          if(cVCDAE) { CVCDiceT += getAEValue(cVCDAsp, this.data.actor); }
+          if(cVCDAE) { CVCDiceT += getAEValue(cVCDAsp, actor._id); }
         }
 
         if(cVCFAsp !== '' && isPNJ) {
-          CVCDiceB += getAspectValue(cVCFAsp, this.data.actor);
+          CVCDiceB += getAspectValue(cVCFAsp, actor._id);
 
-          if(cVCFAE) { CVCDiceB += getAEValue(cVCFAsp, this.data.actor); }
+          if(cVCFAE) { CVCDiceB += getAEValue(cVCFAsp, actor._id); }
         }
 
         if(CVCDiceT > 0) {
@@ -1078,27 +1078,27 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         CVIDiceB += cVIFixe;
 
         if(cVIDCar !== '' && !isPNJ) {
-          CVIDiceT += getCaracValue(cVIDCar, this.data.actor);
+          CVIDiceT += getCaracValue(cVIDCar, actor._id);
 
-          if(cVIDOD) { CVIDiceT += getODValue(cVIDCar, this.data.actor); }
+          if(cVIDOD) { CVIDiceT += getODValue(cVIDCar, actor._id); }
         }
 
         if(cVIFCar !== '' && !isPNJ) {
-          CVIDiceB += getCaracValue(cVIFCar, this.data.actor);
+          CVIDiceB += getCaracValue(cVIFCar, actor._id);
 
-          if(cVIFOD) { CVIDiceB += getODValue(cVIFCar, this.data.actor); }
+          if(cVIFOD) { CVIDiceB += getODValue(cVIFCar, actor._id); }
         }
 
         if(cVIDAsp !== '' && isPNJ) {
-          CVIDiceT += getAspectValue(cVIDAsp, this.data.actor);
+          CVIDiceT += getAspectValue(cVIDAsp, actor._id);
 
-          if(cVIDAE) { CVIDiceT += getAEValue(cVIDAsp, this.data.actor); }
+          if(cVIDAE) { CVIDiceT += getAEValue(cVIDAsp, actor._id); }
         }
 
         if(cVIFAsp !== '' && isPNJ) {
-          CVIDiceB += getAspectValue(cVIFAsp, this.data.actor);
+          CVIDiceB += getAspectValue(cVIFAsp, actor._id);
 
-          if(cVIFAE) { CVIDiceB += getAEValue(cVIFAsp, this.data.actor); }
+          if(cVIFAE) { CVIDiceB += getAEValue(cVIFAsp, actor._id); }
         }
 
         let sJet = ``;
@@ -1203,932 +1203,932 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
 }
 
 export async function getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, isPNJ = false) {
-const sIAttack = [];
-const sPAttack = [];
-const sSAttack = [];
-
-const sPDegats = [];
-const sIDegats = [];
-const sSDegats = [];
-
-const sPViolence = [];
-const sIViolence = [];
-const sSViolence = [];
-
-const sOther = [];
-
-const minMaxDgts = {
-    minimize:false,
-    maximize:false,
-    async:true
-};
-
-const minMaxViolence = {
-    minimize:false,
-    maximize:false,
-    async:true
-};
-
-let onlyAttack = false;
-let barrageValue = 0;
-let nRoll = 1;
-
-let attackDice = 0;
-let attackBonus = 0;
-
-let dgtsDice = 0;
-let dgtsBonus = 0;
-
-let violenceDice = 0;
-let violenceBonus = 0;
-
-if(typeWpn === 'contact' || typeWpn === 'grenades' || typeWpn === 'armesimprovisees'
-|| typeWpn === 'base' || typeWpn === 'c1' || typeWpn === 'c2') return {
-    onlyAttack:onlyAttack,
-    nRoll:nRoll,
-    attack:{
-    totalDice:attackDice,
-    totalBonus:attackBonus,
-    include:sIAttack,
-    list:sSAttack,
-    },
-    degats:{
-    totalDice:dgtsDice,
-    totalBonus:dgtsBonus,
-    include:sIDegats,
-    list:sSDegats,
-    minMax:minMaxDgts,
-    },
-    violence:{
-    totalDice:violenceDice,
-    totalBonus:violenceBonus,
-    include:sIViolence,
-    list:sSViolence,
-    minMax:minMaxViolence,
-    },
-    other:sOther
-};
-
-const ghostConflit = actor?.armureData?.system?.capacites?.selected?.ghost?.active?.conflit || false;
-const ghostHConflit = actor?.armureData?.system?.capacites?.selected?.ghost?.active?.horsconflit || false;
-const ersatzRogue = actor?.moduleErsatz?.rogue?.has || false;
-
-const changelingPersonnel = actor?.armureData?.system?.capacites?.selected?.changeling?.active?.personnel || false;
-const changelingEtendue = actor?.armureData?.system?.capacites?.selected?.changeling?.active?.etendue || false;
-const ersatzBard = actor?.moduleErsatz?.bard?.has || false;
-
-const hasGhost = searchTrueValue([ghostConflit, ghostHConflit, ersatzRogue]);
-const hasChangeling = searchTrueValue([changelingPersonnel, changelingEtendue, ersatzBard]);
-
-const guidage = data.guidage;
-const tenebricide = data.tenebricide;
-const obliteration = searchTrueValue([data.obliteration, data.cranerieur]);
-const assassin = effetsWpn.raw.find(str => { if(str.includes('assassin')) return true; });
-const silencieux = effetsWpn.raw.find(str => { if(str.includes('silencieux')) return true; });
-const bourreau = effetsWpn.raw.find(str => { if(str.includes('bourreau')) return true; });
-const bourreauValue = bourreau ? bourreau.split(' ')[1] : 0;
-const devastation = effetsWpn.raw.find(str => { if(str.includes('devastation')) return true; });
-const devastationValue = devastation ? devastation.split(' ')[1] : 0;
-const regularite = effetsWpn.raw.find(str => { if(str.includes('regularite')) return true; });
-
-if(obliteration) { minMaxDgts.maximize = true; }
-
-for(let i = 0;i < distanceWpn.raw.length;i++) {
-    const string = distanceWpn.raw[i].split(' ');
-    const name = string[0].split('<space>')[0];
-    const details = [...string[0].split('<space>')].splice(1, 1).join(' ');
-    const value = string[1] === undefined ? '' : string[1];
-
-    const sub = {};
-    const subDgts = {};
-    const subViolence = {};
-
-    let priorAttack = false;
-    let includeAttack = false;
-    let seconAttack = false;
-    let priorDegats = false;
-    let includeDegats = false;
-    let seconDegats = false;
-    let priorViolence = false;
-    let includeViolence = false;
-    let seconViolence = false;
-    let other = false;
-
-    switch(name) {
-    case 'canonlong':
-        priorAttack = true;
-
-        sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-    break;
-
-    case 'canonraccourci':
-        priorAttack = true;
-
-        sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-    break;
-
-    case 'chambredouble':
-        const chambredouble = data.chambredouble;
-
-        if(chambredouble) {
-        includeAttack = true;
-
-        sub.name = `-3${game.i18n.localize('KNIGHT.JETS.Des-short')} ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-        attackDice -= 3;
-        nRoll = 2;
-        } else {
-        other = true;
-
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-        }
-        break;
-
-    case 'chargeurballesgrappes':
-      const hasGrappe = data.ameliorations.grappes;
-
-      if(hasGrappe !== false || hasGrappe === undefined) {
-        includeDegats = true;
-        includeViolence = true;
-
-        subDgts.name = `-1${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-
-        subViolence.name = `+1${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        subViolence.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-
-        dgtsDice -= 1;
-        violenceDice += 1;
-      } else {
-        other = true;
-
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-      }
-    break;
-
-    case 'chargeurmunitionsexplosives':
-      const hasExplosive = data.ameliorations.explosives;
-
-      if(hasExplosive !== false || hasExplosive === undefined) {
-        includeDegats = true;
-        includeViolence = true;
-
-        subDgts.name = `+1${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-
-        subViolence.name = `-1${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        subViolence.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-
-        dgtsDice += 1;
-        violenceDice -= 1;
-      } else {
-        other = true;
-
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-      }
-    break;
-
-    case 'interfaceguidage':
-        includeAttack = true;
-
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-    break;
-
-    case 'jumelageakimbo':
-        if(typeWpn === 'tourelle' || isPNJ) other = true;
-        else includeAttack = true;
-
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} ${details} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-    break;
-
-    case 'jumelageambidextrie':
-        if(!data.jumelageambidextrie || typeWpn === 'tourelle' || isPNJ) other = true;
-        else if(data.jumelageambidextrie) includeAttack = true;
-        else other = true;
-
-        if(other) {
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} ${details}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-        } else {
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} ${details} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-        }
-    break;
-
-    case 'lunetteintelligente':
-        priorAttack = true;
-
-        sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-    break;
-
-    case 'munitionshypervelocite':
-      const hasHVelocite = data.ameliorations.hypervelocite;
-
-      if(hasHVelocite !== false || hasHVelocite === undefined) {
-        priorAttack = true;
-
-        sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-      } else {
-        other = true;
-
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-      }
-    break;
-
-    case 'munitionsdrones':
-      const hasHDrones = data.ameliorations.drones;
-
-      if(hasHDrones !== false || hasHDrones === undefined) {
-        includeAttack = true;
-
-        sub.name = `+3 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-
-        attackBonus += 3;
-      } else {
-        other = true;
-
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-      }
-    break;
-
-    case 'pointeurlaser':
-        includeAttack = true;
-
-        sub.name = `+1 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-
-        attackBonus += 1;
-    break;
-
-    case 'munitionsiem':
-      const hasIEM = data.ameliorations.iem;
-
-      if(hasIEM !== false || hasIEM === undefined) {
-        priorAttack = true;
-        includeDegats = true;
-        includeViolence = true;
-
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-
-        subDgts.name = `-1${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-
-        subViolence.name = `-1${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        subViolence.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-
-        dgtsDice -= 1;
-        violenceDice -= 1;
-      } else {
-        other = true;
-
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-      }
-    break;
-
-    case 'munitionsnonletales':
-      const haNLetales = data.ameliorations.nonletales;
-
-      if(haNLetales !== false || haNLetales === undefined) {
-        seconDegats = true;
-        seconViolence = true;
-
-        subDgts.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-
-        subViolence.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        subViolence.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-      } else {
-        other = true;
-
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-      }
-    break;
-
-    case 'munitionssubsoniques':
-      const haSubsoniques = data.ameliorations.subsoniques;
-
-      if(haSubsoniques !== false || haSubsoniques === undefined) {
-        if(typeWpn === 'tourelle') {
+  const sIAttack = [];
+  const sPAttack = [];
+  const sSAttack = [];
+
+  const sPDegats = [];
+  const sIDegats = [];
+  const sSDegats = [];
+
+  const sPViolence = [];
+  const sIViolence = [];
+  const sSViolence = [];
+
+  const sOther = [];
+
+  const minMaxDgts = {
+      minimize:false,
+      maximize:false,
+      async:true
+  };
+
+  const minMaxViolence = {
+      minimize:false,
+      maximize:false,
+      async:true
+  };
+
+  let onlyAttack = false;
+  let barrageValue = 0;
+  let nRoll = 1;
+
+  let attackDice = 0;
+  let attackBonus = 0;
+
+  let dgtsDice = 0;
+  let dgtsBonus = 0;
+
+  let violenceDice = 0;
+  let violenceBonus = 0;
+
+  if(typeWpn === 'contact' || typeWpn === 'grenades' || typeWpn === 'armesimprovisees'
+  || typeWpn === 'base' || typeWpn === 'c1' || typeWpn === 'c2') return {
+      onlyAttack:onlyAttack,
+      nRoll:nRoll,
+      attack:{
+      totalDice:attackDice,
+      totalBonus:attackBonus,
+      include:sIAttack,
+      list:sSAttack,
+      },
+      degats:{
+      totalDice:dgtsDice,
+      totalBonus:dgtsBonus,
+      include:sIDegats,
+      list:sSDegats,
+      minMax:minMaxDgts,
+      },
+      violence:{
+      totalDice:violenceDice,
+      totalBonus:violenceBonus,
+      include:sIViolence,
+      list:sSViolence,
+      minMax:minMaxViolence,
+      },
+      other:sOther
+  };
+
+  const ghostConflit = actor?.armureData?.system?.capacites?.selected?.ghost?.active?.conflit || false;
+  const ghostHConflit = actor?.armureData?.system?.capacites?.selected?.ghost?.active?.horsconflit || false;
+  const ersatzRogue = actor?.moduleErsatz?.rogue?.has || false;
+
+  const changelingPersonnel = actor?.armureData?.system?.capacites?.selected?.changeling?.active?.personnel || false;
+  const changelingEtendue = actor?.armureData?.system?.capacites?.selected?.changeling?.active?.etendue || false;
+  const ersatzBard = actor?.moduleErsatz?.bard?.has || false;
+
+  const hasGhost = searchTrueValue([ghostConflit, ghostHConflit, ersatzRogue]);
+  const hasChangeling = searchTrueValue([changelingPersonnel, changelingEtendue, ersatzBard]);
+
+  const guidage = data.guidage;
+  const tenebricide = data.tenebricide;
+  const obliteration = searchTrueValue([data.obliteration, data.cranerieur]);
+  const assassin = effetsWpn.raw.find(str => { if(str.includes('assassin')) return true; });
+  const silencieux = effetsWpn.raw.find(str => { if(str.includes('silencieux')) return true; });
+  const bourreau = effetsWpn.raw.find(str => { if(str.includes('bourreau')) return true; });
+  const bourreauValue = bourreau ? bourreau.split(' ')[1] : 0;
+  const devastation = effetsWpn.raw.find(str => { if(str.includes('devastation')) return true; });
+  const devastationValue = devastation ? devastation.split(' ')[1] : 0;
+  const regularite = effetsWpn.raw.find(str => { if(str.includes('regularite')) return true; });
+
+  if(obliteration) { minMaxDgts.maximize = true; }
+
+  for(let i = 0;i < distanceWpn.raw.length;i++) {
+      const string = distanceWpn.raw[i].split(' ');
+      const name = string[0].split('<space>')[0];
+      const details = [...string[0].split('<space>')].splice(1, 1).join(' ');
+      const value = string[1] === undefined ? '' : string[1];
+
+      const sub = {};
+      const subDgts = {};
+      const subViolence = {};
+
+      let priorAttack = false;
+      let includeAttack = false;
+      let seconAttack = false;
+      let priorDegats = false;
+      let includeDegats = false;
+      let seconDegats = false;
+      let priorViolence = false;
+      let includeViolence = false;
+      let seconViolence = false;
+      let other = false;
+
+      switch(name) {
+      case 'canonlong':
+          priorAttack = true;
+
+          sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+      break;
+
+      case 'canonraccourci':
+          priorAttack = true;
+
+          sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+      break;
+
+      case 'chambredouble':
+          const chambredouble = data.chambredouble;
+
+          if(chambredouble) {
+          includeAttack = true;
+
+          sub.name = `-3${game.i18n.localize('KNIGHT.JETS.Des-short')} ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+          attackDice -= 3;
+          nRoll = 2;
+          } else {
           other = true;
+
           sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
           sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+          }
+          break;
+
+      case 'chargeurballesgrappes':
+        const hasGrappe = data.ameliorations.grappes;
+
+        if(hasGrappe !== false || hasGrappe === undefined) {
+          includeDegats = true;
+          includeViolence = true;
+
+          subDgts.name = `-1${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+
+          subViolence.name = `+1${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          subViolence.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+
+          dgtsDice -= 1;
+          violenceDice += 1;
         } else {
-          if(!silencieux) {
-            const discretion = isPNJ ? +actor.system.aspects.masque.value : +actor.system.aspects.masque.caracteristiques.discretion.value;
-            const discretionOD = isPNJ ? +actor.system.aspects.masque.ae.mineur.value + +actor.system.aspects.masque.ae.majeur.value : +actor.system.aspects.masque.caracteristiques.discretion.overdrive.value;
+          other = true;
 
-            if((hasGhost && !isPNJ) || (hasChangeling && isPNJ)) {
-                includeDegats = true;
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+        }
+      break;
 
-                subDgts.name = `+${discretion+discretionOD} ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-                subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+      case 'chargeurmunitionsexplosives':
+        const hasExplosive = data.ameliorations.explosives;
 
-                dgtsBonus += discretion+discretionOD;
-            } else {
-                priorDegats = true;
+        if(hasExplosive !== false || hasExplosive === undefined) {
+          includeDegats = true;
+          includeViolence = true;
 
-                subDgts.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-                subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-                subDgts.total = discretion+discretionOD;
-            }
+          subDgts.name = `+1${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+
+          subViolence.name = `-1${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          subViolence.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+
+          dgtsDice += 1;
+          violenceDice -= 1;
+        } else {
+          other = true;
+
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+        }
+      break;
+
+      case 'interfaceguidage':
+          includeAttack = true;
+
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+      break;
+
+      case 'jumelageakimbo':
+          if(typeWpn === 'tourelle' || isPNJ) other = true;
+          else includeAttack = true;
+
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} ${details} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+      break;
+
+      case 'jumelageambidextrie':
+          if(!data.jumelageambidextrie || typeWpn === 'tourelle' || isPNJ) other = true;
+          else if(data.jumelageambidextrie) includeAttack = true;
+          else other = true;
+
+          if(other) {
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} ${details}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
           } else {
-            other = true;
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} ${details} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+          }
+      break;
 
+      case 'lunetteintelligente':
+          priorAttack = true;
+
+          sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+      break;
+
+      case 'munitionshypervelocite':
+        const hasHVelocite = data.ameliorations.hypervelocite;
+
+        if(hasHVelocite !== false || hasHVelocite === undefined) {
+          priorAttack = true;
+
+          sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+        } else {
+          other = true;
+
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+        }
+      break;
+
+      case 'munitionsdrones':
+        const hasHDrones = data.ameliorations.drones;
+
+        if(hasHDrones !== false || hasHDrones === undefined) {
+          includeAttack = true;
+
+          sub.name = `+3 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+
+          attackBonus += 3;
+        } else {
+          other = true;
+
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+        }
+      break;
+
+      case 'pointeurlaser':
+          includeAttack = true;
+
+          sub.name = `+1 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+
+          attackBonus += 1;
+      break;
+
+      case 'munitionsiem':
+        const hasIEM = data.ameliorations.iem;
+
+        if(hasIEM !== false || hasIEM === undefined) {
+          priorAttack = true;
+          includeDegats = true;
+          includeViolence = true;
+
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+
+          subDgts.name = `-1${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+
+          subViolence.name = `-1${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          subViolence.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+
+          dgtsDice -= 1;
+          violenceDice -= 1;
+        } else {
+          other = true;
+
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+        }
+      break;
+
+      case 'munitionsnonletales':
+        const haNLetales = data.ameliorations.nonletales;
+
+        if(haNLetales !== false || haNLetales === undefined) {
+          seconDegats = true;
+          seconViolence = true;
+
+          subDgts.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+
+          subViolence.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          subViolence.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+        } else {
+          other = true;
+
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+        }
+      break;
+
+      case 'munitionssubsoniques':
+        const haSubsoniques = data.ameliorations.subsoniques;
+
+        if(haSubsoniques !== false || haSubsoniques === undefined) {
+          if(typeWpn === 'tourelle') {
+            other = true;
             sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
             sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+          } else {
+            if(!silencieux) {
+              const discretion = isPNJ ? +actor.system.aspects.masque.value : +actor.system.aspects.masque.caracteristiques.discretion.value;
+              const discretionOD = isPNJ ? +actor.system.aspects.masque.ae.mineur.value + +actor.system.aspects.masque.ae.majeur.value : +actor.system.aspects.masque.caracteristiques.discretion.overdrive.value;
+
+              if((hasGhost && !isPNJ) || (hasChangeling && isPNJ)) {
+                  includeDegats = true;
+
+                  subDgts.name = `+${discretion+discretionOD} ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+                  subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+
+                  dgtsBonus += discretion+discretionOD;
+              } else {
+                  priorDegats = true;
+
+                  subDgts.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+                  subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+                  subDgts.total = discretion+discretionOD;
+              }
+            } else {
+              other = true;
+
+              sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+              sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+            }
           }
+        } else {
+          other = true;
+
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
         }
-      } else {
-        other = true;
+          break;
 
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+      case 'protectionarme':
+      case 'structurealpha':
+          other = true;
+
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+          break;
+
+      case 'revetementomega':
+          const vAssassin = +assassin?.split(' ')[1] || false;
+
+          if(!assassin) {
+          priorDegats = true;
+
+          const aSDice = tenebricide === true ? Math.floor(value/2) : value;
+
+          const aSub = new game.knight.RollKnight(`${aSDice}D6`, actor.system);
+          aSub._success = false;
+          aSub._hasMin = bourreau ? true : false;
+
+          if(bourreau) {
+              aSub._seuil = bourreauValue;
+              aSub._min = 4;
+          }
+          await aSub.evaluate(minMaxDgts);
+
+          subDgts.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} ${value}`;
+          subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+          subDgts.tooltip = await aSub.getTooltip();
+          subDgts.total = aSub._total;
+          subDgts.formula = aSub._formula;
+          } else {
+          if(vAssassin >= 2) {
+              other = true;
+
+              sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+              sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+          } else {
+              priorDegats = true;
+
+              const aSDice = tenebricide === true ? Math.floor(value/2) : value;
+
+              const aSub = new game.knight.RollKnight(`${aSDice}D6`, actor.system);
+              aSub._success = false;
+              aSub._hasMin = bourreau ? true : false;
+
+              if(bourreau) {
+              aSub._seuil = bourreauValue;
+              aSub._min = 4;
+              }
+              await aSub.evaluate(minMaxDgts);
+
+              subDgts.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} ${value}`;
+              subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+              subDgts.tooltip = await aSub.getTooltip();
+              subDgts.total = aSub._total;
+              subDgts.formula = aSub._formula;
+          }
+          }
+          break;
+
+      case 'systemerefroidissement':
+          if(!data.systemerefroidissement) {
+          other = true;
+
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+          } else {
+          barrageValue = 1;
+          onlyAttack = true;
+          }
+          break;
       }
-        break;
 
-    case 'protectionarme':
-    case 'structurealpha':
-        other = true;
+      if(includeAttack) { sIAttack.push(sub); } else
+      if(priorAttack) { sPAttack.push(sub); } else
+      if(seconAttack) { sSAttack.push(sub); }
 
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-        break;
+      if(includeDegats) { sIDegats.push(subDgts); } else
+      if(priorDegats) { sPDegats.push(subDgts); } else
+      if(seconDegats) { sSDegats.push(subDgts); }
 
-    case 'revetementomega':
-        const vAssassin = +assassin?.split(' ')[1] || false;
+      if(includeViolence) { sIViolence.push(subViolence); } else
+      if(priorViolence) { sPViolence.push(subViolence); } else
+      if(seconViolence) { sSViolence.push(subViolence); }
 
-        if(!assassin) {
+      if(other) { sOther.push(sub); }
+  }
+
+  for(let i = 0;i < distanceWpn.custom.length;i++) {
+      const data = distanceWpn.custom[i];
+      const dataAttack = data.attaque;
+      const dataDegats = data.degats;
+      const dataViolence = data.violence;
+
+      const name = data.label;
+      const description = data.description;
+      const subAttack = {};
+      const subDegats = {};
+      const subViolence = {};
+      const subOther = {};
+
+      let priorAttack = false;
+      let includeAttack = false;
+      let seconAttack = false;
+      let priorDegats = false;
+      let includeDegats = false;
+      let seconDegats = false;
+      let priorViolence = false;
+      let includeViolence = false;
+      let seconViolence = false;
+      let other = false;
+
+      if(dataAttack.conditionnel.has) {
+        priorAttack = true;
+
+        const cACDice = dataAttack.jet;
+        const cACFixe = dataAttack.reussite;
+
+        const cACDCar = dataAttack.carac.jet;
+        const cACFCar = dataAttack.carac.fixe;
+        const cACDAsp = dataAttack.aspect.jet;
+        const cACFAsp = dataAttack.aspect.fixe;
+        const cACDOD = dataAttack.carac.odInclusJet;
+        const cACFOD = dataAttack.carac.odInclusFixe;
+        const cACDAE = dataAttack.aspect.aeInclusJet;
+        const cACFAE = dataAttack.aspect.aeInclusFixe;
+
+        let CACDiceT = 0;
+        let CACDiceB = 0;
+
+        CACDiceT += cACDice;
+        CACDiceB += cACFixe;
+
+        if(cACDCar !== '' && !isPNJ) {
+          CACDiceT += getCaracValue(cACDCar, actor._id);
+
+          if(cACDOD) { CACDiceT += getODValue(cACDCar, actor._id); }
+        }
+
+        if(cACFCar !== '' && !isPNJ) {
+          CACDiceB += getCaracValue(cACFCar, actor._id);
+
+          if(cACFOD) { CACDiceB += getODValue(cACFCar, actor._id); }
+        }
+
+        if(cACDAsp !== '' && isPNJ) {
+          CACDiceT += getAspectValue(cACDAsp, actor._id);
+
+          if(cACDAE) { CACDiceT += getAEValue(cACDAsp, actor._id); }
+        }
+
+        if(cACFAsp !== '' && isPNJ) {
+          CACDiceB += getAspectValue(cACFAsp, actor._id);
+
+          if(cACFAE) { CACDiceB += getAEValue(cACFCar, actor._id); }
+        }
+
+        if(CACDiceT > 0) {
+          const sJet = CACDiceB > 0 ? `${CACDiceT}D6+${CACDiceB}` : `${CACDiceT}D6`;
+          const sDJet = CACDiceB > 0 ? `${CACDiceT}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 + ${CACDiceB}` : `${CACDiceT}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+
+          const cACSub = new game.knight.RollKnight(sJet, actor.system);
+          cACSub._success = true;
+          cACSub._pairOrImpair = guidage ? 1 : 0;
+          cACSub._details = sDJet;
+          await cACSub.evaluateSuccess();
+
+          subAttack.name = `+ ${name}`;
+          subAttack.desc = dataAttack.conditionnel.condition;
+          subAttack.tooltip = await cACSub.getTooltip();
+          subAttack.total = cACSub._totalSuccess;
+          subAttack.formula = cACSub._formula;
+        } else if(CACDiceB > 0) {
+          subAttack.name = `+ ${name}`;
+          subAttack.desc = dataAttack.conditionnel.condition;
+          subAttack.total = CACDiceB;
+        }
+      } else if(dataAttack.jet !== 0 || dataAttack.reussite !== 0 || dataAttack.carac.jet !== '' || dataAttack.carac.fixe !== ''|| dataAttack.aspect.jet !== '' || dataAttack.aspect.fixe !== '') {
+        includeAttack = true;
+
+        const cAIDice = dataAttack.jet;
+        const cAIFixe = dataAttack.reussite;
+
+        const cAIDCar = dataAttack.carac.jet;
+        const cAIFCar = dataAttack.carac.fixe;
+        const cAIFOD = dataAttack.carac.odInclusFixe;
+        const cAIDOD = dataAttack.carac.odInclusJet;
+        const cAIDAsp = dataAttack.aspect.jet;
+        const cAIFAsp = dataAttack.aspect.fixe;
+        const cAIFAE = dataAttack.aspect.odInclusFixe;
+        const cAIDAE = dataAttack.aspect.odInclusJet;
+
+        let CAIDiceT = 0;
+        let CAIDiceB = 0;
+
+        CAIDiceT += cAIDice;
+        CAIDiceB += cAIFixe;
+
+        if(cAIDCar !== '' && !isPNJ) {
+          CAIDiceT += getCaracValue(cAIDCar, actor._id);
+
+          if(cAIDOD) { CAIDiceT += getODValue(cAIDCar, actor._id); }
+        }
+
+        if(cAIFCar !== '' && !isPNJ) {
+          CAIDiceB += getCaracValue(cAIFCar, actor._id);
+
+          if(cAIFOD) { CAIDiceB += getODValue(cAIFCar, actor._id); }
+        }
+
+        if(cAIDCar !== '' && isPNJ) {
+          CAIDiceT += getAspectValue(cAIDAsp, actor._id);
+
+          if(cAIDAE) { CAIDiceT += getAEValue(cAIDAsp, actor._id); }
+        }
+
+        if(cAIFAsp !== '' && isPNJ) {
+          CAIDiceB += getAspectValue(cAIFCar, actor._id);
+
+          if(cAIFAE) { CAIDiceB += getAEValue(cAIFAsp, actor._id); }
+        }
+
+        let sJet = ``;
+        if(CAIDiceT > 0) { sJet += `${CAIDiceT}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`; }
+        if(CAIDiceT > 0 && CAIDiceB > 0) { sJet += `+${CAIDiceB}`; }
+        if(CAIDiceT === 0 && CAIDiceB > 0) { sJet += `${CAIDiceB}`; }
+
+        if(sJet !== '') {
+          subAttack.name = `+${sJet} ${name} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          subAttack.desc = description;
+
+          attackDice += CAIDiceT;
+          attackBonus += CAIDiceB;
+        }
+      }
+
+      if(dataDegats.conditionnel.has) {
         priorDegats = true;
 
-        const aSDice = tenebricide === true ? Math.floor(value/2) : value;
-
-        const aSub = new game.knight.RollKnight(`${aSDice}D6`, actor.system);
-        aSub._success = false;
-        aSub._hasMin = bourreau ? true : false;
-
-        if(bourreau) {
-            aSub._seuil = bourreauValue;
-            aSub._min = 4;
-        }
-        await aSub.evaluate(minMaxDgts);
-
-        subDgts.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} ${value}`;
-        subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-        subDgts.tooltip = await aSub.getTooltip();
-        subDgts.total = aSub._total;
-        subDgts.formula = aSub._formula;
-        } else {
-        if(vAssassin >= 2) {
-            other = true;
-
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-        } else {
-            priorDegats = true;
-
-            const aSDice = tenebricide === true ? Math.floor(value/2) : value;
-
-            const aSub = new game.knight.RollKnight(`${aSDice}D6`, actor.system);
-            aSub._success = false;
-            aSub._hasMin = bourreau ? true : false;
-
-            if(bourreau) {
-            aSub._seuil = bourreauValue;
-            aSub._min = 4;
-            }
-            await aSub.evaluate(minMaxDgts);
-
-            subDgts.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} ${value}`;
-            subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-            subDgts.tooltip = await aSub.getTooltip();
-            subDgts.total = aSub._total;
-            subDgts.formula = aSub._formula;
-        }
-        }
-        break;
-
-    case 'systemerefroidissement':
-        if(!data.systemerefroidissement) {
-        other = true;
-
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-        sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
-        } else {
-        barrageValue = 1;
-        onlyAttack = true;
-        }
-        break;
-    }
-
-    if(includeAttack) { sIAttack.push(sub); } else
-    if(priorAttack) { sPAttack.push(sub); } else
-    if(seconAttack) { sSAttack.push(sub); }
-
-    if(includeDegats) { sIDegats.push(subDgts); } else
-    if(priorDegats) { sPDegats.push(subDgts); } else
-    if(seconDegats) { sSDegats.push(subDgts); }
-
-    if(includeViolence) { sIViolence.push(subViolence); } else
-    if(priorViolence) { sPViolence.push(subViolence); } else
-    if(seconViolence) { sSViolence.push(subViolence); }
-
-    if(other) { sOther.push(sub); }
-}
-
-for(let i = 0;i < distanceWpn.custom.length;i++) {
-    const data = distanceWpn.custom[i];
-    const dataAttack = data.attaque;
-    const dataDegats = data.degats;
-    const dataViolence = data.violence;
-
-    const name = data.label;
-    const description = data.description;
-    const subAttack = {};
-    const subDegats = {};
-    const subViolence = {};
-    const subOther = {};
-
-    let priorAttack = false;
-    let includeAttack = false;
-    let seconAttack = false;
-    let priorDegats = false;
-    let includeDegats = false;
-    let seconDegats = false;
-    let priorViolence = false;
-    let includeViolence = false;
-    let seconViolence = false;
-    let other = false;
-
-    if(dataAttack.conditionnel.has) {
-      priorAttack = true;
-
-      const cACDice = dataAttack.jet;
-      const cACFixe = dataAttack.reussite;
-
-      const cACDCar = dataAttack.carac.jet;
-      const cACFCar = dataAttack.carac.fixe;
-      const cACDAsp = dataAttack.aspect.jet;
-      const cACFAsp = dataAttack.aspect.fixe;
-      const cACDOD = dataAttack.carac.odInclusJet;
-      const cACFOD = dataAttack.carac.odInclusFixe;
-      const cACDAE = dataAttack.aspect.aeInclusJet;
-      const cACFAE = dataAttack.aspect.aeInclusFixe;
-
-      let CACDiceT = 0;
-      let CACDiceB = 0;
-
-      CACDiceT += cACDice;
-      CACDiceB += cACFixe;
-
-      if(cACDCar !== '' && !isPNJ) {
-        CACDiceT += getCaracValue(cACDCar, this.data.actor);
-
-        if(cACDOD) { CACDiceT += getODValue(cACDCar, this.data.actor); }
-      }
-
-      if(cACFCar !== '' && !isPNJ) {
-        CACDiceB += getCaracValue(cACFCar, this.data.actor);
-
-        if(cACFOD) { CACDiceB += getODValue(cACFCar, this.data.actor); }
-      }
-
-      if(cACDAsp !== '' && isPNJ) {
-        CACDiceT += getAspectValue(cACDAsp, this.data.actor);
-
-        if(cACDAE) { CACDiceT += getAEValue(cACDAsp, this.data.actor); }
-      }
-
-      if(cACFAsp !== '' && isPNJ) {
-        CACDiceB += getAspectValue(cACFAsp, this.data.actor);
-
-        if(cACFAE) { CACDiceB += getAEValue(cACFCar, this.data.actor); }
-      }
-
-      if(CACDiceT > 0) {
-        const sJet = CACDiceB > 0 ? `${CACDiceT}D6+${CACDiceB}` : `${CACDiceT}D6`;
-        const sDJet = CACDiceB > 0 ? `${CACDiceT}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 + ${CACDiceB}` : `${CACDiceT}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
-
-        const cACSub = new game.knight.RollKnight(sJet, actor.system);
-        cACSub._success = true;
-        cACSub._pairOrImpair = guidage ? 1 : 0;
-        cACSub._details = sDJet;
-        await cACSub.evaluateSuccess();
-
-        subAttack.name = `+ ${name}`;
-        subAttack.desc = dataAttack.conditionnel.condition;
-        subAttack.tooltip = await cACSub.getTooltip();
-        subAttack.total = cACSub._totalSuccess;
-        subAttack.formula = cACSub._formula;
-      } else if(CACDiceB > 0) {
-        subAttack.name = `+ ${name}`;
-        subAttack.desc = dataAttack.conditionnel.condition;
-        subAttack.total = CACDiceB;
-      }
-    } else if(dataAttack.jet !== 0 || dataAttack.reussite !== 0 || dataAttack.carac.jet !== '' || dataAttack.carac.fixe !== ''|| dataAttack.aspect.jet !== '' || dataAttack.aspect.fixe !== '') {
-      includeAttack = true;
-
-      const cAIDice = dataAttack.jet;
-      const cAIFixe = dataAttack.reussite;
-
-      const cAIDCar = dataAttack.carac.jet;
-      const cAIFCar = dataAttack.carac.fixe;
-      const cAIFOD = dataAttack.carac.odInclusFixe;
-      const cAIDOD = dataAttack.carac.odInclusJet;
-      const cAIDAsp = dataAttack.aspect.jet;
-      const cAIFAsp = dataAttack.aspect.fixe;
-      const cAIFAE = dataAttack.aspect.odInclusFixe;
-      const cAIDAE = dataAttack.aspect.odInclusJet;
-
-      let CAIDiceT = 0;
-      let CAIDiceB = 0;
-
-      CAIDiceT += cAIDice;
-      CAIDiceB += cAIFixe;
-
-      if(cAIDCar !== '' && !isPNJ) {
-        CAIDiceT += getCaracValue(cAIDCar, this.data.actor);
-
-        if(cAIDOD) { CAIDiceT += getODValue(cAIDCar, this.data.actor); }
-      }
-
-      if(cAIFCar !== '' && !isPNJ) {
-        CAIDiceB += getCaracValue(cAIFCar, this.data.actor);
-
-        if(cAIFOD) { CAIDiceB += getODValue(cAIFCar, this.data.actor); }
-      }
-
-      if(cAIDCar !== '' && isPNJ) {
-        CAIDiceT += getAspectValue(cAIDAsp, this.data.actor);
-
-        if(cAIDAE) { CAIDiceT += getAEValue(cAIDAsp, this.data.actor); }
-      }
-
-      if(cAIFAsp !== '' && isPNJ) {
-        CAIDiceB += getAspectValue(cAIFCar, this.data.actor);
-
-        if(cAIFAE) { CAIDiceB += getAEValue(cAIFAsp, this.data.actor); }
-      }
-
-      let sJet = ``;
-      if(CAIDiceT > 0) { sJet += `${CAIDiceT}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`; }
-      if(CAIDiceT > 0 && CAIDiceB > 0) { sJet += `+${CAIDiceB}`; }
-      if(CAIDiceT === 0 && CAIDiceB > 0) { sJet += `${CAIDiceB}`; }
-
-      if(sJet !== '') {
-        subAttack.name = `+${sJet} ${name} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        subAttack.desc = description;
-
-        attackDice += CAIDiceT;
-        attackBonus += CAIDiceB;
-      }
-    }
-
-    if(dataDegats.conditionnel.has) {
-      priorDegats = true;
-
-      const cDCDice = dataDegats.jet;
-      const cDCFixe = dataDegats.fixe;
-
-      const cDCDCar = dataDegats.carac.jet;
-      const cDCFCar = dataDegats.carac.fixe;
-      const cDCDOD = dataDegats.carac.odInclusJet;
-      const cDCFOD = dataDegats.carac.odInclusFixe;
-      const cDCDAsp = dataDegats.aspect.jet;
-      const cDCFAsp = dataDegats.aspect.fixe;
-      const cDCDAE = dataDegats.aspect.odInclusJet;
-      const cDCFAE = dataDegats.aspect.odInclusFixe;
-
-      let CDCDiceT = 0;
-      let CDCDiceB = 0;
-
-      CDCDiceT += cDCDice;
-      CDCDiceB += cDCFixe;
-
-      if(cDCDCar !== '' && !isPNJ) {
-        CDCDiceT += getCaracValue(cDCDCar, this.data.actor);
-
-        if(cDCDOD) { CDCDiceT += getODValue(cDCDCar, this.data.actor); }
-      }
-
-      if(cDCFCar !== '' && !isPNJ) {
-        CDCDiceB += getCaracValue(cDCFCar, this.data.actor);
-
-        if(cDCFOD) { CDCDiceB += getODValue(cDCFCar, this.data.actor); }
-      }
-
-      if(cDCDAsp !== '' && isPNJ) {
-        CDCDiceT += getAspectValue(cDCDAsp, this.data.actor);
-
-        if(cDCDAE) { CDCDiceT += getAEValue(cDCDAsp, this.data.actor); }
-      }
-
-      if(cDCFAsp !== '' && isPNJ) {
-        CDCDiceB += getCaracValue(cDCFAsp, this.data.actor);
-
-        if(cDCFAE) { CDCDiceB += getAEValue(cDCFAsp, this.data.actor); }
-      }
-
-      if(CDCDiceT > 0) {
-        const sJet = CDCDiceB > 0 ? `${CDCDiceT}D6+${CDCDiceB}` : `${CDCDiceT}D6`;
-
-        const cDCSub = new game.knight.RollKnight(sJet, actor.system);
-        cDCSub._success = false;
-        cDCSub._hasMin = bourreau ? true : false;
-
-        if(bourreau) {
-          cDCSub._seuil = bourreauValue;
-          cDCSub._min = 4;
+        const cDCDice = dataDegats.jet;
+        const cDCFixe = dataDegats.fixe;
+
+        const cDCDCar = dataDegats.carac.jet;
+        const cDCFCar = dataDegats.carac.fixe;
+        const cDCDOD = dataDegats.carac.odInclusJet;
+        const cDCFOD = dataDegats.carac.odInclusFixe;
+        const cDCDAsp = dataDegats.aspect.jet;
+        const cDCFAsp = dataDegats.aspect.fixe;
+        const cDCDAE = dataDegats.aspect.odInclusJet;
+        const cDCFAE = dataDegats.aspect.odInclusFixe;
+
+        let CDCDiceT = 0;
+        let CDCDiceB = 0;
+
+        CDCDiceT += cDCDice;
+        CDCDiceB += cDCFixe;
+
+        if(cDCDCar !== '' && !isPNJ) {
+          CDCDiceT += getCaracValue(cDCDCar, actor._id);
+
+          if(cDCDOD) { CDCDiceT += getODValue(cDCDCar, actor._id); }
         }
 
-        await cDCSub.evaluate(minMaxDgts);
+        if(cDCFCar !== '' && !isPNJ) {
+          CDCDiceB += getCaracValue(cDCFCar, actor._id);
 
-        subDegats.name = `+ ${name}`;
-        subDegats.desc = dataDegats.conditionnel.condition;
-        subDegats.tooltip = await cDCSub.getTooltip();
-        subDegats.total = cDCSub.total;
-        subDegats.formula = cDCSub._formula;
-      } else if(CDCDiceB > 0) {
-        subDegats.name = `+ ${name}`;
-        subDegats.desc = dataDegats.conditionnel.condition;
-        subDegats.total = CDCDiceB;
-      }
-    } else if(dataDegats.jet !== 0 || dataDegats.fixe !== 0 || dataDegats.carac.jet !== '' || dataDegats.carac.fixe !== '' || dataDegats.aspect.jet !== '' || dataDegats.aspect.fixe !== '') {
-      includeDegats = true;
-
-      const cDIDice = dataDegats.jet;
-      const cDIFixe = dataDegats.fixe;
-
-      const cDIDCar = dataDegats.carac.jet;
-      const cDIFCar = dataDegats.carac.fixe;
-      const cDIDOD = dataDegats.carac.odInclusJet;
-      const cDIFOD = dataDegats.carac.odInclusFixe;
-      const cDIDAsp = dataDegats.aspect.jet;
-      const cDIFAsp = dataDegats.aspect.fixe;
-      const cDIDAE = dataDegats.aspect.odInclusJet;
-      const cDIFAE = dataDegats.aspect.odInclusFixe;
-
-      let CDIDiceT = 0;
-      let CDIDiceB = 0;
-
-      CDIDiceT += cDIDice;
-      CDIDiceB += cDIFixe;
-
-      if(cDIDCar !== '' && !isPNJ) {
-        CDIDiceT += getCaracValue(cDIDCar, this.data.actor);
-
-        if(cDIDOD) { CDIDiceT += getODValue(cDIDCar, this.data.actor); }
-      }
-
-      if(cDIFCar !== '' && !isPNJ) {
-        CDIDiceB += getCaracValue(cDIFCar, this.data.actor);
-
-        if(cDIFOD) { CDIDiceB += getODValue(cDIFCar, this.data.actor); }
-      }
-
-      if(cDIDAsp !== '' && isPNJ) {
-        CDIDiceT += getAspectValue(cDIDAsp, this.data.actor);
-
-        if(cDIDAE) { CDIDiceT += getAEValue(cDIDAsp, this.data.actor); }
-      }
-
-      if(cDIFAsp !== '' && isPNJ) {
-        CDIDiceB += getAspectValue(cDIFAsp, this.data.actor);
-
-        if(cDIFAE) { CDIDiceB += getAEValue(cDIFAsp, this.data.actor); }
-      }
-
-      let sJet = ``;
-      if(CDIDiceT > 0) { sJet += `${CDIDiceT}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`; }
-      if(CDIDiceT > 0 && CDIDiceB > 0) { sJet += `+${CDIDiceB}`; }
-      if(CDIDiceT === 0 && CDIDiceB > 0) { sJet += `${CDIDiceB}`; }
-
-      if(sJet !== '') {
-        subDegats.name = `+${sJet} ${name} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        subDegats.desc = description;
-
-        dgtsDice += CDIDiceT;
-        dgtsBonus += CDIDiceB;
-      }
-    }
-
-    if(dataViolence.conditionnel.has) {
-      priorViolence = true;
-
-      const cVCDice = dataViolence.jet;
-      const cVCFixe = dataViolence.fixe;
-
-      const cVCDCar = dataViolence.carac.jet;
-      const cVCFCar = dataViolence.carac.fixe;
-      const cVCDOD = dataViolence.carac.odInclusJet;
-      const cVCFOD = dataViolence.carac.odInclusFixe;
-      const cVCDAsp = dataViolence.aspect.jet;
-      const cVCFAsp = dataViolence.aspect.fixe;
-      const cVCDAE = dataViolence.aspect.odInclusJet;
-      const cVCFAE = dataViolence.aspect.odInclusFixe;
-
-      let CVCDiceT = 0;
-      let CVCDiceB = 0;
-
-      CVCDiceT += cVCDice;
-      CVCDiceB += cVCFixe;
-
-      if(cVCDCar !== '' && !isPNJ) {
-        CVCDiceT += getCaracValue(cVCDCar, this.data.actor);
-
-        if(cVCDOD) { CVCDiceT += getODValue(cVCDCar, this.data.actor); }
-      }
-
-      if(cVCFCar !== '' && !isPNJ) {
-        CVCDiceB += getCaracValue(cVCFCar, this.data.actor);
-
-        if(cVCFOD) { CVCDiceB += getODValue(cVCFCar, this.data.actor); }
-      }
-
-      if(cVCDAsp !== '' && isPNJ) {
-        CVCDiceT += getAspectValue(cVCDAsp, this.data.actor);
-
-        if(cVCDAE) { CVCDiceT += getAEValue(cVCDAsp, this.data.actor); }
-      }
-
-      if(cVCFAsp !== '' && isPNJ) {
-        CVCDiceB += getAspectValue(cVCFAsp, this.data.actor);
-
-        if(cVCFAE) { CVCDiceB += getAEValue(cVCFAsp, this.data.actor); }
-      }
-
-      if(CVCDiceT > 0) {
-        const sJet = CVCDiceB > 0 ? `${CVCDiceT}D6+${CVCDiceB}` : `${CVCDiceT}D6`;
-
-        const cVCSub = new game.knight.RollKnight(sJet, actor.system);
-        cVCSub._success = false;
-        cVCSub._hasMin = devastation ? true : false;
-
-        if(devastation) {
-          cVCSub._seuil = devastationValue;
-          cVCSub._min = 5;
+          if(cDCFOD) { CDCDiceB += getODValue(cDCFCar, actor._id); }
         }
 
-        await cVCSub.evaluate(minMaxViolence);
+        if(cDCDAsp !== '' && isPNJ) {
+          CDCDiceT += getAspectValue(cDCDAsp, actor._id);
 
-        subViolence.name = `+ ${name}`;
-        subViolence.desc = dataViolence.conditionnel.condition;
-        subViolence.tooltip = await cVCSub.getTooltip();
-        subViolence.total = cVCSub.total;
-        subViolence.formula = cVCSub._formula;
-      } else if(CVCDiceB > 0) {
-        subViolence.name = `+ ${name}`;
-        subViolence.desc = dataViolence.conditionnel.condition;
-        subViolence.total = CVCDiceB;
+          if(cDCDAE) { CDCDiceT += getAEValue(cDCDAsp, actor._id); }
+        }
+
+        if(cDCFAsp !== '' && isPNJ) {
+          CDCDiceB += getCaracValue(cDCFAsp, actor._id);
+
+          if(cDCFAE) { CDCDiceB += getAEValue(cDCFAsp, actor._id); }
+        }
+
+        if(CDCDiceT > 0) {
+          const sJet = CDCDiceB > 0 ? `${CDCDiceT}D6+${CDCDiceB}` : `${CDCDiceT}D6`;
+
+          const cDCSub = new game.knight.RollKnight(sJet, actor.system);
+          cDCSub._success = false;
+          cDCSub._hasMin = bourreau ? true : false;
+
+          if(bourreau) {
+            cDCSub._seuil = bourreauValue;
+            cDCSub._min = 4;
+          }
+
+          await cDCSub.evaluate(minMaxDgts);
+
+          subDegats.name = `+ ${name}`;
+          subDegats.desc = dataDegats.conditionnel.condition;
+          subDegats.tooltip = await cDCSub.getTooltip();
+          subDegats.total = cDCSub.total;
+          subDegats.formula = cDCSub._formula;
+        } else if(CDCDiceB > 0) {
+          subDegats.name = `+ ${name}`;
+          subDegats.desc = dataDegats.conditionnel.condition;
+          subDegats.total = CDCDiceB;
+        }
+      } else if(dataDegats.jet !== 0 || dataDegats.fixe !== 0 || dataDegats.carac.jet !== '' || dataDegats.carac.fixe !== '' || dataDegats.aspect.jet !== '' || dataDegats.aspect.fixe !== '') {
+        includeDegats = true;
+
+        const cDIDice = dataDegats.jet;
+        const cDIFixe = dataDegats.fixe;
+
+        const cDIDCar = dataDegats.carac.jet;
+        const cDIFCar = dataDegats.carac.fixe;
+        const cDIDOD = dataDegats.carac.odInclusJet;
+        const cDIFOD = dataDegats.carac.odInclusFixe;
+        const cDIDAsp = dataDegats.aspect.jet;
+        const cDIFAsp = dataDegats.aspect.fixe;
+        const cDIDAE = dataDegats.aspect.odInclusJet;
+        const cDIFAE = dataDegats.aspect.odInclusFixe;
+
+        let CDIDiceT = 0;
+        let CDIDiceB = 0;
+
+        CDIDiceT += cDIDice;
+        CDIDiceB += cDIFixe;
+
+        if(cDIDCar !== '' && !isPNJ) {
+          CDIDiceT += getCaracValue(cDIDCar, actor._id);
+
+          if(cDIDOD) { CDIDiceT += getODValue(cDIDCar, actor._id); }
+        }
+
+        if(cDIFCar !== '' && !isPNJ) {
+          CDIDiceB += getCaracValue(cDIFCar, actor._id);
+
+          if(cDIFOD) { CDIDiceB += getODValue(cDIFCar, actor._id); }
+        }
+
+        if(cDIDAsp !== '' && isPNJ) {
+          CDIDiceT += getAspectValue(cDIDAsp, actor._id);
+
+          if(cDIDAE) { CDIDiceT += getAEValue(cDIDAsp, actor._id); }
+        }
+
+        if(cDIFAsp !== '' && isPNJ) {
+          CDIDiceB += getAspectValue(cDIFAsp, actor._id);
+
+          if(cDIFAE) { CDIDiceB += getAEValue(cDIFAsp, actor._id); }
+        }
+
+        let sJet = ``;
+        if(CDIDiceT > 0) { sJet += `${CDIDiceT}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`; }
+        if(CDIDiceT > 0 && CDIDiceB > 0) { sJet += `+${CDIDiceB}`; }
+        if(CDIDiceT === 0 && CDIDiceB > 0) { sJet += `${CDIDiceB}`; }
+
+        if(sJet !== '') {
+          subDegats.name = `+${sJet} ${name} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          subDegats.desc = description;
+
+          dgtsDice += CDIDiceT;
+          dgtsBonus += CDIDiceB;
+        }
       }
-    } else if(dataViolence.jet !== 0 || dataViolence.fixe !== 0 || dataViolence.carac.jet !== '' || dataViolence.carac.fixe !== '' || dataViolence.aspect.jet !== '' || dataViolence.aspect.fixe !== '') {
-      includeViolence = true;
 
-      const cVIDice = dataViolence.jet;
-      const cVIFixe = dataViolence.fixe;
+      if(dataViolence.conditionnel.has) {
+        priorViolence = true;
 
-      const cVIDCar = dataViolence.carac.jet;
-      const cVIFCar = dataViolence.carac.fixe;
-      const cVIDOD = dataViolence.carac.odInclusJet;
-      const cVIFOD = dataViolence.carac.odInclusFixe;
-      const cVIDAsp = dataViolence.aspect.jet;
-      const cVIFAsp = dataViolence.aspect.fixe;
-      const cVIDAE = dataViolence.aspect.odInclusJet;
-      const cVIFAE = dataViolence.aspect.odInclusFixe;
+        const cVCDice = dataViolence.jet;
+        const cVCFixe = dataViolence.fixe;
 
-      let CVIDiceT = 0;
-      let CVIDiceB = 0;
+        const cVCDCar = dataViolence.carac.jet;
+        const cVCFCar = dataViolence.carac.fixe;
+        const cVCDOD = dataViolence.carac.odInclusJet;
+        const cVCFOD = dataViolence.carac.odInclusFixe;
+        const cVCDAsp = dataViolence.aspect.jet;
+        const cVCFAsp = dataViolence.aspect.fixe;
+        const cVCDAE = dataViolence.aspect.odInclusJet;
+        const cVCFAE = dataViolence.aspect.odInclusFixe;
 
-      CVIDiceT += cVIDice;
-      CVIDiceB += cVIFixe;
+        let CVCDiceT = 0;
+        let CVCDiceB = 0;
 
-      if(cVIDCar !== '' && !isPNJ) {
-        CVIDiceT += getCaracValue(cVIDCar, this.data.actor);
+        CVCDiceT += cVCDice;
+        CVCDiceB += cVCFixe;
 
-        if(cVIDOD) { CVIDiceT += getODValue(cVIDCar, this.data.actor); }
+        if(cVCDCar !== '' && !isPNJ) {
+          CVCDiceT += getCaracValue(cVCDCar, actor._id);
+
+          if(cVCDOD) { CVCDiceT += getODValue(cVCDCar, actor._id); }
+        }
+
+        if(cVCFCar !== '' && !isPNJ) {
+          CVCDiceB += getCaracValue(cVCFCar, actor._id);
+
+          if(cVCFOD) { CVCDiceB += getODValue(cVCFCar, actor._id); }
+        }
+
+        if(cVCDAsp !== '' && isPNJ) {
+          CVCDiceT += getAspectValue(cVCDAsp, actor._id);
+
+          if(cVCDAE) { CVCDiceT += getAEValue(cVCDAsp, actor._id); }
+        }
+
+        if(cVCFAsp !== '' && isPNJ) {
+          CVCDiceB += getAspectValue(cVCFAsp, actor._id);
+
+          if(cVCFAE) { CVCDiceB += getAEValue(cVCFAsp, actor._id); }
+        }
+
+        if(CVCDiceT > 0) {
+          const sJet = CVCDiceB > 0 ? `${CVCDiceT}D6+${CVCDiceB}` : `${CVCDiceT}D6`;
+
+          const cVCSub = new game.knight.RollKnight(sJet, actor.system);
+          cVCSub._success = false;
+          cVCSub._hasMin = devastation ? true : false;
+
+          if(devastation) {
+            cVCSub._seuil = devastationValue;
+            cVCSub._min = 5;
+          }
+
+          await cVCSub.evaluate(minMaxViolence);
+
+          subViolence.name = `+ ${name}`;
+          subViolence.desc = dataViolence.conditionnel.condition;
+          subViolence.tooltip = await cVCSub.getTooltip();
+          subViolence.total = cVCSub.total;
+          subViolence.formula = cVCSub._formula;
+        } else if(CVCDiceB > 0) {
+          subViolence.name = `+ ${name}`;
+          subViolence.desc = dataViolence.conditionnel.condition;
+          subViolence.total = CVCDiceB;
+        }
+      } else if(dataViolence.jet !== 0 || dataViolence.fixe !== 0 || dataViolence.carac.jet !== '' || dataViolence.carac.fixe !== '' || dataViolence.aspect.jet !== '' || dataViolence.aspect.fixe !== '') {
+        includeViolence = true;
+
+        const cVIDice = dataViolence.jet;
+        const cVIFixe = dataViolence.fixe;
+
+        const cVIDCar = dataViolence.carac.jet;
+        const cVIFCar = dataViolence.carac.fixe;
+        const cVIDOD = dataViolence.carac.odInclusJet;
+        const cVIFOD = dataViolence.carac.odInclusFixe;
+        const cVIDAsp = dataViolence.aspect.jet;
+        const cVIFAsp = dataViolence.aspect.fixe;
+        const cVIDAE = dataViolence.aspect.odInclusJet;
+        const cVIFAE = dataViolence.aspect.odInclusFixe;
+
+        let CVIDiceT = 0;
+        let CVIDiceB = 0;
+
+        CVIDiceT += cVIDice;
+        CVIDiceB += cVIFixe;
+
+        if(cVIDCar !== '' && !isPNJ) {
+          CVIDiceT += getCaracValue(cVIDCar, actor._id);
+
+          if(cVIDOD) { CVIDiceT += getODValue(cVIDCar, actor._id); }
+        }
+
+        if(cVIFCar !== '' && !isPNJ) {
+          CVIDiceB += getCaracValue(cVIFCar, actor._id);
+
+          if(cVIFOD) { CVIDiceB += getODValue(cVIFCar, actor._id); }
+        }
+
+        if(cVIDAsp !== '' && isPNJ) {
+          CVIDiceT += getAspectValue(cVIDAsp, actor._id);
+
+          if(cVIDAE) { CVIDiceT += getAEValue(cVIDAsp, actor._id); }
+        }
+
+        if(cVIFAsp !== '' && isPNJ) {
+          CVIDiceB += getAspectValue(cVIFAsp, actor._id);
+
+          if(cVIFAE) { CVIDiceB += getAEValue(cVIFAsp, actor._id); }
+        }
+
+        let sJet = ``;
+        if(CVIDiceT > 0) { sJet += `${CVIDiceT}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`; }
+        if(CVIDiceT > 0 && CVIDiceB > 0) { sJet += `+${CVIDiceB}`; }
+        if(CVIDiceT === 0 && CVIDiceB > 0) { sJet += `${CVIDiceB}`; }
+
+        if(sJet !== '') {
+          subViolence.name = `+${sJet} ${name} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          subViolence.desc = description;
+
+          violenceDice += CVIDiceT;
+          violenceBonus += CVIDiceB;
+        }
       }
 
-      if(cVIFCar !== '' && !isPNJ) {
-        CVIDiceB += getCaracValue(cVIFCar, this.data.actor);
+      if(subAttack.name === undefined && subDegats.name === undefined && subViolence.name === undefined) {
+      other = true;
 
-        if(cVIFOD) { CVIDiceB += getODValue(cVIFCar, this.data.actor); }
+      subOther.name = name;
+      subOther.desc = description.replace(/(<([^>]+)>)/gi, "");
       }
 
-      if(cVIDAsp !== '' && isPNJ) {
-        CVIDiceT += getAspectValue(cVIDAsp, this.data.actor);
-
-        if(cVIDAE) { CVIDiceT += getAEValue(cVIDAsp, this.data.actor); }
+      if(priorAttack && subAttack.name !== '') {
+      sPAttack.push(subAttack);
       }
 
-      if(cVIFAsp !== '' && isPNJ) {
-        CVIDiceB += getAspectValue(cVIFAsp, this.data.actor);
-
-        if(cVIFAE) { CVIDiceB += getAEValue(cVIFAsp, this.data.actor); }
+      if(includeAttack && subAttack.name !== '') {
+      sIAttack.push(subAttack);
       }
 
-      let sJet = ``;
-      if(CVIDiceT > 0) { sJet += `${CVIDiceT}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`; }
-      if(CVIDiceT > 0 && CVIDiceB > 0) { sJet += `+${CVIDiceB}`; }
-      if(CVIDiceT === 0 && CVIDiceB > 0) { sJet += `${CVIDiceB}`; }
-
-      if(sJet !== '') {
-        subViolence.name = `+${sJet} ${name} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-        subViolence.desc = description;
-
-        violenceDice += CVIDiceT;
-        violenceBonus += CVIDiceB;
+      if(priorDegats && subDegats.name !== '') {
+      sPDegats.push(subDegats);
       }
-    }
 
-    if(subAttack.name === undefined && subDegats.name === undefined && subViolence.name === undefined) {
-    other = true;
+      if(includeDegats && subDegats.name !== '') {
+      sIDegats.push(subDegats);
+      }
 
-    subOther.name = name;
-    subOther.desc = description.replace(/(<([^>]+)>)/gi, "");
-    }
+      if(priorViolence && subViolence.name !== '') {
+      sPViolence.push(subViolence);
+      }
 
-    if(priorAttack && subAttack.name !== '') {
-    sPAttack.push(subAttack);
-    }
+      if(includeViolence && subViolence.name !== '') {
+      sIViolence.push(subViolence);
+      }
 
-    if(includeAttack && subAttack.name !== '') {
-    sIAttack.push(subAttack);
-    }
+      if(other) {
+      sOther.push(subOther);
+      }
+  }
 
-    if(priorDegats && subDegats.name !== '') {
-    sPDegats.push(subDegats);
-    }
+  sIAttack.sort(SortByName);
+  sPAttack.sort(SortByName);
+  sSAttack.sort(SortByName);
+  sIDegats.sort(SortByName);
+  sPDegats.sort(SortByName);
+  sSDegats.sort(SortByName);
+  sPViolence.sort(SortByName);
+  sSViolence.sort(SortByName);
+  sOther.sort(SortByName);
 
-    if(includeDegats && subDegats.name !== '') {
-    sIDegats.push(subDegats);
-    }
+  const sAttack = sPAttack.concat(sSAttack);
+  const sDegats = sPDegats.concat(sSDegats);
+  const sViolence = sPViolence.concat(sSViolence);
 
-    if(priorViolence && subViolence.name !== '') {
-    sPViolence.push(subViolence);
-    }
-
-    if(includeViolence && subViolence.name !== '') {
-    sIViolence.push(subViolence);
-    }
-
-    if(other) {
-    sOther.push(subOther);
-    }
-}
-
-sIAttack.sort(SortByName);
-sPAttack.sort(SortByName);
-sSAttack.sort(SortByName);
-sIDegats.sort(SortByName);
-sPDegats.sort(SortByName);
-sSDegats.sort(SortByName);
-sPViolence.sort(SortByName);
-sSViolence.sort(SortByName);
-sOther.sort(SortByName);
-
-const sAttack = sPAttack.concat(sSAttack);
-const sDegats = sPDegats.concat(sSDegats);
-const sViolence = sPViolence.concat(sSViolence);
-
-return {
-    onlyAttack:onlyAttack,
-    nRoll:nRoll,
-    attack:{
-    totalDice:attackDice,
-    totalBonus:attackBonus,
-    include:sIAttack,
-    list:sSAttack,
-    },
-    degats:{
-    totalDice:dgtsDice,
-    totalBonus:dgtsBonus,
-    include:sIDegats,
-    list:sSDegats,
-    minMax:minMaxDgts,
-    },
-    violence:{
-    totalDice:violenceDice,
-    totalBonus:violenceBonus,
-    include:sIViolence,
-    list:sSViolence,
-    minMax:minMaxViolence,
-    },
-    other:sOther
-}
+  return {
+      onlyAttack:onlyAttack,
+      nRoll:nRoll,
+      attack:{
+      totalDice:attackDice,
+      totalBonus:attackBonus,
+      include:sIAttack,
+      list:sAttack,
+      },
+      degats:{
+      totalDice:dgtsDice,
+      totalBonus:dgtsBonus,
+      include:sIDegats,
+      list:sDegats,
+      minMax:minMaxDgts,
+      },
+      violence:{
+      totalDice:violenceDice,
+      totalBonus:violenceBonus,
+      include:sIViolence,
+      list:sViolence,
+      minMax:minMaxViolence,
+      },
+      other:sOther
+  }
 }
 
 export async function getStructurelle(actor, typeWpn, style, data, effetsWpn, structurellesWpn, isPNJ = false) {
@@ -2478,27 +2478,27 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
       CACDiceB += cACFixe;
 
       if(cACDCar !== '' && !isPNJ) {
-        CACDiceT += getCaracValue(cACDCar, this.data.actor);
+        CACDiceT += getCaracValue(cACDCar, actor._id);
 
-        if(cACDOD) { CACDiceT += getODValue(cACDCar, this.data.actor); }
+        if(cACDOD) { CACDiceT += getODValue(cACDCar, actor._id); }
       }
 
       if(cACFCar !== '' && !isPNJ) {
-        CACDiceB += getCaracValue(cACFCar, this.data.actor);
+        CACDiceB += getCaracValue(cACFCar, actor._id);
 
-        if(cACFOD) { CACDiceB += getODValue(cACFCar, this.data.actor); }
+        if(cACFOD) { CACDiceB += getODValue(cACFCar, actor._id); }
       }
 
       if(cACDAsp !== '' && isPNJ) {
-        CACDiceT += getAspectValue(cACDAsp, this.data.actor);
+        CACDiceT += getAspectValue(cACDAsp, actor._id);
 
-        if(cACDAE) { CACDiceT += getAEValue(cACDAsp, this.data.actor); }
+        if(cACDAE) { CACDiceT += getAEValue(cACDAsp, actor._id); }
       }
 
       if(cACFAsp !== '' && isPNJ) {
-        CACDiceB += getAspectValue(cACFAsp, this.data.actor);
+        CACDiceB += getAspectValue(cACFAsp, actor._id);
 
-        if(cACFAE) { CACDiceB += getAEValue(cACFCar, this.data.actor); }
+        if(cACFAE) { CACDiceB += getAEValue(cACFCar, actor._id); }
       }
 
       if(CACDiceT > 0) {
@@ -2543,27 +2543,27 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
       CAIDiceB += cAIFixe;
 
       if(cAIDCar !== '' && !isPNJ) {
-        CAIDiceT += getCaracValue(cAIDCar, this.data.actor);
+        CAIDiceT += getCaracValue(cAIDCar, actor._id);
 
-        if(cAIDOD) { CAIDiceT += getODValue(cAIDCar, this.data.actor); }
+        if(cAIDOD) { CAIDiceT += getODValue(cAIDCar, actor._id); }
       }
 
       if(cAIFCar !== '' && !isPNJ) {
-        CAIDiceB += getCaracValue(cAIFCar, this.data.actor);
+        CAIDiceB += getCaracValue(cAIFCar, actor._id);
 
-        if(cAIFOD) { CAIDiceB += getODValue(cAIFCar, this.data.actor); }
+        if(cAIFOD) { CAIDiceB += getODValue(cAIFCar, actor._id); }
       }
 
       if(cAIDCar !== '' && isPNJ) {
-        CAIDiceT += getAspectValue(cAIDAsp, this.data.actor);
+        CAIDiceT += getAspectValue(cAIDAsp, actor._id);
 
-        if(cAIDAE) { CAIDiceT += getAEValue(cAIDAsp, this.data.actor); }
+        if(cAIDAE) { CAIDiceT += getAEValue(cAIDAsp, actor._id); }
       }
 
       if(cAIFAsp !== '' && isPNJ) {
-        CAIDiceB += getAspectValue(cAIFCar, this.data.actor);
+        CAIDiceB += getAspectValue(cAIFCar, actor._id);
 
-        if(cAIFAE) { CAIDiceB += getAEValue(cAIFAsp, this.data.actor); }
+        if(cAIFAE) { CAIDiceB += getAEValue(cAIFAsp, actor._id); }
       }
 
       let sJet = ``;
@@ -2602,27 +2602,27 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
       CDCDiceB += cDCFixe;
 
       if(cDCDCar !== '' && !isPNJ) {
-        CDCDiceT += getCaracValue(cDCDCar, this.data.actor);
+        CDCDiceT += getCaracValue(cDCDCar, actor._id);
 
-        if(cDCDOD) { CDCDiceT += getODValue(cDCDCar, this.data.actor); }
+        if(cDCDOD) { CDCDiceT += getODValue(cDCDCar, actor._id); }
       }
 
       if(cDCFCar !== '' && !isPNJ) {
-        CDCDiceB += getCaracValue(cDCFCar, this.data.actor);
+        CDCDiceB += getCaracValue(cDCFCar, actor._id);
 
-        if(cDCFOD) { CDCDiceB += getODValue(cDCFCar, this.data.actor); }
+        if(cDCFOD) { CDCDiceB += getODValue(cDCFCar, actor._id); }
       }
 
       if(cDCDAsp !== '' && isPNJ) {
-        CDCDiceT += getAspectValue(cDCDAsp, this.data.actor);
+        CDCDiceT += getAspectValue(cDCDAsp, actor._id);
 
-        if(cDCDAE) { CDCDiceT += getAEValue(cDCDAsp, this.data.actor); }
+        if(cDCDAE) { CDCDiceT += getAEValue(cDCDAsp, actor._id); }
       }
 
       if(cDCFAsp !== '' && isPNJ) {
-        CDCDiceB += getCaracValue(cDCFAsp, this.data.actor);
+        CDCDiceB += getCaracValue(cDCFAsp, actor._id);
 
-        if(cDCFAE) { CDCDiceB += getAEValue(cDCFAsp, this.data.actor); }
+        if(cDCFAE) { CDCDiceB += getAEValue(cDCFAsp, actor._id); }
       }
 
       if(CDCDiceT > 0) {
@@ -2671,27 +2671,27 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
       CDIDiceB += cDIFixe;
 
       if(cDIDCar !== '' && !isPNJ) {
-        CDIDiceT += getCaracValue(cDIDCar, this.data.actor);
+        CDIDiceT += getCaracValue(cDIDCar, actor._id);
 
-        if(cDIDOD) { CDIDiceT += getODValue(cDIDCar, this.data.actor); }
+        if(cDIDOD) { CDIDiceT += getODValue(cDIDCar, actor._id); }
       }
 
       if(cDIFCar !== '' && !isPNJ) {
-        CDIDiceB += getCaracValue(cDIFCar, this.data.actor);
+        CDIDiceB += getCaracValue(cDIFCar, actor._id);
 
-        if(cDIFOD) { CDIDiceB += getODValue(cDIFCar, this.data.actor); }
+        if(cDIFOD) { CDIDiceB += getODValue(cDIFCar, actor._id); }
       }
 
       if(cDIDAsp !== '' && isPNJ) {
-        CDIDiceT += getAspectValue(cDIDAsp, this.data.actor);
+        CDIDiceT += getAspectValue(cDIDAsp, actor._id);
 
-        if(cDIDAE) { CDIDiceT += getAEValue(cDIDAsp, this.data.actor); }
+        if(cDIDAE) { CDIDiceT += getAEValue(cDIDAsp, actor._id); }
       }
 
       if(cDIFAsp !== '' && isPNJ) {
-        CDIDiceB += getAspectValue(cDIFAsp, this.data.actor);
+        CDIDiceB += getAspectValue(cDIFAsp, actor._id);
 
-        if(cDIFAE) { CDIDiceB += getAEValue(cDIFAsp, this.data.actor); }
+        if(cDIFAE) { CDIDiceB += getAEValue(cDIFAsp, actor._id); }
       }
 
       let sJet = ``;
@@ -2730,27 +2730,27 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
       CVCDiceB += cVCFixe;
 
       if(cVCDCar !== '' && !isPNJ) {
-        CVCDiceT += getCaracValue(cVCDCar, this.data.actor);
+        CVCDiceT += getCaracValue(cVCDCar, actor._id);
 
-        if(cVCDOD) { CVCDiceT += getODValue(cVCDCar, this.data.actor); }
+        if(cVCDOD) { CVCDiceT += getODValue(cVCDCar, actor._id); }
       }
 
       if(cVCFCar !== '' && !isPNJ) {
-        CVCDiceB += getCaracValue(cVCFCar, this.data.actor);
+        CVCDiceB += getCaracValue(cVCFCar, actor._id);
 
-        if(cVCFOD) { CVCDiceB += getODValue(cVCFCar, this.data.actor); }
+        if(cVCFOD) { CVCDiceB += getODValue(cVCFCar, actor._id); }
       }
 
       if(cVCDAsp !== '' && isPNJ) {
-        CVCDiceT += getAspectValue(cVCDAsp, this.data.actor);
+        CVCDiceT += getAspectValue(cVCDAsp, actor._id);
 
-        if(cVCDAE) { CVCDiceT += getAEValue(cVCDAsp, this.data.actor); }
+        if(cVCDAE) { CVCDiceT += getAEValue(cVCDAsp, actor._id); }
       }
 
       if(cVCFAsp !== '' && isPNJ) {
-        CVCDiceB += getAspectValue(cVCFAsp, this.data.actor);
+        CVCDiceB += getAspectValue(cVCFAsp, actor._id);
 
-        if(cVCFAE) { CVCDiceB += getAEValue(cVCFAsp, this.data.actor); }
+        if(cVCFAE) { CVCDiceB += getAEValue(cVCFAsp, actor._id); }
       }
 
       if(CVCDiceT > 0) {
@@ -2799,27 +2799,27 @@ for(let i = 0;i < structurellesWpn.custom.length;i++) {
       CVIDiceB += cVIFixe;
 
       if(cVIDCar !== '' && !isPNJ) {
-        CVIDiceT += getCaracValue(cVIDCar, this.data.actor);
+        CVIDiceT += getCaracValue(cVIDCar, actor._id);
 
-        if(cVIDOD) { CVIDiceT += getODValue(cVIDCar, this.data.actor); }
+        if(cVIDOD) { CVIDiceT += getODValue(cVIDCar, actor._id); }
       }
 
       if(cVIFCar !== '' && !isPNJ) {
-        CVIDiceB += getCaracValue(cVIFCar, this.data.actor);
+        CVIDiceB += getCaracValue(cVIFCar, actor._id);
 
-        if(cVIFOD) { CVIDiceB += getODValue(cVIFCar, this.data.actor); }
+        if(cVIFOD) { CVIDiceB += getODValue(cVIFCar, actor._id); }
       }
 
       if(cVIDAsp !== '' && isPNJ) {
-        CVIDiceT += getAspectValue(cVIDAsp, this.data.actor);
+        CVIDiceT += getAspectValue(cVIDAsp, actor._id);
 
-        if(cVIDAE) { CVIDiceT += getAEValue(cVIDAsp, this.data.actor); }
+        if(cVIDAE) { CVIDiceT += getAEValue(cVIDAsp, actor._id); }
       }
 
       if(cVIFAsp !== '' && isPNJ) {
-        CVIDiceB += getAspectValue(cVIFAsp, this.data.actor);
+        CVIDiceB += getAspectValue(cVIFAsp, actor._id);
 
-        if(cVIFAE) { CVIDiceB += getAEValue(cVIFAsp, this.data.actor); }
+        if(cVIFAE) { CVIDiceB += getAEValue(cVIFAsp, actor._id); }
       }
 
       let sJet = ``;
@@ -3238,27 +3238,27 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
       CACDiceB += cACFixe;
 
       if(cACDCar !== '' && !isPNJ) {
-        CACDiceT += getCaracValue(cACDCar, this.data.actor);
+        CACDiceT += getCaracValue(cACDCar, actor._id);
 
-        if(cACDOD) { CACDiceT += getODValue(cACDCar, this.data.actor); }
+        if(cACDOD) { CACDiceT += getODValue(cACDCar, actor._id); }
       }
 
       if(cACFCar !== '' && !isPNJ) {
-        CACDiceB += getCaracValue(cACFCar, this.data.actor);
+        CACDiceB += getCaracValue(cACFCar, actor._id);
 
-        if(cACFOD) { CACDiceB += getODValue(cACFCar, this.data.actor); }
+        if(cACFOD) { CACDiceB += getODValue(cACFCar, actor._id); }
       }
 
       if(cACDAsp !== '' && isPNJ) {
-        CACDiceT += getAspectValue(cACDAsp, this.data.actor);
+        CACDiceT += getAspectValue(cACDAsp, actor._id);
 
-        if(cACDAE) { CACDiceT += getAEValue(cACDAsp, this.data.actor); }
+        if(cACDAE) { CACDiceT += getAEValue(cACDAsp, actor._id); }
       }
 
       if(cACFAsp !== '' && isPNJ) {
-        CACDiceB += getAspectValue(cACFAsp, this.data.actor);
+        CACDiceB += getAspectValue(cACFAsp, actor._id);
 
-        if(cACFAE) { CACDiceB += getAEValue(cACFCar, this.data.actor); }
+        if(cACFAE) { CACDiceB += getAEValue(cACFCar, actor._id); }
       }
 
       if(CACDiceT > 0) {
@@ -3303,27 +3303,27 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
       CAIDiceB += cAIFixe;
 
       if(cAIDCar !== '' && !isPNJ) {
-        CAIDiceT += getCaracValue(cAIDCar, this.data.actor);
+        CAIDiceT += getCaracValue(cAIDCar, actor._id);
 
-        if(cAIDOD) { CAIDiceT += getODValue(cAIDCar, this.data.actor); }
+        if(cAIDOD) { CAIDiceT += getODValue(cAIDCar, actor._id); }
       }
 
       if(cAIFCar !== '' && !isPNJ) {
-        CAIDiceB += getCaracValue(cAIFCar, this.data.actor);
+        CAIDiceB += getCaracValue(cAIFCar, actor._id);
 
-        if(cAIFOD) { CAIDiceB += getODValue(cAIFCar, this.data.actor); }
+        if(cAIFOD) { CAIDiceB += getODValue(cAIFCar, actor._id); }
       }
 
       if(cAIDCar !== '' && isPNJ) {
-        CAIDiceT += getAspectValue(cAIDAsp, this.data.actor);
+        CAIDiceT += getAspectValue(cAIDAsp, actor._id);
 
-        if(cAIDAE) { CAIDiceT += getAEValue(cAIDAsp, this.data.actor); }
+        if(cAIDAE) { CAIDiceT += getAEValue(cAIDAsp, actor._id); }
       }
 
       if(cAIFAsp !== '' && isPNJ) {
-        CAIDiceB += getAspectValue(cAIFCar, this.data.actor);
+        CAIDiceB += getAspectValue(cAIFCar, actor._id);
 
-        if(cAIFAE) { CAIDiceB += getAEValue(cAIFAsp, this.data.actor); }
+        if(cAIFAE) { CAIDiceB += getAEValue(cAIFAsp, actor._id); }
       }
 
       let sJet = ``;
@@ -3362,27 +3362,27 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
       CDCDiceB += cDCFixe;
 
       if(cDCDCar !== '' && !isPNJ) {
-        CDCDiceT += getCaracValue(cDCDCar, this.data.actor);
+        CDCDiceT += getCaracValue(cDCDCar, actor._id);
 
-        if(cDCDOD) { CDCDiceT += getODValue(cDCDCar, this.data.actor); }
+        if(cDCDOD) { CDCDiceT += getODValue(cDCDCar, actor._id); }
       }
 
       if(cDCFCar !== '' && !isPNJ) {
-        CDCDiceB += getCaracValue(cDCFCar, this.data.actor);
+        CDCDiceB += getCaracValue(cDCFCar, actor._id);
 
-        if(cDCFOD) { CDCDiceB += getODValue(cDCFCar, this.data.actor); }
+        if(cDCFOD) { CDCDiceB += getODValue(cDCFCar, actor._id); }
       }
 
       if(cDCDAsp !== '' && isPNJ) {
-        CDCDiceT += getAspectValue(cDCDAsp, this.data.actor);
+        CDCDiceT += getAspectValue(cDCDAsp, actor._id);
 
-        if(cDCDAE) { CDCDiceT += getAEValue(cDCDAsp, this.data.actor); }
+        if(cDCDAE) { CDCDiceT += getAEValue(cDCDAsp, actor._id); }
       }
 
       if(cDCFAsp !== '' && isPNJ) {
-        CDCDiceB += getCaracValue(cDCFAsp, this.data.actor);
+        CDCDiceB += getCaracValue(cDCFAsp, actor._id);
 
-        if(cDCFAE) { CDCDiceB += getAEValue(cDCFAsp, this.data.actor); }
+        if(cDCFAE) { CDCDiceB += getAEValue(cDCFAsp, actor._id); }
       }
 
       if(CDCDiceT > 0) {
@@ -3431,27 +3431,27 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
       CDIDiceB += cDIFixe;
 
       if(cDIDCar !== '' && !isPNJ) {
-        CDIDiceT += getCaracValue(cDIDCar, this.data.actor);
+        CDIDiceT += getCaracValue(cDIDCar, actor._id);
 
-        if(cDIDOD) { CDIDiceT += getODValue(cDIDCar, this.data.actor); }
+        if(cDIDOD) { CDIDiceT += getODValue(cDIDCar, actor._id); }
       }
 
       if(cDIFCar !== '' && !isPNJ) {
-        CDIDiceB += getCaracValue(cDIFCar, this.data.actor);
+        CDIDiceB += getCaracValue(cDIFCar, actor._id);
 
-        if(cDIFOD) { CDIDiceB += getODValue(cDIFCar, this.data.actor); }
+        if(cDIFOD) { CDIDiceB += getODValue(cDIFCar, actor._id); }
       }
 
       if(cDIDAsp !== '' && isPNJ) {
-        CDIDiceT += getAspectValue(cDIDAsp, this.data.actor);
+        CDIDiceT += getAspectValue(cDIDAsp, actor._id);
 
-        if(cDIDAE) { CDIDiceT += getAEValue(cDIDAsp, this.data.actor); }
+        if(cDIDAE) { CDIDiceT += getAEValue(cDIDAsp, actor._id); }
       }
 
       if(cDIFAsp !== '' && isPNJ) {
-        CDIDiceB += getAspectValue(cDIFAsp, this.data.actor);
+        CDIDiceB += getAspectValue(cDIFAsp, actor._id);
 
-        if(cDIFAE) { CDIDiceB += getAEValue(cDIFAsp, this.data.actor); }
+        if(cDIFAE) { CDIDiceB += getAEValue(cDIFAsp, actor._id); }
       }
 
       let sJet = ``;
@@ -3490,27 +3490,27 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
       CVCDiceB += cVCFixe;
 
       if(cVCDCar !== '' && !isPNJ) {
-        CVCDiceT += getCaracValue(cVCDCar, this.data.actor);
+        CVCDiceT += getCaracValue(cVCDCar, actor._id);
 
-        if(cVCDOD) { CVCDiceT += getODValue(cVCDCar, this.data.actor); }
+        if(cVCDOD) { CVCDiceT += getODValue(cVCDCar, actor._id); }
       }
 
       if(cVCFCar !== '' && !isPNJ) {
-        CVCDiceB += getCaracValue(cVCFCar, this.data.actor);
+        CVCDiceB += getCaracValue(cVCFCar, actor._id);
 
-        if(cVCFOD) { CVCDiceB += getODValue(cVCFCar, this.data.actor); }
+        if(cVCFOD) { CVCDiceB += getODValue(cVCFCar, actor._id); }
       }
 
       if(cVCDAsp !== '' && isPNJ) {
-        CVCDiceT += getAspectValue(cVCDAsp, this.data.actor);
+        CVCDiceT += getAspectValue(cVCDAsp, actor._id);
 
-        if(cVCDAE) { CVCDiceT += getAEValue(cVCDAsp, this.data.actor); }
+        if(cVCDAE) { CVCDiceT += getAEValue(cVCDAsp, actor._id); }
       }
 
       if(cVCFAsp !== '' && isPNJ) {
-        CVCDiceB += getAspectValue(cVCFAsp, this.data.actor);
+        CVCDiceB += getAspectValue(cVCFAsp, actor._id);
 
-        if(cVCFAE) { CVCDiceB += getAEValue(cVCFAsp, this.data.actor); }
+        if(cVCFAE) { CVCDiceB += getAEValue(cVCFAsp, actor._id); }
       }
 
       if(CVCDiceT > 0) {
@@ -3559,27 +3559,27 @@ for(let i = 0;i < ornementalesWpn.custom.length;i++) {
       CVIDiceB += cVIFixe;
 
       if(cVIDCar !== '' && !isPNJ) {
-        CVIDiceT += getCaracValue(cVIDCar, this.data.actor);
+        CVIDiceT += getCaracValue(cVIDCar, actor._id);
 
-        if(cVIDOD) { CVIDiceT += getODValue(cVIDCar, this.data.actor); }
+        if(cVIDOD) { CVIDiceT += getODValue(cVIDCar, actor._id); }
       }
 
       if(cVIFCar !== '' && !isPNJ) {
-        CVIDiceB += getCaracValue(cVIFCar, this.data.actor);
+        CVIDiceB += getCaracValue(cVIFCar, actor._id);
 
-        if(cVIFOD) { CVIDiceB += getODValue(cVIFCar, this.data.actor); }
+        if(cVIFOD) { CVIDiceB += getODValue(cVIFCar, actor._id); }
       }
 
       if(cVIDAsp !== '' && isPNJ) {
-        CVIDiceT += getAspectValue(cVIDAsp, this.data.actor);
+        CVIDiceT += getAspectValue(cVIDAsp, actor._id);
 
-        if(cVIDAE) { CVIDiceT += getAEValue(cVIDAsp, this.data.actor); }
+        if(cVIDAE) { CVIDiceT += getAEValue(cVIDAsp, actor._id); }
       }
 
       if(cVIFAsp !== '' && isPNJ) {
-        CVIDiceB += getAspectValue(cVIFAsp, this.data.actor);
+        CVIDiceB += getAspectValue(cVIFAsp, actor._id);
 
-        if(cVIFAE) { CVIDiceB += getAEValue(cVIFAsp, this.data.actor); }
+        if(cVIFAE) { CVIDiceB += getAEValue(cVIFAsp, actor._id); }
       }
 
       let sJet = ``;
@@ -3780,7 +3780,7 @@ if(getArmorData !== false) {
               if(degatsBonus.od && degatsBonus.fixe) bonusDegatsFixe += getODValue(degatsBonus.caracteristique, actorId);
             }
 
-            if(capacite.interruption.actif) {
+            if(capacite.interruption.actif && idWpn !== -1) {
               actor.items.get(getArmorID).update({[`system.capacites.selected.ghost.active.horsconflit`]:false});
               actor.items.get(getArmorID).update({[`system.capacites.selected.ghost.active.conflit`]:false});
             }
