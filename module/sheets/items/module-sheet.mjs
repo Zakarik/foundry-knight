@@ -12,7 +12,7 @@ export class ModuleSheet extends ItemSheet {
       classes: ["knight", "sheet", "item", "module"],
       template: "systems/knight/templates/items/module-sheet.html",
       width: 700,
-      height: 450,
+      height: 715,
       scrollY: [".attributes"],
     });
   }

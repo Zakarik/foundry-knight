@@ -430,6 +430,29 @@
                 </div>
             </div>
 
+            {{#if actor.distinctions}}
+            <div class="distinction">
+                <h2 class="header">
+                    {{localize "KNIGHT.PERSONNAGE.Distinctions"}}
+                </h2>
+                {{#each actor.distinctions as | key distinctions|}}
+                <div class="block">
+                    <header class="summary header js-toggler" data-item-id="{{key._id}}">
+                        <i class="far fa-plus-square extendButton"></i>
+                        <div class="gestionButton">
+                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                        </div>
+                        <span>{{key.name}}</span>
+                    </header>
+                    <span class="description">
+                        {{{key.system.description}}}
+                    </span>
+                </div>
+                {{/each}}
+            </div>
+            {{/if}}
+
             <div class="heroisme">
                 <div class="liste">
                     <h2 class="header">

@@ -2284,7 +2284,10 @@
     }
   },
   "Item": {
-    "types": ["arme", "armure", "avantage", "inconvenient", "motivationMineure", "langue", "contact", "blessure", "trauma", "module", "capacite", "armurelegende", "carteheroique", "capaciteheroique", "effet", "art"],
+    "types": [
+      "arme", "armure", "avantage", "inconvenient", "motivationMineure", "langue", "contact",
+      "blessure", "trauma", "module", "capacite", "armurelegende", "carteheroique",
+      "capaciteheroique", "effet", "art", "distinction", "capaciteultime"],
     "templates":{
       "generique":{
         "description":""
@@ -7148,6 +7151,11 @@
         "maitre":50,
         "oeuvrebase":50
       }
+    },
+    "distinction":{
+      "templates": ["generique"],
+      "espoir":0,
+      "egide":0
     }
   }
 }

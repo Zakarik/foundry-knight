@@ -1,0 +1,429 @@
+.inconvenient {
+  h1.charname {
+    display:flex;
+    justify-content: space-between;
+    width:100%;
+    border:0px;
+    margin:0px;
+    padding:0px;
+
+    input[type="text"] {
+      margin: 0px;
+      width: calc(100% - 200px);
+      text-align: center;
+      border-top: 0px;
+      border-right: 0px;
+      border-left: 0px;
+      border-radius: 0px;
+      border-width: unset;
+      border-color: $white;
+      background:transparent;
+    }
+
+    select {
+      margin: 0px;
+      width: 200px;
+      text-align: center;
+      border-top: 0px;
+      border-right: 0px;
+      border-left: 0px;
+      border-radius: 0px;
+      border-width: unset;
+      border-color: $white;
+      background:transparent;
+      height:48px;
+      color:$white;
+
+      option {
+        background:$black;
+      }
+    }
+
+    &.full {
+      input[type="text"] {
+        width:100%;
+      }
+    }
+  }
+
+  div.main {
+    display:flex;
+    width:100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    padding-top:5px;
+
+    div.col {
+      display:flex;
+      flex-wrap: wrap;
+      flex:none;
+      justify-content: space-between;
+      align-items: flex-start;
+      align-content: flex-start;
+
+      width:calc(100% - 300px);
+    }
+
+    div.colL {
+      display:flex;
+      flex-wrap: wrap;
+      flex:none;
+      justify-content: flex-end;
+      align-items: flex-start;
+      align-content: flex-start;
+
+      width:300px;
+    }
+
+    label.sante,
+    label.espoir {
+      display:flex;
+      width:150px;
+      flex:none;
+      justify-content: space-between;
+      background:$lightBlack;
+      padding-left:5px;
+      border:1px solid $lightBlue;
+      margin-bottom:5px;
+
+      span {
+        display:inline-block;
+        width:max-content;
+        white-space: nowrap;
+        line-height: 26px;
+      }
+
+      input {
+        width:40px;
+        text-align: center;
+        color:$white;
+        border:0px;
+        border-radius:0px;
+        margin:0px;
+        padding:0px;
+        background:$black;
+      }
+    }
+
+    div.initiative {
+      display:flex;
+      width:260px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      flex:none;
+      background:$lightBlack;
+      border:1px solid $lightBlue;
+      margin-bottom:5px;
+
+      span.label {
+        display:inline-block;
+        width:max-content;
+        white-space: nowrap;
+        line-height: 26px;
+        padding-left:5px;
+      }
+
+      div.block {
+        display:flex;
+        flex:none;
+        justify-content: space-between;
+        width:80px;
+        background:$black;
+
+        input {
+          width:28px;
+          color:$white;
+          border:0px;
+          padding:0px;
+          margin:0px;
+
+          &:first-of-type {
+            text-align: right;
+          }
+
+          &:last-of-type {
+            text-align: left;
+          }
+        }
+
+        span {
+          display: inline-block;
+          width:max-content;
+          line-height: 26px;;
+        }
+      }
+
+      button {
+        width:100%;
+        text-align: center;
+        border-left:0px;
+        border-right:0px;
+        line-height: 26px;
+        font-weight:bold;
+        font-variant: small-caps;
+        color:$white;
+        border-radius:0px;
+        cursor:pointer;
+
+        &.buttonChecked {
+          background:$lightBlack;
+        }
+
+        &.buttonUnchecked {
+          background:$black;
+        }
+      }
+
+      span.hiddenLabel,
+      div.hiddenBlock {
+        display:none;
+      }
+    }
+
+    label.recuperationArmure,
+    label.recuperationEnergie,
+    label.recuperationEspoir,
+    label.recuperationSante {
+      display:flex;
+      width:250px;
+      flex:none;
+      justify-content: space-between;
+      background:$lightBlack;
+      padding-left:5px;
+      border:1px solid $lightBlue;
+      margin-bottom:5px;
+      margin-left:auto;
+
+      span {
+        display:inline-block;
+        width:max-content;
+        white-space: nowrap;
+        line-height: 26px;
+      }
+
+      input {
+        width:40px;
+        text-align: center;
+        color:$white;
+        border:0px;
+        border-radius:0px;
+        margin:0px;
+        padding:0px;
+        background:$black;
+      }
+    }
+
+    div.augmentationCout {
+      display:flex;
+      width:260px;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      flex:none;
+      background:$lightBlack;
+      border:1px solid $lightBlue;
+
+      button {
+        width:100%;
+        text-align: center;
+        border-left:0px;
+        border-right:0px;
+        line-height: 26px;
+        font-weight:bold;
+        font-variant: small-caps;
+        color:$white;
+        border-radius:0px;
+        cursor:pointer;
+
+        &.buttonChecked {
+          background:$lightBlack;
+        }
+
+        &.buttonUnchecked {
+          background:$black;
+        }
+      }
+
+      div.blockAspect,
+      div.blockCaracteristiques {
+        display:flex;
+        width:calc(100% / 2);
+        flex-wrap: wrap;
+
+        span.label {
+          display:blocK;
+          width:100%;
+          line-height: 26px;
+          text-align: center;
+          font-variant: small-caps;
+          font-weight: bold;
+        }
+
+        label {
+          display:flex;
+          width:100%;
+          justify-content: space-between;
+
+          span {
+            display: inline-block;
+            width:calc(100% - 28px);
+            line-height: 26px;;
+            padding-left:5px;
+          }
+
+          input {
+            width:28px;
+            color:$white;
+            border:0px;
+            padding:0px;
+            margin:0px;
+            border-radius:0px;
+            background:$black;
+            text-align: center;
+          }
+
+          &:not(:first-of-type) {
+            span {
+              border-top:1px solid $black;
+            }
+
+            input {
+              border-top:1px solid $lightBlack;
+            }
+          }
+        }
+      }
+
+      div.blockCaracteristiques {
+        border-left:1px solid $lightBlue;
+      }
+
+      div.hiddenBlock {
+        display:none;
+      }
+    }
+
+    div.limitations {
+      display:flex;
+      width:100%;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      flex:none;
+      background:$lightBlack;
+      border:1px solid $lightBlue;
+      margin-top:5px;
+
+      header {
+        display:block;
+        width:100%;
+        text-align: center;
+        font-weight: bold;
+        color: $white;
+        font-variant: small-caps;
+        font-size: 16px;
+        line-height: 26px;
+      }
+
+      div {
+        display:flex;
+        width:210px;
+        justify-content: space-between;
+
+        button {
+          text-align: center;
+          border-left:0px;
+          border-right:0px;
+          line-height: 26px;
+          font-weight:bold;
+          font-variant: small-caps;
+          color:$white;
+          border-radius:0px;
+          cursor:pointer;
+
+          &.buttonChecked {
+            width:calc(100% - 28px);
+            background:$lightBlack;
+          }
+
+          &.buttonUnchecked {
+            width:100%;
+            background:$black;
+          }
+        }
+
+        input {
+          display:none;
+          width:28px;
+          height:32px;
+          color:$white;
+          border-left:0px;
+          border-right:0px;
+          border-top:2px groove var(--color-border-light-highlight);
+          border-bottom:2px groove var(--color-border-light-highlight);
+          padding:0px;
+          margin:0px;
+          border-radius:0px;
+          background:$black;
+          text-align: center;
+
+          &.inputShow {
+            display:inline-block;
+          }
+
+          &.inputHidden {
+            display:none;
+          }
+        }
+
+        &:nth-of-type(1),
+        &:nth-of-type(4) {
+          border-right:2px groove var(--color-border-light-highlight);
+        }
+
+        &:nth-of-type(2),
+        &:nth-of-type(5) {
+          border-right:2px groove var(--color-border-light-highlight);
+          border-left:2px groove var(--color-border-light-highlight);
+        }
+
+        &:nth-of-type(3),
+        &:nth-of-type(6) {
+          border-left:2px groove var(--color-border-light-highlight);
+        }
+
+        &:nth-of-type(4),
+        &:nth-of-type(5),
+        &:nth-of-type(6) {
+          margin-top:4px;
+        }
+      }
+    }
+
+    button.espoir {
+      width:250px;
+      text-align: center;
+      line-height: 26px;
+      font-weight:bold;
+      font-variant: small-caps;
+      color:$white;
+      border-radius:0px;
+      cursor:pointer;
+      margin-top:5px;
+      border-left:1px solid $lightBlue;
+      border-right:1px solid $lightBlue;
+
+      &.buttonChecked {
+        background:$lightBlack;
+      }
+
+      &.buttonUnchecked {
+        background:$black;
+      }
+    }
+  }
+
+  div.description {
+    margin-top:10px;
+  }
+}

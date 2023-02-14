@@ -395,12 +395,14 @@ export class VehiculeSheet extends ActorSheet {
     const itemBaseType = itemData[0].type;
     const armeType = itemData[0].system.type;
 
-    if((itemBaseType === 'arme' && armeType === 'contact') || itemBaseType === 'capacite' ||
-    itemBaseType === 'armure' || itemBaseType === 'avantage' ||
-    itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' ||
-    itemBaseType === 'contact' || itemBaseType === 'blessure' ||
-    itemBaseType === 'trauma' || itemBaseType === 'armurelegende' ||
-    itemBaseType === 'effet') return;
+    const typesValides = [
+      'armure', 'capacite',
+      'avantage', 'inconvenient',
+      'motivationMineure', 'contact',
+      'blessure', 'trauma',
+      'armurelegende', 'effet', 'distinction'];
+    if (typesValides.includes(itemBaseType)) return;
+    if (itemBaseType === 'arme' && armeType === 'contact') return;
 
     const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
 

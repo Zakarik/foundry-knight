@@ -22,7 +22,7 @@ export class BandeSheet extends ActorSheet {
       classes: ["bande", "sheet", "actor"],
       template: "systems/knight/templates/actors/bande-sheet.html",
       width: 900,
-      height: 600,
+      height: 780,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".body", initial: "description"}],
     });
   }
@@ -494,12 +494,13 @@ export class BandeSheet extends ActorSheet {
     itemData = itemData instanceof Array ? itemData : [itemData];
     const itemBaseType = itemData[0].type;
 
-    if(itemBaseType === 'arme' || itemBaseType === 'module' ||
-    itemBaseType === 'armure' || itemBaseType === 'avantage' ||
-    itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' ||
-    itemBaseType === 'contact' || itemBaseType === 'blessure' ||
-    itemBaseType === 'trauma' || itemBaseType === 'langue' || itemBaseType === 'armurelegende' ||
-    itemBaseType === 'effet') return;
+    const typesValides = [
+      'arme', 'module', 'armure',
+      'avantage', 'inconvenient',
+      'motivationMineure', 'contact',
+      'blessure', 'trauma', 'langue',
+      'armurelegende', 'effet', 'distinction'];
+    if (typesValides.includes(itemBaseType)) return;
 
     const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
 

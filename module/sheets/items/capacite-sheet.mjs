@@ -11,7 +11,7 @@ export class CapaciteSheet extends ItemSheet {
       classes: ["knight", "sheet", "item", "capacite"],
       template: "systems/knight/templates/items/capacite-sheet.html",
       width: 700,
-      height: 400,
+      height: 530,
       scrollY: [".attributes"],
     });
   }

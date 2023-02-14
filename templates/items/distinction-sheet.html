@@ -1,0 +1,27 @@
+<form class="flexcol {{cssClass}}" autocomplete="off">
+    <header class="header">
+        <div class="blockImg">
+            <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
+        </div>
+
+        <h1 class="charname">
+            <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+        </h1>
+
+        <div class="description">
+            <h2 class="header">{{localize "KNIGHT.Description"}}</h2>
+
+            {{editor systemData.description target="system.description" button=true owner=owner editable=editable}}
+        </div>
+    </header>
+    <div class="main">
+        <label>
+            <span>{{localize "KNIGHT.BONUS.RecuperationEspoir"}}</span>
+            <input type="number" name="system.espoir" value="{{systemData.espoir}}" min="0" />
+        </label>
+        <label>
+            <span>{{localize "KNIGHT.BONUS.Egide"}}</span>
+            <input type="number" name="system.egide" value="{{systemData.egide}}" min="0" />
+        </label>
+    </div>
+</form>

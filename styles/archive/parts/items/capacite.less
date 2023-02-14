@@ -1,0 +1,265 @@
+form.capacite {
+    display:flex;
+    width:100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+
+    img.profile-img {
+        height:262px;
+        width:212px;
+        background:@lightBlack;
+        border:1px solid @white;
+        object-fit: contain;
+    }
+
+    header.sheet-header {
+        display:flex;
+        width:calc(100% - 222px);
+        flex-wrap: wrap;
+        flex-direction: initial;
+        align-items: flex-start;
+        justify-content: space-between;
+
+        h1.charname {
+            display: flex;
+            justify-content: space-between;
+            width:100%;
+            border:0px;
+            margin:0px;
+            padding:0px;
+            flex:none;
+            border-bottom:3px solid @white;
+        
+            input[type="text"] {
+            margin: 0px;
+            width: 100%;
+            text-align: center;
+            border: 0px;
+            border-radius: 0px;
+            border-width: unset;
+            border-color: @white;
+            background:transparent;
+            }
+        }
+    
+        div.description {
+            width:100%;
+            flex:none;
+            margin-bottom:5px;
+    
+            div.editor {
+                width:100%;
+                min-height:130px;
+                border-bottom: 1px solid @lightBlue;
+                border-left: 1px solid @lightBlue;
+                border-right: 1px solid @lightBlue;
+                background:@lightBlack;
+        
+                div.editor-content {
+                    padding-left:5px;
+                    padding-right:5px;
+                }
+            }
+        }
+    }
+
+    div.main {
+        display:flex;
+        justify-content: space-between;
+        width:100%;
+        flex-wrap: wrap;
+        margin-top:5px;
+        border:1px solid @lightBlue;
+        padding-left:5px;
+        padding-right:5px;
+        padding-bottom:5px;
+        align-items: flex-start;
+
+        div.button {
+            display:flex;
+            width: calc(50% - 10px);
+            flex-wrap: wrap;
+            margin-top:5px;
+
+            h3 {
+                display: block;
+                width: 100%;
+                font-variant: small-caps;
+                font-size: 16px;
+                text-align: center;
+                background: @lightBlack;
+                line-height: 26px;
+                border-bottom:0px;
+                border-top:1px solid @black;
+                margin:0px;
+            }
+
+            >select {
+                width:100%;
+                color: white;
+                border: 0px;
+                padding: 0px;
+                background: @black;
+                border-radius: 0px;
+                text-align: center;
+                padding-left:15px;
+
+                option {
+                    background:@black;
+                    color:@white;
+                }
+            }
+
+            button {
+                flex:none;
+                width: 100%;
+                color: @white;
+                cursor: pointer;
+                border: 2px solid;
+                border-radius:0px;  
+                margin:0px;            
+    
+                &.unselected {
+                    background:@black;
+                    border-color:@lightBlack;
+                }
+    
+                &.selected {
+                    background:@lightBlack;
+                    border-color:@lightBlack;
+                }
+
+                &:not(:first-of-type) {
+                    border-right:0px;
+                    border-left:0px;
+                    border-bottom:0px;
+
+                    &.selected {
+                        border-top:1px solid @black;
+                    }
+
+                    &.unselected {
+                        border-top:1px solid @lightBlack;
+                    }
+                }
+            }
+
+            label {
+                border-top:1px solid @black;
+
+                &.doubleLine {
+                    display:flex;
+                    flex-wrap: wrap;
+                    width:100%;
+
+                    span {
+                        width:100%;
+                        line-height: 30px;
+                        width: 100%;
+                        font-variant: small-caps;
+                        background: @lightBlack;
+                        justify-content: center;
+                        text-align: center;
+                    }
+
+                    select {
+                        width:100%;
+                        color: white;
+                        border: 0px;
+                        padding: 0px;
+                        background: @black;
+                        border-radius: 0px;
+                        text-align: center;
+                        padding-left:15px;
+
+                        option {
+                            background:@black;
+                            color:@white;
+                        }
+                    }
+                }
+
+                &.longspan {
+                display:flex;
+                width:100%;
+                justify-content: space-between;
+                flex:none;
+                line-height: 26px;
+                border-top:1px solid black;
+
+                    span.label {
+                        line-height: 26px;
+                        padding-left:5px;
+                        background:@lightBlack;
+                        width:calc(100% - 50px);
+                    }
+
+                    input {
+                        width:50px;
+                        color:@white;
+                        border:0px;
+                        padding:0px;
+                        background:@black;
+                        border-radius:0px;
+                        text-align: center;
+                    }
+                }
+            }
+
+            div {
+                &.roll {
+                    display:flex;
+                    justify-content: space-between;
+                    width:100%;
+                    border-top:1px solid black;
+                    background:@black;
+                    
+                    input {
+                        width:calc(100% - 13px);
+                        color:@white;
+                        border:0px;
+                        padding:0px;
+                        background:@black;
+                        border-radius:0px;
+
+                        &:first-of-type {
+                            text-align: right;
+                        }
+
+                        &:last-of-type {
+                            text-align: left;
+                        }
+                    }
+
+                    span {
+                        line-height: 26px;
+                        background:@black;
+                        width:26px;
+                    }
+                }
+            }
+
+            &.selected {
+                border:1px solid @lightBlue;
+            }
+        }
+        
+        div.effets {
+            display: flex;
+            position:relative;
+            width: 100%;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+            
+            padding-right: 5px;
+            padding-bottom: 19px;
+            padding-left: 5px;
+            border: 1px solid @lightBlue;
+            flex:none;
+
+            .effets();
+        }
+    }
+}
