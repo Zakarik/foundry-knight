@@ -9,7 +9,7 @@ export class TraumaSheet extends ItemSheet {
       classes: ["knight", "sheet", "item", "trauma"],
       template: "systems/knight/templates/items/trauma-sheet.html",
       width: 700,
-      height: 400,
+      height: 645,
       scrollY: [".attributes"],
     });
   }

@@ -159,13 +159,14 @@ export class IASheet extends ActorSheet {
     itemData = itemData instanceof Array ? itemData : [itemData];
     const itemBaseType = itemData[0].type;
 
-    if(itemBaseType === 'arme' || itemBaseType === 'module' ||
-    itemBaseType === 'armure' || itemBaseType === 'motivationMineure' ||
-    itemBaseType === 'contact' || itemBaseType === 'blessure' ||
-    itemBaseType === 'trauma' || itemBaseType === 'langue' || itemBaseType === 'armurelegende' ||
-    (itemBaseType === 'avantage' && itemData[0].system.type !== 'ia') ||
-    (itemBaseType === 'inconvenient' && itemData[0].system.type !== 'ia') ||
-    itemBaseType === 'effet') return;
+    const ignoredTypes = [
+      'arme', 'module',
+      'armure', 'motivationMineure',
+      'contact', 'blessure', 'trauma',
+      'langue', 'armurelegende', 'effet', 'distinction'];
+    if (ignoredTypes.includes(itemBaseType)) return;
+    if ((itemBaseType === 'avantage' || itemBaseType === 'inconvenient') && itemData[0].system.type === 'ia') return;
+
 
     const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
 

@@ -22,7 +22,7 @@ export class PNJSheet extends ActorSheet {
       classes: ["pnj", "sheet", "actor"],
       template: "systems/knight/templates/actors/pnj-sheet.html",
       width: 900,
-      height: 600,
+      height: 780,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".body", initial: "description"}],
     });
   }
@@ -1095,12 +1095,14 @@ export class PNJSheet extends ActorSheet {
     const itemId = itemData[0].id;
     const options = actorData.options;
 
-    if((itemBaseType === 'module' && !options.modules) ||
-    itemBaseType === 'armure' || itemBaseType === 'avantage' ||
-    itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' ||
-    itemBaseType === 'contact' || itemBaseType === 'blessure' ||
-    itemBaseType === 'trauma' || itemBaseType === 'armurelegende' ||
-    itemBaseType === 'effet') return;
+    const typesValides = [
+      'module', 'armure',
+      'avantage', 'inconvenient',
+      'motivationMineure', 'contact',
+      'blessure', 'trauma',
+      'armurelegende', 'effet', 'distinction'];
+    if (typesValides.includes(itemBaseType)) return;
+    if (itemBaseType === 'module' && !options.modules) return;
 
     const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
 

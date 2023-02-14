@@ -27,6 +27,7 @@ import { ArtSheet } from "./sheets/items/art-sheet.mjs";
 import { CapaciteSheet } from "./sheets/items/capacite-sheet.mjs";
 import { CarteHeroiqueSheet } from "./sheets/items/carteheroique-sheet.mjs";
 import { CapaciteHeroiqueSheet } from "./sheets/items/capaciteheroique-sheet.mjs";
+import { DistinctionSheet } from "./sheets/items/distinction-sheet.mjs";
 
 // Import helper/utility classes and constants.
 import { RegisterHandlebars } from "./handlebars.mjs";
@@ -222,6 +223,11 @@ Hooks.once('init', async function() {
 
   Items.registerSheet("art", ArtSheet, {
     types: ["art"],
+    makeDefault: true
+  });
+
+  Items.registerSheet("distinction", DistinctionSheet, {
+    types: ["distinction"],
     makeDefault: true
   });
 });

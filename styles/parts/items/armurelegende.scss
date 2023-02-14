@@ -1,0 +1,2242 @@
+.armurelegende {
+    form.armureWindows {
+        @include header();
+
+        display:flex;
+        align-items: flex-start;
+        align-content: flex-start;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        header {
+            display:flex;
+            width:100%;
+            flex-wrap: wrap;
+            flex-direction: initial;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            h1.charname {
+                width:100%;
+                border:0px;
+                margin:0px;
+                padding:0px;
+                flex:none;
+
+                input[type="text"] {
+                  margin: 0px;
+                  width: 100%;
+                  text-align: center;
+                  border-top: 0px;
+                  border-right: 0px;
+                  border-left: 0px;
+                  border-radius: 0px;
+                  border-width: unset;
+                  border-color: $white;
+                  background:transparent;
+                }
+            }
+        }
+
+        div.capacites,
+        div.special {
+            width:100%;
+            margin-top:10px;
+        }
+
+        div.capacites {
+            border:1px solid $lightBlue;
+            div.add {
+                display:flex;
+                width:100%;
+                justify-content: right;
+
+                a {
+                    line-height: 27px;
+                    padding-right:5px;
+                    padding-left:5px;
+                    border-right:1px solid $black;
+
+                    background:$lightBlack;
+
+                    &:hover {
+                        box-shadow: inset 1px 1px 10px black;
+                    }
+                }
+
+                select {
+                    color:$white;
+                    border-radius:0px;
+                    padding:0px;
+                    background:$lightBlack;
+                    border:0px;
+
+                    option {
+                        background:$black;
+                    }
+                }
+
+            }
+
+            h3 {
+                display: block;
+                position:relative;
+                width: 100%;
+                text-transform: uppercase;
+                color: $white;
+                background: $lightBlack;
+                margin: 0px;
+                border-top: 0px;
+                border-left: 0px;
+                border-right: 0px;
+                border-bottom: 1px solid $black;
+                line-height: 21px;
+                padding-top: 2px;
+                font-size: 20px;
+                padding-left: 20px;
+                font-weight: bold;
+                letter-spacing: 1px;
+
+                .far {
+                    cursor:pointer;
+                }
+
+                div {
+                    position:absolute;
+                    right:5px;
+                    top:0px;
+
+                    a.verrouillage {
+                        width:max-content;
+                        line-height: 21px;
+                        color:$white;
+                        font-variant: small-caps;
+                        font-size:12px;
+
+                        &:hover {
+                            text-shadow:0 0 10px $white;
+                        }
+                    }
+
+                    span {
+                        margin-left:2px;
+                        margin-right:2px;
+                    }
+
+                    a.delete {
+                        width:max-content;
+                        line-height: 21px;
+                        color:$white;
+                        font-variant: small-caps;
+                        font-size:12px;
+
+                        &:hover {
+                            text-shadow:0 0 10px $white;
+                        }
+                    }
+                }
+
+
+            }
+
+            div.editor {
+                width:100%;
+                min-height:30px;
+                border-bottom: 1px solid $lightBlack;
+                background:$lightBlack;
+
+                div.editor-content {
+                    padding-left:5px;
+                    padding-right:5px;
+                }
+            }
+
+            div.shrine,
+            div.changeling,
+            div.falcon,
+            div.goliath,
+            div.ghost,
+            div.mechanic,
+            div.nanoc,
+            div.oriflamme,
+            div.type,
+            div.warlord,
+            div.puppet,
+            div.discord,
+            div.windtalker,
+            div.companions,
+            div.totem,
+            div.record,
+            div.rewind {
+                border-top:1px solid black;
+                border-bottom:1px solid black;
+
+                div.mainData {
+                    display:flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    align-content: flex-start;
+                    flex-wrap: wrap;
+
+                    width:100%;
+                    margin-top:5px;
+                    padding:5px;
+
+                    div.data {
+                        width:calc(50% - 5px);
+                        border:1px solid black;
+
+                        h4 {
+                            width:100%;
+                            background:$lightBlack;
+                            margin:0px;
+                            padding-left:5px;
+                            line-height: 26px;
+                            border-bottom:1px solid black;
+                        }
+
+                        label {
+                            display:flex;
+                            width:100%;
+                            line-height: 26px;;
+                            justify-content: space-between;
+                            flex:none;
+
+                            span {
+
+                                background:$lightBlack;
+                                padding-left:5px;
+                            }
+
+                            input,
+                            select {
+                                color:$white;
+                                border:0px;
+                                padding:0px;
+                                background:$black;
+                                border-radius:0px;
+                            }
+
+                            input {
+                                text-align: center;
+                            }
+
+                            select {
+                                text-align: left;
+                                font-size:12px;
+                                letter-spacing: 0.5px;
+                                border-radius:0px;
+
+                                option {
+                                    background:$lightBlack;
+                                }
+                            }
+
+                            textarea {
+                                color:$white;
+                                border:0px;
+                                padding-top:0px;
+                                padding-bottom:0px;
+                                padding-left:5px;
+                                padding-right:5px;
+                                text-align: left;
+                                background:$black;
+                                font-family: 'Signika';
+                                height:26px;
+                                border-radius:0px;
+                            }
+
+                            &.longspan {
+                                span {
+                                    width:calc(100% - 50px);
+                                }
+
+                                input,
+                                select {
+                                    width:50px;
+                                }
+                            }
+
+                            &.shortspan {
+                                span {
+                                    width:90px;
+                                }
+
+                                input,
+                                select,
+                                textarea {
+                                    width:calc(100% - 90px);
+                                }
+
+                                textarea {
+                                    max-width:calc(100% - 90px);
+                                    min-width:calc(100% - 90px);
+                                }
+                            }
+
+                            &.separation {
+                                span {
+                                    border-top:5px double $black !important;
+                                }
+
+                                input,
+                                select {
+                                    border-top:5px double $lightBlack !important;
+                                    height:31px;
+                                }
+                            }
+
+                            &.hidden {
+                                display:none;
+                            }
+
+                            &:not(:first-of-type) {
+                                span {
+                                    border-top:1px solid $black;
+                                }
+
+                                input,
+                                select,
+                                textarea {
+                                    border-top:1px solid $lightBlack;
+                                }
+                            }
+                        }
+
+                        button {
+                            border-left:0px;
+                            border-top:1px solid black;
+                            border-right:0px;
+                            border-bottom:1px solid black;
+                            font-variant: small-caps;
+                            border-radius:0px;
+                            color:$white;
+                            margin:0px;
+
+                            &.notDisabled {
+                                cursor:pointer;
+                            }
+
+                            &.selected {
+                                background:$lightBlack;
+                            }
+                        }
+                    }
+                }
+            }
+
+            div.vision {
+                border-top:1px solid black;
+                border-bottom:1px solid black;
+
+                div.mainData {
+                    display:flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    align-content: flex-start;
+                    flex-wrap: wrap;
+
+                    width:100%;
+                    margin-top:5px;
+                    padding:5px;
+
+                    div.data {
+                        width:100%;
+                        border:1px solid black;
+
+                        h4 {
+                            width:100%;
+                            background:$lightBlack;
+                            margin:0px;
+                            padding-left:5px;
+                            line-height: 26px;
+                            border-bottom:1px solid black;
+                        }
+
+                        label {
+                            display:flex;
+                            width:100%;
+                            line-height: 26px;;
+                            justify-content: space-between;
+                            flex:none;
+
+                            span {
+
+                                background:$lightBlack;
+                                padding-left:5px;
+                            }
+
+                            input,
+                            select {
+                                color:$white;
+                                border:0px;
+                                padding:0px;
+                                background:$black;
+                            }
+
+                            input {
+                                text-align: left;
+                                padding-left:5px;
+                            }
+
+                            select {
+                                text-align: left;
+                                font-size:12px;
+                                letter-spacing: 0.5px;
+
+                                option {
+                                    background:$lightBlack;
+                                }
+                            }
+
+                            textarea {
+                                color:$white;
+                                border:0px;
+                                padding-top:0px;
+                                padding-bottom:0px;
+                                padding-left:5px;
+                                padding-right:5px;
+                                text-align: left;
+                                background:$black;
+                                font-family: 'Signika';
+                                height:26px;
+                            }
+
+                            &.longspan {
+                                span {
+                                    width:calc(100% - 50px);
+                                }
+
+                                input,
+                                select {
+                                    width:50px;
+                                }
+                            }
+
+                            &.shortspan {
+                                span {
+                                    width:90px;
+                                }
+
+                                input,
+                                select,
+                                textarea {
+                                    width:calc(100% - 90px);
+                                }
+
+                                textarea {
+                                    max-width:calc(100% - 90px);
+                                    min-width:calc(100% - 90px);
+                                }
+                            }
+
+                            &.separation {
+                                span {
+                                    border-top:5px double $black !important;
+                                }
+
+                                input,
+                                select {
+                                    border-top:5px double $lightBlack !important;
+                                    height:31px;
+                                }
+                            }
+
+                            &.hidden {
+                                display:none;
+                            }
+
+                            &:not(:first-of-type) {
+                                span {
+                                    border-top:1px solid $black;
+                                }
+
+                                input,
+                                select,
+                                textarea {
+                                    border-top:1px solid $lightBlack;
+                                }
+                            }
+                        }
+
+                        button {
+                            border-left:0px;
+                            border-top:1px solid black;
+                            border-right:0px;
+                            border-bottom:1px solid black;
+                            font-variant: small-caps;
+                            border-radius:0px;
+                            color:$white;
+                            margin:0px;
+
+                            &.notDisabled {
+                                cursor:pointer;
+                            }
+
+                            &.selected {
+                                background:$lightBlack;
+                            }
+                        }
+                    }
+                }
+            }
+
+            div.personnalise {
+                border-top:1px solid black;
+                border-bottom:1px solid black;
+
+                div.editor {
+                    min-height:100px;
+                }
+            }
+
+            div.changeling {
+                div.explosion {
+                    width:calc(50% - 5px);
+                    border:1px solid black;
+                    margin-top:5px;
+
+                    button {
+                        border-left:0px;
+                        border-top:0px;
+                        border-right:0px;
+                        border-bottom:0px;
+                        font-variant: small-caps;
+                        border-radius:0px;
+                        color:$white;
+                        margin:0px;
+
+                        &.notDisabled {
+                            cursor:pointer;
+                        }
+
+                        &.selected {
+                            background:$lightBlack;
+                            border-bottom:1px solid black;
+                        }
+                    }
+
+                    label {
+                        display:flex;
+                        width:100%;
+                        line-height: 26px;;
+                        justify-content: space-between;
+                        flex:none;
+
+                        span {
+
+                            background:$lightBlack;
+                            padding-left:5px;
+                        }
+
+                        input,
+                        select {
+                            color:$white;
+                            border:0px;
+                            padding:0px;
+                            background:$black;
+                        }
+
+                        input {
+                            text-align: center;
+                        }
+
+                        select {
+                            text-align: left;
+                            font-size:12px;
+                            letter-spacing: 0.5px;
+
+                            option {
+                                background:$lightBlack;
+                            }
+                        }
+
+                        &.shortspan {
+                            >span {
+                                width:90px;
+                            }
+
+                            >input,
+                            >select,
+                            >textarea {
+                                width:calc(100% - 90px);
+                            }
+
+                            >textarea {
+                                max-width:calc(100% - 90px);
+                                min-width:calc(100% - 90px);
+                            }
+                        }
+
+                        &.double {
+                            div {
+                                display:flex;
+                                width:calc(100% - 90px);
+                                justify-content: space-between;
+
+                                span {
+                                    width:25px;
+                                    padding:0px;
+                                    line-height: 26px;
+                                    background:$black;
+                                }
+
+                                input {
+                                    width:calc(50% - (25px / 2));
+
+                                    &:first-of-type {
+                                        text-align: right;
+                                    }
+
+                                    &:last-of-type {
+                                        text-align: left;
+                                    }
+                                }
+                            }
+                        }
+
+                        &.hidden {
+                            display:none;
+                        }
+
+                        &:not(:first-of-type) {
+                            span {
+                                border-top:1px solid $black;
+                            }
+
+                            div {
+                                border-top:1px solid $lightBlack;
+
+                                input {
+                                    height:27px;
+                                }
+                            }
+                        }
+                    }
+
+                    >div {
+                        &.effets {
+                            display: flex;
+                            position:relative;
+                            width: 100%;
+                            justify-content: space-evenly;
+                            flex-wrap: wrap;
+                            padding-right: 5px;
+                            padding-bottom: 19px;
+                            padding-left: 5px;
+                            border-top: 1px solid black;
+
+                            @include effets();
+                        }
+
+                        &.hidden {
+                            display:none;
+                        }
+                    }
+                }
+            }
+
+            div.goliath {
+                div.mainData {
+                    div.col {
+                        width:calc(50% - 5px);
+
+                        div.data {
+                            width:100%;
+
+                            &:not(:first-of-type) {
+                                margin-top:5px;
+                            }
+                        }
+                    }
+                    div.data {
+                        display:flex;
+
+                        flex:none;
+                        flex-wrap: wrap;
+
+                        label {
+                            &.hidden {
+                                display:none;
+                            }
+                        }
+
+                        label.doubleLine,
+                        div.doubleLine {
+                            width:50%;
+                            flex:none;
+                            flex-wrap: wrap;
+
+                            >span {
+                                width:100%;
+                                padding:0px;
+                                text-align: center;
+                            }
+
+                            >input {
+                                width:100%;
+                                text-align: center;
+                                padding:0px;
+                            }
+
+                            &:not(:first-of-type) {
+                                >span {
+                                    border-top:0px;
+                                    border-left:1px solid $black;
+                                }
+
+                               >input {
+                                    border-left:1px solid $lightBlack;
+                                }
+                            }
+                        }
+
+                        div.double {
+                            span {
+                                display:inline-block;
+                                line-height: 26px;
+                                background:$lightBlack;
+                                padding-left:0px;
+                            }
+
+                            label {
+                                display:flex;
+                                width:100%;
+                                justify-content: space-between;
+
+                                input {
+                                    width:50%;
+                                    text-align: right;
+                                }
+
+                                span {
+                                    line-height: 26px;
+                                    width:50%;
+                                    text-align: left;
+                                    background:$black;
+                                    padding:0px;
+                                }
+                            }
+
+                            &:not(:first-of-type) {
+                                >label {
+                                     border-left:1px solid $lightBlack;
+                                 }
+                            }
+                        }
+
+                        label.singleLine {
+                            width:100%;
+                            flex:none;
+                            flex-wrap: wrap;
+
+                            span {
+                                width:100%;
+                            }
+
+                            input {
+                                width:100%;
+                                text-align: center;
+                                padding:0px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            div.ghost {
+                h4.separation {
+                    border-top:5px double black;
+                }
+
+                div.mainData {
+                    div.data {
+                        label {
+                            &.middlespan {
+                                span {
+                                    width:120px;
+                                }
+
+                                input,
+                                select {
+                                    width:calc(100% - 120px);
+                                }
+                            }
+
+                            &.noseparation {
+                                span {
+                                    border-top:0px;
+                                }
+
+                                input,
+                                select {
+                                    border-top:0px;
+                                }
+                            }
+                        }
+
+                        button {
+                            &:not(:first-of-type) {
+                                border-top:0px;
+                            }
+
+                            &:last-of-type {
+                                border-bottom:0px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            div.mechanic {
+                div.mainData {
+                    div.data {
+                        div.triple {
+                            display:flex;
+                            justify-content: space-between;
+
+                            >span {
+                                display:inline-block;
+                                line-height: 26px;
+                                background:$lightBlack;
+                                padding-left:5px;
+                                border-top:1px solid $black;
+                            }
+
+                            label {
+                                display:flex;
+                                width:calc(100% - 90px);
+                                justify-content: space-between;
+
+                                input {
+                                    width:calc(50% - (25px / 2));
+                                    text-align: right;
+                                    height:27px;
+                                    border-top:1px solid $lightBlack;
+
+                                    &:last-of-type {
+                                        text-align: left;
+                                    }
+                                }
+
+                                span {
+                                    line-height: 26px;
+                                    width:25px;
+                                    text-align: left;
+                                    background:$black;
+                                    padding:0px;
+                                    border-top:1px solid $lightBlack;
+                                }
+                            }
+
+                            &.shortspan {
+                                >span {
+                                    width:90px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            div.nanoc {
+                div.mainData {
+                    div.data {
+                        width:100%;
+                    }
+                }
+            }
+
+            div.falcon {
+                div.mainData {
+                    div.data {
+                        width:100%;
+
+                        label {
+                            input {
+                                text-align: left;
+                                padding-left:5px;
+                            }
+                        }
+
+                        &:not(:first-of-type) {
+                            margin-top:5px;
+                        }
+                    }
+                }
+            }
+
+            div.type {
+                div.mainData {
+                    div.plainData {
+                        width:100%;
+                    }
+
+                    div.data {
+                        h4 {
+                            &.title {
+                                font-variant: small-caps;
+                                font-size:17px;
+                            }
+
+                            &:not(:first-of-type) {
+                                border-top:1px solid black;
+                            }
+                        }
+
+                        div {
+                            display:flex;
+                            justify-content: space-between;
+                            width:100%;
+
+                            label.doubleLine {
+                                width:calc(100% / 3);
+                                flex-wrap: wrap;
+
+                                span {
+                                    width:100%;
+                                    text-align: center;
+                                    border-top:0px;
+                                    padding:0px;
+                                }
+
+                                input {
+                                    width:100%;
+                                    border-top:0px;
+                                }
+
+                                &:not(:first-of-type) {
+                                    span {
+                                        border-left:1px solid $black;
+                                    }
+
+                                    input {
+                                        border-left:1px solid $lightBlack;
+                                    }
+                                }
+                            }
+                        }
+
+                        &:not(:first-of-type) {
+                            margin-top:5px;
+                        }
+                    }
+                }
+            }
+
+            div.warlord {
+                div.mainData {
+                    div.col {
+                        width:calc(50% - 5px);
+
+                        >* {
+                            width:100%;
+
+                            &:not(:first-of-type) {
+                                margin-top:5px;
+                            }
+                        }
+                    }
+
+                    div.data {
+                        h4 {
+                            &.title {
+                                font-variant: small-caps;
+                                font-size:17px;
+                                border-bottom:2px solid black;
+                            }
+
+                            &:not(:first-of-type) {
+                                border-top:1px solid black;
+                            }
+                        }
+
+                        >div {
+                            display:flex;
+                            width:100%;
+                            line-height: 26px;;
+                            justify-content: space-between;
+                            flex:none;
+
+                            >span {
+
+                                background:$lightBlack;
+                                padding-left:5px;
+                            }
+
+                            input,
+                            select {
+                                color:$white;
+                                border:0px;
+                                padding:0px;
+                                background:$black;
+                            }
+
+                            input {
+                                text-align: center;
+                            }
+
+                            select {
+                                text-align: left;
+                                font-size:12px;
+                                letter-spacing: 0.5px;
+
+                                option {
+                                    background:$lightBlack;
+                                }
+                            }
+
+                            textarea {
+                                color:$white;
+                                border:0px;
+                                padding-top:0px;
+                                padding-bottom:0px;
+                                padding-left:5px;
+                                padding-right:5px;
+                                text-align: left;
+                                background:$black;
+                                font-family: 'Signika';
+                                height:26px;
+                            }
+
+                            &.longspan {
+                                >span {
+                                    width:calc(100% - 50px);
+                                }
+
+                                label {
+                                    width:50px;
+
+                                    span {
+                                        width:50%;
+                                        background:$black;
+                                        padding:0px;
+                                        text-align: left;
+                                        border-top:1px solid $lightBlack;
+                                    }
+
+                                    input,
+                                    select {
+                                        width:50%;
+                                        text-align: right;
+                                        border-radius:0px;
+                                        height:27px;
+                                    }
+                                }
+                            }
+
+                            &.shortspan {
+                                span {
+                                    width:90px;
+                                }
+
+                                input,
+                                select,
+                                textarea {
+                                    width:calc(100% - 90px);
+                                }
+
+                                textarea {
+                                    max-width:calc(100% - 90px);
+                                    min-width:calc(100% - 90px);
+                                }
+                            }
+
+                            &.separation {
+                                span {
+                                    border-top:5px double $black !important;
+                                }
+
+                                input,
+                                select {
+                                    border-top:5px double $lightBlack !important;
+                                    height:31px;
+                                }
+                            }
+
+                            &.noBorderTop {
+                                label {
+                                    span {
+                                        border-top:0px;
+                                    }
+
+                                    input,
+                                    select {
+                                        height:26px;
+                                    }
+                                }
+                            }
+
+                            &:not(:first-of-type) {
+                                span {
+                                    border-top:1px solid $black;
+                                }
+
+                                input,
+                                select,
+                                textarea {
+                                    border-top:1px solid $lightBlack;
+                                }
+                            }
+                        }
+
+                        label {
+                            position:relative;
+
+                            input.absolute,
+                            select.absolute {
+                                position:absolute;
+                                right:0;
+                                top:0;
+                                height:100%;
+                            }
+
+                            &.noBorderTop {
+                                span {
+                                    border-top:0px;
+                                }
+
+                                input,
+                                select {
+                                    border-top:0px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            div.oriflamme {
+                div.mainData {
+                    div.data {
+                        div.double {
+                            display:flex;
+                            justify-content: space-between;
+
+                            span {
+                                display:inline-block;
+                                line-height: 26px;
+                                background:$lightBlack;
+                                padding-left: 5px;
+                                width:90px;
+                            }
+
+                            label {
+                                display:flex;
+                                width:calc(100% - 90px);
+                                justify-content: space-between;
+
+                                input {
+                                    width:calc(50% - (26px / 2));
+
+
+                                    &:first-of-type {
+                                        text-align: right;
+                                    }
+
+                                    &:last-of-type {
+                                        text-align: left;
+                                    }
+                                }
+
+                                span {
+                                    line-height: 26px;
+                                    width:26px;
+                                    text-align: left;
+                                    background:$black;
+                                    padding:0px;
+                                }
+                            }
+
+                            &:not(:first-of-type) {
+                                >span {
+                                    border-top:1px solid $black;
+                                }
+
+                                label {
+                                    border-top:1px solid $lightBlack;
+                                }
+                            }
+                        }
+
+                        label.singleSeparation {
+                            span {
+                                border-top:1px solid $black;
+                            }
+
+                            input,
+                            select,
+                            textarea {
+                                border-top:1px solid $lightBlack;
+                            }
+                        }
+
+                        div.effets {
+                            display: flex;
+                            position:relative;
+                            width: 100%;
+                            justify-content: space-evenly;
+                            flex-wrap: wrap;
+                            padding-right: 5px;
+                            padding-bottom: 19px;
+                            padding-left: 5px;
+                            border-top: 1px solid black;
+
+                            @include effets();
+                        }
+                    }
+                }
+            }
+
+            div.puppet {
+                div.mainData {
+                    div.data {
+                        label {
+                            position:relative;
+
+                            input {
+                                position:absolute;
+                                right:0px;
+                                height: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+
+            div.discord {
+                div.mainData {
+                    div.data {
+                        h4.title {
+                            font-variant: small-caps;
+                            font-size:17px;
+                        }
+
+                        label.doubleLine {
+                            flex-wrap: wrap;
+                            width:calc(100% / 3);
+
+                            span {
+                                padding:0px;
+                                width:100%;
+                                border-top:0px;
+                                text-align: center;
+                            }
+
+                            input {
+                                width:100%;
+                                border-top:0px;
+                            }
+
+                            &:last-of-type {
+                                width:calc((100% / 3) + 1px);
+                            }
+
+                            &:not(:first-of-type) {
+                                span {
+                                    border-left:1px solid $black;
+                                }
+
+                                input {
+                                    border-left:1px solid $lightBlack;
+                                }
+                            }
+                        }
+
+                        &.fullWidth {
+                            display:flex;
+                            width:100%;
+                            justify-content: space-between;
+                        }
+
+                        &:not(:nth-of-type(1)):not(:nth-of-type(2)) {
+                            margin-top:5px;
+                        }
+                    }
+                }
+            }
+
+            div.companions {
+                div.mainData {
+                    div.lion,
+                    div.wolf,
+                    div.crow {
+                        display:flex;
+                        width:100%;
+                        border:1px solid black;
+                        margin-top:5px;
+                        flex-wrap: wrap;
+
+                        h4.title {
+                            font-variant: small-caps;
+                            font-size:17px;
+                            border-bottom:2px solid black;
+                            font-weight:bold;
+                            line-height: 24px;
+                            width:100%;
+                            text-align: center;
+                            background: $lightBlack;
+                            margin:0px;
+                        }
+
+                        h4.header {
+                            position:relative;
+
+                            i {
+                                position:absolute;
+                                left:5px;
+                                z-index:90;
+                                margin-top:4px;
+                                cursor:pointer;
+                            }
+                        }
+
+                        div.aspects {
+                            display:flex;
+                            width:100%;
+                            justify-content: space-between;
+                            background:$lightBlack;
+
+                            h5 {
+                                width: 100%;
+                                margin: 0px;
+                                line-height: 25px;
+                                font-size: 14px;
+                                padding-left: 5px;
+                                font-weight: normal;
+                                text-transform: uppercase;
+                            }
+
+                            label {
+                                display: flex;
+                                justify-content: space-between;
+                                width: 100%;
+                                line-height: 26px;
+                                border: 0px;
+                                border-top:1px solid black;
+
+                                span {
+                                    display:inline-block;
+                                    padding-left:5px;
+                                    width:calc(100% - 50px);
+
+                                }
+
+                                input {
+                                    width:50px;
+                                    background:$black;
+                                    text-align: center;
+                                    border-radius:0px;
+                                    border:0px;
+                                }
+
+                                &.full {
+                                    flex-wrap: wrap;
+
+                                    span {
+                                        width:100%;
+                                        padding:0px;
+                                        text-align: center;
+                                    }
+
+                                    select {
+                                        width:100%;
+                                        background:$black;
+                                        text-align: center;
+                                        border-radius:0px;
+                                        border:0px;
+                                        color:$white;
+                                    }
+                                }
+                            }
+
+                            div.col {
+                                display:flex;
+                                flex-wrap: wrap;
+                                width:calc(100% / 5 + 4px);
+
+                                &:not(:last-of-type) {
+                                    border-right:1px solid black;
+                                }
+                            }
+                        }
+
+                        div.derives {
+                            display:flex;
+                            width:100%;
+                            justify-content: space-between;
+                            background:$lightBlack;
+                            border-top:5px double black;
+
+                            h5 {
+                                width: 100%;
+                                margin: 0px;
+                                line-height: 25px;
+                                font-size: 14px;
+                                padding-left: 5px;
+                                font-weight: normal;
+                                text-transform: uppercase;
+                            }
+
+                            div.block {
+                                position:relative;
+                                width:100%;
+
+                                span {
+                                    display:inline-block;
+                                    width:100%;
+                                    background:$black;
+                                    text-align: center;
+                                    line-height: 26px;
+                                }
+
+                                input {
+                                    position:absolute;
+                                    width:calc(50% - 12px);
+                                    border:0px;
+                                    margin:0px;
+                                    border-radius: 0px;
+                                    text-align: center;
+                                    padding:0px;
+                                    background:$black;
+                                    z-index:90;
+
+                                    &:first-of-type {
+                                        text-align: right;
+                                    }
+
+                                    &:last-of-type {
+                                        text-align: left;
+                                        right:0px;
+                                    }
+                                }
+                            }
+
+                            div.col {
+                                display:flex;
+                                flex-wrap: wrap;
+                                width:calc(100% / 5 + 4px);
+
+                                >input {
+                                    width:100%;
+                                    border:0px;
+                                    margin:0px;
+                                    border-radius: 0px;
+                                    text-align: center;
+                                    padding:0px;
+                                    background:$black;
+                                }
+
+                                &:not(:last-of-type) {
+                                    border-right:1px solid black;
+                                }
+                            }
+                        }
+
+                        div.armes {
+                            width:100%;
+                            border-top:1px solid black;
+                            h5 {
+                                width: 100%;
+                                margin: 0px;
+                                line-height: 25px;
+                                font-size: 14px;
+                                padding-left: 5px;
+                                font-weight: normal;
+                                text-transform: uppercase;
+                                background:$lightBlack;
+                            }
+
+                            div.line {
+                                display:flex;
+                                justify-content: space-between;
+                                width:100%;
+
+                                input,
+                                select {
+                                    border:0px;
+                                    border-radius:0px;
+                                    padding:0px;
+                                    background:$black;
+                                }
+
+                                >span {
+                                    font-variant: small-caps;
+                                    text-align: center;
+                                    background:$lightBlack;
+                                    border-top:1px solid black;
+
+                                    &.label {
+                                        width:calc(100% - (100px*2) - 150px);
+                                    }
+
+                                    &.degats,
+                                    &.violence {
+                                        width:100px;
+                                    }
+
+                                    &.portee {
+                                        width:150px;
+                                    }
+
+                                    &:not(:last-of-type) {
+                                        border-right:1px solid black;
+                                    }
+                                }
+
+                                >div {
+                                    &.label {
+                                        width:calc(100% - (100px*2) - 150px);
+
+                                        input {
+                                            padding-left:5px;
+                                        }
+                                    }
+
+                                    &.degats,
+                                    &.violence {
+                                        position:relative;
+                                        width:100px;
+
+                                        input {
+                                            position:absolute;
+                                            width:calc(50% - 12px);
+
+                                            &:first-of-type {
+                                                text-align: right;
+                                            }
+
+                                            &:last-of-type {
+                                                text-align: left;
+                                                right:0px;
+                                            }
+                                        }
+
+                                        span {
+                                            display: inline-block;
+                                            width:100%;
+                                            background:$black;
+                                            text-align: center;
+                                            line-height: 26px;
+                                        }
+                                    }
+
+                                    &.portee {
+                                        width:150px;
+
+                                        select {
+                                            width:100%;
+                                            text-align: center;
+                                            color:$white;
+
+                                            option {
+                                                background:$black;
+                                            }
+                                        }
+                                    }
+
+                                    &:not(:last-of-type) {
+                                        border-right:1px solid black;
+                                    }
+                                }
+
+                                &.separation {
+                                    border-top:5px double black;
+                                }
+                            }
+
+                            div.effets {
+                                display: flex;
+                                position:relative;
+                                width: 100%;
+                                justify-content: space-evenly;
+                                flex-wrap: wrap;
+                                padding-right: 5px;
+                                padding-bottom: 19px;
+                                padding-left: 5px;
+                                border-top: 1px solid black;
+
+                                @include effets();
+                            }
+                        }
+
+                        div.configurations {
+                            display:flex;
+                            flex-wrap: wrap;
+                            width:100%;
+                            justify-content: space-between;
+                            align-items: flex-start;
+                            border-top:1px solid black;
+
+                            h5 {
+                                width: 100%;
+                                margin: 0px;
+                                line-height: 25px;
+                                font-size: 14px;
+                                padding-left: 5px;
+                                font-weight: normal;
+                                text-transform: uppercase;
+                                background:$lightBlack;
+                            }
+
+                            div.configuration {
+                                width:calc((100% / 2) - 10px);
+                                margin-top:5px;
+                                margin-left:5px;
+                                margin-right:5px;
+                                margin-bottom:5px;
+                                border:1px solid black;
+
+                                h6 {
+                                    width: 100%;
+                                    margin: 0px;
+                                    line-height: 25px;
+                                    font-size: 15px;
+                                    padding-left: 5px;
+                                    font-weight: normal;
+                                    font-variant: small-caps;
+                                    background:$lightBlack;
+                                }
+
+                                textarea {
+                                    color:$white;
+                                    border:0px;
+                                    padding-top:0px;
+                                    padding-bottom:0px;
+                                    padding-left:5px;
+                                    padding-right:5px;
+                                    text-align: left;
+                                    background:$black;
+                                    font-family: 'Signika';
+                                    height:26px;
+                                    border-radius:0px;
+                                }
+
+                                label {
+                                    display:flex;
+                                    width:100%;
+                                    line-height: 26px;;
+                                    justify-content: space-between;
+                                    flex:none;
+
+                                    span {
+                                        background:$lightBlack;
+                                        padding-left:5px;
+                                    }
+
+                                    input,
+                                    select {
+                                        color:$white;
+                                        border:0px;
+                                        padding:0px;
+                                        background:$black;
+                                        border-radius:0px;
+                                    }
+
+                                    input {
+                                        text-align: center;
+                                    }
+
+                                    select {
+                                        text-align: left;
+                                        font-size:12px;
+                                        letter-spacing: 0.5px;
+                                        border-radius:0px;
+
+                                        option {
+                                            background:$lightBlack;
+                                        }
+                                    }
+
+                                    &.longspan {
+                                        span {
+                                            width:calc(100% - 50px);
+                                        }
+
+                                        input,
+                                        select {
+                                            width:50px;
+                                        }
+                                    }
+
+                                    &.longspanWDice {
+                                        span.label {
+                                            width:calc(100% - 50px);
+                                        }
+
+                                        input,
+                                        select {
+                                            width:39px;
+                                            margin-left:auto;
+                                            text-align: right;
+                                        }
+
+                                        span.dice {
+                                            width:11px;
+                                            padding:0px;
+                                            line-height: 24px;
+                                            background:$black;
+                                            border-top-color: $lightBlack;
+                                        }
+                                    }
+
+                                    &.longspanWSante {
+                                        span.label {
+                                            width:calc(100% - 50px);
+                                        }
+
+                                        input,
+                                        select {
+                                            width:33px;
+                                            margin-left:auto;
+                                            text-align: right;
+                                        }
+
+                                        span.sante {
+                                            width:17px;
+                                            padding:0px;
+                                            line-height: 24px;
+                                            background:$black;
+                                            border-top-color: $lightBlack;
+                                        }
+                                    }
+
+                                    &.longspanWArmure {
+                                        span.label {
+                                            width:calc(100% - 50px);
+                                        }
+
+                                        input,
+                                        select {
+                                            width:33px;
+                                            margin-left:auto;
+                                            text-align: right;
+                                        }
+
+                                        span.armure {
+                                            width:17px;
+                                            padding:0px;
+                                            line-height: 24px;
+                                            background:$black;
+                                            border-top-color: $lightBlack;
+                                        }
+                                    }
+
+                                    &.longspanWDegats,
+                                    &.longspanWViolence {
+                                        span.label {
+                                            width:calc(100% - 50px);
+                                        }
+
+                                        input,
+                                        select {
+                                            width:25px;
+                                            margin-left:auto;
+                                            text-align: right;
+                                        }
+
+                                        span.degats,
+                                        span.violence {
+                                            width:25px;
+                                            text-align: left;
+                                            padding:0px;
+                                            line-height: 24px;
+                                            background:$black;
+                                            border-top-color: $lightBlack;
+                                        }
+                                    }
+
+                                    &.shortspan {
+                                        span {
+                                            width:90px;
+                                        }
+
+                                        input,
+                                        select,
+                                        textarea {
+                                            width:calc(100% - 90px);
+                                        }
+
+                                        textarea {
+                                            max-width:calc(100% - 90px);
+                                            min-width:calc(100% - 90px);
+                                        }
+                                    }
+
+                                    &.separation {
+                                        span {
+                                            border-top:5px double $black !important;
+                                        }
+
+                                        input,
+                                        select {
+                                            border-top:5px double $lightBlack !important;
+                                            height:31px;
+                                        }
+                                    }
+
+                                    &.hidden {
+                                        display:none;
+                                    }
+
+                                    &:first-of-type {
+                                        border-top:1px solid black;
+                                    }
+
+                                    &:not(:first-of-type) {
+                                        span {
+                                            border-top:1px solid $black;
+                                        }
+
+                                        input,
+                                        select,
+                                        textarea {
+                                            border-top:1px solid $lightBlack;
+                                        }
+                                    }
+                                }
+
+                                span.title {
+                                    display:block;
+                                    background:$lightBlack;
+                                    width:100%;
+                                    padding-left:5px;
+                                    line-height: 26px;
+                                    border-top:1px solid black;
+                                }
+
+                                div.effets {
+                                    display: flex;
+                                    position:relative;
+                                    width: 100%;
+                                    justify-content: space-evenly;
+                                    flex-wrap: wrap;
+                                    padding-right: 5px;
+                                    padding-bottom: 19px;
+                                    padding-left: 5px;
+                                    border-top: 1px solid black;
+
+                                    @include effets();
+                                }
+                            }
+                        }
+                    }
+
+                    div.crow {
+                        div.debordement {
+                            display:flex;
+                            width:100%;
+                            justify-content: space-between;
+                            border-top:5px double black;
+                            align-items:flex-start;
+
+                            h5 {
+                                width: 100%;
+                                margin: 0px;
+                                line-height: 25px;
+                                font-size: 14px;
+                                padding-left: 5px;
+                                font-weight: normal;
+                                text-transform: uppercase;
+                            }
+
+                            div.block {
+                                position:relative;
+                                width:100%;
+
+                                span {
+                                    display:inline-block;
+                                    width:100%;
+                                    background:$black;
+                                    text-align: center;
+                                    line-height: 26px;
+                                }
+
+                                input {
+                                    position:absolute;
+                                    width:calc(50% - 12px);
+                                    border:0px;
+                                    margin:0px;
+                                    border-radius: 0px;
+                                    text-align: center;
+                                    padding:0px;
+                                    background:$black;
+                                    z-index:90;
+
+                                    &:first-of-type {
+                                        text-align: right;
+                                    }
+
+                                    &:last-of-type {
+                                        text-align: left;
+                                        right:0px;
+                                    }
+                                }
+                            }
+
+                            div.col {
+                                display:flex;
+                                flex-wrap: wrap;
+                                width:calc(100% / 5 + 4px);
+                                background:$lightBlack;
+                                border-bottom:1px solid black;
+
+                                >input {
+                                    width:100%;
+                                    border:0px;
+                                    margin:0px;
+                                    border-radius: 0px;
+                                    text-align: center;
+                                    padding:0px;
+                                    background:$black;
+                                }
+
+                                &:not(:last-of-type) {
+                                    border-right:1px solid black;
+                                }
+                            }
+
+                            textarea {
+                                width:calc(((100% / 5) - 1px) * 4);
+
+                                color:$white;
+                                border:0px;
+                                padding-top:0px;
+                                padding-bottom:0px;
+                                padding-left:5px;
+                                padding-right:5px;
+                                text-align: left;
+                                background:$black;
+                                font-family: 'Signika';
+                                height:26px;
+                                border-radius:0px;
+
+                                border-left:1px solid black;
+                                border-bottom:1px solid black;
+                            }
+                        }
+                    }
+
+                    div.wolf,
+                    div.crow {
+                        margin-top:10px;
+                    }
+                }
+            }
+
+            div.totem {
+                div.mainData {
+                    div.data {
+                        div.double {
+                            display:flex;
+                            width:100%;
+                            line-height: 26px;;
+                            justify-content: space-between;
+                            flex:none;
+
+                            >span {
+                                width:calc(100% - 25px - 75px);
+                                background:$lightBlack;
+                                padding-left:5px;
+                            }
+
+                            input,
+                            select {
+                                width:25px;
+                                color:$white;
+                                border:0px;
+                                padding:0px;
+                                background:$black;
+                                border-radius:0px;
+                            }
+
+                            input {
+                                text-align: right;
+                                padding-right:5px;
+                            }
+
+                            label {
+                                display:flex;
+                                width:100px;
+                                justify-content: space-between;
+
+                                span {
+                                    width:75px;
+                                    background:$black;
+                                    padding:0px;
+                                }
+                            }
+
+                            &:not(:first-of-type) {
+                                >span {
+                                    border-top:1px solid $black;
+                                }
+
+                                input,
+                                select,
+                                textarea {
+                                    border-top:1px solid $lightBlack;
+                                }
+
+                                label {
+                                    span {
+                                        border-top:1px solid $lightBlack;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        div.special {
+            border:1px solid $lightBlue;
+
+            h3 {
+                display: block;
+                position:relative;
+                width: 100%;
+                text-transform: uppercase;
+                color: $white;
+                background: $lightBlack;
+                margin: 0px;
+                border-top: 0px;
+                border-left: 0px;
+                border-right: 0px;
+                border-bottom: 1px solid $black;
+                line-height: 21px;
+                padding-top: 2px;
+                font-size: 20px;
+                padding-left: 20px;
+                font-weight: bold;
+                letter-spacing: 1px;
+
+                .far {
+                    cursor:pointer;
+                }
+
+                div {
+                    position:absolute;
+                    right:5px;
+                    top:0px;
+
+                    a.verrouillage {
+                        width:max-content;
+                        line-height: 21px;
+                        color:$white;
+                        font-variant: small-caps;
+                        font-size:12px;
+
+                        &:hover {
+                            text-shadow:0 0 10px $white;
+                        }
+                    }
+
+                    span {
+                        margin-left:2px;
+                        margin-right:2px;
+                    }
+
+                    a.delete {
+                        width:max-content;
+                        line-height: 21px;
+                        color:$white;
+                        font-variant: small-caps;
+                        font-size:12px;
+
+                        &:hover {
+                            text-shadow:0 0 10px $white;
+                        }
+                    }
+                }
+
+
+            }
+
+            div.editor {
+                width:100%;
+                min-height:30px;
+                border-bottom: 1px solid $lightBlack;
+                background:$lightBlack;
+
+                div.editor-content {
+                    padding-left:5px;
+                    padding-right:5px;
+                }
+            }
+
+            div.recolteflux {
+                border-top:1px solid black;
+                border-bottom:1px solid black;
+
+                div.mainData {
+                    display:flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    align-content: flex-start;
+                    flex-wrap: wrap;
+
+                    width:100%;
+                    margin-top:5px;
+                    padding:5px;
+
+                    div.data {
+                        width:calc(50% - 5px);
+                        border:1px solid black;
+
+                        h4 {
+                            width:100%;
+                            background:$lightBlack;
+                            margin:0px;
+                            padding-left:5px;
+                            line-height: 26px;
+                            border-bottom:1px solid black;
+                        }
+
+                        label {
+                            display:flex;
+                            width:100%;
+                            line-height: 26px;;
+                            justify-content: space-between;
+                            flex:none;
+
+                            span {
+
+                                background:$lightBlack;
+                                padding-left:5px;
+                            }
+
+                            input,
+                            select {
+                                color:$white;
+                                border:0px;
+                                padding:0px;
+                                background:$black;
+                                border-radius:0px;
+                            }
+
+                            input {
+                                text-align: center;
+                            }
+
+                            select {
+                                text-align: left;
+                                font-size:12px;
+                                letter-spacing: 0.5px;
+                                border-radius:0px;
+
+                                option {
+                                    background:$lightBlack;
+                                }
+                            }
+
+                            textarea {
+                                color:$white;
+                                border:0px;
+                                padding-top:0px;
+                                padding-bottom:0px;
+                                padding-left:5px;
+                                padding-right:5px;
+                                text-align: left;
+                                background:$black;
+                                font-family: 'Signika';
+                                height:26px;
+                                border-radius:0px;
+                            }
+
+                            &.longspan {
+                                span {
+                                    width:calc(100% - 50px);
+                                }
+
+                                input,
+                                select {
+                                    width:50px;
+                                }
+                            }
+
+                            &.shortspan {
+                                span {
+                                    width:90px;
+                                }
+
+                                input,
+                                select,
+                                textarea {
+                                    width:calc(100% - 90px);
+                                }
+
+                                textarea {
+                                    max-width:calc(100% - 90px);
+                                    min-width:calc(100% - 90px);
+                                }
+                            }
+
+                            &.separation {
+                                span {
+                                    border-top:5px double $black !important;
+                                }
+
+                                input,
+                                select {
+                                    border-top:5px double $lightBlack !important;
+                                    height:31px;
+                                }
+                            }
+
+                            &.hidden {
+                                display:none;
+                            }
+
+                            &:not(:first-of-type) {
+                                span {
+                                    border-top:1px solid $black;
+                                }
+
+                                input,
+                                select,
+                                textarea {
+                                    border-top:1px solid $lightBlack;
+                                }
+                            }
+                        }
+
+                        button {
+                            border-left:0px;
+                            border-top:1px solid black;
+                            border-right:0px;
+                            border-bottom:1px solid black;
+                            font-variant: small-caps;
+                            border-radius:0px;
+                            color:$white;
+                            margin:0px;
+
+                            &.notDisabled {
+                                cursor:pointer;
+                            }
+
+                            &.selected {
+                                background:$lightBlack;
+                            }
+                        }
+                    }
+                }
+            }
+
+            div.recolteflux {
+                div.mainData {
+                    div.data {
+                        h4 {
+                            &.title {
+                                font-variant: small-caps;
+                                font-size:17px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

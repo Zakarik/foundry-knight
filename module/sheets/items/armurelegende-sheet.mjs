@@ -12,7 +12,7 @@ export class ArmureLegendeSheet extends ItemSheet {
       classes: ["knight", "sheet", "item", "armurelegende"],
       template: "systems/knight/templates/items/armurelegende-sheet.html",
       width: 700,
-      height: 450,
+      height: 400,
       scrollY: [".attributes"],
     });
   }

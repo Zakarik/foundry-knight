@@ -1,0 +1,43 @@
+.askdialog {
+  div.dialog-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-content: baseline;
+    align-items: baseline;
+
+    span {
+      display: inline-block;
+      text-align: justify;
+      width: 100%;
+      line-height: 16px;
+      min-height: 20px;
+    }
+
+    select {
+      width: 100%;
+      text-align: center;
+      padding-left: 13px;
+      border: 1px solid $lightBlack;
+      border-bottom: 0px;
+      margin: 0px;
+      padding: 0px;
+      text-align: center;
+      background: $black;
+      color: $white;
+      font-variant: small-caps;
+
+      option {
+        background: $black;
+      }
+    }
+  }
+
+  button {
+    color: $white;
+    background: $lightBlack;
+    cursor: pointer;
+    border-radius: 0px;
+    margin: 0px;
+  }
+}

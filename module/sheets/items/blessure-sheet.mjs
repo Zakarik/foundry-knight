@@ -9,7 +9,7 @@ export class BlessureSheet extends ItemSheet {
       classes: ["knight", "sheet", "item", "blessure"],
       template: "systems/knight/templates/items/blessure-sheet.html",
       width: 700,
-      height: 400,
+      height: 645,
       scrollY: [".attributes"],
     });
   }
@@ -53,7 +53,7 @@ export class BlessureSheet extends ItemSheet {
       const update = {
         data: {
           soigne: {
-            [type]:result           
+            [type]:result
           }
         }
       };

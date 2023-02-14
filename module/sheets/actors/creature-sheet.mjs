@@ -22,7 +22,7 @@ export class CreatureSheet extends ActorSheet {
       classes: ["creature", "sheet", "actor"],
       template: "systems/knight/templates/actors/creature-sheet.html",
       width: 900,
-      height: 600,
+      height: 790,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".body", initial: "description"}],
     });
   }
@@ -760,12 +760,13 @@ export class CreatureSheet extends ActorSheet {
     const itemBaseType = itemData[0].type;
     const options = actorData.options;
 
-    if(itemBaseType === 'module' ||
-    itemBaseType === 'armure' || itemBaseType === 'avantage' ||
-    itemBaseType === 'inconvenient' || itemBaseType === 'motivationMineure' ||
-    itemBaseType === 'contact' || itemBaseType === 'blessure' ||
-    itemBaseType === 'trauma' || itemBaseType === 'armurelegende' ||
-    itemBaseType === 'effet') return;
+    const typesValides = [
+      'module', 'armure',
+      'avantage', 'inconvenient',
+      'motivationMineure', 'contact',
+      'blessure', 'trauma', 'langue',
+      'armurelegende', 'effet', 'distinction'];
+    if (typesValides.includes(itemBaseType)) return;
 
     const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
 

@@ -12,7 +12,7 @@ export class ArmeSheet extends ItemSheet {
       classes: ["knight", "sheet", "item", "arme"],
       template: "systems/knight/templates/items/arme-sheet.html",
       width: 700,
-      height: 450,
+      height: 585,
       scrollY: [".attributes"],
       dragDrop: [{dropSelector:'.armeWindows'}]
     });

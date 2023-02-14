@@ -1,0 +1,1261 @@
+.module {
+    @include header();
+
+    .sheet-header {
+        height:48px;
+        max-height:48px;
+
+        h1.charname {
+            width:100%;
+            height:48px;
+            max-height:48px;
+            border:0px;
+            margin:0px;
+            padding:0px;
+
+            input[type="text"] {
+                margin: 0px;
+                width: 100%;
+                text-align: center;
+                border-top: 0px;
+                border-right: 0px;
+                border-left: 0px;
+                border-radius: 0px;
+                border-width: unset;
+                border-color: $white;
+                background:transparent;
+            }
+        }
+    }
+
+    div {
+        &.main {
+            display:flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            align-content: flex-start;
+            width:100%;
+            flex-wrap: wrap;
+
+            h2.header {
+                a {
+                    position:absolute;
+                    right:5px;
+                    line-height:22px;
+                }
+            }
+
+            img.profile-img {
+                width:153px;
+                object-fit: contain;
+            }
+
+            div {
+                &.description {
+                    width:calc(100% - 160px);
+                    margin-bottom:5px;
+                }
+
+                &.fullData {
+                    width:100%;
+                    display:flex;
+                    align-items: baseline;
+                    align-content: baseline;
+                    flex-wrap: wrap;
+                }
+
+                &.aspects {
+                    display:flex;
+                    width:100%;
+                    align-items: baseline;
+                    align-content: baseline;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+
+                    div {
+                        width:calc((100% / 3) - 5px);
+                        border:1px solid $lightBlue;
+                        margin-bottom:5px;
+
+                        h3 {
+                            width:100%;
+                            text-align: center;
+                            font-size:13px;
+                            font-variant: small-caps;
+                            color:$white;
+                            line-height: 26px;
+                            margin:0px;
+                            border-top:1px solid black;
+                            border-bottom:0px;
+                        }
+
+                        label {
+                            &.oneLine {
+                                display:flex;
+                                width:100%;
+                                justify-content: space-between;
+
+                                span {
+                                    width:50%;
+                                    padding-left:5px;
+                                    line-height: 22px;
+                                    background:$lightBlack;
+                                    font-variant: small-caps;
+                                }
+
+                                select {
+                                    width:50%;
+                                    height:22px;
+                                    padding:0px;
+                                    margin:0px;
+                                    border:0px;
+                                    border-radius:0px;
+                                    background:$black;
+                                    color:$white;
+
+                                    option {
+                                        background:$black;
+                                        color:$white;
+                                    }
+                                }
+
+                                input {
+                                    width:50%;
+                                    height:22px;
+                                    padding:0px;
+                                    margin:0px;
+                                    border:0px;
+                                    border-radius:0px;
+                                    background:$black;
+                                    color:$white;
+                                    text-align: center;
+                                }
+
+                                &:not(:first-of-type) {
+                                    border-top:1px solid black;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &.jetsSpecifiques {
+                    display:flex;
+                    width:30%;
+                    align-items: baseline;
+                    align-content: baseline;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    border-top:1px solid $lightBlue;
+                    border-left:1px solid $lightBlue;
+                    margin-top:5px;
+                    margin-left:auto;
+
+                    h3 {
+                        position:relative;
+                        width:100%;
+                        text-align: left;
+                        font-size:13px;
+                        font-variant: small-caps;
+                        color:$white;
+                        line-height: 26px;
+                        margin:0px;
+                        padding-left:5px;
+                        border-bottom:1px solid black;
+
+                        a {
+                            position: absolute;
+                            right: 5px;
+                            line-height: 27px;
+                        }
+                    }
+
+                    >div {
+                        display:flex;
+                        justify-content: space-between;
+                        flex-wrap: wrap;
+                        width:100%;
+
+                        div {
+                            &.header {
+                                position:relative;
+                                width:100%;
+
+                                a {
+                                    position: absolute;
+                                    right: 5px;
+                                    line-height: 22px;
+                                }
+                            }
+                        }
+
+                        input {
+                            height:22px;
+                            padding:0px;
+                            margin:0px;
+                            border:0px;
+                            border-radius:0px;
+                            background:$black;
+                            color:$white;
+
+                            &::placeholder {
+                                color:$lightBlack;
+                            }
+                        }
+
+                        input[type=text] {
+                            width:100%;
+                            text-align: center;
+                            border-bottom:1px solid black;
+                        }
+
+                        label {
+                            &.dice {
+                                display:flex;
+                                width:50%;
+                                justify-content: space-between;
+                                background:$black;
+
+                                input {
+                                    width:50%;
+                                    text-align: right;
+                                    background:transparent;
+                                }
+
+                                span {
+                                    width:50%;
+                                    text-align: left;
+                                    padding-left:1px;
+                                    background:transparent;
+                                    line-height: 22px;
+                                }
+                            }
+
+                            &.od {
+                                display:flex;
+                                width:50%;
+                                justify-content: space-between;
+                                background:$black;
+
+                                input {
+                                    width:50%;
+                                    text-align: center;
+                                    background:transparent;
+                                }
+
+                                span {
+                                    width:50%;
+                                    background:$lightBlack;
+                                    line-height: 22px;
+                                    padding-left:5px;
+                                }
+                            }
+                        }
+
+                        &:not(:first-of-type) {
+                            border-top:5px double $lightBlack;
+                        }
+                    }
+                }
+
+                &.armes {
+                    display:flex;
+                    width:calc(70% - 5px);
+                    align-items: baseline;
+                    align-content: baseline;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    border-top:1px solid $lightBlue;
+                    border-right:1px solid $lightBlue;
+                    margin-top:5px;
+
+                    h3 {
+                        position:relative;
+                        width:100%;
+                        text-align: left;
+                        font-size:13px;
+                        font-variant: small-caps;
+                        color:$white;
+                        line-height: 26px;
+                        margin:0px;
+                        padding-left:5px;
+                        border-bottom:1px solid black;
+
+                        a {
+                            position: absolute;
+                            right: 5px;
+                            line-height: 27px;
+                        }
+                    }
+
+                    >div {
+                        display:flex;
+                        justify-content: space-between;
+                        flex-wrap: wrap;
+                        width:100%;
+
+                        div {
+                            &.header {
+                                position:relative;
+                                display:flex;
+                                width:100%;
+                                justify-content: space-between;
+
+                                span {
+                                    display:inline-block;
+                                    font-size:13px;
+                                    font-variant: small-caps;
+                                    text-align: center;
+                                    background:$lightBlack;
+                                    line-height: 22px;
+
+                                    &.nom {
+                                        width:calc(100% - 150px);
+                                    }
+
+                                    &.type {
+                                        width:150px;
+                                    }
+
+                                    &.portee {
+                                        width:calc(100% / 3);
+                                    }
+
+                                    &.attaque,
+                                    &.degats,
+                                    &.violence {
+                                        width:calc(100% / 3);
+                                        border-left:1px solid $black;
+                                    }
+
+                                    &:not(:first-of-type) {
+                                        border-left:1px solid $black;
+                                    }
+                                }
+
+                                a {
+                                    position: absolute;
+                                    right: 5px;
+                                    line-height: 22px;
+                                }
+                            }
+
+                            &.line {
+                                display:flex;
+                                width:100%;
+                                justify-content: space-between;
+
+                                div {
+                                    &.nom {
+                                        display:flex;
+                                        width:calc(100% - 150px);
+
+                                        input {
+                                            width:100%;
+                                            height:22px;
+                                            padding-top:0px;
+                                            padding-bottom:0px;
+                                            padding-right:0px;
+                                            padding-left:5px;
+                                            margin:0px;
+                                            border-top:0px;
+                                            border-left:0px;
+                                            border-right:0px;
+                                            border-bottom:1px solid $lightBlack;
+                                            border-radius:0px;
+                                            background:$black;
+                                            color:$white;
+                                            text-align: left;
+                                        }
+                                    }
+
+                                    &.type {
+                                        display:flex;
+                                        width:150px;
+                                        border-left:1px solid $lightBlack;
+
+                                        select {
+                                            width:100%;
+                                            height:22px;
+                                            padding-top:0px;
+                                            padding-bottom:0px;
+                                            padding-right:0px;
+                                            padding-left:5px;
+                                            margin:0px;
+                                            border-top:0px;
+                                            border-left:0px;
+                                            border-right:0px;
+                                            border-bottom:1px solid $lightBlack;
+                                            border-radius:0px;
+                                            background:$black;
+                                            color:$white;
+                                            text-align: center;
+
+                                            option {
+                                                background:$black;
+                                            }
+                                        }
+                                    }
+
+                                    &.portee {
+                                        display:flex;
+                                        width:calc(100% / 3);
+                                        border-bottom:1px solid $lightBlack;
+
+                                        select {
+                                            width:100%;
+                                            height:22px;
+                                            padding-top:0px;
+                                            padding-bottom:0px;
+                                            padding-right:0px;
+                                            padding-left:5px;
+                                            margin:0px;
+                                            border-top:0px;
+                                            border-left:0px;
+                                            border-right:0px;
+                                            border-bottom:0px;
+                                            border-radius:0px;
+                                            background:$black;
+                                            color:$white;
+                                            text-align: center;
+
+                                            option {
+                                                background:$black;
+                                            }
+                                        }
+                                    }
+
+                                    &.attaque,
+                                    &.degats,
+                                    &.violence {
+                                        display:flex;
+                                        justify-content: space-between;
+                                        border-bottom:1px solid $lightBlack;
+                                        border-left:1px solid $lightBlack;
+                                        background:$black;
+                                        width:calc(100% / 3);
+
+                                        input {
+                                            width:calc(50% - 12px);
+                                            height:22px;
+                                            padding:0px;
+                                            margin:0px;
+                                            border:0px;
+                                            border-radius:0px;
+                                            background:$black;
+                                            color:$white;
+
+                                            &:first-of-type {
+                                                text-align: right;
+                                            }
+
+                                            &:last-of-type {
+                                                text-align: left;
+                                            }
+                                        }
+
+                                        span {
+                                            width:24px;
+                                            text-align: center;
+                                            line-height: 22px;
+                                            background:$black;
+                                            text-transform: uppercase;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        &:not(:first-of-type) {
+                            border-top:5px double $lightBlack;
+                        }
+                    }
+                }
+
+                &.blockEffets {
+                    display:flex;
+                    width:100%;
+                    flex-wrap: wrap;
+
+                    div.effets {
+                        display: flex;
+                        position:relative;
+                        width: 100%;
+                        justify-content: space-evenly;
+                        flex-wrap: wrap;
+                        padding-right: 5px;
+                        padding-bottom: 19px;
+                        padding-left: 5px;
+                        margin-top:0px !important;
+                        border-top:0px !important;
+                        border-right:0px !important;
+                        border-left:0px !important;
+
+                        @include effets();
+                    }
+                }
+
+                &.space {
+                    margin-top:5px;
+                }
+
+                &.line {
+                    display:flex;
+                    border:1px solid $lightBlue;
+                    width:100%;
+                    justify-content: space-between;
+                }
+
+                &.col {
+                    width:calc((100% / 2) - 5px);
+                }
+
+                &.col3 {
+                    width:calc((100% / 3) - 5px);
+                }
+
+                &.col,
+                &.col3 {
+                    display:flex;
+                    flex-wrap: wrap;
+                    align-items: baseline;
+                    align-content: baseline;
+
+                    h3 {
+                        &.title {
+                            width:100%;
+                            margin: 0px;
+                            border: 0px;
+                            font-variant: small-caps;
+                            margin-top: 5px;
+                            font-size: 16px;
+                            padding-left: 5px;
+                        }
+                    }
+
+                    >label,
+                    >div {
+                        margin-top:5px;
+                        border:1px solid $lightBlue;
+
+                        button {
+                            display:flex;
+                            width:100%;
+                            justify-content: center;
+                            color:$white;
+                            border:0px;
+                            border-radius:0px;
+                            line-height: 28px;
+                            min-height:30px;
+                            margin:0px;
+                            cursor:pointer;
+                            font-variant: small-caps;
+
+                            &.unactive {
+                                background:$black;
+                            }
+
+                            &.active {
+                                background:$lightBlack;
+                            }
+                        }
+
+                        &.oneLine {
+                            display:flex;
+                            width:100%;
+                            justify-content: space-between;
+
+                            span {
+                                width:50%;
+                                padding-left:5px;
+                                line-height: 22px;
+                                background:$lightBlack;
+                                font-variant: small-caps;
+                            }
+
+                            select {
+                                width:50%;
+                                height:22px;
+                                padding:0px;
+                                margin:0px;
+                                border:0px;
+                                border-radius:0px;
+                                background:$black;
+                                color:$white;
+
+                                option {
+                                    background:$black;
+                                    color:$white;
+                                }
+                            }
+
+                            input {
+                                width:50%;
+                                height:22px;
+                                padding:0px;
+                                margin:0px;
+                                border:0px;
+                                border-radius:0px;
+                                background:$black;
+                                color:$white;
+                                text-align: center;
+                            }
+                        }
+
+                        &.twoLine {
+                            display:flex;
+                            width:100%;
+                            flex-wrap: wrap;
+
+                            button {
+                                border-bottom:1px solid $lightBlack;
+
+                                &.active {
+                                    border-top:1px solid $black;
+                                }
+
+                                &.noBorderBottom {
+                                    border-bottom:0px;
+                                }
+
+                                &.borderTop {
+                                    border-top:1px solid $lightBlack;
+                                }
+                            }
+
+                            span {
+                                width:100%;
+                                line-height: 22px;
+                                background:$lightBlack;
+                                font-variant: small-caps;
+                                text-align: center;
+                            }
+
+                            select {
+                                width:100%;
+                                height:27px;
+                                padding:0px;
+                                margin:0px;
+                                border:0px;
+                                border-radius:0px;
+                                background:$black;
+                                color:$white;
+                                text-align: center;
+                                padding-left:15px;
+
+                                option {
+                                    background:$black;
+                                    color:$white;
+                                    text-align: center;
+                                    font-variant: small-caps;
+                                }
+                            }
+
+                            input {
+                                width:100%;
+                                height:22px;
+                                padding:0px;
+                                margin:0px;
+                                border:0px;
+                                border-radius:0px;
+                                background:$black;
+                                color:$white;
+                                text-align: center;
+                            }
+
+                            textarea {
+                                border:0px;
+                                color:$white;
+                                font-family: var(--font-primary);
+                                padding:2px;
+                                resize: none;
+                            }
+
+                            div,
+                            label {
+                                &.oneLine {
+                                    display:flex;
+                                    width:100%;
+                                    justify-content: space-between;
+                                    border-top:1px solid $lightBlue;
+
+                                    span {
+                                        width:50%;
+                                        padding-left:5px;
+                                        line-height: 22px;
+                                        background:$lightBlack;
+                                        font-variant: small-caps;
+                                    }
+
+                                    select {
+                                        width:50%;
+                                        height:22px;
+                                        padding:0px;
+                                        margin:0px;
+                                        border:0px;
+                                        border-radius:0px;
+                                        background:$black;
+                                        color:$white;
+
+                                        option {
+                                            background:$black;
+                                            color:$white;
+                                        }
+                                    }
+
+                                    input {
+                                        width:50%;
+                                        height:22px;
+                                        padding:0px;
+                                        margin:0px;
+                                        border:0px;
+                                        border-radius:0px;
+                                        background:$black;
+                                        color:$white;
+                                        text-align: center;
+
+                                        &.label {
+                                            width:50%;
+                                            background:$lightBlack;
+                                            font-variant: small-caps;
+                                            font-size:14px;
+                                        }
+                                    }
+                                }
+
+                                &.oneLinewDice {
+                                    display:flex;
+                                    width:100%;
+                                    justify-content: space-between;
+                                    border-top:1px solid $lightBlue;
+
+                                    >span {
+                                        width:50%;
+                                        padding-left:5px;
+                                        line-height: 22px;
+                                        background:$lightBlack;
+                                        font-variant: small-caps;
+                                    }
+
+                                    div {
+                                        display:flex;
+                                        width:50%;
+                                        justify-content: space-between;
+                                        background:$black;
+
+                                        input {
+                                            width:calc(50% - 12px);
+                                            height:22px;
+                                            padding:0px;
+                                            margin:0px;
+                                            border:0px;
+                                            border-radius:0px;
+                                            background:$black;
+                                            color:$white;
+
+                                            &:first-of-type {
+                                                text-align: right;
+                                            }
+
+                                            &:last-of-type {
+                                                text-align: left;
+                                            }
+                                        }
+
+                                        span {
+                                            width:24px;
+                                            text-align: center;
+                                            line-height: 22px;
+                                            background:$black;
+                                            text-transform: uppercase;
+                                        }
+                                    }
+
+
+                                }
+
+                                &.oneLinewOnlyDice {
+                                    display:flex;
+                                    width:100%;
+                                    justify-content: space-between;
+                                    border-top:1px solid $lightBlue;
+
+                                    >span {
+                                        width:50%;
+                                        padding-left:5px;
+                                        line-height: 22px;
+                                        background:$lightBlack;
+                                        font-variant: small-caps;
+                                    }
+
+                                    div {
+                                        display:flex;
+                                        width:50%;
+                                        justify-content: space-between;
+                                        background:$black;
+
+                                        input {
+                                            width:50%;
+                                            height:22px;
+                                            padding:0px;
+                                            margin:0px;
+                                            border:0px;
+                                            border-radius:0px;
+                                            background:$black;
+                                            color:$white;
+                                            text-align: right;
+                                        }
+
+                                        span {
+                                            width:50%;
+                                            text-align: left;
+                                            line-height: 22px;
+                                            background:$black;
+                                            text-transform: uppercase;
+                                        }
+                                    }
+                                }
+
+                                &.borderBottom {
+                                    border-bottom:1px solid $lightBlue;
+                                }
+
+                                &.noBorderTop {
+                                    border-top:0px;
+                                }
+                            }
+                        }
+
+                        &.twoLinewTwoSelect {
+                            display:flex;
+                            width:100%;
+                            flex-wrap: wrap;
+
+                            button {
+                                border-bottom:1px solid $lightBlack;
+
+                                &.active {
+                                    border-top:1px solid $black;
+                                }
+
+                                &.noBorderBottom {
+                                    border-bottom:0px;
+                                }
+                            }
+
+                            span {
+                                width:100%;
+                                line-height: 22px;
+                                background:$lightBlack;
+                                font-variant: small-caps;
+                                text-align: center;
+                            }
+
+                            select {
+                                width:100%;
+                                height:27px;
+                                padding:0px;
+                                margin:0px;
+                                border:0px;
+                                border-radius:0px;
+                                background:$black;
+                                color:$white;
+                                text-align: center;
+
+                                option {
+                                    background:$black;
+                                    color:$white;
+                                    text-align: center;
+                                }
+
+                                optgroup {
+                                    background:$lightBlack;
+                                    font-variant: small-caps;
+                                }
+
+                                &:not(:first-of-type) {
+                                    border-top:1px solid $lightBlack;
+                                }
+                            }
+
+                            input {
+                                width:100%;
+                                height:22px;
+                                padding:0px;
+                                margin:0px;
+                                border:0px;
+                                border-radius:0px;
+                                background:$black;
+                                color:$white;
+                                text-align: center;
+                            }
+
+                            textarea {
+                                border:0px;
+                                color:$white;
+                                font-family: var(--font-primary);
+                                padding:2px;
+                                resize: none;
+                            }
+                        }
+
+                        &.oneLinewDice {
+                            display:flex;
+                            width:100%;
+                            justify-content: space-between;
+
+                            >span {
+                                width:50%;
+                                padding-left:5px;
+                                line-height: 22px;
+                                background:$lightBlack;
+                                font-variant: small-caps;
+                            }
+
+                            div {
+                                display:flex;
+                                width:50%;
+                                justify-content: space-between;
+                                background:$black;
+
+                                input {
+                                    width:calc(50% - 12px);
+                                    height:22px;
+                                    padding:0px;
+                                    margin:0px;
+                                    border:0px;
+                                    border-radius:0px;
+                                    background:$black;
+                                    color:$white;
+
+                                    &:first-of-type {
+                                        text-align: right;
+                                    }
+
+                                    &:last-of-type {
+                                        text-align: left;
+                                    }
+                                }
+
+                                span {
+                                    width:24px;
+                                    text-align: center;
+                                    line-height: 22px;
+                                    background:$black;
+                                    text-transform: uppercase;
+                                }
+                            }
+
+
+                        }
+
+                        &.noBorderBottom {
+                            border-bottom:0px;
+                        }
+
+                        &.noMarginTop {
+                            margin-top:0px !important;
+                        }
+                    }
+                }
+
+                &.effets {
+                    display: flex;
+                    position:relative;
+                    width: 100%;
+                    justify-content: space-evenly;
+                    flex-wrap: wrap;
+                    padding-right: 5px;
+                    padding-bottom: 19px;
+                    padding-left: 5px;
+                    border:1px solid $lightBlue;
+                    margin-top:5px;
+
+                    @include effets();
+                }
+
+                &.slots {
+                    label.block {
+                        display:flex;
+                        width:calc(100% / 6);
+                        flex-wrap:wrap;
+
+                        span {
+                            display: inline-block;
+                            width: 100%;
+                            font-variant: small-caps;
+                            text-align: center;
+                            background: $lightBlack;
+                            padding-top: 5px;
+                            line-height: 22px;
+                        }
+
+                        input {
+                            width:100%;
+                            height:22px;
+                            text-align: center;
+                            border:0px;
+                            padding:0px;
+                            margin:0px;
+                            background:$black;
+                        }
+
+                        &:not(:first-of-type) {
+                            span {
+                                border-left:1px solid $black;
+                            }
+
+                            input {
+                                border-left:1px solid $lightBlack;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .hidden {
+                display:none !important;
+            }
+        }
+
+        &.bonus,
+        &.arme,
+        &.pnj,
+        &.overdrives,
+        &.rogue,
+        &.jetsimple {
+            margin-top:5px;
+            border:1px solid $lightBlue;
+
+            div {
+                &.col {
+                    &:first-of-type {
+                        >* {
+                            border-left:0px;
+                        }
+                    }
+
+                    &:last-of-type {
+                        >* {
+                            border-right:0px;
+                        }
+                    }
+                }
+            }
+        }
+
+        &.overdrives {
+            div.col3 {
+                border:1px solid $lightBlue;
+                margin-top:5px;
+
+                h3 {
+                    margin: 0px;
+                    width: 100%;
+                    border: 0px;
+                    font-variant: small-caps;
+                    line-height: 17px;
+                    margin-top: 5px;
+                    margin-bottom:2px;
+                    padding-left: 5px;
+                }
+
+                label {
+                    border-right:0px;
+                    border-left:0px;
+                    border-bottom:0px;
+                    margin-top:0px;
+                }
+
+                &:nth-of-type(3n+1) {
+                    border-left:0px;
+                }
+
+                &:nth-of-type(3n),
+                &:last-of-type {
+                    border-right:0px;
+                }
+            }
+
+        }
+
+        &.pnj {
+            div {
+                &.creature {
+                    display:flex;
+                    width:100%;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+
+                    input,
+                    select {
+                        color:$white;
+
+                        option {
+                            background:$lightBlack;
+                        }
+                    }
+
+                    div.line {
+                        >button {
+                            display:flex;
+                            width:calc((100% / 3) - 5px);
+                            justify-content: center;
+                            color:$white;
+                            border:1px solid $lightBlack;
+                            border-radius:0px;
+                            line-height: 28px;
+                            min-height:30px;
+                            margin-left:1px;
+                            margin-right:1px;
+                            margin-top:5px;
+                            margin-bottom:5px;
+                            cursor:pointer;
+                            font-variant: small-caps;
+
+                            &.unactive {
+                                background:$black;
+                            }
+
+                            &.active {
+                                background:$lightBlack;
+                            }
+                        }
+                    }
+
+                    div {
+                        &.col3 {
+                            label {
+                                &.oneLine {
+                                    &:first-of-type {
+                                        margin-top:0px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    &:not(:first-of-type) {
+                        border-top:5px double $lightBlack;
+                        margin-top:5px;
+                    }
+                }
+
+                &.line {
+                    border:0px;
+                }
+
+                &.header {
+                    position:relative;
+
+                    input,
+                    select {
+                        padding-top:0px;
+                        padding-right:0px;
+                        padding-bottom:0px;
+                        border-top:0px;
+                        border-left:0px;
+                        border-right:0px;
+                        border-bottom:1px solid $white;
+                        border-radius:0px;
+                        background:transparent;
+                        font-variant: small-caps;
+                        font-weight: bold;
+                        height:27px;
+                    }
+
+                    input {
+                        width:calc(100% - 202px);
+                        font-size:14px;
+                        padding-left:5px;
+                    }
+
+                    select {
+                        width:200px;
+                        font-size:13px;
+                        padding-left:0px;
+                        text-align: center;
+                    }
+
+                    a {
+                        position:absolute;
+                        right:5px;
+                        line-height:27px;
+                    }
+                }
+            }
+        }
+
+        &.bonus {
+            div {
+                &.main {
+                    border:0px;
+                }
+            }
+        }
+
+        &.rogue {
+            label.longspan {
+                display:flex;
+                width:100%;
+                justify-content: space-between;
+                border-top:1px solid $lightBlue;
+
+                span {
+                    width:calc(100% - 50px);
+                    padding-left:5px;
+                    line-height: 22px;
+                    background:$lightBlack;
+                    font-variant: small-caps;
+                }
+
+                input {
+                    width:50px;
+                    height:22px;
+                    padding:0px;
+                    margin:0px;
+                    border:0px;
+                    border-radius:0px;
+                    background:$black;
+                    color:$white;
+                    text-align: center;
+                }
+            }
+        }
+
+        &.jetsimple {
+            label.shortspan {
+                display:flex;
+                width:100%;
+                justify-content: space-between;
+                border-top:1px solid $lightBlue;
+
+                span {
+                    width:90px;
+                    padding-left:5px;
+                    line-height: 22px;
+                    background:$lightBlack;
+                    font-variant: small-caps;
+                }
+
+                input {
+                    width:calc(100% - 90px);
+                    height:22px;
+                    padding:0px;
+                    margin:0px;
+                    border:0px;
+                    border-radius:0px;
+                    background:$black;
+                    color:$white;
+                    text-align: center;
+                }
+            }
+        }
+
+        &.hidden {
+            display:none !important;
+        }
+    }
+
+    padding-bottom:15px;
+}

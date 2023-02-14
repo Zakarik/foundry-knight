@@ -22,8 +22,8 @@ export class KnightSheet extends ActorSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["knight", "sheet", "actor"],
       template: "systems/knight/templates/actors/knight-sheet.html",
-      width: 900,
-      height: 600,
+      width: 920,
+      height: 720,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".body", initial: "personnage"}
       ],
@@ -395,7 +395,11 @@ export class KnightSheet extends ActorSheet {
       const armorCapacites = getData.actor.armureData.system.capacites.selected;
       const armure = this.actor.items.get(this._getArmorId());
 
-      const coutCalcule = (remplaceEnergie && armure.system.espoir.cout > 0 && type === 'module') ? Math.floor(cout / armure.system.espoir.cout) : cout;
+      let coutCalcule = cout;
+
+      if(remplaceEnergie) {
+        if(armure.system.espoir.cout > 0 && type === 'module') coutCalcule = Math.max(Math.floor(coutCalcule / armure.system.espoir.cout), 1);
+      }
 
       const depense = await this._depensePE(name, coutCalcule, true, false, flux);
 
@@ -5146,6 +5150,7 @@ export class KnightSheet extends ActorSheet {
 
     const carteHeroique = [];
     const capaciteHeroique = [];
+    const distinctions = [];
 
     let armureData = {};
     let armureLegendeData = {};
@@ -5342,6 +5347,7 @@ export class KnightSheet extends ActorSheet {
       },
       recuperationBonus:[0],
       recuperationMalus:[0],
+      perteMalus:[0],
       value:sheetData.data.system.espoir.value
     };
     let initiative = {
@@ -5480,7 +5486,8 @@ export class KnightSheet extends ActorSheet {
     };
     let egide = {
       bonus:{
-        armure:[0]
+        armure:[0],
+        distinction:[0]
       },
       malus:{
         armure:[0]
@@ -6811,6 +6818,13 @@ export class KnightSheet extends ActorSheet {
       if (i.type === 'art') {
         art = i;
       }
+
+      if(i.type === 'distinction') {
+        distinctions.push(i);
+
+        espoir.recuperationBonus.push(data.espoir);
+        egide.bonus.distinction.push(data.egide);
+      }
     }
 
     for(let [key, PG] of Object.entries(depensePGAutre)) {
@@ -6842,6 +6856,7 @@ export class KnightSheet extends ActorSheet {
     langue.sort(SortByName);
     contact.sort(SortByName);
     depensePG.sort(SortByAddOrder);
+    distinctions.sort(SortByName);
 
     for (let [key, XP] of Object.entries(depenseXP)){
       if(XP.nom !== undefined && XP.nom !== 'autre' && XP.nom !== 'capaciteheroique' && XP.nom !== '')
@@ -7050,6 +7065,7 @@ export class KnightSheet extends ActorSheet {
     actorData.armesDistanceArmoury = armesDistanceArmoury;
     actorData.armesTourelles = armesTourelles;
     actorData.art = art;
+    actorData.distinctions = distinctions;
 
     const update = {
       system:{
@@ -7063,7 +7079,8 @@ export class KnightSheet extends ActorSheet {
         },
         egide:{
           bonus:{
-            armure:egide.bonus.armure.reduce(sum)
+            armure:egide.bonus.armure.reduce(sum),
+            distinction:egide.bonus.distinction.reduce(sum)
           }
         },
         espoir:{
@@ -7082,6 +7099,7 @@ export class KnightSheet extends ActorSheet {
             malus:espoir.recuperationMalus.reduce(sum)
           },
           perte:{
+            malus:espoir.perteMalus.reduce(sum),
             saufAgonie:espoir.perte.saufAgonie,
             saufCapacite:espoir.perte.saufCapacite
           }
