@@ -14,6 +14,7 @@
 @import "parts/items/effet";
 @import "parts/items/art";
 @import "parts/items/distinction";
+@import "parts/items/capaciteultime";
 
 .knight,
 .ia,
@@ -4274,6 +4275,113 @@
             border-top:5px double $lightBlack;
           }
         }
+
+        &.capacitesultime {
+          margin-top: 5px;
+
+          h2 {
+            min-height:25px;
+
+            a {
+              font-size:14px;
+              top: 1px;
+
+              &.item-edit {
+                position:absolute;
+                right:20px;
+                cursor:pointer;
+              }
+
+              &.item-delete {
+                position:absolute;
+                right:5px;
+                cursor:pointer;
+              }
+            }
+
+            div {
+              &.blockActive {
+                width: 200px;
+                line-height: 22px;
+                min-height: 22px;
+                font-variant: small-caps;
+                color: white;
+                border: 0px;
+                font-size: 14px;
+                margin-top: -23px;
+                margin-right:40px;
+                margin-left:auto;
+                padding-bottom: 1px;
+
+                display:grid;
+                grid-template-columns: 1fr;
+
+                >button {
+                  width: 100%;
+                  line-height: 22px;
+                  height: 22px;
+                  background: $black;
+                  right: 40px;
+                  border: 0px;
+                  border-radius: 0px;
+                  color: $white;
+                  font-variant: small-caps;
+
+                  &.borderBottom {
+                    border-bottom:1px solid $lightBlack;
+                  }
+                }
+
+                button,
+                select {
+                  width: 100%;
+                  line-height: 22px;
+                  height: 100%;
+                  background: $black;
+                  border: 0px;
+                  border-radius: 0px;
+                  color: $white;
+                  font-variant: small-caps;
+                  text-align: center;
+                }
+
+                select {
+                  border-left:1px solid $lightBlack;
+
+                  option {
+                    background:$black;
+                  }
+                }
+              }
+
+              &.blockDgts {
+                display:grid;
+                grid-template-columns: 1fr 1fr;
+                width:100%;
+
+                &:not(:first-of-type) {
+                  border-top:1px solid $lightBlack;
+                }
+              }
+
+              &.blockRoll {
+                display:grid;
+                grid-template-columns: 1fr;
+                width:100%;
+
+                button {
+                  &:not(:first-of-type) {
+                    border-top:1px solid $lightBlack;
+                  }
+                }
+
+                &:not(:first-of-type) {
+                  border-top:1px solid $lightBlack;
+                }
+              }
+            }
+          }
+        }
       }
 
       div.modules {
@@ -5319,6 +5427,23 @@
       div.capacitesLegende,
       div.special {
         margin-top:5px;
+
+        a {
+          font-size:14px;
+          top: 1px;
+
+          &.item-edit {
+            position:absolute;
+            right:20px;
+            cursor:pointer;
+          }
+
+          &.item-delete {
+            position:absolute;
+            right:5px;
+            cursor:pointer;
+          }
+        }
       }
 
       div.slots {
@@ -6719,6 +6844,7 @@
           cursor:pointer;
           border:2px solid;
           position:relative;
+          margin-bottom:5px;
 
           &.unselected {
             background:$black;
@@ -6728,6 +6854,94 @@
           &.selected {
             background:$lightBlack;
             border-color:$black;
+          }
+        }
+
+        div {
+          &.rollback {
+            @include header();
+
+            display:grid;
+            width:100%;
+            border:1px solid $lightBlue;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 5px;
+
+            h2 {
+              grid-column: 1 / 4;
+            }
+
+            h3 {
+              grid-column: 1 / 4;
+
+              width:100%;
+              font-size: 15px;
+              font-variant: small-caps;
+              color:$white;
+              border-bottom:1px solid $lightBlack;
+              padding-left:5px;
+              padding-right:5px;
+              margin:0px;
+            }
+
+            div {
+              &.col {
+                display:grid;
+                grid-template-columns: 100px 1fr;
+                border:1px solid $lightBlack;
+              }
+            }
+
+            span {
+              &.notes {
+                grid-column: 1 / 4;
+
+                display:block;
+                width:100%;
+                font-size: 12px;
+                padding-left: 5px;
+                padding-right: 5px;
+                letter-spacing: 1px;
+                font-variant: small-caps;
+                color:$white;
+              }
+
+              &.pg {
+                display:block;
+                width:100%;
+                font-size: 14px;
+                padding-left: 5px;
+                padding-right: 5px;
+                font-variant: small-caps;
+                color:$white;
+                line-height: 30px;
+                background:$lightBlack;
+                border-bottom:1px solid $lightBlack;
+              }
+
+              &.description {
+                grid-column: 1 / 3;
+                width:100%;
+                font-size:14px;
+                padding-left: 5px;
+                padding-right: 5px;
+                font-variant: small-caps;
+                color:$white;
+                background:$lightBlack;
+                border-top:1px solid $black;
+              }
+            }
+
+            a {
+              display:block;
+              width:100%;
+              font-size: 14px;
+              padding-left: 5px;
+              padding-right: 5px;
+              font-variant: small-caps;
+              color:$white;
+              line-height: 30px;
+            }
           }
         }
       }

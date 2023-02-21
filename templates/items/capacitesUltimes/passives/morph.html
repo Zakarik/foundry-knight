@@ -1,0 +1,192 @@
+<div class="data {{#if systemData.passives.capacites.morph.actif}}checked{{/if}} {{#unless systemData.passives.capacites.actif}}hidden{{/unless}}">
+    <button type="action" class="{{#if systemData.passives.capacites.morph.actif}}clicked{{/if}}"
+        data-toupdate="passives.capacites.morph.actif"
+        data-value="{{systemData.passives.capacites.morph.actif}}">
+    {{#if systemData.passives.capacites.morph.actif}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.MORPH.Label"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.MORPH.NotLabel"}}
+    {{/if}}
+    </button>
+
+    <h3 class="subtitre {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.MORPH.Vol"}}</h3>
+
+    <div class="textarea border {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.Description"}}</span>
+        <textarea name="system.passives.capacites.morph.update.vol.description"
+            data-toupdate="passives.capacites.morph.update.vol.textarea"
+            data-min="20"
+            style="height:{{systemData.passives.capacites.morph.update.vol.textarea}}px;"
+            >{{systemData.passives.capacites.morph.update.vol.description}}</textarea>
+    </div>
+
+    <h3 class="subtitre borderDouble {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.MORPH.Etirement"}}</h3>
+
+    <div class="textarea border {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <textarea name="system.passives.capacites.morph.update.etirement.portee"
+            data-toupdate="passives.capacites.morph.update.etirement.textarea"
+            data-min="20"
+            style="height:{{systemData.passives.capacites.morph.update.etirement.textarea}}px;"
+            >{{systemData.passives.capacites.morph.update.etirement.portee}}</textarea>
+    </div>
+
+    <h3 class="subtitre borderDouble {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.MORPH.Metal"}}</h3>
+
+    <label class="{{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.BONUS.ChampDeForce"}}</span>
+        <input type="number"
+            name="system.passives.capacites.morph.update.metal.bonus.champDeForce"
+            value="{{systemData.passives.capacites.morph.update.metal.bonus.champDeForce}}" min="0"/>
+    </label>
+
+    <h3 class="subtitre borderDouble {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.MORPH.Fluide"}}</h3>
+
+    <label class="{{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.BONUS.Reaction"}}</span>
+        <input type="number"
+            name="system.passives.capacites.morph.update.fluide.bonus.reaction"
+            value="{{systemData.passives.capacites.morph.update.fluide.bonus.reaction}}" min="0"/>
+    </label>
+
+    <label class="{{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.BONUS.Defense"}}</span>
+        <input type="number"
+            name="system.passives.capacites.morph.update.fluide.bonus.defense"
+            value="{{systemData.passives.capacites.morph.update.fluide.bonus.defense}}" min="0"/>
+    </label>
+
+    <h3 class="subtitre borderDouble {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.MORPH.Polymorphie"}}</h3>
+
+    <div class="textarea border {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.Description"}}</span>
+        <textarea name="system.passives.capacites.morph.update.polymorphie.description"
+            data-toupdate="passives.capacites.morph.update.polymorphie.textarea"
+            data-min="20"
+            style="height:{{systemData.passives.capacites.morph.update.polymorphie.textarea}}px;"
+            >{{systemData.passives.capacites.morph.update.polymorphie.description}}</textarea>
+    </div>
+
+    <h4 class="subtitre {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.MORPH.Griffe"}}</h4>
+
+    <div class="diceWBonus {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+        <div>
+            <input type="number"
+                name="system.passives.capacites.morph.update.polymorphie.griffe.degats.dice"
+                value="{{systemData.passives.capacites.morph.update.polymorphie.griffe.degats.dice}}" min="0"/>
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number"
+                name="system.passives.capacites.morph.update.polymorphie.griffe.degats.fixe"
+                value="{{systemData.passives.capacites.morph.update.polymorphie.griffe.degats.fixe}}" min="0"/>
+        </div>
+    </div>
+
+    <div class="diceWBonus {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+        <div>
+            <input type="number"
+                name="system.passives.capacites.morph.update.polymorphie.griffe.violence.dice"
+                value="{{systemData.passives.capacites.morph.update.polymorphie.griffe.violence.dice}}" min="0"/>
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number"
+                name="system.passives.capacites.morph.update.polymorphie.griffe.violence.fixe"
+                value="{{systemData.passives.capacites.morph.update.polymorphie.griffe.violence.fixe}}" min="0"/>
+        </div>
+    </div>
+
+    <div class="{{#unless systemData.passives.capacites.morph.actif}}hidden {{else}} effets {{/unless}}">
+        {{#each systemData.passives.capacites.morph.update.polymorphie.griffe.effets.liste as | key effet|}}
+        <div>
+            <span class="label">{{key.name}}</span>
+            <img class="info" src="systems/knight/assets/icons/info.svg" />
+            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+        </div>
+        {{/each}}
+        <a class="edit" data-path="system.passives.capacites.morph.update.polymorphie.griffe.effets">
+            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+        </a>
+    </div>
+
+    <h4 class="subtitre {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.MORPH.Lame"}}</h4>
+
+    <div class="diceWBonus {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+        <div>
+            <input type="number"
+                name="system.passives.capacites.morph.update.polymorphie.lame.degats.dice"
+                value="{{systemData.passives.capacites.morph.update.polymorphie.lame.degats.dice}}" min="0"/>
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number"
+                name="system.passives.capacites.morph.update.polymorphie.lame.degats.fixe"
+                value="{{systemData.passives.capacites.morph.update.polymorphie.lame.degats.fixe}}" min="0"/>
+        </div>
+    </div>
+
+    <div class="diceWBonus {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+        <div>
+            <input type="number"
+                name="system.passives.capacites.morph.update.polymorphie.lame.violence.dice"
+                value="{{systemData.passives.capacites.morph.update.polymorphie.lame.violence.dice}}" min="0"/>
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number"
+                name="system.passives.capacites.morph.update.polymorphie.lame.violence.fixe"
+                value="{{systemData.passives.capacites.morph.update.polymorphie.lame.violence.fixe}}" min="0"/>
+        </div>
+    </div>
+
+    <div class="{{#unless systemData.passives.capacites.morph.actif}}hidden {{else}} effets {{/unless}}">
+        {{#each systemData.passives.capacites.morph.update.polymorphie.lame.effets.liste as | key effet|}}
+        <div>
+            <span class="label">{{key.name}}</span>
+            <img class="info" src="systems/knight/assets/icons/info.svg" />
+            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+        </div>
+        {{/each}}
+        <a class="edit" data-path="system.passives.capacites.morph.update.polymorphie.lame.effets">
+            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+        </a>
+    </div>
+
+    <h4 class="subtitre {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.MORPH.Canon"}}</h4>
+
+    <div class="diceWBonus {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+        <div>
+            <input type="number"
+                name="system.passives.capacites.morph.update.polymorphie.canon.degats.dice"
+                value="{{systemData.passives.capacites.morph.update.polymorphie.canon.degats.dice}}" min="0"/>
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number"
+                name="system.passives.capacites.morph.update.polymorphie.canon.degats.fixe"
+                value="{{systemData.passives.capacites.morph.update.polymorphie.canon.degats.fixe}}" min="0"/>
+        </div>
+    </div>
+
+    <div class="diceWBonus {{#unless systemData.passives.capacites.morph.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+        <div>
+            <input type="number"
+                name="system.passives.capacites.morph.update.polymorphie.canon.violence.dice"
+                value="{{systemData.passives.capacites.morph.update.polymorphie.canon.violence.dice}}" min="0"/>
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number"
+                name="system.passives.capacites.morph.update.polymorphie.canon.violence.fixe"
+                value="{{systemData.passives.capacites.morph.update.polymorphie.canon.violence.fixe}}" min="0"/>
+        </div>
+    </div>
+
+    <div class="{{#unless systemData.passives.capacites.morph.actif}}hidden {{else}} effets {{/unless}}">
+        {{#each systemData.passives.capacites.morph.update.polymorphie.canon.effets.liste as | key effet|}}
+        <div>
+            <span class="label">{{key.name}}</span>
+            <img class="info" src="systems/knight/assets/icons/info.svg" />
+            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+        </div>
+        {{/each}}
+        <a class="edit" data-path="system.passives.capacites.morph.update.polymorphie.canon.effets">
+            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+        </a>
+    </div>
+</div>

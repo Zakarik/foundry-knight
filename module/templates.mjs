@@ -189,6 +189,23 @@ export const PreloadTemplates = async function() {
     `${path}/actors/mechaarmure/stationDefenseAutomatise.html`,
     `${path}/actors/mechaarmure/modeSiegeTower.html`,
     `${path}/actors/mechaarmure/nanoBrume.html`,
+    `${path}/items/capacitesUltimes/passives/base.html`,
+    `${path}/items/capacitesUltimes/passives/ascension.html`,
+    `${path}/items/capacitesUltimes/passives/cea.html`,
+    `${path}/items/capacitesUltimes/passives/changeling.html`,
+    `${path}/items/capacitesUltimes/passives/companions.html`,
+    `${path}/items/capacitesUltimes/passives/contrecoups.html`,
+    `${path}/items/capacitesUltimes/passives/ghost.html`,
+    `${path}/items/capacitesUltimes/passives/goliath.html`,
+    `${path}/items/capacitesUltimes/passives/mechanic.html`,
+    `${path}/items/capacitesUltimes/passives/morph.html`,
+    `${path}/items/capacitesUltimes/passives/oriflamme.html`,
+    `${path}/items/capacitesUltimes/passives/rage.html`,
+    `${path}/items/capacitesUltimes/passives/recolteflux.html`,
+    `${path}/items/capacitesUltimes/passives/type.html`,
+    `${path}/items/capacitesUltimes/passives/vision.html`,
+    `${path}/items/capacitesUltimes/passives/warlord.html`,
+    `${path}/items/capacitesUltimes/actives/base.html`,
   ];
 
   // Load the template parts

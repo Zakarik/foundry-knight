@@ -1,120 +1,121 @@
+{{#unless this.unactif}}
+    <div class="contrecoups">
+        <h3 class="header js-toggler">
+            <i class="far fa-plus-square"></i>
+            {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.Label"}}
 
-<div class="contrecoups">
-    <h3 class="header js-toggler">
-        <i class="far fa-plus-square"></i>
-        {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.Label"}}
+            {{#if ("armure" @root/systemData/wear)}}
+            <div class="blockMultiline">
+                {{#if (getCarac this.jet.c1)}}
+                <button class="special" data-special="{{this.key}}" data-name="{{this.label}}" data-base="{{this.jet.c1}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.JetBase"}} : {{getCarac this.jet.c1}}
+                </button>
+                {{/if}}
 
-        {{#if ("armure" @root/systemData/wear)}}
-        <div class="blockMultiline">
-            {{#if (getCarac this.jet.c1)}}
-            <button class="special" data-special="{{this.key}}" data-name="{{this.label}}" data-base="{{this.jet.c1}}">
-                {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.JetBase"}} : {{getCarac this.jet.c1}}
-            </button>
-            {{/if}}
-
-            {{#if (getCarac this.jet.c2)}}
-            <button class="special" data-special="{{this.key}}" data-name="{{this.label}}" data-base="{{this.jet.c2}}">
-                {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.JetBase"}} : {{getCarac this.jet.c2}}
-            </button>
-            {{/if}}
-        </div>
-        {{/if}}
-    </h3>
-
-    <span class="description" style="display:none">{{{this.description}}}</span>
-
-    <div class="mainData" style="display:none">
-        <div class="data">
-            <span class="button noBorderTop {{#if this.relance.value}}selected{{/if}}">{{this.relance.label}}</span>
-
-            <span class="button {{#if this.maxeffets.value}}selected borderBottom{{/if}}">{{this.maxeffets.label}}</span>
-
-            <div class="longspan {{#unless this.maxeffets.value}}hidden{{/unless}}">
-                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.MaxEffetsLabel"}}</span>
-                <span class="score">{{this.maxeffets.max}}</span>
+                {{#if (getCarac this.jet.c2)}}
+                <button class="special" data-special="{{this.key}}" data-name="{{this.label}}" data-base="{{this.jet.c2}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.JetBase"}} : {{getCarac this.jet.c2}}
+                </button>
+                {{/if}}
             </div>
-        </div>
+            {{/if}}
+        </h3>
 
-        <div class="data">
-            <span class="button noBorderTop {{#if this.armedistance.value}}selected{{/if}}">{{this.armedistance.label}}</span>
+        <span class="description" style="display:none">{{{this.description}}}</span>
 
-            <h4 class="title separation">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.BaseJet"}}</h4>
-            <div class="line">
-                <div class="doubleLine">
-                    <span class="score">{{getCarac this.jet.c1}}</span>
-                </div>
-                <div class="doubleLine noSeparation">
-                    <span class="score">{{getCarac this.jet.c2}}</span>
+        <div class="mainData" style="display:none">
+            <div class="data">
+                <span class="button noBorderTop {{#if this.relance.value}}selected{{/if}}">{{this.relance.label}}</span>
+
+                <span class="button {{#if this.maxeffets.value}}selected borderBottom{{/if}}">{{this.maxeffets.label}}</span>
+
+                <div class="longspan {{#unless this.maxeffets.value}}hidden{{/unless}}">
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.MaxEffetsLabel"}}</span>
+                    <span class="score">{{this.maxeffets.max}}</span>
                 </div>
             </div>
-        </div>
 
-        <div class="data fullWidth">
-            <div class="table7">
-                <div class="col1">
-                    <span class="header"></span>
-                    <span class="score">1</span>
-                    <span class="score">2</span>
-                    <span class="score">3</span>
-                    <span class="score">4</span>
-                    <span class="score">5</span>
-                    <span class="score">6</span>
+            <div class="data">
+                <span class="button noBorderTop {{#if this.armedistance.value}}selected{{/if}}">{{this.armedistance.label}}</span>
+
+                <h4 class="title separation">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.BaseJet"}}</h4>
+                <div class="line">
+                    <div class="doubleLine">
+                        <span class="score">{{getCarac this.jet.c1}}</span>
+                    </div>
+                    <div class="doubleLine noSeparation">
+                        <span class="score">{{getCarac this.jet.c2}}</span>
+                    </div>
                 </div>
-                <div class="colA">
-                    <span class="header">1</span>
-                    <span class="score">{{this.tableau.c1.l1}}</span>
-                    <span class="score">{{this.tableau.c1.l2}}</span>
-                    <span class="score">{{this.tableau.c1.l3}}</span>
-                    <span class="score">{{this.tableau.c1.l4}}</span>
-                    <span class="score">{{this.tableau.c1.l5}}</span>
-                    <span class="score">{{this.tableau.c1.l6}}</span>
-                </div>
-                <div class="colA">
-                    <span class="header">2</span>
-                    <span class="score">{{this.tableau.c2.l1}}</span>
-                    <span class="score">{{this.tableau.c2.l2}}</span>
-                    <span class="score">{{this.tableau.c2.l3}}</span>
-                    <span class="score">{{this.tableau.c2.l4}}</span>
-                    <span class="score">{{this.tableau.c2.l5}}</span>
-                    <span class="score">{{this.tableau.c2.l6}}</span>
-                </div>
-                <div class="colA">
-                    <span class="header">3</span>
-                    <span class="score">{{this.tableau.c3.l1}}</span>
-                    <span class="score">{{this.tableau.c3.l2}}</span>
-                    <span class="score">{{this.tableau.c3.l3}}</span>
-                    <span class="score">{{this.tableau.c3.l4}}</span>
-                    <span class="score">{{this.tableau.c3.l5}}</span>
-                    <span class="score">{{this.tableau.c3.l6}}</span>
-                </div>
-                <div class="colA">
-                    <span class="header">4</span>
-                    <span class="score">{{this.tableau.c4.l1}}</span>
-                    <span class="score">{{this.tableau.c4.l2}}</span>
-                    <span class="score">{{this.tableau.c4.l3}}</span>
-                    <span class="score">{{this.tableau.c4.l4}}</span>
-                    <span class="score">{{this.tableau.c4.l5}}</span>
-                    <span class="score">{{this.tableau.c4.l6}}</span>
-                </div>
-                <div class="colA">
-                    <span class="header">5</span>
-                    <span class="score">{{this.tableau.c5.l1}}</span>
-                    <span class="score">{{this.tableau.c5.l2}}</span>
-                    <span class="score">{{this.tableau.c5.l3}}</span>
-                    <span class="score">{{this.tableau.c5.l4}}</span>
-                    <span class="score">{{this.tableau.c5.l5}}</span>
-                    <span class="score">{{this.tableau.c5.l6}}</span>
-                </div>
-                <div class="colA">
-                    <span class="header">6</span>
-                    <span class="score">{{this.tableau.c6.l1}}</span>
-                    <span class="score">{{this.tableau.c6.l2}}</span>
-                    <span class="score">{{this.tableau.c6.l3}}</span>
-                    <span class="score">{{this.tableau.c6.l4}}</span>
-                    <span class="score">{{this.tableau.c6.l5}}</span>
-                    <span class="score">{{this.tableau.c6.l6}}</span>
+            </div>
+
+            <div class="data fullWidth">
+                <div class="table7">
+                    <div class="col1">
+                        <span class="header"></span>
+                        <span class="score">1</span>
+                        <span class="score">2</span>
+                        <span class="score">3</span>
+                        <span class="score">4</span>
+                        <span class="score">5</span>
+                        <span class="score">6</span>
+                    </div>
+                    <div class="colA">
+                        <span class="header">1</span>
+                        <span class="score">{{this.tableau.c1.l1}}</span>
+                        <span class="score">{{this.tableau.c1.l2}}</span>
+                        <span class="score">{{this.tableau.c1.l3}}</span>
+                        <span class="score">{{this.tableau.c1.l4}}</span>
+                        <span class="score">{{this.tableau.c1.l5}}</span>
+                        <span class="score">{{this.tableau.c1.l6}}</span>
+                    </div>
+                    <div class="colA">
+                        <span class="header">2</span>
+                        <span class="score">{{this.tableau.c2.l1}}</span>
+                        <span class="score">{{this.tableau.c2.l2}}</span>
+                        <span class="score">{{this.tableau.c2.l3}}</span>
+                        <span class="score">{{this.tableau.c2.l4}}</span>
+                        <span class="score">{{this.tableau.c2.l5}}</span>
+                        <span class="score">{{this.tableau.c2.l6}}</span>
+                    </div>
+                    <div class="colA">
+                        <span class="header">3</span>
+                        <span class="score">{{this.tableau.c3.l1}}</span>
+                        <span class="score">{{this.tableau.c3.l2}}</span>
+                        <span class="score">{{this.tableau.c3.l3}}</span>
+                        <span class="score">{{this.tableau.c3.l4}}</span>
+                        <span class="score">{{this.tableau.c3.l5}}</span>
+                        <span class="score">{{this.tableau.c3.l6}}</span>
+                    </div>
+                    <div class="colA">
+                        <span class="header">4</span>
+                        <span class="score">{{this.tableau.c4.l1}}</span>
+                        <span class="score">{{this.tableau.c4.l2}}</span>
+                        <span class="score">{{this.tableau.c4.l3}}</span>
+                        <span class="score">{{this.tableau.c4.l4}}</span>
+                        <span class="score">{{this.tableau.c4.l5}}</span>
+                        <span class="score">{{this.tableau.c4.l6}}</span>
+                    </div>
+                    <div class="colA">
+                        <span class="header">5</span>
+                        <span class="score">{{this.tableau.c5.l1}}</span>
+                        <span class="score">{{this.tableau.c5.l2}}</span>
+                        <span class="score">{{this.tableau.c5.l3}}</span>
+                        <span class="score">{{this.tableau.c5.l4}}</span>
+                        <span class="score">{{this.tableau.c5.l5}}</span>
+                        <span class="score">{{this.tableau.c5.l6}}</span>
+                    </div>
+                    <div class="colA">
+                        <span class="header">6</span>
+                        <span class="score">{{this.tableau.c6.l1}}</span>
+                        <span class="score">{{this.tableau.c6.l2}}</span>
+                        <span class="score">{{this.tableau.c6.l3}}</span>
+                        <span class="score">{{this.tableau.c6.l4}}</span>
+                        <span class="score">{{this.tableau.c6.l5}}</span>
+                        <span class="score">{{this.tableau.c6.l6}}</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+{{/unless}}

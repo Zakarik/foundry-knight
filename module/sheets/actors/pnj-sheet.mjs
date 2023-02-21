@@ -1096,11 +1096,12 @@ export class PNJSheet extends ActorSheet {
     const options = actorData.options;
 
     const typesValides = [
-      'module', 'armure',
+      'armure',
       'avantage', 'inconvenient',
       'motivationMineure', 'contact',
       'blessure', 'trauma',
-      'armurelegende', 'effet', 'distinction'];
+      'armurelegende', 'effet', 'distinction',
+      'capaciteultime'];
     if (typesValides.includes(itemBaseType)) return;
     if (itemBaseType === 'module' && !options.modules) return;
 

@@ -72,8 +72,17 @@ export class KnightActor extends Actor {
     // Make modifications to data here.
     const data = actorData.system;
     const isKraken = data.options.kraken;
-    const armorWear = this.items.get(data.equipements.armure?.id)?.system || false;
+    const armor = this.items.get(data.equipements.armure?.id) || false;
+    const armorWear = armor?.system || false;
     const armorLegendeWear = this.items.get(data.equipements.armure?.idLegende)?.system || false;
+    const capaciteultime = actorData.items.find(items => items.type === 'capaciteultime');
+    let passiveUltime = undefined;
+
+    if(capaciteultime !== undefined) {
+      const dataCapaciteUltime = capaciteultime.system;
+
+      if(dataCapaciteUltime.type == 'passive') passiveUltime = dataCapaciteUltime.passives;
+    }
 
     if(armorWear != false) {
       if(armorWear.generation >= 4) {
@@ -290,10 +299,17 @@ export class KnightActor extends Actor {
         if(ODEndurance >= 3) santeBonus += 6;
       }
 
+      const totalSante = userSBase+santeBonus-santeMalus;
+      let bonusSCU = 0;
+
+      if(dataWear === "armure" && passiveUltime !== undefined) {
+        if(passiveUltime.sante) bonusSCU = Math.floor(totalSante/2);
+      }
+
       data.sante.base = userSBase;
       data.sante.bonusValue = santeBonus;
       data.sante.malusValue = santeMalus;
-      data.sante.max = Math.max(userSBase+santeBonus-santeMalus, 0);
+      data.sante.max = Math.max(totalSante+bonusSCU, 0);
     }
 
     // ARMURE
@@ -574,7 +590,13 @@ export class KnightActor extends Actor {
     const userCBase = dameMax;
     const userCBonus = data.contacts.mod;
 
-    data.contacts.value = userCBase+userCBonus;
+    let bonusCCU = 0;
+
+    if(dataWear === "armure" && passiveUltime !== undefined) {
+      if(passiveUltime.contact.actif) bonusCCU = passiveUltime.contact.value;
+    }
+
+    data.contacts.value = userCBase+userCBonus+bonusCCU;
 
     // STYLES
     data.combat.styleInfo = game.i18n.localize(CONFIG.KNIGHT.styles[data.combat.style]);

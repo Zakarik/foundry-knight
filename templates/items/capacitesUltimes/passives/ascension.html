@@ -1,0 +1,35 @@
+<div class="data {{#if systemData.passives.capacites.ascension.actif}}checked{{/if}} {{#unless systemData.passives.capacites.actif}}hidden{{/unless}}">
+    <button type="action" class="{{#if systemData.passives.capacites.ascension.actif}}clicked{{/if}}"
+        data-toupdate="passives.capacites.ascension.actif"
+        data-value="{{systemData.passives.capacites.ascension.actif}}">
+    {{#if systemData.passives.capacites.ascension.actif}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.ASCENSION.Label"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.ASCENSION.NotLabel"}}
+    {{/if}}
+    </button>
+
+    <button type="action" class="
+        {{#if systemData.passives.capacites.type.update.permanent}}clicked{{/if}}
+        {{#unless systemData.passives.capacites.ascension.actif}}hidden{{/unless}}"
+            data-toupdate="passives.capacites.ascension.update.permanent"
+            data-value="{{systemData.passives.capacites.ascension.update.permanent}}">
+    {{#if systemData.passives.capacites.ascension.update.permanent}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.ASCENSION.Permanent"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.ASCENSION.NotPermanent"}}
+    {{/if}}
+    </button>
+
+    <button type="action" class="
+        {{#if systemData.passives.capacites.ascension.update.prestige}}clicked{{/if}}
+        {{#unless systemData.passives.capacites.ascension.actif}}hidden{{/unless}}"
+            data-toupdate="passives.capacites.ascension.update.prestige"
+            data-value="{{systemData.passives.capacites.ascension.update.prestige}}">
+    {{#if systemData.passives.capacites.ascension.update.prestige}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.ASCENSION.Prestige"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.ASCENSION.NotPrestige"}}
+    {{/if}}
+    </button>
+</div>

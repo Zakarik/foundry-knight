@@ -7,20 +7,13 @@
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
             {{#unless this.active.scene}}
-            <button class="
-                {{#unless this.active.tour}}
-                activation
-                {{else}}
-                desactivation
-                {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="tour"
+            <button class="activation"
+                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="tour"
                 data-cout="2"
-                data-flux="1">
-                {{#unless this.active.tour}}
-                {{localize "KNIGHT.DUREE.UnTour"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                {{else}}
-                {{localize "KNIGHT.DUREE.UnTour"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                {{/unless}}
+                data-flux="1"
+                data-toupdate="capacites.selected.discord.active"
+                data-value="{{active.tour}}">
+                {{localize "KNIGHT.DUREE.UnTour"}} : {{localizeactivate active.tour}}
             </button>
 
             {{#if this.active.tour}}
@@ -31,21 +24,14 @@
             </button>
             {{/if}}
             {{/unless}}
-            {{#unless this.active.tour}}
-            <button class="
-                {{#unless this.active.scene}}
-                activation
-                {{else}}
-                desactivation
-                {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="scene"
+            {{#unless active.tour}}
+            <button class="activation"
+                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="scene"
                 data-cout="6"
-                data-flux="3">
-                {{#unless this.active.scene}}
-                {{localize "KNIGHT.DUREE.ConflitPhase"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                {{else}}
-                {{localize "KNIGHT.DUREE.ConflitPhase"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                {{/unless}}
+                data-flux="3"
+                data-toupdate="capacites.selected.discord.active"
+                data-value="{{active.scene}}">
+                {{localize "KNIGHT.DUREE.ConflitPhase"}} : {{localizeactivate active.scene}}
             </button>
 
             {{#if this.active.scene}}

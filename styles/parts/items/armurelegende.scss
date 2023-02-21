@@ -1921,6 +1921,28 @@
                     div.crow {
                         margin-top:10px;
                     }
+
+                    div.img {
+                        display: grid;
+                        grid-template-columns: 160px 160px 160px;
+                        width: 100%;
+                        justify-content: space-between;
+                        text-align: center;
+                        margin-top: 10px;
+
+                        span {
+                            font-variant: small-caps;
+                            font-size: 18px;
+                        }
+
+                        img {
+                            border-color: $white;
+                            background: $lightBlack;
+                            margin-right: 0px;
+                            object-fit: contain;
+                            height:100%;
+                        }
+                    }
                 }
             }
 

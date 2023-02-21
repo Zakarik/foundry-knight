@@ -1,0 +1,20 @@
+<div class="data {{#if systemData.passives.capacites.vision.actif}}checked{{/if}} {{#unless systemData.passives.capacites.actif}}hidden{{/unless}}">
+    <button type="action" class="{{#if systemData.passives.capacites.vision.actif}}clicked{{/if}}"
+        data-toupdate="passives.capacites.vision.actif"
+        data-value="{{systemData.passives.capacites.vision.actif}}">
+    {{#if systemData.passives.capacites.vision.actif}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.VISION.Label"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.VISION.NotLabel"}}
+    {{/if}}
+    </button>
+
+    <div class="textarea {{#unless systemData.passives.capacites.vision.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea name="system.passives.capacites.vision.update.duree"
+            data-toupdate="passives.capacites.vision.update.textarea"
+            data-min="20"
+            style="height:{{systemData.passives.capacites.vision.update.textarea}}px;"
+            >{{systemData.passives.capacites.vision.update.duree}}</textarea>
+    </div>
+</div>

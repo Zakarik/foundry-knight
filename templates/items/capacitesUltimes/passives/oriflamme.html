@@ -1,0 +1,81 @@
+<div class="data {{#if systemData.passives.capacites.oriflamme.actif}}checked{{/if}} {{#unless systemData.passives.capacites.actif}}hidden{{/unless}}">
+    <button type="action" class="{{#if systemData.passives.capacites.oriflamme.actif}}clicked{{/if}}"
+        data-toupdate="passives.capacites.oriflamme.actif"
+        data-value="{{systemData.passives.capacites.oriflamme.actif}}">
+    {{#if systemData.passives.capacites.oriflamme.actif}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.ORIFLAMME.Label"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.ORIFLAMME.NotLabel"}}
+    {{/if}}
+    </button>
+
+    <label class="select {{#unless systemData.passives.capacites.oriflamme.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <select name="system.passives.capacites.oriflamme.update.activation">
+            {{#select systemData.passives.capacites.oriflamme.update.activation}}
+                <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+                <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+                <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+                <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+            {{/select}}
+        </select>
+    </label>
+
+    <label class="select {{#unless systemData.passives.capacites.oriflamme.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
+        <select name="system.passives.capacites.oriflamme.update.portee">
+            {{#select systemData.passives.capacites.oriflamme.update.portee}}
+                <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
+                <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
+                <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
+                <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
+                <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
+            {{/select}}
+        </select>
+    </label>
+
+    <div class="diceWBonus {{#unless systemData.passives.capacites.oriflamme.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+        <div>
+            <input type="number" name="system.passives.capacites.oriflamme.update.degats.dice" value="{{systemData.passives.capacites.oriflamme.update.degats.dice}}" min="0"/>
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number" name="system.passives.capacites.oriflamme.update.degats.fixe" value="{{systemData.passives.capacites.oriflamme.update.degats.fixe}}" min="0"/>
+        </div>
+    </div>
+
+    <div class="diceWBonus {{#unless systemData.passives.capacites.oriflamme.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+        <div>
+            <input type="number" name="system.passives.capacites.oriflamme.update.violence.dice" value="{{systemData.passives.capacites.oriflamme.update.violence.dice}}" min="0"/>
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number" name="system.passives.capacites.oriflamme.update.violence.fixe" value="{{systemData.passives.capacites.oriflamme.update.violence.fixe}}" min="0"/>
+        </div>
+    </div>
+
+    <label class="{{#unless systemData.passives.capacites.oriflamme.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.AUTRE.Energie"}}</span>
+        <input type="number" name="system.passives.capacites.oriflamme.update.energie" value="{{systemData.passives.capacites.oriflamme.update.energie}}" min="0"/>
+    </label>
+
+    <div class="textarea border {{#unless systemData.passives.capacites.oriflamme.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <textarea name="system.passives.capacites.capacites.oriflamme.update.duree"
+            data-toupdate="passives.capacites.capacites.oriflamme.update.textarea"
+            data-min="20"
+            style="height:{{systemData.passives.capacites.oriflamme.update.textarea}}px;"
+            >{{systemData.passives.capacites.oriflamme.update.duree}}</textarea>
+    </div>
+
+    <div class="{{#unless systemData.passives.capacites.oriflamme.actif}}hidden {{else}} effets {{/unless}}">
+        {{#each systemData.passives.capacites.oriflamme.update.effets.liste as | key effet|}}
+        <div>
+            <span class="label">{{key.name}}</span>
+            <img class="info" src="systems/knight/assets/icons/info.svg" />
+            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+        </div>
+        {{/each}}
+        <a class="edit" data-path="system.passives.capacites.oriflamme.update.effets">
+            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+        </a>
+    </div>
+</div>

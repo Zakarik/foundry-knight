@@ -1,0 +1,125 @@
+<div class="data {{#if systemData.passives.capacites.rage.actif}}checked{{/if}} {{#unless systemData.passives.capacites.actif}}hidden{{/unless}}">
+    <button type="action" class="{{#if systemData.passives.capacites.rage.actif}}clicked{{/if}}"
+        data-toupdate="passives.capacites.rage.actif"
+        data-value="{{systemData.passives.capacites.rage.actif}}">
+    {{#if systemData.passives.capacites.rage.actif}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Label"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.NotLabel"}}
+    {{/if}}
+    </button>
+
+    <h3 class="subtitre {{#unless systemData.passives.capacites.rage.actif}}hidden{{/unless}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Colere"}}</h3>
+
+    <label class="{{#unless systemData.passives.capacites.rage.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.MALUS.Reaction"}}</span>
+        <input type="number"
+            name="system.passives.capacites.rage.update.colere.reaction"
+            value="{{systemData.passives.capacites.rage.update.colere.reaction}}" min="0"/>
+    </label>
+
+    <label class="{{#unless systemData.passives.capacites.rage.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.MALUS.Defense"}}</span>
+        <input type="number"
+            name="system.passives.capacites.rage.update.colere.defense"
+            value="{{systemData.passives.capacites.rage.update.colere.defense}}" min="0"/>
+    </label>
+
+    <div class="dice {{#unless systemData.passives.capacites.rage.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Subis"}}</span>
+        <label>
+            <input type="number"
+                name="system.passives.capacites.rage.update.colere.subis"
+                value="{{systemData.passives.capacites.rage.update.colere.subis}}" min="0"/>
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+        </label>
+    </div>
+
+    <button type="action" class="
+        {{#if systemData.passives.capacites.rage.update.colere.combosInterdits.has}}clicked{{/if}}
+        {{#unless systemData.passives.capacites.rage.actif}}hidden{{/unless}}"
+            data-toupdate="passives.capacites.rage.update.colere.combosInterdits.has"
+            data-value="{{systemData.passives.capacites.rage.update.colere.combosInterdits.has}}">
+        {{#if systemData.passives.capacites.rage.update.colere.combosInterdits.has}}
+            {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Activer"}}
+        {{else}}
+            {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.NotActiver"}}
+        {{/if}}
+    </button>
+
+    <h3 class="subtitre {{#unless systemData.passives.capacites.rage.actif}}hidden{{/unless}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Rage"}}</h3>
+
+    <label class="{{#unless systemData.passives.capacites.rage.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.MALUS.Reaction"}}</span>
+        <input type="number"
+            name="system.passives.capacites.rage.update.rage.reaction"
+            value="{{systemData.passives.capacites.rage.update.rage.reaction}}" min="0"/>
+    </label>
+
+    <label class="{{#unless systemData.passives.capacites.rage.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.MALUS.Defense"}}</span>
+        <input type="number"
+            name="system.passives.capacites.rage.update.rage.defense"
+            value="{{systemData.passives.capacites.rage.update.rage.defense}}" min="0"/>
+    </label>
+
+    <div class="dice {{#unless systemData.passives.capacites.rage.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Subis"}}</span>
+        <label>
+            <input type="number"
+                name="system.passives.capacites.rage.update.rage.subis"
+                value="{{systemData.passives.capacites.rage.update.rage.subis}}" min="0"/>
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+        </label>
+    </div>
+
+    <button type="action" class="
+        {{#if systemData.passives.capacites.rage.update.rage.combosInterdits.has}}clicked{{/if}}
+        {{#unless systemData.passives.capacites.rage.actif}}hidden{{/unless}}"
+            data-toupdate="passives.capacites.rage.update.rage.combosInterdits.has"
+            data-value="{{systemData.passives.capacites.rage.update.rage.combosInterdits.has}}">
+        {{#if systemData.passives.capacites.rage.update.rage.combosInterdits.has}}
+            {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Activer"}}
+        {{else}}
+            {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.NotActiver"}}
+        {{/if}}
+    </button>
+
+    <h3 class="subtitre {{#unless systemData.passives.capacites.rage.actif}}hidden{{/unless}}">{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Fureur"}}</h3>
+
+    <label class="{{#unless systemData.passives.capacites.rage.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.MALUS.Reaction"}}</span>
+        <input type="number"
+            name="system.passives.capacites.rage.update.fureur.reaction"
+            value="{{systemData.passives.capacites.rage.update.fureur.reaction}}" min="0"/>
+    </label>
+
+    <label class="{{#unless systemData.passives.capacites.rage.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.MALUS.Defense"}}</span>
+        <input type="number"
+            name="system.passives.capacites.rage.update.fureur.defense"
+            value="{{systemData.passives.capacites.rage.update.fureur.defense}}" min="0"/>
+    </label>
+
+    <div class="dice {{#unless systemData.passives.capacites.rage.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Subis"}}</span>
+        <label>
+            <input type="number"
+                name="system.passives.capacites.rage.update.fureur.subis"
+                value="{{systemData.passives.capacites.rage.update.fureur.subis}}" min="0"/>
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+        </label>
+    </div>
+
+    <button type="action" class="
+        {{#if systemData.passives.capacites.rage.update.fureur.combosInterdits.has}}clicked{{/if}}
+        {{#unless systemData.passives.capacites.rage.actif}}hidden{{/unless}}"
+            data-toupdate="passives.capacites.rage.update.fureur.combosInterdits.has"
+            data-value="{{systemData.passives.capacites.rage.update.fureur.combosInterdits.has}}">
+        {{#if systemData.passives.capacites.rage.update.fureur.combosInterdits.has}}
+            {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.Activer"}}
+        {{else}}
+            {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.RAGE.NotActiver"}}
+        {{/if}}
+    </button>
+</div>

@@ -458,17 +458,20 @@
         return result;
     });
 
-    Handlebars.registerHelper('moduleCanBeActivate', function (data) {
+    Handlebars.registerHelper('moduleCanBeActivate', function (data, type) {
         let result = false;
         const system = data.system;
         const isPermanent = system.permanent;
         const hasPNJ = system.pnj.has;
         const energieTour = system.energie.tour.value;
         const energieMinute = system.energie.minute.value;
+        const energieSupp = system.energie.supplementaire;
 
-        if(energieMinute === 0 && energieTour === 0 && !hasPNJ && !isPermanent) result = true;
-
-        if((energieMinute > 0 && !isPermanent) || (energieTour > 0  && !isPermanent)) result = true;
+        if(energieMinute === 0 && energieTour === 0 && !hasPNJ && !isPermanent && type === 'other') result = true;
+        if(energieMinute === 0 && energieTour === 0 && !isPermanent && type === 'pnj') result = true;
+        if(energieMinute > 0 && !isPermanent && type === 'minute') result = true;
+        if(energieTour > 0  && !isPermanent && type === 'tour') result = true;
+        if(energieSupp > 0  && !isPermanent && type === 'supplementaire') result = true;
 
         return result;
     });
@@ -495,6 +498,136 @@
         if(id !== undefined) {
             result = data.progression.gloire.depense?.autre?.[id]?.[type] || '';
         }
+
+        return result;
+    });
+
+    Handlebars.registerHelper('listCarac', function () {
+        return CONFIG.KNIGHT.listCaracteristiques;
+    });
+
+    Handlebars.registerHelper('isntInclude', function (array, key) {
+        const result = array.includes(key) ? false : true;
+
+        return result;
+    });
+
+    Handlebars.registerHelper('localizeactivate', function (isactivate) {
+        const result = isactivate ? game.i18n.localize("KNIGHT.AUTRE.Desactiver") : game.i18n.localize("KNIGHT.AUTRE.Activer");
+
+        return result;
+    });
+
+    Handlebars.registerHelper('localizechoix', function (ischoisi) {
+        const result = ischoisi ? game.i18n.localize("KNIGHT.AUTRE.Choisi") : game.i18n.localize("KNIGHT.AUTRE.Choisir");
+
+        return result;
+    });
+
+    Handlebars.registerHelper('companionsCanBeActivate', function (data, companion=null, legend=false) {
+        const active = data?.active || {lion:false, wolf:false, crow:false};
+        const deployable = legend ? 1 : data?.deployable || 1;
+        const isActive = companion !== null ? active[companion] : true;
+
+        let i = 0;
+
+        if(active.lion) i++;
+        if(active.wolf) i++;
+        if(active.crow) i++;
+
+        const result = i < deployable || isActive ? true : false;
+
+        return result;
+    });
+
+    Handlebars.registerHelper('typeCanBeActivate', function (data, type, conflit, legende=false) {
+        const isConflit = conflit === 'conflit' ? true : false;
+        const soldier = data.type.soldier.conflit || data.type.soldier.horsconflit ? true : false;
+        const scout = data.type.scout.conflit || data.type.scout.horsconflit ? true : false;
+        const herald = data.type.herald.conflit || data.type.herald.horsconflit ? true : false;
+        const scholar = data.type.scholar.conflit || data.type.scholar.horsconflit ? true : false;
+        const hunter = data.type.hunter.conflit || data.type.hunter.horsconflit ? true : false;
+
+        const limite = data.double && !legende ? 2 : 1;
+
+        let result = true;
+        let array = []
+
+        switch(type) {
+            case 'soldier':
+                if(data.type.soldier.conflit && !isConflit) result = false;
+                if(data.type.soldier.horsconflit && isConflit) result = false;
+
+                array.push(scout, herald, scholar, hunter);
+                break;
+
+            case 'scout':
+                if(data.type.scout.conflit && !isConflit) result = false;
+                if(data.type.scout.horsconflit && isConflit) result = false;
+
+                array.push(soldier, herald, scholar, hunter);
+                break;
+
+            case 'herald':
+                if(data.type.herald.conflit && !isConflit) result = false;
+                if(data.type.herald.horsconflit && isConflit) result = false;
+
+                array.push(soldier, scout, scholar, hunter);
+                break;
+
+            case 'scholar':
+                if(data.type.scholar.conflit && !isConflit) result = false;
+                if(data.type.scholar.horsconflit && isConflit) result = false;
+
+                array.push(soldier, scout, herald, hunter);
+                break;
+
+            case 'hunter':
+                if(data.type.hunter.conflit && !isConflit) result = false;
+                if(data.type.hunter.horsconflit && isConflit) result = false;
+
+                array.push(soldier, scout, herald, scholar);
+                break;
+        }
+
+        const count = array.reduce((acc, curr) => {
+            return curr ? acc + 1 : acc;
+        }, 0);
+
+        if(count === limite) result = false;
+
+        return result;
+    });
+
+    Handlebars.registerHelper('typeIsFree', function (data) {
+        const soldier = data.type.soldier.conflit || data.type.soldier.horsconflit ? true : false;
+        const scout = data.type.scout.conflit || data.type.scout.horsconflit ? true : false;
+        const herald = data.type.herald.conflit || data.type.herald.horsconflit ? true : false;
+        const scholar = data.type.scholar.conflit || data.type.scholar.horsconflit ? true : false;
+        const hunter = data.type.hunter.conflit || data.type.hunter.horsconflit ? true : false;
+
+        let result = false;
+        let array = []
+
+        array.push(soldier, scout, herald, scholar, hunter);
+
+        const count = array.reduce((acc, curr) => {
+            return curr ? acc + 1 : acc;
+        }, 0);
+
+        if(count === 1) result = true;
+
+        return result;
+    });
+
+    Handlebars.registerHelper('hasCapacite', function (data, capacite) {
+        let result = false;
+
+        console.log(data);
+
+        const capa = data?.actor?.armureData?.system?.capacites?.selected?.[capacite] || false
+
+        if(capa) result = true;
 
         return result;
     });

@@ -4,28 +4,24 @@
         <i class="far fa-plus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ASCENSION.Label"}}
 
+
+        {{log this}}
+        {{#unless this.permanent}}
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
             <label class="energie">
-                <input type="number" name="system.equipements.armure.capacites.ascension.energie" value="{{@root/systemData/equipements/armure/capacites/ascension/energie}}"
-                min="{{this.energie.min}}" max="{{this.energie.max}}" />
+                <input type="number" name="system.equipements.armure.capacites.ascension.energie" value="{{data.ascension.energie}}"
+                min="{{energie.min}}" max="{{energie.max}}" />
                 <span>{{localize "KNIGHT.AUTRE.PointEnergie-short"}}</span>
             </label>
 
-            <button class="
-                {{#unless this.active}}
-                activation
-                {{else}}
-                desactivation
-                {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                data-cout="{{@root/systemData/equipements/armure/capacites/ascension/energie}}"
-                data-id="{{this.ascensionId}}" data-depense="{{this.depense}}">
-                {{#unless this.active}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ASCENSION.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                {{else}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ASCENSION.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                {{/unless}}
+            <button class="activation"
+                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+                data-cout="{{data.ascension.energie}}"
+                data-id="{{ascensionId}}" data-depense="{{depense}}"
+                data-toupdate="capacites.selected.ascension"
+                data-value="{{active}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ASCENSION.Label"}} : {{localizeactivate active}}
             </button>
         </div>
         {{else}}
@@ -33,30 +29,25 @@
                 {{#if this.sansarmure.acces}}
                 <div class="blockMultiline">
                     <label class="energie">
-                        <input type="number" name="system.equipements.armure.capacites.ascension.energie" value="{{@root/systemData/equipements/armure/capacites/ascension/energie}}"
-                        min="{{this.energie.min}}" max="{{this.energie.max}}" />
+                        <input type="number" name="system.equipements.armure.capacites.ascension.energie"
+                        value="{{data.ascension.energie}}"
+                        min="{{energie.min}}" max="{{energie.max}}" />
                         <span>{{localize "KNIGHT.AUTRE.PointEnergie-short"}}</span>
                     </label>
 
-                    <button class="
-                        {{#unless this.active}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                        data-cout="{{@root/systemData/equipements/armure/capacites/ascension/energie}}"
-                        data-id="{{this.ascensionId}}" data-depense="{{this.depense}}">
-                        {{#unless this.active}}
-                        {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                    <button class="activation"
+                        data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+                        data-cout="{{data.ascension.energie}}"
+                        data-id="{{ascensionId}}" data-depense="{{depense}}"
+                        data-toupdate="capacites.selected.ascension"
+                        data-value="{{active}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ASCENSION.Label"}} : {{localizeactivate active}}
                     </button>
                 </div>
                 {{/if}}
             {{/unless}}
         {{/if}}
+        {{/unless}}
     </h3>
 
     <span class="description" style="display:none">{{{this.description}}}</span>

@@ -5,50 +5,51 @@
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
-            <button class="
-                {{#unless this.active.personnel}}
-                activationLegende
-                {{else}}
-                desactivationLegende
-                {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="personnel"
-                data-cout="{{this.energie.personnel}}">
-                {{#unless this.active.personnel}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.TransformationPersonnelle"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                {{else}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.TransformationPersonnelle"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                {{/unless}}
+            <button class="activationLegende"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}}"
+                data-special="personnel"
+                data-cout="{{energie.personnel}}"
+                data-toupdate="capacites.selected.changeling.active"
+                data-value="{{active.personnel}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.TransformationPersonnelle"}} : {{localizeactivate active.personnel}}
             </button>
 
-            <button class="
-                {{#unless this.active.etendue}}
-                activationLegende
-                {{else}}
-                desactivationLegende
-                {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="etendue"
-                data-cout="{{this.energie.etendue}}">
-                {{#unless this.active.etendue}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.TransformationEtendue"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                {{else}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.TransformationEtendue"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                {{/unless}}
+            <button class="activationLegende"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}}"
+                data-special="etendue"
+                data-cout="{{energie.etendue}}"
+                data-toupdate="capacites.selected.changeling.active"
+                data-value="{{active.etendue}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.TransformationEtendue"}} : {{localizeactivate active.etendue}}
             </button>
-            {{#if this.active.fauxEtre}}
-            <button class="buttonSupp prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                data-cout="{{#if this.active.fauxEtre}}({{@root/systemData/equipements/armure/capacites/changeling/fauxetres}}*{{this.energie.fauxEtre.value}}){{else}}0{{/if}}{{#if this.active.personnel}}+{{this.energie.personnel}}{{else}}+0{{/if}}{{#if this.active.etendue}}+{{this.energie.etendue}}{{else}}+0{{/if}}">
+            {{#if active.fauxEtre}}
+            <button class="buttonSupp prolonger"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}}"
+                data-cout="{{#if active.fauxEtre}}({{data.changeling.fauxetres}}*{{energie.fauxEtre.value}}){{else}}0{{/if}}{{#if active.personnel}}+{{energie.personnel}}{{else}}+0{{/if}}{{#if active.etendue}}+{{energie.etendue}}{{else}}+0{{/if}}">
                 {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>
             {{else}}
-                {{#if this.active.personnel}}
-                <button class="buttonSupp prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                    data-cout="{{#if this.active.fauxEtre}}({{@root/systemData/equipements/armure/capacites/changeling/fauxetres}}*{{this.energie.fauxEtre.value}}){{else}}0{{/if}}{{#if this.active.personnel}}+{{this.energie.personnel}}{{else}}+0{{/if}}{{#if this.active.etendue}}+{{this.energie.etendue}}{{else}}+0{{/if}}">
+                {{#if active.personnel}}
+                <button class="buttonSupp prolonger"
+                    data-type="capacites"
+                    data-capacite="{{key}}"
+                    data-name="{{label}}"
+                    data-cout="{{#if active.fauxEtre}}({{data.changeling.fauxetres}}*{{energie.fauxEtre.value}}){{else}}0{{/if}}{{#if active.personnel}}+{{energie.personnel}}{{else}}+0{{/if}}{{#if active.etendue}}+{{energie.etendue}}{{else}}+0{{/if}}">
                     {{localize "KNIGHT.AUTRE.Prolonger"}}
                 </button>
                 {{else}}
-                    {{#if this.active.etendue}}
-                    <button class="buttonSupp prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                        data-cout="{{#if this.active.fauxEtre}}({{@root/systemData/equipements/armure/capacites/changeling/fauxetres}}*{{this.energie.fauxEtre.value}}){{else}}0{{/if}}{{#if this.active.personnel}}+{{this.energie.personnel}}{{else}}+0{{/if}}{{#if this.active.etendue}}+{{this.energie.etendue}}{{else}}+0{{/if}}">
+                    {{#if active.etendue}}
+                    <button class="buttonSupp prolonger"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-cout="{{#if active.fauxEtre}}({{data.changeling.fauxetres}}*{{energie.fauxEtre.value}}){{else}}0{{/if}}{{#if active.personnel}}+{{energie.personnel}}{{else}}+0{{/if}}{{#if active.etendue}}+{{energie.etendue}}{{else}}+0{{/if}}">
                         {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}
@@ -61,19 +62,15 @@
                 <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.FauxEtres"}}</span>
             </label>
 
-            <button class="
-                {{#unless this.active.fauxEtre}}
-                activationLegende
-                {{else}}
-                desactivationLegende
-                {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="fauxEtre"
-                data-cout="{{@root/systemData/equipements/armure/capacites/changeling/fauxetres}}*{{this.energie.fauxEtre.value}}">
-                {{#unless this.active.fauxEtre}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.FauxEtres"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                {{else}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.FauxEtres"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                {{/unless}}
+            <button class="activationLegende"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}}"
+                data-special="fauxEtre"
+                data-cout="{{data.changeling.fauxetres}}*{{energie.fauxEtre.value}}"
+                data-toupdate="capacites.selected.changeling.active"
+                data-value="{{active.fauxEtre}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.FauxEtres"}} : {{localizeactivate active.fauxEtre}}
             </button>
         </div>
         {{/if}}

@@ -8734,6 +8734,25 @@
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow {
   margin-top: 10px;
 }
+.armure form.armureWindows div.capacites div.companions div.mainData div.img {
+  display: grid;
+  grid-template-columns: 160px 160px 160px;
+  width: 100%;
+  justify-content: space-between;
+  text-align: center;
+  margin-top: 10px;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.img span {
+  font-variant: small-caps;
+  font-size: 18px;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.img img {
+  border-color: white;
+  background: RGB(76 74 90);
+  margin-right: 0px;
+  object-fit: contain;
+  height: 100%;
+}
 .armure form.armureWindows div.capacites div.illumination div.mainData div.col {
   width: calc(50% - 5px);
 }
@@ -12192,6 +12211,25 @@
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow {
   margin-top: 10px;
 }
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.img {
+  display: grid;
+  grid-template-columns: 160px 160px 160px;
+  width: 100%;
+  justify-content: space-between;
+  text-align: center;
+  margin-top: 10px;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.img span {
+  font-variant: small-caps;
+  font-size: 18px;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.img img {
+  border-color: white;
+  background: RGB(76 74 90);
+  margin-right: 0px;
+  object-fit: contain;
+  height: 100%;
+}
 .armurelegende form.armureWindows div.capacites div.totem div.mainData div.data div.double {
   display: flex;
   width: 100%;
@@ -13322,7 +13360,7 @@
 .module div.main div.col3 > div.twoLine label.oneLinewDice div span {
   width: 24px;
   text-align: center;
-  line-height: 22px;
+  line-height: 23px;
   background: RGB(43 42 51);
   text-transform: uppercase;
 }
@@ -13389,9 +13427,10 @@
 .module div.main div.col3 > div.twoLine label.oneLinewOnlyDice div span {
   width: 50%;
   text-align: left;
-  line-height: 22px;
+  line-height: 21px;
   background: RGB(43 42 51);
   text-transform: uppercase;
+  padding-top: 1px;
 }
 .module div.main div.col > label.twoLine div.borderBottom,
 .module div.main div.col > label.twoLine label.borderBottom,
@@ -15559,6 +15598,777 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding: 0px;
   border: 0px;
   border-radius: 0px;
+}
+
+.capaciteUltime h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.capaciteUltime h2.header .headerScore {
+  position: absolute;
+  width: 40px;
+  background: RGB(76 74 90);
+  line-height: 21px;
+  text-align: center;
+  right: 1px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 1px;
+}
+.capaciteUltime h2.header .headerQuantity {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 48px;
+  background: RGB(76 74 90);
+  line-height: 22px;
+  height: 22px;
+  text-align: center;
+  right: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 0px;
+}
+.capaciteUltime h2.header .headerQuantity input {
+  text-align: center;
+  width: 20px;
+  height: 22px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
+}
+.capaciteUltime h2.header .headerQuantity span {
+  width: 8px;
+  line-height: 22px;
+  color: white;
+}
+.capaciteUltime h2.header a.verrouillage {
+  position: absolute;
+  right: 5px;
+  width: max-content;
+  line-height: 21px;
+  color: white;
+  font-variant: small-caps;
+  font-size: 12px;
+}
+.capaciteUltime h2.header a.verrouillage:hover {
+  text-shadow: 0 0 10px white;
+}
+.capaciteUltime h2.header .far {
+  cursor: pointer;
+}
+.capaciteUltime header.header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 48px 1fr;
+  column-gap: 10px;
+}
+.capaciteUltime header.header div.blockImg {
+  grid-column: 1;
+  grid-row: 1/3;
+  height: 262px;
+  width: 212px;
+  background: RGB(76 74 90);
+  border: 1px solid white;
+  display: flex;
+  align-items: center;
+}
+.capaciteUltime header.header div.blockImg img.profile-img {
+  border: 0px;
+  object-fit: contain;
+}
+.capaciteUltime header.header div.description {
+  grid-column: 2;
+  grid-row: 2;
+}
+.capaciteUltime header.header div.description div.editor {
+  height: 100%;
+}
+.capaciteUltime header.header div.description div.editor div.tox {
+  height: 100%;
+}
+.capaciteUltime header.header h1.charname {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+.capaciteUltime header.header h1.charname input[type=text] {
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  border-top: 0px;
+  border-right: 0px;
+  border-left: 0px;
+  border-radius: 0px;
+  border-width: unset;
+  border-color: white;
+  background: transparent;
+}
+.capaciteUltime header.header {
+  grid-template-columns: 212px 1fr 1fr;
+  grid-template-rows: 48px 1fr 1fr;
+}
+.capaciteUltime header.header div.condition {
+  grid-row: 2;
+  grid-column: 2/4;
+}
+.capaciteUltime header.header div.details {
+  grid-row: 3;
+  grid-column: 2/4;
+  margin-top: 5px;
+}
+.capaciteUltime header.header div.blockLeft {
+  grid-row: 1/4;
+  display: grid;
+  grid-template-rows: 1fr 34px 34px;
+  grid-gap: 5px;
+}
+.capaciteUltime header.header div.blockImg {
+  width: 100%;
+  height: 100%;
+  grid-row: 1;
+}
+.capaciteUltime header.header div.editor {
+  height: calc(100% - 23px) !important;
+}
+.capaciteUltime header.header h1.charname {
+  grid-row: 1;
+  grid-column: 2/4;
+}
+.capaciteUltime header.header button.clicked {
+  background: RGB(76 74 90);
+}
+.capaciteUltime header.header button.passive {
+  grid-row: 2;
+  font-variant: small-caps;
+  display: block;
+  text-align: center;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 2px solid RGB(76 74 90);
+  position: relative;
+  line-height: 28px;
+  border-radius: 0px;
+  grid-column: 1;
+}
+.capaciteUltime header.header button.active {
+  grid-row: 3;
+  font-variant: small-caps;
+  display: block;
+  text-align: center;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 2px solid RGB(76 74 90);
+  position: relative;
+  line-height: 28px;
+  border-radius: 0px;
+  grid-column: 1;
+}
+.capaciteUltime div.main {
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  margin-top: 5px;
+}
+.capaciteUltime div.main button {
+  font-variant: small-caps;
+  display: block;
+  text-align: center;
+  width: calc(100% - 2px);
+  color: white;
+  cursor: pointer;
+  border: 2px solid RGB(76 74 90);
+  position: relative;
+  line-height: 28px;
+  border-radius: 0px;
+}
+.capaciteUltime div.main button.clicked {
+  background: RGB(76 74 90);
+}
+.capaciteUltime div.main button.double {
+  grid-column: 1/3;
+}
+.capaciteUltime div.main button.hidden {
+  display: none !important;
+}
+.capaciteUltime div.passive, .capaciteUltime div.active {
+  display: none;
+  align-items: flex-start;
+}
+.capaciteUltime div.passive.show, .capaciteUltime div.active.show {
+  display: grid;
+}
+.capaciteUltime div.passive div.data, .capaciteUltime div.active div.data {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.capaciteUltime div.passive div.data h3.subtitre, .capaciteUltime div.active div.data h3.subtitre {
+  font-variant: small-caps;
+  font-size: 17px;
+  width: 100%;
+  background: RGB(76 74 90);
+  margin: 0px;
+  padding-left: 5px;
+  line-height: 26px;
+  border-top: 1px solid black;
+  border-bottom: 0px;
+}
+.capaciteUltime div.passive div.data h3.subtitre.borderDouble, .capaciteUltime div.active div.data h3.subtitre.borderDouble {
+  border-top: 5px double black;
+}
+.capaciteUltime div.passive div.data h4.subtitre, .capaciteUltime div.active div.data h4.subtitre {
+  font-variant: small-caps;
+  font-size: 13px;
+  width: 100%;
+  background: RGB(76 74 90);
+  margin: 0px;
+  padding-left: 5px;
+  line-height: 26px;
+  border-top: 1px solid black;
+  border-bottom: 0px;
+}
+.capaciteUltime div.passive div.data > label, .capaciteUltime div.active div.data > label {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+}
+.capaciteUltime div.passive div.data > label span, .capaciteUltime div.active div.data > label span {
+  font-variant: small-caps;
+  font-size: 14px;
+  line-height: 26px;
+  padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
+  background: RGB(76 74 90);
+}
+.capaciteUltime div.passive div.data > label input, .capaciteUltime div.active div.data > label input {
+  border: 0px;
+  width: 100%;
+  text-align: center;
+  padding: 0px;
+  background: RGB(43 42 51);
+  border-radius: 0px;
+  height: 100%;
+  border-top: 1px solid RGB(76 74 90);
+}
+.capaciteUltime div.passive div.data > label select, .capaciteUltime div.active div.data > label select {
+  border: 0px;
+  width: 100%;
+  text-align: center;
+  padding: 0px;
+  background: RGB(43 42 51);
+  border-radius: 0px;
+  height: 100%;
+  border-top: 1px solid RGB(76 74 90);
+  color: white;
+}
+.capaciteUltime div.passive div.data > label select option, .capaciteUltime div.active div.data > label select option {
+  background: RGB(76 74 90);
+}
+.capaciteUltime div.passive div.data > label.select, .capaciteUltime div.active div.data > label.select {
+  grid-template-columns: 1fr 200px;
+}
+.capaciteUltime div.passive div.data.hidden,
+.capaciteUltime div.passive div.data .hidden, .capaciteUltime div.active div.data.hidden,
+.capaciteUltime div.active div.data .hidden {
+  display: none !important;
+}
+.capaciteUltime div.passive div.data.checked, .capaciteUltime div.active div.data.checked {
+  border: 1px solid RGB(87 110 178);
+}
+.capaciteUltime div.passive div.data.checked > span:first-of-type,
+.capaciteUltime div.passive div.data.checked > input:first-of-type, .capaciteUltime div.active div.data.checked > span:first-of-type,
+.capaciteUltime div.active div.data.checked > input:first-of-type {
+  border-top: 1px solid RGB(43 42 51);
+}
+.capaciteUltime div.passive div.data div.dice, .capaciteUltime div.active div.data div.dice {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+}
+.capaciteUltime div.passive div.data div.dice > span, .capaciteUltime div.active div.data div.dice > span {
+  font-variant: small-caps;
+  font-size: 14px;
+  line-height: 26px;
+  padding-left: 5px;
+  background: RGB(76 74 90);
+  border-top: 1px solid RGB(43 42 51);
+}
+.capaciteUltime div.passive div.data div.dice label, .capaciteUltime div.active div.data div.dice label {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: RGB(43 42 51);
+  border-top: 1px solid RGB(76 74 90);
+}
+.capaciteUltime div.passive div.data div.dice label input, .capaciteUltime div.active div.data div.dice label input {
+  border: 0px;
+  width: 100%;
+  text-align: right;
+  padding: 0px;
+  background: RGB(43 42 51);
+  border-radius: 0px;
+}
+.capaciteUltime div.passive div.data div.dice label span, .capaciteUltime div.active div.data div.dice label span {
+  font-variant: small-caps;
+  font-size: 14px;
+  line-height: 26px;
+  background: RGB(43 42 51);
+}
+.capaciteUltime div.passive div.data div.diceWBonus, .capaciteUltime div.active div.data div.diceWBonus {
+  display: grid;
+  grid-template-columns: 1fr 75px;
+}
+.capaciteUltime div.passive div.data div.diceWBonus > span, .capaciteUltime div.active div.data div.diceWBonus > span {
+  font-variant: small-caps;
+  font-size: 14px;
+  line-height: 26px;
+  padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
+  background: RGB(76 74 90);
+}
+.capaciteUltime div.passive div.data div.diceWBonus div, .capaciteUltime div.active div.data div.diceWBonus div {
+  display: grid;
+  grid-template-columns: 1fr min-content 1fr;
+  background: RGB(76 74 90);
+  border-top: 1px solid RGB(43 42 51);
+}
+.capaciteUltime div.passive div.data div.diceWBonus div input, .capaciteUltime div.active div.data div.diceWBonus div input {
+  border: 0px;
+  width: 100%;
+  padding: 0px;
+  background: RGB(43 42 51);
+  border-radius: 0px;
+}
+.capaciteUltime div.passive div.data div.diceWBonus div input:first-of-type, .capaciteUltime div.active div.data div.diceWBonus div input:first-of-type {
+  text-align: right;
+}
+.capaciteUltime div.passive div.data div.diceWBonus div span, .capaciteUltime div.active div.data div.diceWBonus div span {
+  font-variant: small-caps;
+  font-size: 14px;
+  line-height: 26px;
+  background: RGB(43 42 51);
+}
+.capaciteUltime div.passive div.data div.textarea, .capaciteUltime div.active div.data div.textarea {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.capaciteUltime div.passive div.data div.textarea span, .capaciteUltime div.active div.data div.textarea span {
+  font-variant: small-caps;
+  font-size: 17px;
+  width: 100%;
+  background: RGB(76 74 90);
+  margin: 0px;
+  padding-left: 5px;
+  line-height: 26px;
+  border-bottom: 1px solid black;
+}
+.capaciteUltime div.passive div.data div.textarea textarea, .capaciteUltime div.active div.data div.textarea textarea {
+  color: white;
+  width: 100%;
+  border: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: left;
+  background: RGB(43 42 51);
+  font-family: "Signika";
+  height: 26px;
+  border-radius: 0px;
+}
+.capaciteUltime div.passive div.data div.textarea.border, .capaciteUltime div.active div.data div.textarea.border {
+  border-top: 1px solid RGB(43 42 51);
+}
+.capaciteUltime div.passive div.data div.textareaWButton, .capaciteUltime div.active div.data div.textareaWButton {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.capaciteUltime div.passive div.data div.textareaWButton span, .capaciteUltime div.active div.data div.textareaWButton span {
+  font-variant: small-caps;
+  font-size: 17px;
+  width: 100%;
+  background: RGB(76 74 90);
+  margin: 0px;
+  padding-left: 5px;
+  line-height: 26px;
+  border-bottom: 1px solid black;
+}
+.capaciteUltime div.passive div.data div.textareaWButton button, .capaciteUltime div.active div.data div.textareaWButton button {
+  border-right: 0px;
+  border-left: 0px;
+}
+.capaciteUltime div.passive div.data div.textareaWButton textarea, .capaciteUltime div.active div.data div.textareaWButton textarea {
+  color: white;
+  width: 100%;
+  border: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: left;
+  background: RGB(43 42 51);
+  font-family: "Signika";
+  height: 26px;
+  border-radius: 0px;
+}
+.capaciteUltime div.passive div.data div.textareaWButton.border, .capaciteUltime div.active div.data div.textareaWButton.border {
+  border-top: 1px solid RGB(43 42 51);
+}
+.capaciteUltime div.passive div.data div.effets, .capaciteUltime div.active div.data div.effets {
+  display: flex;
+  position: relative;
+  width: 100%;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding-right: 5px;
+  padding-bottom: 19px;
+  padding-left: 5px;
+  border-top: 1px solid black;
+}
+.capaciteUltime div.passive div.data div.effets div, .capaciteUltime div.active div.data div.effets div {
+  position: relative;
+  width: max-content;
+  padding-left: 15px;
+  padding-right: 25px;
+  background: RGB(76 74 90);
+  border-radius: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 5px;
+  border: 1px solid black;
+}
+.capaciteUltime div.passive div.data div.effets div span.label, .capaciteUltime div.active div.data div.effets div span.label {
+  font-variant: small-caps;
+  color: white;
+  line-height: 20px;
+}
+.capaciteUltime div.passive div.data div.effets div img.info, .capaciteUltime div.active div.data div.effets div img.info {
+  display: inline-block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 0px;
+  background: RGB(76 74 90);
+  top: 4px;
+  right: 2px;
+  cursor: pointer;
+}
+.capaciteUltime div.passive div.data div.effets div img.info.clicked, .capaciteUltime div.passive div.data div.effets div img.info:hover, .capaciteUltime div.active div.data div.effets div img.info.clicked, .capaciteUltime div.active div.data div.effets div img.info:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+.capaciteUltime div.passive div.data div.effets div span.hideInfo, .capaciteUltime div.active div.data div.effets div span.hideInfo {
+  display: none;
+  position: absolute;
+  background: RGB(76 74 90);
+  border: 1px solid black;
+  padding: 5px;
+  z-index: 90;
+  margin-top: -2px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  right: 0;
+  top: 100%;
+  text-align: justify;
+  word-break: break-word;
+}
+.capaciteUltime div.passive div.data div.effets a.edit, .capaciteUltime div.active div.data div.effets a.edit {
+  position: absolute;
+  bottom: 0px;
+  right: 5px;
+  color: white;
+  font-variant: small-caps;
+}
+.capaciteUltime div.passive div.data button:not(:first-of-type), .capaciteUltime div.active div.data button:not(:first-of-type) {
+  border-top: 1px solid black;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+}
+.capaciteUltime div.passive > label, .capaciteUltime div.active > label {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+}
+.capaciteUltime div.passive > label span, .capaciteUltime div.active > label span {
+  font-variant: small-caps;
+  font-size: 14px;
+  line-height: 26px;
+  padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
+  background: RGB(76 74 90);
+}
+.capaciteUltime div.passive > label input, .capaciteUltime div.active > label input {
+  border: 0px;
+  width: 100%;
+  text-align: center;
+  padding: 0px;
+  background: RGB(43 42 51);
+  border-radius: 0px;
+  height: 100%;
+  border-top: 1px solid RGB(76 74 90);
+}
+.capaciteUltime div.passive > label select, .capaciteUltime div.active > label select {
+  border: 0px;
+  width: 100%;
+  text-align: center;
+  padding: 0px;
+  background: RGB(43 42 51);
+  border-radius: 0px;
+  height: 100%;
+  border-top: 1px solid RGB(76 74 90);
+  color: white;
+}
+.capaciteUltime div.passive > label select option, .capaciteUltime div.active > label select option {
+  background: RGB(76 74 90);
+}
+.capaciteUltime div.passive > label.select, .capaciteUltime div.active > label.select {
+  grid-template-columns: 1fr 200px;
+}
+.capaciteUltime div.active {
+  grid-template-rows: repeat(8, min-content);
+}
+.capaciteUltime div.active div.data {
+  border: 1px solid RGB(87 110 178);
+}
+.capaciteUltime div.active div.data.unchecked {
+  border: 0px;
+}
+.capaciteUltime div.active div.diceWLabel {
+  display: grid;
+  grid-template-columns: 1fr 75px;
+}
+.capaciteUltime div.active div.diceWLabel > span {
+  font-variant: small-caps;
+  font-size: 14px;
+  line-height: 26px;
+  background: RGB(43 42 51);
+  padding-left: 5px;
+}
+.capaciteUltime div.active div.diceWLabel div {
+  display: grid;
+  grid-template-columns: 1fr min-content 1fr;
+  background: RGB(76 74 90);
+  border-top: 1px solid RGB(43 42 51);
+  border-left: 1px solid RGB(76 74 90);
+}
+.capaciteUltime div.active div.diceWLabel div input {
+  border: 0px;
+  width: 100%;
+  padding: 0px;
+  background: RGB(43 42 51);
+  border-radius: 0px;
+}
+.capaciteUltime div.active div.diceWLabel div input:first-of-type {
+  text-align: right;
+}
+.capaciteUltime div.active div.diceWLabel div span {
+  font-variant: small-caps;
+  font-size: 14px;
+  line-height: 26px;
+  background: RGB(43 42 51);
+}
+.capaciteUltime div.active div.addCJet {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid RGB(76 74 90);
+}
+.capaciteUltime div.active div.addCJet > span {
+  grid-row: 1;
+  grid-column: 1/4;
+  font-variant: small-caps;
+  text-align: center;
+}
+.capaciteUltime div.active div.addCJet div.list {
+  grid-row: 2;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+.capaciteUltime div.active div.addCJet div.list span {
+  position: relative;
+  width: 100%;
+  background: RGB(76 74 90);
+  line-height: 24px;
+  text-align: center;
+  border-radius: 5px;
+  padding-right: 5px;
+}
+.capaciteUltime div.active div.addCJet div.list span img {
+  display: inline-block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 0px;
+  top: 4px;
+  left: 2px;
+  cursor: pointer;
+}
+.capaciteUltime div.active div.addCJet div.menu {
+  grid-row: 3;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  border-top: 1px solid RGB(76 74 90);
+}
+.capaciteUltime div.active div.addCJet div.menu select {
+  border: 0px;
+  border-radius: 0px;
+  text-align: center;
+  color: white;
+}
+.capaciteUltime div.active div.addCJet div.menu select optgroup {
+  background: RGB(76 74 90);
+}
+.capaciteUltime div.active div.addCJet div.menu select option {
+  background: RGB(43 42 51);
+}
+.capaciteUltime div.active div.addCJet div.menu button {
+  border-top: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+  line-height: 20px;
+}
+.capaciteUltime div.active div.addDmg {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid RGB(76 74 90);
+}
+.capaciteUltime div.active div.addDmg > span {
+  grid-row: 1;
+  grid-column: 1/4;
+  font-variant: small-caps;
+  text-align: center;
+}
+.capaciteUltime div.active div.addDmg div.list {
+  grid-row: 2;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+.capaciteUltime div.active div.addDmg div.list span {
+  position: relative;
+  width: 100%;
+  background: RGB(76 74 90);
+  line-height: 24px;
+  text-align: center;
+  border-radius: 5px;
+  padding-right: 5px;
+}
+.capaciteUltime div.active div.addDmg div.list span img {
+  display: inline-block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 0px;
+  top: 4px;
+  left: 2px;
+  cursor: pointer;
+}
+.capaciteUltime div.active div.addDmg div.menu {
+  grid-row: 3;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  border-top: 1px solid RGB(76 74 90);
+}
+.capaciteUltime div.active div.addDmg div.menu div {
+  display: grid;
+  grid-template-columns: 1fr min-content 1fr;
+}
+.capaciteUltime div.active div.addDmg div.menu div input {
+  border: 0px;
+  color: white;
+  padding: 0px;
+  width: 100%;
+}
+.capaciteUltime div.active div.addDmg div.menu div input:first-of-type {
+  text-align: right;
+}
+.capaciteUltime div.active div.addDmg div.menu div span {
+  font-variant: small-caps;
+  font-size: 14px;
+  line-height: 26px;
+  background: RGB(43 42 51);
+}
+.capaciteUltime div.active div.addDmg div.menu button {
+  border-top: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+  line-height: 20px;
+}
+.capaciteUltime div.active.hidden,
+.capaciteUltime div.active .hidden {
+  display: none !important;
+}
+.capaciteUltime div.active > label {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  border: 1px solid RGB(87 110 178);
+}
+.capaciteUltime div.active > label span {
+  font-variant: small-caps;
+  font-size: 14px;
+  line-height: 31px;
+  padding-left: 5px;
+  background: RGB(76 74 90);
+}
+.capaciteUltime div.active > label input {
+  border: 0px;
+  width: 100%;
+  text-align: center;
+  padding: 0px;
+  background: RGB(43 42 51);
+  border-radius: 0px;
+  height: 100%;
+}
+.capaciteUltime div.active > label select {
+  border: 0px;
+  width: 100%;
+  text-align: center;
+  padding: 0px;
+  background: RGB(43 42 51);
+  border-radius: 0px;
+  height: 100%;
+  color: white;
+}
+.capaciteUltime div.active > label select option {
+  background: RGB(76 74 90);
+}
+.capaciteUltime div.active > label.select {
+  grid-template-columns: 1fr 200px;
+}
+.capaciteUltime div.active .right {
+  grid-column: 2;
+}
+.capaciteUltime div.active .left {
+  grid-row: 1/10;
 }
 
 .knight div.editor,
@@ -21110,6 +21920,109 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special > div:not(:first-of-type) {
   border-top: 5px double RGB(76 74 90);
 }
+.knight section.body div.armure div.capacites.capacitesultime,
+.knight section.body div.armure div.special.capacitesultime {
+  margin-top: 5px;
+}
+.knight section.body div.armure div.capacites.capacitesultime h2,
+.knight section.body div.armure div.special.capacitesultime h2 {
+  min-height: 25px;
+}
+.knight section.body div.armure div.capacites.capacitesultime h2 a,
+.knight section.body div.armure div.special.capacitesultime h2 a {
+  font-size: 14px;
+  top: 1px;
+}
+.knight section.body div.armure div.capacites.capacitesultime h2 a.item-edit,
+.knight section.body div.armure div.special.capacitesultime h2 a.item-edit {
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+}
+.knight section.body div.armure div.capacites.capacitesultime h2 a.item-delete,
+.knight section.body div.armure div.special.capacitesultime h2 a.item-delete {
+  position: absolute;
+  right: 5px;
+  cursor: pointer;
+}
+.knight section.body div.armure div.capacites.capacitesultime h2 div.blockActive,
+.knight section.body div.armure div.special.capacitesultime h2 div.blockActive {
+  width: 200px;
+  line-height: 22px;
+  min-height: 22px;
+  font-variant: small-caps;
+  color: white;
+  border: 0px;
+  font-size: 14px;
+  margin-top: -23px;
+  margin-right: 40px;
+  margin-left: auto;
+  padding-bottom: 1px;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.knight section.body div.armure div.capacites.capacitesultime h2 div.blockActive > button,
+.knight section.body div.armure div.special.capacitesultime h2 div.blockActive > button {
+  width: 100%;
+  line-height: 22px;
+  height: 22px;
+  background: RGB(43 42 51);
+  right: 40px;
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  font-variant: small-caps;
+}
+.knight section.body div.armure div.capacites.capacitesultime h2 div.blockActive > button.borderBottom,
+.knight section.body div.armure div.special.capacitesultime h2 div.blockActive > button.borderBottom {
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.knight section.body div.armure div.capacites.capacitesultime h2 div.blockActive button,
+.knight section.body div.armure div.capacites.capacitesultime h2 div.blockActive select,
+.knight section.body div.armure div.special.capacitesultime h2 div.blockActive button,
+.knight section.body div.armure div.special.capacitesultime h2 div.blockActive select {
+  width: 100%;
+  line-height: 22px;
+  height: 100%;
+  background: RGB(43 42 51);
+  border: 0px;
+  border-radius: 0px;
+  color: white;
+  font-variant: small-caps;
+  text-align: center;
+}
+.knight section.body div.armure div.capacites.capacitesultime h2 div.blockActive select,
+.knight section.body div.armure div.special.capacitesultime h2 div.blockActive select {
+  border-left: 1px solid RGB(76 74 90);
+}
+.knight section.body div.armure div.capacites.capacitesultime h2 div.blockActive select option,
+.knight section.body div.armure div.special.capacitesultime h2 div.blockActive select option {
+  background: RGB(43 42 51);
+}
+.knight section.body div.armure div.capacites.capacitesultime h2 div.blockDgts,
+.knight section.body div.armure div.special.capacitesultime h2 div.blockDgts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+.knight section.body div.armure div.capacites.capacitesultime h2 div.blockDgts:not(:first-of-type),
+.knight section.body div.armure div.special.capacitesultime h2 div.blockDgts:not(:first-of-type) {
+  border-top: 1px solid RGB(76 74 90);
+}
+.knight section.body div.armure div.capacites.capacitesultime h2 div.blockRoll,
+.knight section.body div.armure div.special.capacitesultime h2 div.blockRoll {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+.knight section.body div.armure div.capacites.capacitesultime h2 div.blockRoll button:not(:first-of-type),
+.knight section.body div.armure div.special.capacitesultime h2 div.blockRoll button:not(:first-of-type) {
+  border-top: 1px solid RGB(76 74 90);
+}
+.knight section.body div.armure div.capacites.capacitesultime h2 div.blockRoll:not(:first-of-type),
+.knight section.body div.armure div.special.capacitesultime h2 div.blockRoll:not(:first-of-type) {
+  border-top: 1px solid RGB(76 74 90);
+}
 .knight section.body div.armure div.modules {
   display: flex;
   flex-wrap: wrap;
@@ -22023,6 +22936,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.capacitesLegende,
 .knight section.body div.armure div.special {
   margin-top: 5px;
+}
+.knight section.body div.armure div.capacitesLegende a,
+.knight section.body div.armure div.special a {
+  font-size: 14px;
+  top: 1px;
+}
+.knight section.body div.armure div.capacitesLegende a.item-edit,
+.knight section.body div.armure div.special a.item-edit {
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+}
+.knight section.body div.armure div.capacitesLegende a.item-delete,
+.knight section.body div.armure div.special a.item-delete {
+  position: absolute;
+  right: 5px;
+  cursor: pointer;
 }
 .knight section.body div.armure div.slots {
   border: 1px solid RGB(87 110 178);
@@ -23476,6 +24406,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   cursor: pointer;
   border: 2px solid;
   position: relative;
+  margin-bottom: 5px;
 }
 .knight section.body div.options div.main button.unselected {
   background: RGB(43 42 51);
@@ -23484,6 +24415,148 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.options div.main button.selected {
   background: RGB(76 74 90);
   border-color: RGB(43 42 51);
+}
+.knight section.body div.options div.main div.rollback {
+  display: grid;
+  width: 100%;
+  border: 1px solid RGB(87 110 178);
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 5px;
+}
+.knight section.body div.options div.main div.rollback h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.knight section.body div.options div.main div.rollback h2.header .headerScore {
+  position: absolute;
+  width: 40px;
+  background: RGB(76 74 90);
+  line-height: 21px;
+  text-align: center;
+  right: 1px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 1px;
+}
+.knight section.body div.options div.main div.rollback h2.header .headerQuantity {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 48px;
+  background: RGB(76 74 90);
+  line-height: 22px;
+  height: 22px;
+  text-align: center;
+  right: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 0px;
+}
+.knight section.body div.options div.main div.rollback h2.header .headerQuantity input {
+  text-align: center;
+  width: 20px;
+  height: 22px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
+}
+.knight section.body div.options div.main div.rollback h2.header .headerQuantity span {
+  width: 8px;
+  line-height: 22px;
+  color: white;
+}
+.knight section.body div.options div.main div.rollback h2.header a.verrouillage {
+  position: absolute;
+  right: 5px;
+  width: max-content;
+  line-height: 21px;
+  color: white;
+  font-variant: small-caps;
+  font-size: 12px;
+}
+.knight section.body div.options div.main div.rollback h2.header a.verrouillage:hover {
+  text-shadow: 0 0 10px white;
+}
+.knight section.body div.options div.main div.rollback h2.header .far {
+  cursor: pointer;
+}
+.knight section.body div.options div.main div.rollback h2 {
+  grid-column: 1/4;
+}
+.knight section.body div.options div.main div.rollback h3 {
+  grid-column: 1/4;
+  width: 100%;
+  font-size: 15px;
+  font-variant: small-caps;
+  color: white;
+  border-bottom: 1px solid RGB(76 74 90);
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 0px;
+}
+.knight section.body div.options div.main div.rollback div.col {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  border: 1px solid RGB(76 74 90);
+}
+.knight section.body div.options div.main div.rollback span.notes {
+  grid-column: 1/4;
+  display: block;
+  width: 100%;
+  font-size: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
+  letter-spacing: 1px;
+  font-variant: small-caps;
+  color: white;
+}
+.knight section.body div.options div.main div.rollback span.pg {
+  display: block;
+  width: 100%;
+  font-size: 14px;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-variant: small-caps;
+  color: white;
+  line-height: 30px;
+  background: RGB(76 74 90);
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.knight section.body div.options div.main div.rollback span.description {
+  grid-column: 1/3;
+  width: 100%;
+  font-size: 14px;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-variant: small-caps;
+  color: white;
+  background: RGB(76 74 90);
+  border-top: 1px solid RGB(43 42 51);
+}
+.knight section.body div.options div.main div.rollback a {
+  display: block;
+  width: 100%;
+  font-size: 14px;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-variant: small-caps;
+  color: white;
+  line-height: 30px;
 }
 
 .ia header.sheet-header .headerData {

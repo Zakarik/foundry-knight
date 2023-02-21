@@ -1,0 +1,9 @@
+<button type="action" class="{{#if systemData.passives.special.contrecoups.actif}}clicked{{/if}} {{#unless systemData.passives.capacites.actif}}hidden{{/unless}}"
+    data-toupdate="passives.special.contrecoups.actif"
+    data-value="{{systemData.passives.special.contrecoups.actif}}">
+{{#if systemData.passives.special.contrecoups.actif}}
+    {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.CONTRECOUPS.Label"}}
+{{else}}
+    {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.CONTRECOUPS.NotLabel"}}
+{{/if}}
+</button>

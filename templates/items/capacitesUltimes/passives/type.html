@@ -1,0 +1,11 @@
+<button type="action" class="
+    {{#if systemData.passives.capacites.type.actif}}clicked{{/if}}
+    {{#unless systemData.passives.capacites.actif}}hidden{{/unless}}"
+    data-toupdate="passives.capacites.type.actif"
+    data-value="{{systemData.passives.capacites.type.actif}}">
+{{#if systemData.passives.capacites.type.actif}}
+    {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.TYPE.Label"}}
+{{else}}
+    {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.TYPE.NotLabel"}}
+{{/if}}
+</button>

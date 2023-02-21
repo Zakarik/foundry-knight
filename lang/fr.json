@@ -12,7 +12,6 @@
     "TypeAvantage":"Avantage",
     "TypeInconvenient": "Inconvénient",
     "TypeMotivationmineure": "Motivation Mineure",
-    "TypeMotivationMineure": "Motivation Mineure",
     "TypeLangue": "Langue",
     "TypeContact": "Contact",
     "TypeBlessure": "Blessure Grave",
@@ -26,13 +25,14 @@
     "TypeCapaciteheroique":"Capacité héroïque",
     "TypeEffet":"Effet d'arme personnalisé",
     "TypeArt":"Art",
-    "TypeDistinction":"Distinction"
+    "TypeDistinction":"Distinction",
+    "TypeCapaciteultime":"Capacité Ultime"
   },
   "KNIGHT": {
     "Nom":"Nom",
     "Surnom":"Surnom",
     "Age":"Âge",
-    "Archetype":"Archetype",
+    "Archetype":"Archétype",
     "HautFait":"Haut-Fait",
     "Section":"Section d'origine",
     "Blason":"Blason",
@@ -1351,6 +1351,7 @@
             },
             "LION":{
               "Label":"Lion",
+              "Img":"Image du Lion",
               "CEvolutions":"Chaque évolution du Lion",
               "Pointgloiredepart":"Points de gloires de départ",
               "BonusPointgloire":"Points de gloire bonus pour des modules",
@@ -1359,6 +1360,7 @@
             },
             "WOLF":{
               "Label":"Wolf",
+              "Img":"Image des Wolf",
               "CEvolutions":"Chaque évolution du Wolf",
               "BonusRepartir":"Nombre de configurations à augmenter",
               "EvolutionConfigurations":"Evolution des configurations",
@@ -1390,6 +1392,7 @@
             },
             "CROW":{
               "Label":"Crow",
+              "Img":"Image des Crow",
               "CEvolutions":"Chaque évolution du Crow",
               "Cohesion":"Bonus de cohésion",
               "Debordement":"Bonus de débordement",
@@ -1498,13 +1501,13 @@
             },
             "DEGATS":{
               "Cout":"Energie par augmentation",
-              "Min":"Dégâts minimums",
-              "Max":"Dégâts maximums"
+              "Min":"Nombre de dés de dégâts minimums",
+              "Max":"Nombre de dés de dégâts maximums"
             },
             "VIOLENCE":{
               "Cout":"Energie par augmentation",
-              "Min":"Violence minimum",
-              "Max":"Violence maximum"
+              "Min":"Nombre de dés de violence minimum",
+              "Max":"Nombre de dés de volence maximum"
             }
           },
           "MECHANIC": {
@@ -2061,6 +2064,7 @@
       "JetEspoir":"Jet d'espoir",
       "JetEgide":"Jet d'egide",
       "OtherEffects":"Autres effets",
+      "Notheroisme":"Pas assez d'héroisme",
       "Notenergie":"Pas assez d'énergie",
       "Notespoir":"Pas assez d'espoir",
       "Depenseenergie":"Dépense d'énergie",
@@ -2379,6 +2383,167 @@
         "Moyen":"Temps moyen",
         "Long":"Temps long"
       }
+    },
+    "CAPACITEULTIME":{
+      "Passive":"Capacité passive",
+      "Active":"Capacité active",
+      "Condition":"Conditions",
+      "Description":"Description",
+      "PASSIVE":{
+        "Sante":"Augmente la santé de 50%",
+        "NotSante":"N'Augmente pas la santé de 50%",
+        "Contact":"Points de contact bonus",
+        "NotContact":"Aucun points de contact bonus",
+        "Capacites":"Donne un bonus aux capacités d'armure",
+        "NotCapacites":"Aucun bonus aux capacités d'armure",
+        "ASCENSION":{
+          "Label":"Bonus au mode Ascension",
+          "Maj":"Mettre à jour le mode Ascension",
+          "NotLabel":"Aucun bonus au mode Ascension",
+          "Permanent":"Mode Permanent",
+          "NotPermanent":"Mode Non Permanent",
+          "Prestige":"Peut porter des armes de prestige",
+          "NotPrestige":"Ne peut pas porter d'armes de prestiges"
+        },
+        "CEA":{
+          "Label":"Amélioration du mode Cea",
+          "NotLabel":"Aucune amélioration au mode Cea",
+          "Salve":"Bonus à la Salve",
+          "Vague":"Bonus à la Vague",
+          "Rayon":"Bonus au Rayon"
+        },
+        "CHANGELING":{
+          "Label":"Bonus au mode Changeling",
+          "NotLabel":"Aucun bonus au mode Changeling",
+          "Energie":"Coût en énergie pour l'activation personnelle",
+          "Odbonus":"OD Bonus à choisir / caractéristique",
+          "Caracteristique":"A répartir dans combiens de caractéristiques ?"
+        },
+        "GHOST":{
+          "Label":"Bonus au mode Ghost",
+          "NotLabel":"Aucun bonus au mode Ghost",
+          "Desactivation":"Prolongation gratuite après une attaque",
+          "NotDesactivation":"Aucune prolongation gratuite"
+        },
+        "GOLIATH":{
+          "Label":"Bonus au mode Goliath",
+          "NotLabel":"Aucun bonus au mode Goliath",
+          "Taille":"Bonus de taille maximum",
+          "Reaction":"Malus de réaction",
+          "Defense":"Malus de défense"
+        },
+        "COMPANIONS":{
+          "Label":"Amélioration du mode Companions",
+          "NotLabel":"Aucune amélioration du mode Companions",
+          "Deployable":"Nombre de companions déployables simultanément"
+        },
+        "CONTRECOUPS":{
+          "Label":"Ne subit plus l'effet spécial 'Contrecoups'",
+          "NotLabel":"Subit l'effet spécial 'Contrecoups'"
+        },
+        "MECHANIC":{
+          "Label":"Bonus au mode Mechanic",
+          "NotLabel":"Aucun bonus au mode Mechanic"
+        },
+        "ORIFLAMME":{
+          "Label":"Améliore l'Oriflamme",
+          "NotLabel":"Aucune amélioration de l'Oriflamme"
+        },
+        "MORPH":{
+          "Label":"Améliore le mode Morph",
+          "NotLabel":"Aucune amélioration du mode Morph",
+          "Vol":"Amélioration du vol",
+          "Etirement":"Amélioration de l'étirement",
+          "Metal":"Amélioration du Corps de métal",
+          "Fluide":"Amélioration du Corps Fluide",
+          "Polymorphie":"Amélioration de la Polymorphie de Guerre",
+          "Griffe":"Amélioration des Griffes de combat",
+          "Lame":"Amélioration des Lames de combat",
+          "Canon":"Amélioration du Canon de bras"
+        },
+        "RAGE":{
+          "Label":"Améliore le mode Rage",
+          "NotLabel":"Aucune amélioration du mode Rage",
+          "Colere":"Amélioration du niveau Colère",
+          "Rage":"Amélioration du niveau Rage",
+          "Fureur":"Amélioration du niveau Fureur",
+          "Subis":"Dégâts subis / tour",
+          "Activer":"Possède des combos interdits",
+          "NotActiver":"Ne possède pas de combos interdits"
+        },
+        "RECOLTEFLUX":{
+          "Label":"Bonus à la récolte de flux",
+          "NotLabel":"Aucune bonus à la récolte de flux",
+          "Conflitbase":"Flux de base en conflit",
+          "Conflittour":"Flux par tour en conflit",
+          "Horsconflitbase":"Flux de base hors conflit"
+        },
+        "TYPE":{
+          "Label":"Peut activer deux Types",
+          "NotLabel":"Ne peut pas activer deux Types"
+        },
+        "VISION":{
+          "Label":"Bonus à la capacité Vision",
+          "NotLabel":"Aucun bonus à la capacité Vision"
+        },
+        "WARLORD":{
+          "Label":"Bonus au mode Warlord",
+          "NotLabel":"Aucun bonus au mode Warlord",
+          "Activer":"Une activation gratuite / tour",
+          "NotActiver":"Aucun activation gratuite",
+          "Prolonger":"Une prolongation gratuite / tour",
+          "NotProlonger":"Aucun prolongation gratuite"
+        }
+      },
+      "ACTIVE":{
+        "NotInstantanee":"N'est pas instantané",
+        "RECUPERATION":{
+          "Pa":"Récupère toute l'armure",
+          "NotPa":"Ne récupère pas toute l'armure",
+          "Ps":"Récupère toute la santé",
+          "NotPs":"Ne récupère pas toute la santé",
+          "Pe":"Récupère toute l'énergie",
+          "NotPe":"Ne récupère pas toute l'énergie"
+        },
+        "JET":{
+          "Label":"Permet un jet",
+          "NotLabel":"Ne permet pas de jet",
+          "Labelfixe":"Nom du jet",
+          "Caracteristique":"Caractéristiques",
+          "Isfixe":"Jet fixe",
+          "NotIsfixe":"Jet basé sur des caractéristiques"
+        },
+        "DEGATS":{
+          "Label":"Inflige des dégâts",
+          "NotLabel":"N'inflige pas de dégâts",
+          "Isfixe":"Les dégâts sont fixes",
+          "NotIsfixe":"Les dégâts sont variables",
+          "Paliers":"Liste des paliers de dégâts",
+          "Energie":"Dépense d'énergie / palier"
+        },
+        "VIOLENCE":{
+          "Label":"Inflige de la violence",
+          "NotLabel":"N'inflige pas de violence",
+          "Isfixe":"La violence est fixes",
+          "NotIsfixe":"La violence est variables",
+          "Paliers":"Liste des paliers de violence",
+          "Energie":"Dépense d'énergie / palier"
+        },
+        "EFFETS":{
+          "Label":"Applique des effets passivement",
+          "NotLabel":"N'applique aucun effet passivement"
+        }
+      }
+    },
+    "ROLLBACK":{
+      "Label":"Restaurer l'armure à un état précédent",
+      "Notes":"Notes : Ne concerne que l'armure, pas l'équipement ou les modules",
+      "Noteslongbow":"Notes : Ne concerne que le longbow, pas le reste de l'armure, ni l'équipement ou les modules. Le retour arrière est complet, pas seulement ce qu'affecte l'évolution concernée. Il revient à l'état LORSQUE vous avez sélectionné l'évolution.",
+      "Avantevolution":"Avant une évolution",
+      "Avantevolutionlongbow":"Avant une évolution du longbow",
+      "Revenir":"Revenir à cet état",
+      "Resetwarlord":"Annuler les choix d'impulsions",
+      "Resettype":"Annuler les choix de type"
     }
   }
 }

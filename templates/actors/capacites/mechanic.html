@@ -6,13 +6,21 @@
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
-            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}} - {{localize "KNIGHT.AUTRE.Contact"}}" data-special="contact"
-                data-cout="{{this.energie.contact}}">
+            <button class="activation"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}} - {{localize "KNIGHT.AUTRE.Contact"}}"
+                data-special="contact"
+                data-cout="{{energie.contact}}">
                 {{localize "KNIGHT.AUTRE.Contact"}} : {{localize "KNIGHT.AUTRE.Activer"}}
             </button>
 
-            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}} - {{localize "KNIGHT.AUTRE.Distance"}}" data-special="distance"
-                data-cout="{{this.energie.distance}}">
+            <button class="activation"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}} - {{localize "KNIGHT.AUTRE.Distance"}}"
+                data-special="distance"
+                data-cout="{{energie.distance}}">
                 {{localize "KNIGHT.AUTRE.Distance"}} : {{localize "KNIGHT.AUTRE.Activer"}}
             </button>
         </div>

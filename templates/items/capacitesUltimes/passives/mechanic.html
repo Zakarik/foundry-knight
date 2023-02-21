@@ -1,0 +1,19 @@
+<div class="data {{#if systemData.passives.capacites.mechanic.actif}}checked{{/if}} {{#unless systemData.passives.capacites.actif}}hidden{{/unless}}">
+    <button type="action" class="{{#if systemData.passives.capacites.mechanic.actif}}clicked{{/if}}"
+        data-toupdate="passives.capacites.mechanic.actif"
+        data-value="{{systemData.passives.capacites.mechanic.actif}}">
+    {{#if systemData.passives.capacites.mechanic.actif}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.MECHANIC.Label"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.MECHANIC.NotLabel"}}
+    {{/if}}
+    </button>
+
+    <div class="dice {{#unless systemData.passives.capacites.mechanic.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.BONUS.Label"}}</span>
+        <label>
+            <input type="number" name="system.passives.mechanic.update.bonus" value="{{systemData.passives.mechanic.update.bonus}}" min="0"/>
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+        </label>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="data {{#if systemData.passives.capacites.ghost.actif}}checked{{/if}} {{#unless systemData.passives.capacites.actif}}hidden{{/unless}}">
+    <button type="action" class="{{#if systemData.passives.capacites.ghost.actif}}clicked{{/if}}"
+        data-toupdate="passives.capacites.ghost.actif"
+        data-value="{{systemData.passives.capacites.ghost.actif}}">
+    {{#if systemData.passives.capacites.ghost.actif}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.GHOST.Label"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.GHOST.NotLabel"}}
+    {{/if}}
+    </button>
+
+    <button type="action" class="
+        {{#if systemData.passives.capacites.ghost.update.desactivation}}clicked{{/if}}
+        {{#unless systemData.passives.capacites.ghost.actif}}hidden{{/unless}}"
+            data-toupdate="passives.capacites.ghost.update.desactivation"
+            data-value="{{systemData.passives.capacites.ghost.update.desactivation}}">
+    {{#if systemData.passives.capacites.ghost.update.desactivation}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.GHOST.Desactivation"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.GHOST.NotDesactivation"}}
+    {{/if}}
+    </button>
+</div>

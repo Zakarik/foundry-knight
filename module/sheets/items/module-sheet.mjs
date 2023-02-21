@@ -14,6 +14,7 @@ export class ModuleSheet extends ItemSheet {
       width: 700,
       height: 715,
       scrollY: [".attributes"],
+      dragDrop: [{dragSelector: null, dropSelector: ".flexcol"}],
     });
   }
 
@@ -110,8 +111,6 @@ export class ModuleSheet extends ItemSheet {
           }
         };
       }
-
-      console.log(update);
 
       this.item.update(update);
     });

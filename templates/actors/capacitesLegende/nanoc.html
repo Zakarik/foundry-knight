@@ -5,59 +5,50 @@
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
-            {{#unless this.active.detaille}}
-            <button class="
-                {{#unless this.active.base}}
-                activationLegende
-                {{else}}
-                desactivationLegende
-                {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="base"
-                data-cout="{{this.energie.base}}">
-                {{#unless this.active.base}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetBase"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                {{else}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetBase"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                {{/unless}}
+            {{#unless active.detaille}}
+            <button class="activationLegende"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}}"
+                data-special="base"
+                data-cout="{{energie.base}}"
+                data-toupdate="capacites.selected.nanoc.active"
+                data-value="{{active.base}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetBase"}} : {{localizeactivate active.base}}
             </button>
             {{/unless}}
 
-            {{#unless this.active.base}}
-            <button class="
-                {{#unless this.active.detaille}}
-                activationLegende
-                {{else}}
-                desactivationLegende
-                {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="detaille"
-                data-cout="{{this.energie.detaille}}">
-                {{#unless this.active.detaille}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetDetaille"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                {{else}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetDetaille"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                {{/unless}}
+            {{#unless active.base}}
+            <button class="activationLegende"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}}"
+                data-special="detaille"
+                data-cout="{{energie.detaille}}"
+                data-toupdate="capacites.selected.nanoc.active"
+                data-value="{{active.detaille}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetDetaille"}} : {{localizeactivate active.detaille}}
             </button>
             {{/unless}}
 
-            {{#if this.active.base}}
-            <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                data-cout="{{this.energie.prolonger}}">
+            {{#if active.base}}
+            <button class="prolonger"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}}"
+                data-cout="{{energie.prolonger}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetBase"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>
-            {{else}}
-                {{#if this.active.detaille}}
-                <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                    data-cout="{{this.energie.prolonger}}">
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetDetaille"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
-                </button>
-                {{else}}
-                    {{#if this.active.mecanique}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                        data-cout="{{this.energie.prolonger}}">
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetMecanique"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
-                    </button>
-                    {{/if}}
-                {{/if}}
+            {{/if}}
+
+            {{#if active.detaille}}
+            <button class="prolonger"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}}"
+                data-cout="{{energie.prolonger}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetDetaille"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
+            </button>
             {{/if}}
         </div>
         {{/if}}

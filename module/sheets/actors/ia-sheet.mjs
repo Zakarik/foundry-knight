@@ -163,7 +163,8 @@ export class IASheet extends ActorSheet {
       'arme', 'module',
       'armure', 'motivationMineure',
       'contact', 'blessure', 'trauma',
-      'langue', 'armurelegende', 'effet', 'distinction'];
+      'langue', 'armurelegende', 'effet', 'distinction',
+      'capaciteultime'];
     if (ignoredTypes.includes(itemBaseType)) return;
     if ((itemBaseType === 'avantage' || itemBaseType === 'inconvenient') && itemData[0].system.type === 'ia') return;
 

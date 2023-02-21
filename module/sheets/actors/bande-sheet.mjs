@@ -499,7 +499,8 @@ export class BandeSheet extends ActorSheet {
       'avantage', 'inconvenient',
       'motivationMineure', 'contact',
       'blessure', 'trauma', 'langue',
-      'armurelegende', 'effet', 'distinction'];
+      'armurelegende', 'effet', 'distinction',
+      'capaciteultime'];
     if (typesValides.includes(itemBaseType)) return;
 
     const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);

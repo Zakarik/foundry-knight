@@ -2,7 +2,7 @@
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "2.0.8";
+    static NEEDED_VERSION = "2.3.3";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -775,6 +775,53 @@ Applique les modifications par la mise à jour au Monde.
                 item.update(updateItem);
             }
         }
+
+        if (options?.force || MigrationKnight.needUpdate("2.3.3")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            // MISE A JOUR DES ITEMS PORTES
+            for (let item of actor.items) {
+                const update = {};
+
+                if(item.type === 'module') {
+                    update[`system.bonus.degats.variable.cout`] = 0;
+                    update[`system.bonus.violence.variable.cout`] = 0;
+                }
+
+                if(item.type === 'armure') {
+                    update[`system.capacites.codex.companions.lion.img`] = 'systems/knight/assets/lion.jpg';
+                    update[`system.capacites.codex.companions.wolf.img`] = 'systems/knight/assets/wolf.jpg';
+                    update[`system.capacites.codex.companions.crow.img`] = 'systems/knight/assets/crow.jpg';
+
+                    const hasCompanions = item.system.capacites.selected?.companions || false;
+
+                    if(hasCompanions !== false) {
+                        update[`system.capacites.selected.companions.lion.img`] = 'systems/knight/assets/lion.jpg';
+                        update[`system.capacites.selected.companions.wolf.img`] = 'systems/knight/assets/wolf.jpg';
+                        update[`system.capacites.selected.companions.crow.img`] = 'systems/knight/assets/crow.jpg';
+                    }
+                }
+
+                if(item.type === 'armurelegende') {
+                    update[`system.capacites.all.companions.lion.img`] = 'systems/knight/assets/lion.jpg';
+                    update[`system.capacites.all.companions.wolf.img`] = 'systems/knight/assets/wolf.jpg';
+                    update[`system.capacites.all.companions.crow.img`] = 'systems/knight/assets/crow.jpg';
+
+                    const hasCompanions = item.system.capacites.selected?.companions || false;
+
+                    if(hasCompanions !== false) {
+                        update[`system.capacites.selected.companions.lion.img`] = 'systems/knight/assets/lion.jpg';
+                        update[`system.capacites.selected.companions.wolf.img`] = 'systems/knight/assets/wolf.jpg';
+                        update[`system.capacites.selected.companions.crow.img`] = 'systems/knight/assets/crow.jpg';
+                    }
+                }
+
+                item.update(update);
+            }
+        }
     }
 
     static _migrationItems(item, options = { force:false }) {
@@ -1377,6 +1424,48 @@ Applique les modifications par la mise à jour au Monde.
 
             if(item.type === 'art') {
                 update[`system.aspects.dame`] = ['aura', 'parole', 'sangFroid'];
+            }
+
+            item.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("2.3.3")) {
+            const update = {};
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'module') {
+                update[`system.bonus.degats.variable.cout`] = 0;
+                update[`system.bonus.violence.variable.cout`] = 0;
+            }
+
+            if(item.type === 'armure') {
+                update[`system.capacites.codex.companions.lion.img`] = 'systems/knight/assets/lion.jpg';
+                update[`system.capacites.codex.companions.wolf.img`] = 'systems/knight/assets/wolf.jpg';
+                update[`system.capacites.codex.companions.crow.img`] = 'systems/knight/assets/crow.jpg';
+
+                const hasCompanions = item.system.capacites.selected?.companions || false;
+
+                if(hasCompanions !== false) {
+                    update[`system.capacites.selected.companions.lion.img`] = 'systems/knight/assets/lion.jpg';
+                    update[`system.capacites.selected.companions.wolf.img`] = 'systems/knight/assets/wolf.jpg';
+                    update[`system.capacites.selected.companions.crow.img`] = 'systems/knight/assets/crow.jpg';
+                }
+            }
+
+            if(item.type === 'armurelegende') {
+                update[`system.capacites.all.companions.lion.img`] = 'systems/knight/assets/lion.jpg';
+                update[`system.capacites.all.companions.wolf.img`] = 'systems/knight/assets/wolf.jpg';
+                update[`system.capacites.all.companions.crow.img`] = 'systems/knight/assets/crow.jpg';
+
+                const hasCompanions = item.system.capacites.selected?.companions || false;
+
+                if(hasCompanions !== false) {
+                    update[`system.capacites.selected.companions.lion.img`] = 'systems/knight/assets/lion.jpg';
+                    update[`system.capacites.selected.companions.wolf.img`] = 'systems/knight/assets/wolf.jpg';
+                    update[`system.capacites.selected.companions.crow.img`] = 'systems/knight/assets/crow.jpg';
+                }
             }
 
             item.update(update);
