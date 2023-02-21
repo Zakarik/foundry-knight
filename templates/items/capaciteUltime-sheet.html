@@ -1,0 +1,78 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <header class="header">
+        <div class="blockLeft">
+            <div class="blockImg">
+                <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
+            </div>
+
+            <button type="action" class="passive {{#if (isValue systemData.type 'passive')}}clicked{{/if}}" data-type="type" data-value="passive">{{localize "KNIGHT.CAPACITEULTIME.Passive"}}</button>
+            <button type="action" class="active {{#if (isValue systemData.type 'active')}}clicked{{/if}}" data-type="type" data-value="active">{{localize "KNIGHT.CAPACITEULTIME.Active"}}</button>
+        </div>
+
+        <h1 class="charname">
+            <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+        </h1>
+
+        <div class="condition description">
+            <h2 class="header">{{localize "KNIGHT.CAPACITEULTIME.Condition"}}</h2>
+            {{editor systemData.condition target="system.condition" button=true owner=owner editable=editable}}
+        </div>
+
+        <div class="details description">
+            <h2 class="header">{{localize "KNIGHT.CAPACITEULTIME.Description"}}</h2>
+            {{editor systemData.description target="system.description" button=true owner=owner editable=editable}}
+        </div>
+    </header>
+
+    <div class="main passive {{#if (isValue systemData.type 'passive')}}show{{/if}}">
+        {{#if settings.armorBase}}
+            {{~> systems/knight/templates/items/capacitesUltimes/passives/base.html }}
+        {{/if}}
+
+        {{#if settings.armorAtlas}}
+            {{~> systems/knight/templates/items/capacitesUltimes/passives/ascension.html }}
+        {{/if}}
+
+        {{#if settings.armorBase}}
+            {{~> systems/knight/templates/items/capacitesUltimes/passives/cea.html }}
+            {{~> systems/knight/templates/items/capacitesUltimes/passives/changeling.html }}
+            {{~> systems/knight/templates/items/capacitesUltimes/passives/companions.html }}
+        {{/if}}
+
+        {{#if settings.armorAtlas}}
+            {{~> systems/knight/templates/items/capacitesUltimes/passives/contrecoups.html }}
+        {{/if}}
+
+        {{#if settings.armorBase}}
+            {{~> systems/knight/templates/items/capacitesUltimes/passives/ghost.html }}
+            {{~> systems/knight/templates/items/capacitesUltimes/passives/goliath.html }}
+            {{~> systems/knight/templates/items/capacitesUltimes/passives/mechanic.html }}
+        {{/if}}
+
+        {{#if settings.armorSorcerer}}
+            {{~> systems/knight/templates/items/capacitesUltimes/passives/morph.html }}
+        {{/if}}
+
+        {{#if settings.armorBase}}
+            {{~> systems/knight/templates/items/capacitesUltimes/passives/oriflamme.html }}
+        {{/if}}
+
+        {{#if settings.armorAtlasSpe}}
+            {{~> systems/knight/templates/items/capacitesUltimes/passives/rage.html }}
+        {{/if}}
+
+        {{#if settings.armor2038}}
+            {{~> systems/knight/templates/items/capacitesUltimes/passives/recolteflux.html }}
+        {{/if}}
+
+        {{#if settings.armorBase}}
+            {{~> systems/knight/templates/items/capacitesUltimes/passives/type.html }}
+            {{~> systems/knight/templates/items/capacitesUltimes/passives/vision.html }}
+            {{~> systems/knight/templates/items/capacitesUltimes/passives/warlord.html }}
+        {{/if}}
+    </div>
+
+    <div class="main active {{#if (isValue systemData.type 'active')}}show{{/if}}">
+        {{~> systems/knight/templates/items/capacitesUltimes/actives/base.html }}
+    </div>
+</form>

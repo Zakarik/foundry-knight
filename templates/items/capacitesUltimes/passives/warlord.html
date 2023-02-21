@@ -1,0 +1,35 @@
+<div class="data {{#if systemData.passives.capacites.warlord.actif}}checked{{/if}} {{#unless systemData.passives.capacites.actif}}hidden{{/unless}}">
+    <button type="action" class="{{#if systemData.passives.capacites.warlord.actif}}clicked{{/if}}"
+        data-toupdate="passives.capacites.warlord.actif"
+        data-value="{{systemData.passives.capacites.warlord.actif}}">
+    {{#if systemData.passives.capacites.warlord.actif}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.WARLORD.Label"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.WARLORD.NotLabel"}}
+    {{/if}}
+    </button>
+
+    <button type="action" class="
+        {{#if systemData.passives.capacites.warlord.update.activer}}clicked{{/if}}
+        {{#unless systemData.passives.capacites.warlord.actif}}hidden{{/unless}}"
+            data-toupdate="passives.capacites.warlord.update.activer"
+            data-value="{{systemData.passives.capacites.warlord.update.activer}}">
+    {{#if systemData.passives.capacites.warlord.update.activer}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.WARLORD.Activer"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.WARLORD.NotActiver"}}
+    {{/if}}
+    </button>
+
+    <button type="action" class="
+        {{#if systemData.passives.capacites.warlord.update.prolonger}}clicked{{/if}}
+        {{#unless systemData.passives.capacites.warlord.actif}}hidden{{/unless}}"
+            data-toupdate="passives.capacites.warlord.update.prolonger"
+            data-value="{{systemData.passives.capacites.warlord.update.prolonger}}">
+    {{#if systemData.passives.capacites.warlord.update.prolonger}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.WARLORD.Prolonger"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.WARLORD.NotProlonger"}}
+    {{/if}}
+    </button>
+</div>

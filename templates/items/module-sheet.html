@@ -330,27 +330,31 @@
                     </div>
                 </div>
                 <div class="oneLinewOnlyDice {{#unless systemData.bonus.degats.has}}hidden{{else}}{{#unless systemData.bonus.degats.variable.has}}hidden{{/unless}}{{/unless}}">
-                    <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.Minimum"}}</span>
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.DesMinimum"}}</span>
                     <div>
                         <input type="number" name="system.bonus.degats.variable.min.dice" value="{{systemData.bonus.degats.variable.min.dice}}" min="0" max="{{systemData.bonus.degats.variable.max.dice}}" />
                         <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
                     </div>
                 </div>
                 <div class="oneLinewOnlyDice {{#unless systemData.bonus.degats.has}}hidden{{else}}{{#unless systemData.bonus.degats.variable.has}}hidden{{/unless}}{{/unless}}">
-                    <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.Maximum"}}</span>
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.DesMaximum"}}</span>
                     <div>
                         <input type="number" name="system.bonus.degats.variable.max.dice" value="{{systemData.bonus.degats.variable.max.dice}}" min="{{systemData.bonus.degats.variable.min.dice}}" />
                         <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
                    </div>
                 </div>
                 <div class="oneLine {{#unless systemData.bonus.degats.has}}hidden{{else}}{{#unless systemData.bonus.degats.variable.has}}hidden{{/unless}}{{/unless}}">
-                    <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.Minimum"}}</span>
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.FixeMinimum"}}</span>
                     <input type="number" name="system.bonus.degats.variable.min.fixe" value="{{systemData.bonus.degats.variable.min.fixe}}" min="0" max="{{systemData.bonus.degats.variable.max.fixe}}" />
                 </div>
                 <div class="oneLine {{#unless systemData.bonus.degats.has}}hidden{{else}}{{#unless systemData.bonus.degats.variable.has}}hidden{{/unless}}{{/unless}}">
-                    <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.Maximum"}}</span>
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.FixeMaximum"}}</span>
                     <input type="number" name="system.bonus.degats.variable.max.fixe" value="{{systemData.bonus.degats.variable.max.fixe}}" min="{{systemData.bonus.degats.variable.min.fixe}}" />
                 </div>
+                <label class="oneLine {{#unless systemData.bonus.degats.variable.has}}hidden{{/unless}}">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
+                    <input type="number" name="system.bonus.degats.variable.cout" value="{{systemData.bonus.degats.variable.cout}}" min="0" />
+                </label>
             </div>
 
             <div class="twoLine">
@@ -405,6 +409,10 @@
                     <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.FixeMaximum"}}</span>
                     <input type="number" name="system.bonus.violence.variable.max.fixe" value="{{systemData.bonus.violence.variable.max.fixe}}" min="{{systemData.bonus.violence.variable.min.fixe}}" />
                 </div>
+                <label class="oneLine {{#unless systemData.bonus.degats.variable.has}}hidden{{/unless}}">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
+                    <input type="number" name="system.bonus.violence.variable.cout" value="{{systemData.bonus.violence.variable.cout}}" min="0" />
+                </label>
             </div>
 
             <div class="oneLine">

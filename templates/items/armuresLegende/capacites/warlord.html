@@ -35,29 +35,29 @@
                 <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.ACTION.Label"}}</h4>
                 <label class="shortspan">
                     <span>{{localize "KNIGHT.BONUS.Label"}}</span>
-                    <textarea name="system.capacites.selected.warlord.impulsions.action.bonus.description"
+                    <textarea name="system.capacites.selected.warlord.base.action.bonus.description"
                     data-capacite="warlord" data-type="bonusAction" data-min="85" style="height:{{this.textarea.bonusAction}}px;"
-                    {{#if this.softlock}}disabled{{/if}}>{{this.impulsions.action.bonus.description}}</textarea>
+                    {{#if this.softlock}}disabled{{/if}}>{{this.base.action.bonus.description}}</textarea>
                 </label>
                 <h4>{{localize "KNIGHT.LATERAL.Energie"}}</h4>
                 <label class="longspan noBorderTop">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Allie"}}</span>
-                    <input type="number" name="system.capacites.selected.warlord.impulsions.action.energie.allie"
-                    value="{{this.impulsions.action.energie.allie}}"
+                    <input type="number" name="system.capacites.selected.warlord.base.action.energie.allie"
+                    value="{{this.base.action.energie.allie}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.Porteur"}}</span>
-                    <input type="number" name="system.capacites.selected.warlord.impulsions.action.energie.porteur"
-                    value="{{this.impulsions.action.energie.porteur}}"
+                    <input type="number" name="system.capacites.selected.warlord.base.action.energie.porteur"
+                    value="{{this.base.action.energie.porteur}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}} />
                 </label>
                 <label class="shortspan separation">
                     <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
-                    <select name="system.capacites.selected.warlord.impulsions.action.activation" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.impulsions.action.activation}}
+                    <select name="system.capacites.selected.warlord.base.action.activation" {{#if this.softlock}}disabled{{/if}}>
+                        {{#select this.base.action.activation}}
                         <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
                         <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
                         <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
@@ -67,9 +67,9 @@
                 </label>
                 <label class="shortspan">
                     <span>{{localize "KNIGHT.DUREE.Label"}}</span>
-                    <textarea name="system.capacites.selected.warlord.impulsions.action.duree"
+                    <textarea name="system.capacites.selected.warlord.base.action.duree"
                     data-capacite="warlord" data-type="dureeAction" data-min="50" style="height:{{this.textarea.dureeAction}}px;"
-                    {{#if this.softlock}}disabled{{/if}}>{{this.impulsions.action.duree}}</textarea>
+                    {{#if this.softlock}}disabled{{/if}}>{{this.base.action.duree}}</textarea>
                 </label>
             </div>
 

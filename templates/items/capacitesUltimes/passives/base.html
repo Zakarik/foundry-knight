@@ -1,0 +1,37 @@
+<button type="action" class="{{#if systemData.passives.sante}}clicked{{/if}}"
+    data-toupdate="passives.sante"
+    data-value="{{systemData.passives.sante}}">
+{{#if systemData.passives.sante}}
+    {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.Sante"}}
+{{else}}
+    {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.NotSante"}}
+{{/if}}
+</button>
+
+<div class="data {{#if systemData.passives.contact.actif}}checked{{/if}}">
+    <button type="action" class="{{#if systemData.passives.contact.actif}}clicked{{/if}}"
+        data-toupdate="passives.contact.actif"
+        data-value="{{systemData.passives.contact.actif}}">
+    {{#if systemData.passives.contact.actif}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.Contact"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.NotContact"}}
+    {{/if}}
+    </button>
+
+    <label class="{{#unless systemData.passives.contact.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.BONUS.Label"}}</span>
+        <input type="number" name="system.passives.contact.value" value="{{systemData.passives.contact.value}}" min="0"/>
+    </label>
+</div>
+
+<button type="action" class="double
+{{#if systemData.passives.capacites.actif}}clicked{{/if}}"
+    data-toupdate="passives.capacites.actif"
+    data-value="{{systemData.passives.capacites.actif}}">
+{{#if systemData.passives.capacites.actif}}
+    {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.Capacites"}}
+{{else}}
+    {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.NotCapacites"}}
+{{/if}}
+</button>

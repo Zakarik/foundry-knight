@@ -6,115 +6,127 @@
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
-            {{#if this.active}}
+            {{#if active}}
             <span class="button">
-                {{#if this.niveau.colere}}
+                {{#if niveau.colere}}
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.COLERE.Label"}}
                 {{/if}}
-                {{#if this.niveau.rage}}
+                {{#if niveau.rage}}
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.RAGE.Label"}}
                 {{/if}}
-                {{#if this.niveau.fureur}}
+                {{#if niveau.fureur}}
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.FUREUR.Label"}}
                 {{/if}}
             </span>
             {{/if}}
-            <button class="
-                {{#unless this.active}}
-                activation
-                {{else}}
-                desactivation
+            <button class="activation"
+                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+                data-special="active"
+                data-cout="0"
+                data-toupdate="capacites.selected.rage"
+                data-value="{{active}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}} : {{localizeactivate active}}
+            </button>
+
+            {{#if active}}
+
+                {{#unless niveau.fureur}}
+                    <button class="activation" data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-special="niveau"
+                        data-niveau="espoir"
+                        data-cout="0"
+                        data-toupdate="capacites.selected.rage">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Espoir"}}
+                    </button>
+
+                    <button class="activation"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-special="niveau"
+                        data-niveau="ennemi"
+                        data-cout="0"
+                        data-toupdate="capacites.selected.rage">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Ennemi"}}
+                    </button>
                 {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="active"
-                data-cout="0">
-                {{#unless this.active}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                {{else}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                {{/unless}}
-            </button>
 
-            {{#if this.active}}
+                <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+                    data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.SubirDegats"}}" data-special="degats"
+                    data-cout="0" data-dgts="
+                        {{#if niveau.colere}}
+                            {{colere.subis}}D6
+                        {{/if}}
+                        {{#if niveau.rage}}
+                            {{rage.subis}}D6
+                        {{/if}}
+                        {{#if niveau.fureur}}
+                            {{fureur.subis}}D6
+                        {{/if}}
+                    ">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.SubirDegats"}}
+                </button>
 
-            {{#unless this.niveau.fureur}}
-            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="niveau" data-niveau="espoir"
-                data-cout="0">
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Espoir"}}
-            </button>
+                <button class="activation" data-type="capacites"
+                    data-capacite="{{key}}"
+                    data-name="{{label}}"
+                    data-special="recuperation"
+                    data-cout="0" data-recuperation="0d6+1"
+                    data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Proche"}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Proche"}}
+                </button>
 
-            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="niveau" data-niveau="ennemi"
-                data-cout="0">
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Ennemi"}}
-            </button>
-            {{/unless}}
+                <button class="activation" data-type="capacites"
+                    data-capacite="{{key}}" data-name="{{label}}" data-special="recuperation"
+                    data-cout="0"
+                    data-recuperation="{{nourri.humain.hostile.dice}}D{{nourri.humain.hostile.face}}+{{nourri.humain.hostile.fixe}}"
+                    data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} - {{localize "KNIGHT.TYPE.Hostile"}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} : {{localize "KNIGHT.TYPE.Hostile"}}
+                </button>
 
-             <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="degats"
-                data-cout="0" data-dgts="
-                    {{#if this.niveau.colere}}
-                        {{this.colere.subis}}D6
-                    {{/if}}
-                    {{#if this.niveau.rage}}
-                        {{this.rage.subis}}D6
-                    {{/if}}
-                    {{#if this.niveau.fureur}}
-                        {{this.fureur.subis}}D6
-                    {{/if}}
-                ">
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.SubirDegats"}}
-            </button>
+                <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="recuperation"
+                    data-cout="0" data-recuperation="{{nourri.humain.salopard.dice}}D{{nourri.humain.salopard.face}}+{{nourri.humain.salopard.fixe}}"
+                    data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} - {{localize "KNIGHT.TYPE.Salopard"}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} : {{localize "KNIGHT.TYPE.Salopard"}}
+                </button>
 
-            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
-                data-cout="0" data-recuperation="0d6+1" data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Proche"}}">
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Proche"}}
-            </button>
+                <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="recuperation"
+                    data-cout="0" data-recuperation="{{nourri.humain.patron.dice}}D{{nourri.humain.patron.face}}+{{nourri.humain.patron.fixe}}"
+                    data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} - {{localize "KNIGHT.TYPE.Patron"}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} : {{localize "KNIGHT.TYPE.Patron"}}
+                </button>
 
-            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
-                data-cout="0" data-recuperation="{{this.nourri.humain.hostile.dice}}D{{this.nourri.humain.hostile.face}}+{{this.nourri.humain.hostile.fixe}}"
-                data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} - {{localize "KNIGHT.TYPE.Hostile"}}">
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} : {{localize "KNIGHT.TYPE.Hostile"}}
-            </button>
+                <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="recuperation"
+                    data-cout="0" data-recuperation="{{nourri.humain.bande.dice}}D{{nourri.humain.bande.face}}+{{nourri.humain.bande.fixe}}"
+                    data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} - {{localize "KNIGHT.TYPE.Bande"}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} : {{localize "KNIGHT.TYPE.Bande"}}
+                </button>
 
-            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
-                data-cout="0" data-recuperation="{{this.nourri.humain.salopard.dice}}D{{this.nourri.humain.salopard.face}}+{{this.nourri.humain.salopard.fixe}}"
-                data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} - {{localize "KNIGHT.TYPE.Salopard"}}">
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} : {{localize "KNIGHT.TYPE.Salopard"}}
-            </button>
+                <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="recuperation"
+                    data-cout="0" data-recuperation="{{nourri.anatheme.hostile.dice}}D{{nourri.anatheme.hostile.face}}+{{nourri.anatheme.hostile.fixe}}"
+                    data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} - {{localize "KNIGHT.TYPE.Hostile"}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} : {{localize "KNIGHT.TYPE.Hostile"}}
+                </button>
 
-            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
-                data-cout="0" data-recuperation="{{this.nourri.humain.patron.dice}}D{{this.nourri.humain.patron.face}}+{{this.nourri.humain.patron.fixe}}"
-                data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} - {{localize "KNIGHT.TYPE.Patron"}}">
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} : {{localize "KNIGHT.TYPE.Patron"}}
-            </button>
+                <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="recuperation"
+                    data-cout="0" data-recuperation="{{nourri.anatheme.salopard.dice}}D{{nourri.anatheme.salopard.face}}+{{nourri.anatheme.salopard.fixe}}"
+                    data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} - {{localize "KNIGHT.TYPE.Salopard"}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} : {{localize "KNIGHT.TYPE.Salopard"}}
+                </button>
 
-            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
-                data-cout="0" data-recuperation="{{this.nourri.humain.bande.dice}}D{{this.nourri.humain.bande.face}}+{{this.nourri.humain.bande.fixe}}"
-                data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} - {{localize "KNIGHT.TYPE.Bande"}}">
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Humain"}} : {{localize "KNIGHT.TYPE.Bande"}}
-            </button>
+                <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="recuperation"
+                    data-cout="0" data-recuperation="{{nourri.anatheme.patron.dice}}D{{nourri.anatheme.patron.face}}+{{nourri.anatheme.patron.fixe}}"
+                    data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} - {{localize "KNIGHT.TYPE.Patron"}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} : {{localize "KNIGHT.TYPE.Patron"}}
+                </button>
 
-            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
-                data-cout="0" data-recuperation="{{this.nourri.anatheme.hostile.dice}}D{{this.nourri.anatheme.hostile.face}}+{{this.nourri.anatheme.hostile.fixe}}"
-                data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} - {{localize "KNIGHT.TYPE.Hostile"}}">
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} : {{localize "KNIGHT.TYPE.Hostile"}}
-            </button>
-
-            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
-                data-cout="0" data-recuperation="{{this.nourri.anatheme.salopard.dice}}D{{this.nourri.anatheme.salopard.face}}+{{this.nourri.anatheme.salopard.fixe}}"
-                data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} - {{localize "KNIGHT.TYPE.Salopard"}}">
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} : {{localize "KNIGHT.TYPE.Salopard"}}
-            </button>
-
-            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
-                data-cout="0" data-recuperation="{{this.nourri.anatheme.patron.dice}}D{{this.nourri.anatheme.patron.face}}+{{this.nourri.anatheme.patron.fixe}}"
-                data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} - {{localize "KNIGHT.TYPE.Patron"}}">
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} : {{localize "KNIGHT.TYPE.Patron"}}
-            </button>
-
-            <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="recuperation"
-                data-cout="0" data-recuperation="{{this.nourri.anatheme.bande.dice}}D{{this.nourri.anatheme.bande.face}}+{{this.nourri.anatheme.bande.fixe}}"
-                data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} - {{localize "KNIGHT.TYPE.Bande"}}">
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} : {{localize "KNIGHT.TYPE.Bande"}}
-            </button>
+                <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="recuperation"
+                    data-cout="0" data-recuperation="{{nourri.anatheme.bande.dice}}D{{nourri.anatheme.bande.face}}+{{nourri.anatheme.bande.fixe}}"
+                    data-labelRecuperation="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} - {{localize "KNIGHT.TYPE.Bande"}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.TUE.Anatheme"}} : {{localize "KNIGHT.TYPE.Bande"}}
+                </button>
             {{/if}}
         </div>
         {{/if}}

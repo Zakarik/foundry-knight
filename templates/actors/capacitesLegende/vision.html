@@ -7,12 +7,14 @@
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
             <label class="allies">
-                <input type="number" name="system.equipements.armure.capacites.vision.energie" data-capacite="{{this.key}}" value="{{@root/systemData/equipements/armure/capacites/vision/energie}}"
-                min="{{this.energie.min}}" max="{{this.energie.max}}" />
+                <input type="number" name="system.equipements.armure.capacites.vision.energie"
+                    data-capacite="{{key}}"
+                    value="{{data.vision.energie}}"
+                    min="{{energie.min}}" max="{{energie.max}}" />
                 <span>{{localize "KNIGHT.AUTRE.PointEnergie-short"}}</span>
             </label>
-            <button class="activationLegende" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                data-cout="{{@root/systemData/equipements/armure/capacites/vision/energie}}">
+            <button class="activationLegende" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+                data-cout="{{data.vision.energie}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.VISION.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
             </button>
         </div>

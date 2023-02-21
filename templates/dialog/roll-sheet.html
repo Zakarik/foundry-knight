@@ -1,4 +1,5 @@
 <div class="dialog-content">
+    {{log this}}
     <input type="text" class="label" value="{{label}}" placeholder="{{localize "KNIGHT.JETS.Nom"}}"/>
     {{#if pnj}}
         {{#each aspects as | key aspect|}}
@@ -142,8 +143,6 @@
         {{/unless}}
     </div>
 
-    {{log this}}
-
     {{#unless (isEmpty listWpnContact)}}
     <div class="wpn">
         <h2 class="header">
@@ -195,7 +194,7 @@
                                 <label class="paramsTwoLine">
                                     <span>{{localize "KNIGHT.BONUS.DesDegats"}}</span>
                                     <select class="bonusVariable" data-type="contact" data-num="{{contact}}" data-variable="{{dgts}}"
-                                        data-typebonus="degats" data-fixeordice="dice">
+                                        data-typebonus="degats" data-fixeordice="dice" data-energie="{{energie}}">
                                         {{#select keyDgts.selected.dice}}
                                             <option value="0">0{{localize "KNIGHT.JETS.Des-short"}}6</option>
                                             {{#each (whileBetweenNumber keyDgts.min.dice keyDgts.max.dice) as | kD vD|}}
@@ -210,7 +209,7 @@
                                 <label class="paramsTwoLine">
                                     <span>{{localize "KNIGHT.BONUS.FixeDegats"}}</span>
                                     <select class="bonusVariable" data-type="contact" data-num="{{contact}}" data-variable="{{dgts}}"
-                                        data-typebonus="degats" data-fixeordice="fixe">
+                                        data-typebonus="degats" data-fixeordice="fixe" data-energie="{{energie}}">
                                         {{#select keyDgts.selected.fixe}}
                                             <option value="0">0</option>
                                             {{#each (whileBetweenNumber keyDgts.min.fixe keyDgts.max.fixe) as | kD vD|}}
@@ -221,15 +220,15 @@
                                 </label>
                             {{/unless}}
                         </div>
-                        {{/each}}
+                    {{/each}}
 
-                        {{#each key.system.violence.module.variable as | keyViolence violence|}}
+                    {{#each key.system.violence.module.variable as | keyViolence violence|}}
                         <div class="lineParams">
                             {{#unless (isLowerThan keyViolence.max.dice 1)}}
                                 <label class="paramsTwoLine">
                                     <span>{{localize "KNIGHT.BONUS.DesViolence"}}</span>
                                     <select class="bonusVariable" data-type="contact" data-num="{{contact}}" data-variable="{{violence}}"
-                                        data-typebonus="violence" data-fixeordice="dice">
+                                        data-typebonus="violence" data-fixeordice="dice" data-energie="{{energie}}">
                                         {{#select keyViolence.selected.dice}}
                                             <option value="0">0{{localize "KNIGHT.JETS.Des-short"}}6</option>
                                             {{#each (whileBetweenNumber keyViolence.min.dice keyViolence.max.dice) as | kV vV|}}
@@ -244,7 +243,7 @@
                                 <label class="paramsTwoLine">
                                     <span>{{localize "KNIGHT.BONUS.FixeViolence"}}</span>
                                     <select class="bonusVariable" data-type="contact" data-num="{{contact}}" data-variable="{{violence}}"
-                                        data-typebonus="violence" data-fixeordice="fixe">
+                                        data-typebonus="violence" data-fixeordice="fixe" data-energie="{{energie}}">
                                         {{#select keyViolence.selected.fixe}}
                                             <option value="0">0</option>
                                             {{#each (whileBetweenNumber keyViolence.min.fixe keyViolence.max.fixe) as | kV vV|}}
@@ -414,75 +413,73 @@
                         {{/if}}
                     </div>
 
-                    <div class="lineParams">
-                        {{#each key.system.degats.module.variable as | keyDgts dgts|}}
-                            <div class="lineParams">
-                                {{#unless (isLowerThan keyDgts.max.dice 1)}}
-                                    <label class="paramsTwoLine">
-                                        <span>{{localize "KNIGHT.BONUS.DesDegats"}}</span>
-                                        <select class="bonusVariable" data-type="distance" data-num="{{distance}}" data-variable="{{dgts}}"
-                                            data-typebonus="degats" data-fixeordice="dice">
-                                            {{#select keyDgts.selected.dice}}
-                                                <option value="0">0{{localize "KNIGHT.JETS.Des-short"}}6</option>
-                                                {{#each (whileBetweenNumber keyDgts.min.dice keyDgts.max.dice) as | kD vD|}}
-                                                    <option value="{{kD}}">{{kD}}{{localize "KNIGHT.JETS.Des-short"}}6</option>
-                                                {{/each}}
-                                            {{/select}}
-                                        </select>
-                                    </label>
-                                {{/unless}}
+                    {{#each key.system.degats.module.variable as | keyDgts dgts|}}
+                        <div class="lineParams">
+                            {{#unless (isLowerThan keyDgts.max.dice 1)}}
+                                <label class="paramsTwoLine">
+                                    <span>{{localize "KNIGHT.BONUS.DesDegats"}}</span>
+                                    <select class="bonusVariable" data-type="distance" data-num="{{distance}}" data-variable="{{dgts}}"
+                                        data-typebonus="degats" data-fixeordice="dice" data-energie="{{energie}}">
+                                        {{#select keyDgts.selected.dice}}
+                                            <option value="0">0{{localize "KNIGHT.JETS.Des-short"}}6</option>
+                                            {{#each (whileBetweenNumber keyDgts.min.dice keyDgts.max.dice) as | kD vD|}}
+                                                <option value="{{kD}}">{{kD}}{{localize "KNIGHT.JETS.Des-short"}}6</option>
+                                            {{/each}}
+                                        {{/select}}
+                                    </select>
+                                </label>
+                            {{/unless}}
 
-                                {{#unless (isLowerThan keyDgts.max.fixe 1)}}
-                                    <label class="paramsTwoLine">
-                                        <span>{{localize "KNIGHT.BONUS.FixeDegats"}}</span>
-                                        <select class="bonusVariable" data-type="distance" data-num="{{distance}}" data-variable="{{dgts}}"
-                                            data-typebonus="degats" data-fixeordice="fixe">
-                                            {{#select keyDgts.selected.fixe}}
-                                                <option value="0">0</option>
-                                                {{#each (whileBetweenNumber keyDgts.min.fixe keyDgts.max.fixe) as | kD vD|}}
-                                                    <option value="{{kD}}">{{kD}}</option>
-                                                {{/each}}
-                                            {{/select}}
-                                        </select>
-                                    </label>
-                                {{/unless}}
-                            </div>
-                            {{/each}}
+                            {{#unless (isLowerThan keyDgts.max.fixe 1)}}
+                                <label class="paramsTwoLine">
+                                    <span>{{localize "KNIGHT.BONUS.FixeDegats"}}</span>
+                                    <select class="bonusVariable" data-type="distance" data-num="{{distance}}" data-variable="{{dgts}}"
+                                        data-typebonus="degats" data-fixeordice="fixe" data-energie="{{energie}}">
+                                        {{#select keyDgts.selected.fixe}}
+                                            <option value="0">0</option>
+                                            {{#each (whileBetweenNumber keyDgts.min.fixe keyDgts.max.fixe) as | kD vD|}}
+                                                <option value="{{kD}}">{{kD}}</option>
+                                            {{/each}}
+                                        {{/select}}
+                                    </select>
+                                </label>
+                            {{/unless}}
+                        </div>
+                    {{/each}}
 
-                            {{#each key.system.violence.module.variable as | keyViolence violence|}}
-                            <div class="lineParams">
-                                {{#unless (isLowerThan keyViolence.max.dice 1)}}
-                                    <label class="paramsTwoLine">
-                                        <span>{{localize "KNIGHT.BONUS.DesViolence"}}</span>
-                                        <select class="bonusVariable" data-type="distance" data-num="{{distance}}" data-variable="{{violence}}"
-                                            data-typebonus="violence" data-fixeordice="dice">
-                                            {{#select keyViolence.selected.dice}}
-                                                <option value="0">0{{localize "KNIGHT.JETS.Des-short"}}6</option>
-                                                {{#each (whileBetweenNumber keyViolence.min.dice keyViolence.max.dice) as | kV vV|}}
-                                                    <option value="{{vV}}">{{vV}}{{localize "KNIGHT.JETS.Des-short"}}6</option>
-                                                {{/each}}
-                                            {{/select}}
-                                        </select>
-                                    </label>
-                                {{/unless}}
+                    {{#each key.system.violence.module.variable as | keyViolence violence|}}
+                        <div class="lineParams">
+                            {{#unless (isLowerThan keyViolence.max.dice 1)}}
+                                <label class="paramsTwoLine">
+                                    <span>{{localize "KNIGHT.BONUS.DesViolence"}}</span>
+                                    <select class="bonusVariable" data-type="distance" data-num="{{distance}}" data-variable="{{violence}}"
+                                        data-typebonus="violence" data-fixeordice="dice" data-energie="{{energie}}">
+                                        {{#select keyViolence.selected.dice}}
+                                            <option value="0">0{{localize "KNIGHT.JETS.Des-short"}}6</option>
+                                            {{#each (whileBetweenNumber keyViolence.min.dice keyViolence.max.dice) as | kV vV|}}
+                                                <option value="{{vV}}">{{vV}}{{localize "KNIGHT.JETS.Des-short"}}6</option>
+                                            {{/each}}
+                                        {{/select}}
+                                    </select>
+                                </label>
+                            {{/unless}}
 
-                                {{#unless (isLowerThan keyViolence.max.fixe 1)}}
-                                    <label class="paramsTwoLine">
-                                        <span>{{localize "KNIGHT.BONUS.FixeViolence"}}</span>
-                                        <select class="bonusVariable" data-type="distance" data-num="{{distance}}" data-variable="{{violence}}"
-                                            data-typebonus="violence" data-fixeordice="fixe">
-                                            {{#select keyViolence.selected.fixe}}
-                                                <option value="0">0</option>
-                                                {{#each (whileBetweenNumber keyViolence.min.fixe keyViolence.max.fixe) as | kV vV|}}
-                                                    <option value="{{vV}}">{{vV}}</option>
-                                                {{/each}}
-                                            {{/select}}
-                                        </select>
-                                    </label>
-                                {{/unless}}
-                            </div>
-                        {{/each}}
-                    </div>
+                            {{#unless (isLowerThan keyViolence.max.fixe 1)}}
+                                <label class="paramsTwoLine">
+                                    <span>{{localize "KNIGHT.BONUS.FixeViolence"}}</span>
+                                    <select class="bonusVariable" data-type="distance" data-num="{{distance}}" data-variable="{{violence}}"
+                                        data-typebonus="violence" data-fixeordice="fixe" data-energie="{{energie}}">
+                                        {{#select keyViolence.selected.fixe}}
+                                            <option value="0">0</option>
+                                            {{#each (whileBetweenNumber keyViolence.min.fixe keyViolence.max.fixe) as | kV vV|}}
+                                                <option value="{{vV}}">{{vV}}</option>
+                                            {{/each}}
+                                        {{/select}}
+                                    </select>
+                                </label>
+                            {{/unless}}
+                        </div>
+                    {{/each}}
 
                     {{#if key.system.optionsmunitions.has}}
                         <div class="lineParams">

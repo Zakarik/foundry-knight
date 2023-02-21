@@ -1,0 +1,345 @@
+
+<label>
+    <span>{{localize "KNIGHT.BONUS.Reaction"}}</span>
+    <input type="number"
+        name="system.actives.reaction"
+        value="{{systemData.actives.reaction}}" min="0"/>
+</label>
+
+<label>
+    <span>{{localize "KNIGHT.BONUS.Defense"}}</span>
+    <input type="number"
+        name="system.actives.defense"
+        value="{{systemData.actives.defense}}" min="0"/>
+</label>
+
+<button type="action" class="clickable {{#if systemData.actives.recuperation.PA}}clicked{{/if}} right"
+    data-toupdate="actives.recuperation.PA"
+    data-value="{{systemData.actives.recuperation.PA}}">
+{{#if systemData.actives.recuperation.PA}}
+    {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.RECUPERATION.Pa"}}
+{{else}}
+    {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.RECUPERATION.NotPa"}}
+{{/if}}
+</button>
+
+<button type="action" class="clickable {{#if systemData.actives.recuperation.PS}}clicked{{/if}} right"
+    data-toupdate="actives.recuperation.PS"
+    data-value="{{systemData.actives.recuperation.PS}}">
+{{#if systemData.actives.recuperation.PS}}
+    {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.RECUPERATION.Ps"}}
+{{else}}
+    {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.RECUPERATION.NotPs"}}
+{{/if}}
+</button>
+
+<button type="action" class="clickable {{#if systemData.actives.recuperation.PE}}clicked{{/if}} right"
+    data-toupdate="actives.recuperation.PE"
+    data-value="{{systemData.actives.recuperation.PE}}">
+{{#if systemData.actives.recuperation.PE}}
+    {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.RECUPERATION.Pe"}}
+{{else}}
+    {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.RECUPERATION.NotPe"}}
+{{/if}}
+</button>
+
+<div class="data {{#unless systemData.actives.jet.actif}}unchecked{{/unless}} right">
+    <button type="action" class="clickable {{#if systemData.actives.jet.actif}}clicked{{/if}}"
+        data-toupdate="actives.jet.actif"
+        data-value="{{systemData.actives.jet.actif}}">
+    {{#if systemData.actives.jet.actif}}
+        {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.JET.Label"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.JET.NotLabel"}}
+    {{/if}}
+    </button>
+
+    <button type="action" class="clickable {{#if systemData.actives.jet.isfixe}}clicked{{/if}} {{#unless systemData.actives.jet.actif}}hidden{{/unless}}"
+        data-toupdate="actives.jet.isfixe"
+        data-value="{{systemData.actives.jet.isfixe}}">
+    {{#if systemData.actives.jet.isfixe}}
+        {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.JET.Isfixe"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.JET.NotIsfixe"}}
+    {{/if}}
+    </button>
+
+    <div class="diceWLabel {{#unless systemData.actives.jet.actif}}hidden{{/unless}} {{#unless systemData.actives.jet.isfixe}}hidden{{/unless}}">
+        <input type="text"
+            name="system.actives.jet.fixe.label"
+            value="{{systemData.actives.jet.fixe.label}}"
+            placeholder="{{localize "KNIGHT.CAPACITEULTIME.ACTIVE.JET.Labelfixe"}}" />
+
+        <div>
+            <input type="text"
+                name="system.actives.jet.fixe.dice"
+                value="{{systemData.actives.jet.fixe.dice}}" min="0" />
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="text"
+                name="system.actives.jet.fixe.fixe"
+                value="{{systemData.actives.jet.fixe.fixe}}" min="0" />
+        </div>
+    </div>
+
+    <div class="addCJet {{#unless systemData.actives.jet.actif}}hidden{{/unless}} {{#if systemData.actives.jet.isfixe}}hidden{{/if}}">
+        <span>{{localize "KNIGHT.CAPACITEULTIME.ACTIVE.JET.Caracteristique"}}</span>
+        <div class="list">
+            {{#each systemData.actives.jet.variable.caracteristiques}}
+                <span>
+                    {{localize (getCarac this)}}
+                    <img class="delete" title="{{localize "KNIGHT.AUTRE.Supprimer"}}" data-index="{{@index}}" data-list="{{@root/systemData/actives/jet/variable/caracteristiques}}" src="systems/knight/assets/icons/delete.svg">
+                </span>
+            {{/each}}
+        </div>
+
+        <div class="menu">
+            <select class="list">
+                {{#each (listCarac) as | key carac |}}
+                    <optgroup label="{{getAspect carac}}">
+                        {{#each key}}
+                            {{#if (isntInclude @root/systemData/actives/jet/variable/caracteristiques this)}}
+                                <option value="{{this}}">
+                                    {{getCarac this}}
+                                </option>
+                            {{/if}}
+                        {{/each}}
+                    </optgroup>
+                {{/each}}
+            </select>
+            <button type="action" class="add" data-list="{{systemData.actives.jet.variable.caracteristiques}}">
+                {{localize "KNIGHT.AUTRE.Ajouter"}}
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="data {{#unless systemData.actives.degats.actif}}unchecked{{/unless}} right">
+    <button type="action" class="clickable {{#if systemData.actives.degats.actif}}clicked{{/if}}"
+        data-toupdate="actives.degats.actif"
+        data-value="{{systemData.actives.degats.actif}}">
+    {{#if systemData.actives.degats.actif}}
+        {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.DEGATS.Label"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.DEGATS.NotLabel"}}
+    {{/if}}
+    </button>
+
+    <button type="action" class="clickable {{#if systemData.actives.degats.isfixe}}clicked{{/if}} {{#unless systemData.actives.degats.actif}}hidden{{/unless}}"
+        data-toupdate="actives.degats.isfixe"
+        data-value="{{systemData.actives.degats.isfixe}}">
+    {{#if systemData.actives.degats.isfixe}}
+        {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.DEGATS.Isfixe"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.DEGATS.NotIsfixe"}}
+    {{/if}}
+    </button>
+
+    <div class="diceWLabel {{#unless systemData.actives.degats.actif}}hidden{{/unless}} {{#unless systemData.actives.degats.isfixe}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+
+        <div>
+            <input type="number"
+                name="system.actives.degats.fixe.dice"
+                value="{{systemData.actives.degats.fixe.dice}}" min="0" />
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number"
+                name="system.actives.degats.fixe.fixe"
+                value="{{systemData.actives.degats.fixe.fixe}}" min="0" />
+        </div>
+    </div>
+
+    <div class="addDmg paliersdmg {{#unless systemData.actives.degats.actif}}hidden{{/unless}} {{#if systemData.actives.degats.isfixe}}hidden{{/if}}">
+        <span>{{localize "KNIGHT.CAPACITEULTIME.ACTIVE.DEGATS.Paliers"}}</span>
+        <div class="list">
+            {{#each systemData.actives.degats.variable.paliers}}
+                <span>
+                    {{this}}
+                    <img class="delete" title="{{localize "KNIGHT.AUTRE.Supprimer"}}"
+                        data-index="{{@index}}"
+                        data-list="{{@root/systemData/actives/degats/variable/paliers}}"
+                        data-toupdate="actives.degats.variable.paliers"
+                        src="systems/knight/assets/icons/delete.svg">
+                </span>
+            {{/each}}
+        </div>
+
+        <div class="menu">
+            <div>
+                <input type="number" class="dice" value="0" min="0" />
+                <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                <input type="number" class="fixe" value="0" min="0" />
+            </div>
+            <button type="action" class="add" data-list="{{systemData.actives.degats.variable.paliers}}" data-toupdate="actives.degats.variable.paliers" data-class="paliersdmg">
+                {{localize "KNIGHT.AUTRE.Ajouter"}}
+            </button>
+        </div>
+    </div>
+
+    <label class="{{#unless systemData.actives.degats.actif}}hidden{{/unless}} {{#if systemData.actives.degats.isfixe}}hidden{{/if}}">
+        <span>{{localize "KNIGHT.CAPACITEULTIME.ACTIVE.DEGATS.Energie"}}</span>
+        <input type="number"
+            name="system.actives.degats.variable.energie"
+            value="{{systemData.actives.degats.variable.energie}}" min="0"/>
+    </label>
+
+    <div class="{{#unless systemData.actives.degats.actif}}hidden {{else}} effets {{/unless}}">
+        {{#each systemData.actives.degats.effets.liste as | key effet|}}
+        <div>
+            <span class="label">{{key.name}}</span>
+            <img class="info" src="systems/knight/assets/icons/info.svg" />
+            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+        </div>
+        {{/each}}
+        <a class="edit" data-path="system.actives.degats.effets">
+            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+        </a>
+    </div>
+</div>
+
+<div class="data {{#unless systemData.actives.violence.actif}}unchecked{{/unless}} right">
+    <button type="action" class="clickable {{#if systemData.actives.violence.actif}}clicked{{/if}}"
+        data-toupdate="actives.violence.actif"
+        data-value="{{systemData.actives.violence.actif}}">
+    {{#if systemData.actives.violence.actif}}
+        {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.VIOLENCE.Label"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.VIOLENCE.NotLabel"}}
+    {{/if}}
+    </button>
+
+    <button type="action" class="clickable {{#if systemData.actives.violence.isfixe}}clicked{{/if}} {{#unless systemData.actives.violence.actif}}hidden{{/unless}}"
+        data-toupdate="actives.violence.isfixe"
+        data-value="{{systemData.actives.violence.isfixe}}">
+    {{#if systemData.actives.violence.isfixe}}
+        {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.VIOLENCE.Isfixe"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.VIOLENCE.NotIsfixe"}}
+    {{/if}}
+    </button>
+
+    <div class="diceWLabel {{#unless systemData.actives.violence.actif}}hidden{{/unless}} {{#unless systemData.actives.violence.isfixe}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+
+        <div>
+            <input type="number"
+                name="system.actives.violence.fixe.dice"
+                value="{{systemData.actives.violence.fixe.dice}}" min="0" />
+            <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+            <input type="number"
+                name="system.actives.violence.fixe.fixe"
+                value="{{systemData.actives.violence.fixe.fixe}}" min="0" />
+        </div>
+    </div>
+
+    <div class="addDmg paliersviol {{#unless systemData.actives.violence.actif}}hidden{{/unless}} {{#if systemData.actives.violence.isfixe}}hidden{{/if}}">
+        <span>{{localize "KNIGHT.CAPACITEULTIME.ACTIVE.VIOLENCE.Paliers"}}</span>
+        <div class="list">
+            {{#each systemData.actives.violence.variable.paliers}}
+                <span>
+                    {{this}}
+                    <img class="delete" title="{{localize "KNIGHT.AUTRE.Supprimer"}}"
+                        data-index="{{@index}}"
+                        data-list="{{@root/systemData/actives/violence/variable/paliers}}"
+                        data-toupdate="actives.violence.variable.paliers"
+                        src="systems/knight/assets/icons/delete.svg">
+                </span>
+            {{/each}}
+        </div>
+
+        <div class="menu">
+            <div>
+                <input type="number" class="dice" value="0" min="0" />
+                <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                <input type="number" class="fixe" value="0" min="0" />
+            </div>
+            <button type="action" class="add" data-list="{{systemData.actives.violence.variable.paliers}}" data-toupdate="actives.violence.variable.paliers" data-class="paliersviol">
+                {{localize "KNIGHT.AUTRE.Ajouter"}}
+            </button>
+        </div>
+    </div>
+
+    <label class="{{#unless systemData.actives.violence.actif}}hidden{{/unless}} {{#if systemData.actives.violence.isfixe}}hidden{{/if}}">
+        <span>{{localize "KNIGHT.CAPACITEULTIME.ACTIVE.VIOLENCE.Energie"}}</span>
+        <input type="number"
+            name="system.actives.violence.variable.energie"
+            value="{{systemData.actives.violence.variable.energie}}" min="0"/>
+    </label>
+
+    <div class="{{#unless systemData.actives.violence.actif}}hidden {{else}} effets {{/unless}}">
+        {{#each systemData.actives.violence.effets.liste as | key effet|}}
+        <div>
+            <span class="label">{{key.name}}</span>
+            <img class="info" src="systems/knight/assets/icons/info.svg" />
+            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+        </div>
+        {{/each}}
+        <a class="edit" data-path="system.actives.violence.effets">
+            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+        </a>
+    </div>
+</div>
+
+<div class="data {{#unless systemData.actives.effets.actif}}unchecked{{/unless}} right">
+    <button type="action" class="clickable {{#if systemData.actives.effets.actif}}clicked{{/if}}"
+        data-toupdate="actives.effets.actif"
+        data-value="{{systemData.actives.effets.actif}}">
+    {{#if systemData.actives.effets.actif}}
+        {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.EFFETS.Label"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.ACTIVE.EFFETS.NotLabel"}}
+    {{/if}}
+    </button>
+
+    <div class="{{#unless systemData.actives.effets.actif}}hidden {{else}} effets {{/unless}}">
+        {{#each systemData.actives.effets.liste as | key effet|}}
+        <div>
+            <span class="label">{{key.name}}</span>
+            <img class="info" src="systems/knight/assets/icons/info.svg" />
+            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+        </div>
+        {{/each}}
+        <a class="edit" data-path="system.actives.effets">
+            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+        </a>
+    </div>
+</div>
+
+<div class="data left">
+    <div class="textarea">
+        <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+        <textarea name="system.actives.activation"
+            data-toupdate="actives.textarea.activation"
+            data-min="20"
+            style="height:{{systemData.actives.textarea.activation}}px;"
+            >{{systemData.actives.activation}}</textarea>
+    </div>
+    <div class="textareaWButton">
+        <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+        <button type="action" class="clickable {{#if systemData.actives.instant}}clicked{{/if}}" data-toupdate="actives.instant" data-value="{{systemData.actives.instant}}">
+        {{#if systemData.actives.instant}}
+            {{localize 'KNIGHT.DUREE.Instantanee'}}
+        {{else}}
+            {{localize 'KNIGHT.CAPACITEULTIME.ACTIVE.NotInstantanee'}}
+        {{/if}}
+        </button>
+        {{#unless systemData.actives.instant}}
+        <textarea name="system.actives.duree"
+            data-toupdate="actives.textarea.duree"
+            data-min="20"
+            style="height:{{systemData.actives.textarea.duree}}px;"
+            >{{systemData.actives.duree}}</textarea>
+        {{/unless}}
+    </div>
+    <label>
+        <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+        <input type="number"
+            name="system.actives.energie"
+            value="{{systemData.actives.energie}}" min="0"/>
+    </label>
+    <label>
+        <span>{{localize "KNIGHT.LATERAL.Heroisme"}}</span>
+        <input type="number"
+            name="system.actives.heroisme"
+            value="{{systemData.actives.heroisme}}" min="0"/>
+    </label>
+</div>

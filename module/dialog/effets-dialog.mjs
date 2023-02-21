@@ -417,8 +417,6 @@ export class KnightEffetsDialog extends FormApplication {
       const custom = this.object.custom === undefined ? [] : this.object.custom;
       const dataCustom = this.object.data.custom;
 
-      console.log(dataCustom);
-
       custom.push({
         label:dataCustom.nom === undefined || dataCustom.nom === "" ? game.i18n.localize("KNIGHT.AUTRE.NonNomme") : dataCustom.nom,
         description:dataCustom.description === undefined ? '' : dataCustom.description,

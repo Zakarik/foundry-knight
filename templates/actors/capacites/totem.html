@@ -7,27 +7,25 @@
         {{#if ("armure" @root/systemData/wear)}}
             <div class="blockMultiline">
                 <label class="allies">
-                    <input type="number" class="{{#if @root/systemData/equipements/armure/capacites/totem/active}}update{{/if}}" name="system.equipements.armure.capacites.totem.nombre" data-capacite="{{this.key}}" data-old="{{@root/systemData/equipements/armure/capacites/totem/nombre}}" data-cout="{{this.energie.base}}" value="{{@root/systemData/equipements/armure/capacites/totem/nombre}}"
-                    min="0" max="{{this.nombre}}" />
+                    <input type="number" class="{{#if data.totem.active}}update{{/if}}"
+                    name="system.equipements.armure.capacites.totem.nombre"
+                    data-capacite="{{key}}"
+                    data-old="{{data.totem.nombre}}"
+                    data-cout="{{energie.base}}"
+                    value="{{data.totem.nombre}}"
+                    min="0" max="{{nombre}}" />
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Totems"}}</span>
                 </label>
-                <button class="
-                    {{#unless this.active}}
-                    activation
-                    {{else}}
-                    desactivation
-                    {{/unless}}
-                    " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="active"
-                    data-cout="{{this.energie.base}}*{{@root/systemData/equipements/armure/capacites/totem/nombre}}">
-                    {{#unless this.active}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                    {{else}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                    {{/unless}}
+                <button class="activation"
+                    data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+                    data-cout="{{energie.base}}*{{data.totem.nombre}}"
+                    data-toupdate="capacites.selected.totem.active"
+                    data-value="{{active}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Label"}} : {{localizeactivate active}}
                 </button>
-                {{#if this.active}}
-                <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                    data-cout="{{this.energie.prolonger}}*{{@root/systemData/equipements/armure/capacites/totem/nombre}}">
+                {{#if active}}
+                <button class="prolonger" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+                    data-cout="{{energie.prolonger}}*{{data.totem.nombre}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                 </button>
                 {{/if}}

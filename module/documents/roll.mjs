@@ -364,6 +364,7 @@ export class RollKnight extends Roll {
 
       const c = new this.constructor(`${dices.length}d6`, this.data, this.options);
       c._canExploit = false;
+      c._isExploit = true;
       c._success = this._success;
 
       await c.evaluateSuccess();
@@ -463,7 +464,7 @@ export class RollKnight extends Roll {
       pairOrImpair:this._pairOrImpair,
       hasMin:this._hasMin,
       seuil:this._seuil,
-      min:this._min
+      min:this._min,
     }
   }
 

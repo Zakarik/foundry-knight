@@ -7,23 +7,16 @@
         {{#if ("armure" @root/systemData/wear)}}
             {{#if this.choixFaits}}
             <div class="blockMultiline">
-                {{#if this.beacon.selectionne}}
-                    <button class="
-                        {{#unless this.active.beacon}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="beacon"
-                        data-cout="0" data-espoir="{{this.beacon.espoir.base}}">
-                        {{#unless this.active.beacon}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BEACON.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BEACON.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                {{#if beacon.selectionne}}
+                    <button class="activation"
+                        data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="beacon"
+                        data-toupdate="capacites.selected.illumination.active"
+                        data-cout="0" data-espoir="{{beacon.espoir.base}}"
+                        data-value="{{active.beacon}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BEACON.Label"}} : {{localizeactivate active.beacon}}
                     </button>
 
-                    {{#if this.active.beacon}}
+                    {{#if active.beacon}}
                     <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="beacon"
                         data-cout="0" data-espoir="{{this.beacon.espoir.prolonger}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BEACON.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
@@ -31,138 +24,105 @@
                     {{/if}}
                 {{/if}}
 
-                {{#if this.blaze.selectionne}}
-                    <button class="
-                        {{#unless this.active.blaze}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="blaze"
-                        data-cout="0" data-espoir="{{this.blaze.espoir.base}}">
-                        {{#unless this.active.blaze}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                {{#if blaze.selectionne}}
+                    <button class="activation"
+                        data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="blaze"
+                        data-toupdate="capacites.selected.illumination.active"
+                        data-cout="0" data-espoir="{{blaze.espoir.base}}"
+                        data-value="{{active.blaze}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}} : {{localizeactivate active.blaze}}
                     </button>
 
-                    {{#if this.active.blaze}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="blaze"
-                        data-cout="0" data-espoir="{{this.blaze.espoir.prolonger}}">
+                    {{#if active.blaze}}
+                    <button class="prolonger" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="blaze"
+                        data-cout="0" data-espoir="{{blaze.espoir.prolonger}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
 
-                    <button class="degats violence" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="blaze"
-                        data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}}" data-degats="{{this.blaze.degats}}" data-violence="{{this.blaze.violence}}">
+                    <button class="degats violence" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="blaze"
+                        data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}}"
+                        data-degats="{{blaze.degats}}" data-violence="{{blaze.violence}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}} : {{localize "KNIGHT.AUTRE.Degats"}} / {{localize "KNIGHT.AUTRE.Violence"}}
                     </button>
                     {{/if}}
                 {{/if}}
 
-                {{#if this.candle.selectionne}}
-                    <button class="activation" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="candle"
-                        data-cout="0" data-despoir="{{this.candle.espoir.dice}}D{{this.candle.espoir.face}}">
+                {{#if candle.selectionne}}
+                    <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="candle"
+                        data-cout="0" data-despoir="{{candle.espoir.dice}}D{{candle.espoir.face}}"
+                        data-value="{{active.beacon}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.CANDLE.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
                     </button>
                 {{/if}}
 
-                {{#if this.lantern.selectionne}}
-                    <button class="
-                        {{#unless this.active.lantern}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="lantern"
-                        data-cout="0" data-espoir="{{this.lantern.espoir.base}}">
-                        {{#unless this.active.lantern}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                {{#if lantern.selectionne}}
+                    <button class="activation"
+                        data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="lantern"
+                        data-toupdate="capacites.selected.illumination.active"
+                        data-cout="0" data-espoir="{{lantern.espoir.base}}"
+                        data-value="{{active.lantern}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label"}} : {{localizeactivate active.lantern}}
                     </button>
 
-                    {{#if this.active.lantern}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="lantern"
-                        data-cout="0" data-espoir="{{this.lantern.espoir.prolonger}}">
+                    {{#if active.lantern}}
+                    <button class="prolonger" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="lantern"
+                        data-cout="0" data-espoir="{{lantern.espoir.prolonger}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
 
-                    <button class="degats" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="lantern"
-                        data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label"}}" data-degats="{{this.lantern.degats}}">
+                    <button class="degats" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="lantern"
+                        data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label"}}" data-degats="{{lantern.degats}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label"}} : {{localize "KNIGHT.AUTRE.Degats"}}
                     </button>
                     {{/if}}
                 {{/if}}
 
-                {{#if this.lighthouse.selectionne}}
-                    <button class="
-                        {{#unless this.active.lighthouse}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="lighthouse"
-                        data-cout="0" data-espoir="{{this.lighthouse.espoir.base}}">
-                        {{#unless this.active.lighthouse}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LIGHTHOUSE.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LIGHTHOUSE.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                {{#if lighthouse.selectionne}}
+                    <button class="activation"
+                        data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="lighthouse"
+                        data-toupdate="capacites.selected.illumination.active"
+                        data-cout="0" data-espoir="{{lighthouse.espoir.base}}"
+                        data-value="{{active.lighthouse}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LIGHTHOUSE.Label"}} : {{localizeactivate active.lighthouse}}
                     </button>
 
-                    {{#if this.active.lighthouse}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="lighthouse"
-                        data-cout="0" data-espoir="{{this.lighthouse.espoir.prolonger}}">
+                    {{#if active.lighthouse}}
+                    <button class="prolonger" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="lighthouse"
+                        data-cout="0" data-espoir="{{lighthouse.espoir.prolonger}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LIGHTHOUSE.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}
                 {{/if}}
 
-                {{#if this.projector.selectionne}}
-                    <button class="
-                        {{#unless this.active.projector}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="projector"
-                        data-cout="0" data-espoir="{{this.projector.espoir.base}}">
-                        {{#unless this.active.projector}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.PROJECTOR.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.PROJECTOR.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                {{#if projector.selectionne}}
+                    <button class="activation"
+                        data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="projector"
+                        data-toupdate="capacites.selected.illumination.active"
+                        data-cout="0" data-espoir="{{projector.espoir.base}}"
+                        data-value="{{active.projector}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.PROJECTOR.Label"}} : {{localizeactivate active.projector}}
                     </button>
 
-                    {{#if this.active.projector}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="projector"
-                        data-cout="0" data-espoir="{{this.projector.espoir.prolonger}}">
+                    {{#if active.projector}}
+                    <button class="prolonger" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="projector"
+                        data-cout="0" data-espoir="{{projector.espoir.prolonger}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.PROJECTOR.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}
                 {{/if}}
 
-                {{#if this.torch.selectionne}}
-                    <button class="
-                        {{#unless this.active.torch}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="torch"
-                        data-cout="0" data-espoir="{{this.torch.espoir.base}}">
-                        {{#unless this.active.torch}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.TORCH.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.TORCH.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                {{#if torch.selectionne}}
+                    <button class="activation"
+                        data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="torch"
+                        data-toupdate="capacites.selected.illumination.active"
+                        data-cout="0" data-espoir="{{torch.espoir.base}}"
+                        data-value="{{active.torch}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.TORCH.Label"}} : {{localizeactivate active.torch}}
                     </button>
 
-                    {{#if this.active.torch}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="torch"
-                        data-cout="0" data-espoir="{{this.torch.espoir.prolonger}}">
+                    {{#if active.torch}}
+                    <button class="prolonger" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="torch"
+                        data-cout="0" data-espoir="{{torch.espoir.prolonger}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.TORCH.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}
@@ -172,93 +132,79 @@
             <div class="blockMultiline">
                 <button class="
                     aChoisir
-                    {{#if this.blaze.selectionne}}
+                    {{#if blaze.selectionne}}
                     choisi
                     {{/if}}
-                    " data-type="capacites" data-capacite="{{this.key}}" data-special="blaze" data-value="{{@root/systemData/equipements/armure/capacites/illumination/choix/blaze}}">
-                    {{#unless this.blaze.selectionne}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
-                    {{else}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
-                    {{/unless}}
+                    "
+                    data-type="capacites" data-capacite="{{key}}" data-special="blaze"
+                    data-value="{{data.illumination.choix.blaze}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}} : {{localizechoix blaze.selectionne}}
                 </button>
 
                 <button class="
                     aChoisir
-                    {{#if this.candle.selectionne}}
+                    {{#if candle.selectionne}}
                     choisi
                     {{/if}}
-                    " data-type="capacites" data-capacite="{{this.key}}" data-special="candle" data-value="{{@root/systemData/equipements/armure/capacites/illumination/choix/candle}}">
-                    {{#unless this.candle.selectionne}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.CANDLE.Label"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
-                    {{else}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.CANDLE.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
-                    {{/unless}}
+                    "
+                    data-type="capacites" data-capacite="{{key}}" data-special="candle"
+                    data-value="{{data.illumination.choix.candle}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.CANDLE.Label"}} : {{localizechoix candle.selectionne}}
                 </button>
 
                 <button class="
                     aChoisir
-                    {{#if this.beacon.selectionne}}
+                    {{#if beacon.selectionne}}
                     choisi
                     {{/if}}
-                    " data-type="capacites" data-capacite="{{this.key}}" data-special="beacon" data-value="{{@root/systemData/equipements/armure/capacites/illumination/choix/beacon}}">
-                    {{#unless this.beacon.selectionne}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BEACON.Label"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
-                    {{else}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BEACON.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
-                    {{/unless}}
+                    "
+                    data-type="capacites" data-capacite="{{key}}" data-special="beacon"
+                    data-value="{{data.illumination.choix.beacon}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BEACON.Label"}} : {{localizechoix beacon.selectionne}}
                 </button>
 
                 <button class="
                     aChoisir
-                    {{#if this.torch.selectionne}}
+                    {{#if torch.selectionne}}
                     choisi
                     {{/if}}
-                    " data-type="capacites" data-capacite="{{this.key}}" data-special="torch" data-value="{{@root/systemData/equipements/armure/capacites/illumination/choix/torch}}">
-                    {{#unless this.torch.selectionne}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.TORCH.Label"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
-                    {{else}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.TORCH.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
-                    {{/unless}}
+                    "
+                    data-type="capacites" data-capacite="{{key}}" data-special="torch"
+                    data-value="{{data.illumination.choix.torch}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.TORCH.Label"}} : {{localizechoix torch.selectionne}}
                 </button>
 
                 <button class="
                     aChoisir
-                    {{#if this.projector.selectionne}}
+                    {{#if projector.selectionne}}
                     choisi
                     {{/if}}
-                    " data-type="capacites" data-capacite="{{this.key}}" data-special="projector" data-value="{{@root/systemData/equipements/armure/capacites/illumination/choix/projector}}">
-                    {{#unless this.projector.selectionne}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.PROJECTOR.Label"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
-                    {{else}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.PROJECTOR.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
-                    {{/unless}}
+                    "
+                    data-type="capacites" data-capacite="{{key}}" data-special="projector"
+                    data-value="{{data.illumination.choix.projector}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.PROJECTOR.Label"}} : {{localizechoix projector.selectionne}}
                 </button>
 
                 <button class="
                     aChoisir
-                    {{#if this.lighthouse.selectionne}}
+                    {{#if lighthouse.selectionne}}
                     choisi
                     {{/if}}
-                    " data-type="capacites" data-capacite="{{this.key}}" data-special="lighthouse" data-value="{{@root/systemData/equipements/armure/capacites/illumination/choix/lighthouse}}">
-                    {{#unless this.lighthouse.selectionne}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LIGHTHOUSE.Label"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
-                    {{else}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LIGHTHOUSE.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
-                    {{/unless}}
+                    "
+                    data-type="capacites" data-capacite="{{key}}" data-special="lighthouse"
+                    data-value="{{data.illumination.choix.lighthouse}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LIGHTHOUSE.Label"}} : {{localizechoix lighthouse.selectionne}}
                 </button>
 
                 <button class="
                     aChoisir
-                    {{#if this.lantern.selectionne}}
+                    {{#if lantern.selectionne}}
                     choisi
                     {{/if}}
-                    " data-type="capacites" data-capacite="{{this.key}}" data-special="lantern" data-value="{{@root/systemData/equipements/armure/capacites/illumination/choix/lantern}}">
-                    {{#unless this.lantern.selectionne}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
-                    {{else}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
-                    {{/unless}}
+                    "
+                    data-type="capacites" data-capacite="{{key}}" data-special="lantern"
+                    data-value="{{data.illumination.choix.lantern}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label"}} : {{localizechoix lantern.selectionne}}
                 </button>
             </div>
             {{/if}}

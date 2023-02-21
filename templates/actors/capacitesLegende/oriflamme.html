@@ -6,11 +6,11 @@
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
-            <button class="degats" data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label"}}" data-degats="{{this.degats.dice}}" data-degatsFixe="{{this.degats.fixe}}" data-cout="{{this.energie}}">
+            <button class="degats" data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label"}}" data-degats="{{degats.dice}}" data-degatsFixe="{{degats.fixe}}" data-cout="{{energie}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label"}} : {{localize "KNIGHT.AUTRE.Degats"}}
             </button>
 
-            <button class="violence" data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label"}}" data-violence="{{this.violence.dice}}" data-violenceFixe="{{this.violence.fixe}}" data-cout="{{this.energie}}">
+            <button class="violence" data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label"}}" data-violence="{{violence.dice}}" data-violenceFixe="{{violence.fixe}}" data-cout="{{energie}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label"}} : {{localize "KNIGHT.AUTRE.Violence"}}
             </button>
         </div>

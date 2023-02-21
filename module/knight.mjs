@@ -27,6 +27,7 @@ import { ArtSheet } from "./sheets/items/art-sheet.mjs";
 import { CapaciteSheet } from "./sheets/items/capacite-sheet.mjs";
 import { CarteHeroiqueSheet } from "./sheets/items/carteheroique-sheet.mjs";
 import { CapaciteHeroiqueSheet } from "./sheets/items/capaciteheroique-sheet.mjs";
+import { CapaciteUltimeSheet } from "./sheets/items/capaciteultime-sheet.mjs";
 import { DistinctionSheet } from "./sheets/items/distinction-sheet.mjs";
 
 // Import helper/utility classes and constants.
@@ -228,6 +229,11 @@ Hooks.once('init', async function() {
 
   Items.registerSheet("distinction", DistinctionSheet, {
     types: ["distinction"],
+    makeDefault: true
+  });
+
+  Items.registerSheet("capaciteultime", CapaciteUltimeSheet, {
+    types: ["capaciteultime"],
     makeDefault: true
   });
 });

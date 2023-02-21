@@ -400,7 +400,8 @@ export class VehiculeSheet extends ActorSheet {
       'avantage', 'inconvenient',
       'motivationMineure', 'contact',
       'blessure', 'trauma',
-      'armurelegende', 'effet', 'distinction'];
+      'armurelegende', 'effet', 'distinction',
+      'capaciteultime'];
     if (typesValides.includes(itemBaseType)) return;
     if (itemBaseType === 'arme' && armeType === 'contact') return;
 

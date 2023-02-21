@@ -765,7 +765,7 @@
                                         span {
                                             width:24px;
                                             text-align: center;
-                                            line-height: 22px;
+                                            line-height: 23px;
                                             background:$black;
                                             text-transform: uppercase;
                                         }
@@ -809,9 +809,10 @@
                                         span {
                                             width:50%;
                                             text-align: left;
-                                            line-height: 22px;
+                                            line-height: 21px;
                                             background:$black;
                                             text-transform: uppercase;
+                                            padding-top:1px;
                                         }
                                     }
                                 }

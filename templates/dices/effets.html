@@ -1,0 +1,18 @@
+<div class="dice-roll knight-roll">
+    {{#if flavor}}
+    <div class="dice-flavor flavor-wpn">{{flavor}}</div>
+    {{/if}}
+    {{#if this.other}}
+        <div class="dice-result otherResults">
+            <div class="dice-formula">
+                <div class="oneLine">
+                    <span class="label">{{localize "KNIGHT.JETS.OtherEffects"}}</span>
+                </div>
+                {{#each this.other as | key other|}}
+                    <span class="label" title="{{{key.desc}}}">{{key.name}}</span>
+                    {{#unless @last}} / {{/unless}}
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+</div>

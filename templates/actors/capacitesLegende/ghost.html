@@ -6,45 +6,40 @@
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
-            {{#unless this.active.horsconflit}}
-            <button class="
-                {{#unless this.active.conflit}}
-                activationLegende
-                {{else}}
-                desactivationLegende
-                {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="conflit"
-                data-cout="{{this.energie.tour}}">
-                {{#unless this.active.conflit}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ActivationConflit"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                {{else}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ActivationConflit"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                {{/unless}}
+            {{#unless active.horsconflit}}
+            <button class="activationLegende"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}}"
+                data-special="conflit"
+                data-cout="{{energie.tour}}"
+                data-toupdate="capacites.selected.ghost.active"
+                data-value="{{active.conflit}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ActivationConflit"}} : {{localizeactivate active.conflit}}
             </button>
             {{/unless}}
 
-            {{#unless this.active.conflit}}
-            <button class="
-                {{#unless this.active.horsconflit}}
-                activationLegende
-                {{else}}
-                desactivationLegende
-                {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="horsconflit"
-                data-cout="{{this.energie.minute}}">
-                {{#unless this.active.horsconflit}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ActivationHorsConflit"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                {{else}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ActivationHorsConflit"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                {{/unless}}
+            {{#unless active.conflit}}
+            <button class="activationLegende"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}}"
+                data-special="horsconflit"
+                data-cout="{{energie.minute}}"
+                data-toupdate="capacites.selected.ghost.active"
+                data-value="{{active.horsconflit}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ActivationHorsConflit"}} : {{localizeactivate active.horsconflit}}
             </button>
             {{/unless}}
 
-            {{#if this.active.conflit}}
+            {{#if active.conflit}}
             <button class="
                 prolonger
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                data-cout="{{this.energie.tour}}">
+                "
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}}"
+                data-cout="{{energie.tour}}">
                 {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>
 
@@ -56,8 +51,11 @@
             {{#if this.active.horsconflit}}
             <button class="
                 prolonger
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                data-cout="{{this.energie.minute}}">
+                "
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}}"
+                data-cout="{{energie.minute}}">
                 {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>
 

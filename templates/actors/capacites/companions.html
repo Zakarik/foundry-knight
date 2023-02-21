@@ -5,93 +5,73 @@
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
-            {{#unless this.active.lion}}
-            {{#unless this.active.wolf}}
-            {{#unless this.active.crow}}
+            {{#if (companionsCanBeActivate this)}}
             <select class="energie" name="system.equipements.armure.capacites.companions.energie">
-                {{#select @root/systemData/equipements/armure/capacites/companions/energie}}
-                <option value="0">0 {{#if @root/actor/armureData/system/espoir/remplaceEnergie}}{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEspoirS"}}{{else}}{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEnergieS"}}{{/if}}</option>
-                    {{#each @root/systemData/equipements/armure/capacites/companions/energieDisponible as | key energie|}}
+                {{#select data.companions.energie}}
+                <option value="0">0
+                    {{#if @root/actor/armureData/system/espoir/remplaceEnergie}}
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEspoirS"}}
+                    {{else}}
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEnergieS"}}{{/if}}</option>
+                    {{#each data.companions.energieDisponible as | key energie|}}
                         {{#if (hasPE key @root/actor/armureData/system/espoir/remplaceEnergie @root/systemData/energie/value @root/systemData/espoir/value)}}
-                        <option value="{{key}}">{{key}} {{#if @root/actor/armureData/system/espoir/remplaceEnergie}}{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEspoirP"}}{{else}}{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEnergieP"}}{{/if}}</option>
+                        <option value="{{key}}">{{key}}
+                        {{#if @root/actor/armureData/system/espoir/remplaceEnergie}}
+                            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEspoirP"}}
+                        {{else}}
+                            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEnergieP"}}{{/if}}</option>
                         {{/if}}
                     {{/each}}
                 {{/select}}
             </select>
-            {{/unless}}
-            {{/unless}}
-            {{/unless}}
+            {{/if}}
 
-            {{#unless this.active.wolf}}
-            {{#unless this.active.crow}}
-            <button class="
-                {{#unless this.active.lion}}
-                activation
-                {{else}}
-                desactivation
-                {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="lion"
-                data-cout="{{this.energie.base}}+{{@root/systemData/equipements/armure/capacites/companions/energie}}" data-donPe="{{@root/systemData/equipements/armure/capacites/companions/energie}}">
-                {{#unless this.active.lion}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                {{else}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                {{/unless}}
+            {{#if (companionsCanBeActivate this 'lion')}}
+            <button class="activation"
+                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="lion"
+                data-toupdate="capacites.selected.companions.active"
+                data-cout="{{energie.base}}+{{data.companions.energie}}"
+                data-depense="{{data.companions.energie}}"
+                data-value="{{active.lion}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}} : {{localizeactivate active.lion}}
             </button>
-            {{/unless}}
-            {{/unless}}
+            {{/if}}
 
-            {{#unless this.active.lion}}
-            {{#unless this.active.crow}}
-            <button class="
-                {{#unless this.active.wolf}}
-                activation
-                {{else}}
-                desactivation
-                {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="wolf"
-                data-cout="{{this.energie.base}}+{{@root/systemData/equipements/armure/capacites/companions/energie}}" data-donPe="{{@root/systemData/equipements/armure/capacites/companions/energie}}">
-                {{#unless this.active.wolf}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                {{else}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                {{/unless}}
+            {{#if (companionsCanBeActivate this 'wolf')}}
+            <button class="activation"
+                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="wolf"
+                data-toupdate="capacites.selected.companions.active"
+                data-cout="{{energie.base}}+{{data.companions.energie}}"
+                data-depense="{{data.companions.energie}}"
+                data-value="{{active.wolf}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label"}} : {{localizeactivate active.wolf}}
             </button>
-            {{/unless}}
-            {{/unless}}
+            {{/if}}
 
-            {{#unless this.active.lion}}
-            {{#unless this.active.wolf}}
-            <button class="
-                {{#unless this.active.crow}}
-                activation
-                {{else}}
-                desactivation
-                {{/unless}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="crow"
-                data-cout="{{this.energie.base}}+{{@root/systemData/equipements/armure/capacites/companions/energie}}" data-donPe="{{@root/systemData/equipements/armure/capacites/companions/energie}}">
-                {{#unless this.active.crow}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                {{else}}
-                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                {{/unless}}
+            {{#if (companionsCanBeActivate this 'crow')}}
+            <button class="activation"
+                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="crow"
+                data-toupdate="capacites.selected.companions.active"
+                data-cout="{{energie.base}}+{{data.companions.energie}}"
+                data-depense="{{data.companions.energie}}"
+                data-value="{{active.crow}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label"}} : {{localizeactivate active.crow}}
             </button>
-            {{/unless}}
-            {{/unless}}
+            {{/if}}
 
 
-            {{#if this.active.base}}
+            {{#if active.base}}
             <button class="
                 prolonger
-                " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                data-cout="{{this.energie.prolonger}}">
+                " data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+                data-cout="{{energie.prolonger}}">
                 {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>
             {{/if}}
 
-            {{#if this.active.wolf}}
+            {{#if active.wolf}}
                 <select class="type" name="system.equipements.armure.capacites.companions.type">
-                    {{#select @root/systemData/equipements/armure/capacites/companions/type}}
+                    {{#select data.companions.type}}
                     <option value=""></option>
                     <option value="labor">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.LABOR.Label"}}</option>
                     <option value="medic">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.MEDIC.Label"}}</option>
@@ -101,7 +81,7 @@
                     {{/select}}
                 </select>
 
-                <button class="configurationWolf" data-configuration="{{@root/systemData/equipements/armure/capacites/companions/type}}">
+                <button class="configurationWolf" data-configuration="{{data.companions.type}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
                 </button>
             {{/if}}

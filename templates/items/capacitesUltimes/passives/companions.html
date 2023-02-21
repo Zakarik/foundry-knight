@@ -1,0 +1,16 @@
+<div class="data {{#if systemData.passives.capacites.companions.actif}}checked{{/if}} {{#unless systemData.passives.capacites.actif}}hidden{{/unless}}">
+    <button type="action" class="{{#if systemData.passives.capacites.companions.actif}}clicked{{/if}}"
+        data-toupdate="passives.capacites.companions.actif"
+        data-value="{{systemData.passives.capacites.companions.actif}}">
+    {{#if systemData.passives.capacites.companions.actif}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.COMPANIONS.Label"}}
+    {{else}}
+        {{localize "KNIGHT.CAPACITEULTIME.PASSIVE.COMPANIONS.NotLabel"}}
+    {{/if}}
+    </button>
+
+    <label class="{{#unless systemData.passives.capacites.companions.actif}}hidden{{/unless}}">
+        <span>{{localize "KNIGHT.CAPACITEULTIME.PASSIVE.COMPANIONS.Deployable"}}</span>
+        <input type="number" name="system.passives.companions.update.deployable" value="{{systemData.passives.companions.update.deployable}}" min="0" max="3"/>
+    </label>
+</div>

@@ -646,9 +646,37 @@ export class KnightRollDialog extends Application {
       const typeBonus = target.data("typebonus");
       const fixeOrDice = target.data("fixeordice");
       const variable = target.data("variable");
+      const energie = target.data("energie");
+      const actor = game.actors.get(this.data.actor);
 
-      if(type === 'contact') this.data.listWpnContact[num].system[typeBonus].module.variable[variable].selected[fixeOrDice] = +value;
-      else if(type === 'distance') this.data.listWpnDistance[num].system[typeBonus].module.variable[variable].selected[fixeOrDice] = +value;
+      if(type === 'contact') {
+        this.data.listWpnContact[num].system[typeBonus].module.variable[variable].selected[fixeOrDice] = +value;
+        this.data.listWpnContact[num].system[typeBonus].module.variable[variable].selected.energie[fixeOrDice] = +value*+energie;
+
+        const module = actor.items.get(this.data.listWpnContact[num].system[typeBonus].module.variable[variable].id);
+
+        let update = {
+          [`system.bonus.${typeBonus}.variable.selected.${fixeOrDice}`]:+value,
+          [`system.bonus.${typeBonus}.variable.selected.energie.${fixeOrDice}`]:+value*+energie,
+        };
+
+        module.update(update);
+      }
+      else if(type === 'distance') {
+        this.data.listWpnDistance[num].system[typeBonus].module.variable[variable].selected[fixeOrDice] = +value;
+        this.data.listWpnDistance[num].system[typeBonus].module.variable[variable].selected.energie[fixeOrDice] = +value*+energie;
+
+        const module = actor.items.get(this.data.listWpnDistance[num].system[typeBonus].module.variable[variable].id);
+
+        let update = {
+          [`system.bonus.${typeBonus}.variable.selected.${fixeOrDice}`]:+value,
+          [`system.bonus.${typeBonus}.variable.selected.energie.${fixeOrDice}`]:+value*+energie,
+        };
+
+        module.update(update);
+      }
+
+      console.log(this);
     });
 
     html.find('select.choixmain').change(ev => {
@@ -1204,6 +1232,16 @@ export class KnightRollDialog extends Application {
       };
     }
 
+    let rolls = execAtt;
+
+    if(execAtt._pRolls.length !== 0) {
+      const pRolls = execAtt._pRolls[0].map(function(objet) {
+        return { ...objet, active: true };
+      });
+
+      rolls.dice[0].results = rolls.dice[0].results.concat(pRolls);
+    }
+
     const attackMsgData = {
       user: game.user.id,
       speaker: {
@@ -1211,7 +1249,8 @@ export class KnightRollDialog extends Application {
         token: actor?.token?.id || null,
         alias: actor?.name || null,
       },
-      type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+      rolls:[rolls],
       content: await renderTemplate('systems/knight/templates/dices/wpn.html', pAttack),
       sound: CONFIG.sounds.dice
     };
@@ -1306,7 +1345,8 @@ export class KnightRollDialog extends Application {
         token: actor?.token?.id || null,
         alias: actor?.name || null,
       },
-      type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+      rolls:[execDgt].concat(listAllEffets.rollDgts),
       content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegats),
       sound: CONFIG.sounds.dice
     };
@@ -1385,7 +1425,8 @@ export class KnightRollDialog extends Application {
           token: actor?.token?.id || null,
           alias: actor?.name || null,
         },
-        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+        rolls:[execViolence].concat(listAllEffets.rollViol),
         content: await renderTemplate('systems/knight/templates/dices/wpn.html', pViolence),
         sound: CONFIG.sounds.dice
       };
@@ -1432,12 +1473,19 @@ export class KnightRollDialog extends Application {
       energieViolence = dataWpn.violence.dice > dataWpn.violence.variable.min.dice ? (dataWpn.violence.dice-dataWpn.violence.variable.min.dice)*dataWpn.violence.variable.cout : 0;
     }
 
+    const bonusModule = getModuleBonus(actor, idActor, typeWpn, dataWpn, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ);
+
+    //ENERGIE DES MODULES
+    energieDgts += bonusModule?.degats?.energie || 0;
+    energieViolence += bonusModule?.violence?.energie || 0;
+
+    console.log(energieDgts, energieViolence)
+
     const listEffets = await getEffets(actor, typeWpn, style.raw, data, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ, energieDgts+energieViolence);
     const listDistance = await getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, isPNJ);
     const listStructurelles = await getStructurelle (actor, typeWpn, style.raw, data, effetsWpn, structurellesWpn, isPNJ);
     const listOrnementale = await getOrnementale (actor, typeWpn, data, effetsWpn, ornementalesWpn, isPNJ);
     const listCapacites = await getCapacite(actor, typeWpn, data.base, data.autre, idActor, effetsWpn, structurellesWpn, ornementalesWpn, distanceWpn, isPNJ, idWpn);
-    const bonusModule = getModuleBonus(actor, idActor, typeWpn, dataWpn, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ);
 
     const lEffetAttack = listEffets.attack;
     const lEffetDegats = listEffets.degats;
@@ -1470,6 +1518,10 @@ export class KnightRollDialog extends Application {
 
     const typeStyle = style.type;
     const sacrificeStyle = +style.sacrifice;
+
+    let rollAtt = [].concat(listEffets.rollAtt, listDistance.rollAtt, listStructurelles.rollAtt, listOrnementale.rollAtt);
+    let rollDgts = [].concat(listEffets.rollDgts, listDistance.rollDgts, listStructurelles.rollDgts, listOrnementale.rollDgts);
+    let rollViol = [].concat(listEffets.rollViol, listDistance.rollViol, listStructurelles.rollViol, listOrnementale.rollViol);
 
     let getAttackOtherDiceMod = isPNJ || (capaciteName === 'cea' && style.raw === 'ambidextre') || typeWpn === 'tourelle' ? 0 : getStyle.bonus.attaque-getStyle.malus.attaque;
     let getAttackSpecialDiceMod = 0;
@@ -1886,7 +1938,10 @@ export class KnightRollDialog extends Application {
       attack:merge.attack,
       degats:merge.degats,
       violence:merge.violence,
-      other:merge.other
+      other:merge.other,
+      rollAtt:rollAtt,
+      rollDgts:rollDgts,
+      rollViol:rollViol,
     };
 
     return result;

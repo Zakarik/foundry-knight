@@ -5,409 +5,304 @@
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.Label"}}
 
         {{#if ("armure" @root/systemData/wear)}}
-            {{#if this.choixFaits}}
+            {{#if choixFaits}}
             <div class="blockMultiline">
-                {{#unless this.type.scout.conflit}}
-                {{#unless this.type.scout.horsconflit}}
-                {{#unless this.type.herald.conflit}}
-                {{#unless this.type.herald.horsconflit}}
-                {{#unless this.type.scholar.conflit}}
-                {{#unless this.type.scholar.horsconflit}}
-                {{#unless this.type.hunter.conflit}}
-                {{#unless this.type.hunter.horsconflit}}
-                {{#if this.type.soldier.selectionne}}
-                    {{#unless this.type.soldier.horsconflit}}
-                    <button class="
-                        {{#unless this.type.soldier.conflit}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="soldier" data-variant="conflit"
-                        data-cout="{{this.energie.tour}}">
-                        {{#unless this.type.soldier.conflit}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Soldier"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Soldier"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                {{#if type.soldier.selectionne}}
+                    {{#if (typeCanBeActivate this 'soldier' 'conflit')}}
+                    <button class="activation"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-special="soldier"
+                        data-variant="conflit"
+                        data-cout="{{#unless (typeIsFree this)}}{{energie.tour}}{{else}}0{{/unless}}"
+                        data-toupdate="capacites.selected.type.type"
+                        data-value="{{type.soldier.conflit}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Soldier"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localizeactivate type.soldier.conflit}}
                     </button>
-                    {{/unless}}
+                    {{/if}}
 
-                    {{#unless this.type.soldier.conflit}}
-                    <button class="
-                        {{#unless this.type.soldier.horsconflit}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="soldier" data-variant="horsconflit"
-                        data-cout="{{this.energie.scene}}">
-                        {{#unless this.type.soldier.horsconflit}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Soldier"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Soldier"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                    {{#if (typeCanBeActivate this 'soldier' 'horsconflit')}}
+                    <button class="activation"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-special="soldier"
+                        data-variant="horsconflit"
+                        data-cout="{{#unless (typeIsFree this)}}{{energie.scene}}{{else}}0{{/unless}}"
+                        data-toupdate="capacites.selected.type.type"
+                        data-value="{{type.soldier.horsconflit}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Soldier"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localizeactivate type.soldier.horsconflit}}
                     </button>
-                    {{/unless}}
+                    {{/if}}
 
-                    {{#if this.type.soldier.conflit}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                        data-cout="{{this.energie.tour}}">
+                    {{#if type.soldier.conflit}}
+                    <button class="prolonger"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-cout="{{energie.tour}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Soldier"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}
 
-                    {{#if this.type.soldier.horsconflit}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                        data-cout="{{this.energie.scene}}">
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Soldier"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
+                    {{#if type.soldier.horsconflit}}
+                    <button class="prolonger"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-cout="{{energie.scene}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Soldier"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}
                 {{/if}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
 
-                {{#unless this.type.scout.conflit}}
-                {{#unless this.type.scout.horsconflit}}
-                {{#unless this.type.herald.conflit}}
-                {{#unless this.type.herald.horsconflit}}
-                {{#unless this.type.scholar.conflit}}
-                {{#unless this.type.scholar.horsconflit}}
-                {{#unless this.type.soldier.conflit}}
-                {{#unless this.type.soldier.horsconflit}}
-                {{#if this.type.hunter.selectionne}}
-                    {{#unless this.type.hunter.horsconflit}}
-                    <button class="
-                        {{#unless this.type.hunter.conflit}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="hunter" data-variant="conflit"
-                        data-cout="{{this.energie.tour}}">
-                        {{#unless this.type.hunter.conflit}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Hunter"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Hunter"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                {{#if type.hunter.selectionne}}
+                    {{#if (typeCanBeActivate this 'hunter' 'conflit')}}
+                    <button class="activation"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-special="hunter"
+                        data-variant="conflit"
+                        data-cout="{{#unless (typeIsFree this)}}{{energie.tour}}{{else}}0{{/unless}}"
+                        data-toupdate="capacites.selected.type.type"
+                        data-value="{{type.hunter.conflit}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Hunter"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localizeactivate type.hunter.conflit}}
                     </button>
-                    {{/unless}}
+                    {{/if}}
 
-                    {{#unless this.type.hunter.conflit}}
-                    <button class="
-                        {{#unless this.type.hunter.horsconflit}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="hunter" data-variant="horsconflit"
-                        data-cout="{{this.energie.scene}}">
-                        {{#unless this.type.hunter.horsconflit}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Hunter"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Hunter"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                    {{#if (typeCanBeActivate this 'hunter' 'horsconflit')}}
+                    <button class="activation"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-special="hunter"
+                        data-variant="horsconflit"
+                        data-cout="{{#unless (typeIsFree this)}}{{energie.scene}}{{else}}0{{/unless}}"
+                        data-toupdate="capacites.selected.type.type"
+                        data-value="{{type.hunter.horsconflit}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Hunter"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localizeactivate type.hunter.horsconflit}}
                     </button>
-                    {{/unless}}
+                    {{/if}}
 
-                    {{#if this.type.hunter.conflit}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                        data-cout="{{this.energie.tour}}">
+                    {{#if type.hunter.conflit}}
+                    <button class="prolonger" data-type="capacites"
+                        data-capacite="{{key}}" data-name="{{label}}"
+                        data-cout="{{energie.tour}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Hunter"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}
 
-                    {{#if this.type.hunter.horsconflit}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                        data-cout="{{this.energie.scene}}">
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Hunter"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
+                    {{#if type.hunter.horsconflit}}
+                    <button class="prolonger"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-cout="{{energie.scene}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Hunter"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}
                 {{/if}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
 
-                {{#unless this.type.scout.conflit}}
-                {{#unless this.type.scout.horsconflit}}
-                {{#unless this.type.herald.conflit}}
-                {{#unless this.type.herald.horsconflit}}
-                {{#unless this.type.hunter.conflit}}
-                {{#unless this.type.hunter.horsconflit}}
-                {{#unless this.type.soldier.conflit}}
-                {{#unless this.type.soldier.horsconflit}}
-                {{#if this.type.scholar.selectionne}}
-                    {{#unless this.type.scholar.horsconflit}}
-                    <button class="
-                        {{#unless this.type.scholar.conflit}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="scholar" data-variant="conflit"
-                        data-cout="{{this.energie.tour}}">
-                        {{#unless this.type.scholar.conflit}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scholar"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scholar"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                {{#if type.scholar.selectionne}}
+                    {{#if (typeCanBeActivate this 'scholar' 'conflit')}}
+                    <button class="activation"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-special="scholar"
+                        data-variant="conflit"
+                        data-cout="{{#unless (typeIsFree this)}}{{energie.tour}}{{else}}0{{/unless}}"
+                        data-toupdate="capacites.selected.type.type"
+                        data-value="{{type.scholar.conflit}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scholar"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localizeactivate type.scholar.conflit}}
                     </button>
-                    {{/unless}}
+                    {{/if}}
 
-                    {{#unless this.type.scholar.conflit}}
-                    <button class="
-                        {{#unless this.type.scholar.horsconflit}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="scholar" data-variant="horsconflit"
-                        data-cout="{{this.energie.scene}}">
-                        {{#unless this.type.scholar.horsconflit}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scholar"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scholar"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                    {{#if (typeCanBeActivate this 'scholar' 'horsconflit')}}
+                    <button class="activation"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-special="scholar"
+                        data-variant="horsconflit"
+                        data-cout="{{#unless (typeIsFree this)}}{{energie.scene}}{{else}}0{{/unless}}"
+                        data-toupdate="capacites.selected.type.type"
+                        data-value="{{type.scholar.horsconflit}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scholar"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localizeactivate type.scholar.horsconflit}}
                     </button>
-                    {{/unless}}
+                    {{/if}}
 
-                    {{#if this.type.scholar.conflit}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                        data-cout="{{this.energie.tour}}">
+                    {{#if type.scholar.conflit}}
+                    <button class="prolonger"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-cout="{{energie.tour}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scholar"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}
 
-                    {{#if this.type.scholar.horsconflit}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                        data-cout="{{this.energie.scene}}">
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scholar"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
+                    {{#if type.scholar.horsconflit}}
+                    <button class="prolonger"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-cout="{{energie.scene}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scholar"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}
                 {{/if}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
 
-                {{#unless this.type.scout.conflit}}
-                {{#unless this.type.scout.horsconflit}}
-                {{#unless this.type.scholar.conflit}}
-                {{#unless this.type.scholar.horsconflit}}
-                {{#unless this.type.hunter.conflit}}
-                {{#unless this.type.hunter.horsconflit}}
-                {{#unless this.type.soldier.conflit}}
-                {{#unless this.type.soldier.horsconflit}}
-                {{#if this.type.herald.selectionne}}
-                    {{#unless this.type.herald.horsconflit}}
-                    <button class="
-                        {{#unless this.type.herald.conflit}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="herald" data-variant="conflit"
-                        data-cout="{{this.energie.tour}}">
-                        {{#unless this.type.herald.conflit}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Herald"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Herald"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                {{#if type.herald.selectionne}}
+                    {{#if (typeCanBeActivate this 'herald' 'conflit')}}
+                    <button class="activation"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-special="herald"
+                        data-variant="conflit"
+                        data-cout="{{#unless (typeIsFree this)}}{{energie.tour}}{{else}}0{{/unless}}"
+                        data-toupdate="capacites.selected.type.type"
+                        data-value="{{type.herald.conflit}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Herald"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localizeactivate type.herald.conflit}}
                     </button>
-                    {{/unless}}
+                    {{/if}}
 
-                    {{#unless this.type.herald.conflit}}
-                    <button class="
-                        {{#unless this.type.herald.horsconflit}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="herald" data-variant="horsconflit"
-                        data-cout="{{this.energie.scene}}">
-                        {{#unless this.type.herald.horsconflit}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Herald"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Herald"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                    {{#if (typeCanBeActivate this 'herald' 'horsconflit')}}
+                    <button class="activation"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-special="herald" data-variant="horsconflit"
+                        data-cout="{{#unless (typeIsFree this)}}{{energie.scene}}{{else}}0{{/unless}}"
+                        data-toupdate="capacites.selected.type.type"
+                        data-value="{{type.herald.horsconflit}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Herald"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localizeactivate type.herald.horsconflit}}
                     </button>
-                    {{/unless}}
+                    {{/if}}
 
-                    {{#if this.type.herald.conflit}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                        data-cout="{{this.energie.tour}}">
+                    {{#if type.herald.conflit}}
+                    <button class="prolonger" data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-cout="{{energie.tour}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Herald"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}
 
-                    {{#if this.type.herald.horsconflit}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                        data-cout="{{this.energie.scene}}">
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Herald"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
+                    {{#if type.herald.horsconflit}}
+                    <button class="prolonger"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-cout="{{energie.scene}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Herald"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}
                 {{/if}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
 
-                {{#unless this.type.herald.conflit}}
-                {{#unless this.type.herald.horsconflit}}
-                {{#unless this.type.scholar.conflit}}
-                {{#unless this.type.scholar.horsconflit}}
-                {{#unless this.type.hunter.conflit}}
-                {{#unless this.type.hunter.horsconflit}}
-                {{#unless this.type.soldier.conflit}}
-                {{#unless this.type.soldier.horsconflit}}
-                {{#if this.type.scout.selectionne}}
-                    {{#unless this.type.scout.horsconflit}}
-                    <button class="
-                        {{#unless this.type.scout.conflit}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="scout" data-variant="conflit"
-                        data-cout="{{this.energie.tour}}">
-                        {{#unless this.type.scout.conflit}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scout"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scout"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                {{#if type.scout.selectionne}}
+                    {{#if (typeCanBeActivate this 'scout' 'conflit')}}
+                    <button class="activation"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-special="scout"
+                        data-variant="conflit"
+                        data-cout="{{#unless (typeIsFree this)}}{{energie.tour}}{{else}}0{{/unless}}"
+                        data-toupdate="capacites.selected.type.type"
+                        data-value="{{type.scout.conflit}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scout"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localizeactivate type.scout.conflit}}
                     </button>
-                    {{/unless}}
+                    {{/if}}
 
-                    {{#unless this.type.scout.conflit}}
-                    <button class="
-                        {{#unless this.type.scout.horsconflit}}
-                        activation
-                        {{else}}
-                        desactivation
-                        {{/unless}}
-                        " data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}" data-special="scout" data-variant="horsconflit"
-                        data-cout="{{this.energie.scene}}">
-                        {{#unless this.type.scout.horsconflit}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scout"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localize "KNIGHT.AUTRE.Activer"}}
-                        {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scout"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
-                        {{/unless}}
+                    {{#if (typeCanBeActivate this 'scout' 'horsconflit')}}
+                    <button class="activation"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-special="scout"
+                        data-variant="horsconflit"
+                        data-cout="{{#unless (typeIsFree this)}}{{energie.scene}}{{else}}0{{/unless}}"
+                        data-toupdate="capacites.selected.type.type"
+                        data-value="{{type.scout.horsconflit}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scout"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localizeactivate type.scout.horsconflit}}
                     </button>
-                    {{/unless}}
+                    {{/if}}
 
-                    {{#if this.type.scout.conflit}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                        data-cout="{{this.energie.tour}}">
+                    {{#if type.scout.conflit}}
+                    <button class="prolonger"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-cout="{{energie.tour}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scout"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}
 
-                    {{#if this.type.scout.horsconflit}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                        data-cout="{{this.energie.scene}}">
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scout"}} - {{localize "KNIGHT.AUTRE.EnConflit"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
+                    {{#if type.scout.horsconflit}}
+                    <button class="prolonger"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-name="{{label}}"
+                        data-cout="{{energie.scene}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scout"}} - {{localize "KNIGHT.AUTRE.HorsConflit"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}
                 {{/if}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
-                {{/unless}}
             </div>
             {{else}}
             <div class="blockMultiline">
                 <button class="
                     aChoisir
-                    {{#if this.type.soldier.selectionne}}
+                    {{#if type.soldier.selectionne}}
                     choisi
                     {{/if}}
-                    " data-type="capacites" data-capacite="{{this.key}}" data-special="soldier"
-                    data-value="{{this.type.soldier.selectionne}}">
-                    {{#unless this.type.soldier.selectionne}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Soldier"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
-                    {{else}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Soldier"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
-                    {{/unless}}
+                    " data-type="capacites" data-capacite="{{key}}" data-special="soldier"
+                    data-value="{{type.soldier.selectionne}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Soldier"}} : {{localizechoix type.soldier.selectionne}}
                 </button>
 
                 <button class="
                     aChoisir
-                    {{#if this.type.hunter.selectionne}}
+                    {{#if type.hunter.selectionne}}
                     choisi
                     {{/if}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-special="hunter"
-                    data-value="{{this.type.hunter.selectionne}}">
-                    {{#unless this.type.hunter.selectionne}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Hunter"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
-                    {{else}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Hunter"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
-                    {{/unless}}
+                " data-type="capacites" data-capacite="{{key}}" data-special="hunter"
+                    data-value="{{type.hunter.selectionne}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Hunter"}} : {{localizechoix type.hunter.selectionne}}
                 </button>
 
                 <button class="
                     aChoisir
-                    {{#if this.type.scholar.selectionne}}
-
+                    {{#if type.scholar.selectionne}}
                     choisi
                     {{/if}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-special="scholar"
-                    data-value="{{this.type.scholar.selectionne}}">
-                    {{#unless this.type.scholar.selectionne}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scholar"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
-                    {{else}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scholar"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
-                    {{/unless}}
+                " data-type="capacites" data-capacite="{{key}}" data-special="scholar"
+                    data-value="{{type.scholar.selectionne}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scholar"}} : {{localizechoix type.scholar.selectionne}}
                 </button>
 
                 <button class="
                     aChoisir
-                    {{#if this.type.herald.selectionne}}
+                    {{#if type.herald.selectionne}}
                     choisi
                     {{/if}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-special="herald"
-                    data-value="{{this.type.herald.selectionne}}">
-                    {{#unless this.type.herald.selectionne}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Herald"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
-                    {{else}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Herald"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
-                    {{/unless}}
+                " data-type="capacites" data-capacite="{{key}}" data-special="herald"
+                    data-value="{{type.herald.selectionne}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Herald"}} : {{localizechoix type.herald.selectionne}}
                 </button>
 
                 <button class="
                     aChoisir
-                    {{#if this.type.scout.selectionne}}
+                    {{#if type.scout.selectionne}}
                     choisi
                     {{/if}}
-                " data-type="capacites" data-capacite="{{this.key}}" data-special="scout"
-                    data-value="{{this.type.scout.selectionne}}">
-                    {{#unless this.type.scout.selectionne}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scout"}} : {{localize "KNIGHT.AUTRE.Choisir"}}
-                    {{else}}
-                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scout"}} : {{localize "KNIGHT.AUTRE.Choisi"}}
-                    {{/unless}}
+                " data-type="capacites" data-capacite="{{key}}" data-special="scout"
+                    data-value="{{type.scout.selectionne}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.TYPE.Scout"}} : {{localizechoix type.scout.selectionne}}
                 </button>
             </div>
             {{/if}}
@@ -440,21 +335,21 @@
                 <span class="score alignLeft">{{this.duree}}</span>
             </div>
         </div>
-        {{#each this.type as | key type|}}
-        {{#if key.selectionne}}
-        <div class="data">
-            <h4 class="title">{{getType type}}</h4>
-            <h4>{{localize "KNIGHT.BONUS.Overdrives"}}</h4>
-            <div class="line noBottomSeparation">
-                {{#each key.liste as | tKey dType|}}
-                    <div class="tripleLine noSeparation">
-                        <span class="header">{{getCarac dType}}</span>
-                        <span class="score">{{this.value}}</span>
-                    </div>
-                {{/each}}
+        {{#each type as | key type|}}
+            {{#if key.selectionne}}
+            <div class="data">
+                <h4 class="title">{{getType type}}</h4>
+                <h4>{{localize "KNIGHT.BONUS.Overdrives"}}</h4>
+                <div class="line noBottomSeparation">
+                    {{#each key.liste as | tKey dType|}}
+                        <div class="tripleLine noSeparation">
+                            <span class="header">{{getCarac dType}}</span>
+                            <span class="score">{{this.value}}</span>
+                        </div>
+                    {{/each}}
+                </div>
             </div>
-        </div>
-        {{/if}}
+            {{/if}}
         {{/each}}
     </div>
 </div>
