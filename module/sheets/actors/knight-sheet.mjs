@@ -4081,6 +4081,10 @@ export class KnightSheet extends ActorSheet {
           itemData.img = "systems/knight/assets/icons/capaciteheroique.svg";
           break;
 
+      case "capaciteultime":
+          itemData.img = "systems/knight/assets/icons/capaciteultime.svg";
+          break;
+
       case "art":
           itemData.img = "systems/knight/assets/icons/art.svg";
           break;
@@ -5837,7 +5841,8 @@ export class KnightSheet extends ActorSheet {
 
           for (let [keyA, aspect] of Object.entries(aspects)) {
             for (let [keyC, carac] of Object.entries(aspect.caracteristiques)) {
-              const value = +armureData?.system?.overdrives?.[keyA]?.liste?.[keyC]?.value || 0;
+              const value = +i?.system?.overdrives?.[keyA]?.liste?.[keyC]?.value || 0;
+              console.log()
               const aspectExist = aspectsUpdate?.[keyA] || false;
               const caracsListExist = aspectsUpdate?.[keyA]?.caracteristiques || false;
               const caracsExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC] || false;
