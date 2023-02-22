@@ -1138,6 +1138,8 @@ export class KnightRollDialog extends Application {
     const isPNJ = this.data?.pnj || false
     const wpnType = this.data.typeWpn
     const avDv = this.data.avDv;
+    const lAvantages = avDv?.avantages || []
+    const lInconvenient = avDv?.inconvenient || []
     const avantages = [];
     const inconvenient = [];
 
@@ -1169,7 +1171,7 @@ export class KnightRollDialog extends Application {
     if(caracs[0] === undefined) { caracs = ''; }
     let pAttack = {};
 
-    for(let i = 0;i < avDv.avantages.length;i++) {
+    for(let i = 0;i < lAvantages.length;i++) {
       const data = avDv.avantages[i];
 
       if(data.system.show) {
@@ -1180,7 +1182,7 @@ export class KnightRollDialog extends Application {
       }
     }
 
-    for(let i = 0;i < avDv.inconvenient.length;i++) {
+    for(let i = 0;i < lInconvenient.length;i++) {
       const data = avDv.inconvenient[i];
 
       if(data.system.show) {
