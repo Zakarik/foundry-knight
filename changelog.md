@@ -5,6 +5,9 @@
 
 - Ajout des capacités ultimes
 - Ajout de la possibilité de mettre des images personnalisées pour les companions Crow, Wolf et Lion.
+- Ajout de la possibilité d'afficher (ou non) les avantages et inconvénients d'IA lors des jets de combat.
+Pour celà, il faut juste aller sur la page des IA et cliquer sur l'icone en forme d'oeil barré (signifiant que ça ne sera pas affiché) pour y afficher, et inversement.
+- Ajout de la santé et de l'armure comme attributs par défaut des tokens.
 
 - Il est à présent possible de revenir en arrière par rapport aux évolutions d'armures.
 Attention, c'est un rollback complet de l'armure au moment où vous avez choisi votre évolution.
