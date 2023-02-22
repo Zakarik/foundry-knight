@@ -1,4 +1,10 @@
 
+## v2.3.6
+
+### Bugfix
+
+- Correction d'un bug avec la nouvelle fonction d'augmentation du coût de la v2.3.3
+
 ## v2.3.5
 
 ### Bugfix

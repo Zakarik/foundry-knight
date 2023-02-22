@@ -5896,12 +5896,31 @@ export class KnightSheet extends ActorSheet {
               if(iBEnergie.has) { lion.energie.bonus.push(iBEnergie.value); }
               if(iBDgts.has) {
                 if(iBDgtsVariable.has) {
+                  const dgtsDicePaliers = [0];
+                  const dgtsFixePaliers = [0];
+
+                  for(let i = iBDgtsVariable.min.dice;i <= iBDgtsVariable.max.dice;i++) {
+                    dgtsDicePaliers.push(i);
+                  }
+
+                  for(let i = iBDgtsVariable.min.fixe;i <= iBDgtsVariable.max.fixe;i++) {
+                    dgtsFixePaliers.push(i);
+                  }
+
                   lion.bonusDgtsVariable[iBDgts.type].push({
                     label:i.name,
                     description:data.description,
                     selected:{
-                      dice:0,
-                      fixe:0
+                      dice:iBDgtsVariable?.selected?.dice || 0,
+                      fixe:iBDgtsVariable?.selected?.fixe || 0,
+                      energie:{
+                        dice:iBDgtsVariable?.selected?.energie.dice || 0,
+                        fixe:iBDgtsVariable?.selected?.energie.fixe || 0,
+                        paliers:{
+                          dice:dgtsDicePaliers,
+                          fixe:dgtsFixePaliers
+                        }
+                      }
                     },
                     min:{
                       dice:iBDgtsVariable.min.dice,
@@ -5923,12 +5942,31 @@ export class KnightSheet extends ActorSheet {
               }
               if(iBViolence.has) {
                 if(iBViolenceVariable.has) {
+                  const violDicePaliers = [0];
+                  const violFixePaliers = [0];
+
+                  for(let i = iBViolenceVariable.min.dice;i <= iBViolenceVariable.max.dice;i++) {
+                    violDicePaliers.push(i);
+                  }
+
+                  for(let i = iBViolenceVariable.min.fixe;i <= iBViolenceVariable.max.fixe;i++) {
+                    violFixePaliers.push(i);
+                  }
+
                   lion.bonusViolenceVariable[iBViolence.type].push({
                     label:i.name,
                     description:i.system.description,
                     selected:{
-                      dice:0,
-                      fixe:0
+                      dice:iBViolenceVariable?.selected?.dice || 0,
+                      fixe:iBViolenceVariable?.selected?.fixe || 0,
+                      energie:{
+                        dice:iBViolenceVariable?.selected?.energie.dice || 0,
+                        fixe:iBViolenceVariable?.selected?.energie.fixe || 0,
+                        paliers:{
+                          dice:violDicePaliers,
+                          fixe:violFixePaliers
+                        }
+                      }
                     },
                     min:{
                       dice:iBViolenceVariable.min.dice,
@@ -6022,6 +6060,17 @@ export class KnightSheet extends ActorSheet {
                 if(iBEnergie.has) { energie.bonus.modules.push(iBEnergie.value); }
                 if(iBDgts.has) {
                   if(iBDgtsVariable.has) {
+                    const dgtsDicePaliers = [0];
+                    const dgtsFixePaliers = [0];
+
+                    for(let i = iBDgtsVariable.min.dice;i <= iBDgtsVariable.max.dice;i++) {
+                      dgtsDicePaliers.push(i);
+                    }
+
+                    for(let i = iBDgtsVariable.min.fixe;i <= iBDgtsVariable.max.fixe;i++) {
+                      dgtsFixePaliers.push(i);
+                    }
+
                     moduleBonusDgtsVariable[iBDgts.type].push({
                       id:i._id,
                       label:i.name,
@@ -6031,7 +6080,11 @@ export class KnightSheet extends ActorSheet {
                         fixe:iBDgtsVariable?.selected?.fixe || 0,
                         energie:{
                           dice:iBDgtsVariable?.selected?.energie.dice || 0,
-                          fixe:iBDgtsVariable?.selected?.energie.fixe || 0
+                          fixe:iBDgtsVariable?.selected?.energie.fixe || 0,
+                          paliers:{
+                            dice:dgtsDicePaliers,
+                            fixe:dgtsFixePaliers
+                          }
                         }
                       },
                       min:{
@@ -6056,6 +6109,17 @@ export class KnightSheet extends ActorSheet {
                 }
                 if(iBViolence.has) {
                   if(iBViolenceVariable.has) {
+                    const violDicePaliers = [0];
+                    const violFixePaliers = [0];
+
+                    for(let i = iBViolenceVariable.min.dice;i <= iBViolenceVariable.max.dice;i++) {
+                      violDicePaliers.push(i);
+                    }
+
+                    for(let i = iBViolenceVariable.min.fixe;i <= iBViolenceVariable.max.fixe;i++) {
+                      violFixePaliers.push(i);
+                    }
+
                     moduleBonusViolenceVariable[iBViolence.type].push({
                       id:i._id,
                       label:i.name,
@@ -6065,7 +6129,11 @@ export class KnightSheet extends ActorSheet {
                         fixe:iBViolenceVariable?.selected?.fixe || 0,
                         energie:{
                           dice:iBViolenceVariable?.selected?.energie?.dice || 0,
-                          fixe:iBViolenceVariable?.selected?.energie?.fixe || 0
+                          fixe:iBViolenceVariable?.selected?.energie?.fixe || 0,
+                          paliers:{
+                            dice:violDicePaliers,
+                            fixe:violFixePaliers
+                          }
                         }
                       },
                       min:{
@@ -6204,7 +6272,6 @@ export class KnightSheet extends ActorSheet {
             value:data.gratuit ? 0 : data.prix
           });
         }
-
       }
 
       // AVANTAGE.
@@ -6917,7 +6984,7 @@ export class KnightSheet extends ActorSheet {
         sacrifice:system.combat.data.sacrifice,
         maximum:6
       });
-      await rollApp.addAvDv(AvDv);
+      await rollUi.addAvDv(AvDv);
 
       rollUi.render(true);
     }
