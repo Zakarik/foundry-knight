@@ -36,7 +36,8 @@
   "secondaryTokenAttribute":"armure",
   "gridDistance": 5,
   "gridUnits": "m",
-  "url": "",
-  "manifest": "",
-  "download": ""
+  "url": "https://github.com/Zakarik/foundry-knight",
+  "manifest": "https://raw.githubusercontent.com/Zakarik/foundry-knight/main/system.json",
+  "download": "https://github.com/Zakarik/foundry-knight/archive/refs/heads/main.zip",
+  "changelog": "https://raw.githubusercontent.com/Zakarik/foundry-knight/main/changelog.md"
 }
