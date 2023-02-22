@@ -79,4 +79,32 @@
             </div>
         </div>
     {{/if}}
+
+    {{#if this.avantages}}
+        <div class="dice-result otherResults">
+            <div class="dice-formula">
+                <div class="oneLine">
+                    <span class="label">{{localize "KNIGHT.PERSONNAGE.Avantages"}}</span>
+                </div>
+                {{#each this.avantages as | key avantages|}}
+                    <span class="label" title="{{{getAvDvDescription key.desc}}}">{{key.name}}</span>
+                    {{#unless @last}} / {{/unless}}
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
+
+    {{#if this.inconvenient}}
+        <div class="dice-result otherResults">
+            <div class="dice-formula">
+                <div class="oneLine">
+                    <span class="label">{{localize "KNIGHT.PERSONNAGE.Inconvenient"}}</span>
+                </div>
+                {{#each this.inconvenient as | key inconvenient|}}
+                    <span class="label" title="{{{getAvDvDescription key.desc}}}">{{key.name}}</span>
+                    {{#unless @last}} / {{/unless}}
+                {{/each}}
+            </div>
+        </div>
+    {{/if}}
 </div>

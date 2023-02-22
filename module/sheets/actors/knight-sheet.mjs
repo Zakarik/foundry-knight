@@ -135,8 +135,6 @@ export class KnightSheet extends ActorSheet {
 
     context.systemData = context.data.system;
 
-    console.log(context)
-
     return context;
   }
 
@@ -3996,6 +3994,15 @@ export class KnightSheet extends ActorSheet {
         this.actor.update({["system.progression.gloire.actuel"]:gloire+getPG});
       }
     });
+
+    html.find('a.avdvshow').click(ev => {
+      const target = $(ev.currentTarget);
+      const header = target.parents(".summary");
+      const item = this.actor.items.get(header.data("item-id"));
+      const value = target.data('value') ? false : true;
+
+      item.update({['system.show']:value});
+    });
   }
 
   /* -------------------------------------------- */
@@ -6886,6 +6893,10 @@ export class KnightSheet extends ActorSheet {
     if(rollUi !== false) {
       const style = system.combat.style;
       const getStyle = getModStyle(style);
+      let AvDv = {
+        avantages:avantageIA,
+        inconvenient:inconvenientIA
+      };
 
       await rollUi.setWpnContact(armesContactEquipee);
       await rollUi.setWpnDistance(armesDistanceEquipee);
@@ -6901,6 +6912,7 @@ export class KnightSheet extends ActorSheet {
         sacrifice:system.combat.data.sacrifice,
         maximum:6
       });
+      await rollApp.addAvDv(AvDv);
 
       rollUi.render(true);
     }
@@ -7986,6 +7998,11 @@ export class KnightSheet extends ActorSheet {
       }
     }
 
+    let AvDv = {
+      avantages:data.actor.avantagesIA,
+      inconvenient:data.actor.inconvenientIA
+    };
+
     await rollApp.setActor(this.actor.id);
     await rollApp.setAspects(aspects);
     await rollApp.setEffets(hasBarrage, true, true, true);
@@ -8009,6 +8026,7 @@ export class KnightSheet extends ActorSheet {
       deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, deployGrenades, deployLongbow, false,
       false, false);
     await rollApp.setIfOd(noOd);
+    await rollApp.addAvDv(AvDv);
 
     rollApp.render(true);
   }
