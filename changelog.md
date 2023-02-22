@@ -1,4 +1,10 @@
 
+## v2.3.5
+
+### Bugfix
+
+- Correction d'un bug empêchant le jet de dés dans certaines circonstances pour les PNJ
+
 ## v2.3.4
 
 ### Bugfix
