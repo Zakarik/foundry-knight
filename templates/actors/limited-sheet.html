@@ -1,4 +1,4 @@
-<form class="mainFlex {{cssClass}} limited" autocomplete="off"> 
+<form class="mainFlex {{cssClass}} limited" autocomplete="off">
     {{!-- Sheet Header --}}
     <header class="sheet-header flexrow">
         <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
@@ -22,8 +22,13 @@
     <img class="profile-img" src="{{actor.armureData.img}}" data-edit="img" title="{{data.name}}" />
     {{/if}}
 
+    {{log this}}
+
     {{#unless (isValue actor.type 'mechaarmure')}}
     {{#unless (isValue actor.type 'vehicule')}}
+    {{#unless (isValue actor.type 'ia')}}
+    {{#unless (isValue actor.type 'pnj')}}
+    {{#unless (isValue actor.type 'creature')}}
     {{!-- Sheet Body --}}
     <section class="body {{#unless systemData.equipement.hasArmor}}full{{/unless}}">
         {{!-- Sheet Tab Navigation --}}
@@ -40,6 +45,9 @@
             </div>
         </div>
     </section>
+    {{/unless}}
+    {{/unless}}
+    {{/unless}}
     {{/unless}}
     {{/unless}}
 </form>

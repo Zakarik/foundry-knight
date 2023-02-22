@@ -103,6 +103,18 @@
         return result;
     });
 
+    Handlebars.registerHelper('getAvDvDescription', function (description) {
+        const result = description
+        .replaceAll("<b>", "")
+        .replaceAll("</b>", "")
+        .replaceAll("<p>", "")
+        .replaceAll("</p>", "")
+        .replaceAll("<em>", "")
+        .replaceAll("</>", "</>");
+
+        return result;
+    });
+
     Handlebars.registerHelper('rollSelectType', function (value) {
         const root = value.data.root;
         const key = value.data.key;
@@ -622,8 +634,6 @@
 
     Handlebars.registerHelper('hasCapacite', function (data, capacite) {
         let result = false;
-
-        console.log(data);
 
         const capa = data?.actor?.armureData?.system?.capacites?.selected?.[capacite] || false
 

@@ -21,6 +21,8 @@ Tout ceci est dans l'onglet "Options".
 - Correction d'un bug empêchant de mettre des modules sur les PNJ, même lorsque l'option est activée.
 - Correction d'un bug empêchant le bon fonctionnement de la capacité de méta-armure de légende "Mode Warlord".
 - Correction d'un bug pouvant empêcher les jets de dés.
+- Correction d'un problème de mise en page sur la version limitée de la fiche des IA.
+- Correction d'une faute de frappe.
 
 ### Modifications
 

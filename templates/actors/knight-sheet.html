@@ -2076,6 +2076,13 @@
                                     <header class="summary header js-toggler" data-item-id="{{key._id}}">
                                         <i class="far fa-plus-square extendButton"></i>
                                         <div class="gestionButton">
+                                            <a class="avdvshow" data-value="{{key.system.show}}" title="{{#if key.system.show}}{{KNIGHT.IA.MasqueAvantage}}{{else}}{{KNIGHT.IA.MonstrerAvantage}}{{/if}}">
+                                            {{#if key.system.show}}
+                                                <i class="fa-solid fa-eye"></i>
+                                            {{else}}
+                                                <i class="fa-solid fa-eye-slash"></i>
+                                            {{/if}}
+                                            </a>
                                             <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
                                             <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
                                         </div>
@@ -2107,6 +2114,13 @@
                                     <header class="summary header js-toggler" data-item-id="{{key._id}}">
                                         <i class="far fa-plus-square extendButton"></i>
                                         <div class="gestionButton">
+                                            <a class="avdvshow" data-value="{{key.system.show}}" title="{{#if key.system.show}}{{KNIGHT.IA.MasqueAvantage}}{{else}}{{KNIGHT.IA.MonstrerAvantage}}{{/if}}">
+                                            {{#if key.system.show}}
+                                                <i class="fa-solid fa-eye"></i>
+                                            {{else}}
+                                                <i class="fa-solid fa-eye-slash"></i>
+                                            {{/if}}
+                                            </a>
                                             <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
                                             <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
                                         </div>

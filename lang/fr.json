@@ -211,7 +211,11 @@
       "IDENTITE":{
         "Label":"Identité",
         "Code":"Code de fabrication"
-      }
+      },
+      "MonstrerAvantage":"Montrer cet avantage lors des jets de combat",
+      "MonstrerDesavantage":"Montrer cet avantage lors des jets de combat",
+      "MasqueAvantage":"Masquer cet désavantage lors des jets de combat",
+      "MasqueDesavantage":"Masque ce désavantage lors des jets de combat"
     },
     "ARMURE":{
       "Label":"Méta-Armure",

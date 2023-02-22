@@ -133,6 +133,7 @@ export class KnightRollDialog extends Application {
           wpnArmesImprovisees:this.data.deploy?.wpnArmesImprovisees || false,
         },
         noOd:this.data.noOd,
+        avDv:this.data.avDv,
         buttons: buttons
       }
     }
@@ -416,6 +417,18 @@ export class KnightRollDialog extends Application {
     });
   }
 
+  async addAvDv(AvDv) {
+    this.data.avDv = AvDv;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.avDv
+        );
+      }, 0);
+    });
+  }
+
     /** @inheritdoc */
   activateListeners(html) {
     html.find(".aspect button").click(this._onSelectCaracteristique.bind(this));
@@ -675,8 +688,6 @@ export class KnightRollDialog extends Application {
 
         module.update(update);
       }
-
-      console.log(this);
     });
 
     html.find('select.choixmain').change(ev => {
@@ -1126,6 +1137,9 @@ export class KnightRollDialog extends Application {
   async _doAttack(actor, data, localDataWpn, otherC, carac, od, isCapacite=false, totalDice=0, totalBonus=0, listAllE, addNum='', isBarrage, isSystemeRefroidissement, barrageValue=0, addOtherEffects=[]) {
     const isPNJ = this.data?.pnj || false
     const wpnType = this.data.typeWpn
+    const avDv = this.data.avDv;
+    const avantages = [];
+    const inconvenient = [];
 
     const execAtt = new game.knight.RollKnight(`${totalDice}d6+${totalBonus}`, actor.system);
     execAtt._success = true;
@@ -1154,6 +1168,28 @@ export class KnightRollDialog extends Application {
     let caracs = [execAtt._base].concat(execAtt._autre)[0] === '' ? [] : [execAtt._base].concat(execAtt._autre);
     if(caracs[0] === undefined) { caracs = ''; }
     let pAttack = {};
+
+    for(let i = 0;i < avDv.avantages.length;i++) {
+      const data = avDv.avantages[i];
+
+      if(data.system.show) {
+        avantages.push({
+          name:data.name,
+          desc:data.system.description
+        });
+      }
+    }
+
+    for(let i = 0;i < avDv.inconvenient.length;i++) {
+      const data = avDv.inconvenient[i];
+
+      if(data.system.show) {
+        inconvenient.push({
+          name:data.name,
+          desc:data.system.description
+        });
+      }
+    }
 
     const style = isPNJ ? {selected:''} : data.style;
     const eSub = listAllE.attack.list;
@@ -1218,7 +1254,9 @@ export class KnightRollDialog extends Application {
         },
         sub:eSub,
         include:eInclude,
-        other:other
+        other:other,
+        avantages:avantages,
+        inconvenient:inconvenient
       };
 
       if(wpnType !== 'tourelle' && !isPNJ) pAttack.style = `${style.fulllabel}`;
@@ -1478,8 +1516,6 @@ export class KnightRollDialog extends Application {
     //ENERGIE DES MODULES
     energieDgts += bonusModule?.degats?.energie || 0;
     energieViolence += bonusModule?.violence?.energie || 0;
-
-    console.log(energieDgts, energieViolence)
 
     const listEffets = await getEffets(actor, typeWpn, style.raw, data, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ, energieDgts+energieViolence);
     const listDistance = await getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, isPNJ);

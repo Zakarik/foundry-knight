@@ -18394,7 +18394,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   justify-content: space-between;
   position: absolute;
   right: 5px;
-  width: 30px;
+  width: 50px;
   align-items: center;
 }
 .knight section.body div.armure div.ia div.avantages div.block span.description,
