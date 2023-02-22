@@ -653,41 +653,28 @@ export class KnightRollDialog extends Application {
 
     html.find('select.bonusVariable').change(ev => {
       const target = $(ev.currentTarget);
-      const value = target.val();
+      const value = +target.val();
       const type = target.data("type");
       const num = target.data("num");
       const typeBonus = target.data("typebonus");
       const fixeOrDice = target.data("fixeordice");
       const variable = target.data("variable");
-      const energie = target.data("energie");
+      const energie = +target.data("energie");
       const actor = game.actors.get(this.data.actor);
+      const wpn = {'contact':'listWpnContact', 'distance':'listWpnDistance'}[type]
+      const dataWpn = this.data[wpn][num].system[typeBonus].module.variable[variable];
+      const paliers = dataWpn.selected.energie.paliers[fixeOrDice].findIndex(element => element === value);
+      const module = actor.items.get(dataWpn.id);
+      const depense = paliers*energie;
+      const update = {
+        [`system.bonus.${typeBonus}.variable.selected.${fixeOrDice}`]:value,
+        [`system.bonus.${typeBonus}.variable.selected.energie.${fixeOrDice}`]:depense,
+      };
 
-      if(type === 'contact') {
-        this.data.listWpnContact[num].system[typeBonus].module.variable[variable].selected[fixeOrDice] = +value;
-        this.data.listWpnContact[num].system[typeBonus].module.variable[variable].selected.energie[fixeOrDice] = +value*+energie;
+      dataWpn.selected[fixeOrDice] = value;
+      dataWpn.selected.energie[fixeOrDice] = depense;
 
-        const module = actor.items.get(this.data.listWpnContact[num].system[typeBonus].module.variable[variable].id);
-
-        let update = {
-          [`system.bonus.${typeBonus}.variable.selected.${fixeOrDice}`]:+value,
-          [`system.bonus.${typeBonus}.variable.selected.energie.${fixeOrDice}`]:+value*+energie,
-        };
-
-        module.update(update);
-      }
-      else if(type === 'distance') {
-        this.data.listWpnDistance[num].system[typeBonus].module.variable[variable].selected[fixeOrDice] = +value;
-        this.data.listWpnDistance[num].system[typeBonus].module.variable[variable].selected.energie[fixeOrDice] = +value*+energie;
-
-        const module = actor.items.get(this.data.listWpnDistance[num].system[typeBonus].module.variable[variable].id);
-
-        let update = {
-          [`system.bonus.${typeBonus}.variable.selected.${fixeOrDice}`]:+value,
-          [`system.bonus.${typeBonus}.variable.selected.energie.${fixeOrDice}`]:+value*+energie,
-        };
-
-        module.update(update);
-      }
+      module.update(update);
     });
 
     html.find('select.choixmain').change(ev => {
