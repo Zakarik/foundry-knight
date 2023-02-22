@@ -1,4 +1,11 @@
 
+## v2.3.4
+
+### Bugfix
+
+- Correction d'un bug empêchant la prise en compte des overdrives des armures.
+- Correction d'un oubli de l'icone des capacités ultimes.
+
 ## v2.3.3
 
 ### Nouveautés

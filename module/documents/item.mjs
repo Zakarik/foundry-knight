@@ -68,6 +68,10 @@ export class KnightItem extends Item {
                     data.img = "systems/knight/assets/icons/capaciteheroique.svg";
                     break;
 
+                case "capaciteultime":
+                    data.img = "systems/knight/assets/icons/capaciteultime.svg";
+                    break;
+
                 case "art":
                     data.img = "systems/knight/assets/icons/art.svg";
                     break;
