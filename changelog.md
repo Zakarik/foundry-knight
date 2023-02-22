@@ -36,7 +36,7 @@ Tout ceci est dans l'onglet "Options".
 
 ### Modifications
 
-- Lors de l'utilisation du Mode Ascension, il prendra dorénavant le portrait de l'armure plutôt que celui du joueur et, si disponible, le nom de l'IA.
+- Lors de l'utilisation du Mode Ascension, il prendra dorénavant le portrait de l'armure plutôt que celui du joueur.
 - Retrait de logs trainant encore dans les fichiers.
 - Optimisations diverses du code
 - Ajout de la possibilité de supprimer la méta-armure de légende
