@@ -1,4 +1,10 @@
 
+## v2.3.7
+
+### Bugfix
+
+- Correction d'un bug avec la Warmaster pouvant empêcher l'ouverture des fiches.
+
 ## v2.3.6
 
 ### Bugfix
