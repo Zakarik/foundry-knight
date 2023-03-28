@@ -14497,6 +14497,7 @@
   header.sheet-header {
     .headerData {
       .data {
+        height: 100%;
         div {
           &.pilote,
           &.passagers {
@@ -14508,6 +14509,7 @@
             border:1px solid $lightBlack;
             align-items: flex-start;
             align-content: flex-start;
+            min-height: 54px;
 
             span {
               line-height: 26px;
@@ -14534,6 +14536,17 @@
                   right:5px;
                 }
               }
+            }
+          }
+          &.pilote {
+            height: 54px;
+          }
+          &.passagers {
+            max-height: calc(100% - 48px - 10px);
+            & > .values {
+              width: 100%;
+              height: calc(100% - 26px);
+              overflow-y: auto;
             }
           }
         }
