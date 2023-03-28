@@ -31,14 +31,14 @@
                     {{else}}
                         <div class="values">
                             {{#each systemData.equipage.passagers as | key passager|}}
-                            <span class="value" data-id="{{passager}}">
-                                {{key.name}}
-                                <div class="gestionButton">
-                                    <a class="item-control passager-edit" title="{{localize "KNIGHT.VEHICULE.PasserPilote"}}"><i class="fa-solid fa-user"></i></i></a>
-                                    <a class="item-control passager-delete" title="{{localize "KNIGHT.VEHICULE.DeletePassager"}}"><i class="fas fa-trash"></i></a>
-                                </div>
-                            </span>
-                        {{/each}}
+                                <span class="value" data-id="{{passager}}">
+                                    {{key.name}}
+                                    <div class="gestionButton">
+                                        <a class="item-control passager-edit" title="{{localize "KNIGHT.VEHICULE.PasserPilote"}}"><i class="fa-solid fa-user"></i></i></a>
+                                        <a class="item-control passager-delete" title="{{localize "KNIGHT.VEHICULE.DeletePassager"}}"><i class="fas fa-trash"></i></a>
+                                    </div>
+                                </span>
+                            {{/each}}
                         </div>
                     {{/if}}
                 </div>
