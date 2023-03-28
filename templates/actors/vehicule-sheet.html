@@ -29,7 +29,8 @@
                     {{#if (isEmpty this.data.system.equipage.passagers false)}}
                         <span class="value">{{localize "KNIGHT.VEHICULE.PasPassager"}}</span>
                     {{else}}
-                        {{#each systemData.equipage.passagers as | key passager|}}
+                        <div class="values">
+                            {{#each systemData.equipage.passagers as | key passager|}}
                             <span class="value" data-id="{{passager}}">
                                 {{key.name}}
                                 <div class="gestionButton">
@@ -38,6 +39,7 @@
                                 </div>
                             </span>
                         {{/each}}
+                        </div>
                     {{/if}}
                 </div>
             </div>
