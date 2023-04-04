@@ -3846,24 +3846,24 @@ export async function getCapacite(actor, typeWpn, baseC, otherC, actorId, effets
                   const dataBonus = capacite.bonus;
                   const degatsBonus = dataBonus.degats;
 
-                  bonusAttackDice += getCaracValue(dataBonus.attaque, actorId);
-                  bonusAttackFixe += getODValue(dataBonus.attaque, actorId);
+                  bonusAttackDice += isPNJ ? Math.floor(getAspectValue(dataBonus.attaque, actor, true, true)/2) : getCaracValue(dataBonus.attaque, actorId);
+                  bonusAttackFixe += isPNJ ? getTotalAE(dataBonus.attaque, actor, true, true) : getODValue(dataBonus.attaque, actorId);
 
-                  if(degatsBonus.fixe) bonusDegatsFixe += getCaracValue(degatsBonus.caracteristique, actorId);
-                  if(degatsBonus.dice) bonusDegatsDice += getCaracValue(degatsBonus.caracteristique, actorId);
-                  if(degatsBonus.od && degatsBonus.dice) bonusDegatsDice += getODValue(degatsBonus.caracteristique, actorId);
-                  if(degatsBonus.od && degatsBonus.fixe) bonusDegatsFixe += getODValue(degatsBonus.caracteristique, actorId);
+                  if(degatsBonus.fixe) bonusDegatsFixe += isPNJ ? Math.floor(getAspectValue(degatsBonus.caracteristique, actor, true, true)/2) : getCaracValue(degatsBonus.caracteristique, actorId);
+                  if(degatsBonus.dice) bonusDegatsDice += isPNJ ? Math.floor(getAspectValue(degatsBonus.caracteristique, actor, true, true)/2) : getCaracValue(degatsBonus.caracteristique, actorId);
+                  if(degatsBonus.od && degatsBonus.dice) bonusDegatsDice += isPNJ ? getTotalAE(degatsBonus.caracteristique, actor, true, true) : getODValue(degatsBonus.caracteristique, actorId);
+                  if(degatsBonus.od && degatsBonus.fixe) bonusDegatsFixe += isPNJ ? getTotalAE(degatsBonus.caracteristique, actor, true, true) : getODValue(degatsBonus.caracteristique, actorId);
               } else if((active === true && typeWpn === 'distance' && isSilencieux)) {
                 const dataBonus = capacite.bonus;
                 const degatsBonus = dataBonus.degats;
 
-                bonusAttackDice += getCaracValue(dataBonus.attaque, actorId);
-                bonusAttackFixe += getODValue(dataBonus.attaque, actorId);
+                bonusAttackDice += isPNJ ? Math.floor(getAspectValue(dataBonus.attaque, actor, true, true)/2) : getCaracValue(dataBonus.attaque, actorId);
+                bonusAttackFixe += isPNJ ? getTotalAE(dataBonus.attaque, actor, true, true) : getODValue(dataBonus.attaque, actorId);
 
-                if(degatsBonus.fixe) bonusDegatsFixe += getCaracValue(degatsBonus.caracteristique, actorId);
-                if(degatsBonus.dice) bonusDegatsDice += getCaracValue(degatsBonus.caracteristique, actorId);
-                if(degatsBonus.od && degatsBonus.dice) bonusDegatsDice += getODValue(degatsBonus.caracteristique, actorId);
-                if(degatsBonus.od && degatsBonus.fixe) bonusDegatsFixe += getODValue(degatsBonus.caracteristique, actorId);
+                if(degatsBonus.fixe) bonusDegatsFixe += isPNJ ? Math.floor(getAspectValue(degatsBonus.caracteristique, actor, true, true)/2) : getCaracValue(degatsBonus.caracteristique, actorId);
+                if(degatsBonus.dice) bonusDegatsDice += isPNJ ? Math.floor(getAspectValue(degatsBonus.caracteristique, actor, true, true)/2) : getCaracValue(degatsBonus.caracteristique, actorId);
+                if(degatsBonus.od && degatsBonus.dice) bonusDegatsDice += isPNJ ? getTotalAE(degatsBonus.caracteristique, actor, true, true) : getODValue(degatsBonus.caracteristique, actorId);
+                if(degatsBonus.od && degatsBonus.fixe) bonusDegatsFixe += isPNJ ? getTotalAE(degatsBonus.caracteristique, actor, true, true) : getODValue(degatsBonus.caracteristique, actorId);
               }
 
               if(capacite.interruption.actif && idWpn !== -1) {
@@ -3924,14 +3924,14 @@ export async function getCapacite(actor, typeWpn, baseC, otherC, actorId, effets
 
             if(isActive) {
               if(rNColere) {
-                bonusDegatsFixe += getAspectValue(capacite.colere.degats, actorId);
-                bonusViolenceFixe += getAspectValue(capacite.colere.violence, actorId);
+                bonusDegatsFixe += getAspectValue(capacite.colere.degats, actor, true);
+                bonusViolenceFixe += getAspectValue(capacite.colere.violence, actor, true);
               } else if(rNFureur) {
-                bonusDegatsFixe += getAspectValue(capacite.fureur.degats, actorId);
-                bonusViolenceFixe += getAspectValue(capacite.fureur.violence, actorId);
+                bonusDegatsFixe += getAspectValue(capacite.fureur.degats, actor, true);
+                bonusViolenceFixe += getAspectValue(capacite.fureur.violence, actor, true);
               } else if(rNRage) {
-                bonusDegatsFixe += getAspectValue(capacite.rage.degats, actorId);
-                bonusViolenceFixe += getAspectValue(capacite.rage.violence, actorId);
+                bonusDegatsFixe += getAspectValue(capacite.rage.degats, actor, true);
+                bonusViolenceFixe += getAspectValue(capacite.rage.violence, actor, true);
               }
             }
 
@@ -4030,9 +4030,9 @@ export async function getCapacite(actor, typeWpn, baseC, otherC, actorId, effets
   }
 
   return result;
-  }
+}
 
-  export function getSpecial(actor) {
+export function getSpecial(actor) {
     const wear = actor.system.wear;
     const getArmorID = wear === 'armure' ? actor?.system?.equipements?.armure?.id || false : false;
     const getArmorData = getArmorID !== false ? actor.items.get(getArmorID)?.system || false : false;
@@ -4242,18 +4242,29 @@ export function getModuleBonus(actor, actorId, typeWpn, dataWpn, effetsWpn, dist
   return result;
 }
 
-export function getAspectValue(a, id) {
-  const actor = game.actors.get(id);
+export function getAspectValue(a, d, isData = false, translateBefore = false) {
+  const actor = isData ? d :  game.actors.get(d);
+  const aspect = translateBefore ? caracToAspect(a) : a;
+  const value = actor?.system?.aspects?.[aspect]?.value ?? 0;
 
-  const result = a === '' || a === undefined ? 0 : +actor.system?.aspects?.[a]?.value || 0
-  return result;
+  return Number(value);
 }
 
-export function getAEValue(a, id) {
-  const actor = game.actors.get(id);
+export function getTotalAE(a, d, isData = false, translateBefore = false) {
+  const actor = isData ? d : game.actors.get(d);
+  const aspect = translateBefore ? caracToAspect(a) : a;
+  const ae = getAEValue(aspect, d, true);
 
-  const result = a === '' || a === undefined ? {mineur:0, majeur:0} : {mineur:+actor.system?.aspects?.[a]?.ae?.mineur?.value || 0, majeur:+actor.system?.aspects?.[a]?.ae?.majeur?.value || 0}
-  return result;
+  return Number(ae.mineur+ae.majeur);
+}
+
+export function getAEValue(a, d, isData = false) {
+  const actor = isData ? d : game.actors.get(d);
+  const aspect = actor?.system?.aspects?.[a]?.ae;
+  const mineur = aspect?.mineur?.value ?? 0;
+  const majeur = aspect?.majeur?.value ?? 0;
+
+  return {mineur, majeur};
 }
 
 export function getCaracValue(c, id) {
@@ -4273,6 +4284,40 @@ export function getCaracValue(c, id) {
   }
 
   return result;
+}
+
+const aspects = {
+  'chair':true,
+  'bete':true,
+  'dame':true,
+  'masque':true,
+  'machine':true
+}
+
+const caracteristiques = {
+  'deplacement':'chair',
+  'force':'chair',
+  'endurance':'chair',
+  'hargne':'bete',
+  'combat':'bete',
+  'instinct':'bete',
+  'tir':'machine',
+  'savoir':'machine',
+  'technique':'machine',
+  'aura':'dame',
+  'parole':'dame',
+  'sangFroid':'dame',
+  'discretion':'masque',
+  'dexterite':'masque',
+  'perception':'masque'
+};
+
+export function caracToAspect(c) {
+  return caracteristiques[c] ?? null;
+}
+
+export function isAspect(a) {
+  return aspects[a] ?? false;
 }
 
 export function getODValue(c, id) {
@@ -4404,4 +4449,66 @@ export async function confirmationDialog() {
       );
     }, 0);
   });
+};
+
+export function addEffect(origin, toAdd) {
+  origin.createEmbeddedDocuments('ActiveEffect', toAdd);
+};
+
+export function updateEffect(origin, toUpdate) {
+
+  origin.updateEmbeddedDocuments('ActiveEffect', toUpdate);
+}
+
+export function addOrUpdateEffect(origin, label, effect) {
+  const listEffect = origin.getEmbeddedCollection('ActiveEffect');
+  const effectExist = existEffect(listEffect, label);
+
+  if(!effectExist) addEffect(origin, [{
+      label: label,
+      icon: '/icons/svg/mystery-man.svg',
+      changes:effect,
+      disabled:false
+    }]);
+  else updateEffect(origin, [{
+      "_id":effectExist._id,
+      changes:effect,
+      disabled:false
+    }]);
+}
+
+export function existEffect(list, label) {
+  return list.find(effect => effect.label === label);
+}
+
+function compareObjects(obj1, obj2) {
+  const obj1Keys = Object.keys(obj1);
+  const obj2Keys = Object.keys(obj2);
+
+  if (obj1Keys.length !== obj2Keys.length) {
+    return false;
+  }
+
+  for (let i = 0; i < obj1Keys.length; i++) {
+    const key = obj1Keys[i];
+    if (obj1[key] !== obj2[key]) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+export function compareArrays(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (!compareObjects(arr1[i], arr2[i])) {
+      return false;
+    }
+  }
+
+  return true;
 };

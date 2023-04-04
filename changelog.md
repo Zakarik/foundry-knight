@@ -1,3 +1,26 @@
+## v3.0.0
+
+### Bugfix
+
+- Correction de divers bug sur le mode Morph
+- Correction d'un bug pour la création des effets personnalisés.
+- Correction de la prise en charge des effets structurels, ornementales et à distance pour les modules.
+- Correction de multiples bugs mineurs.
+- Ajout d'un fichier de langue "anglais" pour éviter les bugs pour les personnes utilisant Foundry en anglais.
+
+### Améliorations
+
+- Changement majeur dans la gestion des modules, capacités et autres effets.
+Il se peut que cela crée quelques bugs et qu'il soit nécessaire de réactiver les capacités et / ou modules pour que leurs effets soient pris en compte suite à la mise à jour.
+En cas de bugs, n'hésitez pas à ouvrir une issue pour m'en faire part.
+
+- Ajout de la possibilité de reset la polymorphie de guerre du mode Morph, pour resélectionner les armes.
+- Ajout de la gestion des niveaux pour les modules, ainsi que de leur monté de niveau.
+- Ajout de la possibilité de scroll au niveau des passagers des véhicules.
+- Ajout de boutons pour restaurer le maximum de santé, d'énergie, d'espoir, d'armure, de grenades et de nods.
+
+- Les grenades sont automatiquement décomptées lors d'un jet de dé les impliquants.
+
 
 ## v2.3.7
 

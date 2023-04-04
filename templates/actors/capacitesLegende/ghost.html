@@ -105,9 +105,27 @@
                 <span class="header">{{localize "KNIGHT.ITEMS.Caracteristique"}}</span>
                 <span class="score">{{getCarac this.bonus.degats.caracteristique}}</span>
             </div>
-            <span class="oneLine {{#if this.bonus.degats.od}}lightBlack{{else}}black{{/if}}">{{this.bonus.degats.inclus.od}}</span>
-            <span class="oneLine {{#if this.bonus.degats.dice}}lightBlack{{else}}black{{/if}}">{{this.bonus.degats.inclus.dice}}</span>
-            <span class="oneLine {{#if this.bonus.degats.fixe}}lightBlack{{else}}black{{/if}}">{{this.bonus.degats.inclus.fixe}}</span>
+            <span class="oneLine {{#if this.bonus.degats.od}}lightBlack{{else}}black{{/if}}">
+            {{#if this.bonus.degats.od}}
+                {{localize "KNIGHT.INCLUS.Od"}}
+            {{else}}
+                {{localize "KNIGHT.NOINCLUS.Od"}}
+            {{/if}}
+            </span>
+            <span class="oneLine {{#if this.bonus.degats.dice}}lightBlack{{else}}black{{/if}}">
+            {{#if this.bonus.degats.dice}}
+                {{localize "KNIGHT.INCLUS.Dice"}}
+            {{else}}
+                {{localize "KNIGHT.NOINCLUS.Dice"}}
+            {{/if}}
+            </span>
+            <span class="oneLine {{#if this.bonus.degats.fixe}}lightBlack{{else}}black{{/if}}">
+            {{#if this.bonus.degats.fixe}}
+                {{localize "KNIGHT.INCLUS.Fixe"}}
+            {{else}}
+                {{localize "KNIGHT.NOINCLUS.Fixe"}}
+            {{/if}}
+            </span>
         </div>
     </div>
 </div>

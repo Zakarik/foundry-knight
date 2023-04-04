@@ -6,11 +6,54 @@ import {
   SortByAddOrder,
   sum,
   confirmationDialog,
-  getEffets
+  getEffets,
+  compareArrays,
+  addOrUpdateEffect,
+  addEffect,
+  updateEffect,
+  existEffect,
+  caracToAspect,
+  isAspect,
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
 import toggler from '../../helpers/toggler.js';
+
+const path = {
+  espoir:{
+    bonus:'system.espoir.bonusValue',
+    malus:'system.espoir.malusValue',
+  },
+  sante:{
+    bonus:'system.sante.bonusValue',
+    malus:'system.sante.malusValue',
+  },
+  egide:{
+    bonus:'system.egide.bonusValue',
+    malus:'system.egide.malusValue',
+  },
+  reaction:{
+    bonus:'system.reaction.bonusValue',
+    malus:'system.reaction.malusValue',
+  },
+  defense:{
+    bonus:'system.defense.bonusValue',
+    malus:'system.defense.malusValue',
+  },
+  armure:{
+    bonus:'system.armure.bonus',
+    malus:'system.armure.malus',
+  },
+  energie:{
+    bonus:'system.energie.bonus',
+    malus:'system.energie.malus',
+  },
+  champDeForce:{
+    base:'system.champDeForce.base',
+    bonus:'system.champDeForce.bonus',
+    malus:'system.champDeForce.malus',
+  },
+};
 
 /**
  * @extends {ActorSheet}
@@ -36,104 +79,21 @@ export class KnightSheet extends ActorSheet {
   getData() {
     const context = super.getData();
 
+    const { actor, data, items } = context
+    const system = data.system;
+
     //EGIDE
-    const dataJauges = context.data.system.jauges;
-    const hasEgide = game.settings.get("knight", "acces-egide");
+    system.jauges.egide = game.settings.get("knight", "acces-egide");
 
-    if(hasEgide) {
-        dataJauges.egide = true;
-    } else {
-        dataJauges.egide = false;
-    }
+    this._prepareCharacterItems(actor, system, items);
+    this._prepareTranslation(actor, system);
+    this._prepareOverdrives(actor, system);
+    this._prepareCapacitesParameters(actor, system);
+    this._maxValue(system);
 
-    this._prepareCharacterItems(context);
+    context.systemData = system;
 
-    context.actor.caracteristiques = {};
-
-    for (let [key, aspect] of Object.entries(context.data.system.aspects)){
-      const traAspect = game.i18n.localize(CONFIG.KNIGHT.aspects[key]);
-      const sCompanions = context.actor.armureData?.system?.capacites?.selected?.companions || false;
-      const sCompanionsLegende = context.actor.armureLegendeData?.system?.capacites?.selected?.companions || false;
-
-      aspect.label = traAspect;
-
-      if(sCompanions != false) {
-        const sCAE = sCompanions.lion.aspects[key].ae;
-        const sCWAE = sCompanions.wolf.aspects[key].ae;
-        const mineur = game.i18n.localize('KNIGHT.AUTRE.Mineur');
-        const majeur = game.i18n.localize('KNIGHT.AUTRE.Majeur');
-
-        sCompanions.lion.aspects[key].label = traAspect;
-        sCompanions.wolf.aspects[key].label = traAspect;
-        sCompanions.crow.aspects[key].label = traAspect;
-
-        if(sCAE > 5) {
-          sCompanions.lion.aspects[key].labelAE = majeur;
-        } else {
-          sCompanions.lion.aspects[key].labelAE = mineur;
-        }
-
-        if(sCWAE > 5) {
-          sCompanions.wolf.aspects[key].labelAE = majeur;
-        } else {
-          sCompanions.wolf.aspects[key].labelAE = mineur;
-        }
-      }
-
-      if(sCompanionsLegende != false) {
-        const sCAE = sCompanionsLegende.lion.aspects[key].ae;
-        const sCWAE = sCompanionsLegende.wolf.aspects[key].ae;
-        const mineur = game.i18n.localize('KNIGHT.AUTRE.Mineur');
-        const majeur = game.i18n.localize('KNIGHT.AUTRE.Majeur');
-
-        sCompanionsLegende.lion.aspects[key].label = traAspect;
-        sCompanionsLegende.wolf.aspects[key].label = traAspect;
-        sCompanionsLegende.crow.aspects[key].label = traAspect;
-
-        if(sCAE > 5) {
-          sCompanionsLegende.lion.aspects[key].labelAE = majeur;
-        } else {
-          sCompanionsLegende.lion.aspects[key].labelAE = mineur;
-        }
-
-        if(sCWAE > 5) {
-          sCompanionsLegende.wolf.aspects[key].labelAE = majeur;
-        } else {
-          sCompanionsLegende.wolf.aspects[key].labelAE = mineur;
-        }
-      }
-
-      for (let [keyCar, carac] of Object.entries(aspect.caracteristiques)){
-        carac.label = game.i18n.localize(CONFIG.KNIGHT.caracteristiques[keyCar]);
-
-        context.actor.caracteristiques[keyCar] = {};
-        context.actor.caracteristiques[keyCar].value = carac?.value || 0;
-        context.actor.caracteristiques[keyCar].od = carac?.overdrive?.value || 0;
-
-        this._prepareOverdrives(key, keyCar, carac, context);
-      }
-    }
-
-    for (let [key, nods] of Object.entries(context.data.system.combat.nods)){
-      nods.label = game.i18n.localize(CONFIG.KNIGHT.nods[key]);
-    }
-
-    for (let [key, grenades] of Object.entries(context.data.system.combat.grenades.liste)){
-      const raw = grenades.effets.raw;
-      const custom = grenades.effets.custom;
-      const labels = CONFIG.KNIGHT.effets;
-
-      grenades.liste = listEffects(raw, custom, labels);
-    }
-
-    this._prepareCapacitesTranslations(context);
-    this._prepareSpecialTranslations(context);
-    this._prepareModuleTranslation(context);
-    this._prepareCapacitesParameters(context);
-    this._prepareWpnEffets(context);
-    this._maxValue(context);
-
-    context.systemData = context.data.system;
+    console.log(context);
 
     return context;
   }
@@ -392,10 +352,12 @@ export class KnightSheet extends ActorSheet {
       const dEspoir = target.data("despoir");
       const espoir = target.data("espoir");
       const caracteristiques = target.data("caracteristiques")?.split('.')?.filter((a) => a) || false;
+      const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
 
       const getData = this.getData();
       const armure = this.actor.items.get(this._getArmorId());
       const remplaceEnergie = armure.system.espoir.remplaceEnergie || false;
+      const quelMalus = remplaceEnergie ? 'espoir' : 'energie';
       const equipcapacites = getData.data.system.equipements.armure.capacites;
       const armorCapacites = getData.actor.armureData.system.capacites.selected;
 
@@ -408,14 +370,17 @@ export class KnightSheet extends ActorSheet {
 
       let depenseEspoir;
       let newActor;
+      let effectExist;
 
+      let effect = [];
       let update = {};
       let specialUpdate = {};
-
 
       if(type === 'capacites') {
         switch(capacite) {
           case "ascension":
+            effectExist = existEffect(listEffect, capacite);
+
             if(value) {
               let data = getData.data.system;
               data.wear = "ascension";
@@ -440,8 +405,14 @@ export class KnightSheet extends ActorSheet {
                 ascensionId:newActor.id
               }});
 
-              if(remplaceEnergie) this.actor.update({['system.espoir.malus.armure']:cout+this.getData().data.system.espoir.malus?.armure||0});
-              else armure.update({[`system.energie.base`]:getData.data.system.energie.max-cout});
+              effect.push({
+                key: path[quelMalus].malus,
+                mode: 2,
+                priority: null,
+                value: cout
+              });
+
+              addOrUpdateEffect(this.actor, capacite, effect);
             } else {
               const actor = game.actors.get(id);
 
@@ -453,8 +424,10 @@ export class KnightSheet extends ActorSheet {
                 depense:0
               }});
 
-              if(remplaceEnergie) this.actor.update({['system.espoir.malus.armure']:getData.data.system.espoir.malus.armure-retrieve});
-              else armure.update({[`system.energie.base`]:getData.data.system.energie.max+retrieve});
+              updateEffect(this.actor, [{
+                "_id":effectExist._id,
+                disabled:true
+              }]);
             }
             break;
           case "borealis":
@@ -464,12 +437,20 @@ export class KnightSheet extends ActorSheet {
             armure.update({[`system.${toupdate}`]:value});
             break;
           case "companions":
+            effectExist = existEffect(listEffect, capacite);
+
             update[`system.${toupdate}.base`] = value;
             update[`system.${toupdate}.${special}`] = value;
 
             if(value) {
-              if(!remplaceEnergie) update[`system.energie.malus.companions`] = retrieve;
-              else this.actor.update({[[`system.espoir.malus.companions`]]:retrieve});
+              effect.push({
+                key: path[quelMalus].malus,
+                mode: 2,
+                priority: null,
+                value: retrieve
+              });
+
+              addOrUpdateEffect(this.actor, capacite, effect);
 
               switch(special) {
                 case 'lion':
@@ -828,8 +809,10 @@ export class KnightSheet extends ActorSheet {
                   break;
               }
             } else {
-              if(!remplaceEnergie) update[`system.energie.malus.companions`] = 0;
-              else this.actor.update({[[`system.espoir.malus.companions`]]:0});
+              updateEffect(this.actor, [{
+                "_id":effectExist._id,
+                disabled:true
+              }]);
 
               switch(special) {
                 case 'lion':
@@ -870,8 +853,22 @@ export class KnightSheet extends ActorSheet {
             armure.update(update);
             break;
           case "shrine":
-            if(special === 'personnel' && value) this.actor.update({['system.equipements.armure.champDeForce.bonus.shrine']:armorCapacites.shrine.champdeforce});
-            else this.actor.update({['system.equipements.armure.champDeForce.bonus.shrine']:0});
+            effectExist = existEffect(listEffect, capacite);
+
+            if(special === 'personnel' && value) {
+              effect.push({
+                key: path.champDeForce.bonus,
+                mode: 2,
+                priority: null,
+                value: armorCapacites.shrine.champdeforce
+              });
+
+              addOrUpdateEffect(this.actor, capacite, effect);
+            }
+            else if(special === 'personnel' && !value) updateEffect(this.actor, [{
+              "_id":effectExist._id,
+              disabled:true
+            }]);
 
             update[`system.${toupdate}.base`] = value;
             update[`system.${toupdate}.${special}`] = value;
@@ -882,19 +879,43 @@ export class KnightSheet extends ActorSheet {
             armure.update({[`system.${toupdate}.${special}`]:value});
             break;
           case "goliath":
+            effectExist = existEffect(listEffect, capacite);
+
             const eGoliath = equipcapacites.goliath;
             const aGoliath = armorCapacites.goliath;
 
             const goliathMetre = +eGoliath.metre;
-            const bGCDF = +aGoliath.bonus.cdf.value;
-            const mGRea = +aGoliath.malus.reaction.value;
-            const mGDef = +aGoliath.malus.defense.value;
+            const bGCDF = aGoliath.bonus.cdf.value;
+            const mGRea = aGoliath.malus.reaction.value;
+            const mGDef = aGoliath.malus.defense.value;
 
-            update[`system.reaction.malus.goliath`] = value ? goliathMetre*mGRea : 0;
-            update[`system.defense.malus.goliath`] = value ? goliathMetre*mGDef : 0;
-            update[`system.equipements.armure.champDeForce.bonus.goliath`] = value ? goliathMetre*bGCDF : 0;
+            if(value) {
+              effect.push({
+                key: path.reaction.malus,
+                mode: 2,
+                priority: null,
+                value: goliathMetre*mGRea
+              },
+              {
+                key: path.defense.malus,
+                mode: 2,
+                priority: null,
+                value: goliathMetre*mGDef
+              },
+              {
+                key: path.champDeForce.bonus,
+                mode: 2,
+                priority: null,
+                value: goliathMetre*bGCDF
+              });
 
-            this.actor.update(update);
+              addOrUpdateEffect(this.actor, capacite, effect);
+            } else {
+              updateEffect(this.actor, [{
+                "_id":effectExist._id,
+                disabled:true
+              }]);
+            }
 
             armure.update({[`system.${toupdate}`]:value});
             break;
@@ -932,58 +953,96 @@ export class KnightSheet extends ActorSheet {
             }
             break;
           case "morph":
+
+            if(value && special === 'morph') {
+              depenseEspoir = await this._depensePE(`${name}`, espoir, true, true);
+
+              if(!depenseEspoir) return;
+            }
+
+            const nbreP = equipcapacites.morph?.poly || 0;
+            const nbreA = equipcapacites.morph.nbre;
             update[`system.${toupdate}.${special}`] = value;
 
             if(value) {
+              let label = special;
+              effectExist = existEffect(listEffect, special);
               const aMorph = armorCapacites.morph;
-              const nbreA = equipcapacites.morph.nbre;
-              const nbreP = equipcapacites.morph?.poly || 0;
 
-              switch(special) {
-                case "polymorphieLame":
-                case "polymorphieGriffe":
-                case "polymorphieCanon":
-                  this.actor.update({[`system.equipements.armure.capacites.morph.poly`]:nbreP+1});
+              if(special === "polymorphieLame" || special === "polymorphieGriffe" || special === "polymorphieCanon") {
+                effect.push({
+                  key: `system.equipements.armure.capacites.morph.poly`,
+                  mode: 2,
+                  priority: null,
+                  value: nbreP+1
+                });
 
-                  if(nbreP+1 === 2) update[`system.capacites.selected.morph.poly.fait`] = true;
-                  break;
-                case "vol":
-                case "phase":
-                case "etirement":
-                case "polymorphie":
-                  this.actor.update({[`system.equipements.armure.capacites.morph.nbre`]:nbreA+1});
+                label = "polymorphieArme";
 
-                  if(nbreA+1 === nbreC) update[`system.capacites.selected.morph.choisi.fait`] = true;
-                  break;
-                case "metal":
-                  const bMCDF = +aMorph.metal.bonus.champDeForce;
+                if(nbreP+1 === 2) update[`system.capacites.selected.morph.poly.fait`] = true;
+              } else if(special === "metal") {
+                const bMCDF = aMorph.metal.bonus.champDeForce;
 
-                  specialUpdate[`system.equipements.armure.capacites.morph.nbre`] = nbreA+1
-                  specialUpdate[`system.equipements.armure.champDeForce.bonus.morph`] = bMCDF
+                effect.push({
+                  key: path.champDeForce.bonus,
+                  mode: 2,
+                  priority: null,
+                  value: bMCDF
+                },
+                {
+                  key: 'system.equipements.armure.capacites.morph.nbre',
+                  mode: 2,
+                  priority: null,
+                  value: 1
+                });
+              } else if(special === "fluide") {
+                const bMFLUI = aMorph.fluide.bonus;
 
-                  this.actor.update(specialUpdate);
+                effect.push({
+                  key: path.reaction.bonus,
+                  mode: 2,
+                  priority: null,
+                  value: bMFLUI.reaction
+                },
+                {
+                  key: path.defense.bonus,
+                  mode: 2,
+                  priority: null,
+                  value: bMFLUI.defense
+                },
+                {
+                  key: 'system.equipements.armure.capacites.morph.nbre',
+                  mode: 2,
+                  priority: null,
+                  value: 1
+                });
+              } else if(special === "vol" || special === "phase" || special === "etirement" || special === "polymorphie") {
+                effect.push({
+                  key: 'system.equipements.armure.capacites.morph.nbre',
+                  mode: 2,
+                  priority: null,
+                  value: 1
+                });
+              } else if(special === 'polymorphieReset') {
+                const polymorphieArme = existEffect(listEffect, 'polymorphieArme');
+                const toDesactivate = [];
 
-                  if(nbreA+1 === nbreC) update[`system.capacites.selected.morph.choisi.fait`] = true;
-                  break;
-                case "fluide":
-                  const bMFLUI = aMorph.fluide.bonus;
+                update[`system.capacites.selected.morph.poly.fait`] = false;
+                update[`system.capacites.selected.morph.choisi.polymorphieLame`] = false;
+                update[`system.capacites.selected.morph.choisi.polymorphieGriffe`] = false;
+                update[`system.capacites.selected.morph.choisi.polymorphieCanon`] = false;
 
-                  specialUpdate[`system.equipements.armure.capacites.morph.nbre`] = nbreA+1
-                  specialUpdate[`system.reaction.bonus.morph`] = +bMFLUI.reaction;
-                  specialUpdate[`system.defense.bonus.morph`] = +bMFLUI.defense;
+                if(polymorphieArme) toDesactivate.push({"_id":polymorphieArme._id, disabled:true});
 
-                  this.actor.update(specialUpdate);
-
-                  if(nbreA+1 === nbreC) update[`system.capacites.selected.morph.choisi.fait`] = true;
-                  break;
+                updateEffect(this.actor, toDesactivate);
               }
+
+              if(effect.length > 0) addOrUpdateEffect(this.actor, label, effect);
+              if(nbreA+1 === nbreC) update[`system.capacites.selected.morph.choisi.fait`] = true;
             } else {
               if(special === 'morph') {
-                specialUpdate[`system.equipements.armure.capacites.morph.nbre`] = 0;
+                //specialUpdate[`system.equipements.armure.capacites.morph.nbre`] = 0;
                 specialUpdate[`system.equipements.armure.capacites.morph.poly`] = 0;
-                specialUpdate[`system.equipements.armure.champDeForce.bonus.morph`] = 0;
-                specialUpdate[`system.reaction.armure.bonus.morph`] = 0;
-                specialUpdate[`system.defense.armure.bonus.morph`] = 0;
 
                 update[`system.${toupdate}.morph`] = false;
                 update[`system.${toupdate}.polymorphieLame`] = false;
@@ -1001,12 +1060,69 @@ export class KnightSheet extends ActorSheet {
                 update[`system.capacites.selected.morph.choisi.polymorphieGriffe`] = false;
                 update[`system.capacites.selected.morph.choisi.polymorphieCanon`] = false;
 
+                const metal = existEffect(listEffect, 'metal');
+                const fluide = existEffect(listEffect, 'fluide');
+                const vol = existEffect(listEffect, 'vol');
+                const phase = existEffect(listEffect, 'phase');
+                const etirement = existEffect(listEffect, 'etirement');
+                const polymorphie = existEffect(listEffect, 'polymorphie');
+                const polymorphieArme = existEffect(listEffect, 'polymorphieArme');
+                const toDesactivate = [];
+
+                if(metal) toDesactivate.push({"_id":metal._id, disabled:true});
+                if(fluide) toDesactivate.push({"_id":fluide._id, disabled:true});
+                if(vol) toDesactivate.push({"_id":vol._id, disabled:true});
+                if(phase) toDesactivate.push({"_id":phase._id, disabled:true});
+                if(etirement) toDesactivate.push({"_id":etirement._id, disabled:true});
+                if(polymorphie) toDesactivate.push({"_id":polymorphie._id, disabled:true});
+                if(polymorphieArme) toDesactivate.push({"_id":polymorphieArme._id, disabled:true});
+
+                updateEffect(this.actor, toDesactivate);
+
                 this.actor.update(specialUpdate);
               } else {
-                const nbreP = equipcapacites.morph?.poly || 0;
-                this.actor.update({[`system.equipements.armure.capacites.morph.poly`]:nbreP-1});
+                switch(special) {
+                  case "polymorphieLame":
+                  case "polymorphieGriffe":
+                  case "polymorphieCanon":
+                    effectExist = existEffect(listEffect, 'polymorphieArme');
+
+                    effect.push({
+                      key: `system.equipements.armure.capacites.morph.poly`,
+                      mode: 2,
+                      priority: null,
+                      value: nbreP-1
+                    });
+
+                    updateEffect(this.actor, [{
+                      "_id":effectExist._id,
+                      changes:effect,
+                      disabled:false
+                    }]);
+                    break;
+
+                  case "vol":
+                  case "phase":
+                  case "etirement":
+                  case "polymorphie":
+                  case "metal":
+                  case "fluide":
+                    effectExist = existEffect(listEffect, special);
+
+                    updateEffect(this.actor, [{
+                      "_id":effectExist._id,
+                      disabled:true
+                    }]);
+                    break;
+                }
+
+                /*if(special !== "polymorphieLame" && special !== "polymorphieGriffe" && special !== "polymorphieCanon") {
+                  this.actor.update({[`system.equipements.armure.capacites.morph.nbre`]:nbreA-1});
+                }*/
               }
             }
+
+            console.log(update);
 
             armure.update(update);
             break;
@@ -1017,6 +1133,8 @@ export class KnightSheet extends ActorSheet {
             armure.update({[`system.${toupdate}.${special}`]:value});
             break;
           case "rage":
+            effectExist = existEffect(listEffect, capacite);
+
             const rageInterdit = [];
             const rageBonus = [];
 
@@ -1031,9 +1149,33 @@ export class KnightSheet extends ActorSheet {
                   update[`system.${toupdate}.niveau.fureur`] = false;
                 }
 
-                specialUpdate[`system.egide.bonus.rage`] = value ? armorCapacites.rage.colere.egide : 0;
-                specialUpdate[`system.reaction.malus.rage`] = value ? armorCapacites.rage.colere.reaction : 0;
-                specialUpdate[`system.defense.malus.rage`] = value ? armorCapacites.rage.colere.defense : 0;
+                if(value) {
+                  effect.push({
+                    key: path.egide.bonus,
+                    mode: 2,
+                    priority: null,
+                    value: armorCapacites.rage.colere.egide
+                  },
+                  {
+                    key: path.reaction.malus,
+                    mode: 2,
+                    priority: null,
+                    value: armorCapacites.rage.colere.reaction
+                  },
+                  {
+                    key: path.defense.malus,
+                    mode: 2,
+                    priority: null,
+                    value: armorCapacites.rage.colere.defense
+                  });
+
+                  addOrUpdateEffect(this.actor, capacite, effect);
+                } else {
+                  updateEffect(this.actor, [{
+                    "_id":effectExist._id,
+                    disabled:true
+                  }]);
+                }
 
                 if(armorCapacites.rage.colere.combosInterdits.has && value) {
                   for (let [key, combo] of Object.entries(armorCapacites.rage.colere.combosInterdits.liste)){
@@ -1083,6 +1225,29 @@ export class KnightSheet extends ActorSheet {
                   update[`system.${toupdate}.niveau.colere`] = false;
                   update[`system.${toupdate}.niveau.rage`] = true;
 
+                  if(value) {
+                    effect.push({
+                      key: path.egide.bonus,
+                      mode: 2,
+                      priority: null,
+                      value: armorCapacites.rage.rage.egide
+                    },
+                    {
+                      key: path.reaction.malus,
+                      mode: 2,
+                      priority: null,
+                      value: armorCapacites.rage.rage.reaction
+                    },
+                    {
+                      key: path.defense.malus,
+                      mode: 2,
+                      priority: null,
+                      value: armorCapacites.rage.rage.defense
+                    });
+
+                    addOrUpdateEffect(this.actor, capacite, effect);
+                  }
+
                   specialUpdate[`system.egide.bonus.rage`] = armorCapacites.rage.rage.egide;
                   specialUpdate[`system.reaction.malus.rage`] = armorCapacites.rage.rage.reaction;
                   specialUpdate[`system.defense.malus.rage`] = armorCapacites.rage.rage.defense;
@@ -1108,9 +1273,28 @@ export class KnightSheet extends ActorSheet {
                   update[`system.${toupdate}.niveau.rage`] = false;
                   update[`system.${toupdate}.niveau.fureur`] = true;
 
-                  specialUpdate[`system.egide.bonus.rage`] = armorCapacites.rage.fureur.egide;
-                  specialUpdate[`system.reaction.malus.rage`] = armorCapacites.rage.fureur.reaction;
-                  specialUpdate[`system.defense.malus.rage`] = armorCapacites.rage.fureur.defense;
+                  if(value) {
+                    effect.push({
+                      key: path.egide.bonus,
+                      mode: 2,
+                      priority: null,
+                      value: armorCapacites.rage.fureur.egide
+                    },
+                    {
+                      key: path.reaction.malus,
+                      mode: 2,
+                      priority: null,
+                      value: armorCapacites.rage.fureur.reaction
+                    },
+                    {
+                      key: path.defense.malus,
+                      mode: 2,
+                      priority: null,
+                      value: armorCapacites.rage.fureur.defense
+                    });
+
+                    addOrUpdateEffect(this.actor, capacite, effect);
+                  }
 
                   if(armorCapacites.rage.fureur.combosInterdits.has) {
                     for (let [key, combo] of Object.entries(armorCapacites.rage.fureur.combosInterdits.liste)){
@@ -1186,19 +1370,51 @@ export class KnightSheet extends ActorSheet {
             if(isAllie) update[`system.${toupdate}.${special}.allie`] = value;
             else {
               update[`system.${toupdate}.${special}.porteur`] = value;
+              effectExist = existEffect(listEffect, special);
 
-              switch(special) {
-                case "esquive":
-                  specialUpdate['system.reaction.bonus.warlord'] = +aWarlord.esquive.bonus.reaction;
-                  specialUpdate['system.defense.bonus.warlord'] = +aWarlord.esquive.bonus.defense;
+                switch(special) {
+                  case "esquive":
+                    if(value) {
+                      effect.push({
+                        key: path.reaction.bonus,
+                        mode: 2,
+                        priority: null,
+                        value: aWarlord.esquive.bonus.reaction
+                      },
+                      {
+                        key: path.defense.bonus,
+                        mode: 2,
+                        priority: null,
+                        value: aWarlord.esquive.bonus.defense
+                      });
 
-                  this.actor.update(specialUpdate);
-                  break;
+                      addOrUpdateEffect(this.actor, special, effect);
+                    } else {
+                      updateEffect(this.actor, [{
+                        "_id":effectExist._id,
+                        disabled:true
+                      }]);
+                    }
+                    break;
 
-                case "force":
-                  this.actor.update({['system.equipements.armure.champDeForce.bonus.warlord']:+aWarlord.force.bonus.champDeForce});
-                  break;
-              }
+                  case "force":
+                    if(value) {
+                      effect.push({
+                        key: path.champDeForce.bonus,
+                        mode: 2,
+                        priority: null,
+                        value: aWarlord.force.bonus.champDeForce
+                      });
+
+                      addOrUpdateEffect(this.actor, special, effect);
+                    } else {
+                      updateEffect(this.actor, [{
+                        "_id":effectExist._id,
+                        disabled:true
+                      }]);
+                    }
+                    break;
+                }
             }
 
             armure.update(update);
@@ -1235,16 +1451,22 @@ export class KnightSheet extends ActorSheet {
       }
 
       if(type === 'module') {
-        const dataModule = this.actor.items.get(module);
-        dataModule.update({[`system.active.base`]:value})
+        const dataModule = this.actor.items.get(module),
+              data = dataModule.system,
+              niveau = data.niveau.value,
+              dataNiveau = data.niveau.details[`n${niveau}`];
 
-        if(dataModule.system.jetsimple.has && value) {
-          const jSREffects = await getEffets(this.actor, 'contact', 'standard', {}, dataModule.system.jetsimple.effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false);
-          const execJSR = new game.knight.RollKnight(dataModule.system.jetsimple.jet, this.actor.system);
+        dataModule.update({[`system.active.base`]:value});
+
+        console.log(dataNiveau);
+
+        if(dataNiveau.jetsimple.has && value) {
+          const jSREffects = await getEffets(this.actor, 'contact', 'standard', {}, dataNiveau.jetsimple.effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false);
+          const execJSR = new game.knight.RollKnight(dataNiveau.jetsimple.jet, this.actor.system);
           await execJSR.evaluate();
 
           let jSRoll = {
-            flavor:dataModule.system.jetsimple.label,
+            flavor:dataNiveau.jetsimple.label,
             main:{
               total:execJSR._total,
               tooltip:await execJSR.getTooltip(),
@@ -1261,7 +1483,7 @@ export class KnightSheet extends ActorSheet {
               alias: this.actor?.name || null,
             },
             type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-            rolls:[execJSR].concat(listAllEffets.rollDgts),
+            rolls:[execJSR].concat(jSREffects.rollDgts),
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', jSRoll),
             sound: CONFIG.sounds.dice
           };
@@ -1272,14 +1494,6 @@ export class KnightSheet extends ActorSheet {
           await ChatMessage.create(msgFData, {
             rollMode:rMode
           });
-        } else if(!value) {
-          const wear = getData.data.system.wear === 'ascension' ? 'ascension' : 'armure';
-
-          update[`system.equipements.${wear}.armure.bonus.${module}`] = 0;
-          update[`system.equipements.${wear}.champDeForce.bonus.${module}`] = 0;
-          update[`system.equipements.${wear}.energie.bonus.${module}`] = 0;
-
-          this.actor.update(update);
         }
       }
 
@@ -1287,7 +1501,10 @@ export class KnightSheet extends ActorSheet {
         const index = target.data("index");
 
         const dataModule = this.actor.items.get(module),
-              dataPnj = dataModule.system.pnj.liste[index];
+              data = dataModule.system,
+              niveau = data.niveau.value,
+              dataNiveau = data.niveau.details[`n${niveau}`],
+              dataPnj = dataNiveau.pnj.liste[index];
 
         if(value) {
           const listeAspects = dataPnj.aspects.liste;
@@ -1475,7 +1692,6 @@ export class KnightSheet extends ActorSheet {
             'id':''
           }});
         }
-
       }
     });
 
@@ -1499,6 +1715,8 @@ export class KnightSheet extends ActorSheet {
       const armure = this.actor.items.get(this._getArmorLegendeId());
       const armureBase = this.actor.items.get(this._getArmorId());
       const remplaceEnergie = armureBase.system.espoir.remplaceEnergie || false;
+      const quelMalus = remplaceEnergie ? 'espoir' : 'energie';
+      const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
 
       if(value) {
         const depense = await this._depensePE(name, cout, true, false, flux);
@@ -1508,19 +1726,28 @@ export class KnightSheet extends ActorSheet {
 
       let newActor;
       let update = {}
-      let specialUpdate = {};
+      let effectExist;
+      const effect = [];
 
       switch(capacite) {
         case "changeling":
           armure.update({[`system.${toupdate}.${special}`]:value});
           break;
         case "companions":
+          effectExist = existEffect(listEffect, `legend${capacite}`);
+
           update[`system.${toupdate}.base`] = value;
           update[`system.${toupdate}.${special}`] = value;
 
           if(value) {
-            if(!remplaceEnergie) update[`system.energie.malus.companions`] = retrieve;
-            else this.actor.update({[[`system.espoir.malus.companions`]]:retrieve});
+            effect.push({
+              key: path[quelMalus].malus,
+              mode: 2,
+              priority: null,
+              value: retrieve
+            });
+
+            addOrUpdateEffect(this.actor, `legend${capacite}`, effect);
 
             switch(special) {
               case 'lion':
@@ -1875,8 +2102,10 @@ export class KnightSheet extends ActorSheet {
                 break;
             }
           }  else {
-            if(!remplaceEnergie) update[`system.energie.malus.companions`] = 0;
-            else this.actor.update({[[`system.espoir.malus.companions`]]:0});
+            updateEffect(this.actor, [{
+              "_id":effectExist._id,
+              disabled:true
+            }]);
 
             switch(special) {
               case 'lion':
@@ -1917,8 +2146,21 @@ export class KnightSheet extends ActorSheet {
           armure.update(update);
           break;
         case "shrine":
-          if(special === 'personnel' && value) this.actor.update({['system.equipements.armure.champDeForce.bonus.shrine']:armorCapacites.shrine.champdeforce});
-          else this.actor.update({['system.equipements.armure.champDeForce.bonus.shrine']:0});
+          effectExist = existEffect(listEffect, `legend${capacite}`);
+
+          if(special === 'personnel' && value) {
+            effect.push({
+              key: path.champDeForce.bonus,
+              mode: 2,
+              priority: null,
+              value: armorCapacites.shrine.champdeforce
+            });
+
+            addOrUpdateEffect(this.actor, `legend${capacite}`, effect);
+          } else updateEffect(this.actor, [{
+            "_id":effectExist._id,
+            disabled:true
+          }]);
 
           update[`system.${toupdate}.base`] = value;
           update[`system.${toupdate}.${special}`] = value;
@@ -1929,6 +2171,8 @@ export class KnightSheet extends ActorSheet {
           armure.update({[`system.${toupdate}.${special}`]:value});
           break;
         case "goliath":
+          effectExist = existEffect(listEffect, `legend${capacite}`);
+
           const eGoliath = equipcapacites.goliath;
           const aGoliath = armorCapacites.goliath;
 
@@ -1937,11 +2181,34 @@ export class KnightSheet extends ActorSheet {
           const mGRea = +aGoliath.malus.reaction.value;
           const mGDef = +aGoliath.malus.defense.value;
 
-          update[`system.reaction.malus.goliath`] = value ? goliathMetre*mGRea : 0;
-          update[`system.defense.malus.goliath`] = value ? goliathMetre*mGDef : 0;
-          update[`system.equipements.armure.champDeForce.bonus.goliath`] = value ? goliathMetre*bGCDF : 0;
+          if(value) {
+            effect.push({
+              key: path.reaction.malus,
+              mode: 2,
+              priority: null,
+              value: goliathMetre*mGRea
+            },
+            {
+              key: path.defense.malus,
+              mode: 2,
+              priority: null,
+              value: goliathMetre*mGDef
+            },
+            {
+              key: path.champDeForce.bonus,
+              mode: 2,
+              priority: null,
+              value: goliathMetre*bGCDF
+            });
 
-          this.actor.update(update);
+            addOrUpdateEffect(this.actor, `legend${capacite}`, effect);
+          } else {
+            updateEffect(this.actor, [{
+              "_id":effectExist._id,
+              disabled:true
+            }]);
+          }
+
           armure.update({[`system.${toupdate}`]:value});
           break;
         case "puppet":
@@ -1957,6 +2224,8 @@ export class KnightSheet extends ActorSheet {
           armure.update({[`system.${toupdate}`]:value});
           break;
         case "warlord":
+          effectExist = existEffect(listEffect, `legend${special}`);
+
           const aWarlord = armorCapacites.warlord.impulsions;
 
           if(isAllie) update[`system.${toupdate}.${special}.allie`] = value;
@@ -1965,14 +2234,46 @@ export class KnightSheet extends ActorSheet {
 
             switch(special) {
               case "esquive":
-                specialUpdate['system.reaction.bonus.warlord'] = +aWarlord.esquive.bonus.reaction;
-                specialUpdate['system.defense.bonus.warlord'] = +aWarlord.esquive.bonus.defense;
+                if(value) {
+                  effect.push({
+                    key: path.reaction.bonus,
+                    mode: 2,
+                    priority: null,
+                    value: aWarlord.esquive.bonus.reaction
+                  },
+                  {
+                    key: path.defense.bonus,
+                    mode: 2,
+                    priority: null,
+                    value: aWarlord.esquive.bonus.defense
+                  });
 
-                this.actor.update(specialUpdate);
+                  addOrUpdateEffect(this.actor, `legend${special}`, effect);
+                } else {
+                  updateEffect(this.actor, [{
+                    "_id":effectExist._id,
+                    disabled:true
+                  }]);
+                }
+
                 break;
 
               case "force":
-                this.actor.update({['system.equipements.armure.champDeForce.bonus.warlord']:+aWarlord.force.bonus.champDeForce});
+                if(value) {
+                  effect.push({
+                    key: path.champDeForce.bonus,
+                    mode: 2,
+                    priority: null,
+                    value: aWarlord.force.bonus.champDeForce
+                  });
+
+                  addOrUpdateEffect(this.actor, `legend${special}`, effect);
+                } else {
+                  updateEffect(this.actor, [{
+                    "_id":effectExist._id,
+                    disabled:true
+                  }]);
+                }
                 break;
             }
           }
@@ -2104,6 +2405,7 @@ export class KnightSheet extends ActorSheet {
       const toupdate = target.data("toupdate");
       const value = target.data("value") ? false : true;
       const isinstant = target.data("isinstant");
+      const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
 
       const actor = this.actor;
       const item = this.actor.items.get(id);
@@ -2117,6 +2419,8 @@ export class KnightSheet extends ActorSheet {
       const effets = getCUData.effets;
 
       const update = {};
+
+      const effect = [];
 
       if(value) {
         const energie = getCUData?.energie || 0;
@@ -2163,8 +2467,25 @@ export class KnightSheet extends ActorSheet {
         if(recuperation.PE) update[`system.energie.value`] = getData.energie.max;
 
         if(!isinstant) {
-          if(getCUData.reaction > 0) update['system.reaction.bonus.capaciteultime'] = getCUData.reaction;
-          if(getCUData.defense > 0) update['system.defense.bonus.capaciteultime'] = getCUData.defense;
+          if(getCUData.reaction > 0) {
+            effect.push({
+              key: path.reaction.bonus,
+              mode: 2,
+              priority: null,
+              value: getCUData.reaction
+            });
+          }
+
+          if(getCUData.defense > 0) {
+            effect.push({
+              key: path.defense.bonus,
+              mode: 2,
+              priority: null,
+              value: getCUData.defense
+            });
+          }
+
+          addOrUpdateEffect(this.actor, `capaciteUltime`, effect);
         }
 
         if(jet.actif && jet.isfixe) {
@@ -2329,10 +2650,14 @@ export class KnightSheet extends ActorSheet {
         }
 
       } else {
+        const effectExist = existEffect(listEffect, `capaciteUltime`);
+
         if(!isinstant) item.update({[`system.${toupdate}`]:value});
 
-        update['system.reaction.bonus.capaciteultime'] = 0;
-        update['system.defense.bonus.capaciteultime'] = 0;
+        updateEffect(this.actor, [{
+          "_id":effectExist._id,
+          disabled:true
+        }]);
       }
 
       if(Object.keys(update).length > 0) actor.update(update);
@@ -2647,37 +2972,36 @@ export class KnightSheet extends ActorSheet {
       const cout = $(ev.currentTarget).data("cout");
       const flux = $(ev.currentTarget).data("flux") || false;
 
-      const update = {
-        system:{
-          equipements:{
-            armure:{
-              champDeForce:{
-                bonus:{}
-              }
-            }
-          },
-          reaction:{
-            malus:{}
-          },
-          defense:{
-            malus:{}
-          }
-        }
-      };
+      const effect = [];
 
       switch(capacite) {
         case "goliath":
           const aGoliath = armorCapacites.goliath;
 
-          const bGCDF = +aGoliath.bonus.cdf.value;
-          const mGRea = +aGoliath.malus.reaction.value;
-          const mGDef = +aGoliath.malus.defense.value;
+          const bGCDF = aGoliath.bonus.cdf.value;
+          const mGRea = aGoliath.malus.reaction.value;
+          const mGDef = aGoliath.malus.defense.value;
 
-          update.system.equipements.armure.champDeForce.bonus.goliath = newV*bGCDF;
-          update.system.reaction.malus.goliath = newV*mGRea;
-          update.system.defense.malus.goliath = newV*mGDef;
+          effect.push({
+            key: path.reaction.malus,
+            mode: 2,
+            priority: null,
+            value: newV*mGRea
+          },
+          {
+            key: path.defense.malus,
+            mode: 2,
+            priority: null,
+            value: newV*mGDef
+          },
+          {
+            key: path.champDeForce.bonus,
+            mode: 2,
+            priority: null,
+            value: newV*bGCDF
+          });
 
-          this.actor.update(update);
+          addOrUpdateEffect(this.actor, capacite, effect);
 
           if(newV > oldV) { await this._depensePE('', cout*(newV-oldV), true, false, flux); }
           break;
@@ -2982,25 +3306,37 @@ export class KnightSheet extends ActorSheet {
       const style = $(ev.currentTarget).val();
       const mods = getModStyle(style);
       const data = this.getData();
+      const effects = [];
+
+      effects.push({
+        key: path.reaction.bonus,
+        mode: 2,
+        priority: null,
+        value: mods.bonus.reaction
+      },
+      {
+        key: path.reaction.malus,
+        mode: 2,
+        priority: null,
+        value: mods.malus.reaction
+      },
+      {
+        key: path.defense.bonus,
+        mode: 2,
+        priority: null,
+        value: mods.bonus.defense
+      },
+      {
+        key: path.defense.malus,
+        mode: 2,
+        priority: null,
+        value: mods.malus.defense
+      });
+
+      addOrUpdateEffect(this.actor, 'style', effects);
 
       const update = {
         system: {
-          reaction: {
-            bonus:{
-              other:mods.bonus.reaction
-            },
-            malus:{
-              other:mods.malus.reaction
-            }
-          },
-          defense: {
-            bonus:{
-              other:mods.bonus.defense
-            },
-            malus:{
-              other:mods.malus.defense
-            }
-          },
           combat:{
             data:{
               tourspasses:1,
@@ -3165,7 +3501,7 @@ export class KnightSheet extends ActorSheet {
       for (let [key, carac] of Object.entries(dataAspect.caracteristiques)){
         editCarac += `
         <label class="line">
-            <span class="label">${carac.label}</span>
+            <span class="label">${game.i18n.localize(CONFIG.KNIGHT.caracteristiques[key])}</span>
             <input type="number" class="${key}" data-type="caracteristique" value="${carac.base}" min="0" max="9" />
         </label>
         `;
@@ -3289,9 +3625,8 @@ export class KnightSheet extends ActorSheet {
 
       if(nbre > 0) {
         const recuperation = data.data.system.combat.nods[nods].recuperationBonus;
-        const bonus = recuperation.length > 0 ? recuperation.join(' + ') : ` 0`;
 
-        const rNods = new game.knight.RollKnight(`3D6+${bonus}`, this.actor.system);
+        const rNods = new game.knight.RollKnight(`3D6+${recuperation}`, this.actor.system);
         rNods._flavor = game.i18n.localize(`KNIGHT.JETS.Nods${nods}`);
         rNods._success = false;
         await rNods.toMessage({
@@ -3361,9 +3696,8 @@ export class KnightSheet extends ActorSheet {
 
       if(nbre > 0) {
         const recuperation = data.data.system.combat.nods[nods].recuperationBonus;
-        const bonus = recuperation.length > 0 ? recuperation.join(' + ') : ` 0`;
 
-        const rNods = new game.knight.RollKnight(`3D6+${bonus}`, this.actor.system);
+        const rNods = new game.knight.RollKnight(`3D6+${recuperation}`, this.actor.system);
         rNods._flavor = game.i18n.localize(`KNIGHT.JETS.Nods${nods}`);
         rNods._success = false;
         await rNods.toMessage({
@@ -3570,10 +3904,16 @@ export class KnightSheet extends ActorSheet {
       const id = target.data("id");
       const evo = target.data("evo");
       const isLongbow = target?.data("longbow") || false;
+      const isModule = target?.data("ismodule") || false;
+      const niveau = Number(target?.data("niveau")) || 1;
       const result = value ? false : true;
+
+      console.log(isModule);
 
       if(isLongbow) {
         this.actor.items.get(id).update({[`system.evolutions.special.longbow.${evo}.gratuit`]:result});
+      } else if(isModule) {
+        this.actor.items.get(id).update({[`system.niveau.details.n${niveau}.gratuit`]:result});
       } else {
         this.actor.items.get(id).update({['system.gratuit']:result});
       }
@@ -3582,37 +3922,28 @@ export class KnightSheet extends ActorSheet {
     html.find('div.progression .tableauPG .gloire-create').click(ev => {
       const dataGloire = this.getData().data.system.progression.gloire;
       const gloireListe = dataGloire.depense.liste;
-      let addOrder =  gloireListe.length === 0 ? 0 : Math.max(...gloireListe.map(o => o.order));
+      const isEmpty = gloireListe[0]?.isEmpty ?? false;
+      let addOrder =  Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
       const gloireAutre = dataGloire.depense?.autre || {};
-      let gloireAutreLength = gloireAutre.length;
+      let gloireAutreLength = Object.keys(gloireAutre).length;
 
-      const newData = [];
-
-      if(isNaN(addOrder)) {
+      if(addOrder === -1) {
         addOrder = Object.keys(gloireListe).length;
       }
 
-      if(isNaN(gloireAutreLength)) {
-        gloireAutreLength = Object.keys(gloireAutre).length;
-      }
-
-      for(let i = 0;i < gloireAutreLength;i++) {
-        newData.push(gloireAutre[i]);
-      }
-
-      newData.push({
+      const newData = {
         order:addOrder+1,
         nom:'',
-        cout:0,
+        cout:'0',
         gratuit:false
-      });
+      }
 
-      this.actor.update({[`system.progression.gloire.depense.autre`]:newData});
+      this.actor.update({[`system.progression.gloire.depense.autre.${gloireAutreLength}`]:newData});
     });
 
     html.find('div.progression .tableauPG .gloire-delete').click(ev => {
       const target = $(ev.currentTarget);
-      const id = +target.data("id");
+      const id = target.data("id");
 
       this.actor.update({[`system.progression.gloire.depense.autre.-=${id}`]:null});
     });
@@ -3665,7 +3996,8 @@ export class KnightSheet extends ActorSheet {
       const capacites = listEvolutions[id].capacites;
       let special = listEvolutions[id].special;
       const gloireListe = this.getData().data.system.progression.gloire.depense.liste;
-      const addOrder =  gloireListe.length === 0 ? 0 : Math.max(...gloireListe.map(o => o.order));
+      const isEmpty = gloireListe[0]?.isEmpty ?? false;
+      const addOrder =  Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
       const filter = [];
 
       dataArmor.update({[`system.archivage.liste.${listEvolutions[id].value}`]:dataArmor.system});
@@ -3902,7 +4234,8 @@ export class KnightSheet extends ActorSheet {
       const dataGloire = this.getData().data.system.progression.gloire;
       const gloireActuel = +dataGloire.actuel;
       const gloireListe = dataGloire.depense.liste;
-      const addOrder =  gloireListe.length === 0 ? 0 : Math.max(...gloireListe.map(o => o.order));
+      const isEmpty = gloireListe[0]?.isEmpty ?? false;
+      const addOrder =  Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
 
 
 
@@ -3995,6 +4328,44 @@ export class KnightSheet extends ActorSheet {
       }
     });
 
+    html.find('i.moduleArrowUp').click(ev => {
+      const target = $(ev.currentTarget);
+      const key = target.data("key");
+      const niveau = Number(target.data("niveau"))+1;
+      const item = this.actor.items.get(key);
+
+      const gloireListe = this.getData().data.system.progression.gloire.depense.liste;
+      const gloireMax = this._getHighestOrder(gloireListe);
+
+      const data = {
+        "niveau":{
+          "value":niveau,
+          "details":{
+            [`n${niveau}`]:{
+              "addOrder":gloireMax+1
+            }
+          }
+        }
+      }
+
+      item.update({[`system`]:data});
+    });
+
+    html.find('i.moduleArrowDown').click(ev => {
+      const target = $(ev.currentTarget);
+      const key = target.data("key");
+      const niveau = Number(target.data("niveau"))-1;
+      const item = this.actor.items.get(key);
+
+      const data = {
+        "niveau":{
+          "value":niveau
+        }
+      }
+
+      item.update({[`system`]:data});
+    });
+
     html.find('a.avdvshow').click(ev => {
       const target = $(ev.currentTarget);
       const header = target.parents(".summary");
@@ -4003,13 +4374,57 @@ export class KnightSheet extends ActorSheet {
 
       item.update({['system.show']:value});
     });
+
+    html.find('button.recover').click(ev => {
+      const target = $(ev.currentTarget);
+      const type = target.data("type");
+      const max = target.data("max");
+      const list = target.data("list").split("/");
+
+      switch(type) {
+        case 'espoir':
+          this.actor.update({['system.espoir.value']:max});
+          break;
+
+        case 'sante':
+          this.actor.update({['system.sante.value']:max});
+          break;
+
+        case 'armure':
+          this.actor.update({['system.armure.value']:max});
+          break;
+
+        case 'energie':
+          this.actor.update({['system.energie.value']:max});
+          break;
+
+        case 'grenades':
+          this.actor.update({['system.combat.grenades.quantity.value']:max});
+          break;
+
+        case 'nods':
+          let update = {};
+
+          for (let i of list) {
+            const split = i.split('-');
+            const name = split[0];
+            const max = split[1];
+
+            update[`system.combat.nods.${name}.value`] = max;
+          }
+
+          this.actor.update(update);
+          break;
+      }
+    });
   }
 
   /* -------------------------------------------- */
   async _onItemCreate(event) {
     event.preventDefault();
     const gloireListe = this.getData().data.system.progression.gloire.depense.liste;
-    const gloireMax = gloireListe.length === 0 ? 0 : Math.max(...gloireListe.map(o => o.order));
+    const isEmpty = gloireListe[0]?.isEmpty ?? false;
+    const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
     const header = event.currentTarget;
     // Get the type of item to create.
     const type = header.dataset.type;
@@ -4142,7 +4557,19 @@ export class KnightSheet extends ActorSheet {
           button2: {
             label: game.i18n.localize('KNIGHT.AUTRE.Non'),
             callback: async () => {
-              itemData.system.addOrder = gloireMax+1;
+              const niveau = itemData.system?.niveau?.value ?? 1;
+
+              for(let i = 1;i <= niveau;i++) {
+                itemData.system = {
+                  niveau:{
+                    details:{
+                      [`n${i}`]:{
+                        addOrder:gloireMax+i
+                      }
+                    }
+                  }
+                }
+              }
 
               const create = await Item.create(itemData, {parent: this.actor});
 
@@ -4154,7 +4581,19 @@ export class KnightSheet extends ActorSheet {
       }, askDialogOptions).render(true);
     } else {
       if(type === 'module') {
-        itemData.system.addOrder = gloireMax+1;
+        const niveau = itemData.system?.niveau?.value ?? 1;
+
+        for(let i = 1;i <= niveau;i++) {
+          itemData.system = {
+            niveau:{
+              details:{
+                [`n${i}`]:{
+                  addOrder:gloireMax+i
+                }
+              }
+            }
+          }
+        }
       }
 
       const create = await Item.create(itemData, {parent: this.actor});
@@ -4201,7 +4640,8 @@ export class KnightSheet extends ActorSheet {
     const actorData = data.data.system;
     const hasCapaciteCompanions = data.actor?.armureData?.system?.capacites?.selected?.companions || false;
     const gloireListe = actorData.progression.gloire.depense.liste;
-    const gloireMax = gloireListe.length === 0 ? 0 : Math.max(...gloireListe.map(o => o.order));
+    const isEmpty = gloireListe[0]?.isEmpty ?? false;
+    const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
     const hasArmor = actorData.equipements.armure?.hasArmor || false;
 
     itemData = itemData instanceof Array ? itemData : [itemData];
@@ -4255,7 +4695,8 @@ export class KnightSheet extends ActorSheet {
 
               if(sTete < 0 || sTorse < 0 || sBrasGauche < 0 || sBrasDroit < 0 || sJambeGauche < 0 || sJambeDroite < 0) return;
 
-              itemData[0].system.addOrder = gloireMax+1;
+              itemData[0].system.progression = {};
+              itemData[0].system.progression[`n${itemData[0].system.niveau.value}`] = gloireMax+1;
 
               const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
 
@@ -4279,7 +4720,8 @@ export class KnightSheet extends ActorSheet {
 
       if(sTete < 0 || sTorse < 0 || sBrasGauche < 0 || sBrasDroit < 0 || sJambeGauche < 0 || sJambeDroite < 0) return;
 
-      itemData[0].system.addOrder = gloireMax+1;
+      itemData[0].system.progression = {};
+      itemData[0].system.progression[`n${itemData[0].system.niveau.value}`] = gloireMax+1;
 
       const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
 
@@ -4444,13 +4886,12 @@ export class KnightSheet extends ActorSheet {
     }
   }
 
-  async _prepareCharacterItems(sheetData) {
-    const actorData = sheetData.actor;
-    const system = sheetData.data.system;
-    const items = sheetData.items;
+  async _prepareCharacterItems(actorData, system, items) {
     const eqpData = system.equipements;
     const armorData = eqpData.armure;
+    const guardianData = eqpData.guardian;
     const wear = system.wear;
+    const onArmor = wear === 'armure' || wear === 'ascension' ? true : false;
 
     const armorSpecial = getSpecial(this.actor);
     const armorSpecialRaw = armorSpecial?.raw || [];
@@ -4493,7 +4934,6 @@ export class KnightSheet extends ActorSheet {
     const armesContactArmoury = [];
     const armesDistanceArmoury = [];
     const armesTourelles = [];
-    const aspectsUpdate = {};
     const depensePG = [];
     const evolutionsAchetables = [];
     const evolutionsCompanions = [];
@@ -4504,186 +4944,30 @@ export class KnightSheet extends ActorSheet {
     const distinctions = [];
 
     const capaciteultime = items.find(items => items.type === 'capaciteultime');
+    const aucunGainEspoir = [];
+    const aucunPerteSaufAgonie = [];
+    const overdrives = {
+      deplacement: [],
+      force: [],
+      endurance: [],
+      hargne: [],
+      combat: [],
+      instinct: [],
+      tir: [],
+      savoir: [],
+      technique: [],
+      aura: [],
+      parole: [],
+      sangFroid: [],
+      discretion: [],
+      dexterite: [],
+      perception: [],
+    };
 
     let armureData = {};
     let armureLegendeData = {};
     let longbow = {};
     let art = {};
-    let aspects = {
-      "chair":{
-        "bonus":0,
-        "malus":0,
-        "caracteristiques":{
-          "deplacement": {
-            "bonus":0,
-            "malus":0,
-            "overdrive": {
-              "base":0,
-              "bonus":0,
-              "malus":0
-            }
-          },
-          "force": {
-            "bonus":0,
-            "malus":0,
-            "overdrive": {
-              "base":0,
-              "bonus":0,
-              "malus":0
-            }
-          },
-          "endurance": {
-            "bonus":0,
-            "malus":0,
-            "overdrive": {
-              "base":0,
-              "bonus":0,
-              "malus":0
-            }
-          }
-        }
-      },
-      "bete":{
-        "bonus":0,
-        "malus":0,
-        "caracteristiques":{
-          "hargne": {
-            "bonus":0,
-            "malus":0,
-            "overdrive": {
-              "base":0,
-              "bonus":0,
-              "malus":0
-            }
-          },
-          "combat": {
-            "bonus":0,
-            "malus":0,
-            "overdrive": {
-              "base":0,
-              "bonus":0,
-              "malus":0
-            }
-          },
-          "instinct": {
-            "bonus":0,
-            "malus":0,
-            "overdrive": {
-              "base":0,
-              "bonus":0,
-              "malus":0
-            }
-          }
-        }
-      },
-      "machine":{
-        "bonus":0,
-        "malus":0,
-        "caracteristiques":{
-          "tir": {
-            "bonus":0,
-            "malus":0,
-            "overdrive": {
-              "base":0,
-              "bonus":0,
-              "malus":0
-            }
-          },
-          "savoir": {
-            "bonus":0,
-            "malus":0,
-            "overdrive": {
-              "base":0,
-              "bonus":0,
-              "malus":0
-            }
-          },
-          "technique": {
-            "bonus":0,
-            "malus":0,
-            "overdrive": {
-              "base":0,
-              "bonus":0,
-              "malus":0
-            }
-          }
-        }
-      },
-      "dame":{
-        "bonus":0,
-        "malus":0,
-        "caracteristiques":{
-          "aura": {
-            "bonus":0,
-            "malus":0,
-            "overdrive": {
-              "base":0,
-              "bonus":0,
-              "malus":0
-            }
-          },
-          "parole": {
-            "bonus":0,
-            "malus":0,
-            "overdrive": {
-              "base":0,
-              "bonus":0,
-              "malus":0
-            }
-          },
-          "sangFroid": {
-            "bonus":0,
-            "malus":0,
-            "overdrive": {
-              "base":0,
-              "bonus":0,
-              "malus":0
-            }
-          }
-        }
-      },
-      "masque":{
-        "bonus":0,
-        "malus":0,
-        "caracteristiques":{
-          "discretion": {
-            "bonus":0,
-            "malus":0,
-            "overdrive": {
-              "base":0,
-              "bonus":0,
-              "malus":0
-            }
-          },
-          "dexterite": {
-            "bonus":0,
-            "malus":0,
-            "overdrive": {
-              "base":0,
-              "bonus":0,
-              "malus":0
-            }
-          },
-          "perception": {
-            "bonus":0,
-            "malus":0,
-            "overdrive": {
-              "base":0,
-              "bonus":0,
-              "malus":0
-            }
-          }
-        }
-      }
-    };
-    let sante = {
-      bonus:{
-        avantages:[0]
-      },
-      malus:{
-        desavantages:[0]
-      },
-    };
     let espoir = {
       aucun:false,
       perte:{
@@ -4701,45 +4985,7 @@ export class KnightSheet extends ActorSheet {
       recuperationBonus:[0],
       recuperationMalus:[0],
       perteMalus:[0],
-      value:sheetData.data.system.espoir.value
-    };
-    let initiative = {
-      bonus:{
-        avantages:[0]
-      },
-      malus:{
-        desavantages:[0]
-      },
-      diceBonus:{
-        avantages:[0]
-      },
-      diceMalus:{
-        desavantages:[0]
-      }
-    };
-    let armure = {
-      bonus:{
-        modules:[0]
-      }
-    };
-    let champDeForce = {
-      bonus:{
-        modules:[0],
-        armes:0
-      }
-    };
-    let energie = {
-      bonus:{
-        modules:[0]
-      }
-    };
-    let slots = {
-      tete:0,
-      torse:0,
-      brasGauche:0,
-      brasDroit:0,
-      jambeGauche:0,
-      jambeDroite:0
+      value:system.espoir.value
     };
     let grenades = {
       "antiblindage": {
@@ -4818,17 +5064,6 @@ export class KnightSheet extends ActorSheet {
         }
       },
     };
-    let nods = {
-      "soin":{
-        "recuperationBonus":[]
-      },
-      "armure":{
-        "recuperationBonus":[]
-      },
-      "energie":{
-        "recuperationBonus":[]
-      }
-    };
     let reaction = {
       bonus:0,
       malus:0
@@ -4837,15 +5072,6 @@ export class KnightSheet extends ActorSheet {
       bonus:0,
       malus:0
     };
-    let egide = {
-      bonus:{
-        armure:[0],
-        distinction:[0]
-      },
-      malus:{
-        armure:[0]
-      }
-    }
     let lion = {
       armure:{
         bonus:[0],
@@ -4893,8 +5119,7 @@ export class KnightSheet extends ActorSheet {
         "distance":[]
       }
     };
-    let bonusDiceEmbuscadeSubis = 0;
-    let bonusFixeEmbuscadeSubis = 0;
+    let effects = {experiences:[], gloire:[], armure:[], guardian:[], armes:[], overdrives:[], modules:[], slots:[], avantages:[], inconvenients:[], blessures:[], traumas:[], distinctions:[]};
 
     for (let i of items) {
       const data = i.system;
@@ -4914,19 +5139,51 @@ export class KnightSheet extends ActorSheet {
 
         armorData.label = i.name;
 
-        espoir.bonus.armure.push(i.system.espoir.value);
-        egide.bonus.armure.push(i.system.egide.value);
+        const armorBonusKeys = ['espoir', 'egide'];
+        const armorValue = data.armure.base;
+        const cdfValue = data.champDeForce.base;
 
-        const armorCapacites = i.system.capacites.selected;
-        const armorSpecial = i.system.special.selected;
-        const armorEvolutions = i.system.evolutions;
+        for (let i = 0; i < armorBonusKeys.length; i++) {
+          const value = data[armorBonusKeys[i]].value;
+
+          if(value > 0) {
+            effects.armure.push({
+              key: path[armorBonusKeys[i]].bonus,
+              mode: 2,
+              priority: null,
+              value: value
+            });
+          }
+        }
+
+        if(armorValue > 0) {
+          effects.armure.push({
+            key: path.armure.bonus,
+            mode: 2,
+            priority: null,
+            value: armorValue
+          });
+        }
+
+        if(cdfValue > 0) {
+          effects.armure.push({
+            key: path.champDeForce.base,
+            mode: 2,
+            priority: null,
+            value: cdfValue
+          });
+        }
+
+        const armorCapacites = data.capacites.selected;
+        const armorSpecial = data.special.selected;
+        const armorEvolutions = data.evolutions;
 
         for (let [key, capacite] of Object.entries(armorCapacites)) {
           switch(key) {
             case "ascension":
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.ascension.actif) {
-                  i.system.capacites.selected[key] = Object.assign(i.system.capacites.selected[key], {
+                  data.capacites.selected[key] = Object.assign(data.capacites.selected[key], {
                     permanent:passiveUltime.capacites.ascension.update.permanent,
                     prestige:passiveUltime.capacites.ascension.update.prestige,
                   });
@@ -4945,7 +5202,7 @@ export class KnightSheet extends ActorSheet {
             case "cea":
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.cea.actif) {
-                  i.system.capacites.selected[key] = Object.assign(i.system.capacites.selected[key], {
+                  data.capacites.selected[key] = Object.assign(data.capacites.selected[key], {
                     vague:{
                       degats:{
                         dice:passiveUltime.capacites.cea.update.vague.degats.dice,
@@ -5240,9 +5497,9 @@ export class KnightSheet extends ActorSheet {
             case "changeling":
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.changeling.actif) {
-                  i.system.capacites.selected[key].energie.personnel = passiveUltime.capacites.changeling.update.energie.personnel;
-                  i.system.capacites.selected[key].duree = passiveUltime.capacites.changeling.update.duree;
-                  i.system.capacites.selected[key].odBonus = {
+                  data.capacites.selected[key].energie.personnel = passiveUltime.capacites.changeling.update.energie.personnel;
+                  data.capacites.selected[key].duree = passiveUltime.capacites.changeling.update.duree;
+                  data.capacites.selected[key].odBonus = {
                     actif:true,
                     bonus:passiveUltime.capacites.changeling.update.odbonus,
                     caracteristique:passiveUltime.capacites.changeling.update.caracteristique,
@@ -5254,7 +5511,7 @@ export class KnightSheet extends ActorSheet {
             case "companions":
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.companions.actif) {
-                  i.system.capacites.selected[key].deployable = passiveUltime.capacites.companions.update.deployables;
+                  data.capacites.selected[key].deployable = passiveUltime.capacites.companions.update.deployables;
                 }
               }
               break;
@@ -5262,7 +5519,7 @@ export class KnightSheet extends ActorSheet {
             case "ghost":
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.ghost.actif) {
-                  i.system.capacites.selected[key].desactivation = passiveUltime.capacites.ghost.update.desactivation;
+                  data.capacites.selected[key].desactivation = passiveUltime.capacites.ghost.update.desactivation;
                 }
               }
               break;
@@ -5270,7 +5527,7 @@ export class KnightSheet extends ActorSheet {
             case "goliath":
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.goliath.actif) {
-                  i.system.capacites.selected[key] = Object.assign(i.system.capacites.selected[key], {
+                  data.capacites.selected[key] = Object.assign(data.capacites.selected[key], {
                     armesRack:{
                       active:false
                     },
@@ -5289,8 +5546,8 @@ export class KnightSheet extends ActorSheet {
             case "mechanic":
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.mechanic.actif) {
-                  i.system.capacites.selected[key].reparation.contact.dice = +capacite.reparation.contact.dice + passiveUltime.capacites.mechanic.update.bonus;
-                  i.system.capacites.selected[key].reparation.distance.dice = +capacite.reparation.distance.dice + passiveUltime.capacites.mechanic.update.bonus;
+                  data.capacites.selected[key].reparation.contact.dice = +capacite.reparation.contact.dice + passiveUltime.capacites.mechanic.update.bonus;
+                  data.capacites.selected[key].reparation.distance.dice = +capacite.reparation.distance.dice + passiveUltime.capacites.mechanic.update.bonus;
                 }
               }
               break;
@@ -5298,7 +5555,7 @@ export class KnightSheet extends ActorSheet {
             case "morph":
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.morph.actif) {
-                  i.system.capacites.selected[key] = Object.assign(i.system.capacites.selected[key], {
+                  data.capacites.selected[key] = Object.assign(data.capacites.selected[key], {
                     etirement:{
                       portee:passiveUltime.capacites.morph.update.etirement.portee,
                     },
@@ -5498,7 +5755,7 @@ export class KnightSheet extends ActorSheet {
             case "oriflamme":
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.oriflamme.actif) {
-                  i.system.capacites.selected[key] = Object.assign(i.system.capacites.selected[key], {
+                  data.capacites.selected[key] = Object.assign(data.capacites.selected[key], {
                     activation:passiveUltime.capacites.oriflamme.update.activation,
                     duree:passiveUltime.capacites.oriflamme.update.duree,
                     portee:passiveUltime.capacites.oriflamme.update.portee,
@@ -5524,7 +5781,7 @@ export class KnightSheet extends ActorSheet {
             case "rage":
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.rage.actif) {
-                  i.system.capacites.selected[key] = Object.assign(i.system.capacites.selected[key], {
+                  data.capacites.selected[key] = Object.assign(data.capacites.selected[key], {
                     fureur:{
                       defense:passiveUltime.capacites.rage.update.fureur.defense,
                       reaction:passiveUltime.capacites.rage.update.fureur.reaction,
@@ -5612,8 +5869,13 @@ export class KnightSheet extends ActorSheet {
               const bonus = filterTypes?.[0]?.[1] || false;
 
               if(bonus !== false) {
-                for (let [keyC, carac] of Object.entries(bonus.liste)){
-                  aspects[bonus.aspect].caracteristiques[keyC].overdrive.bonus += carac.value;
+                for (let [key, carac] of Object.entries(bonus.liste)){
+                  effects.armure.push({
+                    key: `system.aspects.${bonus.aspect}.caracteristiques.${key}.overdrive.bonus`,
+                    mode: 2,
+                    priority: null,
+                    value: carac.value
+                  });
                 }
               }
 
@@ -5627,8 +5889,8 @@ export class KnightSheet extends ActorSheet {
 
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.vision.actif) {
-                  i.system.capacites.selected[key].duree = passiveUltime.capacites.vision.update.duree;
-                  i.system.capacites.selected[key].prolonger = true;
+                  data.capacites.selected[key].duree = passiveUltime.capacites.vision.update.duree;
+                  data.capacites.selected[key].prolonger = true;
                 }
               }
               break;
@@ -5636,8 +5898,8 @@ export class KnightSheet extends ActorSheet {
             case "warlord":
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.warlord.actif) {
-                  i.system.capacites.selected[key].impulsions.simultane = passiveUltime.capacites.warlord.update.activer;
-                  i.system.capacites.selected[key].impulsions.prolonge = passiveUltime.capacites.warlord.update.prolonger;
+                  data.capacites.selected[key].impulsions.simultane = passiveUltime.capacites.warlord.update.activer;
+                  data.capacites.selected[key].impulsions.prolonge = passiveUltime.capacites.warlord.update.prolonger;
                 }
               }
               break;
@@ -5786,45 +6048,51 @@ export class KnightSheet extends ActorSheet {
             case 'contrecoups':
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.special.contrecoups.actif) {
-                  i.system.special.selected[key].unactif = true;
+                  data.special.selected[key].unactif = true;
                 }
               }
               break;
           }
         }
 
-        if(wear === 'armure' || wear === 'ascension') {
+        if(onArmor) {
           for (let [key, special] of Object.entries(armorSpecial)) {
             switch(key) {
               case 'apeiron':
-                espoir.bonus.armure.push(special.espoir.bonus);
+                effects.armure.push({
+                  key: path.espoir.bonus,
+                  mode: 2,
+                  priority: null,
+                  value: special.espoir.bonus
+                });
                 break;
 
               case 'plusespoir':
                 if(!espoir.aucun) {
                   const armureRecupEspoir = special.espoir.recuperation.value === false ? true : false;
 
-                  espoir.aucun = armureRecupEspoir;
+                  aucunGainEspoir.push(armureRecupEspoir);
                 }
 
                 if(!espoir.perte.saufAgonie) {
                   const armurePerteSAgonie = special.espoir.perte.value === false ? true : false;
 
-                  espoir.perte.saufAgonie = armurePerteSAgonie;
+                  aucunPerteSaufAgonie.push(armurePerteSAgonie);
                 }
                 break;
 
               case 'contrecoups':
-                sheetData.data.system.restrictions.noArmeDistance = !special.armedistance.value ? true : false;
-                sheetData.data.system.restrictions.maxEffetsArmeContact = {};
-                sheetData.data.system.restrictions.maxEffetsArmeContact.has = special.maxeffets.value;
-                sheetData.data.system.restrictions.maxEffetsArmeContact.value = special.maxeffets.max;
+                system.restrictions.noArmeDistance = !special.armedistance.value ? true : false;
+                system.restrictions.maxEffetsArmeContact = {
+                  has:special.maxeffets.value,
+                  value:special.maxeffets.max,
+                };
                 break;
 
               case 'recolteflux':
                 if(passiveUltime !== undefined) {
                   if(passiveUltime.capacites.actif && passiveUltime.special.recolteflux.actif) {
-                    i.system.special.selected[key] = {
+                    data.special.selected[key] = {
                       conflit:{
                         base:passiveUltime.special.recolteflux.update.conflit.base,
                         tour:passiveUltime.special.recolteflux.update.conflit.tour,
@@ -5839,26 +6107,11 @@ export class KnightSheet extends ActorSheet {
             }
           }
 
-          for (let [keyA, aspect] of Object.entries(aspects)) {
-            for (let [keyC, carac] of Object.entries(aspect.caracteristiques)) {
-              const value = +i?.system?.overdrives?.[keyA]?.liste?.[keyC]?.value || 0;
-              console.log()
-              const aspectExist = aspectsUpdate?.[keyA] || false;
-              const caracsListExist = aspectsUpdate?.[keyA]?.caracteristiques || false;
-              const caracsExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC] || false;
-              const odExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC]?.overdrive || false;
-              const odBaseExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC]?.overdrive?.base || false;
+          for(const caracteristique in overdrives) {
+            const aspect = caracToAspect(caracteristique);
+            const value = data.overdrives[aspect].liste[caracteristique].value ?? 0;
 
-              if(value > 0) {
-                if(!aspectExist) aspectsUpdate[keyA] = {};
-                if(!caracsListExist) aspectsUpdate[keyA].caracteristiques = {}
-                if(!caracsExist) aspectsUpdate[keyA].caracteristiques[keyC] = {}
-                if(!odExist) aspectsUpdate[keyA].caracteristiques[keyC].overdrive = {}
-                if(!odBaseExist) aspectsUpdate[keyA].caracteristiques[keyC].overdrive.base = [];
-
-                aspectsUpdate[keyA].caracteristiques[keyC].overdrive.base.push(value);
-              }
-            }
+            if(value > 0) overdrives[caracteristique].push(value);
           }
         }
 
@@ -5867,14 +6120,17 @@ export class KnightSheet extends ActorSheet {
 
       // MODULE
       if (i.type === 'module') {
+        const niveau = data.niveau.value;
+
         const isLion = data.isLion;
+        const itemDataNiveau = data.niveau.details[`n${niveau}`];
         const itemSlots = data.slots;
-        const itemBonus = data.bonus;
-        const itemArme = data.arme;
-        const itemOD = data.overdrives;
+        const itemBonus = itemDataNiveau.bonus;
+        const itemArme = itemDataNiveau.arme;
+        const itemOD = itemDataNiveau.overdrives;
         const itemActive = data?.active?.base || false;
         const iBOD = itemBonus.overdrives;
-        const itemErsatz = data.ersatz;
+        const itemErsatz = itemDataNiveau.ersatz;
         const eRogue = itemErsatz.rogue;
         const eBard = itemErsatz.bard;
 
@@ -6036,241 +6292,279 @@ export class KnightSheet extends ActorSheet {
           }
 
         } else {
-          slots.tete += itemSlots.tete;
-          slots.torse += itemSlots.torse;
-          slots.brasGauche += itemSlots.brasGauche;
-          slots.brasDroit += itemSlots.brasDroit;
-          slots.jambeGauche += itemSlots.jambeGauche;
-          slots.jambeDroite += itemSlots.jambeDroite;
+          const slotKeys = ['tete', 'torse', 'brasGauche', 'brasDroit', 'jambeGauche', 'jambeDroite'];
 
-          if(data.permanent || itemActive) {
-            if(wear === 'armure' || wear === 'ascension') {
-              if(itemBonus.has) {
-                const iBArmure = itemBonus.armure;
-                const iBCDF = itemBonus.champDeForce;
-                const iBEnergie = itemBonus.energie;
-                const iBDgts = itemBonus.degats;
-                const iBDgtsVariable = iBDgts.variable;
-                const iBViolence = itemBonus.violence;
-                const iBViolenceVariable = iBViolence.variable;
-                const iBGrenades = itemBonus.grenades;
+          for (let i = 0; i < slotKeys.length; i++) {
+            const value = itemSlots[slotKeys[i]];
 
-                if(iBArmure.has) { armure.bonus.modules.push(iBArmure.value); }
-                if(iBCDF.has) { champDeForce.bonus.modules.push(iBCDF.value); }
-                if(iBEnergie.has) { energie.bonus.modules.push(iBEnergie.value); }
-                if(iBDgts.has) {
-                  if(iBDgtsVariable.has) {
-                    const dgtsDicePaliers = [0];
-                    const dgtsFixePaliers = [0];
-
-                    for(let i = iBDgtsVariable.min.dice;i <= iBDgtsVariable.max.dice;i++) {
-                      dgtsDicePaliers.push(i);
-                    }
-
-                    for(let i = iBDgtsVariable.min.fixe;i <= iBDgtsVariable.max.fixe;i++) {
-                      dgtsFixePaliers.push(i);
-                    }
-
-                    moduleBonusDgtsVariable[iBDgts.type].push({
-                      id:i._id,
-                      label:i.name,
-                      description:i.system.description,
-                      selected:{
-                        dice:iBDgtsVariable?.selected?.dice || 0,
-                        fixe:iBDgtsVariable?.selected?.fixe || 0,
-                        energie:{
-                          dice:iBDgtsVariable?.selected?.energie.dice || 0,
-                          fixe:iBDgtsVariable?.selected?.energie.fixe || 0,
-                          paliers:{
-                            dice:dgtsDicePaliers,
-                            fixe:dgtsFixePaliers
-                          }
-                        }
-                      },
-                      min:{
-                        dice:iBDgtsVariable.min.dice,
-                        fixe:iBDgtsVariable.min.fixe
-                      },
-                      max:{
-                        dice:iBDgtsVariable.max.dice,
-                        fixe:iBDgtsVariable.max.fixe
-                      },
-                      energie:iBDgtsVariable.cout
-                    });
-                  } else {
-                    moduleBonusDgts[iBDgts.type].push({
-                      id:i._id,
-                      label:i.name,
-                      description:i.system.description,
-                      dice:iBDgts.dice,
-                      fixe:iBDgts.fixe
-                    });
-                  }
-                }
-                if(iBViolence.has) {
-                  if(iBViolenceVariable.has) {
-                    const violDicePaliers = [0];
-                    const violFixePaliers = [0];
-
-                    for(let i = iBViolenceVariable.min.dice;i <= iBViolenceVariable.max.dice;i++) {
-                      violDicePaliers.push(i);
-                    }
-
-                    for(let i = iBViolenceVariable.min.fixe;i <= iBViolenceVariable.max.fixe;i++) {
-                      violFixePaliers.push(i);
-                    }
-
-                    moduleBonusViolenceVariable[iBViolence.type].push({
-                      id:i._id,
-                      label:i.name,
-                      description:i.system.description,
-                      selected:{
-                        dice:iBViolenceVariable?.selected?.dice || 0,
-                        fixe:iBViolenceVariable?.selected?.fixe || 0,
-                        energie:{
-                          dice:iBViolenceVariable?.selected?.energie?.dice || 0,
-                          fixe:iBViolenceVariable?.selected?.energie?.fixe || 0,
-                          paliers:{
-                            dice:violDicePaliers,
-                            fixe:violFixePaliers
-                          }
-                        }
-                      },
-                      min:{
-                        dice:iBViolenceVariable.min.dice,
-                        fixe:iBViolenceVariable.min.fixe
-                      },
-                      max:{
-                        dice:iBViolenceVariable.max.dice,
-                        fixe:iBViolenceVariable.max.fixe
-                      },
-                      energie:iBViolenceVariable.cout
-                    });
-                  } else {
-                    moduleBonusViolence[iBViolence.type].push({
-                      id:i._id,
-                      label:i.name,
-                      description:i.system.description,
-                      dice:iBViolence.dice,
-                      fixe:iBViolence.fixe
-                    });
-                  }
-                }
-                if(iBGrenades.has) {
-                  for (let [key, grenade] of Object.entries(grenades)) {
-                    if(key === 'antiblindage' || key === 'explosive' || key === 'shrapnel') {
-                      const data = iBGrenades.liste[key];
-
-                      grenade.degats.dice += data.degats.dice;
-                      grenade.violence.dice += data.violence.dice;
-                    }
-                  };
-                }
-              }
-
-              if(itemArme.has) {
-                const moduleEffets = itemArme.effets;
-                const moiduleEffetsRaw = moduleEffets.raw.concat(armorSpecialRaw);
-                const moduleEffetsCustom = moduleEffets.custom.concat(armorSpecialCustom) || [];
-                const moduleEffetsFinal = {
-                  raw:[...new Set(moiduleEffetsRaw)],
-                  custom:moduleEffetsCustom,
-                  liste:moduleEffets.liste
-                };
-
-                const moduleWpn = {
-                  _id:i._id,
-                  name:i.name,
-                  type:'module',
-                  system:{
-                    noRack:true,
-                    type:itemArme.type,
-                    portee:itemArme.portee,
-                    degats:itemArme.degats,
-                    violence:itemArme.violence,
-                    effets:moduleEffetsFinal
-                  }
-                };
-
-                const bDefense = moduleEffetsFinal.raw.find(str => { if(str.includes('defense')) return str; });
-                const bReaction = moduleEffetsFinal.raw.find(str => { if(str.includes('reaction')) return str; });
-
-                if(bDefense !== undefined) defense.bonus += +bDefense.split(' ')[1];
-                if(bReaction !== undefined) reaction.bonus += +bReaction.split(' ')[1];
-
-                if(itemArme.type === 'contact') {
-                  const bMassive = itemArme.structurelles.raw.find(str => { if(str.includes('massive')) return true; });
-                  if(bMassive) defense.malus += 1;
-
-                  armesContactEquipee.push(moduleWpn);
-                }
-
-                if(itemArme.type === 'distance') {
-                  armesDistanceEquipee.push(moduleWpn);
-                }
-              }
-
-              if(itemOD.has || (itemBonus.has && iBOD.has)) {
-                for (let [keyA, aspect] of Object.entries(aspects)) {
-                  for (let [keyC, carac] of Object.entries(aspect.caracteristiques)) {
-                    const base = +itemOD.aspects[keyA][keyC] || 0;
-                    const bonus = +iBOD.aspects[keyA][keyC] || 0;
-
-                    const aspectExist = aspectsUpdate?.[keyA] || false;
-                    const caracsListExist = aspectsUpdate?.[keyA]?.caracteristiques || false;
-                    const caracsExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC] || false;
-                    const odExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC]?.overdrive || false;
-                    const odBaseExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC]?.overdrive?.base || false;
-                    const odBonusExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC]?.overdrive?.bonus || false;
-
-                    if((itemOD.has && base > 0) || (itemBonus.has && iBOD.has && bonus > 0)) {
-                      if(!aspectExist) aspectsUpdate[keyA] = {};
-                      if(!caracsListExist) aspectsUpdate[keyA].caracteristiques = {}
-                      if(!caracsExist) aspectsUpdate[keyA].caracteristiques[keyC] = {}
-                      if(!odExist) aspectsUpdate[keyA].caracteristiques[keyC].overdrive = {}
-                    }
-
-                    if(itemOD.has && base > 0) {
-                      if(!odBaseExist) aspectsUpdate[keyA].caracteristiques[keyC].overdrive.base = [];
-
-                      aspectsUpdate[keyA].caracteristiques[keyC].overdrive.base.push(base);
-                    }
-
-                    if(itemBonus.has && iBOD.has && bonus > 0) {
-                      if(!odBonusExist) aspectsUpdate[keyA].caracteristiques[keyC].overdrive.bonus = [];
-
-                      aspectsUpdate[keyA].caracteristiques[keyC].overdrive.bonus.push(bonus);
-                    }
-                  }
-                }
-              }
-
-              if(eRogue.has) {
-                moduleErsatz.rogue = eRogue;
-                moduleErsatz.rogue.permanent = data.permanent;
-                moduleErsatz.rogue.label = i.name;
-                moduleErsatz.rogue._id = i._id;
-                moduleErsatz.rogue.description = data.description;
-              }
-              if(eBard.has) {
-                moduleErsatz.bard = eBard;
-                moduleErsatz.bard.permanent = data.permanent;
-                moduleErsatz.bard.label = i.name;
-                moduleErsatz.bard._id = i._id;
-                moduleErsatz.bard.description = data.description;
-              }
+            if(value > 0) {
+              effects.slots.push({
+                key: `system.equipements.armure.slots.${slotKeys[i]}`,
+                mode: 2,
+                priority: null,
+                value: value
+              });
             }
           }
 
+          if(data.permanent || itemActive) {
+            if(itemBonus.has) {
+              const iBArmure = itemBonus.armure;
+              const iBCDF = itemBonus.champDeForce;
+              const iBEnergie = itemBonus.energie;
+              const iBDgts = itemBonus.degats;
+              const iBDgtsVariable = iBDgts.variable;
+              const iBViolence = itemBonus.violence;
+              const iBViolenceVariable = iBViolence.variable;
+              const iBGrenades = itemBonus.grenades;
+
+              if(iBArmure.has) effects.modules.push({
+                key:path.armure.bonus,
+                mode:2,
+                priority:null,
+                value:iBArmure.value
+              });
+
+              if(iBCDF.has) effects.modules.push({
+                key:path.champDeForce.bonus,
+                mode:2,
+                priority:null,
+                value:iBCDF.value
+              });
+
+              if(iBEnergie.has) effects.modules.push({
+                key:path.energie.bonus,
+                mode:2,
+                priority:null,
+                value:iBEnergie.value
+              });
+
+              if(iBDgts.has && onArmor) {
+                if(iBDgtsVariable.has) {
+                  const dgtsDicePaliers = [0];
+                  const dgtsFixePaliers = [0];
+
+                  for(let i = iBDgtsVariable.min.dice;i <= iBDgtsVariable.max.dice;i++) {
+                    dgtsDicePaliers.push(i);
+                  }
+
+                  for(let i = iBDgtsVariable.min.fixe;i <= iBDgtsVariable.max.fixe;i++) {
+                    dgtsFixePaliers.push(i);
+                  }
+
+                  moduleBonusDgtsVariable[iBDgts.type].push({
+                    id:i._id,
+                    label:i.name,
+                    description:i.system.description,
+                    selected:{
+                      dice:iBDgtsVariable?.selected?.dice || 0,
+                      fixe:iBDgtsVariable?.selected?.fixe || 0,
+                      energie:{
+                        dice:iBDgtsVariable?.selected?.energie.dice || 0,
+                        fixe:iBDgtsVariable?.selected?.energie.fixe || 0,
+                        paliers:{
+                          dice:dgtsDicePaliers,
+                          fixe:dgtsFixePaliers
+                        }
+                      }
+                    },
+                    min:{
+                      dice:iBDgtsVariable.min.dice,
+                      fixe:iBDgtsVariable.min.fixe
+                    },
+                    max:{
+                      dice:iBDgtsVariable.max.dice,
+                      fixe:iBDgtsVariable.max.fixe
+                    },
+                    energie:iBDgtsVariable.cout
+                  });
+                } else {
+                  moduleBonusDgts[iBDgts.type].push({
+                    id:i._id,
+                    label:i.name,
+                    description:i.system.description,
+                    dice:iBDgts.dice,
+                    fixe:iBDgts.fixe
+                  });
+                }
+              }
+              if(iBViolence.has && onArmor) {
+                if(iBViolenceVariable.has) {
+                  const violDicePaliers = [0];
+                  const violFixePaliers = [0];
+
+                  for(let i = iBViolenceVariable.min.dice;i <= iBViolenceVariable.max.dice;i++) {
+                    violDicePaliers.push(i);
+                  }
+
+                  for(let i = iBViolenceVariable.min.fixe;i <= iBViolenceVariable.max.fixe;i++) {
+                    violFixePaliers.push(i);
+                  }
+
+                  moduleBonusViolenceVariable[iBViolence.type].push({
+                    id:i._id,
+                    label:i.name,
+                    description:i.system.description,
+                    selected:{
+                      dice:iBViolenceVariable?.selected?.dice || 0,
+                      fixe:iBViolenceVariable?.selected?.fixe || 0,
+                      energie:{
+                        dice:iBViolenceVariable?.selected?.energie?.dice || 0,
+                        fixe:iBViolenceVariable?.selected?.energie?.fixe || 0,
+                        paliers:{
+                          dice:violDicePaliers,
+                          fixe:violFixePaliers
+                        }
+                      }
+                    },
+                    min:{
+                      dice:iBViolenceVariable.min.dice,
+                      fixe:iBViolenceVariable.min.fixe
+                    },
+                    max:{
+                      dice:iBViolenceVariable.max.dice,
+                      fixe:iBViolenceVariable.max.fixe
+                    },
+                    energie:iBViolenceVariable.cout
+                  });
+                } else {
+                  moduleBonusViolence[iBViolence.type].push({
+                    id:i._id,
+                    label:i.name,
+                    description:i.system.description,
+                    dice:iBViolence.dice,
+                    fixe:iBViolence.fixe
+                  });
+                }
+              }
+              if(iBGrenades.has && onArmor) {
+                for (let [key, grenade] of Object.entries(grenades)) {
+                  if(key === 'antiblindage' || key === 'explosive' || key === 'shrapnel') {
+                    const data = iBGrenades.liste[key];
+
+                    grenade.degats.dice += data.degats.dice;
+                    grenade.violence.dice += data.violence.dice;
+                  }
+                };
+              }
+            }
+
+            if(itemArme.has && onArmor) {
+              const moduleArmeType = itemArme.type;
+              const moduleEffets = itemArme.effets;
+              const moiduleEffetsRaw = moduleEffets.raw.concat(armorSpecialRaw);
+              const moduleEffetsCustom = moduleEffets.custom.concat(armorSpecialCustom) || [];
+              const moduleEffetsFinal = {
+                raw:[...new Set(moiduleEffetsRaw)],
+                custom:moduleEffetsCustom,
+                liste:moduleEffets.liste
+              };
+
+              const moduleWpn = {
+                _id:i._id,
+                name:i.name,
+                type:'module',
+                system:{
+                  noRack:true,
+                  type:itemArme.type,
+                  portee:itemArme.portee,
+                  degats:itemArme.degats,
+                  violence:itemArme.violence,
+                  effets:moduleEffetsFinal
+                }
+              };
+
+              if(moduleArmeType === 'contact') {
+                moduleWpn.system.structurelles = itemArme.structurelles;
+                moduleWpn.system.ornementales = itemArme.ornementales;
+              } else {
+                moduleWpn.system.distance = itemArme.distance;
+              }
+
+              const bDefense = moduleEffetsFinal.raw.find(str => { if(str.includes('defense')) return str; });
+              const bReaction = moduleEffetsFinal.raw.find(str => { if(str.includes('reaction')) return str; });
+
+              if(bDefense !== undefined) defense.bonus += +bDefense.split(' ')[1];
+              if(bReaction !== undefined) reaction.bonus += +bReaction.split(' ')[1];
+
+              if(moduleArmeType === 'contact') {
+                const bMassive = itemArme.structurelles.raw.find(str => { if(str.includes('massive')) return true; });
+                if(bMassive) defense.malus += 1;
+
+                armesContactEquipee.push(moduleWpn);
+              }
+
+              if(itemArme.type === 'distance') {
+                armesDistanceEquipee.push(moduleWpn);
+              }
+            }
+
+            if((itemOD.has && onArmor) || (iBOD.has &&  onArmor)) {
+              for(const caracteristique in overdrives) {
+                const aspect = caracToAspect(caracteristique);
+                const base = itemOD.aspects[aspect][caracteristique] ?? 0;
+                const bonus = iBOD.aspects[aspect][caracteristique] ?? 0;
+
+                if(itemOD.has && base > 0) overdrives[caracteristique].push(base);
+
+                if(iBOD.has && bonus > 0) {
+                  effects.modules.push({
+                    key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.bonus`,
+                    mode:2,
+                    priority:null,
+                    value:bonus
+                  });
+                }
+              }
+            }
+
+            if(eRogue.has && onArmor) {
+              moduleErsatz.rogue = eRogue;
+              moduleErsatz.rogue.permanent = data.permanent;
+              moduleErsatz.rogue.label = i.name;
+              moduleErsatz.rogue._id = i._id;
+              moduleErsatz.rogue.description = data.description;
+            }
+            if(eBard.has && onArmor) {
+              moduleErsatz.bard = eBard;
+              moduleErsatz.bard.permanent = data.permanent;
+              moduleErsatz.bard.label = i.name;
+              moduleErsatz.bard._id = i._id;
+              moduleErsatz.bard.description = data.description;
+            }
+          }
+
+          i.system.bonus = itemBonus;
+          i.system.arme = itemArme;
+          i.system.overdrives = itemOD;
+          i.system.ersatz = itemErsatz;
+          i.system.permanent = itemDataNiveau.permanent;
+          i.system.duree = itemDataNiveau.duree;
+          i.system.energie = itemDataNiveau.energie;
+          i.system.rarete = itemDataNiveau.rarete;
+          i.system.activation = itemDataNiveau.activation;
+          i.system.portee = itemDataNiveau.portee;
+          i.system.labels = itemDataNiveau.labels;
+          i.system.pnj = itemDataNiveau.pnj;
+          i.system.jetsimple = itemDataNiveau.jetsimple;
+
           if(data.permanent) modulepassifs.push(i);
           else module.push(i);
-          depensePG.push({
-            order:data.addOrder,
-            name:i.name,
-            id:i._id,
-            gratuit:data.gratuit,
-            value:data.gratuit ? 0 : data.prix
-          });
+
+          for(let n = 1;n <= data.niveau.value;n++) {
+            const dataProgression = data.niveau.details[`n${n}`];
+
+            depensePG.push({
+              order:dataProgression.addOrder,
+              name:`${i.name} - ${game.i18n.localize('KNIGHT.ITEMS.MODULE.Niveau')} ${n}`,
+              id:i._id,
+              gratuit:dataProgression.gratuit,
+              value:dataProgression.gratuit ? 0 : dataProgression.prix,
+              niveau:n,
+              isModule:true
+            });
+          }
+
         }
       }
 
@@ -6279,18 +6573,102 @@ export class KnightSheet extends ActorSheet {
         if(data.type === 'standard') {
           avantage.push(i);
 
-          sante.bonus.avantages.push(bonus.sante);
-          espoir.bonus.avantages.push(bonus.espoir);
-          espoir.recuperationBonus.push(bonus.recuperation.espoir);
-          nods.soin.recuperationBonus.push(bonus.recuperation.sante);
-          nods.armure.recuperationBonus.push(bonus.recuperation.armure);
-          nods.energie.recuperationBonus.push(bonus.recuperation.energie);
-          initiative.diceBonus.avantages.push(bonus.initiative.dice);
-          initiative.bonus.avantages.push(bonus.initiative.fixe);
+          const avBonusKeys = ['sante', 'espoir'];
+          const avRecupEspoir = bonus.recuperation.espoir;
+          const avInitDice = bonus.initiative.dice;
+          const avInitFixe = bonus.initiative.fixe;
+          const avNodsSante = bonus.recuperation.sante;
+          const avNodsArmure = bonus.recuperation.armure;
+          const avNodsEnergie = bonus.recuperation.energie;
+
+          for (let i = 0; i < avBonusKeys.length; i++) {
+            const value = bonus[avBonusKeys[i]];
+
+            if(value > 0) {
+              effects.avantages.push({
+                key: path[avBonusKeys[i]].bonus,
+                mode: 2,
+                priority: null,
+                value: value
+              });
+            }
+          }
+
+          if(avRecupEspoir > 0) {
+            effects.avantages.push({
+              key: `system.espoir.recuperation.bonus`,
+              mode: 2,
+              priority: null,
+              value: avRecupEspoir
+            });
+          }
+
+          if(avInitDice > 0) {
+            effects.avantages.push({
+              key: `system.initiative.diceMod`,
+              mode: 2,
+              priority: null,
+              value: avInitDice
+            });
+          }
+
+          if(avInitFixe > 0) {
+            effects.avantages.push({
+              key: `system.initiative.mod`,
+              mode: 2,
+              priority: null,
+              value: avInitFixe
+            });
+          }
+
+          if(avNodsSante > 0) {
+            effects.avantages.push({
+              key: `system.combat.nods.soin.recuperationBonus`,
+              mode: 2,
+              priority: null,
+              value: avNodsSante
+            });
+          }
+
+          if(avNodsArmure > 0) {
+            effects.avantages.push({
+              key: `system.combat.nods.armure.recuperationBonus`,
+              mode: 2,
+              priority: null,
+              value: avNodsArmure
+            });
+          }
+
+          if(avNodsEnergie > 0) {
+            effects.avantages.push({
+              key: `system.combat.nods.energie.recuperationBonus`,
+              mode: 2,
+              priority: null,
+              value: avNodsEnergie
+            });
+          }
 
           if(bonus.initiative.ifEmbuscade.has) {
-            bonusDiceEmbuscadeSubis += +bonus.initiative.ifEmbuscade.dice;
-            bonusFixeEmbuscadeSubis += +bonus.initiative.ifEmbuscade.fixe;
+            const avBnInitiativeEmbuscadeDice = bonus.initiative.ifEmbuscade.dice;
+            const avBnInitiativeEmbuscadeFixe = bonus.initiative.ifEmbuscade.fixe;
+
+            if(avBnInitiativeEmbuscadeDice > 0) {
+              effects.avantages.push({
+                key: `system.bonusSiEmbuscade.bonusInitiative.dice`,
+                mode: 2,
+                priority: null,
+                value: avBnInitiativeEmbuscadeDice
+              });
+            }
+
+            if(avBnInitiativeEmbuscadeFixe > 0) {
+              effects.avantages.push({
+                key: `system.bonusSiEmbuscade.bonusInitiative.fixe`,
+                mode: 2,
+                priority: null,
+                value: avBnInitiativeEmbuscadeFixe
+              });
+            }
           }
         } else if(data.type === 'ia') {
           avantageIA.push(i);
@@ -6302,15 +6680,52 @@ export class KnightSheet extends ActorSheet {
         if(data.type === 'standard') {
           inconvenient.push(i);
 
-          sante.malus.desavantages.push(malus.sante);
-          espoir.malus.desavantages.push(malus.espoir);
-          espoir.recuperationMalus.push(malus.recuperation.espoir);
-          initiative.diceMalus.desavantages.push(malus.initiative.dice);
-          initiative.malus.desavantages.push(malus.initiative.fixe);
+          const inMalusKeys = ['sante', 'espoir'];
+          const inRecupEspoir = malus.recuperation.espoir;
+          const inInitDice = malus.initiative.dice;
+          const inInitFixe = malus.initiative.fixe;
 
-          if(!espoir.aucun) {
-            espoir.aucun = limitations.espoir.aucunGain;
+          for (let i = 0; i < inMalusKeys.length; i++) {
+            const value = malus[inMalusKeys[i]];
+
+            if(value > 0) {
+              effects.inconvenients.push({
+                key: path[inMalusKeys[i]].malus,
+                mode: 2,
+                priority: null,
+                value: value
+              });
+            }
           }
+
+          if(inRecupEspoir > 0) {
+            effects.inconvenients.push({
+              key: `system.espoir.recuperation.malus`,
+              mode: 2,
+              priority: null,
+              value: inRecupEspoir
+            });
+          }
+
+          if(inInitDice > 0) {
+            effects.inconvenients.push({
+              key: `system.initiative.diceMod`,
+              mode: 2,
+              priority: null,
+              value: -inInitDice
+            });
+          }
+
+          if(inInitFixe > 0) {
+            effects.avantages.push({
+              key: `system.initiative.mod`,
+              mode: 2,
+              priority: null,
+              value: -inInitFixe
+            });
+          }
+
+          aucunGainEspoir.push(limitations.espoir.aucunGain)
         } else if(data.type === 'ia') {
           inconvenientIA.push(i);
         }
@@ -6343,45 +6758,45 @@ export class KnightSheet extends ActorSheet {
 
       // BLESSURE
       if (i.type === 'blessure') {
-        const dataBlessure = i.system.aspects;
-        const soigne = game.i18n.localize("KNIGHT.AUTRE.Soigne");
+        const dataBlessure = data.aspects;
+        const isImplant = data.soigne.implant;
+        const isSoigne = [data.soigne.implant, data.soigne.reconstruction].includes(true);
 
-        if(i.system.soigne.implant) {
-          espoir.malus.blessures.push(3);
+        if(isImplant) {
+          effects.blessures.push({
+            key: path.espoir.malus,
+            mode: 2,
+            priority: null,
+            value: 3
+          });
         }
 
-        if(i.system.soigne.implant || i.system.soigne.reconstruction) { i.name += ` (${soigne})`; }
+        if(isSoigne) { i.name += ` (${game.i18n.localize("KNIGHT.AUTRE.Soigne")})`; }
+        else {
+          for(const aspect in dataBlessure) {
+            const caracteristiques = dataBlessure[aspect].caracteristiques;
+            const vAspect = dataBlessure[aspect].value ?? 0;
 
+            if(vAspect > 0) {
+              effects.blessures.push({
+                key: `system.aspects.${aspect}.malus`,
+                mode: 2,
+                priority: null,
+                value: vAspect
+              });
+            }
 
+            for(const caracteristique in caracteristiques) {
+              const vCaracs = caracteristiques[caracteristique].value ?? 0;
 
-        for (let [keyA, aspect] of Object.entries(aspects)) {
-          const vAspect = +dataBlessure?.[keyA]?.value || false;
-
-          if(vAspect !== false) {
-            const aspectExist = aspectsUpdate?.[keyA] || false;
-            const aspectMalusExist = aspectsUpdate?.[keyA]?.malus || false;
-
-            if(!aspectExist) aspectsUpdate[keyA] = {};
-            if(!aspectMalusExist) aspectsUpdate[keyA].malus = [];
-
-            aspectsUpdate[keyA].malus.push(vAspect);
-          }
-
-          for (let [keyC, carac] of Object.entries(aspect.caracteristiques)) {
-            const vCaracs = +dataBlessure?.[keyA]?.caracteristiques?.[keyC].value || false;
-
-            if(vCaracs > 0) {
-              const aspectExist = aspectsUpdate?.[keyA] || false;
-              const caracsListExist = aspectsUpdate?.[keyA]?.caracteristiques || false;
-              const caracsExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC] || false;
-              const caracsMalusExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC]?.malus || false;
-
-              if(!aspectExist) aspectsUpdate[keyA] = {};
-              if(!caracsListExist) aspectsUpdate[keyA].caracteristiques = {};
-              if(!caracsExist) aspectsUpdate[keyA].caracteristiques[keyC] = {};
-              if(!caracsMalusExist) aspectsUpdate[keyA].caracteristiques[keyC].malus = [];
-
-              aspectsUpdate[keyA].caracteristiques[keyC].malus.push(vCaracs);
+              if(vCaracs > 0) {
+                effects.blessures.push({
+                  key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.malus`,
+                  mode: 2,
+                  priority: null,
+                  value: vCaracs
+                });
+              }
             }
           }
         }
@@ -6391,36 +6806,31 @@ export class KnightSheet extends ActorSheet {
 
       // TRAUMA
       if (i.type === 'trauma') {
-        const dataTrauma = i.system.aspects;
+        const dataTrauma = data.aspects;
 
-        for (let [keyA, aspect] of Object.entries(aspects)) {
-          const vAspect = +dataTrauma?.[keyA]?.value || false;
+        for(const aspect in dataTrauma) {
+          const caracteristiques = dataTrauma[aspect].caracteristiques;
+          const vAspect = dataTrauma[aspect].value ?? 0;
 
-          if(vAspect !== false) {
-            const aspectExist = aspectsUpdate?.[keyA] || false;
-            const aspectMalusExist = aspectsUpdate?.[keyA]?.malus || false;
-
-            if(!aspectExist) aspectsUpdate[keyA] = {};
-            if(!aspectMalusExist) aspectsUpdate[keyA].malus = [];
-
-            aspectsUpdate[keyA].malus.push(vAspect);
+          if(vAspect > 0) {
+            effects.blessures.push({
+              key: `system.aspects.${aspect}.malus`,
+              mode: 2,
+              priority: null,
+              value: vAspect
+            });
           }
 
-          for (let [keyC, carac] of Object.entries(aspect.caracteristiques)) {
-            const vCaracs = +dataTrauma?.[keyA]?.caracteristiques?.[keyC].value || false;
+          for(const caracteristique in caracteristiques) {
+            const vCaracs = caracteristiques[caracteristique].value ?? 0;
 
             if(vCaracs > 0) {
-              const aspectExist = aspectsUpdate?.[keyA] || false;
-              const caracsListExist = aspectsUpdate?.[keyA]?.caracteristiques || false;
-              const caracsExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC] || false;
-              const caracsMalusExist = aspectsUpdate?.[keyA]?.caracteristiques?.[keyC]?.malus || false;
-
-              if(!aspectExist) aspectsUpdate[keyA] = {};
-              if(!caracsListExist) aspectsUpdate[keyA].caracteristiques = {};
-              if(!caracsExist) aspectsUpdate[keyA].caracteristiques[keyC] = {};
-              if(!caracsMalusExist) aspectsUpdate[keyA].caracteristiques[keyC].malus = [];
-
-              aspectsUpdate[keyA].caracteristiques[keyC].malus.push(vCaracs);
+              effects.blessures.push({
+                key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.malus`,
+                mode: 2,
+                priority: null,
+                value: vCaracs
+              });
             }
           }
         }
@@ -6469,6 +6879,12 @@ export class KnightSheet extends ActorSheet {
           const bDefense = effetsRaw.find(str => { if(str.includes('defense')) return str; });
           const bReaction = effetsRaw.find(str => { if(str.includes('reaction')) return str; });
 
+          let bonusDef = 0;
+          let malusDef = 0;
+          let bonusRea = 0;
+          let malusRea = 0;
+          let bonusCdf = 0;
+
           if(type === 'contact' && options2mains === true) {
             data.degats.dice = data?.options2mains?.[main]?.degats?.dice || 0;
             data.degats.fixe = data?.options2mains?.[main]?.degats?.fixe || 0;
@@ -6489,36 +6905,81 @@ export class KnightSheet extends ActorSheet {
           if (type === 'contact' && equipped === false && rack === true) { armesContactRack.push(i); }
           else if (type === 'contact' && equipped === true) {
 
-            const effets2Raw = i.system.effets2mains.raw;
+            const effets2Raw = data.effets2mains.raw;
 
-            const bMassive = i.system.structurelles.raw.find(str => { if(str.includes('massive')) return true; });
-            const bArmuregravee = i.system.ornementales.raw.find(str => { if(str.includes('armuregravee')) return true; });
+            const bMassive = data.structurelles.raw.find(str => { if(str.includes('massive')) return true; });
+            const bArmuregravee = data.ornementales.raw.find(str => { if(str.includes('armuregravee')) return true; });
             const bDefense2 = effets2Raw.find(str => { if(str.includes('defense')) return str; });
             const bReaction2 = effets2Raw.find(str => { if(str.includes('reaction')) return str; });
 
-            if((bDefense !== undefined && main === '1main') || (bDefense !== undefined && options2mains === false)) defense.bonus += +bDefense.split(' ')[1];
-            if((bReaction !== undefined && main === '1main') || (bReaction !== undefined && options2mains === false)) reaction.bonus += +bReaction.split(' ')[1];
+            if((bDefense !== undefined && main === '1main') || (bDefense !== undefined && options2mains === false)) bonusDef += Number(bDefense.split(' ')[1]);
+            if((bReaction !== undefined && main === '1main') || (bReaction !== undefined && options2mains === false)) bonusRea += Number(bReaction.split(' ')[1]);
 
-            if(bDefense2 !== undefined && main === '2main' && options2mains === true) defense.bonus += +bDefense2.split(' ')[1];
-            if(bReaction2 !== undefined && main === '2main' && options2mains === true) reaction.bonus += +bReaction2.split(' ')[1];
+            if(bDefense2 !== undefined && main === '2main' && options2mains === true) bonusDef += Number(bDefense2.split(' ')[1]);
+            if(bReaction2 !== undefined && main === '2main' && options2mains === true) bonusRea += Number(bReaction2.split(' ')[1]);
 
-            if(bMassive) defense.malus += 1;
+            if(bMassive) malusDef += 1;
 
-            if(bArmuregravee) champDeForce.bonus.armes += 2
+            if(bArmuregravee) bonusCdf += 2
 
             armesContactEquipee.push(i);
           }
           else if (type === 'distance' && equipped === false && rack === false) { armesDistanceArmoury.push(i); }
           else if (type === 'distance' && equipped === false && rack === true) { armesDistanceRack.push(i); }
           else if (type === 'distance' && equipped === true) {
-            const bProtectionarme = i.system.distance.raw.find(str => { if(str.includes('protectionarme')) return true; });
+            const bProtectionarme = data.distance.raw.find(str => { if(str.includes('protectionarme')) return true; });
 
-            if(bDefense !== undefined) defense.bonus += +bDefense.split(' ')[1];
-            if(bReaction !== undefined) reaction.bonus += +bReaction.split(' ')[1];
+            if(bDefense !== undefined) bonusDef += Number(bDefense.split(' ')[1]);
+            if(bReaction !== undefined) bonusRea += Number(bReaction.split(' ')[1]);
 
-            if(bProtectionarme) reaction.bonus += 2;
+            if(bProtectionarme) bonusRea += 2;
 
             armesDistanceEquipee.push(i);
+          }
+
+          if(bonusDef > 0) {
+            effects.armes.push({
+              key: path.defense.bonus,
+              mode: 2,
+              priority: null,
+              value: bonusDef
+            });
+          }
+
+          if(malusDef > 0) {
+            effects.armes.push({
+              key: `system.defense.malusValue`,
+              mode: 2,
+              priority: null,
+              value: malusDef
+            });
+          }
+
+          if(bonusRea > 0) {
+            effects.armes.push({
+              key: `system.reaction.bonusValue`,
+              mode: 2,
+              priority: null,
+              value: bonusRea
+            });
+          }
+
+          if(malusRea > 0) {
+            effects.armes.push({
+              key: path.reaction.malus,
+              mode: 2,
+              priority: null,
+              value: malusRea
+            });
+          }
+
+          if(bonusCdf > 0) {
+            effects.armes.push({
+              key: path.champDeForce.bonus,
+              mode: 2,
+              priority: null,
+              value: malusRea
+            });
           }
         }
       }
@@ -6527,7 +6988,7 @@ export class KnightSheet extends ActorSheet {
       if (i.type === 'armurelegende') {
         armureLegendeData = i;
 
-        const armorCapacites = i.system.capacites.selected;
+        const armorCapacites = data.capacites.selected;
 
         for (let [key, capacite] of Object.entries(armorCapacites)) {
           switch(key) {
@@ -6537,8 +6998,13 @@ export class KnightSheet extends ActorSheet {
               const bonus = filterTypes?.[0]?.[1] || false;
 
               if(bonus !== false) {
-                for (let [keyC, carac] of Object.entries(bonus.liste)){
-                  aspects[bonus.aspect].caracteristiques[keyC].overdrive.bonus += carac.value;
+                for (let [key, carac] of Object.entries(bonus.liste)){
+                  effects.armure.push({
+                    key: `system.aspects.${bonus.aspect}.caracteristiques.${key}.overdrive.bonus`,
+                    mode: 2,
+                    priority: null,
+                    value: carac.value
+                  });
                 }
               }
               break;
@@ -6559,10 +7025,70 @@ export class KnightSheet extends ActorSheet {
       if(i.type === 'distinction') {
         distinctions.push(i);
 
-        espoir.recuperationBonus.push(data.espoir);
-        egide.bonus.distinction.push(data.egide);
+        const disEgide = data.egide;
+        const disEspoir = data.espoir;
+
+        if(disEgide > 0) {
+          effects.distinctions.push({
+            key: path.egide.bonus,
+            mode: 2,
+            priority: null,
+            value: disEgide
+          });
+        }
+
+        if(disEspoir > 0) {
+          effects.avantages.push({
+            key: `system.espoir.recuperation.bonus`,
+            mode: 2,
+            priority: null,
+            value: disEspoir
+          });
+        }
       }
     }
+
+    for(const caracteristique in overdrives) {
+      const aspect = caracToAspect(caracteristique);
+      const overdrive = overdrives[caracteristique].length === 0 ? [0] : overdrives[caracteristique];
+      const value = Math.max(...overdrive) ?? 0;
+
+      if(value > 0) {
+        effects.overdrives.push({
+          key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.base`,
+          mode: 5,
+          priority: null,
+          value:value
+        });
+      }
+    }
+
+    effects.inconvenients.push({
+      key: `system.espoir.recuperation.aucun`,
+      mode: 5,
+      priority: null,
+      value:aucunGainEspoir.includes(true)
+    });
+
+    effects.armure.push({
+      key: `system.espoir.perte.saufAgonie`,
+      mode: 5,
+      priority: null,
+      value: aucunPerteSaufAgonie.includes(true)
+    });
+
+    effects.guardian.push({
+      key: path.armure.bonus,
+      mode: 2,
+      priority: null,
+      value: guardianData.armure.base
+    },
+    {
+      key: path.champDeForce.base,
+      mode: 2,
+      priority: null,
+      value: guardianData.champDeForce.base
+    });
 
     for(let [key, PG] of Object.entries(depensePGAutre)) {
       const order = PG?.order || false;
@@ -6581,6 +7107,142 @@ export class KnightSheet extends ActorSheet {
       }
     }
 
+    for (let [key, XP] of Object.entries(depenseXP)){
+      const nom = XP.nom;
+      const aspect = caracToAspect(nom);
+      const value = XP.bonus;
+
+      if(aspect !== null) {
+        effects.experiences.push({
+          key: `system.aspects.${aspect}.caracteristiques.${nom}.bonus`,
+          mode: 2,
+          priority: null,
+          value: value
+        });
+      } else if(isAspect(nom)) {
+        effects.experiences.push({
+          key: `system.aspects.${nom}.bonus`,
+          mode: 2,
+          priority: null,
+          value: value
+        });
+      }
+    };
+
+    depensePG.sort(SortByAddOrder);
+
+    for(let i = 0; i < depensePG.length;i++) {
+      effects.gloire.push({
+        key: `system.progression.gloire.depense.liste.${i}.gratuit`,
+        mode: 5,
+        priority: null,
+        value: depensePG[i].gratuit
+      },
+      {
+        key: `system.progression.gloire.depense.liste.${i}.id`,
+        mode: 5,
+        priority: null,
+        value: depensePG[i].id
+      },
+      {
+        key: `system.progression.gloire.depense.liste.${i}.isAutre`,
+        mode: 5,
+        priority: null,
+        value: depensePG[i].isAutre
+      },
+      {
+        key: `system.progression.gloire.depense.liste.${i}.name`,
+        mode: 5,
+        priority: null,
+        value: depensePG[i].name
+      },
+      {
+        key: `system.progression.gloire.depense.liste.${i}.order`,
+        mode: 5,
+        priority: null,
+        value: depensePG[i].order
+      },
+      {
+        key: `system.progression.gloire.depense.liste.${i}.value`,
+        mode: 5,
+        priority: null,
+        value: depensePG[i].value
+      },
+      {
+        key: `system.progression.gloire.depense.liste.${i}.isArmure`,
+        mode: 5,
+        priority: null,
+        value: depensePG[i].isArmure ?? false
+      },
+      {
+        key: `system.progression.gloire.depense.liste.${i}.isModule`,
+        mode: 5,
+        priority: null,
+        value: depensePG[i].isModule ?? false
+      },
+      {
+        key: `system.progression.gloire.depense.liste.${i}.niveau`,
+        mode: 5,
+        priority: null,
+        value: depensePG[i].niveau ?? 1
+      });
+    }
+
+    if(depensePG.length === 0) effects.gloire.push({
+      key: `system.progression.gloire.depense.liste.0.isEmpty`,
+      mode: 5,
+      priority: null,
+      value: true
+    });
+
+    const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
+    const listWithEffect = [
+      {label:'Armure', withoutArmor:false, withArmor:true, data:effects.armure},
+      {label:'Guardian', withoutArmor:true, withArmor:false, data:effects.guardian},
+      {label:'Overdrives', withoutArmor:false, withArmor:true, data:effects.overdrives},
+      {label:'Modules', withoutArmor:false, withArmor:true, data:effects.modules},
+      {label:'Armes', withoutArmor:true, withArmor:true, data:effects.armes},
+      {label:'Experiences', withoutArmor:true, withArmor:true, data:effects.experiences},
+      {label:'Slots', withoutArmor:true, withArmor:true, data:effects.slots},
+      {label:'Avantages', withoutArmor:true, withArmor:true, data:effects.avantages},
+      {label:'Inconvenients', withoutArmor:true, withArmor:true, data:effects.inconvenients},
+      {label:'Blessures', withoutArmor:true, withArmor:true, data:effects.blessures},
+      {label:'Traumas', withoutArmor:true, withArmor:true, data:effects.traumas},
+      {label:'Distinctions', withoutArmor:true, withArmor:true, data:effects.distinctions},
+      {label:'Gloire', withoutArmor:true, withArmor:true, data:effects.gloire},
+    ];
+
+    const toUpdate = [];
+    const toAdd = [];
+
+    for(let effect of listWithEffect) {
+      const effectExist = existEffect(listEffect, effect.label);
+      let toggle = false;
+
+      if(!onArmor && !effect.withoutArmor) toggle = true;
+      if(onArmor && !effect.withArmor) toggle = true;
+
+      if(effectExist) {
+        if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
+          "_id":effectExist._id,
+          changes:effect.data,
+          disabled:toggle
+        });
+        else if(effectExist.disabled !== toggle) toUpdate.push({
+          "_id":effectExist._id,
+          disabled:toggle
+        });
+      } else toAdd.push({
+          label: effect.label,
+          icon: '/icons/svg/mystery-man.svg',
+          changes:effect.data,
+          disabled:toggle
+      });
+    }
+
+    if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
+    if(toAdd.length > 0) addEffect(this.actor, toAdd);
+
     armesContactEquipee.sort(SortByName);
     armesContactRack.sort(SortByName);
     armesDistanceEquipee.sort(SortByName);
@@ -6592,74 +7254,8 @@ export class KnightSheet extends ActorSheet {
     inconvenientIA.sort(SortByName);
     langue.sort(SortByName);
     contact.sort(SortByName);
-    depensePG.sort(SortByAddOrder);
+
     distinctions.sort(SortByName);
-
-    for (let [key, XP] of Object.entries(depenseXP)){
-      if(XP.nom !== undefined && XP.nom !== 'autre' && XP.nom !== 'capaciteheroique' && XP.nom !== '')
-      {
-        let aspect = '';
-
-        switch(XP.nom) {
-          case 'chair':
-          case 'deplacement':
-          case 'force':
-          case 'endurance':
-            aspect = 'chair';
-            break;
-
-          case 'bete':
-          case 'hargne':
-          case 'combat':
-          case 'instinct':
-            aspect = 'bete';
-            break;
-
-          case 'machine':
-          case 'tir':
-          case 'savoir':
-          case 'technique':
-            aspect = 'machine';
-            break;
-
-          case 'dame':
-          case 'aura':
-          case 'parole':
-          case 'sangFroid':
-            aspect = 'dame';
-            break;
-
-          case 'masque':
-          case 'discretion':
-          case 'dexterite':
-          case 'perception':
-            aspect = 'masque';
-            break;
-        }
-
-        const aspectExist = aspectsUpdate?.[aspect] || false;
-
-        if(!aspectExist) aspectsUpdate[aspect] = {};
-
-        if(XP.nom !== 'chair' && XP.nom !== 'dame' && XP.nom !== 'machine' && XP.nom !== 'bete' && XP.nom !== 'masque') {
-          const CLExist = aspectsUpdate?.[aspect]?.caracteristiques || false;
-          const CExist = aspectsUpdate?.[aspect]?.caracteristiques?.[XP.nom] || false;
-          const CBExist = aspectsUpdate?.[aspect]?.caracteristiques?.[XP.nom]?.bonus || false;
-
-          if(!CLExist) aspectsUpdate[aspect].caracteristiques = {};
-          if(!CExist) aspectsUpdate[aspect].caracteristiques[XP.nom] = {};
-          if(!CBExist) aspectsUpdate[aspect].caracteristiques[XP.nom].bonus = [];
-
-          aspectsUpdate[aspect].caracteristiques[XP.nom].bonus.push(XP.bonus);
-        } else if(XP.nom === 'chair' || XP.nom === 'dame' || XP.nom === 'machine' || XP.nom === 'bete' || XP.nom === 'masque') {
-          const ABExist = aspectsUpdate?.[aspect]?.bonus || false;
-
-          if(!ABExist) aspectsUpdate[aspect].bonus = [];
-
-          aspectsUpdate[aspect].bonus.push(XP.bonus);
-        }
-      }
-    };
 
     for(let i = 0;i < armesContactEquipee.length;i++) {
       armesContactEquipee[i].system.degats.module = {};
@@ -6681,46 +7277,12 @@ export class KnightSheet extends ActorSheet {
       armesDistanceEquipee[i].system.violence.module.variable = moduleBonusViolenceVariable.distance;
     };
 
-    for (let [key, grenade] of Object.entries(grenades)){
+    for (let [key, grenade] of Object.entries(system.combat.grenades.liste)){
       const effetsRaw = grenade.effets.raw.concat(armorSpecialRaw);
       const effetsCustom = grenade.effets.custom.concat(armorSpecialCustom);
 
-      grenades[key].effets.raw = [...new Set(effetsRaw)];
-      grenades[key].effets.custom = [...new Set(effetsCustom)];
-    };
-
-    for (let [keyA, aspect] of Object.entries(aspectsUpdate)) {
-      const caracteristiquesExist = aspect?.caracteristiques || false;
-      const aspectsBonus = aspect?.bonus || false;
-      const aspectsMalus = aspect?.malus || false;
-
-      if(aspectsMalus !== false) aspects[keyA].malus = aspectsMalus.reduce(sum);
-      if(aspectsBonus !== false) aspects[keyA].bonus = aspectsBonus.reduce(sum);
-
-      if(caracteristiquesExist !== false) {
-        for (let [keyC, carac] of Object.entries(aspect.caracteristiques)) {
-
-          const cBonus = carac?.bonus || false;
-          const cMalus = carac?.malus || false;
-          const OD = carac?.overdrive || false;
-
-
-
-          if(cBonus !== false) aspects[keyA].caracteristiques[keyC].bonus = cBonus.reduce(sum);
-          if(cMalus !== false) aspects[keyA].caracteristiques[keyC].malus = cMalus.reduce(sum);
-
-          if(OD !== false) {
-            const oBase = OD?.base || false;
-            const oBonus = OD?.bonus || false;
-            const oMalus = OD?.malus || false;
-
-            if(oBase !== false) aspects[keyA].caracteristiques[keyC].overdrive.base = Math.max(...oBase);
-            if(oBonus !== false) aspects[keyA].caracteristiques[keyC].overdrive.bonus = oBonus.reduce(sum);
-            if(oMalus !== false) aspects[keyA].caracteristiques[keyC].overdrive.malus = oMalus.reduce(sum);
-          }
-        }
-      }
-
+      system.combat.grenades.liste[key].effets.raw = [...new Set(effetsRaw)];
+      system.combat.grenades.liste[key].effets.custom = [...new Set(effetsCustom)];
     };
 
     for (let [kAI, armesimprovisees] of Object.entries(system.combat.armesimprovisees.liste)) {
@@ -6821,158 +7383,36 @@ export class KnightSheet extends ActorSheet {
     actorData.distinctions = distinctions;
     actorData.capaciteultime = capaciteultime;
 
-    const update = {
-      system:{
-        sante:{
-          bonus:{
-            avantages:sante.bonus.avantages.reduce(sum)
-          },
-          malus:{
-            desavantages:sante.malus.desavantages.reduce(sum)
-          }
-        },
-        egide:{
-          bonus:{
-            armure:egide.bonus.armure.reduce(sum),
-            distinction:egide.bonus.distinction.reduce(sum)
-          }
-        },
-        espoir:{
-          value:espoir.value,
-          bonus:{
-            avantages:espoir.bonus.avantages.reduce(sum),
-            armure:espoir.bonus.armure.reduce(sum)
-          },
-          malus:{
-            desavantages:espoir.malus.desavantages.reduce(sum),
-            blessures:espoir.malus.blessures.reduce(sum)
-          },
-          recuperation:{
-            aucun:espoir.aucun,
-            bonus:espoir.recuperationBonus.reduce(sum),
-            malus:espoir.recuperationMalus.reduce(sum)
-          },
-          perte:{
-            malus:espoir.perteMalus.reduce(sum),
-            saufAgonie:espoir.perte.saufAgonie,
-            saufCapacite:espoir.perte.saufCapacite
-          }
-        },
-        initiative:{
-          diceBonus:{
-            avantages:initiative.diceBonus.avantages.reduce(sum)
-          },
-          bonus:{
-            avantages:initiative.bonus.avantages.reduce(sum)
-          },
-          diceMalus:{
-            desavantages:initiative.diceMalus.desavantages.reduce(sum)
-          },
-          malus:{
-            desavantages:initiative.malus.desavantages.reduce(sum)
-          }
-        },
-        aspects,
-        equipements:{
-          ascension:{
-            armure:{
-              bonus:{
-                modules:armure.bonus.modules.reduce(sum)
-              }
-            },
-            champDeForce:{
-              bonus:{
-                modules:champDeForce.bonus.modules.reduce(sum),
-                armes:champDeForce.bonus.armes
-              }
-            },
-            energie:{
-              bonus:{
-                modules:energie.bonus.modules.reduce(sum)
-              }
-            }
-          },
-          armure:{
-            armure:{
-              bonus:{
-                modules:armure.bonus.modules.reduce(sum)
-              }
-            },
-            champDeForce:{
-              bonus:{
-                modules:champDeForce.bonus.modules.reduce(sum),
-                armes:champDeForce.bonus.armes
-              }
-            },
-            energie:{
-              bonus:{
-                modules:energie.bonus.modules.reduce(sum)
-              }
-            },
-            slots:{
-              tete:slots.tete,
-              torse:slots.torse,
-              brasGauche:slots.brasGauche,
-              brasDroit:slots.brasDroit,
-              jambeGauche:slots.jambeGauche,
-              jambeDroite:slots.jambeDroite
-            }
-          }
-        },
-        combat:{
-          nods:nods,
-          grenades:{
-            liste:grenades
-          }
-        },
-        reaction:{
-          bonus:{
-            armes:reaction.bonus
-          },
-          malus:{
-            armes:reaction.malus
-          }
-        },
-        defense:{
-          bonus:{
-            armes:defense.bonus
-          },
-          malus:{
-            armes:defense.malus
-          }
-        },
-        progression:{
-          gloire:{
-            depense:{
-              liste:depensePG
-            }
-          }
-        },
-        bonusSiEmbuscade:{
-          bonusInitiative:{
-            dice:bonusDiceEmbuscadeSubis,
-            fixe:bonusFixeEmbuscadeSubis,
-          }
-        }
-      }
-    }
-
-    this.actor.update(update);
-
     // ON ACTUALISE ROLL UI S'IL EST OUVERT
     let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
 
     if(rollUi !== false) {
+      const nbreGrenades = system.combat.grenades.quantity.value;
       const style = system.combat.style;
       const getStyle = getModStyle(style);
+      let isWpn = rollUi.data.isWpn;
+      let idWpn = rollUi.data.idWpn;
+      let nameWpn = rollUi.data.nameWpn;
+      let typeWpn = rollUi.data.typeWpn;
+      let num = rollUi.data.num;
       let AvDv = {
         avantages:avantageIA,
         inconvenient:inconvenientIA
       };
 
-      await rollUi.setWpnContact(armesContactEquipee);
-      await rollUi.setWpnDistance(armesDistanceEquipee);
-      await rollUi.setWpnTourelle(armesTourelles);
+      let wpnGrenades = {};
+
+      if(nbreGrenades > 0) wpnGrenades = system.combat.grenades.liste
+      if(typeWpn === 'grenades'&& nbreGrenades === 0) {
+        typeWpn = ''
+        isWpn = false;
+        idWpn = '';
+        nameWpn = '';
+        num = 0;
+        await rollUi.setLabel(game.i18n.localize(`KNIGHT.JETS.Label`));
+      };
+
+      await rollUi.setWpn(armesContactEquipee, armesDistanceEquipee, armesTourelles, wpnGrenades, {contact:system.combat.armesimprovisees.liste, distance:system.combat.armesimprovisees.liste}, [], longbow);
       await rollUi.setStyle({
         fulllabel:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.FullLabel`),
         label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Label`),
@@ -6985,24 +7425,25 @@ export class KnightSheet extends ActorSheet {
         maximum:6
       });
       await rollUi.addAvDv(AvDv);
+      await rollUi.setSelected(isWpn, idWpn, nameWpn, typeWpn, num);
 
       rollUi.render(true);
     }
   }
 
-  async _prepareCapacitesParameters(context) {
-    const remplaceEnergie = context.actor?.armureData?.system?.espoir?.remplaceEnergie || false;
-    const eTotale = remplaceEnergie === false ? context.data.system.energie.max : context.data.system.espoir.max;
-    const eActuel = remplaceEnergie === false ? context.data.system.energie.value : context.data.system.espoir.value;
+  async _prepareCapacitesParameters(actor, system) {
+    const remplaceEnergie = actor?.armureData.system?.espoir?.remplaceEnergie ?? false;
+    const eTotale = !remplaceEnergie ? system.energie.max : system.espoir.max ?? 0;
+    const eActuel = !remplaceEnergie ? system.energie.value : system.espoir.value ?? 0;
 
-    const capacites = context.data.system.equipements.armure.capacites;
-    const warlord = context.actor?.armureData?.system?.capacites?.selected?.warlord || false;
-    const warlordLegende = context.actor?.armureLegendeData?.system?.capacites?.selected?.warlord || false;
-    const illumination = context.actor?.armureData?.system?.capacites?.selected?.illumination || false;
-    const companions = context.actor?.armureData?.system?.capacites?.selected?.companions || false;
-    const type = context.actor?.armureData?.system?.capacites?.selected?.type || false;
-    const typeLegende = context.actor?.armureLegendeData?.system?.capacites?.selected?.type || false;
-    const vision = context.actor?.armureData?.system?.capacites?.selected?.vision || false;
+    const capacites = system.equipements.armure.capacites;
+    const warlord = actor?.armureData?.system?.capacites?.selected?.warlord || false;
+    const warlordLegende = actor?.armureLegendeData?.system?.capacites?.selected?.warlord || false;
+    const illumination = actor?.armureData?.system?.capacites?.selected?.illumination || false;
+    const companions = actor?.armureData?.system?.capacites?.selected?.companions || false;
+    const type = actor?.armureData?.system?.capacites?.selected?.type || false;
+    const typeLegende = actor?.armureLegendeData?.system?.capacites?.selected?.type || false;
+    const vision = actor?.armureData?.system?.capacites?.selected?.vision || false;
 
     const update = {
       system:{
@@ -7084,685 +7525,137 @@ export class KnightSheet extends ActorSheet {
     }
   }
 
-  _prepareCapacitesTranslations(context) {
-    this._prepareBorealisTranslation(context);
-    this._prepareChangelingTranslation(context);
-    this._prepareCompanionsTranslation(context);
-    this._prepareCeaTranslation(context);
-    this._prepareGhostTranslation(context);
-    this._prepareGoliathTranslation(context);
-    this._prepareIlluminationTranslation(context);
-    this._prepareLongbowTranslation(context);
-    this._prepareMorphTranslation(context);
-    this._prepareOriflammeTranslation(context);
+  _prepareTranslation(actor, system) {
+    const { modules,
+      armesContactEquipee, armesDistanceEquipee,
+      armesContactRack, armesDistanceRack,
+      armesContactArmoury, armesDistanceArmoury,
+      armesTourelles } = actor;
+    const grenades = system.combat.grenades.liste;
+    const { armureData, armureLegendeData } = actor;
+    const capacites = armureData?.system?.capacites?.selected ?? {};
+    const special = armureData?.system?.special?.selected ?? {};
+    const legend = armureLegendeData?.capacites?.selected ?? {};
+    const listToVerify = {...capacites, ...special};
+    const labels = Object.assign({},
+      CONFIG.KNIGHT.effets,
+      CONFIG.KNIGHT.AMELIORATIONS.distance,
+      CONFIG.KNIGHT.AMELIORATIONS.structurelles,
+      CONFIG.KNIGHT.AMELIORATIONS.ornementales
+    );
+    const wpnModules = [
+      {data:modules, key:'modules'},
+      {data:armesContactEquipee, key:'armes'},
+      {data:armesDistanceEquipee, key:'armes'},
+      {data:armesContactRack, key:'armes'},
+      {data:armesDistanceRack, key:'armes'},
+      {data:armesContactArmoury, key:'armes'},
+      {data:armesDistanceArmoury, key:'armes'},
+      {data:armesTourelles, key:'armes'},
+      {data:grenades, key:'grenades'},
+    ];
 
-    this._prepareCompanionsLegendeTranslation(context);
-    this._prepareGhostLegendeTranslation(context);
-    this._prepareGoliathLegendeTranslation(context);
-    this._prepareOriflammeLegendeTranslation(context);
-  }
+    const list = [
+      { name: 'borealis', path: ['offensif'] },
+      { name: 'changeling', path: ['desactivationexplosive'] },
+      { name: 'companions', path: ['lion.contact.coups', 'wolf.contact.coups', 'wolf.configurations.fighter.bonus'] },
+      { name: 'cea', path: ['salve', 'vague', 'rayon'] },
+      { name: 'illumination', path: ['lantern'] },
+      { name: 'longbow', path: ['effets.base', 'effets.liste1', 'effets.liste2', 'effets.liste3', 'distance'], simple:true },
+      { name: 'morph', path: ['polymorphie.griffe', 'polymorphie.lame', 'polymorphie.canon'] },
+      { name: 'oriflamme', path: [''] },
+      { name: 'porteurlumiere', path: ['bonus'] },
+    ];
 
-  _prepareBorealisTranslation(context) {
-    const capacite = context.actor?.armureData?.system?.capacites?.selected?.borealis || false;
-    if(capacite === false) return;
+    this._updateEffects(listToVerify, list, labels);
+    this._updateEffects(legend, list, labels);
 
-    const bRaw = capacite.offensif.effets.raw;
-    const bCustom = capacite.offensif.effets.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    for(let i = 0;i < wpnModules.length;i++) {
+      const base = wpnModules[i];
+      const data = base.data;
 
-    capacite.offensif.effets.liste = listEffects(bRaw, bCustom, labels);
-  }
+      if(!data) continue;
 
-  _prepareChangelingTranslation(context) {
-    const capacite = context.actor?.armureData?.system?.capacites?.selected?.changeling || false;
-    if(capacite === false) return;
+      const listData = {
+        modules:[{path:['system.arme.effets', 'system.arme.distance', 'system.arme.structurelles', 'system.arme.ornementales', 'system.jetsimple.effets'], simple:true}],
+        armes:[{path:['system.effets', 'system.distance', 'system.structurelles', 'system.ornementales'], simple:true}],
+        grenades:[{path:['effets'], simple:true}]
+      }[base.key];
 
-    const bRaw = capacite.desactivationexplosive.effets.raw;
-    const bCustom = capacite.desactivationexplosive.effets.custom;
-    const labels = CONFIG.KNIGHT.effets;
-
-    capacite.desactivationexplosive.effets.liste = listEffects(bRaw, bCustom, labels);
-  }
-
-  _prepareCompanionsTranslation(context) {
-    const companions = context.actor?.armureData?.system?.capacites.selected?.companions;
-    const lEffets = companions?.lion?.armes || false;
-    const wEffets = companions?.wolf?.armes || false;
-    const bEffets = companions?.wolf?.configurations?.fighter?.bonus?.effets || false;
-
-    if(!companions) return;
-
-    const labels = CONFIG.KNIGHT.effets;
-
-
-    if(lEffets != false) {
-      const cLEffets = lEffets.contact.coups.effets;
-      const cLRaw = cLEffets.raw;
-      const cLCustom = cLEffets.custom;
-
-      cLEffets.liste = listEffects(cLRaw, cLCustom, labels);
-    }
-
-    if(wEffets != false) {
-      const cWEffets = wEffets.contact.coups.effets;
-      const cWRaw = cWEffets.raw;
-      const CWCustom = cWEffets.custom;
-
-      cWEffets.liste = listEffects(cWRaw, CWCustom, labels);
-    }
-
-    if(bEffets != false) {
-      const raw = bEffets.raw;
-      const custom = bEffets.custom;
-
-      bEffets.liste = listEffects(raw, custom, labels);
+      this._updateEffects(data, listData, labels, true);
     }
   }
 
-  _prepareCompanionsLegendeTranslation(context) {
-    const companions = context.actor?.armureLegendeData?.system?.capacites.selected?.companions;
-    const lEffets = companions?.lion?.armes || false;
-    const wEffets = companions?.wolf?.armes || false;
-    const bEffets = companions?.wolf?.configurations?.fighter?.bonus?.effets || false;
+  _updateEffects(listToVerify, list, labels, items = false) {
+    const process = (capacite, path, simple) => {
+      const data = path.split('.').reduce((obj, key) => obj?.[key], capacite);
+      if (!data) return;
+      const effets = simple ? data : data.effets;
+      effets.liste = listEffects(effets.raw, effets.custom, labels);
+    };
 
-    if(!companions) return;
-
-    const labels = CONFIG.KNIGHT.effets;
-
-
-    if(lEffets != false) {
-      const cLEffets = lEffets.contact.coups.effets;
-      const cLRaw = cLEffets.raw;
-      const cLCustom = cLEffets.custom;
-
-      cLEffets.liste = listEffects(cLRaw, cLCustom, labels);
-    }
-
-    if(wEffets != false) {
-      const cWEffets = wEffets.contact.coups.effets;
-      const cWRaw = cWEffets.raw;
-      const CWCustom = cWEffets.custom;
-
-      cWEffets.liste = listEffects(cWRaw, CWCustom, labels);
-    }
-
-    if(bEffets != false) {
-      const raw = bEffets.raw;
-      const custom = bEffets.custom;
-
-      bEffets.liste = listEffects(raw, custom, labels);
-    }
-  }
-
-  _prepareCeaTranslation(context) {
-    const capacite = context.actor?.armureData?.system?.capacites?.selected?.cea || false;
-    if(capacite === false) return;
-
-    const bSRaw = capacite.salve.effets.raw;
-    const bSCustom = capacite.salve.effets.custom;
-    const bVRaw = capacite.vague.effets.raw;
-    const bVCustom = capacite.vague.effets.custom;
-    const bRRaw = capacite.rayon.effets.raw;
-    const bRCustom = capacite.rayon.effets.custom;
-    const labels = CONFIG.KNIGHT.effets;
-
-    capacite.salve.effets.liste = listEffects(bSRaw, bSCustom, labels);
-    capacite.vague.effets.liste = listEffects(bVRaw, bVCustom, labels);
-    capacite.rayon.effets.liste = listEffects(bRRaw, bRCustom, labels);
-  }
-
-  _prepareGhostTranslation(context) {
-    const capacite = context.actor?.armureData?.system?.capacites?.selected?.ghost || false;
-    if(capacite === false) return;
-
-    const bonus = capacite.bonus.degats;
-    const inclus = bonus.inclus;
-
-    const odInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["odinclus"]);
-    const odNoInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["odnoinclus"]);
-
-    const diceInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["diceinclus"]);
-    const diceNoInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["dicenoinclus"]);
-
-    const fixeInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["fixeinclus"]);
-    const fixeNoInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["fixenoinclus"]);
-
-    if(bonus.dice === true) { inclus.dice = diceInclus; }
-    else { inclus.dice = diceNoInclus; }
-
-    if(bonus.fixe === true) { inclus.fixe = fixeInclus; }
-    else { inclus.fixe = fixeNoInclus; }
-
-    if(bonus.od === true) { inclus.od = odInclus; }
-    else { inclus.od = odNoInclus; }
-  }
-
-  _prepareGhostLegendeTranslation(context) {
-    const capacite = context.actor?.armureLegendeData?.system?.capacites?.selected?.ghost || false;
-    if(capacite === false) return;
-
-    const bonus = capacite.bonus.degats;
-    const inclus = bonus.inclus;
-
-    const odInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["odinclus"]);
-    const odNoInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["odnoinclus"]);
-
-    const diceInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["diceinclus"]);
-    const diceNoInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["dicenoinclus"]);
-
-    const fixeInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["fixeinclus"]);
-    const fixeNoInclus = game.i18n.localize(CONFIG.KNIGHT.ghost["fixenoinclus"]);
-
-    if(bonus.dice === true) { inclus.dice = diceInclus; }
-    else { inclus.dice = diceNoInclus; }
-
-    if(bonus.fixe === true) { inclus.fixe = fixeInclus; }
-    else { inclus.fixe = fixeNoInclus; }
-
-    if(bonus.od === true) { inclus.od = odInclus; }
-    else { inclus.od = odNoInclus; }
-  }
-
-  _prepareGoliathTranslation(context) {
-    const capacite = context.actor?.armureData?.system?.capacites?.selected?.goliath?.armesRack || false;
-    if(capacite === false) return;
-
-    if(capacite.active) {
-      capacite.label = game.i18n.localize(CONFIG.KNIGHT.goliath["armesrack"])+" "+capacite.value+" "+game.i18n.localize(CONFIG.KNIGHT.goliath["metrebonus"]).toLowerCase();
+    if (!items) {
+      for (const { name, path, simple } of list) {
+        const capacite = listToVerify?.[name];
+        if (!capacite) continue;
+        path.forEach(p => process(capacite, p, simple));
+      }
     } else {
-      capacite.label = game.i18n.localize(CONFIG.KNIGHT.goliath["armesnorack"]);
-    }
-  }
-
-  _prepareGoliathLegendeTranslation(context) {
-    const capacite = context.actor?.armureLegendeData?.system?.capacites?.selected?.goliath?.armesRack || false;
-    if(capacite === false) return;
-
-    if(capacite.active) {
-      capacite.label = game.i18n.localize(CONFIG.KNIGHT.goliath["armesrack"])+" "+capacite.value+" "+game.i18n.localize(CONFIG.KNIGHT.goliath["metrebonus"]).toLowerCase();
-    } else {
-      capacite.label = game.i18n.localize(CONFIG.KNIGHT.goliath["armesnorack"]);
-    }
-  }
-
-  _prepareIlluminationTranslation(context) {
-    const capacite = context.actor?.armureData?.system?.capacites?.selected?.illumination || false;
-    if(capacite === false) return;
-
-    const beacon = capacite.beacon;
-    const candle = capacite.candle;
-    const torch = capacite.torch;
-    const lighthouse = capacite.lighthouse;
-    const lantern = capacite.lantern;
-    const blaze = capacite.blaze;
-    const projector = capacite.projector;
-
-    beacon.labelPortee = game.i18n.localize(`KNIGHT.PORTEE.${capacite.beacon.portee.charAt(0).toUpperCase()+capacite.beacon.portee.substr(1)}`);
-    candle.labelPortee = game.i18n.localize(`KNIGHT.PORTEE.${capacite.candle.portee.charAt(0).toUpperCase()+capacite.candle.portee.substr(1)}`);
-    torch.labelPortee = game.i18n.localize(`KNIGHT.PORTEE.${capacite.torch.portee.charAt(0).toUpperCase()+capacite.torch.portee.substr(1)}`);
-    lighthouse.labelPortee = game.i18n.localize(`KNIGHT.PORTEE.${capacite.lighthouse.portee.charAt(0).toUpperCase()+capacite.lighthouse.portee.substr(1)}`);
-    lantern.labelPortee = game.i18n.localize(`KNIGHT.PORTEE.${capacite.lantern.portee.charAt(0).toUpperCase()+capacite.lantern.portee.substr(1)}`);
-    blaze.labelPortee = game.i18n.localize(`KNIGHT.PORTEE.${capacite.blaze.portee.charAt(0).toUpperCase()+capacite.blaze.portee.substr(1)}`);
-    projector.labelPortee = game.i18n.localize(`KNIGHT.PORTEE.${capacite.projector.portee.charAt(0).toUpperCase()+capacite.projector.portee.substr(1)}`);
-
-    const raw = lantern.effets.raw;
-    const custom = lantern.effets.custom;
-    const labels = CONFIG.KNIGHT.effets;
-
-    lantern.effets.liste = listEffects(raw, custom, labels);
-  }
-
-  _prepareLongbowTranslation(context) {
-    const longbow = context.actor?.armureData?.system?.capacites?.selected?.longbow || false;
-
-    if(longbow === false) return;
-
-    const effets = longbow.effets;
-
-    const lEB = effets.base;
-    const lRB = lEB.raw;
-    const lCB = lEB.custom;
-
-    const lE1 = effets.liste1;
-    const lR1 = lE1.raw;
-    const lC1 = lE1.custom;
-
-    const lE2 = effets.liste2;
-    const lR2 = lE2.raw;
-    const lC2 = lE2.custom;
-
-    const lE3 = effets.liste3;
-    const lR3 = lE3.raw;
-    const lC3 = lE3.custom;
-
-    const lA = longbow?.distance || {raw:[], custom:[]};
-    const lRA = lA.raw;
-    const lCA = lA.custom;
-
-    const lEffets3 = lE3.acces;
-
-    const labels = CONFIG.KNIGHT.effets;
-    const labelsA = CONFIG.KNIGHT.AMELIORATIONS.distance;
-
-    lEB.liste = listEffects(lRB, lCB, labels);
-    lE1.liste = listEffects(lR1, lC1, labels);
-    lE2.liste = listEffects(lR2, lC2, labels);
-    lE3.liste = listEffects(lR3, lC3, labels);
-    lA.liste = listEffects(lRA, lCA, labelsA);
-
-    if(lEffets3) {
-      lE3.label = game.i18n.localize(CONFIG.KNIGHT.longbow["effets3"]);
-    } else {
-      lE3.label = game.i18n.localize(CONFIG.KNIGHT.longbow["noeffets3"]);
-    }
-  }
-
-  _prepareMorphTranslation(context) {
-    const morph = context.actor?.armureData?.system?.capacites?.selected?.morph || false;
-
-    if(morph === false) return;
-
-    const effetsG = morph.polymorphie.griffe.effets;
-    const rawG = effetsG.raw;
-    const customG = effetsG.custom;
-    const labels = CONFIG.KNIGHT.effets;
-
-    const effetsL = morph.polymorphie.lame.effets;
-    const rawL = effetsL.raw;
-    const customL = effetsL.custom;
-
-    const effetsC = morph.polymorphie.canon.effets;
-    const rawC = effetsC.raw;
-    const customC = effetsC.custom;
-
-    effetsG.liste = listEffects(rawG, customG, labels);
-    effetsL.liste = listEffects(rawL, customL, labels);
-    effetsC.liste = listEffects(rawC, customC, labels);
-  }
-
-  _prepareOriflammeTranslation(context) {
-    const oriflamme = context.actor?.armureData?.system?.capacites?.selected?.oriflamme || false;
-
-    if(oriflamme === false) return;
-
-    const effets = oriflamme.effets;
-    const raw = effets.raw;
-    const custom = effets.custom;
-    const labels = CONFIG.KNIGHT.effets;
-
-    effets.liste = listEffects(raw, custom, labels);
-  }
-
-  _prepareOriflammeLegendeTranslation(context) {
-    const oriflamme = context.actor?.armureLegendeData?.system?.capacites?.selected?.oriflamme || false;
-
-    if(oriflamme === false) return;
-
-    const effets = oriflamme.effets;
-    const raw = effets.raw;
-    const custom = effets.custom;
-    const labels = CONFIG.KNIGHT.effets;
-
-    effets.liste = listEffects(raw, custom, labels);
-  }
-
-  _prepareSpecialTranslations(context) {
-    this._prepareContrecoupsTranslation(context);
-    this._preparePorteurLumiereTranslation(context);
-  }
-
-  _prepareContrecoupsTranslation(context) {
-    const contrecoups = context.actor?.armureData?.system?.special?.selected?.contrecoups || false;
-
-    if(contrecoups === false) return;
-
-    const relance = contrecoups.relance.value;
-
-    if(relance) {
-      contrecoups.relance.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["relance"]);
-    } else {
-      contrecoups.relance.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["norelance"]);
-    }
-
-    const maxeffets = contrecoups.maxeffets.value;
-
-    if(maxeffets) {
-      contrecoups.maxeffets.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["maxeffets"]);
-    } else {
-      contrecoups.maxeffets.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["nomaxeffets"]);
-    }
-
-    const armedistance = contrecoups.armedistance.value;
-
-    if(armedistance) {
-      contrecoups.armedistance.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["armedistance"]);
-    } else {
-      contrecoups.armedistance.label = game.i18n.localize(CONFIG.KNIGHT.contrecoups["noarmedistance"]);
-    }
-  }
-
-  _preparePorteurLumiereTranslation(context) {
-    const porteurlumiere = context.actor?.armureData?.system?.special?.selected?.porteurlumiere || false;
-
-    if(porteurlumiere === false) return;
-
-    const ePorteur = porteurlumiere.bonus.effets;
-    const labelsE = CONFIG.KNIGHT.effets;
-
-    ePorteur.liste = listEffects(ePorteur.raw, ePorteur.custom, labelsE);
-  }
-
-  _prepareModuleTranslation(context) {
-    const modules = context.actor?.modules || false;
-
-    if(modules === false) return;
-
-    for (let [key, module] of Object.entries(modules)) {
-      const raw = module.system.arme.effets.raw;
-      const custom = module.system.arme.effets.custom;
-      const labels = CONFIG.KNIGHT.effets;
-
-      const rawD = module.system.arme.distance.raw;
-      const customD = module.system.arme.distance.custom;
-      const labelsD = CONFIG.KNIGHT.AMELIORATIONS.distance;
-
-      const rawS = module.system.arme.structurelles.raw;
-      const customS = module.system.arme.structurelles.custom;
-      const labelsS = CONFIG.KNIGHT.AMELIORATIONS.structurelles;
-
-      const rawO = module.system.arme.ornementales.raw;
-      const customO = module.system.arme.ornementales.custom;
-      const labelsO = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
-
-      const rawM = module.system.jetsimple.effets.raw;
-      const customM = module.system.jetsimple.effets.custom;
-
-      module.system.jetsimple.effets.liste = listEffects(rawM, customM, labels);
-      module.system.arme.effets.liste = listEffects(raw, custom, labels);
-      module.system.arme.distance.liste = listEffects(rawD, customD, labelsD);
-      module.system.arme.structurelles.liste = listEffects(rawS, customS, labelsS);
-      module.system.arme.ornementales.liste = listEffects(rawO, customO, labelsO);
-
-      const pnj = module.system.pnj.liste;
-
-      for (let [kNpc, npc] of Object.entries(pnj)) {
-        if(npc.armes.has) {
-          const armes = npc.armes.liste;
-
-          for (let [kArme, arme] of Object.entries(armes)) {
-            const rArme = arme.effets.raw;
-            const cArme = arme.effets.custom;
-
-            arme.effets.liste = listEffects(rArme, cArme, labels);
-          }
+      if (!listToVerify) return;
+      for (const [key, module] of Object.entries(listToVerify)) {
+        for (const { path, simple } of list) {
+          path.forEach(p => process(module, p, simple));
         }
       }
     }
   }
 
-  _prepareWpnEffets(context) {
-    const aCEEffets = context.actor?.armesContactEquipee || false;
-    const aDEEffets = context.actor?.armesDistanceEquipee || false;
-    const aCEffets = context.actor?.armesContactRack || false;
-    const aDEffets = context.actor?.armesDistanceRack || false;
-    const aCAEffets = context.actor?.armesContactArmoury || false;
-    const aDAEffets = context.actor?.armesDistanceArmoury || false;
-    const aTEffets = context.actor?.armesTourelles || false;
-
-    const labelsE = CONFIG.KNIGHT.effets;
-    const labelsD = CONFIG.KNIGHT.AMELIORATIONS.distance;
-    const labelsS = CONFIG.KNIGHT.AMELIORATIONS.structurelles;
-    const labelsO = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
-
-
-    if(aCEffets !== false) {
-      for (let [key, effets] of Object.entries(aCEffets)) {
-        const bRaw = effets.system?.effets?.raw || [];
-        const bCustom = effets.system?.effets?.custom || [];
-        const effet2mains = effets.system?.effets2mains || false;
-        const bRaw2 = effets.system?.effets2mains?.raw || [];
-        const bCustom2 = effets.system?.effets2mains?.custom || [];
-
-        const bRDistance = effets.system?.distance?.raw || [];
-        const bCDistance = effets.system?.distance?.custom || [];
-
-        const bRStructurelles = effets.system?.structurelles?.raw || [];
-        const bCStructurelles = effets.system?.structurelles?.custom || [];
-
-        const bROrnementales = effets.system?.ornementales?.raw || [];
-        const bCOrnementales = effets.system?.ornementales?.custom || [];
-
-        effets.system.effets.liste = listEffects(bRaw, bCustom, labelsE);
-
-        if(effet2mains !== false) {
-          effet2mains.liste = listEffects(bRaw2, bCustom2, labelsE);
-        }
-
-        if(bRDistance.length !== 0) effets.system.distance.liste = listEffects(bRDistance, bCDistance, labelsD);
-        if(bRStructurelles.length !== 0) effets.system.structurelles.liste = listEffects(bRStructurelles, bCStructurelles, labelsS);
-        if(bROrnementales.length !== 0) effets.system.ornementales.liste = listEffects(bROrnementales, bCOrnementales, labelsO);
-      };
-    }
-
-    if(aDEffets !== false) {
-      for (let [key, effets] of Object.entries(aDEffets)) {
-        const bRaw = effets.system?.effets?.raw || [];
-        const bCustom = effets.system?.effets?.custom || [];
-
-        const bRDistance = effets.system?.distance?.raw || [];
-        const bCDistance = effets.system?.distance?.custom || [];
-
-        const bRStructurelles = effets.system?.structurelles?.raw || [];
-        const bCStructurelles = effets.system?.structurelles?.custom || [];
-
-        const bROrnementales = effets.system?.ornementales?.raw || [];
-        const bCOrnementales = effets.system?.ornementales?.custom || [];
-
-        effets.system.effets.liste = listEffects(bRaw, bCustom, labelsE);
-        if(bRDistance.length !== 0) effets.system.distance.liste = listEffects(bRDistance, bCDistance, labelsD);
-        if(bRStructurelles.length !== 0) effets.system.structurelles.liste = listEffects(bRStructurelles, bCStructurelles, labelsS);
-        if(bROrnementales.length !== 0) effets.system.ornementales.liste = listEffects(bROrnementales, bCOrnementales, labelsO);
-
-        const effetMunition = effets.system?.optionsmunitions?.liste || false;
-
-        for (let [kM, munition] of Object.entries(effetMunition)) {
-          const bRaw2 = munition.raw || [];
-          const bCustom2 = munition.custom || [];
-
-          munition.liste = listEffects(bRaw2, bCustom2, labelsE);
-        }
-      };
-
-    }
-
-    if(aCEEffets !== false) {
-      for (let [key, effets] of Object.entries(aCEEffets)) {
-        const bRaw = effets.system?.effets?.raw || [];
-        const bCustom = effets.system?.effets?.custom || [];
-        const effet2mains = effets.system?.effets2mains || false;
-        const bRaw2 = effets.system?.effets2mains?.raw || [];
-        const bCustom2 = effets.system?.effets2mains?.custom || [];
-
-        const bRDistance = effets.system?.distance?.raw || [];
-        const bCDistance = effets.system?.distance?.custom || [];
-
-        const bRStructurelles = effets.system?.structurelles?.raw || [];
-        const bCStructurelles = effets.system?.structurelles?.custom || [];
-
-        const bROrnementales = effets.system?.ornementales?.raw || [];
-        const bCOrnementales = effets.system?.ornementales?.custom || [];
-
-        effets.system.effets.liste = listEffects(bRaw, bCustom, labelsE);
-
-        if(effet2mains !== false) {
-          effet2mains.liste = listEffects(bRaw2, bCustom2, labelsE);
-        }
-
-        if(bRDistance.length !== 0) effets.system.distance.liste = listEffects(bRDistance, bCDistance, labelsD);
-        if(bRStructurelles.length !== 0) effets.system.structurelles.liste = listEffects(bRStructurelles, bCStructurelles, labelsS);
-        if(bROrnementales.length !== 0) effets.system.ornementales.liste = listEffects(bROrnementales, bCOrnementales, labelsO);
-      };
-    }
-
-    if(aDEEffets !== false) {
-      for (let [key, effets] of Object.entries(aDEEffets)) {
-        const bRaw = effets.system?.effets?.raw || [];
-        const bCustom = effets.system?.effets?.custom || [];
-
-        const bRDistance = effets.system?.distance?.raw || [];
-        const bCDistance = effets.system?.distance?.custom || [];
-
-        const bRStructurelles = effets.system?.structurelles?.raw || [];
-        const bCStructurelles = effets.system?.structurelles?.custom || [];
-
-        const bROrnementales = effets.system?.ornementales?.raw || [];
-        const bCOrnementales = effets.system?.ornementales?.custom || [];
-
-        effets.system.effets.liste = listEffects(bRaw, bCustom, labelsE);
-        if(bRDistance.length !== 0) effets.system.distance.liste = listEffects(bRDistance, bCDistance, labelsD);
-        if(bRStructurelles.length !== 0) effets.system.structurelles.liste = listEffects(bRStructurelles, bCStructurelles, labelsS);
-        if(bROrnementales.length !== 0) effets.system.ornementales.liste = listEffects(bROrnementales, bCOrnementales, labelsO);
-
-        const effetMunition = effets.system?.optionsmunitions?.liste || false;
-
-        for (let [kM, munition] of Object.entries(effetMunition)) {
-          const bRaw2 = munition.raw || [];
-          const bCustom2 = munition.custom || [];
-
-          munition.liste = listEffects(bRaw2, bCustom2, labelsE);
-        }
-      };
-
-    }
-
-    if(aCAEffets !== false) {
-      for (let [key, effets] of Object.entries(aCAEffets)) {
-        const bRaw = effets.system?.effets?.raw || [];
-        const bCustom = effets.system?.effets?.custom || [];
-        const effet2mains = effets.system?.effets2mains || false;
-        const bRaw2 = effets.system?.effets2mains?.raw || [];
-        const bCustom2 = effets.system?.effets2mains?.custom || [];
-
-        const bRDistance = effets.system?.distance?.raw || [];
-        const bCDistance = effets.system?.distance?.custom || [];
-
-        const bRStructurelles = effets.system?.structurelles?.raw || [];
-        const bCStructurelles = effets.system?.structurelles?.custom || [];
-
-        const bROrnementales = effets.system?.ornementales?.raw || [];
-        const bCOrnementales = effets.system?.ornementales?.custom || [];
-
-        effets.system.effets.liste = listEffects(bRaw, bCustom, labelsE);
-
-        if(effet2mains !== false) {
-          effet2mains.liste = listEffects(bRaw2, bCustom2, labelsE);
-        }
-
-        if(bRDistance.length !== 0) effets.system.distance.liste = listEffects(bRDistance, bCDistance, labelsD);
-        if(bRStructurelles.length !== 0) effets.system.structurelles.liste = listEffects(bRStructurelles, bCStructurelles, labelsS);
-        if(bROrnementales.length !== 0) effets.system.ornementales.liste = listEffects(bROrnementales, bCOrnementales, labelsO);
-      };
-    }
-
-    if(aDAEffets !== false) {
-      for (let [key, effets] of Object.entries(aDAEffets)) {
-        const bRaw = effets.system?.effets?.raw || [];
-        const bCustom = effets.system?.effets?.custom || [];
-
-        const bRDistance = effets.system?.distance?.raw || [];
-        const bCDistance = effets.system?.distance?.custom || [];
-
-        const bRStructurelles = effets.system?.structurelles?.raw || [];
-        const bCStructurelles = effets.system?.structurelles?.custom || [];
-
-        const bROrnementales = effets.system?.ornementales?.raw || [];
-        const bCOrnementales = effets.system?.ornementales?.custom || [];
-
-        effets.system.effets.liste = listEffects(bRaw, bCustom, labelsE);
-        if(bRDistance.length !== 0) effets.system.distance.liste = listEffects(bRDistance, bCDistance, labelsD);
-        if(bRStructurelles.length !== 0) effets.system.structurelles.liste = listEffects(bRStructurelles, bCStructurelles, labelsS);
-        if(bROrnementales.length !== 0) effets.system.ornementales.liste = listEffects(bROrnementales, bCOrnementales, labelsO);
-
-        const effetMunition = effets.system?.optionsmunitions?.liste || false;
-
-        for (let [kM, munition] of Object.entries(effetMunition)) {
-          const bRaw2 = munition.raw || [];
-          const bCustom2 = munition.custom || [];
-
-          munition.liste = listEffects(bRaw2, bCustom2, labelsE);
-        }
-      };
-    }
-
-    if(aTEffets !== false) {
-      for (let [key, effets] of Object.entries(aTEffets)) {
-        const bRaw = effets.system?.effets?.raw || [];
-        const bCustom = effets.system?.effets?.custom || [];
-
-        const bRDistance = effets.system?.distance?.raw || [];
-        const bCDistance = effets.system?.distance?.custom || [];
-
-        const bRStructurelles = effets.system?.structurelles?.raw || [];
-        const bCStructurelles = effets.system?.structurelles?.custom || [];
-
-        const bROrnementales = effets.system?.ornementales?.raw || [];
-        const bCOrnementales = effets.system?.ornementales?.custom || [];
-
-        effets.system.effets.liste = listEffects(bRaw, bCustom, labelsE);
-        if(bRDistance.length !== 0) effets.system.distance.liste = listEffects(bRDistance, bCDistance, labelsD);
-        if(bRStructurelles.length !== 0) effets.system.structurelles.liste = listEffects(bRStructurelles, bCStructurelles, labelsS);
-        if(bROrnementales.length !== 0) effets.system.ornementales.liste = listEffects(bROrnementales, bCOrnementales, labelsO);
-
-        const effetMunition = effets.system?.optionsmunitions?.liste || false;
-
-        for (let [kM, munition] of Object.entries(effetMunition)) {
-          const bRaw2 = munition.raw || [];
-          const bCustom2 = munition.custom || [];
-
-          munition.liste = listEffects(bRaw2, bCustom2, labelsE);
-        }
-      };
-    }
-  }
-
-  _prepareOverdrives(aspect, name, data, context) {
-    const actor = context.actor?.overdrives || false;
-    const aspects = context.actor?.overdrives?.[aspect] || false;
-    const OD = data.overdrive.value;
-
-    if(!actor) context.actor.overdrives = {};
-
+  _prepareOverdrives(actor, system) {
+    const aspects = system.aspects;
     let result = {};
 
-    for(let i = 1;i <= OD;i++) {
-      const string = `KNIGHT.ASPECTS.${aspect.toUpperCase()}.CARACTERISTIQUES.${name.toUpperCase()}.OD${i}`;
-      const translation = game.i18n.localize(string);
-      const listExist = result?.liste || false;
+    for (const aspect in aspects) {
+        const caracteristiques = aspects[aspect].caracteristiques;
 
-      if(translation !== string) {
-        if(!listExist) result.liste = {};
-        result.liste[`OD${i}`] = {};
-        result.liste[`OD${i}`].value = i;
-        result.liste[`OD${i}`].description = translation;
-      }
+        for (const caracteristique in caracteristiques) {
+            const value = caracteristiques[caracteristique].overdrive.value;
+            let liste = {};
+
+            for (let i = 1; i <= value; i++) {
+                const string = `KNIGHT.ASPECTS.${aspect.toUpperCase()}.CARACTERISTIQUES.${caracteristique.toUpperCase()}.OD${i}`;
+                const translation = game.i18n.localize(string);
+
+                if (translation === string) continue;
+
+                liste[`OD${i}`] = {
+                    value: i,
+                    description: translation,
+                };
+            }
+
+            if (Object.keys(liste).length > 0) {
+                result = {
+                    ...result,
+                    [aspect]: {
+                        ...result[aspect],
+                        [caracteristique]: {
+                            titre: game.i18n.localize(`KNIGHT.ASPECTS.${aspect.toUpperCase()}.CARACTERISTIQUES.${caracteristique.toUpperCase()}.OD`),
+                            liste,
+                        },
+                    },
+                };
+            }
+        }
     }
 
-    const length = Object.keys(result).length;
-
-    if(length > 0) {
-      result['OD'] = game.i18n.localize(`KNIGHT.ASPECTS.${aspect.toUpperCase()}.CARACTERISTIQUES.${name.toUpperCase()}.OD`);
-
-      if(!aspects) context.actor.overdrives[aspect] = {};
-      context.actor.overdrives[aspect][name] = result;
-    }
+    actor.overdrives = result;
   }
 
-  _maxValue(sheetData) {
-    const data = sheetData.data.system;
+  _maxValue(system) {
     const list = [`sante`, `espoir`];
 
     for(let i = 0;i < list.length;i++) {
-      const dataBase = data[list[i]];
+      const dataBase = system[list[i]];
 
       if(dataBase.value > dataBase.max) { dataBase.value = dataBase.max; }
     }
@@ -7788,7 +7681,7 @@ export class KnightSheet extends ActorSheet {
     }
 
     if(substract < 0) {
-      const lNot = remplaceEnergie ? game.i18n.localize('KNIGHT.JETS.Notespoir') : game.i18n.localize('KNIGHT.JETS.Notenergie');
+      const lNot = remplaceEnergie || forceEspoir ? game.i18n.localize('KNIGHT.JETS.Notespoir') : game.i18n.localize('KNIGHT.JETS.Notenergie');
 
       const msgEnergie = {
         flavor:`${label}`,
@@ -8027,7 +7920,9 @@ export class KnightSheet extends ActorSheet {
     const deployLongbow = typeWpn === 'longbow' ? true : false;
     const hasBarrage = typeWpn === 'grenades' ? data.data.system.combat.grenades.liste[nameWpn].effets.raw.find(str => { if(str.includes('barrage')) return true; }) : false;
     const rBonus = reussitesBonus === 0 ? data.data.system.combat.data.succesbonus : reussitesBonus;
+    const nbreGrenades = data.systemData.combat.grenades.quantity.value;
     let base = select === '' ? bonus[0] : caracteristique;
+    let typeWpnFinal = typeWpn;
 
     if(base === undefined) {base = '';}
 
@@ -8075,9 +7970,23 @@ export class KnightSheet extends ActorSheet {
       inconvenient:data.actor.inconvenientIA
     };
 
+    let wpnGrenades = {};
+
+    if(nbreGrenades > 0) wpnGrenades = data.systemData.combat.grenades.liste
+    if(typeWpn === 'grenades'&& nbreGrenades === 0) typeWpnFinal = '';
+
+    await rollApp.setLabel(label);
     await rollApp.setActor(this.actor.id);
+    await rollApp.setRoll(select, bonus, mCombos.lock, difficulte);
+    await rollApp.setBonus(data.data.system.combat.data.modificateur, rBonus,
+      {dice:data.data.system.combat.data.degatsbonus.dice, fixe:data.data.system.combat.data.degatsbonus.fixe},
+      {dice:data.data.system.combat.data.violencebonus.dice, fixe:data.data.system.combat.data.violencebonus.fixe});
+    await rollApp.setWpn(data.actor.armesContactEquipee, armeDistanceEquipee, armeTourelle, wpnGrenades, {contact:data.systemData.combat.armesimprovisees.liste, distance:data.systemData.combat.armesimprovisees.liste}, [], data.actor.longbow);
+    await rollApp.setSelected(isWpn, idWpn, nameWpn, typeWpnFinal, num);
+    await rollApp.setDeploy(deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, deployGrenades, deployLongbow, false);
+    await rollApp.setWhatIs(false, false);
     await rollApp.setAspects(aspects);
-    await rollApp.setEffets(hasBarrage, true, true, true);
+    await rollApp.setEffets(hasBarrage, false);
     await rollApp.setStyle({
       fulllabel:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.FullLabel`),
       label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Label`),
@@ -8089,14 +7998,6 @@ export class KnightSheet extends ActorSheet {
       sacrifice:data.data.system.combat.data.sacrifice,
       maximum:6
     });
-    await rollApp.setData(label, select, bonus, mCombos.lock, difficulte,
-      data.data.system.combat.data.modificateur, rBonus,
-      {dice:data.data.system.combat.data.degatsbonus.dice, fixe:data.data.system.combat.data.degatsbonus.fixe},
-      {dice:data.data.system.combat.data.violencebonus.dice, fixe:data.data.system.combat.data.violencebonus.fixe},
-      data.actor.armesContactEquipee, armeDistanceEquipee, armeTourelle, data.systemData.combat.grenades.liste, {contact:data.systemData.combat.armesimprovisees.liste, distance:data.systemData.combat.armesimprovisees.liste}, [], data.actor.longbow,
-      isWpn, idWpn, nameWpn, typeWpn, num,
-      deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, deployGrenades, deployLongbow, false,
-      false, false);
     await rollApp.setIfOd(noOd);
     await rollApp.addAvDv(AvDv);
 
@@ -8111,54 +8012,17 @@ export class KnightSheet extends ActorSheet {
 
     const armure = this.actor.items.get(this._getArmorId());
     const armorCapacites = armure.system.capacites.selected;
-    const capaciteCompanions = armorCapacites?.companions || false;
     const capacites = {
       system:{
         equipements:{
           armure:{
-            champDeForce:{
-              bonus:{}
-            },
             capacites:{
               ascension:{},
               borealis:{},
-              changeling:{},
-              companions:{},
-              shrine:{},
-              ghost:{},
               goliath:{},
-              illumination:{},
               morph:{},
-              rage:{
-                niveau:{}
-              },
-              warlord:{
-                action:{},
-                guerre:{},
-                force:{},
-                esquive:{}
-              },
-              type:{
-                soldier:{},
-                hunter:{},
-                scholar:{},
-                herald:{},
-                scout:{},
-              }
             }
           }
-        },
-        reaction:{
-          bonus:{},
-          malus:{}
-        },
-        defense:{
-          bonus:{},
-          malus:{}
-        },
-        egide:{
-          bonus:{},
-          malus:{}
         },
         combos:{
           interdits:{
@@ -8169,279 +8033,194 @@ export class KnightSheet extends ActorSheet {
             aspects:{},
             caracteristiques:{}
           }
-        },
-        aspects:{
-          chair:{
-            caracteristiques:{
-              deplacement:{
-                overdrive:{
-                  bonus:{},
-                  malus:{}
-                }
-              },
-              force:{
-                overdrive:{
-                  bonus:{},
-                  malus:{}
-                }
-              },
-              endurance:{
-                overdrive:{
-                  bonus:{},
-                  malus:{}
-                }
-              }
-            }
-          },
-          bete:{
-            caracteristiques:{
-              hargne:{
-                overdrive:{
-                  bonus:{},
-                  malus:{}
-                }
-              },
-              combat:{
-                overdrive:{
-                  bonus:{},
-                  malus:{}
-                }
-              },
-              instinct:{
-                overdrive:{
-                  bonus:{},
-                  malus:{}
-                }
-              }
-            }
-          },
-          machine:{
-            caracteristiques:{
-              tir:{
-                overdrive:{
-                  bonus:{},
-                  malus:{}
-                }
-              },
-              savoir:{
-                overdrive:{
-                  bonus:{},
-                  malus:{}
-                }
-              },
-              technique:{
-                overdrive:{
-                  bonus:{},
-                  malus:{}
-                }
-              }
-            }
-          },
-          dame:{
-            caracteristiques:{
-              aura:{
-                overdrive:{
-                  bonus:{},
-                  malus:{}
-                }
-              },
-              parole:{
-                overdrive:{
-                  bonus:{},
-                  malus:{}
-                }
-              },
-              sangFroid:{
-                overdrive:{
-                  bonus:{},
-                  malus:{}
-                }
-              }
-            }
-          },
-          masque:{
-            caracteristiques:{
-              discretion:{
-                overdrive:{
-                  bonus:{},
-                  malus:{}
-                }
-              },
-              dexterite:{
-                overdrive:{
-                  bonus:{},
-                  malus:{}
-                }
-              },
-              perception:{
-                overdrive:{
-                  bonus:{},
-                  malus:{}
-                }
-              }
-            }
-          }
-        },
-        energie:{
-          malus:{
-            companions:0
-          }
-        },
-        espoir:{
-          malus:{
-            companions:0
-          }
         }
       }
     }
 
-    if(capaciteCompanions !== false) {
-      const idLion = armorCapacites.companions.lion?.id || false;
-      const idWolf = armorCapacites.companions.wolf?.id || false;
-      const idCrow = armorCapacites.companions.crow?.id || false;
-      let id = 0;
+    const capaciteToUpdate = {};
 
-      if(idLion !== false) id = idLion;
-      if(idWolf !== false) id = {id1:idWolf.id1, id2:idWolf.id2, id3:idWolf.id3};
-      if(idCrow !== false) id = idCrow;
+    for(const arCapacite in armorCapacites) {
+      switch(arCapacite) {
+        case "ascension":
+          if(!armorCapacites.ascension.sansarmure.acces) {
+            capaciteToUpdate[`system.capacites.selected.ascension.active`] = false;
+            capaciteToUpdate[`system.capacites.selected.ascension.ascensionId`] = 0;
+            capaciteToUpdate[`system.capacites.selected.ascension.depense`] = 0;
 
-      if(idLion !== false || idCrow !== false) {
-        const actorCompanion = game?.actors?.get(id) || false;
+            const actor = game.actors.get(armorCapacites.ascension.ascensionId);
 
-        if(actorCompanion !== false) {
-          this._gainPE(actorCompanion.system.energie.value, true);
+            if(actor !== undefined) await actor.delete();
+          }
+          break;
+        case "borealis":
+          capaciteToUpdate[`system.capacites.selected.borealis.active.support`] = false;
+          capaciteToUpdate[`system.capacites.selected.borealis.active.utilitaire`] = false;
+          break;
+        case "changeling":
+          capaciteToUpdate[`system.capacites.selected.changeling.active.personnel`] = false;
+          capaciteToUpdate[`system.capacites.selected.changeling.active.etendue`] = false;
+          break;
+        case "companions":
+          const idLion = armorCapacites.companions.lion?.id || false;
+          const idWolf = armorCapacites.companions.wolf?.id || false;
+          const idCrow = armorCapacites.companions.crow?.id || false;
+          let id = 0;
 
-          await actorCompanion.delete();
-        }
+          if(idLion !== false) id = idLion;
+          if(idWolf !== false) id = {id1:idWolf.id1, id2:idWolf.id2, id3:idWolf.id3};
+          if(idCrow !== false) id = idCrow;
+
+          if(idLion !== false || idCrow !== false) {
+            const actorCompanion = game?.actors?.get(id) || false;
+
+            if(actorCompanion !== false) {
+              this._gainPE(actorCompanion.system.energie.value, true);
+
+              await actorCompanion.delete();
+            }
+          }
+
+          if(idWolf !== false) {
+            const actor1Companion = game?.actors?.get(id.id1) || false;
+            const actor2Companion = game?.actors?.get(id.id2) || false;
+            const actor3Companion = game?.actors?.get(id.id3) || false;
+
+            if(actor1Companion !== false) {
+              this._gainPE(actor1Companion.system.energie.value, true);
+
+              await actor1Companion.delete();
+            }
+
+            if(actor2Companion !== false) {
+              await actor2Companion.delete();
+            }
+
+            if(actor3Companion !== false) {
+              await actor3Companion.delete();
+            }
+          }
+
+          armure.update({[`system.capacites.selected.companions.active`]:{
+            'base':false,
+            'lion':false,
+            'wolf':false,
+            'crow':false
+          }});
+          break;
+        case "shrine":
+          capaciteToUpdate[`system.capacites.selected.shrine.base`] = false;
+          capaciteToUpdate[`system.capacites.selected.shrine.active.personnel`] = false;
+          capaciteToUpdate[`system.capacites.selected.shrine.active.distance`] = false;
+          capaciteToUpdate[`system.capacites.selected.shrine.active.personnel6`] = false;
+          capaciteToUpdate[`system.capacites.selected.shrine.active.distance6`] = false;
+          break;
+        case "ghost":
+          capaciteToUpdate[`system.capacites.selected.ghost.active.conflit`] = false;
+          capaciteToUpdate[`system.capacites.selected.ghost.active.horsconflit`] = false;
+          break;
+        case "goliath":
+          capaciteToUpdate[`system.capacites.selected.goliath.active`] = false;
+          break;
+        case "illumination":
+          capaciteToUpdate[`system.capacites.selected.illumination.active.beacon`] = false;
+          capaciteToUpdate[`system.capacites.selected.illumination.active.blaze`] = false;
+          capaciteToUpdate[`system.capacites.selected.illumination.active.lantern`] = false;
+          capaciteToUpdate[`system.capacites.selected.illumination.active.lighthouse`] = false;
+          capaciteToUpdate[`system.capacites.selected.illumination.active.projector`] = false;
+          capaciteToUpdate[`system.capacites.selected.illumination.active.torch`] = false;
+          break;
+        case "morph":
+          capaciteToUpdate[`system.capacites.selected.morph.active.morph`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.poly.fait`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.choisi.fait`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.choisi.vol`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.choisi.phase`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.choisi.etirement`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.choisi.polymorphie`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.choisi.polymorphieLame`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.choisi.polymorphieGriffe`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.choisi.polymorphieCanon`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.active.polymorphieCanon`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.active.polymorphieGriffe`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.active.polymorphieLame`] = false;
+          break;
+        case "puppet":
+          capaciteToUpdate[`system.capacites.selected.puppet.active`] = false;
+          break;
+        case "discord":
+          capaciteToUpdate[`system.capacites.selected.discord.active.tour`] = false;
+          capaciteToUpdate[`system.capacites.selected.discord.active.scene`] = false;
+          break;
+        case "rage":
+          capaciteToUpdate[`system.capacites.selected.rage.active`] = false;
+          capaciteToUpdate[`system.capacites.selected.rage.niveau.colere`] = false;
+          capaciteToUpdate[`system.capacites.selected.rage.niveau.rage`] = false;
+          capaciteToUpdate[`system.capacites.selected.rage.niveau.fureur`] = false;
+          break;
+        case "record":
+          capaciteToUpdate[`system.capacites.selected.record.active`] = false;
+          break;
+        case "totem":
+          capaciteToUpdate[`system.capacites.selected.totem.active`] = false;
+          break;
+        case "warlord":
+          capaciteToUpdate[`system.capacites.selected.warlord.active.action.allie`] = false;
+          capaciteToUpdate[`system.capacites.selected.warlord.active.action.porteur`] = false;
+          capaciteToUpdate[`system.capacites.selected.warlord.active.force.allie`] = false;
+          capaciteToUpdate[`system.capacites.selected.warlord.active.force.porteur`] = false;
+          capaciteToUpdate[`system.capacites.selected.warlord.active.esquive.allie`] = false;
+          capaciteToUpdate[`system.capacites.selected.warlord.active.esquive.porteur`] = false;
+          capaciteToUpdate[`system.capacites.selected.warlord.active.guerre.allie`] = false;
+          capaciteToUpdate[`system.capacites.selected.warlord.active.guerre.porteur`] = false;
+          break;
+        case "watchtower":
+          capaciteToUpdate[`system.capacites.selected.watchtower.active`] = false;
+          break;
+        case "nanoc":
+          capaciteToUpdate[`system.capacites.selected.nanoc.active.base`] = false;
+          capaciteToUpdate[`system.capacites.selected.nanoc.active.detaille`] = false;
+          capaciteToUpdate[`system.capacites.selected.nanoc.active.mecanique`] = false;
+          break;
+        case "type":
+          capaciteToUpdate[`system.capacites.selected.type.type.soldier.conflit`] = false;
+          capaciteToUpdate[`system.capacites.selected.type.type.soldier.horsconflit`] = false;
+          capaciteToUpdate[`system.capacites.selected.type.type.hunter.conflit`] = false;
+          capaciteToUpdate[`system.capacites.selected.type.type.hunter.horsconflit`] = false;
+          capaciteToUpdate[`system.capacites.selected.type.type.scholar.conflit`] = false;
+          capaciteToUpdate[`system.capacites.selected.type.type.scholar.horsconflit`] = false;
+          capaciteToUpdate[`system.capacites.selected.type.type.herald.conflit`] = false;
+          capaciteToUpdate[`system.capacites.selected.type.type.herald.horsconflit`] = false;
+          capaciteToUpdate[`system.capacites.selected.type.type.scout.conflit`] = false;
+          capaciteToUpdate[`system.capacites.selected.type.type.scout.horsconflit`] = false;
+          break;
       }
-
-      if(idWolf !== false) {
-        const actor1Companion = game?.actors?.get(id.id1) || false;
-        const actor2Companion = game?.actors?.get(id.id2) || false;
-        const actor3Companion = game?.actors?.get(id.id3) || false;
-
-        if(actor1Companion !== false) {
-          this._gainPE(actor1Companion.system.energie.value, true);
-
-          await actor1Companion.delete();
-        }
-
-        if(actor2Companion !== false) {
-          await actor2Companion.delete();
-        }
-
-        if(actor3Companion !== false) {
-          await actor3Companion.delete();
-        }
-      }
-
-      armure.update({[`system.capacites.selected.companions.active`]:{
-        'base':false,
-        'lion':false,
-        'wolf':false,
-        'crow':false
-      }});
     }
 
-    capacites.system.equipements.armure.capacites.borealis.support = false;
-    capacites.system.equipements.armure.capacites.borealis.offensif = false;
-    capacites.system.equipements.armure.capacites.borealis.utilitaire = false;
+    armure.update(capaciteToUpdate);
+    capacites.system.equipements.armure.capacites.ascension.energie = 0;
     capacites.system.equipements.armure.capacites.borealis.allie = 0;
-
-    capacites.system.equipements.armure.capacites.changeling.personnel = false;
-    capacites.system.equipements.armure.capacites.changeling.etendue = false;
-
-    capacites.system.equipements.armure.capacites.companions.active = false;
-    capacites.system.equipements.armure.capacites.companions.lion = false;
-    capacites.system.equipements.armure.capacites.companions.wolf = false;
-    capacites.system.equipements.armure.capacites.companions.crow = false;
-
-    capacites.system.equipements.armure.capacites.shrine.active = false;
-    capacites.system.equipements.armure.capacites.shrine.activePersonnel = false;
-    capacites.system.equipements.armure.capacites.shrine.activeDistance = false;
-    capacites.system.equipements.armure.capacites.shrine.activePersonnel6 = false;
-    capacites.system.equipements.armure.capacites.shrine.activeDistance6 = false;
-
-    capacites.system.equipements.armure.capacites.ghost.conflit = false;
-    capacites.system.equipements.armure.capacites.ghost.horsconflit = false;
-
-    capacites.system.equipements.armure.capacites.goliath.active = false;
+    capacites.system.equipements.armure.capacites.borealis.allie = 0;
     capacites.system.equipements.armure.capacites.goliath.metre = 0;
-    capacites.system.equipements.armure.champDeForce.bonus.goliath = 0;
-    capacites.system.reaction.malus.goliath = 0;
-    capacites.system.defense.malus.goliath = 0;
-
-    capacites.system.equipements.armure.capacites.illumination.torch = false;
-    capacites.system.equipements.armure.capacites.illumination.lighthouse = false;
-    capacites.system.equipements.armure.capacites.illumination.lantern = false;
-    capacites.system.equipements.armure.capacites.illumination.blaze = false;
-    capacites.system.equipements.armure.capacites.illumination.beacon = false;
-    capacites.system.equipements.armure.capacites.illumination.projector = false;
-
-    capacites.system.equipements.armure.capacites.morph.active = false;
     capacites.system.equipements.armure.capacites.morph.nbre = 0;
-    capacites.system.equipements.armure.capacites.morph.choisi = false;
-    capacites.system.equipements.armure.capacites.morph.vol = false;
-    capacites.system.equipements.armure.capacites.morph.phase = false;
-    capacites.system.equipements.armure.capacites.morph.etirement = false;
-    capacites.system.equipements.armure.capacites.morph.metal = false;
-    capacites.system.equipements.armure.capacites.morph.fluide = false;
-    capacites.system.equipements.armure.capacites.morph.polymorphie = false;
-    capacites.system.equipements.armure.champDeForce.bonus.morph = 0;
-    capacites.system.reaction.bonus.morph = 0;
-    capacites.system.defense.bonus.morph = 0;
-
-    capacites.system.equipements.armure.capacites.rage.active = false;
-    capacites.system.equipements.armure.capacites.rage.niveau.colere = false;
-    capacites.system.equipements.armure.capacites.rage.niveau.fureur = false;
-    capacites.system.equipements.armure.capacites.rage.niveau.rage = false;
-    capacites.system.egide.bonus.rage = 0;
-    capacites.system.reaction.malus.rage = 0;
-    capacites.system.defense.malus.rage = 0;
     capacites.system.combos.interdits.caracteristiques.rage = [];
     capacites.system.combos.bonus.caracteristiques.rage = [];
 
-    capacites.system.equipements.armure.capacites.warlord.action.allie = false;
-    capacites.system.equipements.armure.capacites.warlord.action.porteur = false;
-    capacites.system.equipements.armure.capacites.warlord.esquive.allie = false;
-    capacites.system.equipements.armure.capacites.warlord.esquive.porteur = false;
-    capacites.system.equipements.armure.capacites.warlord.force.allie = false;
-    capacites.system.equipements.armure.capacites.warlord.force.porteur = false;
-    capacites.system.equipements.armure.capacites.warlord.guerre.allie = false;
-    capacites.system.equipements.armure.capacites.warlord.guerre.porteur = false;
-    capacites.system.reaction.bonus.warlord = 0;
-    capacites.system.defense.bonus.warlord = 0;
-    capacites.system.equipements.armure.champDeForce.bonus.warlord = 0;
+    const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
+    const listCapacitesEffects = ['ascension', 'companions', 'shrine', 'goliath', 'rage', 'esquive', 'force', 'legendcompanions', 'legendshrine', 'legendgoliath', 'legendwarlord', 'capaciteUltime'];
+    const toUpdate = [];
 
-    capacites.system.equipements.armure.capacites.watchtower = false;
+    for(const capacite of listCapacitesEffects) {
+      const effectExist = existEffect(listEffect, capacite);
 
-    capacites.system.equipements.armure.capacites.type.soldier.conflit = false;
-    capacites.system.equipements.armure.capacites.type.soldier.horsconflit = false;
-    capacites.system.equipements.armure.capacites.type.hunter.conflit = false;
-    capacites.system.equipements.armure.capacites.type.hunter.horsconflit = false;
-    capacites.system.equipements.armure.capacites.type.scholar.conflit = false;
-    capacites.system.equipements.armure.capacites.type.scholar.horsconflit = false;
-    capacites.system.equipements.armure.capacites.type.herald.conflit = false;
-    capacites.system.equipements.armure.capacites.type.herald.horsconflit = false;
-    capacites.system.equipements.armure.capacites.type.scout.conflit = false;
-    capacites.system.equipements.armure.capacites.type.scout.horsconflit = false;
+      if(effectExist !== undefined) {
+        toUpdate.push({
+          "_id":effectExist._id,
+          disabled:true
+        });
+      }
+    }
 
-    capacites.system.aspects.chair.caracteristiques.deplacement.overdrive.bonus.type = 0;
-    capacites.system.aspects.chair.caracteristiques.force.overdrive.bonus.type = 0;
-    capacites.system.aspects.chair.caracteristiques.endurance.overdrive.bonus.type = 0;
-    capacites.system.aspects.bete.caracteristiques.hargne.overdrive.bonus.type = 0;
-    capacites.system.aspects.bete.caracteristiques.combat.overdrive.bonus.type = 0;
-    capacites.system.aspects.bete.caracteristiques.instinct.overdrive.bonus.type = 0;
-    capacites.system.aspects.machine.caracteristiques.tir.overdrive.bonus.type = 0;
-    capacites.system.aspects.machine.caracteristiques.savoir.overdrive.bonus.type = 0;
-    capacites.system.aspects.machine.caracteristiques.technique.overdrive.bonus.type = 0;
-    capacites.system.aspects.dame.caracteristiques.aura.overdrive.bonus.type = 0;
-    capacites.system.aspects.dame.caracteristiques.parole.overdrive.bonus.type = 0;
-    capacites.system.aspects.dame.caracteristiques.sangFroid.overdrive.bonus.type = 0;
-    capacites.system.aspects.masque.caracteristiques.discretion.overdrive.bonus.type = 0;
-    capacites.system.aspects.masque.caracteristiques.dexterite.overdrive.bonus.type = 0;
-    capacites.system.aspects.masque.caracteristiques.perception.overdrive.bonus.type = 0;
-
+    if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
 
     let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
     const longbow = this.actor?.longbow || false;
@@ -8458,45 +8237,9 @@ export class KnightSheet extends ActorSheet {
   async _resetArmureModules() {
     const listModules = this.getData().actor.modules;
 
-    const modules = {
-      system:{
-        equipements:{
-          ascension:{
-            armure:{
-              bonus:{}
-            },
-            champDeForce:{
-              bonus:{}
-            },
-            energie:{
-              bonus:{}
-            },
-          },
-          armure:{
-            armure:{
-              bonus:{}
-            },
-            champDeForce:{
-              bonus:{}
-            },
-            energie:{
-              bonus:{}
-            },
-          }
-        }
-      }
-    }
-
     for (let i = 0;i < listModules.length;i++){
       const dataModules = listModules[i];
       const getData = this.actor.items.get(dataModules._id);
-
-      modules.system.equipements.ascension.armure.bonus[dataModules._id] = 0;
-      modules.system.equipements.armure.armure.bonus[dataModules._id] = 0;
-      modules.system.equipements.ascension.champDeForce.bonus[dataModules._id] = 0;
-      modules.system.equipements.armure.champDeForce.bonus[dataModules._id] = 0;
-      modules.system.equipements.ascension.energie.bonus[dataModules._id] = 0;
-      modules.system.equipements.armure.energie.bonus[dataModules._id] = 0;
 
       if(getData.system.id !== '') {
         const actor = game?.actors?.get(getData.system.id) || false;
@@ -8513,74 +8256,11 @@ export class KnightSheet extends ActorSheet {
         'id':''
       }});
     }
-
-    this.actor.update(modules);
   }
 
   async _resetArmure() {
-
     await this._resetArmureCapacites();
     await this._resetArmureModules();
-
-    const data = this.getData();
-    const idArmure = data.systemData.equipements?.armure?.id || false;
-    const remplaceEnergie = this.actor.items.get(idArmure)?.system?.espoir?.remplaceEnergie || false;
-    const ascension = data.systemData.equipements.armure.capacites?.ascension?.active || false;
-
-    let capacites = {
-      system:{
-        equipements:{
-          armure:{
-            capacites:{
-              ascension:{},
-              borealis:{},
-              changeling:{},
-              companions:{},
-              shrine:{},
-              ghost:{},
-              goliath:{},
-              illumination:{
-                choix:{}
-              },
-              morph:{},
-              warlord:{
-                modes:{},
-                action:{},
-                guerre:{},
-                force:{},
-                esquive:{}
-              }
-            }
-          }
-        }
-      }
-    }
-
-    if(ascension) {
-      const id = this.getData().systemData.equipements.armure.capacites?.ascension?.id || false;
-      const depense = +this.getData().data.system.equipements.armure.capacites?.ascension?.depense || 0;
-
-      if(id) {
-        const actor = game.actors.get(id);
-
-        await actor.delete();
-      }
-
-      capacites.system.equipements.armure.capacites.ascension.active = false;
-      capacites.system.equipements.armure.capacites.ascension.id = 0;
-      capacites.system.equipements.armure.capacites.ascension.depense = 0;
-
-      if(remplaceEnergie) {
-        capacites.system.espoir = {};
-        capacites.system.espoir.malus = {armure:this.getData().data.system.espoir.malus.armure-depense};
-      } else {
-        const selfArmure = this.actor.items.get(this.getData().data.system.equipements.armure.id);
-
-        selfArmure.update({[`system.energie.base`]:this.getData().data.system.energie.max+depense});
-      }
-    }
-
-    this.actor.update(capacites);
   }
 
   _getSlotsValue() {
@@ -8618,4 +8298,18 @@ export class KnightSheet extends ActorSheet {
 
     return PG;
   }
+
+  _getHighestOrder(myObject) {
+    let highestOrder = -1;
+
+    for (const key in myObject) {
+      if (myObject.hasOwnProperty(key) && myObject[key].order !== undefined) {
+        if (myObject[key].order > highestOrder) {
+          highestOrder = myObject[key].order;
+        }
+      }
+    }
+
+    return highestOrder;
+  };
 }

@@ -258,6 +258,11 @@
         return game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${label}`);
     });
 
+    Handlebars.registerHelper('getNodsName', function (value) {
+        const label = value.toString().charAt(0).toUpperCase()+value.toString().substr(1);
+        return game.i18n.localize(`KNIGHT.COMBAT.NODS.${label}`);
+    });
+
     Handlebars.registerHelper('getPortee', function (value) {
         const label = value.toString().charAt(0).toUpperCase()+value.toString().substr(1);
         return game.i18n.localize(`KNIGHT.PORTEE.${label}`);
@@ -511,11 +516,25 @@
         return result;
     });
 
-    Handlebars.registerHelper('getOtherListPG', function (id, type, data) {
+    Handlebars.registerHelper('getOtherListPG', function (id, type, data, dataType) {
         let result = 0;
 
+        console.log(data);
+
         if(id !== undefined) {
-            result = data.progression.gloire.depense?.autre?.[id]?.[type] || '';
+            result = data.progression.gloire.depense.autre[id][type] ?? '';
+        }
+
+        switch(dataType) {
+            case 'number':
+                if(result === '') result = 0;
+                result = Number(result);
+                break;
+
+            case 'bool':
+                if(result === 'true') result = true;
+                else result = false;
+                break;
         }
 
         return result;
@@ -647,5 +666,9 @@
         if(capa) result = true;
 
         return result;
+    });
+
+    Handlebars.registerHelper('toLowerCase', function(str) {
+        return str.toLowerCase();
     });
  };

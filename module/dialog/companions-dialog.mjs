@@ -40,7 +40,7 @@
     html.find(".button").click(ev => {
       const target = $(ev.currentTarget);
       const companion = target.data("companion");
-      const type = target.data("type");     
+      const type = target.data("type");
 
       switch(type) {
         case 'selected':
@@ -54,14 +54,14 @@
           else {
             this.data.content.selected[companion] = result;
             this.data.content.selected.alreadySelected = result === false ? numSelected-1 : numSelected+1;
-          }          
+          }
           break;
       }
-      this.render(true);      
+      this.render(true);
     });
 
     html.find(".button1").hover(ev => {
-      
+
     });
 
     html.find("div.lion div.block input.aspect").change(ev => {
@@ -246,6 +246,20 @@
         this.render(true);
       }
       else {
+        const getHighestOrder = (myObject) => {
+          let highestOrder = -1;
+
+          for (const key in myObject) {
+            if (myObject.hasOwnProperty(key) && myObject[key].order !== undefined) {
+              if (myObject[key].order > highestOrder) {
+                highestOrder = myObject[key].order;
+              }
+            }
+          }
+
+          return highestOrder;
+        };
+
         const actor = game.actors.get(this.data.actor);
         const armor = actor.items.get(actor.system.equipements.armure.id);
         const companionsEvolutions = armor.system.evolutions.special.companions;
@@ -253,7 +267,8 @@
         const evolutionsAppliedV = +companionsEvolutions?.applied?.value || 0;
         const evolutionsAppliedL = companionsEvolutions?.applied?.liste || [];
         const gloireListe = actor.system.progression.gloire.depense.liste;
-        const gloireMax = gloireListe.length === 0 ? 0 : Math.max(...gloireListe.map(o => o.order));
+        const isEmpty = gloireListe[0]?.isEmpty ?? false;
+        const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : getHighestOrder(gloireListe);
 
         let update = {
           system:{
@@ -304,7 +319,7 @@
         }
 
         const evoListe = [];
-        
+
         if(isLion) {
           const dataLAspects = this.data.content.data.aspects.lion;
           const evoLion = companionsEvolutions.evolutions.lion;
@@ -357,7 +372,7 @@
             const dataDialogValue = +configuration.value;
             const dataArmorNiveau = +armorWConfigurations[key].niveau;
             const dataArmorValue = +armorWConfigurations[key].bonus.roll;
-            
+
             if(dataDialogValue > 0) {
               update.system.capacites.selected.companions.wolf.configurations[key].niveau = dataArmorNiveau + dataDialogValue;
               update.system.capacites.selected.companions.wolf.configurations[key].bonus.roll = dataArmorValue + dataDialogValue;
@@ -403,7 +418,7 @@
         armor.update(update);
 
         this.close();
-      }      
+      }
     } catch(err) {
       ui.notifications.error(err);
       throw new Error(err);

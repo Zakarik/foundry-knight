@@ -144,14 +144,14 @@
             <div class="aspects" style="display:none;">
                  {{#each this.lion.aspects as | key aspect|}}
                     <div class="col">
-                        <h5>{{key.label}}</h5>
+                        <h5>{{getAspect aspect}}</h5>
                         <div>
                             <span class="header">{{localize "KNIGHT.ASPECTS.Aspect"}}</span>
                             <span class="score">{{key.value}}</span>
                         </div>
                         <div class="full">
                             <span class="header">{{localize "KNIGHT.ASPECTS.Exceptionnel-short"}}</span>
-                            <span class="score">{{key.labelAE}} ({{key.ae}})</span>
+                            <span class="score">{{#if (isHigherThan key.ae 5)}}{{localize "KNIGHT.AUTRE.Majeur"}}{{else}}{{localize "KNIGHT.AUTRE.Mineur"}}{{/if}} ({{key.ae}})</span>
                         </div>
                     </div>
                 {{/each}}
@@ -546,14 +546,14 @@
             <div class="aspects" style="display:none;">
                  {{#each this.wolf.aspects as | key aspect|}}
                     <div class="col">
-                        <h5>{{key.label}}</h5>
+                        <h5>{{getAspect aspect}}</h5>
                         <div>
                             <span class="header">{{localize "KNIGHT.ASPECTS.Aspect"}}</span>
                             <span class="score">{{key.value}}</span>
                         </div>
                         <div class="full">
                             <span class="header">{{localize "KNIGHT.ASPECTS.Exceptionnel-short"}}</span>
-                            <span class="score">{{key.labelAE}} ({{key.ae}})</span>
+                            <span class="score">{{#if (isHigherThan key.ae 5)}}{{localize "KNIGHT.AUTRE.Majeur"}}{{else}}{{localize "KNIGHT.AUTRE.Mineur"}}{{/if}} ({{key.ae}})</span>
                         </div>
                     </div>
                 {{/each}}
@@ -709,7 +709,7 @@
             <div class="aspects" style="display:none;">
                  {{#each this.crow.aspects as | key aspect|}}
                     <div class="col">
-                        <h5>{{key.label}}</h5>
+                        <h5>{{getAspect aspect}}</h5>
                         <div>
                             <span class="header">{{localize "KNIGHT.ASPECTS.Aspect"}}</span>
                             <span class="score">{{key.value}}</span>

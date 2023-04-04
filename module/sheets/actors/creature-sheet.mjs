@@ -5,11 +5,52 @@ import {
   listEffects,
   SortByName,
   sum,
+  addOrUpdateEffect,
+  addEffect,
+  updateEffect,
+  existEffect,
+  compareArrays,
   confirmationDialog
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
 import toggler from '../../helpers/toggler.js';
+
+const path = {
+  espoir:{
+    bonus:'system.espoir.bonusValue',
+    malus:'system.espoir.malusValue',
+  },
+  sante:{
+    bonus:'system.sante.bonusValue',
+    malus:'system.sante.malusValue',
+  },
+  egide:{
+    bonus:'system.egide.bonusValue',
+    malus:'system.egide.malusValue',
+  },
+  reaction:{
+    bonus:'system.reaction.bonusValue',
+    malus:'system.reaction.malusValue',
+  },
+  defense:{
+    bonus:'system.defense.bonusValue',
+    malus:'system.defense.malusValue',
+  },
+  armure:{
+    bonus:'system.armure.bonusValue',
+    malus:'system.armure.malusValue',
+  },
+  energie:{
+    bonus:'system.energie.bonusValue',
+    malus:'system.energie.malusValue',
+  },
+  champDeForce:{
+    base:'system.champDeForce.base',
+    bonus:'system.champDeForce.bonusValue',
+    malus:'system.champDeForce.malusValue',
+  },
+};
 
 /**
  * @extends {ActorSheet}
@@ -449,201 +490,74 @@ export class CreatureSheet extends ActorSheet {
       const options = data.options;
       const phase2 = data.phase2;
 
-      let update = {
-        system:{
-          phase2Activate:true,
-          aspects: {
-            chair:{
-              ae:{
-                mineur:{},
-                majeur:{}
-              }
-            },
-            bete:{
-              ae:{
-                mineur:{},
-                majeur:{}
-              }
-            },
-            machine:{
-              ae:{
-                mineur:{},
-                majeur:{}
-              }
-            },
-            dame:{
-              ae:{
-                mineur:{},
-                majeur:{}
-              }
-            },
-            masque:{
-              ae:{
-                mineur:{},
-                majeur:{}
-              }
-            }
-          },
-          phase2:{}
-        }
-      };
-
-      update.system.phase2.old = {};
+      const effects = [];
 
       if(options.sante) {
-        const sante = data.sante;
-        const tSante = +sante.base + +phase2.sante;
-
-        update.system.sante = {};
-        update.system.sante.base = tSante;
-        update.system.sante.value = tSante + +sante.mod;
-
-        update.system.phase2.old.sante = sante.value;
+        effects.push({
+          key: path.sante.bonus,
+          mode: 2,
+          priority: null,
+          value: phase2.sante
+        });
       }
 
       if(options.armure) {
-        const armure = data.armure;
-        const tArmure = +armure.base + +phase2.armure;
-
-        update.system.armure = {};
-        update.system.armure.base = tArmure;
-        update.system.armure.value = tArmure + +armure.mod;
-
-        update.system.phase2.old.armure = armure.value;
+        effects.push({
+          key: path.armure.bonus,
+          mode: 2,
+          priority: null,
+          value: phase2.armure
+        });
       }
 
       if(options.energie) {
-        const energie = data.energie;
-        const tEnergie = +energie.base + +phase2.energie;
-
-        update.system.energie = {};
-        update.system.energie.base = tEnergie;
-        update.system.energie.value = tEnergie + +energie.mod;
-
-        update.system.phase2.old.energie = energie.value;
+        effects.push({
+          key: path.energie.bonus,
+          mode: 2,
+          priority: null,
+          value: phase2.energie
+        });
       }
 
-      const aspects = data.aspects;
+      const listAspects = ['chair', 'bete', 'machine', 'dame', 'masque'];
 
-      update.system.aspects.chair.value = +aspects.chair.value + +phase2.aspects.chair.value;
-      update.system.aspects.chair.ae.mineur.value = +aspects.chair.ae.mineur.value + +phase2.aspects.chair.ae.mineur;
-      update.system.aspects.chair.ae.majeur.value = +aspects.chair.ae.majeur.value + +phase2.aspects.chair.ae.majeur;
+      for(let i = 0;i < listAspects.length;i++) {
+        const label = listAspects[i];
 
-      update.system.aspects.bete.value = +aspects.bete.value + +phase2.aspects.bete.value;
-      update.system.aspects.bete.ae.mineur.value = +aspects.bete.ae.mineur.value + +phase2.aspects.bete.ae.mineur;
-      update.system.aspects.bete.ae.majeur.value = +aspects.bete.ae.majeur.value + +phase2.aspects.bete.ae.majeur;
+        effects.push({
+          key: `system.aspects.${label}.value`,
+          mode: 5,
+          priority: null,
+          value: phase2.aspects[label].value
+        },
+        {
+          key: `system.aspects.${label}.ae.mineur.value`,
+          mode: 5,
+          priority: null,
+          value: phase2.aspects[label].ae.mineur
+        },
+        {
+          key: `system.aspects.${label}.ae.majeur.value`,
+          mode: 5,
+          priority: null,
+          value: phase2.aspects[label].ae.majeur
+        });
+      }
 
-      update.system.aspects.machine.value = +aspects.machine.value + +phase2.aspects.machine.value;
-      update.system.aspects.machine.ae.mineur.value = +aspects.machine.ae.mineur.value + +phase2.aspects.machine.ae.mineur;
-      update.system.aspects.machine.ae.majeur.value = +aspects.machine.ae.majeur.value + +phase2.aspects.machine.ae.majeur;
-
-      update.system.aspects.dame.value = +aspects.dame.value + +phase2.aspects.dame.value;
-      update.system.aspects.dame.ae.mineur.value = +aspects.dame.ae.mineur.value + +phase2.aspects.dame.ae.mineur;
-      update.system.aspects.dame.ae.majeur.value = +aspects.dame.ae.majeur.value + +phase2.aspects.dame.ae.majeur;
-
-      update.system.aspects.masque.value = +aspects.masque.value + +phase2.aspects.masque.value;
-      update.system.aspects.masque.ae.mineur.value = +aspects.masque.ae.mineur.value + +phase2.aspects.masque.ae.mineur;
-      update.system.aspects.masque.ae.majeur.value = +aspects.masque.ae.majeur.value + +phase2.aspects.masque.ae.majeur;
-
-      this.actor.update(update);
+      addOrUpdateEffect(this.actor, 'phase2', effects);
+      this.actor.update({['system.phase2Activate']:true});
     });
 
     html.find('.desactivatePhase2').click(ev => {
-      const data = this.getData().data.system;
-      const options = data.options;
-      const phase2 = data.phase2;
+      const toUpdate = [];
 
-      let update = {
-        system:{
-          phase2Activate:false,
-          aspects: {
-            chair:{
-              ae:{
-                mineur:{},
-                majeur:{}
-              }
-            },
-            bete:{
-              ae:{
-                mineur:{},
-                majeur:{}
-              }
-            },
-            machine:{
-              ae:{
-                mineur:{},
-                majeur:{}
-              }
-            },
-            dame:{
-              ae:{
-                mineur:{},
-                majeur:{}
-              }
-            },
-            masque:{
-              ae:{
-                mineur:{},
-                majeur:{}
-              }
-            }
-          }
-        }
-      };
+      toUpdate.push({
+        "_id":effectExist._id,
+        disabled:true
+      });
 
-      if(options.sante) {
-        const sante = data.sante;
-        const tSante = +sante.base - +phase2.sante;
-
-        update.system.sante = {};
-        update.system.sante.base = tSante;
-        update.system.sante.value = phase2.old.sante;
-      }
-
-      if(options.armure) {
-        const armure = data.armure;
-        const tArmure = +armure.base - +phase2.armure;
-
-        update.system.armure = {};
-        update.system.armure.base = tArmure;
-        update.system.armure.value = phase2.old.armure;
-      }
-
-      if(options.energie) {
-        const energie = data.energie;
-        const tEnergie = +energie.base - +phase2.energie;
-
-        update.system.energie = {};
-        update.system.energie.base = tEnergie;
-        update.system.energie.value = phase2.old.energie;
-      }
-
-      const aspects = data.aspects;
-
-      update.system.aspects.chair.value = +aspects.chair.value - +phase2.aspects.chair.value;
-      update.system.aspects.bete.value = +aspects.bete.value - +phase2.aspects.bete.value;
-      update.system.aspects.machine.value = +aspects.machine.value - +phase2.aspects.machine.value;
-      update.system.aspects.dame.value = +aspects.dame.value - +phase2.aspects.dame.value;
-      update.system.aspects.masque.value = +aspects.masque.value - +phase2.aspects.masque.value;
-
-      const aeMin = html.find('select.selectAeMin');
-      const aeMaj = html.find('select.selectAeMaj');
-
-      for(let i = 0;i < aeMin.length;i++) {
-        const target = $(aeMin[i]);
-        const data = target.data("type");
-
-        target.val(+aspects[data].ae.mineur.value - +phase2.aspects[data].ae.mineur);
-      }
-
-      for(let i = 0;i < aeMaj.length;i++) {
-        const target = $(aeMaj[i]);
-        const data = target.data("type");
-
-        target.val(+aspects[data].ae.majeur.value - +phase2.aspects[data].ae.majeur);
-      }
-
-      this.actor.update(update);
+      updateEffect(this.actor, toUpdate);
+      this.actor.update({['system.phase2Activate']:false});
     });
 
     html.find('div.options button').click(ev => {
@@ -778,7 +692,6 @@ export class CreatureSheet extends ActorSheet {
     const actorData = sheetData.actor;
     const system = sheetData.data.system;
     const phase2Activate = system.phase2Activate;
-    const options = system.options;
 
     const armesContact = [];
     const armesDistance = [];
@@ -794,103 +707,13 @@ export class CreatureSheet extends ActorSheet {
       "masque":system.aspects.masque.value,
     };
     const aspectLieSupp = [];
-
-    let aspectsMax = {
-      chair:{
-        max:20,
-        ae:{
-          mineur:{
-            max:10
-          },
-          majeur:{
-            max:10
-          }
-        }
-      },
-      bete:{
-        max:20,
-        ae:{
-          mineur:{
-            max:10
-          },
-          majeur:{
-            max:10
-          }
-        }
-      },
-      machine:{
-        max:20,
-        ae:{
-          mineur:{
-            max:10
-          },
-          majeur:{
-            max:10
-          }
-        }
-      },
-      dame:{
-        max:20,
-        ae:{
-          mineur:{
-            max:10
-          },
-          majeur:{
-            max:10
-          }
-        }
-      },
-      masque:{
-        max:20,
-        ae:{
-          mineur:{
-            max:10
-          },
-          majeur:{
-            max:10
-          }
-        }
-      }
-    };
-    let armure = {
-      bonus:{
-        modules:[0],
-        capacites:[0]
-      }
-    };
-    let energie = {
-      bonus:{
-        modules:[0]
-      }
-    };
-    let reaction = {
-      bonus:{
-        armes:0,
-        capacites:0
-      },
-      malus:{
-        armes:0,
-        capacites:0
-      }
-    };
-    let defense = {
-      bonus:{
-        armes:0,
-        capacites:0
-      },
-      malus:{
-        armes:0,
-        capacites:0
-      }
-    };
-    let sante = {
-      bonus:0,
-      malus:0
-    };
-    let phase2 = {
-      sante:0,
-      armure:0,
-      energie:0
+    const effects = {armes:[], capacites:[]};
+    const aspectsMax = {
+      chair:{max:[20], ae:{mineur:[10], majeur:[10]}},
+      bete:{max:[20], ae:{mineur:[10], majeur:[10]}},
+      machine:{max:[20], ae:{mineur:[10], majeur:[10]}},
+      dame:{max:[20], ae:{mineur:[10], majeur:[10]}},
+      masque:{max:[20], ae:{mineur:[10], majeur:[10]}},
     };
 
     for (let i of sheetData.items) {
@@ -919,8 +742,22 @@ export class CreatureSheet extends ActorSheet {
         const bDefense = effetsRaw.find(str => { if(str.includes('defense')) return str; });
         const bReaction = effetsRaw.find(str => { if(str.includes('reaction')) return str; });
 
-        if(bDefense !== undefined) defense.bonus.armes += +bDefense.split(' ')[1];
-        if(bReaction !== undefined) reaction.bonus.armes += +bReaction.split(' ')[1];
+        if(bDefense !== undefined) {
+          effects.armes.push({
+            key: path.defense.bonus,
+            mode: 2,
+            priority: null,
+            value: bDefense.split(' ')[1]
+          });
+        }
+        if(bReaction !== undefined) {
+          effects.armes.push({
+            key: path.reaction.bonus,
+            mode: 2,
+            priority: null,
+            value: bReaction.split(' ')[1]
+          });
+        }
 
         if(type === 'contact' && options2mains === true) {
           data.degats.dice = data?.options2mains?.[main]?.degats?.dice || 0;
@@ -963,7 +800,14 @@ export class CreatureSheet extends ActorSheet {
 
           data.structurelles.liste = listEffects(rawStructurelles, customStructurelles, labelsStructurelles);
 
-          if(bMassive) defense.malus.armes += 1;
+          if(bMassive) {
+            effects.armes.push({
+              key: path.defense.malus,
+              mode: 2,
+              priority: null,
+              value: 1
+            });
+          }
 
           const rawOrnementales = data.ornementales.raw;
           const customOrnementales = data.ornementales.custom;
@@ -980,8 +824,22 @@ export class CreatureSheet extends ActorSheet {
             const bDefense2 = effets2Raw.find(str => { if(str.includes('defense')) return str; });
             const bReaction2 = effets2Raw.find(str => { if(str.includes('reaction')) return str; });
 
-            if(bDefense !== undefined && main === '2main' && options2mains === true) defense.bonus.armes += +bDefense2.split(' ')[1];
-            if(bReaction !== undefined && main === '2main' && options2mains === true) reaction.bonus.armes += +bReaction2.split(' ')[1];
+            if(bDefense !== undefined && main === '2main' && options2mains === true) {
+              effects.armes.push({
+                key: path.defense.bonus,
+                mode: 2,
+                priority: null,
+                value: bDefense2.split(' ')[1]
+              });
+            }
+            if(bReaction !== undefined && main === '2main' && options2mains === true) {
+              effects.armes.push({
+                key: path.reaction.bonus,
+                mode: 2,
+                priority: null,
+                value: bReaction2.split(' ')[1]
+              });
+            }
           }
         }
 
@@ -1000,7 +858,6 @@ export class CreatureSheet extends ActorSheet {
         if(isPhase2) capacitesPhase2.push(i);
         else capacites.push(i);
 
-
         const bonus = data.bonus;
         const attaque = data.attaque;
 
@@ -1014,25 +871,45 @@ export class CreatureSheet extends ActorSheet {
 
           if(cSante.has) {
             if(cSante.aspect.lie) {
-              sante.bonus += aspects[cSante.aspect.value]*cSante.aspect.multiplie;
+              effects.capacites.push({
+                key: path.sante.bonus,
+                mode: 2,
+                priority: null,
+                value: aspects[cSante.aspect.value]*cSante.aspect.multiplie
+              });
             } else {
-              sante.bonus += cSante.value;
+              effects.capacites.push({
+                key: path.sante.bonus,
+                mode: 2,
+                priority: null,
+                value: cSante.value
+              });
             }
           }
 
           if(cArmure.has) {
             if(cArmure.aspect.lie) {
-              armure.bonus.capacites.push(aspects[cArmure.aspect.value]*cArmure.aspect.multiplie);
+              effects.capacites.push({
+                key: path.armure.bonus,
+                mode: 2,
+                priority: null,
+                value: aspects[cArmure.aspect.value]*cArmure.aspect.multiplie
+              });
             } else {
-              armure.bonus.capacites.push(cArmure.value);
+              effects.capacites.push({
+                key: path.armure.bonus,
+                mode: 2,
+                priority: null,
+                value: cArmure.value
+              });
             }
           }
 
           if(aspectMax.has) {
             const aMax = aspectMax.aspect;
-            aspectsMax[aMax].max = aspectMax.maximum.aspect;
-            aspectsMax[aMax].ae.mineur.max = aspectMax.maximum.ae;
-            aspectsMax[aMax].ae.majeur.max = aspectMax.maximum.ae;
+            aspectsMax[aMax].max.push(aspectMax.maximum.aspect);
+            aspectsMax[aMax].ae.mineur.push(aspectMax.maximum.ae);
+            aspectsMax[aMax].ae.majeur.push(aspectMax.maximum.ae);
           }
 
           if(attaque.has) {
@@ -1067,25 +944,45 @@ export class CreatureSheet extends ActorSheet {
 
           if(cSante.has) {
             if(cSante.aspect?.lie || false) {
-              sante.bonus += aspects[cSante.aspect.value]*cSante.aspect.multiplie;
+              effects.capacites.push({
+                key: path.sante.bonus,
+                mode: 2,
+                priority: null,
+                value: aspects[cSante.aspect.value]*cSante.aspect.multiplie
+              });
             } else {
-              sante.bonus += cSante.value;
+              effects.capacites.push({
+                key: path.sante.bonus,
+                mode: 2,
+                priority: null,
+                value: cSante.value
+              });
             }
           }
 
           if(cArmure.has) {
-            if(armure.aspect?.lie || false) {
-              armure.bonus.capacites.push(aspects[cArmure.aspect.value]*cArmure.aspect.multiplie);
+            if(cArmure.aspect?.lie || false) {
+              effects.capacites.push({
+                key: path.armure.bonus,
+                mode: 2,
+                priority: null,
+                value: aspects[cArmure.aspect.value]*cArmure.aspect.multiplie
+              });
             } else {
-              armure.bonus.capacites.push(cArmure.value);
+              effects.capacites.push({
+                key: path.armure.bonus,
+                mode: 2,
+                priority: null,
+                value: cArmure.value
+              });
             }
           }
 
           if(aspectMax.has) {
             const aMax = aspectMax.aspect;
-            aspectsMax[aMax].max = aspectMax.maximum.aspect;
-            aspectsMax[aMax].ae.mineur.max = aspectMax.maximum.ae;
-            aspectsMax[aMax].ae.majeur.max = aspectMax.maximum.ae;
+            aspectsMax[aMax].max.push(aspectMax.maximum.aspect);
+            aspectsMax[aMax].ae.mineur.push(aspectMax.maximum.ae);
+            aspectsMax[aMax].ae.majeur.push(aspectMax.maximum.ae);
           }
 
           if(attaque.has) {
@@ -1139,17 +1036,27 @@ export class CreatureSheet extends ActorSheet {
           const aspectMax = bonus.aspectMax;
 
           if(cSante.has && cSante.aspect.lie && cSante.aspect.value !== aspectLieSupp[i]) {
-            sante.bonus += aspects[aspectLieSupp[i]]*cSante.aspect.multiplie;
+            effects.capacites.push({
+              key: path.sante.bonus,
+              mode: 2,
+              priority: null,
+              value: aspects[aspectLieSupp[i]]*cSante.aspect.multiplie
+            });
           }
 
           if(cArmure.has && cArmure.aspect.lie && cArmure.aspect.value !== aspectLieSupp[i]) {
-            armure.bonus.capacites.push(aspects[aspectLieSupp[i]]*cArmure.aspect.multiplie);
+            effects.capacites.push({
+              key: path.armure.bonus,
+              mode: 2,
+              priority: null,
+              value: aspects[aspectLieSupp[i]]*cArmure.aspect.multiplie
+            });
           }
 
           if(aspectMax.has && aspectMax.aspect !== aspectLieSupp[i]) {
-            aspectsMax[aspectLieSupp[i]].max = aspectMax.maximum.aspect;
-            aspectsMax[aspectLieSupp[i]].ae.mineur.max = aspectMax.maximum.ae;
-            aspectsMax[aspectLieSupp[i]].ae.majeur.max = aspectMax.maximum.ae;
+            aspectsMax[aspectLieSupp[i]].max.push(aspectMax.maximum.aspect);
+            aspectsMax[aspectLieSupp[i]].ae.mineur.push(aspectMax.maximum.ae);
+            aspectsMax[aspectLieSupp[i]].ae.majeur.push(aspectMax.maximum.ae);
           }
         }
       }
@@ -1162,108 +1069,39 @@ export class CreatureSheet extends ActorSheet {
     actorData.capacites = capacites;
     actorData.capacitesPhase2 = capacitesPhase2;
 
-    const update = {
-      system:{
-        aspects:{
-          chair:{
-            max:aspectsMax.chair.max,
-            ae:{
-              mineur:{
-                max:aspectsMax.chair.ae.mineur.max
-              },
-              majeur:{
-                max:aspectsMax.chair.ae.majeur.max
-              }
-            }
-          },
-          bete:{
-            max:aspectsMax.bete.max,
-            ae:{
-              mineur:{
-                max:aspectsMax.bete.ae.mineur.max
-              },
-              majeur:{
-                max:aspectsMax.bete.ae.majeur.max
-              }
-            }
-          },
-          machine:{
-            max:aspectsMax.machine.max,
-            ae:{
-              mineur:{
-                max:aspectsMax.machine.ae.mineur.max
-              },
-              majeur:{
-                max:aspectsMax.machine.ae.majeur.max
-              }
-            }
-          },
-          dame:{
-            max:aspectsMax.dame.max,
-            ae:{
-              mineur:{
-                max:aspectsMax.dame.ae.mineur.max
-              },
-              majeur:{
-                max:aspectsMax.dame.ae.majeur.max
-              }
-            }
-          },
-          masque:{
-            max:aspectsMax.masque.max,
-            ae:{
-              mineur:{
-                max:aspectsMax.masque.ae.mineur.max
-              },
-              majeur:{
-                max:aspectsMax.masque.ae.majeur.max
-              }
-            }
-          }
-        },
-        armure:{
-          bonus:{
-            modules:armure.bonus.modules.reduce(sum),
-            capacites:armure.bonus.capacites.reduce(sum)
-          }
-        },
-        energie:{
-          bonus:{
-            modules:energie.bonus.modules.reduce(sum)
-          }
-        },
-        reaction:{
-          bonus:{
-            armes:reaction.bonus.armes,
-            capacites:reaction.bonus.capacites
-          },
-          malus:{
-            capacites:reaction.malus.capacites,
-            armes:reaction.malus.armes
-          }
-        },
-        defense:{
-          bonus:{
-            armes:defense.bonus.armes,
-            capacites:defense.bonus.capacites
-          },
-          malus:{
-            capacites:defense.malus.capacites,
-            armes:defense.malus.armes
-          }
-        },
-        sante:{
-          bonus:{
-            capacites:sante.bonus
-          },
-          malus:{
-            capacites:sante.malus
-          }
-        }
-      }
-    };
+    const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
+    const listWithEffect = [
+      {label:'Capacites', data:effects.capacites},
+      {label:'Armes', data:effects.armes},
+    ];
 
-    this.actor.update(update);
+    const toUpdate = [];
+    const toAdd = [];
+
+    for(let effect of listWithEffect) {
+      const effectExist = existEffect(listEffect, effect.label);
+      let toggle = false;
+
+      if(effectExist) {
+        if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
+          "_id":effectExist._id,
+          changes:effect.data,
+          disabled:toggle
+        });
+        else if(effectExist.disabled !== toggle) toUpdate.push({
+          "_id":effectExist._id,
+          disabled:toggle
+        });
+      } else toAdd.push({
+          label: effect.label,
+          icon: '/icons/svg/mystery-man.svg',
+          changes:effect.data,
+          disabled:toggle
+      });
+    }
+
+    if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
+    if(toAdd.length > 0) addEffect(this.actor, toAdd);
 
     // ON ACTUALISE ROLL UI S'IL EST OUVERT
     let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;

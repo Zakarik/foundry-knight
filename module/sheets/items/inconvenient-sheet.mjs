@@ -39,7 +39,7 @@ export class InconvenientSheet extends ItemSheet {
 
     html.find('div.initiative button').click(ev => {
       ev.preventDefault();
-      const actuel = this.getData().data.data.malus.initiative.ifEmbuscade.has || false;
+      const actuel = this.getData().data.system.malus.initiative.ifEmbuscade.has || false;
 
       let result = false;
 
@@ -64,7 +64,7 @@ export class InconvenientSheet extends ItemSheet {
 
     html.find('div.augmentationCout button').click(ev => {
       ev.preventDefault();
-      const actuel = this.getData().data.data.malus.coutsAugmentes.has || false;
+      const actuel = this.getData().data.system.malus.coutsAugmentes.has || false;
 
       let result = false;
 
@@ -88,7 +88,7 @@ export class InconvenientSheet extends ItemSheet {
     html.find('div.limitations button').click(ev => {
       ev.preventDefault();
       const type = $(ev.currentTarget).data("type");
-      const actuel = this.getData().data.data.limitations.aspects[type].has || false;
+      const actuel = this.getData().data.system.limitations.aspects[type].has || false;
 
       let result = false;
 
@@ -113,11 +113,11 @@ export class InconvenientSheet extends ItemSheet {
 
     html.find('.inputAll').change(ev => {
       const val = +$(ev.currentTarget).val();
-      const bete = +this.getData().data.data.limitations.aspects.bete.value;
-      const chair = +this.getData().data.data.limitations.aspects.chair.value;
-      const machine = +this.getData().data.data.limitations.aspects.machine.value;
-      const dame = +this.getData().data.data.limitations.aspects.dame.value;
-      const masque = +this.getData().data.data.limitations.aspects.masque.value;
+      const bete = +this.getData().data.system.limitations.aspects.bete.value;
+      const chair = +this.getData().data.system.limitations.aspects.chair.value;
+      const machine = +this.getData().data.system.limitations.aspects.machine.value;
+      const dame = +this.getData().data.system.limitations.aspects.dame.value;
+      const masque = +this.getData().data.system.limitations.aspects.masque.value;
 
       const update = {
         data: {
@@ -154,7 +154,7 @@ export class InconvenientSheet extends ItemSheet {
 
     html.find('button.espoir').click(ev => {
       ev.preventDefault();
-      const actuel = this.getData().data.data.limitations.espoir.aucunGain || false;
+      const actuel = this.getData().data.system.limitations.espoir.aucunGain || false;
 
       let result = false;
 

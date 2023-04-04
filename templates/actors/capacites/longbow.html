@@ -108,7 +108,13 @@
 
             <div class="data">
                 <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.Liste3"}}</h4>
-                <span class="oneLine noBorderTop lightBlack">{{this.effets.liste3.label}}</span>
+                <span class="oneLine noBorderTop lightBlack">
+                {{#if effets.liste3.acces}}
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.AccesL3"}}
+                {{else}}
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.NoAccesL3"}}
+                {{/if}}
+                </span>
                 <div class="longspan {{#unless this.effets.liste3.acces}}hidden{{/unless}}">
                     <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.Cout"}}</span>
                     <span class="score">{{this.effets.liste3.energie}}</span>
