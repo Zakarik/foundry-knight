@@ -2,12 +2,40 @@ import {
   getModStyle,
   listEffects,
   SortByName,
+  compareArrays,
   sum,
+  addOrUpdateEffect,
+  addEffect,
+  updateEffect,
+  existEffect,
   confirmationDialog
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
 import toggler from '../../helpers/toggler.js';
+
+const path = {
+  reaction:{
+    bonus:'system.reaction.bonusValue',
+    malus:'system.reaction.malusValue',
+  },
+  defense:{
+    bonus:'system.defense.bonusValue',
+    malus:'system.defense.malusValue',
+  },
+  armure:{
+    bonus:'system.armure.bonusValue',
+    malus:'system.armure.malusValue',
+  },
+  energie:{
+    bonus:'system.energie.bonusValue',
+    malus:'system.energie.malusValue',
+  },
+  champDeForce:{
+    bonus:'system.champDeForce.bonusValue',
+    malus:'system.champDeForce.malusValue',
+  },
+};
 
 /**
  * @extends {ActorSheet}
@@ -415,50 +443,6 @@ export class VehiculeSheet extends ActorSheet {
 
     const armesDistance = [];
     const module = [];
-    let reaction = {
-      bonus:{
-        armes:0,
-        modules:0
-      },
-      malus:{
-        armes:0,
-        modules:0
-      }
-    };
-    let defense = {
-      bonus:{
-        armes:0,
-        modules:0
-      },
-      malus:{
-        armes:0,
-        modules:0
-      }
-    };
-    let armure = {
-      bonus:{
-        modules:[0]
-      },
-      malus:{
-        modules:[0]
-      }
-    };
-    let energie = {
-      bonus:{
-        modules:[0]
-      },
-      malus:{
-        modules:[0]
-      }
-    };
-    let champDeForce = {
-      bonus:{
-        modules:[0]
-      },
-      malus:{
-        modules:[0]
-      }
-    };
     const moduleBonusDgts = {
       "contact":[],
       "distance":[]
@@ -475,6 +459,7 @@ export class VehiculeSheet extends ActorSheet {
       "contact":[],
       "distance":[]
     };
+    const effects = {armes:[], modules:[]};
 
     for (let i of sheetData.items) {
       const data = i.system;
@@ -491,8 +476,22 @@ export class VehiculeSheet extends ActorSheet {
         const bDefense = effetsRaw.find(str => { if(str.includes('defense')) return str; });
         const bReaction = effetsRaw.find(str => { if(str.includes('reaction')) return str; });
 
-        if(bDefense !== undefined) defense.bonus.armes += +bDefense.split(' ')[1];
-        if(bReaction !== undefined) reaction.bonus.armes += +bReaction.split(' ')[1];
+        if(bDefense !== undefined) {
+          effects.armes.push({
+            key: path.defense.bonus,
+            mode: 2,
+            priority: null,
+            value: bDefense.split(' ')[1]
+          });
+        }
+        if(bReaction !== undefined) {
+          effects.armes.push({
+            key: path.reaction.bonus,
+            mode: 2,
+            priority: null,
+            value: bReaction.split(' ')[1]
+          });
+        }
 
         const rawDistance = data.distance.raw;
         const customDistance = data.distance.custom;
@@ -537,9 +536,30 @@ export class VehiculeSheet extends ActorSheet {
             const iBViolence = itemBonus.violence;
             const iBViolenceVariable = iBViolence.variable;
 
-            if(iBArmure.has) { armure.bonus.modules.push(iBArmure.value); }
-            if(iBCDF.has) { champDeForce.bonus.modules.push(iBCDF.value); }
-            if(iBEnergie.has) { energie.bonus.modules.push(iBEnergie.value); }
+            if(iBArmure.has) {
+              effects.modules.push({
+                key: path.armure.bonus,
+                mode: 2,
+                priority: null,
+                value: iBArmure.value
+              });
+            }
+            if(iBCDF.has) {
+              effects.modules.push({
+                key: path.champDeForce.bonus,
+                mode: 2,
+                priority: null,
+                value: iBCDF.value
+              });
+            }
+            if(iBEnergie.has) {
+              effects.modules.push({
+                key: path.energie.bonus,
+                mode: 2,
+                priority: null,
+                value: iBEnergie.value
+              });
+            }
             if(iBDgts.has) {
               if(iBDgtsVariable.has) {
                 moduleBonusDgtsVariable[iBDgts.type].push({
@@ -624,8 +644,22 @@ export class VehiculeSheet extends ActorSheet {
             const bDefense = moduleEffetsFinal.raw.find(str => { if(str.includes('defense')) return str; });
             const bReaction = moduleEffetsFinal.raw.find(str => { if(str.includes('reaction')) return str; });
 
-            if(bDefense !== undefined) defense.bonus.modules += +bDefense.split(' ')[1];
-            if(bReaction !== undefined) reaction.bonus.modules += +bReaction.split(' ')[1];
+            if(bDefense !== undefined) {
+              effects.modules.push({
+                key: path.defense.bonus,
+                mode: 2,
+                priority: null,
+                value: bDefense.split(' ')[1]
+              });
+            }
+            if(bReaction !== undefined) {
+              effects.modules.push({
+                key: path.reaction.bonus,
+                mode: 2,
+                priority: null,
+                value: bReaction.split(' ')[1]
+              });
+            }
 
             if(itemArme.type === 'distance') {
               armesDistance.push(moduleWpn);
@@ -652,35 +686,39 @@ export class VehiculeSheet extends ActorSheet {
     actorData.armesDistance = armesDistance;
     actorData.modules = module;
 
-    const update = {
-      system:{
-        reaction:{
-          bonus:reaction.bonus.armes+reaction.bonus.modules,
-          malus:reaction.malus.armes+reaction.malus.modules
-        },
-        defense:{
-          bonus:defense.bonus.armes+defense.bonus.modules,
-          malus:defense.malus.armes+defense.malus.modules
-        },
-        armure:{
-          bonus:{
-            modules:armure.bonus.modules.reduce(sum)
-          }
-        },
-        champDeForce:{
-          bonus:{
-            modules:champDeForce.bonus.modules.reduce(sum)
-          }
-        },
-        energie:{
-          bonus:{
-            modules:energie.bonus.modules.reduce(sum)
-          }
-        },
-      }
-    };
+    const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
+    const listWithEffect = [
+      {label:'Armes', data:effects.armes},
+      {label:'Modules', data:effects.modules},
+    ];
 
-    this.actor.update(update);
+    const toUpdate = [];
+    const toAdd = [];
+
+    for(let effect of listWithEffect) {
+      const effectExist = existEffect(listEffect, effect.label);
+      let toggle = false;
+
+      if(effectExist) {
+        if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
+          "_id":effectExist._id,
+          changes:effect.data,
+          disabled:toggle
+        });
+        else if(effectExist.disabled !== toggle) toUpdate.push({
+          "_id":effectExist._id,
+          disabled:toggle
+        });
+      } else toAdd.push({
+          label: effect.label,
+          icon: '/icons/svg/mystery-man.svg',
+          changes:effect.data,
+          disabled:toggle
+      });
+    }
+
+    if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
+    if(toAdd.length > 0) addEffect(this.actor, toAdd);
 
     // ON ACTUALISE ROLL UI S'IL EST OUVERT
     let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;

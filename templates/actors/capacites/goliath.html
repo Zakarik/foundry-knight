@@ -106,7 +106,13 @@
             </div>
 
             <div class="data">
-                <span class="oneLine noBorderTop lightBlack">{{this.armesRack.label}}</span>
+                <span class="oneLine noBorderTop lightBlack">
+                {{#if this.armesRack.active}}
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.ArmesRack"}} {{this.armesRack.value}} {{toLowerCase (localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.MetreBonus")}}
+                {{else}}
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.ArmesNoRack"}}
+                {{/if}}
+                </span>
             </div>
         </div>
     </div>

@@ -227,34 +227,30 @@ export class KnightActor extends Actor {
 
     // ASPECTS
     for (let [key, aspect] of Object.entries(aspects)){
-      let base = aspect?.base || 0;
-      let bonus = aspect?.bonus || 0;
-      let malus = aspect?.malus || 0;
+      const base = aspect.base ?? 0;
+      const bonus = aspect.bonus ?? 0;
+      const malus = aspect.malus ?? 0;
+      const total = base+bonus-malus;
 
-      aspect.value = Math.max(base+bonus-malus, 0);
+      aspect.value = Math.min(Math.max(total, 0), 9);
 
       // CARACTERISTIQUES
       for (let [keyCar, carac] of Object.entries(aspect.caracteristiques)){
-        let baseCarac = carac?.base || 0;
-        let bonusCarac = carac?.bonus || 0;
-        let malusCarac = carac?.malus || 0;
-        let total = 0;
+        const baseCarac = carac.base ?? 0;
+        const bonusCarac = carac.bonus ?? 0;
+        const malusCarac = carac.malus ?? 0;
+        const totalCarac = baseCarac+bonusCarac-malusCarac;
 
-        carac.max = aspect.value;
-
-        total = baseCarac+bonusCarac-malusCarac;
-
-        if(total > aspect.value) { total = aspect.value; }
-
-        carac.value = Math.max(total, 0);
+        carac.value = Math.min(Math.max(totalCarac, 0), aspect.value);
 
         // OD
         const overdrive = carac.overdrive;
-        const baseOD = overdrive?.base || 0;
-        const bonusOD = overdrive?.bonus || 0;
-        const malusOD = overdrive?.malus || 0;
+        const baseOD = overdrive.base ?? 0;
+        const bonusOD = overdrive.bonus ?? 0;
+        const malusOD = overdrive.malus ?? 0;
+        const totalOD = baseOD+bonusOD-malusOD;
 
-        carac.overdrive.value = Math.max(baseOD+bonusOD-malusOD, 0);
+        carac.overdrive.value = Math.max(totalOD, 0);
       }
     }
 
@@ -276,204 +272,112 @@ export class KnightActor extends Actor {
 
     // SANTE
     if(dataJauges.sante) {
-
       const valueBase = isKraken ? 8 : 6;
       const userSBase = (chairMax*valueBase)+10;
-      const santeDataBonus = data.sante.bonus;
-      const santeDataMalus = data.sante.malus;
-
-      let santeBonus = 0;
-      let santeMalus = 0;
-
-      for(const bonusList in santeDataBonus) {
-        santeBonus += santeDataBonus[bonusList];
-      }
-
-      for(const malusList in santeDataMalus) {
-        santeMalus += santeDataMalus[malusList];
-      }
+      const santeBonus = data.sante.bonus?.user ?? 0;
+      const santeMalus = data.sante.malus?.user ?? 0;
 
       if(dataWear === "armure" || dataWear === "ascension") {
         const ODEndurance =  aspects?.chair?.caracteristiques?.endurance?.overdrive?.value || 0;
 
         if(ODEndurance >= 3) santeBonus += 6;
       }
+      data.sante.base = userSBase;
 
-      const totalSante = userSBase+santeBonus-santeMalus;
+      if(!data.sante.bonusValue) data.sante.bonusValue = santeBonus;
+      else data.sante.bonusValue += santeBonus;
+
+      if(!data.sante.malusValue) data.sante.malusValue = santeMalus;
+      else data.sante.malusValue += santeMalus;
+
+      const totalSante = userSBase+data.sante.bonusValue-data.sante.malusValue;
       let bonusSCU = 0;
 
       if(dataWear === "armure" && passiveUltime !== undefined) {
         if(passiveUltime.sante) bonusSCU = Math.floor(totalSante/2);
       }
 
-      data.sante.base = userSBase;
-      data.sante.bonusValue = santeBonus;
-      data.sante.malusValue = santeMalus;
       data.sante.max = Math.max(totalSante+bonusSCU, 0);
     }
 
     // ARMURE
     if(dataJauges.armure) {
-      const userABase = equipement.armure.base;
-      const armureDataBonus = equipement.armure.bonus;
-      const armureDataMalus = equipement.armure.malus;
+      const armureDataBonus = data.armure.bonus ?? 0;
+      const armureDataMalus = data.armure.malus ?? 0;
 
-      let armureBonus = 0;
-      let armureMalus = 0;
+      const armureBonus = data.equipements[dataWear].armure.bonus.user ?? 0;
+      const armureMalus = data.equipements[dataWear].armure.malus.user ?? 0;
 
-      for(const bonusList in armureDataBonus) {
-        armureBonus += armureDataBonus[bonusList];
-      }
-
-      for(const malusList in armureDataMalus) {
-        armureMalus += armureDataMalus[malusList];
-      }
-
-      if(dataWear === "armure" || dataWear === "ascension") {
-        const armureUserBonus = data.equipements[dataWear].armure.bonus;
-        const armureUserMalus = data.equipements[dataWear].armure.malus;
-
-        for(const bonusList in armureUserBonus) {
-          armureBonus += armureUserBonus[bonusList];
-        }
-
-        for(const malusList in armureUserMalus) {
-          armureMalus += armureUserMalus[malusList];
-        }
-      }
-
-      equipement.armure.mod = armureBonus-armureMalus;
-      equipement.armure.max = Math.max(userABase+equipement.armure.mod, 0);
-
-      data.armure.base = equipement.armure.base;
-      data.armure.bonus = armureBonus;
-      data.armure.malus = armureMalus;
-      data.armure.max = equipement.armure.max;
+      data.armure.max = armureDataBonus+armureBonus-armureDataMalus-armureMalus;
     }
 
+    // ENERGIE
     if(dataJauges.energie) {
-      const userEBase = equipement.energie.base;
-      const energieDataBonus = equipement.energie.bonus;
-      const energieDataMalus = equipement.energie.malus;
+      const userEBase = equipement.energie?.base ?? 0;
+      const energieBonus = data.equipements[dataWear].energie.bonus?.user ?? 0;
+      const energieMalus = data.equipements[dataWear].energie.malus?.user ?? 0;
 
-      let energieBonus = 0;
-      let energieMalus = 0;
+      data.energie.base = equipement.energie.base;
 
-      for(const bonusList in energieDataBonus) {
-        energieBonus += energieDataBonus[bonusList];
-      }
+      if(!data.energie.bonus) data.energie.bonus = energieBonus;
+      else data.energie.bonus += energieBonus;
 
-      for(const malusList in energieDataMalus) {
-        energieMalus += energieDataMalus[malusList];
-      }
+      if(!data.energie.malus) data.energie.malus = energieMalus;
+      else data.energie.malus += energieMalus;
 
-      if(dataWear === "armure" || dataWear === "ascension") {
-        const energieUserBonus = data.equipements[dataWear].energie.bonus;
-        const energieUserMalus = data.equipements[dataWear].energie.malus;
-
-        for(const bonusList in energieUserBonus) {
-          energieBonus += energieUserBonus[bonusList];
-        }
-
-        for(const malusList in energieUserMalus) {
-          energieMalus += energieUserMalus[malusList];
-        }
-      }
-
-      equipement.energie.mod = energieBonus-energieMalus;
+      equipement.energie.mod = data.energie.bonus-data.energie.malus;
       equipement.energie.max = Math.max(userEBase+equipement.energie.mod, 0);
       equipement.energie.value = data.energie.value;
 
-      data.energie.base = equipement.energie.base;
-      data.energie.bonus = energieBonus;
-      data.energie.malus = energieMalus;
       data.energie.max = equipement.energie.max;
     }
 
+    // CHAMP DE FORCE
     if(dataJauges.champDeForce) {
-      const userCDFBase = equipement.champDeForce.base;
-      const CDFDataBonus = equipement.champDeForce.bonus;
-      const CDFDataMalus = equipement.champDeForce.malus;
+      const userCDFBase = data.champDeForce?.base ?? 0;
+      const CDFDataBonus = data.equipements[dataWear].champDeForce.bonus?.user ?? 0;
+      const CDFDataMalus = data.equipements[dataWear].champDeForce.malus?.user ?? 0;
 
-      let CDFBonus = 0;
-      let CDFMalus = 0;
+      if(!data.champDeForce.bonus) data.champDeForce.bonus = CDFDataBonus;
+      else data.champDeForce.bonus += CDFDataBonus;
 
-      for(const bonusList in CDFDataBonus) {
-        CDFBonus += CDFDataBonus[bonusList];
-      }
+      if(!data.champDeForce.malus) data.champDeForce.malus = CDFDataMalus;
+      else data.champDeForce.malus += CDFDataMalus;
 
-      for(const malusList in CDFDataMalus) {
-        CDFMalus += CDFDataMalus[malusList];
-      }
-
-      if(dataWear === "armure" || dataWear === "ascension") {
-        const CDFUserBonus = data.equipements[dataWear].champDeForce.bonus;
-        const CDFUserMalus = data.equipements[dataWear].champDeForce.malus;
-
-        for(const bonusList in CDFUserBonus) {
-          CDFBonus += CDFUserBonus[bonusList];
-        }
-
-        for(const malusList in CDFUserMalus) {
-          CDFMalus += CDFUserMalus[malusList];
-        }
-      }
-
-      equipement.champDeForce.mod = CDFBonus-CDFMalus;
-      equipement.champDeForce.value = Math.max(userCDFBase+equipement.champDeForce.mod, 0);
-
-      data.champDeForce.base = equipement.champDeForce.base;
-      data.champDeForce.bonus = CDFBonus;
-      data.champDeForce.malus = CDFMalus;
-      data.champDeForce.value = equipement.champDeForce.value;
+      data.champDeForce.value = userCDFBase+data.champDeForce.bonus-data.champDeForce.malus;
     }
 
     // ESPOIR
     if(dataJauges.espoir) {
       const hasPlusEspoir = armorWear !== false && armorWear?.special?.selected?.plusespoir != undefined ? armorWear?.special?.selected?.plusespoir.espoir.base : 50;
       const userEBase = hasPlusEspoir;
-      const espoirDataBonus = data.espoir.bonus;
-      const espoirDataMalus = data.espoir.malus;
+      const espoirDataBonus = data.espoir.bonus?.user ?? 0;
+      const espoirDataMalus = data.espoir.malus?.user ?? 0;
 
-      let espoirBonus = 0;
-      let espoirMalus = 0;
+      if(!data.espoir.bonusValue) data.espoir.bonusValue = espoirDataBonus;
+      else data.espoir.bonusValue += espoirDataBonus;
 
-      for(const bonusList in espoirDataBonus) {
-        espoirBonus += espoirDataBonus[bonusList];
-      }
+      if(!data.espoir.malusValue) data.espoir.malusValue = espoirDataMalus;
+      else data.espoir.malusValue += espoirDataMalus;
 
-      for(const malusList in espoirDataMalus) {
-        espoirMalus += espoirDataMalus[malusList];
-      }
-
-      data.espoir.bonusValue = espoirBonus;
-      data.espoir.malusValue = espoirMalus;
-
-      data.espoir.max = Math.max(userEBase+espoirBonus-espoirMalus, 0);
+      data.espoir.max = Math.max(userEBase+data.espoir.bonusValue-data.espoir.malusValue, 0);
     }
 
     //EGIDE
     const hasEgide = game.settings.get("knight", "acces-egide");
 
     if(hasEgide) {
-      const userSBase = data.egide.base;
-      const egideDataBonus = data.egide.bonus;
-      const egideDataMalus = data.egide.malus;
+      const userSBase = data.egide?.base ?? 0;
+      const egideDataBonus = data.egide.bonus?.user ?? 0;
+      const egideDataMalus = data.egide.malus?.user ?? 0;
 
-      let egideBonus = 0;
-      let egideMalus = 0;
+      if(!data.egide.bonusValue) data.egide.bonusValue = egideDataBonus;
+      else data.egide.bonusValue += egideDataBonus;
 
-      for(const bonusList in egideDataBonus) {
-        egideBonus += egideDataBonus[bonusList];
-      }
+      if(!data.egide.malusValue) data.egide.malusValue = egideDataMalus;
+      else data.egide.malusValue += egideDataMalus;
 
-      for(const malusList in egideDataMalus) {
-        egideMalus += egideDataMalus[malusList];
-      }
-
-      data.egide.bonusValue = egideBonus;
-      data.egide.malusValue = egideMalus;
-      data.egide.value = Math.max(userSBase+egideBonus-egideMalus, 0);
+      data.egide.value = Math.max(userSBase+data.egide.bonusValue-data.egide.malusValue, 0);
     }
 
     // INITIATIVE
@@ -481,92 +385,57 @@ export class KnightActor extends Actor {
     const hasEmbuscadePris = data.options?.embuscadePris || false;
     const userIBase = dataWear === 'armure' || dataWear === 'ascension' ? masqueWODMax : masqueMax;
     const initiativeDataDiceBase = data.initiative.diceBase;
-    const initiativeDataDiceBonus = data.initiative.diceBonus;
-    const initiativeDataDiceMalus = data.initiative.diceMalus;
-    const initiativeDataBonus = data.initiative.bonus;
-    const initiativeDataMalus = data.initiative.malus;
+    let initiativeDataDiceMod = data.initiative?.diceMod || 0;
+    let initiativeDataMod = data.initiative?.mod || 0;
 
-    let initiativeDiceBonus = 0;
-    let initiativeDiceMalus = 0;
-    let initiativeBonus = 0;
-    let initiativeMalus = 0;
-
-    for(const bonusList in initiativeDataBonus) {
-      initiativeBonus += initiativeDataBonus[bonusList];
-    }
-
-    for(const bonusList in initiativeDataDiceBonus) {
-      initiativeDiceBonus += initiativeDataDiceBonus[bonusList];
-    }
-
-    for(const malusList in initiativeDataMalus) {
-      initiativeMalus += initiativeDataMalus[malusList];
-    }
-
-    for(const bonusList in initiativeDataDiceMalus) {
-      initiativeDiceMalus += initiativeDataDiceMalus[bonusList];
-    }
+    let initiativeBonus = data.initiative.bonus.user;
+    let initiativeMalus = data.initiative.malus.user;
 
     if(dataWear === "armure" || dataWear === "ascension") {
       const ODInstinct =  aspects?.bete?.caracteristiques?.instinct?.overdrive?.value || 0;
 
-      if(ODInstinct >= 3) initiativeBonus += ODInstinct*3;
+      if(ODInstinct >= 3) initiativeDataDiceMod += ODInstinct*3;
     }
 
     if(hasEmbuscadeSubis) {
       const bonusDice = +data?.bonusSiEmbuscade?.bonusInitiative?.dice || 0;
       const bonusFixe = +data?.bonusSiEmbuscade?.bonusInitiative?.fixe || 0;
 
-      initiativeDiceBonus += bonusDice;
-      initiativeBonus += bonusFixe;
+      initiativeDataDiceMod += bonusDice;
+      initiativeDataMod += bonusFixe;
     }
 
     if(hasEmbuscadePris) {
-      initiativeBonus += 10;
+      initiativeDataDiceMod += 10;
     }
 
-    data.initiative.dice = Math.max(initiativeDataDiceBase+initiativeDiceBonus-initiativeDiceMalus, 1);
+    data.initiative.dice = Math.max(initiativeDataDiceBase+initiativeDataDiceMod, 1);
     data.initiative.base = userIBase;
-    data.initiative.value = Math.max(userIBase+initiativeBonus-initiativeMalus, 0);
+    data.initiative.value = Math.max(userIBase+initiativeDataMod+initiativeBonus-initiativeMalus, 0);
     data.initiative.complet = `${data.initiative.dice}D6+${data.initiative.value}`;
 
     // REACTION
     const userRBase = dataWear === 'armure' || dataWear === 'ascension' ? machineWODMax : machineMax;
-    const reactionDataBonus = data.reaction.bonus;
-    const reactionDataMalus = data.reaction.malus;
+    const reactionDataBonus = data.reaction.bonus?.user ?? 0;
+    const reactionDataMalus = data.reaction.malus?.user ?? 0;
 
     let reactionBonus = isKraken ? 1 : 0;
-    let reactionMalus = 0;
 
-    for(const bonusList in reactionDataBonus) {
-      reactionBonus += reactionDataBonus[bonusList];
-    }
+    if(!data.reaction.bonusValue) data.reaction.bonusValue = reactionDataBonus;
+    else data.reaction.bonusValue += reactionDataBonus;
 
-    for(const malusList in reactionDataMalus) {
-      reactionMalus += reactionDataMalus[malusList];
-    }
-
-    data.reaction.bonusValue = reactionBonus;
-    data.reaction.malusValue = reactionMalus;
+    if(!data.reaction.malusValue) data.reaction.malusValue = reactionDataMalus;
+    else data.reaction.malusValue += reactionDataMalus;
 
     data.reaction.base = userRBase;
-    data.reaction.value = Math.max(userRBase+reactionBonus-reactionMalus, 0);
+    data.reaction.value = Math.max(userRBase+data.reaction.bonusValue+reactionBonus-data.reaction.malusValue, 0);
 
     // DEFENSE
     const userDBase = dataWear === 'armure' || dataWear === 'ascension' ? beteWODMax : beteMax;
-    const defenseDataBonus = data.defense.bonus;
-    const defenseDataMalus = data.defense.malus;
+    const defenseDataBonus = data.defense.bonus.user;
+    const defenseDataMalus = data.defense.malus.user;
 
     let defenseBonus = isKraken ? 1 : 0;
-    let defenseMalus = 0;
-
-    for(const bonusList in defenseDataBonus) {
-      defenseBonus += defenseDataBonus[bonusList];
-    }
-
-    for(const malusList in defenseDataMalus) {
-      defenseMalus += defenseDataMalus[malusList];
-    }
 
     if(dataWear === "armure" || dataWear === "ascension") {
       const ODAura =  aspects?.dame?.caracteristiques?.aura?.overdrive?.value || 0;
@@ -574,11 +443,14 @@ export class KnightActor extends Actor {
       if(ODAura >= 5) defenseBonus += aspects.dame.caracteristiques.aura.value;
     }
 
-    data.defense.bonusValue = defenseBonus;
-    data.defense.malusValue = defenseMalus;
+    if(!data.defense.bonusValue) data.reaction.bonusValue = defenseDataBonus;
+    else data.defense.bonusValue += defenseDataBonus;
+
+    if(!data.defense.malusValue) data.reaction.malusValue = defenseDataMalus;
+    else data.defense.malusValue += defenseDataMalus;
 
     data.defense.base = userDBase;
-    data.defense.value = Math.max(userDBase+defenseBonus-defenseMalus, 0);
+    data.defense.value = Math.max(userDBase+data.defense.bonusValue+defenseBonus-data.defense.malusValue, 0);
 
     // LANGUES
     const userLBase = Math.max(data.aspects.machine.caracteristiques.savoir.value-1, 1);
@@ -610,8 +482,8 @@ export class KnightActor extends Actor {
 
     let PGTotalDepense = 0;
 
-    for(let i = 0;i < PGDepenseListe.length;i++) {
-      if(!PGDepenseListe[i].isArmure) PGTotalDepense += PGDepenseListe[i].value;
+    for(const PG in PGDepenseListe) {
+      if(!PGDepenseListe[PG].isArmure) PGTotalDepense += PGDepenseListe[PG].value;
     }
 
     data.progression.gloire.depense.total = PGTotalDepense;
@@ -649,138 +521,35 @@ export class KnightActor extends Actor {
     const aspectsMachine = data.aspects.machine;
     const aspectsMasque = data.aspects.masque;
 
-    // SANTE
-    if(options.sante) {
-      const userSBase = data.sante.base;
-      const santeDataBonus = data.sante.bonus;
-      const santeDataMalus = data.sante.malus;
+    // SANTE - ARMURE - ENERGIE - CDF - BOUCLIER
+    const list = ['sante', 'armure', 'energie', 'champDeForce', 'bouclier'];
 
-      let santeBonus = 0;
-      let santeMalus = 0;
+    for(let i = 0;i < list.length;i++) {
+      const label = list[i];
 
-      for(const bonusList in santeDataBonus) {
-        santeBonus += santeDataBonus[bonusList];
+      if(options[label]) {
+        const userBase = data[label]?.base ?? 0;
+        const dataBonus = data[label]?.bonus?.user ?? 0;
+        const dataMalus = data[label]?.malus?.user ?? 0;
+
+        if(!data[label].bonusValue) data[label].bonusValue = dataBonus;
+        else data[label].bonusValue += dataBonus;
+
+        if(!data[label].malusValue) data[label].malusValue = dataMalus;
+        else data[label].malusValue += dataMalus;
+
+        if(label === 'champDeForce') data[label].value = Math.max(userBase+data[label].bonusValue-data[label].malusValue, 0);
+        else data[label].max = Math.max(userBase+data[label].bonusValue-data[label].malusValue, 0);
       }
-
-      for(const malusList in santeDataMalus) {
-        santeMalus += santeDataMalus[malusList];
-      }
-
-      data.sante.mod = santeBonus-santeMalus;
-      data.sante.max = Math.max(userSBase+santeBonus-santeMalus, 0);
-    }
-
-    // ARMURE
-    if(options.armure) {
-      const userABase = data.armure.base;
-      const armureDataBonus = data.armure.bonus;
-      const armureDataMalus = data.armure.malus;
-
-      let armureBonus = 0;
-      let armureMalus = 0;
-
-      for(const bonusList in armureDataBonus) {
-        armureBonus += armureDataBonus[bonusList];
-      }
-
-      for(const malusList in armureDataMalus) {
-        armureMalus += armureDataMalus[malusList];
-      }
-
-      data.armure.mod = armureBonus-armureMalus;
-      data.armure.max = Math.max(userABase+data.armure.mod, 0);
-    }
-
-    // ENERGIE
-    if(options.energie) {
-      const userEBase = data.energie.base;
-      const energieDataBonus = data.energie.bonus;
-      const energieDataMalus = data.energie.malus;
-
-      let energieBonus = 0;
-      let energieMalus = 0;
-
-      for(const bonusList in energieDataBonus) {
-        energieBonus += energieDataBonus[bonusList];
-      }
-
-      for(const malusList in energieDataMalus) {
-        energieMalus += energieDataMalus[malusList];
-      }
-
-      data.energie.mod = energieBonus-energieMalus;
-      data.energie.max = Math.max(userEBase+data.energie.mod, 0);
-    }
-
-    // CHAMP DE FORCE
-    if(options.champDeForce) {
-      const userCDFBase = data.champDeForce.base;
-      const CDFDataBonus = data.champDeForce.bonus;
-      const CDFDataMalus = data.champDeForce.malus;
-
-      let CDFBonus = 0;
-      let CDFMalus = 0;
-
-      for(const bonusList in CDFDataBonus) {
-        CDFBonus += CDFDataBonus[bonusList];
-      }
-
-      for(const malusList in CDFDataMalus) {
-        CDFMalus += CDFDataMalus[malusList];
-      }
-
-      data.champDeForce.mod = CDFBonus-CDFMalus;
-      data.champDeForce.value = Math.max(userCDFBase+data.champDeForce.mod, 0);
-    }
-
-    // Bouclier
-    if(options.bouclier) {
-      const userBouclierBase = data.bouclier.base;
-      const BouclierDataBonus = data.bouclier.bonus;
-      const BouclierDataMalus = data.bouclier.malus;
-
-      let BouclierBonus = 0;
-      let BouclierMalus = 0;
-
-      for(const bonusList in BouclierDataBonus) {
-        BouclierBonus += BouclierDataBonus[bonusList];
-      }
-
-      for(const malusList in BouclierDataBonus) {
-        BouclierMalus += BouclierDataMalus[malusList];
-      }
-
-      data.bouclier.mod = BouclierBonus-BouclierMalus;
-      data.bouclier.value = Math.max(userBouclierBase+data.bouclier.mod, 0);
     }
 
     // INITIATIVE
-    const initiativeDataDiceBase = data.initiative.diceBase;
-    const initiativeDataDiceBonus = data.initiative.diceBonus;
-    const initiativeDataDiceMalus = data.initiative.diceMalus;
-    const initiativeDataBonus = data.initiative.bonus;
-    const initiativeDataMalus = data.initiative.malus;
+    const initiativeDataDiceBase = data.initiative?.diceBase ?? 0;
 
     let initiativeDiceBonus = 0;
     let initiativeDiceMalus = 0;
-    let initiativeBonus = 0;
-    let initiativeMalus = 0;
-
-    for(const bonusList in initiativeDataBonus) {
-      initiativeBonus += initiativeDataBonus[bonusList];
-    }
-
-    for(const bonusList in initiativeDataDiceBonus) {
-      initiativeDiceBonus += initiativeDataDiceBonus[bonusList];
-    }
-
-    for(const malusList in initiativeDataMalus) {
-      initiativeMalus += initiativeDataMalus[malusList];
-    }
-
-    for(const bonusList in initiativeDataDiceMalus) {
-      initiativeDiceMalus += initiativeDataDiceMalus[bonusList];
-    }
+    let initiativeBonus = data.initiative?.bonus?.user ?? 0;
+    let initiativeMalus = data.initiative?.malus?.user ?? 0;
 
     const hasEmbuscadeSubis = data.options?.embuscadeSubis || false;
     const hasEmbuscadePris = data.options?.embuscadePris || false;
@@ -810,55 +579,38 @@ export class KnightActor extends Actor {
     data.initiative.complet = `${data.initiative.dice}D6+${data.initiative.value}`;
 
     // REACTION
-    const reactionDataBase = data.reaction.base;
-    const reactionDataBonus = data.reaction.bonus;
-    const reactionDataMalus = data.reaction.malus;
+    const reactionDataBase = data.reaction?.base ?? 0;
+    const reactionDataBonus = data.reaction.bonus?.user ?? 0;
+    const reactionDataMalus = data.reaction.malus?.user ?? 0;
 
-    let reactionBonus = 0;
-    let reactionMalus = 0;
+    if(!data.reaction.bonusValue) data.reaction.bonusValue = reactionDataBonus;
+    else data.reaction.bonusValue += reactionDataBonus;
 
-    for(const bonusList in reactionDataBonus) {
-      reactionBonus += reactionDataBonus[bonusList];
-    }
-
-    for(const malusList in reactionDataMalus) {
-      reactionMalus += reactionDataMalus[malusList];
-    }
+    if(!data.reaction.malusValue) data.reaction.malusValue = reactionDataMalus;
+    else data.reaction.malusValue += reactionDataMalus;
 
     if(aspectsMachine.ae.mineur.value > 0 || aspectsMachine.ae.majeur.value > 0) {
-      reactionBonus += +aspectsMachine.ae.mineur.value + +aspectsMachine.ae.majeur.value;
+      data.reaction.bonusValue += +aspectsMachine.ae.mineur.value + +aspectsMachine.ae.majeur.value;
     }
 
-    data.reaction.bonusValue = reactionBonus;
-    data.reaction.malusValue = reactionMalus;
-
-    data.reaction.value = Math.max(reactionDataBase+reactionBonus-reactionMalus, 0);
+    data.reaction.value = Math.max(reactionDataBase+data.reaction.bonusValue-data.reaction.malusValue, 0);
 
     // DEFENSE
-    const defenseDataBase = data.defense.base;
-    const defenseDataBonus = data.defense.bonus;
-    const defenseDataMalus = data.defense.malus;
+    const defenseDataBase = data.defense?.base ?? 0;
+    const defenseDataBonus = data.defense.bonus?.user ?? 0;
+    const defenseDataMalus = data.defense.malus?.user ?? 0;
 
-    let defenseBonus = 0;
-    let defenseMalus = 0;
+    if(!data.defense.bonusValue) data.defense.bonusValue = defenseDataBonus;
+    else data.defense.bonusValue += defenseDataBonus;
 
-    for(const bonusList in defenseDataBonus) {
-      defenseBonus += defenseDataBonus[bonusList];
-    }
-
-    for(const malusList in defenseDataMalus) {
-      defenseMalus += defenseDataMalus[malusList];
-    }
+    if(!data.defense.malusValue) data.defense.malusValue = defenseDataMalus;
+    else data.defense.malusValue += defenseDataMalus;
 
     if(aspectsMasque.ae.mineur.value > 0 || aspectsMasque.ae.majeur.value > 0) {
-      defenseBonus += +aspectsMasque.ae.mineur.value + +aspectsMasque.ae.majeur.value;
+      data.defense.bonusValue += +aspectsMasque.ae.mineur.value + +aspectsMasque.ae.majeur.value;
     }
 
-    data.defense.bonusValue = defenseBonus;
-    data.defense.malusValue = defenseMalus;
-
-    data.defense.base = defenseDataBase;
-    data.defense.value = Math.max(defenseDataBase+defenseBonus-defenseMalus, 0);
+    data.defense.value = Math.max(defenseDataBase+data.defense.bonusValue-data.defense.malusValue, 0);
 
     // VERFICIATION MAX ASPECTS
     for (let [key, aspect] of Object.entries(data.aspects)) {
@@ -889,117 +641,34 @@ export class KnightActor extends Actor {
     const aspectsMachine = data.aspects.machine;
     const aspectsMasque = data.aspects.masque;
 
-    // SANTE
-    if(options.sante) {
-      const userSBase = data.sante.base;
-      const santeDataBonus = data.sante.bonus;
-      const santeDataMalus = data.sante.malus;
+    // SANTE - ARMURE - ENERGIE - BOUCLIER
+    const list = ['sante', 'armure', 'energie', 'bouclier'];
 
-      let santeBonus = 0;
-      let santeMalus = 0;
+    for(let i = 0;i < list.length;i++) {
+      const label = list[i];
 
-      for(const bonusList in santeDataBonus) {
-        santeBonus += santeDataBonus[bonusList];
+      if(options[label]) {
+        const userBase = data[label]?.base ?? 0;
+        const dataBonus = data[label]?.bonus?.user ?? 0;
+        const dataMalus = data[label]?.malus?.user ?? 0;
+
+        if(!data[label].bonusValue) data[label].bonusValue = dataBonus;
+        else data[label].bonusValue += dataBonus;
+
+        if(!data[label].malusValue) data[label].malusValue = dataMalus;
+        else data[label].malusValue += dataMalus;
+
+        data[label].max = Math.max(userBase+data[label].bonusValue-data[label].malusValue, 0);
       }
-
-      for(const malusList in santeDataMalus) {
-        santeMalus += santeDataMalus[malusList];
-      }
-
-      data.sante.mod = santeBonus-santeMalus;
-      data.sante.max = Math.max(userSBase+santeBonus-santeMalus, 0);
-    }
-
-    // ARMURE
-    if(options.armure) {
-      const userABase = data.armure.base;
-      const armureDataBonus = data.armure.bonus;
-      const armureDataMalus = data.armure.malus;
-
-      let armureBonus = 0;
-      let armureMalus = 0;
-
-      for(const bonusList in armureDataBonus) {
-        armureBonus += armureDataBonus[bonusList];
-      }
-
-      for(const malusList in armureDataMalus) {
-        armureMalus += armureDataMalus[malusList];
-      }
-
-      data.armure.mod = armureBonus-armureMalus;
-      data.armure.max = Math.max(userABase+data.armure.mod, 0);
-    }
-
-    // ENERGIE
-    if(options.energie) {
-      const userEBase = data.energie.base;
-      const energieDataBonus = data.energie.bonus;
-      const energieDataMalus = data.energie.malus;
-
-      let energieBonus = 0;
-      let energieMalus = 0;
-
-      for(const bonusList in energieDataBonus) {
-        energieBonus += energieDataBonus[bonusList];
-      }
-
-      for(const malusList in energieDataMalus) {
-        energieMalus += energieDataMalus[malusList];
-      }
-
-      data.energie.mod = energieBonus-energieMalus;
-      data.energie.max = Math.max(userEBase+data.energie.mod, 0);
-    }
-
-    // BOUCLIER
-    if(options.bouclier) {
-      const userBouclierBase = data.bouclier.base;
-      const BouclierDataBonus = data.bouclier.bonus;
-      const BouclierDataMalus = data.bouclier.malus;
-
-      let BouclierBonus = 0;
-      let BouclierMalus = 0;
-
-      for(const bonusList in BouclierDataBonus) {
-        BouclierBonus += BouclierDataBonus[bonusList];
-      }
-
-      for(const malusList in BouclierDataBonus) {
-        BouclierMalus += BouclierDataMalus[malusList];
-      }
-
-      data.bouclier.mod = BouclierBonus-BouclierMalus;
-      data.bouclier.value = Math.max(userBouclierBase+data.bouclier.mod, 0);
     }
 
     // INITIATIVE
-    const initiativeDataDiceBase = data.initiative.diceBase;
-    const initiativeDataDiceBonus = data.initiative.diceBonus;
-    const initiativeDataDiceMalus = data.initiative.diceMalus;
-    const initiativeDataBonus = data.initiative.bonus;
-    const initiativeDataMalus = data.initiative.malus;
+    const initiativeDataDiceBase = data.initiative?.diceBase ?? 0;
 
     let initiativeDiceBonus = 0;
     let initiativeDiceMalus = 0;
-    let initiativeBonus = 0;
-    let initiativeMalus = 0;
-
-    for(const bonusList in initiativeDataBonus) {
-      initiativeBonus += initiativeDataBonus[bonusList];
-    }
-
-    for(const bonusList in initiativeDataDiceBonus) {
-      initiativeDiceBonus += initiativeDataDiceBonus[bonusList];
-    }
-
-    for(const malusList in initiativeDataMalus) {
-      initiativeMalus += initiativeDataMalus[malusList];
-    }
-
-    for(const bonusList in initiativeDataDiceMalus) {
-      initiativeDiceMalus += initiativeDataDiceMalus[bonusList];
-    }
+    let initiativeBonus = data?.initiative?.bonus?.user ?? 0;
+    let initiativeMalus = data?.initiative?.malus?.user ?? 0;
 
     const hasEmbuscadeSubis = data.options?.embuscadeSubis || false;
     const hasEmbuscadePris = data.options?.embuscadePris || false;
@@ -1029,55 +698,38 @@ export class KnightActor extends Actor {
     data.initiative.complet = `${data.initiative.dice}D6+${data.initiative.value}`;
 
     // REACTION
-    const reactionDataBase = data.reaction.base;
-    const reactionDataBonus = data.reaction.bonus;
-    const reactionDataMalus = data.reaction.malus;
+    const reactionDataBase = data.reaction?.base ?? 0;
+    const reactionDataBonus = data.reaction?.bonus?.user ?? 0;
+    const reactionDataMalus = data.reaction?.malus?.user ?? 0;
 
-    let reactionBonus = 0;
-    let reactionMalus = 0;
+    if(!data.reaction.bonusValue) data.reaction.bonusValue = reactionDataBonus;
+    else data.reaction.bonusValue += reactionDataBonus;
 
-    for(const bonusList in reactionDataBonus) {
-      reactionBonus += reactionDataBonus[bonusList];
-    }
-
-    for(const malusList in reactionDataMalus) {
-      reactionMalus += reactionDataMalus[malusList];
-    }
+    if(!data.reaction.malusValue) data.reaction.malusValue = reactionDataMalus;
+    else data.reaction.malusValue += reactionDataMalus;
 
     if(aspectsMachine.ae.mineur.value > 0 || aspectsMachine.ae.majeur.value > 0) {
-      reactionBonus += +aspectsMachine.ae.mineur.value + +aspectsMachine.ae.majeur.value;
+      data.reaction.bonusValue += +aspectsMachine.ae.mineur.value + +aspectsMachine.ae.majeur.value;
     }
 
-    data.reaction.bonusValue = reactionBonus;
-    data.reaction.malusValue = reactionMalus;
-
-    data.reaction.value = Math.max(reactionDataBase+reactionBonus-reactionMalus, 0);
+    data.reaction.value = Math.max(reactionDataBase+data.reaction.bonusValue-data.reaction.malusValue, 0);
 
     // DEFENSE
-    const defenseDataBase = data.defense.base;
-    const defenseDataBonus = data.defense.bonus;
-    const defenseDataMalus = data.defense.malus;
+    const defenseDataBase = data.defense?.base ?? 0;
+    const defenseDataBonus = data.defense.bonus?.user ?? 0;
+    const defenseDataMalus = data.defense.malus?.user ?? 0;
 
-    let defenseBonus = 0;
-    let defenseMalus = 0;
+    if(!data.defense.bonusValue) data.defense.bonusValue = defenseDataBonus;
+    else data.defense.bonusValue += defenseDataBonus;
 
-    for(const bonusList in defenseDataBonus) {
-      defenseBonus += defenseDataBonus[bonusList];
-    }
-
-    for(const malusList in defenseDataMalus) {
-      defenseMalus += defenseDataMalus[malusList];
-    }
+    if(!data.defense.malusValue) data.defense.malusValue = defenseDataMalus;
+    else data.defense.malusValue += defenseDataMalus;
 
     if(aspectsMasque.ae.mineur.value > 0 || aspectsMasque.ae.majeur.value > 0) {
-      defenseBonus += +aspectsMasque.ae.mineur.value + +aspectsMasque.ae.majeur.value;
+      data.defense.bonusValue += +aspectsMasque.ae.mineur.value + +aspectsMasque.ae.majeur.value;
     }
 
-    data.defense.bonusValue = defenseBonus;
-    data.defense.malusValue = defenseMalus;
-
-    data.defense.base = defenseDataBase;
-    data.defense.value = Math.max(defenseDataBase+defenseBonus-defenseMalus, 0);
+    data.defense.value = Math.max(defenseDataBase+data.defense.bonusValue-data.defense.malusValue, 0);
 
     // VERFICIATION MAX ASPECTS
     for (let [key, aspect] of Object.entries(data.aspects)) {
@@ -1108,44 +760,25 @@ export class KnightActor extends Actor {
     const aspectsMachine = data.aspects.machine;
     const aspectsMasque = data.aspects.masque;
 
-    // SANTE
-    const userSBase = data.sante.base;
-    const santeDataBonus = data.sante.bonus;
-    const santeDataMalus = data.sante.malus;
+    // SANTE - BOUCLIER
+    const list = ['sante', 'bouclier'];
 
-    let santeBonus = 0;
-    let santeMalus = 0;
+    for(let i = 0;i < list.length;i++) {
+      const label = list[i];
 
-    for(const bonusList in santeDataBonus) {
-      santeBonus += santeDataBonus[bonusList];
-    }
+      if(options[label]) {
+        const userBase = data[label]?.base ?? 0;
+        const dataBonus = data[label]?.bonus?.user ?? 0;
+        const dataMalus = data[label]?.malus?.user ?? 0;
 
-    for(const malusList in santeDataMalus) {
-      santeMalus += santeDataMalus[malusList];
-    }
+        if(!data[label].bonusValue) data[label].bonusValue = dataBonus;
+        else data[label].bonusValue += dataBonus;
 
-    data.sante.mod = santeBonus-santeMalus;
-    data.sante.max = Math.max(userSBase+santeBonus-santeMalus, 0);
+        if(!data[label].malusValue) data[label].malusValue = dataMalus;
+        else data[label].malusValue += dataMalus;
 
-    // BOUCLIER
-    if(options.bouclier) {
-      const userBouclierBase = data.bouclier.base;
-      const BouclierDataBonus = data.bouclier.bonus;
-      const BouclierDataMalus = data.bouclier.malus;
-
-      let BouclierBonus = 0;
-      let BouclierMalus = 0;
-
-      for(const bonusList in BouclierDataBonus) {
-        BouclierBonus += BouclierDataBonus[bonusList];
+        data[label].max = Math.max(userBase+data[label].bonusValue-data[label].malusValue, 0);
       }
-
-      for(const malusList in BouclierDataBonus) {
-        BouclierMalus += BouclierDataMalus[malusList];
-      }
-
-      data.bouclier.mod = BouclierBonus-BouclierMalus;
-      data.bouclier.value = Math.max(userBouclierBase+data.bouclier.mod, 0);
     }
 
     // INITIATIVE
@@ -1156,55 +789,38 @@ export class KnightActor extends Actor {
     data.initiative.complet = `${data.initiative.dice}D6+${data.initiative.value}`;
 
     // REACTION
-    const reactionDataBase = data.reaction.base;
-    const reactionDataBonus = data.reaction.bonus;
-    const reactionDataMalus = data.reaction.malus;
+    const reactionDataBase = data.reaction?.base ?? 0;
+    const reactionDataBonus = data.reaction?.bonus?.user ?? 0;
+    const reactionDataMalus = data.reaction?.malus?.user ?? 0;
 
-    let reactionBonus = 0;
-    let reactionMalus = 0;
+    if(!data.reaction.bonusValue) data.reaction.bonusValue = reactionDataBonus;
+    else data.reaction.bonusValue += reactionDataBonus;
 
-    for(const bonusList in reactionDataBonus) {
-      reactionBonus += reactionDataBonus[bonusList];
-    }
-
-    for(const malusList in reactionDataMalus) {
-      reactionMalus += reactionDataMalus[malusList];
-    }
+    if(!data.reaction.malusValue) data.reaction.malusValue = reactionDataMalus;
+    else data.reaction.malusValue += reactionDataMalus;
 
     if(aspectsMachine.ae.mineur.value > 0 || aspectsMachine.ae.majeur.value > 0) {
-      reactionBonus += +aspectsMachine.ae.mineur.value + +aspectsMachine.ae.majeur.value;
+      data.reaction.bonusValue += +aspectsMachine.ae.mineur.value + +aspectsMachine.ae.majeur.value;
     }
 
-    data.reaction.bonusValue = reactionBonus;
-    data.reaction.malusValue = reactionMalus;
-
-    data.reaction.value = Math.max(reactionDataBase+reactionBonus-reactionMalus, 0);
+    data.reaction.value = Math.max(reactionDataBase+data.reaction.bonusValue-data.reaction.malusValue, 0);
 
     // DEFENSE
-    const defenseDataBase = data.defense.base;
-    const defenseDataBonus = data.defense.bonus;
-    const defenseDataMalus = data.defense.malus;
+    const defenseDataBase = data.defense?.base ?? 0;
+    const defenseDataBonus = data.defense?.bonus?.user ?? 0;
+    const defenseDataMalus = data.defense?.malus?.user ?? 0;
 
-    let defenseBonus = 0;
-    let defenseMalus = 0;
+    if(!data.defense.bonusValue) data.defense.bonusValue = defenseDataBonus;
+    else data.defense.bonusValue += defenseDataBonus;
 
-    for(const bonusList in defenseDataBonus) {
-      defenseBonus += defenseDataBonus[bonusList];
-    }
-
-    for(const malusList in defenseDataMalus) {
-      defenseMalus += defenseDataMalus[malusList];
-    }
+    if(!data.defense.malusValue) data.defense.malusValue = defenseDataMalus;
+    else data.defense.malusValue += defenseDataMalus;
 
     if(aspectsMasque.ae.mineur.value > 0 || aspectsMasque.ae.majeur.value > 0) {
-      defenseBonus += +aspectsMasque.ae.mineur.value + +aspectsMasque.ae.majeur.value;
+      data.defense.bonusValue += +aspectsMasque.ae.mineur.value + +aspectsMasque.ae.majeur.value;
     }
 
-    data.defense.bonusValue = defenseBonus;
-    data.defense.malusValue = defenseMalus;
-
-    data.defense.base = defenseDataBase;
-    data.defense.value = Math.max(defenseDataBase+defenseBonus-defenseMalus, 0);
+    data.defense.value = Math.max(defenseDataBase+data.defense.bonusValue-data.defense.malusValue, 0);
 
     // VERFICIATION MAX ASPECTS
     for (let [key, aspect] of Object.entries(data.aspects)) {
@@ -1231,6 +847,7 @@ export class KnightActor extends Actor {
     const actor = actorData;
     const data = actor.system;
     const pilote = data.equipage.pilote;
+    const options = data.options;
 
     if(pilote.id !== '') {
       const id = pilote.id;
@@ -1248,72 +865,23 @@ export class KnightActor extends Actor {
       data.initiative.complet = `${data.initiative.dice}D6+${data.initiative.value}`;
     }
 
-    // ARMURE
-    const userABase = data.armure.base;
-    const armureDataBonus = data.armure.bonus;
-    const armureDataMalus = data.armure.malus;
+    const list = ['armure', 'energie', 'champDeForce'];
 
-    let armureBonus = 0;
-    let armureMalus = 0;
+    for(let i = 0;i < list.length;i++) {
+      const label = list[i];
 
-    for(const bonusList in armureDataBonus) {
-      armureBonus += armureDataBonus[bonusList];
+      const userBase = data[label]?.base ?? 0;
+      const dataBonus = data[label]?.bonus?.user ?? 0;
+      const dataMalus = data[label]?.malus?.user ?? 0;
+
+      if(!data[label].bonusValue) data[label].bonusValue = dataBonus;
+      else data[label].bonusValue += dataBonus;
+
+      if(!data[label].malusValue) data[label].malusValue = dataMalus;
+      else data[label].malusValue += dataMalus;
+
+      data[label].max = Math.max(userBase+data[label].bonusValue-data[label].malusValue, 0);
     }
-
-    for(const malusList in armureDataMalus) {
-      armureMalus += armureDataMalus[malusList];
-    }
-
-    data.armure.mod = armureBonus-armureMalus;
-    data.armure.max = Math.max(userABase+data.armure.mod, 0);
-
-    data.armure.bonusValue = armureBonus;
-    data.armure.malusValue = armureMalus;
-
-    // ENERGIE
-    const userEBase = data.energie.base;
-    const energieDataBonus = data.energie.bonus;
-    const energieDataMalus = data.energie.malus;
-
-    let energieBonus = 0;
-    let energieMalus = 0;
-
-    for(const bonusList in energieDataBonus) {
-      energieBonus += energieDataBonus[bonusList];
-    }
-
-    for(const malusList in energieDataMalus) {
-      energieMalus += energieDataMalus[malusList];
-    }
-
-    data.energie.mod = energieBonus-energieMalus;
-    data.energie.max = Math.max(userEBase+data.energie.mod, 0);
-    data.energie.value = data.energie.value;
-
-    data.energie.bonusValue = energieBonus;
-    data.energie.malusValue = energieMalus;
-
-    // CHAMP DE FORCE
-    const userCDFBase = data.champDeForce.base;
-    const CDFDataBonus = data.champDeForce.bonus;
-    const CDFDataMalus = data.champDeForce.malus;
-
-    let CDFBonus = 0;
-    let CDFMalus = 0;
-
-    for(const bonusList in CDFDataBonus) {
-      CDFBonus += CDFDataBonus[bonusList];
-    }
-
-    for(const malusList in CDFDataMalus) {
-      CDFMalus += CDFDataMalus[malusList];
-    }
-
-    data.champDeForce.mod = CDFBonus-CDFMalus;
-    data.champDeForce.value = Math.max(userCDFBase+data.champDeForce.mod, 0);
-
-    data.champDeForce.bonusValue = CDFBonus;
-    data.champDeForce.malusValue = CDFMalus;
   }
 
   _prepareMechaArmureData(actorData) {
@@ -1325,25 +893,21 @@ export class KnightActor extends Actor {
     const listData = ['resilience', 'vitesse', 'manoeuvrabilite', 'puissance', 'systemes', 'senseurs', 'champDeForce'];
 
     for(let i = 0;i < listData.length;i++) {
-      const dataBase = data[listData[i]]?.base || 0;
-      const dataBonus = data[listData[i]]?.bonus || {};
-      const dataMalus = data[listData[i]]?.malus || {};
+      const dataBase = data[listData[i]]?.base ?? 0;
+      const dataBonus = data[listData[i]]?.bonus?.user ?? 0;
+      const dataMalus = data[listData[i]]?.malus?.user ?? 0;
 
       let bonus = 0;
       let malus = 0;
 
-      for(const bonusList in dataBonus) {
-        bonus += dataBonus[bonusList];
-      }
+      bonus += dataBonus;
+      malus += dataMalus;
 
-      for(const malusList in dataMalus) {
-        malus += dataMalus[malusList];
-      }
+      if(!data[listData[i]].mod) data[listData[i]].mod = bonus-malus;
+      else data[listData[i]].mod += bonus-malus;
 
-      data[listData[i]].mod = bonus-malus;
-
-      if(listData[i] === 'resilience') data[listData[i]].max = Math.max(dataBase+bonus-malus, 0);
-      else data[listData[i]].value = Math.max(dataBase+bonus-malus, 0);
+      if(listData[i] === 'resilience') data[listData[i]].max = Math.max(dataBase+data[listData[i]].mod, 0);
+      else data[listData[i]].value = Math.max(dataBase+data[listData[i]].mod, 0);
     }
 
     data.initiative.complet = `${data.initiative.dice}D6+${data.initiative.value}`;

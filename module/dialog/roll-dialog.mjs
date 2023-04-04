@@ -138,6 +138,150 @@ export class KnightRollDialog extends Application {
       }
     }
 
+  async setLabel(label) {
+    this.data.label = label;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.label,
+        );
+      }, 0);
+    });
+  }
+
+  async setRoll(base, bonus, lock, difficulte) {
+    this.data.base = base;
+    this.data.autre = bonus;
+    this.data.lock = lock;
+    this.data.difficulte = difficulte;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.base,
+          this.data.autre,
+          this.data.lock,
+          this.data.difficulte,
+        );
+      }, 0);
+    });
+  }
+
+  async setBonus(modificateur, succesBonus, degatsBonus, violenceBonus) {
+    this.data.modificateur = modificateur;
+    this.data.succesBonus = succesBonus;
+    this.data.degatsBonus = degatsBonus;
+    this.data.violenceBonus = violenceBonus;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.modificateur,
+          this.data.succesBonus,
+          this.data.degatsBonus,
+          this.data.violenceBonus,
+        );
+      }, 0);
+    });
+  }
+
+  async setWpn(wpnContact, wpnDistance, wpnTourelles, wpnGrenade, wpnImprovisees, wpnMA, wpnLongbow) {
+    this.data.listWpnContact = wpnContact;
+    this.data.listWpnDistance = wpnDistance;
+    this.data.listWpnTourelle = wpnTourelles;
+    this.data.listGrenades = wpnGrenade;
+    this.data.listWpnImprovisees = wpnImprovisees;
+    this.data.longbow = wpnLongbow;
+    this.data.listWpnMA = wpnMA;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.listWpnContact,
+          this.data.listWpnDistance,
+          this.data.listWpnTourelle,
+          this.data.listGrenades,
+          this.data.listWpnImprovisees,
+          this.data.longbow,
+          this.data.listWpnMA,
+        );
+      }, 0);
+    });
+  }
+
+  async setSelected(isWpn, idWpn, nameWpn, typeWpn, num) {
+    this.data.isWpn = isWpn;
+    this.data.idWpn = idWpn;
+    this.data.nameWpn = nameWpn;
+    this.data.typeWpn = typeWpn;
+    this.data.num = num;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.isWpn,
+          this.data.idWpn,
+          this.data.nameWpn,
+          this.data.typeWpn,
+          this.data.num,
+        );
+      }, 0);
+    });
+  }
+
+  async setDeploy(deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseeContact, deployWpnImproviseeDistance, deployGrenades, deployLongbow, deployWpnMA) {
+    this.data.deploy = {
+      wpnContact:deployWpnContact,
+      wpnDistance:deployWpnDistance,
+      wpnTourelle:deployWpnTourelle,
+      wpnArmesImproviseesContact:deployWpnImproviseeContact,
+      wpnArmesImproviseesDistance:deployWpnImproviseeDistance,
+      grenades:deployGrenades,
+      longbow:deployLongbow,
+      wpnMA:deployWpnMA,
+    };
+
+    this.data.ameliorations = {
+      subsoniques:true,
+      nonletales:true,
+      iem:true,
+      hypervelocite:true,
+      drones:true,
+      explosives:true,
+      grappes:true
+    };
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.deploy.wpnContact,
+          this.data.deploy.wpnDistance,
+          this.data.deploy.wpnTourelle,
+          this.data.deploy.wpnArmesImproviseesContact,
+          this.data.deploy.wpnArmesImproviseesDistance,
+          this.data.deploy.grenades,
+          this.data.deploy.longbow,
+          this.data.deploy.wpnMA,
+        );
+      }, 0);
+    });
+  }
+
+  async setWhatIs(isPNJ=false, isMA=false) {
+    this.data.pnj = isPNJ;
+    this.data.ma = isMA;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.pnj,
+          this.data.ma,
+        );
+      }, 0);
+    });
+  }
+
   async setData(label,
     base, bonus, lock, difficulte, modificateur, succesBonus, degatsBonus, violenceBonus,
     wpnContact, wpnDistance, wpnTourelles, wpnGrenade, wpnImprovisees, wpnMA, wpnLongbow,
@@ -914,6 +1058,10 @@ export class KnightRollDialog extends Application {
           break;
 
         case 'grenades':
+          const nbreGrenade = actor.system.combat.grenades.quantity.value;
+
+          actor.update({['system.combat.grenades.quantity.value']:nbreGrenade-1});
+
           wpn = this.data.listGrenades[nameWpn];
           break;
 
@@ -1209,7 +1357,7 @@ export class KnightRollDialog extends Application {
           portee = `${game.i18n.localize(`KNIGHT.PORTEE.Label`)} ${game.i18n.localize(`KNIGHT.PORTEE.Lointaine`)}`;
           break;
       }
-    } else if(wpnType === 'longbow' && !isPNJ) {
+    } else if(wpnType === 'longbow') {
       portee = `${game.i18n.localize(`KNIGHT.PORTEE.Label`)} ${game.i18n.localize(`KNIGHT.PORTEE.${localDataWpn.portee.value.charAt(0).toUpperCase()+localDataWpn.portee.value.substr(1)}`)}`;
     } else if((wpnType === 'grenades' && isPNJ) || (wpnType === 'armesimprovisees' && isPNJ)) {
       portee = ``;
@@ -1222,7 +1370,7 @@ export class KnightRollDialog extends Application {
       desc:style.info
     });
 
-    const isSuccess = wpnType === 'tourelle' ? false : execAtt._success;
+    const isSuccess = execAtt._success;
 
     if(!isBarrage && !isSystemeRefroidissement) {
       pAttack = {
@@ -1237,7 +1385,7 @@ export class KnightRollDialog extends Application {
           isRollEFailed:execAtt._isEFail,
           details:execAtt._details,
           formula: execAtt._formula,
-          caracs: caracs,
+          caracs: wpnType !== 'tourelle' ? caracs : false,
           isAttack:true,
           portee:portee
         },

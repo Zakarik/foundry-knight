@@ -5,11 +5,51 @@ import {
   listEffects,
   SortByName,
   sum,
+  addOrUpdateEffect,
+  addEffect,
+  updateEffect,
+  existEffect,
   confirmationDialog
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
 import toggler from '../../helpers/toggler.js';
+
+const path = {
+  espoir:{
+    bonus:'system.espoir.bonusValue',
+    malus:'system.espoir.malusValue',
+  },
+  sante:{
+    bonus:'system.sante.bonusValue',
+    malus:'system.sante.malusValue',
+  },
+  egide:{
+    bonus:'system.egide.bonusValue',
+    malus:'system.egide.malusValue',
+  },
+  reaction:{
+    bonus:'system.reaction.bonusValue',
+    malus:'system.reaction.malusValue',
+  },
+  defense:{
+    bonus:'system.defense.bonusValue',
+    malus:'system.defense.malusValue',
+  },
+  armure:{
+    bonus:'system.armure.bonusValue',
+    malus:'system.armure.malusValue',
+  },
+  energie:{
+    bonus:'system.energie.bonusValue',
+    malus:'system.energie.malusValue',
+  },
+  champDeForce:{
+    base:'system.champDeForce.base',
+    bonus:'system.champDeForce.bonusValue',
+    malus:'system.champDeForce.malusValue',
+  },
+};
 
 /**
  * @extends {ActorSheet}
@@ -521,64 +561,14 @@ export class BandeSheet extends ActorSheet {
       "masque":system.aspects.masque.value,
     };
     const aspectLieSupp = [];
-
-    let aspectsMax = {
-      chair:{
-        max:20,
-        ae:{
-          mineur:{
-            max:10
-          },
-          majeur:{
-            max:10
-          }
-        }
-      },
-      bete:{
-        max:20,
-        ae:{
-          mineur:{
-            max:10
-          },
-          majeur:{
-            max:10
-          }
-        }
-      },
-      machine:{
-        max:20,
-        ae:{
-          mineur:{
-            max:10
-          },
-          majeur:{
-            max:10
-          }
-        }
-      },
-      dame:{
-        max:20,
-        ae:{
-          mineur:{
-            max:10
-          },
-          majeur:{
-            max:10
-          }
-        }
-      },
-      masque:{
-        max:20,
-        ae:{
-          mineur:{
-            max:10
-          },
-          majeur:{
-            max:10
-          }
-        }
-      }
+    const aspectsMax = {
+      chair:{max:[20], ae:{mineur:[10], majeur:[10]}},
+      bete:{max:[20], ae:{mineur:[10], majeur:[10]}},
+      machine:{max:[20], ae:{mineur:[10], majeur:[10]}},
+      dame:{max:[20], ae:{mineur:[10], majeur:[10]}},
+      masque:{max:[20], ae:{mineur:[10], majeur:[10]}},
     };
+
     let armure = {
       bonus:{
         modules:[0],
@@ -609,6 +599,7 @@ export class BandeSheet extends ActorSheet {
       bonus:0,
       malus:0
     };
+    const effects = {capacites:[]}
 
     for (let i of sheetData.items) {
       const data = i.system;
@@ -631,25 +622,45 @@ export class BandeSheet extends ActorSheet {
 
           if(cSante.has) {
             if(cSante.aspect.lie) {
-              sante.bonus += aspects[cSante.aspect.value]*cSante.aspect.multiplie;
+              effects.capacites.push({
+                key: path.sante.bonus,
+                mode: 2,
+                priority: null,
+                value: aspects[cSante.aspect.value]*cSante.aspect.multiplie
+              });
             } else {
-              sante.bonus += cSante.value;
+              effects.capacites.push({
+                key: path.sante.bonus,
+                mode: 2,
+                priority: null,
+                value: cSante.value
+              });
             }
           }
 
           if(cArmure.has) {
             if(cArmure.aspect.lie) {
-              armure.bonus.capacites.push(aspects[cArmure.aspect.value]*cArmure.aspect.multiplie);
+              effects.capacites.push({
+                key: path.armure.bonus,
+                mode: 2,
+                priority: null,
+                value: aspects[cArmure.aspect.value]*cArmure.aspect.multiplie
+              });
             } else {
-              armure.bonus.capacites.push(cArmure.value);
+              effects.capacites.push({
+                key: path.armure.bonus,
+                mode: 2,
+                priority: null,
+                value: cArmure.value
+              });
             }
           }
 
           if(aspectMax.has) {
             const aMax = aspectMax.aspect;
-            aspectsMax[aMax].max = aspectMax.maximum.aspect;
-            aspectsMax[aMax].ae.mineur.max = aspectMax.maximum.ae;
-            aspectsMax[aMax].ae.majeur.max = aspectMax.maximum.ae;
+            aspectsMax[aMax].max.push(aspectMax.maximum.aspect);
+            aspectsMax[aMax].ae.mineur.push(aspectMax.maximum.ae);
+            aspectsMax[aMax].ae.majeur.push(aspectMax.maximum.ae);
           }
 
           if(attaque.has) {
@@ -684,25 +695,45 @@ export class BandeSheet extends ActorSheet {
 
           if(cSante.has) {
             if(cSante.aspect.lie) {
-              sante.bonus += aspects[cSante.aspect.value]*cSante.aspect.multiplie;
+              effects.capacites.push({
+                key: path.sante.bonus,
+                mode: 2,
+                priority: null,
+                value: aspects[cSante.aspect.value]*cSante.aspect.multiplie
+              });
             } else {
-              sante.bonus += cSante.value;
+              effects.capacites.push({
+                key: path.sante.bonus,
+                mode: 2,
+                priority: null,
+                value: cSante.value
+              });
             }
           }
 
           if(cArmure.has) {
-            if(armure.aspect.lie) {
-              armure.bonus.capacites.push(aspects[cArmure.aspect.value]*cArmure.aspect.multiplie);
+            if(cArmure.aspect.lie) {
+              effects.capacites.push({
+                key: path.armure.bonus,
+                mode: 2,
+                priority: null,
+                value: aspects[cArmure.aspect.value]*cArmure.aspect.multiplie
+              });
             } else {
-              armure.bonus.capacites.push(cArmure.value);
+              effects.capacites.push({
+                key: path.armure.bonus,
+                mode: 2,
+                priority: null,
+                value: cArmure.value
+              });
             }
           }
 
           if(aspectMax.has) {
             const aMax = aspectMax.aspect;
-            aspectsMax[aMax].max = aspectMax.maximum.aspect;
-            aspectsMax[aMax].ae.mineur.max = aspectMax.maximum.ae;
-            aspectsMax[aMax].ae.majeur.max = aspectMax.maximum.ae;
+            aspectsMax[aMax].max.push(aspectMax.maximum.aspect);
+            aspectsMax[aMax].ae.mineur.push(aspectMax.maximum.ae);
+            aspectsMax[aMax].ae.majeur.push(aspectMax.maximum.ae);
           }
 
           if(attaque.has) {
@@ -751,17 +782,27 @@ export class BandeSheet extends ActorSheet {
           const aspectMax = bonus.aspectMax;
 
           if(cSante.has && cSante.aspect.lie && cSante.aspect.value !== aspectLieSupp[i]) {
-            sante.bonus += aspects[aspectLieSupp[i]]*cSante.aspect.multiplie;
+            effects.capacites.push({
+              key: path.sante.bonus,
+              mode: 2,
+              priority: null,
+              value: aspects[aspectLieSupp[i]]*cSante.aspect.multiplie
+            });
           }
 
           if(cArmure.has && cArmure.aspect.lie && cArmure.aspect.value !== aspectLieSupp[i]) {
-            armure.bonus.capacites.push(aspects[aspectLieSupp[i]]*cArmure.aspect.multiplie);
+            effects.capacites.push({
+              key: path.armure.bonus,
+              mode: 2,
+              priority: null,
+              value: aspects[aspectLieSupp[i]]*cArmure.aspect.multiplie
+            });
           }
 
           if(aspectMax.has && aspectMax.aspect !== aspectLieSupp[i]) {
-            aspectsMax[aspectLieSupp[i]].max = aspectMax.maximum.aspect;
-            aspectsMax[aspectLieSupp[i]].ae.mineur.max = aspectMax.maximum.ae;
-            aspectsMax[aspectLieSupp[i]].ae.majeur.max = aspectMax.maximum.ae;
+            aspectsMax[aspectLieSupp[i]].max.push(aspectMax.maximum.aspect);
+            aspectsMax[aspectLieSupp[i]].ae.mineur.push(aspectMax.maximum.ae);
+            aspectsMax[aspectLieSupp[i]].ae.majeur.push(aspectMax.maximum.ae);
           }
         }
       }
@@ -769,103 +810,38 @@ export class BandeSheet extends ActorSheet {
 
     actorData.capacites = capacites;
 
-    const update = {
-      system:{
-        aspects:{
-          chair:{
-            max:aspectsMax.chair.max,
-            ae:{
-              mineur:{
-                max:aspectsMax.chair.ae.mineur.max
-              },
-              majeur:{
-                max:aspectsMax.chair.ae.majeur.max
-              }
-            }
-          },
-          bete:{
-            max:aspectsMax.bete.max,
-            ae:{
-              mineur:{
-                max:aspectsMax.bete.ae.mineur.max
-              },
-              majeur:{
-                max:aspectsMax.bete.ae.majeur.max
-              }
-            }
-          },
-          machine:{
-            max:aspectsMax.machine.max,
-            ae:{
-              mineur:{
-                max:aspectsMax.machine.ae.mineur.max
-              },
-              majeur:{
-                max:aspectsMax.machine.ae.majeur.max
-              }
-            }
-          },
-          dame:{
-            max:aspectsMax.dame.max,
-            ae:{
-              mineur:{
-                max:aspectsMax.dame.ae.mineur.max
-              },
-              majeur:{
-                max:aspectsMax.dame.ae.majeur.max
-              }
-            }
-          },
-          masque:{
-            max:aspectsMax.masque.max,
-            ae:{
-              mineur:{
-                max:aspectsMax.masque.ae.mineur.max
-              },
-              majeur:{
-                max:aspectsMax.masque.ae.majeur.max
-              }
-            }
-          }
-        },
-        armure:{
-          bonus:{
-            modules:armure.bonus.modules.reduce(sum),
-            capacites:armure.bonus.capacites.reduce(sum)
-          }
-        },
-        reaction:{
-          bonus:{
-            armes:reaction.bonus.armes,
-            capacites:reaction.bonus.capacites
-          },
-          malus:{
-            capacites:reaction.malus.capacites,
-            armes:reaction.malus.armes
-          }
-        },
-        defense:{
-          bonus:{
-            armes:defense.bonus.armes,
-            capacites:defense.bonus.capacites
-          },
-          malus:{
-            capacites:defense.malus.capacites,
-            armes:defense.malus.armes
-          }
-        },
-        sante:{
-          bonus:{
-            capacites:sante.bonus
-          },
-          malus:{
-            capacites:sante.malus
-          }
-        }
-      }
-    };
+    const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
+    const listWithEffect = [
+      {label:'Capacites', data:effects.capacites},
+    ];
 
-    this.actor.update(update);
+    const toUpdate = [];
+    const toAdd = [];
+
+    for(let effect of listWithEffect) {
+      const effectExist = existEffect(listEffect, effect.label);
+      let toggle = false;
+
+      if(effectExist) {
+        if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
+          "_id":effectExist._id,
+          changes:effect.data,
+          disabled:toggle
+        });
+        else if(effectExist.disabled !== toggle) toUpdate.push({
+          "_id":effectExist._id,
+          disabled:toggle
+        });
+      } else toAdd.push({
+          label: effect.label,
+          icon: '/icons/svg/mystery-man.svg',
+          changes:effect.data,
+          disabled:toggle
+      });
+    }
+
+    if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
+    if(toAdd.length > 0) addEffect(this.actor, toAdd);
   }
 
   _getKnightRoll() {

@@ -12,6 +12,36 @@ import {
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
 import toggler from '../../helpers/toggler.js';
 
+const path = {
+  manoeuvrabilite:{
+    mod:'system.manoeuvrabilite.mod',
+  },
+  vitesse:{
+    mod:'system.vitesse.mod',
+  },
+  puissance:{
+    mod:'system.puissance.mod',
+  },
+  senseurs:{
+    mod:'system.senseurs.mod',
+  },
+  systemes:{
+    mod:'system.systemes.mod',
+  },
+  champDeForce:{
+    mod:'system.champDeForce.mod',
+  },
+  defense:{
+    mod:'system.defense.mod',
+  },
+  reaction:{
+    mod:'system.reaction.mod',
+  },
+  resilience:{
+    mod:'system.resilience.mod',
+  },
+};
+
 /**
  * @extends {ActorSheet}
  */
@@ -71,22 +101,9 @@ export class MechaArmureSheet extends ActorSheet {
       const option = $(ev.currentTarget).data("option");
       const actuel = this.getData().data.system[option]?.optionDeploy || false;
 
-      let result = false;
-      if(actuel) {
-        result = false;
-      } else {
-        result = true;
-      }
+      const result = actuel ? false : true;
 
-      const update = {
-        system: {
-          [option]: {
-            optionDeploy:result
-          }
-        }
-      };
-
-      this.actor.update(update);
+      this.actor.update({[`system.${option}.optionDeploy`]:result});
     });
 
     html.find('div.combat img.info').click(ev => {
@@ -985,25 +1002,37 @@ export class MechaArmureSheet extends ActorSheet {
       const style = $(ev.currentTarget).val();
       const mods = getModStyle(style);
       const knightRoll = this._getKnightRoll();
+      const effects = [];
+
+      effects.push({
+        key: path.reaction.mod,
+        mode: 2,
+        priority: null,
+        value: mods.bonus.reaction
+      },
+      {
+        key: path.reaction.mod,
+        mode: 2,
+        priority: null,
+        value: -mods.malus.reaction
+      },
+      {
+        key: path.defense.mod,
+        mode: 2,
+        priority: null,
+        value: mods.bonus.defense
+      },
+      {
+        key: path.defense.mod,
+        mode: 2,
+        priority: null,
+        value: -mods.malus.defense
+      });
+
+      addOrUpdateEffect(this.actor, 'style', effects);
 
       const update = {
         system: {
-          reaction: {
-            bonus:{
-              other:mods.bonus.reaction
-            },
-            malus:{
-              other:mods.malus.reaction
-            }
-          },
-          defense: {
-            bonus:{
-              other:mods.bonus.defense
-            },
-            malus:{
-              other:mods.malus.defense
-            }
-          },
           combat:{
             data:{
               tourspasses:1,
@@ -1211,18 +1240,8 @@ export class MechaArmureSheet extends ActorSheet {
     const modules = [];
     const wpn = [];
     const wpnSpecial = [];
+    const effects = [];
     let pilote = {};
-    let bonus = {
-      vitesse:0,
-      manoeuvrabilite:0,
-      puissance:0,
-      senseurs:0,
-      systemes:0,
-      champDeForce:0,
-      defense:0,
-      reaction:0,
-      resilience:0
-    }
     let moduleWraith = false;
 
     if(piloteId !== 0) {
@@ -1305,23 +1324,63 @@ export class MechaArmureSheet extends ActorSheet {
               break;
 
             case 'volMarkIV':
-              bonus.manoeuvrabilite += +data.bonus.manoeuvrabilite;
+              effects.push({
+                key: path.manoeuvrabilite.mod,
+                mode: 2,
+                priority: null,
+                value: data.bonus.manoeuvrabilite
+              });
               break;
 
             case 'bouclierAmrita':
-              bonus.champDeForce += +data.bonus.champDeForce;
-              bonus.defense += +data.bonus.defense;
-              bonus.reaction += +data.bonus.reaction;
-              bonus.resilience += +data.bonus.resilience;
+              effects.push({
+                key: path.champDeForce.mod,
+                mode: 2,
+                priority: null,
+                value: data.bonus.champDeForce
+              },
+              {
+                key: path.defense.mod,
+                mode: 2,
+                priority: null,
+                value: data.bonus.defense
+              },
+              {
+                key: path.reaction.mod,
+                mode: 2,
+                priority: null,
+                value: data.bonus.reaction
+              },
+              {
+                key: path.resilience.mod,
+                mode: 2,
+                priority: null,
+                value: data.bonus.resilience
+              });
               break;
 
             case 'modeSiegeTower':
-              bonus.resilience += +data.bonus.resilience;
+              effects.push({
+                key: path.resilience.mod,
+                mode: 2,
+                priority: null,
+                value: data.bonus.resilience
+              });
               break;
 
             case 'nanoBrume':
-              bonus.defense += +data.bonus.defense;
-              bonus.reaction += +data.bonus.reaction;
+              effects.push({
+                key: path.defense.mod,
+                mode: 2,
+                priority: null,
+                value: data.bonus.defense
+              },
+              {
+                key: path.reaction.mod,
+                mode: 2,
+                priority: null,
+                value: data.bonus.reaction
+              });
               break;
           }
         }
@@ -1382,53 +1441,38 @@ export class MechaArmureSheet extends ActorSheet {
     actorData.pilote = pilote;
     actorData.moduleWraith = moduleWraith;
 
-    this.actor.update({['system']:{
-      manoeuvrabilite:{
-        bonus:{
-          other:bonus.manoeuvrabilite
-        }
-      },
-      vitesse:{
-        bonus:{
-          other:bonus.vitesse
-        }
-      },
-      puissance:{
-        bonus:{
-          other:bonus.puissance
-        }
-      },
-      senseurs:{
-        bonus:{
-          other:bonus.senseurs
-        }
-      },
-      systemes:{
-        bonus:{
-          other:bonus.systemes
-        }
-      },
-      champDeForce:{
-        bonus:{
-          other:bonus.champDeForce
-        }
-      },
-      reaction:{
-        bonus:{
-          other:bonus.reaction
-        }
-      },
-      defense:{
-        bonus:{
-          other:bonus.defense
-        }
-      },
-      resilience:{
-        bonus:{
-          other:bonus.resilience
-        }
-      }
-    }})
+    const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
+    const listWithEffect = [
+      {label:'Modules', data:effects}
+    ];
+
+    const toUpdate = [];
+    const toAdd = [];
+
+    for(let effect of listWithEffect) {
+      const effectExist = existEffect(listEffect, effect.label);
+      let toggle = false;
+
+      if(effectExist) {
+        if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
+          "_id":effectExist._id,
+          changes:effect.data,
+          disabled:toggle
+        });
+        else if(effectExist.disabled !== toggle) toUpdate.push({
+          "_id":effectExist._id,
+          disabled:toggle
+        });
+      } else toAdd.push({
+          label: effect.label,
+          icon: '/icons/svg/mystery-man.svg',
+          changes:effect.data,
+          disabled:toggle
+      });
+    }
+
+    if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
+    if(toAdd.length > 0) addEffect(this.actor, toAdd);
 
     // ON ACTUALISE ROLL UI S'IL EST OUVERT
     let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;

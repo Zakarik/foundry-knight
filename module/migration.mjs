@@ -1,8 +1,12 @@
+import {
+    caracToAspect,
+  } from "../module/helpers/common.mjs";
+
 /*
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "2.3.3";
+    static NEEDED_VERSION = "2.9.9";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -47,14 +51,6 @@ Applique les modifications par la mise à jour au Monde.
                 err.message = `KNIGHT : Echec de la migration de l'item ${item.name}[${item._id}]`;
                 console.error(err);
             }
-        }
-
-        // Migrate World Compendium Packs
-        for (let pack of game.packs) {
-            if (pack.metadata.packageType !== "world" || !["Actor", "Item", "Scene"].includes(pack.metadata.type)) {
-                continue;
-            }
-            await MigrationKnight._migrateCompendium(pack, options);
         }
 
         await game.settings.set("knight", "systemVersion", game.system.version);
@@ -822,6 +818,109 @@ Applique les modifications par la mise à jour au Monde.
                 item.update(update);
             }
         }
+
+        if (options?.force || MigrationKnight.needUpdate("3.0.0")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            update[`system.combat.nods.soin.recuperationBonus`] = 0;
+            update[`system.combat.nods.armure.recuperationBonus`] = 0;
+            update[`system.combat.nods.energie.recuperationBonus`] = 0;
+            update[`system.energie.-=malus`] = null;
+
+            actor.update(update);
+
+            // MISE A JOUR DES ITEMS PORTES
+            for (let item of actor.items) {
+                const itemUpdate = {};
+                const itemSystem = item.system;
+
+                if(item.type === 'module') {
+                    itemUpdate[`system.niveau.value`] = 1;
+                    itemUpdate[`system.niveau.max`] = 1;
+                    itemUpdate[`system.niveau.liste`] = [1];
+                    itemUpdate[`system.progression.n1`] = item.system.addOrder;
+                    itemUpdate[`system.niveau.details`] = {
+                        "n1":{
+                            "permanent":itemSystem.permanent,
+                            "rarete":itemSystem.rarete,
+                            "prix":itemSystem.prix,
+                            "energie":itemSystem.energie,
+                            "activation":itemSystem.activation,
+                            "duree":itemSystem.duree,
+                            "portee":itemSystem.portee,
+                            "listes":{},
+                            "labels":{},
+                            "aspects":{
+                            "chair":{
+                                "liste":{
+                                "deplacement": {},
+                                "force": {},
+                                "endurance": {}
+                                }
+                            },
+                            "bete":{
+                                "liste":{
+                                "hargne": {},
+                                "combat": {},
+                                "instinct": {}
+                                }
+                            },
+                            "machine":{
+                                "liste":{
+                                "tir": {},
+                                "savoir": {},
+                                "technique": {}
+                                }
+                            },
+                            "dame":{
+                                "liste":{
+                                "aura": {},
+                                "parole": {},
+                                "sangFroid": {}
+                                }
+                            },
+                            "masque":{
+                                "liste":{
+                                "discretion": {},
+                                "dexterite": {},
+                                "perception": {}
+                                }
+                            }
+                            },
+                            "bonus":itemSystem.bonus,
+                            "arme":itemSystem.arme,
+                            "overdrives":itemSystem.overdrives,
+                            "pnj":itemSystem.pnj,
+                            "ersatz":itemSystem.ersatz,
+                            "jetsimple":itemSystem.jetsimple,
+                            "textarea":itemSystem.textarea
+                        }
+                    };
+
+                    itemUpdate[`system.-=permanent`] = null;
+                    itemUpdate[`system.-=rarete`] = null;
+                    itemUpdate[`system.-=prix`] = null;
+                    itemUpdate[`system.-=energie`] = null;
+                    itemUpdate[`system.-=activation`] = null;
+                    itemUpdate[`system.-=duree`] = null;
+                    itemUpdate[`system.-=portee`] = null;
+                    itemUpdate[`system.-=labels`] = null;
+                    itemUpdate[`system.-=aspects`] = null;
+                    itemUpdate[`system.-=bonus`] = null;
+                    itemUpdate[`system.-=arme`] = null;
+                    itemUpdate[`system.-=overdrives`] = null;
+                    itemUpdate[`system.-=pnj`] = null;
+                    itemUpdate[`system.-=ersatz`] = null;
+                    itemUpdate[`system.-=jetsimple`] = null;
+                    itemUpdate[`system.-=textarea`] = null;
+                }
+
+                item.update(itemUpdate);
+            }
+        }
     }
 
     static _migrationItems(item, options = { force:false }) {
@@ -1466,6 +1565,78 @@ Applique les modifications par la mise à jour au Monde.
                     update[`system.capacites.selected.companions.wolf.img`] = 'systems/knight/assets/wolf.jpg';
                     update[`system.capacites.selected.companions.crow.img`] = 'systems/knight/assets/crow.jpg';
                 }
+            }
+
+            item.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("3.0.0")) {
+            const update = {};
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'module') {
+                update[`system.niveau.value`] = 1;
+                update[`system.niveau.max`] = 1;
+                update[`system.niveau.liste`] = [1];
+                update[`system.niveau.details`] = {
+                    "n1":{
+                        "permanent":system.permanent,
+                        "rarete":system.rarete,
+                        "prix":system.prix,
+                        "energie":system.energie,
+                        "activation":system.activation,
+                        "duree":system.duree,
+                        "portee":system.portee,
+                        "listes":{},
+                        "labels":{},
+                        "aspects":{
+                        "chair":{
+                            "liste":{
+                            "deplacement": {},
+                            "force": {},
+                            "endurance": {}
+                            }
+                        },
+                        "bete":{
+                            "liste":{
+                            "hargne": {},
+                            "combat": {},
+                            "instinct": {}
+                            }
+                        },
+                        "machine":{
+                            "liste":{
+                            "tir": {},
+                            "savoir": {},
+                            "technique": {}
+                            }
+                        },
+                        "dame":{
+                            "liste":{
+                            "aura": {},
+                            "parole": {},
+                            "sangFroid": {}
+                            }
+                        },
+                        "masque":{
+                            "liste":{
+                            "discretion": {},
+                            "dexterite": {},
+                            "perception": {}
+                            }
+                        }
+                        },
+                        "bonus":system.bonus,
+                        "arme":system.arme,
+                        "overdrives":system.overdrives,
+                        "pnj":system.pnj,
+                        "ersatz":system.ersatz,
+                        "jetsimple":system.jetsimple,
+                        "textarea":system.textarea
+                    }
+                };
             }
 
             item.update(update);

@@ -25,9 +25,21 @@
 
         <div class="mainData" style="display:none">
             <div class="data">
-                <span class="button noBorderTop {{#if this.relance.value}}selected{{/if}}">{{this.relance.label}}</span>
+                <span class="button noBorderTop {{#if this.relance.value}}selected{{/if}}">
+                {{#if this.relance.value}}
+                    {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.Relance"}}
+                {{else}}
+                    {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.NoRelance"}}
+                {{/if}}
+                </span>
 
-                <span class="button {{#if this.maxeffets.value}}selected borderBottom{{/if}}">{{this.maxeffets.label}}</span>
+                <span class="button {{#if this.maxeffets.value}}selected borderBottom{{/if}}">
+                {{#if this.maxeffets.value}}
+                    {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.MaxEffets"}}
+                {{else}}
+                    {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.NoMaxEffets"}}
+                {{/if}}
+                </span>
 
                 <div class="longspan {{#unless this.maxeffets.value}}hidden{{/unless}}">
                     <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.MaxEffetsLabel"}}</span>
@@ -36,7 +48,13 @@
             </div>
 
             <div class="data">
-                <span class="button noBorderTop {{#if this.armedistance.value}}selected{{/if}}">{{this.armedistance.label}}</span>
+                <span class="button noBorderTop {{#if this.armedistance.value}}selected{{/if}}">
+                {{#if this.armedistance.value}}
+                    {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.ArmeDistance"}}
+                {{else}}
+                    {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.NoArmeDistance"}}
+                {{/if}}
+                </span>
 
                 <h4 class="title separation">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.BaseJet"}}</h4>
                 <div class="line">

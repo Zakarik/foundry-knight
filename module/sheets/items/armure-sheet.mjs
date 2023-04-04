@@ -84,6 +84,8 @@ export class ArmureSheet extends ItemSheet {
 
     context.systemData = context.data.system;
 
+    console.log(context);
+
     return context;
   }
 
@@ -102,7 +104,7 @@ export class ArmureSheet extends ItemSheet {
       const value = $(ev.currentTarget).val();
 
       let update = {
-        data:{
+        system:{
           jauges:{
             sante:true
           }
@@ -111,7 +113,7 @@ export class ArmureSheet extends ItemSheet {
 
       if(value >= 4) {
         update = {
-          data:{
+          system:{
             jauges:{
               sante:false
             }
