@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.1.1";
+    static NEEDED_VERSION = "3.1.2";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -938,6 +938,22 @@ Applique les modifications par la mise à jour au Monde.
 
                 item.update(itemUpdate);
             }
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("3.1.2")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            update[`system.equipements.armure.slots.tete`] = 0;
+            update[`system.equipements.armure.slots.torse`] = 0;
+            update[`system.equipements.armure.slots.brasGauche`] = 0;
+            update[`system.equipements.armure.slots.brasDroite`] = 0;
+            update[`system.equipements.armure.slots.jambeDroite`] = 0;
+            update[`system.equipements.armure.slots.jambeGauche`] = 0;
+
+            actor.update(update);
         }
     }
 

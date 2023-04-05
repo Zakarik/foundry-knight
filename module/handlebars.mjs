@@ -687,4 +687,10 @@
     Handlebars.registerHelper('toLowerCase', function(str) {
         return str.toLowerCase();
     });
+
+    Handlebars.registerHelper('hasNiveau', function(max) {
+        const has = max > 1 ? true : false;
+
+        return has;
+    });
  };
