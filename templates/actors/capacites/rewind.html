@@ -3,6 +3,16 @@
     <h3 class="header js-toggler">
         <i class="far fa-plus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.REWIND.Label"}}
+
+        {{#if ("armure" @root/systemData/wear)}}
+        <div class="blockMultiline">
+            <button class="activation"
+                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+                data-cout="{{energie}}">
+                {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.REWIND.Label"}} : {{localizeactivate active}}
+            </button>
+        </div>
+        {{/if}}
     </h3>
 
     <span class="description" style="display:none">{{{this.description}}}</span>
@@ -11,7 +21,7 @@
         <div class="data">
             <div class="shortspan">
                 <span class="header">{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                <span class="score">{{this.energie}}</span>
+                <span class="score">{{energie}}</span>
             </div>
             <div class="shortspan">
                 <span class="header">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
