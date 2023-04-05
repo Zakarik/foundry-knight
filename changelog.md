@@ -1,3 +1,9 @@
+## v3.1.7
+
+### Bugfix
+- Correction d'un bug affectant le longbow, qui ne mémorisait pas correctement les effets sélectionnés.
+- Correction d'un bug du mode Rewind, qui n'avait aucun bouton d'activation.
+
 ## v3.1.6
 
 ### Bugfix

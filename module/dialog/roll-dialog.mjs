@@ -187,12 +187,16 @@ export class KnightRollDialog extends Application {
   }
 
   async setWpn(wpnContact, wpnDistance, wpnTourelles, wpnGrenade, wpnImprovisees, wpnMA, wpnLongbow) {
+    let longbow = wpnLongbow;
+
+    longbow.effets.raw = this.data?.longbow?.effets?.raw || []
+
     this.data.listWpnContact = wpnContact;
     this.data.listWpnDistance = wpnDistance;
     this.data.listWpnTourelle = wpnTourelles;
     this.data.listGrenades = wpnGrenade;
     this.data.listWpnImprovisees = wpnImprovisees;
-    this.data.longbow = wpnLongbow;
+    this.data.longbow = longbow;
     this.data.listWpnMA = wpnMA;
 
     return new Promise(resolve => {
@@ -472,7 +476,11 @@ export class KnightRollDialog extends Application {
   }
 
   async setWpnLongbow(wpnLongbow) {
-    this.data.longbow = wpnLongbow;
+    let longbow = wpnLongbow;
+
+    longbow.effets.raw = this.data?.longbow?.effets?.raw || []
+
+    this.data.longbow = longbow;
 
     return new Promise(resolve => {
       setTimeout(() => {
