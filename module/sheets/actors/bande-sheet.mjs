@@ -769,8 +769,6 @@ export class BandeSheet extends ActorSheet {
       }
     }
 
-    capacites.sort(SortByName);
-
     for (let i of capacites) {
       const system = i.system;
 

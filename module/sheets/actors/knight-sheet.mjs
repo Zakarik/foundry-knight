@@ -93,8 +93,6 @@ export class KnightSheet extends ActorSheet {
 
     context.systemData = system;
 
-    console.log(context);
-
     return context;
   }
 
@@ -1121,9 +1119,6 @@ export class KnightSheet extends ActorSheet {
                 }*/
               }
             }
-
-            console.log(update);
-
             armure.update(update);
             break;
           case "puppet":
@@ -1457,8 +1452,6 @@ export class KnightSheet extends ActorSheet {
               dataNiveau = data.niveau.details[`n${niveau}`];
 
         dataModule.update({[`system.active.base`]:value});
-
-        console.log(dataNiveau);
 
         if(dataNiveau.jetsimple.has && value) {
           const jSREffects = await getEffets(this.actor, 'contact', 'standard', {}, dataNiveau.jetsimple.effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false);
@@ -3908,8 +3901,6 @@ export class KnightSheet extends ActorSheet {
       const niveau = Number(target?.data("niveau")) || 1;
       const result = value ? false : true;
 
-      console.log(isModule);
-
       if(isLongbow) {
         this.actor.items.get(id).update({[`system.evolutions.special.longbow.${evo}.gratuit`]:result});
       } else if(isModule) {
@@ -5120,6 +5111,8 @@ export class KnightSheet extends ActorSheet {
       }
     };
     let effects = {experiences:[], gloire:[], armure:[], guardian:[], armes:[], overdrives:[], modules:[], slots:[], avantages:[], inconvenients:[], blessures:[], traumas:[], distinctions:[]};
+
+    let n = 1;
 
     for (let i of items) {
       const data = i.system;
@@ -6548,8 +6541,7 @@ export class KnightSheet extends ActorSheet {
           i.system.pnj = itemDataNiveau.pnj;
           i.system.jetsimple = itemDataNiveau.jetsimple;
 
-          if(data.permanent) modulepassifs.push(i);
-          else module.push(i);
+          module.push(i);
 
           for(let n = 1;n <= data.niveau.value;n++) {
             const dataProgression = data.niveau.details[`n${n}`];
@@ -7242,20 +7234,6 @@ export class KnightSheet extends ActorSheet {
 
     if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
     if(toAdd.length > 0) addEffect(this.actor, toAdd);
-
-    armesContactEquipee.sort(SortByName);
-    armesContactRack.sort(SortByName);
-    armesDistanceEquipee.sort(SortByName);
-    armesDistanceRack.sort(SortByName);
-    armesTourelles.sort(SortByName);
-    avantage.sort(SortByName);
-    inconvenient.sort(SortByName);
-    avantageIA.sort(SortByName);
-    inconvenientIA.sort(SortByName);
-    langue.sort(SortByName);
-    contact.sort(SortByName);
-
-    distinctions.sort(SortByName);
 
     for(let i = 0;i < armesContactEquipee.length;i++) {
       armesContactEquipee[i].system.degats.module = {};

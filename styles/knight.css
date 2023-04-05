@@ -35762,6 +35762,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.menu section.hidden {
   display: none;
 }
+.vehicule header.sheet-header .headerData .data {
+  height: 100%;
+}
 .vehicule header.sheet-header .headerData .data div.pilote, .vehicule header.sheet-header .headerData .data div.passagers {
   display: flex;
   flex-wrap: wrap;
@@ -35771,6 +35774,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border: 1px solid RGB(76 74 90);
   align-items: flex-start;
   align-content: flex-start;
+  min-height: 54px;
 }
 .vehicule header.sheet-header .headerData .data div.pilote span, .vehicule header.sheet-header .headerData .data div.passagers span {
   line-height: 26px;
@@ -35794,6 +35798,17 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule header.sheet-header .headerData .data div.pilote span.value div.gestionButton, .vehicule header.sheet-header .headerData .data div.passagers span.value div.gestionButton {
   position: absolute;
   right: 5px;
+}
+.vehicule header.sheet-header .headerData .data div.pilote {
+  height: 54px;
+}
+.vehicule header.sheet-header .headerData .data div.passagers {
+  max-height: calc(100% - 48px - 10px);
+}
+.vehicule header.sheet-header .headerData .data div.passagers > .values {
+  width: 100%;
+  height: calc(100% - 26px);
+  overflow-y: auto;
 }
 .vehicule header.sheet-header .headerData .data label input {
   text-align: center;

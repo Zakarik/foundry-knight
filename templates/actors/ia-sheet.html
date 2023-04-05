@@ -28,13 +28,13 @@
     <section class="body">
         {{!-- IA Tab --}}
         <div class="iaTab">
-            <div class="avantages">
+            <div class="avantages item-list">
                 <h2 class="header">
                     {{localize "KNIGHT.PERSONNAGE.Avantages"}}
                     <a class="item-control item-create" title="Create Item" data-type="avantage"><i class="fas fa-plus"></i></a>
                 </h2>
                 {{#each actor.avantages as | key avantages|}}
-                <div class="block">
+                <div class="block item" data-item-id="{{key._id}}">
                     <header class="summary header js-toggler" data-item-id="{{key._id}}">
                         <i class="far fa-plus-square extendButton"></i>
                         <div class="gestionButton">
@@ -50,13 +50,13 @@
                 {{/each}}
             </div>
 
-            <div class="inconvenients">
+            <div class="inconvenients item-list">
                 <h2 class="header">
                     {{localize "KNIGHT.PERSONNAGE.Inconvenient"}}
                     <a class="item-control item-create" title="Create Item" data-type="inconvenient"><i class="fas fa-plus"></i></a>
                 </h2>
                 {{#each actor.inconvenient as | key inconvenient|}}
-                <div class="block">
+                <div class="block item" data-item-id="{{key._id}}">
                     <header class="summary header js-toggler" data-item-id="{{key._id}}">
                         <i class="far fa-plus-square extendButton"></i>
                         <div class="gestionButton">

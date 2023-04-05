@@ -731,7 +731,7 @@
             {{/if}}
 
             {{#unless systemData.options.noCapacites}}
-            <div class="capacite">
+            <div class="capacite item-list">
                 <h2 class="header js-toggler">
                     <i class="far fa-minus-square"></i>
                     {{localize "KNIGHT.CAPACITES.Label"}}
@@ -745,7 +745,7 @@
                 </div>
 
                 {{#each actor.capacites as | key module|}}
-                <div class="bCapacite">
+                <div class="bCapacite item" data-item-id="{{key._id}}">
                     <header class="summary header js-toggler" data-item-id="{{key._id}}">
                         <i class="far fa-plus-square extendButton"></i>
 
@@ -914,7 +914,7 @@
             {{/unless}}
 
             {{#if systemData.options.modules}}
-            <div class="modules">
+            <div class="modules item-list">
                 <h2 class="header js-toggler">
                     <i class="far fa-minus-square"></i>
                     {{localize "KNIGHT.ITEMS.MODULE.Label"}}
@@ -923,10 +923,6 @@
                 </h2>
 
                 {{#each actor.modules as | key module|}}
-                    {{~> systems/knight/templates/actors/subtab/modules.html key=key}}
-                {{/each}}
-
-                {{#each actor.modulespassifs as | key module|}}
                     {{~> systems/knight/templates/actors/subtab/modules.html key=key}}
                 {{/each}}
             </div>
@@ -964,7 +960,7 @@
         <div class="tab combat" data-group="primary" data-tab="combat">
             <div class="main">
                 <div class="armesContact">
-                    <div class="block">
+                    <div class="block item-list">
                         <h2 class="header">
                             {{localize "KNIGHT.COMBAT.ARMES.CONTACT.Label"}}
                             <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="contact"><i class="fas fa-plus"></i></a>
@@ -977,7 +973,7 @@
                 </div>
 
                 <div class="armesDistance">
-                    <div class="block">
+                    <div class="block item-list">
                         <h2 class="header">
                             {{localize "KNIGHT.COMBAT.ARMES.DISTANCE.Label"}}
                             <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="distance"><i class="fas fa-plus"></i></a>
@@ -1109,7 +1105,7 @@
 
                 <div class="col">
                     <div class="armesDistance">
-                        <div class="block">
+                        <div class="block item-list">
                             <h2 class="header">
                                 {{localize "KNIGHT.COMBAT.ARMES.TOURELLE.Label"}}
                                 <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="distance" data-tourelle="true"><i class="fas fa-plus"></i></a>
@@ -1151,14 +1147,14 @@
 
         <div class="tab historique" data-group="primary" data-tab="historique">
             <div class="main">
-                <div class="langues">
+                <div class="langues item-list">
                     <h2 class="header">
                         {{localize "KNIGHT.HISTORIQUE.Langues"}}
                         <a class="item-control item-create" title="Create Item" data-type="langue"><i class="fas fa-plus"></i></a>
                         <span class="headerScore">{{systemData.langues.value}}</span>
                     </h2>
                     {{#each actor.langue as | key langue|}}
-                    <div class="block">
+                    <div class="block item" data-item-id="{{key._id}}">
                         <header class="summary" data-item-id="{{key._id}}">
                             <div class="gestionButton">
                                 <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>

@@ -296,7 +296,7 @@
             {{/if}}
 
             {{#unless systemData.options.noCapacites}}
-            <div class="capacite">
+            <div class="capacite item-list">
                 <h2 class="header js-toggler">
                     <i class="far fa-minus-square"></i>
                     {{localize "KNIGHT.CAPACITES.Label"}}
@@ -305,7 +305,7 @@
                 </h2>
 
                 {{#each actor.capacites as | key module|}}
-                <div class="bCapacite">
+                <div class="bCapacite item" data-item-id="{{key._id}}">
                     <header class="summary header js-toggler" data-item-id="{{key._id}}">
                         <i class="far fa-plus-square extendButton"></i>
 
@@ -502,14 +502,14 @@
 
         <div class="tab historique" data-group="primary" data-tab="historique">
             <div class="main">
-                <div class="langues">
+                <div class="langues item-list">
                     <h2 class="header">
                         {{localize "KNIGHT.HISTORIQUE.Langues"}}
                         <a class="item-control item-create" title="Create Item" data-type="langue"><i class="fas fa-plus"></i></a>
                         <span class="headerScore">{{systemData.langues.value}}</span>
                     </h2>
                     {{#each actor.langue as | key langue|}}
-                    <div class="block">
+                    <div class="block item" data-item-id="{{key._id}}">
                         <header class="summary" data-item-id="{{key._id}}">
                             <div class="gestionButton">
                                 <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>

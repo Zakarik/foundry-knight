@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "2.9.9";
+    static NEEDED_VERSION = "3.0.0";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");

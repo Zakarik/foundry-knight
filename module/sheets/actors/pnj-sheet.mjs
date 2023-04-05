@@ -101,8 +101,6 @@ export class PNJSheet extends ActorSheet {
 
     context.systemData = context.data.system;
 
-    console.log(context);
-
     return context;
   }
 
@@ -2326,7 +2324,6 @@ export class PNJSheet extends ActorSheet {
     const armesTourelles = [];
     const langue = [];
     const modules = [];
-    const modulespassifs = [];
     const capacites = [];
     const moduleBonusDgts = {
       "contact":[],
@@ -2731,8 +2728,7 @@ export class PNJSheet extends ActorSheet {
         i.system.pnj = itemDataNiveau.pnj;
         i.system.jetsimple = itemDataNiveau.jetsimple;
 
-        if(data.permanent) modulespassifs.push(i);
-        else modules.push(i);
+        modules.push(i);
       }
 
       // CAPACITES
@@ -2905,13 +2901,6 @@ export class PNJSheet extends ActorSheet {
       }
     }
 
-    armesContact.sort(SortByName);
-    armesDistance.sort(SortByName);
-    armesTourelles.sort(SortByName);
-    capacites.sort(SortByName);
-    langue.sort(SortByName);
-    modules.sort(SortByName);
-
     for (let [key, grenades] of Object.entries(system.combat.grenades.liste)){
       const raw = grenades.effets.raw;
       const custom = grenades.effets.custom;
@@ -3044,7 +3033,6 @@ export class PNJSheet extends ActorSheet {
     actorData.langue = langue;
     actorData.capacites = capacites;
     actorData.modules = modules;
-    actorData.modulespassifs = modulespassifs;
     actorData.art = art;
     actorData.armureData = armureData;
     actorData.longbow = longbow;
