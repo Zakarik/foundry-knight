@@ -1,3 +1,8 @@
+## v3.1.5
+
+### Bugfix
+- Correction d'un bug empêchant les boutons "restaurer" de fonctionner.
+
 ## v3.1.4
 
 ### Bugfix
