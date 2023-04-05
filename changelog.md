@@ -1,3 +1,8 @@
+## v3.1.4
+
+### Bugfix
+- Correction d'un (autre bug) de comptage des scores d'aspects
+
 ## v3.1.3
 
 ### Bugfix

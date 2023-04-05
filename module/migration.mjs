@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.1.3";
+    static NEEDED_VERSION = "3.1.4";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -956,17 +956,17 @@ Applique les modifications par la mise à jour au Monde.
             actor.update(update);
         }
 
-        if (options?.force || MigrationKnight.needUpdate("3.1.3")) {
+        if (options?.force || MigrationKnight.needUpdate("3.1.4")) {
             const update = {};
             const system = actor.system;
 
             if(!system) return update;
 
             update[`system.aspects.chair.bonus`] = 0;
-            update[`system.aspects.bete.value`] = 0;
-            update[`system.aspects.machine.value`] = 0;
-            update[`system.aspects.dame.value`] = 0;
-            update[`system.aspects.masque.value`] = 0;
+            update[`system.aspects.bete.bonus`] = 0;
+            update[`system.aspects.machine.bonus`] = 0;
+            update[`system.aspects.dame.bonus`] = 0;
+            update[`system.aspects.masque.bonus`] = 0;
 
             if(actor.type === 'knight') {
                 update[`system.aspects.chair.caracteristiques.deplacement.bonus`] = 0;
