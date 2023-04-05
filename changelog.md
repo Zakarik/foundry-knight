@@ -1,3 +1,8 @@
+## v3.1.6
+
+### Bugfix
+- Correction d'un bug d'affichage dans les modules.
+
 ## v3.1.5
 
 ### Bugfix
