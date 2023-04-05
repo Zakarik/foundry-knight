@@ -1,3 +1,9 @@
+## v3.1.1
+
+### Bugfix
+- Correction de bugs bloquant suite à la dernière mise à jour.
+- Ajout de gardes-fous pour ne pas bloquer l'ouverture d'une fiche en cas de problèmes.
+
 ## v3.1.0
 
 ### Améliorations
