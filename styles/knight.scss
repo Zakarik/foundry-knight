@@ -4482,6 +4482,7 @@
                   grid-template-columns: calc(100% - 150px) auto 40px;
                   grid-template-rows: auto auto;
                   grid-row-gap: 2px;
+                  align-items: baseline;
 
                   &.fullSpan {
                     grid-template-columns: 100%;
@@ -4521,6 +4522,10 @@
 
                   &.hidden {
                     display:none;
+                  }
+
+                  &.moduleArrowUp {
+                    align-self:end;
                   }
 
                   &:first-of-type {

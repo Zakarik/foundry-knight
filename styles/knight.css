@@ -22183,6 +22183,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   grid-template-columns: calc(100% - 150px) auto 40px;
   grid-template-rows: auto auto;
   grid-row-gap: 2px;
+  align-items: baseline;
 }
 .knight section.body div.armure div.modules div.bModule header span.mainSpan.fullSpan {
   grid-template-columns: 100%;
@@ -22217,6 +22218,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight section.body div.armure div.modules div.bModule header span i.hidden {
   display: none;
+}
+.knight section.body div.armure div.modules div.bModule header span i.moduleArrowUp {
+  align-self: end;
 }
 .knight section.body div.armure div.modules div.bModule header span i:first-of-type {
   grid-row: 1;
