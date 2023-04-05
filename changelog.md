@@ -1,3 +1,12 @@
+## v3.1.2
+
+### Bugfix
+- Correction d'un bug de comptage des slots suite à la mise à jour 3.0.0
+
+### Améliorations
+- Amélioration de l'affichage des boutons d'activation des modules, pour éviter que le texte ne dépasse (s'il est trop grand, il s'affiche dans une bulle en laissant la souris dessus)
+- Amélioration de l'affichage du niveau des modules, pour ne l'afficher que lorsque les modules ont plusieurs niveaux.
+
 ## v3.1.1
 
 ### Bugfix

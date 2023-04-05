@@ -93,6 +93,8 @@ export class KnightSheet extends ActorSheet {
 
     context.systemData = system;
 
+    console.log(context);
+
     return context;
   }
 

@@ -4482,6 +4482,10 @@
                   grid-template-columns: calc(100% - 150px) auto 40px;
                   grid-template-rows: auto auto;
                   grid-row-gap: 2px;
+
+                  &.fullSpan {
+                    grid-template-columns: 100%;
+                  }
                 }
 
                 &.subSpanLabel {
@@ -4562,6 +4566,8 @@
                   color:$white;
                   cursor:pointer;
                   top:0px;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
 
                   &.choisi {
                     background:$lightBlack;
