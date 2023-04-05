@@ -85,6 +85,8 @@
     });
 
     Handlebars.registerHelper('capaciteDescription', function (value) {
+        if(value === undefined) return '';
+
         const description = value
         .replaceAll(/(?:\r\n|\r|\n)/g, "<br/>");
 
@@ -254,41 +256,57 @@
     });
 
     Handlebars.registerHelper('getGrenadeName', function (value) {
+        if(value === undefined) return '';
+
         const label = value.toString().charAt(0).toUpperCase()+value.toString().substr(1);
         return game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${label}`);
     });
 
     Handlebars.registerHelper('getNodsName', function (value) {
+        if(value === undefined) return '';
+
         const label = value.toString().charAt(0).toUpperCase()+value.toString().substr(1);
         return game.i18n.localize(`KNIGHT.COMBAT.NODS.${label}`);
     });
 
     Handlebars.registerHelper('getPortee', function (value) {
+        if(value === undefined) return '';
+
         const label = value.toString().charAt(0).toUpperCase()+value.toString().substr(1);
         return game.i18n.localize(`KNIGHT.PORTEE.${label}`);
     });
 
     Handlebars.registerHelper('getActivation', function (value) {
+        if(value === undefined) return '';
+
         const label = value.toString().charAt(0).toUpperCase()+value.toString().substr(1);
         return game.i18n.localize(`KNIGHT.ACTIVATION.${label}`);
     });
 
     Handlebars.registerHelper('getEnergie', function (value) {
+        if(value === undefined) return '';
+
         const label = value.toString().charAt(0).toUpperCase()+value.toString().substr(1);
         return game.i18n.localize(`KNIGHT.ENERGIE.${label}`);
     });
 
     Handlebars.registerHelper('getDuree', function (value) {
+        if(value === undefined) return '';
+
         const label = value.toString().charAt(0).toUpperCase()+value.toString().substr(1);
         return game.i18n.localize(`KNIGHT.DUREE.${label}`);
     });
 
     Handlebars.registerHelper('getRarete', function (value) {
+        if(value === undefined) return '';
+
         const label = value.toString().charAt(0).toUpperCase()+value.toString().substr(1);
         return game.i18n.localize(`KNIGHT.ITEMS.MODULE.RARETE.${label}`);
     });
 
     Handlebars.registerHelper('getCategorie', function (value) {
+        if(value === undefined) return '';
+
         const label = value.toString().charAt(0).toUpperCase()+value.toString().substr(1);
         const c = value === '' ? '' : game.i18n.localize(`KNIGHT.ITEMS.MODULE.CATEGORIE.${label}`);
 
