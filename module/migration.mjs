@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.1.2";
+    static NEEDED_VERSION = "3.1.3";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -952,6 +952,43 @@ Applique les modifications par la mise à jour au Monde.
             update[`system.equipements.armure.slots.brasDroite`] = 0;
             update[`system.equipements.armure.slots.jambeDroite`] = 0;
             update[`system.equipements.armure.slots.jambeGauche`] = 0;
+
+            actor.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("3.1.3")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            update[`system.aspects.chair.bonus`] = 0;
+            update[`system.aspects.bete.value`] = 0;
+            update[`system.aspects.machine.value`] = 0;
+            update[`system.aspects.dame.value`] = 0;
+            update[`system.aspects.masque.value`] = 0;
+
+            if(actor.type === 'knight') {
+                update[`system.aspects.chair.caracteristiques.deplacement.bonus`] = 0;
+                update[`system.aspects.chair.caracteristiques.endurance.bonus`] = 0;
+                update[`system.aspects.chair.caracteristiques.force.bonus`] = 0;
+
+                update[`system.aspects.bete.caracteristiques.combat.bonus`] = 0;
+                update[`system.aspects.bete.caracteristiques.hargne.bonus`] = 0;
+                update[`system.aspects.bete.caracteristiques.instinct.bonus`] = 0;
+
+                update[`system.aspects.machine.caracteristiques.tir.bonus`] = 0;
+                update[`system.aspects.machine.caracteristiques.technique.bonus`] = 0;
+                update[`system.aspects.machine.caracteristiques.savoir.bonus`] = 0;
+
+                update[`system.aspects.dame.caracteristiques.aura.bonus`] = 0;
+                update[`system.aspects.dame.caracteristiques.parole.bonus`] = 0;
+                update[`system.aspects.dame.caracteristiques.sangFroid.bonus`] = 0;
+
+                update[`system.aspects.masque.caracteristiques.dexterite.bonus`] = 0;
+                update[`system.aspects.masque.caracteristiques.discretion.bonus`] = 0;
+                update[`system.aspects.masque.caracteristiques.perception.bonus`] = 0;
+            }
 
             actor.update(update);
         }
