@@ -1018,12 +1018,6 @@ export class CreatureSheet extends ActorSheet {
       }
     }
 
-    armesContact.sort(SortByName);
-    armesDistance.sort(SortByName);
-    armesTourelles.sort(SortByName);
-    capacites.sort(SortByName);
-    langue.sort(SortByName);
-
     for (let i of capacites) {
       const system = i.system;
 

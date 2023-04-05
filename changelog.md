@@ -1,3 +1,10 @@
+## v3.1.0
+
+### Améliorations
+- Ajout de la possibilité de réorganiser (par drag & drop) la plupart des items sur les fiches.
+Les exceptions, ce sont les capacités d'armures, longbow compris.
+Si jamais j'ai oublié quelque chose, n'hésitez pas à me le signaler.
+
 ## v3.0.0
 
 ### Bugfix
@@ -20,6 +27,7 @@ En cas de bugs, n'hésitez pas à ouvrir une issue pour m'en faire part.
 - Ajout de boutons pour restaurer le maximum de santé, d'énergie, d'espoir, d'armure, de grenades et de nods.
 
 - Les grenades sont automatiquement décomptées lors d'un jet de dé les impliquants.
+- Les PNJ peuvent recevoir une armure. Les capacités devraient fonctionner normalement, me signaler si certaines posent problème.
 
 
 ## v2.3.7

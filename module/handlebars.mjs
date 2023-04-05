@@ -519,8 +519,6 @@
     Handlebars.registerHelper('getOtherListPG', function (id, type, data, dataType) {
         let result = 0;
 
-        console.log(data);
-
         if(id !== undefined) {
             result = data.progression.gloire.depense.autre[id][type] ?? '';
         }

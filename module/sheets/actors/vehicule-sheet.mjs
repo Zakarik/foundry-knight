@@ -671,8 +671,6 @@ export class VehiculeSheet extends ActorSheet {
       }
     }
 
-    armesDistance.sort(SortByName);
-
     for(let i = 0;i < armesDistance.length;i++) {
       armesDistance[i].system.degats.module = {};
       armesDistance[i].system.degats.module.fixe = moduleBonusDgts.distance;

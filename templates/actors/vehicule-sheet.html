@@ -155,7 +155,7 @@
         </div>
 
         <div class="tab modules" data-group="primary" data-tab="modules">
-            <div class="main">
+            <div class="main item-list">
                 <h2 class="header">
                     <i class="far fa-minus-square"></i>
                     {{localize "KNIGHT.ITEMS.MODULE.Label"}}
@@ -164,7 +164,7 @@
                 </h2>
 
                 {{#each actor.modules as | key module|}}
-                <div class="bModule">
+                <div class="bModule item" data-item-id="{{key._id}}">
                     <header class="summary header js-toggler" data-item-id="{{key._id}}">
                         <i class="far fa-plus-square extendButton"></i>
 
@@ -658,14 +658,14 @@
         <div class="tab combat" data-group="primary" data-tab="combat">
             <div class="main">
                 <div class="armesDistance">
-                    <div class="block">
+                    <div class="block item-list">
                         <h2 class="header">
                             {{localize "KNIGHT.COMBAT.ARMES.DISTANCE.Label"}}
                             <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="distance"><i class="fas fa-plus"></i></a>
                         </h2>
 
                         {{#each actor.armesDistance as | key arme|}}
-                            <div class="wpn">
+                            <div class="wpn" data-item-id="{{this._id}}">
                                 <header class="summary header js-toggler" data-item-id="{{this._id}}">
                                     <i class="far fa-plus-square extendButton"></i>
                                     <div class="gestionButton">

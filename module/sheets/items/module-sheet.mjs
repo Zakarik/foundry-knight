@@ -516,8 +516,6 @@ export class ModuleSheet extends ItemSheet {
       catObject[cat[i].key] = cat[i].label;
     };
 
-    console.log(catObject, context);
-
     context.data.system.listes.categorie = catObject;
   }
 
@@ -664,8 +662,6 @@ export class ModuleSheet extends ItemSheet {
   _prepareEffetsListe(context) {
     const system = context.data.system;
     const niveaux = system.niveau.details;
-
-    console.log(system);
 
     for(const niv in niveaux) {
       const data = niveaux[niv];
