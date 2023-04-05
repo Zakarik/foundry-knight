@@ -93,8 +93,6 @@ export class KnightSheet extends ActorSheet {
 
     context.systemData = system;
 
-    console.log(context);
-
     return context;
   }
 
@@ -4372,7 +4370,7 @@ export class KnightSheet extends ActorSheet {
       const target = $(ev.currentTarget);
       const type = target.data("type");
       const max = target.data("max");
-      const list = target.data("list").split("/");
+      const list = target?.data("list")?.split("/") || '';
 
       switch(type) {
         case 'espoir':
