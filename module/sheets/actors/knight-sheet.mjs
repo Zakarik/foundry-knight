@@ -6301,7 +6301,8 @@ export class KnightSheet extends ActorSheet {
             }
           }
 
-          if(data.permanent || itemActive) {
+          if(itemDataNiveau.permanent || itemActive) {
+
             if(itemBonus.has) {
               const iBArmure = itemBonus.armure;
               const iBCDF = itemBonus.champDeForce;
@@ -7090,8 +7091,6 @@ export class KnightSheet extends ActorSheet {
     for(let [key, PG] of Object.entries(depensePGAutre)) {
       const order = PG?.order || false;
 
-      console.log(key, PG)
-
       if(order === false) {
         this.actor.update({[`system.progression.gloire.depense.autre.-=${key}`]:null});
       } else {
@@ -7193,8 +7192,6 @@ export class KnightSheet extends ActorSheet {
       priority: null,
       value: true
     });
-
-    //console.log(effects.gloire);
 
     const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
 
