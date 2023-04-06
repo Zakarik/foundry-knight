@@ -538,7 +538,7 @@ export class KnightActor extends Actor {
         if(!data[label].malusValue) data[label].malusValue = dataMalus;
         else data[label].malusValue += dataMalus;
 
-        if(label === 'champDeForce') data[label].value = Math.max(userBase+data[label].bonusValue-data[label].malusValue, 0);
+        if(label === 'champDeForce' || label === 'bouclier') data[label].value = Math.max(userBase+data[label].bonusValue-data[label].malusValue, 0);
         else data[label].max = Math.max(userBase+data[label].bonusValue-data[label].malusValue, 0);
       }
     }
@@ -658,7 +658,8 @@ export class KnightActor extends Actor {
         if(!data[label].malusValue) data[label].malusValue = dataMalus;
         else data[label].malusValue += dataMalus;
 
-        data[label].max = Math.max(userBase+data[label].bonusValue-data[label].malusValue, 0);
+        if(label === 'bouclier') data[label].value = Math.max(userBase+data[label].bonusValue-data[label].malusValue, 0);
+        else data[label].max = Math.max(userBase+data[label].bonusValue-data[label].malusValue, 0);
       }
     }
 
