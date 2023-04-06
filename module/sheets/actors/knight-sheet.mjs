@@ -11,6 +11,7 @@ import {
   addOrUpdateEffect,
   addEffect,
   updateEffect,
+  countEffect,
   existEffect,
   caracToAspect,
   isAspect,
@@ -6546,8 +6547,12 @@ export class KnightSheet extends ActorSheet {
           for(let n = 1;n <= data.niveau.value;n++) {
             const dataProgression = data.niveau.details[`n${n}`];
 
+            let order = dataProgression.addOrder;
+
+            if(order === undefined) order = data.addOrder;
+
             depensePG.push({
-              order:dataProgression.addOrder,
+              order:order,
               name:`${i.name} - ${game.i18n.localize('KNIGHT.ITEMS.MODULE.Niveau')} ${n}`,
               id:i._id,
               gratuit:dataProgression.gratuit,
@@ -7085,6 +7090,8 @@ export class KnightSheet extends ActorSheet {
     for(let [key, PG] of Object.entries(depensePGAutre)) {
       const order = PG?.order || false;
 
+      console.log(key, PG)
+
       if(order === false) {
         this.actor.update({[`system.progression.gloire.depense.autre.-=${key}`]:null});
       } else {
@@ -7187,7 +7194,12 @@ export class KnightSheet extends ActorSheet {
       value: true
     });
 
+    //console.log(effects.gloire);
+
     const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
+
+    const effectExist = existEffect(listEffect, 'Gloire');
+
     const listWithEffect = [
       {label:'Armure', withoutArmor:false, withArmor:true, data:effects.armure},
       {label:'Guardian', withoutArmor:true, withArmor:false, data:effects.guardian},
@@ -7209,29 +7221,43 @@ export class KnightSheet extends ActorSheet {
 
     for(let effect of listWithEffect) {
       const effectExist = existEffect(listEffect, effect.label);
+      const effectCount = countEffect(listEffect, effect.label);
       let toggle = false;
 
       if(!onArmor && !effect.withoutArmor) toggle = true;
       if(onArmor && !effect.withArmor) toggle = true;
 
+      let num = 0;
+
+      if(effectCount.length > 1) {
+        for(let eff of effectCount) {
+          if(num !== 0) {
+            this.actor.deleteEmbeddedDocuments('ActiveEffect', [eff.id]);
+          }
+
+          num++;
+        }
+      }
+
       if(effectExist) {
         if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
           "_id":effectExist._id,
           changes:effect.data,
+          icon: '',
           disabled:toggle
         });
         else if(effectExist.disabled !== toggle) toUpdate.push({
           "_id":effectExist._id,
+          icon: '',
           disabled:toggle
         });
       } else toAdd.push({
           label: effect.label,
-          icon: '/icons/svg/mystery-man.svg',
+          icon: '',
           changes:effect.data,
           disabled:toggle
       });
     }
-
     if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
     if(toAdd.length > 0) addEffect(this.actor, toAdd);
 

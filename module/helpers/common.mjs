@@ -4456,7 +4456,6 @@ export function addEffect(origin, toAdd) {
 };
 
 export function updateEffect(origin, toUpdate) {
-
   origin.updateEmbeddedDocuments('ActiveEffect', toUpdate);
 }
 
@@ -4475,6 +4474,10 @@ export function addOrUpdateEffect(origin, label, effect) {
       changes:effect,
       disabled:false
     }]);
+}
+
+export function countEffect(list, label) {
+  return list.filter(effect => effect.label === label);
 }
 
 export function existEffect(list, label) {
