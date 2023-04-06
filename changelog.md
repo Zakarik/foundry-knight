@@ -1,3 +1,8 @@
+## v3.1.9
+
+### Bugfix
+- Correction d'un bug la prise en compte de certains modules.
+
 ## v3.1.8
 
 ### Bugfix
