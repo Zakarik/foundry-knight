@@ -1,3 +1,10 @@
+## v3.1.8
+
+### Bugfix
+- Correction d'un bug empêchant les jets de dés.
+- Correction d'un bug pouvant survenir dans de rare cas et rendant impossible l'ouverture d'une fiche.
+- Correction d'un bug avec un autre module.
+
 ## v3.1.7
 
 ### Bugfix

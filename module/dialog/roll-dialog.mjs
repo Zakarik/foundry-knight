@@ -189,7 +189,7 @@ export class KnightRollDialog extends Application {
   async setWpn(wpnContact, wpnDistance, wpnTourelles, wpnGrenade, wpnImprovisees, wpnMA, wpnLongbow) {
     let longbow = wpnLongbow;
 
-    longbow.effets.raw = this.data?.longbow?.effets?.raw || []
+    if(longbow?.effets?.raw || undefined !== undefined) longbow.effets.raw = this.data?.longbow?.effets?.raw || [];
 
     this.data.listWpnContact = wpnContact;
     this.data.listWpnDistance = wpnDistance;

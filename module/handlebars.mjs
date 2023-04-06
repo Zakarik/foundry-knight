@@ -538,7 +538,8 @@
         let result = 0;
 
         if(id !== undefined) {
-            result = data.progression.gloire.depense.autre[id][type] ?? '';
+            const exist = data.progression.gloire.depense.autre[id];
+            if(exist !== undefined) result = data.progression.gloire.depense.autre[id][type] ?? '';
         }
 
         switch(dataType) {

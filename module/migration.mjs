@@ -1,12 +1,18 @@
 import {
     caracToAspect,
+    getEffets,
+    compareArrays,
+    addOrUpdateEffect,
+    addEffect,
+    updateEffect,
+    existEffect,
   } from "../module/helpers/common.mjs";
 
 /*
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.1.4";
+    static NEEDED_VERSION = "3.1.8";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -991,6 +997,26 @@ Applique les modifications par la mise à jour au Monde.
             }
 
             actor.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("3.1.8")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            const listEffect = actor.getEmbeddedCollection('ActiveEffect');
+
+            const toUpdate = [];
+
+            for(let eff of listEffect) {
+                toUpdate.push({
+                    "_id":eff._id,
+                    icon: ''
+                });
+            }
+
+            updateEffect(actor, toUpdate);
         }
     }
 
