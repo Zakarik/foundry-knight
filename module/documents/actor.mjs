@@ -762,11 +762,12 @@ export class KnightActor extends Actor {
 
     // SANTE - BOUCLIER
     const list = ['sante', 'bouclier'];
+    const autorized = ['sante'];
 
     for(let i = 0;i < list.length;i++) {
       const label = list[i];
 
-      if(options[label]) {
+      if(options[label] || autorized.includes(label)) {
         const userBase = data[label]?.base ?? 0;
         const dataBonus = data[label]?.bonus?.user ?? 0;
         const dataMalus = data[label]?.malus?.user ?? 0;

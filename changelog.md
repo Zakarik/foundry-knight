@@ -1,3 +1,8 @@
+## v3.1.10
+
+### Bugfix
+- Correction d'un bug empêchant le calcul de la cohésion maximum pour les bandes.
+
 ## v3.1.9
 
 ### Bugfix
