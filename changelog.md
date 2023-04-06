@@ -1,3 +1,9 @@
+## v3.1.12
+
+### Bugfix
+- Correction d'un bug empêchant le calcul des boucliers des PNJ et Créatures.
+- Correction d'un bug affectant le calcul lors des jets des PNJ et Créatures.
+
 ## v3.1.11
 
 ### Bugfix

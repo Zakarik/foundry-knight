@@ -1003,7 +1003,7 @@ export class KnightRollDialog extends Application {
 
     if(isPNJ) {
       carac = getAspectValue(data.base, id);
-      od = PNJAE.mineur+PNJAE.majeur;
+      od = Number(PNJAE.mineur)+Number(PNJAE.majeur);
     }
     else if(isMA) {
       carac = getCaracPiloteValue(data.base, id);
