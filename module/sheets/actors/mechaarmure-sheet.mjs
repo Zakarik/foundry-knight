@@ -6,6 +6,11 @@ import {
   SortByName,
   getModStyle,
   sum,
+  compareArrays,
+  addOrUpdateEffect,
+  addEffect,
+  updateEffect,
+  existEffect,
   confirmationDialog
 } from "../../helpers/common.mjs";
 
@@ -1730,7 +1735,7 @@ export class MechaArmureSheet extends ActorSheet {
       maximum:6
     });
     await rollApp.setActor(this.actor.id);
-    await rollApp.setAspects(aspects);
+    await rollApp.setAspects(data.data.system.aspects);
     await rollApp.setWraith(data.actor.moduleWraith);
 
     rollApp.render(true);
