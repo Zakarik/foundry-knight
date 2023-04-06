@@ -63,12 +63,12 @@
 
             <div class="buttonSelectArmure {{#unless systemData.jauges.sante}} centered {{/unless}}">
                 {{#unless (ascension systemData.wear)}}
-                    {{#unless systemData.equipements.armure.hasArmor}}
+                    {{#unless actor.armureData._id}}
                     <button type="action" class="creerArmure unselected item-create" data-type="armure">{{localize "KNIGHT.ARMURE.CreerArmure"}}</button>
                     {{/unless}}
 
-                    {{#if systemData.equipements.armure.hasArmor}}
-                    <div class="blockArmure {{#if (armure systemData.wear)}} selected {{else}} unselected {{/if}} summary" data-item-id="{{systemData.equipements.armure.id}}">
+                    {{#if actor.armureData._id}}
+                    <div class="blockArmure {{#if (armure systemData.wear)}} selected {{else}} unselected {{/if}} summary" data-item-id="{{actor.armureData._id}}">
                         <a class="item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
                         <button type="action" class="armure" data-type="armure">
                         {{systemData.equipements.armure.label}}

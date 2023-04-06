@@ -15,6 +15,8 @@ import {
   existEffect,
   caracToAspect,
   isAspect,
+  getArmor,
+  getAllArmor,
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
@@ -4743,33 +4745,24 @@ export class KnightSheet extends ActorSheet {
       const itemId = itemCreate[0].id;
 
       if (itemType === 'armure') {
+        const actor = this.actor;
         this._resetArmure();
 
         const wear = actorData.wear;
 
         if(wear === 'armure') {
-          this.actor.update({['system.wear']:'guardian'});
+          actor.update({['system.wear']:'guardian'});
         }
 
-        const oldArmorId = actorData.equipements.armure?.id || 0;
-        if (oldArmorId !== 0) {
-          const oldArmor = this.actor.items.get(oldArmorId);
+        const armors = await getAllArmor(actor);
 
-          oldArmor.delete();
+        for(let a of armors) {
+          if(a.id !== itemId) await a.delete();
         }
 
-        const update = {
-          system:{
-            equipements:{
-              armure:{}
-            }
-          }
-        };
+        const generation = itemCreate[0].system.generation;
 
-        update.system.equipements.armure.id = itemId;
-        update.system.equipements.armure.hasArmor = true;
-
-        this.actor.update(update);
+        if(generation >= 4) itemCreate[0].system.jauges.sante = false;
       }
 
       if (itemType === 'armurelegende') {
@@ -5123,6 +5116,11 @@ export class KnightSheet extends ActorSheet {
 
       // ARMURE.
       if (i.type === 'armure') {
+        if(data.generation === 4) {
+          system.jauges.sante = false;
+          if(!onArmor) system.wear = 'armure';
+        }
+
         let passiveUltime = undefined;
 
         if(capaciteultime !== undefined) {
@@ -8006,12 +8004,10 @@ export class KnightSheet extends ActorSheet {
   }
 
   async _resetArmureCapacites() {
-    const data = this.getData();
-    const idArmure = data.systemData.equipements?.armure?.id || false;
+    const armure = await getArmor(this.actor);
 
-    if(!idArmure) return;
+    if(!armure) return;
 
-    const armure = this.actor.items.get(this._getArmorId());
     const armorCapacites = armure.system.capacites.selected;
     const capacites = {
       system:{

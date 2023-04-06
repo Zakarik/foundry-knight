@@ -4484,6 +4484,18 @@ export function existEffect(list, label) {
   return list.find(effect => effect.label === label);
 }
 
+export async function getArmor(actor) {
+  const getItems = await actor.getEmbeddedCollection("Item");
+
+  return getItems.find(armure => armure.type === 'armure');
+}
+
+export async function getAllArmor(actor) {
+  const getItems = await actor.getEmbeddedCollection("Item");
+
+  return getItems.filter(armor => armor.type === 'armure');
+}
+
 function compareObjects(obj1, obj2) {
   const obj1Keys = Object.keys(obj1);
   const obj2Keys = Object.keys(obj2);

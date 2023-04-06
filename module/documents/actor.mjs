@@ -1,3 +1,8 @@
+import {
+  getArmor,
+  getAllArmor,
+} from "../helpers/common.mjs";
+
 /**
  * Extend the base Actor document to support attributes and groups with a custom template creation dialog.
  * @extends {Actor}
@@ -66,13 +71,13 @@ export class KnightActor extends Actor {
     this._prepareMechaArmureData(actorData);
   }
 
-  _prepareKnightData(actorData) {
+  async _prepareKnightData(actorData) {
     if (actorData.type !== 'knight') return;
 
     // Make modifications to data here.
     const data = actorData.system;
     const isKraken = data.options.kraken;
-    const armor = this.items.get(data.equipements.armure?.id) || false;
+    const armor = await getArmor(actorData);
     const armorWear = armor?.system || false;
     const armorLegendeWear = this.items.get(data.equipements.armure?.idLegende)?.system || false;
     const capaciteultime = actorData.items.find(items => items.type === 'capaciteultime');
