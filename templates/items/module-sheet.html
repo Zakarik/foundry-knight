@@ -303,7 +303,6 @@
                         " data-type="bonus" data-subtype="grenades" data-name="has" data-value="{{key.bonus.grenades.has}}">{{key.labels.bonusGrenades}}</button>
 
                         {{#each key.bonus.grenades.liste  as | kgr grenade|}}
-                            {{log grenade}}
                             <h3 class="title {{#unless key.bonus.grenades.has}}hidden{{/unless}}">{{getGrenadeName grenade}}</h3>
                             <label class="oneLinewOnlyDice {{#unless key.bonus.grenades.has}}hidden{{/unless}}">
                                 <span>{{localize "KNIGHT.BONUS.DesDegats"}}</span>
