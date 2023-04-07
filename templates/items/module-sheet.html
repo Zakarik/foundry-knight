@@ -303,18 +303,19 @@
                         " data-type="bonus" data-subtype="grenades" data-name="has" data-value="{{key.bonus.grenades.has}}">{{key.labels.bonusGrenades}}</button>
 
                         {{#each key.bonus.grenades.liste  as | kgr grenade|}}
+                            {{log grenade}}
                             <h3 class="title {{#unless key.bonus.grenades.has}}hidden{{/unless}}">{{getGrenadeName grenade}}</h3>
                             <label class="oneLinewOnlyDice {{#unless key.bonus.grenades.has}}hidden{{/unless}}">
                                 <span>{{localize "KNIGHT.BONUS.DesDegats"}}</span>
                                 <div>
-                                    <input type="number" name="system.niveau.details.{{nv}}.bonus.grenades.liste.{{kgr}}.degats.dice" value="{{key.degats.dice}}" min="0" />
+                                    <input type="number" name="system.niveau.details.{{nv}}.bonus.grenades.liste.{{grenade}}.degats.dice" value="{{kgr.degats.dice}}" min="0" />
                                     <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
                                 </div>
                             </label>
                             <label class="oneLinewOnlyDice {{#unless @last}}borderBottom{{/unless}} {{#unless key.bonus.grenade.has}}hidden{{/unless}}">
                                 <span>{{localize "KNIGHT.BONUS.DesViolence"}}</span>
                                 <div>
-                                    <input type="number" name="system.niveau.details.{{nv}}.bonus.grenades.liste.{{kgr}}.violence.dice" value="{{key.violence.dice}}" min="0" />
+                                    <input type="number" name="system.niveau.details.{{nv}}.bonus.grenades.liste.{{grenade}}.violence.dice" value="{{kgr.violence.dice}}" min="0" />
                                     <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
                                 </div>
                             </label>
