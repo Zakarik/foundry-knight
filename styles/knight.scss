@@ -347,11 +347,8 @@
       }
     }
 
-    div.sante,
     div.egide,
-    div.espoir,
-    div.armure,
-    div.energie {
+    div.espoir {
       button {
         width: 100%;
         font-size:11px;
@@ -6972,6 +6969,13 @@
           &.selected {
             background:$lightBlack;
             border-color:$black;
+          }
+
+          &.recover {
+            &:hover {
+              background:$lightBlack;
+              border-color:$black;
+            }
           }
         }
 
