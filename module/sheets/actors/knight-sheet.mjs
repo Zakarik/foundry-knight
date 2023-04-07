@@ -3581,30 +3581,32 @@ export class KnightSheet extends ActorSheet {
       this.actor.update(updateActor);
     });
 
-    html.find('div.buttonSelectArmure button.armure').click(ev => {
+    html.find('div.buttonSelectArmure button.armure').click(async ev => {
       const type = $(ev.currentTarget).data("type");
       const data = this.object.system;
-      let armure = 0;
+
+      const update = {};
+
+      update[`system.wear`] = type;
 
       switch(type) {
         case 'armure':
-          armure = +this.actor.items.get(data.equipements.armure.id).system.armure.value;
+          const armor = await getArmor(this.actor);
+
+          update[`system.armure.value`] = armor.system.armure.value;
+          update['system.jauges'] = armor.system.jauges;
           break;
 
         case 'ascension':
         case 'guardian':
-          armure = +data.equipements[type].armure.value;
+          update[`system.armure.value`] = data.equipements[type].armure.value;
+          update['system.jauges'] = data.equipements[type].jauges;
+          break;
+
+        case 'tenueCivile':
+          update['system.jauges'] = data.equipements[type].jauges;
           break;
       }
-
-      const update = {
-        system:{
-          wear:type,
-          armure:{
-            value:armure
-          }
-        }
-      };
 
       if(type != 'armure') {
         this._resetArmureCapacites();
@@ -5118,7 +5120,6 @@ export class KnightSheet extends ActorSheet {
       if (i.type === 'armure') {
         if(data.generation === 4) {
           system.jauges.sante = false;
-          if(!onArmor) system.wear = 'armure';
         }
 
         let passiveUltime = undefined;
