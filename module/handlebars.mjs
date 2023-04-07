@@ -408,6 +408,16 @@
         return result;
     });
 
+    Handlebars.registerHelper('NiveauisHigherThan', function (value, compare) {
+        const val = Number(value.substring(1));
+
+        let result = false;
+
+        if(val > compare) result = true;
+
+        return result;
+    });
+
     Handlebars.registerHelper('whileBetweenNumber', function (min, max) {
         const result = [];
 

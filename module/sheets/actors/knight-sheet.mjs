@@ -96,6 +96,8 @@ export class KnightSheet extends ActorSheet {
 
     context.systemData = system;
 
+    console.log(context);
+
     return context;
   }
 
@@ -6542,6 +6544,7 @@ export class KnightSheet extends ActorSheet {
           i.system.labels = itemDataNiveau.labels;
           i.system.pnj = itemDataNiveau.pnj;
           i.system.jetsimple = itemDataNiveau.jetsimple;
+          i.system.effets = itemDataNiveau.effets;
 
           module.push(i);
 
@@ -7194,9 +7197,6 @@ export class KnightSheet extends ActorSheet {
     });
 
     const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
-
-    const effectExist = existEffect(listEffect, 'Gloire');
-
     const listWithEffect = [
       {label:'Armure', withoutArmor:false, withArmor:true, data:effects.armure},
       {label:'Guardian', withoutArmor:true, withArmor:false, data:effects.guardian},
@@ -7578,7 +7578,7 @@ export class KnightSheet extends ActorSheet {
       if(!data) continue;
 
       const listData = {
-        modules:[{path:['system.arme.effets', 'system.arme.distance', 'system.arme.structurelles', 'system.arme.ornementales', 'system.jetsimple.effets'], simple:true}],
+        modules:[{path:['system.effets', 'system.arme.effets', 'system.arme.distance', 'system.arme.structurelles', 'system.arme.ornementales', 'system.jetsimple.effets'], simple:true}],
         armes:[{path:['system.effets', 'system.distance', 'system.structurelles', 'system.ornementales'], simple:true}],
         grenades:[{path:['effets'], simple:true}]
       }[base.key];

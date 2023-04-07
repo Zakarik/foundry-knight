@@ -1986,6 +1986,10 @@
           "Has":"Fait un jet automatique",
           "Hasnt":"Ne fait pas de jet automatique"
         },
+        "EFFETS":{
+          "Has":"Applique/Possède des effets",
+          "Hasnt":"N'applique pas/Ne possède pas d'effets"
+        },
         "CoutAugmentation":"Energie par augmentation"
       },
       "ARME":{

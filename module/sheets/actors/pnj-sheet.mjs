@@ -2727,6 +2727,11 @@ export class PNJSheet extends ActorSheet {
         i.system.labels = itemDataNiveau.labels;
         i.system.pnj = itemDataNiveau.pnj;
         i.system.jetsimple = itemDataNiveau.jetsimple;
+        i.system.effets = itemDataNiveau.effets;
+
+        const labels = CONFIG.KNIGHT.effets;
+
+        i.system.effets.liste = listEffects(i.system.effets.raw, i.system.effets.custom, labels);
 
         modules.push(i);
       }

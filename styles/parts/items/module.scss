@@ -1101,7 +1101,8 @@
         &.pnj,
         &.overdrives,
         &.rogue,
-        &.jetsimple {
+        &.jetsimple,
+        &.baseeffets {
             margin-top:5px;
             border:1px solid $lightBlue;
 
@@ -1155,6 +1156,12 @@
                 }
             }
 
+        }
+
+        &.baseeffets {
+            div.effets {
+                margin-top:0px;
+            }
         }
 
         &.pnj {
