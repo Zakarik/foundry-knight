@@ -1,3 +1,9 @@
+## v3.3.16
+
+### Amélioration
+- Les modules peuvent accueillir des effets à présent, juste afin de les lister (n'a aucun autre effet actuellement).
+- Les niveaux des modules, au-delà de 1, indique entre parenthèse combiens ils rajoutent au coût par rapport au niveau inférieur (le niveau 2 par rapport au niveau 1, le niveau 3 par rapport au niveau 2).
+
 ## v3.2.16
 
 ### Bugfix

@@ -124,6 +124,8 @@ export class ModuleSheet extends ItemSheet {
 
     context.systemData = context.data.system;
 
+    console.log(context);
+
     return context;
   }
 
@@ -572,6 +574,7 @@ export class ModuleSheet extends ItemSheet {
       const eRogue = ersatz.rogue;
       const eBard = ersatz.bard;
       const jetSimple = data.jetsimple;
+      const effets = data.effets;
 
       const pHas = pnj?.has || false;
       const pLis = pnj?.liste?.length || 0;
@@ -596,6 +599,8 @@ export class ModuleSheet extends ItemSheet {
       const eBHas = eBard?.has || false;
 
       const jSimple = jetSimple.has;
+
+      const eHas = effets.has;
 
       if(duree) { data.labels.duree = game.i18n.localize("KNIGHT.ITEMS.MODULE.DUREE.Permanent"); }
       else { data.labels.duree = game.i18n.localize("KNIGHT.ITEMS.MODULE.DUREE.NotPermanent"); }
@@ -656,6 +661,9 @@ export class ModuleSheet extends ItemSheet {
 
       if(jSimple) { data.labels.jetSimple = game.i18n.localize("KNIGHT.ITEMS.MODULE.JETSIMPLE.Has"); }
       else { data.labels.jetSimple = game.i18n.localize("KNIGHT.ITEMS.MODULE.JETSIMPLE.Hasnt"); }
+
+      if(eHas) { data.labels.effets = game.i18n.localize("KNIGHT.ITEMS.MODULE.EFFETS.Has"); }
+      else { data.labels.effets = game.i18n.localize("KNIGHT.ITEMS.MODULE.EFFETS.Hasnt"); }
     }
   }
 
@@ -666,12 +674,21 @@ export class ModuleSheet extends ItemSheet {
     for(const niv in niveaux) {
       const data = niveaux[niv];
 
+      const beffets = data.effets || false;
       const effets = data.arme.effets || false;
       const distance = data.arme.distance || false;
       const structurelles = data.arme.structurelles || false;
       const ornementales = data.arme.ornementales || false;
       const effetsJetSimple = data.jetsimple.effets || false;
       const pnjListe = data.pnj.liste;
+
+      if(beffets !== false) {
+        const raw = beffets.raw;
+        const custom = beffets.custom;
+        const labelsE = CONFIG.KNIGHT.effets;
+
+        beffets.liste = listEffects(raw, custom, labelsE);
+      }
 
       if(effets !== false) {
         const raw = effets.raw;

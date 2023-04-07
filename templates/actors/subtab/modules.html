@@ -375,6 +375,21 @@
             </div>
             {{/if}}
 
+            {{#if key.system.effets.has}}
+            <div class="data">
+                <h4 class="title">{{localize "KNIGHT.EFFETS.Label"}}</h4>
+                <div class="effets">
+                    {{#each key.system.effets.liste as | keff effet|}}
+                        <div>
+                            <span class="label">{{keff.name}}</span>
+                            <img class="info" src="systems/knight/assets/icons/info.svg" />
+                            <span class="hideInfo">{{{getEffetsDescription keff.description}}}</span>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+            {{/if}}
+
             {{#if key.system.arme.has}}
             <div class="data">
                 <h4 class="title">{{localize "KNIGHT.ITEMS.MODULE.ARME.Label"}}</h4>

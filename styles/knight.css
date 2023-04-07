@@ -13766,14 +13766,14 @@
 .module div.main .hidden {
   display: none !important;
 }
-.module div.bonus, .module div.arme, .module div.pnj, .module div.overdrives, .module div.rogue, .module div.jetsimple {
+.module div.bonus, .module div.arme, .module div.pnj, .module div.overdrives, .module div.rogue, .module div.jetsimple, .module div.baseeffets {
   margin-top: 5px;
   border: 1px solid RGB(87 110 178);
 }
-.module div.bonus div.col:first-of-type > *, .module div.arme div.col:first-of-type > *, .module div.pnj div.col:first-of-type > *, .module div.overdrives div.col:first-of-type > *, .module div.rogue div.col:first-of-type > *, .module div.jetsimple div.col:first-of-type > * {
+.module div.bonus div.col:first-of-type > *, .module div.arme div.col:first-of-type > *, .module div.pnj div.col:first-of-type > *, .module div.overdrives div.col:first-of-type > *, .module div.rogue div.col:first-of-type > *, .module div.jetsimple div.col:first-of-type > *, .module div.baseeffets div.col:first-of-type > * {
   border-left: 0px;
 }
-.module div.bonus div.col:last-of-type > *, .module div.arme div.col:last-of-type > *, .module div.pnj div.col:last-of-type > *, .module div.overdrives div.col:last-of-type > *, .module div.rogue div.col:last-of-type > *, .module div.jetsimple div.col:last-of-type > * {
+.module div.bonus div.col:last-of-type > *, .module div.arme div.col:last-of-type > *, .module div.pnj div.col:last-of-type > *, .module div.overdrives div.col:last-of-type > *, .module div.rogue div.col:last-of-type > *, .module div.jetsimple div.col:last-of-type > *, .module div.baseeffets div.col:last-of-type > * {
   border-right: 0px;
 }
 .module div.overdrives div.col3 {
@@ -13801,6 +13801,9 @@
 }
 .module div.overdrives div.col3:nth-of-type(3n), .module div.overdrives div.col3:last-of-type {
   border-right: 0px;
+}
+.module div.baseeffets div.effets {
+  margin-top: 0px;
 }
 .module div.pnj div.creature {
   display: flex;
