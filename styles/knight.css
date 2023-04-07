@@ -16905,11 +16905,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding: 0px;
   margin: 0px;
 }
-.knight section.menu div.sante button,
 .knight section.menu div.egide button,
-.knight section.menu div.espoir button,
-.knight section.menu div.armure button,
-.knight section.menu div.energie button {
+.knight section.menu div.espoir button {
   width: 100%;
   font-size: 11px;
   line-height: 20px;
@@ -16924,11 +16921,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   cursor: pointer;
   margin: 0px;
 }
-.knight section.menu div.sante button:not(:last-of-type),
 .knight section.menu div.egide button:not(:last-of-type),
-.knight section.menu div.espoir button:not(:last-of-type),
-.knight section.menu div.armure button:not(:last-of-type),
-.knight section.menu div.energie button:not(:last-of-type) {
+.knight section.menu div.espoir button:not(:last-of-type) {
   border-bottom: 0px;
 }
 .knight section.menu div.champDeForce div.line,
@@ -24585,6 +24579,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-color: RGB(76 74 90);
 }
 .knight section.body div.options div.main button.selected {
+  background: RGB(76 74 90);
+  border-color: RGB(43 42 51);
+}
+.knight section.body div.options div.main button.recover:hover {
   background: RGB(76 74 90);
   border-color: RGB(43 42 51);
 }

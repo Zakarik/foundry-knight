@@ -113,11 +113,11 @@
             {{#if systemData.jauges.sante}}
             <div class="sante">
                 <div class="line">
-                    <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="sante"></span>
-                    <span class="label">{{localize "KNIGHT.LATERAL.Sante"}}</span>
-                    <input class="" type="number" name="system.sante.value" min="0" max="{{systemData.sante.max}}" value="{{systemData.sante.value}}" />
-                    <span class="separation">/</span>
-                    <span class="score" title="{{systemData.sante.base}} + {{systemData.sante.bonusValue}} - {{systemData.sante.malusValue}} = {{systemData.sante.max}}">{{systemData.sante.max}}</span>
+                    <span class="option {{#unless systemData.sante.optionDeploy}}withBorder{{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="sante"></span>
+                    <span class="label {{#unless systemData.sante.optionDeploy}}withBorder{{/unless}}">{{localize "KNIGHT.LATERAL.Sante"}}</span>
+                    <input class="{{#unless systemData.sante.optionDeploy}}withBorder{{/unless}}" type="number" name="system.sante.value" min="0" max="{{systemData.sante.max}}" value="{{systemData.sante.value}}" />
+                    <span class="separation {{#unless systemData.sante.optionDeploy}}withBorder{{/unless}}">/</span>
+                    <span class="score {{#unless systemData.sante.optionDeploy}}withBorder{{/unless}}" title="{{systemData.sante.base}} + {{systemData.sante.bonusValue}} - {{systemData.sante.malusValue}} = {{systemData.sante.max}}">{{systemData.sante.max}}</span>
                 </div>
                 <div class="subLine {{#if systemData.sante.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
@@ -127,7 +127,6 @@
                     <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
                     <input class="withBorder" type="number" name="system.sante.malus.user" data-type="sante" min="0" value="{{systemData.sante.malus.user}}" />
                 </div>
-                <button type="action" class="recover" data-type="sante" data-max="{{systemData.sante.max}}">{{localize "KNIGHT.RECUPERER.Sante"}}</button>
             </div>
             {{/if}}
 
@@ -175,7 +174,6 @@
                     <input type="number" name="system.espoir.malus.user" min="0" value="{{systemData.espoir.malus.user}}" />
                 </div>
                 <button type="action" class="jetEspoir">{{localize "KNIGHT.JETS.JetEspoir"}}</button>
-                <button type="action" class="recover" data-type="espoir" data-max="{{systemData.espoir.max}}">{{localize "KNIGHT.RECUPERER.Espoir"}}</button>
             </div>
             {{/if}}
 
@@ -195,11 +193,11 @@
             {{#if systemData.jauges.armure}}
             <div class="armure">
                 <div class="line">
-                    <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="armure"></span>
-                    <span class="label">{{localize "KNIGHT.LATERAL.Armure"}}</span>
-                    <input class="value" type="number" name="system.armure.value" min="0" max="{{systemData.armure.max}}" value="{{systemData.armure.value}}" />
-                    <span class="separation">/</span>
-                    <span class="score" title="{{systemData.armure.base}} + {{systemData.armure.bonus}} - {{systemData.armure.malus}} = {{systemData.armure.max}}">{{systemData.armure.max}}</span>
+                    <span class="option {{#unless systemData.armure.optionDeploy}}withBorder{{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="armure"></span>
+                    <span class="label {{#unless systemData.armure.optionDeploy}}withBorder{{/unless}}">{{localize "KNIGHT.LATERAL.Armure"}}</span>
+                    <input class="value {{#unless systemData.armure.optionDeploy}}withBorder{{/unless}}" type="number" name="system.armure.value" min="0" max="{{systemData.armure.max}}" value="{{systemData.armure.value}}" />
+                    <span class="separation {{#unless systemData.armure.optionDeploy}}withBorder{{/unless}}">/</span>
+                    <span class="score {{#unless systemData.armure.optionDeploy}}withBorder{{/unless}}" title="{{systemData.armure.base}} + {{systemData.armure.bonus}} - {{systemData.armure.malus}} = {{systemData.armure.max}}">{{systemData.armure.max}}</span>
                 </div>
                 <div class="subLine {{#if systemData.armure.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
@@ -209,18 +207,17 @@
                     <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
                     <input class="withBorder" type="number" name="system.equipements.{{systemData.wear}}.armure.malus.user" data-type="armure"  min="0" value="{{#if (guardian systemData.wear)}}{{systemData.equipements.guardian.armure.malus.user}}{{/if}}{{#if (armure systemData.wear)}}{{systemData.equipements.armure.armure.malus.user}}{{/if}}{{#if (ascension systemData.wear)}}{{systemData.equipements.ascension.armure.malus.user}}{{/if}}" />
                 </div>
-                <button type="action" class="recover" data-type="armure" data-max="{{systemData.armure.max}}">{{localize "KNIGHT.RECUPERER.Armure"}}</button>
             </div>
             {{/if}}
 
             {{#if systemData.jauges.energie}}
             <div class="energie">
                 <div class="line">
-                    <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="energie"></span>
-                    <span class="label">{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                    <input class="" type="number" name="system.energie.value" min="0" max="{{systemData.energie.max}}" value="{{systemData.energie.value}}" />
-                    <span class="separation">/</span>
-                    <span class="score" title="{{systemData.energie.base}} + {{systemData.energie.bonus}} - {{systemData.energie.malus}} = {{systemData.energie.max}}">{{systemData.energie.max}}</span>
+                    <span class="option {{#unless systemData.energie.optionDeploy}}withBorder{{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="energie"></span>
+                    <span class="label {{#unless systemData.energie.optionDeploy}}withBorder{{/unless}}">{{localize "KNIGHT.LATERAL.Energie"}}</span>
+                    <input class="{{#unless systemData.energie.optionDeploy}}withBorder{{/unless}}" type="number" name="system.energie.value" min="0" max="{{systemData.energie.max}}" value="{{systemData.energie.value}}" />
+                    <span class="separation {{#unless systemData.energie.optionDeploy}}withBorder{{/unless}}">/</span>
+                    <span class="score {{#unless systemData.energie.optionDeploy}}withBorder{{/unless}}" title="{{systemData.energie.base}} + {{systemData.energie.bonus}} - {{systemData.energie.malus}} = {{systemData.energie.max}}">{{systemData.energie.max}}</span>
                 </div>
                 <div class="subLine {{#if systemData.energie.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
@@ -230,7 +227,6 @@
                     <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
                     <input class="withBorder" type="number" name="system.equipements.{{systemData.wear}}.energie.malus.user" data-type="energie"  min="0" value="{{#if (guardian systemData.wear)}}{{systemData.equipements.guardian.energie.malus.user}}{{/if}}{{#if (armure systemData.wear)}}{{systemData.equipements.armure.energie.malus.user}}{{/if}}{{#if (ascension systemData.wear)}}{{systemData.equipements.ascension.energie.malus.user}}{{/if}}" />
                 </div>
-                <button type="action" class="recover" data-type="energie" data-max="{{systemData.energie.max}}">{{localize "KNIGHT.RECUPERER.Energie"}}</button>
             </div>
             {{/if}}
 
@@ -1534,6 +1530,22 @@
 
         <div class="tab options" data-group="primary" data-tab="options">
             <div class="main">
+                {{#if systemData.jauges.sante}}
+                <button type="action" class="recover unselected" data-type="sante" data-max="{{systemData.sante.max}}">{{localize "KNIGHT.RECUPERER.Sante"}}</button>
+                {{/if}}
+
+                {{#if systemData.jauges.armure}}
+                <button type="action" class="recover unselected" data-type="armure" data-max="{{systemData.armure.max}}">{{localize "KNIGHT.RECUPERER.Armure"}}</button>
+                {{/if}}
+
+                {{#if systemData.jauges.energie}}
+                <button type="action" class="recover unselected" data-type="energie" data-max="{{systemData.energie.max}}">{{localize "KNIGHT.RECUPERER.Energie"}}</button>
+                {{/if}}
+
+                {{#if systemData.jauges.espoir}}
+                <button type="action" class="recover unselected" data-type="espoir" data-max="{{systemData.espoir.max}}">{{localize "KNIGHT.RECUPERER.Espoir"}}</button>
+                {{/if}}
+
                 <button type="action" data-value="{{systemData.options.kraken}}" data-option="kraken" class="{{#if systemData.options.kraken}}selected{{else}}unselected{{/if}}">
                     {{#if systemData.options.kraken}}
                         {{localize "KNIGHT.OPTIONS.KRAKEN.Has"}}

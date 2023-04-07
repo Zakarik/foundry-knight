@@ -1,3 +1,8 @@
+## v3.2.14
+
+### Amélioration
+- Les boutons pour le réset de la santé, l'espoir, l'armure et l'énergie sont déplacés dans les options afin d'éviter des cliques malheureux.
+
 ## v3.1.14
 
 ### Bugfix
