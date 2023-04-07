@@ -356,7 +356,8 @@ export class KnightSheet extends ActorSheet {
       const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
 
       const getData = this.getData();
-      const armure = this.actor.items.get(this._getArmorId());
+      const armure = await getArmor(this.actor);
+      console.log(armure);
       const remplaceEnergie = armure.system.espoir.remplaceEnergie || false;
       const quelMalus = remplaceEnergie ? 'espoir' : 'energie';
       const equipcapacites = getData.data.system.equipements.armure.capacites;
@@ -7663,9 +7664,9 @@ export class KnightSheet extends ActorSheet {
 
   async _depensePE(label, depense, autosubstract=true, forceEspoir=false, flux=false, capacite=true) {
     const data = this.getData();
-    const armorId = data.systemData.equipements.armure.id;
-    const getArmor = this.actor.items.get(armorId).system;
-    const remplaceEnergie = getArmor.espoir.remplaceEnergie || false;
+    const armor = await getArmor(this.actor);
+    const dataArmor = armor.system;
+    const remplaceEnergie = dataArmor.espoir.remplaceEnergie || false;
 
     const type = remplaceEnergie === true || forceEspoir === true ? 'espoir' : 'energie';
     const hasFlux = +data.systemData.jauges.flux;

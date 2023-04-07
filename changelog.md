@@ -1,3 +1,8 @@
+## v3.2.16
+
+### Bugfix
+- Correction d'un bug empêchant l'activation des modules.
+
 ## v3.2.15
 
 ### Bugfix
