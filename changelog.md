@@ -1,4 +1,9 @@
-## v3.1.12
+## v3.1.14
+
+### Bugfix
+- Correction d'un bug dans la gestion des scores liés à l'équipement porté.
+
+## v3.1.13
 
 ### Bugfix
 - Correction d'un bug affectant les armures des générations supérieures.

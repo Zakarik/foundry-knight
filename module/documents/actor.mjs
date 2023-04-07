@@ -77,7 +77,7 @@ export class KnightActor extends Actor {
     // Make modifications to data here.
     const data = actorData.system;
     const isKraken = data.options.kraken;
-    const armor = await getArmor(actorData);
+    const armor = actorData.items.find(items => items.type === 'armure');
     const armorWear = armor?.system || false;
     const armorLegendeWear = this.items.get(data.equipements.armure?.idLegende)?.system || false;
     const capaciteultime = actorData.items.find(items => items.type === 'capaciteultime');
