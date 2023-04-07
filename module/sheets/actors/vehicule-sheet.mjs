@@ -701,15 +701,17 @@ export class VehiculeSheet extends ActorSheet {
         if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
           "_id":effectExist._id,
           changes:effect.data,
+          icon: '',
           disabled:toggle
         });
         else if(effectExist.disabled !== toggle) toUpdate.push({
           "_id":effectExist._id,
+          icon: '',
           disabled:toggle
         });
       } else toAdd.push({
           label: effect.label,
-          icon: '/icons/svg/mystery-man.svg',
+          icon: '',
           changes:effect.data,
           disabled:toggle
       });

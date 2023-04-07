@@ -1,3 +1,9 @@
+## v3.3.17
+
+### Bugfix
+- Correction d'un bug empêchant le bon fonctionnement des tokens.
+- Correction d'un bug pouvant interférer avec des modules.
+
 ## v3.3.16
 
 ### Amélioration
