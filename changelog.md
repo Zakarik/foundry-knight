@@ -1,3 +1,8 @@
+## v3.2.15
+
+### Bugfix
+- Correction d'un bug dans les modules suite à la mise à jour 3.0.0.
+
 ## v3.2.14
 
 ### Amélioration

@@ -12,7 +12,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.1.8";
+    static NEEDED_VERSION = "3.2.15";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -1018,6 +1018,28 @@ Applique les modifications par la mise à jour au Monde.
 
             updateEffect(actor, toUpdate);
         }
+
+        if (options?.force || MigrationKnight.needUpdate("3.2.15")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            for (let item of actor.items) {
+                const itemUpdate = {};
+
+                if(item.type === 'module') {
+                    const itemSystem = item.system;
+                    const module = itemSystem.niveau.details;
+
+                    for(let niv in module) {
+                        itemUpdate[`system.niveau.details.${niv}.bonus.grenades.liste.-=[object Object]`] = null;
+                    }
+                }
+
+                item.update(itemUpdate);
+            }
+        }
     }
 
     static _migrationItems(item, options = { force:false }) {
@@ -1734,6 +1756,23 @@ Applique les modifications par la mise à jour au Monde.
                         "textarea":system.textarea
                     }
                 };
+            }
+
+            item.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("3.2.15")) {
+            const update = {};
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'module') {
+                const module = system.niveau.details;
+
+                for(let niv in module) {
+                    update[`system.niveau.details.${niv}.bonus.grenades.liste.-=[object Object]`] = null;
+                }
             }
 
             item.update(update);
