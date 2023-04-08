@@ -1,3 +1,8 @@
+## v3.3.19
+
+### Bugfix
+- Correction d'un autre bug empêchant l'ajout d'armure de fonctionner correctement (au moins visuellement).
+
 ## v3.3.18
 
 ### Bugfix
