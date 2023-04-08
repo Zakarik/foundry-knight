@@ -8,6 +8,8 @@ export class KnightEffetsDialog extends FormApplication {
       this.object.actor = object.actor;
       this.object.id = object.item;
       this.object.raw = object.raw;
+      this.object.isToken = object?.isToken || false;
+      this.object.token = object?.token || null;
       this.object.custom = object.custom === undefined ? [] : object.custom;
       this.object.toUpdate = object.toUpdate;
       this.object.aspects = object.aspects;
@@ -367,7 +369,18 @@ export class KnightEffetsDialog extends FormApplication {
     html.find("button.valider").click(async ev => {
       ev.preventDefault();
       ev.stopPropagation();
-      const objectToUpdate = this.object.actor === null ? game.items.get(this.object.id) : game.actors.get(this.object.actor).items.get(this.object.id);
+
+      let objectToUpdate;
+
+      const actor = this.object.actor;
+      const item = this.object.id;
+      const isToken = this.object.isToken;
+      const token = this.object.token;
+
+      if(!isToken) objectToUpdate = actor === null ? game.items.get(item) : game.actors.get(actor).items.get(item);
+      else if(token !== null) {
+        objectToUpdate = token.items.get(item);
+      } else return;
 
       const update = {
         [`${this.object.toUpdate}.raw`]:this.object.raw,

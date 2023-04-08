@@ -1,3 +1,9 @@
+## v3.3.20
+
+### Bugfix
+- Correction d'un bug sur le calcul du total des PG.
+- Correction d'un bug sur la gestion des effets des modules et des armes.
+
 ## v3.3.19
 
 ### Bugfix
