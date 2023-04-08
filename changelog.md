@@ -1,3 +1,9 @@
+## v3.3.18
+
+### Bugfix
+- Correction d'un bug avec les capacités de certaines armures.
+- Correction d'un bug empêchant l'ajout d'armure de fonctionner correctement (au moins visuellement).
+
 ## v3.3.17
 
 ### Bugfix

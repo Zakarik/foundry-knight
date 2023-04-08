@@ -345,7 +345,7 @@
             {{#if systemData.options.art}}
             <a class="item" data-tab="art">{{localize "KNIGHT.ART.Label"}}</a>
             {{/if}}
-            {{#if systemData.equipements.armure.hasArmor}}
+            {{#if actor.armureData}}
                 <a class="item" data-tab="armure">{{systemData.equipements.armure.label}}</a>
             {{/if}}
             <a class="item" data-tab="combat">{{localize "KNIGHT.COMBAT.Label"}}</a>
