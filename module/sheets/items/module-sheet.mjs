@@ -124,8 +124,6 @@ export class ModuleSheet extends ItemSheet {
 
     context.systemData = context.data.system;
 
-    console.log(context);
-
     return context;
   }
 
@@ -304,7 +302,7 @@ export class ModuleSheet extends ItemSheet {
           break;
       }
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:CONFIG.KNIGHT.listCaracteristiques, typeEffets:type, title:label}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:CONFIG.KNIGHT.listCaracteristiques, typeEffets:type, title:label}).render(true);
     });
 
     html.find('img.info').click(ev => {

@@ -482,13 +482,13 @@ export class KnightActor extends Actor {
     const dataProgression = data.progression;
 
     const dataPG = dataProgression.gloire;
-    const PGActuel = dataPG.actuel;
+    const PGActuel = Number(dataPG.actuel);
     const PGDepenseListe = dataPG.depense.liste;
 
     let PGTotalDepense = 0;
 
     for(const PG in PGDepenseListe) {
-      if(!PGDepenseListe[PG].isArmure) PGTotalDepense += PGDepenseListe[PG].value;
+      if(!PGDepenseListe[PG].isArmure) PGTotalDepense += Number(PGDepenseListe[PG].value);
     }
 
     data.progression.gloire.depense.total = PGTotalDepense;
