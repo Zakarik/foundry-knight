@@ -4656,7 +4656,7 @@ export class KnightSheet extends ActorSheet {
     }
 
     if(itemBaseType === 'module' && hasCapaciteCompanions) {
-      const hasArmure = actorData.equipements.armure.hasArmor;
+      const hasArmure = await getArmor(this.actor);
 
       if(!hasArmure) return;
 
@@ -7738,9 +7738,10 @@ export class KnightSheet extends ActorSheet {
     }
   }
 
-  _gainPE(gain, autoadd=true, forceEspoir=false) {
+  async _gainPE(gain, autoadd=true, forceEspoir=false) {
     const data = this.getData();
-    const remplaceEnergie = this.actor.items.get(data.systemData.equipements.armure.id).system.espoir.remplaceEnergie || false;
+    const armor = await getArmor(this.actor);
+    const remplaceEnergie = armor.system.espoir.remplaceEnergie || false;
 
     const type = remplaceEnergie === true || forceEspoir === true ? 'espoir' : 'energie';
     const actuel = remplaceEnergie === true || forceEspoir === true ? +data.systemData.espoir.value : +data.systemData.energie.value;

@@ -3760,8 +3760,11 @@ export async function getOrnementale(actor, typeWpn, data, effetsWpn, ornemental
 }
 
 export async function getCapacite(actor, typeWpn, baseC, otherC, actorId, effetsWpn, structurelleWpn, ornementaleWpn, distanceWpn, isPNJ=false, idWpn=-1) {
-  const getArmorID = actor.system.wear === 'armure' ? actor?.system?.equipements?.armure?.id || false : false;
-  const getArmorData = getArmorID !== false ? actor.items.get(getArmorID)?.system || false : false;
+  const wear = actor.system.wear;
+  const armor = await getArmor(actor);
+  const getArmorData = armor !== undefined &&  wear === 'armure' ? armor?.system || false : false;
+
+  console.log(getArmorData);
 
   let result = {
       roll:{
@@ -3867,8 +3870,8 @@ export async function getCapacite(actor, typeWpn, baseC, otherC, actorId, effets
               }
 
               if(capacite.interruption.actif && idWpn !== -1) {
-                actor.items.get(getArmorID).update({[`system.capacites.selected.ghost.active.horsconflit`]:false});
-                actor.items.get(getArmorID).update({[`system.capacites.selected.ghost.active.conflit`]:false});
+                armor.update({[`system.capacites.selected.ghost.active.horsconflit`]:false});
+                armor.update({[`system.capacites.selected.ghost.active.conflit`]:false});
               }
               break;
 
@@ -4032,10 +4035,10 @@ export async function getCapacite(actor, typeWpn, baseC, otherC, actorId, effets
   return result;
 }
 
-export function getSpecial(actor) {
+export async function getSpecial(actor) {
     const wear = actor.system.wear;
-    const getArmorID = wear === 'armure' ? actor?.system?.equipements?.armure?.id || false : false;
-    const getArmorData = getArmorID !== false ? actor.items.get(getArmorID)?.system || false : false;
+    const armor = await getArmor(actor);
+    const getArmorData = armor !== undefined &&  wear === 'armure' ? armor?.system || false : false;
 
     let result = {
       raw:[],
