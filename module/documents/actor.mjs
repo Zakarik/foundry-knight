@@ -856,20 +856,24 @@ export class KnightActor extends Actor {
     const pilote = data.equipage.pilote;
     const options = data.options;
 
+    console.log(pilote);
+
     if(pilote.id !== '') {
       const id = pilote.id;
       const actor = game.actors.get(id);
 
-      const reaction = actor.system.reaction.value+data.reaction.bonus+data.manoeuvrabilite;
-      const defense = actor.system.defense.value+data.defense.bonus;
-      const initiative = actor.system.initiative;
+      if(actor?.system !== undefined) {
+        const reaction = actor.system.reaction.value+data.reaction.bonus+data.manoeuvrabilite;
+        const defense = actor.system.defense.value+data.defense.bonus;
+        const initiative = actor.system.initiative;
 
-      data.reaction.value = reaction;
-      data.defense.value = defense;
-      data.initiative.dice = initiative.dice;
-      data.initiative.value = initiative.value;
+        data.reaction.value = reaction;
+        data.defense.value = defense;
+        data.initiative.dice = initiative.dice;
+        data.initiative.value = initiative.value;
 
-      data.initiative.complet = `${data.initiative.dice}D6+${data.initiative.value}`;
+        data.initiative.complet = `${data.initiative.dice}D6+${data.initiative.value}`;
+      }
     }
 
     const list = ['armure', 'energie', 'champDeForce'];

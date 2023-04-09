@@ -1710,7 +1710,7 @@ export class KnightSheet extends ActorSheet {
       const armorCapacites = getData.actor.armureLegendeData.system.capacites.selected;
       const value = target.data("value") ? false : true;
       const armure = this.actor.items.get(this._getArmorLegendeId());
-      const armureBase = this.actor.items.get(this._getArmorId());
+      const armureBase = await getArmor(this.actor);
       const remplaceEnergie = armureBase.system.espoir.remplaceEnergie || false;
       const quelMalus = remplaceEnergie ? 'espoir' : 'energie';
       const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
@@ -2307,7 +2307,7 @@ export class KnightSheet extends ActorSheet {
       const note = target.data("note");
       const base = target.data("base");
       const flux = +this.getData().data.system.flux.value;
-      const armure = this.actor.items.get(this._getArmorId());
+      const armure = await getArmor(this.actor);
 
       switch(special) {
         case 'recolteflux':
@@ -2916,10 +2916,10 @@ export class KnightSheet extends ActorSheet {
       }
     });
 
-    html.find('.armure .configurationWolf').click(ev => {
+    html.find('.armure .configurationWolf').click(async ev => {
       const target = $(ev.currentTarget);
       const configuration = target.data("configuration");
-      const armure = this.actor.items.get(this._getArmorId());
+      const armure = await getArmor(this.actor);
       const armorCapacites = armure.system.capacites.selected.companions;
       const detailsConfigurations = armorCapacites.wolf.configurations;
       const idWolf = armorCapacites.wolf.id;
@@ -3017,7 +3017,7 @@ export class KnightSheet extends ActorSheet {
       const value = $(ev.currentTarget).data("value");
 
       const idLegende = this._getArmorLegendeId();
-      const armure = this.actor.items.get(this._getArmorId());
+      const armure = await getArmor(this.actor);
       const armureLegende = this.actor.items?.get(idLegende) || false;
 
       let result = true;
@@ -3866,10 +3866,11 @@ export class KnightSheet extends ActorSheet {
       $(ev.currentTarget).toggleClass("clicked");
     });
 
-    html.find('div.options button').click(ev => {
+    html.find('div.options button').click(async ev => {
       const target = $(ev.currentTarget);
       const value = target.data("value");
       const option = target.data("option");
+      const armor = await getArmor(this.actor);
       let update = {};
 
       if(option === 'resettype') {
@@ -3880,7 +3881,9 @@ export class KnightSheet extends ActorSheet {
         update[`system.capacites.selected.type.type.soldier.-=selectionne`] = null;
         update[`system.capacites.selected.type.selectionne`] = 0;
 
-        this.actor.items.get(this._getArmorId()).update(update);
+
+
+        armor.update(update);
       } else if(option === 'resetwarlord') {
         update[`system.capacites.selected.warlord.impulsions.action.choisi`] = false;
         update[`system.capacites.selected.warlord.impulsions.energie.choisi`] = false;
@@ -3889,7 +3892,7 @@ export class KnightSheet extends ActorSheet {
         update[`system.capacites.selected.warlord.impulsions.guerre.choisi`] = false;
         update[`system.capacites.selected.warlord.impulsions.selectionne`] = 0;
 
-        this.actor.items.get(this._getArmorId()).update(update);
+        armor.update(update);
       } else {
         const result = value === true ? false : true;
 
@@ -3984,10 +3987,10 @@ export class KnightSheet extends ActorSheet {
       this.actor.update({[`system.progression.experience.depense.liste`]:newData});
     });
 
-    html.find('.appliquer-evolution-armure').click(ev => {
+    html.find('.appliquer-evolution-armure').click(async ev => {
       const target = $(ev.currentTarget);
       const id = target.data("num");
-      const dataArmor = this.actor.items.get(this._getArmorId());
+      const dataArmor = await getArmor(this.actor);
       const listEvolutions = dataArmor.system.evolutions.liste;
       const dataEArmor = listEvolutions[id].data;
       const capacites = listEvolutions[id].capacites;
@@ -4221,11 +4224,11 @@ export class KnightSheet extends ActorSheet {
       }).render(true);
     });
 
-    html.find('.acheter-evolution-longbow').click(ev => {
+    html.find('.acheter-evolution-longbow').click(async ev => {
       const target = $(ev.currentTarget);
       const id = +target.data("id");
       const value = +target.data("value");
-      const dataArmor = this.actor.items.get(this._getArmorId());
+      const dataArmor = await getArmor(this.actor);
       const listEvolutions = dataArmor.system.evolutions.special.longbow;
       const capacites = listEvolutions[id];
       const dataGloire = this.getData().data.system.progression.gloire;
@@ -4272,12 +4275,12 @@ export class KnightSheet extends ActorSheet {
       }
     });
 
-    html.find('div.rollback a.retour').click(ev => {
+    html.find('div.rollback a.retour').click(async ev => {
       const target = $(ev.currentTarget);
       const index = target.data("value");
       const type = target.data("type");
-      const getArmor = this.actor.items.get(this._getArmorId());
-      const dataArchives = type === 'liste' ? Object.entries(getArmor.system.archivage[type]) : getArmor.system.archivage[type];
+      const getDataArmor = await getArmor(this.actor);
+      const dataArchives = type === 'liste' ? Object.entries(getDataArmor.system.archivage[type]) : getDataArmor.system.archivage[type];
       const getArchives = dataArchives[index];
 
       let update = {};
@@ -4303,9 +4306,9 @@ export class KnightSheet extends ActorSheet {
           }
         }
 
-        getArmor.update(update);
+        getDataArmor.update(update);
       } else if(type === 'longbow') {
-        const listEvolutions = getArmor.system.evolutions.special.longbow;
+        const listEvolutions = getDataArmor.system.evolutions.special.longbow;
         const getPG = +this.actor.system.progression.gloire.actuel;
         let gloire = 0;
 
@@ -4320,7 +4323,7 @@ export class KnightSheet extends ActorSheet {
         }
 
         update['system.capacites.selected.longbow'] = getArchives.data;
-        getArmor.update(update);
+        getDataArmor.update(update);
         this.actor.update({["system.progression.gloire.actuel"]:gloire+getPG});
       }
     });
@@ -4639,7 +4642,7 @@ export class KnightSheet extends ActorSheet {
     const gloireListe = actorData.progression.gloire.depense.liste;
     const isEmpty = gloireListe[0]?.isEmpty ?? false;
     const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
-    const hasArmor = actorData.equipements.armure?.hasArmor || false;
+    const hasArmor = await getArmor(this.actor);
 
     itemData = itemData instanceof Array ? itemData : [itemData];
     const itemBaseType = itemData[0].type;
@@ -4654,9 +4657,7 @@ export class KnightSheet extends ActorSheet {
     }
 
     if(itemBaseType === 'module' && hasCapaciteCompanions) {
-      const hasArmure = await getArmor(this.actor);
-
-      if(!hasArmure) return;
+      if(!hasArmor) return;
 
       const askContent = await renderTemplate("systems/knight/templates/dialog/ask-sheet.html", {what:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Ajoutermodule")});
       const askDialogOptions = {classes: ["dialog", "knight", "askdialog"]};
@@ -4692,10 +4693,8 @@ export class KnightSheet extends ActorSheet {
 
               if(sTete < 0 || sTorse < 0 || sBrasGauche < 0 || sBrasDroit < 0 || sJambeGauche < 0 || sJambeDroite < 0) return;
 
-              itemData[0].system.progression = {};
-              itemData[0].system.progression[`n${itemData[0].system.niveau.value}`] = gloireMax+1;
-
               const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
+              itemCreate[0].update({[`system.niveau.details.n${itemData[0].system.niveau.value}.addOrder`]:gloireMax+1});
 
               return itemCreate;
             },
@@ -4717,10 +4716,8 @@ export class KnightSheet extends ActorSheet {
 
       if(sTete < 0 || sTorse < 0 || sBrasGauche < 0 || sBrasDroit < 0 || sJambeGauche < 0 || sJambeDroite < 0) return;
 
-      itemData[0].system.progression = {};
-      itemData[0].system.progression[`n${itemData[0].system.niveau.value}`] = gloireMax+1;
-
       const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
+      itemCreate[0].update({[`system.niveau.details.n${itemData[0].system.niveau.value}.addOrder`]:gloireMax+1});
 
       return itemCreate;
     } else if(itemBaseType === 'arme') {
@@ -4732,9 +4729,8 @@ export class KnightSheet extends ActorSheet {
         if(cantHaveRangedWpn) return;
       }
 
-      itemData[0].system.addOrder = gloireMax+1;
-
       const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
+      itemCreate[0].update({[`system.addOrder`]:gloireMax+1});
 
       return itemCreate;
 
@@ -6547,23 +6543,22 @@ export class KnightSheet extends ActorSheet {
           module.push(i);
 
           for(let n = 1;n <= data.niveau.value;n++) {
-            const dataProgression = data.niveau.details[`n${n}`];
-
-            let order = dataProgression.addOrder;
+            const dataProgression = data?.niveau.details[`n${n}`];
+            let order = dataProgression?.addOrder;
 
             if(order === undefined) order = data.addOrder;
+            const gratuit = dataProgression?.gratuit || false;
 
             depensePG.push({
               order:order,
               name:`${i.name} - ${game.i18n.localize('KNIGHT.ITEMS.MODULE.Niveau')} ${n}`,
               id:i._id,
-              gratuit:dataProgression.gratuit,
-              value:dataProgression.gratuit ? 0 : dataProgression.prix,
+              gratuit:gratuit || false,
+              value:gratuit ? 0 : dataProgression.prix,
               niveau:n,
               isModule:true
             });
           }
-
         }
       }
 
@@ -7765,7 +7760,7 @@ export class KnightSheet extends ActorSheet {
     return true;
   }
 
-  _updatePA(update) {
+  async _updatePA(update) {
     const add = +update;
     const wear = this.object.system.wear;
 
@@ -7774,9 +7769,11 @@ export class KnightSheet extends ActorSheet {
 
     switch(wear) {
       case 'armure':
+        const armor = await getArmor(this.actor);
+
         itemUpdate = `system.armure.value`;
 
-        this.actor.items.get(this._getArmorId()).update({[itemUpdate]:add});
+        armor.update({[itemUpdate]:add});
         break;
 
       case 'ascension':
@@ -8261,11 +8258,12 @@ export class KnightSheet extends ActorSheet {
     await this._resetArmureModules();
   }
 
-  _getSlotsValue() {
-    const sArmure = this.getData().actor.armureData.system.slots;
+  async _getSlotsValue() {
+    const hasArmor = await getArmor(this.actor);
+    const sArmure = hasArmor.system.slots;
     const sUtilise = this.getData().data.system.equipements.armure.slots;
 
-    const result = this.getData().data.system.equipements.armure.hasArmor === false ? undefined : {
+    const result = !hasArmor ? undefined : {
       tete: sArmure.tete.value-sUtilise.tete,
       torse: sArmure.torse.value-sUtilise.torse,
       brasGauche: sArmure.brasGauche.value-sUtilise.brasGauche,
@@ -8275,13 +8273,6 @@ export class KnightSheet extends ActorSheet {
     };
 
     return result;
-  }
-
-  _getArmorId() {
-    const data = this.getData();
-    const id = data.data.system.equipements.armure.id;
-
-    return id;
   }
 
   _getArmorLegendeId() {

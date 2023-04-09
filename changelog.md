@@ -1,3 +1,9 @@
+## v3.3.21
+
+### Bugfix
+- Correction d'un bug empêchant l'ajout de module à une fiche
+- Correction d'un bug sur le calcul de points de gloires.
+
 ## v3.3.20
 
 ### Bugfix
