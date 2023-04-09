@@ -1398,7 +1398,11 @@
                             {{localize "KNIGHT.PROGRESSION.Utilise"}}
                         </span>
                         <span class="score">
-                            {{systemData.progression.gloire.depense.total}}
+                            {{#if systemData.progression.gloire.depense.total}}
+                                {{systemData.progression.gloire.depense.total}}
+                                {{else}}
+                                0
+                            {{/if}}
                         </span>
                     </label>
                     <label>
@@ -1406,7 +1410,11 @@
                             {{localize "KNIGHT.AUTRE.Total"}}
                         </span>
                         <span class="score">
-                            {{systemData.progression.gloire.total}}
+                            {{#if systemData.progression.gloire.total}}
+                                {{systemData.progression.gloire.total}}
+                                {{else}}
+                                0
+                            {{/if}}
                         </span>
                     </label>
                 </div>
