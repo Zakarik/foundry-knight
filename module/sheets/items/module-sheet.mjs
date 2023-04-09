@@ -598,7 +598,7 @@ export class ModuleSheet extends ItemSheet {
 
       const jSimple = jetSimple.has;
 
-      const eHas = effets.has;
+      const eHas = effets?.has || false;
 
       if(duree) { data.labels.duree = game.i18n.localize("KNIGHT.ITEMS.MODULE.DUREE.Permanent"); }
       else { data.labels.duree = game.i18n.localize("KNIGHT.ITEMS.MODULE.DUREE.NotPermanent"); }
