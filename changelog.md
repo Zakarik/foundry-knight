@@ -1,3 +1,8 @@
+## v3.3.22
+
+### Bugfix
+- Correction d'un bug empêchant l'ouverture des modules dans certains cas.
+
 ## v3.3.21
 
 ### Bugfix
