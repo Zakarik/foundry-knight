@@ -1,3 +1,8 @@
+## v3.3.23
+
+### Bugfix
+- Correction d'un bug dans le décompte des slots.
+
 ## v3.3.22
 
 ### Bugfix
