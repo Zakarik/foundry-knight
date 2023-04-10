@@ -4947,6 +4947,14 @@ export class KnightSheet extends ActorSheet {
       dexterite: [],
       perception: [],
     };
+    const slots = {
+      tete:[],
+      torse:[],
+      brasDroit:[],
+      brasGauche:[],
+      jambeDroite:[],
+      jambeGauche:[],
+    }
 
     let armureData = {};
     let armureLegendeData = {};
@@ -6282,18 +6290,11 @@ export class KnightSheet extends ActorSheet {
           }
 
         } else {
-          const slotKeys = ['tete', 'torse', 'brasGauche', 'brasDroit', 'jambeGauche', 'jambeDroite'];
-
-          for (let i = 0; i < slotKeys.length; i++) {
-            const value = itemSlots[slotKeys[i]];
+          for (const slot in slots) {
+            const value = itemSlots[slot];
 
             if(value > 0) {
-              effects.slots.push({
-                key: `system.equipements.armure.slots.${slotKeys[i]}`,
-                mode: 2,
-                priority: null,
-                value: value
-              });
+              slots[slot].push(value);
             }
           }
 
@@ -7040,6 +7041,17 @@ export class KnightSheet extends ActorSheet {
           });
         }
       }
+    }
+
+    for(const slot in slots) {
+      const sum = slots[slot].reduce((partialSum, a) => partialSum + a, 0);
+
+      effects.slots.push({
+        key: `system.equipements.armure.slots.${slot}`,
+        mode: 5,
+        priority: null,
+        value: sum
+      });
     }
 
     for(const caracteristique in overdrives) {
