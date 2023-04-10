@@ -2731,6 +2731,44 @@
   margin: 0px;
 }
 
+.askniveau div.dialog-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+}
+.askniveau div.dialog-content span {
+  display: inline-block;
+  text-align: justify;
+  width: 50%;
+  line-height: 16px;
+  min-height: 20px;
+}
+.askniveau div.dialog-content select {
+  width: 50%;
+  text-align: center;
+  padding-left: 13px;
+  border: 1px solid RGB(76 74 90);
+  border-bottom: 0px;
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+  background: RGB(43 42 51);
+  color: white;
+  font-variant: small-caps;
+}
+.askniveau div.dialog-content select option {
+  background: RGB(43 42 51);
+}
+.askniveau button {
+  color: white;
+  background: RGB(76 74 90);
+  cursor: pointer;
+  border-radius: 0px;
+  margin: 0px;
+}
+
 .item h2.header {
   display: block;
   position: relative;
