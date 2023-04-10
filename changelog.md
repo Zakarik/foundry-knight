@@ -1,3 +1,8 @@
+## v3.3.27
+
+### Bugfix
+- Correction d'un bug empêchant le bon fonctionnement du système de niveau des modules du Lion du mode Companions.
+
 ## v3.3.26
 
 ### Bugfix
