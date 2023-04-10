@@ -4680,128 +4680,174 @@ export class KnightSheet extends ActorSheet {
           button2: {
             label: game.i18n.localize('KNIGHT.AUTRE.Non'),
             callback: async () => {
-              let niveauMax = {};
+              if(itemData[0].system.niveau.max > 1) {
+                let niveauMax = {};
 
-              for(let i = 1;i <= itemData[0].system.niveau.max;i++) {
-                niveauMax[i] = i;
-              }
-
-              const askNiveau = await renderTemplate("systems/knight/templates/dialog/ask-sheet.html", {
-                what:game.i18n.localize("KNIGHT.ITEMS.MODULE.QuelNiveau"),
-                select:{
-                  has:true,
-                  liste:niveauMax
+                for(let i = 1;i <= itemData[0].system.niveau.max;i++) {
+                  niveauMax[i] = i;
                 }
-              });
-              const askNiveauDialogOptions = {classes: ["dialog", "knight", "askniveau"]};
 
-              await new Dialog({
-                title: itemData[0].name,
-                content: askNiveau,
-                buttons: {
-                  button1: {
-                    label: game.i18n.localize('KNIGHT.AUTRE.Valider'),
-                    callback: async (dataHtml) => {
-                      const selected = dataHtml.find('.whatSelect').val();
-                      const itemSlots = itemData[0].system.slots;
-                      const armorSlots = this._getSlotsValue();
-
-                      const sTete = armorSlots.tete-itemSlots.tete;
-                      const sTorse = armorSlots.torse-itemSlots.torse;
-                      const sBrasGauche = armorSlots.brasGauche-itemSlots.brasGauche;
-                      const sBrasDroit = armorSlots.brasDroit-itemSlots.brasDroit;
-                      const sJambeGauche = armorSlots.jambeGauche-itemSlots.jambeGauche;
-                      const sJambeDroite = armorSlots.jambeDroite-itemSlots.jambeDroite;
-
-                      if(sTete < 0 || sTorse < 0 || sBrasGauche < 0 || sBrasDroit < 0 || sJambeGauche < 0 || sJambeDroite < 0) return;
-
-                      const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
-                      let update = {
-                        [`system.niveau.value`]:selected,
-                        [`system.niveau.details.n${selected}.addOrder`]:gloireMax+1
-                      };
-
-                      for(let i = 1;i < selected;i++) {
-                        update[`system.niveau.details.n${i}.ignore`] = true;
-                      }
-
-                      itemCreate[0].update(update);
-
-                      return itemCreate;
-                    },
-                    icon: `<i class="fas fa-check"></i>`
-                  },
-                  button2: {
-                    label: game.i18n.localize('KNIGHT.AUTRE.Annuler'),
-                    callback: async () => {},
-                    icon: `<i class="fas fa-times"></i>`
+                const askNiveau = await renderTemplate("systems/knight/templates/dialog/ask-sheet.html", {
+                  what:game.i18n.localize("KNIGHT.ITEMS.MODULE.QuelNiveau"),
+                  select:{
+                    has:true,
+                    liste:niveauMax
                   }
-                }
-              }, askNiveauDialogOptions).render(true);
+                });
+                const askNiveauDialogOptions = {classes: ["dialog", "knight", "askniveau"]};
+
+                await new Dialog({
+                  title: itemData[0].name,
+                  content: askNiveau,
+                  buttons: {
+                    button1: {
+                      label: game.i18n.localize('KNIGHT.AUTRE.Valider'),
+                      callback: async (dataHtml) => {
+                        const selected = dataHtml.find('.whatSelect').val();
+                        const itemSlots = itemData[0].system.slots;
+                        const armorSlots = this._getSlotsValue();
+
+                        const sTete = armorSlots.tete-itemSlots.tete;
+                        const sTorse = armorSlots.torse-itemSlots.torse;
+                        const sBrasGauche = armorSlots.brasGauche-itemSlots.brasGauche;
+                        const sBrasDroit = armorSlots.brasDroit-itemSlots.brasDroit;
+                        const sJambeGauche = armorSlots.jambeGauche-itemSlots.jambeGauche;
+                        const sJambeDroite = armorSlots.jambeDroite-itemSlots.jambeDroite;
+
+                        if(sTete < 0 || sTorse < 0 || sBrasGauche < 0 || sBrasDroit < 0 || sJambeGauche < 0 || sJambeDroite < 0) return;
+
+                        const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
+                        let update = {
+                          [`system.niveau.value`]:selected,
+                          [`system.niveau.details.n${selected}.addOrder`]:gloireMax+1
+                        };
+
+                        for(let i = 1;i < selected;i++) {
+                          update[`system.niveau.details.n${i}.ignore`] = true;
+                        }
+
+                        itemCreate[0].update(update);
+
+                        return itemCreate;
+                      },
+                      icon: `<i class="fas fa-check"></i>`
+                    },
+                    button2: {
+                      label: game.i18n.localize('KNIGHT.AUTRE.Annuler'),
+                      callback: async () => {},
+                      icon: `<i class="fas fa-times"></i>`
+                    }
+                  }
+                }, askNiveauDialogOptions).render(true);
+              } else {
+                const selected = 1;
+                const itemSlots = itemData[0].system.slots;
+                const armorSlots = this._getSlotsValue();
+
+                const sTete = armorSlots.tete-itemSlots.tete;
+                const sTorse = armorSlots.torse-itemSlots.torse;
+                const sBrasGauche = armorSlots.brasGauche-itemSlots.brasGauche;
+                const sBrasDroit = armorSlots.brasDroit-itemSlots.brasDroit;
+                const sJambeGauche = armorSlots.jambeGauche-itemSlots.jambeGauche;
+                const sJambeDroite = armorSlots.jambeDroite-itemSlots.jambeDroite;
+
+                if(sTete < 0 || sTorse < 0 || sBrasGauche < 0 || sBrasDroit < 0 || sJambeGauche < 0 || sJambeDroite < 0) return;
+
+                const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
+                let update = {
+                  [`system.niveau.details.n${selected}.addOrder`]:gloireMax+1
+                };
+
+                itemCreate[0].update(update);
+              }
             },
             icon: `<i class="fas fa-times"></i>`
           }
         }
       }, askDialogOptions).render(true);
     } else if(itemBaseType === 'module') {
-      let niveauMax = {};
 
-      for(let i = 1;i <= itemData[0].system.niveau.max;i++) {
-        niveauMax[i] = i;
+      if(itemData[0].system.niveau.max > 1) {
+        let niveauMax = {};
+
+        for(let i = 1;i <= itemData[0].system.niveau.max;i++) {
+          niveauMax[i] = i;
+        }
+
+        const askNiveau = await renderTemplate("systems/knight/templates/dialog/ask-sheet.html", {
+          what:game.i18n.localize("KNIGHT.ITEMS.MODULE.QuelNiveau"),
+          select:{
+            has:true,
+            liste:niveauMax
+          }
+        });
+        const askNiveauDialogOptions = {classes: ["dialog", "knight", "askniveau"]};
+
+        await new Dialog({
+          title: itemData[0].name,
+          content: askNiveau,
+          buttons: {
+            button1: {
+              label: game.i18n.localize('KNIGHT.AUTRE.Valider'),
+              callback: async (dataHtml) => {
+                const selected = dataHtml.find('.whatSelect').val();
+                const itemSlots = itemData[0].system.slots;
+                const armorSlots = this._getSlotsValue();
+
+                const sTete = armorSlots.tete-itemSlots.tete;
+                const sTorse = armorSlots.torse-itemSlots.torse;
+                const sBrasGauche = armorSlots.brasGauche-itemSlots.brasGauche;
+                const sBrasDroit = armorSlots.brasDroit-itemSlots.brasDroit;
+                const sJambeGauche = armorSlots.jambeGauche-itemSlots.jambeGauche;
+                const sJambeDroite = armorSlots.jambeDroite-itemSlots.jambeDroite;
+
+                if(sTete < 0 || sTorse < 0 || sBrasGauche < 0 || sBrasDroit < 0 || sJambeGauche < 0 || sJambeDroite < 0) return;
+
+                const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
+                let update = {
+                  [`system.niveau.value`]:selected,
+                  [`system.niveau.details.n${selected}.addOrder`]:gloireMax+1
+                };
+
+                for(let i = 1;i < selected;i++) {
+                  update[`system.niveau.details.n${i}.ignore`] = true;
+                }
+
+                itemCreate[0].update(update);
+
+                return itemCreate;
+              },
+              icon: `<i class="fas fa-check"></i>`
+            },
+            button2: {
+              label: game.i18n.localize('KNIGHT.AUTRE.Annuler'),
+              callback: async () => {},
+              icon: `<i class="fas fa-times"></i>`
+            }
+          }
+        }, askNiveauDialogOptions).render(true);
+      } else {
+        const selected = 1;
+        const itemSlots = itemData[0].system.slots;
+        const armorSlots = this._getSlotsValue();
+
+        const sTete = armorSlots.tete-itemSlots.tete;
+        const sTorse = armorSlots.torse-itemSlots.torse;
+        const sBrasGauche = armorSlots.brasGauche-itemSlots.brasGauche;
+        const sBrasDroit = armorSlots.brasDroit-itemSlots.brasDroit;
+        const sJambeGauche = armorSlots.jambeGauche-itemSlots.jambeGauche;
+        const sJambeDroite = armorSlots.jambeDroite-itemSlots.jambeDroite;
+
+        if(sTete < 0 || sTorse < 0 || sBrasGauche < 0 || sBrasDroit < 0 || sJambeGauche < 0 || sJambeDroite < 0) return;
+
+        const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
+        let update = {
+          [`system.niveau.details.n${selected}.addOrder`]:gloireMax+1
+        };
+
+        itemCreate[0].update(update);
       }
 
-      const askNiveau = await renderTemplate("systems/knight/templates/dialog/ask-sheet.html", {
-        what:game.i18n.localize("KNIGHT.ITEMS.MODULE.QuelNiveau"),
-        select:{
-          has:true,
-          liste:niveauMax
-        }
-      });
-      const askNiveauDialogOptions = {classes: ["dialog", "knight", "askniveau"]};
-
-      await new Dialog({
-        title: itemData[0].name,
-        content: askNiveau,
-        buttons: {
-          button1: {
-            label: game.i18n.localize('KNIGHT.AUTRE.Valider'),
-            callback: async (dataHtml) => {
-              const selected = dataHtml.find('.whatSelect').val();
-              const itemSlots = itemData[0].system.slots;
-              const armorSlots = this._getSlotsValue();
-
-              const sTete = armorSlots.tete-itemSlots.tete;
-              const sTorse = armorSlots.torse-itemSlots.torse;
-              const sBrasGauche = armorSlots.brasGauche-itemSlots.brasGauche;
-              const sBrasDroit = armorSlots.brasDroit-itemSlots.brasDroit;
-              const sJambeGauche = armorSlots.jambeGauche-itemSlots.jambeGauche;
-              const sJambeDroite = armorSlots.jambeDroite-itemSlots.jambeDroite;
-
-              if(sTete < 0 || sTorse < 0 || sBrasGauche < 0 || sBrasDroit < 0 || sJambeGauche < 0 || sJambeDroite < 0) return;
-
-              const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
-              let update = {
-                [`system.niveau.value`]:selected,
-                [`system.niveau.details.n${selected}.addOrder`]:gloireMax+1
-              };
-
-              for(let i = 1;i < selected;i++) {
-                update[`system.niveau.details.n${i}.ignore`] = true;
-              }
-
-              itemCreate[0].update(update);
-
-              return itemCreate;
-            },
-            icon: `<i class="fas fa-check"></i>`
-          },
-          button2: {
-            label: game.i18n.localize('KNIGHT.AUTRE.Annuler'),
-            callback: async () => {},
-            icon: `<i class="fas fa-times"></i>`
-          }
-        }
-      }, askNiveauDialogOptions).render(true);
     } else if(itemBaseType === 'arme') {
       const isRangedWpn = itemData[0].system.type;
 
@@ -6672,10 +6718,11 @@ export class KnightSheet extends ActorSheet {
 
               if(order === undefined) order = data.addOrder;
               const gratuit = dataProgression?.gratuit || false;
+              const name = data.niveau.value > 1 ? `${i.name} - ${game.i18n.localize('KNIGHT.ITEMS.MODULE.Niveau')} ${n}` : `${i.name}`;
 
               depensePG.push({
                 order:order,
-                name:`${i.name} - ${game.i18n.localize('KNIGHT.ITEMS.MODULE.Niveau')} ${n}`,
+                name:name,
                 id:i._id,
                 gratuit:gratuit || false,
                 value:gratuit ? 0 : dataProgression.prix,
