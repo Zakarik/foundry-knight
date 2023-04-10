@@ -1,3 +1,9 @@
+## v3.3.26
+
+### Bugfix
+- Correction d'un oubli suite à la dernière mise à jour.
+- Correction d'un problème d'affichage dans le tableau de PG.
+
 ## v3.3.25
 
 ### Bugfix
