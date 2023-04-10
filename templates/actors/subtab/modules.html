@@ -15,7 +15,7 @@
                 class="fa-solid fa-arrow-up moduleArrowUp {{#unless (isHigherThan key.system.niveau.max key.system.niveau.value)}}hidden{{/unless}}"></i>
             <i data-key="{{key._id}}"
                 data-niveau="{{key.system.niveau.value}}"
-                class="fa-solid fa-arrow-down moduleArrowDown {{#unless (isHigherThan key.system.niveau.value 1)}}hidden{{/unless}}"></i>
+                class="fa-solid fa-arrow-down moduleArrowDown {{#unless (canStepDownLvl key.system.niveau)}}hidden{{/unless}}"></i>
             {{/if}}
         </span>
         {{#if ("armure" @root/systemData/wear)}}

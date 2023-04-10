@@ -1835,6 +1835,7 @@
       "MODULE":{
         "Label":"Modules",
         "Niveau":"Niveau",
+        "QuelNiveau":"L'Ajouter à quel niveau ?",
         "NombreNiveau":"Nombre de niveaux",
         "DepenseSupplementaire":"Dépense d'énergie supplémentaire",
         "ARME":{

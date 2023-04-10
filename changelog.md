@@ -1,3 +1,8 @@
+## v3.3.25
+
+### Bugfix
+- Afin de régler un bug avec les overdrives, lorsque vous ajoutez un module sur votre fiche, cela vous demande à présent le niveau auquel il est ajouté et vous empêche, par la suite, de descendre le module en-dessous de ce niveau.
+
 ## v3.3.24
 
 ### Bugfix

@@ -704,4 +704,14 @@
 
         return has;
     });
+
+    Handlebars.registerHelper('canStepDownLvl', function(data) {
+        const value = data.value;
+        const prevIsIgnore = value > 1 ? data?.details?.[`n${value-1}`]?.ignore || false : false;
+        const result = value > 1 && !prevIsIgnore ? true : false;
+
+        console.log()
+
+        return result;
+    });
  };
