@@ -4931,21 +4931,66 @@ export class KnightSheet extends ActorSheet {
     const aucunGainEspoir = [];
     const aucunPerteSaufAgonie = [];
     const overdrives = {
-      deplacement: [],
-      force: [],
-      endurance: [],
-      hargne: [],
-      combat: [],
-      instinct: [],
-      tir: [],
-      savoir: [],
-      technique: [],
-      aura: [],
-      parole: [],
-      sangFroid: [],
-      discretion: [],
-      dexterite: [],
-      perception: [],
+      deplacement: {
+        base:[],
+        bonus:[]
+      },
+      force: {
+        base:[],
+        bonus:[]
+      },
+      endurance: {
+        base:[],
+        bonus:[]
+      },
+      hargne: {
+        base:[],
+        bonus:[]
+      },
+      combat: {
+        base:[],
+        bonus:[]
+      },
+      instinct: {
+        base:[],
+        bonus:[]
+      },
+      tir: {
+        base:[],
+        bonus:[]
+      },
+      savoir: {
+        base:[],
+        bonus:[]
+      },
+      technique: {
+        base:[],
+        bonus:[]
+      },
+      aura: {
+        base:[],
+        bonus:[]
+      },
+      parole: {
+        base:[],
+        bonus:[]
+      },
+      sangFroid: {
+        base:[],
+        bonus:[]
+      },
+      discretion: {
+        base:[],
+        bonus:[]
+      },
+      dexterite: {
+        base:[],
+        bonus:[]
+      },
+      perception: {
+        base:[],
+        bonus:[]
+      },
     };
     const slots = {
       tete:[],
@@ -4954,7 +4999,8 @@ export class KnightSheet extends ActorSheet {
       brasGauche:[],
       jambeDroite:[],
       jambeGauche:[],
-    }
+    };
+
 
     let armureData = {};
     let armureLegendeData = {};
@@ -6109,7 +6155,7 @@ export class KnightSheet extends ActorSheet {
             const aspect = caracToAspect(caracteristique);
             const value = data.overdrives[aspect].liste[caracteristique].value ?? 0;
 
-            if(value > 0) overdrives[caracteristique].push(value);
+            if(value > 0) overdrives[caracteristique].base.push(value);
           }
         }
 
@@ -6497,16 +6543,9 @@ export class KnightSheet extends ActorSheet {
                 const base = itemOD.aspects[aspect][caracteristique] ?? 0;
                 const bonus = iBOD.aspects[aspect][caracteristique] ?? 0;
 
-                if(itemOD.has && base > 0) overdrives[caracteristique].push(base);
+                if(itemOD.has && base > 0) overdrives[caracteristique].base.push(base);
 
-                if(iBOD.has && bonus > 0) {
-                  effects.modules.push({
-                    key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.bonus`,
-                    mode:2,
-                    priority:null,
-                    value:bonus
-                  });
-                }
+                if(iBOD.has && bonus > 0) overdrives[caracteristique].bonus.push(bonus);
               }
             }
 
@@ -7043,6 +7082,13 @@ export class KnightSheet extends ActorSheet {
       }
     }
 
+    /*effects.modules.push({
+      key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.bonus`,
+      mode:2,
+      priority:null,
+      value:bonus
+    });*/
+
     for(const slot in slots) {
       const sum = slots[slot].reduce((partialSum, a) => partialSum + a, 0);
 
@@ -7056,15 +7102,25 @@ export class KnightSheet extends ActorSheet {
 
     for(const caracteristique in overdrives) {
       const aspect = caracToAspect(caracteristique);
-      const overdrive = overdrives[caracteristique].length === 0 ? [0] : overdrives[caracteristique];
-      const value = Math.max(...overdrive) ?? 0;
+      const array = overdrives[caracteristique];
+      const base = array.base;
+      const bonus = array.bonus;
+      const vBase = base.length > 0 ? Math.max(...base) : 0;
+      const vBonus = bonus.reduce((partialSum, a) => partialSum + a, 0);
 
-      if(value > 0) {
-        effects.overdrives.push({
-          key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.base`,
+      effects.overdrives.push({
+        key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.base`,
+        mode: 5,
+        priority: null,
+        value:vBase
+      });
+
+      if(vBonus > 0) {
+        effects.modules.push({
+          key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.bonus`,
           mode: 5,
           priority: null,
-          value:value
+          value:vBonus
         });
       }
     }

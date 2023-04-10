@@ -1,3 +1,8 @@
+## v3.3.24
+
+### Bugfix
+- Correction d'un bug dans le décompte des overdrives.
+
 ## v3.3.23
 
 ### Bugfix
