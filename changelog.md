@@ -1,3 +1,8 @@
+## v3.4.30
+
+### Amélioration
+- Lors d'un clique sur un jet, si la fenêtre de jet est ouverte, cela la ramène au premier plan.
+
 ## v3.3.30
 
 ### Bugfix

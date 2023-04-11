@@ -8206,6 +8206,7 @@ export class KnightSheet extends ActorSheet {
     await rollApp.addAvDv(AvDv);
 
     rollApp.render(true);
+    rollApp.bringToTop();
   }
 
   async _resetArmureCapacites() {

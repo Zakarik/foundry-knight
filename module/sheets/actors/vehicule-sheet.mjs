@@ -871,6 +871,7 @@ export class VehiculeSheet extends ActorSheet {
       true, false);
 
     rollApp.render(true);
+    rollApp.bringToTop();
   }
 
   async _rollDicePJ(label, actorId, caracteristique, difficulte = false, isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, desBonus=0) {
@@ -931,6 +932,7 @@ export class VehiculeSheet extends ActorSheet {
     await rollApp.setAspects(data.aspects);
     await rollApp.setEffets(hasBarrage, true, true, true);
     rollApp.render(true);
+    rollApp.bringToTop();
   }
 
   _prepareModuleTranslation(context) {

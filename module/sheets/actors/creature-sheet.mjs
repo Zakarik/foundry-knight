@@ -1191,6 +1191,7 @@ export class CreatureSheet extends ActorSheet {
       true, false);
 
     rollApp.render(true);
+    rollApp.bringToTop();
   }
 
   _prepareAE(context) {

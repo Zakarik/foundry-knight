@@ -1741,6 +1741,7 @@ export class MechaArmureSheet extends ActorSheet {
     await rollApp.setWraith(data.actor.moduleWraith);
 
     rollApp.render(true);
+    rollApp.bringToTop();
   }
 
   async _doDgts(label, dataWpn, listAllEffets, regularite=0, addNum='', tenebricide) {
