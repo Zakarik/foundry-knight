@@ -7364,10 +7364,22 @@ export class KnightSheet extends ActorSheet {
         value: depensePG[i].isArmure ?? false
       },
       {
+        key: `system.progression.gloire.depense.liste.${i}.isAcheter`,
+        mode: 5,
+        priority: null,
+        value: depensePG[i].isAcheter ?? false
+      },
+      {
         key: `system.progression.gloire.depense.liste.${i}.isModule`,
         mode: 5,
         priority: null,
         value: depensePG[i].isModule ?? false
+      },
+      {
+        key: `system.progression.gloire.depense.liste.${i}.evo`,
+        mode: 5,
+        priority: null,
+        value: depensePG[i].evo ?? ''
       },
       {
         key: `system.progression.gloire.depense.liste.${i}.niveau`,
