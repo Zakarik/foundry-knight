@@ -1,3 +1,9 @@
+## v3.3.29
+
+### Bugfix
+- Correction d'un bug lié à l'OD 3 d'Endurance.
+- Correction d'un bug n'affichant pas les noms des évolutions lors de l'achat des évolutions du Longbow.
+
 ## v3.3.27
 
 ### Bugfix

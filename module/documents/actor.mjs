@@ -279,8 +279,8 @@ export class KnightActor extends Actor {
     if(dataJauges.sante) {
       const valueBase = isKraken ? 8 : 6;
       const userSBase = (chairMax*valueBase)+10;
-      const santeBonus = data.sante.bonus?.user ?? 0;
-      const santeMalus = data.sante.malus?.user ?? 0;
+      let santeBonus = data.sante.bonus?.user ?? 0;
+      let santeMalus = data.sante.malus?.user ?? 0;
 
       if(dataWear === "armure" || dataWear === "ascension") {
         const ODEndurance =  aspects?.chair?.caracteristiques?.endurance?.overdrive?.value || 0;

@@ -4237,8 +4237,6 @@ export class KnightSheet extends ActorSheet {
       const isEmpty = gloireListe[0]?.isEmpty ?? false;
       const addOrder =  Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
 
-
-
       if(gloireActuel >= value) {
         let array = {
           description:capacites.description,
@@ -6141,6 +6139,7 @@ export class KnightSheet extends ActorSheet {
             depensePG.push({
               id:i._id,
               order:longbowEvolutions['1'].addOrder,
+              name:game.i18n.localize('KNIGHT.PROGRESSION.EvolutionArmure'),
               isAcheter:true,
               value:PGGratuit1 ? 0 : PGEvo1,
               gratuit:PGGratuit1,
@@ -6163,6 +6162,7 @@ export class KnightSheet extends ActorSheet {
             depensePG.push({
               id:i._id,
               order:longbowEvolutions['2'].addOrder,
+              name:game.i18n.localize('KNIGHT.PROGRESSION.EvolutionArmure'),
               isAcheter:true,
               value:PGGratuit2 ? 0 : PGEvo2,
               gratuit:PGGratuit2,
@@ -6185,6 +6185,7 @@ export class KnightSheet extends ActorSheet {
             depensePG.push({
               id:i._id,
               order:longbowEvolutions['3'].addOrder,
+              name:game.i18n.localize('KNIGHT.PROGRESSION.EvolutionArmure'),
               isAcheter:true,
               value:PGGratuit3 ? 0 : PGEvo3,
               gratuit:PGGratuit3,
@@ -6207,6 +6208,7 @@ export class KnightSheet extends ActorSheet {
             depensePG.push({
               id:i._id,
               order:longbowEvolutions['4'].addOrder,
+              name:game.i18n.localize('KNIGHT.PROGRESSION.EvolutionArmure'),
               isAcheter:true,
               value:PGGratuit4 ? 0 : PGEvo4,
               gratuit:PGGratuit4,
