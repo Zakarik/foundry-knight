@@ -3142,6 +3142,7 @@ export class PNJSheet extends ActorSheet {
     await rollApp.setAspects(data.data.system.aspects);
     await rollApp.setEffets(hasBarrage, false, false, false);
     rollApp.render(true);
+    rollApp.bringToTop();
   }
 
   _prepareAE(context) {
