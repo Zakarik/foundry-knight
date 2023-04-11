@@ -1,3 +1,8 @@
+## v3.3.30
+
+### Bugfix
+- Correction d'un bug empêchant de passer les améliorations du Longbow en gratuit.
+
 ## v3.3.29
 
 ### Bugfix
