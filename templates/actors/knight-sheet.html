@@ -661,7 +661,7 @@
                             {{localize "KNIGHT.CAPACITES.Label"}}
                         </h2>
                         {{#each actor.armureData.system.capacites.selected as | key selected|}}
-                            {{~> (affichageCapacite . key) data=@root/systemData/equipements/armure/capacites}}
+                            {{#if (capaciteIsValid . key)}} {{~> (affichageCapacite . key) data=@root/systemData/equipements/armure/capacites}} {{else}} {{log "ERREUR ! " @root/data level="error"}} {{/if}}
                         {{/each}}
                     </div>
 
@@ -671,7 +671,7 @@
                             {{localize "KNIGHT.ITEMS.ARMURE.Special"}}
                         </h2>
                         {{#each actor.armureData.system.special.selected as | key selected|}}
-                            {{~> (affichageSpecial . key)}}
+                            {{#if (capaciteIsValid . key)}} {{~> (affichageSpecial . key)}} {{else}} {{log "ERREUR ! " @root/data level="error"}}{{/if}}
                         {{/each}}
                     </div>
 
@@ -685,7 +685,7 @@
                             <a class="item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
                         </h2>
                         {{#each actor.armureLegendeData.system.capacites.selected as | key selected|}}
-                            {{~> (affichageCapaciteLegende . key) data=@root/systemData/equipements/armure/capacites}}
+                            {{#if (capaciteIsValid . key)}} {{~> (affichageCapaciteLegende . key) data=@root/systemData/equipements/armure/capacites}} {{else}} {{log "ERREUR ! " @root/data level="error"}} {{/if}}
                         {{/each}}
                     </div>
                     {{/unless}}
@@ -697,7 +697,7 @@
                             {{localize "ITEM.TypeArmurelegende"}} : {{localize "KNIGHT.ITEMS.ARMURE.Special"}}
                         </h2>
                         {{#each actor.armureLegendeData.system.special.selected as | key selected|}}
-                            {{~> (affichageSpecialLegende . key)}}
+                            {{#if (capaciteIsValid . key)}} {{~> (affichageSpecialLegende . key)}} {{else}} {{log "ERREUR ! " @root/data level="error"}}{{/if}}
                         {{/each}}
                     </div>
                     {{/unless}}

@@ -1,3 +1,8 @@
+## v3.4.31
+
+### Bugfix
+- Correction d'un problème pour empêcher le crash des fiches en cas de bug sur les capacités d'armures.
+
 ## v3.4.30
 
 ### Amélioration

@@ -99,7 +99,7 @@
             </select>
         </div>
         {{#each systemData.capacites.selected as | key selected|}}
-            {{~> (capacite . key)}}
+            {{#if (capaciteIsValid . key)}} {{~> (capacite . key)}} {{/if}}
         {{/each}}
     </div>
 

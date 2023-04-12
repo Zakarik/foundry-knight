@@ -47,6 +47,11 @@
         return `systems/knight/templates/actors/mechaarmure/${mecha.data.key}.html`;
     });
 
+    Handlebars.registerHelper('capaciteIsValid', function (capacite) {
+        if(capacite.key === undefined) return false;
+        else return true;
+    });
+
     Handlebars.registerHelper('affichageCapacite', function (capacite) {
         return `systems/knight/templates/actors/capacites/${capacite.key}.html`;
     });
