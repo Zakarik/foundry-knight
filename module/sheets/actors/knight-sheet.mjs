@@ -3919,26 +3919,43 @@ export class KnightSheet extends ActorSheet {
       }
     });
 
-    html.find('div.progression .tableauPG .gloire-create').click(ev => {
+    html.find('div.progression .tableauPG .gloire-create').click(async ev => {
       const dataGloire = this.getData().data.system.progression.gloire;
       const gloireListe = dataGloire.depense.liste;
       const isEmpty = gloireListe[0]?.isEmpty ?? false;
       let addOrder =  Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
       const gloireAutre = dataGloire.depense?.autre || {};
-      let gloireAutreLength = Object.keys(gloireAutre).length;
 
       if(addOrder === -1) {
         addOrder = Object.keys(gloireListe).length;
       }
 
       const newData = {
-        order:addOrder+1,
+        order:`${addOrder+1}`,
         nom:'',
         cout:'0',
         gratuit:false
       }
 
-      this.actor.update({[`system.progression.gloire.depense.autre.${gloireAutreLength}`]:newData});
+      let update = {};
+      let length = 0;
+
+      for(let gloire in gloireAutre) {
+        const obj = gloireAutre[gloire];
+
+        length = gloire;
+
+        update[gloire] = {
+          order:obj.order,
+          nom:obj.nom,
+          cout:obj.cout,
+          gratuit:obj.gratuit
+        }
+      }
+
+      update[length+1] = newData;
+
+      await this.actor.update({[`system.progression.gloire.depense.autre`]:update});
     });
 
     html.find('div.progression .tableauPG .gloire-delete').click(ev => {
@@ -7286,7 +7303,7 @@ export class KnightSheet extends ActorSheet {
         this.actor.update({[`system.progression.gloire.depense.autre.-=${key}`]:null});
       } else {
         depensePG.push({
-          order:PG.order,
+          order:Number(PG.order),
           name:PG.nom,
           id:key,
           gratuit:PG.gratuit,
@@ -7400,7 +7417,7 @@ export class KnightSheet extends ActorSheet {
     const listWithEffect = [
       {label:'Armure', withoutArmor:false, withArmor:true, data:effects.armure},
       {label:'Guardian', withoutArmor:true, withArmor:false, data:effects.guardian},
-      {label:'Overdrives', withoutArmor:false, withArmor:true, data:effects.overdrives},
+      {label:'Overdrives', withoutArmor:true, withArmor:true, data:effects.overdrives},
       {label:'Modules', withoutArmor:false, withArmor:true, data:effects.modules},
       {label:'Armes', withoutArmor:true, withArmor:true, data:effects.armes},
       {label:'Experiences', withoutArmor:true, withArmor:true, data:effects.experiences},

@@ -1,3 +1,10 @@
+## v3.4.32
+
+### Bugfix
+- Correction d'un bug dans la gestion des progressions de gloires personnalisées.
+- Correction d'un bug dans la gestion des overdrives, qui ne disparaissaient pas en changeant entre les différentes tenues.
+- Correction d'un bug dans le champ "armure" sur les PNJ, qui ne pouvait pas être modifié et affiait tout le temps "armure", le champ a été modifié - il faudra réentrer le nom des armures. Ceci est du au changement permettant aux PNJ d'avoir des armures, comme les PJ.
+
 ## v3.4.31
 
 ### Bugfix
