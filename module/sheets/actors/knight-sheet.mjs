@@ -97,6 +97,8 @@ export class KnightSheet extends ActorSheet {
 
     context.systemData = system;
 
+    console.warn(context);
+
     return context;
   }
 
@@ -5145,7 +5147,6 @@ export class KnightSheet extends ActorSheet {
       jambeDroite:[],
       jambeGauche:[],
     };
-
 
     let armureData = {};
     let armureLegendeData = {};
