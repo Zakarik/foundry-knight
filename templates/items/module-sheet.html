@@ -341,7 +341,7 @@
                         unactive
                         {{/if}}
                         " data-type="bonus" data-subtype="degats" data-name="has" data-value="{{key.bonus.degats.has}}">{{key.labels.degatsBonus}}</button>
-                        <select name="system.bonus.degats.type" class="{{#unless key.bonus.degats.has}}hidden{{/unless}}">
+                        <select name="system.niveau.details.{{nv}}.bonus.degats.type" class="{{#unless key.bonus.degats.has}}hidden{{/unless}}">
                             {{#select key.bonus.degats.type}}
                             <option value="contact">{{localize "KNIGHT.BONUS.Contact"}}</option>
                             <option value="distance">{{localize "KNIGHT.BONUS.Distance"}}</option>

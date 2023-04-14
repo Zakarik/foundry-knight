@@ -8,7 +8,8 @@ import {
   addEffect,
   updateEffect,
   existEffect,
-  confirmationDialog
+  confirmationDialog,
+  getKnightRoll,
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
@@ -730,49 +731,6 @@ export class VehiculeSheet extends ActorSheet {
     }
   }
 
-  _getKnightRollPJ() {
-    const result = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? new game.knight.applications.KnightRollDialog({
-      title:this.actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
-      buttons: {
-        button1: {
-          label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
-          callback: async () => {},
-          icon: `<i class="fas fa-dice"></i>`
-        },
-        button2: {
-          label: game.i18n.localize("KNIGHT.JETS.JetEntraide"),
-          callback: async () => {},
-          icon: `<i class="fas fa-dice-d6"></i>`
-        },
-        button3: {
-          label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
-          icon: `<i class="fas fa-times"></i>`
-        }
-      }
-    });
-
-    return result;
-  }
-
-  _getKnightRollPNJ() {
-    const result = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? new game.knight.applications.KnightRollDialog({
-      title:this.actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
-      buttons: {
-        button1: {
-          label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
-          callback: async () => {},
-          icon: `<i class="fas fa-dice"></i>`
-        },
-        button3: {
-          label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
-          icon: `<i class="fas fa-times"></i>`
-        }
-      }
-    });
-
-    return result;
-  }
-
   async _depensePE(label, depense, autosubstract=true) {
     const data = this.getData();
     const actuel = +data.systemData.energie.value;
@@ -828,7 +786,8 @@ export class VehiculeSheet extends ActorSheet {
 
   async _rollDicePNJ(label, actorId, aspect = '', difficulte = false, isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, desBonus=0) {
     const data = this.getData();
-    const rollApp = this._getKnightRollPNJ();
+    const queryInstance = getKnightRoll(this.actor, false);
+    const rollApp = queryInstance.instance;
     const select = aspect;
     const deployWpnImproviseesDistance = false;
     const deployWpnImproviseesContact = false;
@@ -869,15 +828,17 @@ export class VehiculeSheet extends ActorSheet {
       isWpn, idWpn, nameWpn, typeWpn, num,
       deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, false, false, false,
       true, false);
+    await rollApp.setBonusTemp(false, 0, 0);
 
     rollApp.render(true);
-    rollApp.bringToTop();
+    if(queryInstance.previous) rollApp.bringToTop();
   }
 
   async _rollDicePJ(label, actorId, caracteristique, difficulte = false, isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, desBonus=0) {
     const actor = game.actors.get(actorId);
     const data = actor.system;
-    const rollApp = this._getKnightRollPJ();
+    const queryInstance = getKnightRoll(this.actor);
+    const rollApp = queryInstance.instance;
     const style = data.combat.style;
     const getStyle = getModStyle(style);
     const deployWpnImproviseesDistance = typeWpn === 'armesimprovisees' && idWpn === 'distance' ? true : false;
@@ -931,8 +892,10 @@ export class VehiculeSheet extends ActorSheet {
     await rollApp.setActor(actorId);
     await rollApp.setAspects(data.aspects);
     await rollApp.setEffets(hasBarrage, true, true, true);
+    await rollApp.setBonusTemp(false, 0, 0);
+
     rollApp.render(true);
-    rollApp.bringToTop();
+    if(queryInstance.previous) rollApp.bringToTop();
   }
 
   _prepareModuleTranslation(context) {

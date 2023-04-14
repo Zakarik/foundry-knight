@@ -3764,8 +3764,6 @@ export async function getCapacite(actor, typeWpn, baseC, otherC, actorId, effets
   const armor = await getArmor(actor);
   const getArmorData = armor !== undefined &&  wear === 'armure' ? armor?.system || false : false;
 
-  console.log(getArmorData);
-
   let result = {
       roll:{
           fixe:0,
@@ -4530,3 +4528,49 @@ export function compareArrays(arr1, arr2) {
 
   return true;
 };
+
+export function getKnightRoll(actor, hasEntraide=true) {
+  const hasInstance = Object.values(ui.windows).find((app) => app instanceof game.knight.applications.KnightRollDialog);
+  const isExist = !hasInstance ? false : true;
+
+  let result = {};
+
+  if(hasEntraide) {
+    result = hasInstance ?? new game.knight.applications.KnightRollDialog({
+      title:actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
+      buttons: {
+        button1: {
+          label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
+          callback: async () => {},
+          icon: `<i class="fas fa-dice"></i>`
+        },
+        button2: {
+          label: game.i18n.localize("KNIGHT.JETS.JetEntraide"),
+          callback: async () => {},
+          icon: `<i class="fas fa-dice-d6"></i>`
+        },
+        button3: {
+          label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
+          icon: `<i class="fas fa-times"></i>`
+        }
+      }
+    });
+  } else {
+    result = hasInstance ?? new game.knight.applications.KnightRollDialog({
+      title:actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
+      buttons: {
+        button1: {
+          label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
+          callback: async () => {},
+          icon: `<i class="fas fa-dice"></i>`
+        },
+        button3: {
+          label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
+          icon: `<i class="fas fa-times"></i>`
+        }
+      }
+    });
+  }
+
+  return {instance:result, previous:isExist};
+}

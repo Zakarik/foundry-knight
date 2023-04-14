@@ -134,6 +134,11 @@ export class KnightRollDialog extends Application {
         },
         noOd:this.data.noOd,
         avDv:this.data.avDv,
+        bonusTemp:{
+          has:this.data?.bonusTemp?.has || false,
+          modificateur:this.data?.bonusTemp?.modificateur || 0,
+          succesbonus:this.data?.bonusTemp?.succesbonus || 0
+        },
         buttons: buttons
       }
     }
@@ -343,6 +348,11 @@ export class KnightRollDialog extends Application {
       grappes:true
     };
 
+    this.data.bonusTemp = {
+      has:false,
+      value:0
+    };
+
     return new Promise(resolve => {
       setTimeout(() => {
         resolve(
@@ -384,6 +394,8 @@ export class KnightRollDialog extends Application {
           this.data.degatsBonus,
           this.data.violenceBonus,
           this.data.ameliorations,
+
+          this.data.bonusTemp
         );
       }, 0);
     });
@@ -567,6 +579,76 @@ export class KnightRollDialog extends Application {
         );
       }, 0);
     });
+  }
+
+  async setBonusTemp(has=false, modificateur=0, succesbonus) {
+    this.data.bonusTemp = {
+      has:has,
+      modificateur:modificateur,
+      succesbonus:succesbonus
+    };
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.bonusTemp
+        );
+      }, 0);
+    });
+  }
+
+  async setSuccesBonus(value) {
+    const id = this.data.actor;
+    const actor = game.actors.get(id);
+
+    actor.update({['system.combat.data.succesbonus']:value});
+
+    this.data.succesBonus = value;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.succesBonus
+        );
+      }, 0);
+    });
+  }
+
+  async setModificateur(value) {
+    const id = this.data.actor;
+    const actor = game.actors.get(id);
+
+    actor.update({['system.combat.data.modificateur']:value});
+
+    this.data.modificateur = value;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.modificateur
+        );
+      }, 0);
+    });
+  }
+
+  hasBonusTemp() {
+    return this.data.bonusTemp.has;
+  }
+
+  getModificateur() {
+    return Number(this.data.modificateur);
+  }
+
+  getSuccesBonus() {
+    return Number(this.data.succesBonus);
+  }
+
+  getModificateurTemp() {
+    return Number(this.data.bonusTemp.modificateur);
+  }
+
+  getSuccesBonusTemp() {
+    return Number(this.data.bonusTemp.succesbonus);
   }
 
   async addAvDv(AvDv) {
@@ -966,6 +1048,7 @@ export class KnightRollDialog extends Application {
    _onClickButton(event) {
     const id = event.currentTarget.dataset.button;
     const button = this.data.buttons[id];
+
     this._doRoll(event);
   }
 
@@ -977,10 +1060,11 @@ export class KnightRollDialog extends Application {
    _onClickEButton(event) {
     const id = event.currentTarget.dataset.button;
     const button = this.data.buttons[id];
+
     this._doRoll(event, true);
   }
 
-  async _doRoll(event, entraide=false, attackOnly=false, dgtsOnly=false, violenceOnly=false, wpnId='', wpnType='', wpnName='') {
+  async _doRoll(event, entraide=false, attackOnly=false, dgtsOnly=false, violenceOnly=false, wpnId='', wpnType='', wpnName='', bonusTemp=false) {
     const id = this.data.actor;
     const isPNJ = this.data?.pnj || false;
     const isMA = this.data?.ma || false;
@@ -1274,6 +1358,14 @@ export class KnightRollDialog extends Application {
           }
         });
       }
+    }
+
+    if(this.hasBonusTemp) {
+      await this.setModificateur(this.getModificateur()-this.getModificateurTemp());
+      await this.setSuccesBonus(this.getSuccesBonus()-this.getSuccesBonusTemp());
+      await this.setBonusTemp(false, 0, 0);
+
+      this.render(true);
     }
   }
 
