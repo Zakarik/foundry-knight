@@ -1,3 +1,9 @@
+## v3.5.34
+
+### Bugfix
+- Correction d'un bug empêchant la désactivation des modules pour les PNJ.
+- Correction de quelques autres bugs avec les modules sur les PNJ.
+
 ## v3.5.33
 
 ### Améliorations
