@@ -56,7 +56,7 @@
                 {{/if}}
             {{/if}}
         {{/if}}
-        <div class="line">
+        <div class="line {{#if system.tourelle.has}}lineTourelle{{/if}}">
             <div class="doubleLine">
                 <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
                 <span>
@@ -67,6 +67,12 @@
                     {{/unless}}
                 </span>
             </div>
+            {{#if system.tourelle.has}}
+            <div class="doubleLine">
+                <span class="header">{{localize "KNIGHT.AUTRE.Attaque"}}</span>
+                <span>{{this.system.tourelle.attaque.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.system.tourelle.attaque.fixe}}</span>
+            </div>
+            {{/if}}
             <div class="doubleLine">
                 <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
                 <span>{{this.system.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.system.degats.fixe}}</span>

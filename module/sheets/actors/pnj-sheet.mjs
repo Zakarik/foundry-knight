@@ -10,7 +10,8 @@ import {
   addEffect,
   updateEffect,
   existEffect,
-  confirmationDialog
+  confirmationDialog,
+  getKnightRoll,
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
@@ -3054,28 +3055,10 @@ export class PNJSheet extends ActorSheet {
     }
   }
 
-  _getKnightRoll() {
-    const result = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? new game.knight.applications.KnightRollDialog({
-      title:this.actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
-      buttons: {
-        button1: {
-          label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
-          callback: async () => {},
-          icon: `<i class="fas fa-dice"></i>`
-        },
-        button3: {
-          label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
-          icon: `<i class="fas fa-times"></i>`
-        }
-      }
-    });
-
-    return result;
-  }
-
   async _rollDice(label, aspect = '', difficulte = false, isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, reussitesBonus=0) {
     const data = this.getData();
-    const rollApp = this._getKnightRoll();
+    const queryInstance = getKnightRoll(this.actor, false);
+    const rollApp = queryInstance.instance;
     const select = aspect;
     const deployWpnImproviseesDistance = typeWpn === 'armesimprovisees' && idWpn === 'distance' ? true : false;
     const deployWpnImproviseesContact = typeWpn === 'armesimprovisees' && idWpn === 'contact' ? true : false;
@@ -3141,8 +3124,10 @@ export class PNJSheet extends ActorSheet {
     await rollApp.setWhatIs(true, false);
     await rollApp.setAspects(data.data.system.aspects);
     await rollApp.setEffets(hasBarrage, false, false, false);
+    await rollApp.setBonusTemp(false, 0, 0);
+
     rollApp.render(true);
-    rollApp.bringToTop();
+    if(queryInstance.previous) rollApp.bringToTop();
   }
 
   _prepareAE(context) {

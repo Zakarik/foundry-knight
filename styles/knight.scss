@@ -5854,6 +5854,12 @@
                   }
                 }
 
+                &.lineTourelle {
+                  div.doubleLine {
+                    width:calc((100% / 4) - (34px / 4));
+                  }
+                }
+
                 img {
                   height:34px;
                   width:34px;

@@ -856,15 +856,16 @@ export class KnightActor extends Actor {
     const pilote = data.equipage.pilote;
     const options = data.options;
 
-    console.log(pilote);
-
     if(pilote.id !== '') {
       const id = pilote.id;
       const actor = game.actors.get(id);
 
       if(actor?.system !== undefined) {
-        const reaction = actor.system.reaction.value+data.reaction.bonus+data.manoeuvrabilite;
-        const defense = actor.system.defense.value+data.defense.bonus;
+        const defenseBonus = data.defense?.bonus || 0;
+        const reactonBonus = data.reaction?.bonus || 0;
+        const manoeuvrabilite = data.manoeuvrabilite || 0;
+        const reaction = actor.system.reaction.value+reactonBonus+manoeuvrabilite;
+        const defense = actor.system.defense.value+defenseBonus;
         const initiative = actor.system.initiative;
 
         data.reaction.value = reaction;

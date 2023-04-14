@@ -17,6 +17,7 @@ import {
   isAspect,
   getArmor,
   getAllArmor,
+  getKnightRoll,
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
@@ -357,7 +358,6 @@ export class KnightSheet extends ActorSheet {
 
       const getData = this.getData();
       const armure = await getArmor(this.actor);
-      console.log(armure);
       const remplaceEnergie = armure.system.espoir.remplaceEnergie || false;
       const quelMalus = remplaceEnergie ? 'espoir' : 'energie';
       const equipcapacites = getData.data.system.equipements.armure.capacites;
@@ -3371,8 +3371,10 @@ export class KnightSheet extends ActorSheet {
       const caracAdd = target.data("caracadd") === undefined ? [] : target.data("caracadd").split(',')
       const caracLock = target.data("caraclock") === undefined ? [] : target.data("caraclock").split(',');
       const reussites = +target.data("reussitebonus") || 0;
+      const succesTemp = +target.data("succestemp") || 0;
+      const modTemp = +target.data("modtemp") || 0;
 
-      this._rollDice(label, caracteristique, false, caracAdd, caracLock, false, '', '', '', -1, reussites, noOd);
+      this._rollDice(label, caracteristique, false, caracAdd, caracLock, false, '', '', '', -1, reussites, noOd, modTemp, succesTemp);
     });
 
     html.find('.rollRecuperationArt').click(async ev => {
@@ -8099,33 +8101,10 @@ export class KnightSheet extends ActorSheet {
     return result;
   }
 
-  _getKnightRoll() {
-    const result = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? new game.knight.applications.KnightRollDialog({
-      title:this.actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
-      buttons: {
-        button1: {
-          label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
-          callback: async () => {},
-          icon: `<i class="fas fa-dice"></i>`
-        },
-        button2: {
-          label: game.i18n.localize("KNIGHT.JETS.JetEntraide"),
-          callback: async () => {},
-          icon: `<i class="fas fa-dice-d6"></i>`
-        },
-        button3: {
-          label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
-          icon: `<i class="fas fa-times"></i>`
-        }
-      }
-    });
-
-    return result;
-  }
-
-  async _rollDice(label, caracteristique, difficulte = false, toAdd = [], toLock = [], isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, reussitesBonus=0, noOd=false) {
+  async _rollDice(label, caracteristique, difficulte = false, toAdd = [], toLock = [], isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, reussitesBonus=0, noOd=false, modificateurTemp=0, succesTemp=0) {
     const data = this.getData();
-    const rollApp = this._getKnightRoll();
+    const queryInstance = getKnightRoll(this.actor);
+    const rollApp = queryInstance.instance;
     const mCombos = this._setCombos(data.data.system.aspects, toAdd, toLock);
     const select = mCombos.bonus.includes(caracteristique) || mCombos.interdits.includes(caracteristique) ? '' : caracteristique;
     const aspects = mCombos.aspects;
@@ -8142,6 +8121,7 @@ export class KnightSheet extends ActorSheet {
     const hasBarrage = typeWpn === 'grenades' ? data.data.system.combat.grenades.liste[nameWpn].effets.raw.find(str => { if(str.includes('barrage')) return true; }) : false;
     const rBonus = reussitesBonus === 0 ? data.data.system.combat.data.succesbonus : reussitesBonus;
     const nbreGrenades = data.systemData.combat.grenades.quantity.value;
+    const hasTemp = modificateurTemp > 0 || succesTemp > 0 ? true : false;
     let base = select === '' ? bonus[0] : caracteristique;
     let typeWpnFinal = typeWpn;
 
@@ -8221,9 +8201,11 @@ export class KnightSheet extends ActorSheet {
     });
     await rollApp.setIfOd(noOd);
     await rollApp.addAvDv(AvDv);
+    await rollApp.setBonusTemp(hasTemp, modificateurTemp, succesTemp);
 
     rollApp.render(true);
-    rollApp.bringToTop();
+
+    if(queryInstance.previous) rollApp.bringToTop();
   }
 
   async _resetArmureCapacites() {

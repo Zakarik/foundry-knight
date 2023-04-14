@@ -1679,33 +1679,10 @@ export class MechaArmureSheet extends ActorSheet {
     }
   }
 
-  _getKnightRoll() {
-    const result = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? new game.knight.applications.KnightRollDialog({
-      title:this.actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
-      buttons: {
-        button1: {
-          label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
-          callback: async () => {},
-          icon: `<i class="fas fa-dice"></i>`
-        },
-        button2: {
-          label: game.i18n.localize("KNIGHT.JETS.JetEntraide"),
-          callback: async () => {},
-          icon: `<i class="fas fa-dice-d6"></i>`
-        },
-        button3: {
-          label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
-          icon: `<i class="fas fa-times"></i>`
-        }
-      }
-    });
-
-    return result;
-  }
-
   async _rollDice(label, isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, caracs='', toAdd=[], reussitesBonus=0, resetModificateur=0) {
     const data = this.getData();
-    const rollApp = this._getKnightRoll();
+    const queryInstance = getKnightRoll(this.actor);
+    const rollApp = queryInstance.instance;
     const deployWpnImproviseesDistance = typeWpn === 'armesimprovisees' && idWpn === 'distance' ? true : false;
     const deployWpnImproviseesContact = typeWpn === 'armesimprovisees' && idWpn === 'contact' ? true : false;
     const deployWpnMA = typeWpn !== '' ? true : false;
@@ -1739,9 +1716,10 @@ export class MechaArmureSheet extends ActorSheet {
     await rollApp.setActor(this.actor.id);
     await rollApp.setAspects(data.data.system.aspects);
     await rollApp.setWraith(data.actor.moduleWraith);
+    await rollApp.setBonusTemp(false, 0, 0);
 
     rollApp.render(true);
-    rollApp.bringToTop();
+    if(queryInstance.previous) rollApp.bringToTop();
   }
 
   async _doDgts(label, dataWpn, listAllEffets, regularite=0, addNum='', tenebricide) {

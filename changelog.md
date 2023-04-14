@@ -1,3 +1,13 @@
+## v3.5.33
+
+### Améliorations
+- Modification de l'affichage des armes sur tourelle pour en améliorer la clarté.
+- Les jets ne donnant un bonus que lors d'un seul jet verront leur bonus disparaitre après ledit jet (cad. le jet d'immobilisation du mode Morph et le jet pour passer inaperçu du mode Ghost).
+
+### Bugfix
+- Correction d'un bug dans les modules, empêchant de sélectionner un bonus de dégâts à distance.
+- Correction d'un bug dans le calcul de la réaction et de la défense des véhicules.
+
 ## v3.4.32
 
 ### Bugfix
