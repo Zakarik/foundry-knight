@@ -11,7 +11,8 @@ import {
   addEffect,
   updateEffect,
   existEffect,
-  confirmationDialog
+  confirmationDialog,
+  getKnightRoll,
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
