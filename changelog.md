@@ -1,3 +1,8 @@
+## v3.5.35
+
+### Bugfix
+- Correction d'un bug empêchant les jets dans certains cas.
+
 ## v3.5.34
 
 ### Bugfix
