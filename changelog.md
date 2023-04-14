@@ -1,3 +1,8 @@
+## v3.5.36
+
+### Bugfix
+- Ajout d'une vérification pour éviter de planter une fiche dans certains cas rares.
+
 ## v3.5.35
 
 ### Bugfix

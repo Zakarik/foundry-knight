@@ -29,6 +29,8 @@ export function sum(total, num) {
 export function listEffects(raw, custom, labels) {
     const liste = [];
 
+    if(raw === undefined) return;
+
     for(let n = 0;n < raw.length;n++) {
       const split = raw[n].split(" ");
       const secondSplit = split[0].split("<space>");
