@@ -1,3 +1,8 @@
+## v3.5.37
+
+### Bugfix
+- Ajout de quelques vérifications pour éviter des bugs d'affichages.
+
 ## v3.5.36
 
 ### Bugfix
