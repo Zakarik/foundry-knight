@@ -1,3 +1,8 @@
+## v3.5.40
+
+### Bugfix
+- Correction d'un bug avec le mode Companions.
+
 ## v3.5.39
 
 ### Bugfix
