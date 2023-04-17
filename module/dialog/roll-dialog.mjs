@@ -13,7 +13,8 @@ import {
   getOrnementale,
   getCapacite,
   getModuleBonus,
-  getModStyle
+  getModStyle,
+  getArmor,
 } from "../helpers/common.mjs";
 
 /**
@@ -1186,7 +1187,9 @@ export class KnightRollDialog extends Application {
       }
 
       if(totalDepenseEnergie > 0) {
-        const depense = this._depensePE(actor, totalDepenseEnergie);
+        const depense = await this._depensePE(actor, totalDepenseEnergie);
+
+        console.warn(depense)
 
         if(!depense.has) {
           const msgEnergie = {
@@ -2632,9 +2635,10 @@ export class KnightRollDialog extends Application {
     return super.close(options);
   }
 
-  _depensePE(actor, depense) {
+  async _depensePE(actor, depense) {
     const isMA = this.data?.ma || false;
-    const getArmure = actor.type === "knight" ? actor.items.get(actor.system.equipements.armure.id).system : actor.system;
+    const armure = await getArmor(actor);
+    const getArmure = actor.type === "knight" ? armure.system : actor.system;
     const remplaceEnergie = isMA ? false : getArmure.espoir.remplaceEnergie || false;
     const type = remplaceEnergie ? 'espoir' : 'energie';
     const hasJauge = isMA || actor.type !== "knight" ? true : actor.system.jauges[type];
