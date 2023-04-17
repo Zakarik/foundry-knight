@@ -1,3 +1,8 @@
+## v3.5.39
+
+### Bugfix
+- Correction d'un bug doublant certaines caractéristiques du mode Ascension.
+
 ## v3.5.38
 
 ### Bugfix
