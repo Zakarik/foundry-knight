@@ -818,38 +818,45 @@ export class KnightSheet extends ActorSheet {
                 disabled:true
               }]);
 
+              let recupValue = 0;
+
               switch(special) {
                 case 'lion':
                   const idLion = armorCapacites.companions.lion.id;
-                  const actorLion = game.actors.get(idLion);
+                  const actorLion = game.actors?.get(idLion) || {};
+                  recupValue = actorLion?.system?.energie?.value || 0;
 
-                  this._gainPE(actorLion.system.energie.value, true);
+                  this._gainPE(recupValue, true);
 
-                  await actorLion.delete();
+                  if(Object.keys(actorLion).length != 0) await actorLion.delete();
                   break;
 
                 case 'wolf':
                   const id1Wolf = armorCapacites.companions.wolf.id.id1;
                   const id2Wolf = armorCapacites.companions.wolf.id.id2;
                   const id3Wolf = armorCapacites.companions.wolf.id.id3;
-                  const actor1Wolf = game.actors.get(id1Wolf);
-                  const actor2Wolf = game.actors.get(id2Wolf);
-                  const actor3Wolf = game.actors.get(id3Wolf);
+                  const actor1Wolf = game.actors?.get(id1Wolf) || {};
+                  const actor2Wolf = game.actors?.get(id2Wolf) || {};
+                  const actor3Wolf = game.actors?.get(id3Wolf) || {};
 
-                  this._gainPE(actor1Wolf.system.energie.value, true);
+                  recupValue = actor1Wolf?.system?.energie?.value || 0;
 
-                  await actor1Wolf.delete();
-                  await actor2Wolf.delete();
-                  await actor3Wolf.delete();
+                  this._gainPE(recupValue, true);
+
+                  if(Object.keys(actor1Wolf).length != 0) await actor1Wolf.delete();
+                  if(Object.keys(actor2Wolf).length != 0) await actor2Wolf.delete();
+                  if(Object.keys(actor3Wolf).length != 0) await actor3Wolf.delete();
                   break;
 
                 case 'crow':
                   const idCrow = armorCapacites.companions.crow.id;
-                  const actorCrow = game.actors.get(idCrow);
+                  const actorCrow = game.actors?.get(idCrow) || {};
 
-                  this._gainPE(actorCrow.system.energie.value, true);
+                  recupValue = actorCrow?.system?.energie?.value || 0;
 
-                  await actorCrow.delete();
+                  this._gainPE(recupValue, true);
+
+                  if(Object.keys(actorCrow).length != 0) await actorCrow.delete();
                   break;
               }
             }
