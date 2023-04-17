@@ -387,6 +387,8 @@ export class KnightSheet extends ActorSheet {
               let data = getData.data.system;
               data.wear = "ascension";
               data.energie.value = cout;
+              data.armure.bonus = 0;
+              data.champDeForce.base = 0;
 
               let newItems = getData.items.filter(items => items.system.rarete !== 'prestige');
               newItems.find(item => item.type === 'armure').system.energie.base = cout;
