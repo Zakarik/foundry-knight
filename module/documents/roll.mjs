@@ -74,9 +74,9 @@ export class RollKnight extends Roll {
       isSuccess: this._success,
       isTable: this._table,
       rTable: rTable,
-      isRollSuccess:this._isRollSuccess,
-      isRollFailed:this._isRollFailed,
-      isRollEFailed:this._isEFail,
+      isRollSuccess:isPrivate ? "" : this._isRollSuccess,
+      isRollFailed:isPrivate ? "" :  this._isRollFailed,
+      isRollEFailed:isPrivate ? "" :  this._isEFail,
       details:this._details,
     };
 

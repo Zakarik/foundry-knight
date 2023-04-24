@@ -1,3 +1,8 @@
+## v3.6.2
+
+### Bugfix
+- Correction d'un bug affichant Echec Critique ou Exploit aux PJ alors que le jet devrait être secret.
+
 ## v3.6.1
 
 ### Bugfix
