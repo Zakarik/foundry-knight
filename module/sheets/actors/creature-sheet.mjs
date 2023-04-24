@@ -550,6 +550,8 @@ export class CreatureSheet extends ActorSheet {
     });
 
     html.find('.desactivatePhase2').click(ev => {
+      const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
+      const effectExist = existEffect(listEffect, 'phase2');
       const toUpdate = [];
 
       toUpdate.push({
