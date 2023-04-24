@@ -4468,12 +4468,13 @@ export function addOrUpdateEffect(origin, label, effect) {
 
   if(!effectExist) addEffect(origin, [{
       label: label,
-      icon: '/icons/svg/mystery-man.svg',
+      icon: '',
       changes:effect,
       disabled:false
     }]);
   else updateEffect(origin, [{
       "_id":effectExist._id,
+      icon:'',
       changes:effect,
       disabled:false
     }]);

@@ -1,3 +1,11 @@
+## v3.6.0
+
+### Améliorations
+- Ajout du nombre d'utilisations pour les armes improvisées (affiché également lors des jets de dés)
+
+### Bugfix
+- Correction d'un bug de compatibilité avec certains modules.
+
 ## v3.5.40
 
 ### Bugfix

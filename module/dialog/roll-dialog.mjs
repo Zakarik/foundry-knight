@@ -1390,6 +1390,8 @@ export class KnightRollDialog extends Application {
       execAtt._base = game.i18n.localize(CONFIG.KNIGHT.aspects[data.base]);
     }
 
+    console.log(wpnType, localDataWpn);
+
     let details = '';
 
     if(wpnType === 'tourelle') {
@@ -1431,10 +1433,16 @@ export class KnightRollDialog extends Application {
       }
     }
 
+    let aIEffects = [];
+
+    if(wpnType === 'armesimprovisees') {aIEffects.push({
+      name:`${localDataWpn.utilisations} ${game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.Utilisations')}`
+    })}
+
     const style = isPNJ ? {selected:''} : data.style;
     const eSub = listAllE.attack.list;
     const eInclude = listAllE.attack.include;
-    const other = listAllE.other.concat(addOtherEffects).sort(SortByName);
+    const other = listAllE.other.concat(addOtherEffects, aIEffects).sort(SortByName);
     let portee;
 
     if(isCapacite) {

@@ -1126,10 +1126,6 @@ export class KnightSheet extends ActorSheet {
                     }]);
                     break;
                 }
-
-                /*if(special !== "polymorphieLame" && special !== "polymorphieGriffe" && special !== "polymorphieCanon") {
-                  this.actor.update({[`system.equipements.armure.capacites.morph.nbre`]:nbreA-1});
-                }*/
               }
             }
             armure.update(update);
