@@ -457,7 +457,7 @@
 
             {{#if systemData.options.phase2}}
             <div class="capacite item-list">
-                <h2 class="header">
+                <h2 class="header js-toggler">
                     <i class="far fa-minus-square"></i>
                     {{localize "KNIGHT.CAPACITES.Label"}} - {{localize "KNIGHT.PHASE2.Label"}}
 
@@ -466,7 +466,7 @@
 
                 {{#each actor.capacitesPhase2 as | key module|}}
                 <div class="bCapacite item" data-item-id="{{key._id}}">
-                    <header class="summary header" data-item-id="{{key._id}}">
+                    <header class="summary header js-toggler" data-item-id="{{key._id}}">
                         <i class="far fa-plus-square extendButton"></i>
 
                         <div class="gestionButton">

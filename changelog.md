@@ -1,3 +1,9 @@
+## v3.6.1
+
+### Bugfix
+- Correction d'un bug avec la phase 2 des créatures.
+- Correction d'un bug avec le repliement des capacités des créatures.
+
 ## v3.6.0
 
 ### Améliorations
