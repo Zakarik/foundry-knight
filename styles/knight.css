@@ -23820,6 +23820,36 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.combat div.main div.armesImprovisees div.wpn div.doubleLine:not(:first-of-type) {
   border-left: 1px solid RGB(76 74 90);
 }
+.knight section.body div.combat div.main div.armesImprovisees div.wpn div.effets {
+  display: flex;
+  text-align: justify;
+  height: 34px;
+  justify-content: left;
+  padding-bottom: 5px;
+  flex-wrap: wrap;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: flex-end;
+}
+.knight section.body div.combat div.main div.armesImprovisees div.wpn div.effets div {
+  position: relative;
+  width: max-content;
+  background: RGB(76 74 90);
+  border: 1px solid black;
+  border-radius: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.knight section.body div.combat div.main div.armesImprovisees div.wpn div.effets div span.label {
+  font-variant: small-caps;
+  color: white;
+  line-height: 20px;
+}
+.knight section.body div.combat div.main div.armesImprovisees div.wpn div.effets div:not(:last-of-type) {
+  margin-right: 5px;
+}
 .knight section.body div.combat div.main div.armesImprovisees div.wpn img {
   height: 34px;
   width: 34px;
@@ -30954,6 +30984,36 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.combat div.main div.armesImprovisees div.wpn div.doubleLine:not(:first-of-type) {
   border-left: 1px solid RGB(76 74 90);
 }
+.pnj section.body div.combat div.main div.armesImprovisees div.wpn div.effets {
+  display: flex;
+  text-align: justify;
+  height: 34px;
+  justify-content: left;
+  padding-bottom: 5px;
+  flex-wrap: wrap;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: flex-end;
+}
+.pnj section.body div.combat div.main div.armesImprovisees div.wpn div.effets div {
+  position: relative;
+  width: max-content;
+  background: RGB(76 74 90);
+  border: 1px solid black;
+  border-radius: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.pnj section.body div.combat div.main div.armesImprovisees div.wpn div.effets div span.label {
+  font-variant: small-caps;
+  color: white;
+  line-height: 20px;
+}
+.pnj section.body div.combat div.main div.armesImprovisees div.wpn div.effets div:not(:last-of-type) {
+  margin-right: 5px;
+}
 .pnj section.body div.combat div.main div.armesImprovisees div.wpn img {
   height: 34px;
   width: 34px;
@@ -33130,6 +33190,36 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .creature section.body div.combat div.main div.armesImprovisees div.wpn div.doubleLine:not(:first-of-type) {
   border-left: 1px solid RGB(76 74 90);
+}
+.creature section.body div.combat div.main div.armesImprovisees div.wpn div.effets {
+  display: flex;
+  text-align: justify;
+  height: 34px;
+  justify-content: left;
+  padding-bottom: 5px;
+  flex-wrap: wrap;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: flex-end;
+}
+.creature section.body div.combat div.main div.armesImprovisees div.wpn div.effets div {
+  position: relative;
+  width: max-content;
+  background: RGB(76 74 90);
+  border: 1px solid black;
+  border-radius: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.creature section.body div.combat div.main div.armesImprovisees div.wpn div.effets div span.label {
+  font-variant: small-caps;
+  color: white;
+  line-height: 20px;
+}
+.creature section.body div.combat div.main div.armesImprovisees div.wpn div.effets div:not(:last-of-type) {
+  margin-right: 5px;
 }
 .creature section.body div.combat div.main div.armesImprovisees div.wpn img {
   height: 34px;
@@ -38730,6 +38820,36 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .mechaarmure section.body div.combat div.main div.armesImprovisees div.wpn div.doubleLine:not(:first-of-type) {
   border-left: 1px solid RGB(76 74 90);
+}
+.mechaarmure section.body div.combat div.main div.armesImprovisees div.wpn div.effets {
+  display: flex;
+  text-align: justify;
+  height: 34px;
+  justify-content: left;
+  padding-bottom: 5px;
+  flex-wrap: wrap;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: flex-end;
+}
+.mechaarmure section.body div.combat div.main div.armesImprovisees div.wpn div.effets div {
+  position: relative;
+  width: max-content;
+  background: RGB(76 74 90);
+  border: 1px solid black;
+  border-radius: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.mechaarmure section.body div.combat div.main div.armesImprovisees div.wpn div.effets div span.label {
+  font-variant: small-caps;
+  color: white;
+  line-height: 20px;
+}
+.mechaarmure section.body div.combat div.main div.armesImprovisees div.wpn div.effets div:not(:last-of-type) {
+  margin-right: 5px;
 }
 .mechaarmure section.body div.combat div.main div.armesImprovisees div.wpn img {
   height: 34px;

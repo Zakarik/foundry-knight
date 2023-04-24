@@ -6084,6 +6084,40 @@
                   border-left: 1px solid $lightBlack;
                 }
               }
+
+              &.effets {
+                display: flex;
+                text-align: justify;
+                height: 34px;
+                justify-content: left;
+                padding-bottom: 5px;
+                flex-wrap: wrap;
+                margin-left: auto;
+                margin-right: auto;
+                align-items: flex-end;
+
+                div {
+                  position: relative;
+                  width: max-content;
+                  background: $lightBlack;
+                  border: 1px solid black;
+                  border-radius: 5px;
+                  padding-top: 2px;
+                  padding-bottom: 2px;
+                  padding-left: 15px;
+                  padding-right: 15px;
+
+                  span.label {
+                      font-variant: small-caps;
+                      color: $white;
+                      line-height: 20px;
+                  }
+
+                  &:not(:last-of-type) {
+                    margin-right:5px;
+                  }
+                }
+              }
             }
 
             img {
@@ -12778,6 +12812,40 @@
                   border-left: 1px solid $lightBlack;
                 }
               }
+
+              &.effets {
+                display: flex;
+                text-align: justify;
+                height: 34px;
+                justify-content: left;
+                padding-bottom: 5px;
+                flex-wrap: wrap;
+                margin-left: auto;
+                margin-right: auto;
+                align-items: flex-end;
+
+                div {
+                  position: relative;
+                  width: max-content;
+                  background: $lightBlack;
+                  border: 1px solid black;
+                  border-radius: 5px;
+                  padding-top: 2px;
+                  padding-bottom: 2px;
+                  padding-left: 15px;
+                  padding-right: 15px;
+
+                  span.label {
+                      font-variant: small-caps;
+                      color: $white;
+                      line-height: 20px;
+                  }
+
+                  &:not(:last-of-type) {
+                    margin-right:5px;
+                  }
+                }
+              }
             }
 
             img {
@@ -14695,6 +14763,40 @@
 
                 &:not(:first-of-type) {
                   border-left: 1px solid $lightBlack;
+                }
+              }
+
+              &.effets {
+                display: flex;
+                text-align: justify;
+                height: 34px;
+                justify-content: left;
+                padding-bottom: 5px;
+                flex-wrap: wrap;
+                margin-left: auto;
+                margin-right: auto;
+                align-items: flex-end;
+
+                div {
+                  position: relative;
+                  width: max-content;
+                  background: $lightBlack;
+                  border: 1px solid black;
+                  border-radius: 5px;
+                  padding-top: 2px;
+                  padding-bottom: 2px;
+                  padding-left: 15px;
+                  padding-right: 15px;
+
+                  span.label {
+                      font-variant: small-caps;
+                      color: $white;
+                      line-height: 20px;
+                  }
+
+                  &:not(:last-of-type) {
+                    margin-right:5px;
+                  }
                 }
               }
             }
@@ -20010,6 +20112,40 @@
 
                 &:not(:first-of-type) {
                   border-left: 1px solid $lightBlack;
+                }
+              }
+
+              &.effets {
+                display: flex;
+                text-align: justify;
+                height: 34px;
+                justify-content: left;
+                padding-bottom: 5px;
+                flex-wrap: wrap;
+                margin-left: auto;
+                margin-right: auto;
+                align-items: flex-end;
+
+                div {
+                  position: relative;
+                  width: max-content;
+                  background: $lightBlack;
+                  border: 1px solid black;
+                  border-radius: 5px;
+                  padding-top: 2px;
+                  padding-bottom: 2px;
+                  padding-left: 15px;
+                  padding-right: 15px;
+
+                  span.label {
+                      font-variant: small-caps;
+                      color: $white;
+                      line-height: 20px;
+                  }
+
+                  &:not(:last-of-type) {
+                    margin-right:5px;
+                  }
                 }
               }
             }
