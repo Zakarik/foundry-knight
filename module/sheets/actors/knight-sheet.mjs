@@ -7279,14 +7279,14 @@ export class KnightSheet extends ActorSheet {
       key: `system.espoir.recuperation.aucun`,
       mode: 5,
       priority: null,
-      value:aucunGainEspoir.includes(true)
+      value:`${aucunGainEspoir.includes(true)}`
     });
 
     effects.armure.push({
       key: `system.espoir.perte.saufAgonie`,
       mode: 5,
       priority: null,
-      value: aucunPerteSaufAgonie.includes(true)
+      value: `${aucunPerteSaufAgonie.includes(true)}`
     });
 
     effects.guardian.push({
@@ -7384,19 +7384,19 @@ export class KnightSheet extends ActorSheet {
         key: `system.progression.gloire.depense.liste.${i}.isArmure`,
         mode: 5,
         priority: null,
-        value: depensePG[i].isArmure ?? false
+        value: depensePG[i].isArmure ?? 'false'
       },
       {
         key: `system.progression.gloire.depense.liste.${i}.isAcheter`,
         mode: 5,
         priority: null,
-        value: depensePG[i].isAcheter ?? false
+        value: depensePG[i].isAcheter ?? 'false'
       },
       {
         key: `system.progression.gloire.depense.liste.${i}.isModule`,
         mode: 5,
         priority: null,
-        value: depensePG[i].isModule ?? false
+        value: depensePG[i].isModule ?? 'false'
       },
       {
         key: `system.progression.gloire.depense.liste.${i}.evo`,
@@ -7416,7 +7416,7 @@ export class KnightSheet extends ActorSheet {
       key: `system.progression.gloire.depense.liste.0.isEmpty`,
       mode: 5,
       priority: null,
-      value: true
+      value: `true`
     });
 
     const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
@@ -7478,6 +7478,7 @@ export class KnightSheet extends ActorSheet {
           disabled:toggle
       });
     }
+
     if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
     if(toAdd.length > 0) addEffect(this.actor, toAdd);
 
