@@ -1,3 +1,8 @@
+## v3.6.4
+
+### Bugfix
+- Correction d'un bug provoquant une boucle infinie.
+
 ## v3.6.2
 
 ### Bugfix
