@@ -97,6 +97,8 @@ export class KnightSheet extends ActorSheet {
 
     context.systemData = system;
 
+    console.warn(context);
+
     return context;
   }
 
@@ -365,6 +367,8 @@ export class KnightSheet extends ActorSheet {
 
       if(value) {
         const coutCalcule = remplaceEnergie && armure.system.espoir.cout > 0 && type === 'module' ? Math.max(Math.floor(cout / armure.system.espoir.cout), 1) : cout;
+
+        console.warn(coutCalcule);
         const depense = await this._depensePE(name, coutCalcule, true, false, flux);
 
         if(!depense) return;
@@ -7049,6 +7053,19 @@ export class KnightSheet extends ActorSheet {
         data.effets2mains.raw = [...new Set(armeE2Raw)];
         data.effets2mains.custom = armeE2Custom;
 
+        const dataMunitions = data.optionsmunitions;
+
+        if(dataMunitions.has) {
+          for (let i = 0; i <= dataMunitions.actuel; i++) {
+
+            const raw = dataMunitions.liste[i].raw.concat(armorSpecialRaw);
+            const custom = dataMunitions.liste[i].custom.concat(armorSpecialCustom);
+
+            data.optionsmunitions.liste[i].raw = [...new Set(raw)];
+            data.optionsmunitions.liste[i].custom = custom;
+          }
+        }
+
         depensePG.push({
           order:data.addOrder,
           id:i._id,
@@ -7813,11 +7830,23 @@ export class KnightSheet extends ActorSheet {
 
       const listData = {
         modules:[{path:['system.effets', 'system.arme.effets', 'system.arme.distance', 'system.arme.structurelles', 'system.arme.ornementales', 'system.jetsimple.effets'], simple:true}],
-        armes:[{path:['system.effets', 'system.distance', 'system.structurelles', 'system.ornementales'], simple:true}],
+        armes:[{path:['system.effets', 'system.effets2mains', 'system.distance', 'system.structurelles', 'system.ornementales'], simple:true}],
         grenades:[{path:['effets'], simple:true}]
       }[base.key];
 
       this._updateEffects(data, listData, labels, true);
+
+      for(let n = 0;n < data.length;n++) {
+        if(base.key === 'armes' && data[n].system.optionsmunitions.has) {
+          const dataMunitions = data[n].system.optionsmunitions;
+          for(let m = 0;m <= dataMunitions.actuel;m++) {
+            const mun = dataMunitions.liste[m];
+            dataMunitions.liste[m].liste = listEffects(mun.raw, mun.custom, labels);
+          }
+        }
+      }
+
+
     }
   }
 
