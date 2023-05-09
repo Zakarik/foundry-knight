@@ -22,6 +22,16 @@ export const RegisterSettings = function () {
         type: Boolean,
 
     });
+
+    game.settings.register("knight", "warlock-canusemodule", {
+        name: "KNIGHT.SETTINGS.ARMURES.WarlockCanUseModule",
+        hint: "KNIGHT.SETTINGS.ARMURES.WarlockCanUseModuleHint",
+        scope: "world",
+        config: true,
+        default: false,
+        type: Boolean
+    });
+
     game.settings.register("knight", "include-capacite2038", {
         name: "KNIGHT.SETTINGS.ARMURES.2038",
         hint: "KNIGHT.SETTINGS.ARMURES.2038Hint",

@@ -1684,7 +1684,7 @@ export class KnightSheet extends ActorSheet {
         } else if(!value) {
           const actor = game.actors.get(dataModule.system.id);
 
-          await actor.delete();
+          if(actor !== undefined) await actor.delete();
 
           dataModule.update({[`system`]:{
             'active':{
@@ -5061,6 +5061,7 @@ export class KnightSheet extends ActorSheet {
       "contact":[],
       "distance":[]
     };
+    const armesDistanceModules = [];
     const armesContactEquipee = [];
     const armesDistanceEquipee = [];
     const armesContactRack = [];
@@ -5330,7 +5331,7 @@ export class KnightSheet extends ActorSheet {
           if(dataCapaciteUltime.type == 'passive') passiveUltime = dataCapaciteUltime.passives;
         }
 
-        armorData.label = i.name;
+        armureData.label = i.name;
 
         const armorBonusKeys = ['espoir', 'egide'];
         const armorValue = data.armure.base;
@@ -5368,7 +5369,6 @@ export class KnightSheet extends ActorSheet {
         }
 
         const armorCapacites = data.capacites.selected;
-        const armorSpecial = data.special.selected;
         const armorEvolutions = data.evolutions;
 
         for (let [key, capacite] of Object.entries(armorCapacites)) {
@@ -6240,7 +6240,9 @@ export class KnightSheet extends ActorSheet {
           }
         }
 
-        for (let [key, special] of Object.entries(armorSpecial)) {
+        const specials = data.special.selected;
+
+        for (let [key, special] of Object.entries(specials)) {
           switch(key) {
             case 'contrecoups':
               if(passiveUltime !== undefined) {
@@ -6253,7 +6255,7 @@ export class KnightSheet extends ActorSheet {
         }
 
         if(onArmor) {
-          for (let [key, special] of Object.entries(armorSpecial)) {
+          for (let [key, special] of Object.entries(specials)) {
             switch(key) {
               case 'apeiron':
                 effects.armure.push({
@@ -6686,6 +6688,7 @@ export class KnightSheet extends ActorSheet {
               }
 
               if(itemArme.type === 'distance') {
+                armesDistanceModules.push(moduleWpn);
                 armesDistanceEquipee.push(moduleWpn);
               }
             }
@@ -7577,6 +7580,11 @@ export class KnightSheet extends ActorSheet {
       }
     }
 
+    const settings = game.settings.get("knight", "warlock-canusemodule");
+    const hasContrecoups = armureData?.system?.special?.selected?.contrecoups;
+    const hasWpnRestrictions = hasContrecoups !== undefined && hasContrecoups.armedistance.value === false ? true : false;
+    const wpnWithRestrictions = hasWpnRestrictions && settings ? armesDistanceModules : [];
+
     actorData.carteHeroique = carteHeroique;
     actorData.capaciteHeroique = capaciteHeroique;
     actorData.evolutionsCompanions = evolutionsCompanions;
@@ -7600,9 +7608,11 @@ export class KnightSheet extends ActorSheet {
     actorData.armesContactEquipee = armesContactEquipee;
     actorData.armesContactRack = armesContactRack;
     actorData.armesContactArmoury = armesContactArmoury;
-    actorData.armesDistanceEquipee = armesDistanceEquipee;
-    actorData.armesDistanceRack = armesDistanceRack;
-    actorData.armesDistanceArmoury = armesDistanceArmoury;
+    actorData.cannotUseDistance = hasWpnRestrictions && !settings ? true : false;
+    actorData.armesDistanceEquipee = hasWpnRestrictions ? wpnWithRestrictions : armesDistanceEquipee;
+    actorData.armesDistanceRack = hasWpnRestrictions ? [] :armesDistanceRack;
+    actorData.armesDistanceArmoury = hasWpnRestrictions ? [] :armesDistanceArmoury;
+    actorData.canUseTourelles = settings;
     actorData.armesTourelles = armesTourelles;
     actorData.art = art;
     actorData.distinctions = distinctions;
@@ -7657,7 +7667,7 @@ export class KnightSheet extends ActorSheet {
   }
 
   async _prepareCapacitesParameters(actor, system) {
-    const remplaceEnergie = actor?.armureData.system?.espoir?.remplaceEnergie ?? false;
+    const remplaceEnergie = actor?.armureData?.system?.espoir?.remplaceEnergie ?? false;
     const eTotale = !remplaceEnergie ? system.energie.max : system.espoir.max ?? 0;
     const eActuel = !remplaceEnergie ? system.energie.value : system.espoir.value ?? 0;
 

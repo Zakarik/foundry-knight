@@ -4035,9 +4035,9 @@ export async function getCapacite(actor, typeWpn, baseC, otherC, actorId, effets
   return result;
 }
 
-export async function getSpecial(actor) {
+export function getSpecial(actor) {
     const wear = actor.system.wear;
-    const armor = await getArmor(actor);
+    const armor = actor?.armureData || undefined;
     const getArmorData = armor !== undefined &&  wear === 'armure' ? armor?.system || false : false;
 
     let result = {
@@ -4454,11 +4454,11 @@ export async function confirmationDialog() {
   });
 };
 
-export function addEffect(origin, toAdd) {
+export async function addEffect(origin, toAdd) {
   origin.createEmbeddedDocuments('ActiveEffect', toAdd);
 };
 
-export function updateEffect(origin, toUpdate) {
+export async function updateEffect(origin, toUpdate) {
   origin.updateEmbeddedDocuments('ActiveEffect', toUpdate);
 }
 
