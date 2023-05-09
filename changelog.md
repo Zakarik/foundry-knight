@@ -1,3 +1,8 @@
+## v3.7.1
+
+### Bugfix
+- Divers corrections de bugs sur les modules et les armes.
+
 ## v3.7.0
 
 ### Améliorations
