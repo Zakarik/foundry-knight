@@ -7,6 +7,7 @@
 
 ### Améliorations
 - Ajout d'une option, dans les options du système, pour permettre à une Warlock d'utiliser des modules de combat à distance (tourelle compris).
+- Amélioration de l'affichage des armes sur la fiche.
 
 ### Bugfix
 - Correction de différents bugs affectant les modules.
