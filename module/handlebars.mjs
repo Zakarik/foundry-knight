@@ -533,6 +533,7 @@
     });
 
     Handlebars.registerHelper('moduleCanBeActivate', function (data, type) {
+        if(data === undefined) return false;
         let result = false;
         const system = data.system;
         const isPermanent = system.permanent;

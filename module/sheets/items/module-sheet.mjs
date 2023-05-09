@@ -337,12 +337,13 @@ export class ModuleSheet extends ItemSheet {
     html.find('a.create').click(ev => {
       const type = $(ev.currentTarget).data("type");
       const id = $(ev.currentTarget).data("id");
-      const data = this.getData().data.system;
+      const getData = this.getData();
+      const niveau = getData.data.system.niveau;
+      const data = niveau.details[`n${niveau.value}`];
       const pnj = data.pnj;
       const modele = pnj.modele;
       const header = $(ev.currentTarget).parents(".niveaux");
       const key = header.data("key");
-
 
       switch(type) {
         case 'pnj':

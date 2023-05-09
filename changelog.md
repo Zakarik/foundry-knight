@@ -1,3 +1,11 @@
+## v3.7.0
+
+### Améliorations
+- Ajout d'une option, dans les options du système, pour permettre à une Warlock d'utiliser des modules de combat à distance (tourelle compris).
+
+### Bugfix
+- Correction de différents bugs affectant les modules.
+
 ## v3.6.4
 
 ### Bugfix

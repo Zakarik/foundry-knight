@@ -63,29 +63,28 @@
                     {{/if}}
                 {{/if}}
                 {{#unless key.system.active.pnj}}
-                    {{#each key.system.pnj.liste as | keyPnj pnj|}}
-                        {{#if (moduleCanBeActivate key 'pnj')}}
-                            <button class="activation" data-name="{{key.name}}" data-type="modulePnj" data-module="{{key._id}}"
+                    {{#each key.system.pnj.liste as | keyPnj pnj|}}                        {{#if (moduleCanBeActivate @../this 'pnj')}}
+                            <button class="activation" data-name="{{../name}}" data-type="modulePnj" data-module="{{../_id}}"
                                 data-cout="0" data-index="{{@index}}"
-                                data-value="{{key.system.active.base}}"
+                                data-value="{{../active/base}}"
                                     title="{{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}}">
                                 {{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}}
                             </button>
                         {{/if}}
 
-                        {{#if (moduleCanBeActivate key 'tour')}}
-                            <button class="activation" data-name="{{key.name}}" data-type="modulePnj" data-module="{{key._id}}"
-                                data-cout="{{key.system.energie.tour.value}}" data-index="{{@index}}"
-                                data-value="{{key.system.active.base}}"
+                        {{#if (moduleCanBeActivate @../this 'tour')}}
+                            <button class="activation" data-name="{{@../name}}" data-type="modulePnj" data-module="{{../_id}}"
+                                data-cout="{{../energie/tour/value}}" data-index="{{@index}}"
+                                data-value="{{../active/base}}"
                                     title="{{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{localize "KNIGHT.AUTRE.Tour"}})">
                                 {{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{localize "KNIGHT.AUTRE.Tour"}})
                             </button>
                         {{/if}}
 
-                        {{#if (moduleCanBeActivate key 'minute')}}
-                            <button class="activation" data-name="{{key.name}}" data-type="modulePnj" data-module="{{key._id}}"
-                                data-cout="{{key.system.energie.minute.value}}" data-index="{{@index}}"
-                                data-value="{{key.system.active.base}}"
+                        {{#if (moduleCanBeActivate @../this 'minute')}}
+                            <button class="activation" data-name="{{../name}}" data-type="modulePnj" data-module="{{@../this/_id}}"
+                                data-cout="{{../energie/minute/value}}" data-index="{{@index}}"
+                                data-value="{{../active/base}}"
                                     title="{{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{localize "KNIGHT.AUTRE.Minute"}})">
                                 {{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{localize "KNIGHT.AUTRE.Minute"}})
                             </button>
