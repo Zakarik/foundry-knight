@@ -7837,7 +7837,9 @@ export class KnightSheet extends ActorSheet {
       this._updateEffects(data, listData, labels, true);
 
       for(let n = 0;n < data.length;n++) {
-        if(base.key === 'armes' && data[n].system.optionsmunitions.has) {
+        const optMun = data[n]?.system?.optionsmunitions?.has || false;
+
+        if(base.key === 'armes' && optMun) {
           const dataMunitions = data[n].system.optionsmunitions;
           for(let m = 0;m <= dataMunitions.actuel;m++) {
             const mun = dataMunitions.liste[m];
