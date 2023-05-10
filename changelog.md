@@ -1,3 +1,8 @@
+## v3.7.2
+
+### Bugfix
+- Correction d'un bug rare empêchant le bon fonctionnement du système.
+
 ## v3.7.1
 
 ### Bugfix
