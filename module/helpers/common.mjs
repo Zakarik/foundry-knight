@@ -739,10 +739,18 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
 
       const name = data.label;
       const description = data.description;
-      const subAttack = {};
-      const subDegats = {};
-      const subViolence = {};
-      const subOther = {};
+      const subAttack = {
+        name:"",
+      };
+      const subDegats = {
+        name:"",
+      };
+      const subViolence = {
+        name:"",
+      };
+      const subOther = {
+        name:"",
+      };
 
       let priorAttack = false;
       let includeAttack = false;
@@ -754,6 +762,11 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
       let includeViolence = false;
       let seconViolence = false;
       let other = false;
+
+      const dgtsJet = dataDegats.jet === undefined ? 0 : dataDegats.jet;
+      const dgtsFixe = dataDegats.fixe === undefined ? 0 : dataDegats.fixe;
+      const violJet = dataViolence.jet === undefined ? 0 : dataViolence.jet;
+      const violFixe = dataViolence.fixe === undefined ? 0 : dataViolence.fixe;
 
       if(dataAttack.conditionnel.has) {
         priorAttack = true;
@@ -952,7 +965,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           subDegats.desc = dataDegats.conditionnel.condition;
           subDegats.total = CDCDiceB;
         }
-      } else if(dataDegats.jet !== 0 || dataDegats.fixe !== 0 || dataDegats.carac.jet !== '' || dataDegats.carac.fixe !== '' || dataDegats.aspect.jet !== '' || dataDegats.aspect.fixe !== '') {
+      } else if(dgtsJet !== 0 || dgtsFixe !== 0 || dataDegats.carac.jet !== '' || dataDegats.carac.fixe !== '' || dataDegats.aspect.jet !== '' || dataDegats.aspect.fixe !== '') {
         includeDegats = true;
 
         const cDIDice = dataDegats.jet;
@@ -1082,7 +1095,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           subViolence.desc = dataViolence.conditionnel.condition;
           subViolence.total = CVCDiceB;
         }
-      } else if(dataViolence.jet !== 0 || dataViolence.fixe !== 0 || dataViolence.carac.jet !== '' || dataViolence.carac.fixe !== '' || dataViolence.aspect.jet !== '' || dataViolence.aspect.fixe !== '') {
+      } else if(violJet !== 0 || violFixe !== 0 || dataViolence.carac.jet !== '' || dataViolence.carac.fixe !== '' || dataViolence.aspect.jet !== '' || dataViolence.aspect.fixe !== '') {
         includeViolence = true;
 
         const cVIDice = dataViolence.jet;
@@ -1141,7 +1154,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         }
       }
 
-      if(subAttack.name === undefined && subDegats.name === undefined && subViolence.name === undefined) {
+      if(priorAttack === false && priorDegats === false && priorViolence === false && includeAttack === false && includeDegats === false && includeViolence === false) {
         other = true;
 
         subOther.name = name;
