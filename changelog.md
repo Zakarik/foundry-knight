@@ -1,3 +1,8 @@
+## v3.7.3
+
+### Bugfix
+- Correction d'un bug empêchant le bon fonctionnement d'une arme avec effets personnalisés dans certains cas.
+
 ## v3.7.2
 
 ### Bugfix

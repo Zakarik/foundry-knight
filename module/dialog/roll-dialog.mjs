@@ -2141,6 +2141,8 @@ export class KnightRollDialog extends Application {
     const attackInclude = lEffetAttack.include.concat(lDistanceAttack.include, lStructurellesAttack.include, lOrnementaleAttack.include, lAttOtherInclude, lCapaciteAttack.include, bonusModule.attack.include);
     const attackList = lEffetAttack.list.concat(lDistanceAttack.list, lStructurellesAttack.list, lOrnementaleAttack.list, lCapaciteAttack.list);
 
+    console.warn(lEffetDegats.include, lDistanceDegats.include, lStructurellesDegats.include, lOrnementaleDegats.include, lDgtsOtherInclude, lCapaciteDegats.include, bonusModule.degats.include)
+
     // DEGATS
     const degatsDice = lEffetDegats.totalDice+lDistanceDegats.totalDice+lStructurellesDegats.totalDice+lOrnementaleDegats.totalDice+lCapaciteDegats.dice+bonusModule.degats.dice+getDgtsOtherDiceMod;
     const degatsBonus = lEffetDegats.totalBonus+lDistanceDegats.totalBonus+lStructurellesDegats.totalBonus+lOrnementaleDegats.totalBonus+lCapaciteDegats.fixe+bonusModule.degats.fixe+getDgtsOtherFixeMod;
