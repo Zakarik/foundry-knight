@@ -1624,7 +1624,7 @@ export async function getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, 
           if(!assassin) {
           priorDegats = true;
 
-          const aSDice = tenebricide === true ? Math.floor(value/2) : value;
+          const aSDice = tenebricide === true ? Math.floor(value/2) : 2;
 
           const aSub = new game.knight.RollKnight(`${aSDice}D6`, actor.system);
           aSub._success = false;
