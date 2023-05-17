@@ -3774,7 +3774,7 @@ export async function getOrnementale(actor, typeWpn, data, effetsWpn, ornemental
   }
 }
 
-export async function getCapacite(actor, typeWpn, baseC, otherC, actorId, effetsWpn, structurelleWpn, ornementaleWpn, distanceWpn, isPNJ=false, idWpn=-1) {
+export async function getCapacite(actor, typeWpn, baseC, otherC, effetsWpn, structurelleWpn, ornementaleWpn, distanceWpn, isPNJ=false, idWpn=-1) {
   const wear = actor.system.wear;
   const armor = await getArmor(actor);
   const getArmorData = armor !== undefined &&  wear === 'armure' ? armor?.system || false : false;
@@ -3862,24 +3862,24 @@ export async function getCapacite(actor, typeWpn, baseC, otherC, actorId, effets
                   const dataBonus = capacite.bonus;
                   const degatsBonus = dataBonus.degats;
 
-                  bonusAttackDice += isPNJ ? Math.floor(getAspectValue(dataBonus.attaque, actor, true, true)/2) : getCaracValue(dataBonus.attaque, actorId);
-                  bonusAttackFixe += isPNJ ? getTotalAE(dataBonus.attaque, actor, true, true) : getODValue(dataBonus.attaque, actorId);
+                  bonusAttackDice += isPNJ ? Math.floor(getAspectValue(dataBonus.attaque, actor, true, true)/2) : getCaracValue(dataBonus.attaque, actor, true);
+                  bonusAttackFixe += isPNJ ? getTotalAE(dataBonus.attaque, actor, true, true) : getODValue(dataBonus.attaque, actor, true);
 
-                  if(degatsBonus.fixe) bonusDegatsFixe += isPNJ ? Math.floor(getAspectValue(degatsBonus.caracteristique, actor, true, true)/2) : getCaracValue(degatsBonus.caracteristique, actorId);
-                  if(degatsBonus.dice) bonusDegatsDice += isPNJ ? Math.floor(getAspectValue(degatsBonus.caracteristique, actor, true, true)/2) : getCaracValue(degatsBonus.caracteristique, actorId);
-                  if(degatsBonus.od && degatsBonus.dice) bonusDegatsDice += isPNJ ? getTotalAE(degatsBonus.caracteristique, actor, true, true) : getODValue(degatsBonus.caracteristique, actorId);
-                  if(degatsBonus.od && degatsBonus.fixe) bonusDegatsFixe += isPNJ ? getTotalAE(degatsBonus.caracteristique, actor, true, true) : getODValue(degatsBonus.caracteristique, actorId);
+                  if(degatsBonus.fixe) bonusDegatsFixe += isPNJ ? Math.floor(getAspectValue(degatsBonus.caracteristique, actor, true, true)/2) : getCaracValue(degatsBonus.caracteristique, actor, true);
+                  if(degatsBonus.dice) bonusDegatsDice += isPNJ ? Math.floor(getAspectValue(degatsBonus.caracteristique, actor, true, true)/2) : getCaracValue(degatsBonus.caracteristique, actor, true);
+                  if(degatsBonus.od && degatsBonus.dice) bonusDegatsDice += isPNJ ? getTotalAE(degatsBonus.caracteristique, actor, true, true) : getODValue(degatsBonus.caracteristique, actor, true);
+                  if(degatsBonus.od && degatsBonus.fixe) bonusDegatsFixe += isPNJ ? getTotalAE(degatsBonus.caracteristique, actor, true, true) : getODValue(degatsBonus.caracteristique, actor, true);
               } else if((active === true && typeWpn === 'distance' && isSilencieux)) {
                 const dataBonus = capacite.bonus;
                 const degatsBonus = dataBonus.degats;
 
-                bonusAttackDice += isPNJ ? Math.floor(getAspectValue(dataBonus.attaque, actor, true, true)/2) : getCaracValue(dataBonus.attaque, actorId);
-                bonusAttackFixe += isPNJ ? getTotalAE(dataBonus.attaque, actor, true, true) : getODValue(dataBonus.attaque, actorId);
+                bonusAttackDice += isPNJ ? Math.floor(getAspectValue(dataBonus.attaque, actor, true, true)/2) : getCaracValue(dataBonus.attaque, actor, true);
+                bonusAttackFixe += isPNJ ? getTotalAE(dataBonus.attaque, actor, true, true) : getODValue(dataBonus.attaque, actor, true);
 
-                if(degatsBonus.fixe) bonusDegatsFixe += isPNJ ? Math.floor(getAspectValue(degatsBonus.caracteristique, actor, true, true)/2) : getCaracValue(degatsBonus.caracteristique, actorId);
-                if(degatsBonus.dice) bonusDegatsDice += isPNJ ? Math.floor(getAspectValue(degatsBonus.caracteristique, actor, true, true)/2) : getCaracValue(degatsBonus.caracteristique, actorId);
-                if(degatsBonus.od && degatsBonus.dice) bonusDegatsDice += isPNJ ? getTotalAE(degatsBonus.caracteristique, actor, true, true) : getODValue(degatsBonus.caracteristique, actorId);
-                if(degatsBonus.od && degatsBonus.fixe) bonusDegatsFixe += isPNJ ? getTotalAE(degatsBonus.caracteristique, actor, true, true) : getODValue(degatsBonus.caracteristique, actorId);
+                if(degatsBonus.fixe) bonusDegatsFixe += isPNJ ? Math.floor(getAspectValue(degatsBonus.caracteristique, actor, true, true)/2) : getCaracValue(degatsBonus.caracteristique, actor, true);
+                if(degatsBonus.dice) bonusDegatsDice += isPNJ ? Math.floor(getAspectValue(degatsBonus.caracteristique, actor, true, true)/2) : getCaracValue(degatsBonus.caracteristique, actor, true);
+                if(degatsBonus.od && degatsBonus.dice) bonusDegatsDice += isPNJ ? getTotalAE(degatsBonus.caracteristique, actor, true, true) : getODValue(degatsBonus.caracteristique, actor, true);
+                if(degatsBonus.od && degatsBonus.fixe) bonusDegatsFixe += isPNJ ? getTotalAE(degatsBonus.caracteristique, actor, true, true) : getODValue(degatsBonus.caracteristique, actor, true);
               }
 
               if(capacite.interruption.actif && idWpn !== -1) {
@@ -4083,7 +4083,7 @@ export function getSpecial(actor) {
   return result;
 }
 
-export function getModuleBonus(actor, actorId, typeWpn, dataWpn, effetsWpn, distanceWpn, structurelleWpn, ornementaleWpn, isPNJ=false) {
+export function getModuleBonus(actor, typeWpn, dataWpn, effetsWpn, distanceWpn, structurelleWpn, ornementaleWpn, isPNJ=false) {
   let result = {
     attack:{
       list:[],
@@ -4215,14 +4215,14 @@ export function getModuleBonus(actor, actorId, typeWpn, dataWpn, effetsWpn, dist
 
   if((eRogue && typeWpn === 'contact' && !isLumiere) || (eRogue && typeWpn === 'distance' && isSilencieux)) {
     const data = actorModuleErsatz.rogue;
-    let bonusAttack = getCaracValue(data.attaque, actorId)+getODValue(data.attaque, actorId);
+    let bonusAttack = getCaracValue(data.attaque, actor, true)+getODValue(data.attaque, actor, true);
     let bonusDgtsDice = 0;
     let bonusDgtsFixe = 0;
 
-    if(data.degats.fixe) bonusDgtsFixe += getCaracValue(data.degats.caracteristique, actorId);
-    if(data.degats.dice) bonusDgtsDice += getCaracValue(data.degats.caracteristique, actorId);
-    if(data.degats.od && data.degats.dice) bonusDgtsDice += getODValue(data.degats.caracteristique, actorId);
-    if(data.degats.od && data.degats.fixe) bonusDgtsFixe += getODValue(data.degats.caracteristique, actorId);
+    if(data.degats.fixe) bonusDgtsFixe += getCaracValue(data.degats.caracteristique, actor, true);
+    if(data.degats.dice) bonusDgtsDice += getCaracValue(data.degats.caracteristique, actor, true);
+    if(data.degats.od && data.degats.dice) bonusDgtsDice += getODValue(data.degats.caracteristique, actor, true);
+    if(data.degats.od && data.degats.fixe) bonusDgtsFixe += getODValue(data.degats.caracteristique, actor, true);
 
     result.attack.dice += bonusAttack;
     result.degats.dice += bonusDgtsDice;
@@ -4283,8 +4283,8 @@ export function getAEValue(a, d, isData = false) {
   return {mineur, majeur};
 }
 
-export function getCaracValue(c, id) {
-  const actor = game.actors.get(id);
+export function getCaracValue(c, d, isData = false) {
+  const actor = isData ? d : game.actors.get(d);
   let result = 0;
 
   if(c === '' || c === undefined) { return result; }
@@ -4336,8 +4336,8 @@ export function isAspect(a) {
   return aspects[a] ?? false;
 }
 
-export function getODValue(c, id) {
-  const actor = game.actors.get(id);
+export function getODValue(c, d, isData = false) {
+  const actor = isData ? d : game.actors.get(d);
   const wear = actor.system.wear;
   let result = 0;
 
@@ -4357,8 +4357,8 @@ export function getODValue(c, id) {
   return result;
 }
 
-export function getCaracPiloteValue(c, id) {
-  const actor = game.actors.get(id);
+export function getCaracPiloteValue(c, d, isData = false) {
+  const actor = isData ? d : game.actors.get(d);
   let result = 0;
 
   if(c === '' || c === undefined) { return result; }
@@ -4375,8 +4375,8 @@ export function getCaracPiloteValue(c, id) {
   return result;
 }
 
-export function getODPiloteValue(c, id) {
-  const actor = game.actors.get(id);
+export function getODPiloteValue(c, d, isData = false) {
+  const actor = isData ? d : game.actors.get(d);
   let result = 0;
 
   if(c === '' || c === undefined) { return result; }

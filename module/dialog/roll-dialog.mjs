@@ -22,127 +22,150 @@ import {
  * @extends {Dialog}
  */
 export class KnightRollDialog extends Application {
-    constructor(data, options) {
-        super(options);
-        this.data = data;
+  constructor(data, options) {
+      super(options);
+      this.data = data;
+  }
+
+  static get defaultOptions() {
+      return foundry.utils.mergeObject(super.defaultOptions, {
+        template: "systems/knight/templates/dialog/roll-sheet.html",
+      classes: ["dialog", "knight", "rollDialog"],
+      width: 800,
+      height:500,
+      jQuery: true,
+      resizable: true,
+    });
+  }
+
+  /** @inheritdoc */
+  getData(options) {
+    this.options.title = this.data.title;
+    let buttons = Object.keys(this.data.buttons).reduce((obj, key) => {
+      let b = this.data.buttons[key];
+      b.cssClass = [key, this.data.default === key ? "default" : ""].filterJoin(" ");
+      if ( b.condition !== false ) obj[key] = b;
+      return obj;
+    }, {});
+
+    const longbow = this.data?.longbow || {};
+    const hasLongbow = longbow?.has || false;
+
+    if(hasLongbow) {
+      const degats = +longbow.degats.cout;
+      const violence = +longbow.violence.cout;
+      const portee = +longbow.portee.cout;
+      const coutsL1 = +longbow.effets.liste1.cout;
+      const coutsL2 = +longbow.effets.liste2.cout;
+      const coutsL3 = +longbow.effets.liste3.cout;
+
+      this.data.longbow.energie = degats+violence+portee+coutsL1+coutsL2+coutsL3;
     }
 
-    static get defaultOptions() {
-        return foundry.utils.mergeObject(super.defaultOptions, {
-          template: "systems/knight/templates/dialog/roll-sheet.html",
-        classes: ["dialog", "knight", "rollDialog"],
-        width: 800,
-        height:500,
-        jQuery: true,
-        resizable: true,
-      });
+    return {
+      actor:this.data.actor,
+      isToken:this.data.isToken,
+      label:this.data.label,
+      aspects: this.data.aspects,
+      base: this.data.base,
+      lock: this.data.lock,
+      autre: this.data.autre,
+      difficulte:this.data.difficulte,
+      modificateur:this.data.modificateur,
+      succesBonus:this.data.succesBonus,
+      degatsBonus:{
+        dice:this.data.degatsBonus?.dice || 0,
+        fixe:this.data.degatsBonus?.fixe || 0
+      },
+      violenceBonus:{
+        dice:this.data.violenceBonus?.dice || 0,
+        fixe:this.data.violenceBonus?.fixe || 0
+      },
+      moduleErsatz:this.data.moduleErsatz,
+      listWpnContact:this.data.listWpnContact,
+      listWpnDistance:this.data.listWpnDistance,
+      listWpnTourelle:this.data.listWpnTourelle,
+      listGrenades:this.data.listGrenades,
+      listWpnImprovisees:this.data.listWpnImprovisees,
+      listWpnMA:this.data.listWpnMA,
+      listWpnSpecial:this.data.listWpnSpecial,
+      longbow:this.data.longbow,
+      isWpn:this.data.isWpn,
+      idWpn:this.data.idWpn,
+      nameWpn:this.data.nameWpn,
+      typeWpn:this.data.typeWpn,
+      chambredouble:this.data.chambredouble,
+      chromeligneslumineuses:this.data.chromeligneslumineuses,
+      cadence:this.data.cadence,
+      barrage:this.data.barrage,
+      systemerefroidissement:this.data.systemerefroidissement,
+      guidage:this.data.guidage,
+      tenebricide:this.data.tenebricide,
+      obliteration:this.data.obliteration,
+      cranerieur:this.data.cranerieur,
+      tirenrafale:this.data.tirenrafale,
+      briserlaresilience:this.data.briserlaresilience,
+      jumeleambidextrie:this.data.jumeleambidextrie,
+      soeur:this.data.soeur,
+      jumelageambidextrie:this.data.jumelageambidextrie,
+      style:this.data.style,
+      num:this.data.num,
+      pnj:this.data.pnj,
+      ma:this.data.ma,
+      hasWraith:this.data.hasWraith,
+      moduleWraith:this.data.moduleWraith,
+      ameliorations:{
+        subsoniques:this.data.ameliorations.subsoniques,
+        nonletales:this.data.ameliorations.nonletales,
+        iem:this.data.ameliorations.iem,
+        hypervelocite:this.data.ameliorations.hypervelocite,
+        drones:this.data.ameliorations.drones,
+        explosives:this.data.ameliorations.explosives,
+        grappes:this.data.ameliorations.grappes
+      },
+      deploy:{
+        wpnContact:this.data.deploy?.wpnContact || false,
+        wpnDistance:this.data.deploy?.wpnDistance || false,
+        wpnTourelle:this.data.deploy?.wpnTourelle || false,
+        wpnArmesImproviseesContact:this.data.deploy?.wpnArmesImproviseesContact || false,
+        wpnArmesImproviseesDistance:this.data.deploy?.wpnArmesImproviseesDistance || false,
+        grenades:this.data.deploy?.grenades || false,
+        longbow:this.data.deploy?.longbow || false,
+        wpnMA:this.data.deploy?.wpnMA || false,
+        wpnArmesImprovisees:this.data.deploy?.wpnArmesImprovisees || false,
+      },
+      noOd:this.data.noOd,
+      avDv:this.data.avDv,
+      bonusTemp:{
+        has:this.data?.bonusTemp?.has || false,
+        modificateur:this.data?.bonusTemp?.modificateur || 0,
+        succesbonus:this.data?.bonusTemp?.succesbonus || 0
+      },
+      buttons: buttons
     }
+  }
 
-    /** @inheritdoc */
-    getData(options) {
-      this.options.title = this.data.title;
-      let buttons = Object.keys(this.data.buttons).reduce((obj, key) => {
-        let b = this.data.buttons[key];
-        b.cssClass = [key, this.data.default === key ? "default" : ""].filterJoin(" ");
-        if ( b.condition !== false ) obj[key] = b;
-        return obj;
-      }, {});
+  async setActor(actor, isToken) {
+    this.data.actor = actor;
+    this.data.isToken = isToken;
 
-      const longbow = this.data?.longbow || {};
-      const hasLongbow = longbow?.has || false;
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.actor,
+          this.data.isToken,
+        );
+      }, 0);
+    });
+  }
 
-      if(hasLongbow) {
-        const degats = +longbow.degats.cout;
-        const violence = +longbow.violence.cout;
-        const portee = +longbow.portee.cout;
-        const coutsL1 = +longbow.effets.liste1.cout;
-        const coutsL2 = +longbow.effets.liste2.cout;
-        const coutsL3 = +longbow.effets.liste3.cout;
+  getActor() {
+    return this.data.actor;
+  }
 
-        this.data.longbow.energie = degats+violence+portee+coutsL1+coutsL2+coutsL3;
-      }
-
-      return {
-        idActor:this.data.actor,
-        label:this.data.label,
-        aspects: this.data.aspects,
-        base: this.data.base,
-        lock: this.data.lock,
-        autre: this.data.autre,
-        difficulte:this.data.difficulte,
-        modificateur:this.data.modificateur,
-        succesBonus:this.data.succesBonus,
-        degatsBonus:{
-          dice:this.data.degatsBonus?.dice || 0,
-          fixe:this.data.degatsBonus?.fixe || 0
-        },
-        violenceBonus:{
-          dice:this.data.violenceBonus?.dice || 0,
-          fixe:this.data.violenceBonus?.fixe || 0
-        },
-        moduleErsatz:this.data.moduleErsatz,
-        listWpnContact:this.data.listWpnContact,
-        listWpnDistance:this.data.listWpnDistance,
-        listWpnTourelle:this.data.listWpnTourelle,
-        listGrenades:this.data.listGrenades,
-        listWpnImprovisees:this.data.listWpnImprovisees,
-        listWpnMA:this.data.listWpnMA,
-        listWpnSpecial:this.data.listWpnSpecial,
-        longbow:this.data.longbow,
-        isWpn:this.data.isWpn,
-        idWpn:this.data.idWpn,
-        nameWpn:this.data.nameWpn,
-        typeWpn:this.data.typeWpn,
-        chambredouble:this.data.chambredouble,
-        chromeligneslumineuses:this.data.chromeligneslumineuses,
-        cadence:this.data.cadence,
-        barrage:this.data.barrage,
-        systemerefroidissement:this.data.systemerefroidissement,
-        guidage:this.data.guidage,
-        tenebricide:this.data.tenebricide,
-        obliteration:this.data.obliteration,
-        cranerieur:this.data.cranerieur,
-        tirenrafale:this.data.tirenrafale,
-        briserlaresilience:this.data.briserlaresilience,
-        jumeleambidextrie:this.data.jumeleambidextrie,
-        soeur:this.data.soeur,
-        jumelageambidextrie:this.data.jumelageambidextrie,
-        style:this.data.style,
-        num:this.data.num,
-        pnj:this.data.pnj,
-        ma:this.data.ma,
-        hasWraith:this.data.hasWraith,
-        moduleWraith:this.data.moduleWraith,
-        ameliorations:{
-          subsoniques:this.data.ameliorations.subsoniques,
-          nonletales:this.data.ameliorations.nonletales,
-          iem:this.data.ameliorations.iem,
-          hypervelocite:this.data.ameliorations.hypervelocite,
-          drones:this.data.ameliorations.drones,
-          explosives:this.data.ameliorations.explosives,
-          grappes:this.data.ameliorations.grappes
-        },
-        deploy:{
-          wpnContact:this.data.deploy?.wpnContact || false,
-          wpnDistance:this.data.deploy?.wpnDistance || false,
-          wpnTourelle:this.data.deploy?.wpnTourelle || false,
-          wpnArmesImproviseesContact:this.data.deploy?.wpnArmesImproviseesContact || false,
-          wpnArmesImproviseesDistance:this.data.deploy?.wpnArmesImproviseesDistance || false,
-          grenades:this.data.deploy?.grenades || false,
-          longbow:this.data.deploy?.longbow || false,
-          wpnMA:this.data.deploy?.wpnMA || false,
-          wpnArmesImprovisees:this.data.deploy?.wpnArmesImprovisees || false,
-        },
-        noOd:this.data.noOd,
-        avDv:this.data.avDv,
-        bonusTemp:{
-          has:this.data?.bonusTemp?.has || false,
-          modificateur:this.data?.bonusTemp?.modificateur || 0,
-          succesbonus:this.data?.bonusTemp?.succesbonus || 0
-        },
-        buttons: buttons
-      }
-    }
+  isToken() {
+    return this.data.isToken;
+  }
 
   async setLabel(label) {
     this.data.label = label;
@@ -528,18 +551,6 @@ export class KnightRollDialog extends Application {
     });
   }
 
-  async setActor(actor) {
-    this.data.actor = actor;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.actor
-        );
-      }, 0);
-    });
-  }
-
   async setAspects(aspects) {
     this.data.aspects = aspects;
 
@@ -599,10 +610,10 @@ export class KnightRollDialog extends Application {
   }
 
   async setSuccesBonus(value) {
-    const id = this.data.actor;
-    const actor = game.actors.get(id);
+    const actor = this.data.actor;
 
-    actor.update({['system.combat.data.succesbonus']:value});
+    if(this.isToken) await actor.token.modifyActorDocument({['system.combat.data.succesbonus']:value});
+    else await game.actors.get(actor.id).update({['system.combat.data.succesbonus']:value});
 
     this.data.succesBonus = value;
 
@@ -616,10 +627,10 @@ export class KnightRollDialog extends Application {
   }
 
   async setModificateur(value) {
-    const id = this.data.actor;
-    const actor = game.actors.get(id);
+    const actor = this.data.actor;
 
-    actor.update({['system.combat.data.modificateur']:value});
+    if(this.isToken) await actor.token.modifyActorDocument({['system.combat.data.modificateur']:value});
+    else await game.actors.get(actor.id).update({['system.combat.data.modificateur']:value});
 
     this.data.modificateur = value;
 
@@ -848,12 +859,13 @@ export class KnightRollDialog extends Application {
     });
 
     html.find('div.bonus select').change(ev => {
-      const id = this.data.actor;
-      const actor = game.actors.get(id);
+      const actor = this.data.actor;
       const value = $(ev.currentTarget).val();
 
+      if(this.isToken) actor.token.modifyActorDocument({['system.combat.data.type']:value});
+      else game.actors.get(actor.id).update({['system.combat.data.type']:value});
+
       this.data.style.type = value;
-      actor.update({[`system.combat.data.type`]:value});
 
       switch(value) {
         case 'degats':
@@ -895,11 +907,11 @@ export class KnightRollDialog extends Application {
       const fixeOrDice = target.data("fixeordice");
       const variable = target.data("variable");
       const energie = +target.data("energie");
-      const actor = game.actors.get(this.data.actor);
+      const actor = this.data.actor;
       const wpn = {'contact':'listWpnContact', 'distance':'listWpnDistance'}[type]
       const dataWpn = this.data[wpn][num].system[typeBonus].module.variable[variable];
       const paliers = dataWpn.selected.energie.paliers[fixeOrDice].findIndex(element => element === value);
-      const module = actor.items.get(dataWpn.id);
+      const module = this.isToken ? actor.token.actor.items.get(dataWpn.id) : game.actors.get(actor.id).items.get(dataWpn.id);
       const depense = paliers*energie;
       const update = {
         [`system.bonus.${typeBonus}.variable.selected.${fixeOrDice}`]:value,
@@ -915,23 +927,25 @@ export class KnightRollDialog extends Application {
     html.find('select.choixmain').change(ev => {
       const target = $(ev.currentTarget);
       const value = target.val();
-      const id = this.data.actor;
-      const actor = game.actors.get(id);
+      const actor = this.data.actor;
       const num = target.data("num");
       const listWpnContact = this.data.listWpnContact[num];
+      const id = listWpnContact._id;
 
-      actor.items.get(listWpnContact._id).update({['system.options2mains.actuel']:value});
+      if(this.isToken) actor.token.actor.items.get(id).update({['system.options2mains.actuel']:value});
+      else game.actors.get(actor.id).items.get(id).update({['system.options2mains.actuel']:value});
     });
 
     html.find('select.choixmunition').change(ev => {
       const target = $(ev.currentTarget);
       const value = target.val();
-      const id = this.data.actor;
-      const actor = game.actors.get(id);
+      const actor = this.data.actor;
       const num = target.data("num");
       const listWpnDistance = this.data.listWpnDistance[num];
+      const id = listWpnDistance._id;
 
-      actor.items.get(listWpnDistance._id).update({['system.optionsmunitions.actuel']:value});
+      if(this.isToken) actor.token.actor.items.get(id).update({['system.optionsmunitions.actuel']:value});
+      else game.actors.get(actor.id).items.get(id).update({['system.optionsmunitions.actuel']:value});
     });
 
     html.find('div.longbow div.data div.effets div img.info').click(ev => {
@@ -1026,18 +1040,10 @@ export class KnightRollDialog extends Application {
 
     html.find('div.styleCombat select.selectStyle').change(ev => {
       const style = $(ev.currentTarget).val();
-      const id = this.data.actor;
-      const actor = game.actors.get(id);
+      const actor = this.data.actor;
 
-      const update = {
-        system: {
-          combat:{
-            style: style
-          }
-        }
-      };
-
-      actor.update(update);
+      if(this.isToken) actor.token.modifyActorDocument({['system.combat.style']:style});
+      else game.actors.get(actor.id).update({['system.combat.style']:style});
     });
   }
 
@@ -1066,14 +1072,13 @@ export class KnightRollDialog extends Application {
   }
 
   async _doRoll(event, entraide=false, attackOnly=false, dgtsOnly=false, violenceOnly=false, wpnId='', wpnType='', wpnName='', bonusTemp=false) {
-    const id = this.data.actor;
     const isPNJ = this.data?.pnj || false;
     const isMA = this.data?.ma || false;
     const noOd = this.data?.noOd || false;
-    const actor = game.actors.get(id);
+    const actor = this.data.actor;
     const data = this.data;
     const otherC = [];
-    const PNJAE = getAEValue(data.base, id);
+    const PNJAE = getAEValue(data.base, actor, true);
 
     const idWpn = wpnId === '' ? this.data.idWpn : wpnId;
     const nameWpn = wpnName === '' ? this.data.nameWpn : wpnId;
@@ -1086,29 +1091,27 @@ export class KnightRollDialog extends Application {
     let carac = 0;
     let od = 0;
 
-
-
     if(isPNJ) {
-      carac = getAspectValue(data.base, id);
+      carac = getAspectValue(data.base, actor, true);
       od = Number(PNJAE.mineur)+Number(PNJAE.majeur);
     }
     else if(isMA) {
-      carac = getCaracPiloteValue(data.base, id);
-      od = !noOd ? getODPiloteValue(data.base, id) : 0;
+      carac = getCaracPiloteValue(data.base, actor, true);
+      od = !noOd ? getODPiloteValue(data.base, actor, true) : 0;
     }
     else {
-      carac = getCaracValue(data.base, id);
-      od = !noOd ? getODValue(data.base, id) : 0;
+      carac = getCaracValue(data.base, actor, true);
+      od = !noOd ? getODValue(data.base, actor, true) : 0;
     }
 
     if(!entraide && !isPNJ) {
       for(let i = 0;i < data.autre.length;i++) {
         if(isMA) {
-          carac += getCaracPiloteValue(data.autre[i], id);
-          od += !noOd ? getODPiloteValue(data.autre[i], id) : 0;
+          carac += getCaracPiloteValue(data.autre[i], actor, true);
+          od += !noOd ? getODPiloteValue(data.autre[i], actor, true) : 0;
         } else {
-          carac += getCaracValue(data.autre[i], id);
-          od += !noOd ? getODValue(data.autre[i], id) : 0;
+          carac += getCaracValue(data.autre[i], actor, true);
+          od += !noOd ? getODValue(data.autre[i], actor, true) : 0;
         }
       }
 
@@ -1155,7 +1158,8 @@ export class KnightRollDialog extends Application {
         case 'grenades':
           const nbreGrenade = actor.system.combat.grenades.quantity.value;
 
-          actor.update({['system.combat.grenades.quantity.value']:nbreGrenade-1});
+          if(this.isToken) actor.token.modifyActorDocument({['system.combat.grenades.quantity.value']:nbreGrenade-1});
+          else game.actors.get(actor.id).update({['system.combat.grenades.quantity.value']:nbreGrenade-1});
 
           wpn = this.data.listGrenades[nameWpn];
           break;
@@ -1181,7 +1185,7 @@ export class KnightRollDialog extends Application {
       let onlyAttack = attackOnly === false ? listAllE.onlyAttack : attackOnly;
       let barrageValue = listAllE.barrageValue;
 
-      if(typeWpn !== 'tourelle' && !isPNJ) totalDice += getCaracValue(data.style.selected, id);
+      if(typeWpn !== 'tourelle' && !isPNJ) totalDice += getCaracValue(data.style.selected, actor, true);
 
       if(typeWpn === 'tourelle') {
         totalDice += +wpn.tourelle.attaque.dice;
@@ -1314,7 +1318,7 @@ export class KnightRollDialog extends Application {
       totalDice += data.modificateur || 0;
       totalBonus += data.succesBonus || 0;
 
-      const capacite = isPNJ ? {roll:{fixe:0, string:''}} : await getCapacite(actor, '', data.base, data.autre, id, {raw:[], custom:[], liste:[]}, {raw:[], custom:[], liste:[]}, {raw:[], custom:[], liste:[]}, {raw:[], custom:[], liste:[]});
+      const capacite = isPNJ ? {roll:{fixe:0, string:''}} : await getCapacite(actor, '', data.base, data.autre, {raw:[], custom:[], liste:[]}, {raw:[], custom:[], liste:[]}, {raw:[], custom:[], liste:[]}, {raw:[], custom:[], liste:[]});
 
       totalBonus += capacite.roll.fixe;
 
@@ -1392,8 +1396,6 @@ export class KnightRollDialog extends Application {
       execAtt._base = game.i18n.localize(CONFIG.KNIGHT.aspects[data.base]);
     }
 
-    console.log(wpnType, localDataWpn);
-
     let details = '';
 
     if(wpnType === 'tourelle') {
@@ -1450,8 +1452,7 @@ export class KnightRollDialog extends Application {
     if(isCapacite) {
       portee = `${game.i18n.localize(`KNIGHT.PORTEE.Label`)} ${localDataWpn.portee}`;
     } else if((wpnType === 'grenades' && !isPNJ) || (wpnType === 'armesimprovisees' && !isPNJ)) {
-      const idActor = this.data.actor;
-      const force = getODValue('force', idActor);
+      const force = getODValue('force', actor, true);
 
       switch(force) {
         case 0:
@@ -1729,7 +1730,6 @@ export class KnightRollDialog extends Application {
   }
 
   async _getAllEffets(actor, dataWpn, typeWpn, isPNJ = false) {
-    const idActor = this.data.actor;
     const idWpn = this.data?.idWpn || -1;
     const data = this.data;
     const style = isPNJ ? {raw:''} : this.data.style;
@@ -1761,7 +1761,7 @@ export class KnightRollDialog extends Application {
       energieViolence = dataWpn.violence.dice > dataWpn.violence.variable.min.dice ? (dataWpn.violence.dice-dataWpn.violence.variable.min.dice)*dataWpn.violence.variable.cout : 0;
     }
 
-    const bonusModule = getModuleBonus(actor, idActor, typeWpn, dataWpn, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ);
+    const bonusModule = getModuleBonus(actor, typeWpn, dataWpn, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ);
 
     //ENERGIE DES MODULES
     energieDgts += bonusModule?.degats?.energie || 0;
@@ -1771,7 +1771,7 @@ export class KnightRollDialog extends Application {
     const listDistance = await getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, isPNJ);
     const listStructurelles = await getStructurelle (actor, typeWpn, style.raw, data, effetsWpn, structurellesWpn, isPNJ);
     const listOrnementale = await getOrnementale (actor, typeWpn, data, effetsWpn, ornementalesWpn, isPNJ);
-    const listCapacites = await getCapacite(actor, typeWpn, data.base, data.autre, idActor, effetsWpn, structurellesWpn, ornementalesWpn, distanceWpn, isPNJ, idWpn);
+    const listCapacites = await getCapacite(actor, typeWpn, data.base, data.autre, effetsWpn, structurellesWpn, ornementalesWpn, distanceWpn, isPNJ, idWpn);
 
     const lEffetAttack = listEffets.attack;
     const lEffetDegats = listEffets.degats;
@@ -1816,16 +1816,16 @@ export class KnightRollDialog extends Application {
     let getViolenceDiceMod = 0;
     let maximizeDgts = false;
 
-    const baseForce = getCaracValue('force', idActor);
-    const force = getODValue('force', idActor);
-    const tir = getODValue('tir', idActor);
-    const combat = getODValue('combat', idActor);
-    const discretion = getCaracValue('discretion', idActor);
-    const discretionOD = getODValue('discretion', idActor);
+    const baseForce = getCaracValue('force', actor, true);
+    const force = getODValue('force', actor, true);
+    const tir = getODValue('tir', actor, true);
+    const combat = getODValue('combat', actor, true);
+    const discretion = getCaracValue('discretion', actor, true);
+    const discretionOD = getODValue('discretion', actor, true);
 
-    const chair = +getAspectValue('chair', idActor);
-    const bete = +getAspectValue('bete', idActor);
-    const beteAE = getAEValue('bete', idActor);
+    const chair = +getAspectValue('chair', actor, true);
+    const bete = +getAspectValue('bete', actor, true);
+    const beteAE = getAEValue('bete', actor, true);
 
     // Base de Force pour les armes de contact
     if((typeWpn === 'contact' && baseForce > 0 && !isPNJ && capaciteName !== "cea") || (typeWpn === 'armesimprovisees' && this.data.idWpn === 'contact' && baseForce > 0 && !isPNJ && capaciteName !== "cea")) {
@@ -2023,7 +2023,7 @@ export class KnightRollDialog extends Application {
 
     // MECHAARMURE
     if((typeWpn === 'base' && this.data.ma) || (typeWpn === 'c1' && this.data.ma) || (typeWpn === 'c2' && this.data.ma) || (typeWpn === 'armesimprovisees' && this.data.ma)) {
-      const actor = game.actors.get(idActor);
+      const actor = this.isToken ? actor : game.actors.get(actor.id);
       const puissance = +actor.system.puissance.value;
       getAttackSpecialDiceMod += puissance;
 
@@ -2534,10 +2534,9 @@ export class KnightRollDialog extends Application {
 
   /** @inheritdoc */
   async close(options) {
-    const id = this.data.actor;
     const isPNJ = this.data.pnj;
     const isMA = this.data.ma;
-    const actor = game.actors.get(id);
+    const actor = this.data.actor;
 
     const succesBonus = this.data.succesBonus;
     const modificateur = this.data.modificateur;
@@ -2592,7 +2591,8 @@ export class KnightRollDialog extends Application {
       }
     }
 
-    actor.update(update);
+    if(this.isToken) await actor.token.modifyActorDocument(update);
+    else await game.actors.get(actor.id).update(update);
 
     if(!isMA) {
       const listWpnContact = this.data.listWpnContact;
@@ -2606,7 +2606,7 @@ export class KnightRollDialog extends Application {
 
         switch(type) {
           case 'module':
-            const items = actor.items.get(data._id);
+            const items = this.isToken ? actor.token.actor.items.get(data._id) : game.actors.get(actor.id).items.get(data._id);
 
             if(dgts.variable.has) {
               items.update({[`system.arme.degats.dice`]:dgts.dice});
@@ -2627,7 +2627,7 @@ export class KnightRollDialog extends Application {
 
         switch(type) {
           case 'module':
-            const items = actor.items.get(data._id);
+            const items = this.isToken ? actor.token.actor.items.get(data._id) : game.actors.get(actor.id).items.get(data._id);
 
             if(dgts.variable.has) {
               items.update({[`system.arme.degats.dice`]:dgts.dice});
@@ -2640,7 +2640,6 @@ export class KnightRollDialog extends Application {
         }
       }
     }
-
 
     if ( this.data.close ) this.data.close(this.options.jQuery ? this.element : this.element[0]);
     $(document).off('keydown.chooseDefault');

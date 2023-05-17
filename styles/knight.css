@@ -1330,9 +1330,11 @@
 }
 
 .gmMonitor form {
-  display: flex;
+  display: grid;
   opacity: 0.9;
   overflow: auto;
+  grid-template-rows: max-content;
+  row-gap: 5px;
 }
 .gmMonitor div h2.header {
   display: block;
@@ -1411,17 +1413,16 @@
   height: 100%;
 }
 .gmMonitor div.main > div {
-  display: flex;
-  position: relative;
-  justify-content: space-between;
-  width: 100%;
+  display: grid;
+  grid-template-columns: 120px repeat(5, 1fr) 120px;
+  grid-template-rows: auto;
+  grid-gap: 1px;
   font-variant: small-caps;
   line-height: 20px;
   border-top: 1px solid RGB(76 74 90);
 }
 .gmMonitor div.main > div div.name {
   display: flex;
-  width: 90px;
   flex-wrap: wrap;
   align-content: flex-start;
 }
@@ -1432,9 +1433,17 @@
 .gmMonitor div.main > div div.name span:nth-of-type(2) {
   border-top: 1px solid RGB(76 74 90);
 }
+.gmMonitor div.main > div div.name i {
+  margin-right: 5px;
+  margin-top: auto;
+  margin-bottom: auto;
+  cursor: pointer;
+}
+.gmMonitor div.main > div div.name i:hover {
+  text-shadow: 0 0 10px RGB(37 85 228);
+}
 .gmMonitor div.main > div div.aspect {
   display: flex;
-  width: calc(20% - 18px - 24px);
   border-left: 1px solid RGB(76 74 90);
   flex-wrap: wrap;
   align-content: flex-start;
@@ -1455,7 +1464,6 @@
 }
 .gmMonitor div.main > div div.data {
   display: flex;
-  width: 120px;
   border-left: 1px solid RGB(76 74 90);
   flex-wrap: wrap;
   align-content: flex-start;

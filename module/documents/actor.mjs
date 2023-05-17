@@ -491,8 +491,8 @@ export class KnightActor extends Actor {
       if(!PGDepenseListe[PG].isArmure) PGTotalDepense += Number(PGDepenseListe[PG].value);
     }
 
+    if(dataPG.versioning === '3.8.0') data.progression.gloire.actuel = Number(dataPG.total)-PGTotalDepense;
     data.progression.gloire.depense.total = PGTotalDepense;
-    data.progression.gloire.total = PGTotalDepense+PGActuel;
 
     // XP
     const dataPX = dataProgression.experience;
@@ -512,8 +512,10 @@ export class KnightActor extends Actor {
       }
     }
 
+    if(dataPX.versioning === '3.8.0') data.progression.experience.actuel = Number(dataPX.total)-PXTotalDepense;
     data.progression.experience.depense.total = PXTotalDepense;
-    data.progression.experience.total = PXTotalDepense+PXActuel;
+
+    //data.progression.experience.total = PXTotalDepense+PXActuel;
   }
 
   _preparePNJData(actorData) {

@@ -1397,7 +1397,9 @@
                         <span class="label">
                             {{localize "KNIGHT.PROGRESSION.Actuel"}}
                         </span>
-                        <input type="number" name="system.progression.experience.actuel" value="{{systemData.progression.experience.actuel}}" />
+                        <span class="score">
+                            {{systemData.progression.experience.actuel}}
+                        </span>
                     </label>
                     <label>
                         <span class="label">
@@ -1411,9 +1413,7 @@
                         <span class="label">
                             {{localize "KNIGHT.AUTRE.Total"}}
                         </span>
-                        <span class="score">
-                            {{systemData.progression.experience.total}}
-                        </span>
+                        <input type="number" name="system.progression.gloire.total" value="{{systemData.progression.experience.total}}" />
                     </label>
                 </div>
 
@@ -1425,7 +1425,13 @@
                         <span class="label">
                             {{localize "KNIGHT.PROGRESSION.Actuel"}}
                         </span>
-                        <input type="number" name="system.progression.gloire.actuel" value="{{systemData.progression.gloire.actuel}}" />
+                        <span class="score">
+                            {{#if systemData.progression.gloire.actuel}}
+                                {{systemData.progression.gloire.actuel}}
+                                {{else}}
+                                0
+                            {{/if}}
+                        </span>
                     </label>
                     <label>
                         <span class="label">
@@ -1443,13 +1449,7 @@
                         <span class="label">
                             {{localize "KNIGHT.AUTRE.Total"}}
                         </span>
-                        <span class="score">
-                            {{#if systemData.progression.gloire.total}}
-                                {{systemData.progression.gloire.total}}
-                                {{else}}
-                                0
-                            {{/if}}
-                        </span>
+                        <input type="number" name="system.progression.gloire.total" value="{{systemData.progression.gloire.total}}" />
                     </label>
                 </div>
 

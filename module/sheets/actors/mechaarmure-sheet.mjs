@@ -1486,6 +1486,7 @@ export class MechaArmureSheet extends ActorSheet {
     let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
 
     if(rollUi !== false) {
+      await rollUi.setActor(this.actor, this.actor.isToken);
       await rollUi.setWpnMA(wpn);
       await rollUi.setWraith(moduleWraith);
 
@@ -1714,7 +1715,7 @@ export class MechaArmureSheet extends ActorSheet {
       sacrifice:data.data.system.combat.data.sacrifice,
       maximum:6
     });
-    await rollApp.setActor(this.actor.id);
+    await rollApp.setActor(this.actor, this.actor.isToken);
     await rollApp.setAspects(data.data.system.aspects);
     await rollApp.setWraith(data.actor.moduleWraith);
     await rollApp.setBonusTemp(false, 0, 0);

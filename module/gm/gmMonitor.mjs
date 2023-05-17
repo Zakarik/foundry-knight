@@ -1,3 +1,5 @@
+import toggler from '../helpers/toggler.js';
+
 /**
  * Knight Boîte à outil
  * @extends {FormApplication}
@@ -13,7 +15,7 @@
             left: x - ((x / 2) + 400),
             top: y - ((y / 2) + 200),
             height: 400,
-            width: 600,
+            width: 800,
             closeOnSubmit: false,
             submitOnClose: false,
             submitOnChange: true,
@@ -37,13 +39,16 @@
         }
 
         const pj = {};
+        const pjM = {}
 
         for (const actor of game.actors) {
             if(actor.type === 'knight') {
                 const surname = actor.system.surnom;
+                const show = actor.system?.GM?.dontshow || false;
 
-                pj[actor.id] = {
-                    name: '' !== surname ? surname : actor.name,
+                const data = {
+                    name: actor.name,
+                    surname:actor.name !== surname ? surname : '',
                     aspects:actor.system.aspects,
                     defense:actor.system.defense.value,
                     reaction:actor.system.reaction.value,
@@ -65,9 +70,16 @@
                     },
                     cdf:actor.system.champDeForce.value,
                 };
+
+                if(!show) {
+                    pj[actor.id] = data;
+                } else {
+                    pjM[actor.id] = data;
+                }
             }
         }
         this.object.pj = pj;
+        this.object.pjM = Object.keys(pjM).length === 0 ? false : pjM;
 
         return super.render(force, options);
     }
@@ -95,12 +107,22 @@
             return;
         }
 
-        html.find('.header .far').click(ev => {
-            const target = $(ev.currentTarget);
-            const type = target.data("type");
-            const value = target.data("value") === true ? false : true;
+        toggler.init(this.id, html);
 
-            this.object[type] = value
+        html.find('i.masquer').click(async ev => {
+            const target = $(ev.currentTarget);
+            const id = target.data("id");
+
+            await game.actors.get(id).update({['system.GM.dontshow']:true});
+
+            this.render(true);
+        });
+
+        html.find('i.afficher').click(async ev => {
+            const target = $(ev.currentTarget);
+            const id = target.data("id");
+
+            await game.actors.get(id).update({['system.GM.dontshow']:false});
 
             this.render(true);
         });

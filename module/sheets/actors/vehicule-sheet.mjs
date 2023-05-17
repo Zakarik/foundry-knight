@@ -725,7 +725,8 @@ export class VehiculeSheet extends ActorSheet {
     let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
 
     if(rollUi !== false) {
-      rollUi.setWpnDistance(armesDistance);
+      await rollUi.setActor(this.actor, this.actor.isToken);
+      await rollUi.setWpnDistance(armesDistance);
 
       rollUi.render(true);
     }
@@ -817,7 +818,7 @@ export class VehiculeSheet extends ActorSheet {
       }
     }
 
-    await rollApp.setActor(this.actor.id);
+    await rollApp.setActor(this.actor, this.actor.isToken);
     await rollApp.setAspects(actor.system.aspects);
     await rollApp.setEffets(hasBarrage, false, false, false);
     await rollApp.setData(label, select, [], [], difficulte,

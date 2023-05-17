@@ -1089,9 +1089,11 @@
 .gmMonitor {
 
   form {
-    display:flex;
+    display: grid;
     opacity: 0.9;
     overflow: auto;
+    grid-template-rows: max-content;
+    row-gap: 5px;
   }
 
   div {
@@ -1102,83 +1104,91 @@
       height:100%;
 
       >div {
-        display:flex;
-        position:relative;
-        justify-content: space-between;
-        width:100%;
+        display: grid;
+        grid-template-columns: 120px repeat(5, 1fr) 120px;
+        grid-template-rows: auto;
+        grid-gap: 1px;
         font-variant: small-caps;
         line-height: 20px;
-        border-top:1px solid $lightBlack;
+        border-top: 1px solid $lightBlack;
 
         div {
           &.name {
-            display:flex;
-            width:90px;
+            display: flex;
             flex-wrap: wrap;
             align-content: flex-start;
 
             span {
-              display:flex;
-              width:100%;
+              display: flex;
+              width: 100%;
 
               &:nth-of-type(2) {
-                border-top:1px solid $lightBlack
+                border-top: 1px solid $lightBlack;
+              }
+            }
+
+            i {
+              margin-right: 5px;
+              margin-top: auto;
+              margin-bottom: auto;
+              cursor: pointer;
+
+              &:hover {
+                text-shadow: 0 0 10px $blue;
               }
             }
           }
 
           &.aspect {
-            display:flex;
-            width:calc((100% / 5) - (90px / 5) - (120px / 5));
-            border-left:1px solid $lightBlack;
+            display: flex;
+            border-left: 1px solid $lightBlack;
             flex-wrap: wrap;
             align-content: flex-start;
 
             span {
-              display:flex;
+              display: flex;
               width:100%;
               justify-content: left;
               text-align: left;
-              padding-left:5px;
+              padding-left: 5px;
 
               &.label {
-                font-size:14px;
+                font-size: 14px;
                 font-weight: bold;
                 justify-content: center;
                 text-align: center;
-                padding:0px;
+                padding: 0px;
               }
             }
           }
 
           &.data {
-            display:flex;
-            width:120px;
-            border-left:1px solid $lightBlack;
+            display: flex;
+            border-left: 1px solid $lightBlack;
             flex-wrap: wrap;
             align-content: flex-start;
 
             span {
-              display:flex;
+              display: flex;
               width:100%;
               justify-content: left;
               text-align: left;
-              padding-left:5px;
+              padding-left: 5px;
             }
           }
         }
 
         &:nth-of-type(even) {
-          background:$lightBlack;
+          background: $lightBlack;
 
           div {
             &.name,
             &.aspect,
             &.data {
-              border-color:$black;
+              border-color: $black;
 
               span {
-                border-color:$black;
+                border-color: $black;
               }
             }
           }

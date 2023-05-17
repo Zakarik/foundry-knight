@@ -4,7 +4,10 @@
         <div>
             <div class="name">
                 <span>
-                    {{key.name}}
+                   <i class="fa-solid fa-eye-slash masquer" data-id="{{pj}}" title="{{localize "KNIGHT.GM.TOOL.GMMONITOR.Masquer"}}"></i> {{key.name}}
+                </span>
+                <span>
+                    {{key.surname}}
                 </span>
                 <span>
                     {{localize "KNIGHT.LATERAL.Reaction"}} : {{key.reaction}}
@@ -133,4 +136,147 @@
         </div>
         {{/each}}
     </div>
+    {{#if object.pjM}}
+    <div class="main">
+        <h2 class="header js-toggler">
+            <i class="far fa-plus-square"></i>
+            PJ Masqués
+        </h2>
+        {{#each object.pjM as | key pj|}}
+        <div style="display:none;">
+            <div class="name">
+                <span>
+                   <i class="fa-solid fa-eye afficher" data-id="{{pj}}" title="{{localize "KNIGHT.GM.TOOL.GMMONITOR.Afficher"}}"></i> {{key.name}}
+                </span>
+                <span>
+                    {{key.surname}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.LATERAL.Reaction"}} : {{key.reaction}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.LATERAL.Defense"}} : {{key.defense}}
+                </span>
+            </div>
+            <div class="aspect">
+                <span class="label">
+                    {{localize "KNIGHT.ASPECTS.CHAIR.Label"}} : {{key.aspects.chair.value}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.DEPLACEMENT.Label"}} : {{key.aspects.chair.caracteristiques.deplacement.value}}
+                    <br/>
+                    {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.chair.caracteristiques.deplacement.overdrive.value}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.FORCE.Label"}} : {{key.aspects.chair.caracteristiques.force.value}}
+                    <br/>
+                    {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.chair.caracteristiques.force.overdrive.value}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.ENDURANCE.Label"}} : {{key.aspects.chair.caracteristiques.endurance.value}}
+                    <br/>
+                    {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.chair.caracteristiques.endurance.overdrive.value}}
+                </span>
+            </div>
+            <div class="aspect">
+                <span class="label">
+                    {{localize "KNIGHT.ASPECTS.BETE.Label"}} : {{key.aspects.bete.value}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.ASPECTS.BETE.CARACTERISTIQUES.HARGNE.Label"}} : {{key.aspects.bete.caracteristiques.hargne.value}}
+                    <br/>
+                    {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.bete.caracteristiques.hargne.overdrive.value}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.ASPECTS.BETE.CARACTERISTIQUES.COMBAT.Label"}} : {{key.aspects.bete.caracteristiques.combat.value}}
+                    <br/>
+                    {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.bete.caracteristiques.combat.overdrive.value}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.ASPECTS.BETE.CARACTERISTIQUES.INSTINCT.Label"}} : {{key.aspects.bete.caracteristiques.instinct.value}}
+                    <br/>
+                    {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.bete.caracteristiques.instinct.overdrive.value}}
+                </span>
+            </div>
+            <div class="aspect">
+                <span class="label">
+                    {{localize "KNIGHT.ASPECTS.MACHINE.Label"}} : {{key.aspects.machine.value}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.ASPECTS.MACHINE.CARACTERISTIQUES.TIR.Label"}} : {{key.aspects.machine.caracteristiques.tir.value}}
+                    <br/>
+                    {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.machine.caracteristiques.tir.overdrive.value}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.ASPECTS.MACHINE.CARACTERISTIQUES.SAVOIR.Label"}} : {{key.aspects.machine.caracteristiques.savoir.value}}
+                    <br/>
+                    {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.machine.caracteristiques.savoir.overdrive.value}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.ASPECTS.MACHINE.CARACTERISTIQUES.TECHNIQUE.Label"}} : {{key.aspects.machine.caracteristiques.technique.value}}
+                    <br/>
+                    {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.machine.caracteristiques.technique.overdrive.value}}
+                </span>
+            </div>
+            <div class="aspect">
+                <span class="label">
+                    {{localize "KNIGHT.ASPECTS.DAME.Label"}} : {{key.aspects.dame.value}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.ASPECTS.DAME.CARACTERISTIQUES.AURA.Label"}} : {{key.aspects.dame.caracteristiques.aura.value}}
+                    <br/>
+                    {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.dame.caracteristiques.aura.overdrive.value}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.ASPECTS.DAME.CARACTERISTIQUES.PAROLE.Label"}} : {{key.aspects.dame.caracteristiques.parole.value}}
+                    <br/>
+                    {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.dame.caracteristiques.parole.overdrive.value}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.ASPECTS.DAME.CARACTERISTIQUES.SANGFROID.Label"}} : {{key.aspects.dame.caracteristiques.sangFroid.value}}
+                    <br/>
+                    {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.dame.caracteristiques.sangFroid.overdrive.value}}
+                </span>
+            </div>
+            <div class="aspect">
+                <span class="label">
+                    {{localize "KNIGHT.ASPECTS.MASQUE.Label"}} : {{key.aspects.masque.value}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.ASPECTS.MASQUE.CARACTERISTIQUES.DISCRETION.Label"}} : {{key.aspects.masque.caracteristiques.discretion.value}}
+                    <br/>
+                    {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.masque.caracteristiques.discretion.overdrive.value}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.ASPECTS.MASQUE.CARACTERISTIQUES.DEXTERITE.Label"}} : {{key.aspects.masque.caracteristiques.dexterite.value}}
+                    <br/>
+                    {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.masque.caracteristiques.dexterite.overdrive.value}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.ASPECTS.MASQUE.CARACTERISTIQUES.PERCEPTION.Label"}} : {{key.aspects.masque.caracteristiques.perception.value}}
+                    <br/>
+                    {{localize "KNIGHT.ASPECTS.OD"}} : {{key.aspects.masque.caracteristiques.perception.overdrive.value}}
+                </span>
+            </div>
+            <div class="data">
+                <span>
+                    {{localize "KNIGHT.LATERAL.ChampDeForce-short"}} : {{key.cdf}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.LATERAL.Armure"}} : {{key.armure.value}} / {{key.armure.max}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.LATERAL.Energie"}} : {{key.energie.value}} / {{key.energie.max}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.LATERAL.Sante"}} : {{key.sante.value}} / {{key.sante.max}}
+                </span>
+                <span>
+                    {{localize "KNIGHT.LATERAL.Espoir"}} : {{key.espoir.value}} / {{key.espoir.max}}
+                </span>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    {{/if}}
 </form>

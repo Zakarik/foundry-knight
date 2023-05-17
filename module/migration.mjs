@@ -12,7 +12,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.7.1";
+    static NEEDED_VERSION = "3.8.0";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -1087,6 +1087,25 @@ Applique les modifications par la mise à jour au Monde.
 
             if(actor.type === 'knight') {
                 update[`system.energie.malus`] = 0;
+
+                actor.update(update);
+            }
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("3.8.0")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            if(actor.type === 'knight') {
+                update[`system.progression.gloire.versioning`] = '3.8.0';
+                update[`system.progression.gloire.oldActuel`] = system.progression.gloire.actuel;
+                update[`system.progression.gloire.total`] = Number(system.progression.gloire.actuel)+Number(system.progression.gloire.depense.total);
+
+                update[`system.progression.experience.versioning`] = '3.8.0';
+                update[`system.progression.experience.oldActuel`] = system.progression.experience.actuel;
+                update[`system.progression.experience.total`] = Number(system.progression.experience.actuel)+Number(system.progression.experience.depense.total);
 
                 actor.update(update);
             }

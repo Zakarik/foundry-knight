@@ -1106,6 +1106,7 @@ export class CreatureSheet extends ActorSheet {
     let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
 
     if(rollUi !== false) {
+      await rollUi.setActor(this.actor, this.actor.isToken);
       await rollUi.setWpnContact(armesContact);
       await rollUi.setWpnDistance(armesDistance);
       await rollUi.setWpnTourelle(armesTourelles);
@@ -1163,7 +1164,7 @@ export class CreatureSheet extends ActorSheet {
       }
     }
 
-    await rollApp.setActor(this.actor.id);
+    await rollApp.setActor(this.actor, this.actor.isToken);
     await rollApp.setAspects(data.data.system.aspects);
     await rollApp.setEffets(hasBarrage, false, false, false);
     await rollApp.setData(label, select, [], [], difficulte,

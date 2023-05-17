@@ -844,6 +844,13 @@ export class BandeSheet extends ActorSheet {
 
     if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
     if(toAdd.length > 0) addEffect(this.actor, toAdd);
+
+    // ON ACTUALISE ROLL UI S'IL EST OUVERT
+    let rollApp = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
+
+    if(rollApp !== false) {
+      await rollApp.setActor(this.actor, this.actor.isToken);
+    }
   }
 
   async _rollDice(label, aspect = '', difficulte = false, isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, reussitesBonus=0) {
@@ -858,7 +865,7 @@ export class BandeSheet extends ActorSheet {
     const deployWpnContact = false;
     const hasBarrage = false;
 
-    await rollApp.setActor(this.actor.id);
+    await rollApp.setActor(this.actor, this.actor.isToken);
     await rollApp.setAspects(data.data.system.aspects);
     await rollApp.setEffets(hasBarrage, false, false, false);
     await rollApp.setData(label, select, [], [], difficulte,

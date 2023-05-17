@@ -3261,15 +3261,17 @@ export class PNJSheet extends ActorSheet {
         if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
           "_id":effectExist._id,
           changes:effect.data,
+          icon:'',
           disabled:toggle
         });
         else if(effectExist.disabled !== toggle) toUpdate.push({
           "_id":effectExist._id,
+          icon:'',
           disabled:toggle
         });
       } else toAdd.push({
           label: effect.label,
-          icon: '/icons/svg/mystery-man.svg',
+          icon: '',
           changes:effect.data,
           disabled:toggle
       });
@@ -3292,6 +3294,7 @@ export class PNJSheet extends ActorSheet {
     let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
 
     if(rollUi !== false) {
+      await rollUi.setActor(this.actor, this.actor.isToken);
       await rollUi.setWpnContact(armesContact);
       await rollUi.setWpnDistance(armesDistance);
       await rollUi.setWpnTourelle(armesTourelles);
@@ -3358,7 +3361,7 @@ export class PNJSheet extends ActorSheet {
     if(typeWpn === 'grenades'&& nbreGrenades === 0) typeWpnFinal = '';
 
     await rollApp.setLabel(label);
-    await rollApp.setActor(this.actor.id);
+    await rollApp.setActor(this.actor, this.actor.isToken);
     await rollApp.setRoll(select, [], [], difficulte);
     await rollApp.setBonus(data.data.system.combat.data.modificateur, data.data.system.combat.data.succesbonus+reussitesBonus,
       {dice:data.data.system.combat.data.degatsbonus.dice, fixe:data.data.system.combat.data.degatsbonus.fixe},

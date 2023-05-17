@@ -1,3 +1,13 @@
+## v3.8.0
+### Améliorations
+- Ajout de la possibilité de masquer certains PJ dans le détail des PJ de la boîte à outil MJ.
+- Changement de fonctionnement pour l'expérience et la gloire. A présent, seul le total doit être modifié et l'actuel sera automatiquement calculé.
+
+### Bugfix
+- Correction de la gestion des tokens.
+A présent, il ne devrait plus y avoir de bug dans la gestion des jets entre les tokens non lié aux acteurs et les acteurs.
+C'est à dire que les tokens non liés pourront être modifié sans le moindre soucis et que les modifications seront bien prises en comptes dans les jets fait à partir de leur fiche.
+
 ## v3.7.3
 
 ### Bugfix
