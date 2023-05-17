@@ -1,3 +1,7 @@
+## v3.8.2
+### Bugfix
+- Correction d'un bug empêchant le bon fonctionnement de la fenêtre de jet.
+
 ## v3.8.1
 ### Bugfix
 - Correction d'un bug suite aux changement sur le calcul des PX et des PG.

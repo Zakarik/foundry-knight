@@ -612,7 +612,7 @@ export class KnightRollDialog extends Application {
   async setSuccesBonus(value) {
     const actor = this.data.actor;
 
-    if(this.isToken) await actor.token.modifyActorDocument({['system.combat.data.succesbonus']:value});
+    if(this.data.isToken) await actor.token.modifyActorDocument({['system.combat.data.succesbonus']:value});
     else await game.actors.get(actor.id).update({['system.combat.data.succesbonus']:value});
 
     this.data.succesBonus = value;
@@ -629,7 +629,7 @@ export class KnightRollDialog extends Application {
   async setModificateur(value) {
     const actor = this.data.actor;
 
-    if(this.isToken) await actor.token.modifyActorDocument({['system.combat.data.modificateur']:value});
+    if(this.data.isToken) await actor.token.modifyActorDocument({['system.combat.data.modificateur']:value});
     else await game.actors.get(actor.id).update({['system.combat.data.modificateur']:value});
 
     this.data.modificateur = value;
@@ -862,7 +862,7 @@ export class KnightRollDialog extends Application {
       const actor = this.data.actor;
       const value = $(ev.currentTarget).val();
 
-      if(this.isToken) actor.token.modifyActorDocument({['system.combat.data.type']:value});
+      if(this.data.isToken) actor.token.modifyActorDocument({['system.combat.data.type']:value});
       else game.actors.get(actor.id).update({['system.combat.data.type']:value});
 
       this.data.style.type = value;
@@ -911,7 +911,7 @@ export class KnightRollDialog extends Application {
       const wpn = {'contact':'listWpnContact', 'distance':'listWpnDistance'}[type]
       const dataWpn = this.data[wpn][num].system[typeBonus].module.variable[variable];
       const paliers = dataWpn.selected.energie.paliers[fixeOrDice].findIndex(element => element === value);
-      const module = this.isToken ? actor.token.actor.items.get(dataWpn.id) : game.actors.get(actor.id).items.get(dataWpn.id);
+      const module = this.data.isToken ? actor.token.actor.items.get(dataWpn.id) : game.actors.get(actor.id).items.get(dataWpn.id);
       const depense = paliers*energie;
       const update = {
         [`system.bonus.${typeBonus}.variable.selected.${fixeOrDice}`]:value,
@@ -932,7 +932,7 @@ export class KnightRollDialog extends Application {
       const listWpnContact = this.data.listWpnContact[num];
       const id = listWpnContact._id;
 
-      if(this.isToken) actor.token.actor.items.get(id).update({['system.options2mains.actuel']:value});
+      if(this.data.isToken) actor.token.actor.items.get(id).update({['system.options2mains.actuel']:value});
       else game.actors.get(actor.id).items.get(id).update({['system.options2mains.actuel']:value});
     });
 
@@ -944,7 +944,7 @@ export class KnightRollDialog extends Application {
       const listWpnDistance = this.data.listWpnDistance[num];
       const id = listWpnDistance._id;
 
-      if(this.isToken) actor.token.actor.items.get(id).update({['system.optionsmunitions.actuel']:value});
+      if(this.data.isToken) actor.token.actor.items.get(id).update({['system.optionsmunitions.actuel']:value});
       else game.actors.get(actor.id).items.get(id).update({['system.optionsmunitions.actuel']:value});
     });
 
@@ -1042,7 +1042,7 @@ export class KnightRollDialog extends Application {
       const style = $(ev.currentTarget).val();
       const actor = this.data.actor;
 
-      if(this.isToken) actor.token.modifyActorDocument({['system.combat.style']:style});
+      if(this.data.isToken) actor.token.modifyActorDocument({['system.combat.style']:style});
       else game.actors.get(actor.id).update({['system.combat.style']:style});
     });
   }
@@ -1158,7 +1158,7 @@ export class KnightRollDialog extends Application {
         case 'grenades':
           const nbreGrenade = actor.system.combat.grenades.quantity.value;
 
-          if(this.isToken) actor.token.modifyActorDocument({['system.combat.grenades.quantity.value']:nbreGrenade-1});
+          if(this.data.isToken) actor.token.modifyActorDocument({['system.combat.grenades.quantity.value']:nbreGrenade-1});
           else game.actors.get(actor.id).update({['system.combat.grenades.quantity.value']:nbreGrenade-1});
 
           wpn = this.data.listGrenades[nameWpn];
@@ -1194,8 +1194,6 @@ export class KnightRollDialog extends Application {
 
       if(totalDepenseEnergie > 0) {
         const depense = await this._depensePE(actor, totalDepenseEnergie);
-
-        console.warn(depense)
 
         if(!depense.has) {
           const msgEnergie = {
@@ -2023,7 +2021,7 @@ export class KnightRollDialog extends Application {
 
     // MECHAARMURE
     if((typeWpn === 'base' && this.data.ma) || (typeWpn === 'c1' && this.data.ma) || (typeWpn === 'c2' && this.data.ma) || (typeWpn === 'armesimprovisees' && this.data.ma)) {
-      const actor = this.isToken ? actor : game.actors.get(actor.id);
+      const actor = this.data.isToken ? actor : game.actors.get(actor.id);
       const puissance = +actor.system.puissance.value;
       getAttackSpecialDiceMod += puissance;
 
@@ -2140,8 +2138,6 @@ export class KnightRollDialog extends Application {
     const attackBonus = lEffetAttack.totalBonus+lDistanceAttack.totalBonus+lStructurellesAttack.totalBonus+lOrnementaleAttack.totalBonus+lCapaciteAttack.fixe+bonusModule.attack.fixe;
     const attackInclude = lEffetAttack.include.concat(lDistanceAttack.include, lStructurellesAttack.include, lOrnementaleAttack.include, lAttOtherInclude, lCapaciteAttack.include, bonusModule.attack.include);
     const attackList = lEffetAttack.list.concat(lDistanceAttack.list, lStructurellesAttack.list, lOrnementaleAttack.list, lCapaciteAttack.list);
-
-    console.warn(lEffetDegats.include, lDistanceDegats.include, lStructurellesDegats.include, lOrnementaleDegats.include, lDgtsOtherInclude, lCapaciteDegats.include, bonusModule.degats.include)
 
     // DEGATS
     const degatsDice = lEffetDegats.totalDice+lDistanceDegats.totalDice+lStructurellesDegats.totalDice+lOrnementaleDegats.totalDice+lCapaciteDegats.dice+bonusModule.degats.dice+getDgtsOtherDiceMod;
@@ -2591,7 +2587,7 @@ export class KnightRollDialog extends Application {
       }
     }
 
-    if(this.isToken) await actor.token.modifyActorDocument(update);
+    if(this.data.isToken) await actor.token.modifyActorDocument(update);
     else await game.actors.get(actor.id).update(update);
 
     if(!isMA) {
@@ -2606,7 +2602,7 @@ export class KnightRollDialog extends Application {
 
         switch(type) {
           case 'module':
-            const items = this.isToken ? actor.token.actor.items.get(data._id) : game.actors.get(actor.id).items.get(data._id);
+            const items = this.data.isToken ? actor.token.actor.items.get(data._id) : game.actors.get(actor.id).items.get(data._id);
 
             if(dgts.variable.has) {
               items.update({[`system.arme.degats.dice`]:dgts.dice});
@@ -2627,7 +2623,7 @@ export class KnightRollDialog extends Application {
 
         switch(type) {
           case 'module':
-            const items = this.isToken ? actor.token.actor.items.get(data._id) : game.actors.get(actor.id).items.get(data._id);
+            const items = this.data.isToken ? actor.token.actor.items.get(data._id) : game.actors.get(actor.id).items.get(data._id);
 
             if(dgts.variable.has) {
               items.update({[`system.arme.degats.dice`]:dgts.dice});
