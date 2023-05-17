@@ -1,3 +1,7 @@
+## v3.8.3
+### Bugfix
+- Retrait d'un ajout qui n'est qu'en développement... Et qui s'est retrouvé en production par mégarde !
+
 ## v3.8.2
 ### Bugfix
 - Correction d'un bug empêchant le bon fonctionnement de la fenêtre de jet.
