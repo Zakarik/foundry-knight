@@ -97,8 +97,6 @@ export class KnightSheet extends ActorSheet {
 
     context.systemData = system;
 
-    console.warn(context);
-
     return context;
   }
 
@@ -7664,6 +7662,7 @@ export class KnightSheet extends ActorSheet {
         await rollUi.setLabel(game.i18n.localize(`KNIGHT.JETS.Label`));
       };
 
+      await rollUi.setActor(this.actor, this.actor.isToken);
       await rollUi.setWpn(armesContactEquipee, armesDistanceEquipee, armesTourelles, wpnGrenades, {contact:system.combat.armesimprovisees.liste, distance:system.combat.armesimprovisees.liste}, [], longbow);
       await rollUi.setStyle({
         fulllabel:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.FullLabel`),
@@ -8223,7 +8222,7 @@ export class KnightSheet extends ActorSheet {
     if(typeWpn === 'grenades'&& nbreGrenades === 0) typeWpnFinal = '';
 
     await rollApp.setLabel(label);
-    await rollApp.setActor(this.actor.id);
+    await rollApp.setActor(this.actor, this.actor.isToken);
     await rollApp.setRoll(select, bonus, mCombos.lock, difficulte);
     await rollApp.setBonus(data.data.system.combat.data.modificateur, rBonus,
       {dice:data.data.system.combat.data.degatsbonus.dice, fixe:data.data.system.combat.data.degatsbonus.fixe},

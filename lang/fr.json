@@ -2365,7 +2365,9 @@
           "PNJ":"PNJ"
         },
         "GMMONITOR":{
-          "Label":"Détails des PJ"
+          "Label":"Détails des PJ",
+          "Masquer":"Masquer ce PJ",
+          "Afficher":"Afficher ce PJ"
         }
       }
     },
