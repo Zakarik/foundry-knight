@@ -1,3 +1,7 @@
+## v3.8.5
+### Bugfix
+- Correction d'un bug avec l'amélioration "Revêtement Omega" qui ne lançait qu'1 dé, au lieu de 2.
+
 ## v3.8.4
 ### Bugfix
 - Correction d'un bug pouvant empêcher le calcul correct de l'XP et des PG.
