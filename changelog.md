@@ -1,3 +1,7 @@
+## v3.8.1
+### Bugfix
+- Correction d'un bug suite aux changement sur le calcul des PX et des PG.
+
 ## v3.8.0
 ### Améliorations
 - Ajout de la possibilité de masquer certains PJ dans le détail des PJ de la boîte à outil MJ.
