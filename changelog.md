@@ -1,3 +1,7 @@
+## v3.8.4
+### Bugfix
+- Correction d'un bug pouvant empêcher le calcul correct de l'XP et des PG.
+
 ## v3.8.3
 ### Bugfix
 - Retrait d'un ajout qui n'est qu'en développement... Et qui s'est retrouvé en production par mégarde !

@@ -75,6 +75,7 @@ export class KnightActor extends Actor {
     if (actorData.type !== 'knight') return;
 
     // Make modifications to data here.
+    const currentVersion = game.settings.get("knight", "systemVersion");
     const data = actorData.system;
     const isKraken = data.options.kraken;
     const armor = actorData.items.find(items => items.type === 'armure');
@@ -487,11 +488,13 @@ export class KnightActor extends Actor {
 
     let PGTotalDepense = 0;
 
+    console.warn(dataPG)
+
     for(const PG in PGDepenseListe) {
       if(!PGDepenseListe[PG].isArmure) PGTotalDepense += Number(PGDepenseListe[PG].value);
     }
 
-    if(dataPG.versioning === '3.8.0') data.progression.gloire.actuel = Number(dataPG.total)-PGTotalDepense;
+    if(foundry.utils.isNewerVersion(currentVersion, '3.7.9')) data.progression.gloire.actuel = Number(dataPG.total)-PGTotalDepense;
     data.progression.gloire.depense.total = PGTotalDepense;
 
     // XP
@@ -512,7 +515,7 @@ export class KnightActor extends Actor {
       }
     }
 
-    if(dataPX.versioning === '3.8.0') data.progression.experience.actuel = Number(dataPX.total)-PXTotalDepense;
+    if(foundry.utils.isNewerVersion(currentVersion, '3.7.9')) data.progression.experience.actuel = Number(dataPX.total)-PXTotalDepense;
     data.progression.experience.depense.total = PXTotalDepense;
 
     //data.progression.experience.total = PXTotalDepense+PXActuel;
