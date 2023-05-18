@@ -1,3 +1,7 @@
+## v3.9.1
+### Bugfix
+- Correction de quelques bugs mineurs suite à la mise à jour précédente.
+
 ## v3.9.0
 ### Améliorations
 - Ajout de la possibilité mettre plusieurs type de munitions sur un module d'arme à distance, comme c'est actuellement le cas pour les armes.
