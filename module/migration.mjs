@@ -12,7 +12,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.9.0";
+    static NEEDED_VERSION = "3.9.2";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -1111,7 +1111,7 @@ Applique les modifications par la mise à jour au Monde.
             }
         }
 
-        if (options?.force || MigrationKnight.needUpdate("3.9.0")) {
+        if (options?.force || MigrationKnight.needUpdate("3.9.2")) {
             const update = {};
             const system = actor.system;
 
@@ -1900,6 +1900,29 @@ Applique les modifications par la mise à jour au Monde.
                         custom:[],
                         raw:[],
                         liste:[]
+                    };
+                }
+            }
+
+            item.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("3.9.2")) {
+            const update = {};
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'module') {
+                const itemSystem = item.system;
+                const module = itemSystem.niveau.details;
+
+                for(let niv in module) {
+                    update[`system.niveau.details.${niv}.arme.optionsmunitions`] = {
+                        "has":false,
+                        "actuel":"0",
+                        "value":1,
+                        "liste":{}
                     };
                 }
             }
