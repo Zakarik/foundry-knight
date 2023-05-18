@@ -1,5 +1,4 @@
 <div class="dialog-content">
-    {{log this}}
     <input type="text" class="label" value="{{label}}" placeholder="{{localize "KNIGHT.JETS.Nom"}}"/>
     {{#if pnj}}
         {{#each aspects as | key aspect|}}
@@ -483,7 +482,7 @@
 
                     {{#if key.system.optionsmunitions.has}}
                         <div class="lineParams">
-                            <select class="choixmunition" data-num="{{distance}}">
+                            <select class="choixmunition" data-num="{{distance}}" data-niveau="{{key.system.niveau}}">
                                 {{#select key.system.optionsmunitions.actuel}}
                                     {{#each key.system.optionsmunitions.liste as | key munition|}}
                                         <option value="{{munition}}">{{key.nom}}</option>

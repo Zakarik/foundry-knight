@@ -63,6 +63,7 @@ export class KnightRollDialog extends Application {
     }
 
     return {
+      isVehicule:this.data.vehicule,
       actor:this.data.actor,
       isToken:this.data.isToken,
       label:this.data.label,
@@ -154,6 +155,18 @@ export class KnightRollDialog extends Application {
         resolve(
           this.data.actor,
           this.data.isToken,
+        );
+      }, 0);
+    });
+  }
+
+  async setVehicule(vehicule) {
+    this.data.vehicule = vehicule;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.vehicule,
         );
       }, 0);
     });
@@ -939,13 +952,32 @@ export class KnightRollDialog extends Application {
     html.find('select.choixmunition').change(ev => {
       const target = $(ev.currentTarget);
       const value = target.val();
-      const actor = this.data.actor;
+      const isVehicule = this.data?.vehicule || undefined;
+      const actor = isVehicule !== undefined ? this.data.vehicule : this.data.actor;
       const num = target.data("num");
+      const niveau = target.data("niveau");
       const listWpnDistance = this.data.listWpnDistance[num];
       const id = listWpnDistance._id;
+      let item = {};
 
-      if(this.data.isToken) actor.token.actor.items.get(id).update({['system.optionsmunitions.actuel']:value});
-      else game.actors.get(actor.id).items.get(id).update({['system.optionsmunitions.actuel']:value});
+      if(this.data.isToken) {
+        item = actor.token.actor.items.get(id);
+
+        if(item.type === 'module') {
+          item.update({[`system.niveau.details.n${niveau}.arme.optionsmunitions.actuel`]:value});
+        } else {
+          item.update({['system.optionsmunitions.actuel']:value});
+        }
+      }
+      else {
+        item = game.actors.get(actor.id).items.get(id);
+
+        if(item.type === 'module') {
+          item.update({[`system.niveau.details.n${niveau}.arme.optionsmunitions.actuel`]:value});
+        } else {
+          item.update({['system.optionsmunitions.actuel']:value});
+        }
+      }
     });
 
     html.find('div.longbow div.data div.effets div img.info').click(ev => {
@@ -2625,11 +2657,11 @@ export class KnightRollDialog extends Application {
           case 'module':
             const items = this.data.isToken ? actor.token.actor.items.get(data._id) : game.actors.get(actor.id).items.get(data._id);
 
-            if(dgts.variable.has) {
+            if(dgts?.variable?.has || false) {
               items.update({[`system.arme.degats.dice`]:dgts.dice});
             }
 
-            if(violence.variable.has) {
+            if(violence?.variable?.has || false) {
               items.update({[`system.arme.violence.dice`]:violence.dice});
             }
             break;
