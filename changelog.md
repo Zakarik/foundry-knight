@@ -1,4 +1,4 @@
-## v3.9.1
+## v3.9.2
 ### Bugfix
 - Correction de quelques bugs mineurs suite à la mise à jour précédente.
 
