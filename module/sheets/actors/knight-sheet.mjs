@@ -289,9 +289,15 @@ export class KnightSheet extends ActorSheet {
     html.find('div.combat div.armesDistance select.wpnMunitionChange').change(ev => {
       const target = $(ev.currentTarget);
       const id = target.data("id");
+      const niveau = target.data("niveau");
       const value = target.val();
+      const item = this.actor.items.get(id);
 
-      this.actor.items.get(id).update({['system.optionsmunitions.actuel']:value});
+      if(item.type === 'module') {
+        item.update({[`system.niveau.details.n${niveau}.arme.optionsmunitions.actuel`]:value});
+      } else {
+        item.update({['system.optionsmunitions.actuel']:value});
+      }
     });
 
     html.find('div.armure section.buttonTabs a').click(ev => {
@@ -365,8 +371,6 @@ export class KnightSheet extends ActorSheet {
 
       if(value) {
         const coutCalcule = remplaceEnergie && armure.system.espoir.cout > 0 && type === 'module' ? Math.max(Math.floor(cout / armure.system.espoir.cout), 1) : cout;
-
-        console.warn(coutCalcule);
         const depense = await this._depensePE(name, coutCalcule, true, false, flux);
 
         if(!depense) return;
@@ -6654,6 +6658,24 @@ export class KnightSheet extends ActorSheet {
                 custom:moduleEffetsCustom,
                 liste:moduleEffets.liste
               };
+              const dataMunitions = itemArme?.optionsmunitions || {has:false};
+
+              let degats = itemArme.degats;
+              let violence = itemArme.violence;
+
+              if(dataMunitions.has) {
+                for (let i = 0; i <= dataMunitions.actuel; i++) {
+
+                  const raw = dataMunitions.liste[i].raw.concat(armorSpecialRaw);
+                  const custom = dataMunitions.liste[i].custom.concat(armorSpecialCustom);
+
+                  data.niveau.details[`n${niveau}`].arme.optionsmunitions.liste[i].raw = [...new Set(raw)];
+                  data.niveau.details[`n${niveau}`].arme.optionsmunitions.liste[i].custom = custom;
+                }
+
+                degats = dataMunitions.liste[dataMunitions.actuel].degats;
+                violence = dataMunitions.liste[dataMunitions.actuel].violence;
+              }
 
               const moduleWpn = {
                 _id:i._id,
@@ -6663,9 +6685,11 @@ export class KnightSheet extends ActorSheet {
                   noRack:true,
                   type:itemArme.type,
                   portee:itemArme.portee,
-                  degats:itemArme.degats,
-                  violence:itemArme.violence,
-                  effets:moduleEffetsFinal
+                  degats:degats,
+                  violence:violence,
+                  optionsmunitions:dataMunitions,
+                  effets:moduleEffetsFinal,
+                  niveau:niveau,
                 }
               };
 
@@ -7662,8 +7686,27 @@ export class KnightSheet extends ActorSheet {
         await rollUi.setLabel(game.i18n.localize(`KNIGHT.JETS.Label`));
       };
 
+      let wpnDistance = armesDistanceEquipee;
+
+      for(let i = 0;i < Object.entries(wpnDistance).length;i++) {
+        const wpnData = wpnDistance[i].system;
+        const wpnMunitions = wpnData?.optionsmunitions || {has:false};
+        const wpnMunitionActuel = wpnMunitions?.actuel || "";
+        const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
+
+        if(wpnMunitions.has) {
+          const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
+          const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
+
+          wpnDistance[i].system.effets = {
+            raw:[...new Set(eRaw)],
+            custom:[...new Set(eCustom)],
+          }
+        }
+      }
+
       await rollUi.setActor(this.actor, this.actor.isToken);
-      await rollUi.setWpn(armesContactEquipee, armesDistanceEquipee, armesTourelles, wpnGrenades, {contact:system.combat.armesimprovisees.liste, distance:system.combat.armesimprovisees.liste}, [], longbow);
+      await rollUi.setWpn(armesContactEquipee, wpnDistance, armesTourelles, wpnGrenades, {contact:system.combat.armesimprovisees.liste, distance:system.combat.armesimprovisees.liste}, [], longbow);
       await rollUi.setStyle({
         fulllabel:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.FullLabel`),
         label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Label`),

@@ -97,7 +97,7 @@ export class PNJSheet extends ActorSheet {
 
     this._prepareCharacterItems(context);
     this._prepareAE(context);
-    this._prepareModuleTranslation(context);
+    this._prepareTranslation(context.actor, context.data.system);
     context.data.system.wear = 'armure';
 
     context.systemData = context.data.system;
@@ -292,8 +292,13 @@ export class PNJSheet extends ActorSheet {
       const target = $(ev.currentTarget);
       const id = target.data("id");
       const value = target.val();
+      const item = this.actor.items.get(id);
 
-      this.actor.items.get(id).update({['system.optionsmunitions.actuel']:value});
+      if(item.type === 'module') {
+        item.update({[`system.niveau.details.n${niveau}.arme.optionsmunitions.actuel`]:value});
+      } else {
+        item.update({['system.optionsmunitions.actuel']:value});
+      }
     });
 
     html.find('div.combat button.addbasechair').click(ev => {
@@ -2594,6 +2599,12 @@ export class PNJSheet extends ActorSheet {
       "masque":system.aspects.masque.value,
     };
     const aspectLieSupp = [];
+    const labels = Object.assign({},
+      CONFIG.KNIGHT.effets,
+      CONFIG.KNIGHT.AMELIORATIONS.distance,
+      CONFIG.KNIGHT.AMELIORATIONS.structurelles,
+      CONFIG.KNIGHT.AMELIORATIONS.ornementales
+    );
 
     let art = {};
     let armureData = {};
@@ -2662,12 +2673,6 @@ export class PNJSheet extends ActorSheet {
           longbow.effets.liste2.selected = 0;
           longbow.effets.liste3.cout = 0;
           longbow.effets.liste3.selected = 0;
-
-          const labels = CONFIG.KNIGHT.effets;
-          longbow.effets.liste1.base = listEffects(longbow.effets.base.raw, longbow.effets.base.custom, labels);
-          longbow.effets.liste1.liste = listEffects(longbow.effets.liste1.raw, longbow.effets.liste1.custom, labels);
-          longbow.effets.liste2.liste = listEffects(longbow.effets.liste2.raw, longbow.effets.liste2.custom, labels);
-          longbow.effets.liste3.liste = listEffects(longbow.effets.liste3.raw, longbow.effets.liste3.custom, labels);
         }
       }
 
@@ -2681,11 +2686,6 @@ export class PNJSheet extends ActorSheet {
 
         const optionsMunitions = data?.optionsmunitions?.has || false;
         const options2mains = data?.options2mains?.has || false;
-        const raw = data.effets.raw;
-        const custom = data.effets.custom;
-        const labels = CONFIG.KNIGHT.effets;
-
-        data.effets.liste = listEffects(raw, custom, labels);
 
         const main = data.options2mains.actuel;
         const munition = data.optionsmunitions.actuel;
@@ -2729,28 +2729,10 @@ export class PNJSheet extends ActorSheet {
         }
 
         if(type === 'distance') {
-          const rawDistance = data.distance.raw;
-          const customDistance = data.distance.custom;
-          const labelsDistance = CONFIG.KNIGHT.AMELIORATIONS.distance;
-          const effetMunition = data?.optionsmunitions?.liste || {};
 
-          data.distance.liste = listEffects(rawDistance, customDistance, labelsDistance);
-
-          if(optionsMunitions !== false) {
-            for (let [kM, munition] of Object.entries(effetMunition)) {
-              const bRaw2 = munition.raw || [];
-              const bCustom2 = munition.custom || [];
-
-              munition.liste = listEffects(bRaw2, bCustom2, labels);
-            }
-          }
         } else if(type === 'contact') {
           const rawStructurelles = data.structurelles.raw;
-          const customStructurelles = data.structurelles.custom;
-          const labelsStructurelles = CONFIG.KNIGHT.AMELIORATIONS.structurelles;
           const bMassive = rawStructurelles.find(str => { if(str.includes('massive')) return true; });
-
-          data.structurelles.liste = listEffects(rawStructurelles, customStructurelles, labelsStructurelles);
 
           if(bMassive) {
             effects.armes.push({
@@ -2761,18 +2743,7 @@ export class PNJSheet extends ActorSheet {
             });
           }
 
-          const rawOrnementales = data.ornementales.raw;
-          const customOrnementales = data.ornementales.custom;
-          const labelsOrnementales = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
-
-          data.ornementales.liste = listEffects(rawOrnementales, customOrnementales, labelsOrnementales);
-
           if(options2mains) {
-            const raw2 = data.effets2mains.raw;
-            const custom2 = data.effets2mains.custom;
-
-            data.effets2mains.liste = listEffects(raw2, custom2, labels);
-
             const bDefense2 = effets2Raw.find(str => { if(str.includes('defense')) return str; });
             const bReaction2 = effets2Raw.find(str => { if(str.includes('reaction')) return str; });
 
@@ -2816,7 +2787,7 @@ export class PNJSheet extends ActorSheet {
         const itemArme = itemDataNiveau.arme;
         const itemActive = data?.active?.base || false;
 
-        if(data.permanent || itemActive) {
+        if(itemDataNiveau.permanent || itemActive) {
           if(itemBonus.has) {
             const iBArmure = itemBonus.armure;
             const iBCDF = itemBonus.champDeForce;
@@ -2905,6 +2876,15 @@ export class PNJSheet extends ActorSheet {
 
           if(itemArme.has) {
             const moduleEffets = itemArme.effets;
+            const dataMunitions = itemArme?.optionsmunitions || {has:false};
+
+            let degats = itemArme.degats;
+            let violence = itemArme.violence;
+
+            if(dataMunitions.has) {
+              degats = dataMunitions.liste[dataMunitions.actuel].degats;
+              violence = dataMunitions.liste[dataMunitions.actuel].violence;
+            }
 
             const moduleWpn = {
               _id:i._id,
@@ -2914,12 +2894,14 @@ export class PNJSheet extends ActorSheet {
                 noRack:true,
                 type:itemArme.type,
                 portee:itemArme.portee,
-                degats:itemArme.degats,
-                violence:itemArme.violence,
+                degats:degats,
+                violence:violence,
+                optionsmunitions:dataMunitions,
                 effets:{
                   raw:moduleEffets.raw,
-                  custom:moduleEffets.custom,
-                }
+                  custom:moduleEffets.custom
+                },
+                niveau:niveau,
               }
             }
 
@@ -2973,11 +2955,6 @@ export class PNJSheet extends ActorSheet {
         i.system.pnj = itemDataNiveau.pnj;
         i.system.jetsimple = itemDataNiveau.jetsimple;
         i.system.effets = itemDataNiveau.effets;
-
-        const labels = CONFIG.KNIGHT.effets;
-        const hasEffets = i.system.effets?.raw || false;
-
-        if(hasEffets !== false) i.system.effets.liste = listEffects(i.system.effets.raw, i.system.effets.custom, labels);
 
         modules.push(i);
       }
@@ -3138,26 +3115,12 @@ export class PNJSheet extends ActorSheet {
             }
           }
         }
-
-        if(data.degats.has) {
-          const labels = CONFIG.KNIGHT.effets;
-
-          data.degats.system.effets.liste = listEffects(data.degats.system.effets.raw, data.degats.system.effets.custom, labels);
-        }
       }
 
       // ART
       if (i.type === 'art') {
         art = i;
       }
-    }
-
-    for (let [key, grenades] of Object.entries(system.combat.grenades.liste)){
-      const raw = grenades.effets.raw;
-      const custom = grenades.effets.custom;
-      const labels = CONFIG.KNIGHT.effets;
-
-      grenades.liste = listEffects(raw, custom, labels);
     }
 
     for (let i of capacites) {
@@ -3294,9 +3257,28 @@ export class PNJSheet extends ActorSheet {
     let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
 
     if(rollUi !== false) {
+      let wpnDistance = armesDistance;
+
+      for(let i = 0;i < Object.entries(wpnDistance).length;i++) {
+        const wpnData = wpnDistance[i].system;
+        const wpnMunitions = wpnData?.optionsmunitions || {has:false};
+        const wpnMunitionActuel = wpnMunitions?.actuel || "";
+        const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
+
+        if(wpnMunitions.has) {
+          const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
+          const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
+
+          wpnDistance[i].system.effets = {
+            raw:[...new Set(eRaw)],
+            custom:[...new Set(eCustom)],
+          }
+        }
+      }
+
       await rollUi.setActor(this.actor, this.actor.isToken);
       await rollUi.setWpnContact(armesContact);
-      await rollUi.setWpnDistance(armesDistance);
+      await rollUi.setWpnDistance(wpnDistance);
       await rollUi.setWpnTourelle(armesTourelles);
 
       rollUi.render(true);
@@ -3706,51 +3688,94 @@ export class PNJSheet extends ActorSheet {
     return result;
   }
 
-  _prepareModuleTranslation(context) {
-    const modules = context.actor?.modules || false;
+  _prepareTranslation(actor, system) {
+    const { modules,
+      armesContact, armesDistance,
+      armesTourelles } = actor;
+    const grenades = system.combat.grenades.liste;
+    const { armureData, armureLegendeData } = actor;
+    const capacites = armureData?.system?.capacites?.selected ?? {};
+    const special = armureData?.system?.special?.selected ?? {};
+    const legend = armureLegendeData?.capacites?.selected ?? {};
+    const listToVerify = {...capacites, ...special};
+    const labels = Object.assign({},
+      CONFIG.KNIGHT.effets,
+      CONFIG.KNIGHT.AMELIORATIONS.distance,
+      CONFIG.KNIGHT.AMELIORATIONS.structurelles,
+      CONFIG.KNIGHT.AMELIORATIONS.ornementales
+    );
+    const wpnModules = [
+      {data:modules, key:'modules'},
+      {data:armesContact, key:'armes'},
+      {data:armesDistance, key:'armes'},
+      {data:armesTourelles, key:'armes'},
+      {data:grenades, key:'grenades'},
+    ];
 
-    if(modules === false) return;
+    const list = [
+      { name: 'borealis', path: ['offensif'] },
+      { name: 'changeling', path: ['desactivationexplosive'] },
+      { name: 'companions', path: ['lion.contact.coups', 'wolf.contact.coups', 'wolf.configurations.fighter.bonus'] },
+      { name: 'cea', path: ['salve', 'vague', 'rayon'] },
+      { name: 'illumination', path: ['lantern'] },
+      { name: 'longbow', path: ['effets.base', 'effets.liste1', 'effets.liste2', 'effets.liste3', 'distance'], simple:true },
+      { name: 'morph', path: ['polymorphie.griffe', 'polymorphie.lame', 'polymorphie.canon'] },
+      { name: 'oriflamme', path: [''] },
+      { name: 'porteurlumiere', path: ['bonus'] },
+    ];
 
-    for (let [key, module] of Object.entries(modules)) {
-      const raw = module.system.arme.effets.raw;
-      const custom = module.system.arme.effets.custom;
-      const labels = CONFIG.KNIGHT.effets;
+    this._updateEffects(listToVerify, list, labels);
+    this._updateEffects(legend, list, labels);
 
-      const rawD = module.system.arme.distance.raw;
-      const customD = module.system.arme.distance.custom;
-      const labelsD = CONFIG.KNIGHT.AMELIORATIONS.distance;
+    for(let i = 0;i < wpnModules.length;i++) {
+      const base = wpnModules[i];
+      const data = base.data;
 
-      const rawS = module.system.arme.structurelles.raw;
-      const customS = module.system.arme.structurelles.custom;
-      const labelsS = CONFIG.KNIGHT.AMELIORATIONS.structurelles;
+      if(!data) continue;
 
-      const rawO = module.system.arme.ornementales.raw;
-      const customO = module.system.arme.ornementales.custom;
-      const labelsO = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
+      const listData = {
+        modules:[{path:['system.effets', 'system.arme.effets', 'system.arme.distance', 'system.arme.structurelles', 'system.arme.ornementales', 'system.jetsimple.effets'], simple:true}],
+        armes:[{path:['system.effets', 'system.effets2mains', 'system.distance', 'system.structurelles', 'system.ornementales'], simple:true}],
+        grenades:[{path:['effets'], simple:true}]
+      }[base.key];
 
-      const rawM = module.system.jetsimple.effets.raw;
-      const customM = module.system.jetsimple.effets.custom;
+      this._updateEffects(data, listData, labels, true);
 
+      for(let n = 0;n < data.length;n++) {
+        const optMun = data[n]?.system?.optionsmunitions?.has || false;
 
-
-      module.system.jetsimple.effets.liste = listEffects(rawM, customM, labels);
-      module.system.arme.effets.liste = listEffects(raw, custom, labels);
-      module.system.arme.distance.liste = listEffects(rawD, customD, labelsD);
-      module.system.arme.structurelles.liste = listEffects(rawS, customS, labelsS);
-      module.system.arme.ornementales.liste = listEffects(rawO, customO, labelsO);
-
-      const pnj = module.system.pnj.liste;
-
-      for (let [kNpc, npc] of Object.entries(pnj)) {
-        if(npc.armes.has) {
-          const armes = npc.armes.liste;
-
-          for (let [kArme, arme] of Object.entries(armes)) {
-            const rArme = arme.effets.raw;
-            const cArme = arme.effets.custom;
-
-            arme.effets.liste = listEffects(rArme, cArme, labels);
+        if(base.key === 'armes' && optMun) {
+          const dataMunitions = data[n].system.optionsmunitions;
+          for(let m = 0;m <= dataMunitions.actuel;m++) {
+            const mun = dataMunitions.liste[m];
+            dataMunitions.liste[m].liste = listEffects(mun.raw, mun.custom, labels);
           }
+        }
+      }
+
+
+    }
+  }
+
+  _updateEffects(listToVerify, list, labels, items = false) {
+    const process = (capacite, path, simple) => {
+      const data = path.split('.').reduce((obj, key) => obj?.[key], capacite);
+      if (!data) return;
+      const effets = simple ? data : data.effets;
+      effets.liste = listEffects(effets.raw, effets.custom, labels);
+    };
+
+    if (!items) {
+      for (const { name, path, simple } of list) {
+        const capacite = listToVerify?.[name];
+        if (!capacite) continue;
+        path.forEach(p => process(capacite, p, simple));
+      }
+    } else {
+      if (!listToVerify) return;
+      for (const [key, module] of Object.entries(listToVerify)) {
+        for (const { path, simple } of list) {
+          path.forEach(p => process(module, p, simple));
         }
       }
     }

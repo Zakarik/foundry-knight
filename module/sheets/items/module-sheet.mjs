@@ -460,6 +460,48 @@ export class ModuleSheet extends ItemSheet {
       html.find(`div.niveau_${key} input.violenceDBase`).val(value);
     });
 
+    html.find('.optionsMunitionsValider').click(ev => {
+      const target = $(ev.currentTarget);
+      const key = target.data("key");
+      const value = +target.data("value");
+
+      const data = this.getData().data.system.niveau.details[key].arme.optionsmunitions?.liste || {};
+      const length = Object.entries(data).length;
+
+      const update = {};
+
+      if(length < value) {
+        for(let i = 0; i < value;i++) {
+          const isExist = data?.[i] || false;
+
+          if(isExist === false) {
+            update[`system.niveau.details.${key}.arme.optionsmunitions.liste.${i}`] = {
+              nom:game.i18n.localize("KNIGHT.Nom"),
+              degats:{
+                dice:0,
+                fixe:0
+              },
+              violence:{
+                dice:0,
+                fixe:0
+              },
+              raw:[],
+              custom:[],
+              liste:[]
+            };
+          }
+        }
+      } else if(length > value) {
+        for(let i = 0; i < length;i++) {
+          if(i > value-1) {
+            update[`system.niveau.details.${key}.arme.optionsmunitions.liste.-=${i}`] = null;
+          }
+        }
+      }
+
+      this.item.update(update);
+    });
+
     html.find('textarea').blur(async ev => {
       const textarea = $(ev.currentTarget);
       const header = textarea.parents(".niveaux");
@@ -675,6 +717,8 @@ export class ModuleSheet extends ItemSheet {
 
       const beffets = data.effets || false;
       const effets = data.arme.effets || false;
+      const munitions = data.arme.optionsmunitions.liste;
+      const length = Object.entries(munitions).length;
       const distance = data.arme.distance || false;
       const structurelles = data.arme.structurelles || false;
       const ornementales = data.arme.ornementales || false;
@@ -695,6 +739,16 @@ export class ModuleSheet extends ItemSheet {
         const labelsE = CONFIG.KNIGHT.effets;
 
         effets.liste = listEffects(raw, custom, labelsE);
+      }
+
+      for(let i = 0; i < length;i++) {
+        const bEffets = munitions[i];
+
+        const bRaw = bEffets.raw;
+        const bCustom = bEffets.custom;
+        const labels = CONFIG.KNIGHT.effets;
+
+        bEffets.liste = listEffects(bRaw, bCustom, labels);
       }
 
       if(distance !== false) {
@@ -760,5 +814,9 @@ export class ModuleSheet extends ItemSheet {
     }
 
     if (!foundry.utils.isEmpty(update)) this.item.update(update);
+  }
+
+  _prepareEffetsMunition(context) {
+
   }
 }

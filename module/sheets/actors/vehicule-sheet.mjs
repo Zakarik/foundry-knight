@@ -61,9 +61,10 @@ export class VehiculeSheet extends ActorSheet {
     const context = super.getData();
 
     this._prepareCharacterItems(context);
-    this._prepareModuleTranslation(context);
+    this._prepareTranslation(context);
 
     context.systemData = context.data.system;
+    context.systemData.wear = 'armure';
 
     return context;
   }
@@ -123,21 +124,26 @@ export class VehiculeSheet extends ActorSheet {
       const module = target.data("module");
       const name = target.data("name");
       const cout = eval(target.data("cout"));
+      const value = target.data("value") ? false : true;
 
       const depense = await this._depensePE(name, cout);
 
       if(!depense) return;
 
-      const dataModule = this.actor.items.get(module);
-      dataModule.update({[`system.active.base`]:true})
+      const dataModule = this.actor.items.get(module),
+          data = dataModule.system,
+          niveau = data.niveau.value,
+          dataNiveau = data.niveau.details[`n${niveau}`];
 
-      if(dataModule.system.jetsimple.has) {
-        const jSREffects = await getEffets(this.actor, 'contact', 'standard', {}, dataModule.system.jetsimple.effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false);
-        const execJSR = new game.knight.RollKnight(dataModule.system.jetsimple.jet, this.actor.system);
+      dataModule.update({[`system.active.base`]:value})
+
+      if(dataNiveau.jetsimple.has && value) {
+        const jSREffects = await getEffets(this.actor, 'contact', 'standard', {}, dataNiveau.jetsimple.effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false);
+        const execJSR = new game.knight.RollKnight(dataNiveau.jetsimple.jet, this.actor.system);
         await execJSR.evaluate();
 
         let jSRoll = {
-          flavor:dataModule.system.jetsimple.label,
+          flavor:dataNiveau.jetsimple.label,
           main:{
             total:execJSR._total,
             tooltip:await execJSR.getTooltip(),
@@ -154,24 +160,18 @@ export class VehiculeSheet extends ActorSheet {
             alias: this.actor?.name || null,
           },
           type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+          rolls:[execJSR].concat(jSREffects.rollDgts),
           content: await renderTemplate('systems/knight/templates/dices/wpn.html', jSRoll),
           sound: CONFIG.sounds.dice
         };
 
         const rMode = game.settings.get("core", "rollMode");
-        const msgData = ChatMessage.applyRollMode(jSRMsgData, rMode);
+        const msgFData = ChatMessage.applyRollMode(jSRMsgData, rMode);
 
-        await ChatMessage.create(msgData, {
+        await ChatMessage.create(msgFData, {
           rollMode:rMode
         });
       }
-    });
-
-    html.find('.modules .desactivation').click(async ev => {
-      const target = $(ev.currentTarget);
-      const module = target.data("module");
-
-      this.actor.items.get(module).update({[`system.active.base`]:false});
     });
 
     html.find('.item-create').click(this._onItemCreate.bind(this));
@@ -191,6 +191,20 @@ export class VehiculeSheet extends ActorSheet {
 
       item.delete();
       header.slideUp(200, () => this.render(false));
+    });
+
+    html.find('div.combat div.armesDistance select.wpnMunitionChange').change(ev => {
+      const target = $(ev.currentTarget);
+      const id = target.data("id");
+      const niveau = target.data("niveau");
+      const value = target.val();
+      const item = this.actor.items.get(id);
+
+      if(item.type === 'module') {
+        item.update({[`system.niveau.details.n${niveau}.arme.optionsmunitions.actuel`]:value});
+      } else {
+        item.update({['system.optionsmunitions.actuel']:value});
+      }
     });
 
     html.find('.roll').click(ev => {
@@ -295,10 +309,16 @@ export class VehiculeSheet extends ActorSheet {
 
     html.find('.whoActivate').change(ev => {
       const target = $(ev.currentTarget);
-      const value = target.val();
       const id = target.data("id");
+      const niveau = target.data("niveau");
+      const value = target.val();
+      const item = this.actor.items.get(id);
 
-      this.actor.items.get(id).update({[`system.whoActivate`]:value});
+      if(item.type === 'module') {
+        item.update({[`system.niveau.details.n${niveau}.whoActivate`]:value});
+      } else {
+        item.update({['system.whoActivate']:value});
+      }
     });
   }
 
@@ -523,11 +543,16 @@ export class VehiculeSheet extends ActorSheet {
 
       // MODULE
       if (i.type === 'module') {
-        const itemBonus = data.bonus;
-        const itemArme = data.arme;
+        const niveau = data.niveau.value;
+        const itemDataNiveau = data.niveau.details[`n${niveau}`];
+        const itemBonus = itemDataNiveau.bonus;
+        const itemArme = itemDataNiveau.arme;
+        const itemOD = itemDataNiveau.overdrives;
         const itemActive = data?.active?.base || false;
+        const itemErsatz = itemDataNiveau.ersatz;
+        const itemWhoActivate = itemDataNiveau?.whoActivate || '';
 
-        if(data.permanent || itemActive) {
+        if(itemDataNiveau.permanent || itemActive) {
           if(itemBonus.has) {
             const iBArmure = itemBonus.armure;
             const iBCDF = itemBonus.champDeForce;
@@ -626,6 +651,15 @@ export class VehiculeSheet extends ActorSheet {
               custom:moduleEffetsCustom,
               liste:moduleEffets.liste
             };
+            const dataMunitions = itemArme?.optionsmunitions || {has:false};
+
+            let degats = itemArme.degats;
+            let violence = itemArme.violence;
+
+            if(dataMunitions.has) {
+              degats = dataMunitions.liste[dataMunitions.actuel]?.degats || {dice:0, fixe:0};
+              violence = dataMunitions.liste[dataMunitions.actuel]?.violence || {dice:0, fixe:0};
+            }
 
             const moduleWpn = {
               _id:i._id,
@@ -633,12 +667,17 @@ export class VehiculeSheet extends ActorSheet {
               type:'module',
               system:{
                 noRack:true,
-                whoActivate:i.system.whoActivate || '',
                 type:itemArme.type,
                 portee:itemArme.portee,
-                degats:itemArme.degats,
-                violence:itemArme.violence,
-                effets:moduleEffetsFinal
+                degats:degats,
+                violence:violence,
+                optionsmunitions:dataMunitions,
+                effets:{
+                  raw:moduleEffets.raw,
+                  custom:moduleEffets.custom
+                },
+                niveau:niveau,
+                whoActivate:itemWhoActivate,
               }
             }
 
@@ -667,6 +706,21 @@ export class VehiculeSheet extends ActorSheet {
             }
           }
         }
+
+        i.system.bonus = itemBonus;
+        i.system.arme = itemArme;
+        i.system.overdrives = itemOD;
+        i.system.ersatz = itemErsatz;
+        i.system.permanent = itemDataNiveau.permanent;
+        i.system.duree = itemDataNiveau.duree;
+        i.system.energie = itemDataNiveau.energie;
+        i.system.rarete = itemDataNiveau.rarete;
+        i.system.activation = itemDataNiveau.activation;
+        i.system.portee = itemDataNiveau.portee;
+        i.system.labels = itemDataNiveau.labels;
+        i.system.pnj = itemDataNiveau.pnj;
+        i.system.jetsimple = itemDataNiveau.jetsimple;
+        i.system.effets = itemDataNiveau.effets;
 
         module.push(i);
       }
@@ -725,7 +779,7 @@ export class VehiculeSheet extends ActorSheet {
     let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
 
     if(rollUi !== false) {
-      await rollUi.setActor(this.actor, this.actor.isToken);
+      await rollUi.setVehicule(this.actor);
       await rollUi.setWpnDistance(armesDistance);
 
       rollUi.render(true);
@@ -818,8 +872,9 @@ export class VehiculeSheet extends ActorSheet {
       }
     }
 
-    await rollApp.setActor(this.actor, this.actor.isToken);
+    await rollApp.setActor(actor, actor.isToken);
     await rollApp.setAspects(actor.system.aspects);
+    await rollApp.setVehicule(this.actor);
     await rollApp.setEffets(hasBarrage, false, false, false);
     await rollApp.setData(label, select, [], [], difficulte,
       data.combat.data.modificateur, data.combat.data.succesbonus+desBonus,
@@ -890,7 +945,8 @@ export class VehiculeSheet extends ActorSheet {
       sacrifice:data.combat.data.sacrifice,
       maximum:6
     });
-    await rollApp.setActor(actorId);
+    await rollApp.setActor(actor, actor.isToken);
+    await rollApp.setVehicule(this.actor);
     await rollApp.setAspects(data.aspects);
     await rollApp.setEffets(hasBarrage, true, true, true);
     await rollApp.setBonusTemp(false, 0, 0);
@@ -899,13 +955,14 @@ export class VehiculeSheet extends ActorSheet {
     if(queryInstance.previous) rollApp.bringToTop();
   }
 
-  _prepareModuleTranslation(context) {
+  /*_prepareModuleTranslation(context) {
     const modules = context.actor?.modules || false;
 
     if(modules === false) return;
 
     for (let [key, module] of Object.entries(modules)) {
-      const raw = module.system.arme.effets.raw;
+
+      /*const raw = module.system.arme.effets.raw;
       const custom = module.system.arme.effets.custom;
       const labels = CONFIG.KNIGHT.effets;
 
@@ -942,6 +999,86 @@ export class VehiculeSheet extends ActorSheet {
 
             arme.effets.liste = listEffects(rArme, cArme, labels);
           }
+        }
+      }
+
+
+
+      for(let n = 0;n < data.length;n++) {
+        const optMun = data[n]?.system?.optionsmunitions?.has || false;
+
+        if(base.key === 'armes' && optMun) {
+          const dataMunitions = data[n].system.optionsmunitions;
+          for(let m = 0;m <= dataMunitions.actuel;m++) {
+            const mun = dataMunitions.liste[m];
+            dataMunitions.liste[m].liste = listEffects(mun.raw, mun.custom, labels);
+          }
+        }
+      }
+    }
+  }*/
+
+  _prepareTranslation(actor, system) {
+    const { modules,
+      armesDistance } = actor;
+    const labels = Object.assign({},
+      CONFIG.KNIGHT.effets,
+      CONFIG.KNIGHT.AMELIORATIONS.distance,
+      CONFIG.KNIGHT.AMELIORATIONS.structurelles,
+      CONFIG.KNIGHT.AMELIORATIONS.ornementales
+    );
+    const wpnModules = [
+      {data:modules, key:'modules'},
+      {data:armesDistance, key:'armes'},
+    ];
+
+    for(let i = 0;i < wpnModules.length;i++) {
+      const base = wpnModules[i];
+      const data = base.data;
+
+      if(!data) continue;
+
+      const listData = {
+        modules:[{path:['system.effets', 'system.arme.effets', 'system.arme.distance', 'system.arme.structurelles', 'system.arme.ornementales', 'system.jetsimple.effets'], simple:true}],
+        armes:[{path:['system.effets', 'system.effets2mains', 'system.distance', 'system.structurelles', 'system.ornementales'], simple:true}],
+        grenades:[{path:['effets'], simple:true}]
+      }[base.key];
+
+      this._updateEffects(data, listData, labels, true);
+
+      for(let n = 0;n < data.length;n++) {
+        const optMun = data[n]?.system?.optionsmunitions?.has || false;
+
+        if(base.key === 'armes' && optMun) {
+          const dataMunitions = data[n].system.optionsmunitions;
+          for(let m = 0;m <= dataMunitions.actuel;m++) {
+            const mun = dataMunitions.liste[m];
+            dataMunitions.liste[m].liste = listEffects(mun.raw, mun.custom, labels);
+          }
+        }
+      }
+    }
+  }
+
+  _updateEffects(listToVerify, list, labels, items = false) {
+    const process = (capacite, path, simple) => {
+      const data = path.split('.').reduce((obj, key) => obj?.[key], capacite);
+      if (!data) return;
+      const effets = simple ? data : data.effets;
+      effets.liste = listEffects(effets.raw, effets.custom, labels);
+    };
+
+    if (!items) {
+      for (const { name, path, simple } of list) {
+        const capacite = listToVerify?.[name];
+        if (!capacite) continue;
+        path.forEach(p => process(capacite, p, simple));
+      }
+    } else {
+      if (!listToVerify) return;
+      for (const [key, module] of Object.entries(listToVerify)) {
+        for (const { path, simple } of list) {
+          path.forEach(p => process(module, p, simple));
         }
       }
     }

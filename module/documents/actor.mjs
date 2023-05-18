@@ -488,8 +488,6 @@ export class KnightActor extends Actor {
 
     let PGTotalDepense = 0;
 
-    console.warn(dataPG)
-
     for(const PG in PGDepenseListe) {
       if(!PGDepenseListe[PG].isArmure) PGTotalDepense += Number(PGDepenseListe[PG].value);
     }

@@ -164,493 +164,7 @@
                 </h2>
 
                 {{#each actor.modules as | key module|}}
-                <div class="bModule item" data-item-id="{{key._id}}">
-                    <header class="summary header js-toggler" data-item-id="{{key._id}}">
-                        <i class="far fa-plus-square extendButton"></i>
-
-                        <div class="gestionButton">
-                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
-                        </div>
-                        <span>{{{key.name}}}</span>
-
-                        <div class="blockMultiline">
-                            {{#if (moduleCanBeActivate key)}}
-                                {{#if (isLowerThan key.system.energie.tour.value 1)}}
-                                    {{#if (isLowerThan key.system.energie.minute.value 1)}}
-                                        {{#unless key.system.active.base}}
-                                            <button class="activation" data-name="{{key.name}}" data-type="module" data-module="{{key._id}}"
-                                                data-cout="0">
-                                                {{localize "KNIGHT.AUTRE.Activer"}}
-                                            </button>
-                                        {{/unless}}
-                                    {{/if}}
-                                {{/if}}
-                                {{#if (isHigherThan key.system.energie.tour.value 0)}}
-                                    {{#unless key.system.active.base}}
-                                        <button class="activation" data-name="{{key.name}}" data-type="module" data-module="{{key._id}}"
-                                            data-cout="{{key.system.energie.tour.value}}">
-                                            {{localize "KNIGHT.AUTRE.Activer"}} ({{key.system.energie.tour.label}})
-                                        </button>
-                                    {{/unless}}
-                                {{/if}}
-                                {{#if (isHigherThan key.system.energie.minute.value 0)}}
-                                    {{#unless key.system.active.base}}
-                                        <button class="activation" data-name="{{key.name}}" data-type="module" data-module="{{key._id}}"
-                                            data-cout="{{key.system.energie.minute.value}}">
-                                            {{localize "KNIGHT.AUTRE.Activer"}} ({{key.system.energie.minute.label}})
-                                        </button>
-                                    {{/unless}}
-                                {{/if}}
-                            {{/if}}
-                            {{#if key.system.active.base}}
-                                <button class="desactivation" data-name="{{key.name}}" data-type="module" data-module="{{key._id}}"
-                                    data-cout="0">
-                                        {{localize "KNIGHT.AUTRE.Desactiver"}}
-                                </button>
-                                {{#if (isHigherThan key.system.energie.supplementaire 0)}}
-                                    <button class="supplementaire"
-                                        data-cout="{{key.system.energie.supplementaire}}">
-                                        {{localize "KNIGHT.ITEMS.MODULE.DepenseSupplementaire"}}
-                                    </button>
-                                {{/if}}
-                            {{/if}}
-                            {{#unless key.system.active.pnj}}
-                                {{#each key.system.pnj.liste as | keyPnj pnj|}}
-                                    {{#if (isHigherThan key.system.energie.tour.value 0)}}
-                                        {{#unless key.system.active.pnj}}
-                                            <button class="activation" data-name="{{key.name}}" data-type="modulePnj" data-module="{{key._id}}"
-                                                data-cout="{{key.system.energie.tour.value}}" data-index="{{@index}}">
-                                                {{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{localize "KNIGHT.AUTRE.Tour"}})
-                                            </button>
-                                        {{/unless}}
-                                    {{/if}}
-
-                                    {{#if (isHigherThan key.system.energie.minute.value 0)}}
-                                        {{#unless key.system.active.pnj}}
-                                            <button class="activation" data-name="{{key.name}}" data-type="modulePnj" data-module="{{key._id}}"
-                                                data-cout="{{key.system.energie.minute.value}}" data-index="{{@index}}">
-                                                {{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{localize "KNIGHT.AUTRE.Minute"}})
-                                            </button>
-                                        {{/unless}}
-                                    {{/if}}
-                                {{/each}}
-                            {{/unless}}
-                            {{#if key.system.active.pnj}}
-                                <button class="desactivation" data-type="modulePnj" data-module="{{key._id}}"
-                                    data-cout="0">
-                                        {{localize "KNIGHT.AUTRE.Desactiver"}} : {{key.system.active.pnjName}}
-                                </button>
-                                {{#if (isHigherThan key.system.energie.supplementaire 0)}}
-                                    <button class="supplementaire"
-                                        data-cout="{{key.system.energie.supplementaire}}">
-                                        {{localize "KNIGHT.ITEMS.MODULE.DepenseSupplementaire"}} : {{key.system.active.pnjName}}
-                                    </button>
-                                {{/if}}
-                            {{/if}}
-                        </div>
-                    </header>
-
-                    <img class="profile-img" style="display:none;" src="{{key.img}}" title="{{key.name}}" />
-                    <span class="description" style="display:none;">{{{key.system.description}}}</span>
-
-                    <div class="mainBlock" style="display:none;">
-                        <div class="mSlots">
-                            <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Label"}}</h4>
-
-                            <div class="block">
-                                <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Tete"}}</span>
-                                <span class="score">{{key.system.slots.tete}}</span>
-                            </div>
-
-                            <div class="block">
-                                <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.BrasGauche"}}</span>
-                                <span class="score">{{key.system.slots.brasGauche}}</span>
-                            </div>
-
-                            <div class="block">
-                                <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.BrasDroit"}}</span>
-                                <span class="score">{{key.system.slots.brasDroit}}</span>
-                            </div>
-
-                            <div class="block">
-                                <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Torse"}}</span>
-                                <span class="score">{{key.system.slots.torse}}</span>
-                            </div>
-
-                            <div class="block">
-                                <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.JambeGauche"}}</span>
-                                <span class="score">{{key.system.slots.jambeGauche}}</span>
-                            </div>
-
-                            <div class="block">
-                                <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.JambeDroite"}}</span>
-                                <span class="score">{{key.system.slots.jambeDroite}}</span>
-                            </div>
-                        </div>
-
-                        <div class="line">
-                            <div class="data">
-                                <div class="middlespan">
-                                    <span class="header">{{localize "KNIGHT.ITEMS.MODULE.CATEGORIE.Label"}}</span>
-                                    <span class="score">{{getCategorie key.system.categorie}}</span>
-                                </div>
-                                <div class="middlespan">
-                                    <span class="header">{{localize "KNIGHT.ITEMS.MODULE.RARETE.Label"}}</span>
-                                    <span class="score">{{getRarete key.system.rarete}}</span>
-                                </div>
-                                <div class="middlespan">
-                                    <span class="header">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
-                                    <span class="score">{{getActivation key.system.activation}}</span>
-                                </div>
-                                {{#if (isHigherThan key.system.energie.tour.value 0)}}
-                                <div class="middlespan">
-                                    <span class="header">
-                                        {{#unless @root/actor/armureData/system/espoir/remplaceEnergie}}
-                                        {{localize "KNIGHT.LATERAL.Energie"}}
-                                        {{else}}
-                                        {{localize "KNIGHT.LATERAL.Espoir"}}
-                                        {{/unless}} / {{key.system.energie.tour.label}}
-                                    </span>
-                                    <span class="score">{{key.system.energie.tour.value}}</span>
-                                </div>
-                                {{/if}}
-                                {{#if (isHigherThan key.system.energie.minute.value 0)}}
-                                <div class="middlespan">
-                                    <span class="header">
-                                        {{#unless @root/actor/armureData/system/espoir/remplaceEnergie}}
-                                        {{localize "KNIGHT.LATERAL.Energie"}}
-                                        {{else}}
-                                        {{localize "KNIGHT.LATERAL.Espoir"}}
-                                        {{/unless}} / {{key.system.energie.minute.label}}
-                                    </span>
-                                    <span class="score">{{key.system.energie.minute.value}}</span>
-                                </div>
-                                {{/if}}
-                                {{#if (isHigherThan key.system.energie.supplementaire 0)}}
-                                <div class="middlespan">
-                                    <span class="header">
-                                        {{#unless @root/actor/armureData/system/espoir/remplaceEnergie}}
-                                        {{localize "KNIGHT.AUTRE.EnergieSupplementaireComplet"}}
-                                        {{else}}
-                                        {{localize "KNIGHT.LATERAL.EspoirSupplementaireComplet"}}
-                                        {{/unless}}
-                                    </span>
-                                    <span class="score">{{key.system.energie.supplementaire}}</span>
-                                </div>
-                                {{/if}}
-                                <div class="middlespan">
-                                    <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
-                                    <span class="score">{{getPortee key.system.portee}}</span>
-                                </div>
-                                <span class="oneLine lightBlack">{{localize "KNIGHT.DUREE.Label"}}</span>
-                                {{#if key.system.permanent}}
-                                <span class="button">{{localize "KNIGHT.DUREE.Permanent"}}</span>
-                                {{else}}
-                                <span class="textarea">{{{capaciteDescription key.system.duree}}}</span>
-                                {{/if}}
-                            </div>
-
-                            {{#if key.system.bonus.has}}
-                            <div class="data">
-                                <h4 class="title">{{localize "KNIGHT.BONUS.Label"}}</h4>
-                                {{#if key.system.bonus.armure.has}}
-                                    <div class="middlespan">
-                                        <span class="header">{{localize "KNIGHT.LATERAL.Armure"}}</span>
-                                        <span class="score">{{key.system.bonus.armure.value}}</span>
-                                    </div>
-                                {{/if}}
-
-                                {{#if key.system.bonus.champDeForce.has}}
-                                    <div class="middlespan">
-                                        <span class="header">{{localize "KNIGHT.LATERAL.ChampDeForce"}}</span>
-                                        <span class="score">{{key.system.bonus.champDeForce.value}}</span>
-                                    </div>
-                                {{/if}}
-
-                                {{#if key.system.bonus.energie.has}}
-                                    <div class="middlespan">
-                                        <span class="header">{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                                        <span class="score">{{key.system.bonus.energie.value}}</span>
-                                    </div>
-                                {{/if}}
-
-                                {{#if key.system.bonus.energie.has}}
-                                    <div class="middlespan">
-                                        <span class="header">{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                                        <span class="score">{{key.system.bonus.energie.value}}</span>
-                                    </div>
-                                {{/if}}
-
-                                {{#if key.system.bonus.degats.has}}
-                                    <h4 class="separation">{{localize "KNIGHT.BONUS.Degats"}}</h4>
-                                    <span class="oneLine borderBottom">{{getWpnType key.system.bonus.degats.type}}</span>
-                                    {{#unless key.system.bonus.degats.variable.has}}
-                                    <div class="middlespan noSeparation">
-                                        <span class="header">{{localize "KNIGHT.AUTRE.Total"}}</span>
-                                        <span class="score">{{key.system.bonus.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.bonus.degats.fixe}}</span>
-                                    </div>
-                                    {{else}}
-                                    <div class="middlespan noSeparation">
-                                        <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
-                                        <span class="score">{{key.system.bonus.degats.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.bonus.degats.variable.min.fixe}}</span>
-                                    </div>
-                                    <div class="middlespan">
-                                        <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
-                                        <span class="score">{{key.system.bonus.degats.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.bonus.degats.variable.max.fixe}}</span>
-                                    </div>
-                                    {{/unless}}
-                                {{/if}}
-
-                                {{#if key.system.bonus.violence.has}}
-                                    <h4 class="separation">{{localize "KNIGHT.BONUS.Violence"}}</h4>
-                                    <span class="oneLine borderBottom">{{getWpnType key.system.bonus.violence.type}}</span>
-                                    {{#unless key.system.bonus.violence.variable.has}}
-                                    <div class="middlespan noSeparation">
-                                        <span class="header">{{localize "KNIGHT.AUTRE.Total"}}</span>
-                                        <span class="score">{{key.system.bonus.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.bonus.violence.fixe}}</span>
-                                    </div>
-                                    {{else}}
-                                    <div class="middlespan noSeparation">
-                                        <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
-                                        <span class="score">{{key.system.bonus.violence.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.bonus.violence.variable.min.fixe}}</span>
-                                    </div>
-                                    <div class="middlespan">
-                                        <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
-                                        <span class="score">{{key.system.bonus.violence.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.bonus.violence.variable.max.fixe}}</span>
-                                    </div>
-                                    {{/unless}}
-                                {{/if}}
-                            </div>
-                            {{/if}}
-
-                            {{#if key.system.arme.has}}
-                            <div class="data">
-                                <h4 class="title">{{localize "KNIGHT.ITEMS.MODULE.ARME.Label"}}</h4>
-                                <div class="middlespan">
-                                    <span class="header">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Label"}}</span>
-                                    <span class="score">{{getWpnType key.system.arme.type}}</span>
-                                </div>
-                                <div class="middlespan">
-                                    <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
-                                    <span class="score">{{getPortee key.system.arme.portee}}</span>
-                                </div>
-
-                                <h4 class="separation">{{localize "KNIGHT.AUTRE.Degats"}}</h4>
-                                {{#unless key.system.arme.degats.variable.has}}
-                                <div class="middlespan noSeparation">
-                                    <span class="header">{{localize "KNIGHT.AUTRE.Total"}}</span>
-                                    <span class="score">{{key.system.arme.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.degats.fixe}}</span>
-                                </div>
-                                {{else}}
-                                <div class="middlespan noSeparation">
-                                    <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
-                                    <span class="score">{{key.system.arme.degats.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.degats.variable.min.fixe}}</span>
-                                </div>
-                                <div class="middlespan">
-                                    <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
-                                    <span class="score">{{key.system.arme.degats.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.degats.variable.max.fixe}}</span>
-                                </div>
-                                <div class="middlespan">
-                                    <span class="header">{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
-                                    <span class="score">{{key.system.arme.degats.variable.cout}}</span>
-                                </div>
-                                {{/unless}}
-
-                                <h4 class="separation">{{localize "KNIGHT.AUTRE.Violence"}}</h4>
-                                {{#unless key.system.arme.violence.variable.has}}
-                                <div class="middlespan noSeparation">
-                                    <span class="header">{{localize "KNIGHT.AUTRE.Total"}}</span>
-                                    <span class="score">{{key.system.arme.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.violence.fixe}}</span>
-                                </div>
-                                {{else}}
-                                <div class="middlespan noSeparation">
-                                    <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
-                                    <span class="score">{{key.system.arme.violence.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.violence.variable.min.fixe}}</span>
-                                </div>
-                                <div class="middlespan">
-                                    <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
-                                    <span class="score">{{key.system.arme.violence.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.violence.variable.max.fixe}}</span>
-                                </div>
-                                <div class="middlespan">
-                                    <span class="header">{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
-                                    <span class="score">{{key.system.arme.violence.variable.cout}}</span>
-                                </div>
-                                {{/unless}}
-                                <div class="effets">
-                                    {{#each key.system.arme.effets.liste as | key effet|}}
-                                        <div>
-                                            <span class="label">{{key.name}}</span>
-                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                                        </div>
-                                    {{/each}}
-                                </div>
-                                {{#if (isWpnDistance key.system.arme.type)}}
-                                <div class="effets">
-                                    {{#each key.system.arme.distance.liste as | key effet|}}
-                                        <div>
-                                            <span class="label">{{key.name}}</span>
-                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                                        </div>
-                                    {{/each}}
-                                </div>
-                                {{else}}
-                                <div class="effets">
-                                    {{#each key.system.arme.structurelles.liste as | key effet|}}
-                                        <div>
-                                            <span class="label">{{key.name}}</span>
-                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                                        </div>
-                                    {{/each}}
-                                </div>
-                                <div class="effets">
-                                    {{#each key.system.arme.ornementales.liste as | key effet|}}
-                                        <div>
-                                            <span class="label">{{key.name}}</span>
-                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                                        </div>
-                                    {{/each}}
-                                </div>
-                                {{/if}}
-                            </div>
-                            {{/if}}
-
-                            {{#if key.system.pnj.has}}
-                            <div class="data fullWidth pnj">
-                                <h4 class="title">{{localize "KNIGHT.ITEMS.MODULE.PNJ.LabelP"}}</h4>
-                                {{#each key.system.pnj.liste as | kPnj pnj|}}
-                                    <div class="mainBlock">
-                                        <span class="pnjName">{{kPnj.nom}} ({{getPnjType kPnj.type}})</span>
-                                        {{#if kPnj.aspects.has}}
-                                        <div class="aspects">
-                                            {{#each kPnj.aspects.liste  as | kAsp aspect|}}
-                                                <div>
-                                                    <div class="middlespan noSeparation">
-                                                        <span class="header">{{getAspect aspect}}</span>
-                                                        <span class="score">{{kAsp.value}}</span>
-                                                    </div>
-                                                    <h4 class="separation">{{localize "KNIGHT.ASPECTS.Exceptionnels"}}</h4>
-                                                    <div class="middlespan noSeparation">
-                                                        <span class="header">{{localize "KNIGHT.AUTRE.Mineur"}}</span>
-                                                        <span class="score">{{kAsp.ae.mineur}}</span>
-                                                    </div>
-                                                    <div class="middlespan">
-                                                        <span class="header">{{localize "KNIGHT.AUTRE.Majeur"}}</span>
-                                                        <span class="score">{{kAsp.ae.majeur}}</span>
-                                                    </div>
-                                                </div>
-                                            {{/each}}
-                                        </div>
-                                        {{/if}}
-
-                                        <div class="col3">
-                                            {{#if (isBande kPnj.type)}}
-                                                <div class="middlespan noSeparation">
-                                                    <span class="header">{{localize "KNIGHT.AUTRE.Debordement"}}</span>
-                                                    <span class="score">{{kPnj.debordement}}</span>
-                                                </div>
-                                            {{/if}}
-                                            <div class="middlespan {{#unless (isBande kPnj.type)}}noSeparation{{/unless}}">
-                                                <span class="header">{{localize "KNIGHT.LATERAL.Initiative"}}</span>
-                                                <span class="score">{{kPnj.initiative.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kPnj.initiative.fixe}}</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col3">
-                                            <div class="middlespan noSeparation">
-                                                <span class="header">{{localize "KNIGHT.LATERAL.Reaction"}}</span>
-                                                <span class="score">{{kPnj.reaction}}</span>
-                                            </div>
-                                            <div class="middlespan">
-                                                <span class="header">{{localize "KNIGHT.LATERAL.Defense"}}</span>
-                                                <span class="score">{{kPnj.defense}}</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col3">
-                                            <div class="middlespan noSeparation">
-                                                <span class="header">{{localize "KNIGHT.LATERAL.Armure"}}</span>
-                                                <span class="score">{{kPnj.armure}}</span>
-                                            </div>
-                                            <div class="middlespan">
-                                                <span class="header">{{localize "KNIGHT.LATERAL.ChampDeForce"}}</span>
-                                                <span class="score">{{kPnj.champDeForce}}</span>
-                                            </div>
-                                        </div>
-
-                                        {{#if kPnj.armes.has}}
-                                        <div class="armes">
-                                            <h4>
-                                                {{localize "KNIGHT.ITEMS.MODULE.ARME.Label"}}
-                                            </h3>
-                                            {{#each kPnj.armes.liste  as | kArme arme|}}
-                                            <div>
-                                                <div class="line">
-                                                    <span class="nom">
-                                                        {{kArme.nom}}
-                                                    </span>
-                                                    <span class="type">
-                                                        {{getWpnType kArme.type}}
-                                                    </span>
-                                                </div>
-                                                <div class="header">
-                                                    <span class="portee">{{localize "KNIGHT.PORTEE.Label"}}</span>
-                                                    <span class="degats">{{localize "KNIGHT.AUTRE.Degats"}}</span>
-                                                    <span class="violence">{{localize "KNIGHT.AUTRE.Violence"}}</span>
-                                                </div>
-                                                <div class="line">
-                                                    <span class="portee">{{getPortee kArme.portee}}</span>
-                                                    <span class="degats">{{kArme.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kArme.degats.fixe}}</span>
-                                                    <span class="violence">{{kArme.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kArme.violence.fixe}}</span>
-                                                </div>
-                                                <div class="effets">
-                                                    {{#each kArme.effets.liste as | kEffet effet|}}
-                                                        <div>
-                                                            <span class="label">{{kEffet.name}}</span>
-                                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                                            <span class="hideInfo">{{{getEffetsDescription kEffet.description}}}</span>
-                                                        </div>
-                                                    {{/each}}
-                                                </div>
-                                            </div>
-                                            {{/each}}
-                                        </div>
-                                        {{/if}}
-                                    </div>
-                                {{/each}}
-                            </div>
-                            {{/if}}
-
-                            {{#if key.system.jetsimple.has}}
-                            <div class="data">
-                                <h4>{{localize "KNIGHT.ITEMS.MODULE.JETSIMPLE.Label"}}</h4>
-                                <div class="shortspan">
-                                    <span class="header">{{localize "KNIGHT.JETS.Nom"}}</span>
-                                    <span class="score">{{key.system.jetsimple.label}}</span>
-                                </div>
-                                <div class="shortspan">
-                                    <span class="header">{{localize "KNIGHT.JETS.Label"}}</span>
-                                    <span class="score">{{key.system.jetsimple.jet}}</span>
-                                </div>
-
-                                <div class="effets">
-                                    {{#each key.system.jetsimple.effets.liste as | key effet|}}
-                                        <div>
-                                            <span class="label">{{key.name}}</span>
-                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                                        </div>
-                                    {{/each}}
-                                </div>
-                            </div>
-                            {{/if}}
-                        </div>
-                    </div>
-                </div>
+                    {{~> systems/knight/templates/actors/subtab/modules.html key=key}}
                 {{/each}}
             </div>
         </div>
@@ -673,7 +187,7 @@
                                         <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
                                     </div>
                                     <span class="name">{{this.name}}</span>
-                                    <select class="whoActivate" data-id="{{this._id}}">
+                                    <select class="whoActivate" data-id="{{this._id}}" data-niveau="{{this.system.niveau}}">
                                         {{#select this.system.whoActivate}}
                                         <option value=""></option>
                                             {{#each @root/data/system/equipage/passagers as | kPass passager|}}
@@ -681,6 +195,15 @@
                                             {{/each}}
                                         {{/select}}
                                     </select>
+                                    {{#if this.system.optionsmunitions.has}}
+                                        <select class="wpnMunitionChange" data-id="{{this._id}}" data-niveau="{{this.system.niveau}}">
+                                            {{#select this.system.optionsmunitions.actuel}}
+                                                {{#each this.system.optionsmunitions.liste as | key munition|}}
+                                                    <option value="{{munition}}">{{key.nom}}</option>
+                                                {{/each}}
+                                            {{/select}}
+                                        </select>
+                                    {{/if}}
                                     <div class="line">
                                         <div class="doubleLine">
                                             <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
@@ -696,7 +219,6 @@
                                         </div>
                                         <img src="systems/knight/assets/icons/D6Black.svg" class="jetWpn dice" data-name="{{this.name}}" data-id="{{this._id}}" data-isDistance="{{this.system.type}}" data-num="{{@index}}" data-who="{{this.system.whoActivate}}" />
                                     </div>
-
                                 </header>
 
                                 <div class="effets" style="display:none;">
@@ -710,6 +232,34 @@
                                         {{/each}}
                                     </div>
                                 </div>
+
+                                {{#if (wpnHasMunitions (isWpnDistance this.system.type) this.system.optionsmunitions.has)}}
+                                    {{#each this.system.optionsmunitions.liste as | key munition|}}
+                                        <div class="effets" style="display:none;">
+                                            <h3>{{key.nom}}</h3>
+                                            <div class="line">
+                                                <div class="doubleLine">
+                                                    <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                                                    <span>{{key.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.degats.fixe}}</span>
+                                                </div>
+                                                <div class="doubleLine">
+                                                    <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                                                    <span>{{key.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.violence.fixe}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="blockEffets">
+                                                {{#each key.liste as | kE effet|}}
+                                                    <div>
+                                                        <span class="label">{{kE.name}}</span>
+                                                        <img class="info" src="systems/knight/assets/icons/info.svg" />
+                                                        <span class="hideInfo">{{{getEffetsDescription kE.description}}}</span>
+                                                    </div>
+                                                {{/each}}
+                                            </div>
+                                        </div>
+                                    {{/each}}
+                                {{/if}}
+
                                 <div class="effets" style="display:none;">
                                     <div class="blockEffets">
                                         {{#each this.system.distance.liste as | key effet|}}

@@ -1,3 +1,10 @@
+## v3.9.0
+### Améliorations
+- Ajout de la possibilité mettre plusieurs type de munitions sur un module d'arme à distance, comme c'est actuellement le cas pour les armes.
+
+### Bugfix
+- Correction de différents bugs sur les véhicules, en lien avec les modules.
+
 ## v3.8.5
 ### Bugfix
 - Correction d'un bug avec l'amélioration "Revêtement Omega" qui ne lançait qu'1 dé, au lieu de 2.
