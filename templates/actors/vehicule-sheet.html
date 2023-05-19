@@ -182,10 +182,12 @@
                             <div class="wpn" data-item-id="{{this._id}}">
                                 <header class="summary header js-toggler" data-item-id="{{this._id}}">
                                     <i class="far fa-plus-square extendButton"></i>
+                                    {{#unless key.system.noRack}}
                                     <div class="gestionButton">
                                         <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
                                         <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
                                     </div>
+                                    {{/unless}}
                                     <span class="name">{{this.name}}</span>
                                     <select class="whoActivate" data-id="{{this._id}}" data-niveau="{{this.system.niveau}}">
                                         {{#select this.system.whoActivate}}
