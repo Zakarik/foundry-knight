@@ -12,7 +12,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.9.2";
+    static NEEDED_VERSION = "3.9.3";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -1907,7 +1907,7 @@ Applique les modifications par la mise à jour au Monde.
             item.update(update);
         }
 
-        if (options?.force || MigrationKnight.needUpdate("3.9.2")) {
+        if (options?.force || MigrationKnight.needUpdate("3.9.3")) {
             const update = {};
             const system = item.system;
 

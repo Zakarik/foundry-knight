@@ -1,3 +1,7 @@
+## v3.9.3
+### Bugfix
+- Correction de problèmes d'affichage des munitions, et ajout d'oublis dans les templates d'affichages.
+
 ## v3.9.2
 ### Bugfix
 - Correction de quelques bugs mineurs suite à la mise à jour précédente.

@@ -291,6 +291,7 @@ export class PNJSheet extends ActorSheet {
     html.find('div.combat div.armesDistance select.wpnMunitionChange').change(ev => {
       const target = $(ev.currentTarget);
       const id = target.data("id");
+      const niveau = target.data("niveau");
       const value = target.val();
       const item = this.actor.items.get(id);
 
@@ -2786,6 +2787,13 @@ export class PNJSheet extends ActorSheet {
         const itemBonus = itemDataNiveau.bonus;
         const itemArme = itemDataNiveau.arme;
         const itemActive = data?.active?.base || false;
+        const dataMunitions = itemArme?.optionsmunitions || {has:false};
+
+        if(dataMunitions.has) {
+          for (const [key, value] of Object.entries(dataMunitions.liste)) {
+            itemArme.optionsmunitions.liste[key].liste = listEffects(value.raw, value.custom, labels);
+          }
+        }
 
         if(itemDataNiveau.permanent || itemActive) {
           if(itemBonus.has) {
@@ -2876,7 +2884,7 @@ export class PNJSheet extends ActorSheet {
 
           if(itemArme.has) {
             const moduleEffets = itemArme.effets;
-            const dataMunitions = itemArme?.optionsmunitions || {has:false};
+
 
             let degats = itemArme.degats;
             let violence = itemArme.violence;
@@ -2885,6 +2893,8 @@ export class PNJSheet extends ActorSheet {
               degats = dataMunitions.liste[dataMunitions.actuel].degats;
               violence = dataMunitions.liste[dataMunitions.actuel].violence;
             }
+
+            console.warn(moduleEffets);
 
             const moduleWpn = {
               _id:i._id,
@@ -3744,16 +3754,14 @@ export class PNJSheet extends ActorSheet {
       for(let n = 0;n < data.length;n++) {
         const optMun = data[n]?.system?.optionsmunitions?.has || false;
 
-        if(base.key === 'armes' && optMun) {
+        if((base.key === 'armes' && optMun)) {
           const dataMunitions = data[n].system.optionsmunitions;
-          for(let m = 0;m <= dataMunitions.actuel;m++) {
-            const mun = dataMunitions.liste[m];
-            dataMunitions.liste[m].liste = listEffects(mun.raw, mun.custom, labels);
+
+          for (const [key, value] of Object.entries(dataMunitions.liste)) {
+            value.liste = listEffects(value.raw, value.custom, labels);
           }
         }
       }
-
-
     }
   }
 

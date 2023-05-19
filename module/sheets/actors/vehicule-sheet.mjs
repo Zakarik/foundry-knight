@@ -61,7 +61,7 @@ export class VehiculeSheet extends ActorSheet {
     const context = super.getData();
 
     this._prepareCharacterItems(context);
-    this._prepareTranslation(context);
+    this._prepareTranslation(context.actor, context.data.system);
 
     context.systemData = context.data.system;
     context.systemData.wear = 'armure';
@@ -481,6 +481,12 @@ export class VehiculeSheet extends ActorSheet {
       "distance":[]
     };
     const effects = {armes:[], modules:[]};
+    const labels = Object.assign({},
+      CONFIG.KNIGHT.effets,
+      CONFIG.KNIGHT.AMELIORATIONS.distance,
+      CONFIG.KNIGHT.AMELIORATIONS.structurelles,
+      CONFIG.KNIGHT.AMELIORATIONS.ornementales
+    );
 
     for (let i of sheetData.items) {
       const data = i.system;
@@ -551,6 +557,13 @@ export class VehiculeSheet extends ActorSheet {
         const itemActive = data?.active?.base || false;
         const itemErsatz = itemDataNiveau.ersatz;
         const itemWhoActivate = itemDataNiveau?.whoActivate || '';
+        const dataMunitions = itemArme?.optionsmunitions || {has:false};
+
+        if(dataMunitions.has) {
+          for (const [key, value] of Object.entries(dataMunitions.liste)) {
+            itemArme.optionsmunitions.liste[key].liste = listEffects(value.raw, value.custom, labels);
+          }
+        }
 
         if(itemDataNiveau.permanent || itemActive) {
           if(itemBonus.has) {
@@ -651,7 +664,6 @@ export class VehiculeSheet extends ActorSheet {
               custom:moduleEffetsCustom,
               liste:moduleEffets.liste
             };
-            const dataMunitions = itemArme?.optionsmunitions || {has:false};
 
             let degats = itemArme.degats;
             let violence = itemArme.violence;
@@ -955,69 +967,6 @@ export class VehiculeSheet extends ActorSheet {
     if(queryInstance.previous) rollApp.bringToTop();
   }
 
-  /*_prepareModuleTranslation(context) {
-    const modules = context.actor?.modules || false;
-
-    if(modules === false) return;
-
-    for (let [key, module] of Object.entries(modules)) {
-
-      /*const raw = module.system.arme.effets.raw;
-      const custom = module.system.arme.effets.custom;
-      const labels = CONFIG.KNIGHT.effets;
-
-      const rawD = module.system.arme.distance.raw;
-      const customD = module.system.arme.distance.custom;
-      const labelsD = CONFIG.KNIGHT.AMELIORATIONS.distance;
-
-      const rawS = module.system.arme.structurelles.raw;
-      const customS = module.system.arme.structurelles.custom;
-      const labelsS = CONFIG.KNIGHT.AMELIORATIONS.structurelles;
-
-      const rawO = module.system.arme.ornementales.raw;
-      const customO = module.system.arme.ornementales.custom;
-      const labelsO = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
-
-      const rawM = module.system.jetsimple.effets.raw;
-      const customM = module.system.jetsimple.effets.custom;
-
-      module.system.jetsimple.effets.liste = listEffects(rawM, customM, labels);
-      module.system.arme.effets.liste = listEffects(raw, custom, labels);
-      module.system.arme.distance.liste = listEffects(rawD, customD, labelsD);
-      module.system.arme.structurelles.liste = listEffects(rawS, customS, labelsS);
-      module.system.arme.ornementales.liste = listEffects(rawO, customO, labelsO);
-
-      const pnj = module.system.pnj.liste;
-
-      for (let [kNpc, npc] of Object.entries(pnj)) {
-        if(npc.armes.has) {
-          const armes = npc.armes.liste;
-
-          for (let [kArme, arme] of Object.entries(armes)) {
-            const rArme = arme.effets.raw;
-            const cArme = arme.effets.custom;
-
-            arme.effets.liste = listEffects(rArme, cArme, labels);
-          }
-        }
-      }
-
-
-
-      for(let n = 0;n < data.length;n++) {
-        const optMun = data[n]?.system?.optionsmunitions?.has || false;
-
-        if(base.key === 'armes' && optMun) {
-          const dataMunitions = data[n].system.optionsmunitions;
-          for(let m = 0;m <= dataMunitions.actuel;m++) {
-            const mun = dataMunitions.liste[m];
-            dataMunitions.liste[m].liste = listEffects(mun.raw, mun.custom, labels);
-          }
-        }
-      }
-    }
-  }*/
-
   _prepareTranslation(actor, system) {
     const { modules,
       armesDistance } = actor;
@@ -1051,9 +1000,9 @@ export class VehiculeSheet extends ActorSheet {
 
         if(base.key === 'armes' && optMun) {
           const dataMunitions = data[n].system.optionsmunitions;
-          for(let m = 0;m <= dataMunitions.actuel;m++) {
-            const mun = dataMunitions.liste[m];
-            dataMunitions.liste[m].liste = listEffects(mun.raw, mun.custom, labels);
+
+          for (const [key, value] of Object.entries(dataMunitions.liste)) {
+            value.liste = listEffects(value.raw, value.custom, labels);
           }
         }
       }

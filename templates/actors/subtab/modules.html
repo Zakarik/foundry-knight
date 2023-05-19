@@ -400,57 +400,91 @@
                     <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
                     <span class="score">{{getPortee key.system.arme.portee}}</span>
                 </div>
+                {{#if key.system.arme.optionsmunitions.has}}
+                    <div class="effets">
+                        {{#each key.system.arme.effets.liste as | key effet|}}
+                            <div>
+                                <span class="label">{{key.name}}</span>
+                                <img class="info" src="systems/knight/assets/icons/info.svg" />
+                                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                            </div>
+                        {{/each}}
+                    </div>
+                {{/if}}
 
-                <h4 class="separation">{{localize "KNIGHT.AUTRE.Degats"}}</h4>
-                {{#unless key.system.arme.degats.variable.has}}
-                <div class="middlespan noSeparation">
-                    <span class="header">{{localize "KNIGHT.AUTRE.Total"}}</span>
-                    <span class="score">{{key.system.arme.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.degats.fixe}}</span>
-                </div>
-                {{else}}
-                <div class="middlespan noSeparation">
-                    <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
-                    <span class="score">{{key.system.arme.degats.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.degats.variable.min.fixe}}</span>
-                </div>
-                <div class="middlespan">
-                    <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
-                    <span class="score">{{key.system.arme.degats.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.degats.variable.max.fixe}}</span>
-                </div>
-                <div class="middlespan">
-                    <span class="header">{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
-                    <span class="score">{{key.system.arme.degats.variable.cout}}</span>
-                </div>
-                {{/unless}}
+                {{#unless key.system.arme.optionsmunitions.has}}
+                    <h4 class="separation">{{localize "KNIGHT.AUTRE.Degats"}}</h4>
+                    {{#unless key.system.arme.degats.variable.has}}
+                    <div class="middlespan noSeparation">
+                        <span class="header">{{localize "KNIGHT.AUTRE.Total"}}</span>
+                        <span class="score">{{key.system.arme.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.degats.fixe}}</span>
+                    </div>
+                    {{else}}
+                    <div class="middlespan noSeparation">
+                        <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
+                        <span class="score">{{key.system.arme.degats.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.degats.variable.min.fixe}}</span>
+                    </div>
+                    <div class="middlespan">
+                        <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
+                        <span class="score">{{key.system.arme.degats.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.degats.variable.max.fixe}}</span>
+                    </div>
+                    <div class="middlespan">
+                        <span class="header">{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
+                        <span class="score">{{key.system.arme.degats.variable.cout}}</span>
+                    </div>
+                    {{/unless}}
 
-                <h4 class="separation">{{localize "KNIGHT.AUTRE.Violence"}}</h4>
-                {{#unless key.system.arme.violence.variable.has}}
-                <div class="middlespan noSeparation">
-                    <span class="header">{{localize "KNIGHT.AUTRE.Total"}}</span>
-                    <span class="score">{{key.system.arme.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.violence.fixe}}</span>
-                </div>
+                    <h4 class="separation">{{localize "KNIGHT.AUTRE.Violence"}}</h4>
+                    {{#unless key.system.arme.violence.variable.has}}
+                    <div class="middlespan noSeparation">
+                        <span class="header">{{localize "KNIGHT.AUTRE.Total"}}</span>
+                        <span class="score">{{key.system.arme.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.violence.fixe}}</span>
+                    </div>
+                    {{else}}
+                    <div class="middlespan noSeparation">
+                        <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
+                        <span class="score">{{key.system.arme.violence.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.violence.variable.min.fixe}}</span>
+                    </div>
+                    <div class="middlespan">
+                        <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
+                        <span class="score">{{key.system.arme.violence.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.violence.variable.max.fixe}}</span>
+                    </div>
+                    <div class="middlespan">
+                        <span class="header">{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
+                        <span class="score">{{key.system.arme.violence.variable.cout}}</span>
+                    </div>
+                    {{/unless}}
+                    <div class="effets">
+                        {{#each key.system.arme.effets.liste as | key effet|}}
+                            <div>
+                                <span class="label">{{key.name}}</span>
+                                <img class="info" src="systems/knight/assets/icons/info.svg" />
+                                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                            </div>
+                        {{/each}}
+                    </div>
                 {{else}}
-                <div class="middlespan noSeparation">
-                    <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
-                    <span class="score">{{key.system.arme.violence.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.violence.variable.min.fixe}}</span>
-                </div>
-                <div class="middlespan">
-                    <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
-                    <span class="score">{{key.system.arme.violence.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.violence.variable.max.fixe}}</span>
-                </div>
-                <div class="middlespan">
-                    <span class="header">{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
-                    <span class="score">{{key.system.arme.violence.variable.cout}}</span>
-                </div>
-                {{/unless}}
-                <div class="effets">
-                    {{#each key.system.arme.effets.liste as | key effet|}}
-                        <div>
-                            <span class="label">{{key.name}}</span>
-                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                    {{#each key.system.arme.optionsmunitions.liste as | kM munition|}}
+                        <h4 class="separation">{{localize "KNIGHT.ITEMS.ARME.MUNITIONS.Label"}} : {{kM.nom}}</h4>
+                        <div class="middlespan noSeparation">
+                            <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                            <span class="score">{{kM.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kM.degats.fixe}}</span>
+                        </div>
+                        <div class="middlespan">
+                            <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                            <span class="score">{{kM.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kM.violence.fixe}}</span>
+                        </div>
+                        <div class="effets">
+                            {{#each kM.liste as | key effet|}}
+                                <div>
+                                    <span class="label">{{key.name}}</span>
+                                    <img class="info" src="systems/knight/assets/icons/info.svg" />
+                                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                                </div>
+                            {{/each}}
                         </div>
                     {{/each}}
-                </div>
+                {{/unless}}
                 {{#if (isWpnDistance key.system.arme.type)}}
                 <div class="effets">
                     {{#each key.system.arme.distance.liste as | key effet|}}
