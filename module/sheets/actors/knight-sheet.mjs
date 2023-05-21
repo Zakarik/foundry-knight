@@ -7075,9 +7075,11 @@ export class KnightSheet extends ActorSheet {
         data.effets2mains.raw = [...new Set(armeE2Raw)];
         data.effets2mains.custom = armeE2Custom;
 
-        const dataMunitions = data.optionsmunitions;
+        const dataMunitions = data.optionsmunitions,
+              hasDM = dataMunitions?.has || false,
+              actuelDM = Number(dataMunitions?.actuel || 0);
 
-        if(dataMunitions.has) {
+        if(hasDM && actuelDM != 0) {
           for (let i = 0; i <= dataMunitions.actuel; i++) {
 
             const raw = dataMunitions.liste[i].raw.concat(armorSpecialRaw);
