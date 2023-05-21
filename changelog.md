@@ -1,3 +1,7 @@
+## v3.9.4
+### Bugfix
+- Correction d'un bug pouvant empêcher le bon fonctionnement des fiches.
+
 ## v3.9.3
 ### Bugfix
 - Correction de problèmes d'affichage des munitions, et ajout d'oublis dans les templates d'affichages.
