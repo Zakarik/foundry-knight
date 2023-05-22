@@ -1,3 +1,7 @@
+## v3.9.6
+### Bugfix
+- Correction d'un bug affectant les effets personnalisés, il peut être nécessaire de glisser & déposer à nouveau les effets personnalisés créés à part.
+
 ## v3.9.5
 ### Bugfix
 - Correction d'un bug pouvant empêcher l'ouverture des modules
