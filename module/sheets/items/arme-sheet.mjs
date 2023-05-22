@@ -270,7 +270,7 @@ export class ArmeSheet extends ItemSheet {
             },
             degats:{
               jet:degats.jet,
-              reussite:degats.reussite,
+              fixe:degats.fixe,
               aspect:{
                 aeInclusFixe:degats.aspect.aeInclusFixe,
                 aeInclusJet:degats.aspect.aeInclusJet,
@@ -295,7 +295,7 @@ export class ArmeSheet extends ItemSheet {
             },
             violence:{
               jet:violence.jet,
-              reussite:violence.reussite,
+              fixe:violence.fixe,
               aspect:{
                 aeInclusFixe:violence.aspect.aeInclusFixe,
                 aeInclusJet:violence.aspect.aeInclusJet,
@@ -364,7 +364,7 @@ export class ArmeSheet extends ItemSheet {
             },
             degats:{
               jet:degats.jet,
-              reussite:degats.reussite,
+              fixe:degats.fixe,
               aspect:{
                 aeInclusFixe:degats.aspect.aeInclusFixe,
                 aeInclusJet:degats.aspect.aeInclusJet,
@@ -389,7 +389,7 @@ export class ArmeSheet extends ItemSheet {
             },
             violence:{
               jet:violence.jet,
-              reussite:violence.reussite,
+              fixe:violence.fixe,
               aspect:{
                 aeInclusFixe:violence.aspect.aeInclusFixe,
                 aeInclusJet:violence.aspect.aeInclusJet,
