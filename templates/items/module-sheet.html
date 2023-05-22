@@ -543,7 +543,7 @@
                         {{#if key.arme.optionsmunitions.has}}
                             <label class="oneLine optionsMunitions">
                                 <span class="header">{{localize "KNIGHT.ITEMS.ARME.MUNITIONS.Combiens"}}</span>
-                                <input type="number" name="system.niveau.details.{{nv}}.arme.optionsmunitions.value" value="{{key.arme.optionsmunitions.value}}" min="0" />
+                                <input type="number" name="system.niveau.details.{{nv}}.arme.optionsmunitions.value" value="{{#if key.arme.optionsmunitions.value}}{{key.arme.optionsmunitions.value}}{{else}}1{{/if}}" min="0" />
                             </label>
                             <button type="action" class="optionsMunitionsValider"
                                 data-key="{{nv}}"

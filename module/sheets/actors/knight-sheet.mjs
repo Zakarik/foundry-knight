@@ -4731,7 +4731,7 @@ export class KnightSheet extends ActorSheet {
                     button1: {
                       label: game.i18n.localize('KNIGHT.AUTRE.Valider'),
                       callback: async (dataHtml) => {
-                        const selected = dataHtml.find('.whatSelect').val();
+                        const selected = dataHtml?.find('.whatSelect')?.val() || 1;
                         const itemSlots = itemData[0].system.slots;
                         const armorSlots = this._getSlotsValue();
 
@@ -4818,7 +4818,8 @@ export class KnightSheet extends ActorSheet {
             button1: {
               label: game.i18n.localize('KNIGHT.AUTRE.Valider'),
               callback: async (dataHtml) => {
-                const selected = dataHtml.find('.whatSelect').val();
+                const selected = dataHtml?.find('.whatSelect')?.val() || 1;
+
                 const itemSlots = itemData[0].system.slots;
                 const armorSlots = this._getSlotsValue();
 
@@ -6330,10 +6331,13 @@ export class KnightSheet extends ActorSheet {
         const isLion = data.isLion;
         const itemDataNiveau = data.niveau.details[`n${niveau}`];
         const itemSlots = data.slots;
-        const itemBonus = itemDataNiveau.bonus;
-        const itemArme = itemDataNiveau.arme;
-        const itemOD = itemDataNiveau.overdrives;
+        const itemBonus = itemDataNiveau?.bonus || false;
+        const itemArme = itemDataNiveau?.arme || false;
+        const itemOD = itemDataNiveau?.overdrives || false;
         const itemActive = data?.active?.base || false;
+
+        if(itemBonus === false || itemArme === false || itemOD === false) continue;
+
         const iBOD = itemBonus.overdrives;
         const itemErsatz = itemDataNiveau.ersatz;
         const eRogue = itemErsatz.rogue;
