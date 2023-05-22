@@ -1,3 +1,7 @@
+## v3.9.5
+### Bugfix
+- Correction d'un bug pouvant empêcher l'ouverture des modules
+
 ## v3.9.4
 ### Bugfix
 - Correction d'un bug pouvant empêcher le bon fonctionnement des fiches.

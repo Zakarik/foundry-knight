@@ -717,7 +717,8 @@ export class ModuleSheet extends ItemSheet {
 
       const beffets = data.effets || false;
       const effets = data.arme.effets || false;
-      const munitions = data.arme.optionsmunitions.liste;
+      console.warn(data.arme)
+      const munitions = data.arme?.optionsmunitions?.liste || {};
       const length = Object.entries(munitions).length;
       const distance = data.arme.distance || false;
       const structurelles = data.arme.structurelles || false;
