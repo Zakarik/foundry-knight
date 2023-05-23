@@ -400,7 +400,7 @@ export class KnightActor extends Actor {
     if(dataWear === "armure" || dataWear === "ascension") {
       const ODInstinct =  aspects?.bete?.caracteristiques?.instinct?.overdrive?.value || 0;
 
-      if(ODInstinct >= 3) initiativeDataDiceMod += ODInstinct*3;
+      if(ODInstinct >= 3) initiativeDataMod += ODInstinct*3;
     }
 
     if(hasEmbuscadeSubis) {
