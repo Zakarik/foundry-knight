@@ -1,3 +1,6 @@
+## v3.9.12
+- Essai #2 de correction du problème de maximum dans les attributs.
+
 ## v3.9.11
 - Correction d'un problème pouvant interférer dans le bon calcul des maximums des attributs.
 
