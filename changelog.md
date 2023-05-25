@@ -1,3 +1,6 @@
+## v3.9.10
+- Mise à jour correctif pour la cross-compatibilité entre V10 et V11 pour le moment.
+
 ## v3.9.9
 - Correction d'un problème de nom.
 
