@@ -1,3 +1,6 @@
+## v3.9.9
+- Correction d'un problème de nom.
+
 ## v3.9.8
 - Mise à jour de compatibilité avec la V11.
 
