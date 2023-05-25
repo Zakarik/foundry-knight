@@ -7535,7 +7535,7 @@ export class KnightSheet extends ActorSheet {
           disabled:toggle
         });
       } else toAdd.push({
-          name: effect.label,
+          label: effect.label,
           icon: '',
           changes:effect.data,
           disabled:toggle
