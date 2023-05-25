@@ -4480,7 +4480,7 @@ export function addOrUpdateEffect(origin, label, effect) {
   const effectExist = existEffect(listEffect, label);
 
   if(!effectExist) addEffect(origin, [{
-      name: label,
+      label: label,
       icon: '',
       changes:effect,
       disabled:false
@@ -4494,11 +4494,11 @@ export function addOrUpdateEffect(origin, label, effect) {
 }
 
 export function countEffect(list, label) {
-  return list.filter(effect => effect.name === label);
+  return list.filter(effect => effect.label === label);
 }
 
 export function existEffect(list, label) {
-  return list.find(effect => effect.name === label);
+  return list.find(effect => effect.label === label);
 }
 
 export async function getArmor(actor) {
