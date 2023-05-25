@@ -12,7 +12,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.9.11";
+    static NEEDED_VERSION = "3.9.12";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -1157,6 +1157,17 @@ Applique les modifications par la mise à jour au Monde.
             if(actor.type === 'knight') {
                 actor.getEmbeddedCollection('ActiveEffect').delete();
             }
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("3.9.12")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            if(actor.type === 'knight') {
+                actor.deleteEmbeddedDocuments('ActiveEffect', actor.getEmbeddedCollection('ActiveEffect').toObject().map(eff => eff._id));
+           }
         }
     }
 

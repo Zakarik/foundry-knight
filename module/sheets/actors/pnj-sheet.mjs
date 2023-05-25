@@ -2894,8 +2894,6 @@ export class PNJSheet extends ActorSheet {
               violence = dataMunitions.liste[dataMunitions.actuel].violence;
             }
 
-            console.warn(moduleEffets);
-
             const moduleWpn = {
               _id:i._id,
               name:i.name,
