@@ -1,3 +1,6 @@
+## v3.9.8
+- Mise à jour de compatibilité avec la V11.
+
 ## v3.9.7
 ### Bugfix
 - Correction d'un bug dans le calcul du bonus de l'OD d'instinct 3.
