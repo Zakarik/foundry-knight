@@ -97,6 +97,8 @@ export class KnightSheet extends ActorSheet {
 
     context.systemData = system;
 
+    console.warn(context);
+
     return context;
   }
 
@@ -331,13 +333,6 @@ export class KnightSheet extends ActorSheet {
       }
 
       this.actor.update(update);
-    });
-
-    html.find('section.menu div.armure input.value').change(ev => {
-      const target = $(ev.currentTarget);
-      const value = target.val();
-
-      this._updatePA(value);
     });
 
     html.find('.armure .activation').click(async ev => {
@@ -3596,12 +3591,26 @@ export class KnightSheet extends ActorSheet {
     });
 
     html.find('div.buttonSelectArmure button.armure').click(async ev => {
+      ev.preventDefault();
       const type = $(ev.currentTarget).data("type");
       const data = this.object.system;
+      const wear = data.wear;
+      let itemUpdate = '';
 
       const update = {};
 
       update[`system.wear`] = type;
+
+      switch(wear) {
+        case 'armure':
+          itemUpdate = `system.armure.value`;
+          break;
+
+        case 'ascension':
+        case 'guardian':
+          update[`system.equipements.${wear}.value`] = data.armure.value
+          break;
+      }
 
       switch(type) {
         case 'armure':
@@ -3627,6 +3636,12 @@ export class KnightSheet extends ActorSheet {
       }
 
       this.actor.update(update);
+
+      if(itemUpdate !== '') {
+        const armor = await getArmor(this.actor);
+
+        armor.update({[itemUpdate]:data.armure.value});
+      }
     });
 
     html.find('div.nods img.dice').click(async ev => {
@@ -7396,67 +7411,67 @@ export class KnightSheet extends ActorSheet {
         key: `system.progression.gloire.depense.liste.${i}.gratuit`,
         mode: 5,
         priority: null,
-        value: depensePG[i].gratuit
+        value: `${depensePG[i].gratuit}`
       },
       {
         key: `system.progression.gloire.depense.liste.${i}.id`,
         mode: 5,
         priority: null,
-        value: depensePG[i].id
+        value: `${depensePG[i].id}`
       },
       {
         key: `system.progression.gloire.depense.liste.${i}.isAutre`,
         mode: 5,
         priority: null,
-        value: depensePG[i].isAutre
+        value: `${depensePG[i]?.isAutre ?? ''}`
       },
       {
         key: `system.progression.gloire.depense.liste.${i}.name`,
         mode: 5,
         priority: null,
-        value: depensePG[i].name
+        value: `${depensePG[i].name}`
       },
       {
         key: `system.progression.gloire.depense.liste.${i}.order`,
         mode: 5,
         priority: null,
-        value: depensePG[i].order
+        value: `${depensePG[i].order}`
       },
       {
         key: `system.progression.gloire.depense.liste.${i}.value`,
         mode: 5,
         priority: null,
-        value: depensePG[i].value
+        value: `${depensePG[i].value}`
       },
       {
         key: `system.progression.gloire.depense.liste.${i}.isArmure`,
         mode: 5,
         priority: null,
-        value: depensePG[i].isArmure ?? 'false'
+        value: `${depensePG[i].isArmure ?? 'false'}`
       },
       {
         key: `system.progression.gloire.depense.liste.${i}.isAcheter`,
         mode: 5,
         priority: null,
-        value: depensePG[i].isAcheter ?? 'false'
+        value: `${depensePG[i].isAcheter ?? 'false'}`
       },
       {
         key: `system.progression.gloire.depense.liste.${i}.isModule`,
         mode: 5,
         priority: null,
-        value: depensePG[i].isModule ?? 'false'
+        value: `${depensePG[i].isModule ?? 'false'}`
       },
       {
         key: `system.progression.gloire.depense.liste.${i}.evo`,
         mode: 5,
         priority: null,
-        value: depensePG[i].evo ?? ''
+        value: `${depensePG[i].evo ?? ''}`
       },
       {
         key: `system.progression.gloire.depense.liste.${i}.niveau`,
         mode: 5,
         priority: null,
-        value: depensePG[i].niveau ?? 1
+        value: `${depensePG[i].niveau ?? 1}`
       });
     }
 
@@ -7520,7 +7535,7 @@ export class KnightSheet extends ActorSheet {
           disabled:toggle
         });
       } else toAdd.push({
-          label: effect.label,
+          name: effect.label,
           icon: '',
           changes:effect.data,
           disabled:toggle
