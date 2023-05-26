@@ -1,3 +1,6 @@
+## v3.9.13
+- Correction d'un bug ne prenant pas en compte les bonus / malus de défense rentrés sur la fiche.
+
 ## v3.9.12
 - Essai #2 de correction du problème de maximum dans les attributs.
 

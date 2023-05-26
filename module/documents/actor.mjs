@@ -449,10 +449,10 @@ export class KnightActor extends Actor {
       if(ODAura >= 5) defenseBonus += aspects.dame.caracteristiques.aura.value;
     }
 
-    if(!data.defense.bonusValue) data.reaction.bonusValue = defenseDataBonus;
+    if(!data.defense.bonusValue) data.defense.bonusValue = defenseDataBonus;
     else data.defense.bonusValue += defenseDataBonus;
 
-    if(!data.defense.malusValue) data.reaction.malusValue = defenseDataMalus;
+    if(!data.defense.malusValue) data.defense.malusValue = defenseDataMalus;
     else data.defense.malusValue += defenseDataMalus;
 
     data.defense.base = userDBase;
