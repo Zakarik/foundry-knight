@@ -6086,7 +6086,7 @@ export class KnightSheet extends ActorSheet {
                   effects.armure.push({
                     key: `system.aspects.${bonus.aspect}.caracteristiques.${key}.overdrive.bonus`,
                     mode: 2,
-                    priority: null,
+                    priority: 3,
                     value: carac.value
                   });
                 }
@@ -7254,7 +7254,7 @@ export class KnightSheet extends ActorSheet {
                   effects.armure.push({
                     key: `system.aspects.${bonus.aspect}.caracteristiques.${key}.overdrive.bonus`,
                     mode: 2,
-                    priority: null,
+                    priority: 3,
                     value: carac.value
                   });
                 }
@@ -7322,15 +7322,22 @@ export class KnightSheet extends ActorSheet {
       effects.overdrives.push({
         key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.base`,
         mode: 5,
-        priority: null,
+        priority: 1,
         value:vBase
+      });
+
+      effects.overdrives.push({
+        key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.bonus`,
+        mode: 5,
+        priority: 1,
+        value:0
       });
 
       if(vBonus > 0) {
         effects.modules.push({
           key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.bonus`,
-          mode: 5,
-          priority: null,
+          mode: 2,
+          priority: 2,
           value:vBonus
         });
       }

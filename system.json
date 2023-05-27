@@ -2,7 +2,7 @@
   "id": "knight",
   "title": "Knight",
   "description": "Une fiche pour le JDR Knight.",
-  "version": "3.9.13",
+  "version": "3.9.14",
   "esmodules": [
     "module/knight.mjs"
   ],
@@ -44,6 +44,6 @@
   "gridUnits": "m",
   "url": "https://github.com/Zakarik/foundry-knight",
   "manifest": "https://raw.githubusercontent.com/Zakarik/foundry-knight/main/system.json",
-  "download": "https://github.com/Zakarik/foundry-knight/archive/3.9.13.zip",
+  "download": "https://github.com/Zakarik/foundry-knight/archive/3.9.14.zip",
   "changelog": "https://raw.githubusercontent.com/Zakarik/foundry-knight/main/changelog.md"
 }

@@ -1,3 +1,6 @@
+## v3.9.14
+- Correction d'un bug pouvant entraîner un mauvais calcul des overdrives.
+
 ## v3.9.13
 - Correction d'un bug ne prenant pas en compte les bonus / malus de défense rentrés sur la fiche.
 
