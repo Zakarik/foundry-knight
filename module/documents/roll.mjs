@@ -144,8 +144,8 @@ export class RollKnight extends Roll {
             break;
         }
 
-        if(this._difficulte != false && !this._isEFail) {
-          if(result > this._difficulte) {
+        if((this._difficulte != false || this._difficulte != 0) && !this._isEFail) {
+          if(nSuccess > this._difficulte) {
             this._isRollSuccess = true;
           } else {
             this._isRollFailed = true;

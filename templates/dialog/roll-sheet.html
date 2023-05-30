@@ -43,6 +43,10 @@
 
     <div class="bonus">
         <label>
+            <span>{{localize "KNIGHT.AUTRE.Difficulte"}}</span>
+            <input type="number" class="difficulte" value="{{#if difficulte}}{{difficulte}}{{else}}0{{/if}}" min="0" />
+        </label>
+        <label>
             <span>{{localize "KNIGHT.BONUS.Succes"}}</span>
             <input type="number" class="succesBonus" value="{{succesBonus}}" min="0" />
         </label>

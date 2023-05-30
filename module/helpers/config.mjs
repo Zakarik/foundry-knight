@@ -80,6 +80,11 @@ export const KNIGHT = {};
  };
 
  KNIGHT.effets = {
+   "affecteanatheme": {
+     "label":"KNIGHT.EFFETS.AFFECTEANATHEME.Label",
+     "description":"KNIGHT.EFFETS.AFFECTEANATHEME.Description",
+     "double":false
+   },
    "anatheme": {
      "label":"KNIGHT.EFFETS.ANATHEME.Label",
      "description":"KNIGHT.EFFETS.ANATHEME.Description",

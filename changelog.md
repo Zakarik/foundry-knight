@@ -1,3 +1,13 @@
+## v3.10.0
+### Améliorations
+- Ajout de la possibilité de mettre une difficulté lors des jets, dans la fenêtre de jets.
+- Ajout de la possibilité de maintenir la touche shift lors du clique sur le bouton "Jet d'espoir", afin de jeter directement les dés, plutôt que d'ouvrir la fenêtre de jet.
+- Ajout de l'effet "Affecte uniquement l'anathème", qui apparait dans de rares cas.
+
+### Bugfix
+- Correction d'un problème dans le décompte des succès pour le mode Zen.
+- Correction d'un problème d'affichage des effets pour le mode Oriflamme.
+
 ## v3.9.14
 - Correction d'un bug pouvant entraîner un mauvais calcul des overdrives.
 

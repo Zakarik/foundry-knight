@@ -715,6 +715,12 @@ export class KnightRollDialog extends Application {
       this.data.label = $(ev.currentTarget).val();
     });
 
+    html.find(".difficulte").change(ev => {
+      const value = +$(ev.currentTarget).val();
+
+      this.data.difficulte = value;
+    });
+
     html.find(".succesBonus").change(ev => {
       const value = +$(ev.currentTarget).val();
 

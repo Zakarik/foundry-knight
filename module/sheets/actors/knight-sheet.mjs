@@ -18,6 +18,8 @@ import {
   getArmor,
   getAllArmor,
   getKnightRoll,
+  getCaracValue,
+  getODValue,
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
@@ -3208,6 +3210,8 @@ export class KnightSheet extends ActorSheet {
     html.find('.armure .degats').click(async ev => {
       const target = $(ev.currentTarget);
       const label = target.data("label");
+      const eRaw = target?.data("raw") || false;
+      const eCustom = target?.data("custom") || '';
       const degatsD = target.data("degats");
       const degatsF = target?.data("degatsfixe") || 0;
       const cout = target?.data("cout") || false;
@@ -3219,21 +3223,70 @@ export class KnightSheet extends ActorSheet {
         if(!depense) return;
       }
 
+      let sub = [];
+      let other = [];
+      let include = [];
+      let toConcat = [];
+      let minMax = false;
+
+      if(eRaw !== false) {
+        const raw = eRaw.split(',');
+        const custom = eCustom === '' ? [] : eCustom.split(',');
+        const listEffets = await getEffets(this.actor, '', 'standard', this.system, {raw:raw, custom:custom}, [], [], [], false, 0);
+
+        sub = listEffets.degats.list;
+        include = listEffets.degats.include;
+        other = listEffets.other;
+        toConcat = listEffets.rollDgts;
+        minMax = listEffets.degats.minMax;
+      }
+
       const rDegats = new game.knight.RollKnight(`${degatsD}D6+${degatsF}`, this.actor.system);
-      rDegats._flavor = `${label} : ${game.i18n.localize("KNIGHT.AUTRE.Degats")}`;
       rDegats._success = false;
-      await rDegats.toMessage({
+      await rDegats.evaluate(minMax);
+
+      if(sub.length > 0) { sub.sort(SortByName); }
+      if(include.length > 0) { include.sort(SortByName); }
+
+      const rMode = game.settings.get("core", "rollMode");
+
+      const pDegats = {
+        flavor:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Degats")}`,
+        main:{
+          total:rDegats._total,
+          tooltip:await rDegats.getTooltip(),
+          formula: rDegats._formula
+        },
+        sub:sub,
+        include:include,
+        other:other,
+      };
+
+      const dgtsMsgData = {
+        user: game.user.id,
         speaker: {
-        actor: this.actor?.id || null,
-        token: this.actor?.token?.id || null,
-        alias: this.actor?.name || null,
-        }
+          actor: this.actor?.id || null,
+          token: this.actor?.token?.id || null,
+          alias: this.actor?.name || null,
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+        rolls:[rDegats].concat(toConcat),
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegats),
+        sound: CONFIG.sounds.dice
+      };
+
+      const msgData = ChatMessage.applyRollMode(dgtsMsgData, rMode);
+
+      await ChatMessage.create(msgData, {
+        rollMode:rMode
       });
     });
 
     html.find('.armure .violence').click(async ev => {
       const target = $(ev.currentTarget);
       const label = target.data("label");
+      const eRaw = target?.data("raw") || false;
+      const eCustom = target?.data("custom") || '';
       const violenceD = target.data("violence");
       const violenceF = target?.data("violencefixe") || 0;
       const cout = target?.data("cout") || false;
@@ -3245,15 +3298,62 @@ export class KnightSheet extends ActorSheet {
         if(!depense) return;
       }
 
+      let sub = [];
+      let other = [];
+      let include = [];
+      let toConcat = [];
+      let minMax = false;
+
+      if(eRaw !== false) {
+        const raw = eRaw.split(',');
+        const custom = eCustom === '' ? [] : eCustom.split(',');
+        const listEffets = await getEffets(this.actor, '', 'standard', this.system, {raw:raw, custom:custom}, [], [], [], false, 0);
+
+        sub = listEffets.degats.list;
+        include = listEffets.degats.include;
+        other = listEffets.other;
+        toConcat = listEffets.rollDgts;
+        minMax = listEffets.degats.minMax;
+      }
+
       const rViolence = new game.knight.RollKnight(`${violenceD}D6+${violenceF}`, this.actor.system);
-      rViolence._flavor = `${label} : ${game.i18n.localize("KNIGHT.AUTRE.Violence")}`;
       rViolence._success = false;
-      await rViolence.toMessage({
+      await rViolence.evaluate(minMax);
+
+      if(sub.length > 0) { sub.sort(SortByName); }
+      if(include.length > 0) { include.sort(SortByName); }
+
+      const rMode = game.settings.get("core", "rollMode");
+
+      const pViolence = {
+        flavor:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Violence")}`,
+        main:{
+          total:rViolence._total,
+          tooltip:await rViolence.getTooltip(),
+          formula: rViolence._formula
+        },
+        sub:sub,
+        include:include,
+        other:other,
+      };
+
+      const violMsgData = {
+        user: game.user.id,
         speaker: {
-        actor: this.actor?.id || null,
-        token: this.actor?.token?.id || null,
-        alias: this.actor?.name || null,
-        }
+          actor: this.actor?.id || null,
+          token: this.actor?.token?.id || null,
+          alias: this.actor?.name || null,
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+        rolls:[rViolence].concat(toConcat),
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', pViolence),
+        sound: CONFIG.sounds.dice
+      };
+
+      const msgData = ChatMessage.applyRollMode(violMsgData, rMode);
+
+      await ChatMessage.create(msgData, {
+        rollMode:rMode
       });
     });
 
@@ -3422,8 +3522,38 @@ export class KnightSheet extends ActorSheet {
       });
     });
 
-    html.find('.jetEspoir').click(ev => {
-      this._rollDice(game.i18n.localize('KNIGHT.JETS.JetEspoir'), 'hargne', false, ['sangFroid'], ['hargne', 'sangFroid']);
+    html.find('.jetEspoir').click(async ev => {
+      const hasShift = ev.shiftKey;
+
+      if(hasShift) {
+        const wear = this.object.system.wear;
+
+        let carac = getCaracValue('hargne', this.actor, true);
+        carac += getCaracValue('sangFroid', this.actor, true);
+
+        let od = wear === 'armure' ? getODValue('hargne', this.actor, true) : 0;
+        od += wear === 'armure' ? getODValue('sangFroid', this.actor, true) : 0;
+
+        const roll = wear === 'armure' ? `${carac}d6+${od}` : `${carac}d6`;
+
+        const exec = new game.knight.RollKnight(roll, this.actor.system);
+        exec._success = true;
+        exec._flavor = game.i18n.localize('KNIGHT.JETS.JetEspoir');
+        exec._base = game.i18n.localize(CONFIG.KNIGHT.caracteristiques['hargne']);
+        exec._autre = [game.i18n.localize(CONFIG.KNIGHT.caracteristiques['sangFroid'])];
+        exec._details = wear === 'armure' ? `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')})d6 + ${od} (${game.i18n.localize('KNIGHT.ITEMS.ARMURE.Overdrive')})` : `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')})d6`;
+        await exec.toMessage({
+          speaker: {
+          actor: this.actor?.id || null,
+          token: this.actor?.token?.id || null,
+          alias: this.actor?.name || null,
+          }
+        });
+      } else {
+        this._rollDice(game.i18n.localize('KNIGHT.JETS.JetEspoir'), 'hargne', false, ['sangFroid'], ['hargne', 'sangFroid']);
+      }
+
+
     });
 
     html.find('.jetWpn').click(ev => {
@@ -5103,63 +5233,63 @@ export class KnightSheet extends ActorSheet {
     const aucunPerteSaufAgonie = [];
     const overdrives = {
       deplacement: {
-        base:[],
+        base:[0],
         bonus:[]
       },
       force: {
-        base:[],
+        base:[0],
         bonus:[]
       },
       endurance: {
-        base:[],
+        base:[0],
         bonus:[]
       },
       hargne: {
-        base:[],
+        base:[0],
         bonus:[]
       },
       combat: {
-        base:[],
+        base:[0],
         bonus:[]
       },
       instinct: {
-        base:[],
+        base:[0],
         bonus:[]
       },
       tir: {
-        base:[],
+        base:[0],
         bonus:[]
       },
       savoir: {
-        base:[],
+        base:[0],
         bonus:[]
       },
       technique: {
-        base:[],
+        base:[0],
         bonus:[]
       },
       aura: {
-        base:[],
+        base:[0],
         bonus:[]
       },
       parole: {
-        base:[],
+        base:[0],
         bonus:[]
       },
       sangFroid: {
-        base:[],
+        base:[0],
         bonus:[]
       },
       discretion: {
-        base:[],
+        base:[0],
         bonus:[]
       },
       dexterite: {
-        base:[],
+        base:[0],
         bonus:[]
       },
       perception: {
-        base:[],
+        base:[0],
         bonus:[]
       },
     };
@@ -6330,7 +6460,7 @@ export class KnightSheet extends ActorSheet {
             const aspect = caracToAspect(caracteristique);
             const value = data.overdrives[aspect].liste[caracteristique].value ?? 0;
 
-            if(value > 0) overdrives[caracteristique].base.push(value);
+            overdrives[caracteristique].base.push(value);
           }
         }
 
@@ -7316,31 +7446,22 @@ export class KnightSheet extends ActorSheet {
       const array = overdrives[caracteristique];
       const base = array.base;
       const bonus = array.bonus;
-      const vBase = base.length > 0 ? Math.max(...base) : 0;
+      const vBase = Math.max(...base);
       const vBonus = bonus.reduce((partialSum, a) => partialSum + a, 0);
 
       effects.overdrives.push({
         key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.base`,
         mode: 5,
         priority: 1,
-        value:vBase
+        value:`${vBase}`
       });
 
-      effects.overdrives.push({
+      effects.modules.push({
         key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.bonus`,
         mode: 5,
         priority: 1,
-        value:0
+        value:vBonus
       });
-
-      if(vBonus > 0) {
-        effects.modules.push({
-          key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.bonus`,
-          mode: 2,
-          priority: 2,
-          value:vBonus
-        });
-      }
     }
 
     effects.inconvenients.push({
@@ -7883,7 +8004,7 @@ export class KnightSheet extends ActorSheet {
       { name: 'illumination', path: ['lantern'] },
       { name: 'longbow', path: ['effets.base', 'effets.liste1', 'effets.liste2', 'effets.liste3', 'distance'], simple:true },
       { name: 'morph', path: ['polymorphie.griffe', 'polymorphie.lame', 'polymorphie.canon'] },
-      { name: 'oriflamme', path: [''] },
+      { name: 'oriflamme', path: ['effets'], simple:true },
       { name: 'porteurlumiere', path: ['bonus'] },
     ];
 
@@ -7922,7 +8043,8 @@ export class KnightSheet extends ActorSheet {
 
   _updateEffects(listToVerify, list, labels, items = false) {
     const process = (capacite, path, simple) => {
-      const data = path.split('.').reduce((obj, key) => obj?.[key], capacite);
+      const root = path.split('.').reduce((obj, key) => obj?.[key], capacite)
+      const data = root;
       if (!data) return;
       const effets = simple ? data : data.effets;
       effets.liste = listEffects(effets.raw, effets.custom, labels);
