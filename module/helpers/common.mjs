@@ -98,9 +98,9 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
     const hasGhost = searchTrueValue([ghostConflit, ghostHConflit, ersatzRogue]);
     const hasChangeling = searchTrueValue([changelingPersonnel, changelingEtendue, ersatzBard]);
 
-    const guidage = data.guidage;
-    const tenebricide = data.tenebricide;
-    const obliteration = searchTrueValue([data.obliteration, data.cranerieur]);
+    const guidage = data?.guidage || false;
+    const tenebricide = data?.tenebricide || false;
+    const obliteration = searchTrueValue([data?.obliteration || false, data?.cranerieur || false]);
 
     const bourreau = effetsWpn.raw.find(str => { if(str.includes('bourreau')) return true; });
     const bourreauValue = bourreau ? bourreau.split(' ')[1] : 0;
@@ -195,6 +195,13 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
       let other = false;
 
       switch(name) {
+        case 'affecteanatheme':
+          priorDegats = true;
+          priorViolence = true;
+
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          break;
         case 'anatheme':
           priorDegats = true;
 
