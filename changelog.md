@@ -1,3 +1,7 @@
+## v3.10.1
+### Bugfix
+- Correction de l'oubli de mise à jour du fichier de langue.
+
 ## v3.10.0
 ### Améliorations
 - Ajout de la possibilité de mettre une difficulté lors des jets, dans la fenêtre de jets.

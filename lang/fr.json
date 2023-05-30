@@ -1,32 +1,34 @@
 {
-  "ACTOR":{
-    "TypeKnight":"Knight",
-    "TypeIa":"IA",
-    "TypePnj":"PNJ",
-    "TypeCreature":"Créature",
-    "TypeBande":"Bande",
-    "TypeVehicule":"Véhicule",
-    "TypeMechaarmure":"Mécha-armure"
-  },
-  "ITEM":{
-    "TypeAvantage":"Avantage",
-    "TypeInconvenient": "Inconvénient",
-    "TypeMotivationmineure": "Motivation Mineure",
-    "TypeLangue": "Langue",
-    "TypeContact": "Contact",
-    "TypeBlessure": "Blessure Grave",
-    "TypeTrauma": "Trauma",
-    "TypeArmure": "Méta-Armure",
-    "TypeModule": "Module",
-    "TypeArme": "Arme",
-    "TypeArmurelegende":"Méta-Armure de légende",
-    "TypeCapacite":"Capacité (PNJ)",
-    "TypeCarteheroique":"Carte du destin",
-    "TypeCapaciteheroique":"Capacité héroïque",
-    "TypeEffet":"Effet d'arme personnalisé",
-    "TypeArt":"Art",
-    "TypeDistinction":"Distinction",
-    "TypeCapaciteultime":"Capacité Ultime"
+  "TYPES":{
+    "Actor":{
+      "knight":"Knight",
+      "ia":"IA",
+      "pnj":"PNJ",
+      "creature":"Créature",
+      "bande":"Bande",
+      "vehicule":"Véhicule",
+      "mechaarmure":"Mécha-armure"
+    },
+    "Item":{
+      "avantage":"Avantage",
+      "inconvenient": "Inconvénient",
+      "motivationMineure": "Motivation Mineure",
+      "langue": "Langue",
+      "contact": "Contact",
+      "blessure": "Blessure Grave",
+      "trauma": "Trauma",
+      "armure": "Méta-Armure",
+      "module": "Module",
+      "arme": "Arme",
+      "armurelegende":"Méta-Armure de légende",
+      "capacite":"Capacité (PNJ)",
+      "carteheroique":"Carte du destin",
+      "capaciteheroique":"Capacité héroïque",
+      "effet":"Effet d'arme personnalisé",
+      "art":"Art",
+      "distinction":"Distinction",
+      "capaciteultime":"Capacité Ultime"
+    }
   },
   "KNIGHT": {
     "Nom":"Nom",
@@ -635,6 +637,11 @@
         "NoAeInclusJet":"Aspect Exceptionnel Non-Inclus dans le jet",
         "AeInclusFixe":"Aspect Exceptionnel Inclus dans le bonus fixe",
         "NoAeInclusFixe":"Aspect Exceptionnel Non-Inclus dans le bonus fixe"
+      },
+      "AFFECTEANATHEME": {
+        "Label":"Affecte uniquement l'anathème",
+        "Description":"Affecte uniquement les créatures de l’Anathème.",
+        "Description-short":"Affecte uniquement les créatures de l’Anathème."
       },
       "ANATHEME": {
         "Label":"Anathème",
@@ -2162,7 +2169,8 @@
       "NonNomme":"Non nommé",
       "Confirmation":"Êtes vous sûre ?",
       "ConfirmationSuppression":"Êtes vous sûre de vouloir supprimer cet objet ?",
-      "Reset":"Reset"
+      "Reset":"Reset",
+      "Difficulte":"Difficulté"
     },
     "PHASE2":{
       "Label":"Phase 2",
