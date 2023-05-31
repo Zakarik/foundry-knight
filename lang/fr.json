@@ -1,4 +1,33 @@
 {
+  "ACTOR":{
+    "TypeKnight":"Knight",
+    "TypeIa":"IA",
+    "TypePnj":"PNJ",
+    "TypeCreature":"Créature",
+    "TypeBande":"Bande",
+    "TypeVehicule":"Véhicule",
+    "TypeMechaarmure":"Mécha-armure"
+  },
+  "ITEM":{
+    "TypeAvantage":"Avantage",
+    "TypeInconvenient": "Inconvénient",
+    "TypeMotivationmineure": "Motivation Mineure",
+    "TypeLangue": "Langue",
+    "TypeContact": "Contact",
+    "TypeBlessure": "Blessure Grave",
+    "TypeTrauma": "Trauma",
+    "TypeArmure": "Méta-Armure",
+    "TypeModule": "Module",
+    "TypeArme": "Arme",
+    "TypeArmurelegende":"Méta-Armure de légende",
+    "TypeCapacite":"Capacité (PNJ)",
+    "TypeCarteheroique":"Carte du destin",
+    "TypeCapaciteheroique":"Capacité héroïque",
+    "TypeEffet":"Effet d'arme personnalisé",
+    "TypeArt":"Art",
+    "TypeDistinction":"Distinction",
+    "TypeCapaciteultime":"Capacité Ultime"
+  },
   "TYPES":{
     "Actor":{
       "knight":"Knight",
