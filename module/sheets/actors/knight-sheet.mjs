@@ -814,10 +814,12 @@ export class KnightSheet extends ActorSheet {
                   break;
               }
             } else {
-              updateEffect(this.actor, [{
-                "_id":effectExist._id,
-                disabled:true
-              }]);
+              if(effectExist !== undefined) {
+                updateEffect(this.actor, [{
+                  "_id":effectExist._id,
+                  disabled:true
+                }]);
+              }
 
               let recupValue = 0;
 
