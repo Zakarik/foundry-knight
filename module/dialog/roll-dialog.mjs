@@ -256,6 +256,18 @@ export class KnightRollDialog extends Application {
     });
   }
 
+  async setWpnSpecial(wpnSpecial) {
+    this.data.listWpnSpecial = wpnSpecial;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.listWpnSpecial,
+        );
+      }, 0);
+    });
+  }
+
   async setSelected(isWpn, idWpn, nameWpn, typeWpn, num) {
     this.data.isWpn = isWpn;
     this.data.idWpn = idWpn;
@@ -2059,7 +2071,7 @@ export class KnightRollDialog extends Application {
 
     // MECHAARMURE
     if((typeWpn === 'base' && this.data.ma) || (typeWpn === 'c1' && this.data.ma) || (typeWpn === 'c2' && this.data.ma) || (typeWpn === 'armesimprovisees' && this.data.ma)) {
-      const actor = this.data.isToken ? actor : game.actors.get(actor.id);
+      const actor = this.data.isToken ? this.data.actor : game.actors.get(this.data.actor.id);
       const puissance = +actor.system.puissance.value;
       getAttackSpecialDiceMod += puissance;
 

@@ -1256,46 +1256,46 @@ export class MechaArmureSheet extends ActorSheet {
       if(piloteData !== false) {
         const piloteSystem = piloteData.system;
 
-      pilote.name = piloteData.name;
-      pilote.surnom = piloteSystem.surnom;
-      pilote.aspects = piloteSystem.aspects;
+        pilote.name = piloteData.name;
+        pilote.surnom = piloteSystem.surnom;
+        pilote.aspects = piloteSystem.aspects;
 
-      const dataRD = ['reaction', 'defense'];
+        const dataRD = ['reaction', 'defense'];
 
-      for(let i = 0;i < dataRD.length;i++) {
-          const isKraken = piloteSystem.options.kraken;
-          const dataBonus = piloteSystem[dataRD[i]].bonus;
-          const dataMalus = piloteSystem[dataRD[i]].malus;
-          const dataMABonus = system[dataRD[i]].bonus;
-          const dataMAMalus = system[dataRD[i]].malus;
-          const base = piloteSystem[dataRD[i]].base;
+        for(let i = 0;i < dataRD.length;i++) {
+            const isKraken = piloteSystem.options.kraken;
+            const dataBonus = piloteSystem[dataRD[i]].bonus;
+            const dataMalus = piloteSystem[dataRD[i]].malus;
+            const dataMABonus = system[dataRD[i]].bonus;
+            const dataMAMalus = system[dataRD[i]].malus;
+            const base = piloteSystem[dataRD[i]].base;
 
-          let bonus = isKraken ? 1 : 0;
-          let malus = 0;
+            let bonus = isKraken ? 1 : 0;
+            let malus = 0;
 
-          for(const bonusList in dataBonus) {
-            if(bonusList === 'user') bonus += dataBonus[bonusList];
-          }
+            for(const bonusList in dataBonus) {
+              if(bonusList === 'user') bonus += dataBonus[bonusList];
+            }
 
-          for(const malusList in dataMalus) {
-            if(malusList === 'user') malus += dataMalus[malusList];
-          }
+            for(const malusList in dataMalus) {
+              if(malusList === 'user') malus += dataMalus[malusList];
+            }
 
-          for(const bonusList in dataMABonus) {
-            bonus += dataMABonus[bonusList];
-          }
+            for(const bonusList in dataMABonus) {
+              bonus += dataMABonus[bonusList];
+            }
 
-          for(const malusList in dataMAMalus) {
-            malus += dataMAMalus[malusList];
-          }
+            for(const malusList in dataMAMalus) {
+              malus += dataMAMalus[malusList];
+            }
 
-          if(dataRD[i] === 'defense') {
-            const ODAura = +piloteSystem.aspects.aspectscts?.dame?.caracteristiques?.aura?.overdrive?.value || 0;
+            if(dataRD[i] === 'defense') {
+              const ODAura = +piloteSystem.aspects.aspectscts?.dame?.caracteristiques?.aura?.overdrive?.value || 0;
 
-            if(ODAura >= 5) bonus += +piloteSystem.aspects.dame.caracteristiques.aura.value;
-          }
+              if(ODAura >= 5) bonus += +piloteSystem.aspects.dame.caracteristiques.aura.value;
+            }
 
-          system[dataRD[i]].value = base+bonus-malus;
+            system[dataRD[i]].value = base+bonus-malus;
         }
 
         system.initiative.dice = piloteSystem.initiative.dice;
@@ -1704,6 +1704,7 @@ export class MechaArmureSheet extends ActorSheet {
       isWpn, idWpn, nameWpn, typeWpn, num,
       false, false, false, deployWpnImproviseesContact, deployWpnImproviseesDistance, false, false, deployWpnMA,
       false, true);
+    await rollApp.setWpnSpecial(data.actor.wpnSpecial);
     await rollApp.setStyle({
       fulllabel:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.FullLabel`),
       label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Label`),

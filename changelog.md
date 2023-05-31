@@ -1,3 +1,8 @@
+## v3.10.2
+### Bugfix
+- Correction de compatibilité V10/V11 des traductions.
+- Correction des armes des Mécha-Armures.
+
 ## v3.10.1
 ### Bugfix
 - Correction de l'oubli de mise à jour du fichier de langue.
