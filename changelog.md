@@ -1,3 +1,7 @@
+## v3.10.3
+### Bugfix
+- Correction d'un bug potentiel sur le Druid.
+
 ## v3.10.2
 ### Bugfix
 - Correction de compatibilité V10/V11 des traductions.
