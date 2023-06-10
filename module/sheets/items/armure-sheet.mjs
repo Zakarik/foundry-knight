@@ -1227,10 +1227,12 @@ export class ArmureSheet extends ItemSheet {
   _createSpecialList(context) {
     const specialBase = context.data.system.special.base;
     const special2038 = context.data.system.special.c2038;
+    const special2038Sorcerer = context.data.system.special.c2038Sorcerer;
     const special2038Necromancer = context.data.system.special.c2038Necromancer;
     const specialAtlas = context.data.system.special.atlas;
     const specialAtlasSpecial = context.data.system.special.atlasSpecial;
     const is2038 = game.settings.get("knight", "include-capacite2038");
+    const is2038Sorcerer = game.settings.get("knight", "include-capacite2038sorcerer");
     const is2038Necromancer = game.settings.get("knight", "include-capacite2038necromancer");
     const isAtlas = game.settings.get("knight", "include-capaciteatlas");
     const isAtlasSpecial = game.settings.get("knight", "include-capaciteatlasspecial");
@@ -1261,6 +1263,20 @@ export class ArmureSheet extends ItemSheet {
               key:key,
               label:special.label,
               type:"c2038"
+            }
+          );
+        }
+      }
+    }
+
+    if(is2038Sorcerer) {
+      for (let [key, special] of Object.entries(special2038Sorcerer)) {
+        if(Object.values(specialSelected).findIndex(element => element.key == key) == -1 && key != "personnalise") {
+          cArray.push(
+            {
+              key:key,
+              label:special.label,
+              type:"c2038Sorcerer"
             }
           );
         }
@@ -2070,6 +2086,7 @@ export class ArmureSheet extends ItemSheet {
     const specialBase = context.data.system.special.base;
     const specialC2038 = context.data.system.special.c2038;
     const specialC2038Necromancer = context.data.system.special.c2038Necromancer;
+    const specialC2038Sorcerer = context.data.system.special.c2038Sorcerer;
     const specialAtlas = context.data.system.special.atlas;
     const specialAtlasSpecial = context.data.system.special.atlasSpecial;
 
@@ -2085,6 +2102,17 @@ export class ArmureSheet extends ItemSheet {
     }
 
     for (let [key, special] of Object.entries(specialC2038)) {
+      const description = `<p style="text-align:justify">${game.i18n.localize(CONFIG.KNIGHT[key].description)
+        .replaceAll("\n**", "\n<b>").replaceAll("**", "</b>")
+        .replaceAll(" _", " <i>").replaceAll("_", "</i>")
+        .replaceAll(" [", " <u>").replaceAll("]", "</u>")
+        .replaceAll("\r\n", "</p><p style=text-align:justify;>")}</p>`;
+
+      special.label = game.i18n.localize(CONFIG.KNIGHT.special[key]);
+      special.description = description;
+    }
+
+    for (let [key, special] of Object.entries(specialC2038Sorcerer)) {
       const description = `<p style="text-align:justify">${game.i18n.localize(CONFIG.KNIGHT[key].description)
         .replaceAll("\n**", "\n<b>").replaceAll("**", "</b>")
         .replaceAll(" _", " <i>").replaceAll("_", "</i>")

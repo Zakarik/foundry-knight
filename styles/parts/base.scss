@@ -350,7 +350,8 @@
 
       div.attaque,
       div.degats,
-      div.violence {
+      div.violence,
+      div.other {
         display:flex;
         align-items: flex-start;
         align-content: flex-start;
@@ -532,6 +533,16 @@
                       }
                   }
               }
+          }
+
+          &.borderBottom {
+            span {
+              border-bottom:1px solid $black;
+            }
+
+            input {
+              border-bottom:1px solid $lightBlack;
+            }
           }
         }
 
@@ -1196,4 +1207,13 @@
       }
     }
   }
+}
+
+#logo {
+  content: url("../assets/icons/logo.webp");
+  min-height: 100px;
+}
+
+#pause img {
+  content: url("../assets/icons/logoCircle.png");
 }

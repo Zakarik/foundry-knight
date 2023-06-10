@@ -335,6 +335,20 @@
                 <div class="col">
                     <div class="twoLine">
                         <button type="action" class="button
+                        {{#if key.bonus.sante.has}}
+                        active
+                        {{else}}
+                        unactive
+                        {{/if}}
+                        " data-type="bonus" data-subtype="sante" data-name="has" data-value="{{key.bonus.sante.has}}">{{key.labels.sante}}</button>
+                        <label class="oneLine {{#unless key.bonus.sante.has}}hidden{{/unless}}">
+                            <span>{{localize "KNIGHT.LATERAL.Sante"}}</span>
+                            <input type="number" name="system.niveau.details.{{nv}}.bonus.sante.value" value="{{#if key.bonus.sante.value}}{{key.bonus.sante.value}}{{else}}0{{/if}}" min="0" />
+                        </label>
+                    </div>
+
+                    <div class="twoLine">
+                        <button type="action" class="button
                         {{#if key.bonus.degats.has}}
                         active
                         {{else}}
@@ -416,9 +430,9 @@
                         <div class="oneLinewDice {{#unless key.bonus.violence.has}}hidden{{else}}{{#if key.bonus.violence.variable.has}}hidden{{/if}}{{/unless}}">
                             <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
                             <div>
-                                <input type="number" name="system.bonus.violence.dice" value="{{key.bonus.violence.dice}}" min="0" />
+                                <input type="number" name="system.niveau.details.{{nv}}.bonus.violence.dice" value="{{key.bonus.violence.dice}}" min="0" />
                                 <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
-                                <input type="number" name="system.bonus.violence.fixe" value="{{key.bonus.violence.fixe}}" min="0" />
+                                <input type="number" name="system.niveau.details.{{nv}}.bonus.violence.fixe" value="{{key.bonus.violence.fixe}}" min="0" />
                             </div>
                         </div>
                         <div class="oneLinewOnlyDice {{#unless key.bonus.violence.has}}hidden{{else}}{{#unless key.bonus.violence.variable.has}}hidden{{/unless}}{{/unless}}">

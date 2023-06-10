@@ -1,0 +1,40 @@
+<div class="energiedeficiente">
+    <h3 class="header js-toggler">
+        <i class="far fa-plus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.ENERGIEDEFICIENTE.Label"}}
+        <div>
+            <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
+                {{#if this.softlock}}
+                {{localize "KNIGHT.AUTRE.Deverouiller"}}
+                {{else}}
+                {{localize "KNIGHT.AUTRE.Verrouiller"}}
+                {{/if}}
+            </a>
+            <span>·</span>
+            <a class="delete" data-type="{{this.key}}">
+                {{localize "KNIGHT.AUTRE.Supprimer"}}
+            </a>
+        </div>
+    </h3>
+
+    {{editor this.description target="system.special.selected.energiedeficiente.description" button=true owner="./owner" editable="./editable"}}
+
+    <div class="mainData" style="display:none">
+        <div class="data">
+            <div class="double">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.ENERGIEDEFICIENTE.DesMin"}}</span>
+                <label class="block">
+                    <input type="number" name="system.special.selected.energiedeficiente.min" value="{{this.min}}" min="0" {{#if this.softlock}}disabled{{/if}}/>
+                    <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                </label>
+            </div>
+            <div class="double">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.ENERGIEDEFICIENTE.DesMax"}}</span>
+                <label class="block">
+                    <input type="number" name="system.special.selected.energiedeficiente.min" value="{{this.max}}" min="0" {{#if this.softlock}}disabled{{/if}}/>
+                    <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

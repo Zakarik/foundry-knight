@@ -18625,7 +18625,7 @@
               border-left:0px;
               border-right:0px;
               border-top:1px solid $lightBlack;
-              border-bottom:1px solid $lightBlack;
+              border-bottom:0px;
               padding-left: 15px;
               background: $black;
               font-weight: normal;
@@ -18647,6 +18647,33 @@
                 border:0px;
                 text-align: center;
                 border-top:1px solid $lightBlack;
+              }
+
+              div.line {
+                display:flex;
+                width:100%;
+                justify-content: space-between;
+
+                div.doubleLine {
+                  display:flex;
+                  flex-wrap: wrap;
+                  width:calc(100% / 2);
+
+                  span {
+                    display:block;
+                    width:100%;
+                    text-align: center;
+
+                    &.header {
+                      font-weight:bold;
+                      font-variant: small-caps;
+                    }
+                  }
+
+                  &:not(:first-of-type) {
+                    border-left:1px solid $lightBlack;
+                  }
+                }
               }
 
               div.blockEffets {

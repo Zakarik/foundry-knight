@@ -1,3 +1,17 @@
+## v3.11
+### Améliorations
+- Ajout d'un bouton pour activer la phase pour le mode Morph.
+- Ajout d'un spécial "Énergie déficiente" pour la Sorcerer, qui donne accès à des options pour ponctionner l'énergie d'autres armures et se recharger.
+- Ajout d'une option sur les modules pour donner un bonus de santé.
+- Ajout d'une option sur les effets personnalisés pour donner un bonus au champ de force
+
+### Bugfix
+- Correction d'un bug sur l'Attaque sur casque qui doublait ses dégâts avec le style akimbo.
+- Correction d'un problème empêchant d'ajouter un bonus de violence sur les modules.
+- Correction des boutons de restauration ne fonctionnant plus sur la V11.
+- Correction d'un problème sur les PNJ/Créatures ne prenant pas en compte l'augmentation des maximums sur les aspects et aspects exceptionnels dus aux capacités.
+- Nettoyage d'anciens fichiers / optimisations divers
+
 ## v3.10.3
 ### Bugfix
 - Correction d'un bug potentiel sur le Druid.

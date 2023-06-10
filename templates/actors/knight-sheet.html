@@ -115,7 +115,7 @@
                 <div class="line">
                     <span class="option {{#unless systemData.sante.optionDeploy}}withBorder{{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="sante"></span>
                     <span class="label {{#unless systemData.sante.optionDeploy}}withBorder{{/unless}}">{{localize "KNIGHT.LATERAL.Sante"}}</span>
-                    <input class="{{#unless systemData.sante.optionDeploy}}withBorder{{/unless}}" type="number" name="system.sante.value" min="0" max="{{systemData.sante.max}}" value="{{systemData.sante.value}}" />
+                    <input class="value {{#unless systemData.sante.optionDeploy}}withBorder{{/unless}}" type="number" name="system.sante.value" min="0" max="{{systemData.sante.max}}" value="{{systemData.sante.value}}" />
                     <span class="separation {{#unless systemData.sante.optionDeploy}}withBorder{{/unless}}">/</span>
                     <span class="score {{#unless systemData.sante.optionDeploy}}withBorder{{/unless}}" title="{{systemData.sante.base}} + {{systemData.sante.bonusValue}} - {{systemData.sante.malusValue}} = {{systemData.sante.max}}">{{systemData.sante.max}}</span>
                 </div>
@@ -161,7 +161,7 @@
                 <div class="line">
                     <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="espoir"></span>
                     <span class="label">{{localize "KNIGHT.LATERAL.Espoir"}}</span>
-                    <input type="number" name="system.espoir.value" min="0" max="{{systemData.espoir.max}}" value="{{systemData.espoir.value}}" />
+                    <input class="value" type="number" name="system.espoir.value" min="0" max="{{systemData.espoir.max}}" value="{{systemData.espoir.value}}" />
                     <span class="separation">/</span>
                     <span class="score" title="50 + {{systemData.espoir.bonusValue}} - {{systemData.espoir.malusValue}} = {{systemData.espoir.value}}">{{systemData.espoir.max}}</span>
                 </div>
@@ -215,7 +215,7 @@
                 <div class="line">
                     <span class="option {{#unless systemData.energie.optionDeploy}}withBorder{{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="energie"></span>
                     <span class="label {{#unless systemData.energie.optionDeploy}}withBorder{{/unless}}">{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                    <input class="{{#unless systemData.energie.optionDeploy}}withBorder{{/unless}}" type="number" name="system.energie.value" min="0" max="{{systemData.energie.max}}" value="{{systemData.energie.value}}" />
+                    <input class="value {{#unless systemData.energie.optionDeploy}}withBorder{{/unless}}" type="number" name="system.energie.value" min="0" max="{{systemData.energie.max}}" value="{{systemData.energie.value}}" />
                     <span class="separation {{#unless systemData.energie.optionDeploy}}withBorder{{/unless}}">/</span>
                     <span class="score {{#unless systemData.energie.optionDeploy}}withBorder{{/unless}}" title="{{systemData.energie.base}} + {{systemData.energie.bonus}} - {{systemData.energie.malus}} = {{systemData.energie.max}}">{{systemData.energie.max}}</span>
                 </div>
@@ -1200,7 +1200,7 @@
                         <i class="far fa-minus-square"></i>
                         {{localize "KNIGHT.COMBAT.GRENADES.Label"}}
                         <div class="headerQuantity">
-                            <input type="number" name="system.combat.grenades.quantity.value" value="{{systemData.combat.grenades.quantity.value}}" min="0" max="{{systemData.combat.grenades.quantity.max}}" />
+                            <input type="number" class="value" name="system.combat.grenades.quantity.value" value="{{systemData.combat.grenades.quantity.value}}" min="0" max="{{systemData.combat.grenades.quantity.max}}" />
                             <span>/</span>
                             <input type="number" name="system.combat.grenades.quantity.max" value="{{systemData.combat.grenades.quantity.max}}" min="0"  />
                         </div>
@@ -1269,7 +1269,7 @@
                         <div class="line">
                             <span class="label">{{getNodsName nods}}</span>
                             <div class="blockQuantite">
-                                <input type="number" name="system.combat.nods.{{nods}}.value" value="{{key.value}}" max="{{key.max}}"  />
+                                <input class="{{nods}}Value" type="number" name="system.combat.nods.{{nods}}.value" value="{{key.value}}" max="{{key.max}}"  />
                                 <span>/</span>
                                 <input type="number" name="system.combat.nods.{{nods}}.max" value="{{key.max}}" />
                             </div>

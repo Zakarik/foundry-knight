@@ -1630,6 +1630,8 @@ export class KnightRollDialog extends Application {
     }
 
     bonusDgts += regularite;
+    diceDgts += listAllEffets.degatsModules.dice;
+    bonusDgts += listAllEffets.degatsModules.fixe;
 
     const labelDgt = `${this.data.label} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}${addNum}`;
     const totalDiceDgt = tenebricide === true ? Math.floor(diceDgts/2) : diceDgts;
@@ -1713,6 +1715,9 @@ export class KnightRollDialog extends Application {
     bonusViolence += +listAllEffets.violence.totalBonus;
     diceViolence += +this.data.violenceBonus.dice;
     bonusViolence += +this.data.violenceBonus.fixe;
+
+    diceViolence += listAllEffets.violenceModules.dice;
+    bonusViolence += listAllEffets.violenceModules.fixe;
 
     if((actor.type !== 'knight' && actor.type !== 'pnj' && actor.type !== 'mechaarmure' && actor.type !== 'vehicule' && diceViolence === 0 && bonusViolence === 0)) {}
     else {
@@ -2190,8 +2195,8 @@ export class KnightRollDialog extends Application {
     const attackList = lEffetAttack.list.concat(lDistanceAttack.list, lStructurellesAttack.list, lOrnementaleAttack.list, lCapaciteAttack.list);
 
     // DEGATS
-    const degatsDice = lEffetDegats.totalDice+lDistanceDegats.totalDice+lStructurellesDegats.totalDice+lOrnementaleDegats.totalDice+lCapaciteDegats.dice+bonusModule.degats.dice+getDgtsOtherDiceMod;
-    const degatsBonus = lEffetDegats.totalBonus+lDistanceDegats.totalBonus+lStructurellesDegats.totalBonus+lOrnementaleDegats.totalBonus+lCapaciteDegats.fixe+bonusModule.degats.fixe+getDgtsOtherFixeMod;
+    const degatsDice = lEffetDegats.totalDice+lDistanceDegats.totalDice+lStructurellesDegats.totalDice+lOrnementaleDegats.totalDice+lCapaciteDegats.dice+getDgtsOtherDiceMod;
+    const degatsBonus = lEffetDegats.totalBonus+lDistanceDegats.totalBonus+lStructurellesDegats.totalBonus+lOrnementaleDegats.totalBonus+lCapaciteDegats.fixe+getDgtsOtherFixeMod;
     const degatsInclude = lEffetDegats.include.concat(lDistanceDegats.include, lStructurellesDegats.include, lOrnementaleDegats.include, lDgtsOtherInclude, lCapaciteDegats.include, bonusModule.degats.include);
     const degatsList = lEffetDegats.list.concat(lDistanceDegats.list, lStructurellesDegats.list, lOrnementaleDegats.list, lDgtsOtherList, lCapaciteDegats.list);
     const minMaxDgts = maximizeDgts ? {
@@ -2200,8 +2205,8 @@ export class KnightRollDialog extends Application {
       async:true} : lEffetDegats.minMax;
 
     // VIOLENCE
-    const violenceDice = lEffetViolence.totalDice+lDistanceViolence.totalDice+lStructurellesViolence.totalDice+lOrnementaleViolence.totalDice+lCapaciteViolence.dice+bonusModule.violence.dice+getViolenceDiceMod;
-    const violenceBonus = lEffetViolence.totalBonus+lDistanceViolence.totalBonus+lStructurellesViolence.totalBonus+lOrnementaleViolence.totalBonus+lCapaciteViolence.fixe+bonusModule.violence.fixe;
+    const violenceDice = lEffetViolence.totalDice+lDistanceViolence.totalDice+lStructurellesViolence.totalDice+lOrnementaleViolence.totalDice+lCapaciteViolence.dice+getViolenceDiceMod;
+    const violenceBonus = lEffetViolence.totalBonus+lDistanceViolence.totalBonus+lStructurellesViolence.totalBonus+lOrnementaleViolence.totalBonus+lCapaciteViolence.fixe;
     const violenceInclude = lEffetViolence.include.concat(lDistanceViolence.include, lStructurellesViolence.include, lOrnementaleViolence.include, lViolenceOtherInclude, lCapaciteViolence.include, bonusModule.violence.include);
     const violenceList = lEffetViolence.list.concat(lDistanceViolence.list, lStructurellesViolence.list, lOrnementaleViolence.list, lCapaciteViolence.list);
     const minMaxViolence = lEffetViolence.minMax;
@@ -2271,6 +2276,14 @@ export class KnightRollDialog extends Application {
       nRoll:nRoll,
       attack:merge.attack,
       degats:merge.degats,
+      degatsModules:{
+        dice:bonusModule.degats.dice,
+        fixe:bonusModule.degats.fixe
+      },
+      violenceModules:{
+        dice:bonusModule.violence.dice,
+        fixe:bonusModule.violence.fixe
+      },
       violence:merge.violence,
       other:merge.other,
       rollAtt:rollAtt,

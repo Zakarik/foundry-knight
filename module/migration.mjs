@@ -1,18 +1,12 @@
 import {
-    caracToAspect,
-    getEffets,
-    compareArrays,
-    addOrUpdateEffect,
-    addEffect,
     updateEffect,
-    existEffect,
   } from "../module/helpers/common.mjs";
 
 /*
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.9.12";
+    static NEEDED_VERSION = "3.11";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -1169,6 +1163,26 @@ Applique les modifications par la mise à jour au Monde.
                 actor.deleteEmbeddedDocuments('ActiveEffect', actor.getEmbeddedCollection('ActiveEffect').toObject().map(eff => eff._id));
            }
         }
+
+        if (options?.force || MigrationKnight.needUpdate("3.11")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            for (let item of actor.items) {
+                const itemUpdate = {};
+
+                if(item.type === 'armure') {
+                    itemUpdate[`system.special.c2038Sorcerer.energiedeficiente`] = {
+                        min:1,
+                        max:3
+                    };
+                }
+
+                item.update(itemUpdate);
+            }
+        }
     }
 
     static _migrationItems(item, options = { force:false }) {
@@ -1947,6 +1961,22 @@ Applique les modifications par la mise à jour au Monde.
                         "liste":{}
                     };
                 }
+            }
+
+            item.update(update);
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("3.11")) {
+            const update = {};
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'armure') {
+                update[`system.special.c2038Sorcerer.energiedeficiente`] = {
+                    min:1,
+                    max:3
+                };
             }
 
             item.update(update);

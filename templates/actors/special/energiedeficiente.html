@@ -1,0 +1,34 @@
+<div class="energiedeficiente">
+    <h3 class="header js-toggler">
+        <i class="far fa-plus-square"></i>
+        {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.ENERGIEDEFICIENTE.Label"}}
+
+        {{#if ("armure" @root/systemData/wear)}}
+        <div class="blockMultiline">
+            {{#each (whileBetweenNumber this.min this.max) as | key num|}}
+                <button class="special"
+                    data-special="energiedeficiente"
+                    data-name="{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.ENERGIEDEFICIENTE.EnergiePonctionnee"}}"
+                    data-value="{{key}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.ENERGIEDEFICIENTE.Ponctionner"}} ({{key}}{{localize "KNIGHT.JETS.Des-short"}}6)
+                </button>
+            {{/each}}
+        </div>
+        {{/if}}
+    </h3>
+
+    <span class="description" style="display:none">{{{this.description}}}</span>
+
+    <div class="mainData" style="display:none">
+        <div class="data">
+            <div class="longspan">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.ENERGIEDEFICIENTE.DesMin"}}</span>
+                <span class="score">{{{this.min}}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+            </div>
+            <div class="longspan">
+                <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.ENERGIEDEFICIENTE.DesMax"}}</span>
+                <span class="score">{{{this.max}}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+            </div>
+        </div>
+    </div>
+</div>

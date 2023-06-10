@@ -7,11 +7,8 @@ import {
   sum,
   confirmationDialog,
   getEffets,
-  compareArrays,
   addOrUpdateEffect,
-  addEffect,
   updateEffect,
-  countEffect,
   existEffect,
   caracToAspect,
   isAspect,
@@ -20,6 +17,8 @@ import {
   getKnightRoll,
   getCaracValue,
   getODValue,
+  getFlatEffectBonus,
+  effectsGestion
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
@@ -366,7 +365,7 @@ export class KnightSheet extends ActorSheet {
 
       if(value) {
         const coutCalcule = remplaceEnergie && armure.system.espoir.cout > 0 && type === 'module' ? Math.max(Math.floor(cout / armure.system.espoir.cout), 1) : cout;
-        const depense = await this._depensePE(name, coutCalcule, true, false, flux);
+        const depense = await this._depensePE(name, coutCalcule, true, false, flux, true, html);
 
         if(!depense) return;
       }
@@ -829,7 +828,7 @@ export class KnightSheet extends ActorSheet {
                   const actorLion = game.actors?.get(idLion) || {};
                   recupValue = actorLion?.system?.energie?.value || 0;
 
-                  this._gainPE(recupValue, true);
+                  this._gainPE(recupValue, true, false);
 
                   if(Object.keys(actorLion).length != 0) await actorLion.delete();
                   break;
@@ -844,7 +843,7 @@ export class KnightSheet extends ActorSheet {
 
                   recupValue = actor1Wolf?.system?.energie?.value || 0;
 
-                  this._gainPE(recupValue, true);
+                  this._gainPE(recupValue, true, false);
 
                   if(Object.keys(actor1Wolf).length != 0) await actor1Wolf.delete();
                   if(Object.keys(actor2Wolf).length != 0) await actor2Wolf.delete();
@@ -857,7 +856,7 @@ export class KnightSheet extends ActorSheet {
 
                   recupValue = actorCrow?.system?.energie?.value || 0;
 
-                  this._gainPE(recupValue, true);
+                  this._gainPE(recupValue, true, false);
 
                   if(Object.keys(actorCrow).length != 0) await actorCrow.delete();
                   break;
@@ -942,7 +941,7 @@ export class KnightSheet extends ActorSheet {
               case "beacon":
               case "projector":
                 if(value) {
-                  depenseEspoir = await this._depensePE(`${name} : ${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.${special.toUpperCase()}.Label`)}`, espoir, true, true);
+                  depenseEspoir = await this._depensePE(`${name} : ${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.${special.toUpperCase()}.Label`)}`, espoir, true, true, false, true, html);
 
                   if(!depenseEspoir) return;
                 }
@@ -962,14 +961,13 @@ export class KnightSheet extends ActorSheet {
                   }
                 });
 
-                await this._depensePE(`${name} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.CANDLE.Label")}`, rCandle.total, true, true);
+                await this._depensePE(`${name} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.CANDLE.Label")}`, rCandle.total, true, true, false, true, html);
                 break;
             }
             break;
           case "morph":
-
             if(value && special === 'morph') {
-              depenseEspoir = await this._depensePE(`${name}`, espoir, true, true);
+              depenseEspoir = await this._depensePE(`${name}`, espoir, true, true, false, true, html);
 
               if(!depenseEspoir) return;
             }
@@ -1223,7 +1221,7 @@ export class KnightSheet extends ActorSheet {
                     }
                   });
 
-                  const rSEspoirTotal = await this._depensePE(`${name} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Espoir")}`, rSEspoir.total, true, true);
+                  const rSEspoirTotal = await this._depensePE(`${name} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Espoir")}`, rSEspoir.total, true, true, false, true, html);
 
                   if(!rSEspoirTotal) return;
                 }
@@ -1724,7 +1722,7 @@ export class KnightSheet extends ActorSheet {
       const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
 
       if(value) {
-        const depense = await this._depensePE(name, cout, true, false, flux);
+        const depense = await this._depensePE(name, cout, true, false, flux, true, html);
 
         if(!depense) return;
       }
@@ -2117,7 +2115,7 @@ export class KnightSheet extends ActorSheet {
                 const idLion = armorCapacites.companions.lion.id;
                 const actorLion = game.actors.get(idLion);
 
-                this._gainPE(actorLion.system.energie.value, true);
+                this._gainPE(actorLion.system.energie.value, true, false);
 
                 await actorLion.delete();
                 break;
@@ -2130,7 +2128,7 @@ export class KnightSheet extends ActorSheet {
                 const actor2Wolf = game.actors.get(id2Wolf);
                 const actor3Wolf = game.actors.get(id3Wolf);
 
-                this._gainPE(actor1Wolf.system.energie.value, true);
+                this._gainPE(actor1Wolf.system.energie.value, true, false);
 
                 await actor1Wolf.delete();
                 await actor2Wolf.delete();
@@ -2141,7 +2139,7 @@ export class KnightSheet extends ActorSheet {
                 const idCrow = armorCapacites.companions.crow.id;
                 const actorCrow = game.actors.get(idCrow);
 
-                this._gainPE(actorCrow.system.energie.value, true);
+                this._gainPE(actorCrow.system.energie.value, true, false);
 
                 await actorCrow.delete();
                 break;
@@ -2354,6 +2352,20 @@ export class KnightSheet extends ActorSheet {
         case 'contrecoups':
           this._rollDice(label, base, false, [], [], false, '', '', '', -1, 0);
           break;
+        case 'energiedeficiente':
+          const rEneDef = new game.knight.RollKnight(`${value}D6`, this.actor.system);
+          rEneDef._success = false;
+          rEneDef._flavor = label;
+          await rEneDef.toMessage({
+            speaker: {
+            actor: this.actor?.id || null,
+            token: this.actor?.token?.id || null,
+            alias: this.actor?.name || null,
+            }
+          });
+
+          await this._gainPE(rEneDef.total);
+          break;
       }
     });
 
@@ -2461,7 +2473,7 @@ export class KnightSheet extends ActorSheet {
           return;
         }
 
-        if(!await this._depensePE(label, energie)) return;
+        if(!await this._depensePE(label, energie, true, false, false, true, html)) return;
 
         if(!isinstant) item.update({[`system.${toupdate}`]:value});
 
@@ -2719,7 +2731,7 @@ export class KnightSheet extends ActorSheet {
           return;
         }
 
-        if(!await this._depensePE(label, energie)) return;
+        if(!await this._depensePE(label, energie, true, false, false, true, html)) return;
 
         const rMode = game.settings.get("core", "rollMode");
 
@@ -2892,7 +2904,7 @@ export class KnightSheet extends ActorSheet {
     html.find('.armure .supplementaire').click(async ev => {
       const cout = eval($(ev.currentTarget).data("cout"));
 
-      await this._depensePE('', cout, true, false);
+      await this._depensePE('', cout, true, false, false, true, html);
     });
 
     html.find('.armure .prolonger').click(async ev => {
@@ -2906,7 +2918,7 @@ export class KnightSheet extends ActorSheet {
       const flux = hasFlux != false ? eval(hasFlux) : false;
       const espoir = $(ev.currentTarget).data("espoir");
 
-      await this._depensePE(name, cout, true, false, flux);
+      await this._depensePE(name, cout, true, false, flux, true, html);
 
       switch(capacite) {
         case "illumination":
@@ -2917,7 +2929,7 @@ export class KnightSheet extends ActorSheet {
             case "blaze":
             case "beacon":
             case "projector":
-              await this._depensePE(`${name} : ${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.${special.toUpperCase()}.Label`)}`, espoir, true, true);
+              await this._depensePE(`${name} : ${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.${special.toUpperCase()}.Label`)}`, espoir, true, true, false, true, html);
               break;
           }
           break;
@@ -3008,12 +3020,12 @@ export class KnightSheet extends ActorSheet {
 
           addOrUpdateEffect(this.actor, capacite, effect);
 
-          if(newV > oldV) { await this._depensePE('', cout*(newV-oldV), true, false, flux); }
+          if(newV > oldV) { await this._depensePE('', cout*(newV-oldV), true, false, flux, true, html); }
           break;
         case "puppet":
         case "totem":
         case "warlord":
-          if(newV > oldV) { await this._depensePE('', cout*(newV-oldV), true, false, flux); }
+          if(newV > oldV) { await this._depensePE('', cout*(newV-oldV), true, false, flux, true, html); }
           break;
       }
     });
@@ -3220,7 +3232,7 @@ export class KnightSheet extends ActorSheet {
 
       if(cout !== false) {
         const tCout = eval(cout);
-        const depense = await this._depensePE(label, tCout, true, false);
+        const depense = await this._depensePE(label, tCout, true, false, false, true, html);
 
         if(!depense) return;
       }
@@ -3295,7 +3307,7 @@ export class KnightSheet extends ActorSheet {
 
       if(cout !== false) {
         const tCout = eval(cout);
-        const depense = await this._depensePE(label, tCout, true, false);
+        const depense = await this._depensePE(label, tCout, true, false, false, true, html);
 
         if(!depense) return;
       }
@@ -4556,23 +4568,11 @@ export class KnightSheet extends ActorSheet {
 
       switch(type) {
         case 'espoir':
-          this.actor.update({['system.espoir.value']:max});
-          break;
-
         case 'sante':
-          this.actor.update({['system.sante.value']:max});
-          break;
-
         case 'armure':
-          this.actor.update({['system.armure.value']:max});
-          break;
-
         case 'energie':
-          this.actor.update({['system.energie.value']:max});
-          break;
-
         case 'grenades':
-          this.actor.update({['system.combat.grenades.quantity.value']:max});
+          html.find(`div.${type} input.value`).val(max);
           break;
 
         case 'nods':
@@ -4583,10 +4583,8 @@ export class KnightSheet extends ActorSheet {
             const name = split[0];
             const max = split[1];
 
-            update[`system.combat.nods.${name}.value`] = max;
+            html.find(`div.${type} input.${name}Value`).val(max);
           }
-
-          this.actor.update(update);
           break;
       }
     });
@@ -6657,6 +6655,7 @@ export class KnightSheet extends ActorSheet {
           if(itemDataNiveau.permanent || itemActive) {
 
             if(itemBonus.has) {
+              const iBSante = itemBonus.sante;
               const iBArmure = itemBonus.armure;
               const iBCDF = itemBonus.champDeForce;
               const iBEnergie = itemBonus.energie;
@@ -6665,6 +6664,13 @@ export class KnightSheet extends ActorSheet {
               const iBViolence = itemBonus.violence;
               const iBViolenceVariable = iBViolence.variable;
               const iBGrenades = itemBonus.grenades;
+
+              if(iBSante.has) effects.modules.push({
+                key:path.sante.bonus,
+                mode:2,
+                priority:null,
+                value:iBSante.value
+              });
 
               if(iBArmure.has) effects.modules.push({
                 key:path.armure.bonus,
@@ -6866,6 +6872,15 @@ export class KnightSheet extends ActorSheet {
                 armesDistanceModules.push(moduleWpn);
                 armesDistanceEquipee.push(moduleWpn);
               }
+
+              const bonusEffects = getFlatEffectBonus(moduleWpn, true);
+
+              effects.modules.push({
+                key: path.champDeForce.bonus,
+                mode: 2,
+                priority: null,
+                value: bonusEffects.cdf
+              });
             }
 
             if((itemOD.has && onArmor) || (iBOD.has &&  onArmor)) {
@@ -7321,6 +7336,9 @@ export class KnightSheet extends ActorSheet {
             armesDistanceEquipee.push(i);
           }
 
+          const bonusEffects = getFlatEffectBonus(i);
+          bonusCdf += bonusEffects.cdf;
+
           if(bonusDef > 0) {
             effects.armes.push({
               key: path.defense.bonus,
@@ -7362,7 +7380,7 @@ export class KnightSheet extends ActorSheet {
               key: path.champDeForce.bonus,
               mode: 2,
               priority: null,
-              value: malusRea
+              value: bonusCdf
             });
           }
         }
@@ -7610,7 +7628,6 @@ export class KnightSheet extends ActorSheet {
       value: `true`
     });
 
-    const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
     const listWithEffect = [
       {label:'Armure', withoutArmor:false, withArmor:true, data:effects.armure},
       {label:'Guardian', withoutArmor:true, withArmor:false, data:effects.guardian},
@@ -7627,51 +7644,7 @@ export class KnightSheet extends ActorSheet {
       {label:'Gloire', withoutArmor:true, withArmor:true, data:effects.gloire},
     ];
 
-    const toUpdate = [];
-    const toAdd = [];
-
-    for(let effect of listWithEffect) {
-      const effectExist = existEffect(listEffect, effect.label);
-      const effectCount = countEffect(listEffect, effect.label);
-      let toggle = false;
-
-      if(!onArmor && !effect.withoutArmor) toggle = true;
-      if(onArmor && !effect.withArmor) toggle = true;
-
-      let num = 0;
-
-      if(effectCount.length > 1) {
-        for(let eff of effectCount) {
-          if(num !== 0) {
-            this.actor.deleteEmbeddedDocuments('ActiveEffect', [eff.id]);
-          }
-
-          num++;
-        }
-      }
-
-      if(effectExist) {
-        if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
-          "_id":effectExist._id,
-          changes:effect.data,
-          icon: '',
-          disabled:toggle
-        });
-        else if(effectExist.disabled !== toggle) toUpdate.push({
-          "_id":effectExist._id,
-          icon: '',
-          disabled:toggle
-        });
-      } else toAdd.push({
-          label: effect.label,
-          icon: '',
-          changes:effect.data,
-          disabled:toggle
-      });
-    }
-
-    if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
-    if(toAdd.length > 0) addEffect(this.actor, toAdd);
+    effectsGestion(this.actor, listWithEffect, true, onArmor);
 
     for(let i = 0;i < armesContactEquipee.length;i++) {
       armesContactEquipee[i].system.degats.module = {};
@@ -8119,7 +8092,7 @@ export class KnightSheet extends ActorSheet {
     }
   }
 
-  async _depensePE(label, depense, autosubstract=true, forceEspoir=false, flux=false, capacite=true) {
+  async _depensePE(label, depense, autosubstract=true, forceEspoir=false, flux=false, capacite=true, html=false) {
     const data = this.getData();
     const armor = await getArmor(this.actor);
     const dataArmor = armor.system;
@@ -8172,16 +8145,23 @@ export class KnightSheet extends ActorSheet {
 
       if(autosubstract) {
         let update = {
-          system:{
-            [type]:{
-              value:substract
-            }
-          }
+          system:{}
+        };
+
+        if(html !== false) {
+          html.find(`div.${type} input.value`).val(substract);
+        } else {
+          update.system[type].value = substract;
         }
 
         if(flux != false) {
-          update.system.flux = {};
-          update.system.flux.value = fluxActuel-flux;
+          if(html !== false) {
+            html.find(`div.flux input.value`).val(fluxActuel-flux);
+          } else {
+            update.system.flux = {};
+            update.system.flux.value = fluxActuel-flux;
+          }
+
         }
 
         if(type === 'espoir' && this.getData().systemData.espoir.perte.saufAgonie && capacite === true) {
@@ -8210,13 +8190,8 @@ export class KnightSheet extends ActorSheet {
     }
 
     if(autoadd) {
-      let update = {
-        system:{
-          [type]:{
-            value:add
-          }
-        }
-      }
+      let update = {}
+      update[`system.${type}.value`] = add
 
       this.actor.update(update);
     }
@@ -8652,7 +8627,7 @@ export class KnightSheet extends ActorSheet {
     for(const capacite of listCapacitesEffects) {
       const effectExist = existEffect(listEffect, capacite);
 
-      if(effectExist !== undefined) {
+      if(effectExist !== false) {
         toUpdate.push({
           "_id":effectExist._id,
           disabled:true

@@ -1840,6 +1840,14 @@
               "NbreCreature":"Nombre de créatures"
             }
           },
+          "ENERGIEDEFICIENTE":{
+            "Label":"Énergie déficiente",
+            "Description":"Un chevalier en méta-armure Sorcerer ne peut pas recharger son énergie en se reposant ou en étant au calme et en laissant passer du temps, comme les autres méta-armures. Il peut cependant recharger son énergie grâce à des nods d’énergie, mais aussi en ponctionnant de l’énergie aux méta-armures de chevaliers alliés (qui doivent être d’accord).\r\nPour prendre de l’énergie à un allié en méta-armure, le chevalier doit toucher la méta-armure et dépenser une action de déplacement. Il jette alors 1 à 3D6 et récupère autant de points d’énergie que le chevalier pris pour cible perd dans l’instant. Ces points d’énergie ainsi gagnés ne peuvent pas dépasser le maximum des points de la méta-armure. Les points ponctionnés ne peuvent pas être supérieurs à ceux qui restent dans la méta-armure ciblée.",
+            "DesMin":"Énergie ponctionnée (Dés min)",
+            "DesMax":"Énergie ponctionnée (Dés max)",
+            "Ponctionner":"Ponctionner",
+            "EnergiePonctionnee":"Énergie ponctionnée"
+          },
           "PERSONNALISE": {
             "Label": "Personnalisé"
           }
@@ -1954,6 +1962,10 @@
           "NoJet":"Ne nécessite pas de jet",
           "Predefini":"Le jet est prédéfini",
           "NoPredefini":"Le jet n'est pas prédéfini"
+        },
+        "SANTE":{
+          "Bonus":"Bonus à la Santé",
+          "NoBonus":"Aucun bonus à la santé"
         },
         "ARMURE":{
           "Bonus":"Bonus à l'Armure",
@@ -2309,7 +2321,8 @@
       "Sante": "Bonus à la santé",
       "Soins": "Bonus aux soins",
       "Succes": "Succès bonus",
-      "Violence": "Bonus à la violence"
+      "Violence": "Bonus à la violence",
+      "Divers":"Bonus divers"
     },
     "MALUS":{
       "Label":"Malus",

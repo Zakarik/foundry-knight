@@ -4,14 +4,13 @@ import {
   getAEValue,
   listEffects,
   SortByName,
-  sum,
-  compareArrays,
   addOrUpdateEffect,
-  addEffect,
   updateEffect,
   existEffect,
   confirmationDialog,
   getKnightRoll,
+  getFlatEffectBonus,
+  effectsGestion
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
@@ -2695,6 +2694,8 @@ export class PNJSheet extends ActorSheet {
         const bDefense = effetsRaw.find(str => { if(str.includes('defense')) return str; });
         const bReaction = effetsRaw.find(str => { if(str.includes('reaction')) return str; });
 
+        let bonusCdf = 0;
+
         if(type === 'contact' && options2mains === true) {
           data.degats.dice = data?.options2mains?.[main]?.degats?.dice || 0;
           data.degats.fixe = data?.options2mains?.[main]?.degats?.fixe || 0;
@@ -2767,6 +2768,20 @@ export class PNJSheet extends ActorSheet {
           }
         }
 
+        const bonusEffects = getFlatEffectBonus(i, true);
+        bonusCdf += bonusEffects.cdf;
+
+
+
+        if(bonusCdf > 0) {
+          effects.armes.push({
+            key: path.champDeForce.bonus,
+            mode: 2,
+            priority: null,
+            value: bonusCdf
+          });
+        }
+
         if(tourelle.has && type === 'distance') {
           armesTourelles.push(i);
         } else {
@@ -2797,6 +2812,7 @@ export class PNJSheet extends ActorSheet {
 
         if(itemDataNiveau.permanent || itemActive) {
           if(itemBonus.has) {
+            const iBSante = itemBonus.sante;
             const iBArmure = itemBonus.armure;
             const iBCDF = itemBonus.champDeForce;
             const iBEnergie = itemBonus.energie;
@@ -2804,6 +2820,13 @@ export class PNJSheet extends ActorSheet {
             const iBDgtsVariable = iBDgts.variable;
             const iBViolence = itemBonus.violence;
             const iBViolenceVariable = iBViolence.variable;
+
+            if(iBSante.has) effects.modules.push({
+              key:path.sante.bonus,
+              mode:2,
+              priority:null,
+              value:iBSante.value
+            });
 
             if(iBArmure.has) { effects.modules.push({
                 key: path.armure.bonus,
@@ -2948,6 +2971,15 @@ export class PNJSheet extends ActorSheet {
             if(itemArme.type === 'distance') {
               armesDistance.push(moduleWpn);
             }
+
+            const bonusEffects = getFlatEffectBonus(moduleWpn, true);
+
+            effects.modules.push({
+              key: path.champDeForce.bonus,
+              mode: 2,
+              priority: null,
+              value: bonusEffects.cdf
+            });
           }
         }
 
@@ -3189,67 +3221,35 @@ export class PNJSheet extends ActorSheet {
       armesDistance[i].system.violence.module.variable = moduleBonusViolenceVariable.distance;
     }
 
-    for(const aspect in aspectsMax) {
-      const max = aspectsMax[aspect].max;
-      const aeMinMax = aspectsMax[aspect].ae.mineur;
-      const aeMajMax = aspectsMax[aspect].ae.majeur;
-
+    for (let [key, value] of Object.entries(aspectsMax)) {
       effects.capacites.push({
-        key: `system.aspects.${aspect}.max`,
+        key: `system.aspects.${key}.max`,
         mode: 5,
         priority: null,
-        value: Math.max(max)
+        value: `${Math.max(...value.max)}`
       },
       {
-        key: `system.aspects.${aspect}.ae.mineur.max`,
+        key: `system.aspects.${key}.ae.majeur.max`,
         mode: 5,
         priority: null,
-        value: Math.max(aeMinMax)
+        value: `${Math.max(...value.ae.majeur)}`
       },
       {
-        key: `system.aspects.${aspect}.ae.majeur.max`,
+        key: `system.aspects.${key}.ae.mineur.max`,
         mode: 5,
         priority: null,
-        value: Math.max(aeMajMax)
-      });
+        value: `${Math.max(...value.ae.mineur)}`
+      }
+      );
     }
 
-    const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
     const listWithEffect = [
       {label:'Modules', data:effects.modules},
       {label:'Capacites', data:effects.capacites},
       {label:'Armes', data:effects.armes},
     ];
 
-    const toUpdate = [];
-    const toAdd = [];
-
-    for(let effect of listWithEffect) {
-      const effectExist = existEffect(listEffect, effect.label);
-      let toggle = false;
-
-      if(effectExist) {
-        if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
-          "_id":effectExist._id,
-          changes:effect.data,
-          icon:'',
-          disabled:toggle
-        });
-        else if(effectExist.disabled !== toggle) toUpdate.push({
-          "_id":effectExist._id,
-          icon:'',
-          disabled:toggle
-        });
-      } else toAdd.push({
-          label: effect.label,
-          icon: '',
-          changes:effect.data,
-          disabled:toggle
-      });
-    }
-
-    if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
-    if(toAdd.length > 0) addEffect(this.actor, toAdd);
+    effectsGestion(this.actor, listWithEffect);
 
     actorData.armesContact = armesContact;
     actorData.armesDistance = armesDistance;

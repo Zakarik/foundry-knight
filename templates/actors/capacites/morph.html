@@ -70,7 +70,11 @@
                     {{/if}}
 
                     {{#if choisi.phase}}
-                    <span class="button">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.PHASE.Label"}} : {{localize "KNIGHT.AUTRE.Choisi"}}</span>
+                    <button class="activation"
+                        data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="phase"
+                        data-cout="{{this.phase.energie}}">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.PHASE.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
+                    </button>
                     {{/if}}
 
                     {{#if choisi.etirement}}

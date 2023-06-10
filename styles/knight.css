@@ -455,7 +455,8 @@
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque,
 .effetsDialog div.dialog-content div.effetCustom div.degats,
-.effetsDialog div.dialog-content div.effetCustom div.violence {
+.effetsDialog div.dialog-content div.effetCustom div.violence,
+.effetsDialog div.dialog-content div.effetCustom div.other {
   display: flex;
   align-items: flex-start;
   align-content: flex-start;
@@ -467,14 +468,16 @@
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque h2,
 .effetsDialog div.dialog-content div.effetCustom div.degats h2,
-.effetsDialog div.dialog-content div.effetCustom div.violence h2 {
+.effetsDialog div.dialog-content div.effetCustom div.violence h2,
+.effetsDialog div.dialog-content div.effetCustom div.other h2 {
   font-size: 14px;
   padding: 0px;
   text-align: center;
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label,
 .effetsDialog div.dialog-content div.effetCustom div.degats label,
-.effetsDialog div.dialog-content div.effetCustom div.violence label {
+.effetsDialog div.dialog-content div.effetCustom div.violence label,
+.effetsDialog div.dialog-content div.effetCustom div.other label {
   display: flex;
   position: relative;
   width: 100%;
@@ -484,13 +487,15 @@
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label span,
 .effetsDialog div.dialog-content div.effetCustom div.degats label span,
-.effetsDialog div.dialog-content div.effetCustom div.violence label span {
+.effetsDialog div.dialog-content div.effetCustom div.violence label span,
+.effetsDialog div.dialog-content div.effetCustom div.other label span {
   background: RGB(76 74 90);
   padding-left: 5px;
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label span.simpleSeparation,
 .effetsDialog div.dialog-content div.effetCustom div.degats label span.simpleSeparation,
-.effetsDialog div.dialog-content div.effetCustom div.violence label span.simpleSeparation {
+.effetsDialog div.dialog-content div.effetCustom div.violence label span.simpleSeparation,
+.effetsDialog div.dialog-content div.effetCustom div.other label span.simpleSeparation {
   border-top: 1px solid black;
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label input,
@@ -498,7 +503,9 @@
 .effetsDialog div.dialog-content div.effetCustom div.degats label input,
 .effetsDialog div.dialog-content div.effetCustom div.degats label select,
 .effetsDialog div.dialog-content div.effetCustom div.violence label input,
-.effetsDialog div.dialog-content div.effetCustom div.violence label select {
+.effetsDialog div.dialog-content div.effetCustom div.violence label select,
+.effetsDialog div.dialog-content div.effetCustom div.other label input,
+.effetsDialog div.dialog-content div.effetCustom div.other label select {
   color: white;
   border: 0px;
   padding: 0px;
@@ -507,7 +514,8 @@
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label input,
 .effetsDialog div.dialog-content div.effetCustom div.degats label input,
-.effetsDialog div.dialog-content div.effetCustom div.violence label input {
+.effetsDialog div.dialog-content div.effetCustom div.violence label input,
+.effetsDialog div.dialog-content div.effetCustom div.other label input {
   text-align: center;
   position: absolute;
   right: 0px;
@@ -515,7 +523,8 @@
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label select,
 .effetsDialog div.dialog-content div.effetCustom div.degats label select,
-.effetsDialog div.dialog-content div.effetCustom div.violence label select {
+.effetsDialog div.dialog-content div.effetCustom div.violence label select,
+.effetsDialog div.dialog-content div.effetCustom div.other label select {
   text-align: left;
   font-size: 12px;
   letter-spacing: 0.5px;
@@ -526,18 +535,22 @@
 .effetsDialog div.dialog-content div.effetCustom div.degats label select option,
 .effetsDialog div.dialog-content div.effetCustom div.degats label select optgroup,
 .effetsDialog div.dialog-content div.effetCustom div.violence label select option,
-.effetsDialog div.dialog-content div.effetCustom div.violence label select optgroup {
+.effetsDialog div.dialog-content div.effetCustom div.violence label select optgroup,
+.effetsDialog div.dialog-content div.effetCustom div.other label select option,
+.effetsDialog div.dialog-content div.effetCustom div.other label select optgroup {
   background: RGB(76 74 90);
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label select.center,
 .effetsDialog div.dialog-content div.effetCustom div.degats label select.center,
-.effetsDialog div.dialog-content div.effetCustom div.violence label select.center {
+.effetsDialog div.dialog-content div.effetCustom div.violence label select.center,
+.effetsDialog div.dialog-content div.effetCustom div.other label select.center {
   text-align: center;
   padding-left: 15px;
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label textarea,
 .effetsDialog div.dialog-content div.effetCustom div.degats label textarea,
-.effetsDialog div.dialog-content div.effetCustom div.violence label textarea {
+.effetsDialog div.dialog-content div.effetCustom div.violence label textarea,
+.effetsDialog div.dialog-content div.effetCustom div.other label textarea {
   color: white;
   border: 0px;
   padding-top: 0px;
@@ -552,7 +565,8 @@
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label.longspan span,
 .effetsDialog div.dialog-content div.effetCustom div.degats label.longspan span,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.longspan span {
+.effetsDialog div.dialog-content div.effetCustom div.violence label.longspan span,
+.effetsDialog div.dialog-content div.effetCustom div.other label.longspan span {
   width: calc(100% - 50px);
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label.longspan input,
@@ -560,12 +574,15 @@
 .effetsDialog div.dialog-content div.effetCustom div.degats label.longspan input,
 .effetsDialog div.dialog-content div.effetCustom div.degats label.longspan select,
 .effetsDialog div.dialog-content div.effetCustom div.violence label.longspan input,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.longspan select {
+.effetsDialog div.dialog-content div.effetCustom div.violence label.longspan select,
+.effetsDialog div.dialog-content div.effetCustom div.other label.longspan input,
+.effetsDialog div.dialog-content div.effetCustom div.other label.longspan select {
   width: 50px;
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label.shortspan span,
 .effetsDialog div.dialog-content div.effetCustom div.degats label.shortspan span,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.shortspan span {
+.effetsDialog div.dialog-content div.effetCustom div.violence label.shortspan span,
+.effetsDialog div.dialog-content div.effetCustom div.other label.shortspan span {
   width: 90px;
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label.shortspan input,
@@ -576,18 +593,23 @@
 .effetsDialog div.dialog-content div.effetCustom div.degats label.shortspan textarea,
 .effetsDialog div.dialog-content div.effetCustom div.violence label.shortspan input,
 .effetsDialog div.dialog-content div.effetCustom div.violence label.shortspan select,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.shortspan textarea {
+.effetsDialog div.dialog-content div.effetCustom div.violence label.shortspan textarea,
+.effetsDialog div.dialog-content div.effetCustom div.other label.shortspan input,
+.effetsDialog div.dialog-content div.effetCustom div.other label.shortspan select,
+.effetsDialog div.dialog-content div.effetCustom div.other label.shortspan textarea {
   width: calc(100% - 90px);
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label.shortspan textarea,
 .effetsDialog div.dialog-content div.effetCustom div.degats label.shortspan textarea,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.shortspan textarea {
+.effetsDialog div.dialog-content div.effetCustom div.violence label.shortspan textarea,
+.effetsDialog div.dialog-content div.effetCustom div.other label.shortspan textarea {
   max-width: calc(100% - 90px);
   min-width: calc(100% - 90px);
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label.middlespan span,
 .effetsDialog div.dialog-content div.effetCustom div.degats label.middlespan span,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.middlespan span {
+.effetsDialog div.dialog-content div.effetCustom div.violence label.middlespan span,
+.effetsDialog div.dialog-content div.effetCustom div.other label.middlespan span {
   width: 200px;
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label.middlespan input,
@@ -595,22 +617,27 @@
 .effetsDialog div.dialog-content div.effetCustom div.degats label.middlespan input,
 .effetsDialog div.dialog-content div.effetCustom div.degats label.middlespan select,
 .effetsDialog div.dialog-content div.effetCustom div.violence label.middlespan input,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.middlespan select {
+.effetsDialog div.dialog-content div.effetCustom div.violence label.middlespan select,
+.effetsDialog div.dialog-content div.effetCustom div.other label.middlespan input,
+.effetsDialog div.dialog-content div.effetCustom div.other label.middlespan select {
   width: calc(100% - 200px);
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label.doubleInline span.title,
 .effetsDialog div.dialog-content div.effetCustom div.degats label.doubleInline span.title,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.doubleInline span.title {
+.effetsDialog div.dialog-content div.effetCustom div.violence label.doubleInline span.title,
+.effetsDialog div.dialog-content div.effetCustom div.other label.doubleInline span.title {
   width: calc(100% - 50px);
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label.doubleInline label,
 .effetsDialog div.dialog-content div.effetCustom div.degats label.doubleInline label,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.doubleInline label {
+.effetsDialog div.dialog-content div.effetCustom div.violence label.doubleInline label,
+.effetsDialog div.dialog-content div.effetCustom div.other label.doubleInline label {
   width: 50px;
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label.doubleInline label span.special,
 .effetsDialog div.dialog-content div.effetCustom div.degats label.doubleInline label span.special,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.doubleInline label span.special {
+.effetsDialog div.dialog-content div.effetCustom div.violence label.doubleInline label span.special,
+.effetsDialog div.dialog-content div.effetCustom div.other label.doubleInline label span.special {
   position: absolute;
   right: 0px;
   width: 50%;
@@ -624,24 +651,29 @@
 .effetsDialog div.dialog-content div.effetCustom div.degats label.doubleInline label input,
 .effetsDialog div.dialog-content div.effetCustom div.degats label.doubleInline label select,
 .effetsDialog div.dialog-content div.effetCustom div.violence label.doubleInline label input,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.doubleInline label select {
+.effetsDialog div.dialog-content div.effetCustom div.violence label.doubleInline label select,
+.effetsDialog div.dialog-content div.effetCustom div.other label.doubleInline label input,
+.effetsDialog div.dialog-content div.effetCustom div.other label.doubleInline label select {
   left: 0px;
   width: 50%;
   text-align: right;
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label.hidden,
 .effetsDialog div.dialog-content div.effetCustom div.degats label.hidden,
-.effetsDialog div.dialog-content div.effetCustom div.violence label.hidden {
+.effetsDialog div.dialog-content div.effetCustom div.violence label.hidden,
+.effetsDialog div.dialog-content div.effetCustom div.other label.hidden {
   display: none;
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) span,
 .effetsDialog div.dialog-content div.effetCustom div.degats label:not(:first-of-type) span,
-.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) span {
+.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) span,
+.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type) span {
   border-top: 1px solid RGB(43 42 51);
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) span.simpleSeparation,
 .effetsDialog div.dialog-content div.effetCustom div.degats label:not(:first-of-type) span.simpleSeparation,
-.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) span.simpleSeparation {
+.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) span.simpleSeparation,
+.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type) span.simpleSeparation {
   border-top: 1px solid black;
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) input,
@@ -652,7 +684,10 @@
 .effetsDialog div.dialog-content div.effetCustom div.degats label:not(:first-of-type) textarea,
 .effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) input,
 .effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) select,
-.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) textarea {
+.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) textarea,
+.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type) input,
+.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type) select,
+.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type) textarea {
   border-top: 1px solid RGB(76 74 90);
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label:not(:first-of-type) input.noBorderTop,
@@ -663,22 +698,40 @@
 .effetsDialog div.dialog-content div.effetCustom div.degats label:not(:first-of-type) textarea.noBorderTop,
 .effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) input.noBorderTop,
 .effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) select.noBorderTop,
-.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) textarea.noBorderTop {
+.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type) textarea.noBorderTop,
+.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type) input.noBorderTop,
+.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type) select.noBorderTop,
+.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type) textarea.noBorderTop {
   border-top: 0px;
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label:not(:first-of-type).doubleInline span.special,
 .effetsDialog div.dialog-content div.effetCustom div.degats label:not(:first-of-type).doubleInline span.special,
-.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type).doubleInline span.special {
+.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type).doubleInline span.special,
+.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type).doubleInline span.special {
   border-top-color: RGB(76 74 90);
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque label:not(:first-of-type).doubleInline label span,
 .effetsDialog div.dialog-content div.effetCustom div.degats label:not(:first-of-type).doubleInline label span,
-.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type).doubleInline label span {
+.effetsDialog div.dialog-content div.effetCustom div.violence label:not(:first-of-type).doubleInline label span,
+.effetsDialog div.dialog-content div.effetCustom div.other label:not(:first-of-type).doubleInline label span {
   border-top: 1px solid RGB(76 74 90);
+}
+.effetsDialog div.dialog-content div.effetCustom div.attaque label.borderBottom span,
+.effetsDialog div.dialog-content div.effetCustom div.degats label.borderBottom span,
+.effetsDialog div.dialog-content div.effetCustom div.violence label.borderBottom span,
+.effetsDialog div.dialog-content div.effetCustom div.other label.borderBottom span {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.effetsDialog div.dialog-content div.effetCustom div.attaque label.borderBottom input,
+.effetsDialog div.dialog-content div.effetCustom div.degats label.borderBottom input,
+.effetsDialog div.dialog-content div.effetCustom div.violence label.borderBottom input,
+.effetsDialog div.dialog-content div.effetCustom div.other label.borderBottom input {
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque textarea,
 .effetsDialog div.dialog-content div.effetCustom div.degats textarea,
-.effetsDialog div.dialog-content div.effetCustom div.violence textarea {
+.effetsDialog div.dialog-content div.effetCustom div.violence textarea,
+.effetsDialog div.dialog-content div.effetCustom div.other textarea {
   color: white;
   border: 0px;
   padding-top: 0px;
@@ -694,7 +747,8 @@
 }
 .effetsDialog div.dialog-content div.effetCustom div.attaque textarea.hidden,
 .effetsDialog div.dialog-content div.effetCustom div.degats textarea.hidden,
-.effetsDialog div.dialog-content div.effetCustom div.violence textarea.hidden {
+.effetsDialog div.dialog-content div.effetCustom div.violence textarea.hidden,
+.effetsDialog div.dialog-content div.effetCustom div.other textarea.hidden {
   display: none;
 }
 .effetsDialog div.dialog-content div.effetCustom button {
@@ -1483,6 +1537,15 @@
 }
 .gmMonitor div.main > div:nth-of-type(even) div.name span, .gmMonitor div.main > div:nth-of-type(even) div.aspect span, .gmMonitor div.main > div:nth-of-type(even) div.data span {
   border-color: RGB(43 42 51);
+}
+
+#logo {
+  content: url("../assets/icons/logo.webp");
+  min-height: 100px;
+}
+
+#pause img {
+  content: url("../assets/icons/logoCircle.png");
 }
 
 .rollDialog div.dialog-content {
@@ -9271,7 +9334,8 @@
 .armure form.armureWindows div.special div.apeiron,
 .armure form.armureWindows div.special div.porteurlumiere,
 .armure form.armureWindows div.special div.lenteetlourde,
-.armure form.armureWindows div.special div.recolteflux {
+.armure form.armureWindows div.special div.recolteflux,
+.armure form.armureWindows div.special div.energiedeficiente {
   border-top: 1px solid black;
   border-bottom: 1px solid black;
 }
@@ -9281,7 +9345,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData,
-.armure form.armureWindows div.special div.recolteflux div.mainData {
+.armure form.armureWindows div.special div.recolteflux div.mainData,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -9297,7 +9362,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data {
   width: calc(50% - 5px);
   border: 1px solid black;
 }
@@ -9307,7 +9373,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data h4,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data h4,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data h4,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data h4 {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data h4,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data h4 {
   width: 100%;
   background: RGB(76 74 90);
   margin: 0px;
@@ -9321,7 +9388,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data label,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data label,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label {
   display: flex;
   width: 100%;
   line-height: 26px;
@@ -9334,7 +9402,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data label span,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data label span,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label span,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label span {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label span,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label span {
   background: RGB(76 74 90);
   padding-left: 5px;
 }
@@ -9351,7 +9420,9 @@
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label input,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label select,
 .armure form.armureWindows div.special div.recolteflux div.mainData div.data label input,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label select {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label select,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label input,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label select {
   color: white;
   border: 0px;
   padding: 0px;
@@ -9364,7 +9435,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data label input,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data label input,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label input,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label input {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label input,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label input {
   text-align: center;
 }
 .armure form.armureWindows div.special div.impregnation div.mainData div.data label select,
@@ -9373,7 +9445,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data label select,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data label select,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label select,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label select {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label select,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label select {
   text-align: left;
   font-size: 12px;
   letter-spacing: 0.5px;
@@ -9385,7 +9458,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data label select option,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data label select option,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label select option,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label select option {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label select option,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label select option {
   background: RGB(76 74 90);
 }
 .armure form.armureWindows div.special div.impregnation div.mainData div.data label textarea,
@@ -9394,7 +9468,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data label textarea,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data label textarea,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label textarea,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label textarea {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label textarea,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label textarea {
   color: white;
   border: 0px;
   padding-top: 0px;
@@ -9413,7 +9488,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data label.longspan span,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data label.longspan span,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label.longspan span,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label.longspan span {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label.longspan span,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label.longspan span {
   width: calc(100% - 50px);
 }
 .armure form.armureWindows div.special div.impregnation div.mainData div.data label.longspan input,
@@ -9429,7 +9505,9 @@
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label.longspan input,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label.longspan select,
 .armure form.armureWindows div.special div.recolteflux div.mainData div.data label.longspan input,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label.longspan select {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label.longspan select,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label.longspan input,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label.longspan select {
   width: 50px;
 }
 .armure form.armureWindows div.special div.impregnation div.mainData div.data label.shortspan span,
@@ -9438,7 +9516,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data label.shortspan span,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data label.shortspan span,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label.shortspan span,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label.shortspan span {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label.shortspan span,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label.shortspan span {
   width: 90px;
 }
 .armure form.armureWindows div.special div.impregnation div.mainData div.data label.shortspan input,
@@ -9461,7 +9540,10 @@
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label.shortspan textarea,
 .armure form.armureWindows div.special div.recolteflux div.mainData div.data label.shortspan input,
 .armure form.armureWindows div.special div.recolteflux div.mainData div.data label.shortspan select,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label.shortspan textarea {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label.shortspan textarea,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label.shortspan input,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label.shortspan select,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label.shortspan textarea {
   width: calc(100% - 90px);
 }
 .armure form.armureWindows div.special div.impregnation div.mainData div.data label.shortspan textarea,
@@ -9470,7 +9552,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data label.shortspan textarea,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data label.shortspan textarea,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label.shortspan textarea,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label.shortspan textarea {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label.shortspan textarea,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label.shortspan textarea {
   max-width: calc(100% - 90px);
   min-width: calc(100% - 90px);
 }
@@ -9480,7 +9563,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data label.separation span,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data label.separation span,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label.separation span,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label.separation span {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label.separation span,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label.separation span {
   border-top: 5px double RGB(43 42 51) !important;
 }
 .armure form.armureWindows div.special div.impregnation div.mainData div.data label.separation input,
@@ -9496,7 +9580,9 @@
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label.separation input,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label.separation select,
 .armure form.armureWindows div.special div.recolteflux div.mainData div.data label.separation input,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label.separation select {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label.separation select,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label.separation input,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label.separation select {
   border-top: 5px double RGB(76 74 90) !important;
   height: 31px;
 }
@@ -9506,7 +9592,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data label.hidden,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data label.hidden,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label.hidden,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label.hidden {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label.hidden,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label.hidden {
   display: none;
 }
 .armure form.armureWindows div.special div.impregnation div.mainData div.data label:not(:first-of-type) span,
@@ -9515,7 +9602,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data label:not(:first-of-type) span,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data label:not(:first-of-type) span,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label:not(:first-of-type) span,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label:not(:first-of-type) span {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label:not(:first-of-type) span,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label:not(:first-of-type) span {
   border-top: 1px solid RGB(43 42 51);
 }
 .armure form.armureWindows div.special div.impregnation div.mainData div.data label:not(:first-of-type) input,
@@ -9538,7 +9626,10 @@
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data label:not(:first-of-type) textarea,
 .armure form.armureWindows div.special div.recolteflux div.mainData div.data label:not(:first-of-type) input,
 .armure form.armureWindows div.special div.recolteflux div.mainData div.data label:not(:first-of-type) select,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data label:not(:first-of-type) textarea {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data label:not(:first-of-type) textarea,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label:not(:first-of-type) input,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label:not(:first-of-type) select,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data label:not(:first-of-type) textarea {
   border-top: 1px solid RGB(76 74 90);
 }
 .armure form.armureWindows div.special div.impregnation div.mainData div.data button,
@@ -9547,7 +9638,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data button,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data button,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data button,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data button {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data button,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data button {
   border-left: 0px;
   border-top: 1px solid black;
   border-right: 0px;
@@ -9563,7 +9655,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data button.notDisabled,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data button.notDisabled,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data button.notDisabled,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data button.notDisabled {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data button.notDisabled,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data button.notDisabled {
   cursor: pointer;
 }
 .armure form.armureWindows div.special div.impregnation div.mainData div.data button.selected,
@@ -9572,7 +9665,8 @@
 .armure form.armureWindows div.special div.apeiron div.mainData div.data button.selected,
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data button.selected,
 .armure form.armureWindows div.special div.lenteetlourde div.mainData div.data button.selected,
-.armure form.armureWindows div.special div.recolteflux div.mainData div.data button.selected {
+.armure form.armureWindows div.special div.recolteflux div.mainData div.data button.selected,
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data button.selected {
   background: RGB(76 74 90);
 }
 .armure form.armureWindows div.special div.contrecoups div.mainData div.data div.tripleLine {
@@ -9774,6 +9868,45 @@
 .armure form.armureWindows div.special div.recolteflux div.mainData div.data h4.title {
   font-variant: small-caps;
   font-size: 17px;
+}
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.data {
+  width: 50%;
+}
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.double {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.double span {
+  display: inline-block;
+  line-height: 26px;
+  background: RGB(76 74 90);
+}
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.double span.header {
+  width: 60%;
+  padding-left: 5px;
+}
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.double label {
+  display: flex;
+  width: 40%;
+  justify-content: space-between;
+}
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.double label input {
+  width: 50%;
+  text-align: right;
+}
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.double label span {
+  line-height: 26px;
+  width: 50%;
+  text-align: left;
+  background: RGB(43 42 51);
+  padding: 0px;
+}
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.double:not(:first-of-type) > label {
+  border-top: 1px solid RGB(76 74 90);
+}
+.armure form.armureWindows div.special div.energiedeficiente div.mainData div.double:not(:first-of-type) > span {
+  border-top: 1px solid RGB(43 42 51);
 }
 
 .armurelegende form.armureWindows {
@@ -13049,9 +13182,6 @@
   background: RGB(43 42 51);
   text-transform: uppercase;
 }
-.module div.main div.armes > div:not(:first-of-type) {
-  border-top: 5px double RGB(76 74 90);
-}
 .module div.main div.blockEffets {
   display: flex;
   width: 100%;
@@ -13815,6 +13945,134 @@
 .module div.bonus, .module div.arme, .module div.pnj, .module div.overdrives, .module div.rogue, .module div.jetsimple, .module div.baseeffets {
   margin-top: 5px;
   border: 1px solid RGB(87 110 178);
+}
+.module div.bonus div.col button.optionsMunitions, .module div.bonus div.col button.optionsMunitionsValider, .module div.arme div.col button.optionsMunitions, .module div.arme div.col button.optionsMunitionsValider, .module div.pnj div.col button.optionsMunitions, .module div.pnj div.col button.optionsMunitionsValider, .module div.overdrives div.col button.optionsMunitions, .module div.overdrives div.col button.optionsMunitionsValider, .module div.rogue div.col button.optionsMunitions, .module div.rogue div.col button.optionsMunitionsValider, .module div.jetsimple div.col button.optionsMunitions, .module div.jetsimple div.col button.optionsMunitionsValider, .module div.baseeffets div.col button.optionsMunitions, .module div.baseeffets div.col button.optionsMunitionsValider {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  color: white;
+  border-radius: 0px;
+  line-height: 28px;
+  min-height: 30px;
+  margin: 0px;
+  cursor: pointer;
+  font-variant: small-caps;
+  border: 1px solid RGB(87 110 178);
+}
+.module div.bonus div.col button.optionsMunitions, .module div.arme div.col button.optionsMunitions, .module div.pnj div.col button.optionsMunitions, .module div.overdrives div.col button.optionsMunitions, .module div.rogue div.col button.optionsMunitions, .module div.jetsimple div.col button.optionsMunitions, .module div.baseeffets div.col button.optionsMunitions {
+  margin-top: 5px;
+}
+.module div.bonus div.col label.optionsMunitions, .module div.arme div.col label.optionsMunitions, .module div.pnj div.col label.optionsMunitions, .module div.overdrives div.col label.optionsMunitions, .module div.rogue div.col label.optionsMunitions, .module div.jetsimple div.col label.optionsMunitions, .module div.baseeffets div.col label.optionsMunitions {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  border-top: 0px;
+  border-bottom: 0px;
+}
+.module div.bonus div.col div.blockMunitions, .module div.arme div.col div.blockMunitions, .module div.pnj div.col div.blockMunitions, .module div.overdrives div.col div.blockMunitions, .module div.rogue div.col div.blockMunitions, .module div.jetsimple div.col div.blockMunitions, .module div.baseeffets div.col div.blockMunitions {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  flex-wrap: wrap;
+  border-right: 0px;
+}
+.module div.bonus div.col div.blockMunitions > div, .module div.arme div.col div.blockMunitions > div, .module div.pnj div.col div.blockMunitions > div, .module div.overdrives div.col div.blockMunitions > div, .module div.rogue div.col div.blockMunitions > div, .module div.jetsimple div.col div.blockMunitions > div, .module div.baseeffets div.col div.blockMunitions > div {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  flex: none;
+}
+.module div.bonus div.col div.blockMunitions > div label, .module div.arme div.col div.blockMunitions > div label, .module div.pnj div.col div.blockMunitions > div label, .module div.overdrives div.col div.blockMunitions > div label, .module div.rogue div.col div.blockMunitions > div label, .module div.jetsimple div.col div.blockMunitions > div label, .module div.baseeffets div.col div.blockMunitions > div label {
+  display: flex;
+  width: calc(100% + 1px);
+  justify-content: space-between;
+  border: 0px;
+  border-right: 1px solid RGB(76 74 90);
+}
+.module div.bonus div.col div.blockMunitions > div label span, .module div.arme div.col div.blockMunitions > div label span, .module div.pnj div.col div.blockMunitions > div label span, .module div.overdrives div.col div.blockMunitions > div label span, .module div.rogue div.col div.blockMunitions > div label span, .module div.jetsimple div.col div.blockMunitions > div label span, .module div.baseeffets div.col div.blockMunitions > div label span {
+  width: 50%;
+  justify-content: left;
+  text-align: left;
+  line-height: 26px;
+  padding-left: 5px;
+  background: RGB(76 74 90);
+  border-top: 1px solid RGB(43 42 51);
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.module div.bonus div.col div.blockMunitions > div label input, .module div.arme div.col div.blockMunitions > div label input, .module div.pnj div.col div.blockMunitions > div label input, .module div.overdrives div.col div.blockMunitions > div label input, .module div.rogue div.col div.blockMunitions > div label input, .module div.jetsimple div.col div.blockMunitions > div label input, .module div.baseeffets div.col div.blockMunitions > div label input {
+  width: 50%;
+  line-height: 26px;
+  padding-left: 5px;
+  background: RGB(43 42 51);
+  border: 0px;
+  text-align: center;
+}
+.module div.bonus div.col div.blockMunitions > div label div, .module div.arme div.col div.blockMunitions > div label div, .module div.pnj div.col div.blockMunitions > div label div, .module div.overdrives div.col div.blockMunitions > div label div, .module div.rogue div.col div.blockMunitions > div label div, .module div.jetsimple div.col div.blockMunitions > div label div, .module div.baseeffets div.col div.blockMunitions > div label div {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.module div.bonus div.col div.blockMunitions > div label div span, .module div.arme div.col div.blockMunitions > div label div span, .module div.pnj div.col div.blockMunitions > div label div span, .module div.overdrives div.col div.blockMunitions > div label div span, .module div.rogue div.col div.blockMunitions > div label div span, .module div.jetsimple div.col div.blockMunitions > div label div span, .module div.baseeffets div.col div.blockMunitions > div label div span {
+  width: 24px;
+  background: RGB(43 42 51);
+}
+.module div.bonus div.col div.blockMunitions > div label div input, .module div.arme div.col div.blockMunitions > div label div input, .module div.pnj div.col div.blockMunitions > div label div input, .module div.overdrives div.col div.blockMunitions > div label div input, .module div.rogue div.col div.blockMunitions > div label div input, .module div.jetsimple div.col div.blockMunitions > div label div input, .module div.baseeffets div.col div.blockMunitions > div label div input {
+  width: calc(50% - 12px);
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+  background: RGB(43 42 51);
+}
+.module div.bonus div.col div.blockMunitions > div label div input:first-of-type, .module div.arme div.col div.blockMunitions > div label div input:first-of-type, .module div.pnj div.col div.blockMunitions > div label div input:first-of-type, .module div.overdrives div.col div.blockMunitions > div label div input:first-of-type, .module div.rogue div.col div.blockMunitions > div label div input:first-of-type, .module div.jetsimple div.col div.blockMunitions > div label div input:first-of-type, .module div.baseeffets div.col div.blockMunitions > div label div input:first-of-type {
+  text-align: right;
+}
+.module div.bonus div.col div.blockMunitions > div label div input:last-of-type, .module div.arme div.col div.blockMunitions > div label div input:last-of-type, .module div.pnj div.col div.blockMunitions > div label div input:last-of-type, .module div.overdrives div.col div.blockMunitions > div label div input:last-of-type, .module div.rogue div.col div.blockMunitions > div label div input:last-of-type, .module div.jetsimple div.col div.blockMunitions > div label div input:last-of-type, .module div.baseeffets div.col div.blockMunitions > div label div input:last-of-type {
+  text-align: left;
+}
+.module div.bonus div.col div.blockMunitions > div label.munitionListe, .module div.arme div.col div.blockMunitions > div label.munitionListe, .module div.pnj div.col div.blockMunitions > div label.munitionListe, .module div.overdrives div.col div.blockMunitions > div label.munitionListe, .module div.rogue div.col div.blockMunitions > div label.munitionListe, .module div.jetsimple div.col div.blockMunitions > div label.munitionListe, .module div.baseeffets div.col div.blockMunitions > div label.munitionListe {
+  border-top: 1px solid RGB(76 74 90);
+}
+.module div.bonus div.col div.blockMunitions > div label.munitionListe span.header, .module div.arme div.col div.blockMunitions > div label.munitionListe span.header, .module div.pnj div.col div.blockMunitions > div label.munitionListe span.header, .module div.overdrives div.col div.blockMunitions > div label.munitionListe span.header, .module div.rogue div.col div.blockMunitions > div label.munitionListe span.header, .module div.jetsimple div.col div.blockMunitions > div label.munitionListe span.header, .module div.baseeffets div.col div.blockMunitions > div label.munitionListe span.header {
+  border-top: 0px;
+}
+.module div.bonus div.col div.blockMunitions > div label.munitionListe:not(:last-of-type) span, .module div.arme div.col div.blockMunitions > div label.munitionListe:not(:last-of-type) span, .module div.pnj div.col div.blockMunitions > div label.munitionListe:not(:last-of-type) span, .module div.overdrives div.col div.blockMunitions > div label.munitionListe:not(:last-of-type) span, .module div.rogue div.col div.blockMunitions > div label.munitionListe:not(:last-of-type) span, .module div.jetsimple div.col div.blockMunitions > div label.munitionListe:not(:last-of-type) span, .module div.baseeffets div.col div.blockMunitions > div label.munitionListe:not(:last-of-type) span {
+  border-bottom: 0px;
+}
+.module div.bonus div.col div.blockMunitions > div label.munitionListe:not(:first-of-type) input[type=text], .module div.arme div.col div.blockMunitions > div label.munitionListe:not(:first-of-type) input[type=text], .module div.pnj div.col div.blockMunitions > div label.munitionListe:not(:first-of-type) input[type=text], .module div.overdrives div.col div.blockMunitions > div label.munitionListe:not(:first-of-type) input[type=text], .module div.rogue div.col div.blockMunitions > div label.munitionListe:not(:first-of-type) input[type=text], .module div.jetsimple div.col div.blockMunitions > div label.munitionListe:not(:first-of-type) input[type=text], .module div.baseeffets div.col div.blockMunitions > div label.munitionListe:not(:first-of-type) input[type=text] {
+  border-top: 1px solid RGB(76 74 90);
+}
+.module div.bonus div.col div.blockMunitions > div label.demi, .module div.arme div.col div.blockMunitions > div label.demi, .module div.pnj div.col div.blockMunitions > div label.demi, .module div.overdrives div.col div.blockMunitions > div label.demi, .module div.rogue div.col div.blockMunitions > div label.demi, .module div.jetsimple div.col div.blockMunitions > div label.demi, .module div.baseeffets div.col div.blockMunitions > div label.demi {
+  flex-wrap: wrap;
+  width: 50%;
+  border-bottom: 1px solid RGB(76 74 90);
+  border-left: 0px;
+  border-right: 0px;
+}
+.module div.bonus div.col div.blockMunitions > div label.demi > span, .module div.arme div.col div.blockMunitions > div label.demi > span, .module div.pnj div.col div.blockMunitions > div label.demi > span, .module div.overdrives div.col div.blockMunitions > div label.demi > span, .module div.rogue div.col div.blockMunitions > div label.demi > span, .module div.jetsimple div.col div.blockMunitions > div label.demi > span, .module div.baseeffets div.col div.blockMunitions > div label.demi > span {
+  width: 100%;
+  padding: 0px;
+  text-align: center;
+  justify-content: center;
+  border-left: 1px solid RGB(76 74 90);
+  border-right: 0px;
+}
+.module div.bonus div.col div.blockMunitions > div label.demi div, .module div.arme div.col div.blockMunitions > div label.demi div, .module div.pnj div.col div.blockMunitions > div label.demi div, .module div.overdrives div.col div.blockMunitions > div label.demi div, .module div.rogue div.col div.blockMunitions > div label.demi div, .module div.jetsimple div.col div.blockMunitions > div label.demi div, .module div.baseeffets div.col div.blockMunitions > div label.demi div {
+  border-left: 1px solid RGB(76 74 90);
+  border-right: 0px;
+}
+.module div.bonus div.col div.blockMunitions > div label.demi div > span, .module div.arme div.col div.blockMunitions > div label.demi div > span, .module div.pnj div.col div.blockMunitions > div label.demi div > span, .module div.overdrives div.col div.blockMunitions > div label.demi div > span, .module div.rogue div.col div.blockMunitions > div label.demi div > span, .module div.jetsimple div.col div.blockMunitions > div label.demi div > span, .module div.baseeffets div.col div.blockMunitions > div label.demi div > span {
+  border-top: 0px;
+  border-bottom: 0px;
+  padding: 0px;
+}
+.module div.bonus div.col div.blockMunitions > div label.demi:last-of-type > span, .module div.arme div.col div.blockMunitions > div label.demi:last-of-type > span, .module div.pnj div.col div.blockMunitions > div label.demi:last-of-type > span, .module div.overdrives div.col div.blockMunitions > div label.demi:last-of-type > span, .module div.rogue div.col div.blockMunitions > div label.demi:last-of-type > span, .module div.jetsimple div.col div.blockMunitions > div label.demi:last-of-type > span, .module div.baseeffets div.col div.blockMunitions > div label.demi:last-of-type > span {
+  border-left: 1px solid RGB(43 42 51);
+  border-right: 1px solid RGB(76 74 90);
+}
+.module div.bonus div.col div.blockMunitions > div label.demi:last-of-type > div, .module div.arme div.col div.blockMunitions > div label.demi:last-of-type > div, .module div.pnj div.col div.blockMunitions > div label.demi:last-of-type > div, .module div.overdrives div.col div.blockMunitions > div label.demi:last-of-type > div, .module div.rogue div.col div.blockMunitions > div label.demi:last-of-type > div, .module div.jetsimple div.col div.blockMunitions > div label.demi:last-of-type > div, .module div.baseeffets div.col div.blockMunitions > div label.demi:last-of-type > div {
+  border-left: 1px solid RGB(76 74 90);
+  border-right: 1px solid RGB(76 74 90);
 }
 .module div.bonus div.col:first-of-type > *, .module div.arme div.col:first-of-type > *, .module div.pnj div.col:first-of-type > *, .module div.overdrives div.col:first-of-type > *, .module div.rogue div.col:first-of-type > *, .module div.jetsimple div.col:first-of-type > *, .module div.baseeffets div.col:first-of-type > * {
   border-left: 0px;
@@ -37213,7 +37471,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-left: 0px;
   border-right: 0px;
   border-top: 1px solid RGB(76 74 90);
-  border-bottom: 1px solid RGB(76 74 90);
+  border-bottom: 0px;
   padding-left: 15px;
   background: RGB(43 42 51);
   font-weight: normal;
@@ -37233,6 +37491,28 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border: 0px;
   text-align: center;
   border-top: 1px solid RGB(76 74 90);
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.line {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine {
+  display: flex;
+  flex-wrap: wrap;
+  width: 50%;
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine span {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine span.header {
+  font-weight: bold;
+  font-variant: small-caps;
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine:not(:first-of-type) {
+  border-left: 1px solid RGB(76 74 90);
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets {
   display: flex;

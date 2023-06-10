@@ -683,6 +683,7 @@ KNIGHT.special = {
   "plusespoir": "KNIGHT.ITEMS.ARMURE.SPECIAL.PLUSESPOIR.Label",
   "porteurlumiere": "KNIGHT.ITEMS.ARMURE.SPECIAL.PORTEURLUMIERE.Label",
   "recolteflux": "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.Label",
+  "energiedeficiente": "KNIGHT.ITEMS.ARMURE.SPECIAL.ENERGIEDEFICIENTE.Label",
   "personnalise": "KNIGHT.ITEMS.ARMURE.SPECIAL.PERSONNALISE.Label"
 };
 
@@ -939,6 +940,10 @@ KNIGHT.plusespoir = {
 
 KNIGHT.porteurlumiere = {
   "description":"KNIGHT.ITEMS.ARMURE.SPECIAL.PORTEURLUMIERE.Description",
+}
+
+KNIGHT.energiedeficiente = {
+  "description":"KNIGHT.ITEMS.ARMURE.SPECIAL.ENERGIEDEFICIENTE.Description",
 }
 
 KNIGHT.recolteflux = {

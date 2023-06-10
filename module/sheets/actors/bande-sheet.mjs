@@ -4,14 +4,9 @@ import {
   getAEValue,
   listEffects,
   SortByName,
-  sum,
-  compareArrays,
-  addOrUpdateEffect,
-  addEffect,
-  updateEffect,
-  existEffect,
   confirmationDialog,
   getKnightRoll,
+  effectsGestion
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
@@ -551,6 +546,7 @@ export class BandeSheet extends ActorSheet {
   }
 
   async _prepareCharacterItems(sheetData) {
+    const version = game.version.split('.');
     const actorData = sheetData.actor;
     const system = sheetData.data.system;
 
@@ -810,40 +806,33 @@ export class BandeSheet extends ActorSheet {
 
     actorData.capacites = capacites;
 
-    const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
+    for (let [key, value] of Object.entries(aspectsMax)) {
+      effects.capacites.push({
+        key: `system.aspects.${key}.max`,
+        mode: 5,
+        priority: null,
+        value: `${Math.max(...value.max)}`
+      },
+      {
+        key: `system.aspects.${key}.ae.majeur.max`,
+        mode: 5,
+        priority: null,
+        value: `${Math.max(...value.ae.majeur)}`
+      },
+      {
+        key: `system.aspects.${key}.ae.mineur.max`,
+        mode: 5,
+        priority: null,
+        value: `${Math.max(...value.ae.mineur)}`
+      }
+      );
+    }
+
     const listWithEffect = [
       {label:'Capacites', data:effects.capacites},
     ];
 
-    const toUpdate = [];
-    const toAdd = [];
-
-    for(let effect of listWithEffect) {
-      const effectExist = existEffect(listEffect, effect.label);
-      let toggle = false;
-
-      if(effectExist) {
-        if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
-          "_id":effectExist._id,
-          changes:effect.data,
-          icon: '',
-          disabled:toggle
-        });
-        else if(effectExist.disabled !== toggle) toUpdate.push({
-          "_id":effectExist._id,
-          icon: '',
-          disabled:toggle
-        });
-      } else toAdd.push({
-          label: effect.label,
-          icon: '',
-          changes:effect.data,
-          disabled:toggle
-      });
-    }
-
-    if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
-    if(toAdd.length > 0) addEffect(this.actor, toAdd);
+    effectsGestion(this.actor, listWithEffect);
 
     // ON ACTUALISE ROLL UI S'IL EST OUVERT
     let rollApp = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
