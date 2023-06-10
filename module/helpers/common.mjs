@@ -4474,40 +4474,6 @@ export async function confirmationDialog() {
   });
 };
 
-export async function addEffect(origin, toAdd) {
-  origin.createEmbeddedDocuments('ActiveEffect', toAdd);
-};
-
-export async function updateEffect(origin, toUpdate) {
-  origin.updateEmbeddedDocuments('ActiveEffect', toUpdate);
-}
-
-export function addOrUpdateEffect(origin, label, effect) {
-  const listEffect = origin.getEmbeddedCollection('ActiveEffect');
-  const effectExist = existEffect(listEffect, label);
-
-  if(!effectExist) addEffect(origin, [{
-      label: label,
-      icon: '',
-      changes:effect,
-      disabled:false
-    }]);
-  else updateEffect(origin, [{
-      "_id":effectExist._id,
-      icon:'',
-      changes:effect,
-      disabled:false
-    }]);
-}
-
-export function countEffect(list, label) {
-  return list.filter(effect => effect.label === label);
-}
-
-export function existEffect(list, label) {
-  return list.find(effect => effect.label === label);
-}
-
 export async function getArmor(actor) {
   const getItems = await actor.getEmbeddedCollection("Item");
 
@@ -4596,4 +4562,155 @@ export function getKnightRoll(actor, hasEntraide=true) {
   }
 
   return {instance:result, previous:isExist};
+}
+
+export function getFlatEffectBonus(wpn, forceEquipped=false) {
+  const data = wpn.system;
+  const type = data.type;
+  const equipped = data?.equipped || false;
+  const effets = data.effets.custom;
+
+  let result = {
+    cdf:0
+  };
+
+  if(!equipped && !forceEquipped) return result;
+
+  let lEffets = [];
+
+  switch(type) {
+    case 'contact':
+      const effets2Mains = data?.options2mains?.has || false ? data.effets2mains.custom : [];
+      const ornementales = data?.ornementales?.custom || [];
+      const structurelles = data?.structurelles?.custom || [];
+
+      lEffets = effets.concat(effets2Mains, ornementales, structurelles);
+      break;
+
+    case 'distance':
+      const distance = data?.distance?.custom || [];
+
+      lEffets = effets.concat(distance);
+      break;
+  }
+
+  for(let i = 0;i < lEffets.length;i++) {
+    const other = lEffets[i].other;
+
+    if(other.cdf !== undefined) result.cdf += other.cdf;
+  }
+
+
+
+  return result;
+};
+
+//GESTION DES EFFETS
+
+export async function addEffect(origin, toAdd) {
+  origin.createEmbeddedDocuments('ActiveEffect', toAdd);
+};
+
+export async function updateEffect(origin, toUpdate) {
+  origin.updateEmbeddedDocuments('ActiveEffect', toUpdate);
+}
+
+export function addOrUpdateEffect(origin, label, effect) {
+  const version = game.version.split('.')[0];
+
+  const listEffect = origin.getEmbeddedCollection('ActiveEffect');
+  const effectExist = existEffect(listEffect, label);
+
+  if(!effectExist && version < 11) addEffect(origin, [{
+      label: label,
+      changes:effect,
+      disabled:false
+    }]);
+  else if(!effectExist && version > 10) addEffect(origin, [{
+    name: label,
+    changes:effect,
+    disabled:false
+  }]);
+  else updateEffect(origin, [{
+      "_id":effectExist._id,
+      changes:effect,
+      disabled:false
+    }]);
+}
+
+export function countEffect(list, label) {
+  const version = game.version.split(".")[0];
+  let result;
+
+  if(version < 11) result = list.filter(effect => effect.label === label);
+  else if(version > 10) result = list.filter(effect => effect.name === label);
+
+  return result;
+}
+
+export function existEffect(list, label) {
+  const version = game.version.split(".")[0];
+  let result;
+
+  if(version < 11) result = list.find(effect => effect.label === label);
+  else if(version > 10) result = list.getName(label);
+
+  if(result === undefined) result = false;
+
+  return result;
+}
+
+export function effectsGestion(actor, listWithEffect, isPJ=false, onArmor=false) {
+  const version = game.version.split('.')[0];
+  const listEffect = actor.getEmbeddedCollection('ActiveEffect');
+
+  const toUpdate = [];
+  const toAdd = [];
+
+  for(let effect of listWithEffect) {
+    const effectExist = existEffect(listEffect, effect.label);
+    const effectCount = countEffect(listEffect, effect.label);
+    let toggle = false;
+
+    if(isPJ) {
+      if(!onArmor && !effect.withoutArmor) toggle = true;
+      if(onArmor && !effect.withArmor) toggle = true;
+    }
+
+    let num = 0;
+
+    if(effectCount.length > 1) {
+      for(let eff of effectCount) {
+        if(num !== 0) {
+          actor.deleteEmbeddedDocuments('ActiveEffect', [eff.id]);
+        }
+
+        num++;
+      }
+    }
+
+    if(effectExist) {
+      if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
+        "_id":effectExist._id,
+        changes:effect.data,
+        disabled:toggle
+      });
+      else if(effectExist.disabled !== toggle) toUpdate.push({
+        "_id":effectExist._id,
+        disabled:toggle
+      });
+    } else if(version < 11) toAdd.push({
+        label: effect.label,
+        changes:effect.data,
+        disabled:toggle
+    });
+    else if(version > 10) toAdd.push({
+      name: effect.label,
+      changes:effect.data,
+      disabled:toggle
+  });
+  }
+
+  if(toUpdate.length > 0) updateEffect(actor, toUpdate);
+  if(toAdd.length > 0) addEffect(actor, toAdd);
 }

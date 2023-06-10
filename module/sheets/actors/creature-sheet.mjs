@@ -4,14 +4,12 @@ import {
   getAEValue,
   listEffects,
   SortByName,
-  sum,
   addOrUpdateEffect,
-  addEffect,
   updateEffect,
   existEffect,
-  compareArrays,
   confirmationDialog,
   getKnightRoll,
+  effectsGestion
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
@@ -85,6 +83,8 @@ export class CreatureSheet extends ActorSheet {
     this._prepareAE(context);
 
     context.systemData = context.data.system;
+
+    console.warn(context);
 
     return context;
   }
@@ -692,6 +692,8 @@ export class CreatureSheet extends ActorSheet {
   }
 
   async _prepareCharacterItems(sheetData) {
+    const version = game.version.split('.');
+
     const actorData = sheetData.actor;
     const system = sheetData.data.system;
     const phase2Activate = system.phase2Activate;
@@ -716,8 +718,9 @@ export class CreatureSheet extends ActorSheet {
       bete:{max:[20], ae:{mineur:[10], majeur:[10]}},
       machine:{max:[20], ae:{mineur:[10], majeur:[10]}},
       dame:{max:[20], ae:{mineur:[10], majeur:[10]}},
-      masque:{max:[20], ae:{mineur:[10], majeur:[10]}},
+      masque:{max:[20], ae:{mineur:[10], majeur:[10]}}
     };
+
 
     for (let i of sheetData.items) {
       const data = i.system;
@@ -910,6 +913,7 @@ export class CreatureSheet extends ActorSheet {
 
           if(aspectMax.has) {
             const aMax = aspectMax.aspect;
+
             aspectsMax[aMax].max.push(aspectMax.maximum.aspect);
             aspectsMax[aMax].ae.mineur.push(aspectMax.maximum.ae);
             aspectsMax[aMax].ae.majeur.push(aspectMax.maximum.ae);
@@ -1066,41 +1070,34 @@ export class CreatureSheet extends ActorSheet {
     actorData.capacites = capacites;
     actorData.capacitesPhase2 = capacitesPhase2;
 
-    const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
+    for (let [key, value] of Object.entries(aspectsMax)) {
+      effects.capacites.push({
+        key: `system.aspects.${key}.max`,
+        mode: 5,
+        priority: null,
+        value: `${Math.max(...value.max)}`
+      },
+      {
+        key: `system.aspects.${key}.ae.majeur.max`,
+        mode: 5,
+        priority: null,
+        value: `${Math.max(...value.ae.majeur)}`
+      },
+      {
+        key: `system.aspects.${key}.ae.mineur.max`,
+        mode: 5,
+        priority: null,
+        value: `${Math.max(...value.ae.mineur)}`
+      }
+      );
+    }
+
     const listWithEffect = [
       {label:'Capacites', data:effects.capacites},
       {label:'Armes', data:effects.armes},
     ];
 
-    const toUpdate = [];
-    const toAdd = [];
-
-    for(let effect of listWithEffect) {
-      const effectExist = existEffect(listEffect, effect.label);
-      let toggle = false;
-
-      if(effectExist) {
-        if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
-          "_id":effectExist._id,
-          changes:effect.data,
-          icon: '',
-          disabled:toggle
-        });
-        else if(effectExist.disabled !== toggle) toUpdate.push({
-          "_id":effectExist._id,
-          icon: '',
-          disabled:toggle
-        });
-      } else toAdd.push({
-          label: effect.label,
-          icon: '',
-          changes:effect.data,
-          disabled:toggle
-      });
-    }
-
-    if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
-    if(toAdd.length > 0) addEffect(this.actor, toAdd);
+    effectsGestion(this.actor, listWithEffect);
 
     // ON ACTUALISE ROLL UI S'IL EST OUVERT
     let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;

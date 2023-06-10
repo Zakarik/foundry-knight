@@ -542,10 +542,6 @@
                                 }
                             }
                         }
-
-                        &:not(:first-of-type) {
-                            border-top:5px double $lightBlack;
-                        }
                     }
                 }
 
@@ -1108,6 +1104,170 @@
 
             div {
                 &.col {
+
+                    button {
+                        &.optionsMunitions,
+                        &.optionsMunitionsValider {
+                            display: flex;
+                            width: 100%;
+                            justify-content: center;
+                            color: $white;
+                            border-radius: 0px;
+                            line-height: 28px;
+                            min-height: 30px;
+                            margin: 0px;
+                            cursor: pointer;
+                            font-variant: small-caps;
+                            border:1px solid $lightBlue;
+                        }
+
+                        &.optionsMunitions {
+                            margin-top: 5px;
+                        }
+                    }
+
+                    label {
+                        &.optionsMunitions {
+                            margin-top: 0px;
+                            margin-bottom: 0px;
+                            border-top: 0px;
+                            border-bottom: 0px;
+                        }
+                    }
+
+                    div.blockMunitions {
+                        display:flex;
+                        width:100%;
+                        justify-content: space-between;
+                        margin-top:5px;
+                        margin-bottom:5px;
+                        flex-wrap: wrap;
+                        border-right: 0px;
+
+                        >div {
+                            display:flex;
+                            width:100%;
+                            flex-wrap: wrap;
+                            flex:none;
+
+                            label {
+                                display:flex;
+                                width:calc(100% + 1px);
+                                justify-content: space-between;
+                                border:0px;
+                                border-right:1px solid $lightBlack;
+
+                                span {
+                                    width:50%;
+                                    justify-content: left;
+                                    text-align: left;
+                                    line-height: 26px;
+                                    padding-left:5px;
+                                    background:$lightBlack;
+                                    border-top:1px solid $black;
+                                    border-bottom:1px solid $black;
+                                }
+
+                                input {
+                                    width:50%;
+                                    line-height: 26px;
+                                    padding-left:5px;
+                                    background:$black;
+                                    border:0px;
+                                    text-align: center;
+                                }
+
+                                div {
+                                    display:flex;
+                                    width:100%;
+                                    justify-content: space-between;
+
+                                    span {
+                                        width:24px;
+                                        background:$black;
+                                    }
+
+                                    input {
+                                        width:calc((100% / 2) - 12px);
+                                        border:0px;
+                                        padding:0px;
+                                        margin:0px;
+                                        background:$black;
+
+                                        &:first-of-type {
+                                            text-align: right;
+                                        }
+
+                                        &:last-of-type {
+                                            text-align: left;
+                                        }
+                                    }
+                                }
+
+                                &.munitionListe {
+                                    border-top:1px solid $lightBlack;
+
+                                    span.header {
+                                        border-top:0px;
+                                    }
+
+                                    &:not(:last-of-type) {
+                                        span {
+                                            border-bottom:0px;
+                                        }
+                                    }
+
+                                    &:not(:first-of-type) {
+                                        input[type="text"] {
+                                            border-top:1px solid $lightBlack;
+                                        }
+                                    }
+                                }
+
+                                &.demi {
+                                    flex-wrap: wrap;
+                                    width:50%;
+                                    border-bottom:1px solid $lightBlack;
+                                    border-left:0px;
+                                    border-right:0px;
+
+                                    >span {
+                                        width:100%;
+                                        padding:0px;
+                                        text-align: center;
+                                        justify-content: center;
+                                        border-left:1px solid $lightBlack;
+                                        border-right:0px;
+                                    }
+
+                                    div {
+                                        border-left:1px solid $lightBlack;
+                                        border-right:0px;
+
+                                        >span {
+                                            border-top:0px;
+                                            border-bottom:0px;
+                                            padding:0px;
+                                        }
+                                    }
+
+                                    &:last-of-type {
+                                        >span {
+                                            border-left:1px solid $black;
+                                            border-right:1px solid $lightBlack;
+                                        }
+
+                                        >div {
+                                            border-left:1px solid $lightBlack;
+                                            border-right:1px solid $lightBlack;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
                     &:first-of-type {
                         >* {
                             border-left:0px;

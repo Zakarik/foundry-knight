@@ -1,18 +1,12 @@
 import {
   getEffets,
-  getAspectValue,
-  getAEValue,
   listEffects,
   SortByName,
   getModStyle,
-  sum,
-  compareArrays,
   addOrUpdateEffect,
-  addEffect,
-  updateEffect,
-  existEffect,
   confirmationDialog,
   getKnightRoll,
+  effectsGestion
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
@@ -1236,6 +1230,8 @@ export class MechaArmureSheet extends ActorSheet {
   }
 
   async _prepareCharacterItems(sheetData) {
+    const version = game.version.split('.');
+
     const actorData = sheetData.actor;
     const system = sheetData.data.system;
     const piloteId = system.pilote;
@@ -1447,40 +1443,11 @@ export class MechaArmureSheet extends ActorSheet {
     actorData.pilote = pilote;
     actorData.moduleWraith = moduleWraith;
 
-    const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
     const listWithEffect = [
       {label:'Modules', data:effects}
     ];
 
-    const toUpdate = [];
-    const toAdd = [];
-
-    for(let effect of listWithEffect) {
-      const effectExist = existEffect(listEffect, effect.label);
-      let toggle = false;
-
-      if(effectExist) {
-        if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
-          "_id":effectExist._id,
-          changes:effect.data,
-          icon: '',
-          disabled:toggle
-        });
-        else if(effectExist.disabled !== toggle) toUpdate.push({
-          "_id":effectExist._id,
-          icon: '',
-          disabled:toggle
-        });
-      } else toAdd.push({
-          label: effect.label,
-          icon: '',
-          changes:effect.data,
-          disabled:toggle
-      });
-    }
-
-    if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
-    if(toAdd.length > 0) addEffect(this.actor, toAdd);
+    effectsGestion(this.actor, listWithEffect);
 
     // ON ACTUALISE ROLL UI S'IL EST OUVERT
     let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;

@@ -1,15 +1,9 @@
 import {
   getModStyle,
   listEffects,
-  SortByName,
-  compareArrays,
-  sum,
-  addOrUpdateEffect,
-  addEffect,
-  updateEffect,
-  existEffect,
   confirmationDialog,
   getKnightRoll,
+  effectsGestion
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
@@ -460,6 +454,7 @@ export class VehiculeSheet extends ActorSheet {
   }
 
   async _prepareCharacterItems(sheetData) {
+    const version = game.version.split('.');
     const actorData = sheetData.actor;
 
     const armesDistance = [];
@@ -751,41 +746,12 @@ export class VehiculeSheet extends ActorSheet {
     actorData.armesDistance = armesDistance;
     actorData.modules = module;
 
-    const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
     const listWithEffect = [
       {label:'Armes', data:effects.armes},
       {label:'Modules', data:effects.modules},
     ];
 
-    const toUpdate = [];
-    const toAdd = [];
-
-    for(let effect of listWithEffect) {
-      const effectExist = existEffect(listEffect, effect.label);
-      let toggle = false;
-
-      if(effectExist) {
-        if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
-          "_id":effectExist._id,
-          changes:effect.data,
-          icon: '',
-          disabled:toggle
-        });
-        else if(effectExist.disabled !== toggle) toUpdate.push({
-          "_id":effectExist._id,
-          icon: '',
-          disabled:toggle
-        });
-      } else toAdd.push({
-          label: effect.label,
-          icon: '',
-          changes:effect.data,
-          disabled:toggle
-      });
-    }
-
-    if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
-    if(toAdd.length > 0) addEffect(this.actor, toAdd);
+    effectsGestion(this.actor, listWithEffect);
 
     // ON ACTUALISE ROLL UI S'IL EST OUVERT
     let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;

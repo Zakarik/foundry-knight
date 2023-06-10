@@ -93,6 +93,9 @@ export class KnightEffetsDialog extends FormApplication {
               label:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Nocondition"),
               condition:''
             }
+          },
+          other:{
+            cdf:0
           }
         }
       },
@@ -317,6 +320,8 @@ export class KnightEffetsDialog extends FormApplication {
 
     this.options.title = this.object.title;
 
+    console.warn(this);
+
     return {
         ...super.getData(options),
         cssClass:this.options.classes.join(" "),
@@ -505,6 +510,9 @@ export class KnightEffetsDialog extends FormApplication {
             condition:dataCustom.violence.conditionnel.condition === undefined ? '' : dataCustom.violence.conditionnel.condition
           },
         },
+        other:{
+          cdf:dataCustom.other.cdf === undefined ? 0 : dataCustom.other.cdf,
+        }
       })
 
       this.object.custom = custom;
@@ -586,6 +594,9 @@ export class KnightEffetsDialog extends FormApplication {
             condition:''
           },
         },
+        other:{
+          cdf:0,
+        }
       };
 
       this.render();
@@ -676,6 +687,9 @@ export class KnightEffetsDialog extends FormApplication {
             condition:dataCustom.violence.conditionnel.condition === undefined ? '' : dataCustom.violence.conditionnel.condition
           },
         },
+        other:{
+          cdf:dataCustom.other.cdf === undefined ? 0 : dataCustom.other.cdf,
+        }
       };
 
       this.object.custom = custom;
@@ -757,6 +771,9 @@ export class KnightEffetsDialog extends FormApplication {
             condition:''
           },
         },
+        other:{
+          cdf:0,
+        }
       };
 
       this.render();
@@ -969,7 +986,8 @@ export class KnightEffetsDialog extends FormApplication {
         description:data.description,
         attaque:data.attaque,
         degats:data.degats,
-        violence:data.violence
+        violence:data.violence,
+        other:data.other,
       };
 
       this.render();
@@ -1086,6 +1104,9 @@ export class KnightEffetsDialog extends FormApplication {
           condition:formData['custom.violence.conditionnel.condition']
         },
       },
+      other:{
+        cdf:formData['custom.other.cdf']
+      }
     };
   }
 }

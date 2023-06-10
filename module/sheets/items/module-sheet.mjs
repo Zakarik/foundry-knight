@@ -602,6 +602,7 @@ export class ModuleSheet extends ItemSheet {
       const duree = data.permanent;
       const bonus = data?.bonus?.has || false;
       const pnj = data.pnj;
+      const sante = data?.bonus?.sante?.has || false;
       const armure = data?.bonus?.armure?.has || false;
       const champDeForce = data?.bonus?.champDeForce?.has || false;
       const energie = data?.bonus?.energie?.has || false;
@@ -654,6 +655,9 @@ export class ModuleSheet extends ItemSheet {
 
       if(pLis > 1) { data.labels.pnjTitle = game.i18n.localize("KNIGHT.ITEMS.MODULE.PNJ.LabelP"); }
       else { data.labels.pnjTitle = game.i18n.localize("KNIGHT.ITEMS.MODULE.PNJ.LabelS"); }
+
+      if(sante) { data.labels.sante = game.i18n.localize("KNIGHT.ITEMS.MODULE.SANTE.Bonus"); }
+      else { data.labels.sante = game.i18n.localize("KNIGHT.ITEMS.MODULE.SANTE.NoBonus"); }
 
       if(armure) { data.labels.armure = game.i18n.localize("KNIGHT.ITEMS.MODULE.ARMURE.Bonus"); }
       else { data.labels.armure = game.i18n.localize("KNIGHT.ITEMS.MODULE.ARMURE.NoBonus"); }

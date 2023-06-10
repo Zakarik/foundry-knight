@@ -339,6 +339,13 @@
                 </button>
                 <textarea class="{{#unless object.data.custom.violence.conditionnel.has}}hidden{{/unless}}" name="custom.violence.conditionnel.condition">{{object.data.custom.violence.conditionnel.condition}}</textarea>
             </div>
+            <div class="other">
+                <h2 class="header">{{localize "KNIGHT.BONUS.Divers"}}</h2>
+                <label class="longspan borderBottom">
+                    <span>{{localize "KNIGHT.BONUS.ChampDeForce"}}</span>
+                    <input type="number" name="custom.other.cdf" value="{{#if object.data.custom.other.cdf}}{{object.data.custom.other.cdf}}{{else}}0{{/if}}" min="0"/>
+                </label>
+            </div>
         </div>
     </div>
 </form>
