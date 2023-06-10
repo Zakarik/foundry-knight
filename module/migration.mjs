@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.11";
+    static NEEDED_VERSION = "3.11.1";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -1164,7 +1164,7 @@ Applique les modifications par la mise à jour au Monde.
            }
         }
 
-        if (options?.force || MigrationKnight.needUpdate("3.11")) {
+        if (options?.force || MigrationKnight.needUpdate("3.11.1")) {
             const update = {};
             const system = actor.system;
 
@@ -1966,7 +1966,7 @@ Applique les modifications par la mise à jour au Monde.
             item.update(update);
         }
 
-        if (options?.force || MigrationKnight.needUpdate("3.11")) {
+        if (options?.force || MigrationKnight.needUpdate("3.11.1")) {
             const update = {};
             const system = item.system;
 
