@@ -4596,8 +4596,9 @@ export function getFlatEffectBonus(wpn, forceEquipped=false) {
 
   for(let i = 0;i < lEffets.length;i++) {
     const other = lEffets[i].other;
+    const hasCdf = other?.cdf || undefined;
 
-    if(other.cdf !== undefined) result.cdf += other.cdf;
+    if(hasCdf !== undefined) result.cdf += other.cdf;
   }
 
 

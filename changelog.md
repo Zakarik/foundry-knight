@@ -1,3 +1,7 @@
+## v3.11.3
+### Bugfix
+- Correction d'un bug bloquant pour certaines fiches de personnages.
+
 ## v3.11.2
 ### Bugfix
 - Correction d'un bug empêchant le bon fonctionnement des armures dans certains cas.
