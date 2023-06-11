@@ -1,3 +1,7 @@
+## v3.11.6
+### Bugfix
+- Correction d'un bug avec le mode Ascension.
+
 ## v3.11.5
 ### Bugfix
 - Correction de quelques erreurs et logs mineurs.

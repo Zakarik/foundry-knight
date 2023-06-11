@@ -5459,7 +5459,7 @@ export class KnightSheet extends ActorSheet {
         "distance":[]
       }
     };
-    let effects = {experiences:[], gloire:[], armure:[], guardian:[], armes:[], overdrives:[], modules:[], slots:[], avantages:[], inconvenients:[], blessures:[], traumas:[], distinctions:[]};
+    let effects = {base:[], experiences:[], gloire:[], armure:[], guardian:[], armes:[], overdrives:[], modules:[], slots:[], avantages:[], inconvenients:[], blessures:[], traumas:[], distinctions:[]};
 
     let n = 1;
 
@@ -7471,6 +7471,20 @@ export class KnightSheet extends ActorSheet {
       const vBase = Math.max(...base);
       const vBonus = bonus.reduce((partialSum, a) => partialSum + a, 0);
 
+      effects.base.push({
+        key: `system.aspects.${aspect}.bonus`,
+        mode: 5,
+        priority: 1,
+        value:`${0}`
+      });
+
+      effects.base.push({
+        key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.bonus`,
+        mode: 5,
+        priority: 1,
+        value:`${0}`
+      });
+
       effects.overdrives.push({
         key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.base`,
         mode: 5,
@@ -7482,7 +7496,7 @@ export class KnightSheet extends ActorSheet {
         key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.bonus`,
         mode: 5,
         priority: 1,
-        value:vBonus
+        value:`${vBonus}`
       });
     }
 
@@ -7539,15 +7553,15 @@ export class KnightSheet extends ActorSheet {
         effects.experiences.push({
           key: `system.aspects.${aspect}.caracteristiques.${nom}.bonus`,
           mode: 2,
-          priority: null,
-          value: value
+          priority: 2,
+          value: `${value}`
         });
       } else if(isAspect(nom)) {
         effects.experiences.push({
           key: `system.aspects.${nom}.bonus`,
           mode: 2,
-          priority: null,
-          value: value
+          priority: 2,
+          value: `${value}`
         });
       }
     };
@@ -7631,6 +7645,7 @@ export class KnightSheet extends ActorSheet {
     });
 
     const listWithEffect = [
+      {label:'Base', withoutArmor:true, withArmor:true, data:effects.base},
       {label:'Armure', withoutArmor:false, withArmor:true, data:effects.armure},
       {label:'Guardian', withoutArmor:true, withArmor:false, data:effects.guardian},
       {label:'Overdrives', withoutArmor:true, withArmor:true, data:effects.overdrives},
