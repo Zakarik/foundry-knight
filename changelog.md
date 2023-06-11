@@ -1,3 +1,7 @@
+## v3.11.5
+### Bugfix
+- Correction de quelques erreurs et logs mineurs.
+
 ## v3.11.4
 ### Bugfix
 - Correction d'un bug pouvant survenir lors de l'évolution d'une armure.

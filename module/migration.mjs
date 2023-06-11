@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.11.1";
+    static NEEDED_VERSION = "3.11.5";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -1178,6 +1178,32 @@ Applique les modifications par la mise à jour au Monde.
                         min:1,
                         max:3
                     };
+                }
+
+                item.update(itemUpdate);
+            }
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("3.11.5")) {
+            const update = {};
+            const system = actor.system;
+
+            if(!system) return update;
+
+            for (let item of actor.items) {
+                const itemUpdate = {};
+
+                if(item.type === 'armure') {
+                    const archives = item?.system?.archivage?.liste || {};
+
+                    for(let n in archives) {
+                        itemUpdate[`system.archivage.liste.${n}`] = JSON.stringify(archives[n]);
+                    }
+                    console.warn(archives);
+                    /*itemUpdate[`system.special.c2038Sorcerer.energiedeficiente`] = {
+                        min:1,
+                        max:3
+                    };*/
                 }
 
                 item.update(itemUpdate);
