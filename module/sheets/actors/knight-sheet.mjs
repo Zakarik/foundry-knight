@@ -4187,13 +4187,14 @@ export class KnightSheet extends ActorSheet {
       const addOrder =  Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
       const filter = [];
 
-      dataArmor.update({[`system.archivage.liste.${listEvolutions[id].value}`]:dataArmor.system});
+      dataArmor.update({[`system.archivage.liste.${listEvolutions[id].value}`]:JSON.stringify(dataArmor.system)});
 
       for (let [key, spec] of Object.entries(special)) {
         const hasDelete = spec?.delete || false;
 
         if(hasDelete !== false) {
           if(hasDelete.value === true) {
+
             dataArmor.update({[`system.special.selected.-=${key}`]:null});
             filter.push(key);
             delete special[key];
@@ -4471,7 +4472,8 @@ export class KnightSheet extends ActorSheet {
       let update = {};
 
       if(type === 'liste') {
-        const listEvolutions = getArchives[1].evolutions.liste;
+        const parse = JSON.parse(getArchives[1]);
+        const listEvolutions = parse.evolutions.liste;
 
         for (let [key, evolutions] of Object.entries(listEvolutions)) {
           const num = +key;
@@ -4481,7 +4483,7 @@ export class KnightSheet extends ActorSheet {
           }
         }
 
-        update['system'] = getArchives[1];
+        update['system'] = parse;
 
         for (let [key, archive] of Object.entries(dataArchives)) {
           const num = +key;

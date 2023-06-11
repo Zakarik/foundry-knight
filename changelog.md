@@ -1,3 +1,7 @@
+## v3.11.4
+### Bugfix
+- Correction d'un bug pouvant survenir lors de l'évolution d'une armure.
+
 ## v3.11.3
 ### Bugfix
 - Correction d'un bug bloquant pour certaines fiches de personnages.
