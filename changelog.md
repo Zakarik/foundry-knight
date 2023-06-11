@@ -1,3 +1,7 @@
+## v3.11.2
+### Bugfix
+- Correction d'un bug empêchant le bon fonctionnement des armures dans certains cas.
+
 ## v3.11
 ### Améliorations
 - Ajout d'un bouton pour activer la phase pour le mode Morph.

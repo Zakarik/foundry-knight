@@ -6665,7 +6665,7 @@ export class KnightSheet extends ActorSheet {
               const iBViolenceVariable = iBViolence.variable;
               const iBGrenades = itemBonus.grenades;
 
-              if(iBSante.has) effects.modules.push({
+              if(iBSante?.has || false) effects.modules.push({
                 key:path.sante.bonus,
                 mode:2,
                 priority:null,
