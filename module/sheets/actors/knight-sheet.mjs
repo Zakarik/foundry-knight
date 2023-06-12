@@ -4187,7 +4187,9 @@ export class KnightSheet extends ActorSheet {
       const addOrder =  Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
       const filter = [];
 
-      dataArmor.update({[`system.archivage.liste.${listEvolutions[id].value}`]:JSON.stringify(dataArmor.system)});
+      const update = {};
+
+      update[`system.archivage.liste.${listEvolutions[id].value}`] = JSON.stringify(dataArmor.system);
 
       for (let [key, spec] of Object.entries(special)) {
         const hasDelete = spec?.delete || false;
@@ -4195,41 +4197,23 @@ export class KnightSheet extends ActorSheet {
         if(hasDelete !== false) {
           if(hasDelete.value === true) {
 
-            dataArmor.update({[`system.special.selected.-=${key}`]:null});
+            update[`system.special.selected.-=${key}`] = null;
             filter.push(key);
             delete special[key];
           }
         }
       }
 
-      dataArmor.update({['system']:{
-        armure:{
-          base:dataArmor.system.armure.base+dataEArmor.armure
-        },
-        champDeForce:{
-          base:dataArmor.system.champDeForce.base+dataEArmor.champDeForce
-        },
-        energie:{
-          base:dataArmor.system.energie.base+dataEArmor.energie
-        },
-        espoir:{
-          value:dataArmor.system.espoir.value+dataEArmor.espoir
-        },
-        capacites:{
-          selected:capacites
-        },
-        special:{
-          selected:special
-        },
-        evolutions:{
-          liste:{
-            [id]:{
-              applied:true,
-              addOrder:addOrder+1
-            }
-          }
-        }
-      }});
+      update[`system.armure.base`] = dataArmor.system.armure.base+dataEArmor.armure;
+      update[`system.champDeForce.base`] = dataArmor.system.champDeForce.base+dataEArmor.champDeForce;
+      update[`system.energie.base`] = dataArmor.system.energie.base+dataEArmor.energie;
+      update[`system.energie.value`] = dataArmor.system.espoir.value+dataEArmor.espoir;
+      update[`system.capacites.selected`] = capacites;
+      update[`system.special.selected`] = special;
+      update[`system.evolutions.liste.${id}`] = {
+        applied:true,
+        addOrder:addOrder+1
+      };
 
       for (let [key, evolutions] of Object.entries(listEvolutions)) {
         const num = +key;
@@ -4239,11 +4223,13 @@ export class KnightSheet extends ActorSheet {
             const hasSpecial = evolutions.special?.[filter[i]] || false;
 
             if(hasSpecial !== false) {
-              dataArmor.update({[`system.evolutions.liste.${num}.special.-=${filter[i]}`]:null});
+              update[`system.evolutions.liste.${num}.special.-=${filter[i]}`] = null;
             }
           }
         }
       }
+
+      dataArmor.update(update);
     });
 
     html.find('.appliquer-evolution-companions').click(ev => {
@@ -4432,28 +4418,16 @@ export class KnightSheet extends ActorSheet {
           data:dataArmor.system.capacites.selected.longbow,
           addOrder:addOrder+1};
 
-        dataArmor.update({[`system.archivage.longbow.${id}`]:array});
-
         const update = {};
 
-        delete capacites.description;
-        update['system'] = {
-          capacites:{
-            selected:{
-              longbow:capacites
-            }
-          },
-          evolutions:{
-            special:{
-              longbow:{
-                [id]:{
-                  applied:true,
-                  addOrder:addOrder+1
-                }
-              }
-            }
-          }
+        update[`system.archivage.longbow.${id}`] = array;
+        update[`system.capacites.selected.longbow`] = capacites;
+        update[`system.evolutions.special.longbow.${id}`] = {
+          applied:true,
+          addOrder:addOrder+1
         };
+
+        delete capacites.description;
 
         dataArmor.update(update);
 
