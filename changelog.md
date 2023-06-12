@@ -1,3 +1,8 @@
+## v3.11.7
+### Bugfix
+- Correction d'un bug affectant les Bandes.
+- Correction d'un problème avec le système de rollback.
+
 ## v3.11.6
 ### Bugfix
 - Correction d'un bug avec le mode Ascension.

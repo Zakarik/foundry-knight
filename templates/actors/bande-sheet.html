@@ -97,7 +97,7 @@
                 <div class="line">
                     <span class="option {{#unless systemData.bouclier.optionDeploy}} withBorder {{else}} withoutBorder {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="bouclier"></span>
                     <span class="label {{#unless systemData.bouclier.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.LATERAL.Bouclier"}}</span>
-                    <span class="score {{#unless systemData.bouclier.optionDeploy}} withBorder {{/unless}}" title="{{systemData.bouclier.base}} + {{systemData.bouclier.mod}} = {{systemData.bouclier.value}}">{{systemData.bouclier.value}}</span>
+                    <span class="score {{#unless systemData.bouclier.optionDeploy}} withBorder {{/unless}}" title="{{systemData.bouclier.base}} + {{systemData.bouclier.mod}} = {{systemData.bouclier.max}}">{{systemData.bouclier.max}}</span>
                 </div>
                 <div class="subLine {{#if systemData.bouclier.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
