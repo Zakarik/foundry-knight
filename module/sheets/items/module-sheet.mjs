@@ -279,7 +279,6 @@ export class ModuleSheet extends ItemSheet {
 
       stringPath.split(".").forEach(function(key){
         path = path[key];
-
       });
 
       let label = '';

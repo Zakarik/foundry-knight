@@ -88,7 +88,7 @@
                 <div class="line">
                     <span class="option {{#unless systemData.energie.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="energie"></span>
                     <span class="label {{#unless systemData.energie.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}">{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                    <input class="{{#unless systemData.energie.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}" type="number" name="system.energie.value" min="0" max="{{systemData.energie.max}}" value="{{systemData.energie.value}}" />
+                    <input class="{{#unless systemData.energie.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}} value" type="number" name="system.energie.value" min="0" max="{{systemData.energie.max}}" value="{{systemData.energie.value}}" />
                     <span class="separation {{#unless systemData.energie.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}">/</span>
                     <span class="score {{#unless systemData.energie.optionDeploy}} withBorder {{/unless}}" title="{{systemData.energie.base}} + {{systemData.energie.bonusValue}} - {{systemData.energie.malusValue}} = {{systemData.energie.max}}">{{systemData.energie.max}}</span>
                 </div>

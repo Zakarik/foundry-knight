@@ -3,7 +3,8 @@ import {
   listEffects,
   confirmationDialog,
   getKnightRoll,
-  effectsGestion
+  effectsGestion,
+  getFlatEffectBonus,
 } from "../../helpers/common.mjs";
 
 import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
@@ -120,7 +121,7 @@ export class VehiculeSheet extends ActorSheet {
       const cout = eval(target.data("cout"));
       const value = target.data("value") ? false : true;
 
-      const depense = await this._depensePE(name, cout);
+      const depense = await this._depensePE(name, cout, true, html);
 
       if(!depense) return;
 
@@ -313,6 +314,65 @@ export class VehiculeSheet extends ActorSheet {
       } else {
         item.update({['system.whoActivate']:value});
       }
+    });
+
+    html.find('div.armure div.bModule img.info').click(ev => {
+      const span = $(ev.currentTarget).siblings("span.hideInfo")
+      const width = $(ev.currentTarget).parents("div.mainBlock").width() / 2;
+      const isW50 = $(ev.currentTarget).parents("div.data").width();
+      let position = "";
+      let borderRadius = "border-top-right-radius";
+
+      if(isW50 <= width) {
+        if($(ev.currentTarget).parents("div.data").position().left > width) {
+          position = "right";
+          borderRadius = "border-top-right-radius";
+        } else {
+          position = "left";
+          borderRadius = "border-top-left-radius";
+        }
+      } else {
+        if($(ev.currentTarget).parent().position().left > width) {
+          position = "right";
+          borderRadius = "border-top-right-radius";
+        } else {
+          position = "left";
+          borderRadius = "border-top-left-radius";
+        }
+      }
+
+      span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
+      $(ev.currentTarget).toggleClass("clicked");
+    });
+
+    html.find('i.moduleArrowUp').click(ev => {
+      const target = $(ev.currentTarget);
+      const key = target.data("key");
+      const niveau = Number(target.data("niveau"))+1;
+      const item = this.actor.items.get(key);
+
+      const data = {
+        "niveau":{
+          "value":niveau
+        }
+      }
+
+      item.update({[`system`]:data});
+    });
+
+    html.find('i.moduleArrowDown').click(ev => {
+      const target = $(ev.currentTarget);
+      const key = target.data("key");
+      const niveau = Number(target.data("niveau"))-1;
+      const item = this.actor.items.get(key);
+
+      const data = {
+        "niveau":{
+          "value":niveau
+        }
+      }
+
+      item.update({[`system`]:data});
     });
   }
 
@@ -546,9 +606,10 @@ export class VehiculeSheet extends ActorSheet {
       if (i.type === 'module') {
         const niveau = data.niveau.value;
         const itemDataNiveau = data.niveau.details[`n${niveau}`];
-        const itemBonus = itemDataNiveau.bonus;
-        const itemArme = itemDataNiveau.arme;
-        const itemOD = itemDataNiveau.overdrives;
+        const itemBonus = itemDataNiveau?.bonus || {has:false};
+        const itemArme = itemDataNiveau?.arme || {has:false};
+        const itemEffets = itemDataNiveau?.effets || {has:false};
+        const itemOD = itemDataNiveau?.overdrives || {has:false};
         const itemActive = data?.active?.base || false;
         const itemErsatz = itemDataNiveau.ersatz;
         const itemWhoActivate = itemDataNiveau?.whoActivate || '';
@@ -561,6 +622,17 @@ export class VehiculeSheet extends ActorSheet {
         }
 
         if(itemDataNiveau.permanent || itemActive) {
+          let bonusDef = 0;
+          let bonusRea = 0;
+
+          if(itemEffets.has) {
+            const bDefense = itemEffets.raw.find(str => { if(str.includes('defense')) return str; });
+            const bReaction = itemEffets.raw.find(str => { if(str.includes('reaction')) return str; });
+
+            if(bDefense !== undefined) bonusDef += +bDefense.split(' ')[1];
+            if(bReaction !== undefined) bonusRea += +bReaction.split(' ')[1];
+          }
+
           if(itemBonus.has) {
             const iBArmure = itemBonus.armure;
             const iBCDF = itemBonus.champDeForce;
@@ -691,26 +763,39 @@ export class VehiculeSheet extends ActorSheet {
             const bDefense = moduleEffetsFinal.raw.find(str => { if(str.includes('defense')) return str; });
             const bReaction = moduleEffetsFinal.raw.find(str => { if(str.includes('reaction')) return str; });
 
-            if(bDefense !== undefined) {
-              effects.modules.push({
-                key: path.defense.bonus,
-                mode: 2,
-                priority: null,
-                value: bDefense.split(' ')[1]
-              });
-            }
-            if(bReaction !== undefined) {
-              effects.modules.push({
-                key: path.reaction.bonus,
-                mode: 2,
-                priority: null,
-                value: bReaction.split(' ')[1]
-              });
-            }
+            if(bDefense !== undefined) bonusDef += bDefense.split(' ')[1];
+            if(bReaction !== undefined) bonusRea += bReaction.split(' ')[1];
+
+            const bonusEffects = getFlatEffectBonus(moduleWpn, true);
+
+            effects.modules.push({
+              key: path.champDeForce.bonus,
+              mode: 2,
+              priority: null,
+              value: bonusEffects.cdf
+            });
 
             if(itemArme.type === 'distance') {
               armesDistance.push(moduleWpn);
             }
+          }
+
+          if(bonusDef > 0) {
+            effects.modules.push({
+              key: path.defense.bonus,
+              mode: 2,
+              priority: null,
+              value: bonusDef
+            });
+          }
+
+          if(bonusRea > 0) {
+            effects.modules.push({
+              key: path.reaction.bonus,
+              mode: 2,
+              priority: null,
+              value: bonusRea
+            });
           }
         }
 
@@ -764,7 +849,7 @@ export class VehiculeSheet extends ActorSheet {
     }
   }
 
-  async _depensePE(label, depense, autosubstract=true) {
+  async _depensePE(label, depense, autosubstract=true, html=false) {
     const data = this.getData();
     const actuel = +data.systemData.energie.value;
     const substract = actuel-depense;
@@ -803,11 +888,13 @@ export class VehiculeSheet extends ActorSheet {
 
       if(autosubstract) {
         let update = {
-          system:{
-            energie:{
-              value:substract
-            }
-          }
+          system:{}
+        };
+
+        if(html !== false) {
+          html.find(`div.energie input.value`).val(substract);
+        } else {
+          update.system.energie.value = substract;
         }
 
         this.actor.update(update);

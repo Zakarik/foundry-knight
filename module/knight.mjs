@@ -98,6 +98,22 @@ Hooks.once('init', async function() {
   // Define custom Document classes
   CONFIG.Actor.documentClass = KnightActor;
   CONFIG.Item.documentClass = KnightItem;
+  /*CONFIG.statusEffects = [{
+    id:'dead',
+    label:'EFFECT.StatusDead',
+    icon:'icons/svg/skull.svg'
+  },
+  {
+    id:'light_2',
+    label:"Lumière 2",
+    icon:'systems/knight/assets/icons/effects/light_2.svg'
+  },
+  {
+    id:'light_4',
+    label:"Lumière 4",
+    icon:'systems/knight/assets/icons/effects/light_4.svg'
+  }
+  ]*/
 
   // HANDLEBARS
   RegisterHandlebars();
@@ -250,3 +266,7 @@ Hooks.once("ready", HooksKnight.ready);
 
 Hooks.on('deleteItem', doc => toggler.clearForId(doc.id));
 Hooks.on('deleteActor', doc => toggler.clearForId(doc.id));
+
+/*Hooks.on("renderPause", function () {
+  $("#pause.paused figcaption").text('');
+});*/

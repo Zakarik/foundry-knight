@@ -1,3 +1,13 @@
+## v3.12
+### Améliorations
+- Modification de l'image en haut à droite de Foundry, pour y mettre le logo de Knight.
+- Modification de l'image de la pause, pour y mettre un logo correspondant à Knight.
+Merci à Darkhan qui m'a autorisé à utiliser ce logo de sa création.
+
+### Bugfix
+- Correction d'un bug avec les modules ne prenant pas en compte le bonus en défense / réaction.
+- Correction d'oublis concernant la prise en compte des niveaux des modules pour les véhicules.
+
 ## v3.11.7
 ### Bugfix
 - Correction d'un bug affectant les Bandes.

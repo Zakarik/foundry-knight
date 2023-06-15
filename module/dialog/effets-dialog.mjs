@@ -7,10 +7,10 @@ export class KnightEffetsDialog extends FormApplication {
   super(options);
       this.object.actor = object.actor;
       this.object.id = object.item;
-      this.object.raw = object.raw;
+      this.object.raw = object?.raw === undefined ? [] : object.raw
       this.object.isToken = object?.isToken || false;
       this.object.token = object?.token || null;
-      this.object.custom = object.custom === undefined ? [] : object.custom;
+      this.object.custom = object?.custom === undefined ? [] : object.custom;
       this.object.toUpdate = object.toUpdate;
       this.object.aspects = object.aspects;
       this.object.typeEffets = object.typeEffets;
@@ -122,8 +122,8 @@ export class KnightEffetsDialog extends FormApplication {
     const distance = CONFIG.KNIGHT.AMELIORATIONS.distance;
     const structurelles = CONFIG.KNIGHT.AMELIORATIONS.structurelles;
     const ornements = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
-    const raw = this.object.raw;
-    const custom = this.object.custom;
+    const raw = this.object?.raw || [];
+    const custom = this.object?.custom || [];
     const liste = [];
     let ePossibles = [];
 
@@ -319,8 +319,6 @@ export class KnightEffetsDialog extends FormApplication {
     liste.sort(_sortByName);
 
     this.options.title = this.object.title;
-
-    console.warn(this);
 
     return {
         ...super.getData(options),
