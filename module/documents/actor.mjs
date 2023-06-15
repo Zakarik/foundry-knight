@@ -864,12 +864,27 @@ export class KnightActor extends Actor {
       const actor = game.actors.get(id);
 
       if(actor?.system !== undefined) {
-        const defenseBonus = data.defense?.bonus || 0;
-        const reactonBonus = data.reaction?.bonus || 0;
+        const defenseBonus = data.defense?.bonus.user || 0;
+        const defenseMalus = data.defense?.malus.user || 0;
+        const reactonBonus = data.reaction?.bonus.user || 0;
+        const reactonMalus = data.reaction?.malus.user || 0;
         const manoeuvrabilite = data.manoeuvrabilite || 0;
-        const reaction = actor.system.reaction.value+reactonBonus+manoeuvrabilite;
-        const defense = actor.system.defense.value+defenseBonus;
         const initiative = actor.system.initiative;
+
+        if(!data.defense.bonusValue) data.defense.bonusValue = defenseBonus;
+        else data.defense.bonusValue += defenseBonus;
+
+        if(!data.defense.malusValue) data.defense.malusValue = defenseMalus;
+        else data.defense.malusValue += defenseMalus;
+
+        if(!data.reaction.bonusValue) data.reaction.bonusValue = reactonBonus;
+        else data.reaction.bonusValue += reactonBonus;
+
+        if(!data.reaction.malusValue) data.reaction.malusValue = reactonMalus;
+        else data.reaction.malusValue += reactonMalus;
+
+        const reaction = actor.system.reaction.value+data.reaction.bonusValue+manoeuvrabilite-data.reaction.malusValue;
+        const defense = actor.system.defense.value+data.defense.bonusValue-data.defense.malusValue;
 
         data.reaction.value = reaction;
         data.defense.value = defense;

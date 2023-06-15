@@ -6450,9 +6450,10 @@ export class KnightSheet extends ActorSheet {
         const isLion = data.isLion;
         const itemDataNiveau = data.niveau.details[`n${niveau}`];
         const itemSlots = data.slots;
-        const itemBonus = itemDataNiveau?.bonus || false;
-        const itemArme = itemDataNiveau?.arme || false;
-        const itemOD = itemDataNiveau?.overdrives || false;
+        const itemBonus = itemDataNiveau?.bonus || {has:false};
+        const itemArme = itemDataNiveau?.arme || {has:false};
+        const itemOD = itemDataNiveau?.overdrives || {has:false};
+        const itemEffets = itemDataNiveau?.effets || {has:false};
         const itemActive = data?.active?.base || false;
 
         if(itemBonus === false || itemArme === false || itemOD === false) continue;
@@ -6629,6 +6630,16 @@ export class KnightSheet extends ActorSheet {
           }
 
           if(itemDataNiveau.permanent || itemActive) {
+            let bonusDef = 0;
+            let bonusRea = 0;
+
+            if(itemEffets.has) {
+              const bDefense = itemEffets.raw.find(str => { if(str.includes('defense')) return str; });
+              const bReaction = itemEffets.raw.find(str => { if(str.includes('reaction')) return str; });
+
+              if(bDefense !== undefined) bonusDef += +bDefense.split(' ')[1];
+              if(bReaction !== undefined) bonusRea += +bReaction.split(' ')[1];
+            }
 
             if(itemBonus.has) {
               const iBSante = itemBonus.sante;
@@ -6834,8 +6845,8 @@ export class KnightSheet extends ActorSheet {
               const bDefense = moduleEffetsFinal.raw.find(str => { if(str.includes('defense')) return str; });
               const bReaction = moduleEffetsFinal.raw.find(str => { if(str.includes('reaction')) return str; });
 
-              if(bDefense !== undefined) defense.bonus += +bDefense.split(' ')[1];
-              if(bReaction !== undefined) reaction.bonus += +bReaction.split(' ')[1];
+              if(bDefense !== undefined) bonusDef += +bDefense.split(' ')[1];
+              if(bReaction !== undefined) bonusRea += +bReaction.split(' ')[1];
 
               if(moduleArmeType === 'contact') {
                 const bMassive = itemArme.structurelles.raw.find(str => { if(str.includes('massive')) return true; });
@@ -6878,12 +6889,31 @@ export class KnightSheet extends ActorSheet {
               moduleErsatz.rogue._id = i._id;
               moduleErsatz.rogue.description = data.description;
             }
+
             if(eBard.has && onArmor) {
               moduleErsatz.bard = eBard;
               moduleErsatz.bard.permanent = data.permanent;
               moduleErsatz.bard.label = i.name;
               moduleErsatz.bard._id = i._id;
               moduleErsatz.bard.description = data.description;
+            }
+
+            if(bonusDef > 0) {
+              effects.modules.push({
+                key: path.defense.bonus,
+                mode: 2,
+                priority: null,
+                value: bonusDef
+              });
+            }
+
+            if(bonusRea > 0) {
+              effects.modules.push({
+                key: path.reaction.bonus,
+                mode: 2,
+                priority: null,
+                value: bonusRea
+              });
             }
           }
 

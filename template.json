@@ -6188,6 +6188,11 @@
                 "custom":[]
               }
             },
+            "effets":{
+              "raw":[],
+              "custom":[],
+              "liste":[]
+            },
             "textarea":{
               "duree":22
             }

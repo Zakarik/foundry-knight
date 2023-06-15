@@ -2799,8 +2799,9 @@ export class PNJSheet extends ActorSheet {
       if (i.type === 'module') {
         const niveau = data.niveau.value;
         const itemDataNiveau = data.niveau.details[`n${niveau}`];
-        const itemBonus = itemDataNiveau.bonus;
-        const itemArme = itemDataNiveau.arme;
+        const itemBonus = itemDataNiveau?.bonus || {has:false};
+        const itemArme = itemDataNiveau?.arme || {has:false};
+        const itemEffets = itemDataNiveau?.effets || {has:false};
         const itemActive = data?.active?.base || false;
         const dataMunitions = itemArme?.optionsmunitions || {has:false};
 
@@ -2811,6 +2812,17 @@ export class PNJSheet extends ActorSheet {
         }
 
         if(itemDataNiveau.permanent || itemActive) {
+          let bonusDef = 0;
+          let bonusRea = 0;
+
+          if(itemEffets.has) {
+            const bDefense = itemEffets.raw.find(str => { if(str.includes('defense')) return str; });
+            const bReaction = itemEffets.raw.find(str => { if(str.includes('reaction')) return str; });
+
+            if(bDefense !== undefined) bonusDef += +bDefense.split(' ')[1];
+            if(bReaction !== undefined) bonusRea += +bReaction.split(' ')[1];
+          }
+
           if(itemBonus.has) {
             const iBSante = itemBonus.sante;
             const iBArmure = itemBonus.armure;
@@ -2821,7 +2833,7 @@ export class PNJSheet extends ActorSheet {
             const iBViolence = itemBonus.violence;
             const iBViolenceVariable = iBViolence.variable;
 
-            if(iBSante.has) effects.modules.push({
+            if(iBSante?.has || false) effects.modules.push({
               key:path.sante.bonus,
               mode:2,
               priority:null,
@@ -2908,7 +2920,6 @@ export class PNJSheet extends ActorSheet {
           if(itemArme.has) {
             const moduleEffets = itemArme.effets;
 
-
             let degats = itemArme.degats;
             let violence = itemArme.violence;
 
@@ -2939,20 +2950,8 @@ export class PNJSheet extends ActorSheet {
             const bDefense = moduleEffets.raw.find(str => { if(str.includes('defense')) return str; });
             const bReaction = moduleEffets.raw.find(str => { if(str.includes('reaction')) return str; });
 
-            if(bDefense !== undefined) { effects.modules.push({
-                key: path.defense.bonus,
-                mode: 2,
-                priority: null,
-                value: bDefense.split(' ')[1]
-              });
-            }
-            if(bReaction !== undefined) { effects.modules.push({
-                key: path.reaction.bonus,
-                mode: 2,
-                priority: null,
-                value: bReaction.split(' ')[1]
-              });
-            }
+            if(bDefense !== undefined) bonusDef += bDefense.split(' ')[1];
+            if(bReaction !== undefined) bonusRea += bReaction.split(' ')[1];
 
             if(itemArme.type === 'contact') {
               const bMassive = itemArme.structurelles.raw.find(str => { if(str.includes('massive')) return true; });
@@ -2979,6 +2978,24 @@ export class PNJSheet extends ActorSheet {
               mode: 2,
               priority: null,
               value: bonusEffects.cdf
+            });
+          }
+
+          if(bonusDef > 0) {
+            effects.modules.push({
+              key: path.defense.bonus,
+              mode: 2,
+              priority: null,
+              value: bonusDef
+            });
+          }
+
+          if(bonusRea > 0) {
+            effects.modules.push({
+              key: path.reaction.bonus,
+              mode: 2,
+              priority: null,
+              value: bonusRea
             });
           }
         }
