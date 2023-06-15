@@ -13,6 +13,7 @@ C'est un prérequis pour le bon fonctionnement du mode Ascension (Armure Shaman)
 
 # Remerciements
 Merci à Simon Gabillaud et toute l'équipe d'Antre-Monde Editions pour avoir donné l'autorisation d'utiliser toutes les données de leur jeu afin de créer cette fiche.
+Merci à Darkhan du discord Antre-Monde qui m'a donné l'autorisation d'utiliser ses logos pour agrémenter le système de Knight.
 
 # Mentions Légales
 Knight est un jeu d'Antre-Monde Editions.
