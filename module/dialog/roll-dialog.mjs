@@ -769,7 +769,7 @@ export class KnightRollDialog extends Application {
       this.data.violenceBonus.fixe = value;
     });
 
-    html.find("div.wpn span.unselected").click(ev => {
+    html.find("div.wpn span.selected").click(ev => {
       const type = $(ev.currentTarget);
       const effet = type.data("type");
       const special = type?.data("special") || false;
@@ -793,7 +793,7 @@ export class KnightRollDialog extends Application {
       this._doRoll(ev, false, false, true, false, id, type, name);
     });
 
-    html.find("div.longbow span.unselected").click(ev => {
+    html.find("div.longbow span.selected").click(ev => {
       const type = $(ev.currentTarget);
       const effet = type.data("type");
       const special = type?.data("special") || false;
@@ -808,7 +808,7 @@ export class KnightRollDialog extends Application {
       this.render(true)
     });
 
-    html.find("div.special span.unselected").click(ev => {
+    html.find("div.special span.selected").click(ev => {
       const type = $(ev.currentTarget);
       const effet = type.data("type");
       const value = type.data("value");
@@ -826,7 +826,7 @@ export class KnightRollDialog extends Application {
       this._doRoll(ev, false, false, true, false, id, type, name);
     });
 
-    html.find("div.grenades span.unselected").click(ev => {
+    html.find("div.grenades span.selected").click(ev => {
       const type = $(ev.currentTarget);
       const effet = type.data("type");
       const value = type.data("value");

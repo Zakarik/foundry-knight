@@ -277,28 +277,28 @@
                     {{#if (isWpnDistance @root/typwWpn)}}
                         {{#if (hasEffet 'jumelageambidextrie' 'distance' key -1)}}
                             <div class="blockBtn">
-                                <span class="{{#unless @root/jumelageambidextrie}}selected{{else}}unselected{{/unless}}" data-type="jumelageambidextrie" data-value="false">{{localize "KNIGHT.AMELIORATIONS.JUMELAGEAMBIDEXTRIE.Desactive"}}</span>
-                                <span class="{{#if @root/jumelageambidextrie}}selected{{else}}unselected{{/if}}" data-type="jumelageambidextrie" data-value="true">{{localize "KNIGHT.AMELIORATIONS.JUMELAGEAMBIDEXTRIE.Active"}}</span>
+                                <span class="{{#unless @root/jumelageambidextrie}}selected{{else}}unselected{{/unless}}" data-type="jumelageambidextrie" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.JUMELAGEAMBIDEXTRIE.Desactive"}}</span>
+                                <span class="{{#if @root/jumelageambidextrie}}selected{{else}}unselected{{/if}}" data-type="jumelageambidextrie" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.JUMELAGEAMBIDEXTRIE.Active"}}</span>
                             </div>
                         {{else}}
                             {{#if (hasEffet 'jumeleambidextrie' 'effets' key -1)}}
                                 <div class="blockBtn">
-                                    <span class="{{#unless @root/jumeleambidextrie}}selected{{else}}unselected{{/unless}}" data-type="jumeleambidextrie" data-value="false">{{localize "KNIGHT.EFFETS.JUMELEAMBIDEXTRIE.Desactive"}}</span>
-                                    <span class="{{#if @root/jumeleambidextrie}}selected{{else}}unselected{{/if}}" data-type="jumeleambidextrie" data-value="true">{{localize "KNIGHT.EFFETS.JUMELEAMBIDEXTRIE.Active"}}</span>
+                                    <span class="{{#unless @root/jumeleambidextrie}}selected{{else}}unselected{{/unless}}" data-type="jumeleambidextrie" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.JUMELEAMBIDEXTRIE.Desactive"}}</span>
+                                    <span class="{{#if @root/jumeleambidextrie}}selected{{else}}unselected{{/if}}" data-type="jumeleambidextrie" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.JUMELEAMBIDEXTRIE.Active"}}</span>
                                 </div>
                             {{/if}}
                         {{/if}}
                     {{else}}
                         {{#if (hasEffet 'soeur' 'structurelles' key -1)}}
                             <div class="blockBtn">
-                                <span class="{{#unless @root/soeur}}selected{{else}}unselected{{/unless}}" data-type="soeur" data-value="false">{{localize "KNIGHT.AMELIORATIONS.SOEUR.Desactive"}}</span>
-                                <span class="{{#if @root/soeur}}selected{{else}}unselected{{/if}}" data-type="soeur" data-value="true">{{localize "KNIGHT.AMELIORATIONS.SOEUR.Active"}}</span>
+                                <span class="{{#unless @root/soeur}}selected{{else}}unselected{{/unless}}" data-type="soeur" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.SOEUR.Desactive"}}</span>
+                                <span class="{{#if @root/soeur}}selected{{else}}unselected{{/if}}" data-type="soeur" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.SOEUR.Active"}}</span>
                             </div>
                         {{else}}
                             {{#if (hasEffet 'jumeleambidextrie' 'effets' key -1)}}
                                 <div class="blockBtn">
-                                    <span class="{{#unless @root/jumeleambidextrie}}selected{{else}}unselected{{/unless}}" data-type="jumeleambidextrie" data-value="false">{{localize "KNIGHT.EFFETS.JUMELEAMBIDEXTRIE.Desactive"}}</span>
-                                    <span class="{{#if @root/jumeleambidextrie}}selected{{else}}unselected{{/if}}" data-type="jumeleambidextrie" data-value="true">{{localize "KNIGHT.EFFETS.JUMELEAMBIDEXTRIE.Active"}}</span>
+                                    <span class="{{#unless @root/jumeleambidextrie}}selected{{else}}unselected{{/unless}}" data-type="jumeleambidextrie" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.JUMELEAMBIDEXTRIE.Desactive"}}</span>
+                                    <span class="{{#if @root/jumeleambidextrie}}selected{{else}}unselected{{/if}}" data-type="jumeleambidextrie" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.JUMELEAMBIDEXTRIE.Active"}}</span>
                                 </div>
                             {{/if}}
                         {{/if}}
@@ -306,64 +306,64 @@
 
                     {{#if (hasEffet 'barrage' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
-                            <span class="{{#if @root/barrage}}selected{{else}}unselected{{/if}}" data-type="barrage" data-value="true">{{localize "KNIGHT.EFFETS.BARRAGE.Active"}}</span>
+                            <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
+                            <span class="{{#if @root/barrage}}selected{{else}}unselected{{/if}}" data-type="barrage" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.BARRAGE.Active"}}</span>
                         </div>
                     {{/if}}
 
                     {{#if (hasEffet 'briserlaresilience' 'effets' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/briserlaresilience}}selected{{else}}unselected{{/unless}}" data-type="briserlaresilience" data-value="false">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Desactive"}}</span>
-                        <span class="{{#if @root/briserlaresilience}}selected{{else}}unselected{{/if}}" data-type="briserlaresilience" data-value="true">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Active"}}</span>
+                        <span class="{{#unless @root/briserlaresilience}}selected{{else}}unselected{{/unless}}" data-type="briserlaresilience" data-value="true" title="{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.CliquerActiver"}}">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Desactive"}}</span>
+                        <span class="{{#if @root/briserlaresilience}}selected{{else}}unselected{{/if}}" data-type="briserlaresilience" data-value="false" title="{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.CliquerDesactiver"}}">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'chromeligneslumineuses' 'ornementales' key -1)}}
                         {{#if (hasEffet 'cadence' 'effets' key 2)}}
                             <div class="blockBtn">
-                                <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="false">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
-                                <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="true">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
+                                <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
+                                <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
                             </div>
                         {{else}}
                             <div class="blockBtn">
-                                <span class="{{#unless @root/chromeligneslumineuses}}selected{{else}}unselected{{/unless}}" data-type="chromeligneslumineuses" data-value="false">{{localize "KNIGHT.AMELIORATIONS.CHROMELIGNESLUMINEUSES.Desactive"}}</span>
-                                <span class="{{#if @root/chromeligneslumineuses}}selected{{else}}unselected{{/if}}" data-type="chromeligneslumineuses" data-value="true">{{localize "KNIGHT.AMELIORATIONS.CHROMELIGNESLUMINEUSES.Active"}}</span>
+                                <span class="{{#unless @root/chromeligneslumineuses}}selected{{else}}unselected{{/unless}}" data-type="chromeligneslumineuses" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.CHROMELIGNESLUMINEUSES.Desactive"}}</span>
+                                <span class="{{#if @root/chromeligneslumineuses}}selected{{else}}unselected{{/if}}" data-type="chromeligneslumineuses" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.CHROMELIGNESLUMINEUSES.Active"}}</span>
                             </div>
                         {{/if}}
                     {{else}}
                         {{#if (hasEffet 'cadence' 'effets' key -1)}}
                             <div class="blockBtn">
-                                <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="false">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
-                                <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="true">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
+                                <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
+                                <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
                             </div>
                         {{/if}}
                     {{/if}}
 
                     {{#if (hasEffet 'guidage' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/guidage}}selected{{else}}unselected{{/unless}}" data-type="guidage" data-value="false">{{localize "KNIGHT.EFFETS.GUIDAGE.Desactive"}}</span>
-                            <span class="{{#if @root/guidage}}selected{{else}}unselected{{/if}}" data-type="guidage" data-value="true">{{localize "KNIGHT.EFFETS.GUIDAGE.Active"}}</span>
+                            <span class="{{#unless @root/guidage}}selected{{else}}unselected{{/unless}}" data-type="guidage" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.GUIDAGE.Desactive"}}</span>
+                            <span class="{{#if @root/guidage}}selected{{else}}unselected{{/if}}" data-type="guidage" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.GUIDAGE.Active"}}</span>
                         </div>
                     {{/if}}
 
                     {{#if (hasEffet 'cranerieurgrave' 'ornementales' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/cranerieur}}selected{{else}}unselected{{/unless}}" data-type="cranerieur" data-value="false">{{localize "KNIGHT.AMELIORATIONS.CRANERIEURGRAVE.Desactive"}}</span>
-                            <span class="{{#if @root/cranerieur}}selected{{else}}unselected{{/if}}" data-type="cranerieur" data-value="true">{{localize "KNIGHT.AMELIORATIONS.CRANERIEURGRAVE.Active"}}</span>
+                            <span class="{{#unless @root/cranerieur}}selected{{else}}unselected{{/unless}}" data-type="cranerieur" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.CRANERIEURGRAVE.Desactive"}}</span>
+                            <span class="{{#if @root/cranerieur}}selected{{else}}unselected{{/if}}" data-type="cranerieur" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.CRANERIEURGRAVE.Active"}}</span>
                         </div>
                     {{else}}
                         {{#if (hasEffet 'obliteration' 'effets' key -1)}}
                             <div class="blockBtn">
-                                <span class="{{#unless @root/obliteration}}selected{{else}}unselected{{/unless}}" data-type="obliteration" data-value="false">{{localize "KNIGHT.EFFETS.OBLITERATION.Desactive"}}</span>
-                                <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="true">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
+                                <span class="{{#unless @root/obliteration}}selected{{else}}unselected{{/unless}}" data-type="obliteration" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.OBLITERATION.Desactive"}}</span>
+                                <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
                             </div>
                         {{/if}}
                     {{/if}}
 
                     {{#if (hasEffet 'tenebricide' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
-                            <span class="{{#if @root/tenebricide}}selected{{else}}unselected{{/if}}" data-type="tenebricide" data-value="true">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Active"}}</span>
+                            <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
+                            <span class="{{#if @root/tenebricide}}selected{{else}}unselected{{/if}}" data-type="tenebricide" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Active"}}</span>
                         </div>
                     {{/if}}
                 </div>
@@ -506,112 +506,112 @@
 
                     {{#if (hasEffet 'chargeurballesgrappes' 'distance' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/ameliorations/grappes}}selected{{else}}unselected{{/unless}}" data-type="grappes" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.CHARGEURBALLESGRAPPES.Desactive"}}</span>
-                        <span class="{{#if @root/ameliorations/grappes}}selected{{else}}unselected{{/if}}" data-type="grappes" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.CHARGEURBALLESGRAPPES.Active"}}</span>
+                        <span class="{{#unless @root/ameliorations/grappes}}selected{{else}}unselected{{/unless}}" data-type="grappes" data-special="ameliorations" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.CHARGEURBALLESGRAPPES.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/grappes}}selected{{else}}unselected{{/if}}" data-type="grappes" data-special="ameliorations" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.CHARGEURBALLESGRAPPES.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'chargeurmunitionsexplosives' 'distance' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/ameliorations/explosives}}selected{{else}}unselected{{/unless}}" data-type="explosives" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.CHARGEURMUNITIONSEXPLOSIVES.Desactive"}}</span>
-                        <span class="{{#if @root/ameliorations/explosives}}selected{{else}}unselected{{/if}}" data-type="explosives" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.CHARGEURMUNITIONSEXPLOSIVES.Active"}}</span>
+                        <span class="{{#unless @root/ameliorations/explosives}}selected{{else}}unselected{{/unless}}" data-type="explosives" data-special="ameliorations" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.CHARGEURMUNITIONSEXPLOSIVES.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/explosives}}selected{{else}}unselected{{/if}}" data-type="explosives" data-special="ameliorations" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.CHARGEURMUNITIONSEXPLOSIVES.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'munitionsdrones' 'distance' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/ameliorations/drones}}selected{{else}}unselected{{/unless}}" data-type="drones" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSDRONES.Desactive"}}</span>
-                        <span class="{{#if @root/ameliorations/drones}}selected{{else}}unselected{{/if}}" data-type="drones" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSDRONES.Active"}}</span>
+                        <span class="{{#unless @root/ameliorations/drones}}selected{{else}}unselected{{/unless}}" data-type="drones" data-special="ameliorations" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSDRONES.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/drones}}selected{{else}}unselected{{/if}}" data-type="drones" data-special="ameliorations" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSDRONES.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'munitionshypervelocite' 'distance' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/ameliorations/hypervelocite}}selected{{else}}unselected{{/unless}}" data-type="hypervelocite" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Desactive"}}</span>
-                        <span class="{{#if @root/ameliorations/hypervelocite}}selected{{else}}unselected{{/if}}" data-type="hypervelocite" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Active"}}</span>
+                        <span class="{{#unless @root/ameliorations/hypervelocite}}selected{{else}}unselected{{/unless}}" data-type="hypervelocite" data-special="ameliorations" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/hypervelocite}}selected{{else}}unselected{{/if}}" data-type="hypervelocite" data-special="ameliorations" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'munitionsiem' 'distance' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/ameliorations/iem}}selected{{else}}unselected{{/unless}}" data-type="iem" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSIEM.Desactive"}}</span>
-                        <span class="{{#if @root/ameliorations/iem}}selected{{else}}unselected{{/if}}" data-type="iem" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSIEM.Active"}}</span>
+                        <span class="{{#unless @root/ameliorations/iem}}selected{{else}}unselected{{/unless}}" data-type="iem" data-special="ameliorations" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSIEM.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/iem}}selected{{else}}unselected{{/if}}" data-type="iem" data-special="ameliorations" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSIEM.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'munitionsnonletales' 'distance' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/ameliorations/nonletales}}selected{{else}}unselected{{/unless}}" data-type="nonletales" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSNONLETALES.Desactive"}}</span>
-                        <span class="{{#if @root/ameliorations/nonletales}}selected{{else}}unselected{{/if}}" data-type="nonletales" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSNONLETALES.Active"}}</span>
+                        <span class="{{#unless @root/ameliorations/nonletales}}selected{{else}}unselected{{/unless}}" data-type="nonletales" data-special="ameliorations" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSNONLETALES.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/nonletales}}selected{{else}}unselected{{/if}}" data-type="nonletales" data-special="ameliorations" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSNONLETALES.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'munitionssubsoniques' 'distance' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/ameliorations/subsoniques}}selected{{else}}unselected{{/unless}}" data-type="subsoniques" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSSUBSONIQUES.Desactive"}}</span>
-                        <span class="{{#if @root/ameliorations/subsoniques}}selected{{else}}unselected{{/if}}" data-type="subsoniques" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSSUBSONIQUES.Active"}}</span>
+                        <span class="{{#unless @root/ameliorations/subsoniques}}selected{{else}}unselected{{/unless}}" data-type="subsoniques" data-special="ameliorations" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSSUBSONIQUES.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/subsoniques}}selected{{else}}unselected{{/if}}" data-type="subsoniques" data-special="ameliorations" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSSUBSONIQUES.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'barrage' 'effets' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
-                        <span class="{{#if @root/barrage}}selected{{else}}unselected{{/if}}" data-type="barrage" data-value="true">{{localize "KNIGHT.EFFETS.BARRAGE.Active"}}</span>
+                        <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
+                        <span class="{{#if @root/barrage}}selected{{else}}unselected{{/if}}" data-type="barrage" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.BARRAGE.Active"}}</span>
                     </div>
                     {{else}}
                         {{#if (hasEffet 'systemerefroidissement' 'distance' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/systemerefroidissement}}selected{{else}}unselected{{/unless}}" data-type="systemerefroidissement" data-value="false">{{localize "KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Desactive"}}</span>
-                            <span class="{{#if @root/systemerefroidissement}}selected{{else}}unselected{{/if}}" data-type="systemerefroidissement" data-value="true">{{localize "KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Active"}}</span>
+                            <span class="{{#unless @root/systemerefroidissement}}selected{{else}}unselected{{/unless}}" data-type="systemerefroidissement" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Desactive"}}</span>
+                            <span class="{{#if @root/systemerefroidissement}}selected{{else}}unselected{{/if}}" data-type="systemerefroidissement" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Active"}}</span>
                         </div>
                         {{/if}}
                     {{/if}}
 
                     {{#if (hasEffet 'briserlaresilience' 'effets' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/briserlaresilience}}selected{{else}}unselected{{/unless}}" data-type="briserlaresilience" data-value="false">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Desactive"}}</span>
-                        <span class="{{#if @root/briserlaresilience}}selected{{else}}unselected{{/if}}" data-type="briserlaresilience" data-value="true">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Active"}}</span>
+                        <span class="{{#unless @root/briserlaresilience}}selected{{else}}unselected{{/unless}}" data-type="briserlaresilience" data-value="true" title="{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.CliquerActiver"}}">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Desactive"}}</span>
+                        <span class="{{#if @root/briserlaresilience}}selected{{else}}unselected{{/if}}" data-type="briserlaresilience" data-value="false" title="{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.CliquerDesactiver"}}">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'chambredouble' 'distance' key -1)}}
                         {{#if (hasEffet 'cadence' 'effets' key 2)}}
                             <div class="blockBtn">
-                                <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="false">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
-                                <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="true">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
+                                <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
+                                <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
                             </div>
                         {{else}}
                             <div class="blockBtn">
-                                <span class="{{#unless @root/chambredouble}}selected{{else}}unselected{{/unless}}" data-type="chambredouble" data-value="false">{{localize "KNIGHT.AMELIORATIONS.CHAMBREDOUBLE.Desactive"}}</span>
-                                <span class="{{#if @root/chambredouble}}selected{{else}}unselected{{/if}}" data-type="chambredouble" data-value="true">{{localize "KNIGHT.AMELIORATIONS.CHAMBREDOUBLE.Active"}}</span>
+                                <span class="{{#unless @root/chambredouble}}selected{{else}}unselected{{/unless}}" data-type="chambredouble" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.CHAMBREDOUBLE.Desactive"}}</span>
+                                <span class="{{#if @root/chambredouble}}selected{{else}}unselected{{/if}}" data-type="chambredouble" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.CHAMBREDOUBLE.Active"}}</span>
                             </div>
                         {{/if}}
                     {{else}}
                         {{#if (hasEffet 'cadence' 'effets' key -1)}}
                             <div class="blockBtn">
-                                <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="false">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
-                                <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="true">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
+                                <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
+                                <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
                             </div>
                         {{/if}}
                     {{/if}}
 
                     {{#if (hasEffet 'guidage' 'effets' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/guidage}}selected{{else}}unselected{{/unless}}" data-type="guidage" data-value="false">{{localize "KNIGHT.EFFETS.GUIDAGE.Desactive"}}</span>
-                        <span class="{{#if @root/guidage}}selected{{else}}unselected{{/if}}" data-type="guidage" data-value="true">{{localize "KNIGHT.EFFETS.GUIDAGE.Active"}}</span>
+                        <span class="{{#unless @root/guidage}}selected{{else}}unselected{{/unless}}" data-type="guidage" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.GUIDAGE.Desactive"}}</span>
+                        <span class="{{#if @root/guidage}}selected{{else}}unselected{{/if}}" data-type="guidage" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.GUIDAGE.Active"}}</span>
                     </div>
                     {{/if}}
                     {{#if (hasEffet 'obliteration' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/obliteration}}selected{{else}}unselected{{/unless}}" data-type="obliteration" data-value="false">{{localize "KNIGHT.EFFETS.OBLITERATION.Desactive"}}</span>
-                            <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="true">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
+                            <span class="{{#unless @root/obliteration}}selected{{else}}unselected{{/unless}}" data-type="obliteration" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.OBLITERATION.Desactive"}}</span>
+                            <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
                         </div>
                     {{/if}}
 
                     {{#if (hasEffet 'tenebricide' 'effets' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
-                        <span class="{{#if @root/tenebricide}}selected{{else}}unselected{{/if}}" data-type="tenebricide" data-value="true">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Active"}}</span>
+                        <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
+                        <span class="{{#if @root/tenebricide}}selected{{else}}unselected{{/if}}" data-type="tenebricide" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Active"}}</span>
                     </div>
                     {{/if}}
                 </div>
@@ -746,57 +746,57 @@
                     {{else}}
                         {{#if (hasEffet 'systemerefroidissement' 'distance' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/systemerefroidissement}}selected{{else}}unselected{{/unless}}" data-type="systemerefroidissement" data-value="false">{{localize "KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Desactive"}}</span>
-                            <span class="{{#if @root/systemerefroidissement}}selected{{else}}unselected{{/if}}" data-type="systemerefroidissement" data-value="true">{{localize "KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Active"}}</span>
+                            <span class="{{#unless @root/systemerefroidissement}}selected{{else}}unselected{{/unless}}" data-type="systemerefroidissement" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Desactive"}}</span>
+                            <span class="{{#if @root/systemerefroidissement}}selected{{else}}unselected{{/if}}" data-type="systemerefroidissement" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Active"}}</span>
                         </div>
                         {{/if}}
                     {{/if}}
 
                     {{#if (hasEffet 'briserlaresilience' 'effets' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/briserlaresilience}}selected{{else}}unselected{{/unless}}" data-type="briserlaresilience" data-value="false">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Desactive"}}</span>
-                        <span class="{{#if @root/briserlaresilience}}selected{{else}}unselected{{/if}}" data-type="briserlaresilience" data-value="true">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Active"}}</span>
+                        <span class="{{#unless @root/briserlaresilience}}selected{{else}}unselected{{/unless}}" data-type="briserlaresilience" data-value="true" title="{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.CliquerActiver"}}">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Desactive"}}</span>
+                        <span class="{{#if @root/briserlaresilience}}selected{{else}}unselected{{/if}}" data-type="briserlaresilience" data-value="false" title="{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.CliquerDesactiver"}}">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'chambredouble' 'distance' key -1)}}
                         {{#if (hasEffet 'cadence' 'effets' key 2)}}
                             <div class="blockBtn">
-                                <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="false">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
-                                <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="true">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
+                                <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
+                                <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
                             </div>
                         {{else}}
                             <div class="blockBtn">
-                                <span class="{{#unless @root/chambredouble}}selected{{else}}unselected{{/unless}}" data-type="chambredouble" data-value="false">{{localize "KNIGHT.AMELIORATIONS.CHAMBREDOUBLE.Desactive"}}</span>
-                                <span class="{{#if @root/chambredouble}}selected{{else}}unselected{{/if}}" data-type="chambredouble" data-value="true">{{localize "KNIGHT.AMELIORATIONS.CHAMBREDOUBLE.Active"}}</span>
+                                <span class="{{#unless @root/chambredouble}}selected{{else}}unselected{{/unless}}" data-type="chambredouble" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.CHAMBREDOUBLE.Desactive"}}</span>
+                                <span class="{{#if @root/chambredouble}}selected{{else}}unselected{{/if}}" data-type="chambredouble" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.CHAMBREDOUBLE.Active"}}</span>
                             </div>
                         {{/if}}
                     {{else}}
                         {{#if (hasEffet 'cadence' 'effets' key -1)}}
                             <div class="blockBtn">
-                                <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="false">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
-                                <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="true">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
+                                <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
+                                <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
                             </div>
                         {{/if}}
                     {{/if}}
 
                     {{#if (hasEffet 'guidage' 'effets' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/guidage}}selected{{else}}unselected{{/unless}}" data-type="guidage" data-value="false">{{localize "KNIGHT.EFFETS.GUIDAGE.Desactive"}}</span>
-                        <span class="{{#if @root/guidage}}selected{{else}}unselected{{/if}}" data-type="guidage" data-value="true">{{localize "KNIGHT.EFFETS.GUIDAGE.Active"}}</span>
+                        <span class="{{#unless @root/guidage}}selected{{else}}unselected{{/unless}}" data-type="guidage" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.GUIDAGE.Desactive"}}</span>
+                        <span class="{{#if @root/guidage}}selected{{else}}unselected{{/if}}" data-type="guidage" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.GUIDAGE.Active"}}</span>
                     </div>
                     {{/if}}
                     {{#if (hasEffet 'obliteration' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/obliteration}}selected{{else}}unselected{{/unless}}" data-type="obliteration" data-value="false">{{localize "KNIGHT.EFFETS.OBLITERATION.Desactive"}}</span>
-                            <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="true">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
+                            <span class="{{#unless @root/obliteration}}selected{{else}}unselected{{/unless}}" data-type="obliteration" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.OBLITERATION.Desactive"}}</span>
+                            <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
                         </div>
                     {{/if}}
 
                     {{#if (hasEffet 'tenebricide' 'effets' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
-                        <span class="{{#if @root/tenebricide}}selected{{else}}unselected{{/if}}" data-type="tenebricide" data-value="true">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Active"}}</span>
+                        <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
+                        <span class="{{#if @root/tenebricide}}selected{{else}}unselected{{/if}}" data-type="tenebricide" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Active"}}</span>
                     </div>
                     {{/if}}
                 </div>
@@ -828,42 +828,42 @@
 
                     {{#if (hasEffet 'barrage' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
-                            <span class="{{#if @root/barrage}}selected{{else}}unselected{{/if}}" data-type="barrage" data-value="true">{{localize "KNIGHT.EFFETS.BARRAGE.Active"}}</span>
+                            <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
+                            <span class="{{#if @root/barrage}}selected{{else}}unselected{{/if}}" data-type="barrage" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.BARRAGE.Active"}}</span>
                         </div>
                     {{/if}}
 
                     {{#if (hasEffet 'briserlaresilience' 'effets' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/briserlaresilience}}selected{{else}}unselected{{/unless}}" data-type="briserlaresilience" data-value="false">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Desactive"}}</span>
-                        <span class="{{#if @root/briserlaresilience}}selected{{else}}unselected{{/if}}" data-type="briserlaresilience" data-value="true">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Active"}}</span>
+                        <span class="{{#unless @root/briserlaresilience}}selected{{else}}unselected{{/unless}}" data-type="briserlaresilience" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Desactive"}}</span>
+                        <span class="{{#if @root/briserlaresilience}}selected{{else}}unselected{{/if}}" data-type="briserlaresilience" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'cadence' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="false">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
-                            <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="true">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
+                            <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
+                            <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
                         </div>
                     {{/if}}
 
                     {{#if (hasEffet 'guidage' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/guidage}}selected{{else}}unselected{{/unless}}" data-type="guidage" data-value="false">{{localize "KNIGHT.EFFETS.GUIDAGE.Desactive"}}</span>
-                            <span class="{{#if @root/guidage}}selected{{else}}unselected{{/if}}" data-type="guidage" data-value="true">{{localize "KNIGHT.EFFETS.GUIDAGE.Active"}}</span>
+                            <span class="{{#unless @root/guidage}}selected{{else}}unselected{{/unless}}" data-type="guidage" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.GUIDAGE.Desactive"}}</span>
+                            <span class="{{#if @root/guidage}}selected{{else}}unselected{{/if}}" data-type="guidage" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.GUIDAGE.Active"}}</span>
                         </div>
                     {{/if}}
                     {{#if (hasEffet 'obliteration' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/obliteration}}selected{{else}}unselected{{/unless}}" data-type="obliteration" data-value="false">{{localize "KNIGHT.EFFETS.OBLITERATION.Desactive"}}</span>
-                            <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="true">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
+                            <span class="{{#unless @root/obliteration}}selected{{else}}unselected{{/unless}}" data-type="obliteration" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.OBLITERATION.Desactive"}}</span>
+                            <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
                         </div>
                     {{/if}}
 
                     {{#if (hasEffet 'tenebricide' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
-                            <span class="{{#if @root/tenebricide}}selected{{else}}unselected{{/if}}" data-type="tenebricide" data-value="true">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Active"}}</span>
+                            <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
+                            <span class="{{#if @root/tenebricide}}selected{{else}}unselected{{/if}}" data-type="tenebricide" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Active"}}</span>
                         </div>
                     {{/if}}
                 </div>
@@ -894,92 +894,92 @@
 
                     {{#if (hasEffet 'chargeurballesgrappes' 'distance' longbow -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/ameliorations/grappes}}selected{{else}}unselected{{/unless}}" data-type="grappes" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.CHARGEURBALLESGRAPPES.Desactive"}}</span>
-                        <span class="{{#if @root/ameliorations/grappes}}selected{{else}}unselected{{/if}}" data-type="grappes" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.CHARGEURBALLESGRAPPES.Active"}}</span>
+                        <span class="{{#unless @root/ameliorations/grappes}}selected{{else}}unselected{{/unless}}" data-type="grappes" data-special="ameliorations" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.CHARGEURBALLESGRAPPES.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/grappes}}selected{{else}}unselected{{/if}}" data-type="grappes" data-special="ameliorations" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.CHARGEURBALLESGRAPPES.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'chargeurmunitionsexplosives' 'distance' longbow -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/ameliorations/explosives}}selected{{else}}unselected{{/unless}}" data-type="explosives" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.CHARGEURMUNITIONSEXPLOSIVES.Desactive"}}</span>
-                        <span class="{{#if @root/ameliorations/explosives}}selected{{else}}unselected{{/if}}" data-type="explosives" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.CHARGEURMUNITIONSEXPLOSIVES.Active"}}</span>
+                        <span class="{{#unless @root/ameliorations/explosives}}selected{{else}}unselected{{/unless}}" data-type="explosives" data-special="ameliorations" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.CHARGEURMUNITIONSEXPLOSIVES.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/explosives}}selected{{else}}unselected{{/if}}" data-type="explosives" data-special="ameliorations" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.CHARGEURMUNITIONSEXPLOSIVES.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'munitionsdrones' 'distance' longbow -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/ameliorations/drones}}selected{{else}}unselected{{/unless}}" data-type="drones" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSDRONES.Desactive"}}</span>
-                        <span class="{{#if @root/ameliorations/drones}}selected{{else}}unselected{{/if}}" data-type="drones" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSDRONES.Active"}}</span>
+                        <span class="{{#unless @root/ameliorations/drones}}selected{{else}}unselected{{/unless}}" data-type="drones" data-special="ameliorations" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSDRONES.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/drones}}selected{{else}}unselected{{/if}}" data-type="drones" data-special="ameliorations" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSDRONES.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'munitionshypervelocite' 'distance' longbow -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/ameliorations/hypervelocite}}selected{{else}}unselected{{/unless}}" data-type="hypervelocite" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Desactive"}}</span>
-                        <span class="{{#if @root/ameliorations/hypervelocite}}selected{{else}}unselected{{/if}}" data-type="hypervelocite" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Active"}}</span>
+                        <span class="{{#unless @root/ameliorations/hypervelocite}}selected{{else}}unselected{{/unless}}" data-type="hypervelocite" data-special="ameliorations" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/hypervelocite}}selected{{else}}unselected{{/if}}" data-type="hypervelocite" data-special="ameliorations" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'munitionsiem' 'distance' longbow -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/ameliorations/iem}}selected{{else}}unselected{{/unless}}" data-type="iem" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSIEM.Desactive"}}</span>
-                        <span class="{{#if @root/ameliorations/iem}}selected{{else}}unselected{{/if}}" data-type="iem" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSIEM.Active"}}</span>
+                        <span class="{{#unless @root/ameliorations/iem}}selected{{else}}unselected{{/unless}}" data-type="iem" data-special="ameliorations" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSIEM.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/iem}}selected{{else}}unselected{{/if}}" data-type="iem" data-special="ameliorations" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSIEM.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'munitionsnonletales' 'distance' longbow -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/ameliorations/nonletales}}selected{{else}}unselected{{/unless}}" data-type="nonletales" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSNONLETALES.Desactive"}}</span>
-                        <span class="{{#if @root/ameliorations/nonletales}}selected{{else}}unselected{{/if}}" data-type="nonletales" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSNONLETALES.Active"}}</span>
+                        <span class="{{#unless @root/ameliorations/nonletales}}selected{{else}}unselected{{/unless}}" data-type="nonletales" data-special="ameliorations" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSNONLETALES.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/nonletales}}selected{{else}}unselected{{/if}}" data-type="nonletales" data-special="ameliorations" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSNONLETALES.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'munitionssubsoniques' 'distance' longbow -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/ameliorations/subsoniques}}selected{{else}}unselected{{/unless}}" data-type="subsoniques" data-special="ameliorations" data-value="false">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSSUBSONIQUES.Desactive"}}</span>
-                        <span class="{{#if @root/ameliorations/subsoniques}}selected{{else}}unselected{{/if}}" data-type="subsoniques" data-special="ameliorations" data-value="true">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSSUBSONIQUES.Active"}}</span>
+                        <span class="{{#unless @root/ameliorations/subsoniques}}selected{{else}}unselected{{/unless}}" data-type="subsoniques" data-special="ameliorations" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSSUBSONIQUES.Desactive"}}</span>
+                        <span class="{{#if @root/ameliorations/subsoniques}}selected{{else}}unselected{{/if}}" data-type="subsoniques" data-special="ameliorations" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.MUNITIONSSUBSONIQUES.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'barrage' 'effets' longbow -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
-                        <span class="{{#if @root/barrage}}selected{{else}}unselected{{/if}}" data-type="barrage" data-value="true">{{localize "KNIGHT.EFFETS.BARRAGE.Active"}}</span>
+                        <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
+                        <span class="{{#if @root/barrage}}selected{{else}}unselected{{/if}}" data-type="barrage" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.BARRAGE.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'briserlaresilience' 'effets' longbow -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/briserlaresilience}}selected{{else}}unselected{{/unless}}" data-type="briserlaresilience" data-value="false">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Desactive"}}</span>
-                        <span class="{{#if @root/briserlaresilience}}selected{{else}}unselected{{/if}}" data-type="briserlaresilience" data-value="true">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Active"}}</span>
+                        <span class="{{#unless @root/briserlaresilience}}selected{{else}}unselected{{/unless}}" data-type="briserlaresilience" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Desactive"}}</span>
+                        <span class="{{#if @root/briserlaresilience}}selected{{else}}unselected{{/if}}" data-type="briserlaresilience" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'cadence' 'effets' longbow -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="false">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
-                            <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="true">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
+                            <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
+                            <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
                         </div>
                     {{/if}}
 
                     {{#if (hasEffet 'guidage' 'effets' longbow -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/guidage}}selected{{else}}unselected{{/unless}}" data-type="guidage" data-value="false">{{localize "KNIGHT.EFFETS.GUIDAGE.Desactive"}}</span>
-                        <span class="{{#if @root/guidage}}selected{{else}}unselected{{/if}}" data-type="guidage" data-value="true">{{localize "KNIGHT.EFFETS.GUIDAGE.Active"}}</span>
+                        <span class="{{#unless @root/guidage}}selected{{else}}unselected{{/unless}}" data-type="guidage" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.GUIDAGE.Desactive"}}</span>
+                        <span class="{{#if @root/guidage}}selected{{else}}unselected{{/if}}" data-type="guidage" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.GUIDAGE.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'obliteration' 'effets' longbow -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/obliteration}}selected{{else}}unselected{{/unless}}" data-type="obliteration" data-value="false">{{localize "KNIGHT.EFFETS.OBLITERATION.Desactive"}}</span>
-                            <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="true">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
+                            <span class="{{#unless @root/obliteration}}selected{{else}}unselected{{/unless}}" data-type="obliteration" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.OBLITERATION.Desactive"}}</span>
+                            <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
                         </div>
                     {{/if}}
 
                     {{#if (hasEffet 'tenebricide' 'effets' longbow -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
-                        <span class="{{#if @root/tenebricide}}selected{{else}}unselected{{/if}}" data-type="tenebricide" data-value="true">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Active"}}</span>
+                        <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
+                        <span class="{{#if @root/tenebricide}}selected{{else}}unselected{{/if}}" data-type="tenebricide" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Active"}}</span>
                     </div>
                     {{/if}}
                 </div>
@@ -1117,8 +1117,8 @@
                     <div class="subButtons" {{#unless (rollSelectWpn key._id key.name key.type @root/idWpn @root/nameWpn @root/typeWpn)}}style="display:none;"{{/unless}}>
                         {{#if @root/hasWraith}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/moduleWraith}}selected{{else}}unselected{{/unless}}" data-type="moduleWraith" data-value="false">{{localize "KNIGHT.MECHAARMURE.MODULES.MODULEWRAITH.PasMax"}}</span>
-                            <span class="{{#if @root/moduleWraith}}selected{{else}}unselected{{/if}}" data-type="moduleWraith" data-value="true">{{localize "KNIGHT.MECHAARMURE.MODULES.MODULEWRAITH.Max"}}</span>
+                            <span class="{{#unless @root/moduleWraith}}selected{{else}}unselected{{/unless}}" data-type="moduleWraith" data-value="true" title="{{localize "KNIGHT.MECHAARMURE.MODULES.MODULEWRAITH.CliquerMax"}}">{{localize "KNIGHT.MECHAARMURE.MODULES.MODULEWRAITH.PasMax"}}</span>
+                            <span class="{{#if @root/moduleWraith}}selected{{else}}unselected{{/if}}" data-type="moduleWraith" data-value="false" title="{{localize "KNIGHT.MECHAARMURE.MODULES.MODULEWRAITH.CliquerPasMax"}}">{{localize "KNIGHT.MECHAARMURE.MODULES.MODULEWRAITH.Max"}}</span>
                         </div>
                         {{/if}}
                         {{#if key.system.degats.variable.has}}
@@ -1153,43 +1153,43 @@
 
                         {{#if (hasEffet 'briserlaresilience' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/briserlaresilience}}selected{{else}}unselected{{/unless}}" data-type="briserlaresilience" data-value="false">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Desactive"}}</span>
-                            <span class="{{#if @root/briserlaresilience}}selected{{else}}unselected{{/if}}" data-type="briserlaresilience" data-value="true">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Active"}}</span>
+                            <span class="{{#unless @root/briserlaresilience}}selected{{else}}unselected{{/unless}}" data-type="briserlaresilience" data-value="true" title="{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.CliquerActiver"}}">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Desactive"}}</span>
+                            <span class="{{#if @root/briserlaresilience}}selected{{else}}unselected{{/if}}" data-type="briserlaresilience" data-value="false" title="{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.CliquerDesactiver"}}">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Active"}}</span>
                         </div>
                         {{/if}}
 
                         {{#if (hasEffet 'barrage' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
-                            <span class="{{#if @root/barrage}}selected{{else}}unselected{{/if}}" data-type="barrage" data-value="true">{{localize "KNIGHT.EFFETS.BARRAGE.Active"}}</span>
+                            <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
+                            <span class="{{#if @root/barrage}}selected{{else}}unselected{{/if}}" data-type="barrage" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.BARRAGE.Active"}}</span>
                         </div>
                         {{/if}}
 
                         {{#if (hasEffet 'cadence' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="false">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
-                            <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="true">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
+                            <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
+                            <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
                         </div>
                         {{/if}}
 
                         {{#if (hasEffet 'guidage' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/guidage}}selected{{else}}unselected{{/unless}}" data-type="guidage" data-value="false">{{localize "KNIGHT.EFFETS.GUIDAGE.Desactive"}}</span>
-                            <span class="{{#if @root/guidage}}selected{{else}}unselected{{/if}}" data-type="guidage" data-value="true">{{localize "KNIGHT.EFFETS.GUIDAGE.Active"}}</span>
+                            <span class="{{#unless @root/guidage}}selected{{else}}unselected{{/unless}}" data-type="guidage" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.GUIDAGE.Desactive"}}</span>
+                            <span class="{{#if @root/guidage}}selected{{else}}unselected{{/if}}" data-type="guidage" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.GUIDAGE.Active"}}</span>
                         </div>
                         {{/if}}
 
                         {{#if (hasEffet 'obliteration' 'effets' key -1)}}
                             <div class="blockBtn">
-                                <span class="{{#unless @root/obliteration}}selected{{else}}unselected{{/unless}}" data-type="obliteration" data-value="false">{{localize "KNIGHT.EFFETS.OBLITERATION.Desactive"}}</span>
-                                <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="true">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
+                                <span class="{{#unless @root/obliteration}}selected{{else}}unselected{{/unless}}" data-type="obliteration" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.OBLITERATION.Desactive"}}</span>
+                                <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
                             </div>
                         {{/if}}
 
                         {{#if (hasEffet 'tenebricide' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
-                            <span class="{{#if @root/tenebricide}}selected{{else}}unselected{{/if}}" data-type="tenebricide" data-value="true">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Active"}}</span>
+                            <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
+                            <span class="{{#if @root/tenebricide}}selected{{else}}unselected{{/if}}" data-type="tenebricide" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Active"}}</span>
                         </div>
                         {{/if}}
                     </div>
@@ -1220,43 +1220,43 @@
 
                     {{#if (hasEffet 'barrage' 'effets' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
-                        <span class="{{#if @root/barrage}}selected{{else}}unselected{{/if}}" data-type="barrage" data-value="true">{{localize "KNIGHT.EFFETS.BARRAGE.Active"}}</span>
+                        <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
+                        <span class="{{#if @root/barrage}}selected{{else}}unselected{{/if}}" data-type="barrage" data-value="false"  title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.BARRAGE.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'briserlaresilience' 'effets' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/briserlaresilience}}selected{{else}}unselected{{/unless}}" data-type="briserlaresilience" data-value="false">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Desactive"}}</span>
-                        <span class="{{#if @root/briserlaresilience}}selected{{else}}unselected{{/if}}" data-type="briserlaresilience" data-value="true">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Active"}}</span>
+                        <span class="{{#unless @root/briserlaresilience}}selected{{else}}unselected{{/unless}}" data-type="briserlaresilience" data-value="true" title="{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.CliquerActiver"}}">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Desactive"}}</span>
+                        <span class="{{#if @root/briserlaresilience}}selected{{else}}unselected{{/if}}" data-type="briserlaresilience" data-value="false" title="{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.CliquerDesactive"}}">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'cadence' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="false">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
-                            <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="true">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
+                            <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
+                            <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
                         </div>
                     {{/if}}
 
                     {{#if (hasEffet 'guidage' 'effets' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/guidage}}selected{{else}}unselected{{/unless}}" data-type="guidage" data-value="false">{{localize "KNIGHT.EFFETS.GUIDAGE.Desactive"}}</span>
-                        <span class="{{#if @root/guidage}}selected{{else}}unselected{{/if}}" data-type="guidage" data-value="true">{{localize "KNIGHT.EFFETS.GUIDAGE.Active"}}</span>
+                        <span class="{{#unless @root/guidage}}selected{{else}}unselected{{/unless}}" data-type="guidage" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.GUIDAGE.Desactive"}}</span>
+                        <span class="{{#if @root/guidage}}selected{{else}}unselected{{/if}}" data-type="guidage" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.GUIDAGE.Active"}}</span>
                     </div>
                     {{/if}}
 
                     {{#if (hasEffet 'obliteration' 'effets' key -1)}}
                         <div class="blockBtn">
-                            <span class="{{#unless @root/obliteration}}selected{{else}}unselected{{/unless}}" data-type="obliteration" data-value="false">{{localize "KNIGHT.EFFETS.OBLITERATION.Desactive"}}</span>
-                            <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="true">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
+                            <span class="{{#unless @root/obliteration}}selected{{else}}unselected{{/unless}}" data-type="obliteration" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.OBLITERATION.Desactive"}}</span>
+                            <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
                         </div>
                     {{/if}}
 
                     {{#if (hasEffet 'tenebricide' 'effets' key -1)}}
                     <div class="blockBtn">
-                        <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
-                        <span class="{{#if @root/tenebricide}}selected{{else}}unselected{{/if}}" data-type="tenebricide" data-value="true">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Active"}}</span>
+                        <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
+                        <span class="{{#if @root/tenebricide}}selected{{else}}unselected{{/if}}" data-type="tenebricide" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Active"}}</span>
                     </div>
                     {{/if}}
                 </div>
@@ -1449,14 +1449,14 @@
 
                             {{#if (hasEffet 'barrage' 'effets' key -1)}}
                             <div class="blockBtn">
-                                <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
-                                <span class="{{#if @root/barrage}}selected{{else}}unselected{{/if}}" data-type="barrage" data-value="true">{{localize "KNIGHT.EFFETS.BARRAGE.Active"}}</span>
+                                <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
+                                <span class="{{#if @root/barrage}}selected{{else}}unselected{{/if}}" data-type="barrage" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.BARRAGE.Active"}}</span>
                             </div>
                             {{else}}
                                 {{#if (hasEffet 'systemerefroidissement' 'distance' key -1)}}
                                 <div class="blockBtn">
-                                    <span class="{{#unless @root/systemerefroidissement}}selected{{else}}unselected{{/unless}}" data-type="systemerefroidissement" data-value="false">{{localize "KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Desactive"}}</span>
-                                    <span class="{{#if @root/systemerefroidissement}}selected{{else}}unselected{{/if}}" data-type="systemerefroidissement" data-value="true">{{localize "KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Active"}}</span>
+                                    <span class="{{#unless @root/systemerefroidissement}}selected{{else}}unselected{{/unless}}" data-type="systemerefroidissement" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Desactive"}}</span>
+                                    <span class="{{#if @root/systemerefroidissement}}selected{{else}}unselected{{/if}}" data-type="systemerefroidissement" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Active"}}</span>
                                 </div>
                                 {{/if}}
                             {{/if}}
@@ -1464,41 +1464,41 @@
                             {{#if (hasEffet 'chambredouble' 'distance' key -1)}}
                                 {{#if (hasEffet 'cadence' 'effets' key 2)}}
                                     <div class="blockBtn">
-                                        <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="false">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
-                                        <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="true">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
+                                        <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
+                                        <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
                                     </div>
                                 {{else}}
                                     <div class="blockBtn">
-                                        <span class="{{#unless @root/chambredouble}}selected{{else}}unselected{{/unless}}" data-type="chambredouble" data-value="false">{{localize "KNIGHT.AMELIORATIONS.CHAMBREDOUBLE.Desactive"}}</span>
-                                        <span class="{{#if @root/chambredouble}}selected{{else}}unselected{{/if}}" data-type="chambredouble" data-value="true">{{localize "KNIGHT.AMELIORATIONS.CHAMBREDOUBLE.Active"}}</span>
+                                        <span class="{{#unless @root/chambredouble}}selected{{else}}unselected{{/unless}}" data-type="chambredouble" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.AMELIORATIONS.CHAMBREDOUBLE.Desactive"}}</span>
+                                        <span class="{{#if @root/chambredouble}}selected{{else}}unselected{{/if}}" data-type="chambredouble" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.AMELIORATIONS.CHAMBREDOUBLE.Active"}}</span>
                                     </div>
                                 {{/if}}
                             {{else}}
                                 {{#if (hasEffet 'cadence' 'effets' key -1)}}
                                     <div class="blockBtn">
-                                        <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="false">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
-                                        <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="true">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
+                                        <span class="{{#unless @root/cadence}}selected{{else}}unselected{{/unless}}" data-type="cadence" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.CADENCE.Desactive"}}</span>
+                                        <span class="{{#if @root/cadence}}selected{{else}}unselected{{/if}}" data-type="cadence" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.CADENCE.Active"}}</span>
                                     </div>
                                 {{/if}}
                             {{/if}}
 
                             {{#if (hasEffet 'guidage' 'effets' key -1)}}
                             <div class="blockBtn">
-                                <span class="{{#unless @root/guidage}}selected{{else}}unselected{{/unless}}" data-type="guidage" data-value="false">{{localize "KNIGHT.EFFETS.GUIDAGE.Desactive"}}</span>
-                                <span class="{{#if @root/guidage}}selected{{else}}unselected{{/if}}" data-type="guidage" data-value="true">{{localize "KNIGHT.EFFETS.GUIDAGE.Active"}}</span>
+                                <span class="{{#unless @root/guidage}}selected{{else}}unselected{{/unless}}" data-type="guidage" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.GUIDAGE.Desactive"}}</span>
+                                <span class="{{#if @root/guidage}}selected{{else}}unselected{{/if}}" data-type="guidage" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.GUIDAGE.Active"}}</span>
                             </div>
                             {{/if}}
                             {{#if (hasEffet 'obliteration' 'effets' key -1)}}
                                 <div class="blockBtn">
-                                    <span class="{{#unless @root/obliteration}}selected{{else}}unselected{{/unless}}" data-type="obliteration" data-value="false">{{localize "KNIGHT.EFFETS.OBLITERATION.Desactive"}}</span>
-                                    <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="true">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
+                                    <span class="{{#unless @root/obliteration}}selected{{else}}unselected{{/unless}}" data-type="obliteration" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.OBLITERATION.Desactive"}}</span>
+                                    <span class="{{#if @root/obliteration}}selected{{else}}unselected{{/if}}" data-type="obliteration" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.OBLITERATION.Active"}}</span>
                                 </div>
                             {{/if}}
 
                             {{#if (hasEffet 'tenebricide' 'effets' key -1)}}
                             <div class="blockBtn">
-                                <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="false">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
-                                <span class="{{#if @root/tenebricide}}selected{{else}}unselected{{/if}}" data-type="tenebricide" data-value="true">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Active"}}</span>
+                                <span class="{{#unless @root/tenebricide}}selected{{else}}unselected{{/unless}}" data-type="tenebricide" data-value="true" title="{{localize "KNIGHT.AMELIORATIONS.Activer"}}">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Desactive"}}</span>
+                                <span class="{{#if @root/tenebricide}}selected{{else}}unselected{{/if}}" data-type="tenebricide" data-value="false" title="{{localize "KNIGHT.AMELIORATIONS.Desactiver"}}">{{localize "KNIGHT.EFFETS.TENEBRICIDE.Active"}}</span>
                             </div>
                             {{/if}}
                         </div>

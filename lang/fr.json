@@ -218,7 +218,9 @@
           "Description":"Le module Wraith permet au pilote de rendre sa mecha-armure quasi invisible et de disparaître sur les systèmes sensoriels des mecha-armures et équipements adverses en phasant. Le Demon peut ainsi s’approcher suffisamment de ses ennemis pour leur infliger une puissante attaque. Juste après cette attaque, l’invisibilité de la mecha-armure s’arrête.<br/><br/><b>Effet :</b> Le module Wraith fonctionne exactement comme le mode Ghost de la méta-armure Rogue, à ceci près que les armes utilisées par le Demon n’ont pas besoin de l’effet silencieux pour que les bonus octroyés aux tests et aux dégâts soient appliqués. De plus, si le Demon réussit à surprendre une mecha-armure ou un colosse ennemi, il inflige son maximum de dégâts. Un test base Discrétion (auquel s’ajoute la manœuvrabilité) peut être demandé. Pour activer le module, il faut être hors de vue des ennemis ou à portée moyenne au moins.",
           "Duree":"Jusqu'au début du prochain tour du chevalier",
           "PasMax":"N'inflige pas le maximum de dégâts",
-          "Max":"Inflige le maximum de dégâts"
+          "Max":"Inflige le maximum de dégâts",
+          "CliquerMax":"Cliquer pour infliger le maximum de dégâts",
+          "CliquerPasMax":"Cliquer pour ne pas infliger le maximum de dégâts"
         },
         "STATIONDEFENSEAUTOMATISE":{
           "Label":"Station de Défense Automatisée",
@@ -725,7 +727,9 @@
         "Description-active":"Fait baisser la résilience de 1D6 supplémentaire.",
         "Description-unactive":"Fait baisser la résilience de 1D6 en plus",
         "Active":"Cible la résilience",
-        "Desactive":"Attaque normalement"
+        "Desactive":"Attaque normalement",
+        "CliquerActiver":"Cliquer pour cibler la résilience",
+        "CliquerDesactiver":"Cliquer pour attaquer normalement"
       },
       "CADENCE": {
         "Label":"Cadence",
@@ -934,6 +938,8 @@
       }
     },
     "AMELIORATIONS":{
+      "Desactiver":"Cliquer pour désactiver",
+      "Activer":"Cliquer pour activer",
       "LABEL":{
         "Distance":"Améliorations",
         "DistanceLong":"Amélioration d'arme à distance",
