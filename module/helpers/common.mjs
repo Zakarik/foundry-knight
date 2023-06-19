@@ -4624,16 +4624,19 @@ export function addOrUpdateEffect(origin, label, effect) {
 
   if(!effectExist && version < 11) addEffect(origin, [{
       label: label,
+      icon:'',
       changes:effect,
       disabled:false
     }]);
   else if(!effectExist && version > 10) addEffect(origin, [{
     name: label,
+    icon:'',
     changes:effect,
     disabled:false
   }]);
   else updateEffect(origin, [{
       "_id":effectExist._id,
+      icon:'',
       changes:effect,
       disabled:false
     }]);
@@ -4694,22 +4697,27 @@ export function effectsGestion(actor, listWithEffect, isPJ=false, onArmor=false)
       if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
         "_id":effectExist._id,
         changes:effect.data,
+        icon:'',
         disabled:toggle
       });
       else if(effectExist.disabled !== toggle) toUpdate.push({
         "_id":effectExist._id,
+        icon:'',
         disabled:toggle
       });
-    } else if(version < 11) toAdd.push({
+    }
+    else if(version < 11) toAdd.push({
         label: effect.label,
         changes:effect.data,
+        icon:'',
         disabled:toggle
     });
     else if(version > 10) toAdd.push({
       name: effect.label,
       changes:effect.data,
+      icon:'',
       disabled:toggle
-  });
+    });
   }
 
   if(toUpdate.length > 0) updateEffect(actor, toUpdate);

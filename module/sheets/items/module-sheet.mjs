@@ -773,7 +773,7 @@ export class ModuleSheet extends ItemSheet {
       if(ornementales !== false) {
         const raw = ornementales.raw;
         const custom = ornementales.custom;
-        const labelsO = CONFIG.KNIGHT.AMELIORATIONS.structurelles;
+        const labelsO = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
 
         ornementales.liste = listEffects(raw, custom, labelsO);
       }

@@ -592,14 +592,15 @@
                 }
 
                 &.selected {
-                  width:calc(100% / 2);
+                  width:100%;
                   background:$lightBlack;
                   border:1px solid $black;
                   border-top:0px;
+                  cursor:pointer;
                 }
 
                 &.unselected {
-                  width:calc(100% / 2);
+                  display:none;
                   border-top:0px;
                   cursor:pointer;
                   opacity: 0.5;
@@ -611,6 +612,7 @@
               display:flex;
               width:100%;
               justify-content: space-between;
+              min-height:34px;
             }
           }
         }
@@ -795,16 +797,16 @@
                 }
 
                 &.selected {
-                  width:calc(100% / 2);
+                  width:100%;
                   background:$lightBlack;
                   border:1px solid $black;
                   border-top:0px;
+                  cursor:pointer;
                 }
 
                 &.unselected {
-                  width:calc(100% / 2);
+                  display:none;
                   border-top:0px;
-                  cursor:pointer;
                 }
               }
             }
@@ -813,6 +815,7 @@
               display:flex;
               width:100%;
               justify-content: space-between;
+              min-height:34px;
             }
           }
         }
@@ -1041,14 +1044,14 @@
                 }
 
                 &.selected {
-                  width:calc(100% / 2);
+                  width:100%;
                   background:$lightBlack;
-                  border:1px solid $black;
                   border-top:0px;
+                  cursor:pointer;
                 }
 
                 &.unselected {
-                  width:calc(100% / 2);
+                  display:none;
                   border-top:0px;
                   cursor:pointer;
                 }
@@ -1059,6 +1062,7 @@
               display:flex;
               width:100%;
               justify-content: space-between;
+              min-height:34px;
             }
           }
         }
@@ -1205,6 +1209,7 @@
                     display:flex;
                     width:calc(100% / 3);
                     justify-content: space-between;
+                    min-height:34px;
 
                     span {
                       display:flex;
@@ -1225,16 +1230,15 @@
                       }
 
                       &.selected {
-                        width:calc(100% / 2);
+                        width:100%;
                         background:$lightBlack;
                         border:1px solid $black;
                         border-top:0px;
+                        cursor:pointer;
                       }
 
                       &.unselected {
-                        width:calc(100% / 2);
-                        border-top:0px;
-                        cursor:pointer;
+                        display:none;
                       }
                     }
                   }

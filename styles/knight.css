@@ -2058,13 +2058,14 @@
   cursor: pointer;
 }
 .rollDialog div.dialog-content div.wpn div.button span.selected {
-  width: 50%;
+  width: 100%;
   background: RGB(76 74 90);
   border: 1px solid RGB(43 42 51);
   border-top: 0px;
+  cursor: pointer;
 }
 .rollDialog div.dialog-content div.wpn div.button span.unselected {
-  width: 50%;
+  display: none;
   border-top: 0px;
   cursor: pointer;
   opacity: 0.5;
@@ -2073,6 +2074,7 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  min-height: 34px;
 }
 .rollDialog div.dialog-content div.wpnMA {
   display: flex;
@@ -2228,20 +2230,21 @@
   cursor: pointer;
 }
 .rollDialog div.dialog-content div.wpnMA div.button span.selected {
-  width: 50%;
+  width: 100%;
   background: RGB(76 74 90);
   border: 1px solid RGB(43 42 51);
   border-top: 0px;
+  cursor: pointer;
 }
 .rollDialog div.dialog-content div.wpnMA div.button span.unselected {
-  width: 50%;
+  display: none;
   border-top: 0px;
-  cursor: pointer;
 }
 .rollDialog div.dialog-content div.wpnMA div.blockBtn {
   display: flex;
   width: 100%;
   justify-content: space-between;
+  min-height: 34px;
 }
 .rollDialog div.dialog-content div.armesimprovisees {
   display: flex;
@@ -2434,13 +2437,13 @@
   cursor: pointer;
 }
 .rollDialog div.dialog-content div.grenades div.button span.selected {
-  width: 50%;
+  width: 100%;
   background: RGB(76 74 90);
-  border: 1px solid RGB(43 42 51);
   border-top: 0px;
+  cursor: pointer;
 }
 .rollDialog div.dialog-content div.grenades div.button span.unselected {
-  width: 50%;
+  display: none;
   border-top: 0px;
   cursor: pointer;
 }
@@ -2448,6 +2451,7 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  min-height: 34px;
 }
 .rollDialog div.dialog-content div.longbow, .rollDialog div.dialog-content div.special {
   display: flex;
@@ -2571,6 +2575,7 @@
   display: flex;
   width: 33.3333333333%;
   justify-content: space-between;
+  min-height: 34px;
 }
 .rollDialog div.dialog-content div.longbow div.button div.data div.blockBtn span, .rollDialog div.dialog-content div.special div.button div.data div.blockBtn span {
   display: flex;
@@ -2590,15 +2595,14 @@
   cursor: pointer;
 }
 .rollDialog div.dialog-content div.longbow div.button div.data div.blockBtn span.selected, .rollDialog div.dialog-content div.special div.button div.data div.blockBtn span.selected {
-  width: 50%;
+  width: 100%;
   background: RGB(76 74 90);
   border: 1px solid RGB(43 42 51);
   border-top: 0px;
+  cursor: pointer;
 }
 .rollDialog div.dialog-content div.longbow div.button div.data div.blockBtn span.unselected, .rollDialog div.dialog-content div.special div.button div.data div.blockBtn span.unselected {
-  width: 50%;
-  border-top: 0px;
-  cursor: pointer;
+  display: none;
 }
 .rollDialog div.dialog-content div.longbow div.button div.effets, .rollDialog div.dialog-content div.special div.button div.effets {
   display: flex;

@@ -1,3 +1,11 @@
+## v3.13
+### Améliorations
+- Modification de l'affichage des munitions / améliorations / options lors du jet de dé avec les armes (Jumelé ambidextrie, munitions IEM, munitions non-létales, etc.) dans le but d'en augmenter la clarté.
+
+### Bugfix
+- Correction d'un problème avec les améliorations ornementales sur les modules.
+- Tentatives de correction pour la compatibilité avec Status Icon Counter.
+
 ## v3.12
 ### Améliorations
 - Modification de l'image en haut à droite de Foundry, pour y mettre le logo de Knight.
