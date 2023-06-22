@@ -277,21 +277,21 @@ export class BandeSheet extends ActorSheet {
 
         effects.push({
           key: `system.aspects.${label}.value`,
-          mode: 2,
+          mode: 5,
           priority: null,
-          value: phase2.aspects[label].value
+          value: Number(data.aspects[label].value)+Number(phase2.aspects[label].value)
         },
         {
           key: `system.aspects.${label}.ae.mineur.value`,
-          mode: 2,
+          mode: 5,
           priority: null,
-          value: phase2.aspects[label].ae.mineur
+          value: Number(data.aspects[label].ae.mineur.value)+Number(phase2.aspects[label].ae.mineur)
         },
         {
           key: `system.aspects.${label}.ae.majeur.value`,
-          mode: 2,
+          mode: 5,
           priority: null,
-          value: phase2.aspects[label].ae.majeur
+          value: Number(data.aspects[label].ae.majeur.value)+Number(phase2.aspects[label].ae.majeur)
         });
       }
 
