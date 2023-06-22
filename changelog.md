@@ -1,3 +1,7 @@
+## v3.13.2
+### Bugfix
+- Correction d'un problème suite à la dernière correction, entraînant un mauvais calcul dans les aspects exceptionnels lors du passage à la phase 2.
+
 ## v3.13.1
 ### Bugfix
 - Correction d'un problème pouvant empêcher le bon fonctionnement des nods dans des cas rares.
