@@ -1,3 +1,8 @@
+## v3.13.1
+### Bugfix
+- Correction d'un problème pouvant empêcher le bon fonctionnement des nods dans des cas rares.
+- Correction de la Phase 2. Les aspects et aspects exceptionnels de phase 2 remplaçaient les aspects de base au lieu de s'additionner. C'est corrigé, ils s'ajouteront bien.
+
 ## v3.13
 ### Améliorations
 - Modification de l'affichage des munitions / améliorations / options lors du jet de dé avec les armes (Jumelé ambidextrie, munitions IEM, munitions non-létales, etc.) dans le but d'en augmenter la clarté.

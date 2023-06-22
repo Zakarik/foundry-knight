@@ -2296,19 +2296,19 @@ export class PNJSheet extends ActorSheet {
 
         effects.push({
           key: `system.aspects.${label}.value`,
-          mode: 5,
+          mode: 2,
           priority: null,
           value: phase2.aspects[label].value
         },
         {
           key: `system.aspects.${label}.ae.mineur.value`,
-          mode: 5,
+          mode: 2,
           priority: null,
           value: phase2.aspects[label].ae.mineur
         },
         {
           key: `system.aspects.${label}.ae.majeur.value`,
-          mode: 5,
+          mode: 2,
           priority: null,
           value: phase2.aspects[label].ae.majeur
         });

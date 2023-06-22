@@ -7015,7 +7015,7 @@ export class KnightSheet extends ActorSheet {
             effects.avantages.push({
               key: `system.combat.nods.soin.recuperationBonus`,
               mode: 2,
-              priority: null,
+              priority: 2,
               value: avNodsSante
             });
           }
@@ -7024,7 +7024,7 @@ export class KnightSheet extends ActorSheet {
             effects.avantages.push({
               key: `system.combat.nods.armure.recuperationBonus`,
               mode: 2,
-              priority: null,
+              priority: 2,
               value: avNodsArmure
             });
           }
@@ -7033,7 +7033,7 @@ export class KnightSheet extends ActorSheet {
             effects.avantages.push({
               key: `system.combat.nods.energie.recuperationBonus`,
               mode: 2,
-              priority: null,
+              priority: 2,
               value: avNodsEnergie
             });
           }
@@ -7503,6 +7503,25 @@ export class KnightSheet extends ActorSheet {
         value:`${vBonus}`
       });
     }
+
+    effects.avantages.push({
+      key: `system.combat.nods.soin.recuperationBonus`,
+      mode: 5,
+      priority: 1,
+      value: 0
+    },
+    {
+      key: `system.combat.nods.armure.recuperationBonus`,
+      mode: 5,
+      priority: 1,
+      value: 0
+    },
+    {
+      key: `system.combat.nods.energie.recuperationBonus`,
+      mode: 5,
+      priority: 1,
+      value: 0
+    });
 
     effects.inconvenients.push({
       key: `system.espoir.recuperation.aucun`,
