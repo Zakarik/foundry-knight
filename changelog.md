@@ -1,3 +1,7 @@
+## v3.13.3
+### Bugfix
+- Correction d'un problème rare dans le calcul de l'énergie.
+
 ## v3.13.2
 ### Bugfix
 - Correction d'un problème suite à la dernière correction, entraînant un mauvais calcul dans les aspects exceptionnels lors du passage à la phase 2.
