@@ -331,10 +331,8 @@ export class KnightActor extends Actor {
       if(!data.energie.malus) data.energie.malus = energieMalus;
       else data.energie.malus += energieMalus;
 
-      const mod = equipement.energie?.mod ?? 0;
-
       equipement.energie.mod = data.energie.bonus-data.energie.malus;
-      equipement.energie.max = Math.max(userEBase+mod, 0);
+      equipement.energie.max = Math.max(userEBase+equipement.energie.mod, 0);
       equipement.energie.value = data.energie.value;
 
       data.energie.max = equipement.energie.max;

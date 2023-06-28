@@ -2924,8 +2924,15 @@ export class PNJSheet extends ActorSheet {
             let violence = itemArme.violence;
 
             if(dataMunitions.has) {
-              degats = dataMunitions.liste[dataMunitions.actuel].degats;
-              violence = dataMunitions.liste[dataMunitions.actuel].violence;
+              let actuel = dataMunitions.actuel;
+
+              if(actuel === undefined) {
+                dataMunitions.actuel = "0";
+                actuel = "1";
+              }
+
+              degats = dataMunitions.liste[actuel].degats;
+              violence = dataMunitions.liste[actuel].violence;
             }
 
             const moduleWpn = {
@@ -3287,7 +3294,7 @@ export class PNJSheet extends ActorSheet {
       for(let i = 0;i < Object.entries(wpnDistance).length;i++) {
         const wpnData = wpnDistance[i].system;
         const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-        const wpnMunitionActuel = wpnMunitions?.actuel || "";
+        const wpnMunitionActuel = wpnMunitions?.actuel || "0";
         const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
 
         if(wpnMunitions.has) {
@@ -3331,7 +3338,7 @@ export class PNJSheet extends ActorSheet {
     for(let i = 0;i < Object.entries(armeDistance).length;i++) {
       const wpnData = armeDistance[i].system;
       const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-      const wpnMunitionActuel = wpnMunitions?.actuel || "";
+      const wpnMunitionActuel = wpnMunitions?.actuel || "0";
       const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
 
       if(wpnMunitions.has) {
@@ -3348,7 +3355,7 @@ export class PNJSheet extends ActorSheet {
     for(let i = 0;i < Object.entries(armeTourelle).length;i++) {
       const wpnData = armeTourelle[i].system;
       const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-      const wpnMunitionActuel = wpnMunitions?.actuel || "";
+      const wpnMunitionActuel = wpnMunitions?.actuel || "0";
       const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
 
       if(wpnMunitions.has) {

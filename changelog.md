@@ -1,3 +1,9 @@
+## v3.13.4
+### Bugfix
+- Correction d'un bug dans l'affichage du calcul de la réaction / défense.
+- Correction d'un bug dans la gestion des modules avec plusieurs munitions sur les PNJ et PJ.
+- Correction de compatibilité avec le module "Status Icon Counter".
+
 ## v3.13.3
 ### Bugfix
 - Correction d'un problème rare dans le calcul de l'énergie.

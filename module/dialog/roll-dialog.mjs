@@ -480,7 +480,7 @@ export class KnightRollDialog extends Application {
     for(let i = 0;i < Object.entries(final).length;i++) {
       const wpnData = final[i].system;
       const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-      const wpnMunitionActuel = wpnMunitions?.actuel || "";
+      const wpnMunitionActuel = wpnMunitions?.actuel || "0";
       const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
 
       if(wpnMunitions.has) {
@@ -511,7 +511,7 @@ export class KnightRollDialog extends Application {
     for(let i = 0;i < Object.entries(final).length;i++) {
       const wpnData = final[i].system;
       const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-      const wpnMunitionActuel = wpnMunitions?.actuel || "";
+      const wpnMunitionActuel = wpnMunitions?.actuel || "0";
       const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
 
       if(wpnMunitions.has) {
