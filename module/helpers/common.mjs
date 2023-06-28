@@ -4694,7 +4694,14 @@ export function effectsGestion(actor, listWithEffect, isPJ=false, onArmor=false)
     }
 
     if(effectExist) {
-      if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
+      if(effectExist.icon != "" && effectExist.icon != null) {
+        toUpdate.push({
+          "_id":effectExist._id,
+          changes:effect.data,
+          icon:'',
+          disabled:toggle
+        });
+      } else if(!compareArrays(effectExist.changes, effect.data)) toUpdate.push({
         "_id":effectExist._id,
         changes:effect.data,
         icon:'',

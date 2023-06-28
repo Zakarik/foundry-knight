@@ -6806,7 +6806,14 @@ export class KnightSheet extends ActorSheet {
               let violence = itemArme.violence;
 
               if(dataMunitions.has) {
-                for (let i = 0; i <= dataMunitions.actuel; i++) {
+                let actuel = dataMunitions.actuel;
+
+                if(actuel === undefined) {
+                  dataMunitions.actuel = "0";
+                  actuel = "1";
+                }
+
+                for (let i = 0; i <= actuel; i++) {
 
                   const raw = dataMunitions.liste[i].raw.concat(armorSpecialRaw);
                   const custom = dataMunitions.liste[i].custom.concat(armorSpecialCustom);
@@ -6815,8 +6822,8 @@ export class KnightSheet extends ActorSheet {
                   data.niveau.details[`n${niveau}`].arme.optionsmunitions.liste[i].custom = custom;
                 }
 
-                degats = dataMunitions.liste[dataMunitions.actuel].degats;
-                violence = dataMunitions.liste[dataMunitions.actuel].violence;
+                degats = dataMunitions.liste[actuel].degats;
+                violence = dataMunitions.liste[actuel].violence;
               }
 
               const moduleWpn = {
@@ -7853,7 +7860,7 @@ export class KnightSheet extends ActorSheet {
       for(let i = 0;i < Object.entries(wpnDistance).length;i++) {
         const wpnData = wpnDistance[i].system;
         const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-        const wpnMunitionActuel = wpnMunitions?.actuel || "";
+        const wpnMunitionActuel = wpnMunitions?.actuel || "0";
         const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
 
         if(wpnMunitions.has) {
@@ -8388,7 +8395,7 @@ export class KnightSheet extends ActorSheet {
     for(let i = 0;i < Object.entries(armeDistanceEquipee).length;i++) {
       const wpnData = armeDistanceEquipee[i].system;
       const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-      const wpnMunitionActuel = wpnMunitions?.actuel || "";
+      const wpnMunitionActuel = wpnMunitions?.actuel || "0";
       const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
 
       if(wpnMunitions.has) {
@@ -8405,7 +8412,7 @@ export class KnightSheet extends ActorSheet {
     for(let i = 0;i < Object.entries(armeTourelle).length;i++) {
       const wpnData = armeTourelle[i].system;
       const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-      const wpnMunitionActuel = wpnMunitions?.actuel || "";
+      const wpnMunitionActuel = wpnMunitions?.actuel || "0";
       const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
 
       if(wpnMunitions.has) {
