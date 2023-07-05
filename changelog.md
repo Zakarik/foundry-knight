@@ -1,4 +1,9 @@
-## v3.13.4
+## v3.13.6
+### Bugfix
+- Correction d'un bug lors du rollback d'une évolution, qui ne revenait pas en totalité en arrière.
+- Correction d'un bug permettant de faire trop de choix sur certaines capacités d'armure.
+
+## v3.13.5
 ### Bugfix
 - Correction d'un bug n'appliquant pas le bonus d'espoir de certaines armures lors de leur évolution.
 
