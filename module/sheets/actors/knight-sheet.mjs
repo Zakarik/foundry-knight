@@ -4445,6 +4445,7 @@ export class KnightSheet extends ActorSheet {
       const getArchives = dataArchives[index];
 
       let update = {};
+      let erase = {};
 
       if(type === 'liste') {
         const parse = JSON.parse(getArchives[1]);
@@ -4458,6 +4459,10 @@ export class KnightSheet extends ActorSheet {
           }
         }
 
+        for (let [key, capacites] of Object.entries(getDataArmor.system.capacites.selected)) {
+          erase[`system.capacites.selected.-=${key}`] = null;
+        }
+
         update['system'] = parse;
 
         for (let [key, archive] of Object.entries(dataArchives)) {
@@ -4467,7 +4472,7 @@ export class KnightSheet extends ActorSheet {
             update[`system.archivage.${type}.-=${archive[0]}`] = null;
           }
         }
-
+        await getDataArmor.update(erase)
         getDataArmor.update(update);
       } else if(type === 'longbow') {
         const listEvolutions = getDataArmor.system.evolutions.special.longbow;
