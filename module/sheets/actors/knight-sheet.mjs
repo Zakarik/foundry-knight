@@ -4204,6 +4204,7 @@ export class KnightSheet extends ActorSheet {
         }
       }
 
+      update[`system.espoir.value`] = dataEArmor.espoir;
       update[`system.armure.base`] = dataArmor.system.armure.base+dataEArmor.armure;
       update[`system.champDeForce.base`] = dataArmor.system.champDeForce.base+dataEArmor.champDeForce;
       update[`system.energie.base`] = dataArmor.system.energie.base+dataEArmor.energie;
