@@ -1,3 +1,7 @@
+## v3.13.7
+### Bugfix
+- Correction d'un bug sur certaines capacités d'armures qui ne fonctionnaient pas comme attendu.
+
 ## v3.13.6
 ### Bugfix
 - Correction d'un bug lors du rollback d'une évolution, qui ne revenait pas en totalité en arrière.
