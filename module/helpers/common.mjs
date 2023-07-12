@@ -1404,7 +1404,7 @@ export async function getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, 
           break;
 
       case 'chargeurballesgrappes':
-        const hasGrappe = data.ameliorations.grappes;
+        const hasGrappe = data.ameliorations?.grappes ?? false;
 
         if(hasGrappe !== false || hasGrappe === undefined) {
           includeDegats = true;
@@ -1427,7 +1427,7 @@ export async function getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, 
       break;
 
       case 'chargeurmunitionsexplosives':
-        const hasExplosive = data.ameliorations.explosives;
+        const hasExplosive = data.ameliorations?.explosives ?? false;
 
         if(hasExplosive !== false || hasExplosive === undefined) {
           includeDegats = true;
@@ -1486,7 +1486,7 @@ export async function getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, 
       break;
 
       case 'munitionshypervelocite':
-        const hasHVelocite = data.ameliorations.hypervelocite;
+        const hasHVelocite = data.ameliorations?.hypervelocite ?? false;
 
         if(hasHVelocite !== false || hasHVelocite === undefined) {
           priorAttack = true;
@@ -1502,7 +1502,7 @@ export async function getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, 
       break;
 
       case 'munitionsdrones':
-        const hasHDrones = data.ameliorations.drones;
+        const hasHDrones = data.ameliorations?.drones ?? false;
 
         if(hasHDrones !== false || hasHDrones === undefined) {
           includeAttack = true;
@@ -1529,7 +1529,7 @@ export async function getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, 
       break;
 
       case 'munitionsiem':
-        const hasIEM = data.ameliorations.iem;
+        const hasIEM = data.ameliorations?.iem ?? false;
 
         if(hasIEM !== false || hasIEM === undefined) {
           priorAttack = true;
@@ -1556,7 +1556,7 @@ export async function getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, 
       break;
 
       case 'munitionsnonletales':
-        const haNLetales = data.ameliorations.nonletales;
+        const haNLetales = data.ameliorations?.nonletales ?? false;
 
         if(haNLetales !== false || haNLetales === undefined) {
           seconDegats = true;
@@ -1576,7 +1576,8 @@ export async function getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, 
       break;
 
       case 'munitionssubsoniques':
-        const haSubsoniques = data.ameliorations.subsoniques;
+        console.warn(data);
+        const haSubsoniques = data.ameliorations?.subsoniques ?? false;
 
         if(haSubsoniques !== false || haSubsoniques === undefined) {
           if(typeWpn === 'tourelle') {

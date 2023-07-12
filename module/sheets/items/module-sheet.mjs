@@ -26,10 +26,7 @@ export class ModuleSheet extends ItemSheet {
   /** @inheritdoc */
   getData() {
     const context = super.getData();
-
-
     const hasLvl = context.data.system?.niveau?.details ?? false;
-
 
     if(!hasLvl) {
       const update = {};

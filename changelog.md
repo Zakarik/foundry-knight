@@ -1,3 +1,10 @@
+## v3.15.0
+### Améliorations
+- Ajout de la possibilité de faire un jet de dégâts + violence combiné avec l'Oriflamme.
+
+### Bugfix
+- Correction d'un bug empêchant les jets avec les améliorations d'armes.
+
 ## v3.14.0
 ### Améliorations
 - Nettoyage du code de la fenêtre de jets, pour une plus grande facilité de maintien et d'améliorations à l'avenir.
