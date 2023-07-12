@@ -14,14 +14,17 @@ import {
   isAspect,
   getArmor,
   getAllArmor,
-  getKnightRoll,
   getCaracValue,
   getODValue,
   getFlatEffectBonus,
   effectsGestion
 } from "../../helpers/common.mjs";
 
-import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
+import {
+  dialogRoll,
+  actualiseRoll,
+} from "../../helpers/dialogRoll.mjs";
+
 import toggler from '../../helpers/toggler.js';
 
 const path = {
@@ -97,6 +100,8 @@ export class KnightSheet extends ActorSheet {
     this._maxValue(system);
 
     context.systemData = system;
+
+    actualiseRoll(actor);
 
     return context;
   }
@@ -438,7 +443,61 @@ export class KnightSheet extends ActorSheet {
             armure.update({[`system.${toupdate}`]:value});
             break;
           case "changeling":
-            armure.update({[`system.${toupdate}`]:value});
+            const isExplosive = target.data('explosive');
+            const dgtsExplDice = target.data('dgtsdice');
+            const dgtsExplFixe = target.data('dgtsfixe');
+
+            if(isExplosive) {
+              const toUpdateSplit = toupdate.split('/');
+              let armorupdate = {};
+
+              for(let tu of toUpdateSplit) {
+                armorupdate[`system.${tu}`] = false;
+              }
+
+              const listEffetsExplosive = await getEffets(this.actor, 'distance', 'standard', {}, armorCapacites.changeling.desactivationexplosive.effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false);
+              const execExplosive = new game.knight.RollKnight(`${listEffetsExplosive.degats.totalDice+dgtsExplDice}D6+${listEffetsExplosive.degats.totalBonus+dgtsExplFixe}`, this.actor.system);
+              await execExplosive.evaluate(listEffetsExplosive.minMax);
+              const rMode = game.settings.get("core", "rollMode");
+              const pDegatsExplosive = {
+                flavor:`${name} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.DesactivationExplosive")}`,
+                main:{
+                  total:execExplosive._total,
+                  tooltip:await execExplosive.getTooltip(),
+                  formula: execExplosive._formula
+                },
+                sub:listEffetsExplosive.degats.list.concat(
+                  listEffetsExplosive.attack.list,
+                  listEffetsExplosive.violence.list,
+                  listEffetsExplosive.attack.include,
+                  listEffetsExplosive.violence.include),
+                include:listEffetsExplosive.degats.include,
+                other:listEffetsExplosive.other,
+              };
+
+              const dgtsExplMsgData = {
+                user: game.user.id,
+                speaker: {
+                  actor: this.actor?.id || null,
+                  token: this.actor?.token?.id || null,
+                  alias: this.actor?.name || null,
+                },
+                type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+                rolls:[execExplosive].concat(listEffetsExplosive.rollDgts),
+                content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegatsExplosive),
+                sound: CONFIG.sounds.dice
+              };
+
+              const msgDataExpl = ChatMessage.applyRollMode(dgtsExplMsgData, rMode);
+
+              await ChatMessage.create(msgDataExpl, {
+                rollMode:rMode
+              });
+
+              armure.update(armorupdate);
+            } else {
+              armure.update({[`system.${toupdate}`]:value});
+            }
             break;
           case "companions":
             effectExist = existEffect(listEffect, capacite);
@@ -1361,6 +1420,16 @@ export class KnightSheet extends ActorSheet {
 
                 this._gainPE(rGEspoir.total, true, true);
                 break;
+
+              case "blaze":
+                if(value) {
+                  depenseEspoir = await this._depensePE(`${name} : ${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.${special.toUpperCase()}.Label`)}`, espoir, true, true, false, true);
+
+                  if(!depenseEspoir) return;
+                }
+
+                armure.update({[`system.${toupdate}.${special}`]:value});
+                break;
             }
             break;
           case "record":
@@ -1431,7 +1500,7 @@ export class KnightSheet extends ActorSheet {
             const autre = [].concat(caracteristiques);
             autre.shift();
 
-            this._rollDice(name, caracteristiques[0], 5, autre, caracteristiques);
+            dialogRoll(name, this.actor, {base:caracteristiques[0], difficulte:5, autre:autre, lock:caracteristiques});
             break;
           case "nanoc":
             armure.update({[`system.${toupdate}.${special}`]:value});
@@ -2350,7 +2419,7 @@ export class KnightSheet extends ActorSheet {
           });
           break;
         case 'contrecoups':
-          this._rollDice(label, base, false, [], [], false, '', '', '', -1, 0);
+          dialogRoll(label, this.actor, {base:base, noOd:true});
           break;
         case 'energiedeficiente':
           const rEneDef = new game.knight.RollKnight(`${value}D6`, this.actor.system);
@@ -2748,7 +2817,7 @@ export class KnightSheet extends ActorSheet {
 
         switch(type) {
           case 'jet':
-            await this._rollDice(label, caracteristique);
+            dialogRoll(label, this.actor, {base:caracteristique});
             break;
           case 'degats':
             listEffets = await getEffets(actor, '', 'standard', {}, roll.effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false, 0);
@@ -3420,7 +3489,6 @@ export class KnightSheet extends ActorSheet {
     html.find('div.styleCombat > select').change(async ev => {
       const style = $(ev.currentTarget).val();
       const mods = getModStyle(style);
-      const data = this.getData();
       const effects = [];
 
       effects.push({
@@ -3462,23 +3530,6 @@ export class KnightSheet extends ActorSheet {
       };
 
       this.actor.update(update);
-
-      // ON ACTUALISE ROLL UI S'IL EST OUVERT
-      let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
-
-      if(rollUi !== false) {
-        await rollUi.setStyle({
-          fulllabel:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.FullLabel`),
-          label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Label`),
-          raw:style,
-          info:data.systemData.combat.styleInfo,
-          caracteristiques:mods.caracteristiques,
-          tourspasses:data.data.system.combat.data.tourspasses,
-          type:data.data.system.combat.data.type,
-          sacrifice:data.data.system.combat.data.sacrifice,
-          maximum:6
-        });
-      }
     });
 
     html.find('.roll').click(ev => {
@@ -3492,7 +3543,8 @@ export class KnightSheet extends ActorSheet {
       const succesTemp = +target.data("succestemp") || 0;
       const modTemp = +target.data("modtemp") || 0;
 
-      this._rollDice(label, caracteristique, false, caracAdd, caracLock, false, '', '', '', -1, reussites, noOd, modTemp, succesTemp);
+      dialogRoll(label, this.actor,
+      {base:caracteristique, autre:caracAdd, lock:caracLock, succesbonus:reussites, noOd:noOd, modificateurTemp:modTemp, succesTemp:succesTemp});
     });
 
     html.find('.rollRecuperationArt').click(async ev => {
@@ -3538,6 +3590,7 @@ export class KnightSheet extends ActorSheet {
 
     html.find('.jetEspoir').click(async ev => {
       const hasShift = ev.shiftKey;
+      const label = game.i18n.localize('KNIGHT.JETS.JetEspoir');
 
       if(hasShift) {
         const wear = this.object.system.wear;
@@ -3552,7 +3605,7 @@ export class KnightSheet extends ActorSheet {
 
         const exec = new game.knight.RollKnight(roll, this.actor.system);
         exec._success = true;
-        exec._flavor = game.i18n.localize('KNIGHT.JETS.JetEspoir');
+        exec._flavor = label;
         exec._base = game.i18n.localize(CONFIG.KNIGHT.caracteristiques['hargne']);
         exec._autre = [game.i18n.localize(CONFIG.KNIGHT.caracteristiques['sangFroid'])];
         exec._details = wear === 'armure' ? `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')})d6 + ${od} (${game.i18n.localize('KNIGHT.ITEMS.ARMURE.Overdrive')})` : `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')})d6`;
@@ -3564,10 +3617,8 @@ export class KnightSheet extends ActorSheet {
           }
         });
       } else {
-        this._rollDice(game.i18n.localize('KNIGHT.JETS.JetEspoir'), 'hargne', false, ['sangFroid'], ['hargne', 'sangFroid']);
+        dialogRoll(label, this.actor, {base:'hargne', autre:['sangFroid']});
       }
-
-
     });
 
     html.find('.jetWpn').click(ev => {
@@ -3577,8 +3628,14 @@ export class KnightSheet extends ActorSheet {
       const isDistance = target.data("isdistance");
       const num = target.data("num");
       const caracs = target?.data("caracteristiques")?.split(",") || [];
+      const autre = [].concat(caracs);
+      let base = '';
+      if(caracs.length > 0) {
+        base = caracs[0];
+        autre.shift();
+      }
 
-      let label;
+      let label = '';
 
       switch(isDistance) {
         case 'grenades':
@@ -3598,7 +3655,7 @@ export class KnightSheet extends ActorSheet {
           break;
       }
 
-      this._rollDice(label, '', false, caracs, [], true, id, name, isDistance, num, 0);
+      dialogRoll(label, this.actor, {base:base, autre:autre, isWpn:true, idWpn:id, nameWpn:name, typeWpn:isDistance, num:num});
     });
 
     html.find('.jetEgide').click(async ev => {
@@ -7831,73 +7888,6 @@ export class KnightSheet extends ActorSheet {
     actorData.art = art;
     actorData.distinctions = distinctions;
     actorData.capaciteultime = capaciteultime;
-
-    // ON ACTUALISE ROLL UI S'IL EST OUVERT
-    let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
-
-    if(rollUi !== false) {
-      const nbreGrenades = system.combat.grenades.quantity.value;
-      const style = system.combat.style;
-      const getStyle = getModStyle(style);
-      let isWpn = rollUi.data.isWpn;
-      let idWpn = rollUi.data.idWpn;
-      let nameWpn = rollUi.data.nameWpn;
-      let typeWpn = rollUi.data.typeWpn;
-      let num = rollUi.data.num;
-      let AvDv = {
-        avantages:avantageIA,
-        inconvenient:inconvenientIA
-      };
-
-      let wpnGrenades = {};
-
-      if(nbreGrenades > 0) wpnGrenades = system.combat.grenades.liste
-      if(typeWpn === 'grenades'&& nbreGrenades === 0) {
-        typeWpn = ''
-        isWpn = false;
-        idWpn = '';
-        nameWpn = '';
-        num = 0;
-        await rollUi.setLabel(game.i18n.localize(`KNIGHT.JETS.Label`));
-      };
-
-      let wpnDistance = armesDistanceEquipee;
-
-      for(let i = 0;i < Object.entries(wpnDistance).length;i++) {
-        const wpnData = wpnDistance[i].system;
-        const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-        const wpnMunitionActuel = wpnMunitions?.actuel || "0";
-        const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
-
-        if(wpnMunitions.has) {
-          const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
-          const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
-
-          wpnDistance[i].system.effets = {
-            raw:[...new Set(eRaw)],
-            custom:[...new Set(eCustom)],
-          }
-        }
-      }
-
-      await rollUi.setActor(this.actor, this.actor.isToken);
-      await rollUi.setWpn(armesContactEquipee, wpnDistance, armesTourelles, wpnGrenades, {contact:system.combat.armesimprovisees.liste, distance:system.combat.armesimprovisees.liste}, [], longbow);
-      await rollUi.setStyle({
-        fulllabel:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.FullLabel`),
-        label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Label`),
-        raw:style,
-        info:system.combat.styleInfo,
-        caracteristiques:getStyle.caracteristiques,
-        tourspasses:system.combat.data.tourspasses,
-        type:system.combat.data.type,
-        sacrifice:system.combat.data.sacrifice,
-        maximum:6
-      });
-      await rollUi.addAvDv(AvDv);
-      await rollUi.setSelected(isWpn, idWpn, nameWpn, typeWpn, num);
-
-      rollUi.render(true);
-    }
   }
 
   async _prepareCapacitesParameters(actor, system) {
@@ -8075,7 +8065,8 @@ export class KnightSheet extends ActorSheet {
       const data = root;
       if (!data) return;
       const effets = simple ? data : data.effets;
-      effets.liste = listEffects(effets.raw, effets.custom, labels);
+
+      if(effets !== undefined) effets.liste = listEffects(effets.raw, effets.custom, labels);
     };
 
     if (!items) {
@@ -8287,10 +8278,10 @@ export class KnightSheet extends ActorSheet {
   }
 
   _setCombos(aspects, toAdd = [], toLock = []) {
-    const lAspectsInterdits = this.getData().data.system.combos.interdits.aspects;
-    const lCaracsInterdits = this.getData().data.system.combos.interdits.caracteristiques;
-    const lAspectsBonus = this.getData().data.system.combos.bonus.aspects;
-    const lCaracsBonus = foundry.utils.mergeObject(this.getData().data.system.combos.bonus.caracteristiques, {add:toAdd});
+    const lAspectsInterdits = this.actor.system.combos.interdits.aspects;
+    const lCaracsInterdits = this.actor.system.combos.interdits.caracteristiques;
+    const lAspectsBonus = this.actor.system.combos.bonus.aspects;
+    const lCaracsBonus = foundry.utils.mergeObject(this.actor.system.combos.bonus.caracteristiques, {add:toAdd});
     let interdits = [];
     let bonus = [];
     let lock = [];
@@ -8353,113 +8344,6 @@ export class KnightSheet extends ActorSheet {
     };
 
     return result;
-  }
-
-  async _rollDice(label, caracteristique, difficulte = false, toAdd = [], toLock = [], isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, reussitesBonus=0, noOd=false, modificateurTemp=0, succesTemp=0) {
-    const data = this.getData();
-    const queryInstance = getKnightRoll(this.actor);
-    const rollApp = queryInstance.instance;
-    const mCombos = this._setCombos(data.data.system.aspects, toAdd, toLock);
-    const select = mCombos.bonus.includes(caracteristique) || mCombos.interdits.includes(caracteristique) ? '' : caracteristique;
-    const aspects = mCombos.aspects;
-    const bonus = mCombos.bonus;
-    const style = data.systemData.combat.style;
-    const getStyle = getModStyle(style);
-    const deployWpnImproviseesDistance = typeWpn === 'armesimprovisees' && idWpn === 'distance' ? true : false;
-    const deployWpnImproviseesContact = typeWpn === 'armesimprovisees' && idWpn === 'contact' ? true : false;
-    const deployWpnDistance = typeWpn === 'distance' ? true : false;
-    const deployWpnTourelle = typeWpn === 'tourelle' ? true : false;
-    const deployWpnContact = typeWpn === 'contact' ? true : false;
-    const deployGrenades = typeWpn === 'grenades' ? true : false;
-    const deployLongbow = typeWpn === 'longbow' ? true : false;
-    const hasBarrage = typeWpn === 'grenades' ? data.data.system.combat.grenades.liste[nameWpn].effets.raw.find(str => { if(str.includes('barrage')) return true; }) : false;
-    const rBonus = reussitesBonus === 0 ? data.data.system.combat.data.succesbonus : reussitesBonus;
-    const nbreGrenades = data.systemData.combat.grenades.quantity.value;
-    const hasTemp = modificateurTemp > 0 || succesTemp > 0 ? true : false;
-    let base = select === '' ? bonus[0] : caracteristique;
-    let typeWpnFinal = typeWpn;
-
-    if(base === undefined) {base = '';}
-
-    if(select === '') { bonus.shift(); }
-
-    let armeDistanceEquipee = data.actor.armesDistanceEquipee;
-    let armeTourelle = data.actor.armesTourelles;
-
-    for(let i = 0;i < Object.entries(armeDistanceEquipee).length;i++) {
-      const wpnData = armeDistanceEquipee[i].system;
-      const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-      const wpnMunitionActuel = wpnMunitions?.actuel || "0";
-      const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
-
-      if(wpnMunitions.has) {
-        const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
-        const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
-
-        armeDistanceEquipee[i].system.effets = {
-          raw:[...new Set(eRaw)],
-          custom:[...new Set(eCustom)],
-        }
-      }
-    }
-
-    for(let i = 0;i < Object.entries(armeTourelle).length;i++) {
-      const wpnData = armeTourelle[i].system;
-      const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-      const wpnMunitionActuel = wpnMunitions?.actuel || "0";
-      const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
-
-      if(wpnMunitions.has) {
-        const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
-        const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
-
-        armeTourelle[i].system.effets = {
-          raw:[...new Set(eRaw)],
-          custom:[...new Set(eCustom)],
-        }
-      }
-    }
-
-    let AvDv = {
-      avantages:data.actor.avantagesIA,
-      inconvenient:data.actor.inconvenientIA
-    };
-
-    let wpnGrenades = {};
-
-    if(nbreGrenades > 0) wpnGrenades = data.systemData.combat.grenades.liste
-    if(typeWpn === 'grenades'&& nbreGrenades === 0) typeWpnFinal = '';
-
-    await rollApp.setLabel(label);
-    await rollApp.setActor(this.actor, this.actor.isToken);
-    await rollApp.setRoll(select, bonus, mCombos.lock, difficulte);
-    await rollApp.setBonus(data.data.system.combat.data.modificateur, rBonus,
-      {dice:data.data.system.combat.data.degatsbonus.dice, fixe:data.data.system.combat.data.degatsbonus.fixe},
-      {dice:data.data.system.combat.data.violencebonus.dice, fixe:data.data.system.combat.data.violencebonus.fixe});
-    await rollApp.setWpn(data.actor.armesContactEquipee, armeDistanceEquipee, armeTourelle, wpnGrenades, {contact:data.systemData.combat.armesimprovisees.liste, distance:data.systemData.combat.armesimprovisees.liste}, [], data.actor.longbow);
-    await rollApp.setSelected(isWpn, idWpn, nameWpn, typeWpnFinal, num);
-    await rollApp.setDeploy(deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, deployGrenades, deployLongbow, false);
-    await rollApp.setWhatIs(false, false);
-    await rollApp.setAspects(aspects);
-    await rollApp.setEffets(hasBarrage, false);
-    await rollApp.setStyle({
-      fulllabel:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.FullLabel`),
-      label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Label`),
-      raw:style,
-      info:data.systemData.combat.styleInfo,
-      caracteristiques:getStyle.caracteristiques,
-      tourspasses:data.data.system.combat.data.tourspasses,
-      type:data.data.system.combat.data.type,
-      sacrifice:data.data.system.combat.data.sacrifice,
-      maximum:6
-    });
-    await rollApp.setIfOd(noOd);
-    await rollApp.addAvDv(AvDv);
-    await rollApp.setBonusTemp(hasTemp, modificateurTemp, succesTemp);
-
-    rollApp.render(true);
-
-    if(queryInstance.previous) rollApp.bringToTop();
   }
 
   async _resetArmureCapacites() {
@@ -8677,15 +8561,6 @@ export class KnightSheet extends ActorSheet {
     }
 
     if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
-
-    let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
-    const longbow = this.actor?.longbow || false;
-
-    if(rollUi !== false && longbow !== false) {
-      await rollUi.setWpnLongbow(longbow);
-
-      rollUi.render(true);
-    }
 
     this.actor.update(capacites);
   }

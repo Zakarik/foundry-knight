@@ -1,13 +1,15 @@
 import {
-  getModStyle,
   listEffects,
   confirmationDialog,
-  getKnightRoll,
   effectsGestion,
   getFlatEffectBonus,
 } from "../../helpers/common.mjs";
 
-import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
+import {
+  dialogRoll,
+  actualiseRoll,
+} from "../../helpers/dialogRoll.mjs";
+
 import toggler from '../../helpers/toggler.js';
 
 const path = {
@@ -60,6 +62,8 @@ export class VehiculeSheet extends ActorSheet {
 
     context.systemData = context.data.system;
     context.systemData.wear = 'armure';
+
+    actualiseRoll();
 
     return context;
   }
@@ -207,8 +211,12 @@ export class VehiculeSheet extends ActorSheet {
       const label = target.data("label") || '';
       const aspect = target.data("aspect") || '';
       const reussites = +target.data("reussitebonus") || 0;
+      const actorId = data.data.system.equipage.pilote.id;
+      if(actorId === '') return;
 
-      this._rollDice(label, aspect, false, false, '', '', '', -1, reussites);
+      const actor = game.actors.get(actorId);
+
+      dialogRoll(label, actor, {base:aspect, succesBonus:reussites});
     });
 
     html.find('.passager-delete').click(ev => {
@@ -276,11 +284,7 @@ export class VehiculeSheet extends ActorSheet {
 
       const actor = game.actors.get(actorId);
 
-      if(actor.type === 'pnj') {
-        this._rollDicePNJ(label, actorId, '', false, false, '' , '', '', -1, manoeuvrabilite);
-      } else if(actor.type === 'knight') {
-        this._rollDicePJ(label, actorId, '', false, false, '', '', '', -1, manoeuvrabilite)
-      }
+      dialogRoll(label, actor, {modificateur:manoeuvrabilite});
     });
 
     html.find('.jetWpn').click(ev => {
@@ -295,11 +299,7 @@ export class VehiculeSheet extends ActorSheet {
 
       const actor = game.actors.get(actorId);
 
-      if(actor.type === 'pnj') {
-        this._rollDicePNJ(name, actorId, '', false, true, id, name, isDistance, num, 0);
-      } else if(actor.type === 'knight') {
-        this._rollDicePJ(name, actorId, '', false, true, id, name, isDistance, num, 0);
-      }
+      dialogRoll(name, actor, {isWpn:true, idWpn:id, nameWpn:name, typeWpn:isDistance, num:num, vehicule:this.actor});
     });
 
     html.find('.whoActivate').change(ev => {
@@ -837,16 +837,6 @@ export class VehiculeSheet extends ActorSheet {
     ];
 
     effectsGestion(this.actor, listWithEffect);
-
-    // ON ACTUALISE ROLL UI S'IL EST OUVERT
-    let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
-
-    if(rollUi !== false) {
-      await rollUi.setVehicule(this.actor);
-      await rollUi.setWpnDistance(armesDistance);
-
-      rollUi.render(true);
-    }
   }
 
   async _depensePE(label, depense, autosubstract=true, html=false) {
@@ -902,122 +892,6 @@ export class VehiculeSheet extends ActorSheet {
 
       return true;
     }
-  }
-
-  async _rollDicePNJ(label, actorId, aspect = '', difficulte = false, isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, desBonus=0) {
-    const data = this.getData();
-    const queryInstance = getKnightRoll(this.actor, false);
-    const rollApp = queryInstance.instance;
-    const select = aspect;
-    const deployWpnImproviseesDistance = false;
-    const deployWpnImproviseesContact = false;
-    const deployWpnDistance = false;
-    const deployWpnTourelle = false;
-    const deployWpnContact = false;
-    const hasBarrage = false;
-    const actor = game.actors.get(actorId);
-    const armesDistance = isWpn ? this.actor.armesDistance : {};
-
-    let armeDistanceFinal = armesDistance;
-
-    for(let i = 0;i < Object.entries(armeDistanceFinal).length;i++) {
-      const wpnData = armeDistanceFinal[i].system;
-      const wpnMunitions = wpnData.optionsmunitions;
-      const wpnMunitionActuel = wpnMunitions.actuel;
-      const wpnMunitionsListe = wpnMunitions.liste[wpnMunitionActuel];
-
-      if(wpnMunitions.has) {
-        const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
-        const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
-
-        armeDistanceFinal[i].system.effets = {
-          raw:[...new Set(eRaw)],
-          custom:[...new Set(eCustom)],
-        }
-      }
-    }
-
-    await rollApp.setActor(actor, actor.isToken);
-    await rollApp.setAspects(actor.system.aspects);
-    await rollApp.setVehicule(this.actor);
-    await rollApp.setEffets(hasBarrage, false, false, false);
-    await rollApp.setData(label, select, [], [], difficulte,
-      data.combat.data.modificateur, data.combat.data.succesbonus+desBonus,
-      {dice:0, fixe:0},
-      {dice:0, fixe:0},
-      [], armeDistanceFinal, [], [], {contact:{}, distance:{}}, [], [],
-      isWpn, idWpn, nameWpn, typeWpn, num,
-      deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, false, false, false,
-      true, false);
-    await rollApp.setBonusTemp(false, 0, 0);
-
-    rollApp.render(true);
-    if(queryInstance.previous) rollApp.bringToTop();
-  }
-
-  async _rollDicePJ(label, actorId, caracteristique, difficulte = false, isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, desBonus=0) {
-    const actor = game.actors.get(actorId);
-    const data = actor.system;
-    const queryInstance = getKnightRoll(this.actor);
-    const rollApp = queryInstance.instance;
-    const style = data.combat.style;
-    const getStyle = getModStyle(style);
-    const deployWpnImproviseesDistance = typeWpn === 'armesimprovisees' && idWpn === 'distance' ? true : false;
-    const deployWpnImproviseesContact = typeWpn === 'armesimprovisees' && idWpn === 'contact' ? true : false;
-    const deployWpnDistance = typeWpn === 'distance' ? true : false;
-    const deployWpnTourelle = typeWpn === 'tourelle' ? true : false;
-    const deployWpnContact = typeWpn === 'contact' ? true : false;
-    const deployGrenades = typeWpn === 'grenades' ? true : false;
-    const deployLongbow = typeWpn === 'longbow' ? true : false;
-    const hasBarrage = false;
-    const armesDistance = isWpn ? this.actor.armesDistance : {};
-
-    let armeDistanceFinal = armesDistance;
-
-    for(let i = 0;i < Object.entries(armeDistanceFinal).length;i++) {
-      const wpnData = armeDistanceFinal[i].system;
-      const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-      const wpnMunitionActuel = wpnMunitions?.actuel || "";
-      const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
-
-      if(wpnMunitions.has) {
-        const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
-        const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
-
-        armeDistanceFinal[i].system.effets = {
-          raw:[...new Set(eRaw)],
-          custom:[...new Set(eCustom)],
-        }
-      }
-    }
-
-    await rollApp.setData(label, caracteristique, [], [], difficulte,
-      data.combat.data.modificateur, data.combat.data.succesbonus+desBonus,
-      {dice:0, fixe:0},
-      {dice:0, fixe:0},
-      {}, armeDistanceFinal, {}, {}, {contact:{}, distance:{}}, [], [],
-      isWpn, idWpn, nameWpn, typeWpn, num,
-      deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, deployGrenades, deployLongbow, false,
-      false, false);
-    await rollApp.setStyle({
-      fulllabel:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.FullLabel`),
-      label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Label`),
-      raw:style,
-      info:data.combat.styleInfo,
-      caracteristiques:getStyle.caracteristiques,
-      tourspasses:data.combat.data.tourspasses,
-      type:data.combat.data.type,
-      sacrifice:data.combat.data.sacrifice,
-      maximum:6
-    });
-    await rollApp.setActor(actor, actor.isToken);
-    await rollApp.setVehicule(this.actor);
-    await rollApp.setAspects(data.aspects);
-    await rollApp.setEffets(hasBarrage, true, true, true);
-    await rollApp.setBonusTemp(false, 0, 0);
-
-    rollApp.render(true);
-    if(queryInstance.previous) rollApp.bringToTop();
   }
 
   _prepareTranslation(actor, system) {

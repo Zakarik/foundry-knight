@@ -5,11 +5,14 @@ import {
   getModStyle,
   addOrUpdateEffect,
   confirmationDialog,
-  getKnightRoll,
   effectsGestion
 } from "../../helpers/common.mjs";
 
-import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
+import {
+  dialogRoll,
+  actualiseRoll,
+} from "../../helpers/dialogRoll.mjs";
+
 import toggler from '../../helpers/toggler.js';
 
 const path = {
@@ -68,6 +71,8 @@ export class MechaArmureSheet extends ActorSheet {
     this._prepareEffetsModules(context);
 
     context.systemData = context.data.system;
+
+    actualiseRoll();
 
     return context;
   }
@@ -287,7 +292,7 @@ export class MechaArmureSheet extends ActorSheet {
       const num = type === 'special' ? getData.actor.wpnSpecial.findIndex(wpn => wpn._id === key) : getData.actor.wpn.findIndex(wpn => wpn._id === key);
       const label = game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`);
 
-      this._rollDice(label, true, key, label, type, num)
+      dialogRoll(label, this.actor, {isWpn:true, idWpn:key, nameWpn:label, typeWpn:type, num:num});
     });
 
     html.find('div.combat .activation').click(async ev => {
@@ -1078,7 +1083,7 @@ export class MechaArmureSheet extends ActorSheet {
           break;
       }
 
-      this._rollDice(label, false, '', '', '', -1, caracteristique, [], 0, bonus);
+      dialogRoll(label, this.actor, {base:caracteristique, modificateur:bonus});
     });
 
     html.find('.jetWpn').click(ev => {
@@ -1091,7 +1096,7 @@ export class MechaArmureSheet extends ActorSheet {
 
       let label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[name][num]);
 
-      this._rollDice(label, true, id, name, isDistance, num, '', caracs, 0);
+      dialogRoll(label, this.actor, {base:caracs, isWpn:true, idWpn:id, nameWpn:name, typeWpn:isDistance, num:num});
     });
   }
 
@@ -1448,17 +1453,6 @@ export class MechaArmureSheet extends ActorSheet {
     ];
 
     effectsGestion(this.actor, listWithEffect);
-
-    // ON ACTUALISE ROLL UI S'IL EST OUVERT
-    let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
-
-    if(rollUi !== false) {
-      await rollUi.setActor(this.actor, this.actor.isToken);
-      await rollUi.setWpnMA(wpn);
-      await rollUi.setWraith(moduleWraith);
-
-      rollUi.render(true);
-    }
   }
 
   _prepareEffetsModules(context) {
@@ -1646,50 +1640,6 @@ export class MechaArmureSheet extends ActorSheet {
 
       if(c2 !== false) c2.portee = game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${modules[i].toUpperCase()}.Portee`);
     }
-  }
-
-  async _rollDice(label, isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, caracs='', toAdd=[], reussitesBonus=0, resetModificateur=0) {
-    const data = this.getData();
-    const queryInstance = getKnightRoll(this.actor);
-    const rollApp = queryInstance.instance;
-    const deployWpnImproviseesDistance = typeWpn === 'armesimprovisees' && idWpn === 'distance' ? true : false;
-    const deployWpnImproviseesContact = typeWpn === 'armesimprovisees' && idWpn === 'contact' ? true : false;
-    const deployWpnMA = typeWpn !== '' ? true : false;
-    const style = data.systemData.combat.style;
-    const getStyle = getModStyle(style);
-    const bonus = toAdd.length === 0 ? [''] : toAdd;
-    const base = caracs === '' ? bonus[0] : caracs;
-    const modificateur = resetModificateur > 0 ? resetModificateur : data.data.system.combat.data.succesbonus+reussitesBonus;
-
-    if(caracs === '') { bonus.shift(); }
-
-    await rollApp.setData(label, base, bonus, [], false,
-      modificateur, data.data.system.combat.data.succesbonus+reussitesBonus,
-      {dice:data.data.system.combat.data.degatsbonus.dice, fixe:data.data.system.combat.data.degatsbonus.fixe},
-      {dice:data.data.system.combat.data.violencebonus.dice, fixe:data.data.system.combat.data.violencebonus.fixe},
-      [], [], [], [], {contact:data.systemData.combat.armesimprovisees.liste, distance:data.systemData.combat.armesimprovisees.liste}, data.actor.wpn, [],
-      isWpn, idWpn, nameWpn, typeWpn, num,
-      false, false, false, deployWpnImproviseesContact, deployWpnImproviseesDistance, false, false, deployWpnMA,
-      false, true);
-    await rollApp.setWpnSpecial(data.actor.wpnSpecial);
-    await rollApp.setStyle({
-      fulllabel:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.FullLabel`),
-      label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Label`),
-      raw:style,
-      info:data.systemData.combat.styleInfo,
-      caracteristiques:getStyle.caracteristiques,
-      tourspasses:data.data.system.combat.data.tourspasses,
-      type:data.data.system.combat.data.type,
-      sacrifice:data.data.system.combat.data.sacrifice,
-      maximum:6
-    });
-    await rollApp.setActor(this.actor, this.actor.isToken);
-    await rollApp.setAspects(data.data.system.aspects);
-    await rollApp.setWraith(data.actor.moduleWraith);
-    await rollApp.setBonusTemp(false, 0, 0);
-
-    rollApp.render(true);
-    if(queryInstance.previous) rollApp.bringToTop();
   }
 
   async _doDgts(label, dataWpn, listAllEffets, regularite=0, addNum='', tenebricide) {
