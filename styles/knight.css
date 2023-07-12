@@ -460,7 +460,7 @@
   display: flex;
   align-items: flex-start;
   align-content: flex-start;
-  width: 50%;
+  width: calc(100% / 2);
   flex-wrap: wrap;
   border-left: 1px solid RGB(87 110 178);
   border-right: 1px solid RGB(87 110 178);
@@ -897,7 +897,7 @@
   justify-content: space-between;
   align-items: flex-start;
   align-content: flex-start;
-  width: calc(50% - 5px);
+  width: calc((100% / 2) - 5px);
   border: 1px solid RGB(87 110 178);
   margin-top: 5px;
 }
@@ -941,7 +941,7 @@
 }
 .companionsDialog div.dialog-content div.aspects div.longspan {
   position: relative;
-  width: calc(50% - 5px);
+  width: calc((100% / 2) - 5px);
   margin-top: 5px;
   border: 1px solid black;
 }
@@ -976,7 +976,7 @@
 }
 .companionsDialog div.dialog-content div.configuration div.longspan {
   position: relative;
-  width: calc(50% - 5px);
+  width: calc((100% / 2) - 5px);
   margin-top: 5px;
   border: 1px solid black;
 }
@@ -1000,7 +1000,7 @@
 }
 .companionsDialog div.dialog-content div.configuration label.longspan {
   display: flex;
-  width: calc(50% - 5px);
+  width: calc((100% / 2) - 5px);
   justify-content: space-between;
   align-items: flex-start;
   align-content: flex-start;
@@ -1072,7 +1072,7 @@
   border-color: RGB(43 42 51);
 }
 .companionsDialog div.dialog-content .button.p33 {
-  width: calc(33.3333333333% - 10px);
+  width: calc((100% / 3) - 10px);
 }
 .companionsDialog div.dialog-content .button:hover {
   outline: none;
@@ -1560,7 +1560,7 @@
   align-items: baseline;
 }
 .rollDialog div.dialog-content div.aspect {
-  width: calc(20% - 5px);
+  width: calc((100% / 5) - 5px);
   border: 1px solid RGB(87 110 178);
   margin-bottom: 5px;
 }
@@ -1894,7 +1894,7 @@
 }
 .rollDialog div.dialog-content div.wpn {
   display: flex;
-  width: calc(50% - 5px);
+  width: calc((100% / 2) - 5px);
   border: 1px solid RGB(87 110 178);
   flex-wrap: wrap;
   margin-bottom: 5px;
@@ -2109,7 +2109,7 @@
 }
 .rollDialog div.dialog-content div.wpnMA div.button {
   display: flex;
-  width: 50%;
+  width: calc(100% / 2);
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -2538,7 +2538,7 @@
 .rollDialog div.dialog-content div.longbow div.button div.data label, .rollDialog div.dialog-content div.special div.button div.data label {
   display: flex;
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
 }
 .rollDialog div.dialog-content div.longbow div.button div.data label span, .rollDialog div.dialog-content div.special div.button div.data label span {
   display: inline-block;
@@ -2573,7 +2573,7 @@
 }
 .rollDialog div.dialog-content div.longbow div.button div.data div.blockBtn, .rollDialog div.dialog-content div.special div.button div.data div.blockBtn {
   display: flex;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   justify-content: space-between;
   min-height: 34px;
 }
@@ -2729,10 +2729,10 @@
   background: RGB(76 74 90);
 }
 .rollDialog div.dialog-content div.longbow div.button div.effets.w33, .rollDialog div.dialog-content div.special div.button div.effets.w33 {
-  width: 33.3333333333%;
+  width: calc(100% / 3);
 }
 .rollDialog div.dialog-content div.longbow div.button div.effets.w50, .rollDialog div.dialog-content div.special div.button div.effets.w50 {
-  width: 50%;
+  width: calc(100% / 2);
 }
 .rollDialog div.dialog-content div.longbow div.button div.effets:not(:first-of-type) h3, .rollDialog div.dialog-content div.special div.button div.effets:not(:first-of-type) h3 {
   border-left: 1px solid RGB(43 42 51);
@@ -2747,6 +2747,9 @@
 }
 .rollDialog div.dialog-content div.special div.button div.effets div.liste {
   height: calc(100% - 26px);
+}
+.rollDialog div.dialog-content div.borderNone {
+  border: none;
 }
 .rollDialog div.dialog-content input.label {
   margin: 0px;
@@ -3167,7 +3170,7 @@
 .avantage div.main div.diminutionCout div.blockAspect,
 .avantage div.main div.diminutionCout div.blockCaracteristiques {
   display: flex;
-  width: 50%;
+  width: calc(100% / 2);
   flex-wrap: wrap;
 }
 .avantage div.main div.diminutionCout div.blockAspect span.label,
@@ -3447,7 +3450,7 @@
 .inconvenient div.main div.augmentationCout div.blockAspect,
 .inconvenient div.main div.augmentationCout div.blockCaracteristiques {
   display: flex;
-  width: 50%;
+  width: calc(100% / 2);
   flex-wrap: wrap;
 }
 .inconvenient div.main div.augmentationCout div.blockAspect span.label,
@@ -4185,7 +4188,7 @@
 }
 .armure form.armureWindows div.slots div.line label {
   display: flex;
-  width: 16.6666666667%;
+  width: calc(100% / 6);
   flex-wrap: wrap;
 }
 .armure form.armureWindows div.slots div.line label span {
@@ -4220,7 +4223,7 @@
 .armure form.armureWindows div.overdrives div.aspect {
   display: flex;
   flex-wrap: wrap;
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   border: 1px solid RGB(87 110 178);
 }
 .armure form.armureWindows div.overdrives div.aspect label {
@@ -4461,7 +4464,7 @@
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.double label.tripleLine, .armure form.armureWindows div.evolutions div.mainData div.data div.triple label.tripleLine {
   display: flex;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex-wrap: wrap;
   border-top: 1px solid black;
 }
@@ -4488,7 +4491,7 @@
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.double div.tripleLine, .armure form.armureWindows div.evolutions div.mainData div.data div.triple div.tripleLine {
   display: flex;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex-wrap: wrap;
   border-top: 1px solid black;
 }
@@ -4556,7 +4559,7 @@
   justify-content: space-between;
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.double div.tripleLine label input, .armure form.armureWindows div.evolutions div.mainData div.data div.triple div.tripleLine label input {
-  width: calc(50% - 13px);
+  width: calc(50% - (26px / 2));
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.double div.tripleLine label input:first-of-type, .armure form.armureWindows div.evolutions div.mainData div.data div.triple div.tripleLine label input:first-of-type {
   text-align: right;
@@ -4667,7 +4670,7 @@
 .armure form.armureWindows div.evolutions div.mainData div.data div.table7 div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: calc(20% - 5px);
+  width: calc((100% / 5) - 5px);
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.table7 div.colA span {
   display: inline-block;
@@ -4823,7 +4826,7 @@
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.shortspan.withSpecial label input {
   left: 0px;
-  width: calc(50% - 12.5px);
+  width: calc(50% - (25px / 2));
   text-align: right;
   height: 27px;
   border-top: 1px solid RGB(76 74 90);
@@ -4848,7 +4851,7 @@
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.shortspan.withSpecialMiddle label input {
   position: relative;
-  width: calc(50% - 12.5px);
+  width: calc(50% - (25px / 2));
   text-align: right;
   height: 27px;
   border-top: 1px solid RGB(76 74 90);
@@ -4859,7 +4862,7 @@
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.shortspan.withSpecialMiddle label span {
   position: absolute;
-  right: calc(50% - 12.5px);
+  right: calc(50% - (25px / 2));
   line-height: 26px;
   width: 25px;
   text-align: left;
@@ -4946,7 +4949,7 @@
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.middlespan.withSpecial label input {
   left: 0px;
-  width: calc(50% - 12.5px);
+  width: calc(50% - (25px / 2));
   text-align: right;
   height: 27px;
   border-top: 1px solid RGB(76 74 90);
@@ -5386,7 +5389,7 @@
 .armure form.armureWindows div.evolutions div.mainData div.rageFull div.table div.col1 {
   display: flex;
   flex-wrap: wrap;
-  width: calc(20% + 10px);
+  width: calc((100% / 5) + 10px);
 }
 .armure form.armureWindows div.evolutions div.mainData div.rageFull div.table div.col1 span {
   display: inline-block;
@@ -5406,7 +5409,7 @@
 .armure form.armureWindows div.evolutions div.mainData div.rageFull div.table div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: calc(20% - 2.5px);
+  width: calc((100% / 5) - (10px / 4));
   border-left: 1px solid black;
 }
 .armure form.armureWindows div.evolutions div.mainData div.rageFull div.table div.colA > span {
@@ -6714,7 +6717,7 @@
   background: RGB(43 42 51);
 }
 .armure form.armureWindows div.capacites div.changeling div.explosion label.double div input {
-  width: calc(50% - 12.5px);
+  width: calc(50% - (25px / 2));
 }
 .armure form.armureWindows div.capacites div.changeling div.explosion label.double div input:first-of-type {
   text-align: right;
@@ -7037,7 +7040,7 @@
   justify-content: space-between;
 }
 .armure form.armureWindows div.capacites div.mechanic div.mainData div.data div.triple label input {
-  width: calc(50% - 12.5px);
+  width: calc(50% - (25px / 2));
   text-align: right;
   height: 27px;
   border-top: 1px solid RGB(76 74 90);
@@ -7085,7 +7088,7 @@
   width: 100%;
 }
 .armure form.armureWindows div.capacites div.type div.mainData div.data div label.doubleLine {
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex-wrap: wrap;
 }
 .armure form.armureWindows div.capacites div.type div.mainData div.data div label.doubleLine span {
@@ -7385,7 +7388,7 @@
   justify-content: space-between;
 }
 .armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.double label input {
-  width: calc(50% - 13px);
+  width: calc(50% - (26px / 2));
 }
 .armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.double label input:first-of-type {
   text-align: right;
@@ -7755,7 +7758,7 @@
 }
 .armure form.armureWindows div.capacites div.discord div.mainData div.data label.doubleLine {
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
 }
 .armure form.armureWindows div.capacites div.discord div.mainData div.data label.doubleLine span {
   padding: 0px;
@@ -7768,7 +7771,7 @@
   border-top: 0px;
 }
 .armure form.armureWindows div.capacites div.discord div.mainData div.data label.doubleLine:last-of-type {
-  width: calc(33.3333333333% + 1px);
+  width: calc((100% / 3) + 1px);
 }
 .armure form.armureWindows div.capacites div.discord div.mainData div.data label.doubleLine:not(:first-of-type) span {
   border-left: 1px solid RGB(43 42 51);
@@ -8068,7 +8071,7 @@
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.aspects div.col {
   display: flex;
   flex-wrap: wrap;
-  width: calc(20% + 4px);
+  width: calc(100% / 5 + 4px);
 }
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.aspects div.col:not(:last-of-type),
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.aspects div.col:not(:last-of-type),
@@ -8139,7 +8142,7 @@
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.derives div.col {
   display: flex;
   flex-wrap: wrap;
-  width: calc(20% + 4px);
+  width: calc(100% / 5 + 4px);
 }
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.derives div.col > input,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.derives div.col > input,
@@ -8204,7 +8207,7 @@
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.line > span.label,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.line > span.label,
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.line > span.label {
-  width: calc(100% - 200px - 150px);
+  width: calc(100% - (100px*2) - 150px);
 }
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.line > span.degats, .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.line > span.violence,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.line > span.degats,
@@ -8226,7 +8229,7 @@
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.line > div.label,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.line > div.label,
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.line > div.label {
-  width: calc(100% - 200px - 150px);
+  width: calc(100% - (100px*2) - 150px);
 }
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.line > div.label input,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.line > div.label input,
@@ -8409,7 +8412,7 @@
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration,
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration {
-  width: calc(50% - 10px);
+  width: calc((100% / 2) - 10px);
   margin-top: 5px;
   margin-left: 5px;
   margin-right: 5px;
@@ -8815,7 +8818,7 @@
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.debordement div.col {
   display: flex;
   flex-wrap: wrap;
-  width: calc(20% + 4px);
+  width: calc(100% / 5 + 4px);
   background: RGB(76 74 90);
   border-bottom: 1px solid black;
 }
@@ -8832,7 +8835,7 @@
   border-right: 1px solid black;
 }
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.debordement textarea {
-  width: calc((20% - 1px) * 4);
+  width: calc(((100% / 5) - 1px) * 4);
   color: white;
   border: 0px;
   padding-top: 0px;
@@ -9044,7 +9047,7 @@
 .armure form.armureWindows div.capacites div.rage div.mainData div.full div.table div.col1 {
   display: flex;
   flex-wrap: wrap;
-  width: calc(20% + 10px);
+  width: calc((100% / 5) + 10px);
 }
 .armure form.armureWindows div.capacites div.rage div.mainData div.full div.table div.col1 span {
   display: inline-block;
@@ -9064,7 +9067,7 @@
 .armure form.armureWindows div.capacites div.rage div.mainData div.full div.table div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: calc(20% - 2.5px);
+  width: calc((100% / 5) - (10px / 4));
   border-left: 1px solid black;
 }
 .armure form.armureWindows div.capacites div.rage div.mainData div.full div.table div.colA > span {
@@ -9739,7 +9742,7 @@
 .armure form.armureWindows div.special div.contrecoups div.mainData div.fullWidth div.table7 div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: calc(20% - 5px);
+  width: calc((100% / 5) - 5px);
 }
 .armure form.armureWindows div.special div.contrecoups div.mainData div.fullWidth div.table7 div.colA span {
   display: inline-block;
@@ -10941,7 +10944,7 @@
   background: RGB(43 42 51);
 }
 .armurelegende form.armureWindows div.capacites div.changeling div.explosion label.double div input {
-  width: calc(50% - 12.5px);
+  width: calc(50% - (25px / 2));
 }
 .armurelegende form.armureWindows div.capacites div.changeling div.explosion label.double div input:first-of-type {
   text-align: right;
@@ -11152,7 +11155,7 @@
   justify-content: space-between;
 }
 .armurelegende form.armureWindows div.capacites div.mechanic div.mainData div.data div.triple label input {
-  width: calc(50% - 12.5px);
+  width: calc(50% - (25px / 2));
   text-align: right;
   height: 27px;
   border-top: 1px solid RGB(76 74 90);
@@ -11200,7 +11203,7 @@
   width: 100%;
 }
 .armurelegende form.armureWindows div.capacites div.type div.mainData div.data div label.doubleLine {
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex-wrap: wrap;
 }
 .armurelegende form.armureWindows div.capacites div.type div.mainData div.data div label.doubleLine span {
@@ -11369,7 +11372,7 @@
   justify-content: space-between;
 }
 .armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.double label input {
-  width: calc(50% - 13px);
+  width: calc(50% - (26px / 2));
 }
 .armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.double label input:first-of-type {
   text-align: right;
@@ -11478,7 +11481,7 @@
 }
 .armurelegende form.armureWindows div.capacites div.discord div.mainData div.data label.doubleLine {
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
 }
 .armurelegende form.armureWindows div.capacites div.discord div.mainData div.data label.doubleLine span {
   padding: 0px;
@@ -11491,7 +11494,7 @@
   border-top: 0px;
 }
 .armurelegende form.armureWindows div.capacites div.discord div.mainData div.data label.doubleLine:last-of-type {
-  width: calc(33.3333333333% + 1px);
+  width: calc((100% / 3) + 1px);
 }
 .armurelegende form.armureWindows div.capacites div.discord div.mainData div.data label.doubleLine:not(:first-of-type) span {
   border-left: 1px solid RGB(43 42 51);
@@ -11615,7 +11618,7 @@
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.aspects div.col {
   display: flex;
   flex-wrap: wrap;
-  width: calc(20% + 4px);
+  width: calc(100% / 5 + 4px);
 }
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.aspects div.col:not(:last-of-type),
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.aspects div.col:not(:last-of-type),
@@ -11686,7 +11689,7 @@
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.derives div.col {
   display: flex;
   flex-wrap: wrap;
-  width: calc(20% + 4px);
+  width: calc(100% / 5 + 4px);
 }
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.derives div.col > input,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.derives div.col > input,
@@ -11751,7 +11754,7 @@
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.line > span.label,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.line > span.label,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.line > span.label {
-  width: calc(100% - 200px - 150px);
+  width: calc(100% - (100px*2) - 150px);
 }
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.line > span.degats, .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.line > span.violence,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.line > span.degats,
@@ -11773,7 +11776,7 @@
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.line > div.label,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.line > div.label,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.line > div.label {
-  width: calc(100% - 200px - 150px);
+  width: calc(100% - (100px*2) - 150px);
 }
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.line > div.label input,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.line > div.label input,
@@ -11956,7 +11959,7 @@
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration {
-  width: calc(50% - 10px);
+  width: calc((100% / 2) - 10px);
   margin-top: 5px;
   margin-left: 5px;
   margin-right: 5px;
@@ -12362,7 +12365,7 @@
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.debordement div.col {
   display: flex;
   flex-wrap: wrap;
-  width: calc(20% + 4px);
+  width: calc(100% / 5 + 4px);
   background: RGB(76 74 90);
   border-bottom: 1px solid black;
 }
@@ -12379,7 +12382,7 @@
   border-right: 1px solid black;
 }
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.debordement textarea {
-  width: calc((20% - 1px) * 4);
+  width: calc(((100% / 5) - 1px) * 4);
   color: white;
   border: 0px;
   padding-top: 0px;
@@ -12860,7 +12863,7 @@
   flex-wrap: wrap;
 }
 .module div.main div.aspects div {
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   border: 1px solid RGB(87 110 178);
   margin-bottom: 5px;
 }
@@ -13069,10 +13072,10 @@
   width: 150px;
 }
 .module div.main div.armes > div div.header span.portee {
-  width: 33.3333333333%;
+  width: calc(100% / 3);
 }
 .module div.main div.armes > div div.header span.attaque, .module div.main div.armes > div div.header span.degats, .module div.main div.armes > div div.header span.violence {
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   border-left: 1px solid RGB(43 42 51);
 }
 .module div.main div.armes > div div.header span:not(:first-of-type) {
@@ -13136,7 +13139,7 @@
 }
 .module div.main div.armes > div div.line div.portee {
   display: flex;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   border-bottom: 1px solid RGB(76 74 90);
 }
 .module div.main div.armes > div div.line div.portee select {
@@ -13165,7 +13168,7 @@
   border-bottom: 1px solid RGB(76 74 90);
   border-left: 1px solid RGB(76 74 90);
   background: RGB(43 42 51);
-  width: 33.3333333333%;
+  width: calc(100% / 3);
 }
 .module div.main div.armes > div div.line div.attaque input, .module div.main div.armes > div div.line div.degats input, .module div.main div.armes > div div.line div.violence input {
   width: calc(50% - 12px);
@@ -13274,10 +13277,10 @@
   justify-content: space-between;
 }
 .module div.main div.col {
-  width: calc(50% - 5px);
+  width: calc((100% / 2) - 5px);
 }
 .module div.main div.col3 {
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
 }
 .module div.main div.col, .module div.main div.col3 {
   display: flex;
@@ -13920,7 +13923,7 @@
 }
 .module div.main div.slots label.block {
   display: flex;
-  width: 16.6666666667%;
+  width: calc(100% / 6);
   flex-wrap: wrap;
 }
 .module div.main div.slots label.block span {
@@ -14026,7 +14029,7 @@
   background: RGB(43 42 51);
 }
 .module div.bonus div.col div.blockMunitions > div label div input, .module div.arme div.col div.blockMunitions > div label div input, .module div.pnj div.col div.blockMunitions > div label div input, .module div.overdrives div.col div.blockMunitions > div label div input, .module div.rogue div.col div.blockMunitions > div label div input, .module div.jetsimple div.col div.blockMunitions > div label div input, .module div.baseeffets div.col div.blockMunitions > div label div input {
-  width: calc(50% - 12px);
+  width: calc((100% / 2) - 12px);
   border: 0px;
   padding: 0px;
   margin: 0px;
@@ -14133,7 +14136,7 @@
 }
 .module div.pnj div.creature div.line > button {
   display: flex;
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   justify-content: center;
   color: white;
   border: 1px solid RGB(76 74 90);
@@ -14436,7 +14439,7 @@
 }
 .arme form.armeWindows header label {
   display: flex;
-  width: calc(50% - 5px);
+  width: calc((100% / 2) - 5px);
   flex-wrap: wrap;
   border: 1px solid RGB(87 110 178);
   flex: none;
@@ -14477,7 +14480,7 @@
   background: RGB(43 42 51);
 }
 .arme form.armeWindows header label div input {
-  width: calc(50% - 12px);
+  width: calc((100% / 2) - 12px);
   border: 0px;
   padding: 0px;
   margin: 0px;
@@ -14608,7 +14611,7 @@
 }
 .arme form.armeWindows div.blockMunitions > div {
   display: flex;
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   flex-wrap: wrap;
   flex: none;
 }
@@ -14647,7 +14650,7 @@
   background: RGB(43 42 51);
 }
 .arme form.armeWindows div.blockMunitions > div label div input {
-  width: calc(50% - 12px);
+  width: calc((100% / 2) - 12px);
   border: 0px;
   padding: 0px;
   margin: 0px;
@@ -15260,7 +15263,7 @@ form.capacite div.main div.effets a.edit {
   display: flex;
   align-items: flex-start;
   align-content: flex-start;
-  width: 50%;
+  width: calc(100% / 2);
   flex-wrap: wrap;
   border-left: 1px solid RGB(87 110 178);
   border-right: 1px solid RGB(87 110 178);
@@ -16963,7 +16966,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
 .vehicule header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
 .mechaarmure header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button {
-  width: 150px;
+  width: calc(200px - 25px - 25px);
   border: 0px;
   background: transparent;
 }
@@ -18529,7 +18532,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight section.body div.art div.recuperation button[type=action] {
   display: flex;
-  width: 25%;
+  width: calc(100% / 4);
   border: 0px;
   color: white;
   text-align: center;
@@ -18990,7 +18993,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight section.body div.armure div.capacites h3 div.blockRight button:nth-of-type(1),
 .knight section.body div.armure div.special h3 div.blockRight button:nth-of-type(1) {
-  right: 205px;
+  right: calc(205*1px);
 }
 .knight section.body div.armure div.capacites h3 div.blockWLText,
 .knight section.body div.armure div.special h3 div.blockWLText {
@@ -19023,7 +19026,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.capacites h3 div.subline span.button:nth-of-type(3),
 .knight section.body div.armure div.special h3 div.subline button:nth-of-type(3),
 .knight section.body div.armure div.special h3 div.subline span.button:nth-of-type(3) {
-  right: 410px;
+  right: calc(205*2px);
 }
 .knight section.body div.armure div.capacites h3 div.subline button:nth-of-type(2),
 .knight section.body div.armure div.capacites h3 div.subline span.button:nth-of-type(2),
@@ -19035,7 +19038,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.capacites h3 div.subline span.button:nth-of-type(1),
 .knight section.body div.armure div.special h3 div.subline button:nth-of-type(1),
 .knight section.body div.armure div.special h3 div.subline span.button:nth-of-type(1) {
-  right: 205px;
+  right: calc(205*1px);
 }
 .knight section.body div.armure div.capacites h3 div.subline span.button,
 .knight section.body div.armure div.special h3 div.subline span.button {
@@ -19332,7 +19335,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.data div.line div.tripleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex: none;
   border-bottom: 1px solid black;
 }
@@ -19408,7 +19411,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.data div.table5 div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: 20%;
+  width: calc(100% / 5);
 }
 .knight section.body div.armure div.capacites div.mainData div.data div.table5 div.col1 span,
 .knight section.body div.armure div.capacites div.mainData div.data div.table5 div.colA span,
@@ -19474,7 +19477,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.data div.table7 div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: calc(16.6666666667% - 5px);
+  width: calc((100% / 6) - 5px);
 }
 .knight section.body div.armure div.capacites div.mainData div.data div.table7 div.colA span,
 .knight section.body div.armure div.special div.mainData div.data div.table7 div.colA span {
@@ -19646,7 +19649,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.data.line div.tripleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex: none;
 }
 .knight section.body div.armure div.capacites div.mainData div.data.line div.tripleLine span.header,
@@ -19832,7 +19835,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.crow div.aspects div.col {
   display: flex;
   flex-wrap: wrap;
-  width: calc(20% + 4px);
+  width: calc(100% / 5 + 4px);
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.aspects div.col:not(:last-of-type),
 .knight section.body div.armure div.capacites div.mainData div.wolf div.aspects div.col:not(:last-of-type),
@@ -19930,7 +19933,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.crow div.derives div.col {
   display: flex;
   flex-wrap: wrap;
-  width: calc(20% + 4px);
+  width: calc(100% / 5 + 4px);
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.derives div.col > span,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.derives div.col > span,
@@ -20006,7 +20009,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.lion div.armes div.line > span.label,
 .knight section.body div.armure div.special div.mainData div.wolf div.armes div.line > span.label,
 .knight section.body div.armure div.special div.mainData div.crow div.armes div.line > span.label {
-  width: calc(100% - 200px - 150px);
+  width: calc(100% - (100px*2) - 150px);
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.armes div.line > span.degats, .knight section.body div.armure div.capacites div.mainData div.lion div.armes div.line > span.violence,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.armes div.line > span.degats,
@@ -20461,7 +20464,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.mSlots div.block,
 .knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.mSlots div.block {
   display: flex;
-  width: 16.6666666667%;
+  width: calc(100% / 6);
   flex-wrap: wrap;
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.mSlots div.block span.title,
@@ -20913,7 +20916,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.line div.tripleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex: none;
   border-bottom: 1px solid black;
 }
@@ -21045,7 +21048,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.table5 div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: 20%;
+  width: calc(100% / 5);
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.table5 div.col1 span,
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.table5 div.colA span,
@@ -21163,7 +21166,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.table7 div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: calc(16.6666666667% - 5px);
+  width: calc((100% / 6) - 5px);
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.table7 div.colA span,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.table7 div.colA span,
@@ -21439,7 +21442,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.line div.tripleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex: none;
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.line div.tripleLine span.header,
@@ -21612,7 +21615,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.aspects > div,
 .knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.aspects > div,
 .knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.aspects > div {
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   border: 1px solid black;
   flex-wrap: wrap;
   margin-bottom: 5px;
@@ -21710,7 +21713,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.portee,
 .knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.portee,
 .knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.portee {
-  width: 33.3333333333%;
+  width: calc(100% / 3);
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.degats, .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.violence,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.degats,
@@ -21723,7 +21726,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.violence,
 .knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.degats,
 .knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.violence {
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   border-left: 1px solid RGB(43 42 51);
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span:not(:first-of-type),
@@ -21783,7 +21786,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.line span.portee,
 .knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.line span.portee {
   display: flex;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   text-align: center;
   justify-content: center;
 }
@@ -21802,7 +21805,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   text-align: center;
   justify-content: center;
   background: RGB(43 42 51);
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   border-left: 1px solid RGB(76 74 90);
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets,
@@ -21927,7 +21930,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.col3,
 .knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.col3,
 .knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.col3 {
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   flex-wrap: wrap;
   border: 1px solid black;
 }
@@ -22034,7 +22037,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.lion div.configurations div.configuration,
 .knight section.body div.armure div.special div.mainData div.wolf div.configurations div.configuration,
 .knight section.body div.armure div.special div.mainData div.crow div.configurations div.configuration {
-  width: calc(50% - 10px);
+  width: calc((100% / 2) - 10px);
   margin-top: 5px;
   margin-left: 5px;
   margin-right: 5px;
@@ -22361,7 +22364,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.crow div.debordement div.col {
   display: flex;
   flex-wrap: wrap;
-  width: 20%;
+  width: calc(100% / 5);
   background: RGB(76 74 90);
   border-bottom: 1px solid black;
 }
@@ -22386,7 +22389,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   position: absolute;
   height: 100%;
   right: 0px;
-  width: 80%;
+  width: calc((100% / 5) * 4);
   color: white;
   border: 0px;
   padding-top: 0px;
@@ -22724,7 +22727,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight section.body div.armure div.modules div.mainBlock div.mSlots div.block {
   display: flex;
-  width: 16.6666666667%;
+  width: calc(100% / 6);
   flex-wrap: wrap;
 }
 .knight section.body div.armure div.modules div.mainBlock div.mSlots div.block span.title {
@@ -22946,7 +22949,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.modules div.mainBlock div.data div.line div.tripleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex: none;
   border-bottom: 1px solid black;
 }
@@ -23008,7 +23011,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.modules div.mainBlock div.data div.table5 div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: 20%;
+  width: calc(100% / 5);
 }
 .knight section.body div.armure div.modules div.mainBlock div.data div.table5 div.col1 span,
 .knight section.body div.armure div.modules div.mainBlock div.data div.table5 div.colA span {
@@ -23061,7 +23064,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.modules div.mainBlock div.data div.table7 div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: calc(16.6666666667% - 5px);
+  width: calc((100% / 6) - 5px);
 }
 .knight section.body div.armure div.modules div.mainBlock div.data div.table7 div.colA span {
   display: inline-block;
@@ -23202,7 +23205,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.modules div.mainBlock div.data.line div.tripleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex: none;
 }
 .knight section.body div.armure div.modules div.mainBlock div.data.line div.tripleLine span.header {
@@ -23290,7 +23293,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   flex-wrap: wrap;
 }
 .knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.aspects > div {
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   border: 1px solid black;
   flex-wrap: wrap;
   margin-bottom: 5px;
@@ -23343,10 +23346,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 150px;
 }
 .knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.portee {
-  width: 33.3333333333%;
+  width: calc(100% / 3);
 }
 .knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.degats, .knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.violence {
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   border-left: 1px solid RGB(43 42 51);
 }
 .knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span:not(:first-of-type) {
@@ -23376,7 +23379,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.line span.portee {
   display: flex;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   text-align: center;
   justify-content: center;
 }
@@ -23385,7 +23388,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   text-align: center;
   justify-content: center;
   background: RGB(43 42 51);
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   border-left: 1px solid RGB(76 74 90);
 }
 .knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets {
@@ -23460,7 +23463,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-top: 5px double black;
 }
 .knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.col3 {
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   flex-wrap: wrap;
   border: 1px solid black;
 }
@@ -23510,7 +23513,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight section.body div.armure div.slots div.line div.block {
   display: flex;
-  width: 16.6666666667%;
+  width: calc(100% / 6);
   flex-wrap: wrap;
 }
 .knight section.body div.armure div.slots div.line div.block span.title {
@@ -23809,7 +23812,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.combat div.main div.armesDistance div.wpn header div.line div.doubleLine {
   display: flex;
   flex-wrap: wrap;
-  width: calc(33.3333333333% - 11.3333333333px);
+  width: calc((100% / 3) - (34px / 3));
 }
 .knight section.body div.combat div.main div.armesContact div.wpn header div.line div.doubleLine span,
 .knight section.body div.combat div.main div.armesDistance div.wpn header div.line div.doubleLine span {
@@ -23828,7 +23831,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight section.body div.combat div.main div.armesContact div.wpn header div.line.lineTourelle div.doubleLine,
 .knight section.body div.combat div.main div.armesDistance div.wpn header div.line.lineTourelle div.doubleLine {
-  width: calc(25% - 8.5px);
+  width: calc((100% / 4) - (34px / 4));
 }
 .knight section.body div.combat div.main div.armesContact div.wpn header div.line img,
 .knight section.body div.combat div.main div.armesDistance div.wpn header div.line img {
@@ -23888,7 +23891,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 50%;
+  width: calc(100% / 2);
 }
 .knight section.body div.combat div.main div.armesContact div.wpn div.effets div.line div.doubleLine span,
 .knight section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine span {
@@ -24080,7 +24083,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.combat div.main div.armesImprovisees div.wpn div.doubleLine {
   display: flex;
   flex-wrap: wrap;
-  width: calc(50% - 17px);
+  width: calc((100% / 2) - (34px / 2));
 }
 .knight section.body div.combat div.main div.armesImprovisees div.wpn div.doubleLine span {
   display: block;
@@ -24711,7 +24714,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight section.body div.progression div.main div.dataExperience label, .knight section.body div.progression div.main div.dataPG label {
   display: flex;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   align-items: flex-start;
   align-content: flex-start;
   flex-wrap: wrap;
@@ -26446,7 +26449,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .pnj section.body div.art div.recuperation button[type=action] {
   display: flex;
-  width: 25%;
+  width: calc(100% / 4);
   border: 0px;
   color: white;
   text-align: center;
@@ -26534,7 +26537,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   min-height: 23px;
   margin-bottom: 0px;
   margin-top: 5px;
-  margin-left: calc(50% - 102.5px);
+  margin-left: calc(50% - (205px/2));
   line-height: 100%;
   background: RGB(76 74 90);
   border: 1px solid RGB(76 74 90);
@@ -26564,7 +26567,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   position: relative;
 }
 .pnj section.body div.capacites div.buttonSelectArmure div.blockArmure button {
-  width: 155px;
+  width: calc(205px - 25px - 25px);
   border: 0px;
   background: transparent;
 }
@@ -26668,7 +26671,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 0px;
 }
 .pnj section.body div.capacites div.wolf div.configuration {
-  width: calc(50% - 10px);
+  width: calc((100% / 2) - 10px);
   margin-top: 5px;
   margin-left: 5px;
   margin-right: 5px;
@@ -27019,7 +27022,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.mSlots div.block {
   display: flex;
-  width: 16.6666666667%;
+  width: calc(100% / 6);
   flex-wrap: wrap;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.mSlots div.block span.title {
@@ -27241,7 +27244,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.modules div.mainBlock div.data div.line div.tripleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex: none;
   border-bottom: 1px solid black;
 }
@@ -27303,7 +27306,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.modules div.mainBlock div.data div.table5 div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: 20%;
+  width: calc(100% / 5);
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data div.table5 div.col1 span,
 .pnj section.body div.capacites div.modules div.mainBlock div.data div.table5 div.colA span {
@@ -27356,7 +27359,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.modules div.mainBlock div.data div.table7 div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: calc(16.6666666667% - 5px);
+  width: calc((100% / 6) - 5px);
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data div.table7 div.colA span {
   display: inline-block;
@@ -27497,7 +27500,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.modules div.mainBlock div.data.line div.tripleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex: none;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data.line div.tripleLine span.header {
@@ -27585,7 +27588,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   flex-wrap: wrap;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.aspects > div {
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   border: 1px solid black;
   flex-wrap: wrap;
   margin-bottom: 5px;
@@ -27638,10 +27641,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 150px;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.portee {
-  width: 33.3333333333%;
+  width: calc(100% / 3);
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.degats, .pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.violence {
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   border-left: 1px solid RGB(43 42 51);
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span:not(:first-of-type) {
@@ -27671,7 +27674,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.line span.portee {
   display: flex;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   text-align: center;
   justify-content: center;
 }
@@ -27680,7 +27683,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   text-align: center;
   justify-content: center;
   background: RGB(43 42 51);
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   border-left: 1px solid RGB(76 74 90);
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets {
@@ -27755,7 +27758,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-top: 5px double black;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.col3 {
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   flex-wrap: wrap;
   border: 1px solid black;
 }
@@ -27987,7 +27990,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   right: 0px;
 }
 .pnj section.body div.capacites div.capacite h3 div.blockRight button:nth-of-type(1) {
-  right: 205px;
+  right: calc(205*1px);
 }
 .pnj section.body div.capacites div.capacite h3 div.blockWLText {
   position: absolute;
@@ -28013,7 +28016,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .pnj section.body div.capacites div.capacite h3 div.subline button:nth-of-type(3),
 .pnj section.body div.capacites div.capacite h3 div.subline span.button:nth-of-type(3) {
-  right: 410px;
+  right: calc(205*2px);
 }
 .pnj section.body div.capacites div.capacite h3 div.subline button:nth-of-type(2),
 .pnj section.body div.capacites div.capacite h3 div.subline span.button:nth-of-type(2) {
@@ -28021,7 +28024,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .pnj section.body div.capacites div.capacite h3 div.subline button:nth-of-type(1),
 .pnj section.body div.capacites div.capacite h3 div.subline span.button:nth-of-type(1) {
-  right: 205px;
+  right: calc(205*1px);
 }
 .pnj section.body div.capacites div.capacite h3 div.subline span.button {
   font-variant: small-caps;
@@ -28277,7 +28280,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.data div.line div.tripleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex: none;
   border-bottom: 1px solid black;
 }
@@ -28339,7 +28342,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.data div.table5 div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: 20%;
+  width: calc(100% / 5);
 }
 .pnj section.body div.capacites div.capacite div.mainData div.data div.table5 div.col1 span,
 .pnj section.body div.capacites div.capacite div.mainData div.data div.table5 div.colA span {
@@ -28392,7 +28395,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.data div.table7 div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: calc(16.6666666667% - 5px);
+  width: calc((100% / 6) - 5px);
 }
 .pnj section.body div.capacites div.capacite div.mainData div.data div.table7 div.colA span {
   display: inline-block;
@@ -28536,7 +28539,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.data.line div.tripleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex: none;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.data.line div.tripleLine span.header {
@@ -28677,7 +28680,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.aspects div.col {
   display: flex;
   flex-wrap: wrap;
-  width: calc(20% + 4px);
+  width: calc(100% / 5 + 4px);
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.aspects div.col:not(:last-of-type),
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.aspects div.col:not(:last-of-type),
@@ -28748,7 +28751,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.derives div.col {
   display: flex;
   flex-wrap: wrap;
-  width: calc(20% + 4px);
+  width: calc(100% / 5 + 4px);
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.derives div.col > span,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.derives div.col > span,
@@ -28803,7 +28806,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.line > span.label,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.line > span.label,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.armes div.line > span.label {
-  width: calc(100% - 200px - 150px);
+  width: calc(100% - (100px*2) - 150px);
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.line > span.degats, .pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.line > span.violence,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.line > span.degats,
@@ -29068,7 +29071,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.mSlots div.block,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.mSlots div.block {
   display: flex;
-  width: 16.6666666667%;
+  width: calc(100% / 6);
   flex-wrap: wrap;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.mSlots div.block span.title,
@@ -29382,7 +29385,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.line div.tripleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex: none;
   border-bottom: 1px solid black;
 }
@@ -29472,7 +29475,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.table5 div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: 20%;
+  width: calc(100% / 5);
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.table5 div.col1 span,
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.table5 div.colA span,
@@ -29551,7 +29554,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.table7 div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: calc(16.6666666667% - 5px);
+  width: calc((100% / 6) - 5px);
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.table7 div.colA span,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.table7 div.colA span,
@@ -29746,7 +29749,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.line div.tripleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex: none;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.line div.tripleLine span.header,
@@ -29868,7 +29871,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.aspects > div,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.aspects > div,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.aspects > div {
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   border: 1px solid black;
   flex-wrap: wrap;
   margin-bottom: 5px;
@@ -29939,14 +29942,14 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.portee,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.portee,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.portee {
-  width: 33.3333333333%;
+  width: calc(100% / 3);
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.degats, .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.violence,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.degats,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.violence,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.degats,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.violence {
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   border-left: 1px solid RGB(43 42 51);
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span:not(:first-of-type),
@@ -29988,7 +29991,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.line span.portee,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.line span.portee {
   display: flex;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   text-align: center;
   justify-content: center;
 }
@@ -30001,7 +30004,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   text-align: center;
   justify-content: center;
   background: RGB(43 42 51);
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   border-left: 1px solid RGB(76 74 90);
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets,
@@ -30096,7 +30099,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.col3,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.col3,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.col3 {
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   flex-wrap: wrap;
   border: 1px solid black;
 }
@@ -30173,7 +30176,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.configurations div.configuration {
-  width: calc(50% - 10px);
+  width: calc((100% / 2) - 10px);
   margin-top: 5px;
   margin-left: 5px;
   margin-right: 5px;
@@ -30420,7 +30423,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.debordement div.col {
   display: flex;
   flex-wrap: wrap;
-  width: 20%;
+  width: calc(100% / 5);
   background: RGB(76 74 90);
   border-bottom: 1px solid black;
 }
@@ -30442,7 +30445,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   position: absolute;
   height: 100%;
   right: 0px;
-  width: 80%;
+  width: calc((100% / 5) * 4);
   color: white;
   border: 0px;
   padding-top: 0px;
@@ -30967,7 +30970,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.combat div.main div.armesDistance div.wpn header div.line div.doubleLine {
   display: flex;
   flex-wrap: wrap;
-  width: calc(33.3333333333% - 11.3333333333px);
+  width: calc((100% / 3) - (34px / 3));
 }
 .pnj section.body div.combat div.main div.armesContact div.wpn header div.line div.doubleLine span,
 .pnj section.body div.combat div.main div.armesDistance div.wpn header div.line div.doubleLine span {
@@ -31042,7 +31045,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 50%;
+  width: calc(100% / 2);
 }
 .pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.line div.doubleLine span,
 .pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine span {
@@ -31244,7 +31247,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.combat div.main div.armesImprovisees div.wpn div.doubleLine {
   display: flex;
   flex-wrap: wrap;
-  width: calc(50% - 17px);
+  width: calc((100% / 2) - (34px / 2));
 }
 .pnj section.body div.combat div.main div.armesImprovisees div.wpn div.doubleLine span {
   display: block;
@@ -31733,7 +31736,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .pnj section.body div.options div.phase2 label.longspan {
   display: flex;
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   line-height: 26px;
   justify-content: space-between;
   flex: none;
@@ -32625,7 +32628,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   min-height: 23px;
   margin-bottom: 0px;
   margin-top: 5px;
-  margin-left: calc(50% - 102.5px);
+  margin-left: calc(50% - (205px/2));
   line-height: 100%;
   background: RGB(76 74 90);
   border: 1px solid RGB(76 74 90);
@@ -33174,7 +33177,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.body div.combat div.main div.armesDistance div.wpn header div.line div.doubleLine {
   display: flex;
   flex-wrap: wrap;
-  width: calc(33.3333333333% - 11.3333333333px);
+  width: calc((100% / 3) - (34px / 3));
 }
 .creature section.body div.combat div.main div.armesContact div.wpn header div.line div.doubleLine span,
 .creature section.body div.combat div.main div.armesDistance div.wpn header div.line div.doubleLine span {
@@ -33249,7 +33252,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 50%;
+  width: calc(100% / 2);
 }
 .creature section.body div.combat div.main div.armesContact div.wpn div.effets div.line div.doubleLine span,
 .creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine span {
@@ -33451,7 +33454,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.body div.combat div.main div.armesImprovisees div.wpn div.doubleLine {
   display: flex;
   flex-wrap: wrap;
-  width: calc(50% - 17px);
+  width: calc((100% / 2) - (34px / 2));
 }
 .creature section.body div.combat div.main div.armesImprovisees div.wpn div.doubleLine span {
   display: block;
@@ -33776,7 +33779,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .creature section.body div.options div.phase2 label.longspan {
   display: flex;
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   line-height: 26px;
   justify-content: space-between;
   flex: none;
@@ -34742,7 +34745,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   min-height: 23px;
   margin-bottom: 0px;
   margin-top: 5px;
-  margin-left: calc(50% - 102.5px);
+  margin-left: calc(50% - (205px/2));
   line-height: 100%;
   background: RGB(76 74 90);
   border: 1px solid RGB(76 74 90);
@@ -35329,7 +35332,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.body div.combat div.main div.armesDistance div.wpn header div.line div.doubleLine {
   display: flex;
   flex-wrap: wrap;
-  width: calc(33.3333333333% - 11.3333333333px);
+  width: calc((100% / 3) - (34px / 3));
 }
 .bande section.body div.combat div.main div.armesContact div.wpn header div.line div.doubleLine span,
 .bande section.body div.combat div.main div.armesDistance div.wpn header div.line div.doubleLine span {
@@ -35548,7 +35551,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.body div.combat div.main div.armesImprovisees div.wpn div.doubleLine {
   display: flex;
   flex-wrap: wrap;
-  width: calc(50% - 17px);
+  width: calc((100% / 2) - (34px / 2));
 }
 .bande section.body div.combat div.main div.armesImprovisees div.wpn div.doubleLine span {
   display: block;
@@ -35842,7 +35845,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .bande section.body div.options div.phase2 label.longspan {
   display: flex;
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   line-height: 26px;
   justify-content: space-between;
   flex: none;
@@ -36654,7 +36657,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .vehicule section.body div.modules div.mainBlock div.mSlots div.block {
   display: flex;
-  width: 16.6666666667%;
+  width: calc(100% / 6);
   flex-wrap: wrap;
 }
 .vehicule section.body div.modules div.mainBlock div.mSlots div.block span.title {
@@ -36876,7 +36879,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.body div.modules div.mainBlock div.data div.line div.tripleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex: none;
   border-bottom: 1px solid black;
 }
@@ -36938,7 +36941,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.body div.modules div.mainBlock div.data div.table5 div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: 20%;
+  width: calc(100% / 5);
 }
 .vehicule section.body div.modules div.mainBlock div.data div.table5 div.col1 span,
 .vehicule section.body div.modules div.mainBlock div.data div.table5 div.colA span {
@@ -36991,7 +36994,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.body div.modules div.mainBlock div.data div.table7 div.colA {
   display: flex;
   flex-wrap: wrap;
-  width: calc(16.6666666667% - 5px);
+  width: calc((100% / 6) - 5px);
 }
 .vehicule section.body div.modules div.mainBlock div.data div.table7 div.colA span {
   display: inline-block;
@@ -37132,7 +37135,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.body div.modules div.mainBlock div.data.line div.tripleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   flex: none;
 }
 .vehicule section.body div.modules div.mainBlock div.data.line div.tripleLine span.header {
@@ -37220,7 +37223,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   flex-wrap: wrap;
 }
 .vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.aspects > div {
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   border: 1px solid black;
   flex-wrap: wrap;
   margin-bottom: 5px;
@@ -37273,10 +37276,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 150px;
 }
 .vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.portee {
-  width: 33.3333333333%;
+  width: calc(100% / 3);
 }
 .vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.degats, .vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span.violence {
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   border-left: 1px solid RGB(43 42 51);
 }
 .vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.header span:not(:first-of-type) {
@@ -37306,7 +37309,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.line span.portee {
   display: flex;
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   text-align: center;
   justify-content: center;
 }
@@ -37315,7 +37318,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   text-align: center;
   justify-content: center;
   background: RGB(43 42 51);
-  width: 33.3333333333%;
+  width: calc(100% / 3);
   border-left: 1px solid RGB(76 74 90);
 }
 .vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets {
@@ -37390,7 +37393,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-top: 5px double black;
 }
 .vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.col3 {
-  width: calc(33.3333333333% - 5px);
+  width: calc((100% / 3) - 5px);
   flex-wrap: wrap;
   border: 1px solid black;
 }
@@ -37495,7 +37498,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.body div.combat div.main div.armesDistance div.wpn header div.line div.doubleLine {
   display: flex;
   flex-wrap: wrap;
-  width: calc(33.3333333333% - 11.3333333333px);
+  width: calc((100% / 3) - (34px / 3));
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn header div.line div.doubleLine span {
   display: block;
@@ -37571,7 +37574,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine {
   display: flex;
   flex-wrap: wrap;
-  width: 50%;
+  width: calc(100% / 2);
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.line div.doubleLine span {
   display: block;
@@ -39166,7 +39169,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .mechaarmure section.body div.combat div.main div.armesImprovisees div.wpn div.doubleLine {
   display: flex;
   flex-wrap: wrap;
-  width: calc(50% - 17px);
+  width: calc((100% / 2) - (34px / 2));
 }
 .mechaarmure section.body div.combat div.main div.armesImprovisees div.wpn div.doubleLine span {
   display: block;

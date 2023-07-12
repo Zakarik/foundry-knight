@@ -4335,6 +4335,20 @@ const caracteristiques = {
   'perception':'masque'
 };
 
+export function actorIsPj(actor) {
+  const type = actor.type;
+  const pj = ['knight', 'mechaarmure'];
+
+  return pj.includes(type) ? true : false;
+}
+
+//SI L'ACTEUR EST UNE MECHA ARMURE
+export function actorIsMa(actor) {
+  const type = actor.type;
+
+  return type === 'mechaarmure' ? true : false;
+}
+
 export function caracToAspect(c) {
   return caracteristiques[c] ?? null;
 }
@@ -4518,52 +4532,6 @@ export function compareArrays(arr1, arr2) {
   return true;
 };
 
-export function getKnightRoll(actor, hasEntraide=true) {
-  const hasInstance = Object.values(ui.windows).find((app) => app instanceof game.knight.applications.KnightRollDialog);
-  const isExist = !hasInstance ? false : true;
-
-  let result = {};
-
-  if(hasEntraide) {
-    result = hasInstance ?? new game.knight.applications.KnightRollDialog({
-      title:actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
-      buttons: {
-        button1: {
-          label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
-          callback: async () => {},
-          icon: `<i class="fas fa-dice"></i>`
-        },
-        button2: {
-          label: game.i18n.localize("KNIGHT.JETS.JetEntraide"),
-          callback: async () => {},
-          icon: `<i class="fas fa-dice-d6"></i>`
-        },
-        button3: {
-          label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
-          icon: `<i class="fas fa-times"></i>`
-        }
-      }
-    });
-  } else {
-    result = hasInstance ?? new game.knight.applications.KnightRollDialog({
-      title:actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
-      buttons: {
-        button1: {
-          label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
-          callback: async () => {},
-          icon: `<i class="fas fa-dice"></i>`
-        },
-        button3: {
-          label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
-          icon: `<i class="fas fa-times"></i>`
-        }
-      }
-    });
-  }
-
-  return {instance:result, previous:isExist};
-}
-
 export function getFlatEffectBonus(wpn, forceEquipped=false) {
   const data = wpn.system;
   const type = data.type;
@@ -4604,13 +4572,12 @@ export function getFlatEffectBonus(wpn, forceEquipped=false) {
 
 
   return result;
-};
+}
 
-//GESTION DES EFFETS
-
+//GESTION DES EFFETS ACTIFS
 export async function addEffect(origin, toAdd) {
   origin.createEmbeddedDocuments('ActiveEffect', toAdd);
-};
+}
 
 export async function updateEffect(origin, toUpdate) {
   origin.updateEmbeddedDocuments('ActiveEffect', toUpdate);

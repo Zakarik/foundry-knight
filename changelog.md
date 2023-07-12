@@ -1,3 +1,11 @@
+## v3.14.0
+### Améliorations
+- Nettoyage du code de la fenêtre de jets, pour une plus grande facilité de maintien et d'améliorations à l'avenir.
+- Ajout d'un bouton manquant pour la désactivation explosive du mode Changeling.
+
+### Bugfix
+- Correction de divers bugs affectant le mode Companions.
+
 ## v3.13.7
 ### Bugfix
 - Correction d'un bug sur certaines capacités d'armures qui ne fonctionnaient pas comme attendu.

@@ -239,7 +239,7 @@
                         {{getAspect aspect}}
                         <img src="systems/knight/assets/icons/D6Black.svg"  data-aspect="{{aspect}}" class="roll dice" />
                     </h2>
-                    <input type="number" name="system.aspects.{{aspect}}.value" value="{{key.value}}" min="1" max="{{key.max}}" />
+                    <input type="number" name="system.aspects.{{aspect}}.value" value="{{key.value}}" min="0" max="{{key.max}}" />
                     <div class="aspectsExceptionnels">
                         <span class="label">{{localize "KNIGHT.ASPECTS.Exceptionnels"}}</span>
                         <select name="system.aspects.{{aspect}}.ae.mineur.value" class="selectAeMin" data-type="{{aspect}}">

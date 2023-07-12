@@ -143,19 +143,19 @@ export class RollKnight extends Roll {
             nSuccess -= mod;
             break;
         }
-
-        if((this._difficulte != false || this._difficulte != 0) && !this._isEFail) {
-          if(nSuccess > this._difficulte) {
-            this._isRollSuccess = true;
-          } else {
-            this._isRollFailed = true;
-          }
-        }
       }
     }
 
     if(!hasExploit) {
       this._totalSuccess += nSuccess;
+
+      if((this._difficulte != false || this._difficulte != 0) && !this._isEFail) {
+        if(this._totalSuccess > this._difficulte) {
+          this._isRollSuccess = true;
+        } else {
+          this._isRollFailed = true;
+        }
+      }
 
       // Prepare chat data
       messageData = foundry.utils.mergeObject({

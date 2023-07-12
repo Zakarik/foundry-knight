@@ -8,11 +8,14 @@ import {
   updateEffect,
   existEffect,
   confirmationDialog,
-  getKnightRoll,
   effectsGestion
 } from "../../helpers/common.mjs";
 
-import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
+import {
+  dialogRoll,
+  actualiseRoll,
+} from "../../helpers/dialogRoll.mjs";
+
 import toggler from '../../helpers/toggler.js';
 
 const path = {
@@ -83,6 +86,8 @@ export class CreatureSheet extends ActorSheet {
     this._prepareAE(context);
 
     context.systemData = context.data.system;
+
+    actualiseRoll();
 
     return context;
   }
@@ -367,7 +372,7 @@ export class CreatureSheet extends ActorSheet {
       const aspect = target.data("aspect") || '';
       const reussites = +target.data("reussitebonus") || 0;
 
-      this._rollDice(label, aspect, false, false, '', '', '', -1, reussites);
+      dialogRoll(label, this.actor, {base:aspect, succesBonus:reussites});
     });
 
     html.find('.jetWpn').click(ev => {
@@ -394,7 +399,7 @@ export class CreatureSheet extends ActorSheet {
           break;
       }
 
-      this._rollDice(label, aspect, false, true, id, name, isDistance, num, 0);
+      dialogRoll(label, this.actor, {base:aspect, isWpn:true, idWpn:id, nameWpn:name, typeWpn:isDistance, num:num});
     });
 
     html.find('.setResilience').click(async ev => {
@@ -1096,84 +1101,6 @@ export class CreatureSheet extends ActorSheet {
     ];
 
     effectsGestion(this.actor, listWithEffect);
-
-    // ON ACTUALISE ROLL UI S'IL EST OUVERT
-    let rollUi = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
-
-    if(rollUi !== false) {
-      await rollUi.setActor(this.actor, this.actor.isToken);
-      await rollUi.setWpnContact(armesContact);
-      await rollUi.setWpnDistance(armesDistance);
-      await rollUi.setWpnTourelle(armesTourelles);
-
-      rollUi.render(true);
-    }
-  }
-
-  async _rollDice(label, aspect = '', difficulte = false, isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, reussitesBonus=0) {
-    const data = this.getData();
-    const queryInstance = getKnightRoll(this.actor, false);
-    const rollApp = queryInstance.instance;
-    const select = aspect;
-    const deployWpnImproviseesDistance = typeWpn === 'armesimprovisees' && idWpn === 'distance' ? true : false;
-    const deployWpnImproviseesContact = typeWpn === 'armesimprovisees' && idWpn === 'contact' ? true : false;
-    const deployWpnDistance = typeWpn === 'distance' ? true : false;
-    const deployWpnTourelle = typeWpn === 'tourelle' ? true : false;
-    const deployWpnContact = typeWpn === 'contact' ? true : false;
-    const hasBarrage = false;
-
-    let armeDistance = data.actor.armesDistance;
-    let armeTourelle = data.actor.armesTourelles;
-
-    for(let i = 0;i < Object.entries(armeDistance).length;i++) {
-      const wpnData = armeDistance[i].system;
-      const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-      const wpnMunitionActuel = wpnMunitions?.actuel || "";
-      const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
-
-      if(wpnMunitions.has) {
-        const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
-        const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
-
-        armeDistance[i].system.effets = {
-          raw:[...new Set(eRaw)],
-          custom:[...new Set(eCustom)],
-        }
-      }
-    }
-
-    for(let i = 0;i < Object.entries(armeTourelle).length;i++) {
-      const wpnData = armeTourelle[i].system;
-      const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-      const wpnMunitionActuel = wpnMunitions?.actuel || "";
-      const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
-
-      if(wpnMunitions.has) {
-        const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
-        const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
-
-        armeTourelle[i].system.effets = {
-          raw:[...new Set(eRaw)],
-          custom:[...new Set(eCustom)],
-        }
-      }
-    }
-
-    await rollApp.setActor(this.actor, this.actor.isToken);
-    await rollApp.setAspects(data.data.system.aspects);
-    await rollApp.setEffets(hasBarrage, false, false, false);
-    await rollApp.setData(label, select, [], [], difficulte,
-      data.data.system.combat.data.modificateur, data.data.system.combat.data.succesbonus+reussitesBonus,
-      {dice:data.data.system.combat.data.degatsbonus.dice, fixe:data.data.system.combat.data.degatsbonus.fixe},
-      {dice:data.data.system.combat.data.violencebonus.dice, fixe:data.data.system.combat.data.violencebonus.fixe},
-      data.actor.armesContact, armeDistance, armeTourelle, [], {contact:data.systemData.combat.armesimprovisees.liste, distance:data.systemData.combat.armesimprovisees.liste}, [], [],
-      isWpn, idWpn, nameWpn, typeWpn, num,
-      deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, false, false, false,
-      true, false);
-    await rollApp.setBonusTemp(false, 0, 0);
-
-    rollApp.render(true);
-    if(queryInstance.previous) rollApp.bringToTop();
   }
 
   _prepareAE(context) {

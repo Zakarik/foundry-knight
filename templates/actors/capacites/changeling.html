@@ -64,6 +64,45 @@
                 data-value="{{active.fauxEtre}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.FauxEtres"}} : {{localizeactivate active.fauxEtre}}
             </button>
+
+
+            {{#if desactivationexplosive.acces}}
+                {{#if active.personnel}}
+                <button class="activation"
+                    data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+                    data-toupdate="capacites.selected.changeling.active.personnel/capacites.selected.changeling.active.etendue/capacites.selected.changeling.active.fauxEtre"
+                    data-cout="0"
+                    data-dgtsDice="{{desactivationexplosive.degats.dice}}",
+                    data-dgtsFixe="{{desactivationexplosive.degats.fixe}}",
+                    data-explosive="true">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.DesactivationExplosive"}}
+                </button>
+                {{else}}
+                    {{#if active.etendue}}
+                    <button class="activation"
+                        data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+                        data-toupdate="capacites.selected.changeling.active.personnel/capacites.selected.changeling.active.etendue/capacites.selected.changeling.active.fauxEtre"
+                        data-cout="0"
+                        data-dgtsDice="{{desactivationexplosive.degats.dice}}",
+                        data-dgtsFixe="{{desactivationexplosive.degats.fixe}}",
+                        data-explosive="true">
+                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.DesactivationExplosive"}}
+                    </button>
+                    {{else}}
+                        {{#if active.fauxEtre}}
+                        <button class="activation"
+                            data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+                            data-toupdate="capacites.selected.changeling.active.personnel/capacites.selected.changeling.active.etendue/capacites.selected.changeling.active.fauxEtre"
+                            data-cout="0"
+                            data-dgtsDice="{{desactivationexplosive.degats.dice}}",
+                            data-dgtsFixe="{{desactivationexplosive.degats.fixe}}",
+                            data-explosive="true">
+                            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.DesactivationExplosive"}}
+                        </button>
+                        {{/if}}
+                    {{/if}}
+                {{/if}}
+            {{/if}}
         </div>
         {{/if}}
     </h3>
@@ -106,12 +145,12 @@
             </div>
         </div>
 
-        {{#if this.desactivationexplosive.acces}}
+        {{#if desactivationexplosive.acces}}
             <div class="data">
                 <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.DesactivationExplosive"}}</h4>
                 <div class="shortspan">
                     <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
-                    <span class="score">{{this.desactivationexplosive.labelPortee}}</span>
+                    <span class="score">{{getPortee this.desactivationexplosive.portee}}</span>
                 </div>
                 <div class="shortspan">
                     <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>

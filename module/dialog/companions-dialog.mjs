@@ -1,3 +1,7 @@
+import {
+  getArmor,
+} from "../helpers/common.mjs";
+
 /**
  * Edit dialog
  * @extends {Application}
@@ -197,6 +201,7 @@
    * @private
    */
    _onClickButton(event) {
+    event.preventDefault();
     const id = event.currentTarget.dataset.button;
     const button = this.data.buttons[id];
     this.submit(button);
@@ -207,8 +212,9 @@
    * @param {Object} button     The configuration of the chosen button
    * @private
    */
-   submit(button) {
+   async submit(button) {
     try {
+
       if (button.callback) button.callback(this.options.jQuery ? this.element : this.element[0]);
       const isLion = this.data.content.selected.lion;
       const isWolf = this.data.content.selected.wolf;
@@ -261,7 +267,7 @@
         };
 
         const actor = game.actors.get(this.data.actor);
-        const armor = actor.items.get(actor.system.equipements.armure.id);
+        const armor = await getArmor(actor);;
         const companionsEvolutions = armor.system.evolutions.special.companions;
         const evolutionsValue = +companionsEvolutions.value;
         const evolutionsAppliedV = +companionsEvolutions?.applied?.value || 0;
@@ -270,7 +276,7 @@
         const isEmpty = gloireListe[0]?.isEmpty ?? false;
         const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : getHighestOrder(gloireListe);
 
-        let update = {
+        /*let update = {
           system:{
             capacites:{
               selected:{
@@ -316,8 +322,9 @@
               }
             }
           }
-        }
+        }*/
 
+        const update = {};
         const evoListe = [];
 
         if(isLion) {
@@ -332,18 +339,16 @@
             const dataDialogValue = +dataLAspects[key].value;
             const dataDialogAe = +dataLAspects[key].ae;
 
-            update.system.capacites.selected.companions.lion.aspects[key] = {};
-
             if(dataDialogValue > 0) {
-              update.system.capacites.selected.companions.lion.aspects[key].value = +aspect.value + dataDialogValue;
+              update[`system.capacites.selected.companions.lion.aspects.${key}.value`] = Number(aspect.value)+dataDialogValue;
             }
 
             if(dataDialogAe > 0) {
-              update.system.capacites.selected.companions.lion.aspects[key].ae = +aspect.ae + dataDialogAe;
+              update[`system.capacites.selected.companions.lion.aspects.${key}.ae`] = Number(aspect.ae)+dataDialogAe;
             }
           }
 
-          update.system.capacites.selected.companions.lion.PG = oldPGLion+evoPGLion;
+          update[`system.capacites.selected.companions.lion.PG`] = oldPGLion+evoPGLion;
         }
 
         if(isWolf) {
@@ -360,11 +365,11 @@
             update.system.capacites.selected.companions.wolf.aspects[key] = {};
 
             if(dataDialogValue > 0) {
-              update.system.capacites.selected.companions.wolf.aspects[key].value = +aspect.value + dataDialogValue;
+              update[`system.capacites.selected.companions.wolf.aspects.${key}.value`] = Number(aspect.value)+dataDialogValue;
             }
 
             if(dataDialogAe > 0) {
-              update.system.capacites.selected.companions.wolf.aspects[key].ae = +aspect.ae + dataDialogAe;
+              update[`system.capacites.selected.companions.wolf.aspects.${key}.ae`] = Number(aspect.ae)+dataDialogAe;
             }
           }
 
@@ -374,8 +379,8 @@
             const dataArmorValue = +armorWConfigurations[key].bonus.roll;
 
             if(dataDialogValue > 0) {
-              update.system.capacites.selected.companions.wolf.configurations[key].niveau = dataArmorNiveau + dataDialogValue;
-              update.system.capacites.selected.companions.wolf.configurations[key].bonus.roll = dataArmorValue + dataDialogValue;
+              update[`system.capacites.selected.companions.wolf.configurations.${key}.niveau`] = dataArmorNiveau + dataDialogValue;
+              update[`system.capacites.selected.companions.wolf.configurations.${key}.bonus.roll`] = dataArmorValue + dataDialogValue;
             }
           }
         }
@@ -392,19 +397,19 @@
             update.system.capacites.selected.companions.crow.aspects[key] = {};
 
             if(dataDialogValue > 0) {
-              update.system.capacites.selected.companions.crow.aspects[key].value = +aspect.value + dataDialogValue;
+              update[`system.capacites.selected.companions.crow.aspects.${key}.value`] = Number(aspect.value) + dataDialogValue;
             }
           }
 
-          update.system.capacites.selected.companions.crow.cohesion.base = +armorCrow.cohesion.base + +evoCrow.cohesion;
-          update.system.capacites.selected.companions.crow.debordement.base = +armorCrow.debordement.base + +evoCrow.debordement;
-          update.system.capacites.selected.companions.crow.champDeForce.base = +armorCrow.champDeForce.base + +evoCrow.cdf;
+          update[`system.capacites.selected.companions.crow.cohesion.base`] = Number(armorCrow.cohesion.base) + Number(evoCrow.cohesion);
+          update[`system.capacites.selected.companions.crow.debordement.base`] = Number(armorCrow.debordement.base) + Number(evoCrow.debordement);
+          update[`system.capacites.selected.companions.crow.champDeForce.base`] = Number(armorCrow.champDeForce.base) + Number(evoCrow.cdf);
         }
 
-        update.system.capacites.selected.companions.activation = companionsEvolutions.evolutions.activation;
-        update.system.capacites.selected.companions.duree = companionsEvolutions.evolutions.duree;
-        update.system.capacites.selected.companions.energie.base = companionsEvolutions.evolutions.energie.base;
-        update.system.capacites.selected.companions.energie.prolonger = companionsEvolutions.evolutions.energie.prolonger;
+        update[`system.capacites.selected.companions.activation`] = companionsEvolutions.evolutions.activation;
+        update[`system.capacites.selected.companions.duree`] = companionsEvolutions.evolutions.duree;
+        update[`system.capacites.selected.companions.energie.base`] = companionsEvolutions.evolutions.energie.base;
+        update[`system.capacites.selected.companions.energie.prolonger`] = companionsEvolutions.evolutions.energie.prolonger;
 
         evoListe.push({
           addOrder:gloireMax+1,
@@ -412,8 +417,8 @@
           value:(evolutionsAppliedV+1)*evolutionsValue
         });
 
-        update.system.evolutions.special.companions.applied.value = evolutionsAppliedV + 1;
-        update.system.evolutions.special.companions.applied.liste = evolutionsAppliedL.concat(evoListe);
+        update[`system.evolutions.special.companions.applied.value`] = evolutionsAppliedV + 1;
+        update[`system.evolutions.special.companions.applied.liste`] = evolutionsAppliedL.concat(evoListe);
 
         armor.update(update);
 

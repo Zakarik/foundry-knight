@@ -15,6 +15,9 @@ import {
   getModuleBonus,
   getModStyle,
   getArmor,
+  caracToAspect,
+  actorIsPj,
+  actorIsMa,
 } from "../helpers/common.mjs";
 
 /**
@@ -48,7 +51,61 @@ export class KnightRollDialog extends Application {
       return obj;
     }, {});
 
-    const longbow = this.data?.longbow || {};
+    const {
+      actor = {},
+      isToken = false,
+      label = '',
+      aspects = {},
+      base = '',
+      lock = [],
+      interdits = [],
+      autre = [],
+      difficulte = false,
+      modificateur = 0,
+      succesBonus = 0,
+      degatsBonus = { dice: 0, fixe: 0 },
+      violenceBonus = { dice: 0, fixe: 0 },
+      moduleErsatz = false,
+      listWpnContact = [],
+      listWpnDistance = [],
+      listWpnTourelle = [],
+      listGrenades = [],
+      listWpnImprovisees = [],
+      listWpnMA = [],
+      listWpnSpecial = [],
+      longbow = {},
+      isWpn = false,
+      idWpn = '',
+      nameWpn = '',
+      typeWpn = '',
+      chambredouble = false,
+      chromeligneslumineuses = false,
+      cadence = false,
+      barrage = false,
+      systemerefroidissement = false,
+      guidage = false,
+      tenebricide = false,
+      obliteration = false,
+      cranerieur = false,
+      tirenrafale = false,
+      briserlaresilience = false,
+      jumeleambidextrie = false,
+      soeur = false,
+      jumelageambidextrie = false,
+      style = '',
+      num = 0,
+      pnj = false,
+      ma = false,
+      hasWraith = false,
+      moduleWraith = false,
+      ameliorations = {},
+      deploy = {},
+      noOd = false,
+      avDv = false,
+      bonusTemp = { has: false, modificateur: 0, succesbonus: 0 },
+      vehicule = {}
+    } = this.data;
+
     const hasLongbow = longbow?.has || false;
 
     if(hasLongbow) {
@@ -63,87 +120,74 @@ export class KnightRollDialog extends Application {
     }
 
     return {
-      isVehicule:this.data.vehicule,
-      actor:this.data.actor,
-      isToken:this.data.isToken,
-      label:this.data.label,
-      aspects: this.data.aspects,
-      base: this.data.base,
-      lock: this.data.lock,
-      autre: this.data.autre,
-      difficulte:this.data.difficulte,
-      modificateur:this.data.modificateur,
-      succesBonus:this.data.succesBonus,
-      degatsBonus:{
-        dice:this.data.degatsBonus?.dice || 0,
-        fixe:this.data.degatsBonus?.fixe || 0
+      actor,
+      isToken,
+      label,
+      aspects,
+      base,
+      lock,
+      interdits,
+      autre,
+      difficulte,
+      modificateur,
+      succesBonus,
+      degatsBonus: degatsBonus,
+      violenceBonus: violenceBonus,
+      moduleErsatz,
+      listWpnContact,
+      listWpnDistance,
+      listWpnTourelle,
+      listGrenades,
+      listWpnImprovisees,
+      listWpnMA,
+      listWpnSpecial,
+      longbow,
+      isWpn,
+      idWpn,
+      nameWpn,
+      typeWpn,
+      chambredouble,
+      chromeligneslumineuses,
+      cadence,
+      barrage,
+      systemerefroidissement,
+      guidage,
+      tenebricide,
+      obliteration,
+      cranerieur,
+      tirenrafale,
+      briserlaresilience,
+      jumeleambidextrie,
+      soeur,
+      jumelageambidextrie,
+      style,
+      num,
+      pnj,
+      ma,
+      hasWraith,
+      moduleWraith,
+      ameliorations,
+      deploy: {
+        wpnContact: deploy?.wpnContact || false,
+        wpnDistance: deploy?.wpnDistance || false,
+        wpnTourelle: deploy?.wpnTourelle || false,
+        wpnArmesImproviseesContact: deploy?.wpnArmesImproviseesContact || false,
+        wpnArmesImproviseesDistance: deploy?.wpnArmesImproviseesDistance || false,
+        grenades: deploy?.grenades || false,
+        longbow: deploy?.longbow || false,
+        wpnMA: deploy?.wpnMA || false,
+        wpnArmesImprovisees: deploy?.wpnArmesImprovisees || false,
       },
-      violenceBonus:{
-        dice:this.data.violenceBonus?.dice || 0,
-        fixe:this.data.violenceBonus?.fixe || 0
+      noOd,
+      avDv,
+      bonusTemp: {
+        has: bonusTemp?.has || false,
+        modificateur: bonusTemp?.modificateur || 0,
+        succesbonus: bonusTemp?.succesbonus || 0
       },
-      moduleErsatz:this.data.moduleErsatz,
-      listWpnContact:this.data.listWpnContact,
-      listWpnDistance:this.data.listWpnDistance,
-      listWpnTourelle:this.data.listWpnTourelle,
-      listGrenades:this.data.listGrenades,
-      listWpnImprovisees:this.data.listWpnImprovisees,
-      listWpnMA:this.data.listWpnMA,
-      listWpnSpecial:this.data.listWpnSpecial,
-      longbow:this.data.longbow,
-      isWpn:this.data.isWpn,
-      idWpn:this.data.idWpn,
-      nameWpn:this.data.nameWpn,
-      typeWpn:this.data.typeWpn,
-      chambredouble:this.data.chambredouble,
-      chromeligneslumineuses:this.data.chromeligneslumineuses,
-      cadence:this.data.cadence,
-      barrage:this.data.barrage,
-      systemerefroidissement:this.data.systemerefroidissement,
-      guidage:this.data.guidage,
-      tenebricide:this.data.tenebricide,
-      obliteration:this.data.obliteration,
-      cranerieur:this.data.cranerieur,
-      tirenrafale:this.data.tirenrafale,
-      briserlaresilience:this.data.briserlaresilience,
-      jumeleambidextrie:this.data.jumeleambidextrie,
-      soeur:this.data.soeur,
-      jumelageambidextrie:this.data.jumelageambidextrie,
-      style:this.data.style,
-      num:this.data.num,
-      pnj:this.data.pnj,
-      ma:this.data.ma,
-      hasWraith:this.data.hasWraith,
-      moduleWraith:this.data.moduleWraith,
-      ameliorations:{
-        subsoniques:this.data.ameliorations.subsoniques,
-        nonletales:this.data.ameliorations.nonletales,
-        iem:this.data.ameliorations.iem,
-        hypervelocite:this.data.ameliorations.hypervelocite,
-        drones:this.data.ameliorations.drones,
-        explosives:this.data.ameliorations.explosives,
-        grappes:this.data.ameliorations.grappes
-      },
-      deploy:{
-        wpnContact:this.data.deploy?.wpnContact || false,
-        wpnDistance:this.data.deploy?.wpnDistance || false,
-        wpnTourelle:this.data.deploy?.wpnTourelle || false,
-        wpnArmesImproviseesContact:this.data.deploy?.wpnArmesImproviseesContact || false,
-        wpnArmesImproviseesDistance:this.data.deploy?.wpnArmesImproviseesDistance || false,
-        grenades:this.data.deploy?.grenades || false,
-        longbow:this.data.deploy?.longbow || false,
-        wpnMA:this.data.deploy?.wpnMA || false,
-        wpnArmesImprovisees:this.data.deploy?.wpnArmesImprovisees || false,
-      },
-      noOd:this.data.noOd,
-      avDv:this.data.avDv,
-      bonusTemp:{
-        has:this.data?.bonusTemp?.has || false,
-        modificateur:this.data?.bonusTemp?.modificateur || 0,
-        succesbonus:this.data?.bonusTemp?.succesbonus || 0
-      },
-      buttons: buttons
-    }
+      vehicule,
+      buttons
+    };
   }
 
   async setActor(actor, isToken) {
@@ -160,462 +204,342 @@ export class KnightRollDialog extends Application {
     });
   }
 
-  async setVehicule(vehicule) {
-    this.data.vehicule = vehicule;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.vehicule,
-        );
-      }, 0);
-    });
-  }
-
-  getActor() {
-    return this.data.actor;
-  }
-
-  isToken() {
-    return this.data.isToken;
-  }
-
-  async setLabel(label) {
+  //ON MODIFIE LE LABEL
+  setLabel(label) {
     this.data.label = label;
 
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.label,
-        );
-      }, 0);
-    });
+    return {
+      label:this.data.label,
+    };
   }
 
-  async setRoll(base, bonus, lock, difficulte) {
+  //ON GERE L'ACTEUR
+  setAct(act) {
+    const isPJ = actorIsPj(act);
+    const isMA = actorIsMa(act);
+    const data = act.system;
+    const rawStyle = data?.combat?.style ?? '';
+    const getStyle = getModStyle(rawStyle);
+    const lAspectsInterdits = data?.combos?.interdits?.aspects ?? {};
+    const lCaracsInterdits = data?.combos?.interdits?.caracteristiques ?? {};
+    const sucBonus = data?.combat?.data?.succesbonus ?? 0;
+    const mod = data?.combat?.data?.modificateur ?? 0;
+    const degatsDice = data?.combat?.data?.degatsbonus?.dice ?? 0;
+    const degatsFixe = data?.combat?.data?.degatsbonus?.fixe ?? 0;
+    const violenceDice = data?.combat?.data?.violencebonus?.dice ?? 0;
+    const violenceFixe = data?.combat?.data?.violencebonus?.fixe ?? 0;
+    const nbreGrenade = data?.combat?.grenades?.quantity?.value ?? 0;
+    const grenade = nbreGrenade > 0 ? data?.combat?.grenades?.liste ?? [] : {};
+    const wpnContact = isPJ ? act?.armesContactEquipee ?? [] : act?.armesContact ?? [];
+    const wpnDistance = isPJ ? act?.armesDistanceEquipee ?? [] : act?.armesDistance ?? [];
+    const wpnTourelle = isPJ ? act?.armesTourelles ?? [] : act?.armesTourelles ?? [];
+    const wpnMa = isMA ? act?.wpn ?? [] : [];
+    let lgbow = act?.longbow ?? {};
+    let wpnMunitionsList = [wpnDistance, wpnTourelle]
+    let int = [];
+
+    if(lgbow?.effets?.raw ?? undefined !== undefined) lgbow.effets.raw = this.data?.longbow?.effets?.raw || [];
+
+    for (let [key, interdit] of Object.entries(lAspectsInterdits)){
+      int = int.concat(interdit);
+    }
+
+    if(isPJ) {
+      for (let [key, interdit] of Object.entries(lCaracsInterdits)){
+        int = int.concat(interdit);
+      }
+    }
+
+    for (let [kAspect, aspect] of Object.entries(data.aspects)){
+      if(int.includes(kAspect)) {
+        delete data.aspects[kAspect];
+      }
+
+      if(isPJ) {
+        for (let [kCaracs, carac] of Object.entries(aspect.caracteristiques)){
+          if(int.includes(kCaracs)) {
+            delete data.aspects[kAspect].caracteristiques[kCaracs];
+          }
+        }
+      }
+    }
+
+    for(let i = 0; i < wpnMunitionsList.length;i++) {
+      const wpnM = wpnMunitionsList[i];
+
+      for(let wpn of wpnM) {
+        const wpnData = wpn.system;
+        const wpnMunitions = wpnData?.optionsmunitions || {has:false};
+        const wpnMunitionActuel = wpnMunitions?.actuel || "0";
+        const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
+
+        if(wpnMunitions.has) {
+          const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
+          const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
+
+          wpnData.effets = {
+            raw:[...new Set(eRaw)],
+            custom:[...new Set(eCustom)],
+          }
+        }
+      }
+    }
+
+    //L'ACTEUR
+    this.data.actor = act;
+    this.data.isToken = act?.isToken ?? false;
+    this.data.pnj = actorIsPj(act) ? false : true;
+    this.data.ma = act?.type === 'mechaarmure' ? true : false;
+    //ASPECTS ET INTERDITS
+    this.data.aspects = data.aspects;
+    this.data.interdits = int;
+    //DIFFERENTS BONUS
+    this.data.modificateur = mod;
+    this.data.succesBonus = sucBonus;
+    this.data.degatsBonus = {dice:degatsDice, fixe:degatsFixe};
+    this.data.violenceBonus = {dice:violenceDice, fixe:violenceFixe};
+    //LISTE DES ARMES
+    this.data.listWpnContact = !isMA ? wpnContact ?? [] : [];
+    this.data.listWpnDistance = !isMA ? wpnDistance ?? [] : [];
+    this.data.listWpnTourelle = !isMA ? wpnTourelle ?? [] : [];
+    this.data.listGrenades = !isMA ? grenade ?? [] : [];
+    this.data.listWpnImprovisees = {contact:data.combat.armesimprovisees.liste, distance:data.combat.armesimprovisees.liste};
+    this.data.longbow = !isMA ? lgbow : [];
+    this.data.listWpnMA = isMA ? wpnMa : [];
+    this.data.listWpnSpecial = act?.wpnSpecial ?? [];
+    //DEPLOIEMENT DES ONGLETS
+    this.data.deploy = {};
+    //STYLE
+    this.data.style = {
+      fulllabel:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${rawStyle.toUpperCase()}.FullLabel`),
+      label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${rawStyle.toUpperCase()}.Label`),
+      raw:rawStyle,
+      info:data.combat.styleInfo,
+      caracteristiques:getStyle.caracteristiques,
+      tourspasses:data.combat.data.tourspasses,
+      type:data.combat.data.type,
+      sacrifice:data.combat.data.sacrifice,
+      maximum:6
+    };
+    //AVANTAGES ET DESAVANTAGES DE l'IA
+    this.data.avDv = {
+      avantages:act.avantagesIA,
+      inconvenient:act.inconvenientIA
+    };
+
+    return {
+      actor:this.data.actor,
+      isToken:this.data.isToken,
+      pnj:this.data.pnj,
+      aspects:this.data.aspects,
+      interdits:this.data.interdits,
+      modificateur:this.data.modificateur,
+      succesBonus:this.data.succesBonus,
+      degatsBonus:this.data.degatsBonus,
+      violenceBonus:this.data.violenceBonus,
+      listWpnContact:this.data.listWpnContact,
+      listWpnDistance:this.data.listWpnDistance,
+      listWpnTourelle:this.data.listWpnTourelle,
+      listGrenades:this.data.listGrenades,
+      listWpnImprovisee:this.data.listWpnImprovisee,
+      listWpnSpecial:this.data.listWpnSpecial,
+      longbow:this.data.longbow,
+      listWpnMA:this.data.listWpnMA,
+      deploy:this.data.deploy,
+      style:this.data.style,
+      avDv:this.data.avDv,
+    };
+  }
+
+  //ON GERE LE JET
+  setR(data) {
+    const actor = this.data.actor;
+    const isPJ = actorIsPj(actor);
+    const isMA = actorIsMa(actor);
+    const system = actor.system;
+    const bonus = system?.combos?.bonus ?? {};
+    const interdits = this.data.interdits;
+    const typeWpn = data?.typeWpn ?? this?.data?.typeWpn ?? '';
+    const idWpn = data?.idWpn ?? this?.data?.idWpn ?? '';
+    const nameWpn = data?.nameWpn ?? this?.data?.nameWpn ?? '';
+    const sucBonus = data?.succesbonus ?? this.data?.succesBonus ?? 0;
+    const mod = data?.modificateur ?? this.data?.modificateur ?? 0;
+    const degatsDice = data?.degatsDice ?? this.data?.degatsBonus?.dice ?? 0;
+    const degatsFixe = data?.degatsFixe ?? this.data?.degatsBonus?.fixe ?? 0;
+    const violenceDice = data?.violenceDice ?? this.data?.violenceBonus?.dice ?? 0;
+    const violenceFixe = data?.violenceFixe ?? this.data?.violenceBonus?.fixe ?? 0;
+    const modTemp = data?.modificateurTemp ?? 0;
+    const sucTemp = data?.succesTemp ?? 0;
+    const vehicule = data?.vehicule ?? undefined;
+
+    let base = data?.base ?? this.data?.base ?? '';
+    let autre = data?.autre ?? this.data?.autre ?? [];
+    let deploy = this.data.deploy;
+
+    if(isPJ) {
+      const bCarac = bonus?.caracteristiques ?? {};
+      const caracBonus = [...new Set(Object.values(bCarac).reduce((acc, val) => acc.concat(val), []))];
+
+      if(interdits.includes(base) || interdits.includes(caracToAspect(base))) base = '';
+
+      autre = [...new Set([...autre, ...caracBonus])]
+      autre = autre.filter(x => !interdits.includes(x));
+      autre = autre.filter(x => !interdits.includes(caracToAspect(x)));
+    } else {
+      if(interdits.includes(base)) base = '';
+    }
+
+    //JET
     this.data.base = base;
-    this.data.autre = bonus;
-    this.data.lock = lock;
-    this.data.difficulte = difficulte;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.base,
-          this.data.autre,
-          this.data.lock,
-          this.data.difficulte,
-        );
-      }, 0);
-    });
-  }
-
-  async setBonus(modificateur, succesBonus, degatsBonus, violenceBonus) {
-    this.data.modificateur = modificateur;
-    this.data.succesBonus = succesBonus;
-    this.data.degatsBonus = degatsBonus;
-    this.data.violenceBonus = violenceBonus;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.modificateur,
-          this.data.succesBonus,
-          this.data.degatsBonus,
-          this.data.violenceBonus,
-        );
-      }, 0);
-    });
-  }
-
-  async setWpn(wpnContact, wpnDistance, wpnTourelles, wpnGrenade, wpnImprovisees, wpnMA, wpnLongbow) {
-    let longbow = wpnLongbow;
-
-    if(longbow?.effets?.raw || undefined !== undefined) longbow.effets.raw = this.data?.longbow?.effets?.raw || [];
-
-    this.data.listWpnContact = wpnContact;
-    this.data.listWpnDistance = wpnDistance;
-    this.data.listWpnTourelle = wpnTourelles;
-    this.data.listGrenades = wpnGrenade;
-    this.data.listWpnImprovisees = wpnImprovisees;
-    this.data.longbow = longbow;
-    this.data.listWpnMA = wpnMA;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.listWpnContact,
-          this.data.listWpnDistance,
-          this.data.listWpnTourelle,
-          this.data.listGrenades,
-          this.data.listWpnImprovisees,
-          this.data.longbow,
-          this.data.listWpnMA,
-        );
-      }, 0);
-    });
-  }
-
-  async setWpnSpecial(wpnSpecial) {
-    this.data.listWpnSpecial = wpnSpecial;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.listWpnSpecial,
-        );
-      }, 0);
-    });
-  }
-
-  async setSelected(isWpn, idWpn, nameWpn, typeWpn, num) {
-    this.data.isWpn = isWpn;
-    this.data.idWpn = idWpn;
+    this.data.autre = autre;
+    this.data.lock = data?.lock ?? this.data?.lock ?? [];
+    this.data.difficulte = data?.difficulte ?? this.data?.difficulte ?? false;
+    //ARME SELECTIONNEE
+    this.data.isWpn = data?.isWpn ?? false;
+    this.data.idWpn = idWpn ?? -1;
     this.data.nameWpn = nameWpn;
     this.data.typeWpn = typeWpn;
-    this.data.num = num;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.isWpn,
-          this.data.idWpn,
-          this.data.nameWpn,
-          this.data.typeWpn,
-          this.data.num,
-        );
-      }, 0);
-    });
-  }
-
-  async setDeploy(deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseeContact, deployWpnImproviseeDistance, deployGrenades, deployLongbow, deployWpnMA) {
-    this.data.deploy = {
-      wpnContact:deployWpnContact,
-      wpnDistance:deployWpnDistance,
-      wpnTourelle:deployWpnTourelle,
-      wpnArmesImproviseesContact:deployWpnImproviseeContact,
-      wpnArmesImproviseesDistance:deployWpnImproviseeDistance,
-      grenades:deployGrenades,
-      longbow:deployLongbow,
-      wpnMA:deployWpnMA,
-    };
-
-    this.data.ameliorations = {
-      subsoniques:true,
-      nonletales:true,
-      iem:true,
-      hypervelocite:true,
-      drones:true,
-      explosives:true,
-      grappes:true
-    };
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.deploy.wpnContact,
-          this.data.deploy.wpnDistance,
-          this.data.deploy.wpnTourelle,
-          this.data.deploy.wpnArmesImproviseesContact,
-          this.data.deploy.wpnArmesImproviseesDistance,
-          this.data.deploy.grenades,
-          this.data.deploy.longbow,
-          this.data.deploy.wpnMA,
-        );
-      }, 0);
-    });
-  }
-
-  async setWhatIs(isPNJ=false, isMA=false) {
-    this.data.pnj = isPNJ;
-    this.data.ma = isMA;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.pnj,
-          this.data.ma,
-        );
-      }, 0);
-    });
-  }
-
-  async setData(label,
-    base, bonus, lock, difficulte, modificateur, succesBonus, degatsBonus, violenceBonus,
-    wpnContact, wpnDistance, wpnTourelles, wpnGrenade, wpnImprovisees, wpnMA, wpnLongbow,
-    isWpn, idWpn, nameWpn, typeWpn, num,
-    deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseeContact, deployWpnImproviseeDistance, deployGrenades, deployLongbow, deployWpnMA,
-    isPNJ=false, isMA=false) {
-
-    this.data.label = label;
-
-    this.data.base = base;
-    this.data.autre = bonus;
-    this.data.lock = lock;
-    this.data.difficulte = difficulte;
-
-    this.data.pnj = isPNJ;
-    this.data.ma = isMA;
-
-    this.data.listWpnContact = wpnContact;
-    this.data.listWpnDistance = wpnDistance;
-    this.data.listWpnTourelle = wpnTourelles;
-    this.data.listGrenades = wpnGrenade;
-    this.data.listWpnImprovisees = wpnImprovisees;
-    this.data.longbow = wpnLongbow;
-    this.data.listWpnMA = wpnMA;
-
-    this.data.isWpn = isWpn;
-    this.data.idWpn = idWpn;
-    this.data.nameWpn = nameWpn;
-    this.data.typeWpn = typeWpn;
-    this.data.num = num;
-
-    this.data.deploy = {
-      wpnContact:deployWpnContact,
-      wpnDistance:deployWpnDistance,
-      wpnTourelle:deployWpnTourelle,
-      wpnArmesImproviseesContact:deployWpnImproviseeContact,
-      wpnArmesImproviseesDistance:deployWpnImproviseeDistance,
-      grenades:deployGrenades,
-      longbow:deployLongbow,
-      wpnMA:deployWpnMA,
-    };
-
-    this.data.modificateur = modificateur;
-    this.data.succesBonus = succesBonus;
-    this.data.degatsBonus = degatsBonus;
-    this.data.violenceBonus = violenceBonus;
-
-    this.data.ameliorations = {
-      subsoniques:true,
-      nonletales:true,
-      iem:true,
-      hypervelocite:true,
-      drones:true,
-      explosives:true,
-      grappes:true
-    };
-
+    this.data.num = data?.num ?? this?.data?.num ?? -1;
+    //EFFETS SPECIAUX ARME SELECTIONNEE
+    this.data.barrage = typeWpn === 'grenades' && nameWpn !== '' ? this.data.listGrenades[nameWpn].effets.raw.find(str => { if(str.includes('barrage')) return true; }) : false;
+    //PAS D'OD DANS LE JET
+    this.data.noOd = data?.noOd ?? false;
+    //MODIFICATEURS TEMPORAIRES
     this.data.bonusTemp = {
-      has:false,
-      value:0
+      has:modTemp > 0 || sucTemp > 0 ? true : false,
+      modificateur:modTemp,
+      succesbonus:sucTemp
+    }
+    //MODIFICATEURS NON-TEMPORAIRES
+    this.data.modificateur = mod;
+    this.data.succesBonus = sucBonus;
+    this.data.degatsBonus = {dice:degatsDice, fixe:degatsFixe};
+    this.data.violenceBonus = {dice:violenceDice, fixe:violenceFixe};
+
+    //GESTION DES ONGLETS
+    switch(typeWpn) {
+      case 'contact':
+        deploy.wpnContact = true
+        break;
+
+      case 'distance':
+        deploy.wpnDistance = true
+        break;
+
+      case 'tourelle':
+        deploy.wpnTourelle = true
+        break;
+
+      case 'armesimprovisees':
+        if(idWpn == 'contact') {
+          deploy.wpnArmesImproviseesContact = true
+        } else if(idWpn == 'distance') {
+          deploy.wpnArmesImproviseesDistance = true
+        }
+        break;
+
+      case 'longbow':
+        deploy.longbow = true;
+        break;
+
+      case 'grenades':
+        deploy.grenades = true;
+        break;
+    }
+
+    this.data.deploy = deploy;
+    this.data.vehicule = vehicule;
+    this.data.hasWraith = isMA ? actor?.moduleWraith ?? false : false;
+
+    if(vehicule !== undefined) {
+      this.data.listWpnContact = {};
+      this.data.listWpnDistance = vehicule.armesDistance;
+      this.data.listWpnTourelle = {};
+      this.data.listGrenades = {};
+      this.data.listWpnImprovisee = {};
+      this.data.longbow = {};
+      this.data.listWpnMA = {};
+    }
+
+    return {
+      base: this.data.base,
+      autre: this.data.autre,
+      lock: this.data.lock,
+      difficulte: this.data.difficulte,
+      isWpn: this.data.isWpn,
+      idWpn: this.data.idWpn,
+      nameWpn: this.data.nameWpn,
+      typeWpn: this.data.typeWpn,
+      num: this.data.num,
+      barrage:this.data.barrage,
+      noOd:this.data.noOd,
+      bonusTemp:this.data.bonusTemp,
+      modificateur:this.data.modificateur,
+      succesBonus:this.data.succesBonus,
+      degatsBonus:this.data.degatsBonus,
+      violenceBonus:this.data.violenceBonus,
+      deploy:this.data.deploy,
+      vehicule:this.data.vehicule,
+      listWpnContact:this.data.listWpnContact,
+      listWpnDistance:this.data.listWpnDistance,
+      listWpnTourelle:this.data.listWpnTourelle,
+      listGrenades:this.data.listGrenades,
+      listWpnImprovisee:this.data.listWpnImprovisee,
+      listWpnSpecial:this.data.listWpnSpecial,
+      longbow:this.data.longbow,
+      listWpnMA:this.data.listWpnMA,
+      hasWraith:this.data.hasWraith,
     };
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.label,
-          this.data.base,
-          this.data.autre,
-          this.data.lock,
-
-          this.data.difficulte,
-
-          this.data.pnj,
-          this.data.ma,
-
-          this.data.listWpnContact,
-          this.data.listWpnDistance,
-          this.data.listWpnTourelle,
-          this.data.listGrenades,
-          this.data.listWpnImprovisees,
-          this.data.longbow,
-          this.data.listWpnMA,
-
-          this.data.isWpn,
-          this.data.idWpn,
-          this.data.nameWpn,
-          this.data.typeWpn,
-          this.data.num,
-
-          this.data.deploy.wpnContact,
-          this.data.deploy.wpnDistance,
-          this.data.deploy.wpnTourelle,
-          this.data.deploy.wpnArmesImproviseesContact,
-          this.data.deploy.wpnArmesImproviseesDistance,
-          this.data.deploy.grenades,
-          this.data.deploy.longbow,
-          this.data.deploy.wpnMA,
-
-          this.data.modificateur,
-          this.data.succesBonus,
-          this.data.degatsBonus,
-          this.data.violenceBonus,
-          this.data.ameliorations,
-
-          this.data.bonusTemp
-        );
-      }, 0);
-    });
   }
 
-  async setWpnMA(wpnMA) {
-    this.data.listWpnMA = wpnMA;
+  //ON ACTUALISE LES INFORMATIONS
+  actualise() {
+    const id = this?.data?.actor?._id ?? undefined;
 
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.listWpnMA
-        );
-      }, 0);
-    });
-  }
+    if(id === undefined) return;
 
-  async setWpnContact(wpnContact) {
-    this.data.listWpnContact = wpnContact;
+    //ACTUALISATION DE L'ACTEUR
+    const getActor = game.actors.get(id);
 
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.listWpnContact
-        );
-      }, 0);
-    });
-  }
+    this.setAct(getActor);
 
-  async setWpnDistance(wpnDistance) {
-    let final = wpnDistance;
+    //ON VERIFIE SI L'ARME SELECTIONNEE EXISTE TOUJOURS
+    const data = this.data;
+    const typeWpn = data?.typeWpn ?? ''
+    const idWpn = data?.idWpn ?? '';
+    const numWpn = data?.num ?? -1;
 
-    for(let i = 0;i < Object.entries(final).length;i++) {
-      const wpnData = final[i].system;
-      const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-      const wpnMunitionActuel = wpnMunitions?.actuel || "0";
-      const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
+    if(idWpn !== '') {
+      let wpn = {};
 
-      if(wpnMunitions.has) {
-        const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
-        const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
+      switch(typeWpn) {
+        case 'contact':
+          wpn = this.data.listWpnContact?.[numWpn] ?? false;
+          break;
 
-        final[i].system.effets = {
-          raw:[...new Set(eRaw)],
-          custom:[...new Set(eCustom)],
-        }
+        case 'distance':
+          wpn = this.data.listWpnDistance?.[numWpn] ?? false;
+          break;
+
+        case 'tourelle':
+          wpn = this.data.listWpnTourelle?.[numWpn] ?? false;
+          break;
+
+        case 'longbow':
+          wpn = foundry.utils.isEmpty(this.data.longbow) ? false : {};
+          break;
+
+        case 'grenades':
+          wpn = foundry.utils.isEmpty(this.data.listGrenades) ? false : {};
+          break;
       }
-    }
 
-    this.data.listWpnDistance = final;
+      if(wpn === false) {
+        this.setR({isWpn:false, typeWpn:'', idWpn:'', nameWpn:'', num:-1});
+      } else this.setR();
+    } else this.setR();
 
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.listWpnDistance
-        );
-      }, 0);
-    });
-  }
-
-  async setWpnTourelle(wpnTourelle) {
-    let final = wpnTourelle;
-
-    for(let i = 0;i < Object.entries(final).length;i++) {
-      const wpnData = final[i].system;
-      const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-      const wpnMunitionActuel = wpnMunitions?.actuel || "0";
-      const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
-
-      if(wpnMunitions.has) {
-        const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
-        const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
-
-        final[i].system.effets = {
-          raw:[...new Set(eRaw)],
-          custom:[...new Set(eCustom)],
-        }
-      }
-    }
-
-    this.data.listWpnTourelle = final;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.listWpnTourelle
-        );
-      }, 0);
-    });
-  }
-
-  async setWpnLongbow(wpnLongbow) {
-    let longbow = wpnLongbow;
-
-    longbow.effets.raw = this.data?.longbow?.effets?.raw || []
-
-    this.data.longbow = longbow;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.longbow
-        );
-      }, 0);
-    });
-  }
-
-  async setWraith(wraith) {
-    this.data.hasWraith = wraith;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.hasWraith
-        );
-      }, 0);
-    });
-  }
-
-  async setStyle(style) {
-    this.data.style = style;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.style
-        );
-      }, 0);
-    });
-  }
-
-  async setAspects(aspects) {
-    this.data.aspects = aspects;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.aspects
-        );
-      }, 0);
-    });
-  }
-
-  async setEffets(barrage, jumelageambidextrie, jumeleambidextrie, soeur) {
-    this.data.barrage = barrage;
-    this.data.jumelageambidextrie = jumelageambidextrie;
-    this.data.jumeleambidextrie = jumeleambidextrie;
-    this.data.soeur = soeur;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.barrage,
-          this.data.jumelageambidextrie,
-          this.data.jumeleambidextrie,
-          this.data.soeur
-        );
-      }, 0);
-    });
-  }
-
-  async setIfOd(hasOd) {
-    this.data.noOd = hasOd;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.noOd
-        );
-      }, 0);
-    });
+    this.render(true);
   }
 
   async setBonusTemp(has=false, modificateur=0, succesbonus) {
@@ -629,6 +553,26 @@ export class KnightRollDialog extends Application {
       setTimeout(() => {
         resolve(
           this.data.bonusTemp
+        );
+      }, 0);
+    });
+  }
+
+  getActor() {
+    return this.data.actor;
+  }
+
+  isToken() {
+    return this.data.isToken;
+  }
+
+  async setIfOd(hasOd) {
+    this.data.noOd = hasOd;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.noOd
         );
       }, 0);
     });
@@ -686,18 +630,6 @@ export class KnightRollDialog extends Application {
 
   getSuccesBonusTemp() {
     return Number(this.data.bonusTemp.succesbonus);
-  }
-
-  async addAvDv(AvDv) {
-    this.data.avDv = AvDv;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.avDv
-        );
-      }, 0);
-    });
   }
 
     /** @inheritdoc */
@@ -1130,7 +1062,7 @@ export class KnightRollDialog extends Application {
     const otherC = [];
     const PNJAE = getAEValue(data.base, actor, true);
 
-    const idWpn = wpnId === '' ? this.data.idWpn : wpnId;
+    const idWpn = wpnId === '' ? this.data?.idWpn ?? '' : wpnId;
     const nameWpn = wpnName === '' ? this.data.nameWpn : wpnId;
     const typeWpn = wpnType === '' ? this.data.typeWpn : wpnType;
     const numWpn = this.data.num;
@@ -1170,7 +1102,7 @@ export class KnightRollDialog extends Application {
       });
     }
 
-    if((idWpn != '' && !entraide) || (typeWpn === 'grenades' && !entraide) || (typeWpn === 'longbow' && !entraide)) {
+    if((idWpn != '' && idWpn != -1 && !entraide) || (typeWpn === 'grenades' && !entraide) || (typeWpn === 'longbow' && !entraide)) {
       if(typeWpn !== 'tourelle') totalDice += carac || 0;
       if(typeWpn !== 'tourelle' && !noOd && !isPNJ) totalBonus += od || 0;
       else if(typeWpn !== 'tourelle' && isPNJ) totalBonus += od || 0;
@@ -1789,7 +1721,7 @@ export class KnightRollDialog extends Application {
     const getStyle = isPNJ ? {} : getModStyle(style.raw);
     const options2mains = dataWpn?.options2mains || false;
 
-    let effetsWpn = typeWpn === 'longbow' ? {raw:dataWpn.effets.base.raw.concat(dataWpn.effets.raw), custom:dataWpn.effets.base.custom.concat(dataWpn.effets.custom)} : dataWpn.effets;
+    let effetsWpn = typeWpn === 'longbow' ? {raw:dataWpn.effets.base.raw.concat(dataWpn.effets.raw), custom:dataWpn.effets.base.custom.concat(dataWpn.effets.custom)} : dataWpn?.effets ?? {raw:[], custom:[]};
 
     if(typeWpn === 'contact' && options2mains !== false) {
       if(options2mains.has && options2mains.actuel === '2main') {effetsWpn = dataWpn.effets2mains;}
@@ -1802,9 +1734,9 @@ export class KnightRollDialog extends Application {
 
     let energieDgts = 0;
     let energieViolence = 0;
-    const hasVariableDgts = dataWpn.degats?.variable?.has || false;
-    const hasVariableViolence = dataWpn.violence?.variable?.has || false;
-    const hasAddChair = dataWpn.degats?.addchair || false;
+    const hasVariableDgts = dataWpn?.degats?.variable?.has || false;
+    const hasVariableViolence = dataWpn?.violence?.variable?.has || false;
+    const hasAddChair = dataWpn?.degats?.addchair || false;
 
     if(hasVariableDgts !== false) {
       energieDgts = dataWpn.degats.dice > dataWpn.degats.variable.min.dice ? (dataWpn.degats.dice-dataWpn.degats.variable.min.dice)*dataWpn.degats.variable.cout : 0;
@@ -2307,7 +2239,7 @@ export class KnightRollDialog extends Application {
       }
     } else {
       const lock = this.data.lock;
-      const autre = this.data.autre;
+      const autre = Array.isArray(this.data.autre) ? this.data.autre : [];
 
       if(!target.hasClass('lock')) {
         if(target.hasClass('base')) {
@@ -2340,7 +2272,6 @@ export class KnightRollDialog extends Application {
         }
       }
     }
-
 
     this.render(true);
   }
@@ -2597,14 +2528,14 @@ export class KnightRollDialog extends Application {
     const isMA = this.data.ma;
     const actor = this.data.actor;
 
-    const succesBonus = this.data.succesBonus;
-    const modificateur = this.data.modificateur;
-    const degatsDice = this.data.degatsBonus.dice;
-    const degatsFixe = this.data.degatsBonus.fixe;
-    const violenceDice = this.data.violenceBonus.dice;
-    const violenceFixe = this.data.violenceBonus.fixe;
-    const sacrifice = this.data?.style?.sacrifice || undefined;
-    const tourspasses = this.data?.style?.tourspasses || undefined;
+    const succesBonus = this.data.succesBonus || 0;
+    const modificateur = this.data.modificateur || 0;
+    const degatsDice = this.data.degatsBonus?.dice || 0;
+    const degatsFixe = this.data.degatsBonus?.fixe || 0;
+    const violenceDice = this.data.violenceBonus?.dice || 0;
+    const violenceFixe = this.data.violenceBonus?.fixe || 0;
+    const sacrifice = this.data?.style?.sacrifice || 0;
+    const tourspasses = this.data?.style?.tourspasses || 0;
 
     const update = isPNJ ? {
       system:{
@@ -2654,8 +2585,8 @@ export class KnightRollDialog extends Application {
     else await game.actors.get(actor.id).update(update);
 
     if(!isMA) {
-      const listWpnContact = this.data.listWpnContact;
-      const listWpnDistance = this.data.listWpnDistance;
+      const listWpnContact = this.data.listWpnContact || [];
+      const listWpnDistance = this.data.listWpnDistance || [];
 
       for(let i = 0;i < listWpnContact.length;i++) {
         const data = listWpnContact[i];

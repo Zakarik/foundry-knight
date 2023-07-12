@@ -5,11 +5,14 @@ import {
   listEffects,
   SortByName,
   confirmationDialog,
-  getKnightRoll,
   effectsGestion
 } from "../../helpers/common.mjs";
 
-import { KnightRollDialog } from "../../dialog/roll-dialog.mjs";
+import {
+  dialogRoll,
+  actualiseRoll,
+} from "../../helpers/dialogRoll.mjs";
+
 import toggler from '../../helpers/toggler.js';
 
 const path = {
@@ -74,6 +77,8 @@ export class BandeSheet extends ActorSheet {
     this._prepareAE(context);
 
     context.systemData = context.data.system;
+
+    actualiseRoll();
 
     return context;
   }
@@ -206,7 +211,7 @@ export class BandeSheet extends ActorSheet {
       const aspect = target.data("aspect") || '';
       const reussites = +target.data("reussitebonus") || 0;
 
-      this._rollDice(label, aspect, false, false, '', '', '', -1, reussites);
+      dialogRoll(label, this.actor, {base:aspect, succesBonus:reussites});
     });
 
     html.find('img.rollSpecifique').click(async ev => {
@@ -708,42 +713,6 @@ export class BandeSheet extends ActorSheet {
     ];
 
     effectsGestion(this.actor, listWithEffect);
-
-    // ON ACTUALISE ROLL UI S'IL EST OUVERT
-    let rollApp = Object.values(ui.windows).find((app) => app instanceof KnightRollDialog) ?? false;
-
-    if(rollApp !== false) {
-      await rollApp.setActor(this.actor, this.actor.isToken);
-    }
-  }
-
-  async _rollDice(label, aspect = '', difficulte = false, isWpn = false, idWpn = '', nameWpn = '', typeWpn = '', num=-1, reussitesBonus=0) {
-    const data = this.getData();
-    const queryInstance = getKnightRoll(this.actor, false);
-    const rollApp = queryInstance.instance;
-    const select = aspect;
-    const deployWpnImproviseesDistance = false;
-    const deployWpnImproviseesContact = false;
-    const deployWpnDistance = false;
-    const deployWpnTourelle = false;
-    const deployWpnContact = false;
-    const hasBarrage = false;
-
-    await rollApp.setActor(this.actor, this.actor.isToken);
-    await rollApp.setAspects(data.data.system.aspects);
-    await rollApp.setEffets(hasBarrage, false, false, false);
-    await rollApp.setData(label, select, [], [], difficulte,
-      data.data.system.combat.data.modificateur, data.data.system.combat.data.succesbonus+reussitesBonus,
-      {dice:0, fixe:0},
-      {dice:0, fixe:0},
-      [], [], [], [], {contact:[], distance:[]}, [], [],
-      isWpn, idWpn, nameWpn, typeWpn, num,
-      deployWpnContact, deployWpnDistance, deployWpnTourelle, deployWpnImproviseesContact, deployWpnImproviseesDistance, false, false, false,
-      true, false);
-    await rollApp.setBonusTemp(false, 0, 0);
-
-    rollApp.render(true);
-    if(queryInstance.previous) rollApp.bringToTop();
   }
 
   _prepareAE(context) {
