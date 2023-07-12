@@ -3290,6 +3290,140 @@ export class KnightSheet extends ActorSheet {
       }
     });
 
+    html.find('.armure .degatsViolence').click(async ev => {
+      const target = $(ev.currentTarget);
+      const label = target.data("label");
+      const eRaw = target?.data("raw") || false;
+      const eCustom = target?.data("custom") || '';
+      const degatsD = target.data("degats");
+      const degatsF = target?.data("degatsfixe") || 0;
+      const violenceD = target.data("violence");
+      const violenceF = target?.data("violencefixe") || 0;
+      const cout = target?.data("cout") || false;
+
+      if(cout !== false) {
+        const tCout = eval(cout);
+        const depense = await this._depensePE(label, tCout, true, false, false, true);
+
+        if(!depense) return;
+      }
+
+      let sub = [];
+      let other = [];
+      let include = [];
+      let toConcat = [];
+      let minMax = false;
+
+      if(eRaw !== false) {
+        const raw = eRaw.split(',');
+        const custom = eCustom === '' ? [] : eCustom.split(',');
+        const listEffets = await getEffets(this.actor, '', 'standard', this.system, {raw:raw, custom:custom}, [], [], [], false, 0);
+
+        sub = listEffets.degats.list;
+        include = listEffets.degats.include;
+        other = listEffets.other;
+        toConcat = listEffets.rollDgts;
+        minMax = listEffets.degats.minMax;
+      }
+
+      const rDegats = new game.knight.RollKnight(`${degatsD}D6+${degatsF}`, this.actor.system);
+      rDegats._success = false;
+      await rDegats.evaluate(minMax);
+
+      if(sub.length > 0) { sub.sort(SortByName); }
+      if(include.length > 0) { include.sort(SortByName); }
+
+      const rMode = game.settings.get("core", "rollMode");
+
+      const pDegats = {
+        flavor:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Degats")}`,
+        main:{
+          total:rDegats._total,
+          tooltip:await rDegats.getTooltip(),
+          formula: rDegats._formula
+        },
+        sub:sub,
+        include:include,
+        other:other,
+      };
+
+      const dgtsMsgData = {
+        user: game.user.id,
+        speaker: {
+          actor: this.actor?.id || null,
+          token: this.actor?.token?.id || null,
+          alias: this.actor?.name || null,
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+        rolls:[rDegats].concat(toConcat),
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegats),
+        sound: CONFIG.sounds.dice
+      };
+
+      const msgData = ChatMessage.applyRollMode(dgtsMsgData, rMode);
+
+      await ChatMessage.create(msgData, {
+        rollMode:rMode
+      });
+
+
+      let subV = [];
+      let otherV = [];
+      let includeV = [];
+      let toConcatV = [];
+      let minMaxV = false;
+
+      if(eRaw !== false) {
+        const raw = eRaw.split(',');
+        const custom = eCustom === '' ? [] : eCustom.split(',');
+        const listEffets = await getEffets(this.actor, '', 'standard', this.system, {raw:raw, custom:custom}, [], [], [], false, 0);
+
+        subV = listEffets.violence.list;
+        includeV = listEffets.violence.include;
+        otherV = listEffets.other;
+        toConcatV = listEffets.rollDgts;
+        minMaxV = listEffets.violence.minMax;
+      }
+
+      const rViolence = new game.knight.RollKnight(`${violenceD}D6+${violenceF}`, this.actor.system);
+      rViolence._success = false;
+      await rViolence.evaluate(minMaxV);
+
+      if(subV.length > 0) { sub.sort(SortByName); }
+      if(includeV.length > 0) { include.sort(SortByName); }
+
+      const pViolence = {
+        flavor:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Violence")}`,
+        main:{
+          total:rViolence._total,
+          tooltip:await rViolence.getTooltip(),
+          formula: rViolence._formula
+        },
+        sub:subV,
+        include:includeV,
+        other:otherV,
+      };
+
+      const violMsgData = {
+        user: game.user.id,
+        speaker: {
+          actor: this.actor?.id || null,
+          token: this.actor?.token?.id || null,
+          alias: this.actor?.name || null,
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+        rolls:[rViolence].concat(toConcat),
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', pViolence),
+        sound: CONFIG.sounds.dice
+      };
+
+      const msgDataV = ChatMessage.applyRollMode(violMsgData, rMode);
+
+      await ChatMessage.create(msgDataV, {
+        rollMode:rMode
+      });
+    });
+
     html.find('.armure .degats').click(async ev => {
       const target = $(ev.currentTarget);
       const label = target.data("label");
@@ -4835,7 +4969,6 @@ export class KnightSheet extends ActorSheet {
 
     if($(event.target).parents('div.wpnTourelle').length > 0) {
       if(itemData.type === 'arme' && itemData.system.type === 'distance') itemData.system.tourelle.has = true;
-
     }
 
     // Handle item sorting within the same Actor
@@ -7734,6 +7867,7 @@ export class KnightSheet extends ActorSheet {
       key: `system.progression.gloire.depense.liste.0.isEmpty`,
       mode: 5,
       priority: null,
+      icon:'',
       value: `true`
     });
 
@@ -7888,6 +8022,12 @@ export class KnightSheet extends ActorSheet {
     actorData.art = art;
     actorData.distinctions = distinctions;
     actorData.capaciteultime = capaciteultime;
+
+    const eff = this.actor.getEmbeddedCollection('ActiveEffect').filter(effect => effect.origin !== null)?.[0] ?? undefined;
+
+    if(eff !== undefined) {
+      await this.actor.deleteEmbeddedDocuments('ActiveEffect', [eff.id]);
+    }
   }
 
   async _prepareCapacitesParameters(actor, system) {

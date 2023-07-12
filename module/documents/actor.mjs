@@ -63,6 +63,8 @@ export class KnightActor extends Actor {
   prepareDerivedData() {
     const actorData = this;
 
+
+
     this._prepareKnightData(actorData);
     this._preparePNJData(actorData);
     this._prepareCreatureData(actorData);

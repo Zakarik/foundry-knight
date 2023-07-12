@@ -450,6 +450,7 @@ export class KnightRollDialog extends Application {
     this.data.deploy = deploy;
     this.data.vehicule = vehicule;
     this.data.hasWraith = isMA ? actor?.moduleWraith ?? false : false;
+    this.data.ameliorations = {};
 
     if(vehicule !== undefined) {
       this.data.listWpnContact = {};
@@ -489,6 +490,7 @@ export class KnightRollDialog extends Application {
       longbow:this.data.longbow,
       listWpnMA:this.data.listWpnMA,
       hasWraith:this.data.hasWraith,
+      ameliorations:this.data.ameliorations,
     };
   }
 
