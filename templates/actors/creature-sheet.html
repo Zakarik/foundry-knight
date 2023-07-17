@@ -231,36 +231,7 @@
             </div>
         </div>
 
-        <div class="tab aspects" data-group="primary" data-tab="aspects">
-            <div class="listeAspects">
-                {{#each systemData.aspects as | key aspect|}}
-                <div class="aspect">
-                    <h2 class="header">
-                        {{getAspect aspect}}
-                        <img src="systems/knight/assets/icons/D6Black.svg"  data-aspect="{{aspect}}" class="roll dice" />
-                    </h2>
-                    <input type="number" name="system.aspects.{{aspect}}.value" value="{{key.value}}" min="0" max="{{key.max}}" />
-                    <div class="aspectsExceptionnels">
-                        <span class="label">{{localize "KNIGHT.ASPECTS.Exceptionnels"}}</span>
-                        <select name="system.aspects.{{aspect}}.ae.mineur.value" class="selectAeMin" data-type="{{aspect}}">
-                            {{#select key.ae.mineur.value}}
-                                {{#each (whileBetweenNumber 0 key.ae.mineur.max) as | key value|}}
-                                    <option value="{{key}}">{{localize "KNIGHT.AUTRE.Mineur"}} ({{key}})</option>
-                                {{/each}}
-                            {{/select}}
-                        </select>
-                        <select name="system.aspects.{{aspect}}.ae.majeur.value" class="selectAeMaj" data-type="{{aspect}}">
-                            {{#select key.ae.majeur.value}}
-                                {{#each (whileBetweenNumber 0 key.ae.majeur.max) as | key value|}}
-                                    <option value="{{key}}">{{localize "KNIGHT.AUTRE.Majeur"}} ({{key}})</option>
-                                {{/each}}
-                            {{/select}}
-                        </select>
-                    </div>
-                </div>
-                {{/each}}
-            </div>
-        </div>
+{{~> systems/knight/templates/actors/subtab/aspectsPNJ.html}}
 
         <div class="tab capacites" data-group="primary" data-tab="capacites">
             {{#if systemData.options.phase2}}
@@ -633,33 +604,7 @@
             </div>
             {{/if}}
 
-            <div class="aspectsexceptionnels">
-                <h2 class="header js-toggler">
-                    <i class="far fa-minus-square"></i>
-                    {{localize "KNIGHT.ASPECTS.Exceptionnels"}}
-                </h2>
-
-                {{#each actor.aspectexceptionnel as | key aspect|}}
-                <div class="data">
-                    <h3 class="header js-toggler">
-                        <i class="far fa-plus-square"></i>
-
-                        {{getAspect aspect}}
-                    </h3>
-                    {{#if key.mineur}}
-                        <div class="line" style="display:none;">
-                            <span class="description">{{{key.mineur}}}</span>
-                        </div>
-                    {{/if}}
-
-                    {{#if key.majeur}}
-                        <div class="line" style="display:none;">
-                            <span class="description">{{{key.majeur}}}</span>
-                        </div>
-                    {{/if}}
-                </div>
-                {{/each}}
-            </div>
+{{~> systems/knight/templates/actors/subtab/aspectsExceptionnels.html}}
         </div>
 
         <div class="tab combat" data-group="primary" data-tab="combat">

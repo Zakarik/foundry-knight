@@ -8,7 +8,10 @@ import {
   updateEffect,
   existEffect,
   confirmationDialog,
-  effectsGestion
+  effectsGestion,
+  getDefaultImg,
+  diceHover,
+  options,
 } from "../../helpers/common.mjs";
 
 import {
@@ -111,40 +114,6 @@ export class CreatureSheet extends ActorSheet {
 
     toggler.init(this.id, html);
 
-    html.find('img.dice').hover(ev => {
-      $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6White.svg");
-    }, ev => {
-      $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6Black.svg");
-    });
-
-    html.find('img.diceTarget').hover(ev => {
-      $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6TargetWhite.svg");
-    }, ev => {
-      $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6TargetBlack.svg");
-    });
-
-    html.find('img.option').click(ev => {
-      const option = $(ev.currentTarget).data("option");
-      const actuel = this.getData().data.system[option]?.optionDeploy || false;
-
-      let result = false;
-      if(actuel) {
-        result = false;
-      } else {
-        result = true;
-      }
-
-      const update = {
-        system: {
-          [option]: {
-            optionDeploy:result
-          }
-        }
-      };
-
-      this.actor.update(update);
-    });
-
     html.find('div.combat div.armesContact img.info').click(ev => {
       const span = $(ev.currentTarget).siblings("span.hideInfo")
       const width = $(ev.currentTarget).parents("div.main").width() / 2;
@@ -234,6 +203,8 @@ export class CreatureSheet extends ActorSheet {
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
+    diceHover(html);
+    options(html, this.actor);
 
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
@@ -591,66 +562,9 @@ export class CreatureSheet extends ActorSheet {
     const itemData = {
       name: name,
       type: type,
+      img:getDefaultImg(type),
       system: data
     };
-
-    switch(type) {
-      case "arme":
-          itemData.img = "systems/knight/assets/icons/arme.svg";
-          break;
-
-      case "armure":
-          itemData.img = "systems/knight/assets/icons/armure.svg";
-          break;
-
-      case "avantage":
-          itemData.img = "systems/knight/assets/icons/avantage.svg";
-          break;
-
-      case "inconvenient":
-          itemData.img = "systems/knight/assets/icons/inconvenient.svg";
-          break;
-
-      case "motivationMineure":
-          itemData.img = "systems/knight/assets/icons/motivationMineure.svg";
-          break;
-
-      case "langue":
-          itemData.img = "systems/knight/assets/icons/langue.svg";
-          break;
-
-      case "contact":
-          itemData.img = "systems/knight/assets/icons/contact.svg";
-          break;
-
-      case "blessure":
-          itemData.img = "systems/knight/assets/icons/blessureGrave.svg";
-          break;
-
-      case "trauma":
-          itemData.img = "systems/knight/assets/icons/trauma.svg";
-          break;
-
-      case "module":
-          itemData.img = "systems/knight/assets/icons/module.svg";
-          break;
-
-      case "capacite":
-          itemData.img = "systems/knight/assets/icons/capacite.svg";
-          break;
-
-      case "armurelegende":
-          itemData.img = "systems/knight/assets/icons/armureLegende.svg";
-          break;
-
-      case "carteheroique":
-          itemData.img = "systems/knight/assets/icons/carteheroique.svg";
-          break;
-
-      case "capaciteheroique":
-          itemData.img = "systems/knight/assets/icons/capaciteheroique.svg";
-          break;
-    }
 
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.system["type"];

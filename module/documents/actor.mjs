@@ -1,6 +1,5 @@
 import {
-  getArmor,
-  getAllArmor,
+  getDefaultImg,
 } from "../helpers/common.mjs";
 
 /**
@@ -14,37 +13,7 @@ export class KnightActor extends Actor {
      * @override
      */
   static async create(data, context={}) {
-    if (data.img === undefined) {
-      switch(data.type) {
-        case "knight":
-          data.img = "systems/knight/assets/icons/knight.svg";
-          break;
-
-        case "ia":
-          data.img = "systems/knight/assets/icons/ia.svg";
-          break;
-
-        case "pnj":
-          data.img = "icons/svg/mystery-man-black.svg";
-          break;
-
-        case "creature":
-          data.img = "systems/knight/assets/icons/creature.svg";
-          break;
-
-        case "bande":
-          data.img = "systems/knight/assets/icons/bande.svg";
-          break;
-
-        case "vehicule":
-          data.img = "systems/knight/assets/icons/vehicule.svg";
-          break;
-
-        case "mechaarmure":
-          data.img = "systems/knight/assets/icons/mechaarmure.svg";
-          break;
-      }
-    }
+    if (data.img === undefined) data.img = getDefaultImg(data.type);
 
     const createData = data instanceof Array ? data : [data];
     const created = await this.createDocuments(createData, context);
@@ -62,8 +31,6 @@ export class KnightActor extends Actor {
 
   prepareDerivedData() {
     const actorData = this;
-
-
 
     this._prepareKnightData(actorData);
     this._preparePNJData(actorData);
@@ -519,6 +486,13 @@ export class KnightActor extends Actor {
     data.progression.experience.depense.total = PXTotalDepense;
 
     //data.progression.experience.total = PXTotalDepense+PXActuel;
+
+    //NETTOYE LES ARMES A DISTANCE S'IL NE PEUT PORTER DES ARMES A DISTANCE
+    const cannotUseDistance = armor?.system?.special?.selected?.contrecoups?.armedistance?.value ?? undefined;
+    if(cannotUseDistance === false) {
+      const itmWpn = actorData.items.find(wpn => wpn.type === 'arme' && wpn.system.type === 'distance');
+      if(itmWpn !== undefined) itmWpn.delete();
+    }
   }
 
   _preparePNJData(actorData) {

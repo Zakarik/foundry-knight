@@ -1056,53 +1056,23 @@ export class KnightRollDialog extends Application {
   }
 
   async _doRoll(event, entraide=false, attackOnly=false, dgtsOnly=false, violenceOnly=false, wpnId='', wpnType='', wpnName='', bonusTemp=false) {
-    const isPNJ = this.data?.pnj || false;
-    const isMA = this.data?.ma || false;
-    const noOd = this.data?.noOd || false;
-    const actor = this.data.actor;
     const data = this.data;
-    const otherC = [];
-    const PNJAE = getAEValue(data.base, actor, true);
+    const isPNJ = data?.pnj || false;
+    const noOd = data?.noOd || false;
+    const actor = data.actor;
 
-    const idWpn = wpnId === '' ? this.data?.idWpn ?? '' : wpnId;
-    const nameWpn = wpnName === '' ? this.data.nameWpn : wpnId;
-    const typeWpn = wpnType === '' ? this.data.typeWpn : wpnType;
-    const numWpn = this.data.num;
+    const idWpn = wpnId === '' ? data?.idWpn ?? '' : wpnId;
+    const nameWpn = wpnName === '' ? data.nameWpn : wpnId;
+    const typeWpn = wpnType === '' ? data.typeWpn : wpnType;
+    const numWpn = data.num;
+
+    const getCarac = this._getCarac(entraide);
+    const otherC = getCarac.otherC;
+    const carac = getCarac.carac;
+    const od = getCarac.od;
 
     let totalDice = 0;
     let totalBonus = 0;
-
-    let carac = 0;
-    let od = 0;
-
-    if(isPNJ) {
-      carac = getAspectValue(data.base, actor, true);
-      od = Number(PNJAE.mineur)+Number(PNJAE.majeur);
-    }
-    else if(isMA) {
-      carac = getCaracPiloteValue(data.base, actor, true);
-      od = !noOd ? getODPiloteValue(data.base, actor, true) : 0;
-    }
-    else {
-      carac = getCaracValue(data.base, actor, true);
-      od = !noOd ? getODValue(data.base, actor, true) : 0;
-    }
-
-    if(!entraide && !isPNJ) {
-      for(let i = 0;i < data.autre.length;i++) {
-        if(isMA) {
-          carac += getCaracPiloteValue(data.autre[i], actor, true);
-          od += !noOd ? getODPiloteValue(data.autre[i], actor, true) : 0;
-        } else {
-          carac += getCaracValue(data.autre[i], actor, true);
-          od += !noOd ? getODValue(data.autre[i], actor, true) : 0;
-        }
-      }
-
-      data.autre.forEach(function(c) {
-        otherC.push(game.i18n.localize(CONFIG.KNIGHT.caracteristiques[c]));
-      });
-    }
 
     if((idWpn != '' && idWpn != -1 && !entraide) || (typeWpn === 'grenades' && !entraide) || (typeWpn === 'longbow' && !entraide)) {
       if(typeWpn !== 'tourelle') totalDice += carac || 0;
@@ -1111,51 +1081,10 @@ export class KnightRollDialog extends Application {
       totalDice += data.modificateur || 0;
       totalBonus += data.succesBonus || 0;
 
-      const barrage = this.data.barrage;
-      const systemerefroidissement = this.data.systemerefroidissement;
-
-      let wpn;
-
-      switch(typeWpn) {
-        case 'base':
-        case 'c1':
-        case 'c2':
-          wpn = this.data.listWpnMA[numWpn];
-          break;
-
-        case 'special':
-          wpn = this.data.listWpnSpecial[numWpn];
-          break;
-
-        case 'contact':
-          wpn = this.data.listWpnContact[numWpn].system;
-          break;
-
-        case 'distance':
-          wpn = this.data.listWpnDistance[numWpn].system;
-          break;
-
-        case 'tourelle':
-          wpn = this.data.listWpnTourelle[numWpn].system;
-          break;
-
-        case 'grenades':
-          const nbreGrenade = actor.system.combat.grenades.quantity.value;
-
-          if(this.data.isToken) actor.token.modifyActorDocument({['system.combat.grenades.quantity.value']:nbreGrenade-1});
-          else game.actors.get(actor.id).update({['system.combat.grenades.quantity.value']:nbreGrenade-1});
-
-          wpn = this.data.listGrenades[nameWpn];
-          break;
-
-        case 'longbow':
-          wpn = this.data.longbow;
-          break;
-
-        case 'armesimprovisees':
-          wpn = this.data.listWpnImprovisees[this.data.idWpn][nameWpn].liste[numWpn];
-          break;
-      }
+      const barrage = data?.barrage ?? false;
+      const systemerefroidissement = data?.systemerefroidissement ?? false;
+      const getWpn = this._getWpn(data, typeWpn, idWpn, nameWpn, numWpn);
+      const wpn = getWpn.wpn;
 
       const energieSpecial = +wpn?.energie || 0;
       const espoirSpecial = +wpn?.espoir || 0;
@@ -1169,12 +1098,10 @@ export class KnightRollDialog extends Application {
       let onlyAttack = attackOnly === false ? listAllE.onlyAttack : attackOnly;
       let barrageValue = listAllE.barrageValue;
 
-      if(typeWpn !== 'tourelle' && !isPNJ) totalDice += getCaracValue(data.style.selected, actor, true);
+      totalDice += getWpn.dice;
+      totalBonus += getWpn.fixe;
 
-      if(typeWpn === 'tourelle') {
-        totalDice += +wpn.tourelle.attaque.dice;
-        totalBonus += +wpn.tourelle.attaque.fixe;
-      }
+      if(typeWpn !== 'tourelle' && !isPNJ) totalDice += getCaracValue(data.style.selected, actor, true);
 
       if(totalDepenseEnergie > 0) {
         const depense = await this._depensePE(actor, totalDepenseEnergie);
@@ -2719,5 +2646,101 @@ export class KnightRollDialog extends Application {
         type:type
       };
     }
+  }
+
+  _getCarac(entraide) {
+    const data = this.data;
+    const actor = data.actor;
+    const base = data.base;
+    const autre = data.autre;
+    const isPNJ = data?.pnj || false;
+    const isMA = data?.ma || false;
+    const noOd = data?.noOd || false;
+
+    let carac = 0;
+    let od = 0;
+    let otherC = [];
+
+    if(isPNJ) {
+      const PNJAE = getAEValue(base, actor, true);
+      carac = getAspectValue(base, actor, true);
+      od = Number(PNJAE.mineur)+Number(PNJAE.majeur);
+    }
+    else if(isMA) {
+      carac = getCaracPiloteValue(base, actor, true);
+      od = !noOd ? getODPiloteValue(base, actor, true) : 0;
+    }
+    else {
+      carac = getCaracValue(base, actor, true);
+      od = !noOd ? getODValue(base, actor, true) : 0;
+    }
+
+    if(!entraide && !isPNJ) {
+      for(let i = 0;i < autre.length;i++) {
+        if(isMA) {
+          carac += getCaracPiloteValue(autre[i], actor, true);
+          od += !noOd ? getODPiloteValue(autre[i], actor, true) : 0;
+        } else {
+          carac += getCaracValue(autre[i], actor, true);
+          od += !noOd ? getODValue(autre[i], actor, true) : 0;
+        }
+
+        otherC.push(game.i18n.localize(CONFIG.KNIGHT.caracteristiques[autre[i]]));
+      }
+    }
+
+    return {od:od, carac:carac, otherC:otherC}
+  }
+
+  _getWpn(data, typeWpn, idWpn, nameWpn, numWpn) {
+
+    let wpn = {};
+    let bonusDice = 0;
+    let bonusFixe = 0;
+
+    switch(typeWpn) {
+      case 'base':
+      case 'c1':
+      case 'c2':
+        wpn = data.listWpnMA[numWpn];
+        break;
+
+      case 'special':
+        wpn = data.listWpnSpecial[numWpn];
+        break;
+
+      case 'contact':
+        wpn = data.listWpnContact[numWpn].system;
+        break;
+
+      case 'distance':
+        wpn = data.listWpnDistance[numWpn].system;
+        break;
+
+      case 'tourelle':
+        wpn = data.listWpnTourelle[numWpn].system;
+        bonusDice += Number(wpn.tourelle.attaque.dice);
+        bonusFixe += Number(wpn.tourelle.attaque.fixe);
+        break;
+
+      case 'grenades':
+        const nbreGrenade = actor.system.combat.grenades.quantity.value;
+
+        if(data.isToken) actor.token.modifyActorDocument({['system.combat.grenades.quantity.value']:nbreGrenade-1});
+        else game.actors.get(actor.id).update({['system.combat.grenades.quantity.value']:nbreGrenade-1});
+
+        wpn = data.listGrenades[nameWpn];
+        break;
+
+      case 'longbow':
+        wpn = data.longbow;
+        break;
+
+      case 'armesimprovisees':
+        wpn = data.listWpnImprovisees[idWpn][nameWpn].liste[numWpn];
+        break;
+    }
+
+    return {wpn:wpn, dice:bonusDice, fixe:bonusFixe};
   }
 }

@@ -17,7 +17,10 @@ import {
   getCaracValue,
   getODValue,
   getFlatEffectBonus,
-  effectsGestion
+  effectsGestion,
+  getDefaultImg,
+  diceHover,
+  options,
 } from "../../helpers/common.mjs";
 
 import {
@@ -204,27 +207,8 @@ export class KnightSheet extends ActorSheet {
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
 
-    html.find('img.option').click(ev => {
-      const option = $(ev.currentTarget).data("option");
-      const actuel = this.getData().data.system[option]?.optionDeploy || false;
-
-      let result = false;
-      if(actuel) {
-        result = false;
-      } else {
-        result = true;
-      }
-
-      const update = {
-        system: {
-          [option]: {
-            optionDeploy:result
-          }
-        }
-      };
-
-      this.actor.update(update);
-    });
+    diceHover(html);
+    options(html, this.actor);
 
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
@@ -361,12 +345,12 @@ export class KnightSheet extends ActorSheet {
       const caracteristiques = target.data("caracteristiques")?.split('.')?.filter((a) => a) || false;
       const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
 
-      const getData = this.getData();
+      const getData = this.actor;
       const armure = await getArmor(this.actor);
       const remplaceEnergie = armure.system.espoir.remplaceEnergie || false;
       const quelMalus = remplaceEnergie ? 'espoir' : 'energie';
-      const equipcapacites = getData.data.system.equipements.armure.capacites;
-      const armorCapacites = getData.actor.armureData.system.capacites.selected;
+      const equipcapacites = getData.system.equipements.armure.capacites;
+      const armorCapacites = getData.armureData.system.capacites.selected;
 
       if(value) {
         const coutCalcule = remplaceEnergie && armure.system.espoir.cout > 0 && type === 'module' ? Math.max(Math.floor(cout / armure.system.espoir.cout), 1) : cout;
@@ -389,7 +373,7 @@ export class KnightSheet extends ActorSheet {
             effectExist = existEffect(listEffect, capacite);
 
             if(value) {
-              let data = getData.data.system;
+              let data = getData.system;
               data.wear = "ascension";
               data.energie.value = cout;
               data.armure.bonus = 0;
@@ -1387,7 +1371,7 @@ export class KnightSheet extends ActorSheet {
               case "degats":
                 const degatsRage = target.data("dgts") || 0;
                 const degatsLabel = target.data("label") || "";
-                const sante = getData.data.system.sante.value;
+                const sante = getData.system.sante.value;
 
                 const rDgtsRage = new game.knight.RollKnight(degatsRage, this.actor.system);
                 rDgtsRage._success = false;
@@ -1780,9 +1764,9 @@ export class KnightSheet extends ActorSheet {
       const special = target.data("special");
       const variant = target.data("variant");
       const isAllie = target.data("isallie");
-      const getData = this.getData();
-      const equipcapacites = getData.data.system.equipements.armure.capacites;
-      const armorCapacites = getData.actor.armureLegendeData.system.capacites.selected;
+      const getData = this.actor;
+      const equipcapacites = getData.system.equipements.armure.capacites;
+      const armorCapacites = getData.armureLegendeData.system.capacites.selected;
       const value = target.data("value") ? false : true;
       const armure = this.actor.items.get(this._getArmorLegendeId());
       const armureBase = await getArmor(this.actor);
@@ -2381,7 +2365,7 @@ export class KnightSheet extends ActorSheet {
       const value =  eval(target.data("value"));
       const note = target.data("note");
       const base = target.data("base");
-      const flux = +this.getData().data.system.flux.value;
+      const flux = +this.actor.system.flux.value;
       const armure = await getArmor(this.actor);
 
       switch(special) {
@@ -2444,7 +2428,7 @@ export class KnightSheet extends ActorSheet {
       const label = target.data("name");
       const value =  eval(target.data("value"));
       const note = target.data("note");
-      const flux = +this.getData().data.system.flux.value;
+      const flux = +this.actor.system.flux.value;
       const armure = this.actor.items.get(this._getArmorLegendeId());
 
       switch(special) {
@@ -2495,7 +2479,7 @@ export class KnightSheet extends ActorSheet {
 
       const actor = this.actor;
       const item = this.actor.items.get(id);
-      const getData = this.getData().systemData;
+      const getData = this.actor.system;
       const getCUData = item.system.actives;
 
       const recuperation = getCUData.recuperation;
@@ -2760,7 +2744,7 @@ export class KnightSheet extends ActorSheet {
 
       const actor = this.actor;
       const item = this.actor.items.get(id);
-      const getData = this.getData().systemData;
+      const getData = this.actor.system;
       const getCUData = item.system.actives;
 
       const roll = getCUData[type];
@@ -2917,16 +2901,16 @@ export class KnightSheet extends ActorSheet {
       const id = target.data("id");
       const permanent = target.data("permanent");
       const prestige = target.data("prestige");
-      const context = this.getData();
+      const context = this.actor;
 
       const armure = context.items.find(items => items.type === 'armure');
       const exist = Array.from(game.actors).find(actors => actors.system.proprietaire === this.actor.id);
 
       if(exist === undefined && permanent) {
-        let data = context.data.system;
+        let data = context.system;
         data.wear = "armure";
         data.isAscension = true;
-        data.proprietaire = this.actor._id;
+        data.proprietaire = context._id;
 
         let items = context.items;
         let ascension = items.find(items => items.type === 'armure');
@@ -2946,10 +2930,10 @@ export class KnightSheet extends ActorSheet {
           permission:this.actor.ownership
         });
       } else if(permanent) {
-        let data = context.data.system;
+        let data = context.system;
         data.wear = "armure";
         data.isAscension = true;
-        data.proprietaire = this.actor._id;
+        data.proprietaire = context._id;
 
         let items = context.items;
         let ascension = items.find(items => items.type === 'armure');
@@ -3574,18 +3558,6 @@ export class KnightSheet extends ActorSheet {
       });
     });
 
-    html.find('img.dice').hover(ev => {
-      $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6White.svg");
-    }, ev => {
-      $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6Black.svg");
-    });
-
-    html.find('img.diceTarget').hover(ev => {
-      $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6TargetWhite.svg");
-    }, ev => {
-      $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6TargetBlack.svg");
-    });
-
     html.find('div.listeAspects div.line').hover(ev => {
       $(ev.currentTarget).children('img').attr("src", "systems/knight/assets/icons/D6White.svg");
     }, ev => {
@@ -3599,7 +3571,7 @@ export class KnightSheet extends ActorSheet {
     });
 
     html.find('div.styleCombat > span.info').click(ev => {
-      const actuel = this.getData().data.system.combat?.styleDeploy || false;
+      const actuel = this.actor.system.combat?.styleDeploy || false;
 
       let result = false;
 
@@ -3701,7 +3673,7 @@ export class KnightSheet extends ActorSheet {
       const target = $(ev.currentTarget);
       const type = target.data("type");
       const name = game.i18n.localize(`KNIGHT.ART.PRATIQUE.${type.charAt(0).toUpperCase()+type.substr(1)}`);
-      const data = this.getData().actor.art.system.pratique[type];
+      const data = this.actor.art.system.pratique[type];
 
       const msg = {
         user: game.user.id,
@@ -3808,7 +3780,7 @@ export class KnightSheet extends ActorSheet {
     });
 
     html.find('.motivationAccomplie').click(async ev => {
-      const espoir = this.getData().data.system.espoir;
+      const espoir = this.actor.system.espoir;
       const mods = espoir.recuperation.bonus-espoir.recuperation.malus;
 
       const rEspoir = new game.knight.RollKnight(`1D6+${mods}`, this.actor.system);
@@ -3831,7 +3803,7 @@ export class KnightSheet extends ActorSheet {
       const aspect = $(ev.currentTarget).data("aspect");
       const label = game.i18n.localize(CONFIG.KNIGHT.aspects[aspect]);
 
-      const dataAspect = this.getData().data.system.aspects[aspect];
+      const dataAspect = this.actor.system.aspects[aspect];
 
       let editCarac = ``;
       let listCarac = [];
@@ -3896,9 +3868,9 @@ export class KnightSheet extends ActorSheet {
     html.find('button.gainEspoirItem').click(ev => {
       const id = $(ev.currentTarget).data("id");
       const item = this.actor.items.get(id);
-      const value = item.data.data.gainEspoir.value;
-      const actuel = this.getData().data.system.espoir.value;
-      const max = this.getData().data.system.espoir.max;
+      const value = item.system.gainEspoir.value;
+      const actuel = this.actor.system.espoir.value;
+      const max = this.actor.system.espoir.max;
       let total = actuel+value;
 
       const updateItem = {
@@ -3978,15 +3950,15 @@ export class KnightSheet extends ActorSheet {
     });
 
     html.find('div.nods img.dice').click(async ev => {
-      const data = this.getData();
+      const data = this.actor;
       const target = $(ev.currentTarget);
       const nbre = +target.data("number");
       const nods = target.data("nods");
 
       if(nbre > 0) {
-        const recuperation = data.data.system.combat.nods[nods].recuperationBonus;
+        const recuperation = data.system.combat.nods[nods].recuperationBonus;
 
-        const rNods = new game.knight.RollKnight(`3D6+${recuperation}`, this.actor.system);
+        const rNods = new game.knight.RollKnight(`3D6+${recuperation}`, data.system);
         rNods._flavor = game.i18n.localize(`KNIGHT.JETS.Nods${nods}`);
         rNods._success = false;
         await rNods.toMessage({
@@ -4004,21 +3976,21 @@ export class KnightSheet extends ActorSheet {
         switch(nods) {
           case 'soin':
             type = 'sante';
-            base = data.data.system.sante.value;
-            max = data.data.system.sante.max;
+            base = data.system.sante.value;
+            max = data.system.sante.max;
 
             break;
 
           case 'energie':
             type = 'energie';
-            base = data.data.system.energie.value;
-            max = data.data.system.energie.max;
+            base = data.system.energie.value;
+            max = data.system.energie.max;
             break;
 
           case 'armure':
             type = 'armure'
-            base = data.data.system.armure.value;
-            max = data.data.system.armure.max;
+            base = data.system.armure.value;
+            max = data.system.armure.max;
             break;
         }
 
@@ -4049,22 +4021,22 @@ export class KnightSheet extends ActorSheet {
     });
 
     html.find('div.nods img.diceTarget').click(async ev => {
-      const data = this.getData();
+      const data = this.actor;
       const target = $(ev.currentTarget);
       const nbre = +target.data("number");
       const nods = target.data("nods");
 
       if(nbre > 0) {
-        const recuperation = data.data.system.combat.nods[nods].recuperationBonus;
+        const recuperation = data.system.combat.nods[nods].recuperationBonus;
 
         const rNods = new game.knight.RollKnight(`3D6+${recuperation}`, this.actor.system);
         rNods._flavor = game.i18n.localize(`KNIGHT.JETS.Nods${nods}`);
         rNods._success = false;
         await rNods.toMessage({
           speaker: {
-          actor: this.actor?.id || null,
-          token: this.actor?.token?.id || null,
-          alias: this.actor?.name || null,
+          actor: data?.id || null,
+          token: data?.token?.id || null,
+          alias: data?.name || null,
           }
         });
 
@@ -4281,7 +4253,7 @@ export class KnightSheet extends ActorSheet {
     });
 
     html.find('div.progression .tableauPG .gloire-create').click(async ev => {
-      const dataGloire = this.getData().data.system.progression.gloire;
+      const dataGloire = this.actor.system.progression.gloire;
       const gloireListe = dataGloire.depense.liste;
       const isEmpty = gloireListe[0]?.isEmpty ?? false;
       let addOrder =  Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
@@ -4327,8 +4299,8 @@ export class KnightSheet extends ActorSheet {
     });
 
     html.find('div.progression .tableauPX .experience-create').click(ev => {
-      const getData = this.getData();
-      const data = getData.systemData.progression.experience.depense.liste
+      const getData = this.actor;
+      const data = getData.system.progression.experience.depense.liste
       const length = data.length === undefined ? Object.keys(data).length : data.length;
 
       const newData = [];
@@ -4350,8 +4322,8 @@ export class KnightSheet extends ActorSheet {
     html.find('div.progression .tableauPX .experience-delete').click(ev => {
       const target = $(ev.currentTarget);
       const id = +target.data("id");
-      const getData = this.getData();
-      const data = getData.systemData.progression.experience.depense.liste
+      const getData = this.actor;
+      const data = getData.system.progression.experience.depense.liste
       const length = data.length === undefined ? Object.keys(data).length : data.length;
 
       const newData = [];
@@ -4373,7 +4345,7 @@ export class KnightSheet extends ActorSheet {
       const dataEArmor = listEvolutions[id].data;
       const capacites = listEvolutions[id].capacites;
       let special = listEvolutions[id].special;
-      const gloireListe = this.getData().data.system.progression.gloire.depense.liste;
+      const gloireListe = this.actor.system.progression.gloire.depense.liste;
       const isEmpty = gloireListe[0]?.isEmpty ?? false;
       const addOrder =  Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
       const filter = [];
@@ -4597,7 +4569,7 @@ export class KnightSheet extends ActorSheet {
       const dataArmor = await getArmor(this.actor);
       const listEvolutions = dataArmor.system.evolutions.special.longbow;
       const capacites = listEvolutions[id];
-      const dataGloire = this.getData().data.system.progression.gloire;
+      const dataGloire = this.actor.system.progression.gloire;
       const gloireActuel = +dataGloire.actuel;
       const gloireListe = dataGloire.depense.liste;
       const isEmpty = gloireListe[0]?.isEmpty ?? false;
@@ -4692,7 +4664,7 @@ export class KnightSheet extends ActorSheet {
       const niveau = Number(target.data("niveau"))+1;
       const item = this.actor.items.get(key);
 
-      const gloireListe = this.getData().data.system.progression.gloire.depense.liste;
+      const gloireListe = this.actor.system.progression.gloire.depense.liste;
       const gloireMax = this._getHighestOrder(gloireListe);
 
       const data = {
@@ -4766,7 +4738,7 @@ export class KnightSheet extends ActorSheet {
   /* -------------------------------------------- */
   async _onItemCreate(event) {
     event.preventDefault();
-    const gloireListe = this.getData().data.system.progression.gloire.depense.liste;
+    const gloireListe = this.actor.system.progression.gloire.depense.liste;
     const isEmpty = gloireListe[0]?.isEmpty ?? false;
     const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
     const header = event.currentTarget;
@@ -4780,74 +4752,9 @@ export class KnightSheet extends ActorSheet {
     const itemData = {
       name: name,
       type: type,
+      img: getDefaultImg(type),
       system: data
     };
-
-    switch(type) {
-      case "arme":
-          itemData.img = "systems/knight/assets/icons/arme.svg";
-          break;
-
-      case "armure":
-          itemData.img = "systems/knight/assets/icons/armure.svg";
-          break;
-
-      case "avantage":
-          itemData.img = "systems/knight/assets/icons/avantage.svg";
-          break;
-
-      case "inconvenient":
-          itemData.img = "systems/knight/assets/icons/inconvenient.svg";
-          break;
-
-      case "motivationMineure":
-          itemData.img = "systems/knight/assets/icons/motivationMineure.svg";
-          break;
-
-      case "langue":
-          itemData.img = "systems/knight/assets/icons/langue.svg";
-          break;
-
-      case "contact":
-          itemData.img = "systems/knight/assets/icons/contact.svg";
-          break;
-
-      case "blessure":
-          itemData.img = "systems/knight/assets/icons/blessureGrave.svg";
-          break;
-
-      case "trauma":
-          itemData.img = "systems/knight/assets/icons/trauma.svg";
-          break;
-
-      case "module":
-          itemData.img = "systems/knight/assets/icons/module.svg";
-          break;
-
-      case "capacite":
-          itemData.img = "systems/knight/assets/icons/capacite.svg";
-          break;
-
-      case "armurelegende":
-          itemData.img = "systems/knight/assets/icons/armureLegende.svg";
-          break;
-
-      case "carteheroique":
-          itemData.img = "systems/knight/assets/icons/carteheroique.svg";
-          break;
-
-      case "capaciteheroique":
-          itemData.img = "systems/knight/assets/icons/capaciteheroique.svg";
-          break;
-
-      case "capaciteultime":
-          itemData.img = "systems/knight/assets/icons/capaciteultime.svg";
-          break;
-
-      case "art":
-          itemData.img = "systems/knight/assets/icons/art.svg";
-          break;
-    }
 
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.system["type"];
@@ -4979,9 +4886,9 @@ export class KnightSheet extends ActorSheet {
   }
 
   async _onDropItemCreate(itemData) {
-    const data = this.getData()
-    const actorData = data.data.system;
-    const hasCapaciteCompanions = data.actor?.armureData?.system?.capacites?.selected?.companions || false;
+    const data = this.actor;
+    const actorData = data.system;
+    const hasCapaciteCompanions = data?.armureData?.system?.capacites?.selected?.companions || false;
     const gloireListe = actorData.progression.gloire.depense.liste;
     const isEmpty = gloireListe[0]?.isEmpty ?? false;
     const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
@@ -5630,7 +5537,7 @@ export class KnightSheet extends ActorSheet {
       }
     };
     let effects = {base:[], experiences:[], gloire:[], armure:[], guardian:[], armes:[], overdrives:[], modules:[], slots:[], avantages:[], inconvenients:[], blessures:[], traumas:[], distinctions:[]};
-
+    let hasDistance = false;
     let n = 1;
 
     for (let i of items) {
@@ -7442,6 +7349,8 @@ export class KnightSheet extends ActorSheet {
         const armeE2Raw = data.effets2mains.raw.concat(armorSpecialRaw);
         const armeE2Custom = data.effets2mains.custom.concat(armorSpecialCustom);
 
+        if(type === 'distance') hasDistance = true;
+
         data.effets.raw = [...new Set(armeRaw)];
         data.effets.custom = armeCustom;
 
@@ -8277,17 +8186,17 @@ export class KnightSheet extends ActorSheet {
   }
 
   async _depensePE(label, depense, autosubstract=true, forceEspoir=false, flux=false, capacite=true) {
-    const data = this.getData();
-    const armor = await getArmor(this.actor);
+    const data = this.actor;
+    const armor = await getArmor(data);
     const dataArmor = armor.system;
     const remplaceEnergie = dataArmor.espoir.remplaceEnergie || false;
 
     const type = remplaceEnergie === true || forceEspoir === true ? 'espoir' : 'energie';
-    const hasFlux = +data.systemData.jauges.flux;
-    const fluxActuel = +data.systemData.flux.value;
-    const actuel = remplaceEnergie === true || forceEspoir === true ? +data.systemData.espoir.value : +data.systemData.energie.value;
+    const hasFlux = Number(data.system.jauges.flux);
+    const fluxActuel = Number(data.system.flux.value);
+    const actuel = remplaceEnergie === true || forceEspoir === true ? Number(data.system.espoir.value) : Number(data.system.energie.value);
     const substract = actuel-depense;
-    const hasJauge = data.systemData.jauges[type];
+    const hasJauge = data.system.jauges[type];
 
     if(!hasJauge) return false;
 
@@ -8308,9 +8217,9 @@ export class KnightSheet extends ActorSheet {
       const msgEnergieData = {
         user: game.user.id,
         speaker: {
-          actor: this.actor?.id || null,
-          token: this.actor?.token?.id || null,
-          alias: this.actor?.name || null,
+          actor: data?.id || null,
+          token: data?.token?.id || null,
+          alias: data?.name || null,
         },
         type: CONST.CHAT_MESSAGE_TYPES.OTHER,
         content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgEnergie),
@@ -8336,7 +8245,7 @@ export class KnightSheet extends ActorSheet {
           update[`system.flux.value`] = substract;
         }
 
-        if(type === 'espoir' && this.getData().systemData.espoir.perte.saufAgonie && capacite === true) {
+        if(type === 'espoir' && data.system.espoir.perte.saufAgonie && capacite === true) {
           update[`system.espoir.value`] = actuel;
         }
 
@@ -8348,13 +8257,13 @@ export class KnightSheet extends ActorSheet {
   }
 
   async _gainPE(gain, autoadd=true, forceEspoir=false) {
-    const data = this.getData();
-    const armor = await getArmor(this.actor);
+    const data = this.actor;
+    const armor = await getArmor(data);
     const remplaceEnergie = armor.system.espoir.remplaceEnergie || false;
 
     const type = remplaceEnergie === true || forceEspoir === true ? 'espoir' : 'energie';
-    const actuel = remplaceEnergie === true || forceEspoir === true ? +data.systemData.espoir.value : +data.systemData.energie.value;
-    const total = remplaceEnergie === true || forceEspoir === true ? +data.systemData.espoir.max : +data.systemData.energie.max;
+    const actuel = remplaceEnergie === true || forceEspoir === true ? +data.system.espoir.value : +data.system.energie.value;
+    const total = remplaceEnergie === true || forceEspoir === true ? +data.system.espoir.max : +data.system.energie.max;
     let add = actuel+gain;
 
     if(add > total) {
@@ -8402,88 +8311,6 @@ export class KnightSheet extends ActorSheet {
         this.actor.update(maj);
         break;
     }
-  }
-
-  _getCaracValue(c) {
-    return +this.getData().actor.caracteristiques[c].value;
-  }
-
-  _getODValue(c) {
-    const wear = this.getData().data.system.wear;
-    let result = 0;
-
-    if(wear === 'armure' || wear === 'ascension') { result = +this.getData().actor.caracteristiques[c].od; }
-
-    return result;
-  }
-
-  _setCombos(aspects, toAdd = [], toLock = []) {
-    const lAspectsInterdits = this.actor.system.combos.interdits.aspects;
-    const lCaracsInterdits = this.actor.system.combos.interdits.caracteristiques;
-    const lAspectsBonus = this.actor.system.combos.bonus.aspects;
-    const lCaracsBonus = foundry.utils.mergeObject(this.actor.system.combos.bonus.caracteristiques, {add:toAdd});
-    let interdits = [];
-    let bonus = [];
-    let lock = [];
-
-    for (let [key, interdit] of Object.entries(lAspectsInterdits)){
-      interdits = interdits.concat(interdit);
-    }
-
-    for (let [key, interdit] of Object.entries(lCaracsInterdits)){
-      interdits = interdits.concat(interdit);
-    }
-
-    for (let [key, add] of Object.entries(lAspectsBonus)){
-      for(let i = 0; i < add.length;i++) {
-        if(!interdits.includes(add[i])) {
-          bonus.push(add[i]);
-        }
-      }
-    }
-
-    for (let [key, add] of Object.entries(lCaracsBonus)){
-      for(let i = 0; i < add.length;i++) {
-        if(!interdits.includes(add[i])) {
-          bonus.push(add[i]);
-        }
-      }
-    }
-
-    for (let [kAspect, aspect] of Object.entries(aspects)){
-      if(interdits.includes(kAspect)) {
-        delete aspects[kAspect];
-      }
-
-      for (let [kCaracs, carac] of Object.entries(aspect.caracteristiques)){
-        if(bonus.includes(kCaracs)) {
-          aspects[kAspect].caracteristiques[kCaracs].lock = false;
-          bonus.push(kCaracs);
-        }
-
-        if(toLock.includes(kCaracs)) {
-          aspects[kAspect].caracteristiques[kCaracs].lock = true;
-          lock.push(kCaracs);
-        }
-
-        if(interdits.includes(kCaracs)) {
-          delete aspects[kAspect].caracteristiques[kCaracs];
-        }
-      }
-    }
-
-    bonus = [...new Set(bonus)];
-    lock = [...new Set(lock)];
-    interdits = [...new Set(interdits)];
-
-    const result = {
-      aspects,
-      bonus,
-      interdits,
-      lock
-    };
-
-    return result;
   }
 
   async _resetArmureCapacites() {
@@ -8706,7 +8533,7 @@ export class KnightSheet extends ActorSheet {
   }
 
   async _resetArmureModules() {
-    const listModules = this.getData().actor.modules;
+    const listModules = this.actor.modules;
 
     for (let i = 0;i < listModules.length;i++){
       const dataModules = listModules[i];
@@ -8737,7 +8564,7 @@ export class KnightSheet extends ActorSheet {
   async _getSlotsValue() {
     const hasArmor = await getArmor(this.actor);
     const sArmure = hasArmor.system.slots;
-    const sUtilise = this.getData().data.system.equipements.armure.slots;
+    const sUtilise = this.actor.system.equipements.armure.slots;
 
     const result = !hasArmor ? undefined : {
       tete: sArmure.tete.value-sUtilise.tete,
@@ -8752,16 +8579,10 @@ export class KnightSheet extends ActorSheet {
   }
 
   _getArmorLegendeId() {
-    const data = this.getData();
-    const id = data.data.system.equipements.armure?.idLegende || 0;
+    const data = this.actor;
+    const id = data.system.equipements.armure?.idLegende || 0;
 
     return id;
-  }
-
-  _getTotalPG(data) {
-    const PG = +data.progression.gloire.total;
-
-    return PG;
   }
 
   _getHighestOrder(myObject) {

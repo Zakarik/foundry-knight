@@ -4575,6 +4575,131 @@ export function getFlatEffectBonus(wpn, forceEquipped=false) {
   return result;
 }
 
+export function getDefaultImg(type) {
+  let img = '';
+
+  switch(type) {
+    case "arme":
+      img = "systems/knight/assets/icons/arme.svg";
+      break;
+
+    case "armure":
+      img = "systems/knight/assets/icons/armure.svg";
+      break;
+
+    case "avantage":
+      img = "systems/knight/assets/icons/avantage.svg";
+      break;
+
+    case "inconvenient":
+      img = "systems/knight/assets/icons/inconvenient.svg";
+      break;
+
+    case "motivationMineure":
+      img = "systems/knight/assets/icons/motivationMineure.svg";
+      break;
+
+    case "langue":
+      img = "systems/knight/assets/icons/langue.svg";
+      break;
+
+    case "contact":
+      img = "systems/knight/assets/icons/contact.svg";
+      break;
+
+    case "blessure":
+      img = "systems/knight/assets/icons/blessureGrave.svg";
+      break;
+
+    case "trauma":
+      img = "systems/knight/assets/icons/trauma.svg";
+      break;
+
+    case "module":
+      img = "systems/knight/assets/icons/module.svg";
+      break;
+
+    case "capacite":
+      img = "systems/knight/assets/icons/capacite.svg";
+      break;
+
+    case "armurelegende":
+      img = "systems/knight/assets/icons/armureLegende.svg";
+      break;
+
+    case "carteheroique":
+      img = "systems/knight/assets/icons/carteheroique.svg";
+      break;
+
+    case "capaciteheroique":
+      img = "systems/knight/assets/icons/capaciteheroique.svg";
+      break;
+
+    case "capaciteultime":
+      img = "systems/knight/assets/icons/capaciteultime.svg";
+      break;
+
+    case "art":
+      img = "systems/knight/assets/icons/art.svg";
+      break;
+
+    case "knight":
+      img = "systems/knight/assets/icons/knight.svg";
+      break;
+
+    case "ia":
+      img = "systems/knight/assets/icons/ia.svg";
+      break;
+
+    case "pnj":
+      img = "icons/svg/mystery-man-black.svg";
+      break;
+
+    case "creature":
+      img = "systems/knight/assets/icons/creature.svg";
+      break;
+
+    case "bande":
+      img = "systems/knight/assets/icons/bande.svg";
+      break;
+
+    case "vehicule":
+      img = "systems/knight/assets/icons/vehicule.svg";
+      break;
+
+    case "mechaarmure":
+      img = "systems/knight/assets/icons/mechaarmure.svg";
+      break;
+  }
+
+  return img;
+}
+
+export function diceHover(html) {
+  html.find('img.dice').hover(ev => {
+    $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6White.svg");
+  }, ev => {
+    $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6Black.svg");
+  });
+
+  html.find('img.diceTarget').hover(ev => {
+    $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6TargetWhite.svg");
+  }, ev => {
+    $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6TargetBlack.svg");
+  });
+}
+
+export function options(html, actor) {
+  html.find('img.option').click(ev => {
+    const option = $(ev.currentTarget).data("option");
+    const actuel = actor.system[option]?.optionDeploy || false;
+
+    const result = actuel ? false : true;
+
+    actor.update({[`system.${option}.optionDeploy`]:result});
+  });
+}
+
 //GESTION DES EFFETS ACTIFS
 export async function addEffect(origin, toAdd) {
   origin.createEmbeddedDocuments('ActiveEffect', toAdd);
