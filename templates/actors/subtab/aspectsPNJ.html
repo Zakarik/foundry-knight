@@ -1,0 +1,30 @@
+<div class="tab aspects" data-group="primary" data-tab="aspects">
+    <div class="listeAspects">
+        {{#each systemData.aspects as | key aspect|}}
+        <div class="aspect">
+            <h2 class="header">
+                {{getAspect aspect}}
+                <img src="systems/knight/assets/icons/D6Black.svg"  data-aspect="{{aspect}}" class="roll dice" />
+            </h2>
+            <input type="number" name="system.aspects.{{aspect}}.value" value="{{key.value}}" min="0" max="{{key.max}}" />
+            <div class="aspectsExceptionnels">
+                <span class="label">{{localize "KNIGHT.ASPECTS.Exceptionnels"}}</span>
+                <select name="system.aspects.{{aspect}}.ae.mineur.value">
+                    {{#select key.ae.mineur.value}}
+                        {{#each (whileBetweenNumber 0 key.ae.mineur.max) as | key value|}}
+                            <option value="{{key}}">{{localize "KNIGHT.AUTRE.Mineur"}} ({{key}})</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+                <select name="system.aspects.{{aspect}}.ae.majeur.value">
+                    {{#select key.ae.majeur.value}}
+                        {{#each (whileBetweenNumber 0 key.ae.majeur.max) as | key value|}}
+                            <option value="{{key}}">{{localize "KNIGHT.AUTRE.Majeur"}} ({{key}})</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

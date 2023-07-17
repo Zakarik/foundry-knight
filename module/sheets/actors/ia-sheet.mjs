@@ -1,5 +1,6 @@
 import {
-  confirmationDialog
+  confirmationDialog,
+  getDefaultImg,
 } from "../../helpers/common.mjs";
 
 /**
@@ -84,66 +85,9 @@ export class IASheet extends ActorSheet {
     const itemData = {
       name: name,
       type: type,
+      img:getDefaultImg(type),
       system: data
     };
-
-    switch(type) {
-      case "arme":
-          itemData.img = "systems/knight/assets/icons/arme.svg";
-          break;
-
-      case "armure":
-          itemData.img = "systems/knight/assets/icons/armure.svg";
-          break;
-
-      case "avantage":
-          itemData.img = "systems/knight/assets/icons/avantage.svg";
-          break;
-
-      case "inconvenient":
-          itemData.img = "systems/knight/assets/icons/inconvenient.svg";
-          break;
-
-      case "motivationMineure":
-          itemData.img = "systems/knight/assets/icons/motivationMineure.svg";
-          break;
-
-      case "langue":
-          itemData.img = "systems/knight/assets/icons/langue.svg";
-          break;
-
-      case "contact":
-          itemData.img = "systems/knight/assets/icons/contact.svg";
-          break;
-
-      case "blessure":
-          itemData.img = "systems/knight/assets/icons/blessureGrave.svg";
-          break;
-
-      case "trauma":
-          itemData.img = "systems/knight/assets/icons/trauma.svg";
-          break;
-
-      case "module":
-          itemData.img = "systems/knight/assets/icons/module.svg";
-          break;
-
-      case "capacite":
-          itemData.img = "systems/knight/assets/icons/capacite.svg";
-          break;
-
-      case "armurelegende":
-          itemData.img = "systems/knight/assets/icons/armureLegende.svg";
-          break;
-
-      case "carteheroique":
-          itemData.img = "systems/knight/assets/icons/carteheroique.svg";
-          break;
-
-      case "capaciteheroique":
-          itemData.img = "systems/knight/assets/icons/capaciteheroique.svg";
-          break;
-    }
 
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.system["type"];

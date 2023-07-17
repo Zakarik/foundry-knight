@@ -125,6 +125,8 @@ export const PreloadTemplates = async function() {
     `${path}/actors/subtab/armes.html`,
     `${path}/actors/subtab/longbow.html`,
     `${path}/actors/subtab/modules.html`,
+    `${path}/actors/subtab/aspectsPNJ.html`,
+    `${path}/actors/subtab/aspectsExceptionnels.html`,
     `${path}/dialog/ask-sheet.html`,
     `${path}/items/armuresLegende/capacites/personnalise.html`,
     `${path}/items/armuresLegende/capacites/shrine.html`,

@@ -1,3 +1,7 @@
+## v3.15.1
+### Bugfix
+- Correction d'un bug permettant à la Warlock d'avoir des armes à distance.
+
 ## v3.15.0
 ### Améliorations
 - Ajout de la possibilité de faire un jet de dégâts + violence combiné avec l'Oriflamme.

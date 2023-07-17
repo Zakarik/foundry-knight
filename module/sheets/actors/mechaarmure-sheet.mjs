@@ -5,7 +5,10 @@ import {
   getModStyle,
   addOrUpdateEffect,
   confirmationDialog,
-  effectsGestion
+  effectsGestion,
+  getDefaultImg,
+  diceHover,
+  options,
 } from "../../helpers/common.mjs";
 
 import {
@@ -96,21 +99,6 @@ export class MechaArmureSheet extends ActorSheet {
 
     toggler.init(this.id, html);
 
-    html.find('img.dice').hover(ev => {
-      $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6White.svg");
-    }, ev => {
-      $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6Black.svg");
-    });
-
-    html.find('img.option').click(ev => {
-      const option = $(ev.currentTarget).data("option");
-      const actuel = this.getData().data.system[option]?.optionDeploy || false;
-
-      const result = actuel ? false : true;
-
-      this.actor.update({[`system.${option}.optionDeploy`]:result});
-    });
-
     html.find('div.combat img.info').click(ev => {
       const span = $(ev.currentTarget).siblings("span.hideInfo")
       const width = $(ev.currentTarget).parents("div.modules").width() / 2;
@@ -142,6 +130,9 @@ export class MechaArmureSheet extends ActorSheet {
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
+
+    diceHover(html);
+    options(html, this.actor);
 
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
@@ -1006,7 +997,6 @@ export class MechaArmureSheet extends ActorSheet {
     html.find('div.styleCombat > select').change(ev => {
       const style = $(ev.currentTarget).val();
       const mods = getModStyle(style);
-      const knightRoll = this._getKnightRoll();
       const effects = [];
 
       effects.push({
@@ -1048,20 +1038,6 @@ export class MechaArmureSheet extends ActorSheet {
       };
 
       this.actor.update(update);
-
-      if(knightRoll) {
-        knightRoll.data.style.fulllabel = game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.FullLabel`);
-        knightRoll.data.style.label = game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Label`);
-        knightRoll.data.style.raw = style;
-        knightRoll.data.style.selected = '';
-        knightRoll.data.style.tourspasses = 1;
-        knightRoll.data.style.sacrifice = 0;
-        knightRoll.data.style.type = "degats";
-        knightRoll.data.style.maximum = 6;
-        knightRoll.data.style.caracteristiques = mods.caracteristiques;
-        knightRoll.data.style.info = game.i18n.localize(`KNIGHT.COMBAT.STYLES.${style.toUpperCase()}.Info`);
-        knightRoll.render(true);
-      }
     });
 
     html.find('.roll').click(ev => {
@@ -1114,66 +1090,9 @@ export class MechaArmureSheet extends ActorSheet {
     const itemData = {
       name: name,
       type: type,
+      img:getDefaultImg(type),
       system: data
     };
-
-    switch(type) {
-      case "arme":
-          itemData.img = "systems/knight/assets/icons/arme.svg";
-          break;
-
-      case "armure":
-          itemData.img = "systems/knight/assets/icons/armure.svg";
-          break;
-
-      case "avantage":
-          itemData.img = "systems/knight/assets/icons/avantage.svg";
-          break;
-
-      case "inconvenient":
-          itemData.img = "systems/knight/assets/icons/inconvenient.svg";
-          break;
-
-      case "motivationMineure":
-          itemData.img = "systems/knight/assets/icons/motivationMineure.svg";
-          break;
-
-      case "langue":
-          itemData.img = "systems/knight/assets/icons/langue.svg";
-          break;
-
-      case "contact":
-          itemData.img = "systems/knight/assets/icons/contact.svg";
-          break;
-
-      case "blessure":
-          itemData.img = "systems/knight/assets/icons/blessureGrave.svg";
-          break;
-
-      case "trauma":
-          itemData.img = "systems/knight/assets/icons/trauma.svg";
-          break;
-
-      case "module":
-          itemData.img = "systems/knight/assets/icons/module.svg";
-          break;
-
-      case "capacite":
-          itemData.img = "systems/knight/assets/icons/capacite.svg";
-          break;
-
-      case "armurelegende":
-          itemData.img = "systems/knight/assets/icons/armureLegende.svg";
-          break;
-
-      case "carteheroique":
-          itemData.img = "systems/knight/assets/icons/carteheroique.svg";
-          break;
-
-      case "capaciteheroique":
-          itemData.img = "systems/knight/assets/icons/capaciteheroique.svg";
-          break;
-    }
 
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.system["type"];

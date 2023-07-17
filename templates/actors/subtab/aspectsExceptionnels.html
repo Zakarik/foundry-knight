@@ -1,0 +1,27 @@
+<div class="aspectsexceptionnels">
+    <h2 class="header js-toggler">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.ASPECTS.Exceptionnels"}}
+    </h2>
+
+    {{#each actor.aspectexceptionnel as | key aspect|}}
+    <div class="data">
+        <h3 class="header js-toggler">
+            <i class="far fa-plus-square"></i>
+
+            {{getAspect aspect}}
+        </h3>
+        {{#if key.mineur}}
+            <div class="line" style="display:none;">
+                <span class="description">{{{key.mineur}}}</span>
+            </div>
+        {{/if}}
+
+        {{#if key.majeur}}
+            <div class="line" style="display:none;">
+                <span class="description">{{{key.majeur}}}</span>
+            </div>
+        {{/if}}
+    </div>
+    {{/each}}
+</div>

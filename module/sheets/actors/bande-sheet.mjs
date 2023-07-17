@@ -5,7 +5,9 @@ import {
   listEffects,
   SortByName,
   confirmationDialog,
-  effectsGestion
+  effectsGestion,
+  diceHover,
+  options,
 } from "../../helpers/common.mjs";
 
 import {
@@ -102,34 +104,6 @@ export class BandeSheet extends ActorSheet {
 
     toggler.init(this.id, html);
 
-    html.find('img.dice').hover(ev => {
-      $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6White.svg");
-    }, ev => {
-      $(ev.currentTarget).attr("src", "systems/knight/assets/icons/D6Black.svg");
-    });
-
-    html.find('img.option').click(ev => {
-      const option = $(ev.currentTarget).data("option");
-      const actuel = this.getData().data.system[option]?.optionDeploy || false;
-
-      let result = false;
-      if(actuel) {
-        result = false;
-      } else {
-        result = true;
-      }
-
-      const update = {
-        system: {
-          [option]: {
-            optionDeploy:result
-          }
-        }
-      };
-
-      this.actor.update(update);
-    });
-
     html.find('div.bCapacite img.info').click(ev => {
       const span = $(ev.currentTarget).siblings("span.hideInfo")
       const width = $(ev.currentTarget).parents("div.mainBlock").width() / 2;
@@ -161,6 +135,9 @@ export class BandeSheet extends ActorSheet {
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
+
+    diceHover(html);
+    options(html, this.actor);
 
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
