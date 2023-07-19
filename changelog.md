@@ -1,3 +1,7 @@
+## v3.15.2
+### Bugfix
+- Correction d'un bug empêchant l'invocation de la Shaman.
+
 ## v3.15.1
 ### Bugfix
 - Correction d'un bug permettant à la Warlock d'avoir des armes à distance.
