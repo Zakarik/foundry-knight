@@ -381,16 +381,21 @@ export class KnightSheet extends ActorSheet {
 
               let newItems = getData.items.filter(items => items.system.rarete !== 'prestige');
               newItems.find(item => item.type === 'armure').system.energie.base = cout;
+              let clone = foundry.utils.deepClone(this.actor);
 
-              newActor = await Actor.create({
-                name: `${name} : ${this.title}`,
-                type: "knight",
-                img:armure.img,
-                items:newItems,
-                system:data,
-                permission:this.actor.ownership,
-                folder:this.actor.folder
-              });
+              newActor = await Actor.create(clone);
+
+              for(let item of newActor.items.filter(items => items.system.rarete === 'prestige')) {
+                item.delete();
+              }
+
+              let update = {};
+              update['name'] = `${name} : ${this.title}`;
+              update['img'] = armure.img;
+              update['system.energie.value'] = cout;
+
+              newActor.update(update);
+              newActor.items.find(item => item.type === 'armure').update({[`system.energie.base`]:cout});
 
               armure.update({[`system.${toupdate}`]:{
                 active:true,
