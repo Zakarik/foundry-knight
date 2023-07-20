@@ -218,3 +218,191 @@ $red:#AF0000;
         }
     }
 }
+
+@mixin grenades() {
+    div.grenades {
+        display:flex;
+        width:calc(50% - 5px);
+        flex-wrap: wrap;
+        border:1px solid $lightBlue;
+
+        >button {
+          width: 100%;
+          font-size:11px;
+          line-height: 20px;
+          background:$black;
+          border-top: 1px solid $lightBlack;
+          border-left: 0px;
+          border-right: 0px;
+          border-bottom: 1px solid $lightBlack;
+          border-radius: 0px;
+          font-variant: small-caps;
+          color:$white;
+          cursor:pointer;
+          margin:0px;
+        }
+
+        div.line {
+          display:grid;
+          grid-template-columns: 100px 1fr 30px;
+          grid-template-rows: auto;
+          grid-gap: 5px;
+          width:100%;
+          background:$lightBlack;
+          align-items:center;
+          align-content:center;
+
+          input {
+            width:100%;
+            background:$black;
+            color:$white;
+            border:0px;
+            border-radius: 0px;
+            padding: 0px;
+            margin: 0px;
+          }
+
+          >span.label {
+            margin-right:5px;
+          }
+
+          div.effets {
+            display: flex;
+            width: 100%;
+            text-align: justify;
+            height: 100%;
+            justify-content: left;
+            padding-bottom: 5px;
+            flex-wrap: wrap;
+            margin-left:auto;
+            position:relative;
+
+            &.paddingBottom {
+              padding-bottom: 20px;
+            }
+
+            &.paddingLeft {
+              padding-left: 20px;
+            }
+
+            div {
+              position: relative;
+              width: max-content;
+              background: $black;
+              border:1px solid black;
+              border-radius: 5px;
+              padding-top: 2px;
+              padding-bottom: 2px;
+              margin-top:5px;
+
+              span.label {
+                  font-variant: small-caps;
+                  color: $white;
+                  line-height: 20px;
+              }
+
+              img.info {
+                display: inline-block;
+                position: absolute;
+                width: 15px;
+                height: 15px;
+                border: 0px;
+                background: $black;
+                top: 4px;
+                right: 2px;
+                cursor: pointer;
+
+                  &.clicked,
+                  &:hover {
+                      filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+                  }
+              }
+
+              span.hideInfo {
+                  display:none;
+                  position: absolute;
+                  background: $lightBlack;
+                  border: 1px solid black;
+                  padding: 5px;
+                  z-index: 90;
+                  margin-top: -2px;
+                  border-top-right-radius: 10px;
+                  border-bottom-left-radius: 10px;
+                  border-bottom-right-radius: 10px;
+                  left: 0;
+                  top: 100%;
+                  text-align: justify;
+                  word-break: break-word;
+              }
+
+              &.effetNormal {
+                padding-left: 15px;
+                padding-right: 25px;
+              }
+
+              &.effetSpecial {
+                padding-left: 15px;
+                padding-right: 15px;
+              }
+
+              &:not(:last-of-type) {
+                margin-right:5px;
+              }
+            }
+
+            a {
+              &.edit {
+                position: absolute;
+                bottom: 0px;
+                right: 5px;
+                color: white;
+                font-variant: small-caps;
+              }
+
+              &.delete {
+                position: absolute;
+                left: 0px;
+                top: calc(50% - 8.5px);
+              }
+            }
+          }
+
+          div.blockRoll {
+            display:flex;
+            align-items: center;
+            align-content: center;
+            height:100%;
+
+            img {
+              width: 30px;
+              height: 30px;
+              border-radius: 0px;
+              border: 0px;
+              background: white;
+              cursor: pointer;
+            }
+          }
+
+          &:not(:first-of-type) {
+            border-top:1px solid $black;
+          }
+        }
+
+        a.add {
+          width: 100%;
+          font-size: 11px;
+          line-height: 20px;
+          background: $black;
+          border-top: 1px solid $lightBlack;
+          border-left: 0px;
+          border-right: 0px;
+          border-bottom: 1px solid $lightBlack;
+          border-radius: 0px;
+          font-variant: small-caps;
+          color: $white;
+          cursor: pointer;
+          margin: 0px;
+          text-align: center;
+        }
+      }
+}
