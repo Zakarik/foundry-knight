@@ -818,9 +818,16 @@
 
         {{#each listGrenades as | key grenade|}}
             <div class="button {{#if (rollSelectOther grenade 'grenades' @root/nameWpn @root/typeWpn)}}show{{/if}}" {{#unless @root/deploy/grenades}}style="display:none;"{{/unless}}>
+                {{#if key.custom}}
+                <button type="action" data-type="grenades" data-name="{{grenade}}" class="{{#if (rollSelectOther grenade 'grenades' @root/nameWpn @root/typeWpn)}}selected{{/if}}">
+                    {{key.label}}
+                </button>
+                {{else}}
                 <button type="action" data-type="grenades" data-name="{{grenade}}" class="{{#if (rollSelectOther grenade 'grenades' @root/nameWpn @root/typeWpn)}}selected{{/if}}">
                     {{getGrenadeName grenade}}
                 </button>
+                {{/if}}
+
                 <div class="subButtons" {{#unless (rollSelectOther grenade 'grenades' @root/nameWpn @root/typeWpn)}}style="display:none;"{{/unless}}>
                     {{#if (hasEffet 'tirenrafale' 'effets' key -1)}}
                         <span class="relance relanceDgts" data-type="grenades" data-name="{{grenade}}" title="{{localize "KNIGHT.EFFETS.TIRENRAFALE.Relance"}}">{{localize "KNIGHT.EFFETS.TIRENRAFALE.Label"}}</span>

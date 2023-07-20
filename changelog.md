@@ -1,3 +1,7 @@
+## v3.16.1
+### Bugfix
+- Correction de quelques oublis de traductions sur la précédente mise à jour.
+
 ## v3.16.0
 ### Améliorations
 - Il est à présent possible d'ajouter des grenades personnalisées.

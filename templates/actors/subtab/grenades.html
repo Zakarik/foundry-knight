@@ -1,0 +1,46 @@
+<div class="grenades">
+    <h2 class="header js-toggler">
+        <i class="far fa-minus-square"></i>
+        {{localize "KNIGHT.COMBAT.GRENADES.Label"}}
+        <div class="headerQuantity">
+            <input type="number" class="value" name="system.combat.grenades.quantity.value" value="{{systemData.combat.grenades.quantity.value}}" min="0" max="{{systemData.combat.grenades.quantity.max}}" />
+            <span>/</span>
+            <input type="number" name="system.combat.grenades.quantity.max" value="{{systemData.combat.grenades.quantity.max}}" min="0"  />
+        </div>
+    </h2>
+
+    <button type="action" class="recover" data-type="grenades" data-max="{{systemData.combat.grenades.quantity.max}}">{{localize "KNIGHT.RECUPERER.Grenades"}}</button>
+
+    {{#each systemData.combat.grenades.liste as | key grenades|}}
+    <div class="line">
+        {{#if key.custom}}
+        <input type="text" name="system.combat.grenades.liste.{{grenades}}.label" value="{{key.label}}"/>
+        {{else}}
+        <span class="label">{{getGrenadeName grenades}}</span>
+        {{/if}}
+        <div class="effets {{#if key.custom}}paddingLeft paddingBottom{{/if}}">
+            {{#if key.custom}}
+                <a class="delete" data-type="grenade" data-id="{{grenades}}"><i class="fas fa-trash"></i></a>
+            {{/if}}
+            {{#each key.effets.liste as | keyEffet effet|}}
+            <div class="effetNormal">
+                <span class="label">{{keyEffet.name}}</span>
+                <img class="info" src="systems/knight/assets/icons/info.svg" />
+                <span class="hideInfo">{{{getEffetsDescription keyEffet.description}}}</span>
+            </div>
+            {{/each}}
+            {{#if key.custom}}
+            <a class="edit" data-path="system.combat.grenades.liste.{{grenades}}.effets">
+                <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+            </a>
+            {{/if}}
+        </div>
+
+        <div class="blockRoll">
+            <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn" data-name="{{grenades}}" data-id="" data-isDistance="grenades" data-num="" />
+        </div>
+    </div>
+    {{/each}}
+
+    <a class="add" data-type="grenade">{{localize "KNIGHT.COMBAT.GRENADES.Add"}}</a>
+</div>

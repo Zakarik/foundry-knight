@@ -1027,35 +1027,7 @@
 
             <div class="main">
                 {{#unless systemData.options.noGrenades}}
-                <div class="grenades">
-                    <h2 class="header">
-                        {{localize "KNIGHT.COMBAT.GRENADES.Label"}}
-                        <div class="headerQuantity">
-                            <input type="number" name="system.combat.grenades.quantity.value" value="{{systemData.combat.grenades.quantity.value}}" min="0" max="{{systemData.combat.grenades.quantity.max}}" />
-                            <span>/</span>
-                            <input type="number" name="system.combat.grenades.quantity.max" value="{{systemData.combat.grenades.quantity.max}}" min="0"  />
-                        </div>
-                    </h2>
-
-                    {{#each systemData.combat.grenades.liste as | key grenades|}}
-                    <div class="line">
-                        <span class="label">{{getGrenadeName grenades}}</span>
-                        <div class="effets">
-                            {{#each key.liste as | key effet|}}
-                            <div class="effetNormal">
-                                <span class="label">{{key.name}}</span>
-                                <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                            </div>
-                            {{/each}}
-                        </div>
-
-                        <div class="blockRoll">
-                            <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn" data-name="{{grenades}}" data-id="" data-isDistance="grenades" data-num="" />
-                        </div>
-                    </div>
-                    {{/each}}
-                </div>
+{{~> systems/knight/templates/actors/subtab/grenades.html}}
                 {{/unless}}
 
                 <div class="col">
