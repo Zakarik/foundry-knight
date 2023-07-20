@@ -401,7 +401,17 @@ export class KnightRollDialog extends Application {
     this.data.typeWpn = typeWpn;
     this.data.num = data?.num ?? this?.data?.num ?? -1;
     //EFFETS SPECIAUX ARME SELECTIONNEE
-    this.data.barrage = typeWpn === 'grenades' && nameWpn !== '' ? this.data.listGrenades[nameWpn].effets.raw.find(str => { if(str.includes('barrage')) return true; }) : false;
+    if(typeWpn === 'grenades' && nameWpn !== '') {
+      const hasEffect = this.data.listGrenades?.[nameWpn]?.effets ?? false;
+      if(!hasEffect) {
+        this.data.barrage = false;
+        this.data.typeWpn = '';
+        this.data.nameWpn = '';
+      } else {
+        this.data.barrage = this.data.listGrenades[nameWpn].effets.raw.find(str => { if(str.includes('barrage')) return true; });
+      }
+    }
+
     //PAS D'OD DANS LE JET
     this.data.noOd = data?.noOd ?? false;
     //MODIFICATEURS TEMPORAIRES
@@ -2292,8 +2302,9 @@ export class KnightRollDialog extends Application {
 
     const actName = this.data.nameWpn;
     const actType = this.data.typeWpn;
+    const data = this.data?.listGrenades?.[name];
 
-    const effetsRaw = this.data?.listGrenades?.[name]?.effets?.raw || [];
+    const effetsRaw = data?.effets?.raw || [];
     const barrage = effetsRaw.find(str => { if(str.includes('barrage')) return true; });
 
      if(type === actType && name === actName) {
@@ -2302,7 +2313,7 @@ export class KnightRollDialog extends Application {
       this.data.typeWpn = '';
       this.data.num = -1;
     } else {
-      this.data.label = `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${name.charAt(0).toUpperCase()+name.substr(1)}`)}`;
+      this.data.label = data.custom ? `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${data.label}` : `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${name.charAt(0).toUpperCase()+name.substr(1)}`)}`;
       this.data.idWpn = '';
       this.data.nameWpn = name;
       this.data.typeWpn = type;
@@ -2724,10 +2735,11 @@ export class KnightRollDialog extends Application {
         break;
 
       case 'grenades':
-        const nbreGrenade = actor.system.combat.grenades.quantity.value;
+        const nbreGrenade = data.actor.system.combat.grenades.quantity.value;
+        console.warn(nbreGrenade);
 
-        if(data.isToken) actor.token.modifyActorDocument({['system.combat.grenades.quantity.value']:nbreGrenade-1});
-        else game.actors.get(actor.id).update({['system.combat.grenades.quantity.value']:nbreGrenade-1});
+        if(data.isToken) data.actor.token.modifyActorDocument({['system.combat.grenades.quantity.value']:Math.max(nbreGrenade-1, 0)});
+        else game.actors.get(data.actor._id).update({['system.combat.grenades.quantity.value']:Math.max(nbreGrenade-1, 0)});
 
         wpn = data.listGrenades[nameWpn];
         break;

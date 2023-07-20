@@ -373,16 +373,7 @@ export class KnightSheet extends ActorSheet {
             effectExist = existEffect(listEffect, capacite);
 
             if(value) {
-              let data = getData.system;
-              data.wear = "ascension";
-              data.energie.value = cout;
-              data.armure.bonus = 0;
-              data.champDeForce.base = 0;
-
-              let newItems = getData.items.filter(items => items.system.rarete !== 'prestige');
-              newItems.find(item => item.type === 'armure').system.energie.base = cout;
               let clone = foundry.utils.deepClone(this.actor);
-
               newActor = await Actor.create(clone);
 
               for(let item of newActor.items.filter(items => items.system.rarete === 'prestige')) {
@@ -393,6 +384,9 @@ export class KnightSheet extends ActorSheet {
               update['name'] = `${name} : ${this.title}`;
               update['img'] = armure.img;
               update['system.energie.value'] = cout;
+              update['system.wear'] = "ascension";
+              update['system.armure.bonus'] = 0;
+              update['system.champDeForce.base'] = 0;
 
               newActor.update(update);
               newActor.items.find(item => item.type === 'armure').update({[`system.energie.base`]:cout});
@@ -3750,7 +3744,8 @@ export class KnightSheet extends ActorSheet {
 
       switch(isDistance) {
         case 'grenades':
-          label = `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${name.charAt(0).toUpperCase()+name.substr(1)}`)}`;
+          const dataGrenade = this.actor.system.combat.grenades.liste[name];
+          label = dataGrenade.custom ? `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${dataGrenade.label}` : `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${name.charAt(0).toUpperCase()+name.substr(1)}`)}`;
           break;
 
         case 'longbow':
@@ -4737,6 +4732,70 @@ export class KnightSheet extends ActorSheet {
           }
           break;
       }
+    });
+
+    html.find('a.add').click(ev => {
+      const target = $(ev.currentTarget);
+      const type = target.data("type");
+
+      let update = {};
+
+      switch(type) {
+        case 'grenade':
+          const getGrenades = this.actor.system.combat.grenades.liste;
+          const getLength = Object.keys(getGrenades).length;
+
+          update[`system.combat.grenades.liste`] = {
+            [`grenade_${getLength}`]: {
+              "custom":true,
+              "label":"",
+              "degats": {
+                "dice": getGrenades.antiblindage.degats.dice
+              },
+              "violence": {
+                "dice": getGrenades.antiblindage.violence.dice
+              },
+              "effets":{
+                "liste":[],
+                "raw":[],
+                "custom":[]
+              }
+            }
+          }
+          break;
+      }
+
+      this.actor.update(update);
+    });
+
+    html.find('a.delete').click(ev => {
+      const target = $(ev.currentTarget);
+      const type = target.data("type");
+      const id = target.data("id");
+
+      let update = {};
+
+      switch(type) {
+        case 'grenade':
+          update[`system.combat.grenades.liste.-=${id}`] = null;
+          break;
+      }
+
+      this.actor.update(update);
+    });
+
+    html.find('div.effets a.edit').click(async ev => {
+      const data = this.getData();
+      const maxEffets = data.systemData.type === 'contact' ? data?.systemData?.restrictions?.contact?.maxEffetsContact || undefined : undefined;
+      const stringPath = $(ev.currentTarget).data("path");
+      const aspects = CONFIG.KNIGHT.listCaracteristiques;
+      let path = data.data;
+
+      stringPath.split(".").forEach(function(key){
+        path = path[key];
+      });
+
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor._id, item:null, isToken:this?.document?.isToken || false, token:this?.token || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
     });
   }
 

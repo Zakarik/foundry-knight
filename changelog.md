@@ -1,3 +1,10 @@
+## v3.16.0
+### Améliorations
+- Il est à présent possible d'ajouter des grenades personnalisées.
+
+### Bugfix
+- Correction de divers bugs sur les grenades
+
 ## v3.15.2
 ### Bugfix
 - Correction d'un bug empêchant l'invocation de la Shaman.

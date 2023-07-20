@@ -380,10 +380,11 @@ export class KnightEffetsDialog extends FormApplication {
       const isToken = this.object.isToken;
       const token = this.object.token;
 
-      if(!isToken) objectToUpdate = actor === null ? game.items.get(item) : game.actors.get(actor).items.get(item);
-      else if(token !== null) {
-        objectToUpdate = token.items.get(item);
-      } else return;
+      if(item === null && !isToken) objectToUpdate = game.actors.get(actor);
+      else if(item == null && token !== null) objectToUpdate = token;
+      else if(!isToken) objectToUpdate = actor === null ? game.items.get(item) : game.actors.get(actor).items.get(item);
+      else if(token !== null) objectToUpdate = token.items.get(item);
+      else return;
 
       const update = {
         [`${this.object.toUpdate}.raw`]:this.object.raw,
