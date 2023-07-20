@@ -558,7 +558,8 @@
         "Flashbang": "Flashbang",
         "Antiblindage": "Antiblindage",
         "Iem": "IEM",
-        "Explosive": "Explosive"
+        "Explosive": "Explosive",
+        "Add":"Ajouter un type de grenade"
       },
       "ARMESIMPROVISEES":{
         "LabelDistance":"Armes improvisées (Distance)",

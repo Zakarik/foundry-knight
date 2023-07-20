@@ -1070,11 +1070,11 @@
                         </h2>
 
                         {{#if actor.longbow.has}}
-                            {{~> systems/knight/templates/actors/subtab/longbow.html actor.longbow}}
+{{~> systems/knight/templates/actors/subtab/longbow.html actor.longbow}}
                         {{/if}}
 
                         {{#each actor.armesDistanceEquipee as | key arme|}}
-                            {{~> systems/knight/templates/actors/subtab/armes.html equipped=true num=arme}}
+{{~> systems/knight/templates/actors/subtab/armes.html equipped=true num=arme}}
                         {{/each}}
                     </div>
 
@@ -1085,7 +1085,7 @@
                         </h3>
 
                         {{#each actor.armesDistanceRack as | key arme|}}
-                            {{~> systems/knight/templates/actors/subtab/armes.html}}
+ {{~> systems/knight/templates/actors/subtab/armes.html}}
                         {{/each}}
                     </div>
                     {{/if}}
@@ -1097,7 +1097,7 @@
                         </h3>
 
                         {{#each actor.armesDistanceArmoury as | key arme|}}
-                            {{~> systems/knight/templates/actors/subtab/armes.html}}
+{{~> systems/knight/templates/actors/subtab/armes.html}}
                         {{/each}}
                     </div>
                     {{/if}}
@@ -1195,38 +1195,7 @@
 
             <div class="main">
                 {{#unless (ascension systemData.wear)}}
-                <div class="grenades">
-                    <h2 class="header js-toggler">
-                        <i class="far fa-minus-square"></i>
-                        {{localize "KNIGHT.COMBAT.GRENADES.Label"}}
-                        <div class="headerQuantity">
-                            <input type="number" class="value" name="system.combat.grenades.quantity.value" value="{{systemData.combat.grenades.quantity.value}}" min="0" max="{{systemData.combat.grenades.quantity.max}}" />
-                            <span>/</span>
-                            <input type="number" name="system.combat.grenades.quantity.max" value="{{systemData.combat.grenades.quantity.max}}" min="0"  />
-                        </div>
-                    </h2>
-
-                    <button type="action" class="recover" data-type="grenades" data-max="{{systemData.combat.grenades.quantity.max}}">{{localize "KNIGHT.RECUPERER.Grenades"}}</button>
-
-                    {{#each systemData.combat.grenades.liste as | key grenades|}}
-                    <div class="line">
-                        <span class="label">{{getGrenadeName grenades}}</span>
-                        <div class="effets">
-                            {{#each key.effets.liste as | keyEffet effet|}}
-                            <div class="effetNormal">
-                                <span class="label">{{keyEffet.name}}</span>
-                                <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                <span class="hideInfo">{{{getEffetsDescription keyEffet.description}}}</span>
-                            </div>
-                            {{/each}}
-                        </div>
-
-                        <div class="blockRoll">
-                            <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn" data-name="{{grenades}}" data-id="" data-isDistance="grenades" data-num="" />
-                        </div>
-                    </div>
-                    {{/each}}
-                </div>
+{{~> systems/knight/templates/actors/subtab/grenades.html}}
                 {{/unless}}
 
                 <div class="col">
