@@ -1,3 +1,7 @@
+## v3.16.2
+### Bugfix
+- Ajout des CSS oubliés de la dernière mise à jour.
+
 ## v3.16.1
 ### Bugfix
 - Correction de quelques oublis de traductions sur la précédente mise à jour.

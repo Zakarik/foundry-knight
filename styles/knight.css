@@ -24160,25 +24160,43 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
 }
 .knight section.body div.combat div.main div.grenades div.line {
-  display: flex;
+  display: grid;
+  grid-template-columns: 100px 1fr 30px;
+  grid-template-rows: auto;
+  grid-gap: 5px;
   width: 100%;
-  justify-content: space-between;
   background: RGB(76 74 90);
   align-items: center;
   align-content: center;
+}
+.knight section.body div.combat div.main div.grenades div.line input {
+  width: 100%;
+  background: RGB(43 42 51);
+  color: white;
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  margin: 0px;
 }
 .knight section.body div.combat div.main div.grenades div.line > span.label {
   margin-right: 5px;
 }
 .knight section.body div.combat div.main div.grenades div.line div.effets {
   display: flex;
-  width: calc(100% - 110px);
+  width: 100%;
   text-align: justify;
   height: 100%;
   justify-content: left;
   padding-bottom: 5px;
   flex-wrap: wrap;
   margin-left: auto;
+  position: relative;
+}
+.knight section.body div.combat div.main div.grenades div.line div.effets.paddingBottom {
+  padding-bottom: 20px;
+}
+.knight section.body div.combat div.main div.grenades div.line div.effets.paddingLeft {
+  padding-left: 20px;
 }
 .knight section.body div.combat div.main div.grenades div.line div.effets div {
   position: relative;
@@ -24236,6 +24254,18 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.combat div.main div.grenades div.line div.effets div:not(:last-of-type) {
   margin-right: 5px;
 }
+.knight section.body div.combat div.main div.grenades div.line div.effets a.edit {
+  position: absolute;
+  bottom: 0px;
+  right: 5px;
+  color: white;
+  font-variant: small-caps;
+}
+.knight section.body div.combat div.main div.grenades div.line div.effets a.delete {
+  position: absolute;
+  left: 0px;
+  top: calc(50% - 8.5px);
+}
 .knight section.body div.combat div.main div.grenades div.line div.blockRoll {
   display: flex;
   align-items: center;
@@ -24252,6 +24282,22 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight section.body div.combat div.main div.grenades div.line:not(:first-of-type) {
   border-top: 1px solid RGB(43 42 51);
+}
+.knight section.body div.combat div.main div.grenades a.add {
+  width: 100%;
+  font-size: 11px;
+  line-height: 20px;
+  background: RGB(43 42 51);
+  border-top: 1px solid RGB(76 74 90);
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+  font-variant: small-caps;
+  color: white;
+  cursor: pointer;
+  margin: 0px;
+  text-align: center;
 }
 .knight section.body div.combat div.main div.col {
   display: flex;
@@ -31308,26 +31354,59 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   flex-wrap: wrap;
   border: 1px solid RGB(87 110 178);
 }
-.pnj section.body div.combat div.main div.grenades div.line {
-  display: flex;
+.pnj section.body div.combat div.main div.grenades > button {
   width: 100%;
-  justify-content: space-between;
+  font-size: 11px;
+  line-height: 20px;
+  background: RGB(43 42 51);
+  border-top: 1px solid RGB(76 74 90);
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+  font-variant: small-caps;
+  color: white;
+  cursor: pointer;
+  margin: 0px;
+}
+.pnj section.body div.combat div.main div.grenades div.line {
+  display: grid;
+  grid-template-columns: 100px 1fr 30px;
+  grid-template-rows: auto;
+  grid-gap: 5px;
+  width: 100%;
   background: RGB(76 74 90);
   align-items: center;
   align-content: center;
+}
+.pnj section.body div.combat div.main div.grenades div.line input {
+  width: 100%;
+  background: RGB(43 42 51);
+  color: white;
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  margin: 0px;
 }
 .pnj section.body div.combat div.main div.grenades div.line > span.label {
   margin-right: 5px;
 }
 .pnj section.body div.combat div.main div.grenades div.line div.effets {
   display: flex;
-  width: calc(100% - 110px);
+  width: 100%;
   text-align: justify;
   height: 100%;
   justify-content: left;
   padding-bottom: 5px;
   flex-wrap: wrap;
   margin-left: auto;
+  position: relative;
+}
+.pnj section.body div.combat div.main div.grenades div.line div.effets.paddingBottom {
+  padding-bottom: 20px;
+}
+.pnj section.body div.combat div.main div.grenades div.line div.effets.paddingLeft {
+  padding-left: 20px;
 }
 .pnj section.body div.combat div.main div.grenades div.line div.effets div {
   position: relative;
@@ -31385,6 +31464,18 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.combat div.main div.grenades div.line div.effets div:not(:last-of-type) {
   margin-right: 5px;
 }
+.pnj section.body div.combat div.main div.grenades div.line div.effets a.edit {
+  position: absolute;
+  bottom: 0px;
+  right: 5px;
+  color: white;
+  font-variant: small-caps;
+}
+.pnj section.body div.combat div.main div.grenades div.line div.effets a.delete {
+  position: absolute;
+  left: 0px;
+  top: calc(50% - 8.5px);
+}
 .pnj section.body div.combat div.main div.grenades div.line div.blockRoll {
   display: flex;
   align-items: center;
@@ -31401,6 +31492,22 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .pnj section.body div.combat div.main div.grenades div.line:not(:first-of-type) {
   border-top: 1px solid RGB(43 42 51);
+}
+.pnj section.body div.combat div.main div.grenades a.add {
+  width: 100%;
+  font-size: 11px;
+  line-height: 20px;
+  background: RGB(43 42 51);
+  border-top: 1px solid RGB(76 74 90);
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+  font-variant: small-caps;
+  color: white;
+  cursor: pointer;
+  margin: 0px;
+  text-align: center;
 }
 .pnj section.body div.combat div.main div.col {
   display: flex;
@@ -39223,18 +39330,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .mechaarmure section.body div.combat div.main div.armesImprovisees div.wpn:not(:first-of-type) {
   border-top: 2px solid RGB(87 110 178);
-}
-
-.limited .profile-img {
-  width: 160px;
-  height: 200px;
-  border-color: white;
-  background: RGB(76 74 90);
-  margin-right: 0px;
-  object-fit: contain;
-}
-.limited section.body.full {
-  width: 100%;
 }
 
 .knight-roll {
