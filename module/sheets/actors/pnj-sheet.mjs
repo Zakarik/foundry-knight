@@ -2058,7 +2058,8 @@ export class PNJSheet extends ActorSheet {
 
       switch(isDistance) {
         case 'grenades':
-          label = `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${name.charAt(0).toUpperCase()+name.substr(1)}`)}`;
+          const dataGrenade = this.actor.system.combat.grenades.liste[name];
+          label = dataGrenade.custom ? `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${dataGrenade.label}` : `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${name.charAt(0).toUpperCase()+name.substr(1)}`)}`;
           break;
 
         case 'armesimprovisees':
@@ -2350,6 +2351,99 @@ export class PNJSheet extends ActorSheet {
       }
 
       item.update({[`system`]:data});
+    });
+
+    html.find('button.recover').click(ev => {
+      const target = $(ev.currentTarget);
+      const type = target.data("type");
+      const max = target.data("max");
+      const list = target?.data("list")?.split("/") || '';
+
+      switch(type) {
+        case 'espoir':
+        case 'sante':
+        case 'armure':
+        case 'energie':
+        case 'grenades':
+          html.find(`div.${type} input.value`).val(max);
+          break;
+
+        case 'nods':
+          let update = {};
+
+          for (let i of list) {
+            const split = i.split('-');
+            const name = split[0];
+            const max = split[1];
+
+            html.find(`div.${type} input.${name}Value`).val(max);
+          }
+          break;
+      }
+    });
+
+    html.find('a.add').click(ev => {
+      const target = $(ev.currentTarget);
+      const type = target.data("type");
+
+      let update = {};
+
+      switch(type) {
+        case 'grenade':
+          const getGrenades = this.actor.system.combat.grenades.liste;
+          const getLength = Object.keys(getGrenades).length;
+
+          update[`system.combat.grenades.liste`] = {
+            [`grenade_${getLength}`]: {
+              "custom":true,
+              "label":"",
+              "degats": {
+                "dice": getGrenades.antiblindage.degats.dice
+              },
+              "violence": {
+                "dice": getGrenades.antiblindage.violence.dice
+              },
+              "effets":{
+                "liste":[],
+                "raw":[],
+                "custom":[]
+              }
+            }
+          }
+          break;
+      }
+
+      this.actor.update(update);
+    });
+
+    html.find('a.delete').click(ev => {
+      const target = $(ev.currentTarget);
+      const type = target.data("type");
+      const id = target.data("id");
+
+      let update = {};
+
+      switch(type) {
+        case 'grenade':
+          update[`system.combat.grenades.liste.-=${id}`] = null;
+          break;
+      }
+
+      this.actor.update(update);
+    });
+
+    html.find('div.effets a.edit').click(async ev => {
+      const data = this.getData();
+      const maxEffets = data.systemData.type === 'contact' ? data?.systemData?.restrictions?.contact?.maxEffetsContact || undefined : undefined;
+      const stringPath = $(ev.currentTarget).data("path");
+      const aspects = CONFIG.KNIGHT.listCaracteristiques;
+      let path = data.data;
+
+      stringPath.split(".").forEach(function(key){
+        path = path[key];
+      });
+
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor._id, item:null, isToken:this?.document?.isToken || false, token:this?.token || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
     });
   }
 
