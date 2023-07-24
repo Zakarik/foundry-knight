@@ -475,27 +475,6 @@ export class VehiculeSheet extends ActorSheet {
 
         data.effets.liste = listEffects(raw, custom, labels);
 
-        const effetsRaw = i.system.effets.raw;
-        const bDefense = effetsRaw.find(str => { if(str.includes('defense')) return str; });
-        const bReaction = effetsRaw.find(str => { if(str.includes('reaction')) return str; });
-
-        if(bDefense !== undefined) {
-          effects.armes.push({
-            key: path.defense.bonus,
-            mode: 2,
-            priority: null,
-            value: bDefense.split(' ')[1]
-          });
-        }
-        if(bReaction !== undefined) {
-          effects.armes.push({
-            key: path.reaction.bonus,
-            mode: 2,
-            priority: null,
-            value: bReaction.split(' ')[1]
-          });
-        }
-
         const rawDistance = data.distance.raw;
         const customDistance = data.distance.custom;
         const labelsDistance = CONFIG.KNIGHT.AMELIORATIONS.distance;
@@ -519,6 +498,36 @@ export class VehiculeSheet extends ActorSheet {
             munition.liste = listEffects(bRaw2, bCustom2, labels);
           }
         }
+
+        const bonusEffects = getFlatEffectBonus(i);
+
+        effects.armes.push({
+          key: path.defense.bonus,
+          mode: 2,
+          priority: 3,
+          value: bonusEffects.defense.bonus
+        });
+
+        effects.armes.push({
+          key: path.defense.malus,
+          mode: 2,
+          priority: 3,
+          value: bonusEffects.defense.malus
+        });
+
+        effects.armes.push({
+          key: path.reaction.bonus,
+          mode: 2,
+          priority: 3,
+          value: bonusEffects.reaction.bonus
+        });
+
+        effects.armes.push({
+          key: path.reaction.malus,
+          mode: 2,
+          priority: 3,
+          value: bonusEffects.reaction.malus
+        });
 
         armesDistance.push(i);
       }

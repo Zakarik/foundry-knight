@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.11.7";
+    static NEEDED_VERSION = "3.17.0";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -50,6 +50,18 @@ Applique les modifications par la mise à jour au Monde.
             } catch (err) {
                 err.message = `KNIGHT : Echec de la migration de l'item ${item.name}[${item._id}]`;
                 console.error(err);
+            }
+        }
+
+        // Migrate Workd Tokens
+        for(let scn of game.scenes) {
+            for(let tkn of scn.tokens) {
+                try {
+                    MigrationKnight._migrationTokens(tkn, options);
+                } catch (err) {
+                    err.message = `KNIGHT : Echec de la migration du token ${token.name}[${token._id}]`;
+                    console.error(err);
+                }
             }
         }
 
@@ -2025,5 +2037,13 @@ Applique les modifications par la mise à jour au Monde.
 
             item.update(update);
         }
+    }
+
+    static _migrationTokens(token, options = { force:false }) {
+        if (options?.force || MigrationKnight.needUpdate("3.17.0")) {
+            const collection = token.actor.getEmbeddedCollection('ActiveEffect').filter(eff => eff.statuses.size > 0).map(eff => eff._id);
+            token.actor.deleteEmbeddedDocuments('ActiveEffect', collection);
+        }
+
     }
  }

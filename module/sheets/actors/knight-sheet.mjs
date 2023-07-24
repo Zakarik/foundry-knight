@@ -7455,16 +7455,6 @@ export class KnightSheet extends ActorSheet {
           const optionsmunitions = data.optionsmunitions.has;
           const main = data.options2mains.actuel;
           const munition = data.optionsmunitions.actuel;
-          const effetsRaw = data.effets.raw;
-
-          const bDefense = effetsRaw.find(str => { if(str.includes('defense')) return str; });
-          const bReaction = effetsRaw.find(str => { if(str.includes('reaction')) return str; });
-
-          let bonusDef = 0;
-          let malusDef = 0;
-          let bonusRea = 0;
-          let malusRea = 0;
-          let bonusCdf = 0;
 
           if(type === 'contact' && options2mains === true) {
             data.degats.dice = data?.options2mains?.[main]?.degats?.dice || 0;
@@ -7484,87 +7474,47 @@ export class KnightSheet extends ActorSheet {
 
           if (type === 'contact' && equipped === false && rack === false) { armesContactArmoury.push(i); }
           if (type === 'contact' && equipped === false && rack === true) { armesContactRack.push(i); }
-          else if (type === 'contact' && equipped === true) {
-
-            const effets2Raw = data.effets2mains.raw;
-
-            const bMassive = data.structurelles.raw.find(str => { if(str.includes('massive')) return true; });
-            const bArmuregravee = data.ornementales.raw.find(str => { if(str.includes('armuregravee')) return true; });
-            const bDefense2 = effets2Raw.find(str => { if(str.includes('defense')) return str; });
-            const bReaction2 = effets2Raw.find(str => { if(str.includes('reaction')) return str; });
-
-            if((bDefense !== undefined && main === '1main') || (bDefense !== undefined && options2mains === false)) bonusDef += Number(bDefense.split(' ')[1]);
-            if((bReaction !== undefined && main === '1main') || (bReaction !== undefined && options2mains === false)) bonusRea += Number(bReaction.split(' ')[1]);
-
-            if(bDefense2 !== undefined && main === '2main' && options2mains === true) bonusDef += Number(bDefense2.split(' ')[1]);
-            if(bReaction2 !== undefined && main === '2main' && options2mains === true) bonusRea += Number(bReaction2.split(' ')[1]);
-
-            if(bMassive) malusDef += 1;
-
-            if(bArmuregravee) bonusCdf += 2
-
-            armesContactEquipee.push(i);
-          }
+          else if (type === 'contact' && equipped === true) { armesContactEquipee.push(i); }
           else if (type === 'distance' && equipped === false && rack === false) { armesDistanceArmoury.push(i); }
           else if (type === 'distance' && equipped === false && rack === true) { armesDistanceRack.push(i); }
-          else if (type === 'distance' && equipped === true) {
-            const bProtectionarme = data.distance.raw.find(str => { if(str.includes('protectionarme')) return true; });
-
-            if(bDefense !== undefined) bonusDef += Number(bDefense.split(' ')[1]);
-            if(bReaction !== undefined) bonusRea += Number(bReaction.split(' ')[1]);
-
-            if(bProtectionarme) bonusRea += 2;
-
-            armesDistanceEquipee.push(i);
-          }
+          else if (type === 'distance' && equipped === true) { armesDistanceEquipee.push(i); }
 
           const bonusEffects = getFlatEffectBonus(i);
-          bonusCdf += bonusEffects.cdf;
 
-          if(bonusDef > 0) {
-            effects.armes.push({
-              key: path.defense.bonus,
-              mode: 2,
-              priority: null,
-              value: bonusDef
-            });
-          }
+          effects.armes.push({
+            key: path.defense.bonus,
+            mode: 2,
+            priority: 3,
+            value: bonusEffects.defense.bonus
+          });
 
-          if(malusDef > 0) {
-            effects.armes.push({
-              key: `system.defense.malusValue`,
-              mode: 2,
-              priority: null,
-              value: malusDef
-            });
-          }
+          effects.armes.push({
+            key: path.defense.malus,
+            mode: 2,
+            priority: 3,
+            value: bonusEffects.defense.malus
+          });
 
-          if(bonusRea > 0) {
-            effects.armes.push({
-              key: `system.reaction.bonusValue`,
-              mode: 2,
-              priority: null,
-              value: bonusRea
-            });
-          }
+          effects.armes.push({
+            key: path.reaction.bonus,
+            mode: 2,
+            priority: 3,
+            value: bonusEffects.reaction.bonus
+          });
 
-          if(malusRea > 0) {
-            effects.armes.push({
-              key: path.reaction.malus,
-              mode: 2,
-              priority: null,
-              value: malusRea
-            });
-          }
+          effects.armes.push({
+            key: path.reaction.malus,
+            mode: 2,
+            priority: 3,
+            value: bonusEffects.reaction.malus
+          });
 
-          if(bonusCdf > 0) {
-            effects.armes.push({
-              key: path.champDeForce.bonus,
-              mode: 2,
-              priority: null,
-              value: bonusCdf
-            });
-          }
+          effects.armes.push({
+            key: path.champDeForce.bonus,
+            mode: 2,
+            priority: 3,
+            value: bonusEffects.cdf.bonus
+          });
         }
       }
 
