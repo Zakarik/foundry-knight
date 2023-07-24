@@ -48,6 +48,10 @@ import { GmInitiative } from "./gm/gmInitiative.mjs";
 import { GmMonitor } from "./gm/gmMonitor.mjs";
 import HooksKnight from "./hooks.mjs";
 
+import {
+  updateEffect,
+} from "./helpers/common.mjs";
+
 /* -------------------------------------------- */
 /*  Init Hook                                   */
 /* -------------------------------------------- */
@@ -98,22 +102,71 @@ Hooks.once('init', async function() {
   // Define custom Document classes
   CONFIG.Actor.documentClass = KnightActor;
   CONFIG.Item.documentClass = KnightItem;
-  /*CONFIG.statusEffects = [{
-    id:'dead',
-    label:'EFFECT.StatusDead',
-    icon:'icons/svg/skull.svg'
-  },
-  {
-    id:'light_2',
-    label:"Lumière 2",
-    icon:'systems/knight/assets/icons/effects/light_2.svg'
-  },
-  {
-    id:'light_4',
-    label:"Lumière 4",
-    icon:'systems/knight/assets/icons/effects/light_4.svg'
-  }
-  ]*/
+  CONFIG.statusEffects = [
+    {
+      id:'dead',
+      label:'EFFECT.StatusDead',
+      icon:'icons/svg/skull.svg'
+    },
+    {
+      id:'lumiere',
+      label:"KNIGHT.EFFETS.LUMIERE.Label",
+      icon:'systems/knight/assets/icons/effects/lumiere.svg',
+      changes:[{
+        key: `system.defense.malusValue`,
+        mode: 2,
+        priority: 4,
+        icon:'',
+        value: 1
+      },
+      {
+        key: `system.reaction.malusValue`,
+        mode: 2,
+        priority: 4,
+        icon:'',
+        value: 1
+      }]
+    },
+    {
+      id:'barrage',
+      label:"KNIGHT.EFFETS.BARRAGE.Label",
+      icon:'systems/knight/assets/icons/effects/barrage.svg',
+      changes:[{
+        key: `system.defense.malusValue`,
+        mode: 2,
+        priority: 4,
+        icon:'',
+        value: 1
+      },
+      {
+        key: `system.reaction.malusValue`,
+        mode: 2,
+        priority: 4,
+        icon:'',
+        value: 1
+      }]
+    },
+    {
+      id:'designation',
+      label:"KNIGHT.EFFETS.DESIGNATION.Label",
+      icon:'systems/knight/assets/icons/effects/designation.svg'
+    },
+    {
+      id:'choc',
+      label:"KNIGHT.EFFETS.CHOC.Label",
+      icon:'systems/knight/assets/icons/effects/choc.svg'
+    },
+    {
+      id:'degatscontinus',
+      label:"KNIGHT.EFFETS.DEGATSCONTINUS.Label",
+      icon:'systems/knight/assets/icons/effects/degatscontinus.svg'
+    },
+    {
+      id:'soumission',
+      label:"KNIGHT.EFFETS.SOUMISSION.Label",
+      icon:'systems/knight/assets/icons/effects/soumission.svg'
+    }
+  ];
 
   // HANDLEBARS
   RegisterHandlebars();
@@ -259,13 +312,63 @@ Hooks.once('init', async function() {
 /* -------------------------------------------- */
 
 Hooks.once("ready", async function() {
+  let status = {};
+
+  for(let i of CONFIG.statusEffects) {
+    status[game.i18n.localize(i.label)] = i;
+  };
+
+  const sortStatus = Object.keys(status).sort(function (a, b) {
+    return a.localeCompare(b);
+  });
+
+  let sortedStatus = [];
+
+  for(let i of sortStatus) {
+    sortedStatus.push(status[i]);
+  }
+
+  CONFIG.statusEffects = sortedStatus;
+
   //Hooks.on("hotbarDrop", (bar, data, slot) => createMacro(data, slot));
 });
 
-Hooks.once("ready", HooksKnight.ready);
 
+
+Hooks.once("ready", HooksKnight.ready);
 Hooks.on('deleteItem', doc => toggler.clearForId(doc.id));
 Hooks.on('deleteActor', doc => toggler.clearForId(doc.id));
+
+Hooks.on("updateActiveEffect", function(effect, effectData, diffData, options, userId) {
+  let effectCounter = foundry.utils.getProperty(effectData, "flags.statuscounter.counter");
+  if (effectCounter) {
+    const changes = [];
+    switch(effect.flags.core.statusId) {
+      case 'lumiere':
+      case 'barrage':
+        changes.push({
+          key: `system.defense.malusValue`,
+          mode: 2,
+          priority: 4,
+          value: Number(effectCounter.value)
+        },
+        {
+          key: `system.reaction.malusValue`,
+          mode: 2,
+          priority: 4,
+          value: Number(effectCounter.value)
+        });
+        break;
+    }
+
+    updateEffect(effect.parent, [{
+      "_id":effect._id,
+      changes:changes
+    }]);
+  }
+});
+
+
 
 /*Hooks.on("renderPause", function () {
   $("#pause.paused figcaption").text('');

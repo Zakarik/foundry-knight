@@ -1576,7 +1576,6 @@ export async function getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, 
       break;
 
       case 'munitionssubsoniques':
-        console.warn(data);
         const haSubsoniques = data.ameliorations?.subsoniques ?? false;
 
         if(haSubsoniques !== false || haSubsoniques === undefined) {
@@ -4540,37 +4539,91 @@ export function getFlatEffectBonus(wpn, forceEquipped=false) {
   const effets = data.effets.custom;
 
   let result = {
-    cdf:0
+    cdf:{
+      bonus:0,
+      malus:0
+    },
+    defense:{
+      bonus:0,
+      malus:0
+    },
+    reaction:{
+      bonus:0,
+      malus:0
+    }
   };
 
   if(!equipped && !forceEquipped) return result;
 
   let lEffets = [];
+  let effetsRaw = [];
+  let actuel = '';
 
   switch(type) {
     case 'contact':
-      const effets2Mains = data?.options2mains?.has || false ? data.effets2mains.custom : [];
-      const ornementales = data?.ornementales?.custom || [];
-      const structurelles = data?.structurelles?.custom || [];
+      const opt2Mains = data?.options2mains?.has || false;
+      actuel = data?.options2mains?.actuel || '1main';
+      effetsRaw =  opt2Mains && actuel === '1main' ? data.effets.raw : [];
 
-      lEffets = effets.concat(effets2Mains, ornementales, structurelles);
+      const effets2Mains = opt2Mains && actuel === '2main' ? data.effets2mains.custom : [];
+      const effets2MainsRaw = opt2Mains && actuel === '2main' ? data.effets2mains.raw : [];
+      const ornementales = data?.ornementales?.custom || [];
+      const ornementalesRaw = data?.ornementales?.raw || [];
+      const structurelles = data?.structurelles?.custom || [];
+      const structurellesRaw = data?.structurelles?.raw || [];
+
+      lEffets = effets.concat(effetsRaw, effets2Mains, effets2MainsRaw, ornementales, ornementalesRaw, structurelles, structurellesRaw);
       break;
 
     case 'distance':
-      const distance = data?.distance?.custom || [];
+      const munitions = data?.optionsmunitions?.has || false;
+      actuel = data?.optionsmunitions?.actuel;
 
-      lEffets = effets.concat(distance);
+      effetsRaw = data.effets.raw;
+      const distance = data?.distance?.custom || [];
+      const distanceRaw = data?.distance?.raw || [];
+      const effetsMunitions = munitions ? data?.optionsmunitions?.liste?.[actuel]?.raw || [] : [];
+
+      lEffets = effets.concat(effetsRaw, distance, distanceRaw, effetsMunitions);
       break;
   }
 
-  for(let i = 0;i < lEffets.length;i++) {
-    const other = lEffets[i].other;
+  for(let eff of lEffets) {
+    const str = typeof eff === 'string' || eff instanceof String ? eff.split(' ')[0] : '';
+    const other = eff.other;
     const hasCdf = other?.cdf || undefined;
+    const defenseMod = ['defense', 'boucliergrave', 'massive'];
+    const reactionMod = ['reaction', 'protectionarme'];
+    const cdfMod = ['armuregravee'];
 
-    if(hasCdf !== undefined) result.cdf += other.cdf;
+    const whatBonus = {
+      defense:typeof eff === 'string' || eff instanceof String ? Number(eff.split(' ')[1]) : 0,
+      reaction:typeof eff === 'string' || eff instanceof String ? Number(eff.split(' ')[1]) : 0,
+      boucliergrave:1,
+      protectionarme:2,
+      armuregravee:2,
+    };
+
+    const whatMalus = {
+      massive:1,
+    }
+
+    if(hasCdf !== undefined) result.cdf.bonus += other.cdf;
+    if(defenseMod.includes(str)) {
+      result.defense.bonus += whatBonus?.[str] ?? 0;
+      result.defense.malus += whatMalus?.[str] ?? 0;
+    }
+
+    if(reactionMod.includes(str)) {
+      result.reaction.bonus += whatBonus?.[str] ?? 0;
+      result.reaction.malus += whatMalus?.[str] ?? 0;
+    }
+
+    if(cdfMod.includes(str)) {
+      result.cdf.bonus += whatBonus?.[str] ?? 0;
+      result.cdf.malus += whatMalus?.[str] ?? 0;
+    }
   }
-
-
 
   return result;
 }

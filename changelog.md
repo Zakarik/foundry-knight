@@ -1,3 +1,12 @@
+## v3.17.0
+### Améliorations
+- Remplacement des status de token par défaut par ceux de Knight.
+Lumière et Barrage applique bien un malus (-1) à la défense et à la réaction.
+Le système peut fonctionner en conjonction avec Status Icon Counter afin de proposer toutes les valeurs imaginables de Lumière et Barrage, et d'appliquer les malus liés à ceux-ci.
+
+### Bugfix
+- Correction d'un oubli de l'effet de l'amélioration "Bouclier Gravé".
+
 ## v3.16.2
 ### Bugfix
 - Ajout des CSS oubliés de la dernière mise à jour.

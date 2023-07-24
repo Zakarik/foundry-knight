@@ -2712,12 +2712,6 @@ export class PNJSheet extends ActorSheet {
 
         const main = data.options2mains.actuel;
         const munition = data.optionsmunitions.actuel;
-        const effetsRaw = data.effets.raw;
-        const effets2Raw = data.effets2mains.raw;
-        const bDefense = effetsRaw.find(str => { if(str.includes('defense')) return str; });
-        const bReaction = effetsRaw.find(str => { if(str.includes('reaction')) return str; });
-
-        let bonusCdf = 0;
 
         if(type === 'contact' && options2mains === true) {
           data.degats.dice = data?.options2mains?.[main]?.degats?.dice || 0;
@@ -2735,75 +2729,42 @@ export class PNJSheet extends ActorSheet {
           data.violence.fixe = data.optionsmunitions?.liste?.[munition]?.violence?.fixe || 0;
         }
 
-        if((bDefense !== undefined && main === '1main') || (bDefense !== undefined && options2mains === false)) {
-          effects.armes.push({
-            key: path.defense.bonus,
-            mode: 2,
-            priority: null,
-            value: bDefense.split(' ')[1]
-          });
-        }
+        const bonusEffects = getFlatEffectBonus(i);
 
-        if((bReaction !== undefined && main === '1main') || (bReaction !== undefined && options2mains === false)) {
-          effects.armes.push({
-            key: path.reaction.bonus,
-            mode: 2,
-            priority: null,
-            value: bReaction.split(' ')[1]
-          });
-        }
+        effects.armes.push({
+          key: path.defense.bonus,
+          mode: 2,
+          priority: 3,
+          value: bonusEffects.defense.bonus
+        });
 
-        if(type === 'distance') {
+        effects.armes.push({
+          key: path.defense.malus,
+          mode: 2,
+          priority: 3,
+          value: bonusEffects.defense.malus
+        });
 
-        } else if(type === 'contact') {
-          const rawStructurelles = data.structurelles.raw;
-          const bMassive = rawStructurelles.find(str => { if(str.includes('massive')) return true; });
+        effects.armes.push({
+          key: path.reaction.bonus,
+          mode: 2,
+          priority: 3,
+          value: bonusEffects.reaction.bonus
+        });
 
-          if(bMassive) {
-            effects.armes.push({
-              key: path.defense.malus,
-              mode: 2,
-              priority: null,
-              value: 1
-            });
-          }
+        effects.armes.push({
+          key: path.reaction.malus,
+          mode: 2,
+          priority: 3,
+          value: bonusEffects.reaction.malus
+        });
 
-          if(options2mains) {
-            const bDefense2 = effets2Raw.find(str => { if(str.includes('defense')) return str; });
-            const bReaction2 = effets2Raw.find(str => { if(str.includes('reaction')) return str; });
-
-            if(bDefense !== undefined && main === '2main' && options2mains === true) {
-              effects.armes.push({
-                key: path.defense.bonus,
-                mode: 2,
-                priority: null,
-                value: bDefense2.split(' ')[1]
-              });
-            }
-            if(bReaction !== undefined && main === '2main' && options2mains === true) {
-              effects.armes.push({
-                key: path.reaction.bonus,
-                mode: 2,
-                priority: null,
-                value: bReaction2.split(' ')[1]
-              });
-            }
-          }
-        }
-
-        const bonusEffects = getFlatEffectBonus(i, true);
-        bonusCdf += bonusEffects.cdf;
-
-
-
-        if(bonusCdf > 0) {
-          effects.armes.push({
-            key: path.champDeForce.bonus,
-            mode: 2,
-            priority: null,
-            value: bonusCdf
-          });
-        }
+        effects.armes.push({
+          key: path.champDeForce.bonus,
+          mode: 2,
+          priority: 3,
+          value: bonusEffects.cdf.bonus
+        });
 
         if(tourelle.has && type === 'distance') {
           armesTourelles.push(i);

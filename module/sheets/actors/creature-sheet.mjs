@@ -660,27 +660,6 @@ export class CreatureSheet extends ActorSheet {
 
         const main = data?.options2mains?.actuel || "";
         const munition = data?.options2mains?.actuel || "";
-        const effetsRaw = data.effets.raw;
-        const effets2Raw = data.effets2mains.raw;
-        const bDefense = effetsRaw.find(str => { if(str.includes('defense')) return str; });
-        const bReaction = effetsRaw.find(str => { if(str.includes('reaction')) return str; });
-
-        if(bDefense !== undefined) {
-          effects.armes.push({
-            key: path.defense.bonus,
-            mode: 2,
-            priority: null,
-            value: bDefense.split(' ')[1]
-          });
-        }
-        if(bReaction !== undefined) {
-          effects.armes.push({
-            key: path.reaction.bonus,
-            mode: 2,
-            priority: null,
-            value: bReaction.split(' ')[1]
-          });
-        }
 
         if(type === 'contact' && options2mains === true) {
           data.degats.dice = data?.options2mains?.[main]?.degats?.dice || 0;
@@ -719,18 +698,8 @@ export class CreatureSheet extends ActorSheet {
           const rawStructurelles = data.structurelles.raw;
           const customStructurelles = data.structurelles.custom;
           const labelsStructurelles = CONFIG.KNIGHT.AMELIORATIONS.structurelles;
-          const bMassive = rawStructurelles.find(str => { if(str.includes('massive')) return true; });
 
           data.structurelles.liste = listEffects(rawStructurelles, customStructurelles, labelsStructurelles);
-
-          if(bMassive) {
-            effects.armes.push({
-              key: path.defense.malus,
-              mode: 2,
-              priority: null,
-              value: 1
-            });
-          }
 
           const rawOrnementales = data.ornementales.raw;
           const customOrnementales = data.ornementales.custom;
@@ -743,26 +712,6 @@ export class CreatureSheet extends ActorSheet {
             const custom2 = data.effets2mains.custom;
 
             data.effets2mains.liste = listEffects(raw2, custom2, labels);
-
-            const bDefense2 = effets2Raw.find(str => { if(str.includes('defense')) return str; });
-            const bReaction2 = effets2Raw.find(str => { if(str.includes('reaction')) return str; });
-
-            if(bDefense !== undefined && main === '2main' && options2mains === true) {
-              effects.armes.push({
-                key: path.defense.bonus,
-                mode: 2,
-                priority: null,
-                value: bDefense2.split(' ')[1]
-              });
-            }
-            if(bReaction !== undefined && main === '2main' && options2mains === true) {
-              effects.armes.push({
-                key: path.reaction.bonus,
-                mode: 2,
-                priority: null,
-                value: bReaction2.split(' ')[1]
-              });
-            }
           }
         }
 
@@ -772,6 +721,36 @@ export class CreatureSheet extends ActorSheet {
           if (type === 'contact') { armesContact.push(i); }
           else if (type === 'distance') { armesDistance.push(i); }
         }
+
+        const bonusEffects = getFlatEffectBonus(i);
+
+        effects.armes.push({
+          key: path.defense.bonus,
+          mode: 2,
+          priority: 3,
+          value: bonusEffects.defense.bonus
+        });
+
+        effects.armes.push({
+          key: path.defense.malus,
+          mode: 2,
+          priority: 3,
+          value: bonusEffects.defense.malus
+        });
+
+        effects.armes.push({
+          key: path.reaction.bonus,
+          mode: 2,
+          priority: 3,
+          value: bonusEffects.reaction.bonus
+        });
+
+        effects.armes.push({
+          key: path.reaction.malus,
+          mode: 2,
+          priority: 3,
+          value: bonusEffects.reaction.malus
+        });
       }
 
       // CAPACITES
