@@ -1,3 +1,7 @@
+## v3.17.3
+### Bugfix
+- Correction d'un bug suite à la mise à jour 1.17, sur les anciens icones de status des tokens.
+
 ## v3.17.2
 ### Bugfix
 - Correction d'un bug d'effets non pris en compte sur les modules.
