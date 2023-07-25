@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.17.1";
+    static NEEDED_VERSION = "3.17.3";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -59,7 +59,7 @@ Applique les modifications par la mise à jour au Monde.
                 try {
                     MigrationKnight._migrationTokens(tkn, options);
                 } catch (err) {
-                    err.message = `KNIGHT : Echec de la migration du token ${token.name}[${token._id}]`;
+                    err.message = `KNIGHT : Echec de la migration du token ${tkn.name}[${tkn._id}]`;
                     console.error(err);
                 }
             }
@@ -2040,9 +2040,11 @@ Applique les modifications par la mise à jour au Monde.
     }
 
     static _migrationTokens(token, options = { force:false }) {
-        if (options?.force || MigrationKnight.needUpdate("3.17.1")) {
-            const goodStatus = ['dead', 'lumiere', 'barrage', 'designation', 'choc', 'degatscontinus', 'soumission']
-            const collection = token.actor.getEmbeddedCollection('ActiveEffect').filter(eff => eff?.flags?.core?.statusId || '' !== '' && !goodStatus.includes(eff?.flags?.core?.statusId || '')).map(eff => eff._id);
+        if (options?.force || MigrationKnight.needUpdate("3.17.3")) {
+            const goodStatus = ['dead', 'lumiere', 'barrage', 'designation', 'choc', 'degatscontinus', 'soumission'];
+            const hasActor = token?.actor ?? false;
+            const actor = !hasActor ? token : token.actor;
+            const collection = actor.getEmbeddedCollection('ActiveEffect').filter(eff => eff?.flags?.core?.statusId || '' !== '' && !goodStatus.includes(eff?.flags?.core?.statusId || '')).map(eff => eff._id);
 
             token.actor.deleteEmbeddedDocuments('ActiveEffect', collection);
         }
