@@ -1,3 +1,7 @@
+## v3.17.4
+### Bugfix
+- Correction d'un bug résiduel rare concernant les icones de status.
+
 ## v3.17.3
 ### Bugfix
 - Correction d'un bug suite à la mise à jour 1.17, sur les anciens icones de status des tokens.

@@ -2040,13 +2040,23 @@ Applique les modifications par la mise à jour au Monde.
     }
 
     static _migrationTokens(token, options = { force:false }) {
-        if (options?.force || MigrationKnight.needUpdate("3.17.3")) {
+        if (options?.force || MigrationKnight.needUpdate("3.17.4")) {
             const goodStatus = ['dead', 'lumiere', 'barrage', 'designation', 'choc', 'degatscontinus', 'soumission'];
-            const hasActor = token?.actor ?? false;
-            const actor = !hasActor ? token : token.actor;
+            const actor = token.actor;
+
+            if(actor === null) return;
+
             const collection = actor.getEmbeddedCollection('ActiveEffect').filter(eff => eff?.flags?.core?.statusId || '' !== '' && !goodStatus.includes(eff?.flags?.core?.statusId || '')).map(eff => eff._id);
 
             token.actor.deleteEmbeddedDocuments('ActiveEffect', collection);
+
+            const correctedImg = actor.getEmbeddedCollection('ActiveEffect').filter(eff => eff.icon == "/icons/svg/mystery-man.svg");
+            correctedImg.forEach(async eff => {
+                await updateEffect(actor, [{
+                    "_id":eff._id,
+                    icon:''
+                }]);
+            });
         }
 
     }
