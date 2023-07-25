@@ -4535,8 +4535,10 @@ export function compareArrays(arr1, arr2) {
 export function getFlatEffectBonus(wpn, forceEquipped=false) {
   const data = wpn.system;
   const type = data.type;
-  const equipped = data?.equipped || false;
+  const equipped = forceEquipped ? true : data?.equipped || false;
   const effets = data.effets.custom;
+
+  console.warn(wpn);
 
   let result = {
     cdf:{
@@ -4553,7 +4555,7 @@ export function getFlatEffectBonus(wpn, forceEquipped=false) {
     }
   };
 
-  if(!equipped && !forceEquipped) return result;
+  if(!equipped) return result;
 
   let lEffets = [];
   let effetsRaw = [];
@@ -4563,7 +4565,7 @@ export function getFlatEffectBonus(wpn, forceEquipped=false) {
     case 'contact':
       const opt2Mains = data?.options2mains?.has || false;
       actuel = data?.options2mains?.actuel || '1main';
-      effetsRaw =  opt2Mains && actuel === '1main' ? data.effets.raw : [];
+      effetsRaw =  (!opt2Mains || actuel === '1main') ? data.effets.raw : [];
 
       const effets2Mains = opt2Mains && actuel === '2main' ? data.effets2mains.custom : [];
       const effets2MainsRaw = opt2Mains && actuel === '2main' ? data.effets2mains.raw : [];
@@ -4588,6 +4590,7 @@ export function getFlatEffectBonus(wpn, forceEquipped=false) {
       break;
   }
 
+  console.warn(lEffets, type, effetsRaw);
   for(let eff of lEffets) {
     const str = typeof eff === 'string' || eff instanceof String ? eff.split(' ')[0] : '';
     const other = eff.other;
