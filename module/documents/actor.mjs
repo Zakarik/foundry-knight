@@ -292,13 +292,15 @@ export class KnightActor extends Actor {
       const energieBonus = data.equipements[dataWear].energie.bonus?.user ?? 0;
       const energieMalus = data.equipements[dataWear].energie.malus?.user ?? 0;
 
-      data.energie.base = equipement.energie.base;
+      data.energie.base = userEBase;
 
-      if(!data.energie.bonus) data.energie.bonus = energieBonus;
-      else data.energie.bonus += energieBonus;
+      if(!data.energie.bonus || !Number.isInteger(data.energie.bonus)) data.energie.bonus = Number(energieBonus);
+      else data.energie.bonus += Number(energieBonus);
 
-      if(!data.energie.malus) data.energie.malus = energieMalus;
-      else data.energie.malus += energieMalus;
+      if(!data.energie.malus || !Number.isInteger(data.energie.malus)) data.energie.malus = Number(energieMalus);
+      else data.energie.malus += Number(energieMalus);
+
+      console.warn(data.energie, energieMalus, actorData.name);
 
       equipement.energie.mod = data.energie.bonus-data.energie.malus;
       equipement.energie.max = Math.max(userEBase+equipement.energie.mod, 0);
