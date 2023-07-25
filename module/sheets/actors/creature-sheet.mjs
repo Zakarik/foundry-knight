@@ -12,6 +12,7 @@ import {
   getDefaultImg,
   diceHover,
   options,
+  getFlatEffectBonus,
 } from "../../helpers/common.mjs";
 
 import {
