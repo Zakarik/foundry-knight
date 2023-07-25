@@ -4538,8 +4538,6 @@ export function getFlatEffectBonus(wpn, forceEquipped=false) {
   const equipped = forceEquipped ? true : data?.equipped || false;
   const effets = data.effets.custom;
 
-  console.warn(wpn);
-
   let result = {
     cdf:{
       bonus:0,
@@ -4590,7 +4588,6 @@ export function getFlatEffectBonus(wpn, forceEquipped=false) {
       break;
   }
 
-  console.warn(lEffets, type, effetsRaw);
   for(let eff of lEffets) {
     const str = typeof eff === 'string' || eff instanceof String ? eff.split(' ')[0] : '';
     const other = eff.other;

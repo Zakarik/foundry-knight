@@ -1,3 +1,7 @@
+## v3.17.6
+### Bugfix
+- Correction d'un bug rare de calcul de l'énergie.
+
 ## v3.17.5
 ### Bugfix
 - Correction d'un bug avec un changement dans le calcul des bonus de défense / réaction / cdf.
