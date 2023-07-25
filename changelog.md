@@ -1,3 +1,7 @@
+## v3.17.1
+### Bugfix
+- Correction d'un problème potentiel pouvant survenir lors du passage à la 3.17.0, si les tokens possèdent déjà des status.
+
 ## v3.17.0
 ### Améliorations
 - Remplacement des status de token par défaut par ceux de Knight.
