@@ -7016,18 +7016,7 @@ export class KnightSheet extends ActorSheet {
                 moduleWpn.system.distance = itemArme.distance;
               }
 
-              const bDefense = moduleEffetsFinal.raw.find(str => { if(str.includes('defense')) return str; });
-              const bReaction = moduleEffetsFinal.raw.find(str => { if(str.includes('reaction')) return str; });
-
-              if(bDefense !== undefined) bonusDef += +bDefense.split(' ')[1];
-              if(bReaction !== undefined) bonusRea += +bReaction.split(' ')[1];
-
-              if(moduleArmeType === 'contact') {
-                const bMassive = itemArme.structurelles.raw.find(str => { if(str.includes('massive')) return true; });
-                if(bMassive) defense.malus += 1;
-
-                armesContactEquipee.push(moduleWpn);
-              }
+              if(moduleArmeType === 'contact') { armesContactEquipee.push(moduleWpn); }
 
               if(itemArme.type === 'distance') {
                 armesDistanceModules.push(moduleWpn);
@@ -7037,10 +7026,38 @@ export class KnightSheet extends ActorSheet {
               const bonusEffects = getFlatEffectBonus(moduleWpn, true);
 
               effects.modules.push({
+                key: path.defense.bonus,
+                mode: 2,
+                priority: 3,
+                value: bonusEffects.defense.bonus
+              });
+
+              effects.modules.push({
+                key: path.defense.malus,
+                mode: 2,
+                priority: 3,
+                value: bonusEffects.defense.malus
+              });
+
+              effects.modules.push({
+                key: path.reaction.bonus,
+                mode: 2,
+                priority: 3,
+                value: bonusEffects.reaction.bonus
+              });
+
+              effects.modules.push({
+                key: path.reaction.malus,
+                mode: 2,
+                priority: 3,
+                value: bonusEffects.reaction.malus
+              });
+
+              effects.modules.push({
                 key: path.champDeForce.bonus,
                 mode: 2,
-                priority: null,
-                value: bonusEffects.cdf
+                priority: 3,
+                value: bonusEffects.cdf.bonus
               });
             }
 
