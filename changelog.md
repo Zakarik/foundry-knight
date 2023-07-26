@@ -1,3 +1,7 @@
+## v3.17.7
+### Bugfix
+- Correction d'un bug de compatibilité avec Icon Status Counters.
+
 ## v3.17.6
 ### Bugfix
 - Correction d'un bug rare de calcul de l'énergie.
