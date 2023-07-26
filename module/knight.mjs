@@ -342,23 +342,52 @@ Hooks.on('deleteActor', doc => toggler.clearForId(doc.id));
 Hooks.on("updateActiveEffect", function(effect, effectData, diffData, options, userId) {
   let effectCounter = foundry.utils.getProperty(effectData, "flags.statuscounter.counter");
   if (effectCounter) {
+    const version = game.version.split('.')[0];
     const changes = [];
-    switch(effect.flags.core.statusId) {
-      case 'lumiere':
-      case 'barrage':
-        changes.push({
-          key: `system.defense.malusValue`,
-          mode: 2,
-          priority: 4,
-          value: Number(effectCounter.value)
-        },
-        {
-          key: `system.reaction.malusValue`,
-          mode: 2,
-          priority: 4,
-          value: Number(effectCounter.value)
-        });
-        break;
+    let effectStatus = "";
+
+    if(version < 11) {
+      effectStatus = foundry.utils.getProperty(effect, "flags.core.statusId");
+
+      switch(effectStatus) {
+        case 'lumiere':
+        case 'barrage':
+          changes.push({
+            key: `system.defense.malusValue`,
+            mode: 2,
+            priority: 4,
+            value: Number(effectCounter.value)
+          },
+          {
+            key: `system.reaction.malusValue`,
+            mode: 2,
+            priority: 4,
+            value: Number(effectCounter.value)
+          });
+          break;
+      }
+    } else {
+      effectStatus = foundry.utils.getProperty(effect, "statuses");
+
+      for(let eff of effectStatus) {
+        switch(eff) {
+          case 'lumiere':
+          case 'barrage':
+            changes.push({
+              key: `system.defense.malusValue`,
+              mode: 2,
+              priority: 4,
+              value: Number(effectCounter.value)
+            },
+            {
+              key: `system.reaction.malusValue`,
+              mode: 2,
+              priority: 4,
+              value: Number(effectCounter.value)
+            });
+            break;
+        }
+      }
     }
 
     updateEffect(effect.parent, [{

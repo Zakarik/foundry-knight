@@ -300,8 +300,6 @@ export class KnightActor extends Actor {
       if(!data.energie.malus || !Number.isInteger(data.energie.malus)) data.energie.malus = Number(energieMalus);
       else data.energie.malus += Number(energieMalus);
 
-      console.warn(data.energie, energieMalus, actorData.name);
-
       equipement.energie.mod = data.energie.bonus-data.energie.malus;
       equipement.energie.max = Math.max(userEBase+equipement.energie.mod, 0);
       equipement.energie.value = data.energie.value;
