@@ -1,3 +1,7 @@
+## v3.17.8
+### Bugfix
+- Correction d'un bug de compatibilité avec Firefox
+
 ## v3.17.7
 ### Bugfix
 - Correction d'un bug de compatibilité avec Icon Status Counters.
