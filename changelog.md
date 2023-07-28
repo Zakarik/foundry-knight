@@ -1,3 +1,7 @@
+## v3.17.10
+### Bugfix
+- Correction d'un bug sur les images du lion / wolf / crow.
+
 ## v3.17.9
 ### Bugfix
 - Correction d'un bug dans le décompte du flux.

@@ -589,9 +589,9 @@
             <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Img"}}</span>
             <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Img"}}</span>
 
-            <img class="img" src="{{lion.img}}" data-edit="system.capacites.selected.companions.lion.img" title="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}}" />
-            <img class="img" src="{{wolf.img}}" data-edit="system.capacites.selected.companions.wolf.img" title="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label"}}" />
-            <img class="img" src="{{crow.img}}" data-edit="system.capacites.selected.companions.crow.img" title="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label"}}" />
+            <img class="img" src="{{#if lion.img}}{{lion.img}}{{else}}systems/knight/assets/lion.jpg{{/if}}" data-edit="system.capacites.selected.companions.lion.img" title="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}}" />
+            <img class="img" src="{{#if wolf.img}}{{wolf.img}}{{else}}systems/knight/assets/wolf.jpg{{/if}}" data-edit="system.capacites.selected.companions.wolf.img" title="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label"}}" />
+            <img class="img" src="{{#if crow.img}}{{crow.img}}{{else}}systems/knight/assets/crow.jpg{{/if}}" data-edit="system.capacites.selected.companions.crow.img" title="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label"}}" />
         </div>
     </div>
 </div>
