@@ -3898,9 +3898,11 @@ export class KnightSheet extends ActorSheet {
     html.find('div.buttonSelectArmure button.armure').click(async ev => {
       ev.preventDefault();
       const type = $(ev.currentTarget).data("type");
-      const data = this.object.system;
+      const data = this.actor.system;
       const wear = data.wear;
       let itemUpdate = '';
+
+      if(type === data.wear) return;
 
       const update = {};
 
@@ -3913,7 +3915,7 @@ export class KnightSheet extends ActorSheet {
 
         case 'ascension':
         case 'guardian':
-          update[`system.equipements.${wear}.value`] = data.armure.value
+          update[`system.equipements.${wear}.armure.value`] = data.armure.value
           break;
       }
 
