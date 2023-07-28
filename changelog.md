@@ -1,3 +1,7 @@
+## v3.17.9
+### Bugfix
+- Correction d'un bug dans le décompte du flux.
+
 ## v3.17.8
 ### Bugfix
 - Correction d'un bug de compatibilité avec Firefox

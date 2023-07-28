@@ -8232,7 +8232,35 @@ export class KnightSheet extends ActorSheet {
     if(!hasJauge) return false;
 
     if(flux != false && hasFlux) {
-      if(fluxActuel < flux) { return false; }
+      if(fluxActuel < flux) {
+        const msgEnergie = {
+          flavor:`${label}`,
+          main:{
+            total:`${game.i18n.localize('KNIGHT.JETS.Notflux')}`
+          }
+        };
+
+        const msgEnergieData = {
+          user: game.user.id,
+          speaker: {
+            actor: data?.id || null,
+            token: data?.token?.id || null,
+            alias: data?.name || null,
+          },
+          type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+          content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgEnergie),
+          sound: CONFIG.sounds.dice
+        };
+
+        const rMode = game.settings.get("core", "rollMode");
+        const msgFData = ChatMessage.applyRollMode(msgEnergieData, rMode);
+
+        await ChatMessage.create(msgFData, {
+          rollMode:rMode
+        });
+
+        return false;
+      }
     }
 
     if(substract < 0) {
@@ -8273,12 +8301,14 @@ export class KnightSheet extends ActorSheet {
         update[`system.${type}.value`] = substract;
 
         if(flux != false) {
-          update[`system.flux.value`] = substract;
+          update[`system.flux.value`] = fluxActuel-flux;
         }
 
         if(type === 'espoir' && data.system.espoir.perte.saufAgonie && capacite === true) {
           update[`system.espoir.value`] = actuel;
         }
+
+        console.warn(update);
 
         this.actor.update(update);
       }
