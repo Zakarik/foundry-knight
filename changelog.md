@@ -1,3 +1,7 @@
+## v3.17.12
+### Bugfix
+- Correction d'un bug dans le calcul du bonus d'initiative pour ceux qui prennent en embuscade.
+
 ## v3.17.11
 ### Bugfix
 - Correction d'un bug rare qui pouvait faire dérailler le décompte des points d'armure si vous modifiez une valeur, puis appuyez sur entrer pour valider.
