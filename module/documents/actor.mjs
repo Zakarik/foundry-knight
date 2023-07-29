@@ -359,15 +359,15 @@ export class KnightActor extends Actor {
     const hasEmbuscadeSubis = data.options?.embuscadeSubis || false;
     const hasEmbuscadePris = data.options?.embuscadePris || false;
     const userIBase = dataWear === 'armure' || dataWear === 'ascension' ? masqueWODMax : masqueMax;
-    const initiativeDataDiceBase = data.initiative.diceBase;
-    let initiativeDataDiceMod = data.initiative?.diceMod || 0;
-    let initiativeDataMod = data.initiative?.mod || 0;
+    const initiativeDataDiceBase = Number(data.initiative.diceBase);
+    let initiativeDataDiceMod = Number(data.initiative?.diceMod) || 0;
+    let initiativeDataMod = Number(data.initiative?.mod) || 0;
 
-    let initiativeBonus = data.initiative.bonus.user;
-    let initiativeMalus = data.initiative.malus.user;
+    let initiativeBonus = Number(data.initiative.bonus.user);
+    let initiativeMalus = Number(data.initiative.malus.user);
 
     if(dataWear === "armure" || dataWear === "ascension") {
-      const ODInstinct =  aspects?.bete?.caracteristiques?.instinct?.overdrive?.value || 0;
+      const ODInstinct =  Number(aspects?.bete?.caracteristiques?.instinct?.overdrive?.value) || 0;
 
       if(ODInstinct >= 3) initiativeDataMod += ODInstinct*3;
     }
@@ -381,7 +381,7 @@ export class KnightActor extends Actor {
     }
 
     if(hasEmbuscadePris) {
-      initiativeDataDiceMod += 10;
+      initiativeDataMod += 10;
     }
 
     data.initiative.dice = Math.max(initiativeDataDiceBase+initiativeDataDiceMod, 1);

@@ -67,6 +67,8 @@
                 }
             }
         }
+
+
         this.object.pj = pj;
         this.object.pnj = pnj;
 
