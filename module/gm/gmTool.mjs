@@ -63,6 +63,22 @@ import { GmMonitor } from "./gmMonitor.mjs";
             app.render(true);
         });
 
+        html.find('button.razinitiative').click(ev => {
+            ev.preventDefault();
+            ev.stopPropagation();
+
+            for (const actor of game.actors) {
+                let update = {};
+
+                if(actor.type == 'knight' || actor.type == 'pnj' || actor.type == 'creature') {
+                    update['system.options.embuscadeSubis'] = false;
+                    update['system.options.embuscadePris'] = false;
+
+                    actor.update(update);
+                }
+            }
+        });
+
         html.find('button.monitor').click(ev => {
             ev.preventDefault();
             ev.stopPropagation();

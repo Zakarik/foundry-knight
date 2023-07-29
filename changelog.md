@@ -1,3 +1,7 @@
+## v3.18.0
+### Améliorations
+- Ajout d'un bouton pour restaurer l'initiative par défaut au GM Tool, afin de pouvoir remettre à zéro tout paramétrage effectué sur les initiatives en un clique facilement, dans n'importe quelle situation.
+
 ## v3.17.12
 ### Bugfix
 - Correction d'un bug dans le calcul du bonus d'initiative pour ceux qui prennent en embuscade.
