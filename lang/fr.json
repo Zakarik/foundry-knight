@@ -2416,6 +2416,7 @@
         "Reset":"Reset",
         "INITIATIVE":{
           "Label":"Gestion de l'initiative",
+          "RemiseAZero":"Restaurer l'initiative par défaut",
           "Embuscade":"Initiative : Embuscade",
           "QuiSubi":"Qui la subit ?",
           "QuiProvoque":"Qui la provoque ?",
