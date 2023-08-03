@@ -1,3 +1,7 @@
+## v3.18.1
+### Bugfix
+- Correction d'un oubli de traduction suite à la dernière mise à jour.
+
 ## v3.18.0
 ### Améliorations
 - Ajout d'un bouton pour restaurer l'initiative par défaut au GM Tool, afin de pouvoir remettre à zéro tout paramétrage effectué sur les initiatives en un clique facilement, dans n'importe quelle situation.
