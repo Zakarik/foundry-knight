@@ -1,0 +1,32 @@
+{{!-- Personnage Tab --}}
+<div class="tab personnage" data-group="primary" data-tab="personnage">
+    <div class="tactique">
+        <h2 class="header">{{localize "KNIGHT.Tactique"}}</h2>
+
+        {{editor systemData.tactique target="system.tactique" button=true owner=owner editable=editable}}
+    </div>
+
+    <div class="pointsfaibles">
+        <h2 class="header">{{localize "KNIGHT.PointsFaibles"}}</h2>
+
+        {{editor systemData.pointsFaibles target="system.pointsFaibles" button=true owner=owner editable=editable}}
+        <span>{{localize "KNIGHT.AjouterPF"}}</span>
+        <select class="pfselected">
+            <option value=""></option>
+            {{#each (listCarac) as | kAsp aspect |}}
+                <optgroup label="{{getAspect aspect}}">
+                    {{#each kAsp as | kCar carac |}}
+                        <option value="{{getCarac kCar}}">{{getCarac kCar}}</option>
+                    {{/each}}
+                </optgroup>
+            {{/each}}
+        </select>
+        <button type="action" class="addPF">{{localize "KNIGHT.AUTRE.Ajouter"}}</button>
+    </div>
+
+    <div class="description">
+        <h2 class="header">{{localize "KNIGHT.Description"}}</h2>
+
+        {{editor systemData.description target="system.description" button=true owner=owner editable=editable}}
+    </div>
+</div>

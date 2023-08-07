@@ -75,7 +75,7 @@ export class MechaArmureSheet extends ActorSheet {
 
     context.systemData = context.data.system;
 
-    actualiseRoll();
+    actualiseRoll(this.actor);
 
     return context;
   }
@@ -1371,7 +1371,7 @@ export class MechaArmureSheet extends ActorSheet {
       {label:'Modules', data:effects}
     ];
 
-    effectsGestion(this.actor, listWithEffect);
+    if(sheetData.editable) effectsGestion(this.actor, listWithEffect);
   }
 
   _prepareEffetsModules(context) {

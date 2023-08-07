@@ -1,4 +1,7 @@
 import toggler from './helpers/toggler.js';
+import {
+    listLogo,
+  } from "./helpers/common.mjs";
 
 export const RegisterSettings = function () {
     /* ------------------------------------ */
@@ -110,6 +113,46 @@ export const RegisterSettings = function () {
 
                 game.settings.set('knight', 'clearTogglers', false);
             }
+        }
+    });
+
+    game.settings.register("knight", "codexfm4", {
+        name: "KNIGHT.SETTINGS.CODEXFM4.Label",
+        hint: "KNIGHT.SETTINGS.CODEXFM4.Hint",
+        scope: "client",
+        config: true,
+        type: Boolean,
+        default: false,
+        onChange: value => {
+            foundry.utils.debouncedReload();
+        }
+    });
+
+    game.settings.register("knight", "oldRoll", {
+        name: "KNIGHT.SETTINGS.OLDROLL.Label",
+        hint: "KNIGHT.SETTINGS.OLDROLL.Hint",
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: false
+    });
+
+    game.settings.register("knight", "logo", {
+        name: "KNIGHT.SETTINGS.LOGO.Label",
+        hint: "KNIGHT.SETTINGS.LOGO.Hint",
+        scope: "client",
+        config: true,
+        type: String,
+        default: "version1",
+        choices:{
+            "default":"KNIGHT.SETTINGS.Default",
+            "version1":"KNIGHT.SETTINGS.LOGO.Version1",
+            "version2":"KNIGHT.SETTINGS.LOGO.Version2",
+            "version3":"KNIGHT.SETTINGS.LOGO.Version3",
+        }, 
+        onChange: value => {
+            $("div#interface").removeClass(listLogo);
+            $("div#interface").addClass(value);
         }
     });
 };

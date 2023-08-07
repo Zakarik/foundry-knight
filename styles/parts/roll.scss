@@ -9,6 +9,7 @@
 
       &.dice-formula {
         border-radius:0px;
+        box-shadow: 1px 1px 2px $black;
       }
 
       &.dice-total {
@@ -16,7 +17,7 @@
         width:100%;
         background: rgba(0, 0, 0, 0.1);
         border: 1px solid var(--color-border-light-2);
-        box-shadow: 0 0 2px #fff inset;
+        box-shadow: 1px 1px 2px $black;
 
         h4.dice-total {
           border:0px;
@@ -132,6 +133,28 @@
           font-size:14px;
         }
       }
+
+      &.atkTouche {
+        div.dice-formula {
+          margin-bottom: 5px;
+          margin-top: 5px;
+          border-color: $white;
+
+          &::before {
+            content: attr(title);
+            position: absolute;
+            left: 0px;
+            top: -5px;
+            background: white;
+            border-radius: 5px;
+            padding-left: 5px;
+            padding-right: 5px;
+            width: 75px;
+            word-break: keep-all;
+            line-height: 15px;
+          }
+        }
+      }
     }
 
     span {
@@ -168,6 +191,11 @@
         width:100%;
         color:$red;
       }
+
+      &.fullLine {
+        display:block;
+        width:100%;
+      }
     }
 
     h4 {
@@ -189,6 +217,23 @@
         word-break: break-all;
         font-variant: small-caps;
         color:$green;
+      }
+    }
+
+    button {
+      &.btn {
+        background: rgba(0, 0, 0, 0.1);
+        box-shadow: 1px 1px 4px $black;
+
+        &:hover {
+          background:$black;
+          color:$lightGrey;
+        }
+      }
+
+      &.btnDgts,
+      &.btnViolence {
+        order:3;
       }
     }
 }

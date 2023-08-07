@@ -3592,49 +3592,10 @@ export class KnightSheet extends ActorSheet {
     });
 
     html.find('div.styleCombat > select').change(async ev => {
-      const style = $(ev.currentTarget).val();
-      const mods = getModStyle(style);
-      const effects = [];
-
-      effects.push({
-        key: path.reaction.bonus,
-        mode: 2,
-        priority: null,
-        value: mods.bonus.reaction
-      },
-      {
-        key: path.reaction.malus,
-        mode: 2,
-        priority: null,
-        value: mods.malus.reaction
-      },
-      {
-        key: path.defense.bonus,
-        mode: 2,
-        priority: null,
-        value: mods.bonus.defense
-      },
-      {
-        key: path.defense.malus,
-        mode: 2,
-        priority: null,
-        value: mods.malus.defense
-      });
-
-      addOrUpdateEffect(this.actor, 'style', effects);
-
-      const update = {
-        system: {
-          combat:{
-            data:{
-              tourspasses:1,
-              type:"degats"
-            }
-          }
-        }
-      };
-
-      this.actor.update(update);
+      this.actor.update({['system.combat.data']:{
+        tourspasses:1,
+        type:"degats"
+      }});
     });
 
     html.find('.roll').click(ev => {
@@ -5322,6 +5283,7 @@ export class KnightSheet extends ActorSheet {
     const wear = system.wear;
     const onArmor = wear === 'armure' || wear === 'ascension' ? true : false;
 
+    const style = getModStyle(system.combat.style);
     const armorSpecial = getSpecial(this.actor);
     const armorSpecialRaw = armorSpecial?.raw || [];
     const armorSpecialCustom = armorSpecial?.custom || [];
@@ -5602,7 +5564,7 @@ export class KnightSheet extends ActorSheet {
         "distance":[]
       }
     };
-    let effects = {base:[], experiences:[], gloire:[], armure:[], guardian:[], armes:[], overdrives:[], modules:[], slots:[], avantages:[], inconvenients:[], blessures:[], traumas:[], distinctions:[]};
+    let effects = {base:[], experiences:[], gloire:[], armure:[], guardian:[], armes:[], overdrives:[], modules:[], slots:[], avantages:[], inconvenients:[], blessures:[], traumas:[], distinctions:[], style:[]};
     let hasDistance = false;
     let n = 1;
 
@@ -7813,6 +7775,31 @@ export class KnightSheet extends ActorSheet {
       value: `true`
     });
 
+    effects.style.push({
+      key: path.reaction.bonus,
+      mode: 2,
+      priority: null,
+      value: style.bonus.reaction
+    },
+    {
+      key: path.reaction.malus,
+      mode: 2,
+      priority: null,
+      value: style.malus.reaction
+    },
+    {
+      key: path.defense.bonus,
+      mode: 2,
+      priority: null,
+      value: style.bonus.defense
+    },
+    {
+      key: path.defense.malus,
+      mode: 2,
+      priority: null,
+      value: style.malus.defense
+    });
+
     const listWithEffect = [
       {label:'Base', withoutArmor:true, withArmor:true, data:effects.base},
       {label:'Armure', withoutArmor:false, withArmor:true, data:effects.armure},
@@ -7828,6 +7815,7 @@ export class KnightSheet extends ActorSheet {
       {label:'Traumas', withoutArmor:true, withArmor:true, data:effects.traumas},
       {label:'Distinctions', withoutArmor:true, withArmor:true, data:effects.distinctions},
       {label:'Gloire', withoutArmor:true, withArmor:true, data:effects.gloire},
+      {label:'Style', withoutArmor:true, withArmor:true, data:effects.style},
     ];
 
     effectsGestion(this.actor, listWithEffect, true, onArmor);

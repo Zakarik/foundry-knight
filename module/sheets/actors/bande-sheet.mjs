@@ -8,6 +8,7 @@ import {
   effectsGestion,
   diceHover,
   options,
+  commonPNJ,
 } from "../../helpers/common.mjs";
 
 import {
@@ -80,7 +81,7 @@ export class BandeSheet extends ActorSheet {
 
     context.systemData = context.data.system;
 
-    actualiseRoll();
+    actualiseRoll(this.actor);
 
     return context;
   }
@@ -138,6 +139,7 @@ export class BandeSheet extends ActorSheet {
 
     diceHover(html);
     options(html, this.actor);
+    commonPNJ(html, this.actor);
 
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
@@ -689,7 +691,7 @@ export class BandeSheet extends ActorSheet {
       {label:'Capacites', data:effects.capacites},
     ];
 
-    effectsGestion(this.actor, listWithEffect);
+    if(sheetData.editable) effectsGestion(this.actor, listWithEffect);
   }
 
   _prepareAE(context) {

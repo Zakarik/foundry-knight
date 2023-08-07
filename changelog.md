@@ -1,3 +1,16 @@
+## v3.19.0
+### Améliorations
+- Ajout du calcul automatique pour toucher lorsque vous ciblez un token sur la scène, avec prise en compte des points faibles (à condition que l'orthographe soit bon - les tirets, les accents et les majuscules ne comptent pas dans l'ortographe), des effets de lumière, barrage et désignation. L'assistance à l'attaque est également automatiquement calculée pour les dégâts et la violence.
+- Ajout d'un bouton "Attaque surprise" dans la fenêtre de jet, qui met automatiquement la défense ennemie à 0 lorsqu'il est sélectionné.
+- Ajout de la possibilité de modifier le logo en haut à gauche de Foundry, parmi plusieurs variations. Ce logo est modifiable par tout le monde, étant géré localement, chaque personne autour de la table pouvant ainsi avoir le sien.
+- Ajout d'un encart permettant d'ajouter facilement des points faibles pour les PNJ / Créatures / Bandes, afin d'être certain de en pas se tromper d'orthographe.
+- Modification de la façon dont les jets fonctionne, de sorte que seul le jet d'attaque est lancé à présent, intégrant deux boutons "Dégâts" et "Violence" pour jeter soit l'un, soit l'autre ensuite. Il est possible de revenir à l'ancien fonctionnement dans les options du système.
+- Ajout du status "Immobilisation" provenant du Codex Fan Made 4. Il n'est pas activé par défaut, il faut l'activer dans les options du système.
+
+### Bugfix
+- Correction de typo dans le nom des grenades.
+- Correction d'un problème ne prenant pas correctement en compte le changement de style lorsqu'il est fait depuis la fenêtre de jet.
+
 ## v3.18.1
 ### Bugfix
 - Correction d'un oubli de traduction suite à la dernière mise à jour.

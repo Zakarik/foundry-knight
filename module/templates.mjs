@@ -126,6 +126,7 @@ export const PreloadTemplates = async function() {
     `${path}/actors/subtab/grenades.html`,
     `${path}/actors/subtab/longbow.html`,
     `${path}/actors/subtab/modules.html`,
+    `${path}/actors/subtab/personnagePNJ.html`,
     `${path}/actors/subtab/aspectsPNJ.html`,
     `${path}/actors/subtab/aspectsExceptionnels.html`,
     `${path}/dialog/ask-sheet.html`,

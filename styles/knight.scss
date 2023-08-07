@@ -1,3 +1,8 @@
+$logos:
+"1",
+"2",
+"3";
+
 @import "parts/functions";
 @import "parts/base";
 @import "parts/dialogs/roll";
@@ -214,5 +219,18 @@
 @import "parts/bande";
 @import "parts/vehicule";
 @import "parts/mechaarmure";
+@import "parts/common";
 @import "parts/roll";
 @import "parts/dialogs/companions";
+
+@each $logo in $logos {
+  div#interface.version#{$logo} #logo {
+    content: url("../assets/icons/logo#{$logo}.webp");
+    min-height: 100px;
+  }
+}
+
+li.chat-message {
+  background: $lightGrey;
+  box-shadow: 1px 1px 6px $black;
+}

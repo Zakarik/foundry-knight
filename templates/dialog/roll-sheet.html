@@ -144,6 +144,11 @@
             </button>
         </div>
         {{/unless}}
+        <div class="noOd">
+            <button type="action" data-value="{{attackSurprise}}" class="attackSurprise {{#if attackSurprise}}selected{{/if}}">
+                {{localize "KNIGHT.JETS.AttackSurprise"}}
+            </button>
+        </div>
     </div>
 
     {{#unless (isEmpty listWpnContact)}}

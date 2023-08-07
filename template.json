@@ -4112,6 +4112,7 @@
               "crow":52
             },
             "lion":{
+              "img":"systems/knight/assets/lion.jpg",
               "PG":60,
               "aspects":{
                 "chair":{
@@ -4188,6 +4189,7 @@
               }
             },
             "wolf":{
+              "img":"systems/knight/assets/wolf.jpg",
               "aspects":{
                 "chair":{
                   "value":2,
@@ -4305,6 +4307,7 @@
               }
             },
             "crow":{
+              "img":"systems/knight/assets/crow.jpg",
               "capacites":"",
               "aspects":{
                 "chair":{

@@ -66,7 +66,7 @@ export class VehiculeSheet extends ActorSheet {
     context.systemData = context.data.system;
     context.systemData.wear = 'armure';
 
-    actualiseRoll();
+    actualiseRoll(this.actor);
 
     return context;
   }
@@ -766,7 +766,7 @@ export class VehiculeSheet extends ActorSheet {
       {label:'Modules', data:effects.modules},
     ];
 
-    effectsGestion(this.actor, listWithEffect);
+    if(sheetData.editable) effectsGestion(this.actor, listWithEffect);
   }
 
   async _depensePE(label, depense, autosubstract=true, html=false) {
