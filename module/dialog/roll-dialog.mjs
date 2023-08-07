@@ -20,6 +20,12 @@ import {
   actorIsMa,
 } from "../helpers/common.mjs";
 
+import {
+  doAttack,
+  doDgts,
+  doViolence,
+} from "../helpers/dialogRoll.mjs";
+
 /**
  * Edit dialog
  * @extends {Dialog}
@@ -103,7 +109,8 @@ export class KnightRollDialog extends Application {
       noOd = false,
       avDv = false,
       bonusTemp = { has: false, modificateur: 0, succesbonus: 0 },
-      vehicule = {}
+      vehicule = {},
+      attackSurprise = false,
     } = this.data;
 
     const hasLongbow = longbow?.has || false;
@@ -186,6 +193,7 @@ export class KnightRollDialog extends Application {
         succesbonus: bonusTemp?.succesbonus || 0
       },
       vehicule,
+      attackSurprise,
       buttons
     };
   }
@@ -472,6 +480,8 @@ export class KnightRollDialog extends Application {
       this.data.listWpnMA = {};
     }
 
+    this.data.attackSurprise = this.data?.attackSurprise ?? false;
+
     return {
       base: this.data.base,
       autre: this.data.autre,
@@ -501,17 +511,14 @@ export class KnightRollDialog extends Application {
       listWpnMA:this.data.listWpnMA,
       hasWraith:this.data.hasWraith,
       ameliorations:this.data.ameliorations,
+      attackSurprise:this.data.attackSurprise,
     };
   }
 
   //ON ACTUALISE LES INFORMATIONS
-  actualise() {
-    const id = this?.data?.actor?._id ?? undefined;
-
-    if(id === undefined) return;
-
+  actualise(actor) {
     //ACTUALISATION DE L'ACTEUR
-    const getActor = game.actors.get(id);
+    const getActor = actor;
 
     this.setAct(getActor);
 
@@ -590,10 +597,22 @@ export class KnightRollDialog extends Application {
     });
   }
 
+  async setIfAtkSurprise(hasAtkSurprise) {
+    this.data.attackSurprise = hasAtkSurprise;
+
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          this.data.attackSurprise
+        );
+      }, 0);
+    });
+  }
+
   async setSuccesBonus(value) {
     const actor = this.data.actor;
 
-    if(this.data.isToken) await actor.token.modifyActorDocument({['system.combat.data.succesbonus']:value});
+    if(this.data.isToken) await actor.update({['system.combat.data.succesbonus']:value});
     else await game.actors.get(actor.id).update({['system.combat.data.succesbonus']:value});
 
     this.data.succesBonus = value;
@@ -610,7 +629,7 @@ export class KnightRollDialog extends Application {
   async setModificateur(value) {
     const actor = this.data.actor;
 
-    if(this.data.isToken) await actor.token.modifyActorDocument({['system.combat.data.modificateur']:value});
+    if(this.data.isToken) await actor.update({['system.combat.data.modificateur']:value});
     else await game.actors.get(actor.id).update({['system.combat.data.modificateur']:value});
 
     this.data.modificateur = value;
@@ -821,6 +840,19 @@ export class KnightRollDialog extends Application {
       this.render(true);
     });
 
+    html.find('button.attackSurprise').click(async ev => {
+      const target = $(ev.currentTarget);
+      const value = target.data("value");
+
+      if(!value) {
+        await this.setIfAtkSurprise(true);
+      } else {
+        await this.setIfAtkSurprise(false);
+      }
+
+      this.render(true);
+    });
+
     html.find('div.bonus div.pilonnage input').change(ev => {
       const value = +$(ev.currentTarget).val();
 
@@ -837,7 +869,7 @@ export class KnightRollDialog extends Application {
       const actor = this.data.actor;
       const value = $(ev.currentTarget).val();
 
-      if(this.data.isToken) actor.token.modifyActorDocument({['system.combat.data.type']:value});
+      if(this.data.isToken) actor.update({['system.combat.data.type']:value});
       else game.actors.get(actor.id).update({['system.combat.data.type']:value});
 
       this.data.style.type = value;
@@ -1036,8 +1068,16 @@ export class KnightRollDialog extends Application {
       const style = $(ev.currentTarget).val();
       const actor = this.data.actor;
 
-      if(this.data.isToken) actor.token.modifyActorDocument({['system.combat.style']:style});
-      else game.actors.get(actor.id).update({['system.combat.style']:style});
+      actor.update({['system.combat']:{
+        style:style,
+        data:{
+          tourspasses:1,
+          type:"degats"
+        }
+      }});
+
+      /*if(this.data.isToken) actor.update({['system.combat.style']:style});
+      else game.actors.get(actor.id).update({['system.combat.style']:style});*/
     });
   }
 
@@ -1213,16 +1253,124 @@ export class KnightRollDialog extends Application {
           totalBonus += listAllE.attack.totalBonus;
 
           if(totalDice <= 0) totalDice = 1;
+          let tgt = game.user?.targets?.ids?.[0] ?? undefined;
+          let contactOrDistance = undefined;
 
-          const attack = await this._doAttack(actor, data, wpn, otherC, carac, od, wpn?.capacite || false, totalDice, totalBonus, listAllE, addNum, barrage, systemerefroidissement, barrageValue, otherWpnAttEffet);
+          switch(typeWpn) {
+            case 'tourelle':
+            case 'longbow':
+            case 'grenades':
+            case 'distance':
+              contactOrDistance = 'distance';
+              break;
+
+            case 'contact':
+              contactOrDistance = 'contact';
+              break;
+
+            case 'armesimprovisees':
+              if(idWpn === 'distance') contactOrDistance = 'distance';
+              else if(idWpn === 'contact') contactOrDistance = 'contact';
+              break;
+          }
+
+          let dataToAdd = {
+            localDataWpn:wpn,
+            otherC:otherC,
+            carac:carac,
+            od:od,
+            isCapacite:wpn?.capacite ?? false,
+            totalDice:totalDice,
+            totalBonus:totalBonus,
+            listAllE:listAllE,
+            addNum:addNum,
+            isBarrage:barrage,
+            barrageValue:barrageValue,
+            isSystemeRefroidissement:systemerefroidissement,
+            addOtherEffects:otherWpnAttEffet,
+            target:tgt,
+            contactOrDistance:contactOrDistance,
+          };
+
+          const oldRoll = game.settings.get("knight", "oldRoll");
+
+          if(!onlyAttack && !oldRoll) {
+            if(!onlyViolence) {
+              dataToAdd['btnDgts'] = JSON.stringify({
+                label:data.label,
+                dataWpn:wpn,
+                listAllE:listAllE,
+                addNum:addNum,
+                target:tgt,
+                style:data.style,
+                pnj:data?.pnj ?? false,
+                degatsBonus:data.degatsBonus,
+                tenebricide:data?.tenebricide ?? false,
+                actor:{
+                  type:actor.type,
+                  id:actor?.id ?? null,
+                  token:{id:actor?.token?.id ?? null},
+                  name: actor?.name ?? null,
+                }
+              });
+            }
+
+            if(!onlyDgts) {
+              dataToAdd['btnViolence'] = JSON.stringify({
+                label:data.label,
+                dataWpn:wpn,
+                listAllE:listAllE,
+                addNum:addNum,
+                bViolence:bonusViolence,
+                violenceBonus:data.violenceBonus,
+                target:tgt,
+                style:data.style,
+                pnj:data?.pnj ?? false,
+                tenebricide:data?.tenebricide ?? false,
+                actor:{
+                  type:actor.type,
+                  id:actor?.id ?? null,
+                  token:{id:actor?.token?.id ?? null},
+                  name: actor?.name ?? null,
+                }
+              });
+            }
+          }
+
+          let attack = await doAttack(foundry.utils.mergeObject(data, dataToAdd));
 
           regularite += attack.regularite;
-        }
 
-        if(!onlyAttack) {
-          if(!onlyViolence) { await this._doDgts(actor, wpn, typeWpn, listAllE, regularite, addNum); }
+          if(oldRoll) {
+            if(!onlyViolence) {
+              let dataToAddDgts = {
+                dataWpn:wpn,
+                listAllE:listAllE,
+                regularite:regularite,
+                addNum:addNum,
+                target:tgt,
+                actor:actor,
+              };
 
-          if(!onlyDgts) { await this._doViolence(actor, wpn, typeWpn, listAllE, bonusViolence, addNum); }
+              if(attack.assAtk !== undefined) dataToAddDgts.assAtk = attack.assAtk;
+              await doDgts(foundry.utils.mergeObject(data, dataToAddDgts));
+            }
+
+            if(!onlyDgts) {
+              let dataToAddViolence = {
+                dataWpn:wpn,
+                listAllE:listAllE,
+                addNum:addNum,
+                bViolence:bonusViolence,
+                target:tgt,
+                actor:actor,
+              };
+
+              if(attack.assAtk !== undefined) dataToAddViolence.assAtk = attack.assAtk;
+
+              await doViolence(foundry.utils.mergeObject(data, dataToAddViolence));
+            }
+          }
         }
       }
     } else {
@@ -1297,7 +1445,7 @@ export class KnightRollDialog extends Application {
     }
   }
 
-  async _doAttack(actor, data, localDataWpn, otherC, carac, od, isCapacite=false, totalDice=0, totalBonus=0, listAllE, addNum='', isBarrage, isSystemeRefroidissement, barrageValue=0, addOtherEffects=[]) {
+  /*async _doAttack(actor, data, localDataWpn, otherC, carac, od, isCapacite=false, totalDice=0, totalBonus=0, listAllE, addNum='', isBarrage, isSystemeRefroidissement, barrageValue=0, addOtherEffects=[]) {
     const isPNJ = this.data?.pnj || false
     const wpnType = this.data.typeWpn
     const avDv = this.data.avDv;
@@ -1475,9 +1623,9 @@ export class KnightRollDialog extends Application {
     return {
       regularite:six*3
     };
-  }
+  }*/
 
-  async _doDgts(actor, dataWpn, wpnType, listAllEffets, regularite=0, addNum='') {
+  /*async _doDgts(actor, dataWpn, wpnType, listAllEffets, regularite=0, addNum='') {
     const isPNJ = this.data?.pnj || false
     const style = isPNJ ? {raw:''} : this.data.style;
 
@@ -1566,9 +1714,9 @@ export class KnightRollDialog extends Application {
     await ChatMessage.create(msgData, {
       rollMode:rMode
     });
-  }
+  }*/
 
-  async _doViolence(actor, dataWpn, wpnType, listAllEffets, bViolence=0, addNum='') {
+  /*async _doViolence(actor, dataWpn, wpnType, listAllEffets, bViolence=0, addNum='') {
     const isPNJ = this.data?.pnj || false
     const style = isPNJ ? {raw:''} : this.data.style;
 
@@ -1651,7 +1799,7 @@ export class KnightRollDialog extends Application {
         rollMode:rMode
       });
     }
-  }
+  }*/
 
   async _getAllEffets(actor, dataWpn, typeWpn, isPNJ = false) {
     const idWpn = this.data?.idWpn || -1;
@@ -2521,7 +2669,7 @@ export class KnightRollDialog extends Application {
       }
     }
 
-    if(this.data.isToken) await actor.token.modifyActorDocument(update);
+    if(this.data.isToken) await actor.update(update);
     else await game.actors.get(actor.id).update(update);
 
     if(!isMA) {
@@ -2736,9 +2884,8 @@ export class KnightRollDialog extends Application {
 
       case 'grenades':
         const nbreGrenade = data.actor.system.combat.grenades.quantity.value;
-        console.warn(nbreGrenade);
 
-        if(data.isToken) data.actor.token.modifyActorDocument({['system.combat.grenades.quantity.value']:Math.max(nbreGrenade-1, 0)});
+        if(data.isToken) data.actor.update({['system.combat.grenades.quantity.value']:Math.max(nbreGrenade-1, 0)});
         else game.actors.get(data.actor._id).update({['system.combat.grenades.quantity.value']:Math.max(nbreGrenade-1, 0)});
 
         wpn = data.listGrenades[nameWpn];

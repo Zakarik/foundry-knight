@@ -50,7 +50,13 @@ import HooksKnight from "./hooks.mjs";
 
 import {
   updateEffect,
+  listLogo,
 } from "./helpers/common.mjs";
+
+import {
+  doDgts,
+  doViolence,
+} from "./helpers/dialogRoll.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -167,7 +173,6 @@ Hooks.once('init', async function() {
       icon:'systems/knight/assets/icons/effects/soumission.svg'
     }
   ];
-
   // HANDLEBARS
   RegisterHandlebars();
 
@@ -305,6 +310,16 @@ Hooks.once('init', async function() {
     types: ["capaciteultime"],
     makeDefault: true
   });
+
+  const hasCodexFM4 = game.settings.get("knight", "codexfm4");
+
+  if(hasCodexFM4) {
+    CONFIG.statusEffects.push({
+      id:'immobilisation',
+      label:"KNIGHT.EFFETS.IMMOBILISATION.Label",
+      icon:'systems/knight/assets/icons/effects/immobilisation.svg'
+    });
+  }
 });
 
 /* -------------------------------------------- */
@@ -329,6 +344,10 @@ Hooks.once("ready", async function() {
   }
 
   CONFIG.statusEffects = sortedStatus;
+
+  const whatLogo = game.settings.get("knight", "logo");
+  $("div#interface").removeClass(listLogo);
+  $("div#interface").addClass(whatLogo);
 
   //Hooks.on("hotbarDrop", (bar, data, slot) => createMacro(data, slot));
 });
@@ -397,6 +416,52 @@ Hooks.on("updateActiveEffect", function(effect, effectData, diffData, options, u
   }
 });
 
+Hooks.on('renderChatMessage', (message, html, data) => {
+  const user = data.user;
+  const author = data.author;
+
+  if(!user.isGM) {
+    html.find('div.atkTouche').remove();
+  }
+
+  if(user._id !== author._id && !user.isGM) {
+    html.find('button.btnDgts').remove();
+    html.find('button.btnViolence').remove();
+  } else {
+    html.find('button.btnDgts').click(async ev => {
+      ev.stopPropagation();
+      const target = $(ev.currentTarget);
+      const data = target.data('all');
+      const regularite = Number(target.data('regularite'));
+      const assAtk = target?.data('assatk') ?? undefined;
+
+      let dataToAdd = {
+        regularite:regularite
+      };
+
+      if(assAtk !== undefined) dataToAdd.assAtk = assAtk;
+
+      const allData = foundry.utils.mergeObject(data, dataToAdd);
+
+      doDgts(allData);
+    });
+
+    html.find('button.btnViolence').click(async ev => {
+        ev.stopPropagation();
+        const target = $(ev.currentTarget);
+        const data = target.data('all');
+        const assAtk = target?.data('assatk') ?? undefined;
+        let dataToAdd = {};
+
+        if(assAtk !== undefined) dataToAdd.assAtk = assAtk;
+
+        const allData = foundry.utils.mergeObject(data, dataToAdd);
+
+        doViolence(allData);
+    });
+  }
+
+});
 
 
 /*Hooks.on("renderPause", function () {

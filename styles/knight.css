@@ -1090,7 +1090,7 @@
 .gmTool {
   display: flex;
   width: 300px;
-  height: 110px;
+  height: 135px;
   opacity: 0.7;
 }
 .gmTool form {
@@ -1537,11 +1537,6 @@
 }
 .gmMonitor div.main > div:nth-of-type(even) div.name span, .gmMonitor div.main > div:nth-of-type(even) div.aspect span, .gmMonitor div.main > div:nth-of-type(even) div.data span {
   border-color: RGB(43 42 51);
-}
-
-#logo {
-  content: url("../assets/icons/logo.webp");
-  min-height: 100px;
 }
 
 #pause img {
@@ -25957,98 +25952,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body nav a {
   font-variant: small-caps;
 }
-.pnj section.body div.personnage h2.header {
-  display: block;
-  position: relative;
-  width: 100%;
-  text-transform: uppercase;
-  color: white;
-  background: RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  margin: 0px;
-  border: 0px;
-  line-height: 21px;
-  padding-top: 2px;
-  font-size: 20px;
-  padding-left: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-.pnj section.body div.personnage h2.header .headerScore {
-  position: absolute;
-  width: 40px;
-  background: RGB(76 74 90);
-  line-height: 21px;
-  text-align: center;
-  right: 1px;
-  font-size: 14px;
-  font-weight: normal;
-  top: 1px;
-}
-.pnj section.body div.personnage h2.header .headerQuantity {
-  position: absolute;
-  display: flex;
-  justify-content: space-between;
-  width: 48px;
-  background: RGB(76 74 90);
-  line-height: 22px;
-  height: 22px;
-  text-align: center;
-  right: 0px;
-  font-size: 14px;
-  font-weight: normal;
-  top: 0px;
-}
-.pnj section.body div.personnage h2.header .headerQuantity input {
-  text-align: center;
-  width: 20px;
-  height: 22px;
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  background: transparent;
-}
-.pnj section.body div.personnage h2.header .headerQuantity span {
-  width: 8px;
-  line-height: 22px;
-  color: white;
-}
-.pnj section.body div.personnage h2.header a.verrouillage {
-  position: absolute;
-  right: 5px;
-  width: max-content;
-  line-height: 21px;
-  color: white;
-  font-variant: small-caps;
-  font-size: 12px;
-}
-.pnj section.body div.personnage h2.header a.verrouillage:hover {
-  text-shadow: 0 0 10px white;
-}
-.pnj section.body div.personnage h2.header .far {
-  cursor: pointer;
-}
-.pnj section.body div.personnage div.tactique div.editor,
-.pnj section.body div.personnage div.pointsfaibles div.editor,
-.pnj section.body div.personnage div.description div.editor {
-  min-height: 130px;
-  border-bottom: 1px solid RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  background: RGB(76 74 90);
-}
-.pnj section.body div.personnage div.tactique div.editor div.editor-content,
-.pnj section.body div.personnage div.pointsfaibles div.editor div.editor-content,
-.pnj section.body div.personnage div.description div.editor div.editor-content {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.pnj section.body div.personnage div.tactique:not(:last-of-type),
-.pnj section.body div.personnage div.pointsfaibles:not(:last-of-type),
-.pnj section.body div.personnage div.description:not(:last-of-type) {
-  margin-bottom: 10px;
-}
 .pnj section.body div.aspects h2.header {
   display: block;
   position: relative;
@@ -32405,98 +32308,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.body nav a {
   font-variant: small-caps;
 }
-.creature section.body div.personnage h2.header {
-  display: block;
-  position: relative;
-  width: 100%;
-  text-transform: uppercase;
-  color: white;
-  background: RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  margin: 0px;
-  border: 0px;
-  line-height: 21px;
-  padding-top: 2px;
-  font-size: 20px;
-  padding-left: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-.creature section.body div.personnage h2.header .headerScore {
-  position: absolute;
-  width: 40px;
-  background: RGB(76 74 90);
-  line-height: 21px;
-  text-align: center;
-  right: 1px;
-  font-size: 14px;
-  font-weight: normal;
-  top: 1px;
-}
-.creature section.body div.personnage h2.header .headerQuantity {
-  position: absolute;
-  display: flex;
-  justify-content: space-between;
-  width: 48px;
-  background: RGB(76 74 90);
-  line-height: 22px;
-  height: 22px;
-  text-align: center;
-  right: 0px;
-  font-size: 14px;
-  font-weight: normal;
-  top: 0px;
-}
-.creature section.body div.personnage h2.header .headerQuantity input {
-  text-align: center;
-  width: 20px;
-  height: 22px;
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  background: transparent;
-}
-.creature section.body div.personnage h2.header .headerQuantity span {
-  width: 8px;
-  line-height: 22px;
-  color: white;
-}
-.creature section.body div.personnage h2.header a.verrouillage {
-  position: absolute;
-  right: 5px;
-  width: max-content;
-  line-height: 21px;
-  color: white;
-  font-variant: small-caps;
-  font-size: 12px;
-}
-.creature section.body div.personnage h2.header a.verrouillage:hover {
-  text-shadow: 0 0 10px white;
-}
-.creature section.body div.personnage h2.header .far {
-  cursor: pointer;
-}
-.creature section.body div.personnage div.tactique div.editor,
-.creature section.body div.personnage div.pointsfaibles div.editor,
-.creature section.body div.personnage div.description div.editor {
-  min-height: 130px;
-  border-bottom: 1px solid RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  background: RGB(76 74 90);
-}
-.creature section.body div.personnage div.tactique div.editor div.editor-content,
-.creature section.body div.personnage div.pointsfaibles div.editor div.editor-content,
-.creature section.body div.personnage div.description div.editor div.editor-content {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.creature section.body div.personnage div.tactique:not(:last-of-type),
-.creature section.body div.personnage div.pointsfaibles:not(:last-of-type),
-.creature section.body div.personnage div.description:not(:last-of-type) {
-  margin-bottom: 10px;
-}
 .creature section.body div.aspects h2.header {
   display: block;
   position: relative;
@@ -34521,98 +34332,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .bande section.body nav a {
   font-variant: small-caps;
-}
-.bande section.body div.personnage h2.header {
-  display: block;
-  position: relative;
-  width: 100%;
-  text-transform: uppercase;
-  color: white;
-  background: RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  margin: 0px;
-  border: 0px;
-  line-height: 21px;
-  padding-top: 2px;
-  font-size: 20px;
-  padding-left: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-.bande section.body div.personnage h2.header .headerScore {
-  position: absolute;
-  width: 40px;
-  background: RGB(76 74 90);
-  line-height: 21px;
-  text-align: center;
-  right: 1px;
-  font-size: 14px;
-  font-weight: normal;
-  top: 1px;
-}
-.bande section.body div.personnage h2.header .headerQuantity {
-  position: absolute;
-  display: flex;
-  justify-content: space-between;
-  width: 48px;
-  background: RGB(76 74 90);
-  line-height: 22px;
-  height: 22px;
-  text-align: center;
-  right: 0px;
-  font-size: 14px;
-  font-weight: normal;
-  top: 0px;
-}
-.bande section.body div.personnage h2.header .headerQuantity input {
-  text-align: center;
-  width: 20px;
-  height: 22px;
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  background: transparent;
-}
-.bande section.body div.personnage h2.header .headerQuantity span {
-  width: 8px;
-  line-height: 22px;
-  color: white;
-}
-.bande section.body div.personnage h2.header a.verrouillage {
-  position: absolute;
-  right: 5px;
-  width: max-content;
-  line-height: 21px;
-  color: white;
-  font-variant: small-caps;
-  font-size: 12px;
-}
-.bande section.body div.personnage h2.header a.verrouillage:hover {
-  text-shadow: 0 0 10px white;
-}
-.bande section.body div.personnage h2.header .far {
-  cursor: pointer;
-}
-.bande section.body div.personnage div.tactique div.editor,
-.bande section.body div.personnage div.pointsfaibles div.editor,
-.bande section.body div.personnage div.description div.editor {
-  min-height: 130px;
-  border-bottom: 1px solid RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  background: RGB(76 74 90);
-}
-.bande section.body div.personnage div.tactique div.editor div.editor-content,
-.bande section.body div.personnage div.pointsfaibles div.editor div.editor-content,
-.bande section.body div.personnage div.description div.editor div.editor-content {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.bande section.body div.personnage div.tactique:not(:last-of-type),
-.bande section.body div.personnage div.pointsfaibles:not(:last-of-type),
-.bande section.body div.personnage div.description:not(:last-of-type) {
-  margin-bottom: 10px;
 }
 .bande section.body div.aspects h2.header {
   display: block;
@@ -39332,6 +39051,191 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-top: 2px solid RGB(87 110 178);
 }
 
+.bande div.personnage h2.header,
+.creature div.personnage h2.header,
+.pnj div.personnage h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.bande div.personnage h2.header .headerScore,
+.creature div.personnage h2.header .headerScore,
+.pnj div.personnage h2.header .headerScore {
+  position: absolute;
+  width: 40px;
+  background: RGB(76 74 90);
+  line-height: 21px;
+  text-align: center;
+  right: 1px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 1px;
+}
+.bande div.personnage h2.header .headerQuantity,
+.creature div.personnage h2.header .headerQuantity,
+.pnj div.personnage h2.header .headerQuantity {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 48px;
+  background: RGB(76 74 90);
+  line-height: 22px;
+  height: 22px;
+  text-align: center;
+  right: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 0px;
+}
+.bande div.personnage h2.header .headerQuantity input,
+.creature div.personnage h2.header .headerQuantity input,
+.pnj div.personnage h2.header .headerQuantity input {
+  text-align: center;
+  width: 20px;
+  height: 22px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
+}
+.bande div.personnage h2.header .headerQuantity span,
+.creature div.personnage h2.header .headerQuantity span,
+.pnj div.personnage h2.header .headerQuantity span {
+  width: 8px;
+  line-height: 22px;
+  color: white;
+}
+.bande div.personnage h2.header a.verrouillage,
+.creature div.personnage h2.header a.verrouillage,
+.pnj div.personnage h2.header a.verrouillage {
+  position: absolute;
+  right: 5px;
+  width: max-content;
+  line-height: 21px;
+  color: white;
+  font-variant: small-caps;
+  font-size: 12px;
+}
+.bande div.personnage h2.header a.verrouillage:hover,
+.creature div.personnage h2.header a.verrouillage:hover,
+.pnj div.personnage h2.header a.verrouillage:hover {
+  text-shadow: 0 0 10px white;
+}
+.bande div.personnage h2.header .far,
+.creature div.personnage h2.header .far,
+.pnj div.personnage h2.header .far {
+  cursor: pointer;
+}
+.bande div.personnage div.tactique div.editor, .bande div.personnage div.pointsfaibles div.editor, .bande div.personnage div.description div.editor,
+.creature div.personnage div.tactique div.editor,
+.creature div.personnage div.pointsfaibles div.editor,
+.creature div.personnage div.description div.editor,
+.pnj div.personnage div.tactique div.editor,
+.pnj div.personnage div.pointsfaibles div.editor,
+.pnj div.personnage div.description div.editor {
+  min-height: 130px;
+  border-bottom: 1px solid RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  background: RGB(76 74 90);
+}
+.bande div.personnage div.tactique div.editor div.editor-content, .bande div.personnage div.pointsfaibles div.editor div.editor-content, .bande div.personnage div.description div.editor div.editor-content,
+.creature div.personnage div.tactique div.editor div.editor-content,
+.creature div.personnage div.pointsfaibles div.editor div.editor-content,
+.creature div.personnage div.description div.editor div.editor-content,
+.pnj div.personnage div.tactique div.editor div.editor-content,
+.pnj div.personnage div.pointsfaibles div.editor div.editor-content,
+.pnj div.personnage div.description div.editor div.editor-content {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.bande div.personnage div.tactique:not(:last-of-type), .bande div.personnage div.pointsfaibles:not(:last-of-type), .bande div.personnage div.description:not(:last-of-type),
+.creature div.personnage div.tactique:not(:last-of-type),
+.creature div.personnage div.pointsfaibles:not(:last-of-type),
+.creature div.personnage div.description:not(:last-of-type),
+.pnj div.personnage div.tactique:not(:last-of-type),
+.pnj div.personnage div.pointsfaibles:not(:last-of-type),
+.pnj div.personnage div.description:not(:last-of-type) {
+  margin-bottom: 10px;
+}
+.bande div.personnage div.pointsfaibles,
+.creature div.personnage div.pointsfaibles,
+.pnj div.personnage div.pointsfaibles {
+  display: grid;
+  grid-template-columns: 1fr 200px 200px;
+}
+.bande div.personnage div.pointsfaibles h2,
+.bande div.personnage div.pointsfaibles div.editor,
+.creature div.personnage div.pointsfaibles h2,
+.creature div.personnage div.pointsfaibles div.editor,
+.pnj div.personnage div.pointsfaibles h2,
+.pnj div.personnage div.pointsfaibles div.editor {
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+.bande div.personnage div.pointsfaibles > span,
+.creature div.personnage div.pointsfaibles > span,
+.pnj div.personnage div.pointsfaibles > span {
+  display: block;
+  padding-left: 5px;
+  border-left: 1px solid RGB(87 110 178);
+  border-bottom: 1px solid RGB(87 110 178);
+  line-height: 25px;
+}
+.bande div.personnage div.pointsfaibles > select,
+.creature div.personnage div.pointsfaibles > select,
+.pnj div.personnage div.pointsfaibles > select {
+  border: 0px;
+  background: RGB(43 42 51);
+  border-top: 0px;
+  border-bottom: 1px solid RGB(87 110 178);
+  border-left: 1px solid RGB(76 74 90);
+  border-right: 1px solid RGB(76 74 90);
+  text-align: center;
+  line-height: 26px;
+  color: white;
+  border-radius: 0px;
+}
+.bande div.personnage div.pointsfaibles > select optgroup,
+.bande div.personnage div.pointsfaibles > select option,
+.creature div.personnage div.pointsfaibles > select optgroup,
+.creature div.personnage div.pointsfaibles > select option,
+.pnj div.personnage div.pointsfaibles > select optgroup,
+.pnj div.personnage div.pointsfaibles > select option {
+  background: RGB(43 42 51);
+  color: white;
+}
+.bande div.personnage div.pointsfaibles > button,
+.creature div.personnage div.pointsfaibles > button,
+.pnj div.personnage div.pointsfaibles > button {
+  width: 100%;
+  font-size: 13px;
+  line-height: 20px;
+  background: RGB(43 42 51);
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 1px solid RGB(87 110 178);
+  border-bottom: 1px solid RGB(87 110 178);
+  border-radius: 0px;
+  font-variant: small-caps;
+  color: white;
+  cursor: pointer;
+  margin: 0px;
+}
+
 .knight-roll {
   cursor: pointer;
 }
@@ -39341,13 +39245,14 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight-roll div.dice-formula {
   border-radius: 0px;
+  box-shadow: 1px 1px 2px RGB(43 42 51);
 }
 .knight-roll div.dice-total {
   display: block;
   width: 100%;
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid var(--color-border-light-2);
-  box-shadow: 0 0 2px #fff inset;
+  box-shadow: 1px 1px 2px RGB(43 42 51);
 }
 .knight-roll div.dice-total h4.dice-total {
   border: 0px;
@@ -39430,6 +39335,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight-roll div.style div.dice-total {
   font-size: 14px;
 }
+.knight-roll div.atkTouche div.dice-formula {
+  margin-bottom: 5px;
+  margin-top: 5px;
+  border-color: white;
+}
+.knight-roll div.atkTouche div.dice-formula::before {
+  content: attr(title);
+  position: absolute;
+  left: 0px;
+  top: -5px;
+  background: white;
+  border-radius: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 75px;
+  word-break: keep-all;
+  line-height: 15px;
+}
 .knight-roll span.caracs {
   word-break: break-word;
 }
@@ -39459,6 +39382,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 100%;
   color: #AF0000;
 }
+.knight-roll span.fullLine {
+  display: block;
+  width: 100%;
+}
 .knight-roll h4.dice-exploit {
   margin-top: 5px;
   flex: 0;
@@ -39478,6 +39405,17 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-variant: small-caps;
   color: #18520b;
 }
+.knight-roll button.btn {
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 4px RGB(43 42 51);
+}
+.knight-roll button.btn:hover {
+  background: RGB(43 42 51);
+  color: RGB(193, 193, 193);
+}
+.knight-roll button.btnDgts, .knight-roll button.btnViolence {
+  order: 3;
+}
 
 .windowsEvolutionCompanions {
   display: flex;
@@ -39486,4 +39424,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   align-items: flex-start;
   align-content: flex-start;
   width: 100%;
+}
+
+div#interface.version1 #logo {
+  content: url("../assets/icons/logo1.webp");
+  min-height: 100px;
+}
+
+div#interface.version2 #logo {
+  content: url("../assets/icons/logo2.webp");
+  min-height: 100px;
+}
+
+div#interface.version3 #logo {
+  content: url("../assets/icons/logo3.webp");
+  min-height: 100px;
+}
+
+li.chat-message {
+  background: RGB(193, 193, 193);
+  box-shadow: 1px 1px 6px RGB(43 42 51);
 }

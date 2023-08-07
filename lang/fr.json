@@ -69,6 +69,7 @@
     "Blason":"Blason",
     "Description":"Description",
     "PointsFaibles":"Points Faibles",
+    "AjouterPF":"Ajouter un point faible",
     "Tactique":"Tactique",
     "VEHICULE":{
       "Manoeuvrabilite":"Manoeuvrabilité",
@@ -556,7 +557,7 @@
         "Singulier": "Grenade",
         "Shrapnel": "Shrapnel",
         "Flashbang": "Flashbang",
-        "Antiblindage": "Antiblindage",
+        "Antiblindage": "Anti-blindage",
         "Iem": "IEM",
         "Explosive": "Explosive",
         "Add":"Ajouter un type de grenade"
@@ -830,6 +831,9 @@
         "Label":"Ignore Champ De Force",
         "Description":"L'arme ignore purement et simplement le champ de force d'un adversaire. Les PS de la cible sont directement touchée si les dégâts passent les PA ou le bouclier.",
         "Description-short":"L'arme ignore purement et simplement le champ de force d'un adversaire. Les PS de la cible sont directement touchée si les dégâts passent les PA ou le bouclier."
+      },
+      "IMMOBILISATION":{
+        "Label":"Immobilisation"
       },
       "JUMELEAKIMBO": {
         "Label":"Jumelé (akimbo)",
@@ -2148,6 +2152,14 @@
       "Nodsarmure":"Nods d'Armure",
       "Nodsenergie":"Nods d'Energie",
       "JetPilotage":"Jet de pilotage",
+      "AttackSurprise":"Attaque surprise",
+      "RESULTATS":{
+        "Touche":"Touché",
+        "Manque":"Manqué",
+        "VsReaction":"vs Réaction",
+        "VsDefense":"vs Défense",
+        "PFTarget":"Point faible ciblé !"
+      },
       "CHAIRD2": {
         "Has":"Ajoute la Chair divisé par 2 aux dégâts",
         "Hasnt":"N'ajoute pas la Chair divisé par 2 aux dégâts"
@@ -2219,7 +2231,8 @@
       "Confirmation":"Êtes vous sûre ?",
       "ConfirmationSuppression":"Êtes vous sûre de vouloir supprimer cet objet ?",
       "Reset":"Reset",
-      "Difficulte":"Difficulté"
+      "Difficulte":"Difficulté",
+      "MJOnly":"MJ Uniquement"
     },
     "PHASE2":{
       "Label":"Phase 2",
@@ -2387,6 +2400,7 @@
       "AcheterEvolutionCompanion":"Acheter l'évolution des Companions"
     },
     "SETTINGS":{
+      "Default":"Défaut",
       "ARMURES":{
         "Egide":"Accès à l'Egide",
         "2038": "Capacités des armures de 2038",
@@ -2407,6 +2421,21 @@
       "TOGGLERS": {
         "Label": "Réinitialiser les panels pliants",
         "Hint": "Remet les panels pliants à leur état d'origine sur toutes les fiches."
+      },
+      "LOGO":{
+        "Label":"Choix du logo en haut à gauche",
+        "Hint":"Permet de choisir entre différents logo en haut à gauche",
+        "Version1":"Version 1",
+        "Version2":"Version 2",
+        "Version3":"Version 3"
+      },
+      "CODEXFM4":{
+        "Label":"Ajouter les status de token liés au Codex Fan Made 4",
+        "Hint":"Ajoute le status de token 'Immobilisation'"
+      },
+      "OLDROLL":{
+        "Label":"Jeter les dégâts et la violence en même temps que l'attaque",
+        "Hint":"S'il n'est pas activé, il y aura des boutons dans les jets d'attaques pour jeter les dégâts et/ou la violence."
       }
     },
     "GM":{

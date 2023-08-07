@@ -13,6 +13,7 @@ import {
   diceHover,
   options,
   getFlatEffectBonus,
+  commonPNJ,
 } from "../../helpers/common.mjs";
 
 import {
@@ -91,7 +92,7 @@ export class CreatureSheet extends ActorSheet {
 
     context.systemData = context.data.system;
 
-    actualiseRoll();
+    actualiseRoll(this.actor);
 
     return context;
   }
@@ -206,6 +207,7 @@ export class CreatureSheet extends ActorSheet {
     if ( !this.isEditable ) return;
     diceHover(html);
     options(html, this.actor);
+    commonPNJ(html, this.actor);
 
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
@@ -994,7 +996,7 @@ export class CreatureSheet extends ActorSheet {
       {label:'Armes', data:effects.armes},
     ];
 
-    effectsGestion(this.actor, listWithEffect);
+    if(sheetData.editable) effectsGestion(this.actor, listWithEffect);
   }
 
   _prepareAE(context) {

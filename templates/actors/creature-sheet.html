@@ -210,27 +210,7 @@
             <a class="item" data-tab="options">{{localize "KNIGHT.OPTIONS.Label"}}</a>
         </nav>
 
-        {{!-- Personnage Tab --}}
-        <div class="tab personnage" data-group="primary" data-tab="personnage">
-            <div class="tactique">
-                <h2 class="header">{{localize "KNIGHT.Tactique"}}</h2>
-
-                {{editor systemData.tactique target="system.tactique" button=true owner=owner editable=editable}}
-            </div>
-
-            <div class="pointsfaibles">
-                <h2 class="header">{{localize "KNIGHT.PointsFaibles"}}</h2>
-
-                {{editor systemData.pointsFaibles target="system.pointsFaibles" button=true owner=owner editable=editable}}
-            </div>
-
-            <div class="description">
-                <h2 class="header">{{localize "KNIGHT.Description"}}</h2>
-
-                {{editor systemData.description target="system.description" button=true owner=owner editable=editable}}
-            </div>
-        </div>
-
+{{~> systems/knight/templates/actors/subtab/personnagePNJ.html}}
 {{~> systems/knight/templates/actors/subtab/aspectsPNJ.html}}
 
         <div class="tab capacites" data-group="primary" data-tab="capacites">

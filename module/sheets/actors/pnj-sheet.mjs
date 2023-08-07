@@ -13,6 +13,7 @@ import {
   getDefaultImg,
   diceHover,
   options,
+  commonPNJ,
 } from "../../helpers/common.mjs";
 
 import {
@@ -107,7 +108,10 @@ export class PNJSheet extends ActorSheet {
 
     context.systemData = context.data.system;
 
-    actualiseRoll();
+
+    actualiseRoll(this.actor);
+
+    console.warn(context);
 
     return context;
   }
@@ -229,6 +233,7 @@ export class PNJSheet extends ActorSheet {
 
     diceHover(html);
     options(html, this.actor);
+    commonPNJ(html, this.actor);
 
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
@@ -3267,7 +3272,7 @@ export class PNJSheet extends ActorSheet {
       {label:'Armes', data:effects.armes},
     ];
 
-    effectsGestion(this.actor, listWithEffect);
+    if(sheetData.editable) effectsGestion(this.actor, listWithEffect);
 
     actorData.armesContact = armesContact;
     actorData.armesDistance = armesDistance;

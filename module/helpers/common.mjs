@@ -1,3 +1,10 @@
+export const listLogo = [
+  "default",
+  "version1",
+  "version2",
+  "version3"
+];
+
 export function SortByLabel(x, y){
     if (x.label.toLowerCase() < y.label.toLowerCase()) {return -1;}
     if (x.label.toLowerCase() > y.label.toLowerCase()) {return 1;}
@@ -4753,6 +4760,19 @@ export function options(html, actor) {
   });
 }
 
+export function commonPNJ(html, actor) {
+  html.find('button.addPF').click(ev => {
+    const value = $(html.find('select.pfselected')).val();
+    const previous = actor.system?.pointsFaibles ?? "";
+
+    if(value === "") return;
+
+    const newText = previous === "" ? value : `${previous} / ${value}`;
+
+    actor.update({[`system.pointsFaibles`]:newText});
+  });
+}
+
 //GESTION DES EFFETS ACTIFS
 export async function addEffect(origin, toAdd) {
   origin.createEmbeddedDocuments('ActiveEffect', toAdd);
@@ -4767,6 +4787,8 @@ export function addOrUpdateEffect(origin, label, effect) {
 
   const listEffect = origin.getEmbeddedCollection('ActiveEffect');
   const effectExist = existEffect(listEffect, label);
+
+  console.warn(listEffect, effectExist);
 
   if(!effectExist && version < 11) addEffect(origin, [{
       label: label,
