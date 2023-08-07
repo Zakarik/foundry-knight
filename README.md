@@ -11,6 +11,10 @@ Pseudo : Zakarik
 Afin d'assurer le bon fonctionnement du système, les joueurs doivent avoir l'autorisation de créer de nouveaux acteurs.
 C'est un prérequis pour le bon fonctionnement du mode Ascension (Armure Shaman) et du mode Companions (Armure Druid).
 
+# Modules compatibles
+- Status Icon Counter est compatible avec le système.
+Pour l'heure, les effets lumières et barrages prennent en compte le module, appliquant le malus correctement.
+
 # Remerciements
 Merci à Simon Gabillaud et toute l'équipe d'Antre-Monde Editions pour avoir donné l'autorisation d'utiliser toutes les données de leur jeu afin de créer cette fiche.
 
