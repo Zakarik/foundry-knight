@@ -6,6 +6,7 @@ import {
   getDefaultImg,
   diceHover,
   options,
+  hideShowLimited,
 } from "../../helpers/common.mjs";
 
 import {
@@ -89,6 +90,7 @@ export class VehiculeSheet extends ActorSheet {
     super.activateListeners(html);
 
     toggler.init(this.id, html);
+    hideShowLimited(this.actor, html);
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;

@@ -407,3 +407,191 @@ $lightGrey:RGB(193, 193, 193);
         }
       }
 }
+
+@mixin limited() {
+  form {
+    &.limited {
+      section {
+        &.body {
+          width:100%;
+          padding-left: 0px;
+        }
+      }
+    }
+  }
+}
+
+@mixin wpnAffichage() {
+  div.wpn {
+    display:flex;
+    width:100%;
+    flex-wrap: wrap;
+
+    header {
+      display:flex;
+      width:100%;
+      justify-content: space-between;
+      position:relative;
+      flex-wrap: wrap;
+
+      i.extendButton {
+        line-height: 26px;
+        position:absolute;
+        font-size:26px;
+        color:$white;
+        cursor:pointer;
+
+        &:hover {
+          text-shadow:0 0 10px $blue;
+        }
+      }
+
+      span {
+        &.name {
+          width:100%;
+          text-align: center;
+          font-variant: small-caps;
+          line-height: 26px;
+        }
+      }
+
+      div.line {
+        display:grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        width:100%;
+        border-top:1px solid $lightBlack;
+
+        div.doubleLine {
+          display:flex;
+          flex-wrap: wrap;
+          width:100%;
+
+          span {
+            display:block;
+            width:100%;
+            text-align: center;
+
+            &.header {
+              font-weight:bold;
+              font-variant: small-caps;
+            }
+          }
+
+          &:not(:first-of-type) {
+            border-left:1px solid $lightBlack;
+          }
+        }
+
+        &.lineTourelle {
+          div.doubleLine {
+            width:calc((100% / 4) - (34px / 4));
+          }
+        }
+
+        img {
+          height:34px;
+          width:34px;
+          background:$white;
+          border:0px;
+          border-radius:0px;
+          cursor:pointer;
+        }
+      }
+
+      div.gestionButton {
+        display:flex;
+        height:26px;
+        justify-content: space-between;
+        position:absolute;
+        right:5px;
+        width: 30px;
+        align-items: center;
+
+        &.large {
+          width:70px !important;
+        }
+      }
+    }
+
+    select {
+      border:0px;
+      width:100%;
+      text-align: center;
+      color:$white;
+      font-variant: small-caps;
+
+      option {
+        background:$black;
+      }
+    }
+
+    div.effets {
+      width:100%;
+
+      h3 {
+        width:100%;
+        font-size:13px;
+        font-variant: small-caps;
+        border:0px;
+        text-align: center;
+        border-top:1px solid $lightBlack;
+      }
+
+      div.line {
+        display:flex;
+        width:100%;
+        justify-content: space-between;
+
+        div.doubleLine {
+          display:flex;
+          flex-wrap: wrap;
+          width:calc(100% / 2);
+
+          span {
+            display:block;
+            width:100%;
+            text-align: center;
+
+            &.header {
+              font-weight:bold;
+              font-variant: small-caps;
+            }
+          }
+
+          &:not(:first-of-type) {
+            border-left:1px solid $lightBlack;
+          }
+        }
+      }
+
+      div.blockEffets {
+        display:flex;
+        position:relative;
+        width: 100%;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+
+        padding-right: 5px;
+        padding-bottom: 5px;
+        padding-left: 5px;
+        flex:none;
+
+        @include effets();
+
+        &.hidden {
+            display:none;
+        }
+      }
+    }
+
+    &.wpnEquipped {
+      div.line {
+        grid-template-columns: 1fr 1fr 1fr 34px;
+      }
+    }
+
+    &:not(:first-of-type) {
+      border-top:2px solid $lightBlue;
+    }
+  }
+}

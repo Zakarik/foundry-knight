@@ -51,6 +51,7 @@ import HooksKnight from "./hooks.mjs";
 import {
   updateEffect,
   listLogo,
+  SortByLabel,
 } from "./helpers/common.mjs";
 
 import {
@@ -108,7 +109,8 @@ Hooks.once('init', async function() {
   // Define custom Document classes
   CONFIG.Actor.documentClass = KnightActor;
   CONFIG.Item.documentClass = KnightItem;
-  CONFIG.statusEffects = [
+
+  let statusEffects = [
     {
       id:'dead',
       label:'EFFECT.StatusDead',
@@ -163,6 +165,11 @@ Hooks.once('init', async function() {
       icon:'systems/knight/assets/icons/effects/choc.svg'
     },
     {
+      id:'parasitage',
+      label:"KNIGHT.EFFETS.PARASITAGE.Label",
+      icon:'systems/knight/assets/icons/effects/parasitage.svg'
+    },
+    {
       id:'degatscontinus',
       label:"KNIGHT.EFFETS.DEGATSCONTINUS.Label",
       icon:'systems/knight/assets/icons/effects/degatscontinus.svg'
@@ -173,6 +180,11 @@ Hooks.once('init', async function() {
       icon:'systems/knight/assets/icons/effects/soumission.svg'
     }
   ];
+
+  statusEffects.sort(SortByLabel)
+
+  CONFIG.statusEffects = statusEffects;
+
   // HANDLEBARS
   RegisterHandlebars();
 

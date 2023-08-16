@@ -210,6 +210,18 @@ $logos:
     margin-top:-1px;
     padding-top:1px;
   }
+
+  i.hideShowLimited {
+    cursor: pointer;
+    font-size: 14px;
+    position: absolute;
+    top: 6px;
+    right: 5px;
+
+    &:hover {
+      text-shadow: 0 0 10px $blue;
+    }
+  }
 }
 
 @import "parts/knight";

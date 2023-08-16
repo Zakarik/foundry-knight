@@ -146,11 +146,25 @@
             <a class="item" data-tab="combat">{{localize "KNIGHT.COMBAT.Label"}}</a>
         </nav>
 
-        <div class="tab vehicule" data-group="primary" data-tab="vehicule">
-            <div class="description">
-                <h2 class="header">{{localize "KNIGHT.Description"}}</h2>
+        <div class="tab vehicule personnage" data-group="primary" data-tab="vehicule">
+            <div class="description hideShowLimited" data-toverify="showDescriptionFull" data-default="false" data-onlygm="false">
+                <h2 class="header">
+                    {{localize "KNIGHT.Description"}}
+                    <i data-toupdate="showDescriptionFull" data-value="true" class="fa-solid fa-eye-slash hideLimited hideShowLimited" title="{{localize "KNIGHT.HIDESHOW.Show"}}"></i>
+                    <i data-toupdate="showDescriptionFull" data-value="false" class="fa-solid fa-eye showLimited hideShowLimited" title="{{localize "KNIGHT.HIDESHOW.Hide"}}"></i>
+                </h2>
 
                 {{editor systemData.description target="system.description" button=true owner=owner editable=editable}}
+            </div>
+
+            <div class="description hideShowLimited" data-toverify="showDescriptionLimited" data-default="true" data-onlygm="true">
+                <h2 class="header">
+                    {{localize "KNIGHT.DescriptionLimitee"}}
+                    <i data-toupdate="showDescriptionLimited" data-value="true" class="fa-solid fa-eye-slash hideLimited hideShowLimited" title="{{localize "KNIGHT.HIDESHOW.Show"}}"></i>
+                    <i data-toupdate="showDescriptionLimited" data-value="false" class="fa-solid fa-eye showLimited hideShowLimited" title="{{localize "KNIGHT.HIDESHOW.Hide"}}"></i>
+                </h2>
+
+                {{editor systemData.descriptionLimitee target="system.descriptionLimitee" button=true owner=owner editable=editable}}
             </div>
         </div>
 
