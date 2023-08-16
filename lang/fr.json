@@ -68,6 +68,7 @@
     "Section":"Section d'origine",
     "Blason":"Blason",
     "Description":"Description",
+    "DescriptionLimitee":"Description Limitée",
     "PointsFaibles":"Points Faibles",
     "AjouterPF":"Ajouter un point faible",
     "Tactique":"Tactique",
@@ -2355,11 +2356,11 @@
     "PORTEE":{
       "Label": "Portée",
       "Personnelle":"Personnelle",
-      "Contact":"Contact",
-      "Courte":"Courte",
-      "Moyenne":"Moyenne",
-      "Longue":"Longue",
-      "Lointaine":"Lointaine"
+      "Contact":"Contact (<2m)",
+      "Courte":"Courte (2 - 15m)",
+      "Moyenne":"Moyenne (15 - 50m)",
+      "Longue":"Longue (50 - 300m)",
+      "Lointaine":"Lointaine (>300m)"
     },
     "REQUIS":{
       "Force": "Force requise",
@@ -2657,6 +2658,10 @@
       "Energie":"Restaurer l'énergie",
       "Grenades":"Restaurer les grenades",
       "Nods":"Restaurer les nods"
+    },
+    "HIDESHOW":{
+      "Hide":"Cliquez pour cacher cet encart lorsque la fiche est limitée.",
+      "Show":"Cliquez pour afficher cet encart lorsque la fiche est limitée."
     }
   }
 }

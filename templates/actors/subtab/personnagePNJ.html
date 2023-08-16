@@ -1,13 +1,21 @@
 {{!-- Personnage Tab --}}
 <div class="tab personnage" data-group="primary" data-tab="personnage">
     <div class="tactique">
-        <h2 class="header">{{localize "KNIGHT.Tactique"}}</h2>
+        <h2 class="header js-toggler">
+            <i class="far fa-minus-square extendButton"></i>
+            {{localize "KNIGHT.Tactique"}}
+        </h2>
 
         {{editor systemData.tactique target="system.tactique" button=true owner=owner editable=editable}}
     </div>
 
-    <div class="pointsfaibles">
-        <h2 class="header">{{localize "KNIGHT.PointsFaibles"}}</h2>
+    <div class="pointsfaibles hideShowLimited" data-toverify="showPointsFaibles" data-default="false" data-onlygm="false">
+        <h2 class="header js-toggler">
+            <i class="far fa-minus-square extendButton"></i>
+            {{localize "KNIGHT.PointsFaibles"}}
+            <i data-toupdate="showPointsFaibles" data-value="true" class="fa-solid fa-eye-slash hideLimited hideShowLimited" title="{{localize "KNIGHT.HIDESHOW.Show"}}"></i>
+            <i data-toupdate="showPointsFaibles" data-value="false" class="fa-solid fa-eye showLimited hideShowLimited" title="{{localize "KNIGHT.HIDESHOW.Hide"}}"></i>
+        </h2>
 
         {{editor systemData.pointsFaibles target="system.pointsFaibles" button=true owner=owner editable=editable}}
         <span>{{localize "KNIGHT.AjouterPF"}}</span>
@@ -24,9 +32,25 @@
         <button type="action" class="addPF">{{localize "KNIGHT.AUTRE.Ajouter"}}</button>
     </div>
 
-    <div class="description">
-        <h2 class="header">{{localize "KNIGHT.Description"}}</h2>
+    <div class="description hideShowLimited" data-toverify="showDescriptionFull" data-default="false" data-onlygm="false">
+        <h2 class="header js-toggler">
+            <i class="far fa-minus-square extendButton"></i>
+            {{localize "KNIGHT.Description"}}
+            <i data-toupdate="showDescriptionFull" data-value="true" class="fa-solid fa-eye-slash hideLimited hideShowLimited" title="{{localize "KNIGHT.HIDESHOW.Show"}}"></i>
+            <i data-toupdate="showDescriptionFull" data-value="false" class="fa-solid fa-eye showLimited hideShowLimited" title="{{localize "KNIGHT.HIDESHOW.Hide"}}"></i>
+        </h2>
 
         {{editor systemData.description target="system.description" button=true owner=owner editable=editable}}
+    </div>
+
+    <div class="description hideShowLimited" data-toverify="showDescriptionLimited" data-default="true" data-onlygm="true">
+        <h2 class="header js-toggler">
+            <i class="far fa-minus-square extendButton"></i>
+            {{localize "KNIGHT.DescriptionLimitee"}}
+            <i data-toupdate="showDescriptionLimited" data-value="true" class="fa-solid fa-eye-slash hideLimited hideShowLimited" title="{{localize "KNIGHT.HIDESHOW.Show"}}"></i>
+            <i data-toupdate="showDescriptionLimited" data-value="false" class="fa-solid fa-eye showLimited hideShowLimited" title="{{localize "KNIGHT.HIDESHOW.Hide"}}"></i>
+        </h2>
+
+        {{editor systemData.descriptionLimitee target="system.descriptionLimitee" button=true owner=owner editable=editable}}
     </div>
 </div>

@@ -521,10 +521,13 @@
         }
       }
 
-      div.mecha {
+      div.mech,
+      div.personnage {
         @include header();
 
         div.description {
+          margin-bottom: 10px;
+
           div.editor {
             min-height:130px;
             border-bottom: 1px solid $lightBlue;
@@ -1432,4 +1435,6 @@
         }
       }
     }
+
+    @include limited();
 }

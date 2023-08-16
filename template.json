@@ -286,7 +286,8 @@
           "value":0,
           "max":0
         },
-        "description": ""
+        "description": "",
+        "descriptionLimitee": ""
       },
       "creature":{
         "tactique":"",
@@ -1437,6 +1438,8 @@
       }
     },
     "vehicule":{
+      "description":"",
+      "descriptionLimitee":"",
       "manoeuvrabilite":0,
       "vitesse":0,
       "passagers":0,
@@ -1486,6 +1489,7 @@
     },
     "mechaarmure":{
       "description": "",
+      "descriptionLimitee":"",
       "pilote":0,
       "vitesse":{
         "value":0,

@@ -14,6 +14,7 @@ import {
   options,
   getFlatEffectBonus,
   commonPNJ,
+  hideShowLimited,
 } from "../../helpers/common.mjs";
 
 import {
@@ -115,6 +116,7 @@ export class CreatureSheet extends ActorSheet {
     super.activateListeners(html);
 
     toggler.init(this.id, html);
+    hideShowLimited(this.actor, html);
 
     html.find('div.combat div.armesContact img.info').click(ev => {
       const span = $(ev.currentTarget).siblings("span.hideInfo")

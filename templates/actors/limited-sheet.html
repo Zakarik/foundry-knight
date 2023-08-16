@@ -22,13 +22,8 @@
     <img class="profile-img" src="{{actor.armureData.img}}" data-edit="img" title="{{data.name}}" />
     {{/if}}
 
-    {{#unless (isValue actor.type 'mechaarmure')}}
-    {{#unless (isValue actor.type 'vehicule')}}
-    {{#unless (isValue actor.type 'ia')}}
-    {{#unless (isValue actor.type 'pnj')}}
-    {{#unless (isValue actor.type 'creature')}}
     {{!-- Sheet Body --}}
-    <section class="body {{#unless systemData.equipement.hasArmor}}full{{/unless}}">
+    <section class="body full">
         {{!-- Sheet Tab Navigation --}}
         <nav class="sheet-tabs tabs" data-group="primary">
             <a class="item" data-tab="personnage">{{localize "KNIGHT.PERSONNAGE.Label"}}</a>
@@ -36,16 +31,34 @@
 
         {{!-- Personnage Tab --}}
         <div class="tab personnage" data-group="primary" data-tab="personnage">
-            <div class="description">
-                <h2 class="header">{{localize "KNIGHT.Description"}}</h2>
+            {{#unless (isValue actor.type 'knight')}}
+            <div class="pointsfaibles hideShowLimited" data-toverify="showPointsFaibles" data-default="false" data-onlygm="false">
+                <h2 class="header js-toggler">
+                    <i class="far fa-minus-square extendButton"></i>
+                    {{localize "KNIGHT.PointsFaibles"}}
+                </h2>
+
+                {{editor systemData.pointsFaibles target="system.pointsFaibles" button=true owner=owner editable=editable}}
+            </div>
+            {{/unless}}
+
+            <div class="description hideShowLimited" data-toverify="showDescriptionFull" data-default="false" data-onlygm="false">
+                <h2 class="header js-toggler">
+                    <i class="far fa-minus-square extendButton"></i>
+                    {{localize "KNIGHT.Description"}}
+                </h2>
 
                 {{editor systemData.description target="system.description" button=true owner=owner editable=editable}}
             </div>
+
+            <div class="description hideShowLimited" data-toverify="showDescriptionLimited" data-default="true" data-onlygm="true">
+                <h2 class="header js-toggler">
+                    <i class="far fa-minus-square extendButton"></i>
+                    {{localize "KNIGHT.DescriptionLimitee"}}
+                </h2>
+
+                {{editor systemData.descriptionLimitee target="system.descriptionLimitee" button=true owner=owner editable=editable}}
+            </div>
         </div>
     </section>
-    {{/unless}}
-    {{/unless}}
-    {{/unless}}
-    {{/unless}}
-    {{/unless}}
 </form>

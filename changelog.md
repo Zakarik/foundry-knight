@@ -1,3 +1,9 @@
+## v3.20.0
+### Améliorations
+- Ajout du status "Parasitage" à la liste.
+- Ajout de "Description Limitée" pour tous les acteurs (sauf IA), qui permet de faire apparaitre une description lorsque l'acteur est affiché avec un droit d'accès "Limité". Ajout également de la possibilité, pour le MJ, de gérer ce qui est affiché ou non pour tous les acteurs (sauf IA) lorsqu'une fiche est ouverte avec un droit limité : Points Faible (sauf Knight) / Description / Description Limitée
+- Ajout de ce à quoi correspond chaque portée d'arme, pour plus de clarté.
+
 ## v3.19.0
 ### Améliorations
 - Ajout du calcul automatique pour toucher lorsque vous ciblez un token sur la scène, avec prise en compte des points faibles (à condition que l'orthographe soit bon - les tirets, les accents et les majuscules ne comptent pas dans l'ortographe), des effets de lumière, barrage et désignation. L'assistance à l'attaque est également automatiquement calculée pour les dégâts et la violence.

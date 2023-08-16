@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.17.3";
+    static NEEDED_VERSION = "3.20.0";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -81,8 +81,10 @@ Applique les modifications par la mise à jour au Monde.
     }
 
     static _migrationActor(actor, options = { force:false }) {
+        let update = {};
+
         if (options?.force || MigrationKnight.needUpdate("1.2.0")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -112,12 +114,10 @@ Applique les modifications par la mise à jour au Monde.
 
                 item.update(updateItem);
             }
-
-            actor.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.3.4")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -152,12 +152,10 @@ Applique les modifications par la mise à jour au Monde.
 
                 item.update(updateItem);
             }
-
-            actor.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.3.5")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -206,12 +204,10 @@ Applique les modifications par la mise à jour au Monde.
                 'MAmodule':false,
                 'MAia':false,
             };
-
-            actor.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.4.8")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -237,7 +233,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.5.3")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -255,13 +251,11 @@ Applique les modifications par la mise à jour au Monde.
                 update["system.champDeForce.base"] = system.champDeForce.value;
                 update["system.champDeForce.bonus"] = {};
                 update["system.champDeForce.malus"] = {};
-
-                actor.update(update);
             }
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.7.3")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -295,7 +289,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.7.4")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -350,7 +344,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.8.0")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -547,7 +541,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.8.2")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -573,7 +567,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.8.3")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -592,7 +586,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.8.5")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -626,7 +620,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.8.8")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -660,7 +654,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.9.1")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -678,7 +672,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.9.8")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -717,7 +711,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("2.0.4")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -741,7 +735,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("2.0.6")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -767,7 +761,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("2.0.8")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -785,14 +779,14 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("2.3.3")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
             for (let item of actor.items) {
-                const update = {};
+
 
                 if(item.type === 'module') {
                     update[`system.bonus.degats.variable.cout`] = 0;
@@ -832,7 +826,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.0.0")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -841,8 +835,6 @@ Applique les modifications par la mise à jour au Monde.
             update[`system.combat.nods.armure.recuperationBonus`] = 0;
             update[`system.combat.nods.energie.recuperationBonus`] = 0;
             update[`system.energie.-=malus`] = null;
-
-            actor.update(update);
 
             // MISE A JOUR DES ITEMS PORTES
             for (let item of actor.items) {
@@ -953,7 +945,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.1.2")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -964,12 +956,10 @@ Applique les modifications par la mise à jour au Monde.
             update[`system.equipements.armure.slots.brasDroite`] = 0;
             update[`system.equipements.armure.slots.jambeDroite`] = 0;
             update[`system.equipements.armure.slots.jambeGauche`] = 0;
-
-            actor.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.1.4")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -1001,12 +991,10 @@ Applique les modifications par la mise à jour au Monde.
                 update[`system.aspects.masque.caracteristiques.discretion.bonus`] = 0;
                 update[`system.aspects.masque.caracteristiques.perception.bonus`] = 0;
             }
-
-            actor.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.1.8")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -1026,7 +1014,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.2.15")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -1048,7 +1036,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.3.16")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -1075,7 +1063,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.4.32")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -1086,20 +1074,18 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.7.1")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
 
             if(actor.type === 'knight') {
                 update[`system.energie.malus`] = 0;
-
-                actor.update(update);
             }
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.8.0")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -1112,13 +1098,11 @@ Applique les modifications par la mise à jour au Monde.
                 update[`system.progression.experience.versioning`] = '3.8.0';
                 update[`system.progression.experience.oldActuel`] = system.progression.experience.actuel;
                 update[`system.progression.experience.total`] = Number(system.progression.experience.actuel)+Number(system.progression.experience.depense.total);
-
-                actor.update(update);
             }
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.9.2")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -1129,8 +1113,6 @@ Applique les modifications par la mise à jour au Monde.
 
                 update[`system.progression.experience.-=versioning`] = null;
                 update[`system.progression.experience.-=oldActuel`] = null;
-
-                actor.update(update);
             }
 
             for (let item of actor.items) {
@@ -1155,7 +1137,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.9.11")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -1166,7 +1148,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.9.12")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -1177,7 +1159,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.11.1")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -1197,7 +1179,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.11.5")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -1218,7 +1200,7 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.11.7")) {
-            const update = {};
+
             const system = actor.system;
 
             if(!system) return update;
@@ -1239,11 +1221,23 @@ Applique les modifications par la mise à jour au Monde.
                 }
             }
         }
+
+        if (options?.force || MigrationKnight.needUpdate("3.20.0")) {
+
+            const system = actor.system;
+
+            if(!system) return update;
+
+            update['system.descriptionLimitee'] = "";
+        }
+
+        return update;
     }
 
     static _migrationItems(item, options = { force:false }) {
+        let update = {};
+
         if (options?.force || MigrationKnight.needUpdate("1.2.0")) {
-            const update = {};
             const system = item.system;
 
             if(!system) return update;
@@ -1266,12 +1260,10 @@ Applique les modifications par la mise à jour au Monde.
                     };
                 }
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.3.0")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1283,12 +1275,10 @@ Applique les modifications par la mise à jour au Monde.
                 if(rarete === false) update['system.rarete'] = 'standard';
                 if(liste === false) update['system.listes'] = {};
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.3.2")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1316,12 +1306,10 @@ Applique les modifications par la mise à jour au Monde.
                     update[`system.capacites.-=barbarian`] = null;
                 }
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.3.5")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1357,12 +1345,10 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 }
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.4.8")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1378,12 +1364,10 @@ Applique les modifications par la mise à jour au Monde.
                     };
                 }
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.7.3")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1407,12 +1391,10 @@ Applique les modifications par la mise à jour au Monde.
                     liste:{}
                 };
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.7.4")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1457,12 +1439,10 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 }
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.8.0")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1649,12 +1629,10 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 }
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.8.2")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1670,12 +1648,10 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 }
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.8.3")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1684,12 +1660,10 @@ Applique les modifications par la mise à jour au Monde.
                 update[`system.arme.degats.variable.cout`] = 0;
                 update[`system.arme.violence.variable.cout`] = 0;
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.8.5")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1713,12 +1687,10 @@ Applique les modifications par la mise à jour au Monde.
                     };
                 }
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.8.8")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1742,12 +1714,10 @@ Applique les modifications par la mise à jour au Monde.
                     };
                 }
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.9.1")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1755,12 +1725,10 @@ Applique les modifications par la mise à jour au Monde.
             if(item.type === 'arme') {
                 update[`system.energie`] = 0;
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.9.8")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1789,12 +1757,10 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 }
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("2.0.4")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1808,12 +1774,10 @@ Applique les modifications par la mise à jour au Monde.
                     update[`system.evolutions.liste.${key}.capacites.-=data`] = null;
                 }
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("2.0.6")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1829,12 +1793,10 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 }
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("2.0.8")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1842,12 +1804,10 @@ Applique les modifications par la mise à jour au Monde.
             if(item.type === 'art') {
                 update[`system.aspects.dame`] = ['aura', 'parole', 'sangFroid'];
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("2.3.3")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1884,12 +1844,10 @@ Applique les modifications par la mise à jour au Monde.
                     update[`system.capacites.selected.companions.crow.img`] = 'systems/knight/assets/crow.jpg';
                 }
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.0.0")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1956,12 +1914,10 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 };
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.2.15")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1973,12 +1929,10 @@ Applique les modifications par la mise à jour au Monde.
                     update[`system.niveau.details.${niv}.bonus.grenades.liste.-=[object Object]`] = null;
                 }
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.3.16")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -1995,12 +1949,10 @@ Applique les modifications par la mise à jour au Monde.
                     };
                 }
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.9.4")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -2018,12 +1970,10 @@ Applique les modifications par la mise à jour au Monde.
                     };
                 }
             }
-
-            item.update(update);
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.11.1")) {
-            const update = {};
+
             const system = item.system;
 
             if(!system) return update;
@@ -2034,9 +1984,9 @@ Applique les modifications par la mise à jour au Monde.
                     max:3
                 };
             }
-
-            item.update(update);
         }
+
+        return update;
     }
 
     static _migrationTokens(token, options = { force:false }) {
@@ -2058,6 +2008,5 @@ Applique les modifications par la mise à jour au Monde.
                 }]);
             });
         }
-
     }
  }

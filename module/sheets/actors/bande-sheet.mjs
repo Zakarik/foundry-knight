@@ -9,6 +9,7 @@ import {
   diceHover,
   options,
   commonPNJ,
+  hideShowLimited,
 } from "../../helpers/common.mjs";
 
 import {
@@ -133,6 +134,8 @@ export class BandeSheet extends ActorSheet {
       span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
       $(ev.currentTarget).toggleClass("clicked");
     });
+
+    hideShowLimited(this.actor, html);
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;

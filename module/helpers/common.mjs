@@ -4898,3 +4898,58 @@ export function effectsGestion(actor, listWithEffect, isPJ=false, onArmor=false)
   if(toUpdate.length > 0) updateEffect(actor, toUpdate);
   if(toAdd.length > 0) addEffect(actor, toAdd);
 }
+
+export function hideShowLimited(actor, html) {
+  const data = actor.system;
+
+  const showDescriptionLimited = data?.limited?.showDescriptionLimited ?? true;
+  const isLimited = actor.limited;
+  const hideShowLimited = $(html.find('div.personnage div.hideShowLimited'));
+
+  console.warn(hideShowLimited)
+
+  for(let h of hideShowLimited) {
+    const hType = $(h).data("toverify");
+    const defaut = $(h).data("default");
+    const onlygm = $(h).data("onlygm");
+    const show = data?.limited?.[hType] ?? defaut;
+
+    console.warn(show, hType)
+
+    if(!show) {
+      if(isLimited) $(h).hide();
+      if(!game.user.isGM && onlygm) $(h).hide();
+      $(h).find('i.showLimited').hide();
+    } else {
+      $(h).find('i.hideLimited').hide();
+    }
+
+    if(onlygm && !isLimited && !game.user.isGM) $(h).hide();
+  }
+
+  /*if(!showDescriptionLimited) {
+    if(isLimited) $(html.find('div.personnage div.descriptionLimited')).hide();
+    if(!game.user.isGM) $(html.find('div.personnage div.descriptionLimited')).hide();
+    $(html.find('div.personnage div.descriptionLimited i.showLimited')).hide();
+  } else {
+    $(html.find('div.personnage div.descriptionLimited i.hideLimited')).hide();
+  }*/
+
+  /*if(!showDescriptionFull) {
+    if(isLimited) $(html.find('div.personnage div.descriptionFull')).hide();
+    $(html.find('div.personnage div.descriptionFull i.showLimited')).hide();
+  } else {
+    $(html.find('div.personnage div.descriptionFull i.hideLimited')).hide();
+  }*/
+
+  if(!game.user.isGM) $(html.find('i.hideShowLimited')).hide();
+  //if(!game.user.isGM && !isLimited) $(html.find('div.personnage div.descriptionLimited')).hide();
+
+  html.find('i.hideShowLimited').click(ev => {
+    const target = $(ev.currentTarget);
+    const toupdate = target.data("toupdate");
+    const value = target.data("value");
+
+    actor.update({[`system.limited.${toupdate}`]:value});
+  });
+}
