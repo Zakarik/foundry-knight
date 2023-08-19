@@ -1,3 +1,7 @@
+## v3.20.1
+### Bugfix
+- Correction d'un bug rare pouvant empêcher le chargement d'une page.
+
 ## v3.20.0
 ### Améliorations
 - Ajout du status "Parasitage" à la liste.
