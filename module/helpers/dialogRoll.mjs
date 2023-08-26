@@ -3,6 +3,8 @@ import {
   actorIsPj,
   getCaracValue,
   getODValue,
+  getNestedPropertyValue,
+  getArmor,
 } from "./common.mjs";
 
 function normalizeTxt(str) {
@@ -117,6 +119,279 @@ export function dialogRoll(label, actor, data={}) {
     rollApp.render(true);
 
     if(queryInstance.previous) rollApp.bringToTop();
+}
+
+export async function dialogRollWId(actorId, sceneId, tokenId, data={}, bonusToAdd={}, special={}) {
+    const isWpn = data?.isWpn ?? false;
+    const typeWpn = data?.typeWpn ?? "";
+    const actor = tokenId === "null" ? game.actors.get(actorId) : game.scenes.get(sceneId).tokens.find(token => token.id === tokenId).actor;
+    const modificateur = bonusToAdd?.modificateur ?? "";
+    const autre = bonusToAdd?.autre ?? "";
+    const type = special?.type ?? "";
+    const hasShift = special?.event?.shiftKey ?? false;
+    const wear = actor.system.wear;
+    const onlyArmor = ['longbow', 'cea', 'module'];
+    let getWpn;
+    let vehicule = false;
+    let tireur = "";
+    let label = "";
+    let actProcessed = {};
+    let listWpn = {};
+    let keys = {};
+    let filterWpn = {};
+    let queryInstance;
+    let rollApp;
+
+    if(onlyArmor.includes(type) && (wear !== 'armure' || actor.type !== 'knight')) return;
+
+    if((type === "espoir" && !hasShift) || type !== "espoir") {
+      queryInstance = vehicule ? getKnightRoll(tireur, actorIsPj(tireur)) : getKnightRoll(actor, actorIsPj(actor));
+      rollApp = queryInstance.instance;
+
+      if(vehicule) actProcessed = rollApp.setAct(tireur);
+      else actProcessed = rollApp.setAct(actor);
+    }
+
+    switch(type) {
+      case 'caracteristique':
+        label = game.i18n.localize(CONFIG.KNIGHT.caracteristiques[data.base]);
+      break;
+
+      case 'aspect':
+        label = game.i18n.localize(CONFIG.KNIGHT.aspects[data.base]);
+      break;
+
+      case 'espoir':
+        label = game.i18n.localize("KNIGHT.JETS.JetEspoir");
+      break;
+
+      case 'wpn':
+        label = actor.items.get(data.idWpn).name;
+      break;
+
+      case 'longbow':
+        label = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label");
+      break;
+
+      case 'grenade':
+        const grenades = actor.system.combat.grenades.liste[data.nameWpn];
+        if(grenades.custom) label = grenades.label;
+        else label = game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${data.nameWpn.toString().charAt(0).toUpperCase()+data.nameWpn.toString().substr(1)}`);
+      break;
+
+      case 'cea':
+        if(data.typeWpn === 'distance') listWpn = actProcessed.listWpnDistance;
+        else if(data.typeWpn === 'contact') listWpn = actProcessed.listWpnContact;
+        keys = Object.keys(listWpn);
+        filterWpn = keys.find(key => listWpn[key].system.subCapaciteName === data.nameWpn);
+
+        label = listWpn[filterWpn].name;
+        data['nameWpn'] = listWpn[filterWpn].name;
+        data['num'] = filterWpn;
+      break;
+
+      case 'special':
+        if(special.data === 'mechaarmure') {
+          keys = actProcessed.listWpnSpecial.findIndex(wpn => wpn._id === data.idWpn);
+          filterWpn = actProcessed.listWpnSpecial.find(wpn => wpn._id === data.idWpn);
+
+          data['num'] = keys;
+          data['nameWpn'] = filterWpn.name;
+          data['typeWpn'] = filterWpn.type;
+        }
+      break;
+
+      case 'base':
+      case 'c1':
+      case 'c2':
+        if(special.data === 'mechaarmure') {
+          keys = actProcessed.listWpnMA.findIndex(wpn => wpn._id === data.idWpn && wpn.type === type);
+          filterWpn = actProcessed.listWpnMA.find(wpn => wpn._id === data.idWpn && wpn.type === type);
+
+          data['num'] = keys;
+          data['nameWpn'] = filterWpn.name;
+          data['typeWpn'] = filterWpn.type;
+        }
+      break;
+
+      case 'armesimprovisees':
+        label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[data.nameWpn][data.num]);
+        if(actorIsPj(actor)) {
+          data['base'] = actor.system.combat.armesimprovisees[data.idWpn];
+          data['autre'] = ['force'];
+        }
+        else data['base'] = actor.system.combat.armesimprovisees.aspect;
+        break;
+    }
+
+    if(isWpn && special.data !== 'mechaarmure') {
+      if(type !== 'grenade' && type !== 'longbow' && type !== 'cea' && type !== 'module' && type !== 'armesimprovisees') {
+        getWpn = actor.items.get(data.idWpn);
+        const isEquipped = actorIsPj(actor) ? getWpn.system?.equipped ?? false : true;
+        const typeWpn = getWpn.system.tourelle.has ? 'tourelle' : getWpn.system.type;
+        if(typeWpn === 'distance') listWpn = actProcessed.listWpnDistance;
+        else if(typeWpn === 'contact') listWpn = actProcessed.listWpnContact;
+        else if(typeWpn === 'tourelle') listWpn = actProcessed.listWpnTourelle;
+        keys = Object.keys(listWpn);
+        filterWpn = keys.find(key => listWpn[key]._id === getWpn._id);
+
+        data['nameWpn'] = getWpn.name;
+        data['typeWpn'] = typeWpn;
+        data['num'] = filterWpn;
+
+        if(!isEquipped && typeWpn !== 'tourelle') return;
+        if(actor.type === 'vehicule') {
+          vehicule = true;
+          data['vehicule'] = actor;
+          tireur = getWpn.system.whoActivate;
+          if(tireur === "") return;
+          else tireur = game.actors.get(tireur);
+        }
+      } else if(type === 'module') {
+
+        getWpn = actor.items.get(data.idWpn);
+        let isActive = false;
+
+        for(let w in getWpn.system.active) {
+          if(getWpn.system.active[w]) isActive = true;
+        }
+
+        if(!isActive) return;
+
+        data['nameWpn'] = getWpn.name;
+        data['typeWpn'] = getWpn.system.arme.type;
+
+        if(data.typeWpn === 'distance') listWpn = actProcessed.listWpnDistance;
+        else if(data.typeWpn === 'contact') listWpn = actProcessed.listWpnContact;
+
+        keys = Object.keys(listWpn);
+        filterWpn = keys.find(key => listWpn[key]._id === getWpn._id);
+        data['num'] = filterWpn;
+      }
+    }
+
+    if(modificateur !== "") data['modificateur'] = getNestedPropertyValue(actor, modificateur);
+    if(autre !== "") data['autre'] = bonusToAdd.autre.split(",");
+
+    if(type === "espoir" && hasShift) {
+      const base = data?.base ?? "";
+
+      let carac = base !== "" ? getCaracValue(data.base, actor, true) : 0;
+      let od = wear === 'armure' && base !== "" ? getODValue(data.base, actor, true) : 0;
+      let autre = [];
+
+      for(let a of data.autre) {
+        autre.push(game.i18n.localize(CONFIG.KNIGHT.caracteristiques[a]));
+        carac += getCaracValue(a, actor, true);
+        od += wear === 'armure' ? getODValue(a, actor, true) : 0;
+      }
+
+      const roll = wear === 'armure' ? `${carac}d6+${od}` : `${carac}d6`;
+      const exec = new game.knight.RollKnight(roll, actor.system);
+
+      exec._success = true;
+      exec._flavor = label;
+      exec._base = game.i18n.localize(CONFIG.KNIGHT.caracteristiques[data.base]);
+      exec._autre = autre;
+      exec._details = wear === 'armure' ? `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')})d6 + ${od} (${game.i18n.localize('KNIGHT.ITEMS.ARMURE.Overdrive')})` : `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')})d6`;
+      await exec.toMessage({
+        speaker: {
+        actor: actor?.id || null,
+        token: actor?.token?.id || null,
+        alias: actor?.name || null,
+        }
+      });
+    } else {
+      rollApp.setLabel(label);
+      rollApp.setR(data);
+      rollApp.render(true);
+
+      if(queryInstance.previous) rollApp.bringToTop();
+    }
+}
+
+export async function directRoll(actorId, sceneId, tokenId, data={}) {
+  const actor = tokenId === "null" ? game.actors.get(actorId) : game.scenes.get(sceneId).tokens.find(token => token.id === tokenId).actor;
+  const dataActor = actor.system;
+  const type = data.type;
+  const id = data.id;
+  const wear = dataActor.wear;
+  const isPj = actorIsPj(actor);
+  let nbre = 0;
+  let update = {};
+
+  switch(type) {
+    case 'nods':
+      const dataNods = dataActor?.combat?.nods?.[id] ?? undefined;
+      nbre = dataNods !== undefined ? dataNods?.value ?? 0 : 0;
+
+      if(nbre <= 0 || dataNods === undefined) return;
+
+      const recuperation = dataNods.recuperationBonus;
+      const rNods = new game.knight.RollKnight(`3D6+${recuperation}`, dataActor);
+      rNods._flavor = game.i18n.localize(`KNIGHT.JETS.Nods${id}`);
+      rNods._success = false;
+      await rNods.toMessage({
+        speaker: {
+        actor: actorId || null,
+        token: actor?.token?.id || null,
+        alias: actor?.name || null,
+        }
+      });
+
+      let base = 0;
+      let max = 0;
+      let type = '';
+
+      switch(id) {
+        case 'soin':
+          type = 'sante';
+          base = dataActor.sante.value;
+          max = dataActor.sante.max;
+
+          break;
+
+        case 'energie':
+          type = 'energie';
+          base = dataActor.energie.value;
+          max = dataActor.energie.max;
+          break;
+
+        case 'armure':
+          type = 'armure'
+          base = dataActor.armure.value;
+          max = dataActor.armure.max;
+          break;
+      }
+
+      const total = rNods.total;
+      const final = base+total > max ? max : base+total;
+
+      update[`system.combat.nods.${id}.value`] = Number(nbre)-1;
+
+      if(data.target === 'self') {
+        update[`system.${type}.value`] = final;
+
+        if(type == 'armure' && isPj) {
+          switch(wear) {
+            case 'armure':
+              const armor = await getArmor(actor);
+
+              armor.update({[`system.armure.value`]:final});
+              break;
+
+            case 'ascension':
+            case 'guardian':
+              update[`system.equipements.${wear}.value`] = final;
+              break;
+          }
+        }
+      }
+
+      break;
+  }
+
+  if(!foundry.utils.isEmpty(update)) actor.update(update);
 }
 
 /*
@@ -315,7 +590,12 @@ export async function doAttack(data) {
   const isSuccess = execAtt._success;
   const six = listAllE.regularite ? execAtt.getSix() : 0;
   const assAtk = listAllE.degats.list.find(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')}`);
+  const connectee = listAllE.degats.list.find(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')}`);
+  const hyperVelocite = listAllE.degats.list.find(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')}`);
   const hasAssAtk = assAtk !== undefined ? true : false;
+  const hasConnectee = connectee !== undefined ? true : false;
+  const hasHyperVelocite = hyperVelocite !== undefined ? true : false;
+
   let defense = 0;
 
   if(!isBarrage && !isSystemeRefroidissement) {
@@ -392,6 +672,8 @@ export async function doAttack(data) {
       if(Number(execAtt._totalSuccess) > defense) {
         pAttack.main.atkTouche = true;
         if(hasAssAtk) pAttack.assAtk = Number(execAtt._totalSuccess) - defense;
+        if(hasConnectee) pAttack.connectee = Number(execAtt._totalSuccess) - defense;
+        if(hasHyperVelocite) pAttack.hyperVelocite = Number(execAtt._totalSuccess) - defense;
       } else if(Number(execAtt._totalSuccess) <= defense) pAttack.main.atkManque = true;
     }
 
@@ -439,6 +721,8 @@ export async function doAttack(data) {
   return {
     regularite:six*3,
     assAtk:pAttack.main.atkTouche ? Number(execAtt._totalSuccess) - defense : undefined,
+    connectee:pAttack.main.atkTouche ? Number(execAtt._totalSuccess) - defense : undefined,
+    hyperVelocite:pAttack.main.atkTouche ? Number(execAtt._totalSuccess) - defense : undefined,
   };
 }
 
@@ -466,6 +750,8 @@ export async function doDgts(data) {
   const style = isPNJ ? {raw:''} : data.style;
   const addNum = data?.addNum ?? '';
   const assAtk = data?.assAtk ?? undefined;
+  const connectee = data?.connectee ?? undefined;
+  const hyperVelocite = data?.hyperVelocite ?? undefined;
 
   //DEGATS
   const tenebricide = data?.tenebricide ?? false;
@@ -477,19 +763,22 @@ export async function doDgts(data) {
 
   let diceDgts = +dgtsDice;
   let bonusDgts = +dgtsFixe;
-  diceDgts += +listAllEffets.degats.totalDice;
-  bonusDgts += +listAllEffets.degats.totalBonus;
-  diceDgts += +data?.degatsBonus?.dice ?? 0;
-  bonusDgts += +data?.degatsBonus?.fixe ?? 0;
 
   if(style.raw === 'akimbo') {
     diceDgts += diceDgts;
   }
 
+  diceDgts += +listAllEffets.degats.totalDice;
+  bonusDgts += +listAllEffets.degats.totalBonus;
+  diceDgts += +data?.degatsBonus?.dice ?? 0;
+  bonusDgts += +data?.degatsBonus?.fixe ?? 0;
+
   bonusDgts += regularite;
   diceDgts += listAllEffets.degatsModules.dice;
   bonusDgts += listAllEffets.degatsModules.fixe;
   if(assAtk !== undefined) bonusDgts += Number(assAtk);
+  if(connectee !== undefined) bonusDgts += Number(connectee);
+  if(hyperVelocite !== undefined) bonusDgts += Number(hyperVelocite);
 
   const labelDgt = `${data.label} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}${addNum}`;
   const totalDiceDgt = tenebricide === true ? Math.floor(diceDgts/2) : diceDgts;
@@ -514,16 +803,48 @@ export async function doDgts(data) {
     effets.degats.include[regulariteIndex].name = `+${regularite} ${effets.degats.include[regulariteIndex].name}`;
   }
 
-  let sub = [];
-  let include = [];
+  let sub = effets.degats.list;
+  let include = effets.degats.include;
+  let index;
 
-  if(assAtk !== undefined) sub = effets.degats.list.filter(eff => eff.name != `+ ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')}`);
-  else sub = effets.degats.list;
-  if(assAtk !== undefined) include = effets.degats.include.concat([{
-    name:`+${assAtk} ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')}`,
+  if(assAtk !== undefined) {
+    index = sub.findIndex(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')}`);
+
+    if (index !== -1) {
+      sub.splice(index, 1);
+    }
+  }
+
+  if(connectee !== undefined) {
+    index = sub.findIndex(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')}`);
+
+    if (index !== -1) {
+      sub.splice(index, 1);
+    }
+  }
+
+  if(hyperVelocite !== undefined) {
+    index = sub.findIndex(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')}`);
+
+    if (index !== -1) {
+      sub.splice(index, 1);
+    }
+  }
+
+  if(assAtk !== undefined) include.push({
+    name:`+${assAtk} ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
     desc:`${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Description')}`
-  }]);
-  else include = effets.degats.include;
+  });
+
+  if(connectee !== undefined) include.push({
+    name:`+${connectee} ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+    desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Description')}`
+  });
+
+  if(hyperVelocite !== undefined) include.push({
+    name:`+${hyperVelocite} ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+    desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Description')}`
+  });
 
   if(sub.length > 0) { sub.sort(SortByName); }
   if(include.length > 0) { include.sort(SortByName); }
@@ -585,6 +906,8 @@ export async function doViolence(data) {
   const addNum = data?.addNum ?? '';
   const bViolence = data?.bViolence ?? 0;
   const assAtk = data?.assAtk ?? undefined;
+  const connectee = data?.connectee ?? undefined;
+  const hyperVelocite = data?.hyperVelocite ?? undefined;
 
   //VIOLENCE
   const tenebricide = data?.tenebricide ?? false;
@@ -596,20 +919,23 @@ export async function doViolence(data) {
 
   let diceViolence = +violenceDice;
   let bonusViolence = +violenceFixe;
-  diceViolence += +listAllEffets.violence.totalDice;
-  bonusViolence += +listAllEffets.violence.totalBonus;
-  diceViolence += +data?.violenceBonus?.dice ?? 0;
-  bonusViolence += +data?.violenceBonus?.fixe ?? 0;
-
-  diceViolence += listAllEffets.violenceModules.dice;
-  bonusViolence += listAllEffets.violenceModules.fixe;
-  if(assAtk !== undefined) bonusViolence += Number(assAtk);
 
   if((actor.type !== 'knight' && actor.type !== 'pnj' && actor.type !== 'mechaarmure' && actor.type !== 'vehicule' && diceViolence === 0 && bonusViolence === 0)) {}
   else {
     if(style.raw === 'akimbo') {
       diceViolence += Math.ceil(diceViolence/2);
     }
+
+    diceViolence += +listAllEffets.violence.totalDice;
+    bonusViolence += +listAllEffets.violence.totalBonus;
+    diceViolence += +data?.violenceBonus?.dice ?? 0;
+    bonusViolence += +data?.violenceBonus?.fixe ?? 0;
+
+    diceViolence += listAllEffets.violenceModules.dice;
+    bonusViolence += listAllEffets.violenceModules.fixe;
+    if(assAtk !== undefined) bonusViolence += Number(assAtk);
+    if(connectee !== undefined) bonusViolence += Number(connectee);
+    if(hyperVelocite !== undefined) bonusViolence += Number(hyperVelocite);
 
     bonusViolence += bViolence;
 
@@ -629,16 +955,48 @@ export async function doViolence(data) {
 
     await execViolence.evaluate(listAllEffets.violence.minMax);
 
-    let sub = [];
-    let include = [];
+    let sub = listAllEffets.violence.list;
+    let include = listAllEffets.violence.include;
+    let index;
 
-    if(assAtk !== undefined) sub = listAllEffets.violence.list.filter(eff => eff.name != `+ ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')}`);
-    else sub = listAllEffets.violence.list;
-    if(assAtk !== undefined) include = listAllEffets.violence.include.concat([{
-      name:`+${assAtk} ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')}`,
+    if(assAtk !== undefined) {
+      index = sub.findIndex(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')}`);
+
+      if (index !== -1) {
+        sub.splice(index, 1);
+      }
+    }
+
+    if(connectee !== undefined) {
+      index = sub.findIndex(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')}`);
+
+      if (index !== -1) {
+        sub.splice(index, 1);
+      }
+    }
+
+    if(hyperVelocite !== undefined) {
+      index = sub.findIndex(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')}`);
+
+      if (index !== -1) {
+        sub.splice(index, 1);
+      }
+    }
+
+    if(assAtk !== undefined) include.push({
+      name:`+${assAtk} ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
       desc:`${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Description')}`
-    }]);
-    else include = listAllEffets.violence.include;
+    });
+
+    if(connectee !== undefined) include.push({
+      name:`+${connectee} ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+      desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Description')}`
+    });
+
+    if(hyperVelocite !== undefined) include.push({
+      name:`+${hyperVelocite} ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+      desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Description')}`
+    });
 
     if(sub.length > 0) { sub.sort(SortByName); }
     if(include.length > 0) { include.sort(SortByName); }

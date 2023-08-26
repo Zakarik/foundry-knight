@@ -1,7 +1,9 @@
 <div class="tab aspects" data-group="primary" data-tab="aspects">
     <div class="listeAspects">
         {{#each systemData.aspects as | key aspect|}}
-        <div class="aspect">
+        <div class="aspect draggable"
+        data-caracteristique="{{aspect}}" data-type="aspect"
+        data-label="{{getAspect aspect}}" data-what="{{aspect}}">
             <h2 class="header">
                 {{getAspect aspect}}
                 <img src="systems/knight/assets/icons/D6Black.svg"  data-aspect="{{aspect}}" class="roll dice" />

@@ -25,6 +25,38 @@
             <span>{{localize "KNIGHT.JETS.Depenseenergie"}}</span>
             <input type="number" name="system.energie" value="{{systemData.energie}}" min="0" />
         </label>
+
+        {{#unless (wpnHasMunitions (isWpnDistance systemData.type) systemData.optionsmunitions.has)}}
+        {{#unless (wpnHasDeuxMains (isWpnDistance systemData.type) systemData.options2mains.has)}}
+        <button type="action" class="toupdate dmg
+            {{#if systemData.degats.variable.has}}
+            selected
+            {{else}}
+            unselected
+            {{/if}}
+            " data-toupdate="degats.variable.has"  data-value="{{systemData.degats.variable.has}}">
+            {{#if systemData.degats.variable.has}}
+            {{localize "KNIGHT.ITEMS.ARME.DEGATS.Variable"}}
+            {{else}}
+            {{localize "KNIGHT.ITEMS.ARME.DEGATS.NoVariable"}}
+            {{/if}}
+        </button>
+
+        <button type="action" class="toupdate dmg
+            {{#if systemData.violence.variable.has}}
+            selected
+            {{else}}
+            unselected
+            {{/if}}
+            " data-toupdate="violence.variable.has" data-value="{{systemData.violence.variable.has}}">
+            {{#if systemData.violence.variable.has}}
+            {{localize "KNIGHT.ITEMS.ARME.VIOLENCE.Variable"}}
+            {{else}}
+            {{localize "KNIGHT.ITEMS.ARME.VIOLENCE.NoVariable"}}
+            {{/if}}
+        </button>
+        {{/unless}}
+        {{/unless}}
     </div>
 
     <header class="sheet-header flexrow">
@@ -62,13 +94,14 @@
         </label>
 
         {{#unless (wpnHasMunitions (isWpnDistance systemData.type) systemData.optionsmunitions.has)}}
-        <label>
+        <div class="dmg">
             <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}
                 {{#if (wpnHasDeuxMains (isWpnDistance systemData.type) systemData.options2mains.has)}}
                     - {{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Unemain"}}
                 {{/if}}
             </span>
-            <div>
+            {{#unless systemData.degats.variable.has}}
+            <div class="oneCol">
                 {{#if (wpnHasDeuxMains (isWpnDistance systemData.type) systemData.options2mains.has)}}
                     <input type="number" name="system.options2mains.1main.degats.dice" value="{{systemData.options2mains.1main.degats.dice}}" min="0" />
                     <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
@@ -79,15 +112,38 @@
                     <input type="number" name="system.degats.fixe" value="{{systemData.degats.fixe}}" />
                 {{/if}}
             </div>
-        </label>
+            {{else}}
+            <div class="twoCol label borderBottom">
+                <span>{{localize "KNIGHT.AUTRE.Minimum"}}</span>
+            </div>
+            <div class="twoCol score borderBottom">
+                <input type="number" name="system.degats.variable.min.dice" value="{{systemData.degats.variable.min.dice}}" min="0" max="{{systemData.degats.variable.max.dice}}" />
+                <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                <input type="number" class="dgtsF" name="system.degats.variable.min.fixe" value="{{systemData.degats.fixe}}"/>
+            </div>
+            <div class="twoCol label borderBottom">
+                <span>{{localize "KNIGHT.AUTRE.Maximum"}}</span>
+            </div>
+            <div class="twoCol score borderBottom">
+                <input type="number" name="system.degats.variable.max.dice" value="{{systemData.degats.variable.max.dice}}" min="{{systemData.degats.variable.min.dice}}" />
+                <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                <input type="number" class="dgtsF" name="system.degats.variable.max.fixe" value="{{systemData.degats.fixe}}"/>
+            </div>
+            <label class="twoCol">
+                <span>{{localize "KNIGHT.ITEMS.ARME.CoutAugmentation"}}</span>
+                <input type="number" name="system.degats.variable.cout" value="{{systemData.degats.variable.cout}}" min="0" />
+            </label>
+            {{/unless}}
+        </div>
 
-        <label>
+        <div class="dmg">
             <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}
                 {{#if (wpnHasDeuxMains (isWpnDistance systemData.type) systemData.options2mains.has)}}
                     - {{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Unemain"}}
                 {{/if}}
             </span>
-            <div>
+            {{#unless systemData.violence.variable.has}}
+            <div class="oneCol">
                 {{#if (wpnHasDeuxMains (isWpnDistance systemData.type) systemData.options2mains.has)}}
                     <input type="number" name="system.options2mains.1main.violence.dice" value="{{systemData.options2mains.1main.violence.dice}}" min="0" />
                     <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
@@ -98,7 +154,29 @@
                     <input type="number" name="system.violence.fixe" value="{{systemData.violence.fixe}}" />
                 {{/if}}
             </div>
-        </label>
+            {{else}}
+            <div class="twoCol label borderBottom">
+                <span>{{localize "KNIGHT.AUTRE.Minimum"}}</span>
+            </div>
+            <div class="twoCol score borderBottom">
+                <input type="number" name="system.violence.variable.min.dice" value="{{systemData.violence.variable.min.dice}}" min="0" max="{{systemData.violence.variable.max.dice}}" />
+                <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                <input type="number" class="violenceF" name="system.violence.variable.min.fixe" value="{{systemData.violence.fixe}}" />
+            </div>
+            <div class="twoCol label borderBottom">
+                <span>{{localize "KNIGHT.AUTRE.Maximum"}}</span>
+            </div>
+            <div class="twoCol score borderBottom">
+                <input type="number" name="system.violence.variable.max.dice" value="{{systemData.violence.variable.max.dice}}" min="{{systemData.violence.variable.min.dice}}"/>
+                <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                <input type="number" class="violenceF" name="system.violence.variable.max.fixe" value="{{systemData.violence.fixe}}" />
+            </div>
+            <label class="twoCol">
+                <span>{{localize "KNIGHT.ITEMS.ARME.CoutAugmentation"}}</span>
+                <input type="number" name="system.violence.variable.cout" value="{{systemData.violence.variable.cout}}" min="0" />
+            </label>
+            {{/unless}}
+        </div>
         {{/unless}}
 
         {{#unless (isWpnDistance systemData.type)}}
@@ -122,7 +200,10 @@
                 </label>
             {{/if}}
 
-            <button type="action" class="options2Mains {{#if systemData.options2mains.has}}selected{{else}}unselected{{/if}}" data-value="{{systemData.options2mains.has}}">
+            <button type="action" class="toupdate options2Mains {{#if systemData.options2mains.has}}selected{{else}}unselected{{/if}}"
+            data-toupdate="options2mains.has"
+            data-resetvariable="true"
+            data-value="{{systemData.options2mains.has}}">
                 {{#if systemData.options2mains.has}}
                     {{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Has"}}
                 {{else}}
@@ -133,7 +214,10 @@
 
         {{#if (isWpnDistance systemData.type)}}
         <div class="munitions">
-            <button type="action" class="optionsMunitions {{#if systemData.optionsmunitions.has}}selected{{else}}unselected{{/if}}" data-value="{{systemData.optionsmunitions.has}}">
+            <button type="action" class="toupdate optionsMunitions {{#if systemData.optionsmunitions.has}}selected{{else}}unselected{{/if}}"
+            data-toupdate="optionsmunitions.has"
+            data-resetvariable="true"
+            data-value="{{systemData.optionsmunitions.has}}">
                 {{#if systemData.optionsmunitions.has}}
                     {{localize "KNIGHT.ITEMS.ARME.MUNITIONS.Has"}}
                 {{else}}

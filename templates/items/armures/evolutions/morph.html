@@ -73,6 +73,33 @@
         <span>{{localize "KNIGHT.DUREE.Label"}}</span>
         <textarea data-capacite="morph" data-type="phaseDuree" data-min="50" style="height:{{this.textarea.phaseDuree}}px;" name="system.evolutions.liste.{{key}}.capacites.morph.phase.duree">{{this.phase.duree}}</textarea>
     </label>
+    <button type="action" class="{{#unless this.softlock}}notDisabled{{/unless}} {{#if this.phase.niveau2.acces}}selected{{/if}} {{#unless phase.niveau2.acces}}noBorderBottom{{/unless}}"
+    data-type="morph" data-key="{{key}}" data-subtype="phase" data-anothersubtype="niveau2" data-name="acces" data-value="{{this.phase.niveau2.acces}}">
+        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.PHASE.Niveau2"}}
+    </button>
+    {{#if phase.niveau2.acces}}
+        <label class="shortspan noSeparation">
+            <span>{{localize "KNIGHT.LATERAL.Energie"}}</span>
+            <input type="number" name="system.evolutions.liste.{{key}}.capacites.morph.phase.niveau2.energie" value="{{this.phase.niveau2.energie}}"
+            {{#if this.softlock}}disabled{{/if}}
+            />
+        </label>
+        <label class="shortspan">
+            <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+            <select name="system.evolutions.liste.{{key}}.capacites.morph.phase.niveau2.activation" {{#if this.softlock}}disabled{{/if}}>
+                {{#select this.phase.niveau2.activation}}
+                <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+                <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
+                <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+                <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+                {{/select}}
+            </select>
+        </label>
+        <label class="shortspan">
+            <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+            <textarea data-capacite="morph" data-type="phaseDuree2" data-min="50" style="height:{{this.textarea.phaseDuree2}}px;" name="system.evolutions.liste.{{key}}.capacites.morph.phase.niveau2.duree" {{#if this.softlock}}disabled{{/if}}>{{this.phase.niveau2.duree}}</textarea>
+        </label>
+    {{/if}}
 </div>
 
 <div class="data">

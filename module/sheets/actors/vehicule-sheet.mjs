@@ -7,6 +7,7 @@ import {
   diceHover,
   options,
   hideShowLimited,
+  dragMacro,
 } from "../../helpers/common.mjs";
 
 import {
@@ -52,6 +53,7 @@ export class VehiculeSheet extends ActorSheet {
       width: 900,
       height: 600,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".body", initial: "vehicule"}],
+      dragDrop: [{dragSelector: [".draggable", ".item-list .item"], dropSelector: null}],
     });
   }
 
@@ -202,7 +204,7 @@ export class VehiculeSheet extends ActorSheet {
     html.find('.passager-delete').click(ev => {
       const target = $(ev.currentTarget).parents(".value");
       const id = target.data("id");
-      const data = this.getData().data.system;
+      const data = this.actor.system;
       const oldPassager = data.equipage.passagers;
       oldPassager.splice(id,1);
 
@@ -210,10 +212,6 @@ export class VehiculeSheet extends ActorSheet {
     });
 
     html.find('.pilote-delete').click(ev => {
-      const target = $(ev.currentTarget).parents(".value");
-      const id = target.data("id");
-      const data = this.getData().data.system;
-
       this.actor.update({[`system.equipage.pilote`]:{
         name:'',
         id:''
@@ -224,34 +222,40 @@ export class VehiculeSheet extends ActorSheet {
     html.find('.passager-edit').click(ev => {
       const target = $(ev.currentTarget).parents(".value");
       const id = target.data("id");
-      const data = this.getData().data.system;
+      const data = this.actor.system;
       const oldPassager = data.equipage.passagers;
-      const newPassager = oldPassager.splice(id,1);
 
-      this.actor.update({[`system.equipage.passagers`]:oldPassager});
-      this.actor.update({[`system.equipage.pilote`]:{
-        id:newPassager[0].id,
-        name:newPassager[0].name
-      }});
 
+      let update = {};
+
+      update[`system.equipage.pilote`] = {
+        id:oldPassager[id].id,
+        name:oldPassager[id].name
+      };
+      oldPassager.splice(id,1);
+      update[`system.equipage.passagers`] = oldPassager;
+
+      this.actor.update(update);
     });
 
     html.find('.pilote-edit').click(ev => {
       const target = $(ev.currentTarget).parents(".value");
       const id = target.data("id");
-      const data = this.getData().data.system;
+      const data = this.actor.system;
       const oldPassager = data.equipage.passagers;
       oldPassager.push({
         name:data.equipage.pilote.name,
         id:data.equipage.pilote.id
       });
 
-      this.actor.update({[`system.equipage.passagers`]:oldPassager});
-      this.actor.update({[`system.equipage.pilote`]:{
+      let update = {};
+      update[`system.equipage.passagers`] = oldPassager;
+      update[`system.equipage.pilote`] = {
         id:'',
         name:''
-      }});
+      };
 
+      this.actor.update(update);
     });
 
     html.find('.jetPilotage').click(ev => {
@@ -890,5 +894,32 @@ export class VehiculeSheet extends ActorSheet {
         }
       }
     }
+  }
+
+  _onDragStart(event) {
+    const li = event.currentTarget;
+    if ( event.target.classList.contains("content-link") ) return;
+
+    // Create drag data
+    let dragData;
+
+    // Owned Items
+    if ( li.dataset.itemId ) {
+      const item = this.actor.items.get(li.dataset.itemId);
+      dragData = item.toDragData();
+    }
+
+    // Active Effect
+    if ( li.dataset.effectId ) {
+      const effect = this.actor.effects.get(li.dataset.effectId);
+      dragData = effect.toDragData();
+    }
+
+    dragData = dragMacro(dragData, li, this.actor);
+
+    if ( !dragData ) return;
+
+    // Set data transfer
+    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
   }
 }

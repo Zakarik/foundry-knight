@@ -15,6 +15,7 @@ import {
   getModuleBonus,
   getModStyle,
   getArmor,
+  getSpecial,
   caracToAspect,
   actorIsPj,
   actorIsMa,
@@ -41,7 +42,7 @@ export class KnightRollDialog extends Application {
         template: "systems/knight/templates/dialog/roll-sheet.html",
       classes: ["dialog", "knight", "rollDialog"],
       width: 800,
-      height:500,
+      height:800,
       jQuery: true,
       resizable: true,
     });
@@ -225,6 +226,7 @@ export class KnightRollDialog extends Application {
   setAct(act) {
     const isPJ = actorIsPj(act);
     const isMA = actorIsMa(act);
+    const extractWpn = this.extractWpn(act);
     const data = act.system;
     const rawStyle = data?.combat?.style ?? '';
     const getStyle = getModStyle(rawStyle);
@@ -236,13 +238,11 @@ export class KnightRollDialog extends Application {
     const degatsFixe = data?.combat?.data?.degatsbonus?.fixe ?? 0;
     const violenceDice = data?.combat?.data?.violencebonus?.dice ?? 0;
     const violenceFixe = data?.combat?.data?.violencebonus?.fixe ?? 0;
-    const nbreGrenade = data?.combat?.grenades?.quantity?.value ?? 0;
-    const grenade = nbreGrenade > 0 ? data?.combat?.grenades?.liste ?? [] : {};
-    const wpnContact = isPJ ? act?.armesContactEquipee ?? [] : act?.armesContact ?? [];
-    const wpnDistance = isPJ ? act?.armesDistanceEquipee ?? [] : act?.armesDistance ?? [];
-    const wpnTourelle = isPJ ? act?.armesTourelles ?? [] : act?.armesTourelles ?? [];
-    const wpnMa = isMA ? act?.wpn ?? [] : [];
-    let lgbow = act?.longbow ?? {};
+    const wpnContact = extractWpn?.contact ?? [];
+    const wpnDistance = extractWpn?.distance ?? [];
+    const wpnTourelle = extractWpn?.tourelle ?? [];
+    const wpnMa = extractWpn?.wpn ?? [];
+    let lgbow = extractWpn?.longbow;
     let wpnMunitionsList = [wpnDistance, wpnTourelle]
     let int = [];
 
@@ -296,7 +296,7 @@ export class KnightRollDialog extends Application {
     //L'ACTEUR
     this.data.actor = act;
     this.data.isToken = act?.isToken ?? false;
-    this.data.pnj = actorIsPj(act) ? false : true;
+    this.data.pnj = isPJ ? false : true;
     this.data.ma = act?.type === 'mechaarmure' ? true : false;
     //ASPECTS ET INTERDITS
     this.data.aspects = data.aspects;
@@ -310,11 +310,11 @@ export class KnightRollDialog extends Application {
     this.data.listWpnContact = !isMA ? wpnContact ?? [] : [];
     this.data.listWpnDistance = !isMA ? wpnDistance ?? [] : [];
     this.data.listWpnTourelle = !isMA ? wpnTourelle ?? [] : [];
-    this.data.listGrenades = !isMA ? grenade ?? [] : [];
+    this.data.listGrenades = !isMA ? extractWpn?.grenade ?? [] : [];
     this.data.listWpnImprovisees = {contact:data.combat.armesimprovisees.liste, distance:data.combat.armesimprovisees.liste};
     this.data.longbow = !isMA ? lgbow : [];
     this.data.listWpnMA = isMA ? wpnMa : [];
-    this.data.listWpnSpecial = act?.wpnSpecial ?? [];
+    this.data.listWpnSpecial = extractWpn?.wpnSpecial ?? [];
     //DEPLOIEMENT DES ONGLETS
     this.data.deploy = {};
     //STYLE
@@ -467,12 +467,16 @@ export class KnightRollDialog extends Application {
 
     this.data.deploy = deploy;
     this.data.vehicule = vehicule;
-    this.data.hasWraith = isMA ? actor?.moduleWraith ?? false : false;
     this.data.ameliorations = {};
+
+    if(isMA) {
+      const configuration = actor.system.configurations.actuel;
+      this.data.hasWraith = actor?.system?.configurations?.liste?.[configuration]?.modules?.moduleWraith?.active ?? false;
+    } else this.data.hasWraith = false;
 
     if(vehicule !== undefined) {
       this.data.listWpnContact = {};
-      this.data.listWpnDistance = vehicule.armesDistance;
+      this.data.listWpnDistance = vehicule.items.filter(wpn => wpn.type === 'arme' && wpn.system.whoActivate !== "");
       this.data.listWpnTourelle = {};
       this.data.listGrenades = {};
       this.data.listWpnImprovisee = {};
@@ -663,6 +667,764 @@ export class KnightRollDialog extends Application {
     return Number(this.data.bonusTemp.succesbonus);
   }
 
+  extractWpn(act) {
+    const wear = act.system.wear;
+    const onArmor = wear === 'armure' || wear === 'ascension' ? true : false;
+    const isPj = actorIsPj(act);
+    const isMA = actorIsMa(act);
+    const labelsEffects = Object.assign({},
+      CONFIG.KNIGHT.effets,
+      CONFIG.KNIGHT.AMELIORATIONS.distance,
+      CONFIG.KNIGHT.AMELIORATIONS.structurelles,
+      CONFIG.KNIGHT.AMELIORATIONS.ornementales
+    );
+    const nbreGrenade = act.system?.combat?.grenades?.quantity?.value ?? 0;
+    let grenades = {};
+    let longbow = {};
+    let armesContactEquipee = [];
+    let armesDistanceEquipee = [];
+    let armesTourelles = [];
+    let wpn = [];
+    let wpnSpecial = [];
+    let moduleBonusDgts = {
+      "contact":[],
+      "distance":[]
+    };
+    let moduleBonusDgtsVariable = {
+      "contact":[],
+      "distance":[]
+    };
+    let moduleBonusViolence = {
+      "contact":[],
+      "distance":[]
+    };
+    let moduleBonusViolenceVariable = {
+      "contact":[],
+      "distance":[]
+    };
+
+    if(nbreGrenade > 0) grenades = act.system?.combat?.grenades?.liste ?? {};
+
+    if(!isMA) {
+      const armorSpecial = getSpecial(act);
+      const armorSpecialRaw = armorSpecial?.raw || [];
+      const armorSpecialCustom = armorSpecial?.custom || [];
+      const capaciteultime = act.items.find(items => items.type === 'capaciteultime');
+
+      for (let i of act.items) {
+        const system = i.system;
+        // ARMURE.
+        if (i.type === 'armure') {
+          const armorCapacites = system.capacites.selected;
+
+          let passiveUltime = undefined;
+
+          if(capaciteultime !== undefined) {
+            const dataCapaciteUltime = capaciteultime.system;
+
+            if(dataCapaciteUltime.type == 'passive') passiveUltime = dataCapaciteUltime.passives;
+          }
+
+          for (let [key, capacite] of Object.entries(armorCapacites)) {
+            switch(key) {
+              case "longbow":
+                if(wear === 'armure') {
+                  const dataLongbow = capacite;
+
+                  longbow = dataLongbow;
+                  longbow['has'] = true;
+                  longbow.energie = 0;
+
+                  longbow.degats.cout = 0;
+                  longbow.degats.dice = dataLongbow.degats.min;
+
+                  longbow.violence.cout = 0;
+                  longbow.violence.dice = dataLongbow.violence.min;
+
+                  const rangeListe = ['contact', 'courte', 'moyenne', 'longue', 'lointaine'];
+                  let rangeToNumber = {};
+                  let peRange = longbow.portee.energie;
+                  let minRange = longbow.portee.min;
+                  let maxRange = longbow.portee.max;
+                  let isInRange = false;
+                  let multiplicateur = 0;
+
+                  for(let n = 0; n < rangeListe.length;n++) {
+                    if(rangeListe[n] === minRange) {
+                      isInRange = true;
+                      rangeToNumber[rangeListe[n]] = multiplicateur*peRange;
+                      multiplicateur += 1;
+                    } else if(rangeListe[n] === maxRange) {
+                      isInRange = false;
+                      rangeToNumber[rangeListe[n]] = multiplicateur*peRange;
+                    } else if(isInRange) {
+                      rangeToNumber[rangeListe[n]] = multiplicateur*peRange;
+                      multiplicateur += 1;
+                    }
+                  }
+
+                  longbow.portee.cout = 0;
+                  longbow.portee.value = dataLongbow.portee.min;
+                  longbow.portee.rangeToNumber = rangeToNumber;
+
+                  let raw = longbow.effets.raw ? [].concat(longbow.effets.raw) : [];
+                  let custom = longbow.effets.custom ? [].concat(longbow.effets.custom) : [];
+
+                  longbow.effets.raw = [...new Set(raw.concat(armorSpecialRaw))];
+                  longbow.effets.custom = [...new Set(custom.concat(armorSpecialCustom))];
+                  longbow.effets.liste = [];
+                  longbow.effets.liste1.cout = 0;
+                  longbow.effets.liste1.selected = 0;
+                  longbow.effets.liste2.cout = 0;
+                  longbow.effets.liste2.selected = 0;
+                  longbow.effets.liste3.cout = 0;
+                  longbow.effets.liste3.selected = 0;
+
+                  let effListe1 = [];
+                  let effListe2 = [];
+                  let effListe3 = [];
+
+                  for(let eff of longbow.effets.liste1.raw) {
+                    let split = eff.split(" ");
+                    let splitV = split[1] ? ` ${split[1]}` : ""
+
+                    effListe1.push({
+                      name:`${game.i18n.localize(labelsEffects[split[0]].label)}${splitV}`,
+                      description:`${game.i18n.localize(labelsEffects[split[0]].description)}`,
+                      raw:eff
+                    });
+                  }
+
+                  for(let eff of longbow.effets.liste2.raw) {
+                    let split = eff.split(" ");
+                    let splitV = split[1] ? ` ${split[1]}` : ""
+
+                    effListe2.push({
+                      name:`${game.i18n.localize(labelsEffects[split[0]].label)}${splitV}`,
+                      description:`${game.i18n.localize(labelsEffects[split[0]].description)}`,
+                      raw:eff
+                    });
+                  }
+
+                  for(let eff of longbow.effets.liste3.raw) {
+                    let split = eff.split(" ");
+                    let splitV = split[1] ? ` ${split[1]}` : ""
+
+                    effListe3.push({
+                      name:`${game.i18n.localize(labelsEffects[split[0]].label)}${splitV}`,
+                      description:`${game.i18n.localize(labelsEffects[split[0]].description)}`,
+                      raw:eff
+                    });
+                  }
+
+                  longbow.effets.liste1.liste = effListe1;
+                  longbow.effets.liste2.liste = effListe2;
+                  longbow.effets.liste3.liste = effListe3;
+                }
+                break;
+
+              case "cea":
+                if(passiveUltime !== undefined) {
+                  if(passiveUltime.capacites.actif && passiveUltime.capacites.cea.actif) {
+                    system.capacites.selected[key] = Object.assign(system.capacites.selected[key], {
+                      vague:{
+                        degats:{
+                          dice:passiveUltime.capacites.cea.update.vague.degats.dice,
+                          fixe:passiveUltime.capacites.cea.update.vague.degats.fixe,
+                        },
+                        violence:{
+                          dice:passiveUltime.capacites.cea.update.vague.violence.dice,
+                          fixe:passiveUltime.capacites.cea.update.vague.violence.fixe,
+                        },
+                        effets:{
+                          raw:passiveUltime.capacites.cea.update.vague.effets.raw,
+                          custom:passiveUltime.capacites.cea.update.vague.effets.custom,
+                        }
+                      },
+                      rayon:{
+                        degats:{
+                          dice:passiveUltime.capacites.cea.update.rayon.degats.dice,
+                          fixe:passiveUltime.capacites.cea.update.rayon.degats.fixe,
+                        },
+                        violence:{
+                          dice:passiveUltime.capacites.cea.update.rayon.violence.dice,
+                          fixe:passiveUltime.capacites.cea.update.rayon.violence.fixe,
+                        },
+                        effets:{
+                          raw:passiveUltime.capacites.cea.update.rayon.effets.raw,
+                          custom:passiveUltime.capacites.cea.update.rayon.effets.custom,
+                        }
+                      },
+                      salve:{
+                        degats:{
+                          dice:passiveUltime.capacites.cea.update.salve.degats.dice,
+                          fixe:passiveUltime.capacites.cea.update.salve.degats.fixe,
+                        },
+                        violence:{
+                          dice:passiveUltime.capacites.cea.update.salve.violence.dice,
+                          fixe:passiveUltime.capacites.cea.update.salve.violence.fixe,
+                        },
+                        effets:{
+                          raw:passiveUltime.capacites.cea.update.salve.effets.raw,
+                          custom:passiveUltime.capacites.cea.update.salve.effets.custom,
+                        }
+                      }
+                    });
+                  }
+                }
+
+                if(wear === 'armure') {
+                  const vagueEffets = capacite.vague.effets;
+                  const vagueEffetsRaw = vagueEffets.raw.concat(armorSpecialRaw);
+                  const vagueEffetsCustom = vagueEffets.custom.concat(armorSpecialCustom) || [];
+                  const vagueEffetsFinal = {
+                    raw:[...new Set(vagueEffetsRaw)],
+                    custom:vagueEffetsCustom,
+                    liste:[]
+                  };
+
+                  const salveEffets = capacite.salve.effets;
+                  const salveEffetsRaw = salveEffets.raw.concat(armorSpecialRaw);
+                  const salveEffetsCustom = salveEffets.custom.concat(armorSpecialCustom) || [];
+                  const salveEffetsFinal = {
+                    raw:[...new Set(salveEffetsRaw)],
+                    custom:salveEffetsCustom,
+                    liste:[]
+                  };
+
+                  const rayonEffets = capacite.rayon.effets;
+                  const rayonEffetsRaw = rayonEffets.raw.concat(armorSpecialRaw);
+                  const rayonEffetsCustom = rayonEffets.custom.concat(armorSpecialCustom) || [];
+                  const rayonEffetsFinal = {
+                    raw:[...new Set(rayonEffetsRaw)],
+                    custom:rayonEffetsCustom,
+                    liste:[]
+                  };
+
+                  const vagueWpnC = {
+                    _id:i._id,
+                    name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label'),
+                    system:{
+                      capaciteName:'cea',
+                      subCapaciteName:'vague',
+                      noRack:true,
+                      capacite:true,
+                      portee:capacite.vague.portee,
+                      energie:capacite.energie,
+                      espoir:capacite.espoir,
+                      degats:{
+                        dice:capacite.vague.degats.dice,
+                        fixe:0
+                      },
+                      violence:{
+                        dice:capacite.vague.violence.dice,
+                        fixe:0
+                      },
+                      type:'contact',
+                      effets:vagueEffetsFinal
+                    }
+                  };
+
+                  const salveWpnC = {
+                    _id:i._id,
+                    name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label'),
+                    system:{
+                      capaciteName:'cea',
+                      subCapaciteName:'salve',
+                      noRack:true,
+                      capacite:true,
+                      portee:capacite.salve.portee,
+                      energie:capacite.energie,
+                      espoir:capacite.espoir,
+                      degats:{
+                        dice:capacite.salve.degats.dice,
+                        fixe:0
+                      },
+                      violence:{
+                        dice:capacite.salve.violence.dice,
+                        fixe:0
+                      },
+                      type:'contact',
+                      effets:salveEffetsFinal
+                    }
+                  };
+
+                  const rayonWpnC = {
+                    _id:i._id,
+                    name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label'),
+                    system:{
+                      capaciteName:'cea',
+                      subCapaciteName:'rayon',
+                      noRack:true,
+                      capacite:true,
+                      portee:capacite.rayon.portee,
+                      energie:capacite.energie,
+                      espoir:capacite.espoir,
+                      degats:{
+                        dice:capacite.rayon.degats.dice,
+                        fixe:0
+                      },
+                      violence:{
+                        dice:capacite.rayon.violence.dice,
+                        fixe:0
+                      },
+                      type:'contact',
+                      effets:rayonEffetsFinal
+                    }
+                  };
+
+                  const vagueWpnD = {
+                    _id:i._id,
+                    name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label'),
+                    system:{
+                      capaciteName:'cea',
+                      subCapaciteName:'vague',
+                      noRack:true,
+                      capacite:true,
+                      portee:capacite.vague.portee,
+                      energie:capacite.energie,
+                      espoir:capacite.espoir,
+                      degats:{
+                        dice:capacite.vague.degats.dice,
+                        fixe:0
+                      },
+                      violence:{
+                        dice:capacite.vague.violence.dice,
+                        fixe:0
+                      },
+                      type:'distance',
+                      effets:vagueEffetsFinal
+                    }
+                  };
+
+                  const salveWpnD = {
+                    _id:i._id,
+                    name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label'),
+                    system:{
+                      capaciteName:'cea',
+                      subCapaciteName:'salve',
+                      noRack:true,
+                      capacite:true,
+                      portee:capacite.salve.portee,
+                      energie:capacite.energie,
+                      espoir:capacite.espoir,
+                      degats:{
+                        dice:capacite.salve.degats.dice,
+                        fixe:0
+                      },
+                      violence:{
+                        dice:capacite.salve.violence.dice,
+                        fixe:0
+                      },
+                      type:'distance',
+                      effets:salveEffetsFinal
+                    }
+                  };
+
+                  const rayonWpnD = {
+                    _id:i._id,
+                    name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label'),
+                    system:{
+                      capaciteName:'cea',
+                      subCapaciteName:'rayon',
+                      noRack:true,
+                      capacite:true,
+                      portee:capacite.rayon.portee,
+                      energie:capacite.energie,
+                      espoir:capacite.espoir,
+                      degats:{
+                        dice:capacite.rayon.degats.dice,
+                        fixe:0
+                      },
+                      violence:{
+                        dice:capacite.rayon.violence.dice,
+                        fixe:0
+                      },
+                      type:'distance',
+                      effets:rayonEffetsFinal
+                    }
+                  };
+
+                  armesContactEquipee.push(vagueWpnC);
+                  armesContactEquipee.push(salveWpnC);
+                  armesContactEquipee.push(rayonWpnC);
+
+                  armesDistanceEquipee.push(vagueWpnD);
+                  armesDistanceEquipee.push(salveWpnD);
+                  armesDistanceEquipee.push(rayonWpnD);
+                }
+              break;
+            }
+          }
+        }
+
+        // MODULE
+        if (i.type === 'module') {
+          const niveau = system.niveau.value;
+          const itemDataNiveau = system.niveau.details[`n${niveau}`];
+          const itemArme = itemDataNiveau?.arme || {has:false};
+          const itemBonus = itemDataNiveau?.bonus || {has:false};
+          const itemActive = system?.active?.base || false;
+
+          if(itemArme === false && itemBonus === false) continue;
+
+          if(itemDataNiveau.permanent || itemActive) {
+            if(itemArme.has && onArmor) {
+              const moduleArmeType = itemArme.type;
+              const moduleEffets = itemArme.effets;
+              const moiduleEffetsRaw = moduleEffets.raw.concat(armorSpecialRaw);
+              const moduleEffetsCustom = moduleEffets.custom.concat(armorSpecialCustom) || [];
+              const moduleEffetsFinal = {
+                raw:[...new Set(moiduleEffetsRaw)],
+                custom:moduleEffetsCustom,
+                liste:moduleEffets.liste
+              };
+              const dataMunitions = itemArme?.optionsmunitions || {has:false};
+
+              let degats = itemArme.degats;
+              let violence = itemArme.violence;
+
+              if(dataMunitions.has) {
+                let actuel = dataMunitions.actuel;
+
+                if(actuel === undefined) {
+                  dataMunitions.actuel = "0";
+                  actuel = "1";
+                }
+
+                for (let i = 0; i <= actuel; i++) {
+
+                  const raw = dataMunitions.liste[i].raw.concat(armorSpecialRaw);
+                  const custom = dataMunitions.liste[i].custom.concat(armorSpecialCustom);
+
+                  data.niveau.details[`n${niveau}`].arme.optionsmunitions.liste[i].raw = [...new Set(raw)];
+                  data.niveau.details[`n${niveau}`].arme.optionsmunitions.liste[i].custom = custom;
+                }
+
+                degats = dataMunitions.liste[actuel].degats;
+                violence = dataMunitions.liste[actuel].violence;
+              }
+
+              const moduleWpn = {
+                _id:i._id,
+                name:i.name,
+                type:'module',
+                system:{
+                  noRack:true,
+                  type:itemArme.type,
+                  portee:itemArme.portee,
+                  degats:degats,
+                  violence:violence,
+                  optionsmunitions:dataMunitions,
+                  effets:moduleEffetsFinal,
+                  niveau:niveau,
+                }
+              };
+
+              if(moduleArmeType === 'contact') {
+                moduleWpn.system.structurelles = itemArme.structurelles;
+                moduleWpn.system.ornementales = itemArme.ornementales;
+              } else {
+                moduleWpn.system.distance = itemArme.distance;
+              }
+
+              if(moduleArmeType === 'contact') { armesContactEquipee.push(moduleWpn); }
+              else if(moduleArmeType === 'distance') { armesDistanceEquipee.push(moduleWpn); }
+            }
+
+            if(itemBonus.has && onArmor) {
+              const iBDgts = itemBonus.degats;
+              const iBDgtsVariable = iBDgts.variable;
+              const iBViolence = itemBonus.violence;
+              const iBViolenceVariable = iBViolence.variable;
+              const iBGrenades = itemBonus.grenades;
+
+              if(iBDgts.has) {
+                if(iBDgtsVariable.has) {
+                  const dgtsDicePaliers = [0];
+                  const dgtsFixePaliers = [0];
+
+                  for(let i = iBDgtsVariable.min.dice;i <= iBDgtsVariable.max.dice;i++) {
+                    dgtsDicePaliers.push(i);
+                  }
+
+                  for(let i = iBDgtsVariable.min.fixe;i <= iBDgtsVariable.max.fixe;i++) {
+                    dgtsFixePaliers.push(i);
+                  }
+
+                  moduleBonusDgtsVariable[iBDgts.type].push({
+                    id:i._id,
+                    label:i.name,
+                    description:i.system.description,
+                    selected:{
+                      dice:iBDgtsVariable?.selected?.dice || 0,
+                      fixe:iBDgtsVariable?.selected?.fixe || 0,
+                      energie:{
+                        dice:iBDgtsVariable?.selected?.energie.dice || 0,
+                        fixe:iBDgtsVariable?.selected?.energie.fixe || 0,
+                        paliers:{
+                          dice:dgtsDicePaliers,
+                          fixe:dgtsFixePaliers
+                        }
+                      }
+                    },
+                    min:{
+                      dice:iBDgtsVariable.min.dice,
+                      fixe:iBDgtsVariable.min.fixe
+                    },
+                    max:{
+                      dice:iBDgtsVariable.max.dice,
+                      fixe:iBDgtsVariable.max.fixe
+                    },
+                    energie:iBDgtsVariable.cout
+                  });
+                } else {
+                  moduleBonusDgts[iBDgts.type].push({
+                    id:i._id,
+                    label:i.name,
+                    description:i.system.description,
+                    dice:iBDgts.dice,
+                    fixe:iBDgts.fixe
+                  });
+                }
+              }
+
+              if(iBViolence.has) {
+                if(iBViolenceVariable.has) {
+                  const violDicePaliers = [0];
+                  const violFixePaliers = [0];
+
+                  for(let i = iBViolenceVariable.min.dice;i <= iBViolenceVariable.max.dice;i++) {
+                    violDicePaliers.push(i);
+                  }
+
+                  for(let i = iBViolenceVariable.min.fixe;i <= iBViolenceVariable.max.fixe;i++) {
+                    violFixePaliers.push(i);
+                  }
+
+                  moduleBonusViolenceVariable[iBViolence.type].push({
+                    id:i._id,
+                    label:i.name,
+                    description:i.system.description,
+                    selected:{
+                      dice:iBViolenceVariable?.selected?.dice || 0,
+                      fixe:iBViolenceVariable?.selected?.fixe || 0,
+                      energie:{
+                        dice:iBViolenceVariable?.selected?.energie?.dice || 0,
+                        fixe:iBViolenceVariable?.selected?.energie?.fixe || 0,
+                        paliers:{
+                          dice:violDicePaliers,
+                          fixe:violFixePaliers
+                        }
+                      }
+                    },
+                    min:{
+                      dice:iBViolenceVariable.min.dice,
+                      fixe:iBViolenceVariable.min.fixe
+                    },
+                    max:{
+                      dice:iBViolenceVariable.max.dice,
+                      fixe:iBViolenceVariable.max.fixe
+                    },
+                    energie:iBViolenceVariable.cout
+                  });
+                } else {
+                  moduleBonusViolence[iBViolence.type].push({
+                    id:i._id,
+                    label:i.name,
+                    description:i.system.description,
+                    dice:iBViolence.dice,
+                    fixe:iBViolence.fixe
+                  });
+                }
+              }
+
+              if(iBGrenades.has) {
+                for (let [key, grenade] of Object.entries(grenades)) {
+                  if(key === 'antiblindage' || key === 'explosive' || key === 'shrapnel') {
+                    const data = iBGrenades.liste[key];
+
+                    grenade.degats.dice += data.degats.dice;
+                    grenade.violence.dice += data.violence.dice;
+                  }
+                };
+              }
+            }
+          }
+        }
+
+        // ARMES
+        if (i.type === 'arme') {
+          const type = system.type;
+          const tourelle = system.tourelle;
+
+          const armeRaw = system.effets.raw.concat(armorSpecialRaw);
+          const armeCustom = system.effets.custom.concat(armorSpecialCustom);
+
+          const armeE2Raw = system.effets2mains.raw.concat(armorSpecialRaw);
+          const armeE2Custom = system.effets2mains.custom.concat(armorSpecialCustom);
+
+          system.effets.raw = [...new Set(armeRaw)];
+          system.effets.custom = armeCustom;
+
+          system.effets2mains.raw = [...new Set(armeE2Raw)];
+          system.effets2mains.custom = armeE2Custom;
+
+          const dataMunitions = system.optionsmunitions,
+                hasDM = dataMunitions?.has || false,
+                actuelDM = Number(dataMunitions?.actuel || 0);
+
+          if(hasDM && actuelDM != 0) {
+            for (let i = 0; i <= dataMunitions.actuel; i++) {
+
+              const raw = dataMunitions.liste[i].raw.concat(armorSpecialRaw);
+              const custom = dataMunitions.liste[i].custom.concat(armorSpecialCustom);
+
+              data.optionsmunitions.liste[i].raw = [...new Set(raw)];
+              data.optionsmunitions.liste[i].custom = custom;
+            }
+          }
+
+          if(tourelle.has && type === 'distance') {
+            armesTourelles.push(i);
+          } else if(wear !== 'ascension') {
+
+            let equipped = system?.equipped ?? false;
+            if(!isPj) equipped = true;
+
+            const options2mains = system.options2mains.has;
+            const optionsmunitions = system.optionsmunitions.has;
+            const main = system.options2mains.actuel;
+            const munition = system.optionsmunitions.actuel;
+
+            if(type === 'contact' && options2mains === true) {
+              system.degats.dice = system?.options2mains?.[main]?.degats?.dice || 0;
+              system.degats.fixe = system?.options2mains?.[main]?.degats?.fixe || 0;
+
+              system.violence.dice = system?.options2mains?.[main]?.violence?.dice || 0;
+              system.violence.fixe = system?.options2mains?.[main]?.violence?.fixe || 0;
+            }
+
+            if(type === 'distance' && optionsmunitions === true) {
+              system.degats.dice = system.optionsmunitions?.liste?.[munition]?.degats?.dice || 0;
+              system.degats.fixe = system.optionsmunitions?.liste?.[munition]?.degats?.fixe || 0
+
+              system.violence.dice = system.optionsmunitions?.liste?.[munition]?.violence?.dice || 0;
+              system.violence.fixe = system.optionsmunitions?.liste?.[munition]?.violence?.fixe || 0;
+            }
+
+            if (type === 'contact' && equipped === true) { armesContactEquipee.push(i); }
+            else if (type === 'distance' && equipped === true) { armesDistanceEquipee.push(i); }
+          }
+        }
+      }
+
+      for(let i = 0;i < armesContactEquipee.length;i++) {
+        armesContactEquipee[i].system.degats.module = {};
+        armesContactEquipee[i].system.degats.module.fixe = moduleBonusDgts.contact;
+        armesContactEquipee[i].system.degats.module.variable = moduleBonusDgtsVariable.contact;
+
+        armesContactEquipee[i].system.violence.module = {};
+        armesContactEquipee[i].system.violence.module.fixe = moduleBonusViolence.contact;
+        armesContactEquipee[i].system.violence.module.variable = moduleBonusViolenceVariable.contact;
+      };
+
+      for(let i = 0;i < armesDistanceEquipee.length;i++) {
+        armesDistanceEquipee[i].system.degats.module = {};
+        armesDistanceEquipee[i].system.degats.module.fixe = moduleBonusDgts.distance;
+        armesDistanceEquipee[i].system.degats.module.variable = moduleBonusDgtsVariable.distance;
+
+        armesDistanceEquipee[i].system.violence.module = {};
+        armesDistanceEquipee[i].system.violence.module.fixe = moduleBonusViolence.distance;
+        armesDistanceEquipee[i].system.violence.module.variable = moduleBonusViolenceVariable.distance;
+      };
+
+      for (let [key, grenade] of Object.entries(grenades)){
+        const effetsRaw = grenades[key].effets.raw.concat(armorSpecialRaw);
+        const effetsCustom = grenades[key].effets.custom.concat(armorSpecialCustom);
+
+        grenades[key].effets.raw = [...new Set(effetsRaw)];
+        grenades[key].effets.custom = [...new Set(effetsCustom)];
+      };
+    } else {
+      const modulesListe = Object.keys(act.system.modules.liste);
+      const modulesBase = Object.keys(act.system.configurations.liste.base.modules);
+      const modulesC1 = Object.keys(act.system.configurations.liste.c1.modules);
+      const modulesC2 = Object.keys(act.system.configurations.liste.c2.modules);
+      const listWpn = ['canonMetatron', 'canonMagma', 'mitrailleusesSurtur', 'souffleDemoniaque', 'poingsSoniques'];
+      const listWpnSpecial = ['lamesCinetiquesGeantes'];
+
+      for(let i = 0; i < modulesListe.length;i++) {
+        const name = modulesListe[i];
+        let type = '';
+
+        if(modulesBase.includes(name)) type = 'base';
+        if(modulesC1.includes(name)) type = 'c1';
+        if(modulesC2.includes(name)) type = 'c2';
+
+        if(type !== '') {
+          const data = act.system.configurations.liste[type].modules[name];
+
+          if(listWpn.includes(name)) {
+            let noyaux = 0;
+
+            switch(name) {
+              case 'canonMagma':
+                noyaux = +data.noyaux.simple;
+                break;
+
+              case 'souffleDemoniaque':
+              case 'mitrailleusesSurtur':
+              case 'canonMetatron':
+              case 'poingsSoniques':
+                noyaux = +data.noyaux;
+                break;
+            }
+
+            wpn.push({
+              type:type,
+              _id:name,
+              name:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${name.toUpperCase()}.Label`),
+              portee:data.portee,
+              energie:noyaux,
+              degats:data.degats,
+              violence:data.violence,
+              effets:data.effets
+            });
+          }
+
+          if(listWpnSpecial.includes(name)) {
+            let noyaux = 0;
+
+            wpnSpecial.push({
+              type:'special',
+              subType:type,
+              _id:name,
+              name:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${name.toUpperCase()}.Label`),
+              portee:data.portee,
+              energie:noyaux,
+              degats:data.degats,
+              violence:data.violence,
+              effets:data.effets,
+              eff1:data.eff1,
+              eff2:data.eff2
+            });
+          }
+        }
+      }
+    }
+
+    return {
+      longbow:longbow,
+      contact:armesContactEquipee,
+      distance:armesDistanceEquipee,
+      tourelle:armesTourelles,
+      wpn:wpn,
+      wpnSpecial:wpnSpecial,
+      grenade:grenades,
+    }
+  }
+
     /** @inheritdoc */
   activateListeners(html) {
     html.find(".aspect button").click(this._onSelectCaracteristique.bind(this));
@@ -708,28 +1470,40 @@ export class KnightRollDialog extends Application {
       this.data.modificateur = value;
     });
 
-    html.find(".degatsBonusDice").change(ev => {
+    html.find(".degatsBonusDice").change(async ev => {
+      const actor = this.data.actor;
       const value = +$(ev.currentTarget).val();
 
       this.data.degatsBonus.dice = value;
+      if(this.data.isToken) await actor.update({[`system.combat.data.degatsbonus.dice`]:value});
+      else await game.actors.get(actor.id).update({[`system.combat.data.degatsbonus.dice`]:value});
     });
 
-    html.find(".degatsBonusFixe").change(ev => {
+    html.find(".degatsBonusFixe").change(async ev => {
+      const actor = this.data.actor;
       const value = +$(ev.currentTarget).val();
 
       this.data.degatsBonus.fixe = value;
+      if(this.data.isToken) await actor.update({[`system.combat.data.degatsbonus.fixe`]:value});
+      else await game.actors.get(actor.id).update({[`system.combat.data.degatsbonus.fixe`]:value});
     });
 
-    html.find(".violenceBonusDice").change(ev => {
+    html.find(".violenceBonusDice").change(async ev => {
+      const actor = this.data.actor;
       const value = +$(ev.currentTarget).val();
 
       this.data.violenceBonus.dice = value;
+      if(this.data.isToken) await actor.update({[`system.combat.data.violencebonus.dice`]:value});
+      else await game.actors.get(actor.id).update({[`system.combat.data.violencebonus.dice`]:value});
     });
 
-    html.find(".violenceBonusFixe").change(ev => {
+    html.find(".violenceBonusFixe").change(async ev => {
+      const actor = this.data.actor;
       const value = +$(ev.currentTarget).val();
 
       this.data.violenceBonus.fixe = value;
+      if(this.data.isToken) await actor.update({[`system.combat.data.violencebonus.fixe`]:value});
+      else await game.actors.get(actor.id).update({[`system.combat.data.violencebonus.fixe`]:value});
     });
 
     html.find("div.wpn span.selected").click(ev => {
@@ -885,24 +1659,65 @@ export class KnightRollDialog extends Application {
       }
     });
 
-    html.find('select.degatsSelected').change(ev => {
+    html.find('select.degatsSelected').change(async ev => {
+      const actor = this.data.actor;
       const target = $(ev.currentTarget);
       const value = +target.val();
       const type = target.data("type");
       const num = target.data("num");
+      let trueWpn = {};
+      let toupdate = "";
+      let wpn = {};
 
-      if(type === 'contact') this.data.listWpnContact[num].system.degats.dice = value;
-      else if(type === 'distance') this.data.listWpnDistance[num].system.degats.dice = value;
+      if(type === 'contact') wpn = this.data.listWpnContact[num];
+      else if(type === 'distance') wpn = this.data.listWpnDistance[num];
+
+      wpn.system.degats.dice = value;
+
+      if(this.data.isToken) trueWpn = actor.items.get(wpn._id);
+      else trueWpn = game.actors.get(actor.id).items.get(wpn._id);
+
+      if(wpn.type === 'module') {
+        const getNiveau = trueWpn.system.niveau.value;
+        toupdate = `system.niveau.details.n${getNiveau}.arme.degats.dice`;
+      }
+      else if(wpn.type === 'arme') toupdate = 'system.degats.dice';
+
+      if(toupdate !== "") {
+        if(this.data.isToken) await trueWpn.update({[toupdate]:value});
+        else await trueWpn.update({[toupdate]:value});
+      }
     });
 
-    html.find('select.violenceSelected').change(ev => {
+    html.find('select.violenceSelected').change(async ev => {
+      const actor = this.data.actor;
       const target = $(ev.currentTarget);
       const value = target.val();
       const type = target.data("type");
       const num = target.data("num");
+      let trueWpn = {};
+      let toupdate = "";
+      let wpn = {};
 
-      if(type === 'contact') this.data.listWpnContact[num].system.violence.dice = +value;
-      else if(type === 'distance') this.data.listWpnDistance[num].system.violence.dice = +value;
+      if(type === 'contact') wpn = this.data.listWpnContact[num];
+      else if(type === 'distance') wpn = this.data.listWpnDistance[num];
+
+      if(type === 'contact') wpn.system.violence.dice = +value;
+      else if(type === 'distance') wpn.system.violence.dice = +value;
+
+      if(this.data.isToken) trueWpn = actor.items.get(wpn._id);
+      else trueWpn = game.actors.get(actor.id).items.get(wpn._id);
+
+      if(wpn.type === 'module') {
+        const getNiveau = trueWpn.system.niveau.value;
+        toupdate = `system.niveau.details.n${getNiveau}.arme.violence.dice`;
+      }
+      else if(wpn.type === 'arme') toupdate = 'system.violence.dice';
+
+      if(toupdate !== "") {
+        if(this.data.isToken) await trueWpn.update({[toupdate]:value});
+        else await trueWpn.update({[toupdate]:value});
+      }
     });
 
     html.find('select.bonusVariable').change(ev => {
@@ -921,8 +1736,8 @@ export class KnightRollDialog extends Application {
       const module = this.data.isToken ? actor.token.actor.items.get(dataWpn.id) : game.actors.get(actor.id).items.get(dataWpn.id);
       const depense = paliers*energie;
       const update = {
-        [`system.bonus.${typeBonus}.variable.selected.${fixeOrDice}`]:value,
-        [`system.bonus.${typeBonus}.variable.selected.energie.${fixeOrDice}`]:depense,
+        [`system.niveau.details.n${module.system.niveau.value}.bonus.${typeBonus}.variable.selected.${fixeOrDice}`]:value,
+        [`system.niveau.details.n${module.system.niveau.value}.bonus.${typeBonus}.variable.selected.energie.${fixeOrDice}`]:depense,
       };
 
       dataWpn.selected[fixeOrDice] = value;
@@ -1064,11 +1879,11 @@ export class KnightRollDialog extends Application {
       this.render(true);
     });
 
-    html.find('div.styleCombat select.selectStyle').change(ev => {
+    html.find('div.styleCombat select.selectStyle').change(async ev => {
       const style = $(ev.currentTarget).val();
       const actor = this.data.actor;
 
-      actor.update({['system.combat']:{
+      await actor.update({['system.combat']:{
         style:style,
         data:{
           tourspasses:1,
@@ -1076,8 +1891,8 @@ export class KnightRollDialog extends Application {
         }
       }});
 
-      /*if(this.data.isToken) actor.update({['system.combat.style']:style});
-      else game.actors.get(actor.id).update({['system.combat.style']:style});*/
+      this.setAct(game.actors.get(actor._id));
+      this.render(true);
     });
   }
 
@@ -1444,362 +2259,6 @@ export class KnightRollDialog extends Application {
       this.render(true);
     }
   }
-
-  /*async _doAttack(actor, data, localDataWpn, otherC, carac, od, isCapacite=false, totalDice=0, totalBonus=0, listAllE, addNum='', isBarrage, isSystemeRefroidissement, barrageValue=0, addOtherEffects=[]) {
-    const isPNJ = this.data?.pnj || false
-    const wpnType = this.data.typeWpn
-    const avDv = this.data.avDv;
-    const lAvantages = avDv?.avantages || []
-    const lInconvenient = avDv?.inconvenient || []
-    const avantages = [];
-    const inconvenient = [];
-
-    const execAtt = new game.knight.RollKnight(`${totalDice}d6+${totalBonus}`, actor.system);
-    execAtt._success = true;
-    if(wpnType !== 'tourelle' && !isPNJ) {
-      execAtt._base = game.i18n.localize(CONFIG.KNIGHT.caracteristiques[data.base]);
-      execAtt._autre = otherC;
-    } else if(isPNJ) {
-      execAtt._base = game.i18n.localize(CONFIG.KNIGHT.aspects[data.base]);
-    }
-
-    let details = '';
-
-    if(wpnType === 'tourelle') {
-      details = `${totalDice}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 + ${totalBonus}`;
-    } else if(isPNJ) {
-      details = `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Aspects')}) + ${data.modificateur}d6 (${game.i18n.localize('KNIGHT.JETS.Modificateur')}) + ${od} (${game.i18n.localize('KNIGHT.ASPECTS.Exceptionnels')}) + ${totalBonus-od} (${game.i18n.localize('KNIGHT.BONUS.Succes')})`
-    } else {
-      details = `${carac}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')}) + ${data.modificateur}d6 (${game.i18n.localize('KNIGHT.JETS.Modificateur')}) + ${od} (${game.i18n.localize('KNIGHT.ITEMS.ARMURE.Overdrive')}) + ${totalBonus-od} (${game.i18n.localize('KNIGHT.BONUS.Succes')})`;
-    }
-
-    execAtt._difficulte = data.difficulte;
-    execAtt._pairOrImpair = listAllE.guidage ? 1 : 0;
-    execAtt._details = details;
-    await execAtt.evaluateSuccess();
-
-    let caracs = [execAtt._base].concat(execAtt._autre)[0] === '' ? [] : [execAtt._base].concat(execAtt._autre);
-    if(caracs[0] === undefined) { caracs = ''; }
-    let pAttack = {};
-
-    for(let i = 0;i < lAvantages.length;i++) {
-      const data = avDv.avantages[i];
-
-      if(data.system.show) {
-        avantages.push({
-          name:data.name,
-          desc:data.system.description
-        });
-      }
-    }
-
-    for(let i = 0;i < lInconvenient.length;i++) {
-      const data = avDv.inconvenient[i];
-
-      if(data.system.show) {
-        inconvenient.push({
-          name:data.name,
-          desc:data.system.description
-        });
-      }
-    }
-
-    let aIEffects = [];
-
-    if(wpnType === 'armesimprovisees') {aIEffects.push({
-      name:`${localDataWpn.utilisations} ${game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.Utilisations')}`
-    })}
-
-    const style = isPNJ ? {selected:''} : data.style;
-    const eSub = listAllE.attack.list;
-    const eInclude = listAllE.attack.include;
-    const other = listAllE.other.concat(addOtherEffects, aIEffects).sort(SortByName);
-    let portee;
-
-    if(isCapacite) {
-      portee = `${game.i18n.localize(`KNIGHT.PORTEE.Label`)} ${localDataWpn.portee}`;
-    } else if((wpnType === 'grenades' && !isPNJ) || (wpnType === 'armesimprovisees' && !isPNJ)) {
-      const force = getODValue('force', actor, true);
-
-      switch(force) {
-        case 0:
-          portee = `${game.i18n.localize(`KNIGHT.PORTEE.Label`)} ${game.i18n.localize(`KNIGHT.PORTEE.Courte`)}`;
-          break;
-
-        case 1:
-          portee = `${game.i18n.localize(`KNIGHT.PORTEE.Label`)} ${game.i18n.localize(`KNIGHT.PORTEE.Moyenne`)}`;
-          break;
-
-        case 2:
-          portee = `${game.i18n.localize(`KNIGHT.PORTEE.Label`)} ${game.i18n.localize(`KNIGHT.PORTEE.Longue`)}`;
-          break;
-
-        default:
-          portee = `${game.i18n.localize(`KNIGHT.PORTEE.Label`)} ${game.i18n.localize(`KNIGHT.PORTEE.Lointaine`)}`;
-          break;
-      }
-    } else if(wpnType === 'longbow') {
-      portee = `${game.i18n.localize(`KNIGHT.PORTEE.Label`)} ${game.i18n.localize(`KNIGHT.PORTEE.${localDataWpn.portee.value.charAt(0).toUpperCase()+localDataWpn.portee.value.substr(1)}`)}`;
-    } else if((wpnType === 'grenades' && isPNJ) || (wpnType === 'armesimprovisees' && isPNJ)) {
-      portee = ``;
-    } else {
-      portee = `${game.i18n.localize(`KNIGHT.PORTEE.Label`)} ${game.i18n.localize(`KNIGHT.PORTEE.${localDataWpn.portee.charAt(0).toUpperCase()+localDataWpn.portee.substr(1)}`)}`;
-    }
-
-    if(style.selected && wpnType !== 'tourelle' && !isPNJ) eInclude.unshift({
-      name:`+${getCaracValue(style.selected, data.actor)}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${style.fulllabel} (${game.i18n.localize(CONFIG.KNIGHT.caracteristiques[style.selected])} ${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-      desc:style.info
-    });
-
-    const isSuccess = execAtt._success;
-
-    if(!isBarrage && !isSystemeRefroidissement) {
-      pAttack = {
-        flavor:`${this.data.label} : ${game.i18n.localize('KNIGHT.AUTRE.Attaque')}${addNum}`,
-        main:{
-          isSuccess:isSuccess,
-          isExploit:execAtt._isExploit,
-          total:execAtt._totalSuccess,
-          tooltip:await execAtt.getTooltip(),
-          isRollSuccess:execAtt._isRollSuccess,
-          isRollFailed:execAtt._isRollFailed,
-          isRollEFailed:execAtt._isEFail,
-          details:execAtt._details,
-          formula: execAtt._formula,
-          caracs: wpnType !== 'tourelle' ? caracs : false,
-          isAttack:true,
-          portee:portee
-        },
-        sub:eSub,
-        include:eInclude,
-        other:other,
-        avantages:avantages,
-        inconvenient:inconvenient
-      };
-
-      if(wpnType !== 'tourelle' && !isPNJ) pAttack.style = `${style.fulllabel}`;
-    } else {
-      const barrageLabel = isBarrage ? `${game.i18n.localize('KNIGHT.EFFETS.BARRAGE.Label')} ${barrageValue}` : `${game.i18n.localize('KNIGHT.AMELIORATIONS.SYSTEMEREFROIDISSEMENT.Label')} (${game.i18n.localize('KNIGHT.EFFETS.BARRAGE.Label')} ${barrageValue})`
-      pAttack = {
-        flavor:`${this.data.label} : ${game.i18n.localize('KNIGHT.AUTRE.Attaque')}${addNum}`,
-        main:{
-          total:barrageLabel
-        }
-      };
-    }
-
-    let rolls = execAtt;
-
-    if(execAtt._pRolls.length !== 0) {
-      const pRolls = execAtt._pRolls[0].map(function(objet) {
-        return { ...objet, active: true };
-      });
-
-      rolls.dice[0].results = rolls.dice[0].results.concat(pRolls);
-    }
-
-    const attackMsgData = {
-      user: game.user.id,
-      speaker: {
-        actor: actor?.id || null,
-        token: actor?.token?.id || null,
-        alias: actor?.name || null,
-      },
-      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-      rolls:[rolls],
-      content: await renderTemplate('systems/knight/templates/dices/wpn.html', pAttack),
-      sound: CONFIG.sounds.dice
-    };
-
-    const rMode = game.settings.get("core", "rollMode");
-    const msgData = ChatMessage.applyRollMode(attackMsgData, rMode);
-
-    await ChatMessage.create(msgData, {
-      rollMode:rMode
-    });
-
-    const six = listAllE.regularite ? execAtt.getSix() : 0;
-
-    return {
-      regularite:six*3
-    };
-  }*/
-
-  /*async _doDgts(actor, dataWpn, wpnType, listAllEffets, regularite=0, addNum='') {
-    const isPNJ = this.data?.pnj || false
-    const style = isPNJ ? {raw:''} : this.data.style;
-
-    //DEGATS
-    const tenebricide = this.data.tenebricide;
-    const bourreau = listAllEffets.bourreau;
-    const bourreauValue = listAllEffets.bourreauValue;
-
-    const dgtsDice = dataWpn?.degats?.dice || 0;
-    const dgtsFixe = dataWpn?.degats?.fixe || 0;
-
-    let diceDgts = +dgtsDice;
-    let bonusDgts = +dgtsFixe;
-    diceDgts += +listAllEffets.degats.totalDice;
-    bonusDgts += +listAllEffets.degats.totalBonus;
-    diceDgts += +this.data.degatsBonus.dice;
-    bonusDgts += +this.data.degatsBonus.fixe;
-
-    if(style.raw === 'akimbo') {
-      diceDgts += diceDgts;
-    }
-
-    bonusDgts += regularite;
-    diceDgts += listAllEffets.degatsModules.dice;
-    bonusDgts += listAllEffets.degatsModules.fixe;
-
-    const labelDgt = `${this.data.label} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}${addNum}`;
-    const totalDiceDgt = tenebricide === true ? Math.floor(diceDgts/2) : diceDgts;
-
-    const totalDgt = `${Math.max(totalDiceDgt, 0)}d6+${bonusDgts}`;
-
-    const execDgt = new game.knight.RollKnight(`${totalDgt}`, actor.system);
-    execDgt._success = false;
-    execDgt._hasMin = bourreau ? true : false;
-
-    if(bourreau) {
-      execDgt._seuil = bourreauValue;
-      execDgt._min = 4;
-    }
-
-    await execDgt.evaluate(listAllEffets.degats.minMax);
-
-    let effets = listAllEffets;
-
-    if(effets.regularite) {
-      const regulariteIndex = effets.degats.include.findIndex(str => { if(str.name.includes(game.i18n.localize(CONFIG.KNIGHT.effets['regularite'].label))) return true; });
-      effets.degats.include[regulariteIndex].name = `+${regularite} ${effets.degats.include[regulariteIndex].name}`;
-
-      effets.degats.include.sort(SortByName);
-    }
-
-    let sub = effets.degats.list;
-    let include = effets.degats.include;
-
-    if(sub.length > 0) { sub.sort(SortByName); }
-    if(include.length > 0) { include.sort(SortByName); }
-
-    const rMode = game.settings.get("core", "rollMode");
-
-    const pDegats = {
-      flavor:labelDgt,
-      main:{
-        total:execDgt._total,
-        tooltip:await execDgt.getTooltip(),
-        formula: execDgt._formula
-      },
-      sub:sub,
-      include:include
-    };
-
-    const dgtsMsgData = {
-      user: game.user.id,
-      speaker: {
-        actor: actor?.id || null,
-        token: actor?.token?.id || null,
-        alias: actor?.name || null,
-      },
-      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-      rolls:[execDgt].concat(listAllEffets.rollDgts),
-      content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegats),
-      sound: CONFIG.sounds.dice
-    };
-
-    const msgData = ChatMessage.applyRollMode(dgtsMsgData, rMode);
-
-    await ChatMessage.create(msgData, {
-      rollMode:rMode
-    });
-  }*/
-
-  /*async _doViolence(actor, dataWpn, wpnType, listAllEffets, bViolence=0, addNum='') {
-    const isPNJ = this.data?.pnj || false
-    const style = isPNJ ? {raw:''} : this.data.style;
-
-    //VIOLENCE
-    const tenebricide = this.data.tenebricide;
-    const devastation = listAllEffets.devastation;
-    const devastationValue = listAllEffets.devastationValue;
-
-    const violenceDice = dataWpn?.violence?.dice || 0;
-    const violenceFixe = dataWpn?.violence?.fixe || 0;
-
-    let diceViolence = +violenceDice;
-    let bonusViolence = +violenceFixe;
-    diceViolence += +listAllEffets.violence.totalDice;
-    bonusViolence += +listAllEffets.violence.totalBonus;
-    diceViolence += +this.data.violenceBonus.dice;
-    bonusViolence += +this.data.violenceBonus.fixe;
-
-    diceViolence += listAllEffets.violenceModules.dice;
-    bonusViolence += listAllEffets.violenceModules.fixe;
-
-    if((actor.type !== 'knight' && actor.type !== 'pnj' && actor.type !== 'mechaarmure' && actor.type !== 'vehicule' && diceViolence === 0 && bonusViolence === 0)) {}
-    else {
-      if(style.raw === 'akimbo') {
-        diceViolence += Math.ceil(diceViolence/2);
-      }
-
-      bonusViolence += bViolence;
-
-      const labelViolence = `${this.data.label} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}${addNum}`;
-      const totalDiceViolence = tenebricide === true ? Math.floor(diceViolence/2) : diceViolence;
-
-      const totalViolence = `${Math.max(totalDiceViolence, 0)}d6+${bonusViolence}`;
-
-      const execViolence = new game.knight.RollKnight(`${totalViolence}`, actor.system);
-      execViolence._success = false;
-      execViolence._hasMin = devastation ? true : false;
-
-      if(devastation) {
-        execViolence._seuil = devastationValue;
-        execViolence._min = 5;
-      }
-
-      await execViolence.evaluate(listAllEffets.violence.minMax);
-
-      let sub = listAllEffets.violence.list;
-      let include = listAllEffets.violence.include;
-
-      if(sub.length > 0) { sub.sort(SortByName); }
-      if(include.length > 0) { include.sort(SortByName); }
-
-      const pViolence = {
-        flavor:labelViolence,
-        main:{
-          total:execViolence._total,
-          tooltip:await execViolence.getTooltip(),
-          formula: execViolence._formula
-        },
-        sub:sub,
-        include:include
-      };
-
-      const violenceMsgData = {
-        user: game.user.id,
-        speaker: {
-          actor: actor?.id || null,
-          token: actor?.token?.id || null,
-          alias: actor?.name || null,
-        },
-        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-        rolls:[execViolence].concat(listAllEffets.rollViol),
-        content: await renderTemplate('systems/knight/templates/dices/wpn.html', pViolence),
-        sound: CONFIG.sounds.dice
-      };
-
-      const rMode = game.settings.get("core", "rollMode");
-      const msgData = ChatMessage.applyRollMode(violenceMsgData, rMode);
-
-      await ChatMessage.create(msgData, {
-        rollMode:rMode
-      });
-    }
-  }*/
 
   async _getAllEffets(actor, dataWpn, typeWpn, isPNJ = false) {
     const idWpn = this.data?.idWpn || -1;
@@ -2899,6 +3358,8 @@ export class KnightRollDialog extends Application {
         wpn = data.listWpnImprovisees[idWpn][nameWpn].liste[numWpn];
         break;
     }
+
+
 
     return {wpn:wpn, dice:bonusDice, fixe:bonusFixe};
   }

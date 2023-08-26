@@ -12,13 +12,22 @@
     <button type="action" class="recover" data-type="grenades" data-max="{{systemData.combat.grenades.quantity.max}}">{{localize "KNIGHT.RECUPERER.Grenades"}}</button>
 
     {{#each systemData.combat.grenades.liste as | key grenades|}}
-    <div class="line">
+    <div class="line  {{#unless key.custom}}draggable{{/unless}}"
+    data-type="grenade"
+    data-what="{{grenades}}"
+    data-label="{{#if key.custom}}{{key.label}}{{else}}{{getGrenadeName grenades}}{{/if}}">
         {{#if key.custom}}
         <input type="text" name="system.combat.grenades.liste.{{grenades}}.label" value="{{key.label}}"/>
         {{else}}
         <span class="label">{{getGrenadeName grenades}}</span>
         {{/if}}
-        <div class="effets {{#if key.custom}}paddingLeft paddingBottom{{/if}}">
+        <div class="effets {{#if key.custom}}paddingLeft paddingBottom draggable{{/if}}"
+        {{#if key.custom}}
+        data-type="grenade"
+        data-what="{{grenades}}"
+        data-label="{{key.label}}"
+        {{/if}}
+        >
             {{#if key.custom}}
                 <a class="delete" data-type="grenade" data-id="{{grenades}}"><i class="fas fa-trash"></i></a>
             {{/if}}
@@ -36,7 +45,12 @@
             {{/if}}
         </div>
 
-        <div class="blockRoll">
+        <div class="blockRoll {{#if key.custom}}draggable{{/if}}"
+        {{#if key.custom}}
+        data-type="grenade"
+        data-what="{{grenades}}"
+        data-label="{{key.label}}"
+        {{/if}}>
             <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn" data-name="{{grenades}}" data-id="" data-isDistance="grenades" data-num="" />
         </div>
     </div>

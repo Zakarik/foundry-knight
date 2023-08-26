@@ -104,6 +104,26 @@
                     </label>
 
                     <div class="twoLine">
+                        <button type="action" class="button
+                        {{#if key.secondmode.has}}
+                        active noBorderBottom
+                        {{else}}
+                        unactive
+                        {{/if}}
+                        " data-type="secondmode" data-subtype="has" data-value="{{key.secondmode.has}}">{{key.labels.secondmode}}</button>
+                        {{#if key.secondmode.has}}
+                            <select name="system.niveau.details.{{nv}}.secondmode.activation">
+                            {{#select key.secondmode.activation}}
+                                <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
+                                <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
+                                <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
+                                <option value="tourComplet">{{localize "KNIGHT.ACTIVATION.TourComplet"}}</option>
+                            {{/select}}
+                        </select>
+                        {{/if}}
+                    </div>
+
+                    <div class="twoLine">
                         <span>{{localize "KNIGHT.DUREE.Label"}}</span>
                         <button type="action" class="button
                         {{#if key.permanent}}

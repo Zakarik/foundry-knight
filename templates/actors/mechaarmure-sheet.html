@@ -191,7 +191,10 @@
                     <span class="aspectLabel">{{key.value}}</span>
                     <div class="caracteristiques">
                         {{#each key.caracteristiques as | keyCar caracteristique|}}
-                            <div class="line roll" title="{{localize "KNIGHT.JETS.Label"}}" data-caracteristique="{{caracteristique}}">
+                            <div class="line roll draggable" title="{{localize "KNIGHT.JETS.Label"}}"
+                            data-caracteristique="{{caracteristique}}" data-type="caracteristique"
+                            data-label="{{getCarac caracteristique}}" data-what="{{caracteristique}}"
+                            >
                                 <img src="systems/knight/assets/icons/D6Black.svg" class="roll" />
                                 <label class="carac">
                                     <span class="label">{{getCarac caracteristique}}</span>
@@ -212,7 +215,11 @@
         <div class="tab caracteristiques" data-group="primary" data-tab="caracteristiques">
             <div class="main">
                 <div class="mainBlock">
-                    <div class="block">
+                    <div class="block draggable"
+                    data-type="vitesse"
+                    data-modificateur="system.vitesse.value"
+                    data-label="{{localize "KNIGHT.VEHICULE.Vitesse"}}"
+                    >
                         <div class="line">
                             <span class="option {{#unless systemData.vitesse.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="vitesse"></span>
                             <span class="label {{#unless systemData.vitesse.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.VEHICULE.Vitesse"}}</span>
@@ -233,7 +240,10 @@
                         </div>
                     </div>
 
-                    <div class="block">
+                    <div class="block draggable"
+                    data-type="manoeuvrabilite"
+                    data-modificateur="system.manoeuvrabilite.value"
+                    data-label="{{localize "KNIGHT.MECHAARMURE.Manoeuvrabilite"}}">
                         <div class="line">
                             <span class="option {{#unless systemData.manoeuvrabilite.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="manoeuvrabilite"></span>
                             <span class="label {{#unless systemData.manoeuvrabilite.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.VEHICULE.Manoeuvrabilite"}}</span>
@@ -254,7 +264,10 @@
                         </div>
                     </div>
 
-                    <div class="block">
+                    <div class="block draggable"
+                    data-type="puissance"
+                    data-modificateur="system.puissance.value"
+                    data-label="{{localize "KNIGHT.MECHAARMURE.Puissance"}}">
                         <div class="line">
                             <span class="option {{#if systemData.puissance.optionDeploy}} withoutBorder  {{/if}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="puissance"></span>
                             <span class="label">{{localize "KNIGHT.MECHAARMURE.Puissance"}}</span>
@@ -277,7 +290,10 @@
                 </div>
 
                 <div class="mainBlock">
-                    <div class="block">
+                    <div class="block draggable"
+                    data-type="senseurs"
+                    data-modificateur="system.senseurs.value"
+                    data-label="{{localize "KNIGHT.MECHAARMURE.Senseurs"}}">
                         <div class="line">
                             <span class="option {{#unless systemData.senseurs.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="senseurs"></span>
                             <span class="label {{#unless systemData.senseurs.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.MECHAARMURE.Senseurs"}}</span>
@@ -298,7 +314,10 @@
                         </div>
                     </div>
 
-                    <div class="block">
+                    <div class="block draggable"
+                    data-type="systemes"
+                    data-modificateur="system.systemes.value"
+                    data-label="{{localize "KNIGHT.MECHAARMURE.Systemes"}}">
                         <div class="line">
                             <span class="option {{#if systemData.systemes.optionDeploy}} withoutBorder  {{/if}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="systemes"></span>
                             <span class="label">{{localize "KNIGHT.MECHAARMURE.Systemes"}}</span>
@@ -402,7 +421,12 @@
                     </h2>
                     {{#each systemData.combat.armesimprovisees.liste as | kAI armesimprovisees|}}
                         {{#each kAI.liste as | key arme|}}
-                            <div class="wpn" style="display:none;">
+                            <div class="wpn draggable" style="display:none;"
+                            data-type="armesimprovisees"
+                            data-label="{{getAI armesimprovisees arme}}"
+                            data-what="{{arme}}"
+                            data-key="contact"
+                            data-other="{{armesimprovisees}}">
                                 <span class="name">
                                     {{getAI armesimprovisees arme}}
                                 </span>
@@ -439,7 +463,12 @@
                     </h2>
                     {{#each systemData.combat.armesimprovisees.liste as | kAI armesimprovisees|}}
                         {{#each kAI.liste as | key arme|}}
-                            <div class="wpn" style="display:none;">
+                            <div class="wpn draggable" style="display:none;"
+                            data-type="armesimprovisees"
+                            data-label="{{getAI armesimprovisees arme}}"
+                            data-what="{{arme}}"
+                            data-key="distance"
+                            data-other="{{armesimprovisees}}">
                                 <span class="name">
                                     {{getAI armesimprovisees arme}}
                                 </span>

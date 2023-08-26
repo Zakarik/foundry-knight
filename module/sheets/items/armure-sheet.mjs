@@ -299,7 +299,7 @@ export class ArmureSheet extends ItemSheet {
       const value = $(ev.currentTarget).data("value");
       const isSpecial = $(ev.currentTarget).data("special") || false;
       const isDelete = $(ev.currentTarget).data("delete") || false;
-      const listEvo = this.getData().data.system.evolutions.liste;
+      const listEvo = this.item.system.evolutions.liste;
 
       let result = false;
       let capOrSpe = "capacites";

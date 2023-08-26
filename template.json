@@ -450,11 +450,6 @@
       "blason":"",
       "histoire": "",
       "wear":"tenueCivile",
-      "MATabs":{
-        "MAarmure":true,
-        "MAmodule":false,
-        "MAia":false
-      },
       "jauges":{
         "armure":false,
         "champDeForce":false,
@@ -3908,7 +3903,13 @@
               "description":"",
               "activation":"deplacement",
               "energie":5,
-              "duree":""
+              "duree":"",
+              "niveau2":{
+                "acces":false,
+                "activation":"aucune",
+                "energie":8,
+                "duree":""
+              }
             },
             "etirement":{
               "description":"",
@@ -3990,6 +3991,7 @@
               "vol":130,
               "phase":115,
               "phaseDuree":50,
+              "phaseDuree2":50,
               "etirement":130,
               "etirementPortee":50,
               "polymorphie":205
@@ -4089,6 +4091,7 @@
                 "vol":130,
                 "phase":115,
                 "phaseDuree":50,
+                "phaseDuree2":50,
                 "etirement":130,
                 "etirementPortee":50,
                 "polymorphie":205
@@ -5493,11 +5496,35 @@
       },
       "degats":{
         "dice":0,
-        "fixe":0
+        "fixe":0,
+        "variable":{
+          "has":false,
+          "min":{
+            "dice":0,
+            "fixe":0
+          },
+          "max":{
+            "dice":0,
+            "fixe":0
+          },
+          "cout":0
+        }
       },
       "violence":{
         "dice":0,
-        "fixe":0
+        "fixe":0,
+        "variable":{
+          "has":false,
+          "min":{
+            "dice":0,
+            "fixe":0
+          },
+          "max":{
+            "dice":0,
+            "fixe":0
+          },
+          "cout":0
+        }
       },
       "effets":{
         "liste":[],
@@ -5830,6 +5857,10 @@
             "portee":"personnelle",
             "listes":{},
             "labels":{},
+            "secondmode":{
+              "has":false,
+              "activation":"aucune"
+            },
             "aspects":{
               "chair":{
                 "liste":{

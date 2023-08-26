@@ -1579,8 +1579,10 @@
               },
               "PHASE":{
                 "Label":"Phase",
+                "Label2":"Phase (Niveau 2)",
                 "Description":"Le chevalier peut passer au travers de la matière lorsqu’il active le mode. Il bénéficie des effets du module de phase au niveau 1 et, contrairement au vol en nuée, il doit dépenser l’énergie requise pour l’utilisation du module. Il peut activer la phase pour une action de déplacement et la désactiver gratuitement.",
-                "Duree":"1 action pour 50 centimètres de matière"
+                "Duree":"1 action pour 50 centimètres de matière",
+                "Niveau2":"Possède un niveau 2"
               },
               "ETIREMENT":{
                 "Label":"Étirement",
@@ -1895,6 +1897,10 @@
         "QuelNiveau":"L'Ajouter à quel niveau ?",
         "NombreNiveau":"Nombre de niveaux",
         "DepenseSupplementaire":"Dépense d'énergie supplémentaire",
+        "SECONDMODE":{
+          "Has":"Possède un second mode d'activation",
+          "Hasnt":"Ne possède pas de second mode d'activation"
+        },
         "ARME":{
           "Label":"Arme",
           "Has":"Est une arme",
@@ -2057,6 +2063,14 @@
       "ARME":{
         "Nom":"Nom de l'arme",
         "TypeArme":"Type d'arme",
+        "DEGATS":{
+          "Variable":"Dégâts variable",
+          "NoVariable":"Dégâts invariable"
+        },
+        "VIOLENCE":{
+          "Variable":"Violence variable",
+          "NoVariable":"Violence invariable"
+        },
         "TOURELLE":{
           "Has":"Arme montée en tourelle automatique",
           "Hasnt":"Arme non montée en tourelle automatique"
@@ -2072,7 +2086,8 @@
           "Has":"Possède plusieurs munitions possibles",
           "Hasnt":"Ne possède qu'un seul type de munition",
           "Combiens":"Combiens ?"
-        }
+        },
+        "CoutAugmentation":"Energie par augmentation"
       },
       "CAPACITES":{
         "ASPECT":{

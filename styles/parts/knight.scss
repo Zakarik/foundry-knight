@@ -1435,26 +1435,63 @@
         @include header();
 
         section {
-          &.buttonTabs {
-            display: flex;
+          &.tabArmure {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-gap: 5px;
             width: 100%;
             position: relative;
-            justify-content: space-around;
-            margin-bottom:5px;
 
-            a {
-              font-variant: small-caps;
-              display: block;
-              text-align: center;
-              width: 200px;
-              color: white;
-              cursor: pointer;
-              border: 2px solid $lightBlack;
+            nav.armorTabs {
               position: relative;
-              line-height: 28px;
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
 
-              &.active {
-                background:$lightBlack;
+              a {
+                &.item {
+                  font-variant: small-caps;
+                  display: block;
+                  text-align: center;
+                  width: 200px;
+                  color: $white;
+                  cursor: pointer;
+                  border: 2px solid $lightBlack;
+                  position: relative;
+                  line-height: 28px;
+                  margin-left: auto;
+                  margin-right: auto;
+
+                  &.active {
+                    background:$lightBlack;
+                  }
+                }
+              }
+
+              div {
+                &.blockArmure {
+                  width:200px;
+                  position: relative;
+                  margin-left: auto;
+                  margin-right: auto;
+
+                  a {
+                    &.item {
+                      width:100%;
+                    }
+
+                    &.item-edit {
+                      position:absolute;
+                      left: 5px;
+                      top: 8px;
+                    }
+
+                    &.item-delete {
+                      position:absolute;
+                      right:5px;
+                      top: 8px;
+                    }
+                  }
+                }
               }
             }
           }

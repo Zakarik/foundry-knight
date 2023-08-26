@@ -1,5 +1,7 @@
 import {
   getDefaultImg,
+  existEffect,
+  updateEffect,
 } from "../helpers/common.mjs";
 
 /**
@@ -27,6 +29,101 @@ export class KnightActor extends Actor {
     // prepareBaseData(), prepareEmbeddedDocuments() (including active effects),
     // prepareDerivedData().
     super.prepareData();
+
+    const version = game.version.split('.')[0];
+    let effectStatus;
+    let listEffect;
+
+    if(window.EffectCounter !== undefined) {
+      if(version < 11) {
+        listEffect = this.getEmbeddedCollection('ActiveEffect').filter(e => e?.flags?.core?.statusId ?? undefined !== undefined);
+
+        for(let eff of listEffect) {
+          let statusId = eff.flags.core.statusId;
+          let label = game.i18n.localize(CONFIG.statusEffects.find(se => se.id === statusId).label);
+          let effect = existEffect(listEffect, label);
+          let hasCounter = foundry.utils.getProperty(effect, "flags.statuscounter.counter");
+          if(hasCounter !== undefined) {
+            let effectCounter = hasCounter.value;
+            let changes = [];
+
+            switch(statusId) {
+              case 'lumiere':
+              case 'barrage':
+                let keys = [`system.defense.malusValue`, `system.reaction.malusValue`]
+
+                for(let k of keys) {
+                  let v = effect.changes.find(v => v.key === k)?.value ?? undefined;
+
+                  if(v !== undefined) {
+                    if(Number(v) !== effectCounter) {
+                      changes.push({
+                        key: k,
+                        mode: 2,
+                        priority: 4,
+                        value: effectCounter
+                      });
+                    }
+                  }
+                }
+                break;
+            }
+
+            if(changes.length > 0) {
+              updateEffect(this, [{
+                "_id":effect._id,
+                changes:changes
+              }]);
+            }
+          }
+
+        }
+      }  else {
+        effectStatus = foundry.utils.getProperty(this, "statuses");
+        listEffect = this.getEmbeddedCollection('ActiveEffect');
+
+        for(let eff of effectStatus) {
+          let label = game.i18n.localize(CONFIG.statusEffects.find(se => se.id === eff).label);
+          let effect = existEffect(listEffect, label);
+          let hasCounter = foundry.utils.getProperty(effect, "flags.statuscounter.counter");
+          if(hasCounter !== undefined) {
+            let effectCounter = hasCounter.value;
+            let changes = [];
+
+            switch(eff) {
+              case 'lumiere':
+              case 'barrage':
+                let keys = [`system.defense.malusValue`, `system.reaction.malusValue`]
+
+                for(let k of keys) {
+                  let v = effect.changes.find(v => v.key === k)?.value ?? undefined;
+
+                  if(v !== undefined) {
+                    if(Number(v) !== effectCounter) {
+                      changes.push({
+                        key: k,
+                        mode: 2,
+                        priority: 4,
+                        value: effectCounter
+                      });
+                    }
+                  }
+                }
+                break;
+            }
+
+            if(changes.length > 0) {
+              updateEffect(this, [{
+                "_id":effect._id,
+                changes:changes
+              }]);
+            }
+          }
+
+        }
+      }
+
+    }
   }
 
   prepareDerivedData() {
@@ -840,10 +937,10 @@ export class KnightActor extends Actor {
       const actor = game.actors.get(id);
 
       if(actor?.system !== undefined) {
-        const defenseBonus = data.defense?.bonus.user || 0;
-        const defenseMalus = data.defense?.malus.user || 0;
-        const reactonBonus = data.reaction?.bonus.user || 0;
-        const reactonMalus = data.reaction?.malus.user || 0;
+        const defenseBonus = actor.system.defense?.bonus.user || 0;
+        const defenseMalus = actor.system.defense?.malus.user || 0;
+        const reactonBonus = actor.system.reaction?.bonus.user || 0;
+        const reactonMalus = actor.system.reaction?.malus.user || 0;
         const manoeuvrabilite = data.manoeuvrabilite || 0;
         const initiative = actor.system.initiative;
 

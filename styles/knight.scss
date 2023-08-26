@@ -3,6 +3,17 @@ $logos:
 "2",
 "3";
 
+$imgs:
+"combat",
+"scenes",
+"actors",
+"items",
+"journal",
+"tables",
+"cards",
+"playlists",
+"compendium";
+
 @import "parts/functions";
 @import "parts/base";
 @import "parts/dialogs/roll";
@@ -245,4 +256,18 @@ $logos:
 li.chat-message {
   background: $lightGrey;
   box-shadow: 1px 1px 6px $black;
+}
+
+
+@each $img in $imgs {
+  section##{$img} {
+      >header:first-of-type:before {
+          content:"";
+          background:url("../assets/banners/#{$img}.webp");
+          height: 53px;
+          display: block;
+          width: 100%;
+          background-size: contain;
+      }
+  }
 }

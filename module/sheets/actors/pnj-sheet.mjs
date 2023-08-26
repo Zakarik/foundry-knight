@@ -15,6 +15,7 @@ import {
   options,
   commonPNJ,
   hideShowLimited,
+  dragMacro,
 } from "../../helpers/common.mjs";
 
 import {
@@ -87,6 +88,7 @@ export class PNJSheet extends ActorSheet {
       width: 900,
       height: 780,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".body", initial: "description"}],
+      dragDrop: [{dragSelector: [".draggable", ".item-list .item"], dropSelector: null}],
     });
   }
 
@@ -109,10 +111,7 @@ export class PNJSheet extends ActorSheet {
 
     context.systemData = context.data.system;
 
-
     actualiseRoll(this.actor);
-
-    console.warn(context);
 
     return context;
   }
@@ -3705,5 +3704,33 @@ export class PNJSheet extends ActorSheet {
         }
       }
     }
+  }
+
+  /** @inheritdoc */
+  _onDragStart(event) {
+    const li = event.currentTarget;
+    if ( event.target.classList.contains("content-link") ) return;
+
+    // Create drag data
+    let dragData;
+
+    // Owned Items
+    if ( li.dataset.itemId ) {
+      const item = this.actor.items.get(li.dataset.itemId);
+      dragData = item.toDragData();
+    }
+
+    // Active Effect
+    if ( li.dataset.effectId ) {
+      const effect = this.actor.effects.get(li.dataset.effectId);
+      dragData = effect.toDragData();
+    }
+
+    dragData = dragMacro(dragData, li, this.actor);
+
+    if ( !dragData ) return;
+
+    // Set data transfer
+    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
   }
 }

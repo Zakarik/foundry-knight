@@ -1,3 +1,18 @@
+## v3.21.0
+### Améliorations
+- Ajout de Connecté et Munitions à Hyper-Vélocité pour la prise en compte de l'assistance à l'attaque.
+- Amélioration du visuel de la fenêtre du lancé de dé.
+- Ajout de la possibilité de créer des macros par glisser-déposer de tous les jets d'armes, grenades, nods, caractéristique et aspect.
+- Ajout d'en-tête thématiques au-dessus des menus de droite (sauf paramètres et tchat).
+- Ajout de la possibilité d'avoir des armes ayant des dégâts et de la violence variable.
+- Ajout de la possibilité de mettre un autre mode d'activation pour les modules, dans le cas de modules particuliers tel que le module de Phase.
+- Ajout de la possibilité de mettre un second coût pour le mode Morph de la sorcerer, dans le cadre de la Phase. A partir d'un certains niveau, celle-ci dispose de deux modes d'activations différents pour le module de phase. C'est à présent possible d'y rentrer.
+
+### Bugfix
+- Correction de différents bugs mineurs.
+- Correction dans le calcul des dégâts et la violence en Akimbo.
+- Correction d'un bug entraînant un message d'erreur (sans conséquence) lors de l'utilisation avec Status Icon Counter.
+
 ## v3.20.1
 ### Bugfix
 - Correction d'un bug rare pouvant empêcher le chargement d'une page.
