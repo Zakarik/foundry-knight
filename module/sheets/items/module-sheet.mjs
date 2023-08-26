@@ -596,6 +596,7 @@ export class ModuleSheet extends ItemSheet {
       data.label = niv.substring(2, 1);
 
       const duree = data.permanent;
+      const secondmode = data?.secondmode?.has ?? false;
       const bonus = data?.bonus?.has || false;
       const pnj = data.pnj;
       const sante = data?.bonus?.sante?.has || false;
@@ -639,6 +640,9 @@ export class ModuleSheet extends ItemSheet {
       const jSimple = jetSimple.has;
 
       const eHas = effets?.has || false;
+
+      if(secondmode) { data.labels.secondmode = game.i18n.localize("KNIGHT.ITEMS.MODULE.SECONDMODE.Has"); }
+      else { data.labels.secondmode = game.i18n.localize("KNIGHT.ITEMS.MODULE.SECONDMODE.Hasnt"); }
 
       if(duree) { data.labels.duree = game.i18n.localize("KNIGHT.ITEMS.MODULE.DUREE.Permanent"); }
       else { data.labels.duree = game.i18n.localize("KNIGHT.ITEMS.MODULE.DUREE.NotPermanent"); }

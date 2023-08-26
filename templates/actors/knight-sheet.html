@@ -173,7 +173,7 @@
                     <span class="label">{{localize "KNIGHT.MALUS.Label"}}</span>
                     <input type="number" name="system.espoir.malus.user" min="0" value="{{systemData.espoir.malus.user}}" />
                 </div>
-                <button type="action" class="jetEspoir">{{localize "KNIGHT.JETS.JetEspoir"}}</button>
+                <button type="action" class="jetEspoir draggable" data-label="{{localize "KNIGHT.JETS.JetEspoir"}}" data-type="espoir" data-what="hargne" data-other="sangFroid">{{localize "KNIGHT.JETS.JetEspoir"}}</button>
             </div>
             {{/if}}
 
@@ -532,7 +532,10 @@
                     <span class="aspectLabel">{{key.value}}</span>
                     <div class="caracteristiques">
                         {{#each key.caracteristiques as | keyCar caracteristique|}}
-                            <div class="line roll" title="{{localize "KNIGHT.JETS.Label"}}" data-caracteristique="{{caracteristique}}">
+                            <div class="line roll draggable" title="{{localize "KNIGHT.JETS.Label"}}"
+                            data-caracteristique="{{caracteristique}}" data-type="caracteristique"
+                            data-label="{{getCarac caracteristique}}" data-what="{{caracteristique}}"
+                            >
                                 <img src="systems/knight/assets/icons/D6Black.svg" />
                                 <label class="carac">
                                     <span class="label">{{getCarac caracteristique}}</span>
@@ -661,14 +664,20 @@
         </div>
 
         <div class="tab armure" data-group="primary" data-tab="armure">
-            <section class="buttonTabs">
-                <a {{#if systemData.MATabs.MAarmure}}style="background:RGB(076 074 090)"{{/if}} data-tab="MAarmure">{{localize "KNIGHT.ARMURE.Label"}}</a>
-                <a {{#if systemData.MATabs.MAmodule}}style="background:RGB(076 074 090)"{{/if}} data-tab="MAmodule">{{localize "KNIGHT.ITEMS.MODULE.Label"}}</a>
-                <a {{#if systemData.MATabs.MAia}}style="background:RGB(076 074 090)"{{/if}} data-tab="MAia">{{localize "KNIGHT.IA.Label"}}</a>
-            </section>
-
             <section class="tabArmure">
-                <div class="tab-armure MAarmure {{#if systemData.MATabs.MAarmure}}active{{/if}}">
+                <nav class="armorTabs" data-group="secondary">
+                    <div class="blockArmure summary" data-item-id="{{actor.armureData._id}}">
+                        <a data-tab="capacites" class="item">
+                            {{localize "KNIGHT.ARMURE.Label"}}
+                        </a>
+                        <a class="item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                        <a class="item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                    </div>
+
+                    <a data-tab="modules" class="item">{{localize "KNIGHT.ITEMS.MODULE.Label"}}</a>
+                    <a data-tab="ia" class="item">{{localize "KNIGHT.IA.Label"}}</a>
+                </nav>
+                <div class="tab-armure MAarmure" data-group="secondary" data-tab="capacites">
                     <div class="capacites">
                         <h2 class="header js-toggler">
                             <i class="far fa-minus-square"></i>
@@ -882,7 +891,7 @@
                     </div>
                 </div>
 
-                <div class="tab-armure MAmodule {{#if systemData.MATabs.MAmodule}}active{{/if}}">
+                <div class="tab-armure MAmodule" data-group="secondary" data-tab="modules">
                     <div class="slots">
                         <h2 class="header js-toggler">
                             <i class="far fa-minus-square"></i>
@@ -948,7 +957,7 @@
                     </div>
                 </div>
 
-                <div class="tab-armure MAia {{#if systemData.MATabs.MAia}}active{{/if}}">
+                <div class="tab-armure MAia" data-group="secondary" data-tab="ia">
                     <div class="ia">
                         <div class="col">
                             <div class="data">
@@ -1074,7 +1083,6 @@
                     {{/if}}
                 </div>
 
-
                 {{#unless actor.cannotUseDistance}}
                 <div class="armesDistance">
                     <div class="block item-list">
@@ -1132,7 +1140,13 @@
                                 {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.ODForce"}} : {{kAI.force}}
                             </h3>
                             {{#each kAI.liste as | key arme|}}
-                                <div class="wpn" style="display:none;">
+                                <div class="wpn draggable" style="display:none;"
+                                data-type="armesimprovisees"
+                                data-label="{{getAI armesimprovisees arme}}"
+                                data-what="{{arme}}"
+                                data-key="contact"
+                                data-other="{{armesimprovisees}}"
+                                >
                                     <span class="name">
                                         {{getAI armesimprovisees arme}}
                                     </span>
@@ -1175,7 +1189,12 @@
                                 {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.ODForce"}} : {{kAI.force}}
                             </h3>
                             {{#each kAI.liste as | key arme|}}
-                                <div class="wpn" style="display:none;">
+                                <div class="wpn draggable" style="display:none;"
+                                data-type="armesimprovisees"
+                                data-label="{{getAI armesimprovisees arme}}"
+                                data-what="{{arme}}"
+                                data-key="distance"
+                                data-other="{{armesimprovisees}}">
                                     <span class="name">
                                         {{getAI armesimprovisees arme}}
                                     </span>
@@ -1257,9 +1276,15 @@
                                 <input type="number" name="system.combat.nods.{{nods}}.max" value="{{key.max}}" />
                             </div>
                             <div class="blockRoll">
-                                <img src="systems/knight/assets/icons/D6Black.svg" title='{{localize "KNIGHT.COMBAT.NODS.SoiMeme"}}' class="dice"
+                                <img src="systems/knight/assets/icons/D6Black.svg" title='{{localize "KNIGHT.COMBAT.NODS.SoiMeme"}}' class="dice draggable"
+                                    data-label="{{getNodsName nods}}"
+                                    data-type="nods"
+                                    data-key="self"
                                     data-nods="{{nods}}" data-number="{{key.value}}" />
-                                <img src="systems/knight/assets/icons/D6TargetBlack.svg" title='{{localize "KNIGHT.COMBAT.NODS.Autrui"}}' class="diceTarget"
+                                <img src="systems/knight/assets/icons/D6TargetBlack.svg" title='{{localize "KNIGHT.COMBAT.NODS.Autrui"}}' class="diceTarget draggable"
+                                    data-label="{{getNodsName nods}}"
+                                    data-type="nods"
+                                    data-key="target"
                                     data-nods="{{nods}}" data-number="{{key.value}}" />
                             </div>
                         </div>

@@ -57,6 +57,8 @@ import {
 import {
   doDgts,
   doViolence,
+  dialogRollWId,
+  directRoll,
 } from "./helpers/dialogRoll.mjs";
 
 /* -------------------------------------------- */
@@ -87,6 +89,8 @@ Hooks.once('init', async function() {
       GmInitiative,
       GmMonitor
     },
+    dialogRollWId,
+    directRoll,
     RollKnight,
     migrations: MigrationKnight
   };
@@ -361,72 +365,12 @@ Hooks.once("ready", async function() {
   $("div#interface").removeClass(listLogo);
   $("div#interface").addClass(whatLogo);
 
-  //Hooks.on("hotbarDrop", (bar, data, slot) => createMacro(data, slot));
+  Hooks.on("hotbarDrop", (bar, data, slot) => createMacro(data, slot));
 });
-
-
 
 Hooks.once("ready", HooksKnight.ready);
 Hooks.on('deleteItem', doc => toggler.clearForId(doc.id));
 Hooks.on('deleteActor', doc => toggler.clearForId(doc.id));
-
-Hooks.on("updateActiveEffect", function(effect, effectData, diffData, options, userId) {
-  let effectCounter = foundry.utils.getProperty(effectData, "flags.statuscounter.counter");
-  if (effectCounter) {
-    const version = game.version.split('.')[0];
-    const changes = [];
-    let effectStatus = "";
-
-    if(version < 11) {
-      effectStatus = foundry.utils.getProperty(effect, "flags.core.statusId");
-
-      switch(effectStatus) {
-        case 'lumiere':
-        case 'barrage':
-          changes.push({
-            key: `system.defense.malusValue`,
-            mode: 2,
-            priority: 4,
-            value: Number(effectCounter.value)
-          },
-          {
-            key: `system.reaction.malusValue`,
-            mode: 2,
-            priority: 4,
-            value: Number(effectCounter.value)
-          });
-          break;
-      }
-    } else {
-      effectStatus = foundry.utils.getProperty(effect, "statuses");
-
-      for(let eff of effectStatus) {
-        switch(eff) {
-          case 'lumiere':
-          case 'barrage':
-            changes.push({
-              key: `system.defense.malusValue`,
-              mode: 2,
-              priority: 4,
-              value: Number(effectCounter.value)
-            },
-            {
-              key: `system.reaction.malusValue`,
-              mode: 2,
-              priority: 4,
-              value: Number(effectCounter.value)
-            });
-            break;
-        }
-      }
-    }
-
-    updateEffect(effect.parent, [{
-      "_id":effect._id,
-      changes:changes
-    }]);
-  }
-});
 
 Hooks.on('renderChatMessage', (message, html, data) => {
   const user = data.user;
@@ -446,12 +390,16 @@ Hooks.on('renderChatMessage', (message, html, data) => {
       const data = target.data('all');
       const regularite = Number(target.data('regularite'));
       const assAtk = target?.data('assatk') ?? undefined;
+      const connectee = target?.data('connectee') ?? undefined;
+      const hyperVelocite = target?.data('hypervelocite') ?? undefined;
 
       let dataToAdd = {
         regularite:regularite
       };
 
       if(assAtk !== undefined) dataToAdd.assAtk = assAtk;
+      if(connectee !== undefined) dataToAdd.connectee = connectee;
+      if(hyperVelocite !== undefined) dataToAdd.hyperVelocite = hyperVelocite;
 
       const allData = foundry.utils.mergeObject(data, dataToAdd);
 
@@ -463,9 +411,13 @@ Hooks.on('renderChatMessage', (message, html, data) => {
         const target = $(ev.currentTarget);
         const data = target.data('all');
         const assAtk = target?.data('assatk') ?? undefined;
+        const connectee = target?.data('connectee') ?? undefined;
+        const hyperVelocite = target?.data('hypervelocite') ?? undefined;
         let dataToAdd = {};
 
         if(assAtk !== undefined) dataToAdd.assAtk = assAtk;
+        if(connectee !== undefined) dataToAdd.connectee = connectee;
+        if(hyperVelocite !== undefined) dataToAdd.hyperVelocite = hyperVelocite;
 
         const allData = foundry.utils.mergeObject(data, dataToAdd);
 
@@ -475,7 +427,64 @@ Hooks.on('renderChatMessage', (message, html, data) => {
 
 });
 
+async function createMacro(data, slot) {
+  if(foundry.utils.isEmpty(data)) return;
+  // Create the macro command
+  const type = data.type;
+  const what = data?.what ?? "";
+  const other = data?.other ?? "";
+  const label = data.label;
+  const actorId = data.actorId;
+  const sceneId = data?.sceneId ?? null;
+  const tokenId = data?.tokenId ?? null;
+  const img = data?.img ?? "systems/knight/assets/icons/D6Black.svg";
+  const idWpn = data?.idWpn ?? "";
+  const mod = data?.mod ?? 0;
+  let command;
+  let dataRoll = "";
+  let bonusToAdd = "";
+  let otherData = "";
+  let directRoll = false;
 
+  if(type === "wpn" || type === 'module') {
+    dataRoll = `isWpn:true, idWpn:"${idWpn}"`;
+  } else if(type === 'grenade') {
+    dataRoll = `isWpn:true, idWpn:"", nameWpn:"${what}", num:"", typeWpn:"grenades"`
+  } else if(type === 'longbow') {
+    dataRoll = `isWpn:true, idWpn:"-1", nameWpn:"${what}", num:"", typeWpn:"${what}"`
+  } else if(type === 'cea') {
+    dataRoll = `isWpn:true, idWpn:"${idWpn}", nameWpn:"${what}", typeWpn:"${other}"`;
+  } else if((type === 'special' || type === 'c1' || type === 'c2' || type === 'base') && what === 'mechaarmure') {
+    dataRoll = `isWpn:true, idWpn:"${idWpn}"`;
+    otherData = what;
+  } else if(type === 'armesimprovisees') {
+    dataRoll = `isWpn:true, idWpn:"${idWpn}", num:"${what}", typeWpn:"${type}", nameWpn:"${other}"`
+  } else if(type === 'nods') {
+    directRoll = true;
+    dataRoll = `type:"${type}", target:"${other}", id:"${what}"`;
+
+  } else {
+    if(what !== "") dataRoll += `base:"${what}"`;
+    if(other !== "" && bonusToAdd !== "") bonusToAdd += `, autre:"${other}"`;
+    else if(other !== "") bonusToAdd += `autre:"${other}"`;
+    if(mod !== 0 && bonusToAdd !== "") bonusToAdd += `, modificateur:"${mod}"`;
+    else if(mod !== 0) bonusToAdd += `modificateur:"${mod}"`;
+  }
+
+  if(!directRoll) command = `game.knight.dialogRollWId("${actorId}", "${sceneId}", "${tokenId}", {${dataRoll}}, {${bonusToAdd}}, {type:"${type}", event:event, data:"${otherData}"})`;
+  else command = `game.knight.directRoll("${actorId}", "${sceneId}", "${tokenId}", {${dataRoll}})`;
+
+  let macro = await Macro.create({
+    name: label,
+    type: "script",
+    img: img,
+    command: command,
+    flags: { "knight.attributMacro": true }
+  });
+
+  game.user.assignHotbarMacro(macro, slot);
+  return false;
+}
 /*Hooks.on("renderPause", function () {
   $("#pause.paused figcaption").text('');
 });*/

@@ -10,6 +10,7 @@ import {
   diceHover,
   options,
   hideShowLimited,
+  dragMacro,
 } from "../../helpers/common.mjs";
 
 import {
@@ -62,6 +63,7 @@ export class MechaArmureSheet extends ActorSheet {
       width: 900,
       height: 600,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".body", initial: "mechaarmure"}],
+      dragDrop: [{dragSelector: [".draggable", ".item-list .item"], dropSelector: null}],
     });
   }
 
@@ -282,8 +284,8 @@ export class MechaArmureSheet extends ActorSheet {
       const target = $(ev.currentTarget);
       const key = target.data("key");
       const type = target.data("type");
-      const getData = this.getData();
-      const num = type === 'special' ? getData.actor.wpnSpecial.findIndex(wpn => wpn._id === key) : getData.actor.wpn.findIndex(wpn => wpn._id === key);
+      const getData = this.actor;
+      const num = type === 'special' ? getData.wpnSpecial.findIndex(wpn => wpn._id === key) : getData.wpn.findIndex(wpn => wpn._id === key);
       const label = game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`);
 
       dialogRoll(label, this.actor, {isWpn:true, idWpn:key, nameWpn:label, typeWpn:type, num:num});
@@ -1048,7 +1050,7 @@ export class MechaArmureSheet extends ActorSheet {
       const label = target.data("label") || '';
       const type = target.data("type");
       const caracteristique = target.data("caracteristique") || '';
-      const getData = this.getData();
+      const getData = this.actor;
 
       let bonus = 0;
 
@@ -1058,7 +1060,7 @@ export class MechaArmureSheet extends ActorSheet {
         case 'puissance':
         case 'senseurs':
         case 'systemes':
-          bonus += getData.data.system[type].value;
+          bonus += getData.system[type].value;
           break;
       }
 
@@ -1856,5 +1858,33 @@ export class MechaArmureSheet extends ActorSheet {
     }});
 
     return true;
+  }
+
+  /** @inheritdoc */
+  _onDragStart(event) {
+    const li = event.currentTarget;
+    if ( event.target.classList.contains("content-link") ) return;
+
+    // Create drag data
+    let dragData;
+
+    // Owned Items
+    if ( li.dataset.itemId ) {
+      const item = this.actor.items.get(li.dataset.itemId);
+      dragData = item.toDragData();
+    }
+
+    // Active Effect
+    if ( li.dataset.effectId ) {
+      const effect = this.actor.effects.get(li.dataset.effectId);
+      dragData = effect.toDragData();
+    }
+
+    dragData = dragMacro(dragData, li, this.actor);
+
+    if ( !dragData ) return;
+
+    // Set data transfer
+    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
   }
 }

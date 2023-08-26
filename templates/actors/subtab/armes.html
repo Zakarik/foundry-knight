@@ -1,4 +1,10 @@
-<div class="wpn item {{#if this.equipped}}wpnEquipped{{/if}}" data-item-id="{{this._id}}">
+<div class="wpn item {{#if this.equipped}}wpnEquipped{{/if}} draggable" data-item-id="{{this._id}}"
+data-type="{{#if this.system.isCapacity}}{{this.system.capaciteName}}{{else}}{{#if (isValue this.type 'module')}}module{{else}}wpn{{/if}}{{/if}}" data-num="{{num}}"
+{{#if this.system.isCapacity}}
+data-what="{{this.system.subCapaciteName}}"
+data-other="{{this.system.type}}"
+{{/if}}
+>{{log this}}
     <header class="summary header js-toggler" data-item-id="{{this._id}}">
         <i class="far fa-plus-square extendButton"></i>
         {{#unless this.system.noRack}}

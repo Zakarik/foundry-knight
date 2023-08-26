@@ -63,7 +63,7 @@
 
         &.details {
           display: flex;
-          width: calc(100% - 200px);
+          width: 100%;
           border-top: 5px double $lightBlack;
 
           span {
@@ -96,19 +96,25 @@
         }
 
         &.bonus {
-          display:flex;
+          display:grid;
           flex-wrap: wrap;
-          width:200px;
+          width:100%;
           border-top:5px double $lightBlack;
           border-bottom:1px solid $lightBlack;
+          margin-top: 5px;
+          grid-template-columns: 1fr 1fr 1fr;
+          align-items: flex-start;
+          column-gap: 1px;
 
           label {
             display: flex;
             width:100%;
             justify-content: space-between;
+            border-bottom: 1px solid $black;
 
             span {
               display:inline-block;
+              line-height:32px;
               width:calc(100% - 50px);
               background:$lightBlack;
               line-height: 27px;
@@ -119,30 +125,11 @@
               width:50px;
               text-align: center;
               background:$black;
-              border-left:0px;
-              border-right:1px solid $lightBlack;
-              border-bottom:0px;
-              border-top:0px;
+              border:0px;
               margin:0px;
               padding:0px;
               border-radius: 0px;
-              height:28px;
-            }
-
-            &:not(:first-of-type) {
-              span {
-                border-top:1px solid $black;
-              }
-
-              input {
-                border-top:1px solid $lightBlack;
-              }
-            }
-
-            &:last-of-type {
-              span {
-                border-bottom:1px solid $black;
-              }
+              height:32px;
             }
           }
 
@@ -157,11 +144,12 @@
                 display:inline-block;
                 width:100%;
                 text-align: center;
-                height:30px;
+                height:32px;
                 font-variant: small-caps;
                 font-size:16px;
                 letter-spacing: 1px;
-                line-height: 30px;
+                line-height: 32px;
+                border-left: 0px;
               }
 
               span.info {
@@ -175,7 +163,7 @@
                 border-radius:50%;
                 text-align: center;
                 background:$lightBlack;
-                bottom:3px;
+                bottom:5px;
                 left:5px;
                 cursor:pointer;
 
@@ -196,11 +184,11 @@
                 border: 1px solid black;
                 background: RGB(43 42 51);
                 text-align: justify;
-                right: 200px;
                 z-index: 90;
                 border-radius: 10px;
                 color: $white;
-                padding:2px;
+                padding: 5px;
+                top: 60px;
               }
 
               span.showInfo {
@@ -211,28 +199,28 @@
                 border: 1px solid black;
                 background: RGB(43 42 51);
                 text-align: justify;
-                right: 200px;
                 z-index: 90;
                 border-radius: 10px;
                 color: $white;
-                padding:2px;
+                padding: 5px;
+                top: 60px;
               }
 
               select {
                 width:100%;
+                height:33px;
                 text-align: center;
                 padding-left:13px;
                 border:0px;
                 margin:0px;
                 padding-top:0px;
-                padding-right:0px;
                 padding-bottom:0px;
                 text-align: center;
                 background:$black;
                 color:$white;
                 font-variant: small-caps;
                 border-radius:0px;
-                border-left:1px solid $lightBlack;
+                border-bottom: 1px solid $lightBlack;
 
                 option {
                   background:$black;
@@ -253,18 +241,18 @@
                 display: inline-block;
                 width: 100%;
                 text-align: center;
-                height: 30px;
+                height: 32px;
                 font-variant: small-caps;
                 font-size: 16px;
                 letter-spacing: 1px;
-                line-height: 30px;
+                line-height: 32px;
               }
 
               label {
                 display:flex;
                 width:100%;
                 justify-content: space-between;
-                border-left:1px solid $lightBlack;
+                border-bottom: 1px solid $lightBlack;
 
                 input {
                   width:calc(100% - 12px);
@@ -273,7 +261,7 @@
                   margin:0px;
                   padding:0px;
                   border-radius: 0px;
-                  height:28px;
+                  height:32px;
 
                   &:first-of-type {
                     text-align: right;
@@ -288,7 +276,7 @@
                   display:inline-block;
                   width:24px;
                   background:$black;
-                  line-height: 27px;
+                  line-height: 32px;
                   padding-left:0px;
                   text-align: center;
                 }
@@ -298,6 +286,7 @@
             &.buttons {
               display:none;
               flex-wrap: wrap;
+              grid-template-columns: 1fr 1fr;
 
               button {
                 width:100%;
@@ -306,11 +295,6 @@
                 cursor:pointer;
                 border-radius:0px;
                 margin:0px;
-                border-right:0px;
-
-                &:not(:last-of-type) {
-                  border-bottom:0px;
-                }
 
                 &.selected {
                   background:$blue;
@@ -331,20 +315,19 @@
               flex-wrap: wrap;
               justify-content: space-between;
               width:100%;
-
               border-top:1px solid $lightBlack;
 
-              span,
-              input {
-                border-bottom:0px;
+              label {
+                height:30px;
+                line-height: 30px;
+                border: 0px;
               }
 
               select {
                 display:inline-block;
                 width:100%;
-                height:27px;
-                line-height: 27px;
-                text-align: center;
+                height:33px;
+                line-height: 33px;
                 padding:0px;
                 border:0px;
                 margin:0px;
@@ -355,11 +338,10 @@
                 background:$black;
                 color:$white;
                 font-variant: small-caps;
-                border-left:1px solid $lightBlack;
-                border-right:1px solid $lightBlack;
                 border-radius:0px;
                 padding-left: 13px;
                 border-top:1px solid $lightBlack;
+                border-bottom:1px solid $lightBlack;
 
                 option {
                   background:$black;
@@ -373,12 +355,12 @@
 
               button {
                 width:100%;
+                height:32px;
                 color:$white;
                 background: $lightBlack;
                 cursor:pointer;
                 border-radius:0px;
                 margin:0px;
-                border-right:0px;
 
                 &:not(:last-of-type) {
                   border-bottom:0px;
@@ -614,6 +596,10 @@
               justify-content: space-between;
               min-height:34px;
             }
+          }
+
+          &.fullWpn {
+            width:100%;
           }
         }
 

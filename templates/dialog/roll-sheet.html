@@ -74,15 +74,7 @@
                 {{/select}}
             </select>
         </div>
-
-        <div class="buttons" {{#if (hasStyle 'precis' style.raw)}}{{#if (canUseStyle 'precis' typeWpn idActor idWpn)}}style="display:flex;"{{/if}}{{/if}}>
-            {{#each style.caracteristiques as | key caracteristique|}}
-            <button type="action" data-select="{{key}}" class="{{hasRollStyleSelected @root/style/selected key}}">
-                {{getCarac key}}
-            </button>
-            {{/each}}
-        </div>
-        <div class="pilonnage" {{#if (hasStyle 'pilonnage' style.raw)}}{{#if (canUseStyle 'pilonnage' typeWpn idActor idWpn)}}style="display:flex;"{{/if}}{{/if}}>
+        <div class="pilonnage" {{#if (hasStyle 'pilonnage' style.raw)}}{{#if (canUseStyle 'pilonnage' typeWpn actor._id idWpn)}}style="display:flex;"{{/if}}{{/if}}>
             <label>
                 <span>{{localize "KNIGHT.COMBAT.STYLES.PILONNAGE.Tourspasses"}}</span>
                 <input type="number" value="{{style.tourspasses}}" min="1" />
@@ -94,7 +86,7 @@
             {{/select}}
             </select>
         </div>
-        <div class="puissant" {{#if (hasStyle 'puissant' style.raw)}}{{#if (canUseStyle 'puissant' typeWpn idActor idWpn)}}style="display:flex;"{{/if}}{{/if}}>
+        <div class="puissant" {{#if (hasStyle 'puissant' style.raw)}}{{#if (canUseStyle 'puissant' typeWpn actor._id idWpn)}}style="display:flex;"{{/if}}{{/if}}>
             <label>
                 <span>{{localize "KNIGHT.COMBAT.STYLES.PUISSANT.Sacrifice"}}</span>
                 <input type="number" value="{{style.sacrifice}}" min="0" max="6" />
@@ -106,7 +98,7 @@
             {{/select}}
             </select>
         </div>
-        <div class="puissant" {{#if (hasStyle 'suppression' style.raw)}}{{#if (canUseStyle 'suppression' typeWpn idActor idWpn)}}style="display:flex;"{{/if}}{{/if}}>
+        <div class="puissant" {{#if (hasStyle 'suppression' style.raw)}}{{#if (canUseStyle 'suppression' typeWpn actor._id idWpn)}}style="display:flex;"{{/if}}{{/if}}>
             <label>
                 <span>{{localize "KNIGHT.COMBAT.STYLES.SUPPRESSION.Sacrifice"}}</span>
                 <input type="number" value="{{style.sacrifice}}" min="0" max="{{style.maximum}}" />
@@ -137,22 +129,31 @@
             </label>
         </div>
         {{/if}}
-        {{#unless pnj}}
-        <div class="noOd">
-            <button type="action" data-value="{{noOd}}" class="noOd {{#if noOd}}selected{{/if}}">
-                {{localize "KNIGHT.JETS.NoOd"}}
-            </button>
+        <div class="btn">
+            {{#unless pnj}}
+            <div class="noOd">
+                <button type="action" data-value="{{noOd}}" class="noOd {{#if noOd}}selected{{/if}}">
+                    {{localize "KNIGHT.JETS.NoOd"}}
+                </button>
+            </div>
+            {{/unless}}
+            <div class="noOd">
+                <button type="action" data-value="{{attackSurprise}}" class="attackSurprise {{#if attackSurprise}}selected{{/if}}">
+                    {{localize "KNIGHT.JETS.AttackSurprise"}}
+                </button>
+            </div>
         </div>
-        {{/unless}}
-        <div class="noOd">
-            <button type="action" data-value="{{attackSurprise}}" class="attackSurprise {{#if attackSurprise}}selected{{/if}}">
-                {{localize "KNIGHT.JETS.AttackSurprise"}}
+        <div class="buttons" {{#if (hasStyle 'precis' style.raw)}}{{#if (canUseStyle 'precis' typeWpn actor._id idWpn)}}style="display:grid;"{{/if}}{{/if}}>
+            {{#each style.caracteristiques as | key caracteristique|}}
+            <button type="action" data-select="{{key}}" class="{{hasRollStyleSelected @root/style/selected key}}">
+                {{getCarac key}}
             </button>
+            {{/each}}
         </div>
     </div>
 
     {{#unless (isEmpty listWpnContact)}}
-    <div class="wpn">
+    <div class="wpn {{#if (isEmpty listWpnDistance)}}{{#if (isEmpty listWpnTourelle)}}fullWpn{{/if}}{{/if}} test1">
         <h2 class="header">
             {{#if deploy.wpnContact}}
                 <i class="far fa-minus-square" data-value="true" data-deploy="wpnContact"></i>
@@ -167,7 +168,6 @@
                     {{key.name}}
                 </button>
                 <div class="subButtons" {{#unless (rollSelectWpn key._id key.name key.system.type @root/idWpn @root/nameWpn @root/typeWpn)}}style="display:none;"{{/unless}}>
-
                     <div class="lineParams">
                         {{#if key.system.degats.variable.has}}
                         <label class="params">
@@ -378,7 +378,7 @@
     {{/unless}}
 
     {{#unless (isEmpty listWpnDistance)}}
-    <div class="wpn">
+    <div class="wpn {{#if (isEmpty listWpnContact)}}{{#if (isEmpty listWpnTourelle)}}fullWpn{{/if}}{{/if}} test2">
         <h2 class="header">
             {{#if deploy.wpnDistance}}
                 <i class="far fa-minus-square" data-value="true" data-deploy="wpnDistance"></i>
@@ -626,7 +626,7 @@
     {{/unless}}
 
     {{#unless (isEmpty listWpnTourelle)}}
-    <div class="wpn">
+    <div class="wpn {{#if (isEmpty listWpnContact)}}{{#if (isEmpty listWpnDistance)}}fullWpn{{/if}}{{/if}} test3">
         <h2 class="header">
             {{#if deploy.wpnTourelle}}
                 <i class="far fa-minus-square" data-value="true" data-deploy="wpnTourelle"></i>
@@ -1329,8 +1329,6 @@
         {{/each}}
         {{/unless}}
     {{/if}}
-
-    {{#unless (isEmpty vehicule)}}<div class="wpn borderNone"></div>{{/unless}}
 
     {{#unless (isEmpty listWpnImprovisees.contact)}}
     <div class="wpn armesimprovisees">

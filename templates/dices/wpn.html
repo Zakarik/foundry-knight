@@ -144,10 +144,10 @@
     {{/if}}
 
     {{#if btnDgts}}
-        <button class="btn btnDgts" data-all="{{btnDgts}}" data-regularite="{{regularite}}" {{#if assAtk}}data-assAtk="{{assAtk}}"{{/if}}>{{localize "KNIGHT.AUTRE.Degats"}}</button>
+        <button class="btn btnDgts" data-all="{{btnDgts}}" data-regularite="{{regularite}}" {{#if assAtk}}data-assAtk="{{assAtk}}"{{/if}} {{#if connectee}}data-connectee="{{connectee}}"{{/if}} {{#if hyperVelocite}}data-hypervelocite="{{hyperVelocite}}"{{/if}}>{{localize "KNIGHT.AUTRE.Degats"}}</button>
     {{/if}}
 
     {{#if btnViolence}}
-        <button class="btn btnViolence" data-all="{{btnViolence}}" {{#if assAtk}}data-assAtk="{{assAtk}}"{{/if}}>{{localize "KNIGHT.AUTRE.Violence"}}</button>
+        <button class="btn btnViolence" data-all="{{btnViolence}}" {{#if assAtk}}data-assAtk="{{assAtk}}"{{/if}} {{#if connectee}}data-connectee="{{connectee}}"{{/if}} {{#if hyperVelocite}}data-hypervelocite="{{hyperVelocite}}"{{/if}}>{{localize "KNIGHT.AUTRE.Violence"}}</button>
     {{/if}}
 </div>

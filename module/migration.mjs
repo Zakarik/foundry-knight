@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.20.0";
+    static NEEDED_VERSION = "3.21.0";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -1231,6 +1231,139 @@ Applique les modifications par la mise à jour au Monde.
             update['system.descriptionLimitee'] = "";
         }
 
+        if (options?.force || MigrationKnight.needUpdate("3.21.0")) {
+
+            const system = actor.system;
+
+            if(!system) return update;
+
+            // MISE A JOUR DES ITEMS PORTES
+            for (let item of actor.items) {
+                const updateItem = {};
+
+                if(item.type === 'armure') {
+                    const hasMorph = item.system.capacites.selected?.morph || false;
+
+                    if(hasMorph !== false) {
+                        updateItem[`system.capacites.selected.morph.phase`] = {
+                            "energie":5,
+                            "duree":"Spécial – 1 action pour 50 centimètres de matière"
+                        };
+
+                        updateItem[`system.capacites.selected.morph.phase.niveau2`] = {
+                            "acces":false,
+                            "activation":"aucune",
+                            "energie":8,
+                            "duree":game.i18n.localize("KNIGHT.DUREE.Instantanee")
+                        };
+
+                        updateItem[`system.capacites.selected.morph.textarea`] = {
+                            "phaseDuree2":50
+                        };
+                    }
+
+                    const listeEvolutions = item.system?.evolutions.liste;
+
+                    for (let [key, evo] of Object.entries(listeEvolutions)) {
+                        const eMorph = evo.capacites?.morph || false;
+
+                        if(eMorph !== false) {
+                            updateItem[`system.evolutions.liste.${key}.capacites.morph.phase`] = {
+                                "energie":5,
+                                "duree":"Spécial – 1 action pour 50 centimètres de matière"
+                            };
+
+                            updateItem[`system.evolutions.liste.${key}.capacites.morph.phase.niveau2`] = {
+                                "acces":false,
+                                "activation":"aucune",
+                                "energie":8,
+                                "duree":game.i18n.localize("KNIGHT.DUREE.Instantanee")
+                            };
+
+                            updateItem[`system.evolutions.liste.${key}.capacites.morph.textarea`] = {
+                                "phaseDuree2":50
+                            }
+                        }
+                    }
+
+                    updateItem[`system.capacites.c2038Sorcerer.morph.phase`] = {
+                        "energie":5,
+                        "duree":"Spécial – 1 action pour 50 centimètres de matière"
+                    };
+
+                    updateItem[`system.capacites.c2038Sorcerer.morph.phase.niveau2`] = {
+                        "acces":false,
+                        "activation":"aucune",
+                        "energie":8,
+                        "duree":game.i18n.localize("KNIGHT.DUREE.Instantanee")
+                    };
+
+                    updateItem[`system.capacites.c2038Sorcerer.morph.textarea`] = {
+                        "phaseDuree2":50
+                    };
+
+                    updateItem[`system.capacites.c2038Sorcerer.morph.evolutions`] = {
+                        "phase":{
+                            "energie":5,
+                            "duree":"Spécial – 1 action pour 50 centimètres de matière",
+                            "niveau2":{
+                                "acces":false,
+                                "activation":"aucune",
+                                "energie":8,
+                                "duree":game.i18n.localize("KNIGHT.DUREE.Instantanee")
+                            }
+                        },
+                        "textarea":{
+                            "phaseDuree2":50
+                        }
+                    };
+                }
+
+                if(item.type === 'module') {
+                    updateItem[`system.secondmode`] = {
+                        "has":false,
+                        "activation":"aucune",
+                    }
+                }
+
+                if(item.type === 'arme') {
+                    updateItem[`system.degats`] = {
+                        "variable":{
+                            "has":false,
+                            "min":{
+                            "dice":0,
+                            "fixe":0
+                            },
+                            "max":{
+                            "dice":0,
+                            "fixe":0
+                            },
+                            "cout":0
+                        }
+                    };
+
+                    updateItem[`system.violence`] = {
+                        "variable":{
+                            "has":false,
+                            "min":{
+                            "dice":0,
+                            "fixe":0
+                            },
+                            "max":{
+                            "dice":0,
+                            "fixe":0
+                            },
+                            "cout":0
+                        }
+                    };
+                }
+
+                item.update(updateItem);
+            }
+
+            update[`system.-=MATabs`] = null;
+        }
+
         return update;
     }
 
@@ -1983,6 +2116,98 @@ Applique les modifications par la mise à jour au Monde.
                     min:1,
                     max:3
                 };
+            }
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("3.21.0")) {
+
+            const system = item.system;
+
+            if(!system) return update;
+
+            if(item.type === 'armure') {
+                const hasMorph = system.capacites.selected?.morph || false;
+
+                if(hasMorph !== false) {
+                    update[`system.capacites.selected.morph.phase`] = {
+                        "energie":5,
+                        "duree":"Spécial – 1 action pour 50 centimètres de matière"
+                    };
+
+                    update[`system.capacites.selected.morph.phase.niveau2`] = {
+                        "acces":false,
+                        "activation":"aucune",
+                        "energie":8,
+                        "duree":game.i18n.localize("KNIGHT.DUREE.Instantanee")
+                    };
+
+                    update[`system.capacites.selected.morph.textarea`] = {
+                        "phaseDuree2":50
+                    };
+                }
+
+                const listeEvolutions = item.system?.evolutions.liste;
+
+                for (let [key, evo] of Object.entries(listeEvolutions)) {
+                    const eMorph = evo.capacites?.morph || false;
+
+                    if(eMorph !== false) {
+                        update[`system.evolutions.liste.${key}.capacites.morph.phase`] = {
+                            "energie":5,
+                            "duree":"Spécial – 1 action pour 50 centimètres de matière"
+                        };
+
+                        update[`system.evolutions.liste.${key}.capacites.morph.phase.niveau2`] = {
+                            "acces":false,
+                            "activation":"aucune",
+                            "energie":8,
+                            "duree":game.i18n.localize("KNIGHT.DUREE.Instantanee")
+                        };
+
+                        update[`system.evolutions.liste.${key}.capacites.morph.textarea`] = {
+                            "phaseDuree2":50
+                        }
+                    }
+                }
+
+                update[`system.capacites.c2038Sorcerer.morph.phase`] = {
+                    "energie":5,
+                    "duree":"Spécial – 1 action pour 50 centimètres de matière"
+                };
+
+                update[`system.capacites.c2038Sorcerer.morph.phase.niveau2`] = {
+                    "acces":false,
+                    "activation":"aucune",
+                    "energie":8,
+                    "duree":game.i18n.localize("KNIGHT.DUREE.Instantanee")
+                };
+
+                update[`system.capacites.c2038Sorcerer.morph.textarea`] = {
+                    "phaseDuree2":50
+                };
+
+                update[`system.capacites.c2038Sorcerer.morph.evolutions`] = {
+                    "phase":{
+                        "energie":5,
+                        "duree":"Spécial – 1 action pour 50 centimètres de matière",
+                        "niveau2":{
+                            "acces":false,
+                            "activation":"aucune",
+                            "energie":8,
+                            "duree":game.i18n.localize("KNIGHT.DUREE.Instantanee")
+                        }
+                    },
+                    "textarea":{
+                        "phaseDuree2":50
+                    }
+                };
+            }
+
+            if(item.type === 'module') {
+                update[`system.secondmode`] = {
+                    "has":false,
+                    "activation":"aucune",
+                }
             }
         }
 

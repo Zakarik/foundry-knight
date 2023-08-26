@@ -26,6 +26,7 @@
                 img.profile-img {
                     border:0px;
                     object-fit: contain;
+                    width:100%;
                 }
             }
 
@@ -70,6 +71,26 @@
                     background:$black;
                     color:$white;
                     text-align: center;
+                }
+            }
+
+            button {
+                flex:none;
+                width: 100%;
+                color: $white;
+                cursor: pointer;
+                border: 2px solid $lightBlack;
+                border-radius:0px;
+                margin-top: 10px;
+
+                &.unselected {
+                    background:$black;
+                    border-color:$lightBlack;
+                }
+
+                &.selected {
+                    background:$lightBlack;
+                    border-color:$lightBlack;
                 }
             }
         }
@@ -184,6 +205,149 @@
 
                         &:last-of-type {
                             text-align: left;
+                        }
+                    }
+                }
+            }
+
+            div {
+                &.dmg {
+                    display:flex;
+                    width:calc((100% / 2) - 5px);
+                    flex-wrap: wrap;
+                    border:1px solid $lightBlue;
+                    flex:none;
+
+                    span {
+                        display: inline-block;
+                        line-height: 27px;
+                        background:$lightBlack;
+                        text-align: center;
+                        font-variant: small-caps;
+
+                        &.header {
+                            width:100%;
+                        }
+                    }
+
+                    select {
+                        width:100%;
+                        color: $white;
+                        height: 26px;
+                        margin: 0px;
+                        text-align: center;
+                        border: 0px;
+                        border-radius: 0px;
+                        border-width: unset;
+                        border-color: $white;
+                        background:$black;
+
+                        option {
+                            background:$black;
+                            color:$white;
+                        }
+                    }
+
+                    div {
+                        &.oneCol {
+                            display:flex;
+                            width:100%;
+                            justify-content: space-between;
+
+                            span {
+                                width:24px;
+                                background:$black;
+                            }
+
+                            input {
+                                width:calc((100% / 2) - 12px);
+                                border:0px;
+                                padding:0px;
+                                margin:0px;
+                                background:$black;
+
+                                &:first-of-type {
+                                    text-align: right;
+                                }
+
+                                &:last-of-type {
+                                    text-align: left;
+                                }
+                            }
+                        }
+
+                        &.twoCol {
+                            display:flex;
+                            width:50%;
+                            justify-content: space-between;
+
+                            &.label {
+                                span {
+                                    width:100%;
+                                    background:$lightBlack;
+                                    line-height: 27px;
+                                    font-variant: small-caps;
+                                }
+                            }
+
+                            &.score {
+                                span {
+                                    width:24px;
+                                    background:$black;
+                                }
+
+                                input {
+                                    width:calc((100% / 2) - 12px);
+                                    border:0px;
+                                    padding:0px;
+                                    margin:0px;
+                                    background:$black;
+
+                                    &:first-of-type {
+                                        text-align: right;
+                                    }
+
+                                    &:last-of-type {
+                                        text-align: left;
+                                    }
+                                }
+                            }
+
+                            &.borderBottom {
+                                &.label {
+                                    border-bottom:1px solid $black;
+                                }
+
+                                &.score {
+                                    border-bottom:1px solid $lightBlack;
+                                }
+                            }
+                        }
+                    }
+
+                    label {
+                        &.twoCol {
+                            display:flex;
+                            width:100%;
+                            justify-content: space-between;
+                            border:0px;
+
+                            span {
+                                width:50%;
+                                background:$lightBlack;
+                                line-height: 20px;
+                                font-variant: small-caps;
+                            }
+
+                            input {
+                                width:50%;
+                                height: 100%;
+                                border:0px;
+                                padding:0px;
+                                margin:0px;
+                                background:$black;
+                                text-align: center;
+                            }
                         }
                     }
                 }
@@ -319,16 +483,17 @@
         }
 
         div.blockMunitions {
-            display:flex;
+            display:grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 5px;
             width:100%;
-            justify-content: space-between;
             margin-top:5px;
             margin-bottom:5px;
             flex-wrap: wrap;
 
             >div {
                 display:flex;
-                width:calc((100% / 3) - 5px);
+                width:100%;
                 flex-wrap: wrap;
                 flex:none;
 

@@ -76,22 +76,6 @@ export class ArmeSheet extends ItemSheet {
       this.item.update({[`system.tourelle.has`]:result});
     });
 
-    html.find('button.options2Mains').click(ev => {
-      const target = $(ev.currentTarget);
-      const value = target.data("value");
-      const result = value === true ? false : true;
-
-      this.item.update({[`system.options2mains.has`]:result});
-    });
-
-    html.find('button.optionsMunitions').click(ev => {
-      const target = $(ev.currentTarget);
-      const value = target.data("value");
-      const result = value === true ? false : true;
-
-      this.item.update({[`system.optionsmunitions.has`]:result});
-    });
-
     html.find('button.optionsMunitionsValider').click(ev => {
       const target = $(ev.currentTarget);
       const value = +target.data("value");
@@ -127,6 +111,27 @@ export class ArmeSheet extends ItemSheet {
             update[`system.optionsmunitions.liste.-=${i}`] = null;
           }
         }
+      }
+
+      this.item.update(update);
+    });
+
+    html.find('button.toupdate').click(ev => {
+      const target = $(ev.currentTarget);
+      const toUpdate = target.data('toupdate');
+      const resetVariable = target.data('resetvariable');
+      const value = target.data('value') ? false : true;
+      let update = {};
+      update[`system.${toUpdate}`] = value;
+
+      if(resetVariable && value) {
+        update[`system.degats.variable.has`] = false;
+        update[`system.violence.variable.has`] = false;
+      } else if(!resetVariable && value) {
+        update[`system.degats.dice`] = Number(this.item.system.degats.variable.min.dice);
+        update[`system.degats.fixe`] = Number(this.item.system.degats.variable.min.fixe);
+        update[`system.violence.dice`] = Number(this.item.system.violence.variable.min.fixe);
+        update[`system.violence.fixe`] = Number(this.item.system.violence.variable.min.fixe);
       }
 
       this.item.update(update);
@@ -209,6 +214,25 @@ export class ArmeSheet extends ItemSheet {
 
       span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
       $(ev.currentTarget).toggleClass("clicked");
+    });
+
+    html.find('input.dgtsF').change(async ev => {
+      const target = $(ev.currentTarget);
+      const value = Number(target.val());
+      let update = {};
+
+      update[`system.degats.fixe`] = value;
+
+      await this.item.update(update);
+    });
+
+    html.find('input.violenceF').change(async ev => {
+      const target = $(ev.currentTarget);
+      const value = Number(target.val());
+      let update = {};
+      update[`system.violence.fixe`] = value;
+
+      await this.item.update(update);
     });
   }
 

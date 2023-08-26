@@ -930,7 +930,12 @@
                                 {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Chair"}} : {{#each kAI.chair as | kChair chair|}} {{#unless @first}}/{{/unless}} {{kChair}}{{/each}}
                             </h3>
                             {{#each kAI.liste as | key arme|}}
-                                <div class="wpn" style="display:none;">
+                                <div class="wpn draggable" style="display:none;"
+                                data-type="armesimprovisees"
+                                data-label="{{getAI armesimprovisees arme}}"
+                                data-what="{{arme}}"
+                                data-key="contact"
+                                data-other="{{armesimprovisees}}">
                                     <span class="name">
                                         {{getAI armesimprovisees arme}}
                                     </span>
@@ -973,7 +978,12 @@
                                 {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Chair"}} : {{#each kAI.chair as | kChair chair|}} {{#unless @first}}/{{/unless}} {{kChair}}{{/each}}
                             </h3>
                             {{#each kAI.liste as | key arme|}}
-                                <div class="wpn" style="display:none;">
+                                <div class="wpn draggable" style="display:none;"
+                                data-type="armesimprovisees"
+                                data-label="{{getAI armesimprovisees arme}}"
+                                data-what="{{arme}}"
+                                data-key="distance"
+                                data-other="{{armesimprovisees}}">
                                     <span class="name">
                                         {{getAI armesimprovisees arme}}
                                     </span>

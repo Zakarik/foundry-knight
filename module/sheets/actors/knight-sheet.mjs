@@ -22,6 +22,7 @@ import {
   diceHover,
   options,
   hideShowLimited,
+  dragMacro,
 } from "../../helpers/common.mjs";
 
 import {
@@ -80,8 +81,10 @@ export class KnightSheet extends ActorSheet {
       width: 920,
       height: 720,
       tabs: [
-        {navSelector: ".sheet-tabs", contentSelector: ".body", initial: "personnage"}
+        {navSelector: ".sheet-tabs", contentSelector: ".body", initial: "personnage"},
+        {navSelector: ".tabArmure", contentSelector: ".armure", initial: "capacites"},
       ],
+      dragDrop: [{dragSelector: [".draggable", ".item-list .item"], dropSelector: null}],
     });
   }
 
@@ -291,39 +294,6 @@ export class KnightSheet extends ActorSheet {
       } else {
         item.update({['system.optionsmunitions.actuel']:value});
       }
-    });
-
-    html.find('div.armure section.buttonTabs a').click(ev => {
-      const target = $(ev.currentTarget);
-      const tab = target.data("tab");
-
-      const update = {};
-
-      switch(tab) {
-        case 'MAarmure':
-          update[`system.MATabs`] = {
-            'MAarmure':true,
-            'MAmodule':false,
-            'MAia':false,
-          };
-          break;
-        case 'MAmodule':
-          update[`system.MATabs`] = {
-            'MAarmure':false,
-            'MAmodule':true,
-            'MAia':false,
-          };
-          break;
-        case 'MAia':
-          update[`system.MATabs`] = {
-            'MAarmure':false,
-            'MAmodule':false,
-            'MAia':true,
-          };
-          break;
-      }
-
-      this.actor.update(update);
     });
 
     html.find('.armure .activation').click(async ev => {
@@ -5251,6 +5221,33 @@ export class KnightSheet extends ActorSheet {
   }
 
   /** @inheritdoc */
+  _onDragStart(event) {
+    const li = event.currentTarget;
+    if ( event.target.classList.contains("content-link") ) return;
+
+    // Create drag data
+    let dragData;
+
+    // Owned Items
+    if ( li.dataset.itemId ) {
+      const item = this.actor.items.get(li.dataset.itemId);
+      dragData = item.toDragData();
+    }
+
+    // Active Effect
+    if ( li.dataset.effectId ) {
+      const effect = this.actor.effects.get(li.dataset.effectId);
+      dragData = effect.toDragData();
+    }
+
+    dragData = dragMacro(dragData, li, this.actor);
+
+    if ( !dragData ) return;
+
+    // Set data transfer
+    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+  }
+
   async _onDrop(event) {
     const data = TextEditor.getDragEventData(event);
     const actor = this.actor;
@@ -5734,6 +5731,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label'),
                   system:{
+                    isCapacity:true,
                     capaciteName:'cea',
                     subCapaciteName:'vague',
                     noRack:true,
@@ -5758,6 +5756,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label'),
                   system:{
+                    isCapacity:true,
                     capaciteName:'cea',
                     subCapaciteName:'salve',
                     noRack:true,
@@ -5782,6 +5781,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label'),
                   system:{
+                    isCapacity:true,
                     capaciteName:'cea',
                     subCapaciteName:'rayon',
                     noRack:true,
@@ -5806,6 +5806,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label'),
                   system:{
+                    isCapacity:true,
                     capaciteName:'cea',
                     subCapaciteName:'vague',
                     noRack:true,
@@ -5830,6 +5831,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label'),
                   system:{
+                    isCapacity:true,
                     capaciteName:'cea',
                     subCapaciteName:'salve',
                     noRack:true,
@@ -5854,6 +5856,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label'),
                   system:{
+                    isCapacity:true,
                     capaciteName:'cea',
                     subCapaciteName:'rayon',
                     noRack:true,
@@ -8300,8 +8303,6 @@ export class KnightSheet extends ActorSheet {
         if(type === 'espoir' && data.system.espoir.perte.saufAgonie && capacite === true) {
           update[`system.espoir.value`] = actuel;
         }
-
-        console.warn(update);
 
         this.actor.update(update);
       }

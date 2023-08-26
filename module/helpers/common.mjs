@@ -245,7 +245,8 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
             priorViolence = true;
           }
 
-          sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
+          if(!other) sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
+          else if(other) sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
           sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
           break;
 
@@ -1496,10 +1497,14 @@ export async function getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, 
         const hasHVelocite = data.ameliorations?.hypervelocite ?? false;
 
         if(hasHVelocite !== false || hasHVelocite === undefined) {
-          priorAttack = true;
+          priorDegats = true;
+          priorViolence = true;
 
-          sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+          subDgts.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          subDgts.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+
+          subViolence.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          subViolence.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
         } else {
           other = true;
 
@@ -4773,6 +4778,116 @@ export function commonPNJ(html, actor) {
   });
 }
 
+export function dragMacro(drag, li, actor) {
+  let dragData;
+  let result;
+
+  if(li.classList.contains('draggable')) {
+    const type = $(li)?.data("type");
+    let label = $(li)?.data("label") ?? "";
+    let what = $(li)?.data("what") ?? "";
+    let other = $(li)?.data("other") ?? "";
+    let mod = $(li)?.data("modificateur") ?? 0;
+    let key = $(li)?.data("key") ?? "";
+    let nods = $(li)?.data("nods") ?? "";
+    let idItm;
+    let itm;
+
+    // Create drag data
+    if(type === "wpn") {
+      idItm = $(li).data("item-id");
+      itm = actor.items.get(idItm);
+
+      dragData = {
+        actorId: actor.id,
+        sceneId: actor.isToken ? canvas.scene?.id : null,
+        tokenId: actor.isToken ? actor.token.id : null,
+        img:itm.img,
+        label:itm.name,
+        type:type,
+        idWpn:idItm,
+      };
+    } else if(type === 'module') {
+      idItm = $(li).data("item-id");
+      itm = actor.items.get(idItm);
+
+      dragData = {
+        actorId: actor.id,
+        sceneId: actor.isToken ? canvas.scene?.id : null,
+        tokenId: actor.isToken ? actor.token.id : null,
+        img:itm.img,
+        label:itm.name,
+        type:type,
+        idWpn:idItm,
+      };
+    } else if(type === 'cea'){
+      idItm = $(li).data("item-id");
+      itm = actor.items.get(idItm);
+
+      dragData = {
+        actorId: actor.id,
+        sceneId: actor.isToken ? canvas.scene?.id : null,
+        tokenId: actor.isToken ? actor.token.id : null,
+        img:itm.img,
+        label:itm.name,
+        type:type,
+        idWpn:idItm,
+        what:what,
+        other:other,
+      };
+    } else if((type === 'special' || type === 'c1' || type === 'c2' || type === 'base') && actor.type === 'mechaarmure') {
+      dragData = {
+        actorId: actor.id,
+        sceneId: actor.isToken ? canvas.scene?.id : null,
+        tokenId: actor.isToken ? actor.token.id : null,
+        label:label,
+        type:type,
+        idWpn:key,
+        what:actor.type,
+      };
+    } else if(type === 'armesimprovisees') {
+      dragData = {
+        actorId: actor.id,
+        sceneId: actor.isToken ? canvas.scene?.id : null,
+        tokenId: actor.isToken ? actor.token.id : null,
+        label:label,
+        type:type,
+        idWpn:key,
+        what:what,
+        other:other,
+      };
+    } else if(type === 'nods') {
+      dragData = {
+        actorId: actor.id,
+        sceneId: actor.isToken ? canvas.scene?.id : null,
+        tokenId: actor.isToken ? actor.token.id : null,
+        img:key === 'target' ? "systems/knight/assets/icons/D6TargetBlack.svg" : "systems/knight/assets/icons/D6Black.svg",
+        label:label,
+        type:type,
+        what:nods,
+        other:key
+      };
+    } else {
+      dragData = {
+        actorId: actor.id,
+        sceneId: actor.isToken ? canvas.scene?.id : null,
+        tokenId: actor.isToken ? actor.token.id : null,
+        label:label,
+        type:type,
+        what:what,
+        mod:mod,
+        other:other
+      };
+    }
+  }
+
+  if(!dragData) result = drag;
+  else if(!drag) result = dragData;
+  else result = foundry.utils.mergeObject(drag, dragData);
+
+  return result;
+}
+
 //GESTION DES EFFETS ACTIFS
 export async function addEffect(origin, toAdd) {
   origin.createEmbeddedDocuments('ActiveEffect', toAdd);
@@ -4787,8 +4902,6 @@ export function addOrUpdateEffect(origin, label, effect) {
 
   const listEffect = origin.getEmbeddedCollection('ActiveEffect');
   const effectExist = existEffect(listEffect, label);
-
-  console.warn(listEffect, effectExist);
 
   if(!effectExist && version < 11) addEffect(origin, [{
       label: label,
@@ -4906,15 +5019,11 @@ export function hideShowLimited(actor, html) {
   const isLimited = actor.limited;
   const hideShowLimited = $(html.find('div.personnage div.hideShowLimited'));
 
-  console.warn(hideShowLimited)
-
   for(let h of hideShowLimited) {
     const hType = $(h).data("toverify");
     const defaut = $(h).data("default");
     const onlygm = $(h).data("onlygm");
     const show = data?.limited?.[hType] ?? defaut;
-
-    console.warn(show, hType)
 
     if(!show) {
       if(isLimited) $(h).hide();
@@ -4952,4 +5061,20 @@ export function hideShowLimited(actor, html) {
 
     actor.update({[`system.limited.${toupdate}`]:value});
   });
+}
+
+export function getNestedPropertyValue(obj, propertyPath) {
+  const properties = propertyPath.split('.');
+  let value = obj;
+
+  for (let property of properties) {
+    if (value.hasOwnProperty(property)) {
+      value = value[property];
+    } else {
+      value = undefined;
+      break;
+    }
+  }
+
+  return value;
 }

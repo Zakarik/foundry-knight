@@ -11,7 +11,7 @@
         </div>
         {{else}}
         <div class="blockMultiline">
-            <button class="attaque" data-key="{{this.key}}" data-type="special">
+            <button class="attaque draggable" data-key="{{this.key}}" data-type="special" data-label="{{{getMAModule this.key}}}">
                 {{localize "KNIGHT.AUTRE.Attaque"}}
             </button>
         </div>
