@@ -1,3 +1,7 @@
+## v3.21.1
+### Bugfix
+- Correction d'un bug empêchant la fenêtre de jet de s'ouvrir lorsque l'on possède des armes avec plusieurs munitions.
+
 ## v3.21.0
 ### Améliorations
 - Ajout de Connecté et Munitions à Hyper-Vélocité pour la prise en compte de l'assistance à l'attaque.

@@ -1280,8 +1280,8 @@ export class KnightRollDialog extends Application {
               const raw = dataMunitions.liste[i].raw.concat(armorSpecialRaw);
               const custom = dataMunitions.liste[i].custom.concat(armorSpecialCustom);
 
-              data.optionsmunitions.liste[i].raw = [...new Set(raw)];
-              data.optionsmunitions.liste[i].custom = custom;
+              system.optionsmunitions.liste[i].raw = [...new Set(raw)];
+              system.optionsmunitions.liste[i].custom = custom;
             }
           }
 
