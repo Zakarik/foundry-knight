@@ -1,3 +1,7 @@
+## v3.21.2
+### Bugfix
+- Correction d'un bug empêchant l'évolution du Druid.
+
 ## v3.21.1
 ### Bugfix
 - Correction d'un bug empêchant la fenêtre de jet de s'ouvrir lorsque l'on possède des armes avec plusieurs munitions.

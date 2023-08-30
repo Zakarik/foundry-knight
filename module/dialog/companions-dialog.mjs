@@ -362,8 +362,6 @@ import {
             const dataDialogValue = +dataWAspects[key].value;
             const dataDialogAe = +dataWAspects[key].ae;
 
-            update.system.capacites.selected.companions.wolf.aspects[key] = {};
-
             if(dataDialogValue > 0) {
               update[`system.capacites.selected.companions.wolf.aspects.${key}.value`] = Number(aspect.value)+dataDialogValue;
             }
@@ -393,8 +391,6 @@ import {
 
           for (let [key, aspect] of Object.entries(armorCAspects)) {
             const dataDialogValue = +dataLAspects[key].value;
-
-            update.system.capacites.selected.companions.crow.aspects[key] = {};
 
             if(dataDialogValue > 0) {
               update[`system.capacites.selected.companions.crow.aspects.${key}.value`] = Number(aspect.value) + dataDialogValue;
