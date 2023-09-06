@@ -47,9 +47,14 @@
         return `systems/knight/templates/actors/mechaarmure/${mecha.data.key}.html`;
     });
 
-    Handlebars.registerHelper('capaciteIsValid', function (capacite) {
-        if(capacite.key === undefined) return false;
-        else return true;
+    Handlebars.registerHelper('capaciteIsValid', function (actor, capacite, key) {
+        let result;
+        if(capacite.key === undefined) result = false;
+        else result = true;
+
+        if(!result && actor.data.type === 'knight') actor.actor.items.get(actor.actor.armureData._id).update({[`system.capacites.selected.-=${key}`]:null})
+
+        return result;
     });
 
     Handlebars.registerHelper('affichageCapacite', function (capacite) {
@@ -537,10 +542,10 @@
         let result = false;
         const system = data.system;
         const isPermanent = system.permanent;
-        const hasPNJ = system.pnj.has;
-        const energieTour = system.energie.tour.value;
-        const energieMinute = system.energie.minute.value;
-        const energieSupp = system.energie.supplementaire;
+        const hasPNJ = system.pnj?.has ?? false;
+        const energieTour = system.energie?.tour?.value ?? 0;
+        const energieMinute = system.energie?.minute?.value ?? 0;
+        const energieSupp = system.energie?.supplementaire ?? 0;
 
         if(energieMinute === 0 && energieTour === 0 && !hasPNJ && !isPermanent && type === 'other') result = true;
         if(energieMinute === 0 && energieTour === 0 && !isPermanent && type === 'pnj') result = true;

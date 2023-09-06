@@ -22,7 +22,7 @@
             </select>
         </div>
         {{#each systemData.capacites.selected as | key selected|}}
-            {{#if (capaciteIsValid . key)}} {{~> (capaciteLegende . key)}} {{/if}}
+            {{#if (capaciteIsValid @root key selected)}} {{~> (capaciteLegende . key)}} {{/if}}
         {{/each}}
     </div>
 
@@ -32,7 +32,7 @@
             {{localize "KNIGHT.ITEMS.ARMURE.Special"}}
         </h2>
         {{#each systemData.special.selected as | key selected|}}
-            {{#if (capaciteIsValid . key)}} {{~> (specialLegende)}} {{/if}}
+            {{#if (capaciteIsValid @root key selected)}} {{~> (specialLegende)}} {{/if}}
         {{/each}}
     </div>
 </form>

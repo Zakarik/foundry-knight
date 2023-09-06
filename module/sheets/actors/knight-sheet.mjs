@@ -6597,8 +6597,8 @@ export class KnightSheet extends ActorSheet {
 
         const iBOD = itemBonus.overdrives;
         const itemErsatz = itemDataNiveau.ersatz;
-        const eRogue = itemErsatz.rogue;
-        const eBard = itemErsatz.bard;
+        const eRogue = itemErsatz?.rogue ?? false;
+        const eBard = itemErsatz?.bard ?? false;
 
         if(isLion) {
           lion.modules.push(i);
