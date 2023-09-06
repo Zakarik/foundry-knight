@@ -1,3 +1,7 @@
+## v3.21.3
+### Bugfix
+- Mise en place de gardes-fous pour éviter le crash complet d'une fiche dans de rares cas.
+
 ## v3.21.2
 ### Bugfix
 - Correction d'un bug empêchant l'évolution du Druid.
