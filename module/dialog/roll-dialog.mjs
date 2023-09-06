@@ -669,9 +669,9 @@ export class KnightRollDialog extends Application {
 
   extractWpn(act) {
     const wear = act.system.wear;
-    const onArmor = wear === 'armure' || wear === 'ascension' ? true : false;
     const isPj = actorIsPj(act);
     const isMA = actorIsMa(act);
+    const onArmor = wear === 'armure' || wear === 'ascension' || !isPj ? true : false;
     const labelsEffects = Object.assign({},
       CONFIG.KNIGHT.effets,
       CONFIG.KNIGHT.AMELIORATIONS.distance,
@@ -1097,8 +1097,8 @@ export class KnightRollDialog extends Application {
                   const raw = dataMunitions.liste[i].raw.concat(armorSpecialRaw);
                   const custom = dataMunitions.liste[i].custom.concat(armorSpecialCustom);
 
-                  data.niveau.details[`n${niveau}`].arme.optionsmunitions.liste[i].raw = [...new Set(raw)];
-                  data.niveau.details[`n${niveau}`].arme.optionsmunitions.liste[i].custom = custom;
+                  itemArme.optionsmunitions.liste[i].raw = [...new Set(raw)];
+                  itemArme.optionsmunitions.liste[i].custom = custom;
                 }
 
                 degats = dataMunitions.liste[actuel].degats;
