@@ -110,7 +110,7 @@ export class IASheet extends ActorSheet {
       'langue', 'armurelegende', 'effet', 'distinction',
       'capaciteultime'];
     if (ignoredTypes.includes(itemBaseType)) return;
-    if ((itemBaseType === 'avantage' || itemBaseType === 'inconvenient') && itemData[0].system.type === 'ia') return;
+    if ((itemBaseType === 'avantage' || itemBaseType === 'inconvenient') && itemData[0].system.type !== 'ia') return;
 
 
     const itemCreate = await this.actor.createEmbeddedDocuments("Item", itemData);
