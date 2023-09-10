@@ -1,3 +1,7 @@
+## v3.21.5
+### Bugfix
+- Correction d'un bug empêchant d'ajouter des avantages et inconvénient d'IA sur des personnages IA.
+
 ## v3.21.4
 ### Bugfix
 - Correction d'un bug empêchant un PNJ d'utiliser un module-arme.
