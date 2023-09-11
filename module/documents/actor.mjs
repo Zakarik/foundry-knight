@@ -554,8 +554,10 @@ export class KnightActor extends Actor {
 
     let PGTotalDepense = 0;
 
-    for(const PG in PGDepenseListe) {
-      if(!PGDepenseListe[PG].isArmure) PGTotalDepense += Number(PGDepenseListe[PG].value);
+    if(!PGDepenseListe[0].isEmpty) {
+      for(const PG in PGDepenseListe) {
+        if(!PGDepenseListe[PG].isArmure) PGTotalDepense += Number(PGDepenseListe[PG].value);
+      }
     }
 
     if(foundry.utils.isNewerVersion(currentVersion, '3.7.9')) data.progression.gloire.actuel = Number(dataPG.total)-PGTotalDepense;
