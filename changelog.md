@@ -1,3 +1,7 @@
+## v3.21.7
+### Bugfix
+- Correction d'un bug avec le compteur de dégâts / violence sur le Longbow.
+
 ## v3.21.6
 ### Bugfix
 - Correction d'un bug empêchant de déployer la description des avantages et inconvénient d'IA.

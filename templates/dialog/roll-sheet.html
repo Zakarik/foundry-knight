@@ -1011,7 +1011,7 @@
                         <select data-type="violence" data-cost="{{longbow.violence.energie}}">
                             {{#select longbow.violence.dice}}
                                 {{#each (whileBetweenNumber longbow.violence.min longbow.violence.max) as | kV vV|}}
-                                    <option value="{{vV}}">{{vV}}{{localize "KNIGHT.JETS.Des-short"}}6</option>
+                                    <option value="{{kV}}">{{kV}}{{localize "KNIGHT.JETS.Des-short"}}6</option>
                                 {{/each}}
                             {{/select}}
                         </select>
