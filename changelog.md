@@ -1,3 +1,8 @@
+## v3.21.6
+### Bugfix
+- Correction d'un bug empêchant de déployer la description des avantages et inconvénient d'IA.
+- Correction d'un bug ne permettant pas d'éditer correctement la description et la description limitée d'un PJ.
+
 ## v3.21.5
 ### Bugfix
 - Correction d'un bug empêchant d'ajouter des avantages et inconvénient d'IA sur des personnages IA.
