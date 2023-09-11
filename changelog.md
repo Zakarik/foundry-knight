@@ -1,3 +1,8 @@
+## v3.21.8
+### Bugfix
+- Correction d'un problème sur le mode CEA.
+- Correction d'un problème de comptage sur les points de gloires.
+
 ## v3.21.7
 ### Bugfix
 - Correction d'un bug avec le compteur de dégâts / violence sur le Longbow.
