@@ -583,7 +583,7 @@ export async function doAttack(data) {
   }
 
   if(style.selected && wpnType !== 'tourelle' && !isPNJ) eInclude.unshift({
-    name:`+${getCaracValue(style.selected, data.actor)}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${style.fulllabel} (${game.i18n.localize(CONFIG.KNIGHT.caracteristiques[style.selected])} ${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+    name:`+${getCaracValue(style.selected, data.actor, true)}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${style.fulllabel} (${game.i18n.localize(CONFIG.KNIGHT.caracteristiques[style.selected])} ${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
     desc:style.info
   });
 
