@@ -1,3 +1,7 @@
+## v3.21.9
+### Bugfix
+- Correction d'un bug empêchant le jet de dé en style précis.
+
 ## v3.21.8
 ### Bugfix
 - Correction d'un problème sur le mode CEA.
