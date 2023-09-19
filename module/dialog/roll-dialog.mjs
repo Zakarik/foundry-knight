@@ -246,7 +246,7 @@ export class KnightRollDialog extends Application {
     let wpnMunitionsList = [wpnDistance, wpnTourelle]
     let int = [];
 
-    if(lgbow?.effets?.raw ?? undefined !== undefined) lgbow.effets.raw = this.data?.longbow?.effets?.raw || [];
+    if(lgbow?.effets?.raw ?? undefined !== undefined) lgbow.effets.raw = [];
 
     for (let [key, interdit] of Object.entries(lAspectsInterdits)){
       int = int.concat(interdit);
