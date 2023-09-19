@@ -1,3 +1,7 @@
+## v3.21.10
+### Bugfix
+- Correction d'un bug empêchant le jet de dé avec le Boréalis.
+
 ## v3.21.9
 ### Bugfix
 - Correction d'un bug empêchant le jet de dé en style précis.

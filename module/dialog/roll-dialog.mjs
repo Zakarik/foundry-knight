@@ -1054,6 +1054,69 @@ export class KnightRollDialog extends Application {
                   armesDistanceEquipee.push(rayonWpnD);
                 }
               break;
+
+              case "borealis":
+              if(wear === 'armure') {
+                const borealisEffets = capacite.offensif.effets;
+                const borealisEffetsRaw = borealisEffets.raw.concat(armorSpecialRaw);
+                const borealisEffetsCustom = borealisEffets.custom.concat(armorSpecialCustom) || [];
+                const borealisEffetsFinal = {
+                  raw:[...new Set(borealisEffetsRaw)],
+                  custom:borealisEffetsCustom,
+                  liste:borealisEffets.liste
+                };
+
+                const borealisWpnC = {
+                  _id:i._id,
+                  name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label')}`,
+                  system:{
+                    capaciteName:'borealis',
+                    subCapaciteName:'offensif',
+                    noRack:true,
+                    capacite:true,
+                    portee:game.i18n.localize(`KNIGHT.PORTEE.${capacite.offensif.portee.charAt(0).toUpperCase()+capacite.offensif.portee.substr(1)}`),
+                    energie:capacite.offensif.energie,
+                    degats:{
+                      dice:capacite.offensif.degats.dice,
+                      fixe:0
+                    },
+                    violence:{
+                      dice:capacite.offensif.violence.dice,
+                      fixe:0
+                    },
+                    type:'contact',
+                    effets:borealisEffetsFinal
+                  }
+                };
+
+                const borealisWpnD = {
+                  _id:i._id,
+                  name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label')}`,
+                  system:{
+                    capaciteName:'borealis',
+                    subCapaciteName:'offensif',
+                    noRack:true,
+                    capacite:true,
+                    portee:game.i18n.localize(`KNIGHT.PORTEE.${capacite.offensif.portee.charAt(0).toUpperCase()+capacite.offensif.portee.substr(1)}`),
+                    energie:capacite.offensif.energie,
+                    degats:{
+                      dice:capacite.offensif.degats.dice,
+                      fixe:0
+                    },
+                    violence:{
+                      dice:capacite.offensif.violence.dice,
+                      fixe:0
+                    },
+                    type:'distance',
+                    effets:borealisEffetsFinal
+                  }
+                };
+
+                armesContactEquipee.push(borealisWpnC);
+
+                armesDistanceEquipee.push(borealisWpnD);
+              }
+              break;
             }
           }
         }
