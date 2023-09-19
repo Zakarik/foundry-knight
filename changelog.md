@@ -1,3 +1,7 @@
+## v3.21.11
+### Bugfix
+- Correction d'un bug ne remettant pas à zéro les effets du longbow lors d'une actualisation de la fenêtre.
+
 ## v3.21.10
 ### Bugfix
 - Correction d'un bug empêchant le jet de dé avec le Boréalis.
