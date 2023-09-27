@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.21.0";
+    static NEEDED_VERSION = "3.21.12";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -1364,6 +1364,19 @@ Applique les modifications par la mise à jour au Monde.
             update[`system.-=MATabs`] = null;
         }
 
+        if (options?.force || MigrationKnight.needUpdate("3.21.12")) {
+
+            const system = actor.system;
+
+            if(!system) return update;
+
+            let collection = actor.getEmbeddedCollection('ActiveEffect').filter(eff => eff.label === "style").map(eff => eff._id);
+
+            collection.forEach(async eff => {
+                await actor.deleteEmbeddedDocuments('ActiveEffect', [eff]);
+            });
+        }
+
         return update;
     }
 
@@ -2215,9 +2228,10 @@ Applique les modifications par la mise à jour au Monde.
     }
 
     static _migrationTokens(token, options = { force:false }) {
+        const actor = token.actor;
+
         if (options?.force || MigrationKnight.needUpdate("3.17.4")) {
             const goodStatus = ['dead', 'lumiere', 'barrage', 'designation', 'choc', 'degatscontinus', 'soumission'];
-            const actor = token.actor;
 
             if(actor === null) return;
 
@@ -2231,6 +2245,16 @@ Applique les modifications par la mise à jour au Monde.
                     "_id":eff._id,
                     icon:''
                 }]);
+            });
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("3.21.12")) {
+            if(actor === null) return;
+
+            let collection = actor.getEmbeddedCollection('ActiveEffect').filter(eff => eff.label === "style").map(eff => eff._id);
+
+            collection.forEach(async eff => {
+                await token.actor.deleteEmbeddedDocuments('ActiveEffect', [eff]);
             });
         }
     }

@@ -1,3 +1,7 @@
+## v3.21.12
+### Bugfix
+- Correction d'un bug rare gardant en mémoire les malus de style, même après changement de style.
+
 ## v3.21.11
 ### Bugfix
 - Correction d'un bug ne remettant pas à zéro les effets du longbow lors d'une actualisation de la fenêtre.
