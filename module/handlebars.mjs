@@ -57,10 +57,19 @@
         return result;
     });
 
+    Handlebars.registerHelper('specialIsValid', function (actor, special, key) {
+        let result;
+        if(special.key === undefined) result = false;
+        else result = true;
+
+        if(!result && actor.data.type === 'knight') actor.actor.items.get(actor.actor.armureData._id).update({[`system.special.selected.-=${key}`]:null})
+
+        return result;
+    });
+
     Handlebars.registerHelper('affichageCapacite', function (capacite) {
         return `systems/knight/templates/actors/capacites/${capacite.key}.html`;
     });
-
 
     Handlebars.registerHelper('affichageCapaciteLegende', function (capacite) {
         return `systems/knight/templates/actors/capacitesLegende/${capacite.key}.html`;
