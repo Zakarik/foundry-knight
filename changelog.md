@@ -1,3 +1,7 @@
+## v3.21.14
+### Bugfix
+- Correction d'un bug rare créant une boucle infinie (oui, encore... J'avais oublié un fichier).
+
 ## v3.21.13
 ### Bugfix
 - Correction d'un bug rare créant une boucle infinie.

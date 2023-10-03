@@ -684,7 +684,7 @@
                             {{localize "KNIGHT.CAPACITES.Label"}}
                         </h2>
                         {{#each actor.armureData.system.capacites.selected as | key selected|}}
-                            {{#if (capaciteIsValid @root key selected)}} {{~> (affichageCapacite . key) data=@root/systemData/equipements/armure/capacites}} {{else}} {{log "ERREUR ! " @root/data level="error"}} {{/if}}
+                            {{#if (capaciteIsValid @root key selected)}} {{~> (affichageCapacite . key) data=@root/systemData/equipements/armure/capacites}} {{else}} {{log "ERREUR ! Capacité incorrect. Correction en cours..." @root/data level="error"}} {{/if}}
                         {{/each}}
                     </div>
 
@@ -694,7 +694,7 @@
                             {{localize "KNIGHT.ITEMS.ARMURE.Special"}}
                         </h2>
                         {{#each actor.armureData.system.special.selected as | key selected|}}
-                            {{#if (capaciteIsValid @root key selected)}} {{~> (affichageSpecial . key)}} {{else}} {{log "ERREUR ! " @root/data level="error"}}{{/if}}
+                            {{#if (specialIsValid @root key selected)}} {{~> (affichageSpecial . key)}} {{else}} {{log "ERREUR ! Spécial incorrect. Correction en cours..." @root/data level="error"}}{{/if}}
                         {{/each}}
                     </div>
 
