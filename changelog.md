@@ -1,3 +1,8 @@
+## v3.21.13
+### Bugfix
+- Correction d'un bug rare créant une boucle infinie.
+- Correction d'un bug dans l'utilisation des modules sur les véhicules.
+
 ## v3.21.12
 ### Bugfix
 - Correction d'un bug rare gardant en mémoire les malus de style, même après changement de style.

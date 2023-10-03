@@ -475,8 +475,82 @@ export class KnightRollDialog extends Application {
     } else this.data.hasWraith = false;
 
     if(vehicule !== undefined) {
+      let vehiculeWpn = vehicule.items.filter(wpn => wpn.type === 'arme' && wpn.system.whoActivate !== "");
+
+      for (let i of vehicule.items.filter(mdl => mdl.type === 'module')) {
+        const system = i.system;
+        const niveau = system.niveau.value;
+        const itemDataNiveau = system.niveau.details[`n${niveau}`];
+        const itemArme = itemDataNiveau?.arme || {has:false};
+        const itemActive = system?.active?.base || false;
+
+        if(itemArme === false) continue;
+        if(itemDataNiveau.whoActivate === "") continue;
+
+        if(itemDataNiveau.permanent || itemActive) {
+          if(itemArme.has) {
+            const moduleArmeType = itemArme.type;
+            const moduleEffets = itemArme.effets;
+            const moiduleEffetsRaw = moduleEffets.raw;
+            const moduleEffetsCustom = moduleEffets.custom || [];
+            const moduleEffetsFinal = {
+              raw:[...new Set(moiduleEffetsRaw)],
+              custom:moduleEffetsCustom,
+              liste:moduleEffets.liste
+            };
+            const dataMunitions = itemArme?.optionsmunitions || {has:false};
+
+            let degats = itemArme.degats;
+            let violence = itemArme.violence;
+
+            if(dataMunitions.has) {
+              let actuel = dataMunitions.actuel;
+
+              if(actuel === undefined) {
+                dataMunitions.actuel = "0";
+                actuel = "1";
+              }
+
+              for (let i = 0; i <= actuel; i++) {
+
+                const raw = dataMunitions.liste[i].raw.concat(armorSpecialRaw);
+                const custom = dataMunitions.liste[i].custom.concat(armorSpecialCustom);
+
+                itemArme.optionsmunitions.liste[i].raw = [...new Set(raw)];
+                itemArme.optionsmunitions.liste[i].custom = custom;
+              }
+
+              degats = dataMunitions.liste[actuel].degats;
+              violence = dataMunitions.liste[actuel].violence;
+            }
+
+            const moduleWpn = {
+              _id:i._id,
+              name:i.name,
+              type:'module',
+              system:{
+                noRack:true,
+                type:itemArme.type,
+                portee:itemArme.portee,
+                degats:degats,
+                violence:violence,
+                optionsmunitions:dataMunitions,
+                effets:moduleEffetsFinal,
+                niveau:niveau,
+              }
+            };
+
+            if(moduleArmeType === 'distance') {
+              moduleWpn.system.distance = itemArme.distance;
+            }
+
+            if(moduleArmeType === 'distance') { vehiculeWpn.push(moduleWpn); }
+          }
+        }
+      }
+
       this.data.listWpnContact = {};
-      this.data.listWpnDistance = vehicule.items.filter(wpn => wpn.type === 'arme' && wpn.system.whoActivate !== "");
+      this.data.listWpnDistance = vehiculeWpn;
       this.data.listWpnTourelle = {};
       this.data.listGrenades = {};
       this.data.listWpnImprovisee = {};
