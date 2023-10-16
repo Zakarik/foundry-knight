@@ -4123,7 +4123,7 @@ export function getModuleBonus(actor, typeWpn, dataWpn, effetsWpn, distanceWpn, 
     }
   };
 
-  if(isPNJ) return result;
+  if(isPNJ && (!actor.system.options.modules ?? false)) return result;
 
   const actorModuleErsatz = actor?.moduleErsatz || {};
   const dataDgts = dataWpn?.degats?.module || {fixe:{}, variable:{}};
@@ -4522,7 +4522,11 @@ function compareObjects(obj1, obj2) {
 
   for (let i = 0; i < obj1Keys.length; i++) {
     const key = obj1Keys[i];
-    if (obj1[key] != obj2[key]) {
+
+    let obj1K = obj1[key];
+    let obj2K = obj2[key];
+
+    if (obj1K != obj2K) {
       return false;
     }
   }
@@ -4536,6 +4540,7 @@ export function compareArrays(arr1, arr2) {
   }
 
   for (let i = 0; i < arr1.length; i++) {
+
     if (!compareObjects(arr1[i], arr2[i])) {
       return false;
     }

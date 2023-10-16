@@ -1,3 +1,7 @@
+## v3.21.15
+### Bugfix
+- Correction d'un bug dans la prise en compte des modules pour les PNJ.
+
 ## v3.21.14
 ### Bugfix
 - Correction d'un bug rare créant une boucle infinie (oui, encore... J'avais oublié un fichier).
