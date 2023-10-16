@@ -6376,6 +6376,8 @@ export class KnightSheet extends ActorSheet {
           } else if(AlreadyEvo) {
             depensePG.push({
               order:evolution.addOrder,
+              id:i._id,
+              gratuit:false,
               isArmure:true,
               value:PGEvo
             });
@@ -7709,7 +7711,7 @@ export class KnightSheet extends ActorSheet {
         key: `system.progression.gloire.depense.liste.${i}.gratuit`,
         mode: 5,
         priority: null,
-        value: `${depensePG[i].gratuit}`
+        value: `${depensePG[i]?.gratuit ?? false}`
       },
       {
         key: `system.progression.gloire.depense.liste.${i}.id`,
@@ -7727,7 +7729,7 @@ export class KnightSheet extends ActorSheet {
         key: `system.progression.gloire.depense.liste.${i}.name`,
         mode: 5,
         priority: null,
-        value: `${depensePG[i].name}`
+        value: `${depensePG[i]?.name ?? ''}`
       },
       {
         key: `system.progression.gloire.depense.liste.${i}.order`,
