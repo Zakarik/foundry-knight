@@ -34,7 +34,7 @@ export class KnightActor extends Actor {
     let effectStatus;
     let listEffect;
 
-    if(window.EffectCounter !== undefined) {
+    if(window.EffectCounter !== undefined && this.permission === 3) {
       if(version < 11) {
         listEffect = this.getEmbeddedCollection('ActiveEffect').filter(e => e?.flags?.core?.statusId ?? undefined !== undefined);
 
@@ -122,7 +122,6 @@ export class KnightActor extends Actor {
 
         }
       }
-
     }
   }
 

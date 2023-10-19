@@ -1,3 +1,7 @@
+## v3.21.16
+### Bugfix
+- Correction d'un bug faisant apparaitre des messages d'erreurs aux joueurs lors de l'utilisation de Status Icon Counters.
+
 ## v3.21.15
 ### Bugfix
 - Correction d'un bug dans la prise en compte des modules pour les PNJ.
