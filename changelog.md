@@ -1,3 +1,8 @@
+## v3.21.17
+### Bugfix
+- Correction d'un bug prenant en compte plusieurs fois les bonus d'attaque avec Cadence / Chambre Double.
+- Correction d'un bug empêchant l'utilisation du style Puissant alors que celui-ci devrait être disponible.
+
 ## v3.21.16
 ### Bugfix
 - Correction d'un bug faisant apparaitre des messages d'erreurs aux joueurs lors de l'utilisation de Status Icon Counters.

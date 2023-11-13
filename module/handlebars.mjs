@@ -194,7 +194,7 @@
         switch(style) {
             case 'precis':
                 if(typeWpn === 'contact') {
-                    if((hasDeuxmains && !hasLourd && !hasAllegee) || hasLourd) result = true;
+                    if((hasDeuxmains && !hasAllegee) || hasLourd) result = true;
                 }
             break;
 
@@ -206,7 +206,7 @@
 
             case 'puissant':
                 if(typeWpn === 'contact') {
-                    if(hasLourd && !hasAllegee) result = true;
+                    if(hasLourd) result = true;
                 }
             break;
 
