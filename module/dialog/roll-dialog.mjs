@@ -2175,6 +2175,9 @@ export class KnightRollDialog extends Application {
         );
       }
 
+      totalDice += listAllE.attack.totalDice;
+      totalBonus += listAllE.attack.totalBonus;
+
       for(let i = 0; i < nRoll;i++) {
         const addNum = nRoll > 1 ? ` n°${i+1}` : ``;
         let regularite = 0;
@@ -2201,9 +2204,6 @@ export class KnightRollDialog extends Application {
         }
 
         if(!onlyDgts || !onlyViolence) {
-          totalDice += listAllE.attack.totalDice;
-          totalBonus += listAllE.attack.totalBonus;
-
           if(totalDice <= 0) totalDice = 1;
           let tgt = game.user?.targets?.ids?.[0] ?? undefined;
           let contactOrDistance = undefined;
