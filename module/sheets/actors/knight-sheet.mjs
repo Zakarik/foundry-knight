@@ -240,12 +240,10 @@ export class KnightSheet extends ActorSheet {
       if(!await confirmationDialog()) return;
 
       if(item.type === 'armure') {
-        const idLegende = this._getArmorLegendeId();
+        const legende = this._getArmorLegende();
 
-        if(idLegende !== 0) {
-          const armorLegende = this.actor.items.get(idLegende);
-
-          armorLegende.delete();
+        if(legende !== false) {
+          legende.delete();
         }
 
         const update = {
@@ -1740,7 +1738,7 @@ export class KnightSheet extends ActorSheet {
       const equipcapacites = getData.system.equipements.armure.capacites;
       const armorCapacites = getData.armureLegendeData.system.capacites.selected;
       const value = target.data("value") ? false : true;
-      const armure = this.actor.items.get(this._getArmorLegendeId());
+      const armure = this._getArmorLegende();
       const armureBase = await getArmor(this.actor);
       const remplaceEnergie = armureBase.system.espoir.remplaceEnergie || false;
       const quelMalus = remplaceEnergie ? 'espoir' : 'energie';
@@ -2401,7 +2399,7 @@ export class KnightSheet extends ActorSheet {
       const value =  eval(target.data("value"));
       const note = target.data("note");
       const flux = +this.actor.system.flux.value;
-      const armure = this.actor.items.get(this._getArmorLegendeId());
+      const armure = this._getArmorLegende();
 
       switch(special) {
         case 'recolteflux':
@@ -3061,9 +3059,8 @@ export class KnightSheet extends ActorSheet {
       const special = $(ev.currentTarget).data("special");
       const value = $(ev.currentTarget).data("value");
 
-      const idLegende = this._getArmorLegendeId();
       const armure = await getArmor(this.actor);
-      const armureLegende = this.actor.items?.get(idLegende) || false;
+      const armureLegende = this._getArmorLegende() || false;
 
       let result = true;
       if(value === true) { result = false; }
@@ -5144,11 +5141,9 @@ export class KnightSheet extends ActorSheet {
       }
 
       if (itemType === 'armurelegende') {
-        const oldArmorLegendeId = this._getArmorLegendeId();
+        const oldArmorLegende = this._getArmorLegende();
 
-        if(oldArmorLegendeId !== 0) {
-          const oldArmorLegende = this.actor.items.get(oldArmorLegendeId);
-
+        if(oldArmorLegende !== false) {
           oldArmorLegende.delete();
         }
 
@@ -8635,11 +8630,11 @@ export class KnightSheet extends ActorSheet {
     return result;
   }
 
-  _getArmorLegendeId() {
+  _getArmorLegende() {
     const data = this.actor;
-    const id = data.system.equipements.armure?.idLegende || 0;
+    const armor = data.items.filter((a) => a.type === 'armurelegende');
 
-    return id;
+    return armor.length > 0 ? this.actor.items.get(armor[0]._id) : false;
   }
 
   _getHighestOrder(myObject) {
