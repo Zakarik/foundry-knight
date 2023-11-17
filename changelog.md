@@ -1,3 +1,7 @@
+## v3.21.18
+### Bugfix
+- Correction d'un bug empêchant le bon fonctionnement des armures de légende dans certains cas.
+
 ## v3.21.17
 ### Bugfix
 - Correction d'un bug prenant en compte plusieurs fois les bonus d'attaque avec Cadence / Chambre Double.
