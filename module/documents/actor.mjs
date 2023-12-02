@@ -486,20 +486,26 @@ export class KnightActor extends Actor {
     data.initiative.complet = `${data.initiative.dice}D6+${data.initiative.value}`;
 
     // REACTION
+    const isWatchtower = armor?.system?.capacites?.selected?.watchtower?.active ?? false
     const userRBase = dataWear === 'armure' || dataWear === 'ascension' ? machineWODMax : machineMax;
     const reactionDataBonus = data.reaction.bonus?.user ?? 0;
     const reactionDataMalus = data.reaction.malus?.user ?? 0;
 
     let reactionBonus = isKraken ? 1 : 0;
+    let reactionMalus = 0;
+    let reactionTotal = 0;
 
     if(!data.reaction.bonusValue) data.reaction.bonusValue = reactionDataBonus;
     else data.reaction.bonusValue += reactionDataBonus;
 
-    if(!data.reaction.malusValue) data.reaction.malusValue = reactionDataMalus;
-    else data.reaction.malusValue += reactionDataMalus;
+    if(!data.reaction.malusValue) reactionMalus = reactionDataMalus;
+    else reactionMalus += reactionDataMalus;
 
+    data.reaction.malusValue = reactionMalus
     data.reaction.base = userRBase;
-    data.reaction.value = Math.max(userRBase+data.reaction.bonusValue+reactionBonus-data.reaction.malusValue, 0);
+
+    reactionTotal = Math.max(userRBase+data.reaction.bonusValue+reactionBonus-data.reaction.malusValue, 0);
+    data.reaction.value = isWatchtower ? Math.floor(reactionTotal/2) : reactionTotal;
 
     // DEFENSE
     const userDBase = dataWear === 'armure' || dataWear === 'ascension' ? beteWODMax : beteMax;
@@ -984,7 +990,8 @@ export class KnightActor extends Actor {
       if(!data[label].malusValue) data[label].malusValue = dataMalus;
       else data[label].malusValue += dataMalus;
 
-      data[label].max = Math.max(userBase+data[label].bonusValue-data[label].malusValue, 0);
+      if(label === 'champDeForce') data[label].value = Math.max(userBase+data[label].bonusValue-data[label].malusValue, 0);
+      else data[label].max = Math.max(userBase+data[label].bonusValue-data[label].malusValue, 0);
     }
   }
 

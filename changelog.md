@@ -1,3 +1,8 @@
+## v3.21.19
+### Bugfix
+- Correction d'un bug ne prenant pas en compte le malus à la réaction du mode Watchtower.
+- Correction d'un bug n'affichant pas correctement le champ de force des véhicules.
+
 ## v3.21.18
 ### Bugfix
 - Correction d'un bug empêchant le bon fonctionnement des armures de légende dans certains cas.
