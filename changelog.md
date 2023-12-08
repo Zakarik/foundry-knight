@@ -1,5 +1,9 @@
 ## v3.21.20
 ### Bugfix
+- Correction d'un bug de release.
+
+## v3.21.20
+### Bugfix
 - Correction d'un bug empêchant le drag & drop des armures de légende dans certains cas.
 - Correction d'un bug faisant apparaitre la catégorie "spécial" des armures de légende, même quand celle-ci est vide.
 
