@@ -1,3 +1,8 @@
+## v3.21.20
+### Bugfix
+- Correction d'un bug empêchant le drag & drop des armures de légende dans certains cas.
+- Correction d'un bug faisant apparaitre la catégorie "spécial" des armures de légende, même quand celle-ci est vide.
+
 ## v3.21.19
 ### Bugfix
 - Correction d'un bug ne prenant pas en compte le malus à la réaction du mode Watchtower.

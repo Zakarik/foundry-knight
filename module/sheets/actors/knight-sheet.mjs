@@ -5141,11 +5141,13 @@ export class KnightSheet extends ActorSheet {
       }
 
       if (itemType === 'armurelegende') {
-        const oldArmorLegende = this._getArmorLegende();
+        const oldArmorLegende = this._getArmorLegende(itemId);
 
         if(oldArmorLegende !== false) {
           oldArmorLegende.delete();
         }
+
+        console.warn(oldArmorLegende, this);
 
         const update = {
           system:{
@@ -8630,11 +8632,16 @@ export class KnightSheet extends ActorSheet {
     return result;
   }
 
-  _getArmorLegende() {
+  _getArmorLegende(id=0) {
     const data = this.actor;
     const armor = data.items.filter((a) => a.type === 'armurelegende');
+    const armorId = armor.length > 0 ? armor[0]._id : 0;
+    let result = false;
 
-    return armor.length > 0 ? this.actor.items.get(armor[0]._id) : false;
+    if(armorId !== 0 && id === 0) result = this.actor.items.get(armorId);
+    else if(armorId !== 0 && id !== armorId) result = this.actor.items.get(armorId);
+
+    return result;
   }
 
   _getHighestOrder(myObject) {
