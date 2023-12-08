@@ -714,15 +714,17 @@
                     {{/unless}}
 
                     {{#unless (isEmpty actor.armureLegendeData)}}
-                    <div class="capacites specialLegende">
-                        <h2 class="header js-toggler">
-                            <i class="far fa-minus-square"></i>
-                            {{localize "ITEM.TypeArmurelegende"}} : {{localize "KNIGHT.ITEMS.ARMURE.Special"}}
-                        </h2>
-                        {{#each actor.armureLegendeData.system.special.selected as | key selected|}}
-                            {{#if (capaciteIsValid @root key selected)}} {{~> (affichageSpecialLegende . key)}} {{else}} {{log "ERREUR ! " @root/data level="error"}}{{/if}}
-                        {{/each}}
-                    </div>
+                        {{#unless (isEmpty actor.armureLegendeData.system.special.selected)}}
+                            <div class="capacites specialLegende">
+                                <h2 class="header js-toggler">
+                                    <i class="far fa-minus-square"></i>
+                                    {{localize "ITEM.TypeArmurelegende"}} : {{localize "KNIGHT.ITEMS.ARMURE.Special"}}
+                                </h2>
+                                {{#each actor.armureLegendeData.system.special.selected as | key selected|}}
+                                    {{#if (capaciteIsValid @root key selected)}} {{~> (affichageSpecialLegende . key)}} {{else}} {{log "ERREUR ! " @root/data level="error"}}{{/if}}
+                                {{/each}}
+                            </div>
+                        {{/unless}}
                     {{/unless}}
 
                     {{#if actor.capaciteultime}}
