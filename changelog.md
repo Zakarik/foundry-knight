@@ -1,3 +1,7 @@
+## v3.21.22
+### Bugfix
+- Ajout d'un avertissement si un joueur essaye d'utiliser une grenade alors qu'il n'en possède plus, afin de clarifier les choses.
+
 ## v3.21.20
 ### Bugfix
 - Correction d'un bug de release.
