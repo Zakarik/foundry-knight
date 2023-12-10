@@ -165,9 +165,10 @@
     Handlebars.registerHelper('canUseStyle', function (style, typeWpn, idActor=-1, idWpn=-1) {
         let result = false;
 
-        if(idActor === -1 || (idWpn === -1 && typeWpn !== 'longbow') || typeWpn === '') return result;
+        if(idActor === -1 || (idWpn === -1 && typeWpn !== 'longbow') || typeWpn === '' || typeWpn === 'grenades') return result;
 
         const actor = game.actors.get(idActor);
+
         const wpn = typeWpn === 'longbow' ? actor.longbow : actor.items.get(idWpn).system;
 
         let effets = [];

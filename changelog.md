@@ -1,3 +1,7 @@
+## v3.22.2
+### Bugfix
+- Correction d'un bug empêchant l'utilisation des grenades dans certains cas.
+
 ## v3.22.1
 ### Bugfix
 - Correction d'un bug suite à la dernière mise à jour.
