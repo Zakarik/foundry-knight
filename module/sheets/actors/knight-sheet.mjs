@@ -3670,8 +3670,10 @@ export class KnightSheet extends ActorSheet {
       if(isDistance === 'grenades') {
         const nbreGrenade = this.actor.system?.combat?.grenades?.quantity?.value ?? 0;
 
-        if(nbreGrenade === 0) ui.notifications.warn(game.i18n.localize(`KNIGHT.AUTRE.NoGrenades`));
-        return;
+        if(nbreGrenade === 0) {
+          ui.notifications.warn(game.i18n.localize(`KNIGHT.AUTRE.NoGrenades`));
+          return;
+        }
       }
 
       if(caracs.length > 0) {
