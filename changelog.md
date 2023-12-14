@@ -1,3 +1,7 @@
+## v3.22.3
+### Bugfix
+- Correction d'un bug avec le bonus aux dégâts des grenades conféré par des modules.
+
 ## v3.22.2
 ### Bugfix
 - Correction d'un bug empêchant l'utilisation des grenades dans certains cas.
