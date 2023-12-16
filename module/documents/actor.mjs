@@ -492,7 +492,7 @@ export class KnightActor extends Actor {
     const reactionDataMalus = data.reaction.malus?.user ?? 0;
 
     let reactionBonus = isKraken ? 1 : 0;
-    let reactionMalus = 0;
+    let reactionMalus = data?.reaction?.malusValue ?? 0;
     let reactionTotal = 0;
 
     if(!data.reaction.bonusValue) data.reaction.bonusValue = reactionDataBonus;
