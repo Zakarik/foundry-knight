@@ -309,6 +309,8 @@ export class ArmureLegendeSheet extends ItemSheet {
     } else {
       degats.inclus.fixe = fixeNoInclus;
     }
+
+    context.data.system.capacites.selected.ghost.bonus.aspects = CONFIG.KNIGHT.caracteristiques;
   }
 
   _prepareFalconTranslation(context) {
