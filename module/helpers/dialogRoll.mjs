@@ -31,49 +31,60 @@ function containsWord(text, words) {
 }
 
 export function getKnightRoll(actor, hasEntraide=true) {
-    const hasInstance = Object.values(ui.windows).find((app) => app instanceof game.knight.applications.KnightRollDialog);
-    const isExist = !hasInstance ? false : true;
+  const nActor = actor?._id ?? 1;;
+  const filterInstance = Object.values(ui.windows).filter((app) => app instanceof game.knight.applications.KnightRollDialog);
+  let hasInstance = undefined;
+  let isExist = false;
 
-    let result = {};
+  for(let i of filterInstance) {
+    const iActor = i?.data?.actor?._id ?? 0;
 
-    if(hasEntraide) {
-      result = hasInstance ?? new game.knight.applications.KnightRollDialog({
-        title:actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
-        buttons: {
-          button1: {
-            label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
-            callback: async () => {},
-            icon: `<i class="fas fa-dice"></i>`
-          },
-          button2: {
-            label: game.i18n.localize("KNIGHT.JETS.JetEntraide"),
-            callback: async () => {},
-            icon: `<i class="fas fa-dice-d6"></i>`
-          },
-          button3: {
-            label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
-            icon: `<i class="fas fa-times"></i>`
-          }
-        }
-      });
-    } else {
-      result = hasInstance ?? new game.knight.applications.KnightRollDialog({
-        title:actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
-        buttons: {
-          button1: {
-            label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
-            callback: async () => {},
-            icon: `<i class="fas fa-dice"></i>`
-          },
-          button3: {
-            label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
-            icon: `<i class="fas fa-times"></i>`
-          }
-        }
-      });
+    if(iActor === nActor) {
+      isExist = true;
+      hasInstance = i;
     }
+  }
 
-    return {instance:result, previous:isExist};
+  let result = {};
+
+  if(hasEntraide) {
+    result = hasInstance ?? new game.knight.applications.KnightRollDialog({
+      title:actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
+      buttons: {
+        button1: {
+          label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
+          callback: async () => {},
+          icon: `<i class="fas fa-dice"></i>`
+        },
+        button2: {
+          label: game.i18n.localize("KNIGHT.JETS.JetEntraide"),
+          callback: async () => {},
+          icon: `<i class="fas fa-dice-d6"></i>`
+        },
+        button3: {
+          label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
+          icon: `<i class="fas fa-times"></i>`
+        }
+      }
+    });
+  } else {
+    result = hasInstance ?? new game.knight.applications.KnightRollDialog({
+      title:actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
+      buttons: {
+        button1: {
+          label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
+          callback: async () => {},
+          icon: `<i class="fas fa-dice"></i>`
+        },
+        button3: {
+          label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
+          icon: `<i class="fas fa-times"></i>`
+        }
+      }
+    });
+  }
+
+  return {instance:result, previous:isExist};
 }
 
 /*
@@ -102,11 +113,19 @@ DATA :
 - (int) violenceFixe : Modificateur non temporaire (fixe) en violence.
 */
 export function actualiseRoll(actor) {
-    const toActualise = Object.values(ui.windows).find((app) => app instanceof game.knight.applications.KnightRollDialog) ?? false;
+  const filterInstance = Object.values(ui.windows).filter((app) => app instanceof game.knight.applications.KnightRollDialog);
+  const nActor = actor?._id ?? 1;
+  let toActualise = undefined;
 
-    if(toActualise !== false) {
-        toActualise.actualise(actor);
+  for(let i of filterInstance) {
+    const iActor = i?.data?.actor?._id ?? 0;
+
+    if(iActor === nActor) {
+      toActualise = i;
     }
+  }
+
+  if(toActualise !== undefined) toActualise.actualise(actor);
 }
 
 export function dialogRoll(label, actor, data={}) {

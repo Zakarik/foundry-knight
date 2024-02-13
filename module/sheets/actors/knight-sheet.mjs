@@ -23,6 +23,7 @@ import {
   options,
   hideShowLimited,
   dragMacro,
+  createSheet,
 } from "../../helpers/common.mjs";
 
 import {
@@ -494,11 +495,11 @@ export class KnightSheet extends ActorSheet {
                   const lionAEMasqueMin = dataLMasque.ae > 4 ? 0 : dataLMasque.ae;
                   const lionAEMasqueMaj = dataLMasque.ae < 5 ? 0 : dataLMasque.ae;
 
-                  newActor = await Actor.create({
-                    name: `${this.title} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label")}`,
-                    type: "pnj",
-                    img:dataLion.img,
-                    system:{
+                  newActor = await createSheet(
+                    this.actor,
+                    "pnj",
+                    `${this.title} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label")}`,
+                    {
                       "aspects": {
                         "chair":{
                           "value":dataLChair.value,
@@ -589,10 +590,10 @@ export class KnightSheet extends ActorSheet {
                         "phase2":false
                       }
                     },
-                    items:dataLion.modules,
-                    folder:this.actor.folder,
-                    permission:this.actor.ownership
-                  });
+                    dataLion.modules,
+                    dataLion.img,
+                    dataLion.img
+                  );
 
                   const nLItems = [];
 
@@ -624,9 +625,6 @@ export class KnightSheet extends ActorSheet {
                   break;
 
                 case 'wolf':
-                  let newActor2;
-                  let newActor3;
-
                   const dataWolf = armorCapacites.companions.wolf;
 
                   const dataWChair = dataWolf.aspects.chair;
@@ -689,66 +687,43 @@ export class KnightSheet extends ActorSheet {
                     }
                   };
 
-                  newActor = await Actor.create({
-                    name: `${this.title} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label")} 1`,
-                    type: "pnj",
-                    img:dataWolf.img,
-                    system:dataActor,
-                    folder:this.actor.folder,
-                    permission:this.actor.ownership
-                  });
+                  for(let i = 1;i < 4;i++) {
+                    newActor = await createSheet(
+                      this.actor,
+                      "pnj",
+                      `${this.title} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label")} ${i}`,
+                      dataActor,
+                      {},
+                      dataWolf.img,
+                      dataWolf.img
+                    );
+                    const nWItems = [];
+                    const nWItem = {
+                      name:dataWolf.armes.contact.coups.label,
+                      type:'arme',
+                      system:{
+                        type:'contact',
+                        portee:dataWolf.armes.contact.coups.portee,
+                        degats:{
+                          dice:dataWolf.armes.contact.coups.degats.dice,
+                          fixe:dataWolf.armes.contact.coups.degats.fixe
+                        },
+                        violence:{
+                          dice:dataWolf.armes.contact.coups.violence.dice,
+                          fixe:dataWolf.armes.contact.coups.violence.fixe
+                        },
+                        effets:{
+                          raw:dataWolf.armes.contact.coups.effets.raw,
+                          custom:dataWolf.armes.contact.coups.effets.custom
+                        }
+                    }};
 
-                  newActor2 = await Actor.create({
-                    name: `${this.title} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label")} 2`,
-                    type: "pnj",
-                    img:dataWolf.img,
-                    system:dataActor,
-                    folder:this.actor.folder,
-                    permission:this.actor.ownership
-                  });
+                    nWItems.push(nWItem);
 
-                  newActor3 = await Actor.create({
-                    name: `${this.title} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label")} 3`,
-                    type: "pnj",
-                    img:dataWolf.img,
-                    system:dataActor,
-                    folder:this.actor.folder,
-                    permission:this.actor.ownership
-                  });
+                    await newActor.createEmbeddedDocuments("Item", nWItems);
 
-                  const nWItems = [];
-
-                  const nWItem = {
-                    name:dataWolf.armes.contact.coups.label,
-                    type:'arme',
-                    system:{
-                      type:'contact',
-                      portee:dataWolf.armes.contact.coups.portee,
-                      degats:{
-                        dice:dataWolf.armes.contact.coups.degats.dice,
-                        fixe:dataWolf.armes.contact.coups.degats.fixe
-                      },
-                      violence:{
-                        dice:dataWolf.armes.contact.coups.violence.dice,
-                        fixe:dataWolf.armes.contact.coups.violence.fixe
-                      },
-                      effets:{
-                        raw:dataWolf.armes.contact.coups.effets.raw,
-                        custom:dataWolf.armes.contact.coups.effets.custom
-                      }
-                  }};
-
-                  nWItems.push(nWItem);
-
-                  await newActor.createEmbeddedDocuments("Item", nWItems);
-                  await newActor2.createEmbeddedDocuments("Item", nWItems);
-                  await newActor3.createEmbeddedDocuments("Item", nWItems);
-
-                  update[`system.capacites.selected.companions.wolf.id`] = {
-                    id1:newActor.id,
-                    id2:newActor2.id,
-                    id3:newActor3.id
-                  };
+                    update[`system.capacites.selected.companions.wolf.id.id${i}`] = newActor.id;
+                  }
                   break;
 
                 case 'crow':
@@ -760,11 +735,11 @@ export class KnightSheet extends ActorSheet {
                   const dataCDame = dataCrow.aspects.dame;
                   const dataCMasque = dataCrow.aspects.masque;
 
-                  newActor = await Actor.create({
-                    name: `${this.title} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label")}`,
-                    type: "bande",
-                    img:dataCrow.img,
-                    system:{
+                  newActor = await createSheet(
+                    this.actor,
+                    "bande",
+                    `${this.title} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label")}`,
+                    {
                       "aspects": {
                         "chair":{
                           "value":dataCChair.value
@@ -818,9 +793,10 @@ export class KnightSheet extends ActorSheet {
                         "modules":false
                       }
                     },
-                    folder:this.actor.folder,
-                    permission:this.actor.ownership
-                  });
+                    {},
+                    dataCrow.img,
+                    dataCrow.img
+                  );
 
                   update[`system.capacites.selected.companions.crow.id`] = newActor.id;
                   break;
@@ -1800,11 +1776,11 @@ export class KnightSheet extends ActorSheet {
                 const lionAEMasqueMin = dataLMasque.ae > 4 ? 0 : dataLMasque.ae;
                 const lionAEMasqueMaj = dataLMasque.ae < 5 ? 0 : dataLMasque.ae;
 
-                newActor = await Actor.create({
-                  name: `${this.title} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label")}`,
-                  type: "pnj",
-                  img:dataLion.img,
-                  system:{
+                newActor = await createSheet(
+                  this.actor,
+                  "pnj",
+                  `${this.title} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label")}`,
+                  {
                     "aspects": {
                       "chair":{
                         "value":dataLChair.value,
@@ -1894,10 +1870,10 @@ export class KnightSheet extends ActorSheet {
                       "modules":true
                     }
                   },
-                  items:dataLion.modules,
-                  permission:this.actor.ownership,
-                  folder:this.actor.folder
-                });
+                  dataLion.modules,
+                  dataLion.img,
+                  dataLion.img
+                );
 
                 const nLItems = [];
 
@@ -1994,66 +1970,43 @@ export class KnightSheet extends ActorSheet {
                   }
                 };
 
-                newActor = await Actor.create({
-                  name: `${this.title} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label")} 1`,
-                  type: "pnj",
-                  img:dataWolf.img,
-                  system:dataActor,
-                  permission:this.actor.ownership,
-                  folder:this.actor.folder
-                });
-
-                newActor2 = await Actor.create({
-                  name: `${this.title} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label")} 2`,
-                  type: "pnj",
-                  img:dataWolf.img,
-                  system:dataActor,
-                  permission:this.actor.ownership,
-                  folder:this.actor.folder
-                });
-
-                newActor3 = await Actor.create({
-                  name: `${this.title} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label")} 3`,
-                  type: "pnj",
-                  img:dataWolf.img,
-                  system:dataActor,
-                  permission:this.actor.ownership,
-                  folder:this.actor.folder
-                });
-
-                const nWItems = [];
-
-                const nWItem = {
-                  name:dataWolf.armes.contact.coups.label,
-                  type:'arme',
-                  system:{
-                    type:'contact',
-                    portee:dataWolf.armes.contact.coups.portee,
-                    degats:{
-                      dice:dataWolf.armes.contact.coups.degats.dice,
-                      fixe:dataWolf.armes.contact.coups.degats.fixe
-                    },
-                    violence:{
-                      dice:dataWolf.armes.contact.coups.violence.dice,
-                      fixe:dataWolf.armes.contact.coups.violence.fixe
-                    },
-                    effets:{
-                      raw:dataWolf.armes.contact.coups.effets.raw,
-                      custom:dataWolf.armes.contact.coups.effets.custom
-                    }
+                for(let i = 1;i < 4;i++) {
+                  newActor = await createSheet(
+                    this.actor,
+                    "pnj",
+                    `${this.title} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label")} ${i}`,
+                    dataActor,
+                    {},
+                    dataWolf.img,
+                    dataWolf.img
+                  );
+                  const nWItems = [];
+                  const nWItem = {
+                    name:dataWolf.armes.contact.coups.label,
+                    type:'arme',
+                    system:{
+                      type:'contact',
+                      portee:dataWolf.armes.contact.coups.portee,
+                      degats:{
+                        dice:dataWolf.armes.contact.coups.degats.dice,
+                        fixe:dataWolf.armes.contact.coups.degats.fixe
+                      },
+                      violence:{
+                        dice:dataWolf.armes.contact.coups.violence.dice,
+                        fixe:dataWolf.armes.contact.coups.violence.fixe
+                      },
+                      effets:{
+                        raw:dataWolf.armes.contact.coups.effets.raw,
+                        custom:dataWolf.armes.contact.coups.effets.custom
+                      }
                   }};
 
-                nWItems.push(nWItem);
+                  nWItems.push(nWItem);
 
-                await newActor.createEmbeddedDocuments("Item", nWItems);
-                await newActor2.createEmbeddedDocuments("Item", nWItems);
-                await newActor3.createEmbeddedDocuments("Item", nWItems);
+                  await newActor.createEmbeddedDocuments("Item", nWItems);
 
-                update[`system.capacites.selected.companions.wolf.id`] = {
-                  id1:newActor.id,
-                  id2:newActor2.id,
-                  id3:newActor3.id
-                };
+                  update[`system.capacites.selected.companions.wolf.id.id${i}`] = newActor.id;
+                }
                 break;
 
               case 'crow':
@@ -2065,11 +2018,11 @@ export class KnightSheet extends ActorSheet {
                 const dataCDame = dataCrow.aspects.dame;
                 const dataCMasque = dataCrow.aspects.masque;
 
-                newActor = await Actor.create({
-                  name: `${this.title} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label")}`,
-                  type: "bande",
-                  img:dataCrow.img,
-                  system:{
+                newActor = await createSheet(
+                  this.actor,
+                  "bande",
+                  `${this.title} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label")}`,
+                  {
                     "aspects": {
                       "chair":{
                         "value":dataCChair.value
@@ -2120,9 +2073,10 @@ export class KnightSheet extends ActorSheet {
                       "modules":false
                     }
                   },
-                  permission:this.actor.ownership,
-                  folder:this.actor.folder
-                });
+                  {},
+                  dataCrow.img,
+                  dataCrow.img
+                );
 
                 update[`system.capacites.selected.companions.crow.id`] = newActor.id;
                 break;
@@ -5256,6 +5210,8 @@ export class KnightSheet extends ActorSheet {
   async _onDrop(event) {
     const data = TextEditor.getDragEventData(event);
     const actor = this.actor;
+
+    console.warn(data);
 
     /**
      * A hook event that fires when some useful data is dropped onto an ActorSheet.

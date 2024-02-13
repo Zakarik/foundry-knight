@@ -1,0 +1,38 @@
+.compendium {
+    section.window-content  {
+        section {
+            &.body {
+                display: grid;
+                align-items: flex-start;
+                align-content: flex-start;
+
+                nav {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    border: 0px;
+                    border-bottom: 1px solid $black;
+
+                    a {
+                        border-top: 1px solid $lightBlue;
+                        border-left: 1px solid $lightBlue;
+
+                        &:first-of-type {
+                            border-top-left-radius: 5px;
+                        }
+
+                        &:last-of-type {
+                            border-top-right-radius: 5px;
+                            border-right: 1px solid $lightBlue;
+                        }
+                    }
+                }
+
+                div {
+                    &.line {
+                        line-height: 24px;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -2046,6 +2046,8 @@ export class KnightRollDialog extends Application {
   }
 
   async _doRoll(event, entraide=false, attackOnly=false, dgtsOnly=false, violenceOnly=false, wpnId='', wpnType='', wpnName='', bonusTemp=false) {
+    console.warn(this);
+
     const data = this.data;
     const isPNJ = data?.pnj || false;
     const noOd = data?.noOd || false;
@@ -2342,6 +2344,10 @@ export class KnightRollDialog extends Application {
       if(capacite.roll.string !== '') sDetails += ` +${capacite.roll.string}`;
 
       const exec = new game.knight.RollKnight(`${totalDice}d6+${totalBonus}`, actor.system);
+      if(entraide) {
+        exec._canExploit = false;
+        exec._canEFail = false;
+      }
       exec._success = true;
       exec._flavor = this.data.label;
       exec._base = isPNJ ? game.i18n.localize(CONFIG.KNIGHT.aspects[data.base]) : game.i18n.localize(CONFIG.KNIGHT.caracteristiques[data.base]);
@@ -3312,7 +3318,7 @@ export class KnightRollDialog extends Application {
     const isMA = this.data?.ma || false;
     const armure = await getArmor(actor);
     const getArmure = actor.type === "knight" ? armure.system : actor.system;
-    const remplaceEnergie = isMA ? false : getArmure.espoir.remplaceEnergie || false;
+    const remplaceEnergie = isMA ? false : getArmure?.espoir?.remplaceEnergie ?? false;
     const type = remplaceEnergie ? 'espoir' : 'energie';
     const hasJauge = isMA || actor.type !== "knight" ? true : actor.system.jauges[type];
 
@@ -3436,32 +3442,35 @@ export class KnightRollDialog extends Application {
   }
 
   _getWpn(data, typeWpn, idWpn, nameWpn, numWpn) {
+    const allWpn = {
+      'base':data.listWpnMA,
+      'special':data.listWpnSpecial,
+      'contact':data.listWpnContact,
+      'distance':data.listWpnDistance,
+      'tourelle':data.listWpnTourelle,
+      'grenades':data.listGrenades,
+      'longbow':data.longbow,
+      'armesimprovisees':data.listWpnImprovisees,
+    };
 
-    let wpn = {};
+    let nWpn = typeWpn === 'c1' || typeWpn === 'c2' ? 'base' : typeWpn;
+    let wpn = allWpn[nWpn];
     let bonusDice = 0;
     let bonusFixe = 0;
 
-    switch(typeWpn) {
+    switch(nWpn) {
       case 'base':
-      case 'c1':
-      case 'c2':
-        wpn = data.listWpnMA[numWpn];
-        break;
-
       case 'special':
-        wpn = data.listWpnSpecial[numWpn];
+        wpn = wpn.find(itm => itm._id === idWpn);
         break;
 
       case 'contact':
-        wpn = data.listWpnContact[numWpn].system;
-        break;
-
       case 'distance':
-        wpn = data.listWpnDistance[numWpn].system;
+        wpn = wpn.find(itm => itm._id === idWpn).system;
         break;
 
       case 'tourelle':
-        wpn = data.listWpnTourelle[numWpn].system;
+        wpn = wpn.find(itm => itm._id === idWpn).system;
         bonusDice += Number(wpn.tourelle.attaque.dice);
         bonusFixe += Number(wpn.tourelle.attaque.fixe);
         break;
@@ -3483,8 +3492,6 @@ export class KnightRollDialog extends Application {
         wpn = data.listWpnImprovisees[idWpn][nameWpn].liste[numWpn];
         break;
     }
-
-
 
     return {wpn:wpn, dice:bonusDice, fixe:bonusFixe};
   }

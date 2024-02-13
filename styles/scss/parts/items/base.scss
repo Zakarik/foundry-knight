@@ -1,0 +1,33 @@
+.item {
+    @include header;
+
+    div.editor {
+        .tox {
+        min-height:inherit;
+        }
+    }
+
+    .editor-edit {
+        background: $black;
+    }
+
+    .tox-editor-container {
+        background: whitesmoke;
+    }
+
+    div.description {
+
+        div.editor {
+        min-height:130px;
+        border-bottom: 1px solid $lightBlue;
+        border-left: 1px solid $lightBlue;
+        border-right: 1px solid $lightBlue;
+        background:$lightBlack;
+
+            div.editor-content {
+                padding-left:5px;
+                padding-right:5px;
+            }
+        }
+    }
+}

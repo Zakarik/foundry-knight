@@ -50,7 +50,7 @@ data-other="{{this.system.type}}"
             {{/unless}}
             {{#if (isWpnDistance this.system.type)}}
                 {{#if this.system.optionsmunitions.has}}
-                    <div class="line">
+                    <div class="lineFull">
                         <select class="wpnMunitionChange" data-id="{{this._id}}" data-niveau="{{this.system.niveau}}">
                             {{#select this.system.optionsmunitions.actuel}}
                                 {{#each this.system.optionsmunitions.liste as | key munition|}}

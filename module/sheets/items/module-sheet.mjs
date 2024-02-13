@@ -12,10 +12,13 @@ export class ModuleSheet extends ItemSheet {
   /** @inheritdoc */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ["knight", "sheet", "item", "module"],
+      classes: ["knightItem", "sheet", "item", "module"],
       template: "systems/knight/templates/items/module-sheet.html",
       width: 700,
       height: 715,
+      tabs: [
+        {navSelector: ".sheet-tabs", contentSelector: ".body", initial: "niveau_n1"},
+      ],
       scrollY: [".attributes"],
       dragDrop: [{dragSelector: null, dropSelector: ".flexcol"}],
     });

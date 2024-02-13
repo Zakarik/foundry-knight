@@ -1,0 +1,19 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <section class="body">
+        <nav class="sheet-tabs tabs" data-group="primary">
+            <a class="item" data-tab="armures">{{localize "TYPES.Item.armure"}}</a>
+            <a class="item" data-tab="armures2">{{localize "TYPES.Item.armure"}}</a>
+        </nav>
+
+        <div class="tab armures item-list" data-group="primary" data-tab="armures">
+            <div class="header">
+                
+            </div>
+            {{#each armures}}
+                <div class="line item" data-uuid="{{uuid}}" data-type="{{type}}">
+                    {{name}}
+                </div>
+            {{/each}}
+        </div>
+    </section>
+</form>

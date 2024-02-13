@@ -559,9 +559,11 @@ export class KnightActor extends Actor {
 
     let PGTotalDepense = 0;
 
-    if(!PGDepenseListe[0].isEmpty) {
-      for(const PG in PGDepenseListe) {
-        if(!PGDepenseListe[PG].isArmure) PGTotalDepense += Number(PGDepenseListe[PG].value);
+    if(PGDepenseListe.length !== 0) {
+      if(!PGDepenseListe[0].isEmpty) {
+        for(const PG in PGDepenseListe) {
+          if(!PGDepenseListe[PG].isArmure) PGTotalDepense += Number(PGDepenseListe[PG].value);
+        }
       }
     }
 
