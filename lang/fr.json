@@ -2248,7 +2248,8 @@
       "ConfirmationSuppression":"Êtes vous sûre de vouloir supprimer cet objet ?",
       "Reset":"Reset",
       "Difficulte":"Difficulté",
-      "MJOnly":"MJ Uniquement"
+      "MJOnly":"MJ Uniquement",
+      "NoGrenades":"Vous n'avez plus de grenades."
     },
     "PHASE2":{
       "Label":"Phase 2",

@@ -7,7 +7,9 @@
 .mechaarmure .window-content,
 .avantage .window-content,
 .desavantage .window-content,
-.motivationMineure .window-content {
+.motivationMineure .window-content,
+.module .window-content,
+.compendium .window-content {
   background: none;
   background-color: RGB(43 42 51);
   color: white;
@@ -22,7 +24,9 @@
 .mechaarmure .window-content .mainFlex,
 .avantage .window-content .mainFlex,
 .desavantage .window-content .mainFlex,
-.motivationMineure .window-content .mainFlex {
+.motivationMineure .window-content .mainFlex,
+.module .window-content .mainFlex,
+.compendium .window-content .mainFlex {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -38,7 +42,9 @@
 .mechaarmure .window-content input,
 .avantage .window-content input,
 .desavantage .window-content input,
-.motivationMineure .window-content input {
+.motivationMineure .window-content input,
+.module .window-content input,
+.compendium .window-content input {
   color: inherit;
 }
 .knight .window-content .item.active,
@@ -50,7 +56,9 @@
 .mechaarmure .window-content .item.active,
 .avantage .window-content .item.active,
 .desavantage .window-content .item.active,
-.motivationMineure .window-content .item.active {
+.motivationMineure .window-content .item.active,
+.module .window-content .item.active,
+.compendium .window-content .item.active {
   background-color: RGB(87 110 178);
 }
 .knight .window-content a:hover,
@@ -62,7 +70,9 @@
 .mechaarmure .window-content a:hover,
 .avantage .window-content a:hover,
 .desavantage .window-content a:hover,
-.motivationMineure .window-content a:hover {
+.motivationMineure .window-content a:hover,
+.module .window-content a:hover,
+.compendium .window-content a:hover {
   text-shadow: 0 0 10px RGB(37 85 228);
 }
 .knight .window-content nav.tabs,
@@ -74,7 +84,9 @@
 .mechaarmure .window-content nav.tabs,
 .avantage .window-content nav.tabs,
 .desavantage .window-content nav.tabs,
-.motivationMineure .window-content nav.tabs {
+.motivationMineure .window-content nav.tabs,
+.module .window-content nav.tabs,
+.compendium .window-content nav.tabs {
   justify-content: space-between;
 }
 
@@ -12772,7 +12784,6 @@
 }
 .module div.niveaux {
   width: 100%;
-  margin-top: 5px;
 }
 .module div.main {
   display: flex;
@@ -13854,7 +13865,6 @@
   padding-right: 5px;
   padding-bottom: 19px;
   padding-left: 5px;
-  border: 1px solid RGB(87 110 178);
   margin-top: 5px;
 }
 .module div.main div.effets div {
@@ -14244,6 +14254,75 @@
 }
 .module div.hidden {
   display: none !important;
+}
+.module section.body {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  margin-top: 5px;
+}
+.module section.body nav {
+  border: 0px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0px;
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.module section.body nav a {
+  display: grid;
+  grid-template-columns: 1fr 15px;
+  padding-right: 0px;
+  text-align: left;
+  font-variant: small-caps;
+  font-size: 16px;
+  border-left: 1px solid RGB(87 110 178);
+  border-bottom: 1px solid RGB(87 110 178);
+}
+.module section.body nav a i.active {
+  display: none;
+}
+.module section.body nav a.active i.active {
+  display: inline;
+}
+.module section.body nav a:first-of-type {
+  border-top-left-radius: 5px;
+}
+.module section.body nav a:nth-of-type(1), .module section.body nav a:nth-of-type(2), .module section.body nav a:nth-of-type(3) {
+  border-top: 1px solid RGB(87 110 178);
+}
+.module section.body nav a:nth-of-type(3) {
+  border-top-right-radius: 5px;
+}
+.module section.body nav a:nth-of-type(3n+3) {
+  border-right: 1px solid RGB(87 110 178);
+}
+.module section.body div.niveaux {
+  display: none;
+  padding-bottom: 5px;
+  border-bottom: 1px solid RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.module section.body div.niveaux.active {
+  display: block;
+}
+.module section.body div.niveaux div.main {
+  border-left: 0px;
+  border-right: 0px;
+}
+.module section.body div.niveaux div.main h2 {
+  border-left: 0px;
+  border-right: 0px;
+}
+.module section.body div.niveaux div.main div.col:nth-of-type(even) > label,
+.module section.body div.niveaux div.main div.col:nth-of-type(even) > div {
+  border-right: 0px;
+}
+.module section.body div.niveaux div.main div.col:nth-of-type(odd) > label,
+.module section.body div.niveaux div.main div.col:nth-of-type(odd) > div {
+  border-left: 0px;
 }
 
 .arme form.armeWindows {
@@ -24175,6 +24254,12 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.combat div.main div.armesDistance div.wpn.wpnEquipped div.line {
   grid-template-columns: 1fr 100px 100px 34px;
 }
+.knight section.body div.combat div.main div.armesContact div.wpn.wpnEquipped div.lineFull,
+.knight section.body div.combat div.main div.armesDistance div.wpn.wpnEquipped div.lineFull {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
 .knight section.body div.combat div.main div.armesContact div.wpn button.addbasechair,
 .knight section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
   display: flex;
@@ -31335,6 +31420,12 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.combat div.main div.armesDistance div.wpn.wpnEquipped div.line {
   grid-template-columns: 1fr 100px 100px 34px;
 }
+.pnj section.body div.combat div.main div.armesContact div.wpn.wpnEquipped div.lineFull,
+.pnj section.body div.combat div.main div.armesDistance div.wpn.wpnEquipped div.lineFull {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
 .pnj section.body div.combat div.main div.armesContact div.wpn button.addbasechair,
 .pnj section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
   display: flex;
@@ -33549,6 +33640,12 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.body div.combat div.main div.armesDistance div.wpn.wpnEquipped div.line {
   grid-template-columns: 1fr 100px 100px 34px;
 }
+.creature section.body div.combat div.main div.armesContact div.wpn.wpnEquipped div.lineFull,
+.creature section.body div.combat div.main div.armesDistance div.wpn.wpnEquipped div.lineFull {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
 .creature section.body div.combat div.main div.armesContact div.wpn button.addbasechair,
 .creature section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
   display: flex;
@@ -35649,6 +35746,12 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.body div.combat div.main div.armesContact div.wpn.wpnEquipped div.line,
 .bande section.body div.combat div.main div.armesDistance div.wpn.wpnEquipped div.line {
   grid-template-columns: 1fr 100px 100px 34px;
+}
+.bande section.body div.combat div.main div.armesContact div.wpn.wpnEquipped div.lineFull,
+.bande section.body div.combat div.main div.armesDistance div.wpn.wpnEquipped div.lineFull {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
 }
 .bande section.body div.combat div.main div.armesContact div.wpn button.addbasechair,
 .bande section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
@@ -37889,6 +37992,11 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.body div.combat div.main div.armesDistance div.wpn.wpnEquipped div.line {
   grid-template-columns: 1fr 100px 100px 34px;
 }
+.vehicule section.body div.combat div.main div.armesDistance div.wpn.wpnEquipped div.lineFull {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
 .vehicule section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
   display: flex;
   text-align: center;
@@ -39872,6 +39980,32 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   align-items: flex-start;
   align-content: flex-start;
   width: 100%;
+}
+
+.compendium section.window-content section.body {
+  display: grid;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.compendium section.window-content section.body nav {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border: 0px;
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.compendium section.window-content section.body nav a {
+  border-top: 1px solid RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+}
+.compendium section.window-content section.body nav a:first-of-type {
+  border-top-left-radius: 5px;
+}
+.compendium section.window-content section.body nav a:last-of-type {
+  border-top-right-radius: 5px;
+  border-right: 1px solid RGB(87 110 178);
+}
+.compendium section.window-content section.body div.line {
+  line-height: 24px;
 }
 
 div#interface.version1 #logo {

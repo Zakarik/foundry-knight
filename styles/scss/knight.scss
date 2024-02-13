@@ -1,0 +1,273 @@
+$logos:
+"1",
+"2",
+"3";
+
+$imgs:
+"combat",
+"scenes",
+"actors",
+"items",
+"journal",
+"tables",
+"cards",
+"playlists",
+"compendium";
+
+@import "parts/functions";
+@import "parts/base";
+@import "parts/dialogs/roll";
+@import "parts/dialogs/ask";
+@import "parts/items/base";
+@import "parts/items/avantage";
+@import "parts/items/inconvenient";
+@import "parts/items/divers";
+@import "parts/items/armure";
+@import "parts/items/armurelegende";
+@import "parts/items/module";
+@import "parts/items/arme";
+@import "parts/items/capacite";
+@import "parts/items/effet";
+@import "parts/items/art";
+@import "parts/items/distinction";
+@import "parts/items/capaciteultime";
+
+.knight,
+.ia,
+.creature,
+.pnj,
+.bande,
+.vehicule,
+.mechaarmure {
+  div.editor {
+    padding-left:2px;
+    padding-right:2px;
+
+    .tox {
+      min-height:inherit;
+    }
+
+    div.tox-tinymce {
+      border-radius:0px;
+    }
+  }
+
+  .editor-edit {
+    background: $black;
+  }
+
+  .tox-editor-container {
+    background: whitesmoke;
+  }
+
+  header.sheet-header {
+    width:100%;
+    flex:0;
+    align-items: flex-start;
+    flex:none;
+
+    .profile-img {
+      width:160px;
+      height:200px;
+      border-color:$white;
+      background:$lightBlack;
+      margin-right:0px;
+      object-fit: contain;
+    }
+
+    .headerData {
+      display:flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      height:200px;
+      width:calc(100% - 160px);
+      flex:none;
+
+      .data {
+        display:flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-content:flex-start;
+        height:160px;
+        width:100%;
+        flex:none;
+
+        h1.charname {
+          width:100%;
+          border:0px;
+          margin:0px;
+          flex:none;
+          align-self:flex-start;
+
+          input {
+            margin: 0px;
+            width: 100%;
+            text-align: center;
+            border-top: 0px;
+            border-right: 0px;
+            border-left: 0px;
+            padding-top: 10px;
+            border-radius: 0px;
+            border-width: unset;
+            border-color: $white;
+            background:transparent;
+          }
+        }
+
+        label {
+          display: flex;
+          align-items: flex-end;
+          width:calc(50% - 5px);
+          flex:none;
+          padding-left:5px;
+          margin-top:5px;
+
+          span {
+            white-space: nowrap;
+            width:max-content;
+            margin-right:5px;
+          }
+
+          input {
+            border-top: 0px;
+            border-radius: 0px;
+            border-right: 0px;
+            border-left: 0px;
+            background: transparent;
+            border-color: $white;
+            padding-top:10px;
+          }
+        }
+      }
+
+      div.buttonSelectArmure {
+        display:flex;
+        width:100%;
+        justify-content: space-between;
+        margin-bottom:5px;
+        padding-left:10px;
+        padding-right:10px;
+
+        div.blockArmure {
+          display:flex;
+          justify-content: center;
+          align-items:center;
+          width:200px;
+          color:$white;
+          border:2px solid;
+          position:relative;
+
+          button {
+            width:calc(200px -  25px - 25px);
+            border:0px;
+            background:transparent;
+          }
+
+          a.item-edit {
+            position:absolute;
+            cursor:pointer;
+            left:5px;
+          }
+
+          a.item-delete {
+            position:absolute;
+            cursor:pointer;
+            right:5px;
+          }
+
+          &.unselected {
+            background:$black;
+            border-color:$lightBlack;
+          }
+
+          &.selected {
+            background:$lightBlack;
+            border-color:$black;
+          }
+        }
+
+        button {
+          width:200px;
+          color:$white;
+          cursor:pointer;
+          border:2px solid;
+          position:relative;
+
+          &.unselected {
+            background:$black;
+            border-color:$lightBlack;
+          }
+
+          &.selected {
+            background:$lightBlack;
+            border-color:$black;
+          }
+        }
+
+        &.centered {
+          justify-content: center;
+        }
+      }
+    }
+  }
+
+  section.menu {
+    display:flex;
+    width:160px;
+    border:1px solid $white;
+    flex-flow: column;
+    height:calc(100% - 200px);
+    background: $lightBlack;
+    margin-top:-1px;
+    padding-top:1px;
+  }
+
+  i.hideShowLimited {
+    cursor: pointer;
+    font-size: 14px;
+    position: absolute;
+    top: 6px;
+    right: 5px;
+
+    &:hover {
+      text-shadow: 0 0 10px $blue;
+    }
+  }
+}
+
+@import "parts/knight";
+@import "parts/ia";
+@import "parts/pnj";
+@import "parts/creature";
+@import "parts/bande";
+@import "parts/vehicule";
+@import "parts/mechaarmure";
+@import "parts/common";
+@import "parts/roll";
+@import "parts/dialogs/companions";
+@import "parts/dialogs/compendium";
+
+@each $logo in $logos {
+  div#interface.version#{$logo} #logo {
+    content: url("../assets/icons/logo#{$logo}.webp");
+    min-height: 100px;
+  }
+}
+
+li.chat-message {
+  background: $lightGrey;
+  box-shadow: 1px 1px 6px $black;
+}
+
+@each $img in $imgs {
+  section##{$img} {
+      >header:first-of-type:before {
+          content:"";
+          background:url("../assets/banners/#{$img}.webp");
+          height: 53px;
+          display: block;
+          width: 100%;
+          background-size: contain;
+      }
+  }
+}

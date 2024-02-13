@@ -1,3 +1,13 @@
+## v3.23.0
+### Améliorations
+- Amélioration de la fenêtre de jet, en permettant l'ouvertures de multiples fenêtres (une par acteur), alors qu'avant, il n'était possible d'en ouvrir qu'une seule en tout et pour tout.
+- Améliorations de la mise en page des modules, pour en faciliter la lecture.
+
+### Bugfix
+- Correction d'un bug n'attribuant pas les tokens correctement au mode Companions.
+- Désactivation des échecs critiques et exploits pour les jets d'entraide #134
+- Correction d'un bug empêchant les monstres d'utiliser de l'énergie avec les armes. #142
+
 ## v3.22.4
 ### Bugfix
 - Correction d'un bug ne diminuant pas la réaction avec l'effet Barrage.

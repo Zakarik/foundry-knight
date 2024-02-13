@@ -39,6 +39,7 @@ import { KnightCompanionsDialog } from "./dialog/companions-dialog.mjs";
 import { KnightRollDialog } from "./dialog/roll-dialog.mjs";
 import { KnightEditDialog } from "./dialog/edit-dialog.mjs";
 import { KnightEffetsDialog } from "./dialog/effets-dialog.mjs";
+import { KnightCompendiumDialog } from "./dialog/compendium-dialog.mjs";
 import { MigrationKnight } from "./migration.mjs";
 import toggler from './helpers/toggler.js';
 
@@ -80,7 +81,8 @@ Hooks.once('init', async function() {
       KnightRollDialog,
       KnightEditDialog,
       KnightEffetsDialog,
-      KnightCompanionsDialog
+      KnightCompanionsDialog,
+      KnightCompendiumDialog,
     },
     documents:{
       KnightActor,
@@ -485,6 +487,16 @@ async function createMacro(data, slot) {
   game.user.assignHotbarMacro(macro, slot);
   return false;
 }
+
+
+/*Hooks.on('renderItemDirectory', async function () {
+  $("section#items footer.action-buttons").append(`<button class='compendium'>Compendium</button>`);
+
+  $("section#items footer.action-buttons button.compendium").on( "click", async function() {
+    const dial = new game.knight.applications.KnightCompendiumDialog();
+  });
+});*/
+
 /*Hooks.on("renderPause", function () {
   $("#pause.paused figcaption").text('');
 });*/

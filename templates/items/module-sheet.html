@@ -81,14 +81,21 @@
                 </select>
             </label>
         </div>
+    </div>
+
+    <section class="body">
+        {{!-- Sheet Tab Navigation --}}
+        <nav class="sheet-tabs tabs" data-group="primary">
+            {{#each systemData.niveau.details as | key nv|}}
+                <a class="item" data-tab="niveau_{{nv}}">
+                    {{localize "KNIGHT.ITEMS.MODULE.Niveau"}} {{key.label}} {{#if (NiveauisHigherThan nv 1)}} (+{{key.prix}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}) {{/if}}
+                    <i class="fa-solid fa-check active"></i>
+                </a>
+            {{/each}}
+        </nav>
 
         {{#each systemData.niveau.details as | key nv|}}
-        <div class="niveaux niveau_{{nv}}" data-key="{{nv}}">
-            <h2 class="header js-toggler">
-                <i class="far fa-minus-square"></i>
-                {{localize "KNIGHT.ITEMS.MODULE.Niveau"}} {{key.label}} {{#if (NiveauisHigherThan nv 1)}} (+{{key.prix}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}) {{/if}}
-            </h2>
-
+        <div class="tab niveaux niveau_{{nv}}" data-key="{{nv}}" data-group="primary" data-tab="niveau_{{nv}}">
             <div class="main">
                 <div class="col">
                     <label class="twoLine">
@@ -1206,5 +1213,5 @@
             </div>
         </div>
         {{/each}}
-    </div>
+    </section>
 </form>

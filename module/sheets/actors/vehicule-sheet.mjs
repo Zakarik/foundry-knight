@@ -116,7 +116,7 @@ export class VehiculeSheet extends ActorSheet {
           niveau = data.niveau.value,
           dataNiveau = data.niveau.details[`n${niveau}`];
 
-      dataModule.update({[`system.active.base`]:value})
+      dataModule.update({[`system.active.base`]:value});
 
       if(dataNiveau.jetsimple.has && value) {
         const jSREffects = await getEffets(this.actor, 'contact', 'standard', {}, dataNiveau.jetsimple.effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false);
@@ -708,7 +708,7 @@ export class VehiculeSheet extends ActorSheet {
               key: path.champDeForce.bonus,
               mode: 2,
               priority: null,
-              value: bonusEffects.cdf
+              value: bonusEffects.cdf.bonus
             });
 
             if(itemArme.type === 'distance') {

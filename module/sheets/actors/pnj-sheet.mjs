@@ -113,6 +113,8 @@ export class PNJSheet extends ActorSheet {
 
     actualiseRoll(this.actor);
 
+    console.warn(context);
+
     return context;
   }
 

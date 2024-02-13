@@ -1,0 +1,101 @@
+.distinction {
+    .header {
+        display:grid;
+        grid-template-columns: 212px 1fr;
+        grid-template-rows: 48px 1fr;
+        column-gap: 10px;
+
+        div {
+            &.blockImg {
+                grid-column: 1;
+                grid-row: 1 / 3;
+
+                height: 262px;
+                width: 212px;
+                background: $lightBlack;
+                border: 1px solid $white;
+                display: flex;
+                align-items: center;
+
+                img.profile-img {
+                    border:0px;
+                    object-fit: contain;
+                }
+            }
+
+            &.description {
+                grid-column: 2;
+                grid-row: 2;
+
+                div.editor {
+                    height: calc(100% - 23px);
+
+                    div.tox {
+                        height:100%;
+                    }
+                }
+            }
+        }
+
+        h1.charname {
+            grid-column: 2;
+            grid-row: 1;
+
+            display:flex;
+            justify-content: space-between;
+            width:100%;
+            border:0px;
+            margin:0px;
+            padding:0px;
+
+            input[type="text"] {
+              margin: 0px;
+              width: 100%;
+              height:100%;
+              text-align: center;
+              border-top: 0px;
+              border-right: 0px;
+              border-left: 0px;
+              border-radius: 0px;
+              border-width: unset;
+              border-color: $white;
+              background:transparent;
+            }
+        }
+    }
+
+    div {
+        &.main {
+            display:grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 28px 28px;
+            grid-gap: 5px;
+            margin-top:5px;
+
+            label {
+                display:grid;
+                grid-template-columns: 1fr 70px;
+                width:100%;
+                color:$white;
+                line-height: 26px;
+                border: 1px solid $lightBlue;
+                font-variant: small-caps;
+
+                span {
+                    background:$lightBlack;
+                    padding-left: 5px;
+                }
+
+                input {
+                    width:100%;
+                    min-width: 0px;
+                    background:$black;
+                    text-align: center;
+                    padding:0px;
+                    border:0px;
+                    border-radius:0px;
+                }
+            }
+        }
+    }
+}
