@@ -8,7 +8,8 @@
 - Améliorations de la mise en page des modules, pour en faciliter la lecture.
 
 ### Bugfix
-- Correction d'un bug n'attribuant pas les tokens correctement au mode Companions.
+- Correction d'un bug n'affichant pas les bonnes armes / leurs effets lors d'un jet. [#141](https://github.com/Zakarik/foundry-knight/issues/141)
+- Correction d'un bug n'attribuant pas les tokens correctement au mode Companions. [#141](https://github.com/Zakarik/foundry-knight/issues/141)
 - Désactivation des échecs critiques et exploits pour les jets d'entraide [#134](https://github.com/Zakarik/foundry-knight/issues/134)
 - Correction d'un bug empêchant les monstres d'utiliser de l'énergie avec les armes. [#142](https://github.com/Zakarik/foundry-knight/issues/142)
 
