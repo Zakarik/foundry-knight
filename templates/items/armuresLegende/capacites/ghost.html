@@ -69,32 +69,14 @@
             <label class="middlespan separation">
                 <span>{{localize "KNIGHT.BONUS.Attaque"}}</span>
                 <select name="system.capacites.selected.ghost.bonus.attaque" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.bonus.attaque}}
-                        <option value=""></option>
-                        {{#each this.bonus.aspects as | key aspect|}}
-                            <optgroup label="{{getAspect aspect}}">
-                                {{#each key.liste as | keyCarac caracteristique|}}
-                                    <option value="{{caracteristique}}">{{getCarac caracteristique}}</option>
-                                {{/each}}
-                            </optgroup>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions bonus.aspects selected=bonus.attaque blank='' localize=true sort=true}}
                 </select>
             </label>
             <h4 class="separation">{{localize "KNIGHT.BONUS.Degats"}}</h4>
             <label class="middlespan noseparation">
                 <span>{{localize "KNIGHT.ITEMS.Caracteristique"}}</span>
                 <select name="system.capacites.selected.ghost.bonus.degats.caracteristique" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.bonus.degats.caracteristique}}
-                        <option value=""></option>
-                        {{#each this.bonus.aspects as | key aspect|}}
-                            <optgroup label="{{getAspect aspect}}">
-                                {{#each key.liste as | keyCarac caracteristique|}}
-                                    <option value="{{caracteristique}}">{{getCarac caracteristique}}</option>
-                                {{/each}}
-                            </optgroup>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions bonus.aspects selected=bonus.degats.caracteristique blank='' localize=true sort=true}}
                 </select>
             </label>
             <button type="action" class="{{#unless this.softlock}}notDisabled{{/unless}} {{#if this.bonus.degats.od}}selected{{/if}}"

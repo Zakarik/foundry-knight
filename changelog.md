@@ -1,4 +1,8 @@
 ## v3.23.0
+### Bugfix
+- Correction d'un bug ne permettant pas de sélectionner les caractéristiques dans les listes déroulantes de la capacité de légende "Ghost".
+
+## v3.23.0
 ### Améliorations
 - Amélioration de la fenêtre de jet, en permettant l'ouvertures de multiples fenêtres (une par acteur), alors qu'avant, il n'était possible d'en ouvrir qu'une seule en tout et pour tout.
 - Améliorations de la mise en page des modules, pour en faciliter la lecture.
