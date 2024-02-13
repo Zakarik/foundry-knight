@@ -5,8 +5,8 @@
 
 ### Bugfix
 - Correction d'un bug n'attribuant pas les tokens correctement au mode Companions.
-- Désactivation des échecs critiques et exploits pour les jets d'entraide #134
-- Correction d'un bug empêchant les monstres d'utiliser de l'énergie avec les armes. #142
+- Désactivation des échecs critiques et exploits pour les jets d'entraide [#134](https://github.com/Zakarik/foundry-knight/issues/134)
+- Correction d'un bug empêchant les monstres d'utiliser de l'énergie avec les armes. [#142](https://github.com/Zakarik/foundry-knight/issues/142)
 
 ## v3.22.4
 ### Bugfix
