@@ -965,12 +965,16 @@ export class KnightSheet extends ActorSheet {
             const nbreA = equipcapacites.morph.nbre;
             update[`system.${toupdate}.${special}`] = value;
 
+            console.warn(update);
+
             if(value) {
               let label = special;
               effectExist = existEffect(listEffect, special);
               const aMorph = armorCapacites.morph;
 
               if(special === "polymorphieLame" || special === "polymorphieGriffe" || special === "polymorphieCanon") {
+                update[`system.capacites.selected.morph.active.${special}`] = value;
+
                 effect.push({
                   key: `system.equipements.armure.capacites.morph.poly`,
                   mode: 2,
@@ -1046,9 +1050,9 @@ export class KnightSheet extends ActorSheet {
                 specialUpdate[`system.equipements.armure.capacites.morph.poly`] = 0;
 
                 update[`system.${toupdate}.morph`] = false;
-                update[`system.${toupdate}.polymorphieLame`] = false;
-                update[`system.${toupdate}.polymorphieGriffe`] = false;
-                update[`system.${toupdate}.polymorphieCanon`] = false;
+                update[`system.capacites.selected.morph.active.polymorphieLame`] = false;
+                update[`system.capacites.selected.morph.active.polymorphieGriffe`] = false;
+                update[`system.capacites.selected.morph.active.polymorphieCanon`] = false;
                 update[`system.capacites.selected.morph.poly.fait`] = false;
                 update[`system.capacites.selected.morph.choisi.fait`] = false;
                 update[`system.capacites.selected.morph.choisi.vol`] = false;
@@ -1086,6 +1090,7 @@ export class KnightSheet extends ActorSheet {
                   case "polymorphieLame":
                   case "polymorphieGriffe":
                   case "polymorphieCanon":
+                    update[`system.capacites.selected.morph.active.${special}`] = value;
                     effectExist = existEffect(listEffect, 'polymorphieArme');
 
                     effect.push({
@@ -6039,6 +6044,7 @@ export class KnightSheet extends ActorSheet {
               }
 
               const activeMorph = capacite?.active?.morph || false;
+              console.warn(capacite);
               if(wear === 'armure' && activeMorph) {
                 if(capacite.active.polymorphieLame) {
                   const lameEffets = capacite.polymorphie.lame.effets;

@@ -1,4 +1,8 @@
-## v3.23.0
+## v3.23.2
+### Bugfix
+- Correction d'un bug n'ajoutant pas les armes du mode polymorphie de guerre lorsque celles-ci étaient activées.
+
+## v3.23.1
 ### Bugfix
 - Correction d'un bug ne permettant pas de sélectionner les caractéristiques dans les listes déroulantes de la capacité de légende "Ghost".
 
