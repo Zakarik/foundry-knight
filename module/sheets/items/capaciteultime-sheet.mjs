@@ -9,8 +9,8 @@ export class CapaciteUltimeSheet extends ItemSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["knight", "sheet", "item", "capaciteUltime"],
       template: "systems/knight/templates/items/capaciteUltime-sheet.html",
-      width: 700,
-      height: 300,
+      width: 900,
+      height: 600,
       scrollY: [".attributes"],
     });
   }
@@ -132,7 +132,21 @@ export class CapaciteUltimeSheet extends ItemSheet {
       const toaddF = html.find(`.${addClass} input.fixe`).val();
 
       list.push(`${toaddD}${game.i18n.localize("KNIGHT.JETS.Des-short")}6+${toaddF}`);
-      list.sort();
+      list.sort((a, b) => {
+        const aSplit1 = parseInt(a.split('D')[0]);
+        const aSplit2 = parseInt(a.split('+')[1]);
+        const bSplit1 = parseInt(b.split('D')[0]);
+        const bSplit2 = parseInt(b.split('+')[1]);
+        const dice = aSplit1 - bSplit1;
+        const fixe = aSplit2 - bSplit2;
+
+        if(dice > 0) return 1;
+        else if(dice < 0) return -1;
+        else if(dice === 0) {
+          if(fixe > 0) return 1;
+          if(fixe <= 0) return -1;
+        }
+      });
 
       this.item.update({[`system.${toupdate}`]:list});
     });
