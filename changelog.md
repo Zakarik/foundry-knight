@@ -1,3 +1,7 @@
+## v3.23.3
+### Bugfix
+- Correction du tri des paliers de dégâts et violences variables des capacités ultimes.
+
 ## v3.23.2
 ### Bugfix
 - Correction d'un bug n'ajoutant pas les armes du mode polymorphie de guerre lorsque celles-ci étaient activées.
