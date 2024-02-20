@@ -1,3 +1,8 @@
+## v3.24.1
+### Bugfix
+- Correction d'un bug empêchant le drag & drop depuis le navigateur de compendium.
+- Tentative de correction d'un bug de duplication des boutons.
+
 ## v3.24.0
 ### Améliorations
 - Ajout d'un navigateur de compendium (disponible via un bouton en bas, dans l'onglet "Objets", il peut mettre quelques secondes à apparaitre au lancement)

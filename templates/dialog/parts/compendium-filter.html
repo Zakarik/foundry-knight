@@ -93,7 +93,7 @@
         <summary data-key="type">{{localize 'KNIGHT.TYPE.Label'}}</summary>
         {{#each filters.ai.type}}
         <label>
-            <input type="checkbox" data-type="{{this}}" data-tab="{{../tab}}" {{checked (ifThen (eq (lookup ../check.type this) undefined) true (lookup ../check.type this))}} />
+            <input type="checkbox" data-subtype="{{this}}" data-tab="{{../tab}}" {{checked (ifThen (eq (lookup ../check.type this) undefined) true (lookup ../check.type this))}} />
             <span>{{getCompendiumAI this}}</span>
         </label>
         {{/each}}

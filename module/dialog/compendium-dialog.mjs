@@ -311,7 +311,7 @@ export class KnightCompendiumDialog extends FormApplication {
           html:`${game.i18n.localize('KNIGHT.AUTRE.PointGloire-short')}`
         },
         {
-          type:'type',
+          type:'subtype',
           html:`${game.i18n.localize('KNIGHT.ITEMS.MODULE.ARME.TYPE.Label')}`
         },
         {
@@ -333,7 +333,7 @@ export class KnightCompendiumDialog extends FormApplication {
           html:`${game.i18n.localize('KNIGHT.COMPENDIUM.Categorie')}`
         },
         {
-          type:'type',
+          type:'subtype',
           html:`${game.i18n.localize('KNIGHT.TYPE.Label')}`
         },
       ],
@@ -1048,7 +1048,7 @@ export class KnightCompendiumDialog extends FormApplication {
         if(type === 'type') {
           for(let g of ltypes) {
             const target = $(g);
-            const categorie = target.data('type');
+            const categorie = target.data('subtype');
             const value = target.is(':checked');
 
             this.object.check.type[categorie] = value;
@@ -1078,7 +1078,7 @@ export class KnightCompendiumDialog extends FormApplication {
       const gen = target.data('gen');
       const rarete = target.data('rarete');
       const categorie = target.data('categorie');
-      const catType = target.data('type');
+      const catType = target.data('subtype');
       const gloire = parseInt(target.data('gloire'));
       const uuid = target.data('uuid');
       let r1 = val === '' || name.includes(val) ? true : false;
