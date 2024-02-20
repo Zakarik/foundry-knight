@@ -965,8 +965,6 @@ export class KnightSheet extends ActorSheet {
             const nbreA = equipcapacites.morph.nbre;
             update[`system.${toupdate}.${special}`] = value;
 
-            console.warn(update);
-
             if(value) {
               let label = special;
               effectExist = existEffect(listEffect, special);

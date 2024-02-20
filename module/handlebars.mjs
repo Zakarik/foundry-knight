@@ -350,6 +350,18 @@
         return c;
     });
 
+    Handlebars.registerHelper('getCategorieName', function (value) {
+        if(value === undefined) return '';
+        let name = value;
+        if(Array.isArray(name)) name = value[0];
+        const listName = Object.assign({}, CONFIG.KNIGHT.module.categorie.normal, CONFIG.KNIGHT.module.categorie.prestige);
+
+        const label = name.toString().charAt(0).toUpperCase()+name.toString().substr(1);
+        const c = value === '' ? '' : game.i18n.localize(listName[value]);
+
+        return c;
+    });
+
     Handlebars.registerHelper('getWpnType', function (value) {
         const result = value === '' ? '' : game.i18n.localize(`KNIGHT.COMBAT.ARMES.${value.toUpperCase()}.Label`);
 
@@ -749,5 +761,50 @@
         const result = value > 1 && !prevIsIgnore ? true : false;
 
         return result;
+    });
+
+    Handlebars.registerHelper('compendiumFilter', function(data, search, name, key) {
+        const gen = data?.[key] ?? false;
+        const nameLower = name.toLowerCase();
+        const searchLower = search.toLowerCase();
+        const n = nameLower === '' ? false : !nameLower.includes(searchLower);
+        let result = false;
+
+        if(gen || n) result = true;
+
+        return result;
+    });
+
+    Handlebars.registerHelper('compendiumColor', function(data, search, name, key) {
+        const gen = data?.[key] ?? false;
+        const nameLower = name.toLowerCase();
+        const searchLower = search.toLowerCase();
+        const n = nameLower === '' ? false : !nameLower.includes(searchLower);
+        const previous = data?.previous ?? '';
+        let result = false;
+        let css = ''
+
+        if(gen || n) result = true;
+
+        if(!result && previous !== '') {
+            css = previous === 'clair' ? 'fonce' : 'clair';
+            data.previous = previous === 'clair' ? 'fonce' : 'clair';
+        } else if(!result && previous === '') {
+            css = 'fonce';
+            data.previous = 'fonce';
+        }
+
+        return css;
+    });
+
+    Handlebars.registerHelper('getCompendiumAI', function (str) {
+        const list = {
+            'standard':'KNIGHT.AUTRE.Standard',
+            'ia':'KNIGHT.IA.Label',
+            'avantage':'TYPES.Item.avantage',
+            'inconvenient':'TYPES.Item.inconvenient',
+        };
+
+        return game.i18n.localize(list?.[str] ?? str);
     });
  };

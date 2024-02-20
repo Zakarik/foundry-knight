@@ -1,0 +1,167 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <section class="body">
+        <nav class="sheet-tabs tabs" data-group="primary">
+            <a class="item" data-tab="armures">{{localize "KNIGHT.COMPENDIUM.Armures"}}</a>
+            <a class="item" data-tab="modules">{{localize "KNIGHT.ITEMS.MODULE.Label"}}</a>
+            <a class="item" data-tab="armes">{{localize "KNIGHT.COMBAT.ARMES.Label"}}</a>
+            <a class="item" data-tab="ai">{{localize "KNIGHT.COMPENDIUM.Ai"}}</a>
+            <a class="item" data-tab="distinctions">{{localize "KNIGHT.COMPENDIUM.Distinctions"}}</a>
+            <a class="item" data-tab="cartes">{{localize "KNIGHT.COMPENDIUM.Cartes"}}</a>
+            <a class="item" data-tab="capacites">{{localize "KNIGHT.COMPENDIUM.Capacites"}}</a>
+        </nav>
+
+        <div class="tab armures" data-group="primary" data-tab="armures">
+            {{~> systems/knight/templates/dialog/parts/compendium-filter.html tab='armures'}}
+            <div class="data">
+                <div class="header">
+                    {{#each header.armures}}
+                        <span class="summary {{type}}" data-by="{{type}}" data-tab="armures">
+                            {{#if html}}<i class="fa-solid fa-arrow-up" data-type="ascendant"></i>{{/if}}
+                            {{html}}
+                            {{#if html}}<i class="fa-solid fa-arrow-down" data-type="descendant"></i>{{/if}}
+                        </span>
+                    {{/each}}
+                </div>
+                {{#each data.armures}}
+                    <div class="line draggable tofilter {{compendiumColor ../farmures ../search name uuid}}" style="{{ifThen (compendiumFilter ../farmures ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-type="{{type}}" data-name="{{name}}" data-gen="{{generation}}">
+                        {{#each all}}
+                            {{{this}}}
+                        {{/each}}
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="tab modules" data-group="primary" data-tab="modules">
+            {{~> systems/knight/templates/dialog/parts/compendium-filter.html tab='modules'}}
+            <div class="data">
+                <div class="header">
+                    {{#each header.modules}}
+                        <span class="summary {{type}}" data-by="{{type}}" data-tab="modules">
+                            {{#if html}}<i class="fa-solid fa-arrow-up" data-type="ascendant"></i>{{/if}}
+                            {{html}}
+                            {{#if html}}<i class="fa-solid fa-arrow-down" data-type="descendant"></i>{{/if}}
+                        </span>
+                    {{/each}}
+                </div>
+                {{#each data.modules}}
+                    <div class="line draggable tofilter {{compendiumColor ../fmodules ../search name uuid}}" style="{{ifThen (compendiumFilter ../fmodules ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-name="{{name}}" data-categorie="{{categorie}}" data-gloire="{{gloire}}" data-rarete="{{rarete}}">
+                        {{#each all}}
+                            {{{this}}}
+                        {{/each}}
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="tab armes" data-group="primary" data-tab="armes">
+            {{~> systems/knight/templates/dialog/parts/compendium-filter.html tab='armes'}}
+            <div class="data">
+                <div class="header">
+                    {{#each header.armes}}
+                        <span class="summary {{type}}" data-by="{{type}}" data-tab="armes">
+                            {{#if html}}<i class="fa-solid fa-arrow-up" data-type="ascendant"></i>{{/if}}
+                            {{html}}
+                            {{#if html}}<i class="fa-solid fa-arrow-down" data-type="descendant"></i>{{/if}}
+                        </span>
+                    {{/each}}
+                </div>
+                {{#each data.armes}}
+                    <div class="line draggable tofilter {{compendiumColor ../farmes ../search name uuid}}" style="{{ifThen (compendiumFilter ../farmes ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-name="{{name}}" data-type="{{type}}" data-gloire="{{gloire}}" data-rarete="{{rarete}}">
+                        {{#each all}}
+                            {{{this}}}
+                        {{/each}}
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="tab ai" data-group="primary" data-tab="ai">
+            {{~> systems/knight/templates/dialog/parts/compendium-filter.html tab='ai'}}
+            <div class="data">
+                <div class="header">
+                    {{#each header.ai}}
+                        <span class="summary {{type}}" data-by="{{type}}" data-tab="ai">
+                            {{#if html}}<i class="fa-solid fa-arrow-up" data-type="ascendant"></i>{{/if}}
+                            {{html}}
+                            {{#if html}}<i class="fa-solid fa-arrow-down" data-type="descendant"></i>{{/if}}
+                        </span>
+                    {{/each}}
+                </div>
+                {{#each data.ai}}
+                    <div class="line draggable tofilter {{compendiumColor ../fai ../search name uuid}}" style="{{ifThen (compendiumFilter ../fai ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-name="{{name}}" data-type="{{type}}" data-categorie="{{categorie}}">
+                        {{#each all}}
+                            {{{this}}}
+                        {{/each}}
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="tab distinctions" data-group="primary" data-tab="distinctions">
+            {{~> systems/knight/templates/dialog/parts/compendium-filter.html tab='distinctions'}}
+            <div class="data">
+                <div class="header">
+                    {{#each header.distinctions}}
+                        <span class="summary {{type}}" data-by="{{type}}" data-tab="distinctions">
+                            {{#if html}}<i class="fa-solid fa-arrow-up" data-type="ascendant"></i>{{/if}}
+                            {{html}}
+                            {{#if html}}<i class="fa-solid fa-arrow-down" data-type="descendant"></i>{{/if}}
+                        </span>
+                    {{/each}}
+                </div>
+                {{#each data.distinctions}}
+                    <div class="line draggable tofilter {{compendiumColor ../fdistinctions ../search name uuid}}" style="{{ifThen (compendiumFilter ../fdistinctions ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-name="{{name}}">
+                        {{#each all}}
+                            {{{this}}}
+                        {{/each}}
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="tab cartes" data-group="primary" data-tab="cartes">
+            {{~> systems/knight/templates/dialog/parts/compendium-filter.html tab='cartes'}}
+            <div class="data">
+                <div class="header">
+                    {{#each header.cartes}}
+                        <span class="summary {{type}}" data-by="{{type}}" data-tab="cartes">
+                            {{#if html}}<i class="fa-solid fa-arrow-up" data-type="ascendant"></i>{{/if}}
+                            {{html}}
+                            {{#if html}}<i class="fa-solid fa-arrow-down" data-type="descendant"></i>{{/if}}
+                        </span>
+                    {{/each}}
+                </div>
+                {{#each data.cartes}}
+                    <div class="line draggable tofilter {{compendiumColor ../fcartes ../search name uuid}}" style="{{ifThen (compendiumFilter ../fcartes ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-name="{{name}}">
+                        {{#each all}}
+                            {{{this}}}
+                        {{/each}}
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="tab capacites" data-group="primary" data-tab="capacites">
+            {{~> systems/knight/templates/dialog/parts/compendium-filter.html tab='capacites'}}
+            <div class="data">
+                <div class="header">
+                    {{#each header.cartes}}
+                        <span class="summary {{type}}" data-by="{{type}}" data-tab="capacites">
+                            {{#if html}}<i class="fa-solid fa-arrow-up" data-type="ascendant"></i>{{/if}}
+                            {{html}}
+                            {{#if html}}<i class="fa-solid fa-arrow-down" data-type="descendant"></i>{{/if}}
+                        </span>
+                    {{/each}}
+                </div>
+                {{#each data.capacites}}
+                    <div class="line draggable tofilter {{compendiumColor ../fcapacites ../search name uuid}}" style="{{ifThen (compendiumFilter ../fcapacites ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-name="{{name}}">
+                        {{#each all}}
+                            {{{this}}}
+                        {{/each}}
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+</form>

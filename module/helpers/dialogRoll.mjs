@@ -782,6 +782,8 @@ export async function doDgts(data) {
 
   let diceDgts = +dgtsDice;
   let bonusDgts = +dgtsFixe;
+  let bonusTrueDgts = 0;
+  let bonusAssDgts = 0;
 
   if(style.raw === 'akimbo') {
     diceDgts += diceDgts;
@@ -795,14 +797,19 @@ export async function doDgts(data) {
   bonusDgts += regularite;
   diceDgts += listAllEffets.degatsModules.dice;
   bonusDgts += listAllEffets.degatsModules.fixe;
-  if(assAtk !== undefined) bonusDgts += Number(assAtk);
-  if(connectee !== undefined) bonusDgts += Number(connectee);
-  if(hyperVelocite !== undefined) bonusDgts += Number(hyperVelocite);
+
+  bonusTrueDgts = bonusDgts;
+
+  if(assAtk !== undefined) bonusAssDgts += Number(assAtk);
+  if(connectee !== undefined) bonusAssDgts += Number(connectee);
+  if(hyperVelocite !== undefined) bonusAssDgts += Number(hyperVelocite);
+
+  bonusTrueDgts += bonusAssDgts;
 
   const labelDgt = `${data.label} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}${addNum}`;
   const totalDiceDgt = tenebricide === true ? Math.floor(diceDgts/2) : diceDgts;
 
-  const totalDgt = `${Math.max(totalDiceDgt, 0)}d6+${bonusDgts}`;
+  const totalDgt = `${Math.max(totalDiceDgt, 0)}d6+${bonusTrueDgts}`;
 
   const execDgt = new game.knight.RollKnight(`${totalDgt}`);
   execDgt._success = false;
@@ -824,6 +831,7 @@ export async function doDgts(data) {
 
   let sub = effets.degats.list;
   let include = effets.degats.include;
+  let hideInclude = include;
   let index;
 
   if(assAtk !== undefined) {
@@ -850,36 +858,70 @@ export async function doDgts(data) {
     }
   }
 
-  if(assAtk !== undefined) include.push({
-    name:`+${assAtk} ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-    desc:`${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Description')}`
-  });
+  if(assAtk !== undefined) {
+    hideInclude.push({
+      name:`+${assAtk} ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+      desc:`${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Description')}`
+    });
 
-  if(connectee !== undefined) include.push({
-    name:`+${connectee} ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-    desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Description')}`
-  });
+    include.push({
+      name:`+ ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')}`,
+      desc:`${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Description')}`
+    });
+  }
 
-  if(hyperVelocite !== undefined) include.push({
-    name:`+${hyperVelocite} ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-    desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Description')}`
-  });
+  if(connectee !== undefined) {
+    hideInclude.push({
+      name:`+${connectee} ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+      desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Description')}`
+    });
+
+    include.push({
+      name:`+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+      desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Description')}`
+    });
+  }
+
+  if(hyperVelocite !== undefined) {
+    hideInclude.push({
+      name:`+${hyperVelocite} ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+      desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Description')}`
+    });
+
+    include.push({
+      name:`+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+      desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Description')}`
+    });
+  }
 
   if(sub.length > 0) { sub.sort(SortByName); }
   if(include.length > 0) { include.sort(SortByName); }
+  if(hideInclude.length > 0) { hideInclude.sort(SortByName); }
 
   const rMode = game.settings.get("core", "rollMode");
 
-  const pDegats = {
+  let tooltip = await execDgt.getTooltip();
+  let falseTooltip = tooltip.replaceAll(` + ${bonusTrueDgts}</span>`, ` + ${bonusDgts}</span>`);
+
+  let pDegats = {
     flavor:labelDgt,
     main:{
-      total:execDgt._total,
-      tooltip:await execDgt.getTooltip(),
-      formula: execDgt._formula
+      total:execDgt._total-bonusAssDgts,
+      tooltip:falseTooltip,
+      formula: `${Math.max(totalDiceDgt, 0)}d6+${bonusDgts}`
     },
     sub:sub,
     include:include,
+    hideInclude:hideInclude,
   };
+
+  if(bonusAssDgts > 0) {
+    pDegats.hide = {
+      total:execDgt._total,
+      tooltip:tooltip,
+      formula: execDgt._formula,
+    }
+  }
 
   const dgtsMsgData = {
     user: game.user.id,
@@ -938,6 +980,8 @@ export async function doViolence(data) {
 
   let diceViolence = +violenceDice;
   let bonusViolence = +violenceFixe;
+  let bonusTrueViolence = 0;
+  let bonusAssViolence = 0;
 
   if((actor.type !== 'knight' && actor.type !== 'pnj' && actor.type !== 'mechaarmure' && actor.type !== 'vehicule' && diceViolence === 0 && bonusViolence === 0)) {}
   else {
@@ -952,16 +996,21 @@ export async function doViolence(data) {
 
     diceViolence += listAllEffets.violenceModules.dice;
     bonusViolence += listAllEffets.violenceModules.fixe;
-    if(assAtk !== undefined) bonusViolence += Number(assAtk);
-    if(connectee !== undefined) bonusViolence += Number(connectee);
-    if(hyperVelocite !== undefined) bonusViolence += Number(hyperVelocite);
+
+    bonusTrueViolence = bonusViolence;
+
+    if(assAtk !== undefined) bonusAssViolence += Number(assAtk);
+    if(connectee !== undefined) bonusAssViolence += Number(connectee);
+    if(hyperVelocite !== undefined) bonusAssViolence += Number(hyperVelocite);
 
     bonusViolence += bViolence;
+    bonusTrueViolence += bViolence;
+    bonusTrueViolence += bonusAssViolence;
 
     const labelViolence = `${data.label} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}${addNum}`;
     const totalDiceViolence = tenebricide === true ? Math.floor(diceViolence/2) : diceViolence;
 
-    const totalViolence = `${Math.max(totalDiceViolence, 0)}d6+${bonusViolence}`;
+    const totalViolence = `${Math.max(totalDiceViolence, 0)}d6+${bonusTrueViolence}`;
 
     const execViolence = new game.knight.RollKnight(`${totalViolence}`);
     execViolence._success = false;
@@ -976,6 +1025,7 @@ export async function doViolence(data) {
 
     let sub = listAllEffets.violence.list;
     let include = listAllEffets.violence.include;
+    let hideInclude = include;
     let index;
 
     if(assAtk !== undefined) {
@@ -1002,34 +1052,68 @@ export async function doViolence(data) {
       }
     }
 
-    if(assAtk !== undefined) include.push({
-      name:`+${assAtk} ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-      desc:`${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Description')}`
-    });
+    if(assAtk !== undefined) {
+      include.push({
+        name:`+ ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+        desc:`${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Description')}`
+      });
 
-    if(connectee !== undefined) include.push({
-      name:`+${connectee} ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-      desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Description')}`
-    });
+      hideInclude.push({
+        name:`+${assAtk} ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+        desc:`${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Description')}`
+      });
+    }
 
-    if(hyperVelocite !== undefined) include.push({
-      name:`+${hyperVelocite} ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-      desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Description')}`
-    });
+    if(connectee !== undefined) {
+      include.push({
+        name:`+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+        desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Description')}`
+      });
+
+      hideInclude.push({
+        name:`+${connectee} ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+        desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Description')}`
+      });
+    }
+
+    if(hyperVelocite !== undefined) {
+      include.push({
+        name:`+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+        desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Description')}`
+      });
+
+      hideInclude.push({
+        name:`+${hyperVelocite} ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+        desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Description')}`
+      });
+    }
 
     if(sub.length > 0) { sub.sort(SortByName); }
     if(include.length > 0) { include.sort(SortByName); }
+    if(hideInclude.length > 0) { hideInclude.sort(SortByName); }
 
-    const pViolence = {
+    let tooltip = await execViolence.getTooltip();
+    let falseTooltip = tooltip.replaceAll(` + ${bonusTrueViolence}</span>`, ` + ${bonusViolence}</span>`);
+
+    let pViolence = {
       flavor:labelViolence,
       main:{
-        total:execViolence._total,
-        tooltip:await execViolence.getTooltip(),
-        formula: execViolence._formula
+        total:execViolence._total-bonusAssViolence,
+        tooltip:falseTooltip,
+        formula:`${Math.max(totalDiceViolence, 0)}d6+${bonusViolence}`,
       },
       sub:sub,
       include:include,
+      hideInclude:hideInclude,
     };
+
+    if(bonusAssViolence > 0) {
+      pViolence.hide = {
+        total:execViolence._total,
+        tooltip:tooltip,
+        formula: execViolence._formula,
+      }
+    }
 
     const violenceMsgData = {
       user: game.user.id,

@@ -53,6 +53,8 @@ import {
   updateEffect,
   listLogo,
   SortByLabel,
+  generateNavigator,
+  importActor,
 } from "./helpers/common.mjs";
 
 import {
@@ -370,6 +372,9 @@ Hooks.once("ready", async function() {
   Hooks.on("hotbarDrop", (bar, data, slot) => createMacro(data, slot));
 });
 
+Hooks.once("setup", async function() {
+});
+
 Hooks.once("ready", HooksKnight.ready);
 Hooks.on('deleteItem', doc => toggler.clearForId(doc.id));
 Hooks.on('deleteActor', doc => toggler.clearForId(doc.id));
@@ -380,6 +385,7 @@ Hooks.on('renderChatMessage', (message, html, data) => {
 
   if(!user.isGM) {
     html.find('div.atkTouche').remove();
+    html.find('div.toHide').remove();
   }
 
   if(user._id !== author._id && !user.isGM) {
@@ -488,14 +494,75 @@ async function createMacro(data, slot) {
   return false;
 }
 
+Hooks.on('renderItemDirectory', async function () {
+  await generateNavigator();
 
-/*Hooks.on('renderItemDirectory', async function () {
-  $("section#items footer.action-buttons").append(`<button class='compendium'>Compendium</button>`);
+  $("section#items footer.action-buttons").append(`<button class='compendium'>${game.i18n.localize('KNIGHT.COMPENDIUM.Label')}</button>`);
 
   $("section#items footer.action-buttons button.compendium").on( "click", async function() {
     const dial = new game.knight.applications.KnightCompendiumDialog();
+    dial.render(true);
   });
-});*/
+});
+
+Hooks.on('updateCompendium', async function () {
+  await generateNavigator();
+});
+
+Hooks.on('renderActorDirectory', async function () {
+  if(!game.user.isGM) return;
+
+  $("section#actors footer.action-buttons").append(`<button class='import-all'>${game.i18n.localize('KNIGHT.IMPORT.Label')}</button>`);
+
+  $("section#actors footer.action-buttons button.import-all").on( "click", async function() {
+    const html = `
+      <select class="typeImport">
+        <option value="creature">${game.i18n.localize('TYPES.Actor.creature')}</option>
+        <option value="bande">${game.i18n.localize('TYPES.Actor.bande')}</option>
+        <option value="pnj">${game.i18n.localize('TYPES.Actor.pnj')}</option>
+      </select>
+      <textarea class="toImport"></textarea>
+    `;
+
+    const dOptions = {
+      classes: ["knight-import-all"],
+      height:200
+    };
+
+    let d = new Dialog({
+      title: game.i18n.localize('KNIGHT.IMPORT.Label'),
+      content:html,
+      buttons: {
+        one: {
+         label: game.i18n.localize('KNIGHT.IMPORT.Importer'),
+         callback: async (html) => {
+            const target = html.find('.toImport').val();
+            let type = html.find('.typeImport').val();
+
+            if(type === '') type = 'creature';
+
+            try{
+              const json = JSON.parse(target);
+              const isArray = Array.isArray(json);
+
+              if(isArray) {
+                for(let a of json) {
+                  importActor(a, type);
+                }
+              } else {
+                importActor(json, type);
+              }
+            } catch {
+              ui.notifications.error(game.i18n.localize('KNIGHT.IMPORT.Error'));
+            }
+          }
+        }
+      }
+    },
+    dOptions);
+    d.render(true);
+  });
+});
 
 /*Hooks.on("renderPause", function () {
   $("#pause.paused figcaption").text('');
