@@ -497,6 +497,7 @@ async function createMacro(data, slot) {
 Hooks.on('renderItemDirectory', async function () {
   await generateNavigator();
 
+  $("section#items footer.action-buttons button.compendium").remove();
   $("section#items footer.action-buttons").append(`<button class='compendium'>${game.i18n.localize('KNIGHT.COMPENDIUM.Label')}</button>`);
 
   $("section#items footer.action-buttons button.compendium").on( "click", async function() {
@@ -512,6 +513,7 @@ Hooks.on('updateCompendium', async function () {
 Hooks.on('renderActorDirectory', async function () {
   if(!game.user.isGM) return;
 
+  $("section#actors footer.action-buttons button.import-all").remove();
   $("section#actors footer.action-buttons").append(`<button class='import-all'>${game.i18n.localize('KNIGHT.IMPORT.Label')}</button>`);
 
   $("section#actors footer.action-buttons button.import-all").on( "click", async function() {

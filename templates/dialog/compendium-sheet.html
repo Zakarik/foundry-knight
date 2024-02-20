@@ -45,7 +45,7 @@
                     {{/each}}
                 </div>
                 {{#each data.modules}}
-                    <div class="line draggable tofilter {{compendiumColor ../fmodules ../search name uuid}}" style="{{ifThen (compendiumFilter ../fmodules ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-name="{{name}}" data-categorie="{{categorie}}" data-gloire="{{gloire}}" data-rarete="{{rarete}}">
+                    <div class="line draggable tofilter {{compendiumColor ../fmodules ../search name uuid}}" style="{{ifThen (compendiumFilter ../fmodules ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-type="{{type}}" data-name="{{name}}" data-categorie="{{categorie}}" data-gloire="{{gloire}}" data-rarete="{{rarete}}">
                         {{#each all}}
                             {{{this}}}
                         {{/each}}
@@ -67,7 +67,7 @@
                     {{/each}}
                 </div>
                 {{#each data.armes}}
-                    <div class="line draggable tofilter {{compendiumColor ../farmes ../search name uuid}}" style="{{ifThen (compendiumFilter ../farmes ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-name="{{name}}" data-type="{{type}}" data-gloire="{{gloire}}" data-rarete="{{rarete}}">
+                    <div class="line draggable tofilter {{compendiumColor ../farmes ../search name uuid}}" style="{{ifThen (compendiumFilter ../farmes ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-name="{{name}}" data-type="{{type}}" data-subtype="{{subtype}}" data-gloire="{{gloire}}" data-rarete="{{rarete}}">
                         {{#each all}}
                             {{{this}}}
                         {{/each}}
@@ -89,7 +89,7 @@
                     {{/each}}
                 </div>
                 {{#each data.ai}}
-                    <div class="line draggable tofilter {{compendiumColor ../fai ../search name uuid}}" style="{{ifThen (compendiumFilter ../fai ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-name="{{name}}" data-type="{{type}}" data-categorie="{{categorie}}">
+                    <div class="line draggable tofilter {{compendiumColor ../fai ../search name uuid}}" style="{{ifThen (compendiumFilter ../fai ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-name="{{name}}" data-type="{{type}}" data-subtype="{{subtype}}" data-categorie="{{categorie}}">
                         {{#each all}}
                             {{{this}}}
                         {{/each}}
@@ -111,7 +111,7 @@
                     {{/each}}
                 </div>
                 {{#each data.distinctions}}
-                    <div class="line draggable tofilter {{compendiumColor ../fdistinctions ../search name uuid}}" style="{{ifThen (compendiumFilter ../fdistinctions ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-name="{{name}}">
+                    <div class="line draggable tofilter {{compendiumColor ../fdistinctions ../search name uuid}}" style="{{ifThen (compendiumFilter ../fdistinctions ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-type="{{type}}" data-name="{{name}}">
                         {{#each all}}
                             {{{this}}}
                         {{/each}}
@@ -133,7 +133,7 @@
                     {{/each}}
                 </div>
                 {{#each data.cartes}}
-                    <div class="line draggable tofilter {{compendiumColor ../fcartes ../search name uuid}}" style="{{ifThen (compendiumFilter ../fcartes ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-name="{{name}}">
+                    <div class="line draggable tofilter {{compendiumColor ../fcartes ../search name uuid}}" style="{{ifThen (compendiumFilter ../fcartes ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-type="{{type}}" data-name="{{name}}">
                         {{#each all}}
                             {{{this}}}
                         {{/each}}
@@ -155,7 +155,7 @@
                     {{/each}}
                 </div>
                 {{#each data.capacites}}
-                    <div class="line draggable tofilter {{compendiumColor ../fcapacites ../search name uuid}}" style="{{ifThen (compendiumFilter ../fcapacites ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-name="{{name}}">
+                    <div class="line draggable tofilter {{compendiumColor ../fcapacites ../search name uuid}}" style="{{ifThen (compendiumFilter ../fcapacites ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-type="{{type}}" data-name="{{name}}">
                         {{#each all}}
                             {{{this}}}
                         {{/each}}

@@ -5223,7 +5223,7 @@ export async function generateNavigator() {
             data.name = name;
             data.gloire = gloire;
             data.rarete = rarete;
-            data.type = categorie;
+            data.subtype = categorie;
 
             if(!listARarete.includes(rarete)) listARarete.push(rarete);
             if(!listAType.includes(categorie)) listAType.push(categorie);
@@ -5247,7 +5247,7 @@ export async function generateNavigator() {
 
             data.name = name;
             data.categorie = type;
-            data.type = categorie;
+            data.subtype = categorie;
 
             if(!listAIType.includes(categorie)) listAIType.push(categorie);
             if(!listAICategorie.includes(type)) listAICategorie.push(type);
