@@ -1,3 +1,9 @@
+## v3.24.0
+### Améliorations
+- Ajout d'un navigateur de compendium (disponible via un bouton en bas, dans l'onglet "Objets", il peut mettre quelques secondes à apparaitre au lancement)
+- Ajout d'un bouton pour importer depuis Knight NPC Generator. Créera tout ce qu'il peut automatiquement - pour le reste, il pourrait être nécessaire de repasser dessus pour ajuster les détails.
+- Le résultat de l'assistance à l'attaque lors d'un jet de dégâts ou de violence avec une cible ne sera désormais visible que pour le MJ, les joueurs verrons le résultat SANS le bonus d'assistance à l'attaque.
+
 ## v3.23.3
 ### Bugfix
 - Correction du tri des paliers de dégâts et violences variables des capacités ultimes.

@@ -1,0 +1,112 @@
+<div class="filter {{tab}}">
+    <div class="search">
+        <span>{{localize "KNIGHT.COMPENDIUM.Search"}}</span>
+        <input type="text" value="{{search}}" data-tab="{{tab}}" />
+    </div>
+
+    {{#if (eq tab 'armures')}}
+    <details class="generations" data-key="generations" {{ifThen opened.generations 'open' ''}}>
+        <summary data-key="generations">{{localize 'KNIGHT.COMPENDIUM.Generation'}}</summary>
+        {{#each filters.armures.generations}}
+        <label>
+            <input type="checkbox" data-gen="{{this}}" data-tab="{{../tab}}" {{checked (ifThen (eq (lookup ../check.gen this) undefined) true (lookup ../check.gen this))}} />
+            <span>{{localize 'KNIGHT.COMPENDIUM.Generation'}} {{this}}</span>
+        </label>
+        {{/each}}
+    </details>
+    {{/if}}
+
+    {{#if (eq tab 'modules')}}
+    <div class="gloire">
+        <label>
+            <span>{{localize 'KNIGHT.COMPENDIUM.PGMin'}}</span>
+            <input type="number" class="min" data-tab="{{tab}}" data-type="pg" data-minormax="min" value="{{pg.min}}" min="0" />
+        </label>
+
+        <label>
+            <span>{{localize 'KNIGHT.COMPENDIUM.PGMax'}}</span>
+            <input type="number" class="max" data-tab="{{tab}}" data-type="pg" data-minormax="max" value="{{pg.max}}" min="{{pg.min}}" />
+        </label>
+    </div>
+
+    <details class="rarete" data-key="rarete" {{ifThen opened.rarete 'open' ''}}>
+        <summary data-key="rarete">{{localize 'KNIGHT.ITEMS.MODULE.RARETE.Label'}}</summary>
+        {{#each filters.modules.rarete}}
+        <label>
+            <input type="checkbox" data-rarete="{{this}}" data-tab="{{../tab}}" {{checked (ifThen (eq (lookup ../check.rarete this) undefined) true (lookup ../check.rarete this))}} />
+            <span>{{getRarete this}}</span>
+        </label>
+        {{/each}}
+    </details>
+
+    <details class="categorie" data-key="categorie" {{ifThen opened.categorie 'open' ''}}>
+        <summary data-key="categorie">{{localize 'KNIGHT.ITEMS.MODULE.CATEGORIE.Label'}}</summary>
+        {{#each filters.modules.categorie}}
+        <label>
+            <input type="checkbox" data-categorie="{{this}}" data-tab="{{../tab}}" {{checked (ifThen (eq (lookup ../check.categorie this) undefined) true (lookup ../check.categorie this))}} />
+             {{#if (eq this '')}}
+             <span>{{localize 'KNIGHT.COMPENDIUM.Aucune'}}</span>
+             {{else}}
+            <span>{{getCategorieName this}}</span>
+            {{/if}}
+        </label>
+        {{/each}}
+    </details>
+    {{/if}}
+
+    {{#if (eq tab 'armes')}}
+    <div class="gloire">
+        <label>
+            <span>{{localize 'KNIGHT.COMPENDIUM.PGMin'}}</span>
+            <input type="number" class="min" data-tab="{{tab}}" data-type="pg" data-minormax="min" value="{{pg.min}}" min="0" />
+        </label>
+
+        <label>
+            <span>{{localize 'KNIGHT.COMPENDIUM.PGMax'}}</span>
+            <input type="number" class="max" data-tab="{{tab}}" data-type="pg" data-minormax="max" value="{{pg.max}}" min="{{pg.min}}" />
+        </label>
+    </div>
+
+    <details class="rarete" data-key="rarete" {{ifThen opened.rarete 'open' ''}}>
+        <summary data-key="rarete">{{localize 'KNIGHT.ITEMS.MODULE.RARETE.Label'}}</summary>
+        {{#each filters.modules.rarete}}
+        <label>
+            <input type="checkbox" data-rarete="{{this}}" data-tab="{{../tab}}" {{checked (ifThen (eq (lookup ../check.rarete this) undefined) true (lookup ../check.rarete this))}} />
+            <span>{{getRarete this}}</span>
+        </label>
+        {{/each}}
+    </details>
+
+    <details class="type" data-key="type" {{ifThen opened.type 'open' ''}}>
+        <summary data-key="type">{{localize 'KNIGHT.ITEMS.ARME.TypeArme'}}</summary>
+        {{#each filters.armes.type}}
+        <label>
+            <input type="checkbox" data-type="{{this}}" data-tab="{{../tab}}" {{checked (ifThen (eq (lookup ../check.type this) undefined) true (lookup ../check.type this))}} />
+            <span>{{getWpnType this}}</span>
+        </label>
+        {{/each}}
+    </details>
+    {{/if}}
+
+    {{#if (eq tab 'ai')}}
+    <details class="type" data-key="type" {{ifThen opened.type '' 'open'}}>
+        <summary data-key="type">{{localize 'KNIGHT.TYPE.Label'}}</summary>
+        {{#each filters.ai.type}}
+        <label>
+            <input type="checkbox" data-type="{{this}}" data-tab="{{../tab}}" {{checked (ifThen (eq (lookup ../check.type this) undefined) true (lookup ../check.type this))}} />
+            <span>{{getCompendiumAI this}}</span>
+        </label>
+        {{/each}}
+    </details>
+
+    <details class="categorie" data-key="categorie" {{ifThen opened.type '' 'open'}}>
+        <summary data-key="categorie">{{localize 'KNIGHT.COMPENDIUM.Categorie'}}</summary>
+        {{#each filters.ai.categorie}}
+        <label>
+            <input type="checkbox" data-categorie="{{this}}" data-tab="{{../tab}}" {{checked (ifThen (eq (lookup ../check.categorie this) undefined) true (lookup ../check.categorie this))}} />
+            <span>{{getCompendiumAI this}}</span>
+        </label>
+        {{/each}}
+    </details>
+    {{/if}}
+</div>

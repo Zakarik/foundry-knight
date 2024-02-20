@@ -55,6 +55,24 @@
             {{/each}}
         </div>
     </div>
+    {{#if this.hide}}
+    <div class="dice-result toHide">
+        {{#if this.hide.formula}}
+            <div class="dice-formula" title="{{localize "KNIGHT.AUTRE.MJOnly"}}">
+                {{this.hide.formula}}
+            </div>
+        {{/if}}
+        {{{this.hide.tooltip}}}
+        <div class="dice-total">
+            <h4 class="dice-total">
+                {{this.hide.total}}
+            </h4>
+            {{#each this.hideInclude as | key include|}}
+                <span title="{{key.desc}}">{{key.name}}</span>
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
     {{#each this.sub as | key sub|}}
         <div class="dice-result subResult">
             <div class="dice-formula">

@@ -271,3 +271,60 @@ li.chat-message {
       }
   }
 }
+
+.knight-import-all {
+  section.window-content {
+    div.dialog-content {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      align-content: flex-start;
+
+      select {
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
+        font-variant: small-caps;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 0px;
+        border-bottom: 0px;
+        border-color: black;
+      }
+
+      textarea {
+        border-radius: 0px;
+        height: calc(100% - 27px);
+      }
+    }
+
+    div.dialog-buttons {
+      flex: 0;
+
+      button {
+        height: 28px;
+        line-height: 26px;
+        margin: 0px;
+        min-width: max-content;
+        white-space: nowrap;
+        background-color: $lightGrey;
+        border-radius: 0px;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
+      }
+    }
+  }
+}
+
+button {
+  &.compendium,
+  &.import-all {
+    font-variant: small-caps;
+    background-color: $lightGrey;
+    font-size: 18px;
+    font-weight: bold;
+  }
+}

@@ -130,6 +130,7 @@ export const PreloadTemplates = async function() {
     `${path}/actors/subtab/aspectsPNJ.html`,
     `${path}/actors/subtab/aspectsExceptionnels.html`,
     `${path}/dialog/ask-sheet.html`,
+    `${path}/dialog/parts/compendium-filter.html`,
     `${path}/items/armuresLegende/capacites/personnalise.html`,
     `${path}/items/armuresLegende/capacites/shrine.html`,
     `${path}/items/armuresLegende/capacites/changeling.html`,

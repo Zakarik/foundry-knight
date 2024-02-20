@@ -39909,6 +39909,42 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   word-break: keep-all;
   line-height: 15px;
 }
+.knight-roll div.toHide {
+  border: 1px solid white;
+  border-radius: 0px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+.knight-roll div.toHide div.dice-formula {
+  padding-top: 30px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  border-color: white;
+}
+.knight-roll div.toHide div.dice-formula::before {
+  content: attr(title);
+  position: absolute;
+  left: 0px;
+  top: -5px;
+  background: white;
+  border-radius: 5px;
+  width: 100%;
+  height: 30px;
+  word-break: keep-all;
+  line-height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.knight-roll div.toHide div.dice-formula span {
+  width: 100%;
+  display: block;
+  text-align: left;
+  padding-left: 5px;
+}
+.knight-roll div.toHide div.dice-total {
+  border-color: white;
+}
 .knight-roll span.caracs {
   word-break: break-word;
 }
@@ -39989,11 +40025,14 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .compendium section.window-content section.body nav {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   border: 0px;
-  border-bottom: 1px solid RGB(43 42 51);
+  margin-bottom: 0px;
 }
 .compendium section.window-content section.body nav a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-top: 1px solid RGB(87 110 178);
   border-left: 1px solid RGB(87 110 178);
 }
@@ -40004,8 +40043,435 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-top-right-radius: 5px;
   border-right: 1px solid RGB(87 110 178);
 }
-.compendium section.window-content section.body div.line {
-  line-height: 24px;
+.compendium section.window-content section.body div.tab.active {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  align-items: flex-start;
+}
+.compendium section.window-content section.body div.tab.armures {
+  border: 1px solid RGB(87 110 178);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.compendium section.window-content section.body div.tab.armures div.data {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.armures div.data div.line.fonce {
+  background-color: RGB(76 74 90);
+}
+.compendium section.window-content section.body div.tab.armures div.data div.line.clair {
+  background-color: RGB(98 97 111);
+}
+.compendium section.window-content section.body div.tab.armures div.header {
+  font-variant: small-caps;
+}
+.compendium section.window-content section.body div.tab.armures div.header span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.compendium section.window-content section.body div.tab.armures div.header span i {
+  cursor: pointer;
+}
+.compendium section.window-content section.body div.tab.armures div.header span i:hover {
+  color: RGB(87 110 178);
+}
+.compendium section.window-content section.body div.tab.armures div.header span:not(:first-of-type):not(:nth-of-type(2)) {
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.armures div.line span.name {
+  letter-spacing: 1px;
+  cursor: pointer;
+  padding-left: 5px;
+}
+.compendium section.window-content section.body div.tab.armures div.line span.name:hover {
+  color: RGB(87 110 178);
+}
+.compendium section.window-content section.body div.tab.armures div.line span:not(:first-of-type) {
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.armures div.header, .compendium section.window-content section.body div.tab.armures div.line {
+  display: grid;
+  grid-template-columns: 25px 200px repeat(4, calc((100% / 4) - calc(200px / 4) - calc(25px / 4)));
+  align-items: center;
+  padding-left: 5px;
+  line-height: 25px;
+}
+.compendium section.window-content section.body div.tab.armures div.header span.value, .compendium section.window-content section.body div.tab.armures div.line span.value {
+  text-align: center;
+}
+.compendium section.window-content section.body div.tab.armures div.header img, .compendium section.window-content section.body div.tab.armures div.line img {
+  display: block;
+  height: 25px;
+  object-fit: contain;
+  border: 0px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.compendium section.window-content section.body div.tab.armures div.draggable {
+  cursor: context-menu;
+}
+.compendium section.window-content section.body div.tab.modules {
+  border: 1px solid RGB(87 110 178);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.compendium section.window-content section.body div.tab.modules div.data {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.modules div.data div.line.fonce {
+  background-color: RGB(76 74 90);
+}
+.compendium section.window-content section.body div.tab.modules div.data div.line.clair {
+  background-color: RGB(98 97 111);
+}
+.compendium section.window-content section.body div.tab.modules div.header {
+  font-variant: small-caps;
+}
+.compendium section.window-content section.body div.tab.modules div.header span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.compendium section.window-content section.body div.tab.modules div.header span i {
+  cursor: pointer;
+}
+.compendium section.window-content section.body div.tab.modules div.header span i:hover {
+  color: RGB(87 110 178);
+}
+.compendium section.window-content section.body div.tab.modules div.header span:not(:first-of-type):not(:nth-of-type(2)) {
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.modules div.line span.name {
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.compendium section.window-content section.body div.tab.modules div.line span.name:hover {
+  color: RGB(87 110 178);
+}
+.compendium section.window-content section.body div.tab.modules div.line span:not(:first-of-type) {
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.modules div.header, .compendium section.window-content section.body div.tab.modules div.line {
+  display: grid;
+  grid-template-columns: 25px calc(100% - 25px - 350px) 100px 150px 100px;
+  align-items: center;
+  padding-left: 5px;
+  line-height: 25px;
+}
+.compendium section.window-content section.body div.tab.modules div.header span.value, .compendium section.window-content section.body div.tab.modules div.line span.value {
+  text-align: center;
+  height: 100%;
+  width: 100%;
+}
+.compendium section.window-content section.body div.tab.modules div.header img, .compendium section.window-content section.body div.tab.modules div.line img {
+  display: block;
+  height: 25px;
+  object-fit: contain;
+  border: 0px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.compendium section.window-content section.body div.tab.modules div.draggable {
+  cursor: context-menu;
+}
+.compendium section.window-content section.body div.tab.armes {
+  border: 1px solid RGB(87 110 178);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.compendium section.window-content section.body div.tab.armes div.data {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.armes div.data div.line.fonce {
+  background-color: RGB(76 74 90);
+}
+.compendium section.window-content section.body div.tab.armes div.data div.line.clair {
+  background-color: RGB(98 97 111);
+}
+.compendium section.window-content section.body div.tab.armes div.header {
+  font-variant: small-caps;
+}
+.compendium section.window-content section.body div.tab.armes div.header span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.compendium section.window-content section.body div.tab.armes div.header span i {
+  cursor: pointer;
+}
+.compendium section.window-content section.body div.tab.armes div.header span i:hover {
+  color: RGB(87 110 178);
+}
+.compendium section.window-content section.body div.tab.armes div.header span:not(:first-of-type):not(:nth-of-type(2)) {
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.armes div.line span.name {
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.compendium section.window-content section.body div.tab.armes div.line span.name:hover {
+  color: RGB(87 110 178);
+}
+.compendium section.window-content section.body div.tab.armes div.line span:not(:first-of-type) {
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.armes div.header, .compendium section.window-content section.body div.tab.armes div.line {
+  display: grid;
+  grid-template-columns: 25px calc(100% - 25px - 350px) 100px 150px 100px;
+  align-items: center;
+  padding-left: 5px;
+  line-height: 25px;
+}
+.compendium section.window-content section.body div.tab.armes div.header span.value, .compendium section.window-content section.body div.tab.armes div.line span.value {
+  text-align: center;
+  height: 100%;
+  width: 100%;
+}
+.compendium section.window-content section.body div.tab.armes div.header img, .compendium section.window-content section.body div.tab.armes div.line img {
+  display: block;
+  height: 25px;
+  object-fit: contain;
+  border: 0px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.compendium section.window-content section.body div.tab.armes div.draggable {
+  cursor: context-menu;
+}
+.compendium section.window-content section.body div.tab.ai {
+  border: 1px solid RGB(87 110 178);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.compendium section.window-content section.body div.tab.ai div.data {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.ai div.data div.line.fonce {
+  background-color: RGB(76 74 90);
+}
+.compendium section.window-content section.body div.tab.ai div.data div.line.clair {
+  background-color: RGB(98 97 111);
+}
+.compendium section.window-content section.body div.tab.ai div.header {
+  font-variant: small-caps;
+}
+.compendium section.window-content section.body div.tab.ai div.header span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.compendium section.window-content section.body div.tab.ai div.header span i {
+  cursor: pointer;
+}
+.compendium section.window-content section.body div.tab.ai div.header span i:hover {
+  color: RGB(87 110 178);
+}
+.compendium section.window-content section.body div.tab.ai div.header span:not(:first-of-type):not(:nth-of-type(2)) {
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.ai div.line span.name {
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.compendium section.window-content section.body div.tab.ai div.line span.name:hover {
+  color: RGB(87 110 178);
+}
+.compendium section.window-content section.body div.tab.ai div.line span:not(:first-of-type) {
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.ai div.header, .compendium section.window-content section.body div.tab.ai div.line {
+  display: grid;
+  grid-template-columns: 25px calc(100% - 25px - 200px) 100px 100px;
+  align-items: center;
+  padding-left: 5px;
+  line-height: 25px;
+}
+.compendium section.window-content section.body div.tab.ai div.header span.value, .compendium section.window-content section.body div.tab.ai div.line span.value {
+  text-align: center;
+  height: 100%;
+  width: 100%;
+}
+.compendium section.window-content section.body div.tab.ai div.header img, .compendium section.window-content section.body div.tab.ai div.line img {
+  display: block;
+  height: 25px;
+  object-fit: contain;
+  border: 0px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.compendium section.window-content section.body div.tab.ai div.draggable {
+  cursor: context-menu;
+}
+.compendium section.window-content section.body div.tab.distinctions, .compendium section.window-content section.body div.tab.cartes, .compendium section.window-content section.body div.tab.capacites {
+  border: 1px solid RGB(87 110 178);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.compendium section.window-content section.body div.tab.distinctions div.data, .compendium section.window-content section.body div.tab.cartes div.data, .compendium section.window-content section.body div.tab.capacites div.data {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.distinctions div.data div.line.fonce, .compendium section.window-content section.body div.tab.cartes div.data div.line.fonce, .compendium section.window-content section.body div.tab.capacites div.data div.line.fonce {
+  background-color: RGB(76 74 90);
+}
+.compendium section.window-content section.body div.tab.distinctions div.data div.line.clair, .compendium section.window-content section.body div.tab.cartes div.data div.line.clair, .compendium section.window-content section.body div.tab.capacites div.data div.line.clair {
+  background-color: RGB(98 97 111);
+}
+.compendium section.window-content section.body div.tab.distinctions div.header, .compendium section.window-content section.body div.tab.cartes div.header, .compendium section.window-content section.body div.tab.capacites div.header {
+  font-variant: small-caps;
+}
+.compendium section.window-content section.body div.tab.distinctions div.header span, .compendium section.window-content section.body div.tab.cartes div.header span, .compendium section.window-content section.body div.tab.capacites div.header span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.compendium section.window-content section.body div.tab.distinctions div.header span i, .compendium section.window-content section.body div.tab.cartes div.header span i, .compendium section.window-content section.body div.tab.capacites div.header span i {
+  cursor: pointer;
+}
+.compendium section.window-content section.body div.tab.distinctions div.header span i:hover, .compendium section.window-content section.body div.tab.cartes div.header span i:hover, .compendium section.window-content section.body div.tab.capacites div.header span i:hover {
+  color: RGB(87 110 178);
+}
+.compendium section.window-content section.body div.tab.distinctions div.header span:not(:first-of-type):not(:nth-of-type(2)), .compendium section.window-content section.body div.tab.cartes div.header span:not(:first-of-type):not(:nth-of-type(2)), .compendium section.window-content section.body div.tab.capacites div.header span:not(:first-of-type):not(:nth-of-type(2)) {
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.distinctions div.line span.name, .compendium section.window-content section.body div.tab.cartes div.line span.name, .compendium section.window-content section.body div.tab.capacites div.line span.name {
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.compendium section.window-content section.body div.tab.distinctions div.line span.name:hover, .compendium section.window-content section.body div.tab.cartes div.line span.name:hover, .compendium section.window-content section.body div.tab.capacites div.line span.name:hover {
+  color: RGB(87 110 178);
+}
+.compendium section.window-content section.body div.tab.distinctions div.line span:not(:first-of-type), .compendium section.window-content section.body div.tab.cartes div.line span:not(:first-of-type), .compendium section.window-content section.body div.tab.capacites div.line span:not(:first-of-type) {
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.distinctions div.header, .compendium section.window-content section.body div.tab.distinctions div.line, .compendium section.window-content section.body div.tab.cartes div.header, .compendium section.window-content section.body div.tab.cartes div.line, .compendium section.window-content section.body div.tab.capacites div.header, .compendium section.window-content section.body div.tab.capacites div.line {
+  display: grid;
+  grid-template-columns: 25px calc(100% - 25px);
+  align-items: center;
+  padding-left: 5px;
+  line-height: 25px;
+}
+.compendium section.window-content section.body div.tab.distinctions div.header span.value, .compendium section.window-content section.body div.tab.distinctions div.line span.value, .compendium section.window-content section.body div.tab.cartes div.header span.value, .compendium section.window-content section.body div.tab.cartes div.line span.value, .compendium section.window-content section.body div.tab.capacites div.header span.value, .compendium section.window-content section.body div.tab.capacites div.line span.value {
+  text-align: center;
+  height: 100%;
+  width: 100%;
+}
+.compendium section.window-content section.body div.tab.distinctions div.header img, .compendium section.window-content section.body div.tab.distinctions div.line img, .compendium section.window-content section.body div.tab.cartes div.header img, .compendium section.window-content section.body div.tab.cartes div.line img, .compendium section.window-content section.body div.tab.capacites div.header img, .compendium section.window-content section.body div.tab.capacites div.line img {
+  display: block;
+  height: 25px;
+  object-fit: contain;
+  border: 0px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.compendium section.window-content section.body div.tab.distinctions div.draggable, .compendium section.window-content section.body div.tab.cartes div.draggable, .compendium section.window-content section.body div.tab.capacites div.draggable {
+  cursor: context-menu;
+}
+.compendium section.window-content section.body div.filter {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+  padding: 5px;
+}
+.compendium section.window-content section.body div.filter div.search {
+  border: 2px solid RGB(76 74 90);
+}
+.compendium section.window-content section.body div.filter div.search span {
+  display: block;
+  width: 100%;
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-right: 5px;
+  font-variant: small-caps;
+  font-size: 16px;
+}
+.compendium section.window-content section.body div.filter div.search input {
+  width: 100%;
+  border-bottom: 0px;
+  border-right: 0px;
+  border-left: 0px;
+  border-radius: 0px;
+  border-top: 1px solid RGB(76 74 90);
+}
+.compendium section.window-content section.body div.filter div.gloire {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 2px solid RGB(76 74 90);
+  grid-gap: 5px;
+}
+.compendium section.window-content section.body div.filter div.gloire label {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: space-between;
+}
+.compendium section.window-content section.body div.filter div.gloire label span {
+  display: block;
+  text-align: center;
+  width: 100%;
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-right: 5px;
+  font-variant: small-caps;
+  font-size: 16px;
+}
+.compendium section.window-content section.body div.filter div.gloire label input {
+  width: 100%;
+  text-align: center;
+  border-color: RGB(76 74 90);
+  border-radius: 0px;
+  border-bottom: 0px;
+}
+.compendium section.window-content section.body div.filter div.gloire label:first-of-type input {
+  border-left: 0px;
+}
+.compendium section.window-content section.body div.filter div.gloire label:last-of-type input {
+  border-right: 0px;
+}
+.compendium section.window-content section.body details {
+  display: grid;
+  grid-template-columns: 1fr;
+  border: 2px solid RGB(76 74 90);
+  padding-bottom: 5px;
+}
+.compendium section.window-content section.body details summary {
+  grid-column: 1/3;
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-right: 5px;
+  font-variant: small-caps;
+  font-size: 16px;
+}
+.compendium section.window-content section.body details label {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 div#interface.version1 #logo {
@@ -40107,4 +40573,50 @@ section#compendium > header:first-of-type:before {
   display: block;
   width: 100%;
   background-size: contain;
+}
+
+.knight-import-all section.window-content div.dialog-content {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.knight-import-all section.window-content div.dialog-content select {
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  font-variant: small-caps;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 0px;
+  border-bottom: 0px;
+  border-color: black;
+}
+.knight-import-all section.window-content div.dialog-content textarea {
+  border-radius: 0px;
+  height: calc(100% - 27px);
+}
+.knight-import-all section.window-content div.dialog-buttons {
+  flex: 0;
+}
+.knight-import-all section.window-content div.dialog-buttons button {
+  height: 28px;
+  line-height: 26px;
+  margin: 0px;
+  min-width: max-content;
+  white-space: nowrap;
+  background-color: RGB(193, 193, 193);
+  border-radius: 0px;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+button.compendium, button.import-all {
+  font-variant: small-caps;
+  background-color: RGB(193, 193, 193);
+  font-size: 18px;
+  font-weight: bold;
 }

@@ -2678,6 +2678,25 @@
     "HIDESHOW":{
       "Hide":"Cliquez pour cacher cet encart lorsque la fiche est limitée.",
       "Show":"Cliquez pour afficher cet encart lorsque la fiche est limitée."
+    },
+    "COMPENDIUM":{
+      "Label":"Navigateur de compendium",
+      "Generation":"Génération",
+      "Search":"Recherche par nom",
+      "PGMax":"PG Max",
+      "PGMin":"PG Min",
+      "Aucune":"Aucune",
+      "Armures":"Méta-armures",
+      "Categorie":"Catégorie",
+      "Ai":"Avantages & Inconvénients",
+      "Distinctions":"Distinctions",
+      "Cartes":"Cartes d'héroïsmes",
+      "Capacites":"Capacités héroïques"
+    },
+    "IMPORT":{
+      "Label":"Import depuis KNPC Generator",
+      "Error":"Erreur d'importation, vérifiez le texte et réessayez.",
+      "Importer":"Importer le ou les créatures"
     }
   }
 }

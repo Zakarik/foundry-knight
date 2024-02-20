@@ -5102,3 +5102,462 @@ export async function createSheet(actor, type, name, data, item, imgAvatar, imgT
 
   return newActor;
 }
+
+export function setValueByPath(obj, path, value) {
+  var a = path.split('.')
+  var o = obj
+  while (a.length - 1) {
+    var n = a.shift()
+    if (!(n in o)) o[n] = {}
+    o = o[n]
+  }
+  o[a[0]] = value
+}
+
+export async function generateNavigator() {
+  const packs = game.packs.contents;
+  const armures = [];
+  const modules = [];
+  const armes = [];
+  const ai = [];
+  const distinctions = [];
+  const cartes = [];
+  const capacites = [];
+  const listGenerations = [];
+  const listMRarete = [];
+  const listMCategorie = [];
+  const listARarete = [];
+  const listAType = [];
+  const listAIType = [];
+  const listAICategorie = [];
+
+  for(let p of packs) {
+    if(p.visible) {
+      const list = p.index.contents;
+
+      for(let l of list) {
+        const type = l.type;
+        const uuid = l.uuid;
+        const itm = 'Item';
+        let rData;
+        let name;
+        let gloire;
+        let rarete;
+        let categorie;
+        let data = {};
+        data = {
+          uuid:uuid,
+          type:itm,
+          all:[]
+        };
+
+        switch(type) {
+          case 'armure':
+            rData = await fromUuid(uuid);
+            name = rData.name;
+            const gen = rData.system.generation;
+            const armure = rData.system.armure.base;
+            const energie = rData.system.energie.base;
+            const champDeForce = rData.system.champDeForce.base;
+
+            data.name = name;
+            data.generation = gen;
+            data.armure = armure;
+            data.energie = energie;
+            data.champDeForce = champDeForce;
+
+            if(!listGenerations.includes(gen)) listGenerations.push(gen);
+
+            data.all = [
+              `<img src='${rData.img}'></img>`,
+              `<span class='name'>${name}</span>`,
+              `<span class='value'>${gen}</span>`,
+              `<span class='value'>${armure}</span>`,
+              `<span class='value'>${energie}</span>`,
+              `<span class='value'>${champDeForce}</span>`,
+            ];
+
+            armures.push(data);
+            break;
+
+          case 'module':
+            rData = await fromUuid(uuid);
+            name = rData.name;
+            gloire = rData.system.prix;
+            rarete = rData.system.rarete;
+            categorie = rData.system.categorie;
+
+            data.name = name;
+            data.gloire = gloire;
+            data.rarete = rarete;
+            data.categorie = categorie;
+
+            if(!listMRarete.includes(rarete)) listMRarete.push(rarete);
+            if(!listMCategorie.includes(categorie)) listMCategorie.push(categorie);
+
+            let labelCategorie = '';
+
+            if(categorie !== '') {
+              if(rarete === 'prestige') labelCategorie = game.i18n.localize(CONFIG.KNIGHT.module.categorie.prestige[categorie]);
+              else labelCategorie = game.i18n.localize(CONFIG.KNIGHT.module.categorie.normal[categorie]);
+            }
+
+            data.all = [
+              `<img src='${rData.img}'></img>`,
+              `<span class='name'>${name}</span>`,
+              `<span class='value'>${gloire}</span>`,
+              `<span class='value'>${labelCategorie}</span>`,
+              `<span class='value'>${game.i18n.localize(`KNIGHT.ITEMS.MODULE.RARETE.${rarete.charAt(0).toUpperCase() + rarete.slice(1)}`)}</span>`,
+            ];
+
+            modules.push(data);
+            break;
+
+          case 'arme':
+            rData = await fromUuid(uuid);
+            name = rData.name;
+            gloire = rData.system.prix;
+            rarete = rData.system.rarete;
+            categorie = rData.system.type;
+
+            data.name = name;
+            data.gloire = gloire;
+            data.rarete = rarete;
+            data.type = categorie;
+
+            if(!listARarete.includes(rarete)) listARarete.push(rarete);
+            if(!listAType.includes(categorie)) listAType.push(categorie);
+
+            data.all = [
+              `<img src='${rData.img}'></img>`,
+              `<span class='name'>${name}</span>`,
+              `<span class='value'>${gloire}</span>`,
+              `<span class='value'>${game.i18n.localize(`KNIGHT.ITEMS.MODULE.ARME.TYPE.${categorie.charAt(0).toUpperCase() + categorie.slice(1)}`)}</span>`,
+              `<span class='value'>${game.i18n.localize(`KNIGHT.ITEMS.MODULE.RARETE.${rarete.charAt(0).toUpperCase() + rarete.slice(1)}`)}</span>`,
+            ];
+
+            armes.push(data);
+            break;
+
+          case 'avantage':
+          case 'inconvenient':
+            rData = await fromUuid(uuid);
+            name = rData.name;
+            categorie = rData.system.type;
+
+            data.name = name;
+            data.categorie = type;
+            data.type = categorie;
+
+            if(!listAIType.includes(categorie)) listAIType.push(categorie);
+            if(!listAICategorie.includes(type)) listAICategorie.push(type);
+
+            const label = categorie === 'standard' ? game.i18n.localize(`KNIGHT.AUTRE.Standard`) : game.i18n.localize(`KNIGHT.IA.Label`);
+
+            data.all = [
+              `<img src='${rData.img}'></img>`,
+              `<span class='name'>${name}</span>`,
+              `<span class='value'>${game.i18n.localize(`TYPES.Item.${type}`)}</span>`,
+              `<span class='value'>${label}</span>`,
+            ];
+
+            ai.push(data);
+            break;
+
+          case 'distinction':
+            rData = await fromUuid(uuid);
+            name = rData.name;
+
+            data.name = name;
+
+            data.all = [
+              `<img src='${rData.img}'></img>`,
+              `<span class='name'>${name}</span>`,
+            ];
+
+            distinctions.push(data);
+            break;
+
+          case 'carteheroique':
+            rData = await fromUuid(uuid);
+            name = rData.name;
+
+            data.name = name;
+
+            data.all = [
+              `<img src='${rData.img}'></img>`,
+              `<span class='name'>${name}</span>`,
+            ];
+
+            cartes.push(data);
+            break;
+
+          case 'capaciteheroique':
+            rData = await fromUuid(uuid);
+            name = rData.name;
+
+            data.name = name;
+
+            data.all = [
+              `<img src='${rData.img}'></img>`,
+              `<span class='name'>${name}</span>`,
+            ];
+
+            capacites.push(data);
+            break;
+        }
+      }
+    }
+  }
+
+  CONFIG.KNIGHTCOMPENDIUM = {
+    armures:armures,
+    modules:modules,
+    armes:armes,
+    ai:ai,
+    distinctions:distinctions,
+    cartes:cartes,
+    capacites:capacites,
+    listGenerations:listGenerations,
+    listMRarete:listMRarete,
+    listMCategorie:listMCategorie,
+    listARarete:listARarete,
+    listAType:listAType,
+    listAIType:listAIType,
+    listAICategorie:listAICategorie,
+  };
+}
+
+export async function importActor(json, type) {
+  const listTemplate = game.template.Actor;
+  const traAspects = {'chair':'chair', 'bête':'bete', 'machine':'machine', 'dame':'dame', 'masque':'masque'};
+  const aspects = json.aspects;
+  const resilience = json.resilience;
+  const shield = json.shield;
+  const energy = json.energy;
+  const health = json.health;
+  const forcefield = json.forcefield;
+  const armor = json.armor;
+  const capacities = json.capacities;
+  const weapons = json.weapons;
+
+  let system = type === 'pnj' || type === 'creature' ? Object.assign({}, listTemplate[type], listTemplate.templates.creature, listTemplate.templates.generique) : Object.assign({}, listTemplate[type], listTemplate.generique);
+  delete system.templates;
+
+  for(let a of aspects) {
+    const nA = a.name;
+    const tra = traAspects[nA];
+
+    system.aspects[tra] = {
+      value:a.score,
+      ae:{
+        mineur:{},
+        majeur:{}
+      }
+    }
+
+    if(a.major) system.aspects[tra].ae.majeur.value = a.exceptional;
+    else system.aspects[tra].ae.mineur.value = a.exceptional;
+  }
+
+  system.defense.base = json.defense;
+  system.reaction.base = json.reaction;
+  system.type = `${json.type.charAt(0).toUpperCase() + json.type.slice(1)} (${json.level.charAt(0).toUpperCase() + json.level.slice(1)})`;
+
+  if(type === 'creature') {
+    system.resilience.max = resilience;
+    system.resilience.value = resilience;
+    system.bouclier.base = shield;
+    system.energie.max = energy;
+    system.energie.value = energy;
+    system.sante.base = health;
+    system.sante.value = health;
+    system.armure.base = armor;
+    system.armure.value = armor;
+
+    if(resilience > 0) system.options.resilience = true;
+    else system.options.resilience = false;
+
+    if(shield > 0 ) system.options.bouclier = true;
+    else system.options.bouclier = false;
+
+    if(energy > 0 ) system.options.energie = true;
+    else system.options.energie = false;
+
+    if(health > 0 ) system.options.sante = true;
+    else system.options.sante = false;
+
+    if(armor > 0 ) system.options.armure = true;
+    else system.options.armure = false;
+
+  } else if(type === 'pnj') {
+    system.resilience.max = resilience;
+    system.resilience.value = resilience;
+    system.bouclier.base = shield;
+    system.energie.max = energy;
+    system.energie.value = energy;
+    system.sante.base = health;
+    system.sante.value = health;
+    system.champDeForce.base = forcefield;
+    system.armure.base = armor;
+    system.armure.value = armor;
+
+    if(resilience > 0) system.options.resilience = true;
+    else system.options.resilience = false;
+
+    if(shield > 0 ) system.options.bouclier = true;
+    else system.options.bouclier = false;
+
+    if(energy > 0 ) system.options.energie = true;
+    else system.options.energie = false;
+
+    if(health > 0 ) system.options.sante = true;
+    else system.options.sante = false;
+
+    if(forcefield > 0 ) system.options.champDeForce = true;
+    else system.options.champDeForce = false;
+
+    if(armor > 0 ) system.options.armure = true;
+    else system.options.armure = false;
+
+  } else if(type === 'bande') {
+    system.sante.base = health;
+    system.sante.value = health;
+    system.bouclier.base = shield;
+
+    if(shield > 0 ) system.options.bouclier = true;
+    else system.options.bouclier = false;
+  }
+
+  const create = await createSheet(
+    "",
+    type,
+    json.name,
+    system,
+  );
+
+  let allItm = [];
+
+  for(let c of capacities) {
+    let itm = {};
+    itm.img = getDefaultImg('capacite');
+    itm.type = 'capacite';
+    itm.name = c.name;
+    itm.system = {
+      description:c.description,
+    };
+
+    allItm.push(itm);
+  }
+
+  for(let w of weapons) {
+    let tWpn = w.contact ? 'contact' : 'distance';
+
+    let itm = {};
+    itm.img = getDefaultImg('capacite');
+    itm.type = 'arme';
+    itm.name = w.name;
+    itm.system = {
+      type:tWpn,
+      portee:w.range,
+      degats:{
+        dice:w.dices,
+        fixe:w.raw,
+      },
+      violence:{
+        dice:w.violenceDices,
+        fixe:w.violenceRaw,
+      },
+      effets:{
+        raw:[],
+        custom:[]
+      }
+    }
+
+    for(let e of w.effects) {
+      let tra = e.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      tra = tra.replace('-', '');
+      tra = tra.toLowerCase();
+      tra = tra.replaceAll('ignore armure', 'ignorearmure')
+      .replaceAll('ignore cdf', 'ignorechampdeforce')
+      .replaceAll('degats continus', 'degatscontinus')
+      .replaceAll('perce armure', 'percearmure');
+      const isExist = CONFIG.KNIGHT.effets?.[tra.split(' ')[0]] ?? '';
+
+      if(isExist !== '') itm.system.effets.raw.push(tra);
+      else itm.system.effets.custom.push({
+        label:e.name,
+        description:"",
+        other:{
+          cdf:0
+        },
+        attaque:{
+          aspect:{
+            fixe:"",
+            jet:"",
+            odInclusFixe:false,
+            odInclusJet:false
+          },
+          carac:{
+            fixe:"",
+            jet:"",
+            odInclusFixe:false,
+            odInclusJet:false
+          },
+          conditionnel:{
+            condition:"",
+            has:false
+          },
+          jet:0,
+          reussite:0,
+        },
+        degats:{
+          aspect:{
+            fixe:"",
+            jet:"",
+            odInclusFixe:false,
+            odInclusJet:false
+          },
+          carac:{
+            fixe:"",
+            jet:"",
+            odInclusFixe:false,
+            odInclusJet:false
+          },
+          conditionnel:{
+            condition:"",
+            has:false
+          },
+          jet:0,
+          reussite:0,
+        },
+        violence:{
+          aspect:{
+            fixe:"",
+            jet:"",
+            odInclusFixe:false,
+            odInclusJet:false
+          },
+          carac:{
+            fixe:"",
+            jet:"",
+            odInclusFixe:false,
+            odInclusJet:false
+          },
+          conditionnel:{
+            condition:"",
+            has:false
+          },
+          jet:0,
+          reussite:0,
+        }
+      });
+    }
+
+    allItm.push(itm);
+  }
+
+  await create.createEmbeddedDocuments("Item", allItm);
+
+  create.sheet.render(true);
+}
