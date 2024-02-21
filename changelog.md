@@ -1,5 +1,9 @@
 ## v3.24.1
 ### Bugfix
+- Correction d'un bug de fonctionnement de la rareté des armes / modules du nouveau navigateur de compendium.
+
+## v3.24.1
+### Bugfix
 - Correction d'un bug empêchant le drag & drop depuis le navigateur de compendium.
 - Tentative de correction d'un bug de duplication des boutons.
 
