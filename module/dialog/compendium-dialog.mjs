@@ -76,6 +76,7 @@ export class KnightCompendiumDialog extends FormApplication {
       check:{
         gen:{},
         rarete:{},
+        raretem:{},
         categorie:{},
         type:{}
       },
@@ -942,6 +943,7 @@ export class KnightCompendiumDialog extends FormApplication {
     const ltypes = html.find('div.filter details.type input[type="checkbox"]');
     const categories = html.find('div.filter details.categorie input[type="checkbox"]');
     const rarete = html.find('div.filter details.rarete input[type="checkbox"]');
+    const raretem = html.find('div.filter details.raretem input[type="checkbox"]');
     const val = search.toLowerCase();
     const list = html.find(`div.tab.${tab} div.tofilter`);
     const tabC = `f${tab}`;
@@ -992,15 +994,15 @@ export class KnightCompendiumDialog extends FormApplication {
             'espoir':true,
           };
 
-          for(let g of rarete) {
+          for(let g of raretem) {
             const target = $(g);
             const rarete = target.data('rarete');
             const value = target.is(':checked');
 
             rare[rarete] = value;
-            this.object.check.rarete[rarete] = value;
+            this.object.check.raretem[rarete] = value;
           }
-        } else rare = this.object.check.rarete;
+        } else rare = this.object.check.raretem;
 
         if(type === 'categorie') {
           for(let g of categories) {

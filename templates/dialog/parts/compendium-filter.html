@@ -29,11 +29,11 @@
         </label>
     </div>
 
-    <details class="rarete" data-key="rarete" {{ifThen opened.rarete 'open' ''}}>
+    <details class="raretem" data-key="rarete" {{ifThen opened.rarete 'open' ''}}>
         <summary data-key="rarete">{{localize 'KNIGHT.ITEMS.MODULE.RARETE.Label'}}</summary>
         {{#each filters.modules.rarete}}
         <label>
-            <input type="checkbox" data-rarete="{{this}}" data-tab="{{../tab}}" {{checked (ifThen (eq (lookup ../check.rarete this) undefined) true (lookup ../check.rarete this))}} />
+            <input type="checkbox" data-rarete="{{this}}" data-tab="{{../tab}}" {{checked (ifThen (eq (lookup ../check.raretem this) undefined) true (lookup ../check.raretem this))}} />
             <span>{{getRarete this}}</span>
         </label>
         {{/each}}
@@ -69,7 +69,7 @@
 
     <details class="rarete" data-key="rarete" {{ifThen opened.rarete 'open' ''}}>
         <summary data-key="rarete">{{localize 'KNIGHT.ITEMS.MODULE.RARETE.Label'}}</summary>
-        {{#each filters.modules.rarete}}
+        {{#each filters.armes.rarete}}
         <label>
             <input type="checkbox" data-rarete="{{this}}" data-tab="{{../tab}}" {{checked (ifThen (eq (lookup ../check.rarete this) undefined) true (lookup ../check.rarete this))}} />
             <span>{{getRarete this}}</span>
