@@ -1,3 +1,7 @@
+## v3.24.3
+### Bugfix
+- Correction de fautes d'accords dans le navigateur de compendium.
+
 ## v3.24.2
 ### Bugfix
 - Correction d'un bug de fonctionnement de la rareté des armes / modules du nouveau navigateur de compendium.
