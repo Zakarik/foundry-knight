@@ -942,7 +942,7 @@
                         </div>
 
                         {{#unless (isBande kpnj.type)}}
-                            <div class="armes {{#unless key.armes.has}}hidden{{/unless}}">
+                            <div class="armes {{#unless kpnj.armes.has}}hidden{{/unless}}">
                                 <h3>
                                     {{localize "KNIGHT.ITEMS.MODULE.ARME.Label"}}
                                     <a class="create" data-type="armes" data-id="{{pnj}}" title="Create Item">
