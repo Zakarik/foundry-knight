@@ -1,3 +1,7 @@
+## v3.24.4
+### Bugfix
+- Correction d'un problème empêchant d'ajouter des armes sur les créatures indépendantes des modules.
+
 ## v3.24.3
 ### Bugfix
 - Correction de fautes d'accords dans le navigateur de compendium.
