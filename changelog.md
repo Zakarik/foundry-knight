@@ -1,3 +1,8 @@
+## v3.24.5
+### Bugfix
+- Correction d'un bug qui continuait à afficher le résultat de l'assistance à l'attaque aux PJ, alors qu'il ne devrait pas.
+- Correction d'un bug prenant en compte les bonus de récupération du personnage lorsqu'il utilise les nods sur autrui, alors que ça ne devrait pas être le cas.
+
 ## v3.24.4
 ### Bugfix
 - Correction d'un problème empêchant d'ajouter des armes sur les créatures indépendantes des modules.

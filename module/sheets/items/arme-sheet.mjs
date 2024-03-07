@@ -54,8 +54,6 @@ export class ArmeSheet extends ItemSheet {
 
     context.systemData = context.data.system;
 
-    console.warn(context);
-
     return context;
   }
 
