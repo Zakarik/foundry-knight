@@ -830,8 +830,8 @@ export async function doDgts(data) {
   }
 
   let sub = effets.degats.list;
-  let include = effets.degats.include;
-  let hideInclude = include;
+  let include = [].concat(effets.degats.include);
+  let hideInclude = [].concat(effets.degats.include);
   let index;
 
   if(assAtk !== undefined) {
@@ -840,25 +840,7 @@ export async function doDgts(data) {
     if (index !== -1) {
       sub.splice(index, 1);
     }
-  }
 
-  if(connectee !== undefined) {
-    index = sub.findIndex(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')}`);
-
-    if (index !== -1) {
-      sub.splice(index, 1);
-    }
-  }
-
-  if(hyperVelocite !== undefined) {
-    index = sub.findIndex(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')}`);
-
-    if (index !== -1) {
-      sub.splice(index, 1);
-    }
-  }
-
-  if(assAtk !== undefined) {
     hideInclude.push({
       name:`+${assAtk} ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
       desc:`${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Description')}`
@@ -871,6 +853,12 @@ export async function doDgts(data) {
   }
 
   if(connectee !== undefined) {
+    index = sub.findIndex(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')}`);
+
+    if (index !== -1) {
+      sub.splice(index, 1);
+    }
+
     hideInclude.push({
       name:`+${connectee} ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
       desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Description')}`
@@ -883,6 +871,12 @@ export async function doDgts(data) {
   }
 
   if(hyperVelocite !== undefined) {
+    index = sub.findIndex(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')}`);
+
+    if (index !== -1) {
+      sub.splice(index, 1);
+    }
+
     hideInclude.push({
       name:`+${hyperVelocite} ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
       desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Description')}`
@@ -893,6 +887,7 @@ export async function doDgts(data) {
       desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Description')}`
     });
   }
+
 
   if(sub.length > 0) { sub.sort(SortByName); }
   if(include.length > 0) { include.sort(SortByName); }
@@ -1024,8 +1019,8 @@ export async function doViolence(data) {
     await execViolence.evaluate(listAllEffets.violence.minMax);
 
     let sub = listAllEffets.violence.list;
-    let include = listAllEffets.violence.include;
-    let hideInclude = include;
+    let include = [].concat(listAllEffets.violence.include);
+    let hideInclude = [].concat(listAllEffets.violence.include);
     let index;
 
     if(assAtk !== undefined) {
@@ -1034,25 +1029,7 @@ export async function doViolence(data) {
       if (index !== -1) {
         sub.splice(index, 1);
       }
-    }
 
-    if(connectee !== undefined) {
-      index = sub.findIndex(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')}`);
-
-      if (index !== -1) {
-        sub.splice(index, 1);
-      }
-    }
-
-    if(hyperVelocite !== undefined) {
-      index = sub.findIndex(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')}`);
-
-      if (index !== -1) {
-        sub.splice(index, 1);
-      }
-    }
-
-    if(assAtk !== undefined) {
       include.push({
         name:`+ ${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
         desc:`${game.i18n.localize('KNIGHT.EFFETS.ASSISTANCEATTAQUE.Description')}`
@@ -1065,6 +1042,12 @@ export async function doViolence(data) {
     }
 
     if(connectee !== undefined) {
+      index = sub.findIndex(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')}`);
+
+      if (index !== -1) {
+        sub.splice(index, 1);
+      }
+
       include.push({
         name:`+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
         desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.CONNECTEE.Description')}`
@@ -1077,6 +1060,12 @@ export async function doViolence(data) {
     }
 
     if(hyperVelocite !== undefined) {
+      index = sub.findIndex(eff => eff.name === `+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')}`);
+
+      if (index !== -1) {
+        sub.splice(index, 1);
+      }
+
       include.push({
         name:`+ ${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
         desc:`${game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Description')}`

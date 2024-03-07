@@ -3927,9 +3927,7 @@ export class KnightSheet extends ActorSheet {
       const nods = target.data("nods");
 
       if(nbre > 0) {
-        const recuperation = data.system.combat.nods[nods].recuperationBonus;
-
-        const rNods = new game.knight.RollKnight(`3D6+${recuperation}`, this.actor.system);
+        const rNods = new game.knight.RollKnight(`3D6+0`, this.actor.system);
         rNods._flavor = game.i18n.localize(`KNIGHT.JETS.Nods${nods}`);
         rNods._success = false;
         await rNods.toMessage({
@@ -5214,8 +5212,6 @@ export class KnightSheet extends ActorSheet {
     const data = TextEditor.getDragEventData(event);
     const actor = this.actor;
 
-    console.warn(data);
-
     /**
      * A hook event that fires when some useful data is dropped onto an ActorSheet.
      * @function dropActorSheetData
@@ -6042,7 +6038,6 @@ export class KnightSheet extends ActorSheet {
               }
 
               const activeMorph = capacite?.active?.morph || false;
-              console.warn(capacite);
               if(wear === 'armure' && activeMorph) {
                 if(capacite.active.polymorphieLame) {
                   const lameEffets = capacite.polymorphie.lame.effets;

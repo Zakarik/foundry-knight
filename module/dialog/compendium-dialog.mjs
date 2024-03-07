@@ -150,8 +150,6 @@ export class KnightCompendiumDialog extends FormApplication {
         type:type
       };
 
-      console.warn(by, type);
-
       this.render(true);
     });
 

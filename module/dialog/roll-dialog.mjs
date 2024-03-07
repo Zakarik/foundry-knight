@@ -2046,7 +2046,6 @@ export class KnightRollDialog extends Application {
   }
 
   async _doRoll(event, entraide=false, attackOnly=false, dgtsOnly=false, violenceOnly=false, wpnId='', wpnType='', wpnName='', bonusTemp=false) {
-    console.warn(this);
 
     const data = this.data;
     const isPNJ = data?.pnj || false;
