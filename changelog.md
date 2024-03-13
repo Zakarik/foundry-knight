@@ -1,3 +1,7 @@
+## v3.24.6
+### Bugfix
+- Correction d'un bug n'affichant pas les armes de Polymorphie de guerre du mode Morph dans la fenêtre de jet.
+
 ## v3.24.5
 ### Bugfix
 - Correction d'un bug qui continuait à afficher le résultat de l'assistance à l'attaque aux PJ, alors qu'il ne devrait pas.
