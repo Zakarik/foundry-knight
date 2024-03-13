@@ -1191,6 +1191,207 @@ export class KnightRollDialog extends Application {
                 armesDistanceEquipee.push(borealisWpnD);
               }
               break;
+
+              case "morph":
+                if(passiveUltime !== undefined) {
+                  if(passiveUltime.capacites.actif && passiveUltime.capacites.morph.actif) {
+                    system.capacites.selected[key] = Object.assign(system.capacites.selected[key], {
+                      etirement:{
+                        portee:passiveUltime.capacites.morph.update.etirement.portee,
+                      },
+                      fluide:{
+                        bonus:{
+                          reaction:passiveUltime.capacites.morph.update.fluide.bonus.reaction,
+                          defense:passiveUltime.capacites.morph.update.fluide.bonus.defense
+                        }
+                      },
+                      metal:{
+                        bonus:{
+                          champDeForce:passiveUltime.capacites.morph.update.metal.bonus.champDeForce,
+                        }
+                      },
+                      polymorphie:{
+                        canon:{
+                          degats:{
+                            dice:passiveUltime.capacites.morph.update.polymorphie.canon.degats.dice,
+                            fixe:passiveUltime.capacites.morph.update.polymorphie.canon.degats.fixe,
+                          },
+                          violence:{
+                            dice:passiveUltime.capacites.morph.update.polymorphie.canon.violence.dice,
+                            fixe:passiveUltime.capacites.morph.update.polymorphie.canon.violence.fixe,
+                          },
+                          effets:{
+                            raw:capacite.polymorphie.canon.effets.raw.concat(passiveUltime.capacites.morph.update.polymorphie.canon.effets.raw),
+                            custom:capacite.polymorphie.canon.effets.custom.concat(passiveUltime.capacites.morph.update.polymorphie.canon.effets.custom),
+                          }
+                        },
+                        griffe:{
+                          degats:{
+                            dice:passiveUltime.capacites.morph.update.polymorphie.griffe.degats.dice,
+                            fixe:passiveUltime.capacites.morph.update.polymorphie.griffe.degats.fixe,
+                          },
+                          violence:{
+                            dice:passiveUltime.capacites.morph.update.polymorphie.griffe.violence.dice,
+                            fixe:passiveUltime.capacites.morph.update.polymorphie.griffe.violence.fixe,
+                          },
+                          effets:{
+                            raw:capacite.polymorphie.griffe.effets.raw.concat(passiveUltime.capacites.morph.update.polymorphie.griffe.effets.raw),
+                            custom:capacite.polymorphie.griffe.effets.custom.concat(passiveUltime.capacites.morph.update.polymorphie.griffe.effets.custom),
+                          }
+                        },
+                        lame:{
+                          degats:{
+                            dice:passiveUltime.capacites.morph.update.polymorphie.lame.degats.dice,
+                            fixe:passiveUltime.capacites.morph.update.polymorphie.lame.degats.fixe,
+                          },
+                          violence:{
+                            dice:passiveUltime.capacites.morph.update.polymorphie.lame.violence.dice,
+                            fixe:passiveUltime.capacites.morph.update.polymorphie.lame.violence.fixe,
+                          },
+                          effets:{
+                            raw:capacite.polymorphie.lame.effets.raw.concat(passiveUltime.capacites.morph.update.polymorphie.lame.effets.raw),
+                            custom:capacite.polymorphie.lame.effets.custom.concat(passiveUltime.capacites.morph.update.polymorphie.lame.effets.custom),
+                          }
+                        }
+                      },
+                      vol:{
+                        description:passiveUltime.capacites.morph.update.vol.description,
+                      }
+                    });
+                  }
+                }
+
+                const activeMorph = capacite?.active?.morph || false;
+
+                if(wear === 'armure' && activeMorph) {
+                  if(capacite.active.polymorphieLame) {
+                    const lameEffets = capacite.polymorphie.lame.effets;
+                    const lameEffetsRaw = lameEffets.raw.concat(armorSpecialRaw);
+                    const lameEffetsCustom = lameEffets.custom.concat(armorSpecialCustom) || [];
+                    const lameEffetsFinal = {
+                      raw:[...new Set(lameEffetsRaw)],
+                      custom:lameEffetsCustom,
+                      liste:lameEffets.liste
+                    };
+
+                    const lame = {
+                      _id:i._id,
+                      name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame')}`,
+                      system:{
+                        capaciteName:'morph',
+                        subCapaciteName:'polymorphie',
+                        subSubCapaciteName:'lame',
+                        noRack:true,
+                        capacite:true,
+                        portee:game.i18n.localize(`KNIGHT.PORTEE.${capacite.polymorphie.lame.portee.charAt(0).toUpperCase()+capacite.polymorphie.lame.portee.substr(1)}`),
+                        degats:{
+                          dice:capacite.polymorphie.lame.degats.dice,
+                          fixe:capacite.polymorphie.lame.degats.fixe
+                        },
+                        violence:{
+                          dice:capacite.polymorphie.lame.violence.dice,
+                          fixe:capacite.polymorphie.lame.violence.fixe
+                        },
+                        type:'contact',
+                        effets:lameEffetsFinal
+                      }
+                    };
+
+                    const bDefense = lameEffetsFinal.raw.find(str => { if(str.includes('defense')) return str; });
+                    const bReaction = lameEffetsFinal.raw.find(str => { if(str.includes('reaction')) return str; })
+
+                    if(bDefense !== undefined) defense.bonus += +bDefense.split(' ')[1];
+                    if(bReaction !== undefined) reaction.bonus += +bReaction.split(' ')[1];
+
+                    armesContactEquipee.push(lame);
+                  }
+
+                  if(capacite.active.polymorphieGriffe) {
+                    const griffeEffets = capacite.polymorphie.griffe.effets;
+                    const griffeEffetsRaw = griffeEffets.raw.concat(armorSpecialRaw);
+                    const griffeEffetsCustom = griffeEffets.custom.concat(armorSpecialCustom) || [];
+                    const griffeEffetsFinal = {
+                      raw:[...new Set(griffeEffetsRaw)],
+                      custom:griffeEffetsCustom,
+                      liste:griffeEffets.liste
+                    };
+
+                    const griffe = {
+                      _id:i._id,
+                      name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe')}`,
+                      system:{
+                        capaciteName:'morph',
+                        subCapaciteName:'polymorphie',
+                        subSubCapaciteName:'griffe',
+                        noRack:true,
+                        capacite:true,
+                        portee:game.i18n.localize(`KNIGHT.PORTEE.${capacite.polymorphie.griffe.portee.charAt(0).toUpperCase()+capacite.polymorphie.griffe.portee.substr(1)}`),
+                        degats:{
+                          dice:capacite.polymorphie.griffe.degats.dice,
+                          fixe:capacite.polymorphie.griffe.degats.fixe
+                        },
+                        violence:{
+                          dice:capacite.polymorphie.griffe.violence.dice,
+                          fixe:capacite.polymorphie.griffe.violence.fixe
+                        },
+                        type:'contact',
+                        effets:griffeEffetsFinal
+                      }
+                    };
+
+                    const bDefense = griffeEffetsFinal.raw.find(str => { if(str.includes('defense')) return str; });
+                    const bReaction = griffeEffetsFinal.raw.find(str => { if(str.includes('reaction')) return str; })
+
+                    if(bDefense !== undefined) defense.bonus += +bDefense.split(' ')[1];
+                    if(bReaction !== undefined) reaction.bonus += +bReaction.split(' ')[1];
+
+                    armesContactEquipee.push(griffe);
+                  };
+
+                  if(capacite.active.polymorphieCanon) {
+                    const canonEffets = capacite.polymorphie.canon.effets;
+                    const canonEffetsRaw = canonEffets.raw.concat(armorSpecialRaw);
+                    const canonEffetsCustom = canonEffets.custom.concat(armorSpecialCustom) || [];
+                    const canonEffetsFinal = {
+                      raw:[...new Set(canonEffetsRaw)],
+                      custom:canonEffetsCustom,
+                      liste:canonEffets.liste
+                    };
+
+                    const canon = {
+                      _id:i._id,
+                      name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon')}`,
+                      system:{
+                        capaciteName:'morph',
+                        subCapaciteName:'polymorphie',
+                        subSubCapaciteName:'canon',
+                        noRack:true,
+                        capacite:true,
+                        portee:game.i18n.localize(`KNIGHT.PORTEE.${capacite.polymorphie.canon.portee.charAt(0).toUpperCase()+capacite.polymorphie.canon.portee.substr(1)}`),
+                        energie:capacite.polymorphie.canon.energie,
+                        degats:{
+                          dice:capacite.polymorphie.canon.degats.dice,
+                          fixe:capacite.polymorphie.canon.degats.fixe
+                        },
+                        violence:{
+                          dice:capacite.polymorphie.canon.violence.dice,
+                          fixe:capacite.polymorphie.canon.violence.fixe
+                        },
+                        type:'distance',
+                        effets:canonEffetsFinal
+                      }
+                    };
+
+                    const bDefense = canonEffetsFinal.raw.find(str => { if(str.includes('defense')) return str; });
+                    const bReaction = canonEffetsFinal.raw.find(str => { if(str.includes('reaction')) return str; })
+
+                    if(bDefense !== undefined) defense.bonus += +bDefense.split(' ')[1];
+                    if(bReaction !== undefined) reaction.bonus += +bReaction.split(' ')[1];
+
+                    armesDistanceEquipee.push(canon);
+                  }
+                }
+                break;
             }
           }
         }
