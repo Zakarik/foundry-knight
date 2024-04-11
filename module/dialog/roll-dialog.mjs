@@ -242,11 +242,14 @@ export class KnightRollDialog extends Application {
     const wpnDistance = extractWpn?.distance ?? [];
     const wpnTourelle = extractWpn?.tourelle ?? [];
     const wpnMa = extractWpn?.wpn ?? [];
+    const armesimprovisees = extractWpn.armesimprovisees;
     let lgbow = extractWpn?.longbow;
     let wpnMunitionsList = [wpnDistance, wpnTourelle]
     let int = [];
 
     if(lgbow?.effets?.raw ?? undefined !== undefined) lgbow.effets.raw = [];
+
+
 
     for (let [key, interdit] of Object.entries(lAspectsInterdits)){
       int = int.concat(interdit);
@@ -311,7 +314,10 @@ export class KnightRollDialog extends Application {
     this.data.listWpnDistance = !isMA ? wpnDistance ?? [] : [];
     this.data.listWpnTourelle = !isMA ? wpnTourelle ?? [] : [];
     this.data.listGrenades = !isMA ? extractWpn?.grenade ?? [] : [];
-    this.data.listWpnImprovisees = {contact:data.combat.armesimprovisees.liste, distance:data.combat.armesimprovisees.liste};
+    this.data.listWpnImprovisees = {
+      bonuscontact:armesimprovisees.bonuscontact,
+      contact:armesimprovisees.liste,
+      distance:armesimprovisees.liste};
     this.data.longbow = !isMA ? lgbow : [];
     this.data.listWpnMA = isMA ? wpnMa : [];
     this.data.listWpnSpecial = extractWpn?.wpnSpecial ?? [];
@@ -1748,6 +1754,12 @@ export class KnightRollDialog extends Application {
       wpn:wpn,
       wpnSpecial:wpnSpecial,
       grenade:grenades,
+      armesimprovisees:foundry.utils.mergeObject(act.system.combat.armesimprovisees, {
+        bonuscontact:{
+          degatsfixe:moduleBonusDgts.contact, degatsvariable:moduleBonusDgtsVariable.contact,
+          violencefixe:moduleBonusViolence.contact, violencevariable:moduleBonusViolenceVariable.contact,
+        }
+      }),
     }
   }
 
@@ -2056,8 +2068,8 @@ export class KnightRollDialog extends Application {
       const variable = target.data("variable");
       const energie = +target.data("energie");
       const actor = this.data.actor;
-      const wpn = {'contact':'listWpnContact', 'distance':'listWpnDistance'}[type]
-      const dataWpn = this.data[wpn][num].system[typeBonus].module.variable[variable];
+      const wpn = {'contact':'listWpnContact', 'distance':'listWpnDistance', 'improvisees':'listWpnImprovisees'}[type]
+      const dataWpn = type === 'improvisees' ? this.data[wpn][`bonus${this.data.idWpn}`][`${typeBonus}variable`][variable] : this.data[wpn][num].system[typeBonus].module.variable[variable];
       const paliers = dataWpn.selected.energie.paliers[fixeOrDice].findIndex(element => element === value);
       const module = this.data.isToken ? actor.token.actor.items.get(dataWpn.id) : game.actors.get(actor.id).items.get(dataWpn.id);
       const depense = paliers*energie;
@@ -2281,7 +2293,7 @@ export class KnightRollDialog extends Application {
       const energieSpecial = +wpn?.energie || 0;
       const espoirSpecial = +wpn?.espoir || 0;
       const otherWpnAttEffet = [];
-      const listAllE = await this._getAllEffets (actor, wpn, typeWpn, isPNJ);
+      const listAllE = await this._getAllEffets(actor, wpn, typeWpn, isPNJ);
       const totalDepenseEnergie = listAllE.depenseEnergie+energieSpecial;
 
       let nRoll = listAllE.nRoll;
@@ -3689,7 +3701,21 @@ export class KnightRollDialog extends Application {
         break;
 
       case 'armesimprovisees':
-        wpn = data.listWpnImprovisees[idWpn][nameWpn].liste[numWpn];
+        if(idWpn === 'contact') wpn = foundry.utils.mergeObject(data.listWpnImprovisees[idWpn][nameWpn].liste[numWpn], {
+          degats:{
+            module:{
+              fixe:data.listWpnImprovisees.bonuscontact.degatsfixe,
+              variable:data.listWpnImprovisees.bonuscontact.degatsvariable,
+            }
+          },
+          violence:{
+            module:{
+              fixe:data.listWpnImprovisees.bonuscontact.violencefixe,
+              variable:data.listWpnImprovisees.bonuscontact.violencevariable,
+            }
+          }
+        });
+        else wpn = data.listWpnImprovisees[idWpn][nameWpn].liste[numWpn];
         break;
     }
 

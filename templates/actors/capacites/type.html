@@ -8,7 +8,7 @@
             {{#if choixFaits}}
             <div class="blockMultiline">
                 {{#if type.soldier.selectionne}}
-                    {{#if (typeCanBeActivate this 'soldier' 'conflit')}}
+                    {{#if (typeCanBeActivate this 'soldier' 'conflit' false)}}
                     <button class="activation"
                         data-type="capacites"
                         data-capacite="{{key}}"
@@ -22,7 +22,7 @@
                     </button>
                     {{/if}}
 
-                    {{#if (typeCanBeActivate this 'soldier' 'horsconflit')}}
+                    {{#if (typeCanBeActivate this 'soldier' 'horsconflit' false)}}
                     <button class="activation"
                         data-type="capacites"
                         data-capacite="{{key}}"
@@ -58,7 +58,7 @@
                 {{/if}}
 
                 {{#if type.hunter.selectionne}}
-                    {{#if (typeCanBeActivate this 'hunter' 'conflit')}}
+                    {{#if (typeCanBeActivate this 'hunter' 'conflit' false)}}
                     <button class="activation"
                         data-type="capacites"
                         data-capacite="{{key}}"
@@ -72,7 +72,7 @@
                     </button>
                     {{/if}}
 
-                    {{#if (typeCanBeActivate this 'hunter' 'horsconflit')}}
+                    {{#if (typeCanBeActivate this 'hunter' 'horsconflit' false)}}
                     <button class="activation"
                         data-type="capacites"
                         data-capacite="{{key}}"
@@ -106,7 +106,7 @@
                 {{/if}}
 
                 {{#if type.scholar.selectionne}}
-                    {{#if (typeCanBeActivate this 'scholar' 'conflit')}}
+                    {{#if (typeCanBeActivate this 'scholar' 'conflit' false)}}
                     <button class="activation"
                         data-type="capacites"
                         data-capacite="{{key}}"
@@ -120,7 +120,7 @@
                     </button>
                     {{/if}}
 
-                    {{#if (typeCanBeActivate this 'scholar' 'horsconflit')}}
+                    {{#if (typeCanBeActivate this 'scholar' 'horsconflit' false)}}
                     <button class="activation"
                         data-type="capacites"
                         data-capacite="{{key}}"
@@ -156,7 +156,7 @@
                 {{/if}}
 
                 {{#if type.herald.selectionne}}
-                    {{#if (typeCanBeActivate this 'herald' 'conflit')}}
+                    {{#if (typeCanBeActivate this 'herald' 'conflit' false)}}
                     <button class="activation"
                         data-type="capacites"
                         data-capacite="{{key}}"
@@ -170,7 +170,7 @@
                     </button>
                     {{/if}}
 
-                    {{#if (typeCanBeActivate this 'herald' 'horsconflit')}}
+                    {{#if (typeCanBeActivate this 'herald' 'horsconflit' false)}}
                     <button class="activation"
                         data-type="capacites"
                         data-capacite="{{key}}"
@@ -204,7 +204,7 @@
                 {{/if}}
 
                 {{#if type.scout.selectionne}}
-                    {{#if (typeCanBeActivate this 'scout' 'conflit')}}
+                    {{#if (typeCanBeActivate this 'scout' 'conflit' false)}}
                     <button class="activation"
                         data-type="capacites"
                         data-capacite="{{key}}"
@@ -218,7 +218,7 @@
                     </button>
                     {{/if}}
 
-                    {{#if (typeCanBeActivate this 'scout' 'horsconflit')}}
+                    {{#if (typeCanBeActivate this 'scout' 'horsconflit' false)}}
                     <button class="activation"
                         data-type="capacites"
                         data-capacite="{{key}}"

@@ -1340,6 +1340,75 @@
             {{/if}}
             {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.LabelContact"}}
         </h2>
+        <div class="subButtons" {{#unless (eq idWpn 'contact')}}style="display:none;"{{/unless}}>
+            {{#each listWpnImprovisees.bonuscontact.degatsvariable as | keyDgts dgts|}}
+                <div class="lineParams">
+                    {{#unless (isLowerThan keyDgts.max.dice 1)}}
+                        <label class="paramsTwoLine">
+                            <span>{{localize "KNIGHT.BONUS.DesDegats"}}</span>
+                            <select class="bonusVariable" data-type="improvisees" data-num="{{contact}}" data-variable="{{dgts}}"
+                                data-typebonus="degats" data-fixeordice="dice" data-energie="{{energie}}">
+                                {{#select keyDgts.selected.dice}}
+                                    <option value="0">0{{localize "KNIGHT.JETS.Des-short"}}6</option>
+                                    {{#each (whileBetweenNumber keyDgts.min.dice keyDgts.max.dice) as | kD vD|}}
+                                        <option value="{{kD}}">{{kD}}{{localize "KNIGHT.JETS.Des-short"}}6</option>
+                                    {{/each}}
+                                {{/select}}
+                            </select>
+                        </label>
+                    {{/unless}}
+
+                    {{#unless (isLowerThan keyDgts.max.fixe 1)}}
+                        <label class="paramsTwoLine">
+                            <span>{{localize "KNIGHT.BONUS.FixeDegats"}}</span>
+                            <select class="bonusVariable" data-type="contact" data-num="{{contact}}" data-variable="{{dgts}}"
+                                data-typebonus="degats" data-fixeordice="fixe" data-energie="{{energie}}">
+                                {{#select keyDgts.selected.fixe}}
+                                    <option value="0">0</option>
+                                    {{#each (whileBetweenNumber keyDgts.min.fixe keyDgts.max.fixe) as | kD vD|}}
+                                        <option value="{{kD}}">{{kD}}</option>
+                                    {{/each}}
+                                {{/select}}
+                            </select>
+                        </label>
+                    {{/unless}}
+                </div>
+            {{/each}}
+
+            {{#each listWpnImprovisees.bonuscontact.violencevariable as | keyViolence violence|}}
+                <div class="lineParams">
+                    {{#unless (isLowerThan keyViolence.max.dice 1)}}
+                        <label class="paramsTwoLine">
+                            <span>{{localize "KNIGHT.BONUS.DesViolence"}}</span>
+                            <select class="bonusVariable" data-type="contact" data-num="{{contact}}" data-variable="{{violence}}"
+                                data-typebonus="violence" data-fixeordice="dice" data-energie="{{energie}}">
+                                {{#select keyViolence.selected.dice}}
+                                    <option value="0">0{{localize "KNIGHT.JETS.Des-short"}}6</option>
+                                    {{#each (whileBetweenNumber keyViolence.min.dice keyViolence.max.dice) as | kV vV|}}
+                                        <option value="{{vV}}">{{vV}}{{localize "KNIGHT.JETS.Des-short"}}6</option>
+                                    {{/each}}
+                                {{/select}}
+                            </select>
+                        </label>
+                    {{/unless}}
+
+                    {{#unless (isLowerThan keyViolence.max.fixe 1)}}
+                        <label class="paramsTwoLine">
+                            <span>{{localize "KNIGHT.BONUS.FixeViolence"}}</span>
+                            <select class="bonusVariable" data-type="contact" data-num="{{contact}}" data-variable="{{violence}}"
+                                data-typebonus="violence" data-fixeordice="fixe" data-energie="{{energie}}">
+                                {{#select keyViolence.selected.fixe}}
+                                    <option value="0">0</option>
+                                    {{#each (whileBetweenNumber keyViolence.min.fixe keyViolence.max.fixe) as | kV vV|}}
+                                        <option value="{{vV}}">{{vV}}</option>
+                                    {{/each}}
+                                {{/select}}
+                            </select>
+                        </label>
+                    {{/unless}}
+                </div>
+            {{/each}}
+        </div>
         {{#each listWpnImprovisees.contact as | kAI armesimprovisees|}}
             <div class="block">
                 {{#unless @root/ma}}

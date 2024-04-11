@@ -838,6 +838,111 @@
             }
           }
 
+          div.subButtons {
+            display:flex;
+            width:100%;
+            justify-content: space-between;
+            flex-wrap: wrap;
+
+            div.lineParams {
+              display:flex;
+              width:100%;
+              justify-content: space-between;
+
+              label {
+                &.params {
+                  display: flex;
+                  width: 50%;
+                  justify-content: space-between;
+
+                  span {
+                    width: 50%;
+                    border: 0px;
+                    text-align: left;
+                    justify-content: left;
+                    padding-left: 5px;
+                    background:$lightBlack;
+                  }
+
+                  select {
+                    width: 50%;
+                    text-align: center;
+                    padding: 0px;
+                    border-radius: 0px;
+                    border: 0px;
+                    background: transparent;
+                    color:$white;
+
+                    option {
+                      background:$black;
+                      color:$white;
+                    }
+                  }
+
+                  &:first-of-type {
+                    border-right:1px solid $lightBlack;
+                  }
+                }
+
+                &.paramsTwoLine {
+                  display: flex;
+                  width: 50%;
+                  justify-content: space-between;
+                  flex-wrap: wrap;
+
+                  span {
+                    width: 100%;
+                    border: 0px;
+                    text-align: center;
+                    justify-content: center;
+                    padding-left: 5px;
+                    background:$lightBlack;
+                    line-height: 27px;
+                  }
+
+                  select {
+                    width: 100%;
+                    text-align: center;
+                    padding: 0px;
+                    border-radius: 0px;
+                    border: 0px;
+                    background: transparent;
+                    color:$white;
+                    line-height: 27px;
+
+                    option {
+                      background:$black;
+                      color:$white;
+                    }
+                  }
+
+                  &:not(:first-of-type) {
+                    span {
+                      border-left:1px solid $black;
+                    }
+
+                    select {
+                      border-left:1px solid $lightBlack;
+                    }
+                  }
+                }
+              }
+
+              select.choixmain,
+              select.choixmunition {
+                border:0px;
+                width:100%;
+                color:$white;
+                font-variant: small-caps;
+                text-align: center;
+
+                option {
+                  background:$black;
+                }
+              }
+            }
+          }
+
           div.block {
             width:100%;
 

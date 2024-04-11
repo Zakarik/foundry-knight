@@ -4232,7 +4232,7 @@ export function getModuleBonus(actor, typeWpn, dataWpn, effetsWpn, distanceWpn, 
     result.violence.energie += energieDice+energieFixe;
   }
 
-  if((eRogue && typeWpn === 'contact' && !isLumiere) || (eRogue && typeWpn === 'distance' && isSilencieux)) {
+  if((eRogue && typeWpn === 'contact' && !isLumiere) || (eRogue && (typeWpn === 'distance' || typeWpn === 'longbow') && isSilencieux)) {
     const data = actorModuleErsatz.rogue;
     let bonusAttack = getCaracValue(data.attaque, actor, true)+getODValue(data.attaque, actor, true);
     let bonusDgtsDice = 0;
