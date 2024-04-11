@@ -1,3 +1,9 @@
+## v3.24.7
+### Bugfix
+- Correction d'un bug empêchant le fonctionnement correct de la capacité ultime de l'armure Warrior.
+- Correction d'un bug ne prenant pas en compte l'ersatz Rogue pour le Longbow.
+- Correction d'un bug ne prenant pas en compte l'amplification de frappe sur les armes improvisées.
+
 ## v3.24.6
 ### Bugfix
 - Correction d'un bug n'affichant pas les armes de Polymorphie de guerre du mode Morph dans la fenêtre de jet.
