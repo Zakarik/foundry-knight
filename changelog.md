@@ -1,3 +1,8 @@
+## v3.24.8
+### Bugfix
+- Correction d'un bug ne prenant pas en compte les armes sur tourelle ayant plusieurs munitions.
+- Correction de l'affichage du bouton de jet de dé pour les armes sur tourelle.
+
 ## v3.24.7
 ### Bugfix
 - Correction d'un bug empêchant le fonctionnement correct de la capacité ultime de l'armure Warrior.

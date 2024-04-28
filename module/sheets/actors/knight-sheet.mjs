@@ -7393,17 +7393,23 @@ export class KnightSheet extends ActorSheet {
           value:data.gratuit ? 0 : data.prix
         });
 
-        if(tourelle.has && type === 'distance') {
-          armesTourelles.push(i);
-        } else if(wear !== 'ascension') {
+        const optionsmunitions = data.optionsmunitions.has;
+        const munition = data.optionsmunitions.actuel;
 
+        if(type === 'distance' && optionsmunitions === true) {
+          data.degats.dice = data.optionsmunitions?.liste?.[munition]?.degats?.dice || 0;
+          data.degats.fixe = data.optionsmunitions?.liste?.[munition]?.degats?.fixe || 0
+
+          data.violence.dice = data.optionsmunitions?.liste?.[munition]?.violence?.dice || 0;
+          data.violence.fixe = data.optionsmunitions?.liste?.[munition]?.violence?.fixe || 0;
+        }
+
+        if(wear !== 'ascension' && !tourelle.has) {
           const equipped = data?.equipped || false;
           const rack = data?.rack || false;
 
           const options2mains = data.options2mains.has;
-          const optionsmunitions = data.optionsmunitions.has;
           const main = data.options2mains.actuel;
-          const munition = data.optionsmunitions.actuel;
 
           if(type === 'contact' && options2mains === true) {
             data.degats.dice = data?.options2mains?.[main]?.degats?.dice || 0;
@@ -7411,14 +7417,6 @@ export class KnightSheet extends ActorSheet {
 
             data.violence.dice = data?.options2mains?.[main]?.violence?.dice || 0;
             data.violence.fixe = data?.options2mains?.[main]?.violence?.fixe || 0;
-          }
-
-          if(type === 'distance' && optionsmunitions === true) {
-            data.degats.dice = data.optionsmunitions?.liste?.[munition]?.degats?.dice || 0;
-            data.degats.fixe = data.optionsmunitions?.liste?.[munition]?.degats?.fixe || 0
-
-            data.violence.dice = data.optionsmunitions?.liste?.[munition]?.violence?.dice || 0;
-            data.violence.fixe = data.optionsmunitions?.liste?.[munition]?.violence?.fixe || 0;
           }
 
           if (type === 'contact' && equipped === false && rack === false) { armesContactArmoury.push(i); }
@@ -7464,6 +7462,10 @@ export class KnightSheet extends ActorSheet {
             priority: 3,
             value: bonusEffects.cdf.bonus
           });
+        }
+
+        if(tourelle.has && type === 'distance') {
+          armesTourelles.push(i);
         }
       }
 

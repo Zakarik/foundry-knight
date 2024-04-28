@@ -735,6 +735,18 @@
                         </div>
                     {{/each}}
 
+                    {{#if key.system.optionsmunitions.has}}
+                        <div class="lineParams">
+                            <select class="choixmunition" data-num="{{distance}}" data-niveau="{{key.system.niveau}}" data-tourelle="true">
+                                {{#select key.system.optionsmunitions.actuel}}
+                                    {{#each key.system.optionsmunitions.liste as | key munition|}}
+                                        <option value="{{munition}}">{{key.nom}}</option>
+                                    {{/each}}
+                                {{/select}}
+                            </select>
+                        </div>
+                    {{/if}}
+
                     {{#if (hasEffet 'tirenrafale' 'effets' key -1)}}
                         <span class="relance relanceDgts" data-id="{{key._id}}" data-type="distance" data-name="{{key.name}}" title="{{localize "KNIGHT.EFFETS.TIRENRAFALE.Relance"}}">{{localize "KNIGHT.EFFETS.TIRENRAFALE.Label"}}</span>
                     {{else}}

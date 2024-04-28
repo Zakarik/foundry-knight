@@ -24190,7 +24190,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   grid-row: 1;
   grid-row-start: 1;
   grid-row-end: 3;
-  margin-top: auto;
   margin-bottom: auto;
 }
 .knight section.body div.combat div.main div.armesContact div.wpn header div.gestionButton,
@@ -31356,7 +31355,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   grid-row: 1;
   grid-row-start: 1;
   grid-row-end: 3;
-  margin-top: auto;
   margin-bottom: auto;
 }
 .pnj section.body div.combat div.main div.armesContact div.wpn header div.gestionButton,
@@ -33576,7 +33574,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   grid-row: 1;
   grid-row-start: 1;
   grid-row-end: 3;
-  margin-top: auto;
   margin-bottom: auto;
 }
 .creature section.body div.combat div.main div.armesContact div.wpn header div.gestionButton,
@@ -35683,7 +35680,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   grid-row: 1;
   grid-row-start: 1;
   grid-row-end: 3;
-  margin-top: auto;
   margin-bottom: auto;
 }
 .bande section.body div.combat div.main div.armesContact div.wpn header div.gestionButton,
@@ -37949,7 +37945,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   grid-row: 1;
   grid-row-start: 1;
   grid-row-end: 3;
-  margin-top: auto;
   margin-bottom: auto;
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn header div.gestionButton {
