@@ -1617,17 +1617,23 @@ export class KnightRollDialog extends Application {
             }
           }
 
-          if(tourelle.has && type === 'distance') {
-            armesTourelles.push(i);
-          } else if(wear !== 'ascension') {
+          const optionsmunitions = system.optionsmunitions.has;
+          const munition = system.optionsmunitions.actuel;
 
+          if(type === 'distance' && optionsmunitions === true) {
+            system.degats.dice = system.optionsmunitions?.liste?.[munition]?.degats?.dice || 0;
+            system.degats.fixe = system.optionsmunitions?.liste?.[munition]?.degats?.fixe || 0
+
+            system.violence.dice = system.optionsmunitions?.liste?.[munition]?.violence?.dice || 0;
+            system.violence.fixe = system.optionsmunitions?.liste?.[munition]?.violence?.fixe || 0;
+          }
+
+          if(wear !== 'ascension' && !tourelle.has) {
             let equipped = system?.equipped ?? false;
             if(!isPj) equipped = true;
 
             const options2mains = system.options2mains.has;
-            const optionsmunitions = system.optionsmunitions.has;
             const main = system.options2mains.actuel;
-            const munition = system.optionsmunitions.actuel;
 
             if(type === 'contact' && options2mains === true) {
               system.degats.dice = system?.options2mains?.[main]?.degats?.dice || 0;
@@ -1637,16 +1643,12 @@ export class KnightRollDialog extends Application {
               system.violence.fixe = system?.options2mains?.[main]?.violence?.fixe || 0;
             }
 
-            if(type === 'distance' && optionsmunitions === true) {
-              system.degats.dice = system.optionsmunitions?.liste?.[munition]?.degats?.dice || 0;
-              system.degats.fixe = system.optionsmunitions?.liste?.[munition]?.degats?.fixe || 0
-
-              system.violence.dice = system.optionsmunitions?.liste?.[munition]?.violence?.dice || 0;
-              system.violence.fixe = system.optionsmunitions?.liste?.[munition]?.violence?.fixe || 0;
-            }
-
             if (type === 'contact' && equipped === true) { armesContactEquipee.push(i); }
             else if (type === 'distance' && equipped === true) { armesDistanceEquipee.push(i); }
+          }
+
+          if(tourelle.has && type === 'distance') {
+            armesTourelles.push(i);
           }
         }
       }
@@ -2103,7 +2105,8 @@ export class KnightRollDialog extends Application {
       const actor = isVehicule !== undefined ? this.data.vehicule : this.data.actor;
       const num = target.data("num");
       const niveau = target.data("niveau");
-      const listWpnDistance = this.data.listWpnDistance[num];
+      const isTourelle = target?.data("tourelle") ?? false;
+      const listWpnDistance = isTourelle ? this.data.listWpnTourelle[num] : this.data.listWpnDistance[num];
       const id = listWpnDistance._id;
       let item = {};
 
