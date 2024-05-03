@@ -69,6 +69,8 @@ import toggler from '../helpers/toggler.js';
                         max:actor.system.energie?.max || 0
                     },
                     cdf:actor.system.champDeForce.value,
+                    heroisme:actor.system.heroisme.value,
+                    egide:actor.system.egide.value,
                 };
 
                 if(!show) {
