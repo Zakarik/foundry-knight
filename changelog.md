@@ -1,3 +1,7 @@
+## v3.25.1
+### Bugfix
+- Correction d'un bug d'affichage dans le tableau de détail des PJ pour les MJ.
+
 ## v3.25.0
 ### Améliorations
 - Ajout de l'Héroisme et de l'Egide dans le tableau de détail des PJ pour les MJ
