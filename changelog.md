@@ -1,3 +1,7 @@
+## v3.25.2
+### Bugfix
+- Correction d'un bug lors du chargement du compendium si certaines informations sont manquantes.
+
 ## v3.25.1
 ### Bugfix
 - Correction d'un bug d'affichage dans le tableau de détail des PJ pour les MJ.
