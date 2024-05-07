@@ -5182,10 +5182,10 @@ export async function generateNavigator() {
 
           case 'module':
             rData = await fromUuid(uuid);
-            name = rData.name;
-            gloire = rData.system.prix;
-            rarete = rData.system.rarete;
-            categorie = rData.system.categorie;
+            name = rData?.name ?? "";
+            gloire = rData.system?.prix ?? '0';
+            rarete = rData.system?.rarete ?? 'standard';
+            categorie = rData.system?.categorie ?? 'aucune';
 
             data.name = name;
             data.gloire = gloire;
