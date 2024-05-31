@@ -446,7 +446,7 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
 
           const dcSub = new game.knight.RollKnight(`1D6`, actor.system);
           dcSub._success = false;
-          await dcSub.evaluate({async:true});
+          await dcSub.evaluate();
 
           const tour = dcSub._total > 1 ? game.i18n.localize('KNIGHT.AUTRE.Tours') : game.i18n.localize('KNIGHT.AUTRE.Tour');
 
@@ -1534,10 +1534,10 @@ export async function getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, 
       case 'pointeurlaser':
           includeAttack = true;
 
-          sub.name = `+1 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          sub.name = `+3D6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
           sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
 
-          attackBonus += 1;
+          attackDice += 3;
       break;
 
       case 'munitionsiem':

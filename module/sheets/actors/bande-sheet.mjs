@@ -741,7 +741,7 @@ export class BandeSheet extends ActorSheet {
     execDgt._success = false;
     execDgt._hasMin = false;
 
-    await execDgt.evaluate({async:true});
+    await execDgt.evaluate();
 
     const pDegats = {
       flavor:labelDgt,

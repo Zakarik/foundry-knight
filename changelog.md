@@ -1,3 +1,11 @@
+## v3.26.0
+### Améliorations
+- Ajout de la compatibilité avec la V12.
+Ne pas hésiter à remonter si des bugs apparaissent.
+- Intégration de la FAQ du Warlock (il peut utiliser les modules d'armes à distance), retrait du paramètre qui était optionnel auparavant.
+- Intégration de la FAQ du Pointeur Laser (+3D6 au lieu de +1)
+- Séparation du fichier de traduction en fr / en, histoire de permettre une future traduction, pour ceux qui le souhaiteraient.
+
 ## v3.25.2
 ### Bugfix
 - Correction d'un bug lors du chargement du compendium si certaines informations sont manquantes.

@@ -1085,12 +1085,13 @@
                     {{/if}}
                 </div>
 
-                {{#unless actor.cannotUseDistance}}
                 <div class="armesDistance">
                     <div class="block item-list">
                         <h2 class="header">
                             {{localize "KNIGHT.COMBAT.ARMES.DISTANCE.Label"}}
+                            {{#unless actor.cannotUseDistance}}
                             <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="distance"><i class="fas fa-plus"></i></a>
+                            {{/unless}}
                         </h2>
 
                         {{#if actor.longbow.has}}
@@ -1126,7 +1127,6 @@
                     </div>
                     {{/if}}
                 </div>
-                {{/unless}}
             </div>
 
             <div class="main">
@@ -1234,35 +1234,18 @@
                 {{/unless}}
 
                 <div class="col">
-                    {{#if systemData.restrictions.noArmeDistance}}
-                        {{#if actor.canUseTourelles}}
-                            <div class="armesDistance wpnTourelle">
-                                <div class="block item-list">
-                                    <h2 class="header">
-                                        {{localize "KNIGHT.COMBAT.ARMES.TOURELLE.Label"}}
-                                        <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="distance" data-tourelle="true"><i class="fas fa-plus"></i></a>
-                                    </h2>
+                    <div class="armesDistance wpnTourelle">
+                        <div class="block item-list">
+                            <h2 class="header">
+                                {{localize "KNIGHT.COMBAT.ARMES.TOURELLE.Label"}}
+                                <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="distance" data-tourelle="true"><i class="fas fa-plus"></i></a>
+                            </h2>
 
-                                    {{#each actor.armesTourelles as | key arme|}}
-                                        {{~> systems/knight/templates/actors/subtab/armes.html equipped=true num=arme}}
-                                    {{/each}}
-                                </div>
-                            </div>
-                        {{/if}}
-                        {{else}}
-                        <div class="armesDistance wpnTourelle">
-                            <div class="block item-list">
-                                <h2 class="header">
-                                    {{localize "KNIGHT.COMBAT.ARMES.TOURELLE.Label"}}
-                                    <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="distance" data-tourelle="true"><i class="fas fa-plus"></i></a>
-                                </h2>
-
-                                {{#each actor.armesTourelles as | key arme|}}
-                                    {{~> systems/knight/templates/actors/subtab/armes.html equipped=true num=arme}}
-                                {{/each}}
-                            </div>
+                            {{#each actor.armesTourelles as | key arme|}}
+                                {{~> systems/knight/templates/actors/subtab/armes.html equipped=true num=arme}}
+                            {{/each}}
                         </div>
-                    {{/if}}
+                    </div>
 
                     <div class="nods">
                         <h2 class="header">

@@ -37,26 +37,8 @@ export class RollKnight extends Roll {
   static CHAT_TEMPLATE = "systems/knight/templates/dices/roll.html";
   static TOOLTIP_TEMPLATE = "systems/knight/templates/dices/tooltip.html";
 
-  evaluate({minimize=false, maximize=false, async}={}) {
-    if ( this._evaluated ) {
-      throw new Error(`The ${this.constructor.name} has already been evaluated and is now immutable`);
-    }
-    this._evaluated = true;
-    if ( CONFIG.debug.dice ) console.debug(`Evaluating roll with formula ${this.formula}`);
-
-    // Migration path for async rolls
-    if ( minimize || maximize ) async = false;
-    if ( async === undefined ) {
-      foundry.utils.logCompatibilityWarning("Roll#evaluate is becoming asynchronous. In the short term, you may pass "
-        + "async=true or async=false to evaluation options to nominate your preferred behavior.", {since: 8, until: 10});
-      async = true;
-    }
-
-    return async ? this._evaluate({minimize, maximize}) : this._evaluateSync({minimize, maximize});
-  }
-
   async render({flavor, template=this.constructor.CHAT_TEMPLATE, isPrivate=false}={}) {
-    if ( !this._evaluated ) await this.evaluate({async: true});
+    if ( !this._evaluated ) await this.evaluate();
     const dices = this._table ? this.dice[0].results : 0;
     const rTable = this._table ? this._tableau[`c${dices[0].result}`][`l${dices[1].result}`] : '';
     const caracs = [this._base].concat(this._autre)[0] === '' ? [] : [this._base].concat(this._autre);
@@ -86,7 +68,7 @@ export class RollKnight extends Roll {
   /** @override */
   async toMessage(messageData={}, {rollMode, create=true}={}) {
     // Perform the roll, if it has not yet been rolled
-    if ( !this._evaluated ) await this.evaluate({async: true});
+    if ( !this._evaluated ) await this.evaluate();
 
     let hasExploit = false;
     let nSuccess = 0;
@@ -164,7 +146,7 @@ export class RollKnight extends Roll {
         content: this.total,
         sound: CONFIG.sounds.dice,
       }, messageData);
-      messageData.roll = this;
+      messageData.rolls = [this];
 
       // Either create the message or just return the chat data
       const cls = getDocumentClass("ChatMessage");
@@ -262,6 +244,14 @@ export class RollKnight extends Roll {
   }
 
   static fromData(data) {
+
+    // Redirect to the proper Roll class definition
+    if ( data.class && (data.class !== this.name) ) {
+      const cls = CONFIG.Dice.rolls.find(cls => cls.name === data.class);
+      if ( !cls ) throw new Error(`Unable to recreate ${data.class} instance from provided data`);
+      return cls.fromData(data);
+    }
+
     // Create the Roll instance
     const roll = new this(data.formula, data.data, data.options);
 
@@ -305,38 +295,8 @@ export class RollKnight extends Roll {
     return roll;
   }
 
-  async _evaluate({minimize=false, maximize=false}={}) {
-
-    // Step 1 - Replace intermediate terms with evaluated numbers
-    const intermediate = [];
-    for ( let term of this.terms ) {
-      if ( !(term instanceof RollTerm) ) {
-        throw new Error("Roll evaluation encountered an invalid term which was not a RollTerm instance");
-      }
-      if ( term.isIntermediate ) {
-        await term.evaluate({minimize, maximize, async: true});
-        this._dice = this._dice.concat(term.dice);
-        term = new NumericTerm({number: term.total, options: term.options});
-      }
-      intermediate.push(term);
-    }
-    this.terms = intermediate;
-
-    // Step 2 - Simplify remaining terms
-    this.terms = this.constructor.simplifyTerms(this.terms);
-
-    // Step 3 - Evaluate remaining terms
-    for ( let term of this.terms ) {
-      if ( !term._evaluated ) await term.evaluate({minimize, maximize, async: true});
-    }
-
-    // Step 4 - Evaluate the final expression
-    this._total = this._evaluateTotal();
-    return this;
-  }
-
   async evaluateSuccess() {
-    if ( !this._evaluated ) await this.evaluate({async: true});
+    if ( !this._evaluated ) await this.evaluate();
 
     let hasExploit = false;
     let nSuccess = 0;
@@ -401,28 +361,6 @@ export class RollKnight extends Roll {
     return this;
   }
 
-  _evaluateTotal() {
-    if(this._hasMin) {
-      const terms = this.terms[0].results;
-
-      for(let i = 0;i < terms.length;i++) {
-        const roll = +terms[i].result;
-
-        if(roll <= this._seuil) {
-          terms[i].result = this._min;
-        }
-      }
-    }
-
-    const expression = this.terms.map(t => t.total).join(" ");
-    const total = Roll.safeEval(expression);
-
-    if ( !Number.isNumeric(total) ) {
-      throw new Error(game.i18n.format("DICE.ErrorNonNumeric", {formula: this.formula}));
-    }
-    return total;
-  }
-
   getSix() {
     const terms = this.terms[0].results;
     let result = 0;
@@ -466,13 +404,6 @@ export class RollKnight extends Roll {
       seuil:this._seuil,
       min:this._min,
     }
-  }
-
-  static fromJSON(json) {
-    const data = JSON.parse(json);
-    const cls = CONFIG.Dice.rolls.find(cls => cls.name === data.class);
-    if ( !cls ) throw new Error(`Unable to recreate ${data.class} instance from provided data`);
-    return cls.fromData(data);
   }
 
   get totalSuccess() {

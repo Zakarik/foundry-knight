@@ -26,15 +26,6 @@ export const RegisterSettings = function () {
 
     });
 
-    game.settings.register("knight", "warlock-canusemodule", {
-        name: "KNIGHT.SETTINGS.ARMURES.WarlockCanUseModule",
-        hint: "KNIGHT.SETTINGS.ARMURES.WarlockCanUseModuleHint",
-        scope: "world",
-        config: true,
-        default: false,
-        type: Boolean
-    });
-
     game.settings.register("knight", "include-capacite2038", {
         name: "KNIGHT.SETTINGS.ARMURES.2038",
         hint: "KNIGHT.SETTINGS.ARMURES.2038Hint",
@@ -149,7 +140,7 @@ export const RegisterSettings = function () {
             "version1":"KNIGHT.SETTINGS.LOGO.Version1",
             "version2":"KNIGHT.SETTINGS.LOGO.Version2",
             "version3":"KNIGHT.SETTINGS.LOGO.Version3",
-        }, 
+        },
         onChange: value => {
             $("div#interface").removeClass(listLogo);
             $("div#interface").addClass(value);
