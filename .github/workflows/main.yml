@@ -88,7 +88,7 @@ jobs:
             README.md                            \
             LICENSE                              \
             changelog.md                         \
-            templates.json                       \
+            template.json                       \
             assets/                              \
             lang/                                \
             module/                              \
