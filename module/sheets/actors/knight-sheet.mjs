@@ -2490,7 +2490,7 @@ export class KnightSheet extends ActorSheet {
 
           const jetF = new game.knight.RollKnight(`${jet.fixe.dice}D6+${jet.fixe.fixe}`, actor.system);
           jetF._success = false;
-          await jetF.evaluate({async:true});
+          await jetF.evaluate();
 
           const pJets = {
             flavor:`${label} : ${jet.fixe.label}`,
@@ -7885,10 +7885,9 @@ export class KnightSheet extends ActorSheet {
       }
     }
 
-    const settings = game.settings.get("knight", "warlock-canusemodule");
     const hasContrecoups = armureData?.system?.special?.selected?.contrecoups;
     const hasWpnRestrictions = hasContrecoups !== undefined && hasContrecoups.armedistance.value === false ? true : false;
-    const wpnWithRestrictions = hasWpnRestrictions && settings ? armesDistanceModules : [];
+    const wpnWithRestrictions = hasWpnRestrictions ? armesDistanceModules : [];
 
     actorData.carteHeroique = carteHeroique;
     actorData.capaciteHeroique = capaciteHeroique;
@@ -7913,11 +7912,10 @@ export class KnightSheet extends ActorSheet {
     actorData.armesContactEquipee = armesContactEquipee;
     actorData.armesContactRack = armesContactRack;
     actorData.armesContactArmoury = armesContactArmoury;
-    actorData.cannotUseDistance = hasWpnRestrictions && !settings ? true : false;
+    actorData.cannotUseDistance = hasWpnRestrictions ? true : false;
     actorData.armesDistanceEquipee = hasWpnRestrictions ? wpnWithRestrictions : armesDistanceEquipee;
     actorData.armesDistanceRack = hasWpnRestrictions ? [] :armesDistanceRack;
     actorData.armesDistanceArmoury = hasWpnRestrictions ? [] :armesDistanceArmoury;
-    actorData.canUseTourelles = settings;
     actorData.armesTourelles = armesTourelles;
     actorData.art = art;
     actorData.distinctions = distinctions;

@@ -200,7 +200,7 @@ export class MechaArmureSheet extends ActorSheet {
         case 'recuperationps':
           const rPS = new game.knight.RollKnight(`${data.recuperation.sante}D6`, this.actor.system);
           rPS._success = false;
-          await rPS.evaluate({async:true});
+          await rPS.evaluate();
 
           msg = {
             flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.RecuperationPS`)}`,
@@ -214,7 +214,7 @@ export class MechaArmureSheet extends ActorSheet {
         case 'recuperationpa':
           const rPA = new game.knight.RollKnight(`${data.recuperation.armure}D6`, this.actor.system);
           rPA._success = false;
-          await rPA.evaluate({async:true});
+          await rPA.evaluate();
 
           msg = {
             flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.RecuperationPA`)}`,
@@ -228,7 +228,7 @@ export class MechaArmureSheet extends ActorSheet {
         case 'recuperationblindage':
           const rBlindage = new game.knight.RollKnight(`${data.recuperation.blindage}D6`, this.actor.system);
           rBlindage._success = false;
-          await rBlindage.evaluate({async:true});
+          await rBlindage.evaluate();
 
           msg = {
             flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.RecuperationBlindage`)}`,
@@ -242,7 +242,7 @@ export class MechaArmureSheet extends ActorSheet {
         case 'recuperationresilience':
           const rResilience = new game.knight.RollKnight(`${data.recuperation.resilience}`, this.actor.system);
           rResilience._success = false;
-          await rResilience.evaluate({async:true});
+          await rResilience.evaluate();
 
           msg = {
             flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.RecuperationResilience`)}`,
@@ -320,7 +320,7 @@ export class MechaArmureSheet extends ActorSheet {
 
             const rNoe = new game.knight.RollKnight(`${data.reparations.mechaarmure.resilience}D6`, this.actor.system);
             rNoe._success = false;
-            await rNoe.evaluate({async:true});
+            await rNoe.evaluate();
 
             const msgNoe = {
               flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.LATERAL.Resilience`)}`,
@@ -443,7 +443,7 @@ export class MechaArmureSheet extends ActorSheet {
             case "baisserresilienceroll":
               const rBRCurse = new game.knight.RollKnight(`${data.special.baisserresilience.roll}D6`, this.actor.system);
               rBRCurse._success = false;
-              await rBRCurse.evaluate({async:true});
+              await rBRCurse.evaluate();
 
               msgCurse = {
                 flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
@@ -483,7 +483,7 @@ export class MechaArmureSheet extends ActorSheet {
             case "choc":
               const rCCurse = new game.knight.RollKnight(`${data.special.choc}`, this.actor.system);
               rCCurse._success = false;
-              await rCCurse.evaluate({async:true});
+              await rCCurse.evaluate();
 
               msgCurse = {
                 flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
@@ -551,7 +551,7 @@ export class MechaArmureSheet extends ActorSheet {
 
           const rPod = new game.knight.RollKnight(`${data.duree}D6`, this.actor.system);
           rPod._success = false;
-          await rPod.evaluate({async:true});
+          await rPod.evaluate();
 
           const msgPod = {
             flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.DUREE.Label`)}`,
@@ -589,7 +589,7 @@ export class MechaArmureSheet extends ActorSheet {
 
           const rInv = new game.knight.RollKnight(`${data.duree}D6`, this.actor.system);
           rInv._success = false;
-          await rInv.evaluate({async:true});
+          await rInv.evaluate();
 
           const msgInv = {
             flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.DUREE.Label`)}`,
@@ -845,7 +845,7 @@ export class MechaArmureSheet extends ActorSheet {
         case 'moduleInferno':
           const rInf = new game.knight.RollKnight(`${getData.systemData.configurations.liste[type].modules[key].cdf}`, this.actor.system);
           rInf._success = false;
-          await rInf.evaluate({async:true});
+          await rInf.evaluate();
 
           const rInfTour = +rInf._total > 1 ? game.i18n.localize(`KNIGHT.AUTRE.Tours`) : game.i18n.localize(`KNIGHT.AUTRE.Tour`);
 
@@ -921,7 +921,7 @@ export class MechaArmureSheet extends ActorSheet {
         case 'moduleInferno':
           const rInf = new game.knight.RollKnight(`${getData.systemData.configurations.liste[type].modules[key].cdf}`, this.actor.system);
           rInf._success = false;
-          await rInf.evaluate({async:true});
+          await rInf.evaluate();
 
           const rInfTour = +rInf._total > 1 ? game.i18n.localize(`KNIGHT.AUTRE.Tours`) : game.i18n.localize(`KNIGHT.AUTRE.Tour`);
 
