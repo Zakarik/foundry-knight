@@ -1,3 +1,7 @@
+## v3.26.1
+### Bugfix
+- Correction d'un problème avec le system.json.
+
 ## v3.26.0
 ### Améliorations
 - Ajout de la compatibilité avec la V12.
