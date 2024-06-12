@@ -1177,8 +1177,10 @@
       },
       "POINTEURLASER":{
         "Label":"Pointeur laser",
-        "Description":"L’arme procure 3D6 de bonus à l'attaque au tireur.",
-        "Description-short":"L’arme procure 3D6 de bonus à l'attaque au tireur."
+        "Description":"L’arme procure 3D6 de bonus à l'attaque au tireur à portée courte ou moyenne.",
+        "Description-short":"+3D6 à portée courte ou moyenne.",
+        "Active":"Pointeur laser activé (portée courte ou moyenne)",
+        "Desactive":"Pointeur laser désactivé (portée courte ou moyenne)"
       },
       "PROTECTIONARME":{
         "Label":"Protection d'arme",

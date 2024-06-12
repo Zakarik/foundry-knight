@@ -1,3 +1,7 @@
+## v3.27.0
+### Améliorations
+- Amélioration du Pointeur laser pour coller au plus près de la FAQ. Il s'agit à présent d'une amélioration (activée par défaut) désactivable si les conditions ne sont pas remplies.
+
 ## v3.26.1
 ### Bugfix
 - Correction d'un problème avec le system.json.

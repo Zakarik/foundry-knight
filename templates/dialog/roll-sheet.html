@@ -501,6 +501,12 @@
                         </div>
                     {{/if}}
 
+                    {{#if (hasEffet 'pointeurlaser' 'distance' key -1)}}
+                    <div class="blockBtn">
+                        <span class="selected" data-type="pointeurlaser" data-special="ameliorations" data-value="{{ifThen (isValue @root/ameliorations/pointeurlaser true) 'false' 'true'}}" title="{{localize (ifThen (isValue @root/ameliorations/pointeurlaser true) 'KNIGHT.AMELIORATIONS.Desactiver' 'KNIGHT.AMELIORATIONS.Activer')}}">{{localize (ifThen (isValue @root/ameliorations/pointeurlaser true) 'KNIGHT.AMELIORATIONS.POINTEURLASER.Desactive' 'KNIGHT.AMELIORATIONS.POINTEURLASER.Active')}}</span>
+                    </div>
+                    {{/if}}
+
                     {{#if (hasEffet 'tirenrafale' 'effets' key -1)}}
                         <span class="relance relanceDgts" data-id="{{key._id}}" data-type="distance" data-name="{{key.name}}" title="{{localize "KNIGHT.EFFETS.TIRENRAFALE.Relance"}}">{{localize "KNIGHT.EFFETS.TIRENRAFALE.Label"}}</span>
                     {{else}}
@@ -755,6 +761,12 @@
                         {{/if}}
                     {{/if}}
 
+                    {{#if (hasEffet 'pointeurlaser' 'distance' key -1)}}
+                    <div class="blockBtn">
+                        <span class="selected" data-type="pointeurlaser" data-special="ameliorations" data-value="{{ifThen (isValue @root/ameliorations/pointeurlaser true) 'false' 'true'}}" title="{{localize (ifThen (isValue @root/ameliorations/pointeurlaser true) 'KNIGHT.AMELIORATIONS.Desactiver' 'KNIGHT.AMELIORATIONS.Activer')}}">{{localize (ifThen (isValue @root/ameliorations/pointeurlaser true) 'KNIGHT.AMELIORATIONS.POINTEURLASER.Desactive' 'KNIGHT.AMELIORATIONS.POINTEURLASER.Active')}}</span>
+                    </div>
+                    {{/if}}
+
                     {{#if (hasEffet 'barrage' 'effets' key -1)}}
                     <div class="blockBtn">
                         <span class="{{#unless @root/barrage}}selected{{else}}unselected{{/unless}}" data-type="barrage" data-value="false">{{localize "KNIGHT.EFFETS.BARRAGE.Desactive"}}</span>
@@ -912,6 +924,13 @@
                     {{/if}}
                 </button>
                 <div class="data subButtons" {{#unless (rollSelectOther 'longbow' 'longbow' nameWpn typeWpn)}}style="display:none;"{{/unless}}>
+
+                    {{#if (hasEffet 'pointeurlaser' 'distance' longbow -1)}}
+                    <div class="blockBtn">
+                        <span class="selected" data-type="pointeurlaser" data-special="ameliorations" data-value="{{ifThen (isValue @root/ameliorations/pointeurlaser true) 'false' 'true'}}" title="{{localize (ifThen (isValue @root/ameliorations/pointeurlaser true) 'KNIGHT.AMELIORATIONS.Desactiver' 'KNIGHT.AMELIORATIONS.Activer')}}">{{localize (ifThen (isValue @root/ameliorations/pointeurlaser true) 'KNIGHT.AMELIORATIONS.POINTEURLASER.Desactive' 'KNIGHT.AMELIORATIONS.POINTEURLASER.Active')}}</span>
+                    </div>
+                    {{/if}}
+
                     {{#if (hasEffet 'tirenrafale' 'effets' longbow -1)}}
                         <span class="relance relanceDgts" data-id="{{key._id}}" data-type="distance" data-name="{{key.name}}" title="{{localize "KNIGHT.EFFETS.TIRENRAFALE.Relance"}}">{{localize "KNIGHT.EFFETS.TIRENRAFALE.Label"}}</span>
                     {{/if}}
