@@ -1532,12 +1532,20 @@ export async function getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, 
       break;
 
       case 'pointeurlaser':
+        if(data.ameliorations?.pointeurlaser ?? false) {
+          other = true;
+
+          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)}`;
+          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
+        } else {
           includeAttack = true;
 
-          sub.name = `+3D6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          sub.name = `+3${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
           sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.distance[name].description}-short`);
 
           attackDice += 3;
+        }
+
       break;
 
       case 'munitionsiem':
