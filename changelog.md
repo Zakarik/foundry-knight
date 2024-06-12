@@ -1,3 +1,7 @@
+## v3.27.1
+### Bugfix
+- Correction de bugs avec les évolutions de la capacité Oriflamme.
+
 ## v3.27.0
 ### Améliorations
 - Amélioration du Pointeur laser pour coller au plus près de la FAQ. Il s'agit à présent d'une amélioration (activée par défaut) désactivable si les conditions ne sont pas remplies.
