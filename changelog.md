@@ -1,3 +1,7 @@
+## v3.27.2
+### Bugfix
+- Correction d'un bug empêchant d'éditer les effets d'un objet dans le compendium.
+
 ## v3.27.1
 ### Bugfix
 - Correction de bugs avec les évolutions de la capacité Oriflamme.
