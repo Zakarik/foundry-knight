@@ -1,3 +1,7 @@
+## v3.28.0
+### Améliorations
+- Les PJ propriétaires ont à présent accès à l'encart "Description limitée" de leur personnage.
+
 ## v3.27.3
 ### Bugfix
 - Correction d'un bug n'affichant pas la description limitée pour les personnages du Knight.
