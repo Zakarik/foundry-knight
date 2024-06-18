@@ -1,3 +1,7 @@
+## v3.27.3
+### Bugfix
+- Correction d'un bug n'affichant pas la description limitée pour les personnages du Knight.
+
 ## v3.27.2
 ### Bugfix
 - Correction d'un bug empêchant d'éditer les effets d'un objet dans le compendium.
