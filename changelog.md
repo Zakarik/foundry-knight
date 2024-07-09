@@ -1,3 +1,8 @@
+## v3.29.0
+### Améliorations
+- Prise en compte de la dernière FAQ pour les OD de Force.
+- Prise en compte de la modification de la description de Pénétrant X suite à la dernière FAQ.
+
 ## v3.28.0
 ### Améliorations
 - Les PJ propriétaires ont à présent accès à l'encart "Description limitée" de leur personnage.

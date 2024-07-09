@@ -2864,7 +2864,7 @@ export class KnightRollDialog extends Application {
 
     // OD Force
     if(typeWpn === 'contact' && force > 0 && !isPNJ && capaciteName !== "cea") {
-      const bVForce = force*3;
+      const bVForce = force > 5 ? (5 * 3) + ((force - 5) * 1) : force * 3;
       getDgtsOtherFixeMod += bVForce;
 
       lDgtsOtherInclude.push({
@@ -2872,7 +2872,7 @@ export class KnightRollDialog extends Application {
         desc:``
       });
     } else if(typeWpn === 'armesimprovisees' && this.data.idWpn === 'contact' && !isPNJ && !this.data.ma) {
-      const bVForce = force*3;
+      const bVForce = force > 5 ? (5 * 3) + ((force - 5) * 1) : force * 3;
       getDgtsOtherFixeMod += bVForce;
 
       lDgtsOtherInclude.push({
