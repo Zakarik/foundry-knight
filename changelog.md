@@ -1,3 +1,7 @@
+## v3.29.1
+### Bugfix
+- Correction d'un bug rare empêchant la fermeture de la fenêtre d'ajout des effets.
+
 ## v3.29.0
 ### Améliorations
 - Prise en compte de la dernière FAQ pour les OD de Force.
