@@ -1034,7 +1034,6 @@ export class KnightEffetsDialog extends FormApplication {
     for ( let fp of this.filepickers ) {
       fp.close();
     }
-    this.filepickers = [];
 
     // Close any open MCE editors
     for ( let ed of Object.values(this.editors) ) {
