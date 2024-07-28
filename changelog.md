@@ -1,3 +1,7 @@
+## v3.29.2
+### Bugfix
+- Correction d'un bug empêchant les capacités d'attaque de fonctionner.
+
 ## v3.29.1
 ### Bugfix
 - Correction d'un bug rare empêchant la fermeture de la fenêtre d'ajout des effets.
