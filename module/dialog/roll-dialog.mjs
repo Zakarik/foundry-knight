@@ -792,6 +792,7 @@ export class KnightRollDialog extends Application {
       const capaciteultime = act.items.find(items => items.type === 'capaciteultime');
 
       for (let i of act.items) {
+        console.warn(i);
         const system = i.system;
         // ARMURE.
         if (i.type === 'armure') {
@@ -1650,6 +1651,32 @@ export class KnightRollDialog extends Application {
           if(tourelle.has && type === 'distance') {
             armesTourelles.push(i);
           }
+        }
+
+        // CAPACITES
+        if (i.type === 'capacite') {
+
+          if(!i.system.attaque.has) continue;
+          const dataCAttaque = i.system.attaque;
+
+          const capaciteWpn = {
+            _id:i._id,
+            name:i.name,
+            type:'capacite',
+            system:{
+              type:dataCAttaque.type,
+              portee:dataCAttaque.portee,
+              degats:dataCAttaque.degats,
+              violence:{
+                dice:0,
+                fixe:0,
+              },
+              effets:dataCAttaque.effets,
+            }
+          }
+
+          if(dataCAttaque.type === 'contact') armesContactEquipee.push(capaciteWpn);
+          else if(dataCAttaque.type === 'distance') armesDistanceEquipee.push(capaciteWpn);
         }
       }
 
@@ -3672,6 +3699,11 @@ export class KnightRollDialog extends Application {
     let wpn = allWpn[nWpn];
     let bonusDice = 0;
     let bonusFixe = 0;
+
+    console.warn(idWpn);
+    console.warn(nWpn);
+    console.warn(allWpn);
+    console.warn(wpn);
 
     switch(nWpn) {
       case 'base':
