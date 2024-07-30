@@ -6111,6 +6111,7 @@
                 "nom":"",
                 "special":"",
                 "type":"pnj",
+                "sante":0,
                 "champDeForce":0,
                 "defense":0,
                 "reaction":0,

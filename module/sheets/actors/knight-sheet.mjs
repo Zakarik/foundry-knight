@@ -324,7 +324,7 @@ export class KnightSheet extends ActorSheet {
       const equipcapacites = getData.system.equipements.armure.capacites;
       const armorCapacites = getData.armureData.system.capacites.selected;
 
-      if(value) {
+      if(value && type !== 'modulePnj') {
         const coutCalcule = remplaceEnergie && armure.system.espoir.cout > 0 && type === 'module' ? Math.max(Math.floor(cout / armure.system.espoir.cout), 1) : cout;
         const depense = await this._depensePE(name, coutCalcule, true, false, flux, true);
 
@@ -1575,6 +1575,10 @@ export class KnightSheet extends ActorSheet {
             initiative:{
               diceBase:dataPnj.initiative.dice,
               bonus:{user:dataPnj.initiative.fixe}
+            },
+            sante:{
+              base:dataPnj.sante,
+              value:dataPnj.sante
             },
             armure:{
               base:dataPnj.armure,

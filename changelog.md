@@ -1,3 +1,9 @@
+## v3.29.3
+### Bugfix
+- Correction d'un bug avec la gestion de l'énergie des modules créant des PNJ.
+- Correction d'un bug ne permettant pas d'entrer la cohésion et le débordement des créatures créées par des modules.
+- Correction d'un bug divisant par deux les dégâts des capacités faisant uniquement des dégâts, sans jet d'attaque.
+
 ## v3.29.2
 ### Bugfix
 - Correction d'un bug empêchant les capacités d'attaque de fonctionner.

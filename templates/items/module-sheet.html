@@ -902,12 +902,12 @@
                         </div>
 
                         <div class="col3">
-                            <label class="oneLine {{#unless (isBande key.type)}}hidden{{/unless}}">
+                            <label class="oneLine {{#unless (isBande kpnj.type)}}hidden{{/unless}}">
                                 <span>{{localize "KNIGHT.AUTRE.Debordement"}}</span>
                                 <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.debordement" value="{{kpnj.debordement}}"/>
                             </label>
 
-                            <div class="oneLinewDice {{#unless (isBande key.type)}}noMarginTop{{/unless}}">
+                            <div class="oneLinewDice {{#unless (isBande kpnj.type)}}noMarginTop{{/unless}}">
                                 <span>{{localize "KNIGHT.LATERAL.Initiative"}}</span>
                                 <div>
                                     <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.initiative.dice" value="{{kpnj.initiative.dice}}" min="0" />
@@ -915,6 +915,11 @@
                                     <input type="number" name="system.pnj.liste.{{pnj}}.initiative.fixe" value="{{kpnj.initiative.fixe}}" min="0" />
                                 </div>
                             </div>
+
+                            <label class="oneLine {{#unless (isBande kpnj.type)}}hidden{{/unless}}">
+                                <span>{{localize "KNIGHT.LATERAL.Cohesion"}}</span>
+                                <input type="number" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.sante" value="{{kpnj.sante}}"/>
+                            </label>
                         </div>
 
                         <div class="col3">

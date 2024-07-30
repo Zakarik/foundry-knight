@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.21.12";
+    static NEEDED_VERSION = "3.29.3";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -1377,6 +1377,27 @@ Applique les modifications par la mise à jour au Monde.
             });
         }
 
+        if (options?.force || MigrationKnight.needUpdate("3.29.3")) {
+
+            for (let item of actor.items) {
+                let update = {};
+
+                if(item.type === 'module') {
+                    const niv = item.system.niveau.details;
+
+                    for(let n in niv) {
+                        update[`system.niveau.details.${n}.pnj.modele.sante`] = 0;
+
+                        for(let l in niv[n].pnj.liste) {
+                            update[`system.niveau.details.${n}.pnj.liste.${l}.sante`] = 0;
+                        }
+                    }
+
+                    item.update(update);
+                }
+            }
+        }
+
         return update;
     }
 
@@ -2221,6 +2242,29 @@ Applique les modifications par la mise à jour au Monde.
                     "has":false,
                     "activation":"aucune",
                 }
+            }
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("3.29.3")) {
+
+            const system = item.system;
+
+            if(!system) return update;
+
+            let update = {};
+
+            if(item.type === 'module') {
+                const niv = item.system.niveau.details;
+
+                for(let n in niv) {
+                    update[`system.niveau.details.${n}.pnj.modele.sante`] = 0;
+
+                    for(let l in niv[n].pnj.liste) {
+                        update[`system.niveau.details.${n}.pnj.liste.${l}.sante`] = 0;
+                    }
+                }
+
+                item.update(update);
             }
         }
 
