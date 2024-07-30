@@ -1063,7 +1063,7 @@ export class CreatureSheet extends ActorSheet {
     const actor = this.actor;
 
     //DEGATS
-    const tenebricide = true;
+    const tenebricide = false;
     const bourreau = listAllEffets.bourreau;
     const bourreauValue = listAllEffets.bourreauValue;
 
