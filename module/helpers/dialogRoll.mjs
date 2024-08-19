@@ -981,7 +981,7 @@ export async function doViolence(data) {
   if((actor.type !== 'knight' && actor.type !== 'pnj' && actor.type !== 'mechaarmure' && actor.type !== 'vehicule' && diceViolence === 0 && bonusViolence === 0)) {}
   else {
     if(style.raw === 'akimbo') {
-      diceViolence += Math.ceil(diceViolence/2);
+      diceViolence += Math.floor(diceViolence/2);
     }
 
     diceViolence += +listAllEffets.violence.totalDice;
