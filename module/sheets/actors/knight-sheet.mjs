@@ -111,6 +111,8 @@ export class KnightSheet extends ActorSheet {
 
     actualiseRoll(actor);
 
+    console.warn(context);
+
     return context;
   }
 
@@ -8436,7 +8438,7 @@ export class KnightSheet extends ActorSheet {
           }});
           break;
         case "shrine":
-          capaciteToUpdate[`system.capacites.selected.shrine.base`] = false;
+          capaciteToUpdate[`system.capacites.selected.shrine.active.base`] = false;
           capaciteToUpdate[`system.capacites.selected.shrine.active.personnel`] = false;
           capaciteToUpdate[`system.capacites.selected.shrine.active.distance`] = false;
           capaciteToUpdate[`system.capacites.selected.shrine.active.personnel6`] = false;

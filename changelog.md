@@ -1,3 +1,8 @@
+## v3.29.4
+### Bugfix
+- Correction d'un bug pouvant empêcher l'utilisation du champ de force Shrine dans certains cas.
+- Correction d'un bug d'arrondi avec le style Akimbo.
+
 ## v3.29.3
 ### Bugfix
 - Correction d'un bug avec la gestion de l'énergie des modules créant des PNJ.
