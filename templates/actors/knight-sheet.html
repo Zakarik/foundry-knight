@@ -1255,6 +1255,7 @@
                         {{#each systemData.combat.nods as | key nods|}}
                         <div class="line">
                             <span class="label">{{getNodsName nods}}</span>
+							<input class="nodDices" type="text" name="system.combat.nods.{{nods}}.dices" placeholder="3d6" value="{{key.dices}}" data-type="nods" data-nods="{{nods}}" />
                             <div class="blockQuantite">
                                 <input class="{{nods}}Value" type="number" name="system.combat.nods.{{nods}}.value" value="{{key.value}}" max="{{key.max}}"  />
                                 <span>/</span>

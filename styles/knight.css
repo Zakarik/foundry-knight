@@ -24712,6 +24712,14 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   line-height: 30px;
   padding-left: 5px;
 }
+.knight section.body div.combat div.main div.nods div.line input.nodDices {
+    width: 80px;
+    height: 100%;
+}
+.knight section.body div.combat div.main div.nods div.line input.nodDices::placeholder {
+    color: white;
+    opacity: 0.5;
+}
 .knight section.body div.combat div.main div.nods div.line div.blockQuantite {
   display: flex;
   justify-content: space-between;

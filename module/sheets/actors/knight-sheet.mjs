@@ -3854,6 +3854,25 @@ export class KnightSheet extends ActorSheet {
         armor.update({[itemUpdate]:data.armure.value});
       }
     });
+	
+	html.find('div.nods input.nodDices').click(async (ev) => {
+      const target = $(ev.currentTarget);
+      const nods = target.data('nods');
+
+      const update = {
+        system: {
+          combat: {
+            nods: {
+              [nods]: {
+                dices: target.value,
+              },
+            },
+          },
+        },
+      };
+
+      this.actor.update(update);
+    });
 
     html.find('div.nods img.dice').click(async ev => {
       const data = this.actor;
@@ -3863,8 +3882,9 @@ export class KnightSheet extends ActorSheet {
 
       if(nbre > 0) {
         const recuperation = data.system.combat.nods[nods].recuperationBonus;
+        const dices = data.system.combat.nods[nods].dices || '3d6';
 
-        const rNods = new game.knight.RollKnight(`3D6+${recuperation}`, data.system);
+        const rNods = new game.knight.RollKnight(`${dices}+${recuperation}`, data.system);
         rNods._flavor = game.i18n.localize(`KNIGHT.JETS.Nods${nods}`);
         rNods._success = false;
         await rNods.toMessage({
@@ -3933,7 +3953,9 @@ export class KnightSheet extends ActorSheet {
       const nods = target.data("nods");
 
       if(nbre > 0) {
-        const rNods = new game.knight.RollKnight(`3D6+0`, this.actor.system);
+        const dices = data.system.combat.nods[nods].dices || '3d6';
+
+        const rNods = new game.knight.RollKnight(`${dices}+0`, this.actor.system);
         rNods._flavor = game.i18n.localize(`KNIGHT.JETS.Nods${nods}`);
         rNods._success = false;
         await rNods.toMessage({
