@@ -30,22 +30,22 @@
         <section class="mainBlock">
             {{#unless systemData.options.noCohesion}}
             <div class="sante">
-                <div class="line">
-                    <span class="option {{#unless systemData.sante.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="sante"></span>
-                    <span class="label {{#unless systemData.sante.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.LATERAL.Cohesion"}}</span>
-                    <input class="{{#unless systemData.sante.optionDeploy}} withBorder {{/unless}}" type="number" name="system.sante.value" min="0" max="{{systemData.sante.max}}" value="{{systemData.sante.value}}" />
-                    <span class="separation {{#unless systemData.sante.optionDeploy}} withBorder {{/unless}}">/</span>
-                    <span class="score {{#unless systemData.sante.optionDeploy}} withBorder {{/unless}}" title="{{systemData.sante.base}} + {{systemData.sante.mod}} = {{systemData.sante.max}}">{{systemData.sante.max}}</span>
+                <div class="line js-simpletoggler">
+                    <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="sante"></span>
+                    <span class="label">{{localize "KNIGHT.LATERAL.Cohesion"}}</span>
+                    <input type="number" name="system.sante.value" min="0" max="{{systemData.sante.max}}" value="{{systemData.sante.value}}" />
+                    <span class="separation">/</span>
+                    <span class="score" title="{{systemData.sante.base}} + {{systemData.sante.mod}} = {{systemData.sante.max}}">{{systemData.sante.max}}</span>
                 </div>
-                <div class="subLine {{#if systemData.sante.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
                     <input type="number" name="system.sante.base" data-type="sante" min="0" value="{{systemData.sante.base}}" />
                 </div>
-                <div class="subLine {{#if systemData.sante.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
                     <input type="number" name="system.sante.bonus.user" data-type="sante" min="0" value="{{systemData.sante.bonus.user}}" />
                 </div>
-                <div class="subLine {{#if systemData.sante.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                <div class="subLine" style="display:none;">
                     <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
                     <input class="withBorder" type="number" name="system.sante.malus.user" data-type="sante" min="0" value="{{systemData.sante.malus.user}}" />
                 </div>
@@ -76,10 +76,10 @@
 
             <div class="debordement">
                 <div class="line">
-                    <span class="label withBorder">{{localize "KNIGHT.AUTRE.Debordement"}}</span>
+                    <span class="label">{{localize "KNIGHT.AUTRE.Debordement"}}</span>
                     <input type="number" name="system.debordement.value" min="0" value="{{systemData.debordement.value}}" />
                 </div>
-                <div class="subLine">
+                <div class="tour">
                     <span class="label">
                         {{#if (isHigherThan systemData.debordement.tour 1)}}
                             {{localize "KNIGHT.AUTRE.Tours"}}
@@ -94,22 +94,22 @@
 
             {{#if systemData.options.bouclier}}
             <div class="bouclier">
-                <div class="line">
-                    <span class="option {{#unless systemData.bouclier.optionDeploy}} withBorder {{else}} withoutBorder {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="bouclier"></span>
-                    <span class="label {{#unless systemData.bouclier.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.LATERAL.Bouclier"}}</span>
-                    <span class="score {{#unless systemData.bouclier.optionDeploy}} withBorder {{/unless}}" title="{{systemData.bouclier.base}} + {{systemData.bouclier.mod}} = {{systemData.bouclier.max}}">{{systemData.bouclier.max}}</span>
+                <div class="line js-simpletoggler">
+                    <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="bouclier"></span>
+                    <span class="label">{{localize "KNIGHT.LATERAL.Bouclier"}}</span>
+                    <span class="score" title="{{systemData.bouclier.base}} + {{systemData.bouclier.mod}} = {{systemData.bouclier.value}}">{{systemData.bouclier.value}}</span>
                 </div>
-                <div class="subLine {{#if systemData.bouclier.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
                     <input type="number" name="system.bouclier.base" data-type="bouclier"  min="0" value="{{systemData.bouclier.base}}" />
                 </div>
-                <div class="subLine {{#if systemData.bouclier.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
                     <input type="number" name="system.bouclier.bonus.user" data-type="bouclier"  min="0" value="{{systemData.bouclier.bonus.user}}" />
                 </div>
-                <div class="subLine {{#if systemData.bouclier.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                <div class="subLine" style="display:none;">
                     <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
-                    <input class="withBorder" type="number" name="system.bouclier.malus.user" data-type="bouclier"  min="0" value="{{systemData.bouclier.malus.user}}" />
+                    <input type="number" name="system.bouclier.malus.user" data-type="bouclier"  min="0" value="{{systemData.bouclier.malus.user}}" />
                 </div>
             </div>
             {{/if}}
@@ -138,42 +138,42 @@
         {{#unless systemData.options.noRDI}}
         <section class="mainBlock">
             <div class="reaction">
-                <div class="line">
-                    <span class="option {{#unless systemData.reaction.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="reaction"></span>
-                    <span class="label {{#unless systemData.reaction.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.LATERAL.Reaction"}}</span>
-                    <span class="score {{#unless systemData.reaction.optionDeploy}} withBorder {{/unless}}" title="{{systemData.reaction.base}} + {{systemData.reaction.bonusValue}} - {{systemData.reaction.malusValue}} = {{systemData.reaction.value}}">{{systemData.reaction.value}}</span>
+                <div class="line js-simpletoggler">
+                    <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="reaction"></span>
+                    <span class="label">{{localize "KNIGHT.LATERAL.Reaction"}}</span>
+                    <span class="score" title="{{systemData.reaction.base}} + {{systemData.reaction.bonusValue}} - {{systemData.reaction.malusValue}} = {{systemData.reaction.value}}">{{systemData.reaction.value}}</span>
                 </div>
-                <div class="subLine {{#if systemData.reaction.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
                     <input type="number" name="system.reaction.base" min="0" value="{{systemData.reaction.base}}" />
                 </div>
-                <div class="subLine {{#if systemData.reaction.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
                     <input type="number" name="system.reaction.bonus.user" min="0" value="{{systemData.reaction.bonus.user}}" />
                 </div>
-                <div class="subLine {{#if systemData.reaction.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                <div class="subLine" style="display:none;">
                     <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
-                    <input class="withBorder" type="number" name="system.reaction.malus.user" min="0" value="{{systemData.reaction.malus.user}}" />
+                    <input type="number" name="system.reaction.malus.user" min="0" value="{{systemData.reaction.malus.user}}" />
                 </div>
             </div>
 
             <div class="defense">
-                <div class="line">
-                    <span class="option {{#unless systemData.defense.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="defense"></span>
-                    <span class="label {{#unless systemData.defense.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.LATERAL.Defense"}}</span>
-                    <span class="score {{#unless systemData.defense.optionDeploy}} withBorder {{/unless}}" title="{{systemData.defense.base}} + {{systemData.defense.bonusValue}} - {{systemData.defense.malusValue}} = {{systemData.defense.value}}">{{systemData.defense.value}}</span>
+                <div class="line js-simpletoggler">
+                    <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="defense"></span>
+                    <span class="label">{{localize "KNIGHT.LATERAL.Defense"}}</span>
+                    <span class="score" title="{{systemData.defense.base}} + {{systemData.defense.bonusValue}} - {{systemData.defense.malusValue}} = {{systemData.defense.value}}">{{systemData.defense.value}}</span>
                 </div>
-                <div class="subLine {{#if systemData.defense.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
                     <input type="number" name="system.defense.base" min="0" value="{{systemData.defense.base}}" />
                 </div>
-                <div class="subLine {{#if systemData.defense.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
                     <input type="number" name="system.defense.bonus.user" min="0" value="{{systemData.defense.bonus.user}}" />
                 </div>
-                <div class="subLine {{#if systemData.defense.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                <div class="subLine" style="display:none;">
                     <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
-                    <input class="withBorder" type="number" name="system.defense.malus.user" min="0" value="{{systemData.defense.malus.user}}" />
+                    <input type="number" name="system.defense.malus.user" min="0" value="{{systemData.defense.malus.user}}" />
                 </div>
             </div>
 

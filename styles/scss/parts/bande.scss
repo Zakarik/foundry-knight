@@ -31,16 +31,17 @@
 
       div.sante {
         div.line {
-          display:flex;
+          display:grid;
           width:100%;
           line-height:29px;
-          justify-content: space-between;
+          grid-template-columns: 30px 1fr 26px 8px 26px;
 
           span.option {
             display: inline-block;
-            width:30px;
+            width:100%;
             height:30px;
             text-align:center;
+            border-bottom: 1px solid $black;
 
             img {
               height:29px;
@@ -52,27 +53,22 @@
                 filter: drop-shadow(0px 0px 5px $blue);
               }
             }
-
-            &.withoutBorder {
-              img {
-                filter: drop-shadow(0px 0px 5px $blue);
-              }
-            }
           }
 
           span.label {
             display:inline-block;
-            width:calc(100% - 30px - 60px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:13px;
             letter-spacing: 1px;
             padding-left:1px;
+            border-bottom: 1px solid $black;
           }
 
           input {
             display: inline-block;
-            width:26px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
@@ -83,46 +79,50 @@
             margin:0px;
             padding-bottom:1px;
             z-index:10;
+            border-bottom: 1px solid $lightBlack;
           }
 
           span.separation {
             display: inline-block;
-            width:8px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
             font-size:16px;
+            border-bottom: 1px solid $lightBlack;
           }
 
           span.score {
             display: inline-block;
-            width:26px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
             font-size:14px;
+            border-bottom: 1px solid $lightBlack;
           }
         }
 
         div.subLine {
+          display: grid;
           width:100%;
           line-height:30px;
-          justify-content: space-between;
-          margin-top:1px;
+          grid-template-columns: 1fr 60px;
 
           span.label {
             display:inline-block;
-            width:calc(100% - 60px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:16px;
             letter-spacing: 1px;
             padding-left:1px;
+            border-bottom: 1px solid $black;
           }
 
           input {
             display: inline-block;
-            width:60px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
@@ -131,6 +131,7 @@
             border-radius:0px;
             padding:0px;
             margin:0px;
+            border-bottom: 1px solid $lightBlack;
           }
         }
       }
@@ -191,24 +192,25 @@
 
       div.debordement {
         div.line {
-          display:flex;
+          display:grid;
           width:100%;
           line-height:29px;
-          justify-content: space-between;
+          grid-template-columns: 1fr 60px;
 
           span.label {
             display:inline-block;
-            width:calc(100% - 60px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:14px;
             letter-spacing: 1px;
             padding-left:3px;
+            border-bottom: 1px solid $black;
           }
 
           input {
             display: inline-block;
-            width:60px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
@@ -219,15 +221,15 @@
             margin:0px;
             padding-bottom:1px;
             z-index:10;
+            border-bottom: 1px solid $lightBlack;
           }
         }
 
-        div.subLine {
-          display:flex;
+        div.tour {
+          display:grid;
           width:100%;
           line-height:30px;
-          justify-content: space-between;
-          margin-top:1px;
+          grid-template-columns: 1fr 60px;
 
           span.label {
             display:inline-block;
@@ -237,7 +239,6 @@
             font-size:16px;
             letter-spacing: 1px;
             padding-left:3px;
-            border-bottom:1px solid $black;
           }
 
           input {
@@ -251,7 +252,6 @@
             border-radius:0px;
             padding:0px;
             margin:0px;
-            border-bottom:1px solid $lightBlack;
           }
         }
 
@@ -274,14 +274,14 @@
 
       div.bouclier {
         div.line {
-          display:flex;
+          display:grid;
           width:100%;
           line-height:29px;
-          justify-content: space-between;
+          grid-template-columns: 30px 1fr 60px;
 
           span.option {
             display: inline-block;
-            width:30px;
+            width:100%;
             height:30px;
             text-align:center;
 
@@ -295,17 +295,11 @@
                 filter: drop-shadow(0px 0px 5px $blue);
               }
             }
-
-            &.withoutBorder {
-              img {
-                filter: drop-shadow(0px 0px 5px $blue);
-              }
-            }
           }
 
           span.label {
             display:inline-block;
-            width:calc(100% - 30px - 60px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:14px;
@@ -315,7 +309,7 @@
 
           span.score {
             display: inline-block;
-            width:60px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
@@ -324,24 +318,26 @@
         }
 
         div.subLine {
+          display: grid;
           width:100%;
           line-height:30px;
           justify-content: space-between;
-          margin-top:1px;
+          grid-template-columns: 1fr 60px;
 
           span.label {
             display:inline-block;
-            width:calc(100% - 60px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:16px;
             letter-spacing: 1px;
             padding-left:5px;
+            border-bottom: 1px solid $black;
           }
 
           input {
             display: inline-block;
-            width:60px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
@@ -350,20 +346,21 @@
             border-radius:0px;
             padding:0px;
             margin:0px;
+            border-bottom: 1px solid $lightBlack;
           }
         }
       }
 
       div.champDeForce {
         div.line {
-          display:flex;
+          display:grid;
           width:100%;
           line-height:29px;
-          justify-content: space-between;
+          grid-template-columns: 1fr 60px;
 
           span.label {
             display:inline-block;
-            width:calc(100% - 60px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:14px;
@@ -373,7 +370,7 @@
 
           span.score {
             display: inline-block;
-            width:60px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
@@ -385,16 +382,17 @@
       div.reaction,
       div.defense {
         div.line {
-          display:flex;
+          display:grid;
           width:100%;
           line-height:29px;
-          justify-content: space-between;
+          grid-template-columns: 30px 1fr 45px;
 
           span.option {
             display: inline-block;
-            width:30px;
+            width:100%;
             height:30px;
             text-align:center;
+            border-bottom: 1px solid $black;
 
             img {
               height:29px;
@@ -410,12 +408,13 @@
 
           span.label {
             display:inline-block;
-            width:calc(100% - 30px - 45px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:14px;
             letter-spacing: 1px;
             padding-left:1px;
+            border-bottom: 1px solid $black;
           }
 
           span.score {
@@ -425,28 +424,30 @@
             background:$black;
             text-align:center;
             font-size:16px;
+            border-bottom: 1px solid $lightBlack;
           }
         }
 
         div.subLine {
+          display: grid;
           width:100%;
           line-height:30px;
-          justify-content: space-between;
-          margin-top:1px;
+          grid-template-columns: 1fr 45px;
 
           span.label {
             display:inline-block;
-            width:calc(100% - 45px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:14px;
             letter-spacing: 1px;
             padding-left:5px;
+            border-bottom: 1px solid $black;
           }
 
           input {
             display: inline-block;
-            width:45px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
@@ -455,64 +456,39 @@
             border-radius:0px;
             padding:0px;
             margin:0px;
+            border-bottom: 1px solid $lightBlack;
           }
         }
       }
 
       div.initiative {
         div.line {
-          display:flex;
+          display:grid;
           width:100%;
           line-height:29px;
-          justify-content: space-between;
+          grid-template-columns: 1fr 45px;
 
           span.label {
             display:inline-block;
-            width:calc(100% - 45px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:14px;
             letter-spacing: 1px;
             padding-left:3px;
+            border-top: 0px !important;
+            border-bottom: 1px solid $black !important;
           }
 
           span.score {
             display: inline-block;
-            width:45px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
             font-size:12px;
-          }
-        }
-
-        div.subLine {
-          width:100%;
-          line-height:30px;
-          justify-content: space-between;
-          margin-top:1px;
-
-          span.label {
-            display:inline-block;
-            width:calc(100% - 45px);
-            height:30px;
-            font-variant: small-caps;
-            font-size:14px;
-            letter-spacing: 1px;
-            padding-left:5px;
-          }
-
-          input {
-            display: inline-block;
-            width:45px;
-            height:30px;
-            background:$black;
-            text-align:center;
-            font-size:16px;
-            border:0px;
-            border-radius:0px;
-            padding:0px;
-            margin:0px;
+            border-top: 0px !important;
+            border-bottom: 1px solid $black !important;
           }
         }
       }
@@ -522,14 +498,6 @@
 
         >div {
           display:block;
-
-          div.line {
-            span {
-              &.label {
-                border-bottom:1px solid $black;
-              }
-            }
-          }
 
           &.espoir {
             div.line {
@@ -546,40 +514,30 @@
             }
           }
 
-          div.optionHide {
-            display:none;
-          }
-
-          div.optionShow {
-            display:flex;
-          }
-
-          span.option,
-          span.label {
-            &.withBorder {
-              border-bottom:1px solid $black;
-            }
-          }
-
-          span.score,
-          span.separation,
-          input {
-            &.withBorder {
-              border-bottom:1px solid $lightBlack;
-            }
-          }
-
           &:last-of-type {
             div.line {
-              span {
-                &.label,
-                &.separation {
-                  border-bottom:0px;
+              span,
+              input {
+                border-bottom: 0px;
+              }
+            }
+
+            div.subLine {
+              &:nth-of-type(2) {
+                span {
+                  border-top: 1px solid $black;
+                }
+
+                input {
+                  border-top: 1px solid $lightBlack;
                 }
               }
 
-              input {
-                border-bottom:0px;
+              &:last-of-type {
+                span,
+                input {
+                  border-bottom: 0px;
+                }
               }
             }
           }

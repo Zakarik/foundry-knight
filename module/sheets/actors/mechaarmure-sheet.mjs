@@ -80,6 +80,8 @@ export class MechaArmureSheet extends ActorSheet {
 
     actualiseRoll(this.actor);
 
+    console.warn(context);
+
     return context;
   }
 

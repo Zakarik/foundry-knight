@@ -25928,18 +25928,19 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.menu div.sante div.line,
 .pnj section.menu div.armure div.line,
 .pnj section.menu div.energie div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 26px 8px 26px;
 }
 .pnj section.menu div.sante div.line span.option,
 .pnj section.menu div.armure div.line span.option,
 .pnj section.menu div.energie div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .pnj section.menu div.sante div.line span.option img,
 .pnj section.menu div.armure div.line span.option img,
@@ -25963,18 +25964,19 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.menu div.armure div.line span.label,
 .pnj section.menu div.energie div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .pnj section.menu div.sante div.line input,
 .pnj section.menu div.armure div.line input,
 .pnj section.menu div.energie div.line input {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -25985,51 +25987,55 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
   padding-bottom: 1px;
   z-index: 10;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .pnj section.menu div.sante div.line span.separation,
 .pnj section.menu div.armure div.line span.separation,
 .pnj section.menu div.energie div.line span.separation {
   display: inline-block;
-  width: 8px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .pnj section.menu div.sante div.line span.score,
 .pnj section.menu div.armure div.line span.score,
 .pnj section.menu div.energie div.line span.score {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .pnj section.menu div.sante div.subLine,
 .pnj section.menu div.armure div.subLine,
 .pnj section.menu div.energie div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .pnj section.menu div.sante div.subLine span.label,
 .pnj section.menu div.armure div.subLine span.label,
 .pnj section.menu div.energie div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .pnj section.menu div.sante div.subLine input,
 .pnj section.menu div.armure div.subLine input,
 .pnj section.menu div.energie div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -26038,6 +26044,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .pnj section.menu div.resilience button {
   width: 100%;
@@ -26054,75 +26061,69 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   cursor: pointer;
   margin: 0px;
 }
-.pnj section.menu div.bouclier div.line,
-.pnj section.menu div.champDeForce div.line {
-  display: flex;
+.pnj section.menu div.bouclier div.line {
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 60px;
 }
-.pnj section.menu div.bouclier div.line span.option,
-.pnj section.menu div.champDeForce div.line span.option {
+.pnj section.menu div.bouclier div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
-.pnj section.menu div.bouclier div.line span.option img,
-.pnj section.menu div.champDeForce div.line span.option img {
+.pnj section.menu div.bouclier div.line span.option img {
   height: 29px;
   width: 29px;
   border: 0px;
   cursor: pointer;
 }
-.pnj section.menu div.bouclier div.line span.option img:hover,
-.pnj section.menu div.champDeForce div.line span.option img:hover {
+.pnj section.menu div.bouclier div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.pnj section.menu div.bouclier div.line span.option.withoutBorder img,
-.pnj section.menu div.champDeForce div.line span.option.withoutBorder img {
+.pnj section.menu div.bouclier div.line span.option.withoutBorder img {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.pnj section.menu div.bouclier div.line span.label,
-.pnj section.menu div.champDeForce div.line span.label {
+.pnj section.menu div.bouclier div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
-.pnj section.menu div.bouclier div.line span.score,
-.pnj section.menu div.champDeForce div.line span.score {
+.pnj section.menu div.bouclier div.line span.score {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
-.pnj section.menu div.bouclier div.subLine,
-.pnj section.menu div.champDeForce div.subLine {
+.pnj section.menu div.bouclier div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
-.pnj section.menu div.bouclier div.subLine span.label,
-.pnj section.menu div.champDeForce div.subLine span.label {
+.pnj section.menu div.bouclier div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
-.pnj section.menu div.bouclier div.subLine input,
-.pnj section.menu div.champDeForce div.subLine input {
+.pnj section.menu div.bouclier div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -26131,20 +26132,92 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.pnj section.menu div.champDeForce div.line {
+  display: grid;
+  width: 100%;
+  line-height: 29px;
+  grid-template-columns: 30px 1fr 60px;
+}
+.pnj section.menu div.champDeForce div.line span.option {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  text-align: center;
+}
+.pnj section.menu div.champDeForce div.line span.option img {
+  height: 29px;
+  width: 29px;
+  border: 0px;
+  cursor: pointer;
+}
+.pnj section.menu div.champDeForce div.line span.option img:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+.pnj section.menu div.champDeForce div.line span.option.withoutBorder img {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+.pnj section.menu div.champDeForce div.line span.label {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  font-variant: small-caps;
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding-left: 1px;
+}
+.pnj section.menu div.champDeForce div.line span.score {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+}
+.pnj section.menu div.champDeForce div.subLine {
+  display: grid;
+  width: 100%;
+  line-height: 30px;
+  grid-template-columns: 1fr 60px;
+}
+.pnj section.menu div.champDeForce div.subLine span.label {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  font-variant: small-caps;
+  font-size: 16px;
+  letter-spacing: 1px;
+  padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.pnj section.menu div.champDeForce div.subLine input {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .pnj section.menu div.reaction div.line,
 .pnj section.menu div.defense div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 45px;
 }
 .pnj section.menu div.reaction div.line span.option,
 .pnj section.menu div.defense div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .pnj section.menu div.reaction div.line span.option img,
 .pnj section.menu div.defense div.line span.option img {
@@ -26160,43 +26233,46 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.menu div.reaction div.line span.label,
 .pnj section.menu div.defense div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .pnj section.menu div.reaction div.line span.score,
 .pnj section.menu div.defense div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .pnj section.menu div.reaction div.subLine,
 .pnj section.menu div.defense div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 45px;
 }
 .pnj section.menu div.reaction div.subLine span.label,
 .pnj section.menu div.defense div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .pnj section.menu div.reaction div.subLine input,
 .pnj section.menu div.defense div.subLine input {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -26205,18 +26281,20 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .pnj section.menu div.initiative div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 45px;
 }
 .pnj section.menu div.initiative div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .pnj section.menu div.initiative div.line span.option img {
   height: 29px;
@@ -26229,39 +26307,43 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .pnj section.menu div.initiative div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .pnj section.menu div.initiative div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 12px;
+  border-bottom: 1px solid RGB(76 74 90) !important;
 }
 .pnj section.menu div.initiative div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 45px;
 }
 .pnj section.menu div.initiative div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .pnj section.menu div.initiative div.subLine input {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -26270,6 +26352,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(76 74 90) !important;
 }
 .pnj section.menu section.mainBlock {
   display: block;
@@ -26277,40 +26361,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.menu section.mainBlock > div {
   display: block;
 }
-.pnj section.menu section.mainBlock > div div.line span.label {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.pnj section.menu section.mainBlock > div div.line span.separation {
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.pnj section.menu section.mainBlock > div div.line input {
-  border-bottom: 1px solid RGB(76 74 90);
-}
 .pnj section.menu section.mainBlock > div.espoir div.line span.label, .pnj section.menu section.mainBlock > div.espoir div.line span.separation {
   border-bottom: 0px;
 }
 .pnj section.menu section.mainBlock > div.espoir div.line input {
   border-bottom: 0px;
 }
-.pnj section.menu section.mainBlock > div div.optionHide {
-  display: none;
-}
-.pnj section.menu section.mainBlock > div div.optionShow {
-  display: flex;
-}
-.pnj section.menu section.mainBlock > div span.option.withBorder,
-.pnj section.menu section.mainBlock > div span.label.withBorder {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.pnj section.menu section.mainBlock > div span.score.withBorder,
-.pnj section.menu section.mainBlock > div span.separation.withBorder,
-.pnj section.menu section.mainBlock > div input.withBorder {
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.pnj section.menu section.mainBlock > div:last-of-type div.line span.label, .pnj section.menu section.mainBlock > div:last-of-type div.line span.separation {
+.pnj section.menu section.mainBlock > div:last-of-type div.line span,
+.pnj section.menu section.mainBlock > div:last-of-type div.line input {
   border-bottom: 0px;
 }
-.pnj section.menu section.mainBlock > div:last-of-type div.line input {
+.pnj section.menu section.mainBlock > div:last-of-type div.subLine:nth-of-type(2) span {
+  border-top: 1px solid RGB(43 42 51);
+}
+.pnj section.menu section.mainBlock > div:last-of-type div.subLine:nth-of-type(2) input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.pnj section.menu section.mainBlock > div:last-of-type div.subLine:last-of-type span,
+.pnj section.menu section.mainBlock > div:last-of-type div.subLine:last-of-type input {
   border-bottom: 0px;
 }
 .pnj section.menu section.mainBlock:not(:first-of-type) > div:first-of-type {
@@ -32337,16 +32405,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu div.sante div.line,
 .creature section.menu div.armure div.line,
 .creature section.menu div.energie div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 26px 8px 26px;
 }
 .creature section.menu div.sante div.line span.option,
 .creature section.menu div.armure div.line span.option,
 .creature section.menu div.energie div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
 }
@@ -32363,16 +32431,11 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu div.energie div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.creature section.menu div.sante div.line span.option.withoutBorder img,
-.creature section.menu div.armure div.line span.option.withoutBorder img,
-.creature section.menu div.energie div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
 .creature section.menu div.sante div.line span.label,
 .creature section.menu div.armure div.line span.label,
 .creature section.menu div.energie div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
@@ -32383,7 +32446,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu div.armure div.line input,
 .creature section.menu div.energie div.line input {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -32399,7 +32462,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu div.armure div.line span.separation,
 .creature section.menu div.energie div.line span.separation {
   display: inline-block;
-  width: 8px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -32409,7 +32472,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu div.armure div.line span.score,
 .creature section.menu div.energie div.line span.score {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -32418,27 +32481,28 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu div.sante div.subLine,
 .creature section.menu div.armure div.subLine,
 .creature section.menu div.energie div.subLine {
+  display: grid;
+  grid-template-columns: 1fr 60px;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
 }
 .creature section.menu div.sante div.subLine span.label,
 .creature section.menu div.armure div.subLine span.label,
 .creature section.menu div.energie div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .creature section.menu div.sante div.subLine input,
 .creature section.menu div.armure div.subLine input,
 .creature section.menu div.energie div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -32447,6 +32511,41 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.creature section.menu div.sante div.subLine:nth-of-type(2) span.label {
+  border-top: 1px solid RGB(43 42 51);
+}
+.creature section.menu div.sante div.subLine:nth-of-type(2) input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.creature section.menu div.sante div.subLine:last-of-type span.label {
+  border: 0px;
+}
+.creature section.menu div.sante div.subLine:last-of-type input {
+  border: 0px;
+}
+.creature section.menu div.armure div.line span.option, .creature section.menu div.armure div.line span.label,
+.creature section.menu div.energie div.line span.option,
+.creature section.menu div.energie div.line span.label {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.creature section.menu div.armure div.line span.separation, .creature section.menu div.armure div.line span.score,
+.creature section.menu div.energie div.line span.separation,
+.creature section.menu div.energie div.line span.score {
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.creature section.menu div.armure div.line input,
+.creature section.menu div.energie div.line input {
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.creature section.menu div.armure div.subline span.label,
+.creature section.menu div.energie div.subline span.label {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.creature section.menu div.armure div.subline input,
+.creature section.menu div.energie div.subline input {
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .creature section.menu div.resilience button {
   width: 100%;
@@ -32464,14 +32563,15 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
 }
 .creature section.menu div.bouclier div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
   justify-content: space-between;
+  grid-template-columns: 30px 1fr 60px;
 }
 .creature section.menu div.bouclier div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
 }
@@ -32489,7 +32589,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .creature section.menu div.bouclier div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
@@ -32498,30 +32598,32 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .creature section.menu div.bouclier div.line span.score {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
 }
 .creature section.menu div.bouclier div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
   justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .creature section.menu div.bouclier div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .creature section.menu div.bouclier div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -32530,20 +32632,22 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .creature section.menu div.reaction div.line,
 .creature section.menu div.defense div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 45px;
 }
 .creature section.menu div.reaction div.line span.option,
 .creature section.menu div.defense div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .creature section.menu div.reaction div.line span.option img,
 .creature section.menu div.defense div.line span.option img {
@@ -32559,43 +32663,46 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu div.reaction div.line span.label,
 .creature section.menu div.defense div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .creature section.menu div.reaction div.line span.score,
 .creature section.menu div.defense div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .creature section.menu div.reaction div.subLine,
 .creature section.menu div.defense div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 45px;
 }
 .creature section.menu div.reaction div.subLine span.label,
 .creature section.menu div.defense div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .creature section.menu div.reaction div.subLine input,
 .creature section.menu div.defense div.subLine input {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -32604,18 +32711,21 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .creature section.menu div.initiative div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 45px;
 }
 .creature section.menu div.initiative div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .creature section.menu div.initiative div.line span.option img {
   height: 29px;
@@ -32628,39 +32738,45 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .creature section.menu div.initiative div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .creature section.menu div.initiative div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 12px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(76 74 90) !important;
 }
 .creature section.menu div.initiative div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 45px;
 }
 .creature section.menu div.initiative div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .creature section.menu div.initiative div.subLine input {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -32669,6 +32785,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(76 74 90) !important;
 }
 .creature section.menu section.mainBlock {
   display: block;
@@ -32676,40 +32794,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu section.mainBlock > div {
   display: block;
 }
-.creature section.menu section.mainBlock > div div.line span.label {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.creature section.menu section.mainBlock > div div.line span.separation {
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.creature section.menu section.mainBlock > div div.line input {
-  border-bottom: 1px solid RGB(76 74 90);
-}
 .creature section.menu section.mainBlock > div.espoir div.line span.label, .creature section.menu section.mainBlock > div.espoir div.line span.separation {
   border-bottom: 0px;
 }
 .creature section.menu section.mainBlock > div.espoir div.line input {
   border-bottom: 0px;
 }
-.creature section.menu section.mainBlock > div div.optionHide {
-  display: none;
-}
-.creature section.menu section.mainBlock > div div.optionShow {
-  display: flex;
-}
-.creature section.menu section.mainBlock > div span.option.withBorder,
-.creature section.menu section.mainBlock > div span.label.withBorder {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.creature section.menu section.mainBlock > div span.score.withBorder,
-.creature section.menu section.mainBlock > div span.separation.withBorder,
-.creature section.menu section.mainBlock > div input.withBorder {
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.creature section.menu section.mainBlock > div:last-of-type div.line span.label, .creature section.menu section.mainBlock > div:last-of-type div.line span.separation {
+.creature section.menu section.mainBlock > div:last-of-type div.line span,
+.creature section.menu section.mainBlock > div:last-of-type div.line input {
   border-bottom: 0px;
 }
-.creature section.menu section.mainBlock > div:last-of-type div.line input {
+.creature section.menu section.mainBlock > div:last-of-type div.subLine:nth-of-type(2) span {
+  border-top: 1px solid RGB(43 42 51);
+}
+.creature section.menu section.mainBlock > div:last-of-type div.subLine:nth-of-type(2) input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.creature section.menu section.mainBlock > div:last-of-type div.subLine:last-of-type span,
+.creature section.menu section.mainBlock > div:last-of-type div.subLine:last-of-type input {
   border-bottom: 0px;
 }
 .creature section.menu section.mainBlock:not(:first-of-type) > div:first-of-type {
@@ -34311,16 +34413,17 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding-bottom: 1px;
 }
 .bande section.menu div.sante div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 26px 8px 26px;
 }
 .bande section.menu div.sante div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.sante div.line span.option img {
   height: 29px;
@@ -34331,21 +34434,19 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.menu div.sante div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.bande section.menu div.sante div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
 .bande section.menu div.sante div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 13px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.sante div.line input {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -34356,41 +34457,45 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
   padding-bottom: 1px;
   z-index: 10;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.sante div.line span.separation {
   display: inline-block;
-  width: 8px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.sante div.line span.score {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 14px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.sante div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .bande section.menu div.sante div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.sante div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -34399,6 +34504,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.energie div.line,
 .bande section.menu div.resilience div.line,
@@ -34456,23 +34562,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-size: 14px;
 }
 .bande section.menu div.debordement div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 60px;
 }
 .bande section.menu div.debordement div.line span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 3px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.debordement div.line input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -34483,15 +34590,15 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
   padding-bottom: 1px;
   z-index: 10;
+  border-bottom: 1px solid RGB(76 74 90);
 }
-.bande section.menu div.debordement div.subLine {
-  display: flex;
+.bande section.menu div.debordement div.tour {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
-.bande section.menu div.debordement div.subLine span.label {
+.bande section.menu div.debordement div.tour span.label {
   display: inline-block;
   width: calc(100% - 60px);
   height: 30px;
@@ -34499,9 +34606,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 3px;
-  border-bottom: 1px solid RGB(43 42 51);
 }
-.bande section.menu div.debordement div.subLine input {
+.bande section.menu div.debordement div.tour input {
   display: inline-block;
   width: 60px;
   height: 30px;
@@ -34512,7 +34618,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
-  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.debordement button {
   width: 100%;
@@ -34530,14 +34635,14 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
 }
 .bande section.menu div.bouclier div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 60px;
 }
 .bande section.menu div.bouclier div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
 }
@@ -34550,12 +34655,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.menu div.bouclier div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.bande section.menu div.bouclier div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
 .bande section.menu div.bouclier div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
@@ -34564,30 +34666,32 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .bande section.menu div.bouclier div.line span.score {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
 }
 .bande section.menu div.bouclier div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
   justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .bande section.menu div.bouclier div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.bouclier div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -34596,16 +34700,17 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.champDeForce div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 60px;
 }
 .bande section.menu div.champDeForce div.line span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
@@ -34614,7 +34719,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .bande section.menu div.champDeForce div.line span.score {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -34622,17 +34727,18 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .bande section.menu div.reaction div.line,
 .bande section.menu div.defense div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 45px;
 }
 .bande section.menu div.reaction div.line span.option,
 .bande section.menu div.defense div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.reaction div.line span.option img,
 .bande section.menu div.defense div.line span.option img {
@@ -34648,12 +34754,13 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.menu div.reaction div.line span.label,
 .bande section.menu div.defense div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.reaction div.line span.score,
 .bande section.menu div.defense div.line span.score {
@@ -34663,28 +34770,30 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.reaction div.subLine,
 .bande section.menu div.defense div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 45px;
 }
 .bande section.menu div.reaction div.subLine span.label,
 .bande section.menu div.defense div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.reaction div.subLine input,
 .bande section.menu div.defense div.subLine input {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -34693,56 +34802,34 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.initiative div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 45px;
 }
 .bande section.menu div.initiative div.line span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 3px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .bande section.menu div.initiative div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 12px;
-}
-.bande section.menu div.initiative div.subLine {
-  width: 100%;
-  line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
-}
-.bande section.menu div.initiative div.subLine span.label {
-  display: inline-block;
-  width: calc(100% - 45px);
-  height: 30px;
-  font-variant: small-caps;
-  font-size: 14px;
-  letter-spacing: 1px;
-  padding-left: 5px;
-}
-.bande section.menu div.initiative div.subLine input {
-  display: inline-block;
-  width: 45px;
-  height: 30px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 16px;
-  border: 0px;
-  border-radius: 0px;
-  padding: 0px;
-  margin: 0px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .bande section.menu section.mainBlock {
   display: block;
@@ -34750,34 +34837,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.menu section.mainBlock > div {
   display: block;
 }
-.bande section.menu section.mainBlock > div div.line span.label {
-  border-bottom: 1px solid RGB(43 42 51);
-}
 .bande section.menu section.mainBlock > div.espoir div.line span.label, .bande section.menu section.mainBlock > div.espoir div.line span.separation {
   border-bottom: 0px;
 }
 .bande section.menu section.mainBlock > div.espoir div.line input {
   border-bottom: 0px;
 }
-.bande section.menu section.mainBlock > div div.optionHide {
-  display: none;
-}
-.bande section.menu section.mainBlock > div div.optionShow {
-  display: flex;
-}
-.bande section.menu section.mainBlock > div span.option.withBorder,
-.bande section.menu section.mainBlock > div span.label.withBorder {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.bande section.menu section.mainBlock > div span.score.withBorder,
-.bande section.menu section.mainBlock > div span.separation.withBorder,
-.bande section.menu section.mainBlock > div input.withBorder {
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.bande section.menu section.mainBlock > div:last-of-type div.line span.label, .bande section.menu section.mainBlock > div:last-of-type div.line span.separation {
+.bande section.menu section.mainBlock > div:last-of-type div.line span,
+.bande section.menu section.mainBlock > div:last-of-type div.line input {
   border-bottom: 0px;
 }
-.bande section.menu section.mainBlock > div:last-of-type div.line input {
+.bande section.menu section.mainBlock > div:last-of-type div.subLine:nth-of-type(2) span {
+  border-top: 1px solid RGB(43 42 51);
+}
+.bande section.menu section.mainBlock > div:last-of-type div.subLine:nth-of-type(2) input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.bande section.menu section.mainBlock > div:last-of-type div.subLine:last-of-type span,
+.bande section.menu section.mainBlock > div:last-of-type div.subLine:last-of-type input {
   border-bottom: 0px;
 }
 .bande section.menu section.mainBlock:not(:first-of-type) > div:first-of-type {
@@ -36362,10 +36439,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .vehicule section.menu div.energie div.line,
 .vehicule section.menu div.armure div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 26px 8px 26px;
 }
 .vehicule section.menu div.energie div.line span.option,
 .vehicule section.menu div.armure div.line span.option {
@@ -36373,6 +36450,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 30px;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .vehicule section.menu div.energie div.line span.option img,
 .vehicule section.menu div.armure div.line span.option img {
@@ -36385,24 +36463,21 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.menu div.armure div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.vehicule section.menu div.energie div.line span.option.withoutBorder img,
-.vehicule section.menu div.armure div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
 .vehicule section.menu div.energie div.line span.label,
 .vehicule section.menu div.armure div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .vehicule section.menu div.energie div.line input,
 .vehicule section.menu div.armure div.line input {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -36413,41 +36488,45 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
   padding-bottom: 1px;
   z-index: 10;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .vehicule section.menu div.energie div.line span.separation,
 .vehicule section.menu div.armure div.line span.separation {
   display: inline-block;
-  width: 8px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .vehicule section.menu div.energie div.line span.score,
 .vehicule section.menu div.armure div.line span.score {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .vehicule section.menu div.energie div.subLine,
 .vehicule section.menu div.armure div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .vehicule section.menu div.energie div.subLine span.label,
 .vehicule section.menu div.armure div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .vehicule section.menu div.energie div.subLine input,
 .vehicule section.menu div.armure div.subLine input {
@@ -36461,16 +36540,17 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .vehicule section.menu div.champDeForce div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 60px;
 }
 .vehicule section.menu div.champDeForce div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
 }
@@ -36483,12 +36563,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.menu div.champDeForce div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.vehicule section.menu div.champDeForce div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
 .vehicule section.menu div.champDeForce div.line span.label {
   display: inline-block;
-  width: calc(100% - 60px - 30px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
@@ -36497,7 +36574,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .vehicule section.menu div.champDeForce div.line span.score {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -36510,19 +36587,20 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   z-index: 10;
 }
 .vehicule section.menu div.champDeForce div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .vehicule section.menu div.champDeForce div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .vehicule section.menu div.champDeForce div.subLine input {
   display: inline-block;
@@ -36535,20 +36613,21 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .vehicule section.menu div.passagers div.line,
 .vehicule section.menu div.manoeuvrabilite div.line,
 .vehicule section.menu div.vitesse div.line {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 35px;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
 }
 .vehicule section.menu div.passagers div.line span.label,
 .vehicule section.menu div.manoeuvrabilite div.line span.label,
 .vehicule section.menu div.vitesse div.line span.label {
   display: inline-block;
-  width: calc(100% - 35px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
@@ -36559,7 +36638,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.menu div.manoeuvrabilite div.line input,
 .vehicule section.menu div.vitesse div.line input {
   display: inline-block;
-  width: 35px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -36571,31 +36650,39 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding-bottom: 1px;
   z-index: 10;
 }
+.vehicule section.menu div.passagers div.line span.label {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.vehicule section.menu div.passagers div.line input {
+  border-bottom: 1px solid RGB(76 74 90);
+}
 .vehicule section.menu div.reaction div.line,
 .vehicule section.menu div.defense div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 45px;
 }
 .vehicule section.menu div.reaction div.line span.label,
 .vehicule section.menu div.defense div.line span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .vehicule section.menu div.reaction div.line span.score,
 .vehicule section.menu div.defense div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .vehicule section.menu div.manoeuvrabilite div.line span {
   border-bottom: 0px !important;
@@ -36617,27 +36704,29 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
 }
 .vehicule section.menu div.initiative div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 45px;
 }
 .vehicule section.menu div.initiative div.line span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .vehicule section.menu div.initiative div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 12px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .vehicule section.menu section.mainBlock {
   display: block;
@@ -36645,37 +36734,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.menu section.mainBlock > div {
   display: block;
 }
-.vehicule section.menu section.mainBlock > div div.line span.label {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.vehicule section.menu section.mainBlock > div div.line span.score {
-  border-bottom: 1px solid RGB(76 74 90);
-}
 .vehicule section.menu section.mainBlock > div.espoir div.line span.label, .vehicule section.menu section.mainBlock > div.espoir div.line span.separation {
   border-bottom: 0px;
 }
 .vehicule section.menu section.mainBlock > div.espoir div.line input {
-  border-bottom: 0px;
-}
-.vehicule section.menu section.mainBlock > div div.optionHide {
-  display: none;
-}
-.vehicule section.menu section.mainBlock > div div.optionShow {
-  display: flex;
-}
-.vehicule section.menu section.mainBlock > div span.option.withBorder,
-.vehicule section.menu section.mainBlock > div span.label.withBorder {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.vehicule section.menu section.mainBlock > div span.score.withBorder,
-.vehicule section.menu section.mainBlock > div span.separation.withBorder,
-.vehicule section.menu section.mainBlock > div input.withBorder {
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.vehicule section.menu section.mainBlock > div:last-of-type div.line span.label, .vehicule section.menu section.mainBlock > div:last-of-type div.line span.separation {
-  border-bottom: 0px;
-}
-.vehicule section.menu section.mainBlock > div:last-of-type div.line input {
   border-bottom: 0px;
 }
 .vehicule section.menu section.mainBlock:not(:first-of-type) > div:first-of-type {
@@ -38275,16 +38337,17 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
 }
 .mechaarmure section.menu div.resilience div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 26px 8px 26px;
 }
 .mechaarmure section.menu div.resilience div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .mechaarmure section.menu div.resilience div.line span.option img {
   height: 29px;
@@ -38295,20 +38358,18 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .mechaarmure section.menu div.resilience div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.mechaarmure section.menu div.resilience div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
 .mechaarmure section.menu div.resilience div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .mechaarmure section.menu div.resilience div.line input {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -38319,41 +38380,45 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
   padding-bottom: 1px;
   z-index: 10;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .mechaarmure section.menu div.resilience div.line span.separation {
   display: inline-block;
-  width: 8px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .mechaarmure section.menu div.resilience div.line span.score {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .mechaarmure section.menu div.resilience div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .mechaarmure section.menu div.resilience div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .mechaarmure section.menu div.resilience div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -38362,28 +38427,26 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
-.mechaarmure section.menu div.energie div.line,
-.mechaarmure section.menu div.blindage div.line {
-  display: flex;
+.mechaarmure section.menu div.energie div.line {
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 26px 8px 26px;
 }
-.mechaarmure section.menu div.energie div.line span.label,
-.mechaarmure section.menu div.blindage div.line span.label {
+.mechaarmure section.menu div.energie div.line span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
 }
-.mechaarmure section.menu div.energie div.line input,
-.mechaarmure section.menu div.blindage div.line input {
+.mechaarmure section.menu div.energie div.line input {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -38395,26 +38458,75 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding-bottom: 1px;
   z-index: 10;
 }
-.mechaarmure section.menu div.energie div.line span.separation,
-.mechaarmure section.menu div.blindage div.line span.separation {
+.mechaarmure section.menu div.energie div.line span.separation {
   display: inline-block;
-  width: 8px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
 }
-.mechaarmure section.menu div.champDeForce div.line {
-  display: flex;
+.mechaarmure section.menu div.blindage div.line {
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 26px 8px 26px;
+}
+.mechaarmure section.menu div.blindage div.line span.label {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  font-variant: small-caps;
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.mechaarmure section.menu div.blindage div.line span.score {
+  display: inline-block;
+  width: 45px;
+  height: 30px;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.mechaarmure section.menu div.blindage div.line input {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  margin: 0px;
+  padding-bottom: 1px;
+  z-index: 10;
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.mechaarmure section.menu div.blindage div.line span.separation {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.mechaarmure section.menu div.champDeForce div.line {
+  display: grid;
+  width: 100%;
+  line-height: 29px;
+  grid-template-columns: 30px 1fr 60px;
 }
 .mechaarmure section.menu div.champDeForce div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .mechaarmure section.menu div.champDeForce div.line span.option img {
   height: 29px;
@@ -38425,20 +38537,18 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .mechaarmure section.menu div.champDeForce div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.mechaarmure section.menu div.champDeForce div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
 .mechaarmure section.menu div.champDeForce div.line span.label {
   display: inline-block;
-  width: calc(100% - 60px - 30px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .mechaarmure section.menu div.champDeForce div.line span.score {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -38447,21 +38557,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .mechaarmure section.menu div.champDeForce div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .mechaarmure section.menu div.champDeForce div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .mechaarmure section.menu div.champDeForce div.subLine input {
   display: inline-block;
@@ -38474,23 +38586,25 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .mechaarmure section.menu div.reaction div.line,
 .mechaarmure section.menu div.defense div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 45px;
 }
 .mechaarmure section.menu div.reaction div.line span.label,
 .mechaarmure section.menu div.defense div.line span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .mechaarmure section.menu div.reaction div.line span.score,
 .mechaarmure section.menu div.defense div.line span.score {
@@ -38500,21 +38614,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .mechaarmure section.menu div.initiative div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 45px;
 }
 .mechaarmure section.menu div.initiative div.line span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .mechaarmure section.menu div.initiative div.line span.score {
   display: inline-block;
@@ -38523,6 +38640,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   text-align: center;
   font-size: 12px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .mechaarmure section.menu section.mainBlock {
   display: block;
@@ -38530,23 +38649,22 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .mechaarmure section.menu section.mainBlock > div {
   display: block;
 }
-.mechaarmure section.menu section.mainBlock > div div.optionHide {
-  display: none;
-}
-.mechaarmure section.menu section.mainBlock > div div.optionShow {
-  display: flex;
-}
-.mechaarmure section.menu section.mainBlock > div span.option.withBorder,
-.mechaarmure section.menu section.mainBlock > div span.label.withBorder {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.mechaarmure section.menu section.mainBlock > div span.score.withBorder,
-.mechaarmure section.menu section.mainBlock > div span.separation.withBorder,
-.mechaarmure section.menu section.mainBlock > div input.withBorder {
-  border-bottom: 1px solid RGB(76 74 90);
-}
 .mechaarmure section.menu section.mainBlock > div:last-of-type {
   border-bottom: 1px solid black;
+}
+.mechaarmure section.menu section.mainBlock > div:last-of-type div.line span,
+.mechaarmure section.menu section.mainBlock > div:last-of-type div.line input {
+  border-bottom: 0px;
+}
+.mechaarmure section.menu section.mainBlock > div:last-of-type div.subLine:nth-of-type(2) span {
+  border-top: 1px solid RGB(43 42 51);
+}
+.mechaarmure section.menu section.mainBlock > div:last-of-type div.subLine:nth-of-type(2) input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.mechaarmure section.menu section.mainBlock > div:last-of-type div.subLine:last-of-type span,
+.mechaarmure section.menu section.mainBlock > div:last-of-type div.subLine:last-of-type input {
+  border-bottom: 0px;
 }
 .mechaarmure section.menu section.mainBlock:not(:first-of-type) > div:first-of-type {
   border-top: 1px solid black;

@@ -4160,7 +4160,7 @@ export class KnightSheet extends ActorSheet {
       const dataGloire = this.actor.system.progression.gloire;
       const gloireListe = dataGloire.depense.liste;
       const isEmpty = gloireListe[0]?.isEmpty ?? false;
-      let addOrder =  Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
+      let addOrder =  foundry.utils.isEmpty(gloireListe)  || isEmpty ? 0 : this._getHighestOrder(gloireListe);
       const gloireAutre = dataGloire.depense?.autre || {};
 
       if(addOrder === -1) {
@@ -4180,7 +4180,7 @@ export class KnightSheet extends ActorSheet {
       for(let gloire in gloireAutre) {
         const obj = gloireAutre[gloire];
 
-        length = gloire;
+        length = parseInt(gloire);
 
         update[gloire] = {
           order:obj.order,
@@ -4204,41 +4204,33 @@ export class KnightSheet extends ActorSheet {
 
     html.find('div.progression .tableauPX .experience-create').click(ev => {
       const getData = this.actor;
-      const data = getData.system.progression.experience.depense.liste
-      const length = data.length === undefined ? Object.keys(data).length : data.length;
+      const data = getData.system.progression.experience.depense.liste;
+      let i = 0;
+      let addOrder =  foundry.utils.isEmpty(data) ? 0 : this._getHighestOrder(data);
 
-      const newData = [];
+      const newData = {};
 
-      for(let i = 0;i < length;i++) {
-        newData.push(data[i]);
+      for(let e in data) {
+        i = parseInt(e);
+
+        newData[e] = data[e];
       }
 
-      newData.push({
-        addOrder:length+1,
+      newData[i+1] = {
+        addOrder:addOrder+1,
         caracteristique:'',
         bonus:0,
         cout:0
-      });
+      };
 
       this.actor.update({[`system.progression.experience.depense.liste`]:newData});
     });
 
     html.find('div.progression .tableauPX .experience-delete').click(ev => {
       const target = $(ev.currentTarget);
-      const id = +target.data("id");
-      const getData = this.actor;
-      const data = getData.system.progression.experience.depense.liste
-      const length = data.length === undefined ? Object.keys(data).length : data.length;
+      const id = target.data("id");
 
-      const newData = [];
-
-      for(let i = 0;i < length;i++) {
-        if(i !== id) {
-          newData.push(data[i]);
-        }
-      }
-
-      this.actor.update({[`system.progression.experience.depense.liste`]:newData});
+      this.actor.update({[`system.progression.experience.depense.liste.-=${id}`]:null});
     });
 
     html.find('.appliquer-evolution-armure').click(async ev => {

@@ -5,6 +5,282 @@ export const KNIGHT = {};
  * @type {Object}
  */
 
+ KNIGHT.LIST = {
+    vehicules:['armure', 'energie', 'champDeForce'],
+    bandes:['sante', 'bouclier'],
+    creatures:['sante', 'armure', 'energie', 'bouclier'],
+    mechaarmures:['resilience', 'vitesse', 'manoeuvrabilite', 'puissance', 'systemes', 'senseurs', 'champDeForce'],
+    pnj:['sante', 'armure', 'energie', 'champDeForce', 'bouclier'],
+    aspects:['chair', 'bete', 'machine', 'dame', 'masque'],
+    caracteristiques:{
+      bete:['combat', 'hargne', 'instinct'],
+      chair:['deplacement', 'force', 'endurance'],
+      dame:['aura', 'parole', 'sangFroid'],
+      machine:['tir', 'savoir', 'technique'],
+      masque:['discretion', 'dexterite', 'perception'],
+    },
+    armesimprovisees:{
+      ai1:{
+        chair:[1, 2],
+        force:1,
+        liste:{
+          1:{
+            utilisation:3,
+            degats:{
+              dice:4,
+            },
+            violence:{
+              dice:4,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+          2:{
+            utilisation:1,
+            degats:{
+              dice:2,
+            },
+            violence:{
+              dice:5,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+          3:{
+            utilisation:2,
+            degats:{
+              dice:4,
+            },
+            violence:{
+              dice:4,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+        }
+      },
+      ai2:{
+        chair:[3, 4],
+        force:2,
+        liste:{
+          1:{
+            utilisation:3,
+            degats:{
+              dice:6,
+            },
+            violence:{
+              dice:4,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+          2:{
+            utilisation:1,
+            degats:{
+              dice:4,
+            },
+            violence:{
+              dice:4,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+          3:{
+            utilisation:2,
+            degats:{
+              dice:5,
+            },
+            violence:{
+              dice:5,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+        }
+      },
+      ai3:{
+        chair:[5, 6],
+        force:3,
+        liste:{
+          1:{
+            utilisation:3,
+            degats:{
+              dice:7,
+            },
+            violence:{
+              dice:5,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+          2:{
+            utilisation:1,
+            degats:{
+              dice:5,
+            },
+            violence:{
+              dice:7,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+          3:{
+            utilisation:2,
+            degats:{
+              dice:6,
+            },
+            violence:{
+              dice:6,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+        },
+      },
+      ai4:{
+        chair:[7, 8],
+        force:4,
+        liste:{
+          1:{
+            utilisation:1,
+            degats:{
+              dice:7,
+            },
+            violence:{
+              dice:9,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+          2:{
+            utilisation:2,
+            degats:{
+              dice:8,
+            },
+            violence:{
+              dice:8,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+        },
+      },
+      ai5:{
+        chair:[9, 10],
+        force:5,
+        liste:{
+          1:{
+            utilisation:1,
+            degats:{
+              dice:10,
+            },
+            violence:{
+              dice:12,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+          2:{
+            utilisation:2,
+            degats:{
+              dice:11,
+            },
+            violence:{
+              dice:11,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+        },
+      }
+    },
+    grenades:{
+      antiblindage:{
+        degats:{dice:3},
+        violence:{dice:3},
+        effets:{
+          raw:['destructeur', 'dispersion 6', 'penetrant 6', 'percearmure 20'],
+          custom:[],
+        }
+      },
+      explosive:{
+        degats:{dice:3},
+        violence:{dice:3},
+        effets:{
+          raw:['antivehicule', 'choc 1', 'dispersion 3'],
+          custom:[],
+        }
+      },
+      flashbang:{
+        degats:{dice:0},
+        violence:{dice:0},
+        effets:{
+          raw:['aucundegatsviolence', 'barrage 2', 'choc 1', 'dispersion 6'],
+          custom:[],
+        }
+      },
+      iem:{
+        degats:{dice:0},
+        violence:{dice:0},
+        effets:{
+          raw:['aucundegatsviolence', 'dispersion 6', 'parasitage 2'],
+          custom:[],
+        }
+      },
+      shrapnel:{
+        degats:{dice:3},
+        violence:{dice:3},
+        effets:{
+          raw:['dispersion 6', 'meurtrier', 'ultraviolence'],
+          custom:[],
+        }
+      },
+    },
+    hasMax:{
+      armure:true,
+      sante:true,
+      energie:true,
+      resilience:true,
+      champDeForce:false,
+      bouclier:false,
+      vitesse:false,
+      manoeuvrabilite:false,
+      puissance:false,
+      systemes:false,
+      senseurs:false,
+    },
+    derived:{
+      defense:'masque',
+      reaction:'machine',
+    }
+ }
+
  KNIGHT.listCaracteristiques = {
   "chair":['deplacement', 'force', 'endurance'],
   "bete":['hargne', 'combat', 'instinct'],
