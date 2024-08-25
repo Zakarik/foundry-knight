@@ -792,7 +792,6 @@ export class KnightRollDialog extends Application {
       const capaciteultime = act.items.find(items => items.type === 'capaciteultime');
 
       for (let i of act.items) {
-        console.warn(i);
         const system = i.system;
         // ARMURE.
         if (i.type === 'armure') {
@@ -3700,11 +3699,6 @@ export class KnightRollDialog extends Application {
     let bonusDice = 0;
     let bonusFixe = 0;
 
-    console.warn(idWpn);
-    console.warn(nWpn);
-    console.warn(allWpn);
-    console.warn(wpn);
-
     switch(nWpn) {
       case 'base':
       case 'special':
@@ -3713,7 +3707,7 @@ export class KnightRollDialog extends Application {
 
       case 'contact':
       case 'distance':
-        wpn = wpn.find(itm => itm._id === idWpn).system;
+        wpn = wpn.find(itm => itm._id === idWpn && itm.name.includes(nameWpn)).system;
         break;
 
       case 'tourelle':
