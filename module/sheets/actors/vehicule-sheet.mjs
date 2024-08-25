@@ -92,6 +92,7 @@ export class VehiculeSheet extends ActorSheet {
     super.activateListeners(html);
 
     toggler.init(this.id, html);
+
     hideShowLimited(this.actor, html);
 
     // Everything below here is only needed if the sheet is editable

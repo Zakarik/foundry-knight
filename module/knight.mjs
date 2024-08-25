@@ -49,6 +49,29 @@ import { GmInitiative } from "./gm/gmInitiative.mjs";
 import { GmMonitor } from "./gm/gmMonitor.mjs";
 import HooksKnight from "./hooks.mjs";
 
+// MODELS
+import { KnightDataModel } from "./documents/models/actors/knight-data-model.mjs";
+import { IADataModel } from "./documents/models/actors/ia-data-model.mjs";
+import { PNJDataModel } from "./documents/models/actors/pnj-data-model.mjs";
+import { CreatureDataModel } from "./documents/models/actors/creature-data-model.mjs";
+import { BandeDataModel } from "./documents/models/actors/bande-data-model.mjs";
+import { VehiculeDataModel } from "./documents/models/actors/vehicule-data-model.mjs";
+import { MechaArmureDataModel } from "./documents/models/actors/mecha-armure-data-model.mjs";
+import { CapaciteUltimeDataModel } from "./documents/models/items/capacite-ultime-data-model.mjs";
+import { DistinctionDataModel } from "./documents/models/items/distinction-data-model.mjs";
+import { ArtDataModel } from "./documents/models/items/art-data-model.mjs";
+import { SimpleDataModel } from "./documents/models/items/simple-data-model.mjs";
+import { EffetDataModel } from "./documents/models/items/effet-data-model.mjs";
+import { ModuleDataModel } from "./documents/models/items/module-data-model.mjs";
+import { TraumaDataModel } from "./documents/models/items/trauma-data-model.mjs";
+import { BlessureDataModel } from "./documents/models/items/blessure-data-model.mjs";
+import { AvantageDataModel } from "./documents/models/items/avantage-data-model.mjs";
+import { InconvenientDataModel } from "./documents/models/items/inconvenient-data-model.mjs";
+import { CapaciteDataModel } from "./documents/models/items/capacite-data-model.mjs";
+import { ArmureLegendeDataModel } from "./documents/models/items/armure-legende-data-model.mjs";
+import { ArmeDataModel } from "./documents/models/items/arme-data-model.mjs";
+import { ArmureDataModel } from "./documents/models/items/armure-data-model.mjs";
+
 import {
   updateEffect,
   listLogo,
@@ -117,6 +140,37 @@ Hooks.once('init', async function() {
   // Define custom Document classes
   CONFIG.Actor.documentClass = KnightActor;
   CONFIG.Item.documentClass = KnightItem;
+
+  CONFIG.Actor.dataModels = {
+    knight:KnightDataModel,
+    ia:IADataModel,
+    pnj:PNJDataModel,
+    creature:CreatureDataModel,
+    bande:BandeDataModel,
+    vehicule:VehiculeDataModel,
+    mechaarmure:MechaArmureDataModel,
+  };
+
+  CONFIG.Item.dataModels = {
+    arme:ArmeDataModel,
+    armure:ArmureDataModel,
+    avantage:AvantageDataModel,
+    inconvenient:InconvenientDataModel,
+    motivationMineure:SimpleDataModel,
+    langue:SimpleDataModel,
+    capaciteultime:CapaciteUltimeDataModel,
+    distinction:DistinctionDataModel,
+    art:ArtDataModel,
+    capaciteheroique:SimpleDataModel,
+    carteheroique:SimpleDataModel,
+    contact:SimpleDataModel,
+    effet:EffetDataModel,
+    module:ModuleDataModel,
+    trauma:TraumaDataModel,
+    blessure:BlessureDataModel,
+    capacite:CapaciteDataModel,
+    armurelegende:ArmureLegendeDataModel,
+  };
 
   let statusEffects = [
     {
