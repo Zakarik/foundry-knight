@@ -3,6 +3,8 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
     const {HTMLField, SchemaField, StringField, NumberField, BooleanField, ArrayField, ObjectField} = foundry.data.fields;
 
     return {
+      equipped:new BooleanField({initial:false}),
+      rack:new BooleanField({initial:false}),
       description: new HTMLField({initial: ''}),
       rarete: new StringField({initial: 'standard'}),
       type: new StringField({initial: 'contact'}),

@@ -37,12 +37,7 @@
             <label class="shortspan">
                 <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                 <select name="system.capacites.selected.morph.activation" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.activation}}
-                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'activationsimple') selected=this.activation localize=true}}
                 </select>
             </label>
             <label class="shortspan">
@@ -74,12 +69,7 @@
             <label class="shortspan">
                 <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                 <select name="system.capacites.selected.morph.phase.activation" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.phase.activation}}
-                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'activationsimple') selected=this.phase.activation localize=true}}
                 </select>
             </label>
             <label class="shortspan">
@@ -101,12 +91,7 @@
                 <label class="shortspan">
                     <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                     <select name="system.capacites.selected.morph.phase.niveau2.activation" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select phase.niveau2.activation}}
-                        <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                        <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                        <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                        <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'activationsimple') selected=phase.niveau2.activation localize=true}}
                     </select>
                 </label>
                 <label class="shortspan">
@@ -166,13 +151,7 @@
             <label class="shortspan noSeparation">
                 <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
                 <select name="system.capacites.selected.morph.polymorphie.griffe.portee" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.polymorphie.griffe.portee}}
-                    <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                    <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                    <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                    <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                    <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'portee') selected=this.polymorphie.griffe.portee localize=true}}
                 </select>
             </label>
             <div class="double">
@@ -212,13 +191,7 @@
             <label class="shortspan noSeparation">
                 <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
                 <select name="system.capacites.selected.morph.polymorphie.lame.portee" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.polymorphie.lame.portee}}
-                    <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                    <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                    <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                    <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                    <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'portee') selected=this.polymorphie.lame.portee localize=true}}
                 </select>
             </label>
             <div class="double">
@@ -258,13 +231,7 @@
             <label class="shortspan noSeparation">
                 <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
                 <select name="system.capacites.selected.morph.polymorphie.canon.portee" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.polymorphie.canon.portee}}
-                    <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                    <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                    <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                    <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                    <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'portee') selected=this.polymorphie.canon.portee localize=true}}
                 </select>
             </label>
             <div class="double">

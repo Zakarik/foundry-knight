@@ -41,12 +41,7 @@
     <label class="shortspan separation">
         <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
         <select name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.action.activation" >
-            {{#select this.impulsions.action.activation}}
-            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-            {{/select}}
+            {{selectOptions (getList 'activationsimple') selected=this.impulsions.action.activation localize=true}}
         </select>
     </label>
     <label class="shortspan">
@@ -94,12 +89,7 @@
     <label class="shortspan separation">
         <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
         <select name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.force.activation" >
-            {{#select this.impulsions.force.activation}}
-            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-            {{/select}}
+            {{selectOptions (getList 'activationsimple') selected=this.impulsions.force.activation localize=true}}
         </select>
     </label>
     <label class="shortspan">
@@ -140,12 +130,7 @@
     <label class="shortspan separation">
         <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
         <select name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.energie.activation" >
-            {{#select this.impulsions.energie.activation}}
-            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-            {{/select}}
+            {{selectOptions (getList 'activationsimple') selected=this.impulsions.energie.activation localize=true}}
         </select>
     </label>
     <label class="shortspan">
@@ -200,12 +185,7 @@
     <label class="shortspan separation">
         <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
         <select name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.action.activation" >
-            {{#select this.impulsions.action.activation}}
-            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-            {{/select}}
+            {{selectOptions (getList 'activationsimple') selected=this.impulsions.action.activation localize=true}}
         </select>
     </label>
     <label class="shortspan">
@@ -266,12 +246,7 @@
     <label class="shortspan separation">
         <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
         <select name="system.evolutions.liste.{{key}}.capacites.warlord.impulsions.guerre.activation" >
-            {{#select this.impulsions.guerre.activation}}
-            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-            {{/select}}
+            {{selectOptions (getList 'activationsimple') selected=this.impulsions.guerre.activation localize=true}}
         </select>
     </label>
     <label class="shortspan">

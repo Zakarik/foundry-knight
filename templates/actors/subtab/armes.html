@@ -40,10 +40,7 @@ data-other="{{this.system.type}}"
                 {{#if this.system.options2mains.has}}
                     <div class="line">
                         <select class="wpnMainChange" data-id="{{this._id}}">
-                            {{#select this.system.options2mains.actuel}}
-                            <option value="1main">{{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Unemain"}}</option>
-                            <option value="2main">{{localize "KNIGHT.ITEMS.ARME.DEUXMAINS.Deuxmains"}}</option>
-                            {{/select}}
+                            {{selectOptions (getList 'options2mains') selected=this.noyaux.actuel localize=true}}
                         </select>
                     </div>
                 {{/if}}
@@ -52,11 +49,7 @@ data-other="{{this.system.type}}"
                 {{#if this.system.optionsmunitions.has}}
                     <div class="lineFull">
                         <select class="wpnMunitionChange" data-id="{{this._id}}" data-niveau="{{this.system.niveau}}">
-                            {{#select this.system.optionsmunitions.actuel}}
-                                {{#each this.system.optionsmunitions.liste as | key munition|}}
-                                    <option value="{{munition}}">{{key.nom}}</option>
-                                {{/each}}
-                            {{/select}}
+                            {{selectOptions (getMunitions this.system.optionsmunitions.liste) selected=this.system.optionsmunitions.actuel}}
                         </select>
                     </div>
                 {{/if}}

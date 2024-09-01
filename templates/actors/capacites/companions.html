@@ -7,22 +7,7 @@
         <div class="blockMultiline">
             {{#if (companionsCanBeActivate this)}}
             <select class="energie" name="system.equipements.armure.capacites.companions.energie">
-                {{#select data.companions.energie}}
-                <option value="0">0
-                    {{#if @root/actor/armureData/system/espoir/remplaceEnergie}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEspoirS"}}
-                    {{else}}
-                        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEnergieS"}}{{/if}}</option>
-                    {{#each data.companions.energieDisponible as | key energie|}}
-                        {{#if (hasPE key @root/actor/armureData/system/espoir/remplaceEnergie @root/systemData/energie/value @root/systemData/espoir/value)}}
-                        <option value="{{key}}">{{key}}
-                        {{#if @root/actor/armureData/system/espoir/remplaceEnergie}}
-                            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEspoirP"}}
-                        {{else}}
-                            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEnergieP"}}{{/if}}</option>
-                        {{/if}}
-                    {{/each}}
-                {{/select}}
+                {{selectOptions (getEnergieCompanions data.companions.energieDisponible @root/actor/armureData/system/espoir/remplaceEnergie) selected=data.companions.energie}}
             </select>
             {{/if}}
 
@@ -71,14 +56,7 @@
 
             {{#if active.wolf}}
                 <select class="type" name="system.equipements.armure.capacites.companions.type">
-                    {{#select data.companions.type}}
-                    <option value=""></option>
-                    <option value="labor">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.LABOR.Label"}}</option>
-                    <option value="medic">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.MEDIC.Label"}}</option>
-                    <option value="tech">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.TECH.Label"}}</option>
-                    <option value="recon">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.RECON.Label"}}</option>
-                    <option value="fighter">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.FIGHTER.Label"}}</option>
-                    {{/select}}
+                    {{selectOptions (getTypeCompanions) selected=data.companions.type blank=''}}
                 </select>
 
                 <button class="configurationWolf" data-configuration="{{data.companions.type}}">

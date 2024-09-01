@@ -14,28 +14,10 @@
     <div class="tripleLine">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.CONTRECOUPS.BaseJet"}}</span>
         <select name="system.evolutions.liste.{{key}}.special.contrecoups.jet.c1">
-            <option value=""></option>
-            {{#select this.jet.c1}}
-                {{#each this.jet.aspects as | key aspect|}}
-                    <optgroup label="{{getAspect aspect}}">
-                        {{#each key.liste as | key carac|}}
-                            <option value="{{carac}}">{{getCarac carac}}</option>
-                        {{/each}}
-                    </optgroup>
-                {{/each}}
-            {{/select}}
+            {{selectOptions (onlyCarac) selected=this.jet.c1 localize=true blank=''}}
         </select>
         <select name="system.evolutions.liste.{{key}}.special.contrecoups.jet.c2">
-            <option value=""></option>
-            {{#select this.jet.c2}}
-                {{#each this.jet.aspects as | key aspect|}}
-                    <optgroup label="{{getAspect aspect}}">
-                        {{#each key.liste as | key carac|}}
-                            <option value="{{carac}}">{{getCarac carac}}</option>
-                        {{/each}}
-                    </optgroup>
-                {{/each}}
-            {{/select}}
+            {{selectOptions (onlyCarac) selected=this.jet.c2 localize=true blank=''}}
         </select>
     </div>
 

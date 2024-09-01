@@ -44,12 +44,7 @@
             <label class="shortspan separation">
                 <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                 <select name="system.capacites.selected.puppet.activation" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.activation}}
-                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'activationsimple') selected=this.activation localize=true}}
                 </select>
             </label>
             <label class="shortspan">

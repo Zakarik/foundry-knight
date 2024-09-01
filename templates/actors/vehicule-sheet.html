@@ -207,20 +207,11 @@
                                     {{/unless}}
                                     <span class="name">{{this.name}}</span>
                                     <select class="whoActivate" data-id="{{this._id}}" data-niveau="{{this.system.niveau}}">
-                                        {{#select this.system.whoActivate}}
-                                        <option value=""></option>
-                                            {{#each @root/data/system/equipage/passagers as | kPass passager|}}
-                                                <option value="{{kPass.id}}">{{localize "KNIGHT.VEHICULE.ArmeUtiliseePar"}} : {{kPass.name}}</option>
-                                            {{/each}}
-                                        {{/select}}
+                                        {{selectOptions (getPassagers @root/data/system/equipage/passagers) selected=key.system.whoActivate blank=''}}
                                     </select>
                                     {{#if this.system.optionsmunitions.has}}
                                         <select class="wpnMunitionChange" data-id="{{this._id}}" data-niveau="{{this.system.niveau}}">
-                                            {{#select this.system.optionsmunitions.actuel}}
-                                                {{#each this.system.optionsmunitions.liste as | key munition|}}
-                                                    <option value="{{munition}}">{{key.nom}}</option>
-                                                {{/each}}
-                                            {{/select}}
+                                            {{selectOptions (getMunitions key.system.optionsmunitions.liste) selected=key.system.optionsmunitions.actuel}}
                                         </select>
                                     {{/if}}
                                     <div class="line">

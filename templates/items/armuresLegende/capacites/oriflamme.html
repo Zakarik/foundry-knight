@@ -32,13 +32,7 @@
             <label class="shortspan">
                 <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                 <select name="system.capacites.selected.oriflamme.activation" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.activation}}
-                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                    <option value="toutes">{{localize "KNIGHT.ACTIVATION.Toutes"}}</option>
-                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'activationcapacites') selected=this.activation localize=true}}
                 </select>
             </label>
             <label class="shortspan">
@@ -50,13 +44,7 @@
             <label class="shortspan">
                 <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
                 <select name="system.capacites.selected.oriflamme.portee" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.portee}}
-                    <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                    <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                    <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                    <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                    <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'portee') selected=this.activation localize=true}}
                 </select>
             </label>
         </div>

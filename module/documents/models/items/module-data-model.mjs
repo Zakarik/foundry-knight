@@ -1,11 +1,15 @@
 export class ModuleDataModel extends foundry.abstract.TypeDataModel {
 	static defineSchema() {
-		const {HTMLField, NumberField, SchemaField, StringField, ArrayField, ObjectField} = foundry.data.fields;
+		const {HTMLField, NumberField, SchemaField, StringField, ObjectField, BooleanField} = foundry.data.fields;
 
         return {
+            active:new SchemaField({
+              base:new BooleanField({initial:false}),
+            }),
             description:new HTMLField({initial:''}),
             categorie:new StringField({initial:'effets'}),
             listes:new ObjectField(),
+            isLion:new BooleanField({initial:false}),
             slots:new SchemaField({
               tete:new NumberField({initial:0, nullable:false, integer:true}),
               torse:new NumberField({initial:0, nullable:false, integer:true}),
@@ -17,12 +21,17 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
             niveau:new SchemaField({
               value:new NumberField({initial:1, nullable:false, integer:true}),
               max:new NumberField({initial:1, nullable:false, integer:true}),
-              max:new ArrayField(new NumberField(), {initial:[1]}),
               details:new ObjectField({initial:{
                 n1:{
+                  addOrder:0,
                   permanent:false,
                   rarete:"standard",
                   prix:0,
+                  activation:"aucune",
+                  duree:"",
+                  portee:"personnelle",
+                  listes:{},
+                  labels:{},
                   energie:{
                     tour:{
                       value:0,
@@ -34,11 +43,6 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
                     },
                     supplementaire:0
                   },
-                  activation:"aucune",
-                  duree:"",
-                  portee:"personnelle",
-                  listes:{},
-                  labels:{},
                   secondmode:{
                     has:false,
                     activation:"aucune"
@@ -419,12 +423,33 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
                   }
                 }
               }}),
+              actuel:new ObjectField(),
             }),
         }
     }
 
-    prepareBaseData() {
+  prepareBaseData() {
+    const niveau = this.niveau.value;
+    const itemDataNiveau = this.niveau.details[`n${niveau}`];
+    const itemBonus = itemDataNiveau?.bonus || {};
+    const itemArme = itemDataNiveau?.arme || {};
+    const itemOD = itemDataNiveau?.overdrives || {};
+    const itemErsatz = itemDataNiveau?.ersatz || {};
 
+    this.niveau.actuel.bonus = itemBonus;
+    this.niveau.actuel.arme = itemArme;
+    this.niveau.actuel.overdrives = itemOD;
+    this.niveau.actuel.ersatz = itemErsatz;
+    this.niveau.actuel.permanent = itemDataNiveau.permanent;
+    this.niveau.actuel.duree = itemDataNiveau.duree;
+    this.niveau.actuel.energie = itemDataNiveau.energie;
+    this.niveau.actuel.rarete = itemDataNiveau.rarete;
+    this.niveau.actuel.activation = itemDataNiveau.activation;
+    this.niveau.actuel.portee = itemDataNiveau.portee;
+    this.niveau.actuel.labels = itemDataNiveau.labels;
+    this.niveau.actuel.pnj = itemDataNiveau.pnj;
+    this.niveau.actuel.jetsimple = itemDataNiveau.jetsimple;
+    this.niveau.actuel.effets = itemDataNiveau.effets
 	}
 
 	prepareDerivedData() {
