@@ -57,12 +57,7 @@
                 <label class="shortspan separation">
                     <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                     <select name="system.capacites.selected.warlord.impulsions.action.activation" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.impulsions.action.activation}}
-                        <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                        <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                        <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                        <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'activationsimple') selected=this.impulsions.action.activation localize=true}}
                     </select>
                 </label>
                 <label class="shortspan">
@@ -107,12 +102,7 @@
                 <label class="shortspan separation">
                     <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                     <select name="system.capacites.selected.warlord.impulsions.force.activation" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.impulsions.force.activation}}
-                        <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                        <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                        <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                        <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'activationsimple') selected=this.impulsions.force.activation localize=true}}
                     </select>
                 </label>
                 <label class="shortspan">
@@ -150,12 +140,7 @@
                 <label class="shortspan separation">
                     <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                     <select name="system.capacites.selected.warlord.impulsions.energie.activation" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.impulsions.energie.activation}}
-                        <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                        <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                        <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                        <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'activationsimple') selected=this.impulsions.energie.activation localize=true}}
                     </select>
                 </label>
                 <label class="shortspan">
@@ -209,12 +194,7 @@
                 <label class="shortspan separation">
                     <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                     <select name="system.capacites.selected.warlord.impulsions.esquive.activation" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.impulsions.esquive.activation}}
-                        <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                        <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                        <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                        <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'activationsimple') selected=this.impulsions.esquive.activation localize=true}}
                     </select>
                 </label>
                 <label class="shortspan">
@@ -272,12 +252,7 @@
                 <label class="shortspan separation">
                     <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                     <select name="system.capacites.selected.warlord.impulsions.guerre.activation" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.impulsions.guerre.activation}}
-                        <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                        <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                        <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                        <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'activationsimple') selected=this.impulsions.guerre.activation localize=true}}
                     </select>
                 </label>
                 <label class="shortspan">

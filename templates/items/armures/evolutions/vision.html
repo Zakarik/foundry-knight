@@ -19,12 +19,7 @@
     <label class="shortspan separation">
         <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
         <select name="system.evolutions.liste.{{key}}.capacites.vision.activation" >
-            {{#select this.activation}}
-            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-            <option value="toutes">{{localize "KNIGHT.ACTIVATION.Toutes"}}</option>
-            <option value="combat6Sec">{{localize "KNIGHT.ACTIVATION.Combat6Sec"}}</option>
-            <option value="deplacement6Sec">{{localize "KNIGHT.ACTIVATION.Deplacement6Sec"}}</option>
-            {{/select}}
+            {{selectOptions (getList 'activationsimple') selected=this.activation localize=true}}
         </select>
     </label>
     <label class="shortspan">

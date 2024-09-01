@@ -1,7 +1,6 @@
 // Import document classes.
 import { KnightActor } from "./documents/actor.mjs";
 import { KnightItem } from "./documents/item.mjs";
-import { RollKnight } from "./documents/roll.mjs";
 
 // Import sheet classes.
 import { KnightSheet } from "./sheets/actors/knight-sheet.mjs";
@@ -87,6 +86,8 @@ import {
   directRoll,
 } from "./helpers/dialogRoll.mjs";
 
+import {RollKnight} from "./documents/roll.mjs";
+
 /* -------------------------------------------- */
 /*  Init Hook                                   */
 /* -------------------------------------------- */
@@ -135,7 +136,7 @@ Hooks.once('init', async function() {
   };
 
   // Define custom Roll class
-  CONFIG.Dice.rolls.unshift(RollKnight);
+  //CONFIG.Dice.rolls.unshift(RollKnight);
 
   // Define custom Document classes
   CONFIG.Actor.documentClass = KnightActor;

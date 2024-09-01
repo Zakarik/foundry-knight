@@ -1,7 +1,7 @@
 
 export class AspectsNPCDataModel extends foundry.abstract.DataModel {
 	static defineSchema() {
-    const {NumberField, StringField, SchemaField, EmbeddedDataField} = foundry.data.fields;
+    const {NumberField, SchemaField} = foundry.data.fields;
     let data = {};
 
     for(let a of CONFIG.KNIGHT.LIST.aspects) {

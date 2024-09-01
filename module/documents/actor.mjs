@@ -34,7 +34,7 @@ export class KnightActor extends Actor {
     let effectStatus;
     let listEffect;
 
-    if(window.EffectCounter !== undefined && this.permission === 3) {
+    /*if(window.EffectCounter !== undefined && this.permission === 3) {
       if(version < 11) {
         listEffect = this.getEmbeddedCollection('ActiveEffect').filter(e => e?.flags?.core?.statusId ?? undefined !== undefined);
 
@@ -122,7 +122,7 @@ export class KnightActor extends Actor {
 
         }
       }
-    }
+    }*/
   }
 
   prepareDerivedData() {
@@ -131,7 +131,7 @@ export class KnightActor extends Actor {
     //this._prepareKnightData(actorData);
   }
 
-  async _prepareKnightData(actorData) {
+  /*async _prepareKnightData(actorData) {
     if (actorData.type !== 'knight') return;
 
     // Make modifications to data here.
@@ -594,5 +594,5 @@ export class KnightActor extends Actor {
       const itmWpn = actorData.items.find(wpn => wpn.type === 'arme' && wpn.system.type === 'distance');
       if(itmWpn !== undefined) itmWpn.delete();
     }
-  }
+  }*/
 }

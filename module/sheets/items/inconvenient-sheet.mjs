@@ -163,7 +163,7 @@ export class InconvenientSheet extends ItemSheet {
       }
 
       const update = {
-        data: {
+        system: {
           limitations: {
             espoir: {
               aucunGain:result

@@ -26,12 +26,7 @@
                 <label class="shortspan">
                     <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                     <select name="system.capacites.selected.illumination.activation" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.activation}}
-                        <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                        <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                        <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                        <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'activationsimple') selected=this.activation localize=true}}
                     </select>
                 </label>
                 <label class="shortspan">
@@ -50,13 +45,7 @@
                 <label class="shortspan separation">
                     <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
                     <select name="system.capacites.selected.illumination.candle.portee" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.candle.portee}}
-                        <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                        <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                        <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                        <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                        <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'portee') selected=this.candle.portee localize=true}}
                     </select>
                 </label>
                 <label class="triple">
@@ -77,13 +66,7 @@
                 <label class="shortspan">
                     <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
                     <select name="system.capacites.selected.illumination.torch.portee" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.torch.portee}}
-                        <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                        <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                        <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                        <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                        <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'portee') selected=this.torch.portee localize=true}}
                     </select>
                 </label>
                 <h4 class="separation">{{localize "KNIGHT.AUTRE.CoutEspoir"}}</h4>
@@ -103,13 +86,7 @@
                 <label class="shortspan separation">
                     <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
                     <select name="system.capacites.selected.illumination.lighthouse.portee" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.lighthouse.portee}}
-                        <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                        <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                        <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                        <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                        <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'portee') selected=this.lighthouse.portee localize=true}}
                     </select>
                 </label>
                 <h4 class="separation">{{localize "KNIGHT.AUTRE.CoutEspoir"}}</h4>
@@ -134,13 +111,7 @@
                 <label class="shortspan">
                     <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
                     <select name="system.capacites.selected.illumination.lantern.portee" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.lantern.portee}}
-                        <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                        <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                        <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                        <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                        <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'portee') selected=this.lantern.portee localize=true}}
                     </select>
                 </label>
                 <h4 class="separation">{{localize "KNIGHT.AUTRE.CoutEspoir"}}</h4>
@@ -184,13 +155,7 @@
                 <label class="shortspan">
                     <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
                     <select name="system.capacites.selected.illumination.blaze.portee" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.blaze.portee}}
-                        <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                        <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                        <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                        <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                        <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'portee') selected=this.blaze.portee localize=true}}
                     </select>
                 </label>
                 <h4 class="separation">{{localize "KNIGHT.AUTRE.CoutEspoir"}}</h4>
@@ -214,13 +179,7 @@
                 <label class="shortspan">
                     <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
                     <select name="system.capacites.selected.illumination.beacon.portee" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.beacon.portee}}
-                        <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                        <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                        <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                        <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                        <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'portee') selected=this.beacon.portee localize=true}}
                     </select>
                 </label>
                 <h4 class="separation">{{localize "KNIGHT.AUTRE.CoutEspoir"}}</h4>
@@ -240,13 +199,7 @@
                 <label class="shortspan separation">
                     <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
                     <select name="system.capacites.selected.illumination.projector.portee" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.projector.portee}}
-                        <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                        <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                        <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                        <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                        <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'portee') selected=this.projector.portee localize=true}}
                     </select>
                 </label>
                 <h4 class="separation">{{localize "KNIGHT.AUTRE.CoutEspoir"}}</h4>

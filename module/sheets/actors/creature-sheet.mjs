@@ -4,15 +4,10 @@ import {
   getAEValue,
   listEffects,
   SortByName,
-  addOrUpdateEffect,
-  updateEffect,
-  existEffect,
   confirmationDialog,
-  effectsGestion,
   getDefaultImg,
   diceHover,
   options,
-  getFlatEffectBonus,
   commonPNJ,
   hideShowLimited,
   dragMacro,
@@ -25,41 +20,6 @@ import {
 
 import toggler from '../../helpers/toggler.js';
 
-const path = {
-  espoir:{
-    bonus:'system.espoir.bonusValue',
-    malus:'system.espoir.malusValue',
-  },
-  sante:{
-    bonus:'system.sante.bonusValue',
-    malus:'system.sante.malusValue',
-  },
-  egide:{
-    bonus:'system.egide.bonusValue',
-    malus:'system.egide.malusValue',
-  },
-  reaction:{
-    bonus:'system.reaction.bonusValue',
-    malus:'system.reaction.malusValue',
-  },
-  defense:{
-    bonus:'system.defense.bonusValue',
-    malus:'system.defense.malusValue',
-  },
-  armure:{
-    bonus:'system.armure.bonusValue',
-    malus:'system.armure.malusValue',
-  },
-  energie:{
-    bonus:'system.energie.bonusValue',
-    malus:'system.energie.malusValue',
-  },
-  champDeForce:{
-    base:'system.champDeForce.base',
-    bonus:'system.champDeForce.bonusValue',
-    malus:'system.champDeForce.malusValue',
-  },
-};
 
 /**
  * @extends {ActorSheet}
@@ -470,79 +430,10 @@ export class CreatureSheet extends ActorSheet {
     });
 
     html.find('.activatePhase2').click(ev => {
-      const data = this.getData().data.system;
-      const options = data.options;
-      const phase2 = data.phase2;
-
-      const effects = [];
-
-      if(options.sante) {
-        effects.push({
-          key: path.sante.bonus,
-          mode: 2,
-          priority: null,
-          value: phase2.sante
-        });
-      }
-
-      if(options.armure) {
-        effects.push({
-          key: path.armure.bonus,
-          mode: 2,
-          priority: null,
-          value: phase2.armure
-        });
-      }
-
-      if(options.energie) {
-        effects.push({
-          key: path.energie.bonus,
-          mode: 2,
-          priority: null,
-          value: phase2.energie
-        });
-      }
-
-      const listAspects = ['chair', 'bete', 'machine', 'dame', 'masque'];
-
-      for(let i = 0;i < listAspects.length;i++) {
-        const label = listAspects[i];
-
-        effects.push({
-          key: `system.aspects.${label}.value`,
-          mode: 5,
-          priority: null,
-          value: Number(data.aspects[label].value)+Number(phase2.aspects[label].value)
-        },
-        {
-          key: `system.aspects.${label}.ae.mineur.value`,
-          mode: 5,
-          priority: null,
-          value: Number(data.aspects[label].ae.mineur.value)+Number(phase2.aspects[label].ae.mineur)
-        },
-        {
-          key: `system.aspects.${label}.ae.majeur.value`,
-          mode: 5,
-          priority: null,
-          value: Number(data.aspects[label].ae.majeur.value)+Number(phase2.aspects[label].ae.majeur)
-        });
-      }
-
-      addOrUpdateEffect(this.actor, 'phase2', effects);
       this.actor.update({['system.phase2Activate']:true});
     });
 
     html.find('.desactivatePhase2').click(ev => {
-      const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
-      const effectExist = existEffect(listEffect, 'phase2');
-      const toUpdate = [];
-
-      toUpdate.push({
-        "_id":effectExist._id,
-        disabled:true
-      });
-
-      updateEffect(this.actor, toUpdate);
       this.actor.update({['system.phase2Activate']:false});
     });
 
@@ -618,8 +509,6 @@ export class CreatureSheet extends ActorSheet {
   }
 
   async _prepareCharacterItems(sheetData) {
-    const version = game.version.split('.');
-
     const actorData = sheetData.actor;
     const system = sheetData.data.system;
     const phase2Activate = system.phase2Activate;
@@ -630,23 +519,6 @@ export class CreatureSheet extends ActorSheet {
     const langue = [];
     const capacites = [];
     const capacitesPhase2 = [];
-    const aspects = {
-      "chair":system.aspects.chair.value,
-      "bete":system.aspects.bete.value,
-      "machine":system.aspects.machine.value,
-      "dame":system.aspects.dame.value,
-      "masque":system.aspects.masque.value,
-    };
-    const aspectLieSupp = [];
-    const effects = {armes:[], capacites:[]};
-    const aspectsMax = {
-      chair:{max:[20], ae:{mineur:[10], majeur:[10]}},
-      bete:{max:[20], ae:{mineur:[10], majeur:[10]}},
-      machine:{max:[20], ae:{mineur:[10], majeur:[10]}},
-      dame:{max:[20], ae:{mineur:[10], majeur:[10]}},
-      masque:{max:[20], ae:{mineur:[10], majeur:[10]}}
-    };
-
 
     for (let i of sheetData.items) {
       const data = i.system;
@@ -730,36 +602,6 @@ export class CreatureSheet extends ActorSheet {
           if (type === 'contact') { armesContact.push(i); }
           else if (type === 'distance') { armesDistance.push(i); }
         }
-
-        const bonusEffects = getFlatEffectBonus(i);
-
-        effects.armes.push({
-          key: path.defense.bonus,
-          mode: 2,
-          priority: 3,
-          value: bonusEffects.defense.bonus
-        });
-
-        effects.armes.push({
-          key: path.defense.malus,
-          mode: 2,
-          priority: 3,
-          value: bonusEffects.defense.malus
-        });
-
-        effects.armes.push({
-          key: path.reaction.bonus,
-          mode: 2,
-          priority: 3,
-          value: bonusEffects.reaction.bonus
-        });
-
-        effects.armes.push({
-          key: path.reaction.malus,
-          mode: 2,
-          priority: 3,
-          value: bonusEffects.reaction.malus
-        });
       }
 
       // CAPACITES
@@ -769,61 +611,8 @@ export class CreatureSheet extends ActorSheet {
         if(isPhase2) capacitesPhase2.push(i);
         else capacites.push(i);
 
-        const bonus = data.bonus;
         const attaque = data.attaque;
-
-        const aLieSupp = bonus.aspectsLieSupplementaire;
-        const cSante = bonus.sante;
-        const cArmure = bonus.armure;
-        const aspectMax = bonus.aspectMax;
-
         if(!isPhase2) {
-          if(aLieSupp.has) aspectLieSupp.push(aLieSupp.value);
-
-          if(cSante.has) {
-            if(cSante.aspect.lie) {
-              effects.capacites.push({
-                key: path.sante.bonus,
-                mode: 2,
-                priority: null,
-                value: aspects[cSante.aspect.value]*cSante.aspect.multiplie
-              });
-            } else {
-              effects.capacites.push({
-                key: path.sante.bonus,
-                mode: 2,
-                priority: null,
-                value: cSante.value
-              });
-            }
-          }
-
-          if(cArmure.has) {
-            if(cArmure.aspect.lie) {
-              effects.capacites.push({
-                key: path.armure.bonus,
-                mode: 2,
-                priority: null,
-                value: aspects[cArmure.aspect.value]*cArmure.aspect.multiplie
-              });
-            } else {
-              effects.capacites.push({
-                key: path.armure.bonus,
-                mode: 2,
-                priority: null,
-                value: cArmure.value
-              });
-            }
-          }
-
-          if(aspectMax.has) {
-            const aMax = aspectMax.aspect;
-
-            aspectsMax[aMax].max.push(aspectMax.maximum.aspect);
-            aspectsMax[aMax].ae.mineur.push(aspectMax.maximum.ae);
-            aspectsMax[aMax].ae.majeur.push(aspectMax.maximum.ae);
-          }
-
           if(attaque.has) {
             const capaciteWpn = {
               _id:i._id,
@@ -852,51 +641,6 @@ export class CreatureSheet extends ActorSheet {
             }
           }
         } else if(isPhase2 && phase2Activate) {
-          if(aLieSupp.has) aspectLieSupp.push(aLieSupp.value);
-
-          if(cSante.has) {
-            if(cSante.aspect?.lie || false) {
-              effects.capacites.push({
-                key: path.sante.bonus,
-                mode: 2,
-                priority: null,
-                value: aspects[cSante.aspect.value]*cSante.aspect.multiplie
-              });
-            } else {
-              effects.capacites.push({
-                key: path.sante.bonus,
-                mode: 2,
-                priority: null,
-                value: cSante.value
-              });
-            }
-          }
-
-          if(cArmure.has) {
-            if(cArmure.aspect?.lie || false) {
-              effects.capacites.push({
-                key: path.armure.bonus,
-                mode: 2,
-                priority: null,
-                value: aspects[cArmure.aspect.value]*cArmure.aspect.multiplie
-              });
-            } else {
-              effects.capacites.push({
-                key: path.armure.bonus,
-                mode: 2,
-                priority: null,
-                value: cArmure.value
-              });
-            }
-          }
-
-          if(aspectMax.has) {
-            const aMax = aspectMax.aspect;
-            aspectsMax[aMax].max.push(aspectMax.maximum.aspect);
-            aspectsMax[aMax].ae.mineur.push(aspectMax.maximum.ae);
-            aspectsMax[aMax].ae.majeur.push(aspectMax.maximum.ae);
-          }
-
           if(attaque.has) {
             const capaciteWpn = {
               _id:i._id,
@@ -930,79 +674,12 @@ export class CreatureSheet extends ActorSheet {
       }
     }
 
-    for (let i of capacites) {
-      const system = i.system;
-
-      if((!i.isPhase2) || (i.isPhase2 && system.phase2Activate)) {
-
-        for(let i = 0; i < aspectLieSupp.length; i++) {
-          const bonus = system.bonus;
-          const cSante = bonus.sante;
-          const cArmure = bonus.armure;
-          const aspectMax = bonus.aspectMax;
-
-          if(cSante.has && cSante.aspect.lie && cSante.aspect.value !== aspectLieSupp[i]) {
-            effects.capacites.push({
-              key: path.sante.bonus,
-              mode: 2,
-              priority: null,
-              value: aspects[aspectLieSupp[i]]*cSante.aspect.multiplie
-            });
-          }
-
-          if(cArmure.has && cArmure.aspect.lie && cArmure.aspect.value !== aspectLieSupp[i]) {
-            effects.capacites.push({
-              key: path.armure.bonus,
-              mode: 2,
-              priority: null,
-              value: aspects[aspectLieSupp[i]]*cArmure.aspect.multiplie
-            });
-          }
-
-          if(aspectMax.has && aspectMax.aspect !== aspectLieSupp[i]) {
-            aspectsMax[aspectLieSupp[i]].max.push(aspectMax.maximum.aspect);
-            aspectsMax[aspectLieSupp[i]].ae.mineur.push(aspectMax.maximum.ae);
-            aspectsMax[aspectLieSupp[i]].ae.majeur.push(aspectMax.maximum.ae);
-          }
-        }
-      }
-    }
-
     actorData.armesContact = armesContact;
     actorData.armesDistance = armesDistance;
     actorData.armesTourelles = armesTourelles;
     actorData.langue = langue;
     actorData.capacites = capacites;
     actorData.capacitesPhase2 = capacitesPhase2;
-
-    for (let [key, value] of Object.entries(aspectsMax)) {
-      effects.capacites.push({
-        key: `system.aspects.${key}.max`,
-        mode: 5,
-        priority: null,
-        value: `${Math.max(...value.max)}`
-      },
-      {
-        key: `system.aspects.${key}.ae.majeur.max`,
-        mode: 5,
-        priority: null,
-        value: `${Math.max(...value.ae.majeur)}`
-      },
-      {
-        key: `system.aspects.${key}.ae.mineur.max`,
-        mode: 5,
-        priority: null,
-        value: `${Math.max(...value.ae.mineur)}`
-      }
-      );
-    }
-
-    const listWithEffect = [
-      {label:'Capacites', data:effects.capacites},
-      {label:'Armes', data:effects.armes},
-    ];
-
-    if(sheetData.editable) effectsGestion(this.actor, listWithEffect);
   }
 
   _prepareAE(context) {

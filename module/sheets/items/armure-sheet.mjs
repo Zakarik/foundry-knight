@@ -84,6 +84,8 @@ export class ArmureSheet extends ItemSheet {
 
     context.systemData = context.data.system;
 
+    console.warn(context);
+
     return context;
   }
 
@@ -96,65 +98,29 @@ export class ArmureSheet extends ItemSheet {
     toggler.init(this.id, html);
 
     // Everything below here is only needed if the sheet is editable
-    if ( !this.isEditable ) return;
-
-    html.find('input.generation').change(ev => {
-      const value = $(ev.currentTarget).val();
-
-      let update = {
-        system:{
-          jauges:{
-            sante:true
-          }
-        }
-      };
-
-      if(value >= 4) {
-        update = {
-          system:{
-            jauges:{
-              sante:false
-            }
-          }
-        };
-      }
-
-      this.item.update(update);
-    });
+    if (!this.isEditable) return;
 
     html.find('.buttonJauge').click(ev => {
       const value = $(ev.currentTarget).data("value");
       const type = $(ev.currentTarget).data("type");
-
+      let update = {};
       let result = false;
 
       if(!value) { result = true; }
 
-      const update = {
-        data:{
-          jauges:{
-            [type]:result
-          }
-        }
-      };
+      update[`system.jauges.${type}`] = result;
 
       this.item.update(update);
     });
 
     html.find('.buttonEspoir').click(ev => {
       const value = $(ev.currentTarget).data("value");
-
+      let update = {};
       let result = false;
 
       if(!value) { result = true; }
 
-      const update = {
-        data:{
-          espoir:{
-            bonus:result
-          }
-        }
-      };
+      update['system.espoir.bonus'] = result;
 
       this.item.update(update);
     });
@@ -162,6 +128,7 @@ export class ArmureSheet extends ItemSheet {
     html.find('.buttonREnergie').click(ev => {
       const value = $(ev.currentTarget).data("value");
 
+      let update = {};
       let result = false;
       let energie = true;
 
@@ -170,16 +137,8 @@ export class ArmureSheet extends ItemSheet {
         energie = false;
       }
 
-      const update = {
-        data:{
-          jauges:{
-            energie:energie
-          },
-          espoir:{
-            remplaceEnergie:result
-          }
-        }
-      };
+      update[`system.jauges.energie`] = energie;
+      update[`system.espoir.remplaceEnergie`] = result;
 
       this.item.update(update);
     });
@@ -191,7 +150,7 @@ export class ArmureSheet extends ItemSheet {
 
       if(actor && value > max) {
         this.item.update({[`system.armure.value`]:max});
-        actor.update({[`system.armure.value`]:max});2
+        actor.update({[`system.armure.value`]:max});
       }
     });
 
@@ -201,6 +160,7 @@ export class ArmureSheet extends ItemSheet {
       let base = data.data.system.capacites.c2038Necromancer.sarcophage.bonus.liste;
       let liste = data.data.system.capacites.selected.sarcophage.bonus.liste;
       let textarea = data.data.system.capacites.selected.sarcophage.textarea;
+      let update = {};
 
       for(let i = 0;i < value;i++) {
         if(liste[`b${i}`] === undefined) {
@@ -257,20 +217,8 @@ export class ArmureSheet extends ItemSheet {
         }
       }
 
-      const update = {
-        data:{
-          capacites:{
-            selected:{
-              sarcophage:{
-                bonus:{
-                  liste
-                },
-                textarea
-              }
-            }
-          }
-        }
-      };
+      update[`system.capacites.selected.sarcophage.bonus.liste`] = liste;
+      update[`system.capacites.selected.sarcophage.textarea`] = textarea;
 
       this.item.update(update);
 
@@ -604,7 +552,7 @@ export class ArmureSheet extends ItemSheet {
       this.item.update(update);
     });
 
-    html.find('div.capacites div.add a').click(ev => {
+    html.find('div.capacites div.add a').click(async ev => {
       const value = $(ev.currentTarget).data("value");
 
       if(value === "") return;
@@ -682,7 +630,9 @@ export class ArmureSheet extends ItemSheet {
         }
       }
 
-      this.item.update(update);
+      console.warn(update);
+
+      console.warn(await this.item.update(update));
     });
 
     html.find('div.capacites a.verrouillage').click(ev => {

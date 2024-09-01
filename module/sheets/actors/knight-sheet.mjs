@@ -1,23 +1,14 @@
 import {
-  getModStyle,
   listEffects,
   getSpecial,
   SortByName,
-  SortByAddOrder,
   sum,
   confirmationDialog,
   getEffets,
-  addOrUpdateEffect,
-  updateEffect,
-  existEffect,
-  caracToAspect,
-  isAspect,
   getArmor,
   getAllArmor,
   getCaracValue,
   getODValue,
-  getFlatEffectBonus,
-  effectsGestion,
   getDefaultImg,
   diceHover,
   options,
@@ -32,42 +23,6 @@ import {
 } from "../../helpers/dialogRoll.mjs";
 
 import toggler from '../../helpers/toggler.js';
-
-const path = {
-  espoir:{
-    bonus:'system.espoir.bonusValue',
-    malus:'system.espoir.malusValue',
-  },
-  sante:{
-    bonus:'system.sante.bonusValue',
-    malus:'system.sante.malusValue',
-  },
-  egide:{
-    bonus:'system.egide.bonusValue',
-    malus:'system.egide.malusValue',
-  },
-  reaction:{
-    bonus:'system.reaction.bonusValue',
-    malus:'system.reaction.malusValue',
-  },
-  defense:{
-    bonus:'system.defense.bonusValue',
-    malus:'system.defense.malusValue',
-  },
-  armure:{
-    bonus:'system.armure.bonus',
-    malus:'system.armure.malus',
-  },
-  energie:{
-    bonus:'system.energie.bonus',
-    malus:'system.energie.malus',
-  },
-  champDeForce:{
-    base:'system.champDeForce.base',
-    bonus:'system.champDeForce.bonus',
-    malus:'system.champDeForce.malus',
-  },
-};
 
 /**
  * @extends {ActorSheet}
@@ -310,20 +265,16 @@ export class KnightSheet extends ActorSheet {
       const flux = hasFlux != false ? eval(hasFlux) : false;
       const cout = eval(target.data("cout"));
       const isAllie = target.data("isallie");
-      const nbreC = target.data("nbrec") || 0;
       const capacite = target.data("capacite");
       const variant = target.data("variant");
       const module = target.data("module");
       const dEspoir = target.data("despoir");
       const espoir = target.data("espoir");
       const caracteristiques = target.data("caracteristiques")?.split('.')?.filter((a) => a) || false;
-      const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
 
       const getData = this.actor;
       const armure = await getArmor(this.actor);
       const remplaceEnergie = armure.system.espoir.remplaceEnergie || false;
-      const quelMalus = remplaceEnergie ? 'espoir' : 'energie';
-      const equipcapacites = getData.system.equipements.armure.capacites;
       const armorCapacites = getData.armureData.system.capacites.selected;
 
       if(value && type !== 'modulePnj') {
@@ -335,18 +286,14 @@ export class KnightSheet extends ActorSheet {
 
       let depenseEspoir;
       let newActor;
-      let effectExist;
-
-      let effect = [];
       let update = {};
       let specialUpdate = {};
 
       if(type === 'capacites') {
         switch(capacite) {
           case "ascension":
-            effectExist = existEffect(listEffect, capacite);
-
             if(value) {
+              const substract = this.actor.system.energie.max-cout;
               let clone = foundry.utils.deepClone(this.actor);
               newActor = await Actor.create(clone);
 
@@ -370,15 +317,6 @@ export class KnightSheet extends ActorSheet {
                 depense:cout,
                 ascensionId:newActor.id
               }});
-
-              effect.push({
-                key: path[quelMalus].malus,
-                mode: 2,
-                priority: null,
-                value: cout
-              });
-
-              addOrUpdateEffect(this.actor, capacite, effect);
             } else {
               const actor = game.actors.get(id);
 
@@ -389,11 +327,6 @@ export class KnightSheet extends ActorSheet {
                 ascensionId:0,
                 depense:0
               }});
-
-              updateEffect(this.actor, [{
-                "_id":effectExist._id,
-                disabled:true
-              }]);
             }
             break;
           case "borealis":
@@ -457,21 +390,10 @@ export class KnightSheet extends ActorSheet {
             }
             break;
           case "companions":
-            effectExist = existEffect(listEffect, capacite);
-
             update[`system.${toupdate}.base`] = value;
             update[`system.${toupdate}.${special}`] = value;
 
             if(value) {
-              effect.push({
-                key: path[quelMalus].malus,
-                mode: 2,
-                priority: null,
-                value: retrieve
-              });
-
-              addOrUpdateEffect(this.actor, capacite, effect);
-
               switch(special) {
                 case 'lion':
                   const dataLion = armorCapacites.companions.lion;
@@ -804,13 +726,6 @@ export class KnightSheet extends ActorSheet {
                   break;
               }
             } else {
-              if(effectExist !== undefined) {
-                updateEffect(this.actor, [{
-                  "_id":effectExist._id,
-                  disabled:true
-                }]);
-              }
-
               let recupValue = 0;
 
               switch(special) {
@@ -857,23 +772,6 @@ export class KnightSheet extends ActorSheet {
             armure.update(update);
             break;
           case "shrine":
-            effectExist = existEffect(listEffect, capacite);
-
-            if(special === 'personnel' && value) {
-              effect.push({
-                key: path.champDeForce.bonus,
-                mode: 2,
-                priority: null,
-                value: armorCapacites.shrine.champdeforce
-              });
-
-              addOrUpdateEffect(this.actor, capacite, effect);
-            }
-            else if(special === 'personnel' && !value) updateEffect(this.actor, [{
-              "_id":effectExist._id,
-              disabled:true
-            }]);
-
             update[`system.${toupdate}.base`] = value;
             update[`system.${toupdate}.${special}`] = value;
 
@@ -883,44 +781,6 @@ export class KnightSheet extends ActorSheet {
             armure.update({[`system.${toupdate}.${special}`]:value});
             break;
           case "goliath":
-            effectExist = existEffect(listEffect, capacite);
-
-            const eGoliath = equipcapacites.goliath;
-            const aGoliath = armorCapacites.goliath;
-
-            const goliathMetre = +eGoliath.metre;
-            const bGCDF = aGoliath.bonus.cdf.value;
-            const mGRea = aGoliath.malus.reaction.value;
-            const mGDef = aGoliath.malus.defense.value;
-
-            if(value) {
-              effect.push({
-                key: path.reaction.malus,
-                mode: 2,
-                priority: null,
-                value: goliathMetre*mGRea
-              },
-              {
-                key: path.defense.malus,
-                mode: 2,
-                priority: null,
-                value: goliathMetre*mGDef
-              },
-              {
-                key: path.champDeForce.bonus,
-                mode: 2,
-                priority: null,
-                value: goliathMetre*bGCDF
-              });
-
-              addOrUpdateEffect(this.actor, capacite, effect);
-            } else {
-              updateEffect(this.actor, [{
-                "_id":effectExist._id,
-                disabled:true
-              }]);
-            }
-
             armure.update({[`system.${toupdate}`]:value});
             break;
           case "illumination":
@@ -962,165 +822,38 @@ export class KnightSheet extends ActorSheet {
 
               if(!depenseEspoir) return;
             }
-
-            const nbreP = equipcapacites.morph?.poly || 0;
-            const nbreA = equipcapacites.morph.nbre;
-            update[`system.${toupdate}.${special}`] = value;
+            if(special !== 'polymorphieReset') update[`system.${toupdate}.${special}`] = value;
 
             if(value) {
-              let label = special;
-              effectExist = existEffect(listEffect, special);
-              const aMorph = armorCapacites.morph;
-
-              if(special === "polymorphieLame" || special === "polymorphieGriffe" || special === "polymorphieCanon") {
+              if(special === "polymorphieLame" || special === "polymorphieGriffe" || special === "polymorphieCanon")
                 update[`system.capacites.selected.morph.active.${special}`] = value;
-
-                effect.push({
-                  key: `system.equipements.armure.capacites.morph.poly`,
-                  mode: 2,
-                  priority: null,
-                  value: nbreP+1
-                });
-
-                label = "polymorphieArme";
-
-                if(nbreP+1 === 2) update[`system.capacites.selected.morph.poly.fait`] = true;
-              } else if(special === "metal") {
-                const bMCDF = aMorph.metal.bonus.champDeForce;
-
-                effect.push({
-                  key: path.champDeForce.bonus,
-                  mode: 2,
-                  priority: null,
-                  value: bMCDF
-                },
-                {
-                  key: 'system.equipements.armure.capacites.morph.nbre',
-                  mode: 2,
-                  priority: null,
-                  value: 1
-                });
-              } else if(special === "fluide") {
-                const bMFLUI = aMorph.fluide.bonus;
-
-                effect.push({
-                  key: path.reaction.bonus,
-                  mode: 2,
-                  priority: null,
-                  value: bMFLUI.reaction
-                },
-                {
-                  key: path.defense.bonus,
-                  mode: 2,
-                  priority: null,
-                  value: bMFLUI.defense
-                },
-                {
-                  key: 'system.equipements.armure.capacites.morph.nbre',
-                  mode: 2,
-                  priority: null,
-                  value: 1
-                });
-              } else if(special === "vol" || special === "phase" || special === "etirement" || special === "polymorphie") {
-                effect.push({
-                  key: 'system.equipements.armure.capacites.morph.nbre',
-                  mode: 2,
-                  priority: null,
-                  value: 1
-                });
-              } else if(special === 'polymorphieReset') {
-                const polymorphieArme = existEffect(listEffect, 'polymorphieArme');
-                const toDesactivate = [];
-
-                update[`system.capacites.selected.morph.poly.fait`] = false;
-                update[`system.capacites.selected.morph.choisi.polymorphieLame`] = false;
-                update[`system.capacites.selected.morph.choisi.polymorphieGriffe`] = false;
-                update[`system.capacites.selected.morph.choisi.polymorphieCanon`] = false;
-
-                if(polymorphieArme) toDesactivate.push({"_id":polymorphieArme._id, disabled:true});
-
-                updateEffect(this.actor, toDesactivate);
-              }
-
-              if(effect.length > 0) addOrUpdateEffect(this.actor, label, effect);
-              if(nbreA+1 === nbreC) update[`system.capacites.selected.morph.choisi.fait`] = true;
-            } else {
-              if(special === 'morph') {
-                //specialUpdate[`system.equipements.armure.capacites.morph.nbre`] = 0;
-                specialUpdate[`system.equipements.armure.capacites.morph.poly`] = 0;
-
-                update[`system.${toupdate}.morph`] = false;
+              else if(special === 'polymorphieReset') {
                 update[`system.capacites.selected.morph.active.polymorphieLame`] = false;
                 update[`system.capacites.selected.morph.active.polymorphieGriffe`] = false;
                 update[`system.capacites.selected.morph.active.polymorphieCanon`] = false;
-                update[`system.capacites.selected.morph.poly.fait`] = false;
-                update[`system.capacites.selected.morph.choisi.fait`] = false;
-                update[`system.capacites.selected.morph.choisi.vol`] = false;
-                update[`system.capacites.selected.morph.choisi.phase`] = false;
-                update[`system.capacites.selected.morph.choisi.etirement`] = false;
-                update[`system.capacites.selected.morph.choisi.metal`] = false;
-                update[`system.capacites.selected.morph.choisi.fluide`] = false;
-                update[`system.capacites.selected.morph.choisi.polymorphie`] = false;
-                update[`system.capacites.selected.morph.choisi.polymorphieLame`] = false;
-                update[`system.capacites.selected.morph.choisi.polymorphieGriffe`] = false;
-                update[`system.capacites.selected.morph.choisi.polymorphieCanon`] = false;
+              }
+            } else {
+              switch(special) {
+                case "polymorphieLame":
+                case "polymorphieGriffe":
+                case "polymorphieCanon":
+                  update[`system.capacites.selected.morph.active.${special}`] = value;
+                  break;
 
-                const metal = existEffect(listEffect, 'metal');
-                const fluide = existEffect(listEffect, 'fluide');
-                const vol = existEffect(listEffect, 'vol');
-                const phase = existEffect(listEffect, 'phase');
-                const etirement = existEffect(listEffect, 'etirement');
-                const polymorphie = existEffect(listEffect, 'polymorphie');
-                const polymorphieArme = existEffect(listEffect, 'polymorphieArme');
-                const toDesactivate = [];
-
-                if(metal) toDesactivate.push({"_id":metal._id, disabled:true});
-                if(fluide) toDesactivate.push({"_id":fluide._id, disabled:true});
-                if(vol) toDesactivate.push({"_id":vol._id, disabled:true});
-                if(phase) toDesactivate.push({"_id":phase._id, disabled:true});
-                if(etirement) toDesactivate.push({"_id":etirement._id, disabled:true});
-                if(polymorphie) toDesactivate.push({"_id":polymorphie._id, disabled:true});
-                if(polymorphieArme) toDesactivate.push({"_id":polymorphieArme._id, disabled:true});
-
-                updateEffect(this.actor, toDesactivate);
-
-                this.actor.update(specialUpdate);
-              } else {
-                switch(special) {
-                  case "polymorphieLame":
-                  case "polymorphieGriffe":
-                  case "polymorphieCanon":
-                    update[`system.capacites.selected.morph.active.${special}`] = value;
-                    effectExist = existEffect(listEffect, 'polymorphieArme');
-
-                    effect.push({
-                      key: `system.equipements.armure.capacites.morph.poly`,
-                      mode: 2,
-                      priority: null,
-                      value: nbreP-1
-                    });
-
-                    updateEffect(this.actor, [{
-                      "_id":effectExist._id,
-                      changes:effect,
-                      disabled:false
-                    }]);
-                    break;
-
-                  case "vol":
-                  case "phase":
-                  case "etirement":
-                  case "polymorphie":
-                  case "metal":
-                  case "fluide":
-                    effectExist = existEffect(listEffect, special);
-
-                    updateEffect(this.actor, [{
-                      "_id":effectExist._id,
-                      disabled:true
-                    }]);
-                    break;
-                }
+                case 'morph':
+                  update[`system.capacites.selected.morph.active.polymorphieLame`] = false;
+                  update[`system.capacites.selected.morph.active.polymorphieGriffe`] = false;
+                  update[`system.capacites.selected.morph.active.polymorphieCanon`] = false;
+                  update[`system.capacites.selected.morph.choisi.vol`] = false;
+                  update[`system.capacites.selected.morph.choisi.phase`] = false;
+                  update[`system.capacites.selected.morph.choisi.etirement`] = false;
+                  update[`system.capacites.selected.morph.choisi.metal`] = false;
+                  update[`system.capacites.selected.morph.choisi.fluide`] = false;
+                  update[`system.capacites.selected.morph.choisi.polymorphie`] = false;
+                  update[`system.capacites.selected.morph.choisi.polymorphieLame`] = false;
+                  update[`system.capacites.selected.morph.choisi.polymorphieGriffe`] = false;
+                  update[`system.capacites.selected.morph.choisi.polymorphieCanon`] = false;
+                  break;
               }
             }
             armure.update(update);
@@ -1132,8 +865,6 @@ export class KnightSheet extends ActorSheet {
             armure.update({[`system.${toupdate}.${special}`]:value});
             break;
           case "rage":
-            effectExist = existEffect(listEffect, capacite);
-
             const rageInterdit = [];
             const rageBonus = [];
 
@@ -1146,34 +877,6 @@ export class KnightSheet extends ActorSheet {
                   update[`system.${toupdate}.niveau.colere`] = false;
                   update[`system.${toupdate}.niveau.rage`] = false;
                   update[`system.${toupdate}.niveau.fureur`] = false;
-                }
-
-                if(value) {
-                  effect.push({
-                    key: path.egide.bonus,
-                    mode: 2,
-                    priority: null,
-                    value: armorCapacites.rage.colere.egide
-                  },
-                  {
-                    key: path.reaction.malus,
-                    mode: 2,
-                    priority: null,
-                    value: armorCapacites.rage.colere.reaction
-                  },
-                  {
-                    key: path.defense.malus,
-                    mode: 2,
-                    priority: null,
-                    value: armorCapacites.rage.colere.defense
-                  });
-
-                  addOrUpdateEffect(this.actor, capacite, effect);
-                } else {
-                  updateEffect(this.actor, [{
-                    "_id":effectExist._id,
-                    disabled:true
-                  }]);
                 }
 
                 if(armorCapacites.rage.colere.combosInterdits.has && value) {
@@ -1224,33 +927,6 @@ export class KnightSheet extends ActorSheet {
                   update[`system.${toupdate}.niveau.colere`] = false;
                   update[`system.${toupdate}.niveau.rage`] = true;
 
-                  if(value) {
-                    effect.push({
-                      key: path.egide.bonus,
-                      mode: 2,
-                      priority: null,
-                      value: armorCapacites.rage.rage.egide
-                    },
-                    {
-                      key: path.reaction.malus,
-                      mode: 2,
-                      priority: null,
-                      value: armorCapacites.rage.rage.reaction
-                    },
-                    {
-                      key: path.defense.malus,
-                      mode: 2,
-                      priority: null,
-                      value: armorCapacites.rage.rage.defense
-                    });
-
-                    addOrUpdateEffect(this.actor, capacite, effect);
-                  }
-
-                  specialUpdate[`system.egide.bonus.rage`] = armorCapacites.rage.rage.egide;
-                  specialUpdate[`system.reaction.malus.rage`] = armorCapacites.rage.rage.reaction;
-                  specialUpdate[`system.defense.malus.rage`] = armorCapacites.rage.rage.defense;
-
                   if(armorCapacites.rage.rage.combosInterdits.has) {
                     for (let [key, combo] of Object.entries(armorCapacites.rage.rage.combosInterdits.liste)){
                       if(combo != "") {
@@ -1271,29 +947,6 @@ export class KnightSheet extends ActorSheet {
                   update[`system.${toupdate}.niveau.colere`] = false;
                   update[`system.${toupdate}.niveau.rage`] = false;
                   update[`system.${toupdate}.niveau.fureur`] = true;
-
-                  if(value) {
-                    effect.push({
-                      key: path.egide.bonus,
-                      mode: 2,
-                      priority: null,
-                      value: armorCapacites.rage.fureur.egide
-                    },
-                    {
-                      key: path.reaction.malus,
-                      mode: 2,
-                      priority: null,
-                      value: armorCapacites.rage.fureur.reaction
-                    },
-                    {
-                      key: path.defense.malus,
-                      mode: 2,
-                      priority: null,
-                      value: armorCapacites.rage.fureur.defense
-                    });
-
-                    addOrUpdateEffect(this.actor, capacite, effect);
-                  }
 
                   if(armorCapacites.rage.fureur.combosInterdits.has) {
                     for (let [key, combo] of Object.entries(armorCapacites.rage.fureur.combosInterdits.liste)){
@@ -1374,57 +1027,8 @@ export class KnightSheet extends ActorSheet {
             armure.update({[`system.${toupdate}`]:value});
             break;
           case "warlord":
-            const aWarlord = armorCapacites.warlord.impulsions;
-
             if(isAllie) update[`system.${toupdate}.${special}.allie`] = value;
-            else {
-              update[`system.${toupdate}.${special}.porteur`] = value;
-              effectExist = existEffect(listEffect, special);
-
-                switch(special) {
-                  case "esquive":
-                    if(value) {
-                      effect.push({
-                        key: path.reaction.bonus,
-                        mode: 2,
-                        priority: null,
-                        value: aWarlord.esquive.bonus.reaction
-                      },
-                      {
-                        key: path.defense.bonus,
-                        mode: 2,
-                        priority: null,
-                        value: aWarlord.esquive.bonus.defense
-                      });
-
-                      addOrUpdateEffect(this.actor, special, effect);
-                    } else {
-                      updateEffect(this.actor, [{
-                        "_id":effectExist._id,
-                        disabled:true
-                      }]);
-                    }
-                    break;
-
-                  case "force":
-                    if(value) {
-                      effect.push({
-                        key: path.champDeForce.bonus,
-                        mode: 2,
-                        priority: null,
-                        value: aWarlord.force.bonus.champDeForce
-                      });
-
-                      addOrUpdateEffect(this.actor, special, effect);
-                    } else {
-                      updateEffect(this.actor, [{
-                        "_id":effectExist._id,
-                        disabled:true
-                      }]);
-                    }
-                    break;
-                }
-            }
+            else update[`system.${toupdate}.${special}.porteur`] = value;
 
             armure.update(update);
             break;
@@ -1710,7 +1314,6 @@ export class KnightSheet extends ActorSheet {
       const target = $(ev.currentTarget);
       const name = target.data("name");
       const toupdate = target.data("toupdate");
-      const type = target.data("type");
       const capacite = target.data("capacite");
       const hasFlux = target.data("flux") || false;
       const cout = eval(target.data("cout"));
@@ -1720,14 +1323,9 @@ export class KnightSheet extends ActorSheet {
       const variant = target.data("variant");
       const isAllie = target.data("isallie");
       const getData = this.actor;
-      const equipcapacites = getData.system.equipements.armure.capacites;
       const armorCapacites = getData.armureLegendeData.system.capacites.selected;
       const value = target.data("value") ? false : true;
       const armure = this._getArmorLegende();
-      const armureBase = await getArmor(this.actor);
-      const remplaceEnergie = armureBase.system.espoir.remplaceEnergie || false;
-      const quelMalus = remplaceEnergie ? 'espoir' : 'energie';
-      const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
 
       if(value) {
         const depense = await this._depensePE(name, cout, true, false, flux, true);
@@ -1737,29 +1335,16 @@ export class KnightSheet extends ActorSheet {
 
       let newActor;
       let update = {}
-      let effectExist;
-      const effect = [];
 
       switch(capacite) {
         case "changeling":
           armure.update({[`system.${toupdate}.${special}`]:value});
           break;
         case "companions":
-          effectExist = existEffect(listEffect, `legend${capacite}`);
-
           update[`system.${toupdate}.base`] = value;
           update[`system.${toupdate}.${special}`] = value;
 
           if(value) {
-            effect.push({
-              key: path[quelMalus].malus,
-              mode: 2,
-              priority: null,
-              value: retrieve
-            });
-
-            addOrUpdateEffect(this.actor, `legend${capacite}`, effect);
-
             switch(special) {
               case 'lion':
                 const dataLion = armorCapacites.companions.lion;
@@ -2091,11 +1676,6 @@ export class KnightSheet extends ActorSheet {
                 break;
             }
           }  else {
-            updateEffect(this.actor, [{
-              "_id":effectExist._id,
-              disabled:true
-            }]);
-
             switch(special) {
               case 'lion':
                 const idLion = armorCapacites.companions.lion.id;
@@ -2135,22 +1715,6 @@ export class KnightSheet extends ActorSheet {
           armure.update(update);
           break;
         case "shrine":
-          effectExist = existEffect(listEffect, `legend${capacite}`);
-
-          if(special === 'personnel' && value) {
-            effect.push({
-              key: path.champDeForce.bonus,
-              mode: 2,
-              priority: null,
-              value: armorCapacites.shrine.champdeforce
-            });
-
-            addOrUpdateEffect(this.actor, `legend${capacite}`, effect);
-          } else updateEffect(this.actor, [{
-            "_id":effectExist._id,
-            disabled:true
-          }]);
-
           update[`system.${toupdate}.base`] = value;
           update[`system.${toupdate}.${special}`] = value;
 
@@ -2160,44 +1724,6 @@ export class KnightSheet extends ActorSheet {
           armure.update({[`system.${toupdate}.${special}`]:value});
           break;
         case "goliath":
-          effectExist = existEffect(listEffect, `legend${capacite}`);
-
-          const eGoliath = equipcapacites.goliath;
-          const aGoliath = armorCapacites.goliath;
-
-          const goliathMetre = +eGoliath.metre;
-          const bGCDF = +aGoliath.bonus.cdf.value;
-          const mGRea = +aGoliath.malus.reaction.value;
-          const mGDef = +aGoliath.malus.defense.value;
-
-          if(value) {
-            effect.push({
-              key: path.reaction.malus,
-              mode: 2,
-              priority: null,
-              value: goliathMetre*mGRea
-            },
-            {
-              key: path.defense.malus,
-              mode: 2,
-              priority: null,
-              value: goliathMetre*mGDef
-            },
-            {
-              key: path.champDeForce.bonus,
-              mode: 2,
-              priority: null,
-              value: goliathMetre*bGCDF
-            });
-
-            addOrUpdateEffect(this.actor, `legend${capacite}`, effect);
-          } else {
-            updateEffect(this.actor, [{
-              "_id":effectExist._id,
-              disabled:true
-            }]);
-          }
-
           armure.update({[`system.${toupdate}`]:value});
           break;
         case "puppet":
@@ -2213,59 +1739,8 @@ export class KnightSheet extends ActorSheet {
           armure.update({[`system.${toupdate}`]:value});
           break;
         case "warlord":
-          effectExist = existEffect(listEffect, `legend${special}`);
-
-          const aWarlord = armorCapacites.warlord.impulsions;
-
           if(isAllie) update[`system.${toupdate}.${special}.allie`] = value;
-          else {
-            update[`system.${toupdate}.${special}.porteur`] = value;
-
-            switch(special) {
-              case "esquive":
-                if(value) {
-                  effect.push({
-                    key: path.reaction.bonus,
-                    mode: 2,
-                    priority: null,
-                    value: aWarlord.esquive.bonus.reaction
-                  },
-                  {
-                    key: path.defense.bonus,
-                    mode: 2,
-                    priority: null,
-                    value: aWarlord.esquive.bonus.defense
-                  });
-
-                  addOrUpdateEffect(this.actor, `legend${special}`, effect);
-                } else {
-                  updateEffect(this.actor, [{
-                    "_id":effectExist._id,
-                    disabled:true
-                  }]);
-                }
-
-                break;
-
-              case "force":
-                if(value) {
-                  effect.push({
-                    key: path.champDeForce.bonus,
-                    mode: 2,
-                    priority: null,
-                    value: aWarlord.force.bonus.champDeForce
-                  });
-
-                  addOrUpdateEffect(this.actor, `legend${special}`, effect);
-                } else {
-                  updateEffect(this.actor, [{
-                    "_id":effectExist._id,
-                    disabled:true
-                  }]);
-                }
-                break;
-            }
-          }
+          else update[`system.${toupdate}.${special}.porteur`] = value;
 
           armure.update(update);
           break;
@@ -2408,7 +1883,6 @@ export class KnightSheet extends ActorSheet {
       const toupdate = target.data("toupdate");
       const value = target.data("value") ? false : true;
       const isinstant = target.data("isinstant");
-      const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
 
       const actor = this.actor;
       const item = this.actor.items.get(id);
@@ -2468,28 +1942,6 @@ export class KnightSheet extends ActorSheet {
         if(recuperation.PA) update[`system.armure.value`] = getData.armure.max;
         if(recuperation.PS) update[`system.sante.value`] = getData.sante.max;
         if(recuperation.PE) update[`system.energie.value`] = getData.energie.max;
-
-        if(!isinstant) {
-          if(getCUData.reaction > 0) {
-            effect.push({
-              key: path.reaction.bonus,
-              mode: 2,
-              priority: null,
-              value: getCUData.reaction
-            });
-          }
-
-          if(getCUData.defense > 0) {
-            effect.push({
-              key: path.defense.bonus,
-              mode: 2,
-              priority: null,
-              value: getCUData.defense
-            });
-          }
-
-          addOrUpdateEffect(this.actor, `capaciteUltime`, effect);
-        }
 
         if(jet.actif && jet.isfixe) {
           const rMode = game.settings.get("core", "rollMode");
@@ -2652,16 +2104,7 @@ export class KnightSheet extends ActorSheet {
           });
         }
 
-      } else {
-        const effectExist = existEffect(listEffect, `capaciteUltime`);
-
-        if(!isinstant) item.update({[`system.${toupdate}`]:value});
-
-        updateEffect(this.actor, [{
-          "_id":effectExist._id,
-          disabled:true
-        }]);
-      }
+      } else if(!isinstant) item.update({[`system.${toupdate}`]:value});
 
       if(Object.keys(update).length > 0) actor.update(update);
     });
@@ -2979,33 +2422,6 @@ export class KnightSheet extends ActorSheet {
 
       switch(capacite) {
         case "goliath":
-          const aGoliath = armorCapacites.goliath;
-
-          const bGCDF = aGoliath.bonus.cdf.value;
-          const mGRea = aGoliath.malus.reaction.value;
-          const mGDef = aGoliath.malus.defense.value;
-
-          effect.push({
-            key: path.reaction.malus,
-            mode: 2,
-            priority: null,
-            value: newV*mGRea
-          },
-          {
-            key: path.defense.malus,
-            mode: 2,
-            priority: null,
-            value: newV*mGDef
-          },
-          {
-            key: path.champDeForce.bonus,
-            mode: 2,
-            priority: null,
-            value: newV*bGCDF
-          });
-
-          addOrUpdateEffect(this.actor, capacite, effect);
-
           if(newV > oldV) { await this._depensePE('', cout*(newV-oldV), true, false, flux, true); }
           break;
         case "puppet":
@@ -4715,6 +4131,7 @@ export class KnightSheet extends ActorSheet {
       img: getDefaultImg(type),
       system: data
     };
+    let update = {};
 
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.system["type"];
@@ -4755,11 +4172,10 @@ export class KnightSheet extends ActorSheet {
           button1: {
             label: game.i18n.localize('KNIGHT.AUTRE.Oui'),
             callback: async () => {
-              itemData.system = {
-                isLion:true
-              };
-
               const create = await Item.create(itemData, {parent: this.actor});
+
+              update[`system.isLion`] = true;
+              create.update(update);
 
               return create;
             },
@@ -4769,20 +4185,12 @@ export class KnightSheet extends ActorSheet {
             label: game.i18n.localize('KNIGHT.AUTRE.Non'),
             callback: async () => {
               const niveau = itemData.system?.niveau?.value ?? 1;
+              const create = await Item.create(itemData, {parent: this.actor});
 
               for(let i = 1;i <= niveau;i++) {
-                itemData.system = {
-                  niveau:{
-                    details:{
-                      [`n${i}`]:{
-                        addOrder:gloireMax+i
-                      }
-                    }
-                  }
-                }
+                update[`system.niveau.details.n${i}.addOrder`] = gloireMax+i;
               }
-
-              const create = await Item.create(itemData, {parent: this.actor});
+              create.update(update);
 
               return create;
             },
@@ -4791,21 +4199,6 @@ export class KnightSheet extends ActorSheet {
         }
       }, askDialogOptions).render(true);
     } else {
-      if(type === 'module') {
-        const niveau = itemData.system?.niveau?.value ?? 1;
-
-        for(let i = 1;i <= niveau;i++) {
-          itemData.system = {
-            niveau:{
-              details:{
-                [`n${i}`]:{
-                  addOrder:gloireMax+i
-                }
-              }
-            }
-          }
-        }
-      }
 
       const create = await Item.create(itemData, {parent: this.actor});
       const id = create._id;
@@ -4823,6 +4216,16 @@ export class KnightSheet extends ActorSheet {
         };
 
         this.actor.update(update);
+      }
+
+      if(type === 'module') {
+        const niveau = itemData.system?.niveau?.value ?? 1;
+
+        for(let i = 1;i <= niveau;i++) {
+          update[`system.niveau.details.n${i}.addOrder`] = gloireMax+i;
+        }
+
+        create.update(update);
       }
 
       return create;
@@ -5237,16 +4640,12 @@ export class KnightSheet extends ActorSheet {
   async _prepareCharacterItems(actorData, system, items) {
     const eqpData = system.equipements;
     const armorData = eqpData.armure;
-    const guardianData = eqpData.guardian;
     const wear = system.wear;
     const onArmor = wear === 'armure' || wear === 'ascension' ? true : false;
 
-    const style = getModStyle(system.combat.style);
     const armorSpecial = getSpecial(this.actor);
     const armorSpecialRaw = armorSpecial?.raw || [];
     const armorSpecialCustom = armorSpecial?.custom || [];
-    const depenseXP = system.progression.experience.depense.liste;
-    const depensePGAutre = system.progression.gloire.depense?.autre || {};
 
     const avantage = [];
     const inconvenient = [];
@@ -5294,70 +4693,6 @@ export class KnightSheet extends ActorSheet {
     const distinctions = [];
 
     const capaciteultime = items.find(items => items.type === 'capaciteultime');
-    const aucunGainEspoir = [];
-    const aucunPerteSaufAgonie = [];
-    const overdrives = {
-      deplacement: {
-        base:[0],
-        bonus:[]
-      },
-      force: {
-        base:[0],
-        bonus:[]
-      },
-      endurance: {
-        base:[0],
-        bonus:[]
-      },
-      hargne: {
-        base:[0],
-        bonus:[]
-      },
-      combat: {
-        base:[0],
-        bonus:[]
-      },
-      instinct: {
-        base:[0],
-        bonus:[]
-      },
-      tir: {
-        base:[0],
-        bonus:[]
-      },
-      savoir: {
-        base:[0],
-        bonus:[]
-      },
-      technique: {
-        base:[0],
-        bonus:[]
-      },
-      aura: {
-        base:[0],
-        bonus:[]
-      },
-      parole: {
-        base:[0],
-        bonus:[]
-      },
-      sangFroid: {
-        base:[0],
-        bonus:[]
-      },
-      discretion: {
-        base:[0],
-        bonus:[]
-      },
-      dexterite: {
-        base:[0],
-        bonus:[]
-      },
-      perception: {
-        base:[0],
-        bonus:[]
-      },
-    };
     const slots = {
       tete:[],
       torse:[],
@@ -5371,25 +4706,6 @@ export class KnightSheet extends ActorSheet {
     let armureLegendeData = {};
     let longbow = {};
     let art = {};
-    let espoir = {
-      aucun:false,
-      perte:{
-        saufAgonie:false,
-        saufCapacite:false
-      },
-      bonus:{
-        avantages:[0],
-        armure:[0]
-      },
-      malus:{
-        desavantages:[0],
-        blessures:[0]
-      },
-      recuperationBonus:[0],
-      recuperationMalus:[0],
-      perteMalus:[0],
-      value:system.espoir.value
-    };
     let grenades = {
       "antiblindage": {
         "degats": {
@@ -5522,22 +4838,13 @@ export class KnightSheet extends ActorSheet {
         "distance":[]
       }
     };
-    let effects = {base:[], experiences:[], gloire:[], armure:[], guardian:[], armes:[], overdrives:[], modules:[], slots:[], avantages:[], inconvenients:[], blessures:[], traumas:[], distinctions:[], style:[]};
     let hasDistance = false;
-    let n = 1;
 
     for (let i of items) {
       const data = i.system;
-      const bonus = data.bonus;
-      const malus = data.malus;
-      const limitations = data.limitations;
 
       // ARMURE.
       if (i.type === 'armure') {
-        if(data.generation === 4) {
-          system.jauges.sante = false;
-        }
-
         let passiveUltime = undefined;
 
         if(capaciteultime !== undefined) {
@@ -5547,41 +4854,6 @@ export class KnightSheet extends ActorSheet {
         }
 
         armureData.label = i.name;
-
-        const armorBonusKeys = ['espoir', 'egide'];
-        const armorValue = data.armure.base;
-        const cdfValue = data.champDeForce.base;
-
-        for (let i = 0; i < armorBonusKeys.length; i++) {
-          const value = data[armorBonusKeys[i]].value;
-
-          if(value > 0) {
-            effects.armure.push({
-              key: path[armorBonusKeys[i]].bonus,
-              mode: 2,
-              priority: null,
-              value: value
-            });
-          }
-        }
-
-        if(armorValue > 0) {
-          effects.armure.push({
-            key: path.armure.bonus,
-            mode: 2,
-            priority: null,
-            value: armorValue
-          });
-        }
-
-        if(cdfValue > 0) {
-          effects.armure.push({
-            key: path.champDeForce.base,
-            mode: 2,
-            priority: null,
-            value: cdfValue
-          });
-        }
 
         const armorCapacites = data.capacites.selected;
         const armorEvolutions = data.evolutions;
@@ -6278,21 +5550,6 @@ export class KnightSheet extends ActorSheet {
               break;
 
             case "type":
-              const arrayTypes = Object.entries(capacite.type)
-              const filterTypes = arrayTypes.filter(([key, value]) => (value.selectionne === true && value.conflit === true) || (value.selectionne === true && value.horsconflit === true));
-              const bonus = filterTypes?.[0]?.[1] || false;
-
-              if(bonus !== false) {
-                for (let [key, carac] of Object.entries(bonus.liste)){
-                  effects.armure.push({
-                    key: `system.aspects.${bonus.aspect}.caracteristiques.${key}.overdrive.bonus`,
-                    mode: 2,
-                    priority: 3,
-                    value: carac.value
-                  });
-                }
-              }
-
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif) i.system.capacites.selected[key].double = passiveUltime.capacites.type.actif;
               }
@@ -6331,24 +5588,15 @@ export class KnightSheet extends ActorSheet {
               id:key,
               value:PGEvo
             });
-          } else if(AlreadyEvo) {
-            depensePG.push({
-              order:evolution.addOrder,
-              id:i._id,
-              gratuit:false,
-              isArmure:true,
-              value:PGEvo
-            });
           }
         }
 
         const companionsEvolutions = armorEvolutions?.special?.companions || false;
 
-        if(companionsEvolutions !== false) {
+        if(companionsEvolutions) {
           const valueEvo = +companionsEvolutions.value;
           const nbreEvo = Math.floor(totalPG/+companionsEvolutions.value);
           const nbreEvoApplied = companionsEvolutions?.applied?.value || 0;
-          const listeEvoApplied = companionsEvolutions?.applied?.liste || [];
 
           if(nbreEvo > nbreEvoApplied) {
             for(let n = nbreEvoApplied+1; n <= nbreEvo;n++) {
@@ -6357,43 +5605,25 @@ export class KnightSheet extends ActorSheet {
               });
             }
           }
-
-          for(let n = 0; n < listeEvoApplied.length;n++) {
-            depensePG.push({
-              order:listeEvoApplied[n].addOrder,
-              isArmure:true,
-              value:listeEvoApplied[n].value
-            });
-          }
         }
 
         const longbowEvolutions = armorEvolutions?.special?.longbow || false;
 
-        if(longbowEvolutions !== false) {
-          const PGGratuit1 = +longbowEvolutions['1']?.gratuit || false;
+        if(longbowEvolutions) {
           const PGEvo1 = +longbowEvolutions['1'].value;
           const AlreadyEvo1 = longbowEvolutions['1'].applied;
           const description1 = longbowEvolutions['1'].description;
 
+          console.warn(description1);
+
           if(!AlreadyEvo1) {
             evolutionsAAcheter.push({
               id:1,
-              description:description1.replaceAll('<p>', '').replaceAll('</p>', ''),
+              description:description1 ? description1.replaceAll('<p>', '').replaceAll('</p>', '') : '',
               value:PGEvo1
-            });
-          } else if(AlreadyEvo1) {
-            depensePG.push({
-              id:i._id,
-              order:longbowEvolutions['1'].addOrder,
-              name:game.i18n.localize('KNIGHT.PROGRESSION.EvolutionArmure'),
-              isAcheter:true,
-              value:PGGratuit1 ? 0 : PGEvo1,
-              gratuit:PGGratuit1,
-              evo:1
             });
           }
 
-          const PGGratuit2 = +longbowEvolutions['2']?.gratuit || false;
           const PGEvo2 = +longbowEvolutions['2'].value;
           const AlreadyEvo2 = longbowEvolutions['2'].applied;
           const description2 = longbowEvolutions['2'].description;
@@ -6401,22 +5631,11 @@ export class KnightSheet extends ActorSheet {
           if(!AlreadyEvo2) {
             evolutionsAAcheter.push({
               id:2,
-              description:description2.replaceAll('<p>', '').replaceAll('</p>', ''),
+              description:description2 ? description2.replaceAll('<p>', '').replaceAll('</p>', '') : '',
               value:PGEvo2
-            });
-          } else if(AlreadyEvo2) {
-            depensePG.push({
-              id:i._id,
-              order:longbowEvolutions['2'].addOrder,
-              name:game.i18n.localize('KNIGHT.PROGRESSION.EvolutionArmure'),
-              isAcheter:true,
-              value:PGGratuit2 ? 0 : PGEvo2,
-              gratuit:PGGratuit2,
-              evo:2
             });
           }
 
-          const PGGratuit3 = +longbowEvolutions['3']?.gratuit || false;
           const PGEvo3 = +longbowEvolutions['3'].value;
           const AlreadyEvo3 = longbowEvolutions['3'].applied;
           const description3 = longbowEvolutions['3'].description;
@@ -6424,22 +5643,11 @@ export class KnightSheet extends ActorSheet {
           if(!AlreadyEvo3) {
             evolutionsAAcheter.push({
               id:3,
-              description:description3.replaceAll('<p>', '').replaceAll('</p>', ''),
+              description:description3 ? description3.replaceAll('<p>', '').replaceAll('</p>', '') : '',
               value:PGEvo3
-            });
-          } else if(AlreadyEvo3) {
-            depensePG.push({
-              id:i._id,
-              order:longbowEvolutions['3'].addOrder,
-              name:game.i18n.localize('KNIGHT.PROGRESSION.EvolutionArmure'),
-              isAcheter:true,
-              value:PGGratuit3 ? 0 : PGEvo3,
-              gratuit:PGGratuit3,
-              evo:3
             });
           }
 
-          const PGGratuit4 = +longbowEvolutions['4']?.gratuit || false;
           const PGEvo4 = +longbowEvolutions['4'].value;
           const AlreadyEvo4 = longbowEvolutions['4'].applied;
           const description4 = longbowEvolutions['4'].description;
@@ -6447,18 +5655,8 @@ export class KnightSheet extends ActorSheet {
           if(!AlreadyEvo4) {
             evolutionsAAcheter.push({
               id:4,
-              description:description4.replaceAll('<p>', '').replaceAll('</p>', ''),
+              description:description4 ? description4.replaceAll('<p>', '').replaceAll('</p>', '') : '',
               value:PGEvo4
-            });
-          } else if(AlreadyEvo4) {
-            depensePG.push({
-              id:i._id,
-              order:longbowEvolutions['4'].addOrder,
-              name:game.i18n.localize('KNIGHT.PROGRESSION.EvolutionArmure'),
-              isAcheter:true,
-              value:PGGratuit4 ? 0 : PGEvo4,
-              gratuit:PGGratuit4,
-              evo:4
             });
           }
         }
@@ -6480,29 +5678,6 @@ export class KnightSheet extends ActorSheet {
         if(onArmor) {
           for (let [key, special] of Object.entries(specials)) {
             switch(key) {
-              case 'apeiron':
-                effects.armure.push({
-                  key: path.espoir.bonus,
-                  mode: 2,
-                  priority: null,
-                  value: special.espoir.bonus
-                });
-                break;
-
-              case 'plusespoir':
-                if(!espoir.aucun) {
-                  const armureRecupEspoir = special.espoir.recuperation.value === false ? true : false;
-
-                  aucunGainEspoir.push(armureRecupEspoir);
-                }
-
-                if(!espoir.perte.saufAgonie) {
-                  const armurePerteSAgonie = special.espoir.perte.value === false ? true : false;
-
-                  aucunPerteSaufAgonie.push(armurePerteSAgonie);
-                }
-                break;
-
               case 'contrecoups':
                 system.restrictions.noArmeDistance = !special.armedistance.value ? true : false;
                 system.restrictions.maxEffetsArmeContact = {
@@ -6528,13 +5703,6 @@ export class KnightSheet extends ActorSheet {
                 break;
             }
           }
-
-          for(const caracteristique in overdrives) {
-            const aspect = caracToAspect(caracteristique);
-            const value = data.overdrives[aspect].liste[caracteristique].value ?? 0;
-
-            overdrives[caracteristique].base.push(value);
-          }
         }
 
         armureData = i;
@@ -6543,19 +5711,16 @@ export class KnightSheet extends ActorSheet {
       // MODULE
       if (i.type === 'module') {
         const niveau = data.niveau.value;
-
         const isLion = data.isLion;
-        const itemDataNiveau = data.niveau.details[`n${niveau}`];
+        const itemDataNiveau = data.niveau.actuel;
         const itemSlots = data.slots;
         const itemBonus = itemDataNiveau?.bonus || {has:false};
         const itemArme = itemDataNiveau?.arme || {has:false};
         const itemOD = itemDataNiveau?.overdrives || {has:false};
-        const itemEffets = itemDataNiveau?.effets || {has:false};
         const itemActive = data?.active?.base || false;
 
         if(itemBonus === false || itemArme === false || itemOD === false) continue;
 
-        const iBOD = itemBonus.overdrives;
         const itemErsatz = itemDataNiveau.ersatz;
         const eRogue = itemErsatz?.rogue ?? false;
         const eBard = itemErsatz?.bard ?? false;
@@ -6727,55 +5892,13 @@ export class KnightSheet extends ActorSheet {
           }
 
           if(itemDataNiveau.permanent || itemActive) {
-            let bonusDef = 0;
-            let bonusRea = 0;
-
-            if(itemEffets.has) {
-              const bDefense = itemEffets.raw.find(str => { if(str.includes('defense')) return str; });
-              const bReaction = itemEffets.raw.find(str => { if(str.includes('reaction')) return str; });
-
-              if(bDefense !== undefined) bonusDef += +bDefense.split(' ')[1];
-              if(bReaction !== undefined) bonusRea += +bReaction.split(' ')[1];
-            }
 
             if(itemBonus.has) {
-              const iBSante = itemBonus.sante;
-              const iBArmure = itemBonus.armure;
-              const iBCDF = itemBonus.champDeForce;
-              const iBEnergie = itemBonus.energie;
               const iBDgts = itemBonus.degats;
               const iBDgtsVariable = iBDgts.variable;
               const iBViolence = itemBonus.violence;
               const iBViolenceVariable = iBViolence.variable;
               const iBGrenades = itemBonus.grenades;
-
-              if(iBSante?.has || false) effects.modules.push({
-                key:path.sante.bonus,
-                mode:2,
-                priority:null,
-                value:iBSante.value
-              });
-
-              if(iBArmure.has) effects.modules.push({
-                key:path.armure.bonus,
-                mode:2,
-                priority:null,
-                value:iBArmure.value
-              });
-
-              if(iBCDF.has) effects.modules.push({
-                key:path.champDeForce.bonus,
-                mode:2,
-                priority:null,
-                value:iBCDF.value
-              });
-
-              if(iBEnergie.has) effects.modules.push({
-                key:path.energie.bonus,
-                mode:2,
-                priority:null,
-                value:iBEnergie.value
-              });
 
               if(iBDgts.has && onArmor) {
                 if(iBDgtsVariable.has) {
@@ -6952,55 +6075,6 @@ export class KnightSheet extends ActorSheet {
                 armesDistanceModules.push(moduleWpn);
                 armesDistanceEquipee.push(moduleWpn);
               }
-
-              const bonusEffects = getFlatEffectBonus(moduleWpn, true);
-
-              effects.modules.push({
-                key: path.defense.bonus,
-                mode: 2,
-                priority: 3,
-                value: bonusEffects.defense.bonus
-              });
-
-              effects.modules.push({
-                key: path.defense.malus,
-                mode: 2,
-                priority: 3,
-                value: bonusEffects.defense.malus
-              });
-
-              effects.modules.push({
-                key: path.reaction.bonus,
-                mode: 2,
-                priority: 3,
-                value: bonusEffects.reaction.bonus
-              });
-
-              effects.modules.push({
-                key: path.reaction.malus,
-                mode: 2,
-                priority: 3,
-                value: bonusEffects.reaction.malus
-              });
-
-              effects.modules.push({
-                key: path.champDeForce.bonus,
-                mode: 2,
-                priority: 3,
-                value: bonusEffects.cdf.bonus
-              });
-            }
-
-            if((itemOD.has && onArmor) || (iBOD.has &&  onArmor)) {
-              for(const caracteristique in overdrives) {
-                const aspect = caracToAspect(caracteristique);
-                const base = itemOD.aspects[aspect][caracteristique] ?? 0;
-                const bonus = iBOD.aspects[aspect][caracteristique] ?? 0;
-
-                if(itemOD.has && base > 0) overdrives[caracteristique].base.push(base);
-
-                if(iBOD.has && bonus > 0) overdrives[caracteristique].bonus.push(bonus);
-              }
             }
 
             if(eRogue.has && onArmor) {
@@ -7018,228 +6092,22 @@ export class KnightSheet extends ActorSheet {
               moduleErsatz.bard._id = i._id;
               moduleErsatz.bard.description = data.description;
             }
-
-            if(bonusDef > 0) {
-              effects.modules.push({
-                key: path.defense.bonus,
-                mode: 2,
-                priority: null,
-                value: bonusDef
-              });
-            }
-
-            if(bonusRea > 0) {
-              effects.modules.push({
-                key: path.reaction.bonus,
-                mode: 2,
-                priority: null,
-                value: bonusRea
-              });
-            }
           }
-
-          i.system.bonus = itemBonus;
-          i.system.arme = itemArme;
-          i.system.overdrives = itemOD;
-          i.system.ersatz = itemErsatz;
-          i.system.permanent = itemDataNiveau.permanent;
-          i.system.duree = itemDataNiveau.duree;
-          i.system.energie = itemDataNiveau.energie;
-          i.system.rarete = itemDataNiveau.rarete;
-          i.system.activation = itemDataNiveau.activation;
-          i.system.portee = itemDataNiveau.portee;
-          i.system.labels = itemDataNiveau.labels;
-          i.system.pnj = itemDataNiveau.pnj;
-          i.system.jetsimple = itemDataNiveau.jetsimple;
-          i.system.effets = itemDataNiveau.effets;
 
           module.push(i);
-
-          for(let n = 1;n <= data.niveau.value;n++) {
-            const dataProgression = data?.niveau.details[`n${n}`];
-
-            if(!dataProgression.ignore) {
-              let order = dataProgression?.addOrder;
-
-              if(order === undefined) order = data.addOrder;
-              const gratuit = dataProgression?.gratuit || false;
-              const name = data.niveau.value > 1 ? `${i.name} - ${game.i18n.localize('KNIGHT.ITEMS.MODULE.Niveau')} ${n}` : `${i.name}`;
-
-              depensePG.push({
-                order:order,
-                name:name,
-                id:i._id,
-                gratuit:gratuit || false,
-                value:gratuit ? 0 : dataProgression.prix,
-                niveau:n,
-                isModule:true
-              });
-            }
-          }
         }
       }
 
       // AVANTAGE.
       if (i.type === 'avantage') {
-        if(data.type === 'standard') {
-          avantage.push(i);
-
-          const avBonusKeys = ['sante', 'espoir'];
-          const avRecupEspoir = bonus.recuperation.espoir;
-          const avInitDice = bonus.initiative.dice;
-          const avInitFixe = bonus.initiative.fixe;
-          const avNodsSante = bonus.recuperation.sante;
-          const avNodsArmure = bonus.recuperation.armure;
-          const avNodsEnergie = bonus.recuperation.energie;
-
-          for (let i = 0; i < avBonusKeys.length; i++) {
-            const value = bonus[avBonusKeys[i]];
-
-            if(value > 0) {
-              effects.avantages.push({
-                key: path[avBonusKeys[i]].bonus,
-                mode: 2,
-                priority: null,
-                value: value
-              });
-            }
-          }
-
-          if(avRecupEspoir > 0) {
-            effects.avantages.push({
-              key: `system.espoir.recuperation.bonus`,
-              mode: 2,
-              priority: null,
-              value: avRecupEspoir
-            });
-          }
-
-          if(avInitDice > 0) {
-            effects.avantages.push({
-              key: `system.initiative.diceMod`,
-              mode: 2,
-              priority: null,
-              value: avInitDice
-            });
-          }
-
-          if(avInitFixe > 0) {
-            effects.avantages.push({
-              key: `system.initiative.mod`,
-              mode: 2,
-              priority: null,
-              value: avInitFixe
-            });
-          }
-
-          if(avNodsSante > 0) {
-            effects.avantages.push({
-              key: `system.combat.nods.soin.recuperationBonus`,
-              mode: 2,
-              priority: 2,
-              value: avNodsSante
-            });
-          }
-
-          if(avNodsArmure > 0) {
-            effects.avantages.push({
-              key: `system.combat.nods.armure.recuperationBonus`,
-              mode: 2,
-              priority: 2,
-              value: avNodsArmure
-            });
-          }
-
-          if(avNodsEnergie > 0) {
-            effects.avantages.push({
-              key: `system.combat.nods.energie.recuperationBonus`,
-              mode: 2,
-              priority: 2,
-              value: avNodsEnergie
-            });
-          }
-
-          if(bonus.initiative.ifEmbuscade.has) {
-            const avBnInitiativeEmbuscadeDice = bonus.initiative.ifEmbuscade.dice;
-            const avBnInitiativeEmbuscadeFixe = bonus.initiative.ifEmbuscade.fixe;
-
-            if(avBnInitiativeEmbuscadeDice > 0) {
-              effects.avantages.push({
-                key: `system.bonusSiEmbuscade.bonusInitiative.dice`,
-                mode: 2,
-                priority: null,
-                value: avBnInitiativeEmbuscadeDice
-              });
-            }
-
-            if(avBnInitiativeEmbuscadeFixe > 0) {
-              effects.avantages.push({
-                key: `system.bonusSiEmbuscade.bonusInitiative.fixe`,
-                mode: 2,
-                priority: null,
-                value: avBnInitiativeEmbuscadeFixe
-              });
-            }
-          }
-        } else if(data.type === 'ia') {
-          avantageIA.push(i);
-        }
+        if(data.type === 'standard') avantage.push(i);
+        else if(data.type === 'ia') avantageIA.push(i);
       }
 
       // INCONVENIENT.
       if (i.type === 'inconvenient') {
-        if(data.type === 'standard') {
-          inconvenient.push(i);
-
-          const inMalusKeys = ['sante', 'espoir'];
-          const inRecupEspoir = malus.recuperation.espoir;
-          const inInitDice = malus.initiative.dice;
-          const inInitFixe = malus.initiative.fixe;
-
-          for (let i = 0; i < inMalusKeys.length; i++) {
-            const value = malus[inMalusKeys[i]];
-
-            if(value > 0) {
-              effects.inconvenients.push({
-                key: path[inMalusKeys[i]].malus,
-                mode: 2,
-                priority: null,
-                value: value
-              });
-            }
-          }
-
-          if(inRecupEspoir > 0) {
-            effects.inconvenients.push({
-              key: `system.espoir.recuperation.malus`,
-              mode: 2,
-              priority: null,
-              value: inRecupEspoir
-            });
-          }
-
-          if(inInitDice > 0) {
-            effects.inconvenients.push({
-              key: `system.initiative.diceMod`,
-              mode: 2,
-              priority: null,
-              value: -inInitDice
-            });
-          }
-
-          if(inInitFixe > 0) {
-            effects.avantages.push({
-              key: `system.initiative.mod`,
-              mode: 2,
-              priority: null,
-              value: -inInitFixe
-            });
-          }
-
-          aucunGainEspoir.push(limitations.espoir.aucunGain)
-        } else if(data.type === 'ia') {
-          inconvenientIA.push(i);
-        }
+        if(data.type === 'standard') inconvenient.push(i);
+        else if(data.type === 'ia') inconvenientIA.push(i);
       }
 
       // MOTIVATION MINEURE
@@ -7269,85 +6137,14 @@ export class KnightSheet extends ActorSheet {
 
       // BLESSURE
       if (i.type === 'blessure') {
-        const dataBlessure = data.aspects;
-        const isImplant = data.soigne.implant;
         const isSoigne = [data.soigne.implant, data.soigne.reconstruction].includes(true);
 
-        if(isImplant) {
-          effects.blessures.push({
-            key: path.espoir.malus,
-            mode: 2,
-            priority: null,
-            value: 3
-          });
-        }
-
         if(isSoigne) { i.name += ` (${game.i18n.localize("KNIGHT.AUTRE.Soigne")})`; }
-        else {
-          for(const aspect in dataBlessure) {
-            const caracteristiques = dataBlessure[aspect].caracteristiques;
-            const vAspect = dataBlessure[aspect].value ?? 0;
-
-            if(vAspect > 0) {
-              effects.blessures.push({
-                key: `system.aspects.${aspect}.malus`,
-                mode: 2,
-                priority: null,
-                value: vAspect
-              });
-            }
-
-            for(const caracteristique in caracteristiques) {
-              const vCaracs = caracteristiques[caracteristique].value ?? 0;
-
-              if(vCaracs > 0) {
-                effects.blessures.push({
-                  key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.malus`,
-                  mode: 2,
-                  priority: null,
-                  value: vCaracs
-                });
-              }
-            }
-          }
-        }
-
         blessures.push(i);
       }
 
       // TRAUMA
-      if (i.type === 'trauma') {
-        const dataTrauma = data.aspects;
-
-        for(const aspect in dataTrauma) {
-          const caracteristiques = dataTrauma[aspect].caracteristiques;
-          const vAspect = dataTrauma[aspect].value ?? 0;
-
-          if(vAspect > 0) {
-            effects.blessures.push({
-              key: `system.aspects.${aspect}.malus`,
-              mode: 2,
-              priority: null,
-              value: vAspect
-            });
-          }
-
-          for(const caracteristique in caracteristiques) {
-            const vCaracs = caracteristiques[caracteristique].value ?? 0;
-
-            if(vCaracs > 0) {
-              effects.blessures.push({
-                key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.malus`,
-                mode: 2,
-                priority: null,
-                value: vCaracs
-              });
-            }
-          }
-        }
-
-        trauma.push(i);
-      }
+      if (i.type === 'trauma') trauma.push(i);
 
       // ARMES
       if (i.type === 'arme') {
@@ -7423,43 +6220,6 @@ export class KnightSheet extends ActorSheet {
           else if (type === 'distance' && equipped === false && rack === false) { armesDistanceArmoury.push(i); }
           else if (type === 'distance' && equipped === false && rack === true) { armesDistanceRack.push(i); }
           else if (type === 'distance' && equipped === true) { armesDistanceEquipee.push(i); }
-
-          const bonusEffects = getFlatEffectBonus(i);
-
-          effects.armes.push({
-            key: path.defense.bonus,
-            mode: 2,
-            priority: 3,
-            value: bonusEffects.defense.bonus
-          });
-
-          effects.armes.push({
-            key: path.defense.malus,
-            mode: 2,
-            priority: 3,
-            value: bonusEffects.defense.malus
-          });
-
-          effects.armes.push({
-            key: path.reaction.bonus,
-            mode: 2,
-            priority: 3,
-            value: bonusEffects.reaction.bonus
-          });
-
-          effects.armes.push({
-            key: path.reaction.malus,
-            mode: 2,
-            priority: 3,
-            value: bonusEffects.reaction.malus
-          });
-
-          effects.armes.push({
-            key: path.champDeForce.bonus,
-            mode: 2,
-            priority: 3,
-            value: bonusEffects.cdf.bonus
-          });
         }
 
         if(tourelle.has && type === 'distance') {
@@ -7475,23 +6235,6 @@ export class KnightSheet extends ActorSheet {
 
         for (let [key, capacite] of Object.entries(armorCapacites)) {
           switch(key) {
-            case "type":
-              const arrayTypes = Object.entries(capacite.type)
-              const filterTypes = arrayTypes.filter(([key, value]) => (value.selectionne === true && value.conflit === true) || (value.selectionne === true && value.horsconflit === true));
-              const bonus = filterTypes?.[0]?.[1] || false;
-
-              if(bonus !== false) {
-                for (let [key, carac] of Object.entries(bonus.liste)){
-                  effects.armure.push({
-                    key: `system.aspects.${bonus.aspect}.caracteristiques.${key}.overdrive.bonus`,
-                    mode: 2,
-                    priority: 3,
-                    value: carac.value
-                  });
-                }
-              }
-              break;
-
             case "vision":
               if(armorData.capacites.vision.energie < capacite.energie.min) armorData.capacites.vision.energie = capacite.energie.min;
               break;
@@ -7505,288 +6248,8 @@ export class KnightSheet extends ActorSheet {
       }
 
       // DISTINCTIONS
-      if(i.type === 'distinction') {
-        distinctions.push(i);
-
-        const disEgide = data.egide;
-        const disEspoir = data.espoir;
-
-        if(disEgide > 0) {
-          effects.distinctions.push({
-            key: path.egide.bonus,
-            mode: 2,
-            priority: null,
-            value: disEgide
-          });
-        }
-
-        if(disEspoir > 0) {
-          effects.avantages.push({
-            key: `system.espoir.recuperation.bonus`,
-            mode: 2,
-            priority: null,
-            value: disEspoir
-          });
-        }
-      }
+      if(i.type === 'distinction') distinctions.push(i);
     }
-
-    for(const slot in slots) {
-      const sum = slots[slot].reduce((partialSum, a) => partialSum + a, 0);
-
-      effects.slots.push({
-        key: `system.equipements.armure.slots.${slot}`,
-        mode: 5,
-        priority: null,
-        value: sum
-      });
-    }
-
-    for(const caracteristique in overdrives) {
-      const aspect = caracToAspect(caracteristique);
-      const array = overdrives[caracteristique];
-      const base = array.base;
-      const bonus = array.bonus;
-      const vBase = Math.max(...base);
-      const vBonus = bonus.reduce((partialSum, a) => partialSum + a, 0);
-
-      effects.base.push({
-        key: `system.aspects.${aspect}.bonus`,
-        mode: 5,
-        priority: 1,
-        value:`${0}`
-      });
-
-      effects.base.push({
-        key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.bonus`,
-        mode: 5,
-        priority: 1,
-        value:`${0}`
-      });
-
-      effects.overdrives.push({
-        key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.base`,
-        mode: 5,
-        priority: 1,
-        value:`${vBase}`
-      });
-
-      effects.modules.push({
-        key: `system.aspects.${aspect}.caracteristiques.${caracteristique}.overdrive.bonus`,
-        mode: 5,
-        priority: 1,
-        value:`${vBonus}`
-      });
-    }
-
-    effects.avantages.push({
-      key: `system.combat.nods.soin.recuperationBonus`,
-      mode: 5,
-      priority: 1,
-      value: 0
-    },
-    {
-      key: `system.combat.nods.armure.recuperationBonus`,
-      mode: 5,
-      priority: 1,
-      value: 0
-    },
-    {
-      key: `system.combat.nods.energie.recuperationBonus`,
-      mode: 5,
-      priority: 1,
-      value: 0
-    });
-
-    effects.inconvenients.push({
-      key: `system.espoir.recuperation.aucun`,
-      mode: 5,
-      priority: null,
-      value:`${aucunGainEspoir.includes(true)}`
-    });
-
-    effects.armure.push({
-      key: `system.espoir.perte.saufAgonie`,
-      mode: 5,
-      priority: null,
-      value: `${aucunPerteSaufAgonie.includes(true)}`
-    });
-
-    effects.guardian.push({
-      key: path.armure.bonus,
-      mode: 2,
-      priority: null,
-      value: guardianData.armure.base
-    },
-    {
-      key: path.champDeForce.base,
-      mode: 2,
-      priority: null,
-      value: guardianData.champDeForce.base
-    });
-
-    for(let [key, PG] of Object.entries(depensePGAutre)) {
-      const order = PG?.order || false;
-
-      if(order === false) {
-        this.actor.update({[`system.progression.gloire.depense.autre.-=${key}`]:null});
-      } else {
-        depensePG.push({
-          order:Number(PG.order),
-          name:PG.nom,
-          id:key,
-          gratuit:PG.gratuit,
-          value:PG.cout,
-          isAutre:true
-        });
-      }
-    }
-
-    for (let [key, XP] of Object.entries(depenseXP)){
-      const nom = XP.nom;
-      const aspect = caracToAspect(nom);
-      const value = XP.bonus;
-
-      if(aspect !== null) {
-        effects.experiences.push({
-          key: `system.aspects.${aspect}.caracteristiques.${nom}.bonus`,
-          mode: 2,
-          priority: 2,
-          value: `${value}`
-        });
-      } else if(isAspect(nom)) {
-        effects.experiences.push({
-          key: `system.aspects.${nom}.bonus`,
-          mode: 2,
-          priority: 2,
-          value: `${value}`
-        });
-      }
-    };
-
-    depensePG.sort(SortByAddOrder);
-
-    for(let i = 0; i < depensePG.length;i++) {
-      effects.gloire.push({
-        key: `system.progression.gloire.depense.liste.${i}.gratuit`,
-        mode: 5,
-        priority: null,
-        value: `${depensePG[i]?.gratuit ?? false}`
-      },
-      {
-        key: `system.progression.gloire.depense.liste.${i}.id`,
-        mode: 5,
-        priority: null,
-        value: `${depensePG[i].id}`
-      },
-      {
-        key: `system.progression.gloire.depense.liste.${i}.isAutre`,
-        mode: 5,
-        priority: null,
-        value: `${depensePG[i]?.isAutre ?? ''}`
-      },
-      {
-        key: `system.progression.gloire.depense.liste.${i}.name`,
-        mode: 5,
-        priority: null,
-        value: `${depensePG[i]?.name ?? ''}`
-      },
-      {
-        key: `system.progression.gloire.depense.liste.${i}.order`,
-        mode: 5,
-        priority: null,
-        value: `${depensePG[i].order}`
-      },
-      {
-        key: `system.progression.gloire.depense.liste.${i}.value`,
-        mode: 5,
-        priority: null,
-        value: `${depensePG[i].value}`
-      },
-      {
-        key: `system.progression.gloire.depense.liste.${i}.isArmure`,
-        mode: 5,
-        priority: null,
-        value: `${depensePG[i].isArmure ?? 'false'}`
-      },
-      {
-        key: `system.progression.gloire.depense.liste.${i}.isAcheter`,
-        mode: 5,
-        priority: null,
-        value: `${depensePG[i].isAcheter ?? 'false'}`
-      },
-      {
-        key: `system.progression.gloire.depense.liste.${i}.isModule`,
-        mode: 5,
-        priority: null,
-        value: `${depensePG[i].isModule ?? 'false'}`
-      },
-      {
-        key: `system.progression.gloire.depense.liste.${i}.evo`,
-        mode: 5,
-        priority: null,
-        value: `${depensePG[i].evo ?? ''}`
-      },
-      {
-        key: `system.progression.gloire.depense.liste.${i}.niveau`,
-        mode: 5,
-        priority: null,
-        value: `${depensePG[i].niveau ?? 1}`
-      });
-    }
-
-    if(depensePG.length === 0) effects.gloire.push({
-      key: `system.progression.gloire.depense.liste.0.isEmpty`,
-      mode: 5,
-      priority: null,
-      icon:'',
-      value: `true`
-    });
-
-    effects.style.push({
-      key: path.reaction.bonus,
-      mode: 2,
-      priority: null,
-      value: style.bonus.reaction
-    },
-    {
-      key: path.reaction.malus,
-      mode: 2,
-      priority: null,
-      value: style.malus.reaction
-    },
-    {
-      key: path.defense.bonus,
-      mode: 2,
-      priority: null,
-      value: style.bonus.defense
-    },
-    {
-      key: path.defense.malus,
-      mode: 2,
-      priority: null,
-      value: style.malus.defense
-    });
-
-    const listWithEffect = [
-      {label:'Base', withoutArmor:true, withArmor:true, data:effects.base},
-      {label:'Armure', withoutArmor:false, withArmor:true, data:effects.armure},
-      {label:'Guardian', withoutArmor:true, withArmor:false, data:effects.guardian},
-      {label:'Overdrives', withoutArmor:true, withArmor:true, data:effects.overdrives},
-      {label:'Modules', withoutArmor:false, withArmor:true, data:effects.modules},
-      {label:'Armes', withoutArmor:true, withArmor:true, data:effects.armes},
-      {label:'Experiences', withoutArmor:true, withArmor:true, data:effects.experiences},
-      {label:'Slots', withoutArmor:true, withArmor:true, data:effects.slots},
-      {label:'Avantages', withoutArmor:true, withArmor:true, data:effects.avantages},
-      {label:'Inconvenients', withoutArmor:true, withArmor:true, data:effects.inconvenients},
-      {label:'Blessures', withoutArmor:true, withArmor:true, data:effects.blessures},
-      {label:'Traumas', withoutArmor:true, withArmor:true, data:effects.traumas},
-      {label:'Distinctions', withoutArmor:true, withArmor:true, data:effects.distinctions},
-      {label:'Gloire', withoutArmor:true, withArmor:true, data:effects.gloire},
-      {label:'Style', withoutArmor:true, withArmor:true, data:effects.style},
-    ];
-
-    effectsGestion(this.actor, listWithEffect, true, onArmor);
 
     for(let i = 0;i < armesContactEquipee.length;i++) {
       armesContactEquipee[i].system.degats.module = {};
@@ -7918,12 +6381,6 @@ export class KnightSheet extends ActorSheet {
     actorData.art = art;
     actorData.distinctions = distinctions;
     actorData.capaciteultime = capaciteultime;
-
-    const eff = this.actor.getEmbeddedCollection('ActiveEffect').filter(effect => effect.origin !== null)?.[0] ?? undefined;
-
-    if(eff !== undefined) {
-      await this.actor.deleteEmbeddedDocuments('ActiveEffect', [eff.id]);
-    }
   }
 
   async _prepareCapacitesParameters(actor, system) {
@@ -8251,17 +6708,19 @@ export class KnightSheet extends ActorSheet {
       return false;
     } else {
 
+      console.warn(autosubstract)
+
       if(autosubstract) {
         let update = {};
 
-        update[`system.${type}.value`] = substract;
+        if(type !== 'espoir') update[`system.equipements.${this.actor.system.wear}.${type}.value`] = substract;
 
         if(flux != false) {
           update[`system.flux.value`] = fluxActuel-flux;
         }
 
-        if(type === 'espoir' && data.system.espoir.perte.saufAgonie && capacite === true) {
-          update[`system.espoir.value`] = actuel;
+        if(type === 'espoir' && !data.system.espoir.perte.saufAgonie && capacite === true) {
+          update[`system.espoir.value`] = substract;
         }
 
         this.actor.update(update);
@@ -8287,7 +6746,10 @@ export class KnightSheet extends ActorSheet {
 
     if(autoadd) {
       let update = {}
-      update[`system.${type}.value`] = add
+      console.warn(add);
+      if(type !== 'espoir') update[`system.equipements.${this.actor.system.wear}.${type}.value`] = add;
+      else update[`system.${type}.value`] = add;
+      console.warn(update);
 
       this.actor.update(update);
     }
@@ -8526,23 +6988,6 @@ export class KnightSheet extends ActorSheet {
     capacites.system.equipements.armure.capacites.morph.nbre = 0;
     capacites.system.combos.interdits.caracteristiques.rage = [];
     capacites.system.combos.bonus.caracteristiques.rage = [];
-
-    const listEffect = this.actor.getEmbeddedCollection('ActiveEffect');
-    const listCapacitesEffects = ['ascension', 'companions', 'shrine', 'goliath', 'rage', 'esquive', 'force', 'legendcompanions', 'legendshrine', 'legendgoliath', 'legendwarlord', 'capaciteUltime'];
-    const toUpdate = [];
-
-    for(const capacite of listCapacitesEffects) {
-      const effectExist = existEffect(listEffect, capacite);
-
-      if(effectExist !== false) {
-        toUpdate.push({
-          "_id":effectExist._id,
-          disabled:true
-        });
-      }
-    }
-
-    if(toUpdate.length > 0) updateEffect(this.actor, toUpdate);
 
     this.actor.update(capacites);
   }

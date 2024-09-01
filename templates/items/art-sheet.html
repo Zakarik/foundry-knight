@@ -22,28 +22,14 @@
         <label class="caracteristique">
             <span>{{localize "KNIGHT.ITEMS.Caracteristique"}}</span>
             <select name="system.jet.c1">
-                {{#select systemData.jet.c1}}
-                    {{#each systemData.aspects  as | key aspect|}}
-                        <option value="{{aspect}}">{{getAspect aspect}}</option>
-                        {{#each key as | kC carac|}}
-                        <option value="{{kC}}">{{getCarac kC}}</option>
-                        {{/each}}
-                    {{/each}}
-                {{/select}}
+                {{selectOptions (getList 'aspectsCaracteristiques') selected=systemData.jet.c1 localize=true}}
             </select>
         </label>
 
         <label class="caracteristique">
             <span>{{localize "KNIGHT.ITEMS.Caracteristique"}}</span>
             <select name="system.jet.c2">
-                {{#select systemData.jet.c2}}
-                    {{#each systemData.aspects  as | key aspect|}}
-                        <option value="{{aspect}}">{{getAspect aspect}}</option>
-                        {{#each key as | kC carac|}}
-                        <option value="{{kC}}">{{getCarac kC}}</option>
-                        {{/each}}
-                    {{/each}}
-                {{/select}}
+                {{selectOptions (getList 'aspectsCaracteristiques') selected=systemData.jet.c2 localize=true}}
             </select>
         </label>
 

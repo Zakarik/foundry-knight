@@ -495,18 +495,10 @@
                             <input type="number" name="system.phase2.aspects.{{aspect}}.value" value="{{key.value}}" min="0" max="20" />
                         </h3>
                         <select name="system.phase2.aspects.{{aspect}}.ae.mineur">
-                            {{#select key.ae.mineur}}
-                                {{#each (whileBetweenNumber 0 10) as | key value|}}
-                                    <option value="{{key}}">{{localize "KNIGHT.AUTRE.Mineur"}} ({{key}})</option>
-                                {{/each}}
-                            {{/select}}
+                            {{selectOptions (getAE 'Mineur') selected=key.ae.mineur}}
                         </select>
                         <select name="system.phase2.aspects.{{aspect}}.ae.majeur">
-                            {{#select key.ae.majeur}}
-                                {{#each (whileBetweenNumber 0 10) as | key value|}}
-                                    <option value="{{key}}">{{localize "KNIGHT.AUTRE.Majeur"}} ({{key}})</option>
-                                {{/each}}
-                            {{/select}}
+                            {{selectOptions (getAE 'Majeur') selected=key.ae.majeur}}
                         </select>
                     </div>
                     {{/each}}

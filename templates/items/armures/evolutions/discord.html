@@ -19,12 +19,7 @@
     <label class="shortspan">
         <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
         <select name="system.evolutions.liste.{{key}}.capacites.discord.tour.activation" >
-            {{#select this.tour.activation}}
-            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-            {{/select}}
+            {{selectOptions (getList 'activationsimple') selected=this.tour.activation localize=true}}
         </select>
     </label>
     <label class="shortspan">
@@ -47,12 +42,7 @@
     <label class="shortspan">
         <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
         <select name="system.evolutions.liste.{{key}}.capacites.discord.scene.activation" >
-            {{#select this.scene.activation}}
-            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-            {{/select}}
+            {{selectOptions (getList 'activationsimple') selected=this.scene.activation localize=true}}
         </select>
     </label>
     <label class="shortspan">

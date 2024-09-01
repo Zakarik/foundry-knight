@@ -35,12 +35,7 @@
     <label class="shortspan separation">
         <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
         <select name="system.evolutions.liste.{{key}}.capacites.changeling.activation">
-            {{#select this.activation}}
-            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-            <option value="tour6Sec">{{localize "KNIGHT.ACTIVATION.Tour6Sec"}}</option>
-            <option value="combat3Sec">{{localize "KNIGHT.ACTIVATION.Combat3Sec"}}</option>
-            <option value="deplacement3Sec">{{localize "KNIGHT.ACTIVATION.Deplacement3Sec"}}</option>
-            {{/select}}
+            {{selectOptions (getList 'activation3sec') selected=this.activation localize=true}}
         </select>
     </label>
     <label class="shortspan">
@@ -65,12 +60,7 @@
         <label class="shortspan simple {{#unless this.desactivationexplosive.acces}}hidden{{/unless}}">
             <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
             <select name="system.evolutions.liste.{{key}}.capacites.changeling.desactivationexplosive.portee">
-                {{#select this.desactivationexplosive.portee}}
-                <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                {{/select}}
+                {{selectOptions (getList 'porteerestreint') selected=this.desactivationexplosive.portee localize=true}}
             </select>
         </label>
         <div class="{{#unless this.desactivationexplosive.acces}}hidden {{else}} double {{/unless}}">

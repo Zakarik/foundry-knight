@@ -33,6 +33,19 @@ export class InitiativeDataModel extends foundry.abstract.DataModel {
     }
 
     prepareData() {
+      const diceBonus = Object.values(this.diceBonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+      const diceMalus = Object.values(this.diceMalus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+      const fixeBonus = Object.values(this.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+      const fixeMalus = Object.values(this.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
+      Object.defineProperty(this, 'diceMod', {
+          value: diceBonus-diceMalus,
+      });
+
+      Object.defineProperty(this, 'mod', {
+          value: fixeBonus-fixeMalus,
+      });
+
       Object.defineProperty(this, 'dice', {
           value: this.diceBase+this.diceMod,
       });

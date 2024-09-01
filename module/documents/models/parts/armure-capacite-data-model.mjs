@@ -5,8 +5,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
 
     return {
       actuel: new StringField({initial: "personnalise"}),
-      liste: new SchemaField({}),
-      selected: new SchemaField({}),
+      liste: new ObjectField({}),
+      selected: new ObjectField({}),
       base: new SchemaField({
         borealis: new SchemaField({
           label: new StringField(),
@@ -2603,5 +2603,30 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
         })
       })
     };
+  }
+
+  get morph() {
+    return this.selected.morph;
+  }
+
+  prepareData() {
+    if(this.morph) {
+      const nbreChoisi = Object.keys(this.morph.choisi).filter(key => (key !== 'polymorphieLame' && key !== 'polymorphieGriffe' && key !== 'polymorphieCanon' && key !== 'fait') && this.morph.choisi[key]).length;
+      const nbrePolymorphieGuerre = Object.keys(this.morph.active).filter(key => (key === 'polymorphieLame' || key === 'polymorphieGriffe' || key === 'polymorphieCanon') && this.morph.active[key]).length;
+
+      Object.defineProperty(this.selected.morph.polymorphie, 'max', {
+        value: nbrePolymorphieGuerre === 2 ? true : false,
+        writable:true,
+        enumerable:true,
+        configurable:true
+      });
+
+      Object.defineProperty(this.selected.morph.choisi, 'fait', {
+        value: nbreChoisi === this.morph.capacites ? true : false,
+        writable:true,
+        enumerable:true,
+        configurable:true
+      });
+    }
   }
 }

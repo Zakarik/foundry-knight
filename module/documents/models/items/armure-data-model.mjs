@@ -1,7 +1,7 @@
 import { ArmureCapaciteDataModel } from '../parts/armure-capacite-data-model.mjs';
 import { ArmureSpecialDataModel } from '../parts/armure-special-data-model.mjs';
 
-export class ArmureDataModel extends foundry.abstract.DataModel {
+export class ArmureDataModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const {StringField, NumberField, BooleanField, SchemaField, HTMLField, ObjectField, EmbeddedDataField} = foundry.data.fields;
 
@@ -19,24 +19,16 @@ export class ArmureDataModel extends foundry.abstract.DataModel {
         heroisme: new BooleanField({initial: true})
       }),
       armure: new SchemaField({
-        value: new NumberField({initial: 0}),
         base: new NumberField({initial: 0}),
-        bonus: new ObjectField(),
-        malus: new ObjectField()
       }),
       champDeForce: new SchemaField({
         base: new NumberField({initial: 0}),
-        bonus: new ObjectField(),
-        malus: new ObjectField()
       }),
       egide: new SchemaField({
         value: new NumberField({initial: 0})
       }),
       energie: new SchemaField({
-        value: new NumberField({initial: 0}),
         base: new NumberField({initial: 0}),
-        bonus: new ObjectField(),
-        malus: new ObjectField()
       }),
       espoir: new SchemaField({
         bonus: new BooleanField({initial: false}),
@@ -120,13 +112,20 @@ export class ArmureDataModel extends foundry.abstract.DataModel {
       }),
       evolutions: new SchemaField({
         paliers: new NumberField({initial: 0}),
-        aAcheter: new SchemaField({
-          label: new StringField(),
-          value: new BooleanField({initial: false})
-        }),
         liste: new ObjectField(),
         special: new ObjectField()
       })
     };
+  }
+
+  prepareBaseData() {
+    if(this.generation === 4) {
+
+      Object.defineProperty(this.jauges, 'sante', {
+        value: false,
+      });
+    }
+
+    this.capacites.prepareData();
   }
 }

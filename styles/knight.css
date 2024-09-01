@@ -17409,19 +17409,20 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.menu div.sante div.line,
 .knight section.menu div.armure div.line,
 .knight section.menu div.energie div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 26px 8px 26px;
 }
 .knight section.menu div.espoir div.line span.option,
 .knight section.menu div.sante div.line span.option,
 .knight section.menu div.armure div.line span.option,
 .knight section.menu div.energie div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.espoir div.line span.option img,
 .knight section.menu div.sante div.line span.option img,
@@ -17449,19 +17450,20 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.menu div.armure div.line span.label,
 .knight section.menu div.energie div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.espoir div.line input,
 .knight section.menu div.sante div.line input,
 .knight section.menu div.armure div.line input,
 .knight section.menu div.energie div.line input {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -17472,56 +17474,60 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
   padding-bottom: 1px;
   z-index: 10;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.espoir div.line span.separation,
 .knight section.menu div.sante div.line span.separation,
 .knight section.menu div.armure div.line span.separation,
 .knight section.menu div.energie div.line span.separation {
   display: inline-block;
-  width: 8px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.espoir div.line span.score,
 .knight section.menu div.sante div.line span.score,
 .knight section.menu div.armure div.line span.score,
 .knight section.menu div.energie div.line span.score {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.espoir div.subLine,
 .knight section.menu div.sante div.subLine,
 .knight section.menu div.armure div.subLine,
 .knight section.menu div.energie div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .knight section.menu div.espoir div.subLine span.label,
 .knight section.menu div.sante div.subLine span.label,
 .knight section.menu div.armure div.subLine span.label,
 .knight section.menu div.energie div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.espoir div.subLine input,
 .knight section.menu div.sante div.subLine input,
 .knight section.menu div.armure div.subLine input,
 .knight section.menu div.energie div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -17530,40 +17536,37 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-top: 1px solid RGB(76 74 90);
 }
-.knight section.menu div.egide button,
-.knight section.menu div.espoir button {
+.knight section.menu button {
   width: 100%;
   font-size: 11px;
   line-height: 20px;
   background: RGB(43 42 51);
-  border-top: 1px solid RGB(76 74 90);
+  border-bottom: 0px;
   border-left: 0px;
   border-right: 0px;
-  border-bottom: 1px solid RGB(76 74 90);
+  border-top: 1px solid RGB(76 74 90);
   border-radius: 0px;
   font-variant: small-caps;
   color: white;
   cursor: pointer;
   margin: 0px;
 }
-.knight section.menu div.egide button:not(:last-of-type),
-.knight section.menu div.espoir button:not(:last-of-type) {
-  border-bottom: 0px;
-}
 .knight section.menu div.champDeForce div.line,
 .knight section.menu div.egide div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 60px;
 }
 .knight section.menu div.champDeForce div.line span.option,
 .knight section.menu div.egide div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.champDeForce div.line span.option img,
 .knight section.menu div.egide div.line span.option img {
@@ -17576,50 +17579,50 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.menu div.egide div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.knight section.menu div.champDeForce div.line span.option.withoutBorder img,
-.knight section.menu div.egide div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
 .knight section.menu div.champDeForce div.line span.label,
 .knight section.menu div.egide div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.champDeForce div.line span.score,
 .knight section.menu div.egide div.line span.score {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.champDeForce div.subLine,
 .knight section.menu div.egide div.subLine {
+  display: grid;
+  grid-template-columns: 1fr 60px;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .knight section.menu div.champDeForce div.subLine span.label,
 .knight section.menu div.egide div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.champDeForce div.subLine input,
 .knight section.menu div.egide div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -17628,31 +17631,33 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.flux div.line,
 .knight section.menu div.contrecoups div.line,
 .knight section.menu div.impregnation div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 60px;
 }
 .knight section.menu div.flux div.line span.label,
 .knight section.menu div.contrecoups div.line span.label,
 .knight section.menu div.impregnation div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.flux div.line input,
 .knight section.menu div.contrecoups div.line input,
 .knight section.menu div.impregnation div.line input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -17663,25 +17668,27 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
   padding-bottom: 1px;
   z-index: 10;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.heroisme div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 26px 8px 26px;
 }
 .knight section.menu div.heroisme div.line span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.heroisme div.line input {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -17692,36 +17699,40 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
   padding-bottom: 1px;
   z-index: 10;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.heroisme div.line span.separation {
   display: inline-block;
-  width: 8px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.heroisme div.line span.score {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.reaction div.line,
 .knight section.menu div.defense div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 45px;
 }
 .knight section.menu div.reaction div.line span.option,
 .knight section.menu div.defense div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.reaction div.line span.option img,
 .knight section.menu div.defense div.line span.option img {
@@ -17737,43 +17748,46 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.menu div.reaction div.line span.label,
 .knight section.menu div.defense div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.reaction div.line span.score,
 .knight section.menu div.defense div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.reaction div.subLine,
 .knight section.menu div.defense div.subLine {
+  display: grid;
+  grid-template-columns: 1fr 45px;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
 }
 .knight section.menu div.reaction div.subLine span.label,
 .knight section.menu div.defense div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.reaction div.subLine input,
 .knight section.menu div.defense div.subLine input {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -17782,18 +17796,20 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.initiative div.line {
-  display: flex;
+  display: grid;
+  grid-template-columns: 30px 1fr 45px;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
 }
 .knight section.menu div.initiative div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.initiative div.line span.option img {
   height: 29px;
@@ -17806,39 +17822,42 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight section.menu div.initiative div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.initiative div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 12px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.initiative div.subLine {
+  display: grid;
+  grid-template-columns: 1fr 45px;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
 }
 .knight section.menu div.initiative div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.initiative div.subLine input {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -17847,6 +17866,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.styleCombat {
   position: relative;
@@ -17930,23 +17950,11 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.menu section.mainBlock {
   display: block;
 }
-.knight section.menu section.mainBlock > div {
-  display: block;
-}
-.knight section.menu section.mainBlock > div div.optionHide {
-  display: none;
-}
-.knight section.menu section.mainBlock > div div.optionShow {
-  display: flex;
-}
-.knight section.menu section.mainBlock > div span.option.withBorder,
-.knight section.menu section.mainBlock > div span.label.withBorder {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.knight section.menu section.mainBlock > div span.score.withBorder,
-.knight section.menu section.mainBlock > div span.separation.withBorder,
-.knight section.menu section.mainBlock > div input.withBorder {
-  border-bottom: 1px solid RGB(76 74 90);
+.knight section.menu section.mainBlock > div:first-of-type div.line span,
+.knight section.menu section.mainBlock > div:first-of-type div.line input,
+.knight section.menu section.mainBlock > div:first-of-type div.subline span,
+.knight section.menu section.mainBlock > div:first-of-type div.subline input {
+  border-top: 0px;
 }
 .knight section.menu section.mainBlock > div:last-of-type {
   border-bottom: 1px solid black;
@@ -17962,6 +17970,26 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.menu section.mainBlock:last-of-type > div:last-of-type {
   border-bottom: 0px;
   margin-bottom: 1px;
+}
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.line span.option,
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.line span.label {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.line span.score,
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.line input {
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:last-of-type span.option,
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:last-of-type span.label {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:last-of-type span.score,
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:last-of-type input {
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:nth-of-type(2) span,
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:nth-of-type(2) input {
+  border-top: 0px;
 }
 .knight section.menu section.hidden {
   display: none;

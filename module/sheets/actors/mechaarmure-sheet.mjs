@@ -1170,7 +1170,7 @@ export class MechaArmureSheet extends ActorSheet {
     const modulesBase = Object.keys(system.configurations.liste.base.modules);
     const modulesC1 = Object.keys(system.configurations.liste.c1.modules);
     const modulesC2 = Object.keys(system.configurations.liste.c2.modules);
-    const modules = [];
+    const modules = {};
     const wpn = [];
     const wpnSpecial = [];
     const effects = [];
@@ -1240,7 +1240,7 @@ export class MechaArmureSheet extends ActorSheet {
       let type = '';
 
       if(!modulesBase.includes(name) && !modulesC1.includes(name) && !modulesC2.includes(name)) {
-        modules.push(name);
+        modules[name] = game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${name.toUpperCase()}.Label`);
       }
 
       if(modulesBase.includes(name)) type = 'base';
@@ -1365,8 +1365,6 @@ export class MechaArmureSheet extends ActorSheet {
         }
       }
     }
-
-    modules.sort();
 
     actorData.modules = modules;
     actorData.wpn = wpn;

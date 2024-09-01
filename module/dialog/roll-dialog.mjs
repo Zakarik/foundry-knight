@@ -3700,11 +3700,6 @@ export class KnightRollDialog extends Application {
     let bonusDice = 0;
     let bonusFixe = 0;
 
-    console.warn(idWpn);
-    console.warn(nWpn);
-    console.warn(allWpn);
-    console.warn(wpn);
-
     switch(nWpn) {
       case 'base':
       case 'special':

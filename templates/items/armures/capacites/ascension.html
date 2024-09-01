@@ -51,12 +51,7 @@
             <label class="shortspan">
                 <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                 <select name="system.capacites.selected.ascension.activation" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.activation}}
-                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                    <option value="Tour6Sec">{{localize "KNIGHT.ACTIVATION.Tour6Sec"}}</option>
-                    <option value="combat6Sec">{{localize "KNIGHT.ACTIVATION.Combat6Sec"}}</option>
-                    <option value="deplacement6Sec">{{localize "KNIGHT.ACTIVATION.Deplacement6Sec"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'activation6sec') selected=this.activation localize=true}}
                 </select>
             </label>
             <label class="shortspan">

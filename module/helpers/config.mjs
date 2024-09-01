@@ -11,6 +11,28 @@ export const KNIGHT = {};
     creatures:['sante', 'armure', 'energie', 'bouclier'],
     mechaarmures:['resilience', 'vitesse', 'manoeuvrabilite', 'puissance', 'systemes', 'senseurs', 'champDeForce'],
     pnj:['sante', 'armure', 'energie', 'champDeForce', 'bouclier'],
+    aspectsCaracteristiques:{
+      "chair": "KNIGHT.ASPECTS.CHAIR.Label",
+      "deplacement": "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.DEPLACEMENT.Label",
+      "force": "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.FORCE.Label",
+      "endurance": "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.ENDURANCE.Label",
+      "bete": "KNIGHT.ASPECTS.BETE.Label",
+      "hargne": "KNIGHT.ASPECTS.BETE.CARACTERISTIQUES.HARGNE.Label",
+      "combat": "KNIGHT.ASPECTS.BETE.CARACTERISTIQUES.COMBAT.Label",
+      "instinct": "KNIGHT.ASPECTS.BETE.CARACTERISTIQUES.INSTINCT.Label",
+      "machine": "KNIGHT.ASPECTS.MACHINE.Label",
+      "tir": "KNIGHT.ASPECTS.MACHINE.CARACTERISTIQUES.TIR.Label",
+      "savoir": "KNIGHT.ASPECTS.MACHINE.CARACTERISTIQUES.SAVOIR.Label",
+      "technique": "KNIGHT.ASPECTS.MACHINE.CARACTERISTIQUES.TECHNIQUE.Label",
+      "dame": "KNIGHT.ASPECTS.DAME.Label",
+      "aura": "KNIGHT.ASPECTS.DAME.CARACTERISTIQUES.AURA.Label",
+      "parole": "KNIGHT.ASPECTS.DAME.CARACTERISTIQUES.PAROLE.Label",
+      "sangFroid": "KNIGHT.ASPECTS.DAME.CARACTERISTIQUES.SANGFROID.Label",
+      "masque": "KNIGHT.ASPECTS.MASQUE.Label",
+      "discretion": "KNIGHT.ASPECTS.MASQUE.CARACTERISTIQUES.DISCRETION.Label",
+      "dexterite": "KNIGHT.ASPECTS.MASQUE.CARACTERISTIQUES.DEXTERITE.Label",
+      "perception": "KNIGHT.ASPECTS.MASQUE.CARACTERISTIQUES.PERCEPTION.Label",
+    },
     aspects:['chair', 'bete', 'machine', 'dame', 'masque'],
     caracteristiques:{
       bete:['combat', 'hargne', 'instinct'],
@@ -278,6 +300,121 @@ export const KNIGHT = {};
     derived:{
       defense:'masque',
       reaction:'machine',
+    },
+    style:{
+      'standard':"KNIGHT.COMBAT.STYLES.STANDARD.Label",
+      'acouvert':"KNIGHT.COMBAT.STYLES.ACOUVERT.Label",
+      'agressif':"KNIGHT.COMBAT.STYLES.AGRESSIF.Label",
+      'akimbo':"KNIGHT.COMBAT.STYLES.AKIMBO.Label",
+      'ambidextre':"KNIGHT.COMBAT.STYLES.AMBIDEXTRE.Label",
+      'defensif':"KNIGHT.COMBAT.STYLES.DEFENSIF.Label",
+      'pilonnage':"KNIGHT.COMBAT.STYLES.PILONNAGE.Label",
+      'precis':"KNIGHT.COMBAT.STYLES.PRECIS.Label",
+      'puissant':"KNIGHT.COMBAT.STYLES.PUISSANT.Label",
+      'suppression':"KNIGHT.COMBAT.STYLES.SUPPRESSION.Label",
+    },
+    typecompanions:{
+      labor:'KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.LABOR.Label',
+      medic:'KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.MEDIC.Label',
+      tech:'KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.TECH.Label',
+      recon:'KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.RECON.Label',
+      fighter:'KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.FIGHTER.Label',
+    },
+    options2mains:{
+      '1main':'KNIGHT.ITEMS.ARME.DEUXMAINS.Unemain',
+      '2main':'KNIGHT.ITEMS.ARME.DEUXMAINS.Deuxmains',
+    },
+    rarete:{
+      standard:"KNIGHT.ITEMS.MODULE.RARETE.Standard",
+      avance:"KNIGHT.ITEMS.MODULE.RARETE.Avance",
+      rare:"KNIGHT.ITEMS.MODULE.RARETE.Rare",
+      prestige:"KNIGHT.ITEMS.MODULE.RARETE.Prestige",
+      espoir:"KNIGHT.ITEMS.MODULE.RARETE.Espoir",
+    },
+    typearmes:{
+      contact:'KNIGHT.COMBAT.ARMES.CONTACT.Label',
+      distance:'KNIGHT.COMBAT.ARMES.DISTANCE.Label'
+    },
+    typearmesmodules:{
+      contact:'KNIGHT.ITEMS.MODULE.ARME.TYPE.Contact',
+      distance:'KNIGHT.ITEMS.MODULE.ARME.TYPE.Distance',
+      tourelle:'KNIGHT.ITEMS.MODULE.ARME.TYPE.Tourelle',
+    },
+    typebonus:{
+      contact:'KNIGHT.BONUS.Contact',
+      distance:'KNIGHT.BONUS.Distance'
+    },
+    porteerestreint:{
+      courte:'KNIGHT.PORTEE.Courte',
+      moyenne:'KNIGHT.PORTEE.Moyenne',
+      longue:'KNIGHT.PORTEE.Longue',
+      lointaine:'KNIGHT.PORTEE.Lointaine',
+    },
+    portee:{
+      contact:'KNIGHT.PORTEE.Contact',
+      courte:'KNIGHT.PORTEE.Courte',
+      moyenne:'KNIGHT.PORTEE.Moyenne',
+      longue:'KNIGHT.PORTEE.Longue',
+      lointaine:'KNIGHT.PORTEE.Lointaine',
+    },
+    porteecomplet:{
+      personnelle:'KNIGHT.PORTEE.Personnelle',
+      contact:'KNIGHT.PORTEE.Contact',
+      courte:'KNIGHT.PORTEE.Courte',
+      moyenne:'KNIGHT.PORTEE.Moyenne',
+      longue:'KNIGHT.PORTEE.Longue',
+      lointaine:'KNIGHT.PORTEE.Lointaine',
+    },
+    typeavantage:{
+      standard:'KNIGHT.AUTRE.Standard',
+      ia:'KNIGHT.IA.Label'
+    },
+    typeeffet:{
+      effets:'KNIGHT.EFFETS.Effet',
+      distance:'KNIGHT.AMELIORATIONS.LABEL.DistanceLong',
+      structurelles:'KNIGHT.AMELIORATIONS.LABEL.Structurelle',
+      ornementales:'KNIGHT.AMELIORATIONS.LABEL.Ornementale',
+    },
+    activationsimple:{
+      aucune:'KNIGHT.ACTIVATION.Aucune',
+      deplacement:'KNIGHT.ACTIVATION.Deplacement',
+      combat:'KNIGHT.ACTIVATION.Combat',
+      tour:'KNIGHT.ACTIVATION.Tour',
+    },
+    activation:{
+      aucune:'KNIGHT.ACTIVATION.Aucune',
+      deplacement:'KNIGHT.ACTIVATION.Deplacement',
+      combat:'KNIGHT.ACTIVATION.Combat',
+      tourComplet:'KNIGHT.ACTIVATION.TourComplet',
+    },
+    activationcapacites:{
+      aucune:'KNIGHT.ACTIVATION.Aucune',
+      toutes:'KNIGHT.ACTIVATION.Toutes',
+      combat:'KNIGHT.ACTIVATION.Combat',
+      deplacement:'KNIGHT.ACTIVATION.Deplacement',
+      tour:'KNIGHT.ACTIVATION.Tour',
+    },
+    activation6sec:{
+      aucune:'KNIGHT.ACTIVATION.Aucune',
+      Tour6Sec:'KNIGHT.ACTIVATION.Tour6Sec',
+      combat6Sec:'KNIGHT.ACTIVATION.Combat6Sec',
+      deplacement6Sec:'KNIGHT.ACTIVATION.Deplacement6Sec',
+    },
+    activation6secsimple:{
+      aucune:'KNIGHT.ACTIVATION.Aucune',
+      toutes:'KNIGHT.ACTIVATION.Toutes',
+      combat6Sec:'KNIGHT.ACTIVATION.Combat6Sec',
+      deplacement6Sec:'KNIGHT.ACTIVATION.Deplacement6Sec',
+    },
+    activation3sec:{
+      aucune:'KNIGHT.ACTIVATION.Aucune',
+      tour6Sec:'KNIGHT.ACTIVATION.Tour6Sec',
+      combat3Sec:'KNIGHT.ACTIVATION.Combat3Sec',
+      deplacement3Sec:'KNIGHT.ACTIVATION.Deplacement3Sec',
+    },
+    typepnj:{
+      pnj:'KNIGHT.TYPE.Pnj',
+      bande:'KNIGHT.TYPE.Bande',
     }
  }
 

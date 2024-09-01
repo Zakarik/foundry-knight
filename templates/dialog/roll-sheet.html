@@ -60,18 +60,7 @@
             <span class="info {{#if style.deploy}} clicked {{/if}}">?</span>
             <span class="{{#if style.deploy}} showInfo {{else}} hideInfo {{/if}}">{{{style.info}}}</span>
             <select class="selectStyle">
-                {{#select style.raw}}
-                <option value="standard">{{localize "KNIGHT.COMBAT.STYLES.STANDARD.Label"}}</option>
-                <option value="acouvert">{{localize "KNIGHT.COMBAT.STYLES.ACOUVERT.Label"}}</option>
-                <option value="agressif">{{localize "KNIGHT.COMBAT.STYLES.AGRESSIF.Label"}}</option>
-                <option value="akimbo">{{localize "KNIGHT.COMBAT.STYLES.AKIMBO.Label"}}</option>
-                <option value="ambidextre">{{localize "KNIGHT.COMBAT.STYLES.AMBIDEXTRE.Label"}}</option>
-                <option value="defensif">{{localize "KNIGHT.COMBAT.STYLES.DEFENSIF.Label"}}</option>
-                <option value="pilonnage">{{localize "KNIGHT.COMBAT.STYLES.PILONNAGE.Label"}}</option>
-                <option value="precis">{{localize "KNIGHT.COMBAT.STYLES.PRECIS.Label"}}</option>
-                <option value="puissant">{{localize "KNIGHT.COMBAT.STYLES.PUISSANT.Label"}}</option>
-                <option value="suppression">{{localize "KNIGHT.COMBAT.STYLES.SUPPRESSION.Label"}}</option>
-                {{/select}}
+                {{selectOptions (getList style) selected=style.raw localize=true}}
             </select>
         </div>
         <div class="pilonnage" {{#if (hasStyle 'pilonnage' style.raw)}}{{#if (canUseStyle 'pilonnage' typeWpn actor._id idWpn)}}style="display:flex;"{{/if}}{{/if}}>

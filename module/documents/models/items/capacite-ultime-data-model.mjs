@@ -3,6 +3,7 @@ export class CapaciteUltimeDataModel extends foundry.abstract.TypeDataModel {
 		const {StringField, HTMLField, SchemaField, BooleanField, NumberField, ArrayField, ObjectField} = foundry.data.fields;
 
         return {
+            active:new BooleanField({initial:false}),
             description:new HTMLField({initial:''}),
             type:new StringField({initial:'passive'}),
             condition:new StringField({initial:''}),

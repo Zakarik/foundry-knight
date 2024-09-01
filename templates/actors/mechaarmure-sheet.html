@@ -40,18 +40,7 @@
                 <span class="info {{#if systemData.combat.styleDeploy}} clicked {{/if}}">?</span>
                 <span class="{{#if systemData.combat.styleDeploy}} showInfo {{else}} hideInfo {{/if}}">{{{systemData.combat.styleInfo}}}</span>
                 <select name="system.combat.style">
-                    {{#select systemData.combat.style}}
-                    <option value="standard">{{localize "KNIGHT.COMBAT.STYLES.STANDARD.Label"}}</option>
-                    <option value="acouvert">{{localize "KNIGHT.COMBAT.STYLES.ACOUVERT.Label"}}</option>
-                    <option value="agressif">{{localize "KNIGHT.COMBAT.STYLES.AGRESSIF.Label"}}</option>
-                    <option value="akimbo">{{localize "KNIGHT.COMBAT.STYLES.AKIMBO.Label"}}</option>
-                    <option value="ambidextre">{{localize "KNIGHT.COMBAT.STYLES.AMBIDEXTRE.Label"}}</option>
-                    <option value="defensif">{{localize "KNIGHT.COMBAT.STYLES.DEFENSIF.Label"}}</option>
-                    <option value="pilonnage">{{localize "KNIGHT.COMBAT.STYLES.PILONNAGE.Label"}}</option>
-                    <option value="precis">{{localize "KNIGHT.COMBAT.STYLES.PRECIS.Label"}}</option>
-                    <option value="puissant">{{localize "KNIGHT.COMBAT.STYLES.PUISSANT.Label"}}</option>
-                    <option value="suppression">{{localize "KNIGHT.COMBAT.STYLES.SUPPRESSION.Label"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'style') selected=systemData.combat.style localize=true}}
                 </select>
             </div>
         </section>
@@ -78,7 +67,7 @@
 
             <div class="blindage">
                 <div class="line">
-                    <span class="label withBorder">{{localize "KNIGHT.LATERAL.Blindage"}}</span>
+                    <span class="label">{{localize "KNIGHT.LATERAL.Blindage"}}</span>
                     <input type="number" name="system.blindage.value" min="0" max="{{systemData.blindage.max}}" value="{{systemData.blindage.value}}" />
                     <span class="separation">/</span>
                     <input type="number" name="system.blindage.max" min="0" value="{{systemData.blindage.max}}" />
@@ -590,12 +579,7 @@
                 <div class="gestionButton">
                     <button type="action" class="ajouterModule" data-type="base">{{localize "KNIGHT.AUTRE.Ajouter"}}</button>
                     <select name="system.modules.actuel.base">
-                        {{#select systemData.modules.actuel.base}}
-                            <option value=""></option>
-                            {{#each actor.modules as | key module|}}
-                                <option value="{{key}}">{{getMAModule key}}</option>
-                            {{/each}}
-                        {{/select}}
+                        {{selectOptions actor.modules selected=systemData.modules.actuel.base blank='' localize=true sort=true}}
                     </select>
                 </div>
 
@@ -620,12 +604,7 @@
                 <div class="gestionButton">
                     <button type="action" class="ajouterModule" data-type="c1">{{localize "KNIGHT.AUTRE.Ajouter"}}</button>
                     <select name="system.modules.actuel.c1">
-                        {{#select systemData.modules.actuel.c1}}
-                            <option value=""></option>
-                            {{#each actor.modules as | key module|}}
-                                <option value="{{key}}">{{getMAModule key}}</option>
-                            {{/each}}
-                        {{/select}}
+                        {{selectOptions actor.modules selected=systemData.modules.actuel.c1 blank='' localize=true sort=true}}
                     </select>
                 </div>
 
@@ -650,12 +629,7 @@
                 <div class="gestionButton">
                     <button type="action" class="ajouterModule" data-type="c2">{{localize "KNIGHT.AUTRE.Ajouter"}}</button>
                     <select name="system.modules.actuel.c2">
-                        {{#select systemData.modules.actuel.c2}}
-                            <option value=""></option>
-                            {{#each actor.modules as | key module|}}
-                                <option value="{{key}}">{{getMAModule key}}</option>
-                            {{/each}}
-                        {{/select}}
+                        {{selectOptions actor.modules selected=systemData.modules.actuel.c2 blank='' localize=true sort=true}}
                     </select>
                 </div>
 

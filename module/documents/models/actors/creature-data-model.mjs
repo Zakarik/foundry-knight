@@ -113,6 +113,10 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
     }
   }
 
+  get items() {
+      return this.parent.items;
+  }
+
   get aspect() {
     let data = {}
 
@@ -127,13 +131,145 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
     return data;
   }
 
-  prepareBaseData() {
+  get armes() {
+      return this.items.filter(items => items.type === 'arme');
+  }
 
+  get capacites() {
+      return this.items.filter(items => items.type === 'capacite');
+  }
+
+  prepareBaseData() {
+    this.#armes();
+    this.#capacites();
 	}
 
 	prepareDerivedData() {
     this.#derived();
     this.#defenses();
+  }
+
+  #armes() {
+    const armes = this.armes;
+    let defenseBonus = 0;
+    let defenseMalus = 0;
+    let reactionBonus = 0;
+    let reactionMalus = 0;
+    let champDeForce = 0;
+
+    for(let a of armes) {
+        const effets = getFlatEffectBonus(a);
+
+        defenseBonus += effets.defense.bonus;
+        defenseMalus += effets.defense.malus;
+        reactionBonus += effets.reaction.bonus;
+        reactionMalus += effets.reaction.malus;
+        champDeForce += effets.cdf.bonus;
+    }
+
+    if(defenseBonus > 0) {
+        Object.defineProperty(this.defense.bonus, 'armes', {
+            value: defenseBonus,
+            writable:true,
+            enumerable:true,
+            configurable:true
+        });
+    }
+
+    if(defenseMalus > 0) {
+        Object.defineProperty(this.defense.malus, 'armes', {
+            value: defenseMalus,
+            writable:true,
+            enumerable:true,
+            configurable:true
+        });
+    }
+
+    if(reactionBonus > 0) {
+        Object.defineProperty(this.reaction.bonus, 'armes', {
+            value: reactionBonus,
+            writable:true,
+            enumerable:true,
+            configurable:true
+        });
+    }
+
+    if(reactionMalus > 0) {
+        Object.defineProperty(this.reaction.malus, 'armes', {
+            value: reactionMalus,
+            writable:true,
+            enumerable:true,
+            configurable:true
+        });
+    }
+
+    if(champDeForce > 0) {
+        Object.defineProperty(this.champDeForce.bonus, 'armes', {
+            value: champDeForce,
+            writable:true,
+            enumerable:true,
+            configurable:true
+        });
+    }
+  }
+
+  #capacites() {
+    const capacites = this.capacites;
+    let sante = 0;
+    let armure = 0;
+    let aspectsMax = [];
+
+    for(let c of capacites) {
+      const system = c.system;
+
+      if(!system.isPhase2 || (system.isPhase2 && this.phase2Activate)) {
+        if(system.bonus.sante.has) {
+          if(system.bonus.sante.aspect.lie) sante += (this.aspects[system.bonus.sante.aspect.value].value*system.bonus.sante.aspect.multiplie);
+          else sante += system.bonus.sante.value;
+        }
+
+        if(system.bonus.armure.has) {
+          if(system.bonus.armure.aspect.lie) armure += (this.aspects[system.bonus.armure.aspect.value].value*system.bonus.armure.aspect.multiplie);
+          else armure += system.bonus.armure.value;
+        }
+
+        if(system.bonus.aspectMax.has) {
+          aspectsMax.push({
+            key:system.bonus.aspectMax.aspect,
+            aspect:system.bonus.aspectMax.maximum.aspect,
+            ae:system.bonus.aspectMax.maximum.ae,
+          });
+        }
+      }
+    }
+
+    Object.defineProperty(this.sante.bonus, 'capacites', {
+        value: sante,
+        writable:true,
+        enumerable:true,
+        configurable:true
+    });
+
+    Object.defineProperty(this.armure.bonus, 'capacites', {
+        value: armure,
+        writable:true,
+        enumerable:true,
+        configurable:true
+    });
+
+    for(let a of aspectsMax) {
+      Object.defineProperty(this.aspects[a.key], 'max', {
+        value: a.aspect,
+      });
+
+      Object.defineProperty(this.aspects[a.key].ae.mineur, 'max', {
+        value: a.ae,
+      });
+
+      Object.defineProperty(this.aspects[a.key].ae.majeur, 'max', {
+        value: a.ae,
+      });
+    }
   }
 
   #derived() {
