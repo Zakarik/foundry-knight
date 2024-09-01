@@ -70,20 +70,20 @@ Applique les modifications par la mise à jour au Monde.
             permanent: true,
         });
 
-        if(MigrationKnight.needUpdate("1.8.0")) {
+        /*if(MigrationKnight.needUpdate("1.8.0")) {
             ui.notifications.info(`Suite à une modification du système, la Ranger voit son système d'évolution modifié !
             Si vous avez une Ranger dans votre équipe et qu'elle n'a pas encore eu d'évolution : Aucun problème.
             Si vous avez une Ranger qui a déjà évolué, il est possible qu'elle doive racheter ses évolutions, ou recréer son armure : Vérifiez bien.
             Désolé pour le dérangement`, {
                 permanent: true,
             });
-        }
+        }*/
     }
 
     static _migrationActor(actor, options = { force:false }) {
         let update = {};
 
-        if (options?.force || MigrationKnight.needUpdate("1.2.0")) {
+        /*if (options?.force || MigrationKnight.needUpdate("1.2.0")) {
 
             const system = actor.system;
 
@@ -1396,7 +1396,7 @@ Applique les modifications par la mise à jour au Monde.
                     item.update(update);
                 }
             }
-        }
+        }*/
 
         if(options?.force || MigrationKnight.needUpdate("3.30.0")) {
             let collection = actor.getEmbeddedCollection('ActiveEffect').map(eff => eff._id);
@@ -1409,7 +1409,7 @@ Applique les modifications par la mise à jour au Monde.
         return update;
     }
 
-    static _migrationItems(item, options = { force:false }) {
+    /*static _migrationItems(item, options = { force:false }) {
         let update = {};
 
         if (options?.force || MigrationKnight.needUpdate("1.2.0")) {
@@ -2277,12 +2277,12 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         return update;
-    }
+    }*/
 
     static _migrationTokens(token, options = { force:false }) {
         const actor = token.actor;
 
-        if (options?.force || MigrationKnight.needUpdate("3.17.4")) {
+        /*if (options?.force || MigrationKnight.needUpdate("3.17.4")) {
             const goodStatus = ['dead', 'lumiere', 'barrage', 'designation', 'choc', 'degatscontinus', 'soumission'];
 
             if(actor === null) return;
@@ -2307,6 +2307,16 @@ Applique les modifications par la mise à jour au Monde.
 
             collection.forEach(async eff => {
                 await token.actor.deleteEmbeddedDocuments('ActiveEffect', [eff]);
+            });
+        }*/
+
+        if(options?.force || MigrationKnight.needUpdate("3.30.0")) {
+            if(actor === null) return;
+
+            let collection = actor.getEmbeddedCollection('ActiveEffect').map(eff => eff._id);
+
+            collection.forEach(async eff => {
+                await actor.deleteEmbeddedDocuments('ActiveEffect', [eff]);
             });
         }
     }
