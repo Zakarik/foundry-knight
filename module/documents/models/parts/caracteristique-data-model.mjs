@@ -16,4 +16,17 @@ export class CaracteristiqueDataModel extends foundry.abstract.DataModel {
         }),
       };
     }
+
+    prepareData(aspect) {
+      const bonusOverdrive = Object.values(this.overdrive.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+      const malusOverdrive = Object.values(this.overdrive.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
+      Object.defineProperty(this, 'value', {
+        value: Math.max(Math.min(aspect, this.base+this.bonus-this.malus), 0),
+      });
+
+      Object.defineProperty(this.overdrive, 'value', {
+        value: Math.max(this.overdrive.base+bonusOverdrive-malusOverdrive, 0),
+      });
+    }
 }

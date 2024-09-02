@@ -1409,10 +1409,10 @@ Applique les modifications par la mise à jour au Monde.
         return update;
     }
 
-    /*static _migrationItems(item, options = { force:false }) {
+    static _migrationItems(item, options = { force:false }) {
         let update = {};
 
-        if (options?.force || MigrationKnight.needUpdate("1.2.0")) {
+        /*if (options?.force || MigrationKnight.needUpdate("1.2.0")) {
             const system = item.system;
 
             if(!system) return update;
@@ -2274,10 +2274,10 @@ Applique les modifications par la mise à jour au Monde.
 
                 item.update(update);
             }
-        }
+        }*/
 
         return update;
-    }*/
+    }
 
     static _migrationTokens(token, options = { force:false }) {
         const actor = token.actor;
