@@ -2240,6 +2240,8 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         const listSTD = ['espoir'];
 
         for(let l of listArmor) {
+            if(!this.equipements[this.wear][l]) continue;
+
             const value = this.equipements[this.wear][l].value;
             const max = this[l].max;
 

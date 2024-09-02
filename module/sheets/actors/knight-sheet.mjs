@@ -3013,26 +3013,23 @@ export class KnightSheet extends ActorSheet {
         let carac = getCaracValue('hargne', this.actor, true);
         carac += getCaracValue('sangFroid', this.actor, true);
 
-        let od = wear === 'armure' ? getODValue('hargne', this.actor, true) : 0;
-        od += wear === 'armure' ? getODValue('sangFroid', this.actor, true) : 0;
+        let od = wear === 'armure' || wear === 'ascension' ? getODValue('hargne', this.actor, true) : 0;
+        od += wear === 'armure' || wear === 'ascension' ? getODValue('sangFroid', this.actor, true) : 0;
+        let caracs = [];
 
-        const roll = wear === 'armure' ? `${carac}d6+${od}` : `${carac}d6`;
-
-        const exec = new game.knight.RollKnight(roll, this.actor.system);
-        exec._success = true;
-        exec._flavor = label;
-        exec._base = game.i18n.localize(CONFIG.KNIGHT.caracteristiques['hargne']);
-        exec._autre = [game.i18n.localize(CONFIG.KNIGHT.caracteristiques['sangFroid'])];
-        exec._details = wear === 'armure' ? `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')})d6 + ${od} (${game.i18n.localize('KNIGHT.ITEMS.ARMURE.Overdrive')})` : `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')})d6`;
-        await exec.toMessage({
-          speaker: {
-          actor: this.actor?.id || null,
-          token: this.actor?.token?.id || null,
-          alias: this.actor?.name || null,
-          }
-        });
+        const exec = new game.knight.RollKnight(this.actor,
+          {
+          name:label,
+          dices:`${carac}D6`,
+          carac:[game.i18n.localize(CONFIG.KNIGHT.caracteristiques['hargne']), game.i18n.localize(CONFIG.KNIGHT.caracteristiques['sangFroid'])],
+          bonus:[od],
+          }).doRoll();
       } else {
-        dialogRoll(label, this.actor, {base:'hargne', autre:['sangFroid']});
+        const dialog = new game.knight.applications.KnightRollDialog(this.actor, {
+          label:label,
+          base:'hargne',
+          whatRoll:['sangFroid']
+        }).open();
       }
     });
 
@@ -3087,16 +3084,12 @@ export class KnightSheet extends ActorSheet {
     html.find('.jetEgide').click(async ev => {
       const value = $(ev.currentTarget).data("value");
 
-      const rEgide = new game.knight.RollKnight(value, this.actor.system);
-      rEgide._flavor = game.i18n.localize("KNIGHT.JETS.JetEgide");
-      rEgide._success = true;
-      await rEgide.toMessage({
-        speaker: {
-        actor: this.actor?.id || null,
-        token: this.actor?.token?.id || null,
-        alias: this.actor?.name || null,
-        }
+      const rEgide = new game.knight.RollKnight(this.actor, {
+        name:game.i18n.localize("KNIGHT.JETS.JetEgide"),
+        dices:`${value}`
       });
+
+      await rEgide.doRoll();
     });
 
     html.find('.motivationAccomplie').click(async ev => {

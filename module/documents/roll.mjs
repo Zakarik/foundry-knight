@@ -13,7 +13,7 @@ export class RollKnight {
     constructor(actor, data={}, isSuccess=true) {
         this.actor = actor;
         this.name = data?.name ?? '';
-        this.formula = data?.dices ?? '0d6';
+        this.formula = data?.dices ?? '0D6';
         this.bonus = data?.bonus ?? [];
         this.carac = data?.carac ?? [];
         this.isSuccess = isSuccess;
@@ -47,8 +47,6 @@ export class RollKnight {
             });
             return acc;
         }, []);
-
-        rolls.push(roll);
 
         if(numbers === success) {
             const rEpicSuccess = new Roll(this.formula);
@@ -101,8 +99,6 @@ export class RollKnight {
             label:game.i18n.localize('KNIGHT.JETS.EchecCritique'),
             class:'epicFail',
         }
-
-        console.warn(content);
 
         let chatData = {
             user:game.user.id,

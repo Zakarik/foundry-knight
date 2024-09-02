@@ -1560,16 +1560,24 @@
 }
 
 .rollDialog div.dialog-content {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   justify-content: space-between;
   flex-wrap: wrap;
   align-content: baseline;
   align-items: baseline;
+  grid-gap: 2px;
+  row-gap: 2px;
+}
+.rollDialog div.dialog-content div.aspects {
+  grid-column: 1/4;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 2px;
 }
 .rollDialog div.dialog-content div.aspect {
-  width: calc((100% / 5) - 5px);
+  width: 100%;
   border: 1px solid RGB(87 110 178);
-  margin-bottom: 5px;
 }
 .rollDialog div.dialog-content div.aspect h2.header {
   display: block;
@@ -1590,28 +1598,40 @@
   letter-spacing: 1px;
 }
 .rollDialog div.dialog-content div.aspect button {
+  display: grid;
+  grid-template-columns: max-content 1fr max-content;
   color: white;
   background: RGB(76 74 90);
   cursor: pointer;
   border-radius: 0px;
   margin: 0px;
+  grid-gap: 2px;
+  align-items: center;
 }
 .rollDialog div.dialog-content div.aspect button:not(:first-of-type) {
   border-top: 0px;
 }
-.rollDialog div.dialog-content div.aspect button.base {
-  background: RGB(37 85 228);
-  text-decoration: underline;
-  letter-spacing: 1px;
-}
 .rollDialog div.dialog-content div.aspect button.selected {
   background: RGB(87 110 178);
-  text-decoration: underline;
+}
+.rollDialog div.dialog-content div.aspect button.selected span.label {
+  letter-spacing: 1px;
+}
+.rollDialog div.dialog-content div.aspect button.base {
+  background: RGB(37 85 228);
+}
+.rollDialog div.dialog-content div.aspect button.base span.label {
   letter-spacing: 1px;
 }
 .rollDialog div.dialog-content div.aspect button:hover {
   background: white;
   color: RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.aspect button span.label {
+  text-align: left;
+}
+.rollDialog div.dialog-content div.aspect button span.value {
+  text-align: center;
 }
 .rollDialog div.dialog-content div.details {
   display: flex;
@@ -1650,30 +1670,6 @@
   grid-template-columns: 1fr 1fr 1fr;
   align-items: flex-start;
   column-gap: 1px;
-}
-.rollDialog div.dialog-content div.bonus label {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.bonus label span {
-  display: inline-block;
-  line-height: 32px;
-  width: calc(100% - 50px);
-  background: RGB(76 74 90);
-  line-height: 27px;
-  padding-left: 5px;
-}
-.rollDialog div.dialog-content div.bonus label input {
-  width: 50px;
-  text-align: center;
-  background: RGB(43 42 51);
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  border-radius: 0px;
-  height: 32px;
 }
 .rollDialog div.dialog-content div.bonus div.styleCombat {
   position: relative;
@@ -2838,7 +2834,36 @@
 .rollDialog div.dialog-content div.borderNone {
   border: none;
 }
+.rollDialog div.dialog-content label.score {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  width: 100%;
+  justify-content: space-between;
+  border: 1px solid RGB(87 110 178);
+  align-items: center;
+  grid-gap: 2px;
+  height: 30px;
+}
+.rollDialog div.dialog-content label.score span {
+  display: grid;
+  width: 100%;
+  background: RGB(76 74 90);
+  padding-left: 5px;
+  height: 100%;
+  align-items: center;
+}
+.rollDialog div.dialog-content label.score input {
+  width: 100%;
+  text-align: center;
+  background: RGB(43 42 51);
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  border-radius: 0px;
+  height: 100%;
+}
 .rollDialog div.dialog-content input.label {
+  grid-column: 1/4;
   margin: 0px;
   border-radius: 0px;
   font-variant: small-caps;

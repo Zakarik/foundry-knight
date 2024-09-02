@@ -1,16 +1,26 @@
 .rollDialog {
     div.dialog-content {
-      display:flex;
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
       justify-content: space-between;
       flex-wrap: wrap;
       align-content: baseline;
       align-items:baseline;
+      grid-gap: 2px;
+      row-gap: 2px;
 
       div {
+        &.aspects {
+          grid-column: 1 / 4;
+
+          display: grid;
+          grid-template-columns: repeat(5, 1fr);
+          grid-gap: 2px;
+        }
+
         &.aspect {
-          width: calc((100% / 5) - 5px);
+          width: 100%;
           border: 1px solid $lightBlue;
-          margin-bottom: 5px;
 
           h2.header {
             display: block;
@@ -32,34 +42,53 @@
           }
 
           button {
+            display: grid;
+            grid-template-columns: max-content 1fr max-content;
             color: $white;
             background: $lightBlack;
             cursor: pointer;
             border-radius: 0px;
             margin: 0px;
+            grid-gap: 2px;
+            align-items: center;
 
             &:not(:first-of-type) {
               border-top: 0px;
             }
 
-            &.base {
-              background: $blue;
-              text-decoration: underline;
-              letter-spacing: 1px;
-            }
-
             &.selected {
               background: $lightBlue;
-              text-decoration: underline;
-              letter-spacing: 1px;
+
+              span.label {
+                letter-spacing: 1px;
+              }
+            }
+
+            &.base {
+              background: $blue;
+
+              span.label {
+                letter-spacing: 1px;
+              }
             }
 
             &:hover {
               background: $white;
               color: $black;
             }
+
+            span {
+              &.label {
+                text-align:left;
+              }
+
+              &.value {
+                text-align: center;
+              }
+            }
           }
         }
+
 
         &.details {
           display: flex;
@@ -106,32 +135,6 @@
           align-items: flex-start;
           column-gap: 1px;
 
-          label {
-            display: flex;
-            width:100%;
-            justify-content: space-between;
-            border-bottom: 1px solid $black;
-
-            span {
-              display:inline-block;
-              line-height:32px;
-              width:calc(100% - 50px);
-              background:$lightBlack;
-              line-height: 27px;
-              padding-left:5px;
-            }
-
-            input {
-              width:50px;
-              text-align: center;
-              background:$black;
-              border:0px;
-              margin:0px;
-              padding:0px;
-              border-radius: 0px;
-              height:32px;
-            }
-          }
 
           div {
             &.styleCombat {
@@ -1461,7 +1464,43 @@
         }
       }
 
+      label {
+        &.score {
+          display: grid;
+          grid-template-columns: 1fr 50px;
+          width:100%;
+          justify-content: space-between;
+          border: 1px solid $lightBlue;
+          align-items: center;
+          grid-gap: 2px;
+          height: 30px;
+
+          span {
+            display:grid;
+            width:100%;
+            background:$lightBlack;
+            padding-left:5px;
+            height: 100%;
+            align-items: center;
+          }
+
+          input {
+            width:100%;
+            text-align: center;
+            background:$black;
+            border:0px;
+            margin:0px;
+            padding:0px;
+            border-radius: 0px;
+            height: 100%;
+          }
+
+        }
+      }
+
       input.label {
+        grid-column: 1 / 4;
+
         margin: 0px;
         border-radius: 0px;
         font-variant: small-caps;

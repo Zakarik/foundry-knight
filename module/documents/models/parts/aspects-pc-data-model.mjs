@@ -43,16 +43,7 @@ export class AspectsPCDataModel extends foundry.abstract.DataModel {
         });
 
         for(let c in this[a].caracteristiques) {
-          const bonusOverdrive = Object.values(this[a].caracteristiques[c].overdrive.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-          const malusOverdrive = Object.values(this[a].caracteristiques[c].overdrive.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-
-          Object.defineProperty(this[a].caracteristiques[c], 'value', {
-            value: Math.max(Math.min(value, this[a].caracteristiques[c].base+this[a].caracteristiques[c].bonus-this[a].caracteristiques[c].malus), 0),
-          });
-
-          Object.defineProperty(this[a].caracteristiques[c].overdrive, 'value', {
-            value: Math.max(this[a].caracteristiques[c].overdrive.base+bonusOverdrive-malusOverdrive, 0),
-          });
+          this[a].caracteristiques[c].prepareData(this[a].value);
         }
       }
     }

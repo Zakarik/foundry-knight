@@ -31,23 +31,17 @@ function containsWord(text, words) {
 }
 
 export function getKnightRoll(actor, hasEntraide=true) {
-  const nActor = actor?._id ?? 1;;
-  const filterInstance = Object.values(ui.windows).filter((app) => app instanceof game.knight.applications.KnightRollDialog);
-  let hasInstance = undefined;
+  const nActor = actor?.id ?? 1;
+  const findInstance = Object.values(ui.windows).find((app) => app.options.baseApplication === `knightRollDialog/${nActor}`);
   let isExist = false;
+  let result = null;
 
-  for(let i of filterInstance) {
-    const iActor = i?.data?.actor?._id ?? 0;
-
-    if(iActor === nActor) {
-      isExist = true;
-      hasInstance = i;
-    }
+  if(findInstance) {
+    isExist = true;
+    result = findInstance;
   }
 
-  let result = {};
-
-  if(hasEntraide) {
+  /*if(hasEntraide) {
     result = hasInstance ?? new game.knight.applications.KnightRollDialog({
       title:actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
       buttons: {
@@ -82,7 +76,7 @@ export function getKnightRoll(actor, hasEntraide=true) {
         }
       }
     });
-  }
+  }*/
 
   return {instance:result, previous:isExist};
 }
@@ -128,16 +122,23 @@ export function actualiseRoll(actor) {
   if(toActualise !== undefined) toActualise.actualise(actor);
 }
 
-export function dialogRoll(label, actor, data={}) {
-    const queryInstance = getKnightRoll(actor, actorIsPj(actor));
-    const rollApp = queryInstance.instance;
+export async function dialogRoll(label, actor, data={}) {
+    const queryInstance = getKnightRoll(actor);
+
+    if(queryInstance.previous) {
+      queryInstance.instance.bringToTop();
+    } else {
+      const dialog = new game.knight.applications.KnightRollDialog(actor);
+      await dialog.open();
+    }
+    /*const rollApp = queryInstance.instance;
 
     rollApp.setLabel(label);
     rollApp.setAct(actor);
     rollApp.setR(data);
     rollApp.render(true);
 
-    if(queryInstance.previous) rollApp.bringToTop();
+    if(queryInstance.previous) rollApp.bringToTop();*/
 }
 
 export async function dialogRollWId(actorId, sceneId, tokenId, data={}, bonusToAdd={}, special={}) {
