@@ -72,7 +72,6 @@ import { ArmeDataModel } from "./documents/models/items/arme-data-model.mjs";
 import { ArmureDataModel } from "./documents/models/items/armure-data-model.mjs";
 
 import {
-  updateEffect,
   listLogo,
   SortByLabel,
   generateNavigator,
@@ -80,8 +79,6 @@ import {
 } from "./helpers/common.mjs";
 
 import {
-  doDgts,
-  doViolence,
   dialogRollWId,
   directRoll,
 } from "./helpers/dialogRoll.mjs";
@@ -395,6 +392,184 @@ Hooks.once('init', async function() {
       icon:'systems/knight/assets/icons/effects/immobilisation.svg'
     });
   }
+
+  Hooks.on("renderChatMessage", (message, html, messageData) => {
+    const version = game.version.split('.')[0];
+    const isVersion12 = version >= 12 ? true : false;
+
+    if(!game.user.isGM) {
+      html.find('.knight-roll div.listTargets').remove();
+    }
+
+    if(isVersion12) {
+      if(game.user.id !== message.author.id && !game.user.isGM) {
+        html.find('.knight-roll div.btn').remove();
+      }
+    } else {
+      if(game.user.id !== message.user.id && !game.user.isGM) {
+        html.find('.knight-roll div.btn').remove();
+      }
+    }
+
+    html.find('.knight-roll div.dice-result').click(ev => {
+      const tgt = $(ev.currentTarget);
+
+      tgt.find('div.dice-tooltip').toggle({
+        complete: () => {},
+      });
+    });
+
+    html.find('.knight-roll div.details.withTooltip').click(ev => {
+      const tgt = $(ev.currentTarget);
+
+      tgt.find('div.dice-tooltip').toggle({
+        complete: () => {},
+      });
+    });
+
+    html.find('.knight-roll button.degats').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const flags = message.flags;
+      const weapon = flags.weapon;
+      const raw = weapon.effets.raw.concat(weapon?.distance?.raw ?? [], weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
+
+      const roll = new game.knight.RollKnight(flags.actor, {
+        name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
+        weapon:weapon,
+      }, false);
+
+      let addFlags = {
+        flavor:flags.flavor,
+        total:flags.content[0].total,
+        targets:flags.content[0].targets,
+        attaque:message.rolls,
+        weapon:weapon,
+        actor:flags.actor,
+        surprise:flags.surprise,
+        style:flags.style,
+        dataStyle:flags.dataStyle,
+        dataMod:flags.dataMod,
+        maximize:flags.maximize,
+      };
+
+      let data = {
+        total:flags.content[0].total,
+        targets:flags.content[0].targets,
+        attaque:message.rolls,
+        flags:addFlags
+      };
+
+      if(raw.includes('tirenrafale')) {
+        data.content = {
+          tirenrafale:true,
+        }
+      }
+
+      await roll.doRollDamage(data);
+    });
+
+    html.find('.knight-roll .btn.debordement button').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
+      const tour = parseInt(actor.system.debordement.tour);
+
+      await actor.update({['system.debordement.tour']:tour+1});
+      const roll = new game.knight.RollKnight(actor, {
+        name:`${actor.name}`,
+      }, false);
+
+      roll.sendMessage({text:'Le débordement augmente...', classes:'important'});
+    });
+
+    html.find('.knight-roll button.relancedegats').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const flags = message.flags;
+      const weapon = flags.weapon;
+
+      const roll = new game.knight.RollKnight(flags.actor, {
+        name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.EFFETS.TIRENRAFALE.Label')}`,
+        weapon:weapon,
+      }, false);
+
+      let addFlags = {
+        flavor:flags.flavor,
+        total:flags.total,
+        targets:flags.targets,
+        attaque:message.rolls,
+        weapon:weapon,
+        actor:flags.actor,
+        surprise:flags.surprise,
+        style:flags.style,
+        dataStyle:flags.dataStyle,
+        dataMod:flags.dataMod,
+        maximize:flags.maximize,
+      };
+
+      let data = {
+        total:flags.total,
+        targets:flags.targets,
+        attaque:flags.attaque,
+        flags:addFlags,
+      };
+
+      await roll.doRollDamage(data);
+    });
+
+    html.find('.knight-roll button.violence').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const flags = message.flags;
+      const weapon = flags.weapon;
+
+      let addFlags = {
+        flavor:flags.flavor,
+        total:flags.content[0].total,
+        targets:flags.content[0].targets,
+        attaque:message.rolls,
+        weapon:weapon,
+        actor:flags.actor,
+        surprise:flags.surprise,
+        style:flags.style,
+        dataStyle:flags.dataStyle,
+        dataMod:flags.dataMod,
+        maximize:flags.maximize,
+      };
+
+      const roll = new game.knight.RollKnight(flags.actor, {
+        name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
+        weapon:flags.weapon,
+      }, false);
+
+      await roll.doRollViolence({
+        total:flags.content[0].total,
+        targets:flags.content[0].targets,
+        attaque:message.rolls,
+        flags:addFlags,
+      });
+    });
+
+    html.find('.knight-roll div.listTargets div.target').mouseenter(ev => {
+      const tgt = $(ev.currentTarget);
+      const id = tgt.data('id');
+      const token = canvas.tokens.get(id);
+
+      if(token && token.isVisible) {
+        token._onHoverIn(ev, { hoverOutOthers: true });
+
+        this._hoveredToken = token;
+      }
+    });
+
+    html.find('.knight-roll div.listTargets div.target').mouseleave(ev => {
+      ev.preventDefault();
+      if (!canvas.ready) return;
+
+      if (this._hoveredToken) {
+        this._hoveredToken._onHoverOut(ev);
+      }
+
+      this._hoveredToken = null;
+    });
+  });
 });
 
 /* -------------------------------------------- */
@@ -433,62 +608,6 @@ Hooks.once("setup", async function() {
 Hooks.once("ready", HooksKnight.ready);
 Hooks.on('deleteItem', doc => toggler.clearForId(doc.id));
 Hooks.on('deleteActor', doc => toggler.clearForId(doc.id));
-
-Hooks.on('renderChatMessage', (message, html, data) => {
-  const user = data.user;
-  const author = data.author;
-
-  if(!user.isGM) {
-    html.find('div.atkTouche').remove();
-    html.find('div.toHide').remove();
-  }
-
-  if(user._id !== author._id && !user.isGM) {
-    html.find('button.btnDgts').remove();
-    html.find('button.btnViolence').remove();
-  } else {
-    html.find('button.btnDgts').click(async ev => {
-      ev.stopPropagation();
-      const target = $(ev.currentTarget);
-      const data = target.data('all');
-      const regularite = Number(target.data('regularite'));
-      const assAtk = target?.data('assatk') ?? undefined;
-      const connectee = target?.data('connectee') ?? undefined;
-      const hyperVelocite = target?.data('hypervelocite') ?? undefined;
-
-      let dataToAdd = {
-        regularite:regularite
-      };
-
-      if(assAtk !== undefined) dataToAdd.assAtk = assAtk;
-      if(connectee !== undefined) dataToAdd.connectee = connectee;
-      if(hyperVelocite !== undefined) dataToAdd.hyperVelocite = hyperVelocite;
-
-      const allData = foundry.utils.mergeObject(data, dataToAdd);
-
-      doDgts(allData);
-    });
-
-    html.find('button.btnViolence').click(async ev => {
-        ev.stopPropagation();
-        const target = $(ev.currentTarget);
-        const data = target.data('all');
-        const assAtk = target?.data('assatk') ?? undefined;
-        const connectee = target?.data('connectee') ?? undefined;
-        const hyperVelocite = target?.data('hypervelocite') ?? undefined;
-        let dataToAdd = {};
-
-        if(assAtk !== undefined) dataToAdd.assAtk = assAtk;
-        if(connectee !== undefined) dataToAdd.connectee = connectee;
-        if(hyperVelocite !== undefined) dataToAdd.hyperVelocite = hyperVelocite;
-
-        const allData = foundry.utils.mergeObject(data, dataToAdd);
-
-        doViolence(allData);
-    });
-  }
-
-});
 
 async function createMacro(data, slot) {
   if(foundry.utils.isEmpty(data)) return;

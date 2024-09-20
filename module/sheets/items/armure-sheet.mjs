@@ -630,9 +630,7 @@ export class ArmureSheet extends ItemSheet {
         }
       }
 
-      console.warn(update);
-
-      console.warn(await this.item.update(update));
+      await this.item.update(update);
     });
 
     html.find('div.capacites a.verrouillage').click(ev => {

@@ -516,7 +516,7 @@
           "FullLabel":"Style Puissant",
           "Label": "Puissant",
           "Info": "<b>Limitations :</b> Uniquement armes de contact avec l'effet Lourd. <br/><br/><b>Bonus :</b> Peut sacrifier 1D à l'Attaque pour 1D de Dégâts ou de Violence supplémentaire. (max -6D / +6D) <br/><br/><b>Malus :</b> -2 Réaction / -2 Défense.",
-          "Sacrifice":"Sacrifice dés d'attaques"
+          "Sacrifice":"Sacrifice de dés d'attaques"
         },
         "SUPPRESSION": {
           "FullLabel":"Style Suppression",
@@ -2169,14 +2169,26 @@
       "Nodssoin":"Nods de Soin",
       "Nodsarmure":"Nods d'Armure",
       "Nodsenergie":"Nods d'Energie",
+      "NotNods":"Pas assez de nods",
       "JetPilotage":"Jet de pilotage",
       "AttackSurprise":"Attaque surprise",
+      "MaximizeDegats":"Maximiser les dégâts",
+      "MaximizeViolence":"Maximiser la violence",
+      "MaximizeDegatsTag":"Dégâts Maximisés",
+      "MaximizeViolenceTag":"Violence Maximisée",
+      "JetReussi":"Jet réussi",
+      "JetEchoue":"Jet échoué",
+      "AugmenterDebordement":"Augmenter le débordement",
+      "DebordementAugmente":"Le débordement augmente...",
       "RESULTATS":{
+        "Affecte":"Affecté",
+        "PasAffecte":"Pas affecté",
         "Touche":"Touché",
         "Manque":"Manqué",
         "VsReaction":"vs Réaction",
         "VsDefense":"vs Défense",
-        "PFTarget":"Point faible ciblé !"
+        "PFTarget":"Point faible ciblé !",
+        "DegatsAvec":"Dégâts avec {avec}"
       },
       "CHAIRD2": {
         "Has":"Ajoute la Chair divisé par 2 aux dégâts",

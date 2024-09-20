@@ -4318,11 +4318,9 @@ export function getCaracValue(c, d, isData = false) {
 
   const aspects = actor.system.aspects;
   for (let [key, aspect] of Object.entries(aspects)){
-    const tCarac = aspect.caracteristiques?.[c]?.value || false;
+    const tCarac = aspect.caracteristiques?.[c]?.value ?? false;
 
-    if(tCarac !== false) {
-      return tCarac;
-    }
+    if(tCarac) return tCarac;
 
   }
 
@@ -4603,13 +4601,14 @@ export function getFlatEffectBonus(wpn, forceEquipped=false) {
     case 'distance':
       const munitions = data?.optionsmunitions?.has || false;
       actuel = data?.optionsmunitions?.actuel;
-
       effetsRaw = data.effets.raw;
+
       const distance = data?.distance?.custom || [];
       const distanceRaw = data?.distance?.raw || [];
-      const effetsMunitions = munitions ? data?.optionsmunitions?.liste?.[actuel]?.raw || [] : [];
+      const effetsMunitionsRaw = munitions ? data?.optionsmunitions?.liste?.[actuel]?.raw || [] : [];
+      const effetsMunitions = munitions ? data?.optionsmunitions?.liste?.[actuel]?.custom || [] : [];
 
-      lEffets = effets.concat(effetsRaw, distance, distanceRaw, effetsMunitions);
+      lEffets = effets.concat(effetsRaw, distance, distanceRaw, effetsMunitions, effetsMunitionsRaw);
       break;
   }
 
@@ -5568,4 +5567,10 @@ export async function importActor(json, type) {
   await create.createEmbeddedDocuments("Item", allItm);
 
   create.sheet.render(true);
+}
+
+export async function actualiseRoll(actor) {
+  const roll = Object.values(ui.windows).find(itm => itm.options.baseApplication === 'KnightRollDialog' && ((itm?.who?.id ?? undefined) === actor.id || itm.options.id === actor.id));
+
+  if(roll) roll.actualise();
 }

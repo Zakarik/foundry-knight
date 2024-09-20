@@ -456,7 +456,17 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
     }
 
     get armorISwear() {
-        return this.wear === 'armure' || this.wear === 'ascension' ? true : false;
+        const wear = this.dataArmor ? this.wear : 'tenueCivile';
+
+        return wear === 'armure' || wear === 'ascension' ? true : false;
+    }
+
+    get whatWear() {
+        let wear = this.wear;
+
+        if((wear === 'armure' || wear === 'ascension') && !this.dataArmor) wear = 'tenueCivile'
+
+        return wear;
     }
 
     get isRemplaceEnergie() {
@@ -511,7 +521,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
     }
 
     #setJauges() {
-        const wear = this.wear;
+        const wear = this.whatWear;
         let armure = this.jauges.armure || false;
         let champDeForce = this.jauges.champDeForce || false;
         let egide = this.jauges.egide || false;
@@ -525,8 +535,6 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         switch(wear) {
             case 'armure':
             case 'ascension':
-                if(!this.dataArmor) return;
-
                 jauges = this.dataArmor.system.jauges;
 
                 armure = jauges?.armure ?? false;
@@ -769,13 +777,14 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
     }
 
     #base() {
+        const wear = this.whatWear;
         let armure = 0;
         let cdf = 0;
         let energie = 0;
         let espoir = 0;
         let egide = 0;
 
-        switch(this.wear) {
+        switch(wear) {
             case 'armure':
             case 'ascension':
                 const data = this.dataArmor.system;
@@ -836,15 +845,13 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
     }
 
     #derived() {
-        for (const aspect in this.aspects) {
-            let maxCarac = 0;
+        const wear = this.whatWear;
 
-            for (const carac in this.aspects[aspect].caracteristiques) {
-                if (this.aspects[aspect].caracteristiques[carac].value > maxCarac) {
-                    if(this.armorISwear) maxCarac = this[aspect].caracteristiques[carac].value+this.aspects[aspect].caracteristiques[carac].overdrive.value;
-                    else maxCarac = this.aspects[aspect].caracteristiques[carac].value;
-                }
-            }
+        for (const aspect in this.aspects) {
+            let maxCarac = Object.values(this.aspects[aspect].caracteristiques).reduce((acc, curr) => {
+                const valeurTotale = this.armorISwear ? curr.value + curr.overdrive.value : curr.value;
+                return valeurTotale > acc ? valeurTotale : acc;
+            }, 0);
 
             let bonus;
             let malus;
@@ -982,8 +989,8 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         });
 
         // ARMURE
-        const armureBonus = Object.values(this.equipements[this.wear]?.armure?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-        const armureMalus = Object.values(this.equipements[this.wear]?.armure?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+        const armureBonus = Object.values(this.equipements[wear]?.armure?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+        const armureMalus = Object.values(this.equipements[wear]?.armure?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
         Object.defineProperty(this.armure, 'mod', {
             value: armureBonus-armureMalus,
@@ -998,8 +1005,8 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         });
 
         // ENERGIE
-        const energieBonus = Object.values(this.equipements[this.wear]?.energie?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-        const energieMalus = Object.values(this.equipements[this.wear]?.energie?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+        const energieBonus = Object.values(this.equipements[wear]?.energie?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+        const energieMalus = Object.values(this.equipements[wear]?.energie?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
         Object.defineProperty(this.energie, 'mod', {
             value: energieBonus-energieMalus,
@@ -1014,8 +1021,8 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         });
 
         // CHAMP DE FORCE
-        const CDFBonus = Object.values(this.equipements[this.wear]?.champDeForce?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-        const CDFMalus = Object.values(this.equipements[this.wear]?.champDeForce?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+        const CDFBonus = Object.values(this.equipements[wear]?.champDeForce?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+        const CDFMalus = Object.values(this.equipements[wear]?.champDeForce?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
         Object.defineProperty(this.champDeForce, 'mod', {
             value: CDFBonus-CDFMalus,
@@ -1210,8 +1217,8 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             let specialCustom = [];
 
             if(dataArmure.system.special.selected?.porteurlumiere ?? undefined) {
-                specialRaw = specialRaw.concat(dataArmure.system.special.selected?.porteurlumiere.bonus.effets.raw)
-                specialCustom = specialCustom.concat(dataArmure.system.special.selected?.porteurlumiere.bonus.effets.custom)
+                specialRaw = specialRaw.concat(dataArmure.system.special.selected.porteurlumiere.bonus.effets.raw)
+                specialCustom = specialCustom.concat(dataArmure.system.special.selected.porteurlumiere.bonus.effets.custom)
             }
 
             for(let m of actuel) {
@@ -1251,8 +1258,15 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
                 if(arme.has) {
                     let tempArme = arme;
-                    tempArme.effets.raw = arme.effets.raw.concat(specialRaw);
-                    tempArme.effets.custom = arme.effets.raw.concat(specialCustom);
+                    tempArme.system = {
+                        type:arme.type,
+                        effets:arme.effets,
+                        distance:arme.distance,
+                        structurelles:arme.structurelles,
+                        ornementales:arme.ornementales,
+                    };
+                    tempArme.system.effets.raw = arme.effets.raw.concat(specialRaw);
+                    tempArme.system.effets.custom = arme.effets.raw.concat(specialCustom);
                     const armeEffets = getFlatEffectBonus(tempArme, true);
 
                     defenseBonus += armeEffets.defense.bonus;
@@ -2143,6 +2157,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
     }
 
     #armes() {
+        const wear = this.whatWear;
         const armes = this.armes;
         let defenseBonus = 0;
         let defenseMalus = 0;
@@ -2196,13 +2211,15 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             });
         }
 
-        if(champDeForce > 0) {
-            Object.defineProperty(this.equipements[this.wear].champDeForce.bonus, 'armes', {
-                value: champDeForce,
-                writable:true,
-                enumerable:true,
-                configurable:true
-            });
+        if(champDeForce > 0 && (wear === 'guardian' || this.armorISwear)) {
+            if(this.equipements[wear]?.champDeForce?.bonus) {
+                Object.defineProperty(this.equipements[wear].champDeForce.bonus, 'armes', {
+                    value: champDeForce,
+                    writable:true,
+                    enumerable:true,
+                    configurable:true
+                });
+            }
         }
     }
 
@@ -2236,17 +2253,18 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
     }
 
     #sanitizeValue() {
+        const wear = this.whatWear;
         const listArmor = ['energie', 'armure'];
         const listSTD = ['espoir'];
 
         for(let l of listArmor) {
-            if(!this.equipements[this.wear][l]) continue;
+            if(!this.equipements[wear]?.[l]) continue;
 
-            const value = this.equipements[this.wear][l].value;
+            const value = this.equipements[wear][l].value;
             const max = this[l].max;
 
             if(value > max) {
-                Object.defineProperty(this.equipements[this.wear][l], 'value', {
+                Object.defineProperty(this.equipements[wear][l], 'value', {
                     value: max,
                 });
             }
@@ -2262,6 +2280,8 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 });
             }
         }
+
+        if((this.wear === 'armure' || this.wear === 'ascension') && !this.dataArmor) this.wear = 'tenueCivile';
     }
 
     _getAspectPath(data) {

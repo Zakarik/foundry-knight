@@ -26,7 +26,7 @@ export class ArmesImproviseesDataModel extends foundry.abstract.DataModel {
         }
 
         armesimprovisees[ai] = new SchemaField({
-          chair:new ArrayField(new NumberField({initial:list[ai].chair})),
+          chair:new ArrayField(new NumberField(), {initial:list[ai].chair}),
           force:new NumberField({initial:list[ai].force}),
           liste:new SchemaField(wpn),
         });

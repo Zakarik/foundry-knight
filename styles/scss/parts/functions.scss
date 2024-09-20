@@ -5,6 +5,7 @@ $veryLightBlack: RGB(98 97 111);
 $blue: RGB(037 085 228);
 $lightBlue: RGB(087 110 178);
 $green:#18520b;
+$lightGreen:#59d13e;
 $red:#AF0000;
 $lightGrey:RGB(193, 193, 193);
 
@@ -537,6 +538,10 @@ $lightGrey:RGB(193, 193, 193);
       option {
         background:$black;
       }
+
+      &.wpnMainChange {
+        grid-column: 1 / 5;
+      }
     }
 
     div.effets {
@@ -607,6 +612,7 @@ $lightGrey:RGB(193, 193, 193);
         display: grid;
         grid-template-columns: 1fr;
         width: 100%;
+        border-top: 1px solid $lightBlack;
       }
     }
 

@@ -1,10 +1,8 @@
 import {
   listEffects,
   getSpecial,
-  SortByName,
   sum,
   confirmationDialog,
-  getEffets,
   getArmor,
   getAllArmor,
   getCaracValue,
@@ -15,12 +13,8 @@ import {
   hideShowLimited,
   dragMacro,
   createSheet,
-} from "../../helpers/common.mjs";
-
-import {
-  dialogRoll,
   actualiseRoll,
-} from "../../helpers/dialogRoll.mjs";
+} from "../../helpers/common.mjs";
 
 import toggler from '../../helpers/toggler.js';
 
@@ -52,7 +46,6 @@ export class KnightSheet extends ActorSheet {
 
     const { actor, data, items } = context
     const system = data.system;
-
     //EGIDE
     system.jauges.egide = game.settings.get("knight", "acces-egide");
 
@@ -64,7 +57,7 @@ export class KnightSheet extends ActorSheet {
 
     context.systemData = system;
 
-    actualiseRoll(actor);
+    actualiseRoll(this.actor);
 
     console.warn(context);
 
@@ -200,23 +193,10 @@ export class KnightSheet extends ActorSheet {
       if(item.type === 'armure') {
         const legende = this._getArmorLegende();
 
-        if(legende !== false) {
-          legende.delete();
-        }
+        if(legende) legende.delete();
 
-        const update = {
-          system:{
-            equipements:{
-              armure:{
-                id:0,
-                hasArmor:false,
-                hasArmorLegende:false,
-                idLegende:0
-              }
-            },
-            wear:'tenueCivile'
-          }
-        };
+        const update = {};
+        update['system.equipements.armure.hasArmorLegende'] = false;
 
         this.actor.update(update);
         this._resetArmure();
@@ -336,6 +316,8 @@ export class KnightSheet extends ActorSheet {
             const isExplosive = target.data('explosive');
             const dgtsExplDice = target.data('dgtsdice');
             const dgtsExplFixe = target.data('dgtsfixe');
+            const violenceExplDice = target.data('violencedice');
+            const ViolenceExplFixe = target.data('violencefixe');
 
             if(isExplosive) {
               const toUpdateSplit = toupdate.split('/');
@@ -344,45 +326,28 @@ export class KnightSheet extends ActorSheet {
               for(let tu of toUpdateSplit) {
                 armorupdate[`system.${tu}`] = false;
               }
+              const roll = new game.knight.RollKnight(this.actor, {
+                name:`${name} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.DesactivationExplosive")}`,
+              }, false);
 
-              const listEffetsExplosive = await getEffets(this.actor, 'distance', 'standard', {}, armorCapacites.changeling.desactivationexplosive.effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false);
-              const execExplosive = new game.knight.RollKnight(`${listEffetsExplosive.degats.totalDice+dgtsExplDice}D6+${listEffetsExplosive.degats.totalBonus+dgtsExplFixe}`, this.actor.system);
-              await execExplosive.evaluate(listEffetsExplosive.minMax);
-              const rMode = game.settings.get("core", "rollMode");
-              const pDegatsExplosive = {
-                flavor:`${name} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.DesactivationExplosive")}`,
-                main:{
-                  total:execExplosive._total,
-                  tooltip:await execExplosive.getTooltip(),
-                  formula: execExplosive._formula
-                },
-                sub:listEffetsExplosive.degats.list.concat(
-                  listEffetsExplosive.attack.list,
-                  listEffetsExplosive.violence.list,
-                  listEffetsExplosive.attack.include,
-                  listEffetsExplosive.violence.include),
-                include:listEffetsExplosive.degats.include,
-                other:listEffetsExplosive.other,
-              };
-
-              const dgtsExplMsgData = {
-                user: game.user.id,
-                speaker: {
-                  actor: this.actor?.id || null,
-                  token: this.actor?.token?.id || null,
-                  alias: this.actor?.name || null,
-                },
-                type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-                rolls:[execExplosive].concat(listEffetsExplosive.rollDgts),
-                content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegatsExplosive),
-                sound: CONFIG.sounds.dice
-              };
-
-              const msgDataExpl = ChatMessage.applyRollMode(dgtsExplMsgData, rMode);
-
-              await ChatMessage.create(msgDataExpl, {
-                rollMode:rMode
+              const weapon = roll.prepareWpnDistance({
+                name:name,
+                system:{
+                  degats:{dice:dgtsExplDice, fixe:dgtsExplFixe},
+                  violence:{dice:violenceExplDice, fixe:ViolenceExplFixe},
+                  effets:armorCapacites.changeling.desactivationexplosive.effets,
+                }
               });
+              const options = weapon.options;
+
+              for(let o of options) {
+                o.active = true;
+              }
+
+              const flags = roll.getRollData(weapon)
+              roll.setWeapon(weapon);
+              await roll.doRollDamage(flags);
+              await roll.doRollViolence(flags);
 
               armure.update(armorupdate);
             } else {
@@ -801,18 +766,14 @@ export class KnightSheet extends ActorSheet {
                 break;
 
               case "candle":
-                const rCandle = new game.knight.RollKnight(dEspoir, this.actor.system);
-                rCandle._success = false;
-                rCandle._flavor = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.CANDLE.SacrificeGainEspoir");
-                await rCandle.toMessage({
-                  speaker: {
-                  actor: this.actor?.id || null,
-                  token: this.actor?.token?.id || null,
-                  alias: this.actor?.name || null,
-                  }
-                });
+                const roll = new game.knight.RollKnight(this.actor, {
+                  name:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.CANDLE.SacrificeGainEspoir"),
+                  dices:dEspoir,
+                }, false);
 
-                await this._depensePE(`${name} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.CANDLE.Label")}`, rCandle.total, true, true, false, true);
+                const total = await roll.doRoll();
+
+                await this._depensePE(`${name} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.CANDLE.Label")}`, total, true, true, false, true);
                 break;
             }
             break;
@@ -907,18 +868,14 @@ export class KnightSheet extends ActorSheet {
                 const nActuel = armure.system.capacites.selected?.rage?.niveau || false;
 
                 if(typeNiveau === "espoir") {
-                  const rSEspoir = new game.knight.RollKnight("1D6", this.actor.system);
-                  rSEspoir._success = false;
-                  rSEspoir._flavor = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Espoir");
-                  await rSEspoir.toMessage({
-                    speaker: {
-                    actor: this.actor?.id || null,
-                    token: this.actor?.token?.id || null,
-                    alias: this.actor?.name || null,
-                    }
-                  });
+                  const roll = new game.knight.RollKnight(this.actor, {
+                    name:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Espoir"),
+                    dices:'1D6',
+                  }, false);
 
-                  const rSEspoirTotal = await this._depensePE(`${name} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Espoir")}`, rSEspoir.total, true, true, false, true);
+                  const total = await roll.doRoll();
+
+                  const rSEspoirTotal = await this._depensePE(`${name} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.UP.Espoir")}`, total, true, true, false, true);
 
                   if(!rSEspoirTotal) return;
                 }
@@ -977,36 +934,24 @@ export class KnightSheet extends ActorSheet {
                 const degatsLabel = target.data("label") || "";
                 const sante = getData.system.sante.value;
 
-                const rDgtsRage = new game.knight.RollKnight(degatsRage, this.actor.system);
-                rDgtsRage._success = false;
-                rDgtsRage._flavor = `${name} : ${degatsLabel}`;
-                await rDgtsRage.toMessage({
-                  speaker: {
-                  actor: this.actor?.id || null,
-                  token: this.actor?.token?.id || null,
-                  alias: this.actor?.name || null,
-                  }
-                });
+                const rDegats = new game.knight.RollKnight(this.actor, {
+                  name:`${name} : ${degatsLabel}`,
+                  dices:degatsRage,
+                }, false);
 
-                this.actor.update({[`system.sante.value`]:Math.max(sante-rDgtsRage.total, 0)});
+                await rDegats.doRoll({['system.sante.value']:`@{max, 0} ${sante}-@{rollTotal}`});
               break
 
               case "recuperation":
                 const recuperationRage = target.data("recuperation") || 0;
                 const labelRecuperationRage = target.data("labelrecuperation") || "";
 
-                const rGEspoir = new game.knight.RollKnight(recuperationRage, this.actor.system);
-                  rGEspoir._success = false;
-                  rGEspoir._flavor = game.i18n.localize("KNIGHT.GAINS.Espoir") + ` (${labelRecuperationRage})`;
-                  await rGEspoir.toMessage({
-                    speaker: {
-                    actor: this.actor?.id || null,
-                    token: this.actor?.token?.id || null,
-                    alias: this.actor?.name || null,
-                    }
-                  });
+                const rRecuperation = new game.knight.RollKnight(this.actor, {
+                  name:game.i18n.localize("KNIGHT.GAINS.Espoir") + ` (${labelRecuperationRage})`,
+                  dices:recuperationRage,
+                }, false);
 
-                this._gainPE(rGEspoir.total, true, true);
+                this._gainPE(await rRecuperation.doRoll(), true, true);
                 break;
 
               case "blaze":
@@ -1039,7 +984,16 @@ export class KnightSheet extends ActorSheet {
             const autre = [].concat(caracteristiques);
             autre.shift();
 
-            dialogRoll(name, this.actor, {base:caracteristiques[0], difficulte:5, autre:autre, lock:caracteristiques});
+            const actor = this.actor.token ? this.actor.token.id : this.actor.id;
+
+            const dialog = new game.knight.applications.KnightRollDialog(actor, {
+              label:name,
+              base:caracteristiques[0],
+              whatRoll:autre,
+              difficulte:5,
+            });
+
+            dialog.open();
             break;
           case "nanoc":
             armure.update({[`system.${toupdate}.${special}`]:value});
@@ -1049,16 +1003,12 @@ export class KnightSheet extends ActorSheet {
             break;
           case "mechanic":
             const mechanic = armorCapacites[capacite].reparation[special];
-            const rMechanic = new game.knight.RollKnight(`${mechanic.dice}D6+${mechanic.fixe}`, this.actor.system);
-            rMechanic._success = false;
-            rMechanic._flavor = `${name}`;
-            await rMechanic.toMessage({
-              speaker: {
-              actor: this.actor?.id || null,
-              token: this.actor?.token?.id || null,
-              alias: this.actor?.name || null,
-              }
-            });
+            const roll = new game.knight.RollKnight(this.actor, {
+              name:`${name}`,
+              dices:`${mechanic.dice}D6+${mechanic.fixe}`,
+            }, false);
+
+            await roll.doRoll();
             break;
         }
       }
@@ -1072,39 +1022,12 @@ export class KnightSheet extends ActorSheet {
         dataModule.update({[`system.active.base`]:value});
 
         if(dataNiveau.jetsimple.has && value) {
-          const jSREffects = await getEffets(this.actor, 'contact', 'standard', {}, dataNiveau.jetsimple.effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false);
-          const execJSR = new game.knight.RollKnight(dataNiveau.jetsimple.jet, this.actor.system);
-          await execJSR.evaluate();
+          const roll = new game.knight.RollKnight(this.actor, {
+            name:`${dataNiveau.jetsimple.label}`,
+            dices:`${dataNiveau.jetsimple.jet}`,
+          }, false);
 
-          let jSRoll = {
-            flavor:dataNiveau.jetsimple.label,
-            main:{
-              total:execJSR._total,
-              tooltip:await execJSR.getTooltip(),
-              formula: execJSR._formula
-            },
-            other:jSREffects.other
-          };
-
-          const jSRMsgData = {
-            user: game.user.id,
-            speaker: {
-              actor: this.actor?.id || null,
-              token: this.actor?.token?.id || null,
-              alias: this.actor?.name || null,
-            },
-            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-            rolls:[execJSR].concat(jSREffects.rollDgts),
-            content: await renderTemplate('systems/knight/templates/dices/wpn.html', jSRoll),
-            sound: CONFIG.sounds.dice
-          };
-
-          const rMode = game.settings.get("core", "rollMode");
-          const msgFData = ChatMessage.applyRollMode(jSRMsgData, rMode);
-
-          await ChatMessage.create(msgFData, {
-            rollMode:rMode
-          });
+          await roll.doRoll({}, dataNiveau.jetsimple.effets);
         }
       }
 
@@ -1752,16 +1675,12 @@ export class KnightSheet extends ActorSheet {
           break;
         case "mechanic":
           const mechanic = armorCapacites[capacite].reparation[special];
-          const rMechanic = new game.knight.RollKnight(`${mechanic.dice}D6+${mechanic.fixe}`, this.actor.system);
-          rMechanic._success = false;
-          rMechanic._flavor = `${name}`;
-          await rMechanic.toMessage({
-            speaker: {
-            actor: this.actor?.id || null,
-            token: this.actor?.token?.id || null,
-            alias: this.actor?.name || null,
-            }
-          });
+          const roll = new game.knight.RollKnight(this.actor, {
+            name:`${name}`,
+            dices:`${mechanic.dice}D6+${mechanic.fixe}`,
+          }, false);
+
+          await roll.doRoll();
           break;
       }
     });
@@ -1811,21 +1730,27 @@ export class KnightSheet extends ActorSheet {
           });
           break;
         case 'contrecoups':
-          dialogRoll(label, this.actor, {base:base, noOd:true});
-          break;
-        case 'energiedeficiente':
-          const rEneDef = new game.knight.RollKnight(`${value}D6`, this.actor.system);
-          rEneDef._success = false;
-          rEneDef._flavor = label;
-          await rEneDef.toMessage({
-            speaker: {
-            actor: this.actor?.id || null,
-            token: this.actor?.token?.id || null,
-            alias: this.actor?.name || null,
+          const id = this.actor.token ? this.actor.token.id : this.actor.id;
+
+          const dialog = new game.knight.applications.KnightRollDialog(id, {
+            label:label,
+            base:base,
+            btn:{
+              nood:true,
             }
           });
 
-          await this._gainPE(rEneDef.total);
+          dialog.open();
+          break;
+        case 'energiedeficiente':
+          const roll = new game.knight.RollKnight(this.actor, {
+            name:`${label}`,
+            dices:`${value}D6`,
+          }, false);
+
+          const rTotal = await roll.doRoll();
+
+          await this._gainPE(rTotal);
           break;
       }
     });
@@ -1944,164 +1869,69 @@ export class KnightSheet extends ActorSheet {
         if(recuperation.PE) update[`system.energie.value`] = getData.energie.max;
 
         if(jet.actif && jet.isfixe) {
-          const rMode = game.settings.get("core", "rollMode");
+          const roll = new game.knight.RollKnight(this.actor, {
+            name:`${label}`,
+            dices:`${jet.fixe.dice}D6+${jet.fixe.fixe}`,
+          }, false);
 
-          const jetF = new game.knight.RollKnight(`${jet.fixe.dice}D6+${jet.fixe.fixe}`, actor.system);
-          jetF._success = false;
-          await jetF.evaluate();
-
-          const pJets = {
-            flavor:`${label} : ${jet.fixe.label}`,
-            main:{
-              total:jetF._total,
-              tooltip:await jetF.getTooltip(),
-              formula: jetF._formula
-            },
-          };
-
-          const jetMsgData = {
-            user: game.user.id,
-            speaker: {
-              actor: actor?.id || null,
-              token: actor?.token?.id || null,
-              alias: actor?.name || null,
-            },
-            type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-            rolls:[jetF],
-            content: await renderTemplate('systems/knight/templates/dices/wpn.html', pJets),
-            sound: CONFIG.sounds.dice
-          };
-
-          const msgData = ChatMessage.applyRollMode(jetMsgData, rMode);
-
-          await ChatMessage.create(msgData, {
-            rollMode:rMode
-          });
+          const rTotal = await roll.doRoll();
         }
 
         if(dgts.actif && dgts.isfixe) {
-          const rMode = game.settings.get("core", "rollMode");
-
-          const listEffets = await getEffets(actor, '', 'standard', {}, dgts.effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false, 0);
-
-          const dgtsF = new game.knight.RollKnight(`${dgts.fixe.dice+listEffets.degats.totalDice}D6+${dgts.fixe.fixe+listEffets.degats.totalBonus}`, actor.system);
-          dgtsF._success = false;
-          await dgtsF.evaluate(listEffets.degats.minMax);
-
-          const dgtsSubEffets = listEffets.degats.list.concat(listEffets.attack.list, listEffets.other).sort();
-          const dgtsIncEffets = listEffets.degats.include.concat(listEffets.attack.include).sort();
-
-          const pDegats = {
-            flavor:`${label} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
-            main:{
-              total:dgtsF._total,
-              tooltip:await dgtsF.getTooltip(),
-              formula: dgtsF._formula
-            },
-            sub:dgtsSubEffets,
-            include:dgtsIncEffets
-          };
-
-          const dgtsMsgData = {
-            user: game.user.id,
-            speaker: {
-              actor: actor?.id || null,
-              token: actor?.token?.id || null,
-              alias: actor?.name || null,
-            },
-            type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-            rolls:[dgtsF].concat(listEffets.rollDgts),
-            content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegats),
-            sound: CONFIG.sounds.dice
-          };
-
-          const msgData = ChatMessage.applyRollMode(dgtsMsgData, rMode);
-
-          await ChatMessage.create(msgData, {
-            rollMode:rMode
+          const roll = new game.knight.RollKnight(this.actor, {
+            name:`${label} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
+            dices:`${dgts.fixe.dice}D6+${dgts.fixe.fixe}`,
+          }, false);
+          const weapon = roll.prepareWpnDistance({
+            name:label,
+            system:{
+              degats:{dice:dgts.fixe.dice, fixe:dgts.fixe.fixe},
+              violence:{dice:0, fixe:0},
+              effets:dgts.effets,
+            }
           });
+          const options = weapon.options;
+
+          for(let o of options) {
+            o.active = true;
+          }
+          const flags = roll.getRollData(weapon)
+          roll.setWeapon(weapon);
+
+          await roll.doRollDamage(flags);
         }
 
         if(viol.actif && viol.isfixe) {
-          const rMode = game.settings.get("core", "rollMode");
-
-          const listEffets = await getEffets(actor, '', 'standard', {}, viol.effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false, 0);
-
-          const violF = new game.knight.RollKnight(`${viol.fixe.dice+listEffets.violence.totalDice}D6+${viol.fixe.fixe+listEffets.violence.totalBonus}`, actor.system);
-          violF._success = false;
-          await violF.evaluate(listEffets.violence.minMax);
-
-          const violSubEffets = listEffets.violence.list.concat(listEffets.attack.list, listEffets.other).sort();
-          const violIncEffets = listEffets.violence.include.concat(listEffets.attack.include).sort();
-
-          const pViolence = {
-            flavor:`${label} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}`,
-            main:{
-              total:violF._total,
-              tooltip:await violF.getTooltip(),
-              formula: violF._formula
-            },
-            sub:violSubEffets,
-            include:violIncEffets
-          };
-
-          const violenceMsgData = {
-            user: game.user.id,
-            speaker: {
-              actor: actor?.id || null,
-              token: actor?.token?.id || null,
-              alias: actor?.name || null,
-            },
-            type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-            rolls:[violF].concat(listEffets.rollViol),
-            content: await renderTemplate('systems/knight/templates/dices/wpn.html', pViolence),
-            sound: CONFIG.sounds.dice
-          };
-
-          const msgData = ChatMessage.applyRollMode(violenceMsgData, rMode);
-
-          await ChatMessage.create(msgData, {
-            rollMode:rMode
+          const roll = new game.knight.RollKnight(this.actor, {
+            name:`${label} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}`,
+            dices:`${dgts.fixe.dice}D6+${dgts.fixe.fixe}`,
+          }, false);
+          const weapon = roll.prepareWpnDistance({
+            name:label,
+            system:{
+              degats:{dice:0, fixe:0},
+              violence:{dice:viol.fixe.dice, fixe:viol.fixe.fixe},
+              effets:dgts.effets,
+            }
           });
+          const options = weapon.options;
+
+          for(let o of options) {
+            o.active = true;
+          }
+          const flags = roll.getRollData(weapon)
+          roll.setWeapon(weapon);
+
+          await roll.doRollViolence(flags);
         }
 
         if(effets.actif) {
-          const rMode = game.settings.get("core", "rollMode");
+          const roll = new game.knight.RollKnight(this.actor, {
+            name:`${label}`,
+            dices:`0D6`,
+          }, false);
 
-          const listEffets = await getEffets(actor, '', 'standard', {}, effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false, 0);
-
-          let rollSubEffets = listEffets.attack.list.concat(listEffets.attack.include,
-            listEffets.other,
-            listEffets.degats.include, listEffets.degats.list,
-            listEffets.violence.include, listEffets.violence.list).sort();
-
-          rollSubEffets = rollSubEffets.filter((valeur, index, tableau) => {
-            return tableau.indexOf(valeur) === index;
-          });
-
-          const pRoll = {
-            flavor:`${label} : ${game.i18n.localize('KNIGHT.EFFETS.Label')}`,
-            main:{},
-            other:rollSubEffets
-          };
-
-          const rollMsgData = {
-            user: game.user.id,
-            speaker: {
-              actor: actor?.id || null,
-              token: actor?.token?.id || null,
-              alias: actor?.name || null,
-            },
-            type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-            content: await renderTemplate('systems/knight/templates/dices/wpn.html', pRoll),
-            sound: CONFIG.sounds.dice
-          };
-
-          const msgData = ChatMessage.applyRollMode(rollMsgData, rMode);
-
-          await ChatMessage.create(msgData, {
-            rollMode:rMode
-          });
+          const rTotal = await roll.doRoll({}, effets);
         }
 
       } else if(!isinstant) item.update({[`system.${toupdate}`]:value});
@@ -2162,111 +1992,73 @@ export class KnightSheet extends ActorSheet {
 
         if(!await this._depensePE(label, energie, true, false, false, true)) return;
 
-        const rMode = game.settings.get("core", "rollMode");
-
         let paliersRoll;
-        let listEffets;
         let rollDice;
         let rollFixe;
-        let rollF;
-        let rollSubEffets;
-        let rollIncEffets;
-        let pRoll;
-        let rollMsgData;
-        let msgData;
 
         switch(type) {
           case 'jet':
-            dialogRoll(label, this.actor, {base:caracteristique});
+            const id = this.actor.token ? this.actor.token.id : this.actor.id;
+
+            const dialog = new game.knight.applications.KnightRollDialog(id, {
+              label:label,
+              base:caracteristique,
+            });
+
+            dialog.open();
             break;
           case 'degats':
-            listEffets = await getEffets(actor, '', 'standard', {}, roll.effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false, 0);
-
             paliersRoll = paliers[selected];
             rollDice = +paliersRoll.split('D6+')[0];
             rollFixe = +paliersRoll.split('D6+')[1];
 
-            rollF = new game.knight.RollKnight(`${rollDice+listEffets.degats.totalDice}D6+${rollFixe+listEffets.degats.totalBonus}`, actor.system);
-            rollF._success = false;
-            await rollF.evaluate(listEffets.degats.minMax);
-
-            rollSubEffets = listEffets.degats.list.concat(listEffets.attack.list, listEffets.other).sort();
-            rollIncEffets = listEffets.degats.include.concat(listEffets.attack.include).sort();
-
-            pRoll = {
-              flavor:`${label} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
-              main:{
-                total:rollF._total,
-                tooltip:await rollF.getTooltip(),
-                formula: rollF._formula
-              },
-              sub:rollSubEffets,
-              include:rollIncEffets
-            };
-
-            rollMsgData = {
-              user: game.user.id,
-              speaker: {
-                actor: actor?.id || null,
-                token: actor?.token?.id || null,
-                alias: actor?.name || null,
-              },
-              type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-              rolls:[rollF].concat(listEffets.rollDgts),
-              content: await renderTemplate('systems/knight/templates/dices/wpn.html', pRoll),
-              sound: CONFIG.sounds.dice
-            };
-
-            msgData = ChatMessage.applyRollMode(rollMsgData, rMode);
-
-            await ChatMessage.create(msgData, {
-              rollMode:rMode
+            const rDegats = new game.knight.RollKnight(this.actor, {
+              name:`${label} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
+            }, false);
+            const wDegats = rDegats.prepareWpnDistance({
+              name:label,
+              system:{
+                degats:{dice:rollDice, fixe:rollFixe},
+                violence:{dice:0, fixe:0},
+                effets:roll.effets,
+              }
             });
+            const optionsDegats = wDegats.options;
+
+            for(let o of optionsDegats) {
+              o.active = true;
+            }
+            const flagsDegats = rDegats.getRollData(wDegats)
+            rDegats.setWeapon(wDegats);
+
+            await rDegats.doRollDamage(flagsDegats);
           break;
 
           case 'violence':
-            listEffets = await getEffets(actor, '', 'standard', {}, roll.effets, {raw:[], custom:[]}, {raw:[], custom:[]}, {raw:[], custom:[]}, false, 0);
-
             paliersRoll = paliers[selected];
             rollDice = +paliersRoll.split('D6+')[0];
             rollFixe = +paliersRoll.split('D6+')[1];
 
-            rollF = new game.knight.RollKnight(`${rollDice+listEffets.violence.totalDice}D6+${rollFixe+listEffets.violence.totalBonus}`, actor.system);
-            rollF._success = false;
-            await rollF.evaluate(listEffets.violence.minMax);
-
-            rollSubEffets = listEffets.violence.list.concat(listEffets.attack.list, listEffets.other).sort();
-            rollIncEffets = listEffets.violence.include.concat(listEffets.attack.include).sort();
-
-            pRoll = {
-              flavor:`${label} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
-              main:{
-                total:rollF._total,
-                tooltip:await rollF.getTooltip(),
-                formula: rollF._formula
-              },
-              sub:rollSubEffets,
-              include:rollIncEffets
-            };
-
-            rollMsgData = {
-              user: game.user.id,
-              speaker: {
-                actor: actor?.id || null,
-                token: actor?.token?.id || null,
-                alias: actor?.name || null,
-              },
-              type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-              rolls:[rollF].concat(listEffets.rollViol),
-              content: await renderTemplate('systems/knight/templates/dices/wpn.html', pRoll),
-              sound: CONFIG.sounds.dice
-            };
-
-            msgData = ChatMessage.applyRollMode(rollMsgData, rMode);
-
-            await ChatMessage.create(msgData, {
-              rollMode:rMode
+            const rViolence = new game.knight.RollKnight(this.actor, {
+              name:`${label} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
+            }, false);
+            const wViolence = rViolence.prepareWpnDistance({
+              name:label,
+              system:{
+                degats:{dice:0, fixe:0},
+                violence:{dice:rollDice, fixe:rollFixe},
+                effets:roll.effets,
+              }
             });
+            const options = wViolence.options;
+
+            for(let o of options) {
+              o.active = true;
+            }
+            const flagsViolence = rViolence.getRollData(wViolence)
+            rViolence.setWeapon(wViolence);
+
+            await rViolence.doRollViolence(flagsViolence);
           break;
         }
       }
@@ -2439,7 +2231,7 @@ export class KnightSheet extends ActorSheet {
       const value = $(ev.currentTarget).data("value");
 
       const armure = await getArmor(this.actor);
-      const armureLegende = this._getArmorLegende() || false;
+      const armureLegende = this._getArmorLegende();
 
       let result = true;
       if(value === true) { result = false; }
@@ -2640,120 +2432,37 @@ export class KnightSheet extends ActorSheet {
         if(!depense) return;
       }
 
-      let sub = [];
-      let other = [];
-      let include = [];
-      let toConcat = [];
-      let minMax = false;
+      let raw = [];
+      let custom = [];
 
       if(eRaw !== false) {
-        const raw = eRaw.split(',');
-        const custom = eCustom === '' ? [] : eCustom.split(',');
-        const listEffets = await getEffets(this.actor, '', 'standard', this.system, {raw:raw, custom:custom}, [], [], [], false, 0);
-
-        sub = listEffets.degats.list;
-        include = listEffets.degats.include;
-        other = listEffets.other;
-        toConcat = listEffets.rollDgts;
-        minMax = listEffets.degats.minMax;
+        raw = eRaw.split(',');
+        custom = eCustom === '' ? [] : eCustom.split(',');
       }
 
-      const rDegats = new game.knight.RollKnight(`${degatsD}D6+${degatsF}`, this.actor.system);
-      rDegats._success = false;
-      await rDegats.evaluate(minMax);
-
-      if(sub.length > 0) { sub.sort(SortByName); }
-      if(include.length > 0) { include.sort(SortByName); }
-
-      const rMode = game.settings.get("core", "rollMode");
-
-      const pDegats = {
-        flavor:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Degats")}`,
-        main:{
-          total:rDegats._total,
-          tooltip:await rDegats.getTooltip(),
-          formula: rDegats._formula
-        },
-        sub:sub,
-        include:include,
-        other:other,
-      };
-
-      const dgtsMsgData = {
-        user: game.user.id,
-        speaker: {
-          actor: this.actor?.id || null,
-          token: this.actor?.token?.id || null,
-          alias: this.actor?.name || null,
-        },
-        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-        rolls:[rDegats].concat(toConcat),
-        content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegats),
-        sound: CONFIG.sounds.dice
-      };
-
-      const msgData = ChatMessage.applyRollMode(dgtsMsgData, rMode);
-
-      await ChatMessage.create(msgData, {
-        rollMode:rMode
+      const roll = new game.knight.RollKnight(this.actor, {
+        name:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Degats")}`,
+      }, false);
+      const weapon = roll.prepareWpnContact({
+        name:`${label}`,
+        system:{
+          degats:{dice:degatsD, fixe:degatsF},
+          violence:{dice:violenceD, fixe:violenceF},
+          effets:{raw:raw, custom:custom},
+        }
       });
+      const options = weapon.options;
 
-
-      let subV = [];
-      let otherV = [];
-      let includeV = [];
-      let toConcatV = [];
-      let minMaxV = false;
-
-      if(eRaw !== false) {
-        const raw = eRaw.split(',');
-        const custom = eCustom === '' ? [] : eCustom.split(',');
-        const listEffets = await getEffets(this.actor, '', 'standard', this.system, {raw:raw, custom:custom}, [], [], [], false, 0);
-
-        subV = listEffets.violence.list;
-        includeV = listEffets.violence.include;
-        otherV = listEffets.other;
-        toConcatV = listEffets.rollDgts;
-        minMaxV = listEffets.violence.minMax;
+      for(let o of options) {
+        o.active = true;
       }
 
-      const rViolence = new game.knight.RollKnight(`${violenceD}D6+${violenceF}`, this.actor.system);
-      rViolence._success = false;
-      await rViolence.evaluate(minMaxV);
+      const flags = roll.getRollData(weapon)
+      roll.setWeapon(weapon);
+      await roll.doRollDamage(flags);
 
-      if(subV.length > 0) { sub.sort(SortByName); }
-      if(includeV.length > 0) { include.sort(SortByName); }
-
-      const pViolence = {
-        flavor:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Violence")}`,
-        main:{
-          total:rViolence._total,
-          tooltip:await rViolence.getTooltip(),
-          formula: rViolence._formula
-        },
-        sub:subV,
-        include:includeV,
-        other:otherV,
-      };
-
-      const violMsgData = {
-        user: game.user.id,
-        speaker: {
-          actor: this.actor?.id || null,
-          token: this.actor?.token?.id || null,
-          alias: this.actor?.name || null,
-        },
-        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-        rolls:[rViolence].concat(toConcat),
-        content: await renderTemplate('systems/knight/templates/dices/wpn.html', pViolence),
-        sound: CONFIG.sounds.dice
-      };
-
-      const msgDataV = ChatMessage.applyRollMode(violMsgData, rMode);
-
-      await ChatMessage.create(msgDataV, {
-        rollMode:rMode
-      });
+      roll.setName(`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Violence")}`);
+      await roll.doRollViolence(flags);
     });
 
     html.find('.armure .degats').click(async ev => {
@@ -2772,63 +2481,34 @@ export class KnightSheet extends ActorSheet {
         if(!depense) return;
       }
 
-      let sub = [];
-      let other = [];
-      let include = [];
-      let toConcat = [];
-      let minMax = false;
+      let raw = [];
+      let custom = [];
 
       if(eRaw !== false) {
-        const raw = eRaw.split(',');
-        const custom = eCustom === '' ? [] : eCustom.split(',');
-        const listEffets = await getEffets(this.actor, '', 'standard', this.system, {raw:raw, custom:custom}, [], [], [], false, 0);
-
-        sub = listEffets.degats.list;
-        include = listEffets.degats.include;
-        other = listEffets.other;
-        toConcat = listEffets.rollDgts;
-        minMax = listEffets.degats.minMax;
+        raw = eRaw.split(',');
+        custom = eCustom === '' ? [] : eCustom.split(',');
       }
 
-      const rDegats = new game.knight.RollKnight(`${degatsD}D6+${degatsF}`, this.actor.system);
-      rDegats._success = false;
-      await rDegats.evaluate(minMax);
-
-      if(sub.length > 0) { sub.sort(SortByName); }
-      if(include.length > 0) { include.sort(SortByName); }
-
-      const rMode = game.settings.get("core", "rollMode");
-
-      const pDegats = {
-        flavor:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Degats")}`,
-        main:{
-          total:rDegats._total,
-          tooltip:await rDegats.getTooltip(),
-          formula: rDegats._formula
-        },
-        sub:sub,
-        include:include,
-        other:other,
-      };
-
-      const dgtsMsgData = {
-        user: game.user.id,
-        speaker: {
-          actor: this.actor?.id || null,
-          token: this.actor?.token?.id || null,
-          alias: this.actor?.name || null,
-        },
-        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-        rolls:[rDegats].concat(toConcat),
-        content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegats),
-        sound: CONFIG.sounds.dice
-      };
-
-      const msgData = ChatMessage.applyRollMode(dgtsMsgData, rMode);
-
-      await ChatMessage.create(msgData, {
-        rollMode:rMode
+      const roll = new game.knight.RollKnight(this.actor, {
+        name:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Degats")}`,
+      }, false);
+      const weapon = roll.prepareWpnContact({
+        name:`${label}`,
+        system:{
+          degats:{dice:degatsD, fixe:degatsF},
+          violence:{dice:0, fixe:0},
+          effets:{raw:raw, custom:custom},
+        }
       });
+      const options = weapon.options;
+
+      for(let o of options) {
+        o.active = true;
+      }
+
+      const flags = roll.getRollData(weapon)
+      roll.setWeapon(weapon);
+      await roll.doRollDamage(flags);
     });
 
     html.find('.armure .violence').click(async ev => {
@@ -2847,63 +2527,34 @@ export class KnightSheet extends ActorSheet {
         if(!depense) return;
       }
 
-      let sub = [];
-      let other = [];
-      let include = [];
-      let toConcat = [];
-      let minMax = false;
+      let raw = [];
+      let custom = [];
 
       if(eRaw !== false) {
-        const raw = eRaw.split(',');
-        const custom = eCustom === '' ? [] : eCustom.split(',');
-        const listEffets = await getEffets(this.actor, '', 'standard', this.system, {raw:raw, custom:custom}, [], [], [], false, 0);
-
-        sub = listEffets.degats.list;
-        include = listEffets.degats.include;
-        other = listEffets.other;
-        toConcat = listEffets.rollDgts;
-        minMax = listEffets.degats.minMax;
+        raw = eRaw.split(',');
+        custom = eCustom === '' ? [] : eCustom.split(',');
       }
 
-      const rViolence = new game.knight.RollKnight(`${violenceD}D6+${violenceF}`, this.actor.system);
-      rViolence._success = false;
-      await rViolence.evaluate(minMax);
-
-      if(sub.length > 0) { sub.sort(SortByName); }
-      if(include.length > 0) { include.sort(SortByName); }
-
-      const rMode = game.settings.get("core", "rollMode");
-
-      const pViolence = {
-        flavor:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Violence")}`,
-        main:{
-          total:rViolence._total,
-          tooltip:await rViolence.getTooltip(),
-          formula: rViolence._formula
-        },
-        sub:sub,
-        include:include,
-        other:other,
-      };
-
-      const violMsgData = {
-        user: game.user.id,
-        speaker: {
-          actor: this.actor?.id || null,
-          token: this.actor?.token?.id || null,
-          alias: this.actor?.name || null,
-        },
-        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-        rolls:[rViolence].concat(toConcat),
-        content: await renderTemplate('systems/knight/templates/dices/wpn.html', pViolence),
-        sound: CONFIG.sounds.dice
-      };
-
-      const msgData = ChatMessage.applyRollMode(violMsgData, rMode);
-
-      await ChatMessage.create(msgData, {
-        rollMode:rMode
+      const roll = new game.knight.RollKnight(this.actor, {
+        name:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Violence")}`,
+      }, false);
+      const weapon = roll.prepareWpnContact({
+        name:`${label}`,
+        system:{
+          degats:{dice:0, fixe:0},
+          violence:{dice:violenceD, fixe:violenceF},
+          effets:{raw:raw, custom:custom},
+        }
       });
+      const options = weapon.options;
+
+      for(let o of options) {
+        o.active = true;
+      }
+
+      const flags = roll.getRollData(weapon)
+      roll.setWeapon(weapon);
+      await roll.doRollViolence(flags);
     });
 
     html.find('div.listeAspects div.line').hover(ev => {
@@ -2957,25 +2608,32 @@ export class KnightSheet extends ActorSheet {
       const reussites = +target.data("reussitebonus") || 0;
       const succesTemp = +target.data("succestemp") || 0;
       const modTemp = +target.data("modtemp") || 0;
+      const id = this.actor.token ? this.actor.token.id : this.actor.id;
 
-      dialogRoll(label, this.actor,
-      {base:caracteristique, autre:caracAdd, lock:caracLock, succesbonus:reussites, noOd:noOd, modificateurTemp:modTemp, succesTemp:succesTemp});
+      const dialog = new game.knight.applications.KnightRollDialog(id, {
+        label:label,
+        base:caracteristique,
+        whatRoll:caracAdd,
+        succesbonus:reussites+succesTemp,
+        modificateur:modTemp,
+        btn:{
+          nood:noOd,
+        }
+      });
+
+      dialog.open();
     });
 
     html.find('.rollRecuperationArt').click(async ev => {
       const target = $(ev.currentTarget);
       const value = target.data("value");
 
-      const rEspoir = new game.knight.RollKnight(`${value}`, this.actor.system);
-      rEspoir._flavor = game.i18n.localize("KNIGHT.ART.RecuperationEspoir");
-      rEspoir._success = false;
-      await rEspoir.toMessage({
-        speaker: {
-        actor: this.actor?.id || null,
-        token: this.actor?.token?.id || null,
-        alias: this.actor?.name || null,
-        }
-      });
+      const rEspoir = new game.knight.RollKnight(this.actor, {
+        name:game.i18n.localize("KNIGHT.ART.RecuperationEspoir"),
+        dices:`${value}`,
+      }, false);
+
+      await rEspoir.doRoll();
     });
 
     html.find('.art-say').click(async ev => {
@@ -2984,22 +2642,12 @@ export class KnightSheet extends ActorSheet {
       const name = game.i18n.localize(`KNIGHT.ART.PRATIQUE.${type.charAt(0).toUpperCase()+type.substr(1)}`);
       const data = this.actor.art.system.pratique[type];
 
-      const msg = {
-        user: game.user.id,
-        speaker: {
-          actor: this.actor?.id || null,
-          token: this.actor?.token?.id || null,
-          alias: this.actor?.name || null,
-        },
-        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-        content: `<span style="display:flex;width:100%;font-weight:bold;">${name}</span><span style="display:flex;width:100%;text-align:justify;justify-content:left;word-break:break-all;">${data}</span>`
-      };
-
-      const rMode = game.settings.get("core", "rollMode");
-      const msgFData = ChatMessage.applyRollMode(msg, rMode);
-
-      await ChatMessage.create(msgFData, {
-        rollMode:rMode
+      const exec = new game.knight.RollKnight(this.actor,
+      {
+      name:name,
+      }).sendMessage({
+          text:data,
+          classes:'normal',
       });
     });
 
@@ -3024,24 +2672,34 @@ export class KnightSheet extends ActorSheet {
           carac:[game.i18n.localize(CONFIG.KNIGHT.caracteristiques['hargne']), game.i18n.localize(CONFIG.KNIGHT.caracteristiques['sangFroid'])],
           bonus:[od],
           }).doRoll();
+
       } else {
-        const dialog = new game.knight.applications.KnightRollDialog(this.actor, {
+        const id = this.actor.token ? this.actor.token.id : this.actor.id;
+
+        const dialog = new game.knight.applications.KnightRollDialog(id, {
           label:label,
           base:'hargne',
           whatRoll:['sangFroid']
-        }).open();
+        });
+
+        dialog.open();
       }
     });
 
     html.find('.jetWpn').click(ev => {
       const target = $(ev.currentTarget);
       const name = target.data("name");
-      const id = target.data("id");
       const isDistance = target.data("isdistance");
       const num = target.data("num");
       const caracs = target?.data("caracteristiques")?.split(",") || [];
       const autre = [].concat(caracs);
+      const parent = target.parents('div.wpn');
+      const other = parent.data("other");
+      const what = parent.data("what");
+      const armure = this.actor.items.find(itm => itm.type === 'armure');
+      let id = target.data("id");
       let base = '';
+      let whatRoll = [];
 
       if(isDistance === 'grenades') {
         const nbreGrenade = this.actor.system?.combat?.grenades?.quantity?.value ?? 0;
@@ -3062,23 +2720,62 @@ export class KnightSheet extends ActorSheet {
       switch(isDistance) {
         case 'grenades':
           const dataGrenade = this.actor.system.combat.grenades.liste[name];
+          id = `grenade_${name}`;
           label = dataGrenade.custom ? `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${dataGrenade.label}` : `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${name.charAt(0).toUpperCase()+name.substr(1)}`)}`;
           break;
 
         case 'longbow':
           label = game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label`);
+          id = `capacite_${armure.id}_longbow`;
           break;
 
         case 'armesimprovisees':
+
           label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[name][num]);
+          id = id === 'distance' ? `${other}${what}d` : `${other}${what}c`;
+
+          whatRoll.push('force');
+
+          if(id === 'distance') base = 'tir';
+          else base = 'combat';
           break;
 
         default:
           label = name;
+          const item = this.actor.items.get(id);
+
+          if(item.type === 'module') id = `module_${id}`;
+          if(item.type === 'armure') {
+            switch(what) {
+              case 'rayon':
+              case 'salve':
+              case 'vague':
+                id = isDistance === 'distance' ? `capacite_${id}_cea${what.charAt(0).toUpperCase() + what.substr(1)}D` : `capacite_${id}_cea${what.charAt(0).toUpperCase() + what.substr(1)}C`;
+                break;
+
+              case 'borealis':
+                id = isDistance === 'distance' ? `capacite_${id}_borealisD` : `capacite_${id}_borealisC`;
+                break;
+
+              case 'lame':
+              case 'griffe':
+              case 'canon':
+                id = `capacite_${id}_morph${what.charAt(0).toUpperCase() + what.substr(1)}`;
+                break;
+            }
+          }
           break;
       }
+      const actor = this.actor.token ? this.actor.token.id : this.actor.id;
 
-      dialogRoll(label, this.actor, {base:base, autre:autre, isWpn:true, idWpn:id, nameWpn:name, typeWpn:isDistance, num:num});
+      const dialog = new game.knight.applications.KnightRollDialog(actor, {
+        label:label,
+        wpn:id,
+        base:base,
+        whatRoll:whatRoll
+      });
+
+      dialog.open();
     });
 
     html.find('.jetEgide').click(async ev => {
@@ -3095,21 +2792,17 @@ export class KnightSheet extends ActorSheet {
     html.find('.motivationAccomplie').click(async ev => {
       const espoir = this.actor.system.espoir;
       const mods = espoir.recuperation.bonus-espoir.recuperation.malus;
+      const actuel = this.actor.system.espoir.value;
+      let update = {}
+      update[`system.espoir.value`] = `${actuel}+@{rollTotal}`;
 
-      const rEspoir = new game.knight.RollKnight(`1D6+${mods}`, this.actor.system);
-      rEspoir._flavor = game.i18n.localize("KNIGHT.PERSONNAGE.MotivationAccomplie");
-      rEspoir._success = false;
-      await rEspoir.toMessage({
-        speaker: {
-        actor: this.actor?.id || null,
-        token: this.actor?.token?.id || null,
-        alias: this.actor?.name || null,
-        }
-      });
+      const rEspoir = new game.knight.RollKnight(this.actor, {
+        name:game.i18n.localize("KNIGHT.PERSONNAGE.MotivationAccomplie"),
+        dices:`1D6`,
+        bonus:[mods]
+      }, false);
 
-      const total = rEspoir.total < 0 ? 0 : rEspoir.total;
-
-      this._gainPE(total, true, true);
+      await rEspoir.doRoll(update);
     });
 
     html.find('img.edit').click(ev => {
@@ -3269,69 +2962,43 @@ export class KnightSheet extends ActorSheet {
       const target = $(ev.currentTarget);
       const nbre = +target.data("number");
       const nods = target.data("nods");
+      const wear = data.system.wear;
 
       if(nbre > 0) {
         const recuperation = data.system.combat.nods[nods].recuperationBonus;
-
-        const rNods = new game.knight.RollKnight(`3D6+${recuperation}`, data.system);
-        rNods._flavor = game.i18n.localize(`KNIGHT.JETS.Nods${nods}`);
-        rNods._success = false;
-        await rNods.toMessage({
-          speaker: {
-          actor: this.actor?.id || null,
-          token: this.actor?.token?.id || null,
-          alias: this.actor?.name || null,
-          }
-        });
-
-        let base = 0;
-        let max = 0;
-        let type = '';
+        let update = {}
 
         switch(nods) {
           case 'soin':
-            type = 'sante';
-            base = data.system.sante.value;
-            max = data.system.sante.max;
-
+            update['system.sante.value'] = `@{rollTotal}+${data.system.sante.value}`;
             break;
 
           case 'energie':
-            type = 'energie';
-            base = data.system.energie.value;
-            max = data.system.energie.max;
+            update[`system.equipements.${wear}.energie.value`] = `@{rollTotal}+${data.system.energie.value}`;
             break;
 
           case 'armure':
-            type = 'armure'
-            base = data.system.armure.value;
-            max = data.system.armure.max;
+            update[`system.equipements.${wear}.armure.value`] = `@{rollTotal}+${data.system.armure.value}`;
             break;
         }
+        update[`system.combat.nods.${nods}.value`] = nbre - 1;
 
-        const total = rNods.total;
-        const final = base+total > max ? max : base+total;
+        const rNods = new game.knight.RollKnight(this.actor, {
+          name:game.i18n.localize(`KNIGHT.JETS.Nods${nods}`),
+          dices:`3D6`,
+          bonus:[recuperation]
+        }, false);
 
-        const update = {
-          'system':{
-            'combat':{
-              'nods':{
-                [nods]:{
-                  'value':nbre - 1
-                }
-              }
-            },
-            [type]:{
-              'value':final
-            }
-          }
-        };
+        await rNods.doRoll(update);
+      } else {
+        const rNods = new game.knight.RollKnight(this.actor, {
+          name:game.i18n.localize(`KNIGHT.JETS.Nods${nods}`),
+        }, false);
 
-        if(type === 'armure') {
-          this._updatePA(final);
-        }
-
-        this.actor.update(update);
+        rNods.sendMessage({
+          classes:'fail',
+          text:`${game.i18n.localize(`KNIGHT.JETS.NotNods`)}`,
+        })
       }
     });
 
@@ -3342,30 +3009,24 @@ export class KnightSheet extends ActorSheet {
       const nods = target.data("nods");
 
       if(nbre > 0) {
-        const rNods = new game.knight.RollKnight(`3D6+0`, this.actor.system);
-        rNods._flavor = game.i18n.localize(`KNIGHT.JETS.Nods${nods}`);
-        rNods._success = false;
-        await rNods.toMessage({
-          speaker: {
-          actor: data?.id || null,
-          token: data?.token?.id || null,
-          alias: data?.name || null,
-          }
-        });
+        let update = {}
+        update[`system.combat.nods.${nods}.value`] = nbre - 1;
 
-        const update = {
-          'system':{
-            'combat':{
-              'nods':{
-                [nods]:{
-                  'value':nbre - 1
-                }
-              }
-            }
-          }
-        };
+        const rNods = new game.knight.RollKnight(this.actor, {
+          name:game.i18n.localize(`KNIGHT.JETS.Nods${nods}`),
+          dices:`3D6`,
+        }, false);
 
-        this.actor.update(update);
+        await rNods.doRoll(update);
+      } else {
+        const rNods = new game.knight.RollKnight(this.actor, {
+          name:game.i18n.localize(`KNIGHT.JETS.Nods${nods}`),
+        }, false);
+
+        rNods.sendMessage({
+          classes:'fail',
+          text:`${game.i18n.localize(`KNIGHT.JETS.NotNods`)}`,
+        })
       }
     });
 
@@ -4500,22 +4161,12 @@ export class KnightSheet extends ActorSheet {
       }
 
       if (itemType === 'armurelegende') {
-        const oldArmorLegende = this._getArmorLegende(itemId);
+        const oldArmorLegende = this._getArmorLegende();
 
-        if(oldArmorLegende !== false) {
-          oldArmorLegende.delete();
-        }
+        if(oldArmorLegende) oldArmorLegende.delete();
 
-        const update = {
-          system:{
-            equipements:{
-              armure:{}
-            }
-          }
-        };
-
-        update.system.equipements.armure.idLegende = itemId;
-        update.system.equipements.armure.hasArmorLegende = true;
+        const update = {};
+        update['system.equipements.armure.hasArmorLegende'] = true;
 
         this.actor.update(update);
       }
@@ -4886,8 +4537,8 @@ export class KnightSheet extends ActorSheet {
                         fixe:passiveUltime.capacites.cea.update.vague.violence.fixe,
                       },
                       effets:{
-                        raw:passiveUltime.capacites.cea.update.vague.effets.raw,
-                        custom:passiveUltime.capacites.cea.update.vague.effets.custom,
+                        raw:[...capacite.vague.effets.raw, ...passiveUltime.capacites.cea.update.vague.effets.raw],
+                        custom:[...capacite.vague.effets.custom, ...passiveUltime.capacites.cea.update.vague.effets.custom],
                       }
                     },
                     rayon:{
@@ -4900,8 +4551,8 @@ export class KnightSheet extends ActorSheet {
                         fixe:passiveUltime.capacites.cea.update.rayon.violence.fixe,
                       },
                       effets:{
-                        raw:passiveUltime.capacites.cea.update.rayon.effets.raw,
-                        custom:passiveUltime.capacites.cea.update.rayon.effets.custom,
+                        raw:[...capacite.rayon.effets.raw, ...passiveUltime.capacites.cea.update.rayon.effets.raw],
+                        custom:[...capacite.rayon.effets.custom, ...passiveUltime.capacites.cea.update.rayon.effets.custom],
                       }
                     },
                     salve:{
@@ -4914,8 +4565,8 @@ export class KnightSheet extends ActorSheet {
                         fixe:passiveUltime.capacites.cea.update.salve.violence.fixe,
                       },
                       effets:{
-                        raw:passiveUltime.capacites.cea.update.salve.effets.raw,
-                        custom:passiveUltime.capacites.cea.update.salve.effets.custom,
+                        raw:[...capacite.salve.effets.raw, ...passiveUltime.capacites.cea.update.salve.effets.raw],
+                        custom:[...capacite.salve.effets.custom, ...passiveUltime.capacites.cea.update.salve.effets.custom],
                       }
                     }
                   });
@@ -5126,9 +4777,10 @@ export class KnightSheet extends ActorSheet {
                   name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label')}`,
                   system:{
                     capaciteName:'borealis',
-                    subCapaciteName:'offensif',
+                    subCapaciteName:'borealis',
                     noRack:true,
                     capacite:true,
+                    isCapacity:true,
                     portee:game.i18n.localize(`KNIGHT.PORTEE.${capacite.offensif.portee.charAt(0).toUpperCase()+capacite.offensif.portee.substr(1)}`),
                     energie:capacite.offensif.energie,
                     degats:{
@@ -5149,9 +4801,10 @@ export class KnightSheet extends ActorSheet {
                   name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label')}`,
                   system:{
                     capaciteName:'borealis',
-                    subCapaciteName:'offensif',
+                    subCapaciteName:'borealis',
                     noRack:true,
                     capacite:true,
+                    isCapacity:true,
                     portee:game.i18n.localize(`KNIGHT.PORTEE.${capacite.offensif.portee.charAt(0).toUpperCase()+capacite.offensif.portee.substr(1)}`),
                     energie:capacite.offensif.energie,
                     degats:{
@@ -5260,8 +4913,8 @@ export class KnightSheet extends ActorSheet {
                           fixe:passiveUltime.capacites.morph.update.polymorphie.canon.violence.fixe,
                         },
                         effets:{
-                          raw:capacite.polymorphie.canon.effets.raw.concat(passiveUltime.capacites.morph.update.polymorphie.canon.effets.raw),
-                          custom:capacite.polymorphie.canon.effets.custom.concat(passiveUltime.capacites.morph.update.polymorphie.canon.effets.custom),
+                          raw:[...capacite.polymorphie.canon.effets.raw, ...passiveUltime.capacites.morph.update.polymorphie.canon.effets.raw],
+                          custom:[...capacite.polymorphie.canon.effets.custom, ...passiveUltime.capacites.morph.update.polymorphie.canon.effets.custom],
                         }
                       },
                       griffe:{
@@ -5274,8 +4927,8 @@ export class KnightSheet extends ActorSheet {
                           fixe:passiveUltime.capacites.morph.update.polymorphie.griffe.violence.fixe,
                         },
                         effets:{
-                          raw:capacite.polymorphie.griffe.effets.raw.concat(passiveUltime.capacites.morph.update.polymorphie.griffe.effets.raw),
-                          custom:capacite.polymorphie.griffe.effets.custom.concat(passiveUltime.capacites.morph.update.polymorphie.griffe.effets.custom),
+                          raw:[...capacite.polymorphie.griffe.effets.raw, ...passiveUltime.capacites.morph.update.polymorphie.griffe.effets.raw],
+                          custom:[...capacite.polymorphie.griffe.effets.custom, ...passiveUltime.capacites.morph.update.polymorphie.griffe.effets.custom],
                         }
                       },
                       lame:{
@@ -5288,8 +4941,8 @@ export class KnightSheet extends ActorSheet {
                           fixe:passiveUltime.capacites.morph.update.polymorphie.lame.violence.fixe,
                         },
                         effets:{
-                          raw:capacite.polymorphie.lame.effets.raw.concat(passiveUltime.capacites.morph.update.polymorphie.lame.effets.raw),
-                          custom:capacite.polymorphie.lame.effets.custom.concat(passiveUltime.capacites.morph.update.polymorphie.lame.effets.custom),
+                          raw:[...capacite.polymorphie.lame.effets.raw, ...passiveUltime.capacites.morph.update.polymorphie.lame.effets.raw],
+                          custom:[...capacite.polymorphie.lame.effets.custom, ...passiveUltime.capacites.morph.update.polymorphie.lame.effets.custom],
                         }
                       }
                     },
@@ -5317,10 +4970,11 @@ export class KnightSheet extends ActorSheet {
                     name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame')}`,
                     system:{
                       capaciteName:'morph',
-                      subCapaciteName:'polymorphie',
+                      subCapaciteName:'lame',
                       subSubCapaciteName:'lame',
                       noRack:true,
                       capacite:true,
+                      isCapacity:true,
                       portee:game.i18n.localize(`KNIGHT.PORTEE.${capacite.polymorphie.lame.portee.charAt(0).toUpperCase()+capacite.polymorphie.lame.portee.substr(1)}`),
                       degats:{
                         dice:capacite.polymorphie.lame.degats.dice,
@@ -5359,10 +5013,11 @@ export class KnightSheet extends ActorSheet {
                     name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe')}`,
                     system:{
                       capaciteName:'morph',
-                      subCapaciteName:'polymorphie',
+                      subCapaciteName:'griffe',
                       subSubCapaciteName:'griffe',
                       noRack:true,
                       capacite:true,
+                      isCapacity:true,
                       portee:game.i18n.localize(`KNIGHT.PORTEE.${capacite.polymorphie.griffe.portee.charAt(0).toUpperCase()+capacite.polymorphie.griffe.portee.substr(1)}`),
                       degats:{
                         dice:capacite.polymorphie.griffe.degats.dice,
@@ -5401,10 +5056,11 @@ export class KnightSheet extends ActorSheet {
                     name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon')}`,
                     system:{
                       capaciteName:'morph',
-                      subCapaciteName:'polymorphie',
+                      subCapaciteName:'canon',
                       subSubCapaciteName:'canon',
                       noRack:true,
                       capacite:true,
+                      isCapacity:true,
                       portee:game.i18n.localize(`KNIGHT.PORTEE.${capacite.polymorphie.canon.portee.charAt(0).toUpperCase()+capacite.polymorphie.canon.portee.substr(1)}`),
                       energie:capacite.polymorphie.canon.energie,
                       degats:{
@@ -5606,8 +5262,6 @@ export class KnightSheet extends ActorSheet {
           const PGEvo1 = +longbowEvolutions['1'].value;
           const AlreadyEvo1 = longbowEvolutions['1'].applied;
           const description1 = longbowEvolutions['1'].description;
-
-          console.warn(description1);
 
           if(!AlreadyEvo1) {
             evolutionsAAcheter.push({
@@ -6700,9 +6354,6 @@ export class KnightSheet extends ActorSheet {
 
       return false;
     } else {
-
-      console.warn(autosubstract)
-
       if(autosubstract) {
         let update = {};
 
@@ -6739,10 +6390,8 @@ export class KnightSheet extends ActorSheet {
 
     if(autoadd) {
       let update = {}
-      console.warn(add);
       if(type !== 'espoir') update[`system.equipements.${this.actor.system.wear}.${type}.value`] = add;
       else update[`system.${type}.value`] = add;
-      console.warn(update);
 
       this.actor.update(update);
     }
@@ -7031,16 +6680,11 @@ export class KnightSheet extends ActorSheet {
     return result;
   }
 
-  _getArmorLegende(id=0) {
+  _getArmorLegende() {
     const data = this.actor;
-    const armor = data.items.filter((a) => a.type === 'armurelegende');
-    const armorId = armor.length > 0 ? armor[0]._id : 0;
-    let result = false;
+    const armor = data.items.find((a) => a.type === 'armurelegende');
 
-    if(armorId !== 0 && id === 0) result = this.actor.items.get(armorId);
-    else if(armorId !== 0 && id !== armorId) result = this.actor.items.get(armorId);
-
-    return result;
+    return armor;
   }
 
   _getHighestOrder(myObject) {

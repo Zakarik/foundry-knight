@@ -14,8 +14,8 @@
                     </button>
                     {{/each}}
                 {{else}}
-                    <button type="action" class="{{classes}}" data-value="{{data}}"
-                        <i></i>>
+                    <button type="action" class="{{classes}}" data-value="{{data}}">
+                        <i></i>
                         <span class='label'>{{label}}</span>
                         <span class='value'>{{value}}</span>
                     </button>
@@ -27,9 +27,201 @@
 
 {{#each mods}}
     {{#if (eq key 'score')}}
-        <label class="{{classes}}">
+        <label class="{{classes}}" data-key="{{name}}">
             <span>{{label}}</span>
             <input type="number" class="value" value="{{value}}" min="{{min}}" max="{{max}}" />
         </label>
+    {{/if}}
+
+    {{#if (eq key 'scoredice')}}
+        <div class="{{classes}}" data-key="{{name}}">
+            <span>{{label}}</span>
+            <label>
+                <input type="number" class="dice" data-key="dice" value="{{dice}}" min="{{dice.min}}" max="{{dice.max}}" />
+                <span>{{localize 'KNIGHT.JETS.Des-short'}}6+</span>
+                <input type="number" class="value" data-key="value" value="{{value}}" min="{{value.min}}" max="{{value.max}}" />
+            </label>
+        </div>
+    {{/if}}
+
+    {{#if (eq key 'select')}}
+        <label class="{{classes}}">
+            {{#if label}}<span class="label">{{label}}</span>{{/if}}
+            {{#if info}}
+                <span class="info">?</span>
+                <span class="hideInfo" style="display:none;">{{{info}}}</span>
+            {{/if}}
+            <select>
+                {{#if hasBlank}}{{selectOptions list selected=selected blank='' localize=true}}
+                {{else}}{{selectOptions list selected=selected localize=true}}{{/if}}
+            </select>
+        </label>
+    {{/if}}
+
+    {{#if (eq key 'selectWithScore')}}
+        <div class="{{classes}}">
+            <span class="label">{{label}}</span>
+            <label class="select {{select.classes}}">
+                <select>
+                    {{#if select.hasBlank}}{{selectOptions select.list selected=select.selected blank='' localize=true}}
+                    {{else}}{{selectOptions select.list selected=select.selected localize=true}}{{/if}}
+                </select>
+            </label>
+            <label class="score {{score.classes}}">
+                <span class="sublabel">{{score.label}}</span>
+                <input type="number" class="value" value="{{score.value}}" min="{{score.min}}" max="{{score.max}}" />
+            </label>
+        </div>
+    {{/if}}
+
+    {{#if (eq key 'btn')}}
+        <label class="{{classes}}" data-name="{{name}}">
+            <button type="action" class="{{btnclasses}}">
+                <i></i>
+                {{label}}
+            </button>
+        </label>
+    {{/if}}
+
+    {{#if (eq key 'wpn')}}
+    <div class="{{classes}}" {{#unless list}}style="display:none"{{/unless}}>
+        <h2 class="header summary js-toggler">
+            <i class="far fa-minus-square"></i>
+            {{label}}
+        </h2>
+        {{log list}}
+        {{#each list}}
+            {{#if list}}
+            <div class="cat {{id}}">
+                <h3 class="header summary js-toggler">
+                    <i class="far fa-minus-square"></i>
+                    {{label}}
+                </h3>
+                {{#each list}}
+                    <div class="button" data-id="{{id}}">
+                        <button type="action" class="{{classes}}">
+                            <i></i>
+                            {{label}}
+                        </button>
+                        <div class="data" style="display:none;">
+                            {{#each options}}
+                                {{~> systems/knight/templates/dialog/parts/wpnOptions.html}}
+                            {{/each}}
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+            {{else}}
+                <div class="button" data-id="{{id}}">
+                    <button type="action" class="{{classes}}">
+                        <i></i>
+                        {{label}}
+                    </button>
+                    <div class="data" style="display:none;">
+                        {{#each options}}
+                            {{~> systems/knight/templates/dialog/parts/wpnOptions.html}}
+                        {{/each}}
+                    </div>
+                </div>
+            {{/if}}
+        {{/each}}
+    </div>
+    {{/if}}
+
+    {{#if (eq key 'complexe')}}
+    <div class="{{classes}}">
+        <h2 class="header summary js-toggler">
+            <i class="far fa-minus-square"></i>
+            {{label}}
+        </h2>
+        {{#each list}}
+            <div class="wpnComplexe longbow button" data-id="{{id}}">
+                <button type="action" class="{{classes}}">
+                    <i></i>
+                    {{label}}
+
+                    <span>{{localize 'KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Cout'}} : <p>{{cout}}</p> {{localize 'KNIGHT.AUTRE.PointEnergie-short'}}</span>
+                </button>
+                <div class="bases" style="display:none;">
+                    <label class="longbow_dgts">
+                        <span>{{localize 'KNIGHT.AUTRE.Degats'}}</span>
+                        <select>
+                            {{selectOptions possibility.degats.list selected=degats.dice}}
+                        </select>
+                    </label>
+                    <label class="longbow_violence">
+                        <span>{{localize 'KNIGHT.AUTRE.Violence'}}</span>
+                        <select>
+                            {{selectOptions possibility.violence.list selected=violence.dice}}
+                        </select>
+                    </label>
+                    <label class="longbow_portee">
+                        <span>{{localize 'KNIGHT.PORTEE.Label'}}</span>
+                        <select>
+                            {{selectOptions possibility.portee.list selected=portee}}
+                        </select>
+                    </label>
+                </div>
+                <div class="data" style="display:none;">
+                    {{#each options}}
+                        {{~> systems/knight/templates/dialog/parts/wpnOptions.html}}
+                    {{/each}}
+                </div>
+                <div class="effets {{possibility.classes}}" style="display:none;">
+                    {{#if possibility.liste1}}
+                    <div class="liste liste1">
+                        <header>
+                            <span></span>
+                            <span class="label">{{localize 'KNIGHT.EFFETS.Label'}}</span>
+                            <span class="score">{{possibility.liste1.energie}} {{localize 'KNIGHT.AUTRE.PointEnergie-short'}}</span>
+                        </header>
+                        <div class="block">
+                            {{#each possibility.liste1.liste}}
+                                <a class="{{raw}} {{ifThen custom 'custom' ''}}" title="{{description}}" data-raw="{{raw}}" data-custom="{{custom}}" data-id="{{id}}" data-liste="liste1">
+                                    <i></i>
+                                    {{name}}
+                                </a>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if possibility.liste2}}
+                    <div class="liste liste2">
+                        <header>
+                            <span></span>
+                            <span class="label">{{localize 'KNIGHT.EFFETS.Label'}}</span>
+                            <span class="score">{{possibility.liste2.energie}} {{localize 'KNIGHT.AUTRE.PointEnergie-short'}}</span>
+                        </header>
+                        <div class="block">
+                            {{#each possibility.liste2.liste}}
+                                <a title="{{description}}" data-raw="{{raw}}" data-custom="{{custom}}" data-id="{{id}}" data-liste="liste2">
+                                    <i></i>
+                                    {{name}}
+                                </a>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{#if possibility.liste3}}
+                    <div class="liste liste3">
+                        <header>
+                            <span></span>
+                            <span class="label">{{localize 'KNIGHT.EFFETS.Label'}}</span>
+                            <span class="score">{{possibility.liste3.energie}} {{localize 'KNIGHT.AUTRE.PointEnergie-short'}}</span>
+                        </header>
+                        <div class="block">
+                            {{#each possibility.liste3.liste}}
+                                <a class="{{raw}} {{ifThen custom 'custom' ''}}" title="{{description}}" data-raw="{{raw}}" data-custom="{{custom}}" data-id="{{id}}" data-liste="liste3">
+                                    <i></i>
+                                    {{name}}
+                                </a>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        {{/each}}
+    </div>
     {{/if}}
 {{/each}}

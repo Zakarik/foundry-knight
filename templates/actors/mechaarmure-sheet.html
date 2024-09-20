@@ -209,21 +209,21 @@
                     data-modificateur="system.vitesse.value"
                     data-label="{{localize "KNIGHT.VEHICULE.Vitesse"}}"
                     >
-                        <div class="line">
+                        <div class="line js-simpletoggler">
                             <span class="option {{#unless systemData.vitesse.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="vitesse"></span>
                             <span class="label {{#unless systemData.vitesse.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.VEHICULE.Vitesse"}}</span>
                             <span class="score {{#unless systemData.vitesse.optionDeploy}} withBorder {{/unless}}" title="{{systemData.vitesse.base}} + {{systemData.vitesse.mod}} = {{systemData.vitesse.value}}">{{systemData.vitesse.value}}</span>
                             <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice" data-type="vitesse" data-label="{{localize "KNIGHT.VEHICULE.Vitesse"}}" />
                         </div>
-                        <div class="subLine {{#if systemData.vitesse.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                        <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
                             <input type="number" name="system.vitesse.base" data-type="vitesse" min="0" value="{{systemData.vitesse.base}}" />
                         </div>
-                        <div class="subLine {{#if systemData.vitesse.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                        <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
                             <input type="number" name="system.vitesse.bonus.user" data-type="vitesse" min="0" value="{{systemData.vitesse.bonus.user}}" />
                         </div>
-                        <div class="subLine {{#if systemData.vitesse.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                        <div class="subLine" style="display:none;">
                             <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
                             <input class="withBorder" type="number" name="system.vitesse.malus.user" data-type="vitesse" min="0" value="{{systemData.vitesse.malus.user}}" />
                         </div>
@@ -233,21 +233,21 @@
                     data-type="manoeuvrabilite"
                     data-modificateur="system.manoeuvrabilite.value"
                     data-label="{{localize "KNIGHT.MECHAARMURE.Manoeuvrabilite"}}">
-                        <div class="line">
+                        <div class="line js-simpletoggler">
                             <span class="option {{#unless systemData.manoeuvrabilite.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="manoeuvrabilite"></span>
                             <span class="label {{#unless systemData.manoeuvrabilite.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.VEHICULE.Manoeuvrabilite"}}</span>
                             <span class="score {{#unless systemData.manoeuvrabilite.optionDeploy}} withBorder {{/unless}}" title="{{systemData.manoeuvrabilite.base}} + {{systemData.manoeuvrabilite.mod}} = {{systemData.manoeuvrabilite.value}}">{{systemData.manoeuvrabilite.value}}</span>
                             <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice" data-type="manoeuvrabilite" data-label="{{localize "KNIGHT.MECHAARMURE.Manoeuvrabilite"}}" />
                         </div>
-                        <div class="subLine {{#if systemData.manoeuvrabilite.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                        <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
                             <input type="number" name="system.manoeuvrabilite.base" data-type="manoeuvrabilite" min="0" value="{{systemData.manoeuvrabilite.base}}" />
                         </div>
-                        <div class="subLine {{#if systemData.manoeuvrabilite.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                        <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
                             <input type="number" name="system.manoeuvrabilite.bonus.user" data-type="manoeuvrabilite" min="0" value="{{systemData.manoeuvrabilite.bonus.user}}" />
                         </div>
-                        <div class="subLine {{#if systemData.manoeuvrabilite.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                        <div class="subLine" style="display:none;">
                             <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
                             <input class="withBorder" type="number" name="system.manoeuvrabilite.malus.user" data-type="manoeuvrabilite" min="0" value="{{systemData.manoeuvrabilite.malus.user}}" />
                         </div>
@@ -257,21 +257,21 @@
                     data-type="puissance"
                     data-modificateur="system.puissance.value"
                     data-label="{{localize "KNIGHT.MECHAARMURE.Puissance"}}">
-                        <div class="line">
+                        <div class="line js-simpletoggler">
                             <span class="option {{#if systemData.puissance.optionDeploy}} withoutBorder  {{/if}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="puissance"></span>
                             <span class="label">{{localize "KNIGHT.MECHAARMURE.Puissance"}}</span>
                             <span class="score" title="{{systemData.puissance.base}} + {{systemData.puissance.mod}} = {{systemData.puissance.value}}">{{systemData.puissance.value}}</span>
                             <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice" data-type="puissance" data-label="{{localize "KNIGHT.MECHAARMURE.Puissance"}}" />
                         </div>
-                        <div class="subLine {{#if systemData.puissance.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                        <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
                             <input type="number" name="system.puissance.base" data-type="puissance" min="0" value="{{systemData.puissance.base}}" />
                         </div>
-                        <div class="subLine {{#if systemData.puissance.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                        <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
                             <input type="number" name="system.puissance.bonus.user" data-type="puissance" min="0" value="{{systemData.puissance.bonus.user}}" />
                         </div>
-                        <div class="subLine {{#if systemData.puissance.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                        <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.MALUS.Label"}}</span>
                             <input type="number" name="system.puissance.malus.user" data-type="puissance" min="0" value="{{systemData.puissance.malus.user}}" />
                         </div>
@@ -283,21 +283,21 @@
                     data-type="senseurs"
                     data-modificateur="system.senseurs.value"
                     data-label="{{localize "KNIGHT.MECHAARMURE.Senseurs"}}">
-                        <div class="line">
+                        <div class="line js-simpletoggler">
                             <span class="option {{#unless systemData.senseurs.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="senseurs"></span>
                             <span class="label {{#unless systemData.senseurs.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.MECHAARMURE.Senseurs"}}</span>
                             <span class="score {{#unless systemData.senseurs.optionDeploy}} withBorder {{/unless}}" title="{{systemData.senseurs.base}} + {{systemData.senseurs.mod}} = {{systemData.senseurs.value}}">{{systemData.senseurs.value}}</span>
                             <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice" data-type="senseurs" data-label="{{localize "KNIGHT.MECHAARMURE.Senseurs"}}" />
                         </div>
-                        <div class="subLine {{#if systemData.senseurs.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                        <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
                             <input type="number" name="system.senseurs.base" data-type="senseurs" min="0" value="{{systemData.senseurs.base}}" />
                         </div>
-                        <div class="subLine {{#if systemData.senseurs.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                        <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
                             <input type="number" name="system.senseurs.bonus.user" data-type="senseurs" min="0" value="{{systemData.senseurs.bonus.user}}" />
                         </div>
-                        <div class="subLine {{#if systemData.senseurs.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                        <div class="subLine" style="display:none;">
                             <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
                             <input class="withBorder" type="number" name="system.senseurs.malus.user" data-type="senseurs" min="0" value="{{systemData.senseurs.malus.user}}" />
                         </div>
@@ -307,21 +307,21 @@
                     data-type="systemes"
                     data-modificateur="system.systemes.value"
                     data-label="{{localize "KNIGHT.MECHAARMURE.Systemes"}}">
-                        <div class="line">
+                        <div class="line js-simpletoggler">
                             <span class="option {{#if systemData.systemes.optionDeploy}} withoutBorder  {{/if}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="systemes"></span>
                             <span class="label">{{localize "KNIGHT.MECHAARMURE.Systemes"}}</span>
                             <span class="score" title="{{systemData.systemes.base}} + {{systemData.systemes.mod}} = {{systemData.systemes.value}}">{{systemData.systemes.value}}</span>
                             <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice" data-type="systemes" data-label="{{localize "KNIGHT.MECHAARMURE.Systemes"}}" />
                         </div>
-                        <div class="subLine {{#if systemData.systemes.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                        <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
                             <input type="number" name="system.systemes.base" data-type="systemes" min="0" value="{{systemData.systemes.base}}" />
                         </div>
-                        <div class="subLine {{#if systemData.systemes.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                        <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
                             <input type="number" name="system.systemes.bonus.user" data-type="systemes" min="0" value="{{systemData.systemes.bonus.user}}" />
                         </div>
-                        <div class="subLine {{#if systemData.systemes.optionDeploy}} optionShow {{else}} optionHide {{/if}}">
+                        <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.MALUS.Label"}}</span>
                             <input type="number" name="system.systemes.malus.user" data-type="systemes" min="0" value="{{systemData.systemes.malus.user}}" />
                         </div>
@@ -579,7 +579,7 @@
                 <div class="gestionButton">
                     <button type="action" class="ajouterModule" data-type="base">{{localize "KNIGHT.AUTRE.Ajouter"}}</button>
                     <select name="system.modules.actuel.base">
-                        {{selectOptions actor.modules selected=systemData.modules.actuel.base blank='' localize=true sort=true}}
+                        {{selectOptions actor.modules selected=systemData.modules.actuel.base blank='' nameAttr="key" labelAttr="label" sort=true}}
                     </select>
                 </div>
 
@@ -604,7 +604,7 @@
                 <div class="gestionButton">
                     <button type="action" class="ajouterModule" data-type="c1">{{localize "KNIGHT.AUTRE.Ajouter"}}</button>
                     <select name="system.modules.actuel.c1">
-                        {{selectOptions actor.modules selected=systemData.modules.actuel.c1 blank='' localize=true sort=true}}
+                        {{selectOptions actor.modules selected=systemData.modules.actuel.c1 blank='' nameAttr="key" labelAttr="label" sort=true}}
                     </select>
                 </div>
 
@@ -629,7 +629,7 @@
                 <div class="gestionButton">
                     <button type="action" class="ajouterModule" data-type="c2">{{localize "KNIGHT.AUTRE.Ajouter"}}</button>
                     <select name="system.modules.actuel.c2">
-                        {{selectOptions actor.modules selected=systemData.modules.actuel.c2 blank='' localize=true sort=true}}
+                        {{selectOptions actor.modules selected=systemData.modules.actuel.c2 blank='' nameAttr="key" labelAttr="label" sort=true}}
                     </select>
                 </div>
 

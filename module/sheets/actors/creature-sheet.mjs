@@ -11,15 +11,10 @@ import {
   commonPNJ,
   hideShowLimited,
   dragMacro,
+  actualiseRoll
 } from "../../helpers/common.mjs";
 
-import {
-  dialogRoll,
-  actualiseRoll,
-} from "../../helpers/dialogRoll.mjs";
-
 import toggler from '../../helpers/toggler.js';
-
 
 /**
  * @extends {ActorSheet}
@@ -228,82 +223,7 @@ export class CreatureSheet extends ActorSheet {
       const tenebricide = $(ev.currentTarget)?.data("tenebricide") || false;
       const obliteration = $(ev.currentTarget)?.data("obliteration") || false;
 
-      const data = this.actor.items.get(capacite);
-
-      if(type === 'degats') {
-        const dataDegats = data.system;
-
-        const allEffets = await this._getAllEffets(dataDegats.degats.system, tenebricide, obliteration)
-        this._doDgts(name, dataDegats.degats.system, allEffets);
-      }
-    });
-
-    html.find('div.nods img.dice').click(async ev => {
-      const data = this.getData();
-      const target = $(ev.currentTarget);
-      const nbre = +target.data("number");
-      const nods = target.data("nods");
-
-      if(nbre > 0) {
-        const recuperation = data.data.system.combat.nods[nods].recuperationBonus;
-        const bonus = recuperation.length > 0 ? recuperation.join(' + ') : ` 0`;
-
-        const rNods = new game.knight.RollKnight(`3D6+${bonus}`, this.actor.system);
-        rNods._flavor = game.i18n.localize(`KNIGHT.JETS.Nods${nods}`);
-        rNods._success = false;
-        await rNods.toMessage({
-          speaker: {
-          actor: this.actor?.id || null,
-          token: this.actor?.token?.id || null,
-          alias: this.actor?.name || null,
-          }
-        });
-
-        let base = 0;
-        let max = 0;
-        let type = '';
-
-        switch(nods) {
-          case 'soin':
-            type = 'sante';
-            base = data.data.system.sante.value;
-            max = data.data.system.sante.max;
-
-            break;
-
-          case 'energie':
-            type = 'energie';
-            base = data.data.system.energie.value;
-            max = data.data.system.energie.max;
-            break;
-
-          case 'armure':
-            type = 'armure'
-            base = data.data.system.armure.value;
-            max = data.data.system.armure.max;
-            break;
-        }
-
-        const total = rNods.total;
-        const final = base+total > max ? max : base+total;
-
-        const update = {
-          'system':{
-            'combat':{
-              'nods':{
-                [nods]:{
-                  'value':nbre - 1
-                }
-              }
-            },
-            [type]:{
-              'value':final
-            }
-          }
-        };
-
-        this.actor.update(update);
-      }
+      if(type === 'degats') this._doDgts(name, capacite, obliteration, tenebricide);
     });
 
     html.find('.roll').click(ev => {
@@ -311,35 +231,91 @@ export class CreatureSheet extends ActorSheet {
       const label = target.data("label") || '';
       const aspect = target.data("aspect") || '';
       const reussites = +target.data("reussitebonus") || 0;
+      const id = this.actor.token ? this.actor.token.id : this.actor.id;
 
-      dialogRoll(label, this.actor, {base:aspect, succesBonus:reussites});
+      const dialog = new game.knight.applications.KnightRollDialog(id, {
+        label:label,
+        base:aspect,
+        succesbonus:reussites,
+      });
+
+      dialog.open();
     });
 
     html.find('.jetWpn').click(ev => {
       const target = $(ev.currentTarget);
       const name = target.data("name");
-      const id = target.data("id");
       const isDistance = target.data("isdistance");
       const num = target.data("num");
       const aspect = target?.data("aspect") || [];
+      const actor = this.actor.token ? this.actor.token.id : this.actor.id;
+      const parent = target.parents('div.wpn');
+      const other = parent.data("other");
+      const what = parent.data("what");
+      let id = target.data("id");
+      let base = '';
+      let whatRoll = [];
 
       let label;
 
       switch(isDistance) {
         case 'grenades':
-          label = `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${name.charAt(0).toUpperCase()+name.substr(1)}`)}`;
+          const dataGrenade = this.actor.system.combat.grenades.liste[name];
+          id = `grenade_${name}`;
+          label = dataGrenade.custom ? `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${dataGrenade.label}` : `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${name.charAt(0).toUpperCase()+name.substr(1)}`)}`;
           break;
 
         case 'armesimprovisees':
           label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[name][num]);
+          id = id === 'distance' ? `${other}${what}d` : `${other}${what}c`;
+
+          whatRoll.push('force');
+
+          if(id === 'distance') base = 'tir';
+          else base = 'combat';
+          break;
+
+        case 'longbow':
+          label = game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label`);
+          id = `capacite_${armure.id}_longbow`;
           break;
 
         default:
+          const item = this.actor.items.get(id);
+          if(item.type === 'module') id = `module_${id}`;
+          if(item.type === 'armure') {
+            switch(what) {
+              case 'rayon':
+              case 'salve':
+              case 'vague':
+                id = isDistance === 'distance' ? `capacite_${id}_cea${what.charAt(0).toUpperCase() + what.substr(1)}D` : `capacite_${id}_cea${what.charAt(0).toUpperCase() + what.substr(1)}C`;
+                break;
+
+              case 'borealis':
+                id = isDistance === 'distance' ? `capacite_${id}_borealisD` : `capacite_${id}_borealisC`;
+                break;
+
+              case 'lame':
+              case 'griffe':
+              case 'canon':
+                id = `capacite_${id}_morph${what.charAt(0).toUpperCase() + what.substr(1)}`;
+                break;
+            }
+          }
+          if(item.type === 'capacite') id = `pnjcapacite_${id}`;
+
           label = name;
           break;
       }
 
-      dialogRoll(label, this.actor, {base:aspect, isWpn:true, idWpn:id, nameWpn:name, typeWpn:isDistance, num:num});
+      const dialog = new game.knight.applications.KnightRollDialog(actor, {
+        label:label,
+        wpn:id,
+        base:base,
+        whatRoll:whatRoll
+      });
+
+      dialog.open();
     });
 
     html.find('.setResilience').click(async ev => {
@@ -738,82 +714,54 @@ export class CreatureSheet extends ActorSheet {
     }
   }
 
-  async _doDgts(label, dataWpn, listAllEffets, regularite=0, addNum='') {
+  async _doDgts(label, id, obliteration, tenebricide) {
     const actor = this.actor;
-
-    //DEGATS
-    const tenebricide = false;
-    const bourreau = listAllEffets.bourreau;
-    const bourreauValue = listAllEffets.bourreauValue;
-
-    const dgtsDice = dataWpn?.dice || 0;
-    const dgtsFixe = dataWpn?.fixe || 0;
-
-    let diceDgts = dgtsDice+listAllEffets.degats.totalDice;
-    let bonusDgts = dgtsFixe+listAllEffets.degats.totalBonus;
-
-    bonusDgts += regularite;
-
-    const labelDgt = `${label} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}${addNum}`;
-    const totalDiceDgt = tenebricide === true ? Math.floor(diceDgts/2) : diceDgts;
-
-    const totalDgt = `${Math.max(totalDiceDgt, 0)}d6+${bonusDgts}`;
-
-    const execDgt = new game.knight.RollKnight(`${totalDgt}`, actor.system);
-    execDgt._success = false;
-    execDgt._hasMin = bourreau ? true : false;
-
-    if(bourreau) {
-      execDgt._seuil = bourreauValue;
-      execDgt._min = 4;
-    }
-
-    await execDgt.evaluate(listAllEffets.degats.minMax);
-
-    let effets = listAllEffets;
-
-    if(effets.regularite) {
-      const regulariteIndex = effets.degats.include.findIndex(str => { if(str.name.includes(game.i18n.localize(CONFIG.KNIGHT.effets['regularite'].label))) return true; });
-      effets.degats.include[regulariteIndex].name = `+${regularite} ${effets.degats.include[regulariteIndex].name}`;
-
-      effets.degats.include.sort(SortByName);
-    }
-
-    let sub = effets.degats.list;
-    let include = effets.degats.include;
-
-    if(sub.length > 0) { sub.sort(SortByName); }
-    if(include.length > 0) { include.sort(SortByName); }
-
-    const pDegats = {
-      flavor:labelDgt,
-      main:{
-        total:execDgt._total,
-        tooltip:await execDgt.getTooltip(),
-        formula: execDgt._formula
-      },
-      sub:sub,
-      include:include
-    };
-
-    const dgtsMsgData = {
-      user: game.user.id,
-      speaker: {
-        actor: actor?.id || null,
-        token: actor?.token?.id || null,
-        alias: actor?.name || null,
-      },
-      type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-      content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegats),
-      sound: CONFIG.sounds.dice
-    };
-
-    const rMode = game.settings.get("core", "rollMode");
-    const msgFData = ChatMessage.applyRollMode(dgtsMsgData, rMode);
-
-    await ChatMessage.create(msgFData, {
-      rollMode:rMode
+    const capacite = actor.items.get(id);
+    const roll = new game.knight.RollKnight(actor, {
+      name:`${label} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
+    }, false);
+    const weapon = roll.prepareWpnContact({
+      name:capacite.name,
+      system:{
+        degats:{dice:capacite.system.degats.system.dice, fixe:capacite.system.degats.system.fixe},
+        effets:capacite.system.degats.system.effets,
+      }
     });
+    const options = weapon.options;
+    const addFlags = {
+      actor,
+      attaque:[],
+      dataMod:{degats:{dice:0, fixe:0}, violence:{dice:0, fixe:0}},
+      dataStyle:{},
+      flavor:label,
+      maximize:{degats:obliteration, violence:false},
+      style:'standard',
+      surprise:false,
+      targets:[],
+      total:0,
+      weapon
+    }
+
+    let data = {
+      total:0,
+      targets:[],
+      attaque:[],
+      flags:addFlags
+    };
+
+    if(weapon.effets.raw.includes('tirenrafale')) {
+      data.content = {
+        tirenrafale:true,
+      }
+    }
+
+    for(let o of options) {
+      if(obliteration && o.classes.includes('obliteration')) o.active = true;
+      if(tenebricide && o.classes.includes('tenebricide')) o.active = true;
+    }
+
+    roll.setWeapon(weapon);
+    await roll.doRollDamage(data, addFlags);
   }
 
   async _getAllEffets(dataWpn, tenebricide, obliteration) {

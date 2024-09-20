@@ -4,7 +4,7 @@ data-type="{{#if this.system.isCapacity}}{{this.system.capaciteName}}{{else}}{{#
 data-what="{{this.system.subCapaciteName}}"
 data-other="{{this.system.type}}"
 {{/if}}
->{{log this}}
+>
     <header class="summary header js-toggler" data-item-id="{{this._id}}">
         <i class="far fa-plus-square extendButton"></i>
         {{#unless this.system.noRack}}
@@ -40,7 +40,7 @@ data-other="{{this.system.type}}"
                 {{#if this.system.options2mains.has}}
                     <div class="line">
                         <select class="wpnMainChange" data-id="{{this._id}}">
-                            {{selectOptions (getList 'options2mains') selected=this.noyaux.actuel localize=true}}
+                            {{selectOptions (getList 'options2mains') selected=system.options2mains.actuel localize=true}}
                         </select>
                     </div>
                 {{/if}}

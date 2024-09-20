@@ -3,6 +3,7 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
     const {HTMLField, SchemaField, StringField, NumberField, BooleanField, ArrayField, ObjectField} = foundry.data.fields;
 
     return {
+      whoActivate: new StringField({}),
       equipped:new BooleanField({initial:false}),
       rack:new BooleanField({initial:false}),
       description: new HTMLField({initial: ''}),
@@ -40,7 +41,7 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
         has: new BooleanField({initial: false}),
         actuel: new StringField({initial: '0'}),
         value: new NumberField({initial: 1}),
-        liste: new SchemaField({})
+        liste: new ObjectField({})
       }),
       tourelle: new SchemaField({
         has: new BooleanField({initial: false}),
@@ -50,6 +51,7 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
         })
       }),
       degats: new SchemaField({
+        addchair: new BooleanField({initial: true}),
         dice: new NumberField({initial: 0}),
         fixe: new NumberField({initial: 0}),
         variable: new SchemaField({

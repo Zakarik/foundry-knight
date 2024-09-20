@@ -52,11 +52,7 @@ export class MechaArmureDataModel extends foundry.abstract.TypeDataModel {
               max:new NumberField({ initial: 100, integer: true, nullable: false }),
             }),
             configurations:new SchemaField({
-              actuel:new SchemaField({
-                base:new StringField({initial:''}),
-                c1:new StringField({initial:''}),
-                c2:new StringField({initial:''}),
-              }),
+              actuel:new StringField({initial:'c1'}),
               liste:new SchemaField({
                 base:new SchemaField({
                   modules:new ObjectField(),
@@ -72,7 +68,11 @@ export class MechaArmureDataModel extends foundry.abstract.TypeDataModel {
               }),
             }),
             modules:new SchemaField({
-              actuel:new StringField({initial:''}),
+              actuel:new SchemaField({
+                base:new StringField(),
+                c1:new StringField(),
+                c2:new StringField(),
+              }),
               liste:new SchemaField({
                 volMarkIV:new SchemaField({
                   description:new StringField({initial:''}),
@@ -455,6 +455,8 @@ export class MechaArmureDataModel extends foundry.abstract.TypeDataModel {
             }),
             combat:new SchemaField({
               armesimprovisees:new EmbeddedDataField(ArmesImproviseesDataModel),
+              style:new StringField({initial:"standard", nullable:false}),
+              styleInfo:new StringField({initial:""}),
               data:new SchemaField({
                   degatsbonus:new SchemaField({
                       dice:new NumberField({ initial: 0, integer: true, nullable: false }),
@@ -475,7 +477,7 @@ export class MechaArmureDataModel extends foundry.abstract.TypeDataModel {
     }
 
   prepareBaseData() {
-
+    this.#modules();
 	}
 
 	prepareDerivedData() {
@@ -492,8 +494,8 @@ export class MechaArmureDataModel extends foundry.abstract.TypeDataModel {
     for(let d of list) {
       const system = this[d];
       const base = system.base;
-      const bonus = system.bonus?.user ?? 0;
-      const malus = system.malus?.user ?? 0;
+      const bonus = Object.values(system.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+      const malus = Object.values(system.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
       const update = CONFIG.KNIGHT.LIST.hasMax[d] ? 'max' : 'value';
 
       Object.defineProperty(system, 'mod', {
@@ -503,6 +505,88 @@ export class MechaArmureDataModel extends foundry.abstract.TypeDataModel {
       Object.defineProperty(system, update, {
         value: Math.max(base+bonus-malus, 0),
       });
+    }
+  }
+
+  #modules() {
+    const configuration = this.configurations.actuel;
+    const base = this.configurations.liste.base.modules;
+    const c1 = this.configurations.liste.c1.modules;
+    const c2 = this.configurations.liste.c2.modules;
+    let merge = base;
+
+    if(configuration === 'c1') merge = foundry.utils.mergeObject(foundry.utils.deepClone(base), c1);
+    else if(configuration === 'c2') merge = foundry.utils.mergeObject(foundry.utils.deepClone(base), c2);
+
+    for(let m in merge) {
+      const data = merge[m];
+
+      if(!data.active) continue;
+      switch(m) {
+        case 'volMarkIV':
+          Object.defineProperty(this.manoeuvrabilite.bonus, m, {
+              value: data.bonus.manoeuvrabilite,
+              writable:true,
+              enumerable:true,
+              configurable:true
+          });
+          break;
+
+        case 'bouclierAmrita':
+          Object.defineProperty(this.champDeForce.bonus, m, {
+              value: data.bonus.champDeForce,
+              writable:true,
+              enumerable:true,
+              configurable:true
+          });
+
+          Object.defineProperty(this.defense.bonus, m, {
+              value: data.bonus.defense,
+              writable:true,
+              enumerable:true,
+              configurable:true
+          });
+
+          Object.defineProperty(this.reaction.bonus, m, {
+              value: data.bonus.reaction,
+              writable:true,
+              enumerable:true,
+              configurable:true
+          });
+
+          Object.defineProperty(this.resilience.bonus, m, {
+              value: data.bonus.resilience,
+              writable:true,
+              enumerable:true,
+              configurable:true
+          });
+          break;
+
+        case 'modeSiegeTower':
+          Object.defineProperty(this.resilience.bonus, m, {
+              value: data.bonus.resilience,
+              writable:true,
+              enumerable:true,
+              configurable:true
+          });
+          break;
+
+        case 'nanoBrume':
+          Object.defineProperty(this.defense.bonus, m, {
+              value: data.bonus.defense,
+              writable:true,
+              enumerable:true,
+              configurable:true
+          });
+
+          Object.defineProperty(this.reaction.bonus, m, {
+              value: data.bonus.reaction,
+              writable:true,
+              enumerable:true,
+              configurable:true
+          });
+          break;
+      }
     }
   }
 }

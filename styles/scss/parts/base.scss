@@ -318,8 +318,8 @@
 
         button.ajouter {
           width:100px;
-          border-left:1px solid black;
-          border-right:1px solid black;
+          border-left:1px solid $black;
+          border-right:1px solid $black;
           background:$lightBlack;
         }
 
@@ -569,6 +569,8 @@
       }
 
       button {
+        display: grid;
+        grid-template-columns: 21px 1fr;
         border-left:0px;
         border-top:1px solid black;
         border-right:0px;
@@ -578,9 +580,30 @@
         color:$white;
         margin:0px;
         cursor:pointer;
+        text-align: left;
+        align-items: center;
+        align-content: center;
 
         &.selected {
             background:$lightBlack;
+        }
+
+        i {
+          font-size: 20px;
+
+          &.green {
+            color:$lightGreen;
+          }
+
+          &.red {
+            color:$red;
+          }
+        }
+
+        &.ajouter,
+        &.update,
+        &.annuler {
+          grid-template-columns: 1fr;
         }
       }
 
