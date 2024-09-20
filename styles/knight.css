@@ -442,8 +442,8 @@
 }
 .effetsDialog div.dialog-content div.effetCustom div.header button.ajouter {
   width: 100px;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
+  border-left: 1px solid RGB(43 42 51);
+  border-right: 1px solid RGB(43 42 51);
   background: RGB(76 74 90);
 }
 .effetsDialog div.dialog-content div.effetCustom div.header.edit input.nom {
@@ -764,6 +764,8 @@
   display: none;
 }
 .effetsDialog div.dialog-content div.effetCustom button {
+  display: grid;
+  grid-template-columns: 21px 1fr;
   border-left: 0px;
   border-top: 1px solid black;
   border-right: 0px;
@@ -773,9 +775,24 @@
   color: white;
   margin: 0px;
   cursor: pointer;
+  text-align: left;
+  align-items: center;
+  align-content: center;
 }
 .effetsDialog div.dialog-content div.effetCustom button.selected {
   background: RGB(76 74 90);
+}
+.effetsDialog div.dialog-content div.effetCustom button i {
+  font-size: 20px;
+}
+.effetsDialog div.dialog-content div.effetCustom button i.green {
+  color: #59d13e;
+}
+.effetsDialog div.dialog-content div.effetCustom button i.red {
+  color: #AF0000;
+}
+.effetsDialog div.dialog-content div.effetCustom button.ajouter, .effetsDialog div.dialog-content div.effetCustom button.update, .effetsDialog div.dialog-content div.effetCustom button.annuler {
+  grid-template-columns: 1fr;
 }
 .effetsDialog div.dialog-content div.effetCustom div.editor {
   min-height: 150px;
@@ -1561,16 +1578,20 @@
 
 .rollDialog div.dialog-content {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(6, 1fr);
   justify-content: space-between;
   flex-wrap: wrap;
   align-content: baseline;
-  align-items: baseline;
+  align-items: flex-start;
   grid-gap: 2px;
   row-gap: 2px;
+  padding-bottom: 35px;
+}
+.rollDialog div.dialog-content p {
+  display: contents;
 }
 .rollDialog div.dialog-content div.aspects {
-  grid-column: 1/4;
+  grid-column: 1/7;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 2px;
@@ -1602,11 +1623,11 @@
   grid-template-columns: max-content 1fr max-content;
   color: white;
   background: RGB(76 74 90);
-  cursor: pointer;
   border-radius: 0px;
   margin: 0px;
   grid-gap: 2px;
   align-items: center;
+  cursor: not-allowed;
 }
 .rollDialog div.dialog-content div.aspect button:not(:first-of-type) {
   border-top: 0px;
@@ -1623,7 +1644,10 @@
 .rollDialog div.dialog-content div.aspect button.base span.label {
   letter-spacing: 1px;
 }
-.rollDialog div.dialog-content div.aspect button:hover {
+.rollDialog div.dialog-content div.aspect button.wHover {
+  cursor: pointer;
+}
+.rollDialog div.dialog-content div.aspect button.wHover:hover {
   background: white;
   color: RGB(43 42 51);
 }
@@ -1632,6 +1656,395 @@
 }
 .rollDialog div.dialog-content div.aspect button span.value {
   text-align: center;
+}
+.rollDialog div.dialog-content div.wpn {
+  display: flex;
+  width: 100%;
+  border: 1px solid RGB(87 110 178);
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.rollDialog div.dialog-content div.wpn.colOne {
+  grid-column: 1/4;
+}
+.rollDialog div.dialog-content div.wpn.colTwo {
+  grid-column: 4/7;
+}
+.rollDialog div.dialog-content div.wpn.colDuo {
+  grid-column: 1/7;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 2px;
+}
+.rollDialog div.dialog-content div.wpn.colDuo h2,
+.rollDialog div.dialog-content div.wpn.colDuo h3 {
+  grid-column: 1/3;
+}
+.rollDialog div.dialog-content div.wpn h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  text-align: left;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  padding-left: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.rollDialog div.dialog-content div.wpn h2.header i {
+  cursor: pointer;
+}
+.rollDialog div.dialog-content div.wpn h3.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(43 42 51);
+  margin: 0px;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid RGB(43 42 51);
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 16px;
+  padding-left: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.rollDialog div.dialog-content div.wpn div.button {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.rollDialog div.dialog-content div.wpn div.button > button {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  grid-gap: 2px;
+  width: 100%;
+  color: white;
+  background: RGB(76 74 90);
+  cursor: pointer;
+  border-radius: 0px;
+  margin: 0px;
+  text-align: left;
+  align-items: center;
+}
+.rollDialog div.dialog-content div.wpn div.button > button.selected {
+  background: RGB(37 85 228);
+  letter-spacing: 1px;
+}
+.rollDialog div.dialog-content div.wpn div.button > button:hover {
+  background: white;
+  color: RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.wpn div.data {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  align-items: flex-start;
+  border-left: 1px solid var(--color-border-light-primary);
+  border-right: 1px solid var(--color-border-light-primary);
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectDouble {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectDouble span {
+  display: grid;
+  background: RGB(76 74 90);
+  color: white;
+  width: 100%;
+  font-variant: small-caps;
+  text-align: center;
+  height: 24px;
+  align-items: center;
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectDouble select {
+  background: RGB(43 42 51);
+  text-align: center;
+  width: 100%;
+  color: white;
+  height: 24px;
+  border: 0px;
+  padding-left: 20px;
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectDouble select option {
+  background: RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectDouble.full {
+  grid-column: 1/3;
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectSimple {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectSimple select {
+  background: RGB(43 42 51);
+  text-align: center;
+  width: 100%;
+  color: white;
+  height: 24px;
+  border: 0px;
+  padding-left: 20px;
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectSimple select option {
+  background: RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectSimple.full {
+  grid-column: 1/3;
+}
+.rollDialog div.dialog-content div.wpn div.data button {
+  display: grid;
+  grid-template-columns: 21px 1fr;
+  grid-gap: 2px;
+  text-align: left;
+  border-radius: 0px;
+  background: RGB(43 42 51);
+  border-top: 1px solid RGB(76 74 90);
+  font-variant: small-caps;
+  color: white;
+  border-left: 0px;
+  border-bottom: 0px;
+  padding: 0px;
+  align-items: center;
+}
+.rollDialog div.dialog-content div.wpn div.data button.full {
+  grid-column: 1/3;
+}
+.rollDialog div.dialog-content div.wpn div.data button.selected {
+  background: RGB(76 74 90);
+  border-top: 1px solid RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.wpn div.data button.center {
+  text-align: center;
+}
+.rollDialog div.dialog-content div.wpn div.data button.roll {
+  background: RGB(76 74 90);
+  grid-template-columns: 1fr;
+}
+.rollDialog div.dialog-content div.wpn div.data button:hover {
+  background: white;
+  color: RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.wpn div.data i {
+  font-size: 20px;
+}
+.rollDialog div.dialog-content div.wpn div.data i.green {
+  color: #59d13e;
+}
+.rollDialog div.dialog-content div.wpn div.data i.red {
+  color: #AF0000;
+}
+.rollDialog div.dialog-content div.wpn div.cat {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+.rollDialog div.dialog-content div.wpn div.cat i {
+  cursor: pointer;
+}
+.rollDialog div.dialog-content div.complexe {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.rollDialog div.dialog-content div.complexe h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  text-align: left;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  padding-left: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.rollDialog div.dialog-content div.complexe h2.header i {
+  cursor: pointer;
+}
+.rollDialog div.dialog-content div.complexe div.button > button {
+  display: grid;
+  grid-template-columns: max-content 1fr max-content;
+  grid-gap: 2px;
+  width: 100%;
+  color: white;
+  background: RGB(76 74 90);
+  cursor: pointer;
+  border-radius: 0px;
+  margin: 0px;
+  text-align: left;
+  align-items: center;
+  padding-right: 0px;
+}
+.rollDialog div.dialog-content div.complexe div.button > button.selected {
+  background: RGB(37 85 228);
+  letter-spacing: 1px;
+}
+.rollDialog div.dialog-content div.complexe div.button > button.selected span {
+  letter-spacing: 0px;
+}
+.rollDialog div.dialog-content div.complexe div.button > button:hover {
+  background: white;
+  color: RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.complexe div.button > button span {
+  padding-left: 5px;
+  padding-right: 5px;
+  background: RGB(43 42 51);
+  color: white;
+  font-variant: small-caps;
+  font-size: 14px;
+  letter-spacing: 0px;
+}
+.rollDialog div.dialog-content div.complexe div.wpnComplexe {
+  border: 1px solid RGB(87 110 178);
+}
+.rollDialog div.dialog-content div.complexe div.bases {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: flex-start;
+}
+.rollDialog div.dialog-content div.complexe div.bases label {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  justify-content: space-between;
+  border: 1px solid RGB(87 110 178);
+  align-items: flex-start;
+  height: 62px;
+  border-left: 0px;
+}
+.rollDialog div.dialog-content div.complexe div.bases label span {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  height: 30px;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  font-size: 16px;
+  letter-spacing: 1px;
+  line-height: 30px;
+}
+.rollDialog div.dialog-content div.complexe div.bases label select {
+  width: 100%;
+  height: 30px;
+  padding-left: 13px;
+  border: 0px;
+  margin: 0px;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  text-align: center;
+  background: RGB(43 42 51);
+  color: white;
+  font-variant: small-caps;
+}
+.rollDialog div.dialog-content div.complexe div.bases label select option {
+  background-color: RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.complexe div.bases label:last-of-type {
+  border-right: 0px;
+}
+.rollDialog div.dialog-content div.complexe div.data {
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.rollDialog div.dialog-content div.complexe div.data label.violencebonusvariable {
+  border-left: 1px solid RGB(87 110 178);
+}
+.rollDialog div.dialog-content div.complexe div.effets {
+  display: grid;
+  width: 100%;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.rollDialog div.dialog-content div.complexe div.liste {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+  background: RGB(43 42 51);
+  align-items: flex-start;
+  align-content: flex-start;
+  height: 100%;
+}
+.rollDialog div.dialog-content div.complexe div.liste header {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  background: RGB(76 74 90);
+  height: 25px;
+  line-height: 25px;
+  font-size: 16px;
+}
+.rollDialog div.dialog-content div.complexe div.liste header span {
+  display: block;
+  width: 100%;
+  height: calc(100% - 1px);
+  color: white;
+}
+.rollDialog div.dialog-content div.complexe div.liste header span.label {
+  text-align: center;
+  font-variant: small-caps;
+}
+.rollDialog div.dialog-content div.complexe div.liste header span.score {
+  background: RGB(43 42 51);
+  font-variant: small-caps;
+  text-align: center;
+}
+.rollDialog div.dialog-content div.complexe div.liste div.block {
+  display: grid;
+  grid-gap: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+}
+.rollDialog div.dialog-content div.complexe div.liste a {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  border-radius: 5px;
+  background: RGB(76 74 90);
+  border: 1px solid RGB(76 74 90);
+  padding: 2px;
+  font-variant: small-caps;
+  font-size: 14px;
+  column-gap: 5px;
+}
+.rollDialog div.dialog-content div.complexe div.liste a.checked {
+  background: RGB(37 85 228);
+}
+.rollDialog div.dialog-content div.complexe div.liste a:hover {
+  text-shadow: none;
+  background: white;
+  color: RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.complexe div.liste:not(:first-of-type) {
+  border-left: 1px solid RGB(87 110 178);
 }
 .rollDialog div.dialog-content div.details {
   display: flex;
@@ -1825,19 +2238,19 @@
   background: white;
   color: RGB(43 42 51);
 }
-.rollDialog div.dialog-content div.bonus div.pilonnage, .rollDialog div.dialog-content div.bonus div.puissant {
+.rollDialog div.dialog-content div.bonus div.puissant {
   display: none;
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
   border-top: 1px solid RGB(76 74 90);
 }
-.rollDialog div.dialog-content div.bonus div.pilonnage label, .rollDialog div.dialog-content div.bonus div.puissant label {
+.rollDialog div.dialog-content div.bonus div.puissant label {
   height: 30px;
   line-height: 30px;
   border: 0px;
 }
-.rollDialog div.dialog-content div.bonus div.pilonnage select, .rollDialog div.dialog-content div.bonus div.puissant select {
+.rollDialog div.dialog-content div.bonus div.puissant select {
   display: inline-block;
   width: 100%;
   height: 33px;
@@ -1857,7 +2270,7 @@
   border-top: 1px solid RGB(76 74 90);
   border-bottom: 1px solid RGB(76 74 90);
 }
-.rollDialog div.dialog-content div.bonus div.pilonnage select option, .rollDialog div.dialog-content div.bonus div.puissant select option {
+.rollDialog div.dialog-content div.bonus div.puissant select option {
   background: RGB(43 42 51);
 }
 .rollDialog div.dialog-content div.bonus div.noOd {
@@ -1885,192 +2298,51 @@
   background: white;
   color: RGB(43 42 51);
 }
-.rollDialog div.dialog-content div.wpn {
-  display: flex;
-  width: calc((100% / 2) - 5px);
+.rollDialog div.dialog-content div.scoredice {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  width: 100%;
+  justify-content: space-between;
   border: 1px solid RGB(87 110 178);
-  flex-wrap: wrap;
-  margin-bottom: 5px;
-  align-items: flex-start;
-  align-content: flex-start;
+  align-items: center;
+  grid-gap: 2px;
+  height: 32px;
 }
-.rollDialog div.dialog-content div.wpn h2.header {
-  display: block;
-  position: relative;
+.rollDialog div.dialog-content div.scoredice span {
+  display: grid;
   width: 100%;
-  text-transform: uppercase;
-  text-align: left;
-  color: white;
-  background: RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  margin: 0px;
-  border: 0px;
-  line-height: 21px;
-  padding-top: 2px;
-  padding-left: 5px;
-  font-size: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-.rollDialog div.dialog-content div.wpn h2.header i {
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.wpn div.button {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-.rollDialog div.dialog-content div.wpn div.button button {
-  width: 100%;
-  color: white;
   background: RGB(76 74 90);
-  cursor: pointer;
-  border-radius: 0px;
-  margin: 0px;
-}
-.rollDialog div.dialog-content div.wpn div.button button:not(:first-of-type):not(:nth-of-type(2)) {
-  border-top: 0px;
-}
-.rollDialog div.dialog-content div.wpn div.button button:nth-of-type(even) {
-  border-left: 0px;
-}
-.rollDialog div.dialog-content div.wpn div.button button.selected {
-  background: RGB(37 85 228);
-  text-decoration: underline;
-  letter-spacing: 1px;
-}
-.rollDialog div.dialog-content div.wpn div.button button:hover {
-  background: white;
-  color: RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.params {
-  display: flex;
-  width: 50%;
-  justify-content: space-between;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.params span {
-  width: 50%;
-  border: 0px;
-  text-align: left;
-  justify-content: left;
   padding-left: 5px;
-  background: RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.params select {
-  width: 50%;
-  text-align: center;
-  padding: 0px;
-  border-radius: 0px;
-  border: 0px;
-  background: transparent;
-  color: white;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.params select option {
-  background: RGB(43 42 51);
-  color: white;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.params:first-of-type {
-  border-right: 1px solid RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.paramsTwoLine {
-  display: flex;
-  width: 50%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.paramsTwoLine span {
-  width: 100%;
-  border: 0px;
-  text-align: center;
-  justify-content: center;
-  padding-left: 5px;
-  background: RGB(76 74 90);
-  line-height: 27px;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.paramsTwoLine select {
-  width: 100%;
-  text-align: center;
-  padding: 0px;
-  border-radius: 0px;
-  border: 0px;
-  background: transparent;
-  color: white;
-  line-height: 27px;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.paramsTwoLine select option {
-  background: RGB(43 42 51);
-  color: white;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.paramsTwoLine:not(:first-of-type) span {
-  border-left: 1px solid RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.paramsTwoLine:not(:first-of-type) select {
-  border-left: 1px solid RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams select.choixmain,
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams select.choixmunition {
-  border: 0px;
-  width: 100%;
-  color: white;
-  font-variant: small-caps;
-  text-align: center;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams select.choixmain option,
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams select.choixmunition option {
-  background: RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.wpn div.button span {
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  line-height: 20px;
-  font-size: 15px;
-  font-variant: small-caps;
-  color: white;
-  background: RGB(43 42 51);
-  border: 1px solid RGB(76 74 90);
-  word-break: break-word;
+  height: 100%;
   align-items: center;
 }
-.rollDialog div.dialog-content div.wpn div.button span.relance {
-  width: 100%;
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.wpn div.button span.selected {
-  width: 100%;
+.rollDialog div.dialog-content div.scoredice label {
+  display: grid;
+  grid-template-columns: 1fr max-content 1fr;
   background: RGB(76 74 90);
-  border: 1px solid RGB(43 42 51);
-  border-top: 0px;
-  cursor: pointer;
+  height: 30px;
+  align-items: center;
 }
-.rollDialog div.dialog-content div.wpn div.button span.unselected {
-  display: none;
-  border-top: 0px;
-  cursor: pointer;
-  opacity: 0.5;
+.rollDialog div.dialog-content div.scoredice label span {
+  margin: 0px;
+  padding: 0px;
+  background: RGB(43 42 51);
 }
-.rollDialog div.dialog-content div.wpn div.blockBtn {
-  display: flex;
+.rollDialog div.dialog-content div.scoredice label input {
   width: 100%;
-  justify-content: space-between;
-  min-height: 34px;
+  background: RGB(43 42 51);
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  border-radius: 0px;
+  height: 100%;
+  min-width: 0px;
 }
-.rollDialog div.dialog-content div.wpn.fullWpn {
-  width: 100%;
+.rollDialog div.dialog-content div.scoredice label input:first-of-type {
+  text-align: right;
+}
+.rollDialog div.dialog-content div.scoredice label input:last-of-type {
+  text-align: left;
 }
 .rollDialog div.dialog-content div.wpnMA {
   display: flex;
@@ -2365,474 +2637,155 @@
 .rollDialog div.dialog-content div.armesimprovisees div.block.show {
   display: block !important;
 }
-.rollDialog div.dialog-content div.grenades {
-  display: flex;
+.rollDialog div.dialog-content div.pilonnage, .rollDialog div.dialog-content div.puissant, .rollDialog div.dialog-content div.suppression {
+  display: grid;
   width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
   border: 1px solid RGB(87 110 178);
-  flex-wrap: wrap;
-  margin-bottom: 5px;
-  align-items: flex-start;
-  align-content: flex-start;
-  justify-content: space-between;
+  height: 66px;
 }
-.rollDialog div.dialog-content div.grenades h2.header {
-  display: block;
-  position: relative;
-  width: 100%;
-  text-transform: uppercase;
-  text-align: left;
-  color: white;
-  background: RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  margin: 0px;
-  border: 0px;
-  line-height: 21px;
-  padding-top: 2px;
-  padding-left: 5px;
-  font-size: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-.rollDialog div.dialog-content div.grenades h2.header i {
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.grenades div.button {
-  display: flex;
-  width: calc(50% - 10px);
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-.rollDialog div.dialog-content div.grenades div.button button {
-  width: 100%;
-  color: white;
-  background: RGB(76 74 90);
-  cursor: pointer;
-  border-radius: 0px;
-  margin: 0px;
-}
-.rollDialog div.dialog-content div.grenades div.button button:not(:first-of-type):not(:nth-of-type(2)) {
-  border-top: 0px;
-}
-.rollDialog div.dialog-content div.grenades div.button button:nth-of-type(even) {
-  border-left: 0px;
-}
-.rollDialog div.dialog-content div.grenades div.button button.selected {
-  background: RGB(37 85 228);
-  text-decoration: underline;
-  letter-spacing: 1px;
-}
-.rollDialog div.dialog-content div.grenades div.button button:hover {
-  background: white;
-  color: RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.params {
-  display: flex;
-  width: 50%;
-  justify-content: space-between;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.params span {
-  width: 50%;
-  border: 0px;
-  text-align: left;
-  justify-content: left;
-  padding-left: 5px;
-  background: RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.params select {
-  width: 50%;
-  text-align: center;
-  padding: 0px;
-  border-radius: 0px;
-  border: 0px;
-  background: transparent;
-  color: white;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.params select option {
-  background: RGB(43 42 51);
-  color: white;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.params:first-of-type {
-  border-right: 1px solid RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.paramsTwoLine {
-  display: flex;
-  width: 50%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.paramsTwoLine span {
-  width: 100%;
-  border: 0px;
-  text-align: center;
-  justify-content: center;
-  padding-left: 5px;
-  background: RGB(76 74 90);
-  line-height: 27px;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.paramsTwoLine select {
-  width: 100%;
-  text-align: center;
-  padding: 0px;
-  border-radius: 0px;
-  border: 0px;
-  background: transparent;
-  color: white;
-  line-height: 27px;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.paramsTwoLine select option {
-  background: RGB(43 42 51);
-  color: white;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.paramsTwoLine:not(:first-of-type) span {
-  border-left: 1px solid RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.paramsTwoLine:not(:first-of-type) select {
-  border-left: 1px solid RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.grenades div.button span {
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  line-height: 16px;
-  font-size: 13px;
-  font-variant: small-caps;
-  color: white;
-  background: RGB(43 42 51);
-  border: 1px solid RGB(76 74 90);
-  word-break: break-word;
-  align-items: center;
-}
-.rollDialog div.dialog-content div.grenades div.button span.relance {
-  width: 100%;
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.grenades div.button span.selected {
-  width: 100%;
-  background: RGB(76 74 90);
-  border-top: 0px;
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.grenades div.button span.unselected {
-  display: none;
-  border-top: 0px;
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.grenades div.blockBtn {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  min-height: 34px;
-}
-.rollDialog div.dialog-content div.longbow, .rollDialog div.dialog-content div.special {
-  display: flex;
-  width: 100%;
-  border: 1px solid RGB(87 110 178);
-  flex-wrap: wrap;
-  margin-bottom: 5px;
-  align-items: flex-start;
-  align-content: flex-start;
-  justify-content: space-between;
-}
-.rollDialog div.dialog-content div.longbow h2.header, .rollDialog div.dialog-content div.special h2.header {
-  display: block;
-  position: relative;
-  width: 100%;
-  text-transform: uppercase;
-  text-align: left;
-  color: white;
-  background: RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  margin: 0px;
-  border: 0px;
-  line-height: 21px;
-  padding-top: 2px;
-  padding-left: 5px;
-  font-size: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-.rollDialog div.dialog-content div.longbow h2.header i, .rollDialog div.dialog-content div.special h2.header i {
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.longbow div.button, .rollDialog div.dialog-content div.special div.button {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-.rollDialog div.dialog-content div.longbow div.button button, .rollDialog div.dialog-content div.special div.button button {
-  position: relative;
-  width: 100%;
-  color: white;
-  background: RGB(76 74 90);
-  cursor: pointer;
-  border-radius: 0px;
-  margin: 0px;
-}
-.rollDialog div.dialog-content div.longbow div.button button:not(:first-of-type):not(:nth-of-type(2)), .rollDialog div.dialog-content div.special div.button button:not(:first-of-type):not(:nth-of-type(2)) {
-  border-top: 0px;
-}
-.rollDialog div.dialog-content div.longbow div.button button:nth-of-type(even), .rollDialog div.dialog-content div.special div.button button:nth-of-type(even) {
-  border-left: 0px;
-}
-.rollDialog div.dialog-content div.longbow div.button button.selected, .rollDialog div.dialog-content div.special div.button button.selected {
-  background: RGB(37 85 228);
-  text-decoration: underline;
-  letter-spacing: 1px;
-}
-.rollDialog div.dialog-content div.longbow div.button button:hover, .rollDialog div.dialog-content div.special div.button button:hover {
-  background: white;
-  color: RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.longbow div.button button span, .rollDialog div.dialog-content div.special div.button button span {
-  display: inline;
-  position: absolute;
-  width: fit-content;
-  background: RGB(76 74 90);
-  border-left: 1px solid RGB(43 42 51);
-  right: 0px;
-  font-size: 14px;
-  height: 29px;
-  line-height: 29px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.rollDialog div.dialog-content div.longbow div.button div.data, .rollDialog div.dialog-content div.special div.button div.data {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.rollDialog div.dialog-content div.longbow div.button div.data label, .rollDialog div.dialog-content div.special div.button div.data label {
-  display: flex;
-  flex-wrap: wrap;
-  width: calc(100% / 3);
-}
-.rollDialog div.dialog-content div.longbow div.button div.data label span, .rollDialog div.dialog-content div.special div.button div.data label span {
+.rollDialog div.dialog-content div.pilonnage span.label, .rollDialog div.dialog-content div.puissant span.label, .rollDialog div.dialog-content div.suppression span.label {
+  grid-column: 1/4;
   display: inline-block;
   width: 100%;
   text-align: center;
-  height: 26px;
+  height: 32px;
   font-variant: small-caps;
+  background: RGB(76 74 90);
   font-size: 16px;
   letter-spacing: 1px;
-  line-height: 26px;
-  background: RGB(76 74 90);
+  line-height: 32px;
+  border-bottom: 1px solid black;
 }
-.rollDialog div.dialog-content div.longbow div.button div.data label select, .rollDialog div.dialog-content div.special div.button div.data label select {
+.rollDialog div.dialog-content div.pilonnage span.sublabel, .rollDialog div.dialog-content div.puissant span.sublabel, .rollDialog div.dialog-content div.suppression span.sublabel {
+  display: grid;
   width: 100%;
-  text-align: center;
-  padding: 0px;
-  border-radius: 0px;
-  border: 0px;
-  background: transparent;
-  color: white;
-  padding-left: 10px;
-}
-.rollDialog div.dialog-content div.longbow div.button div.data label select option, .rollDialog div.dialog-content div.special div.button div.data label select option {
-  background: RGB(43 42 51);
-  color: white;
-}
-.rollDialog div.dialog-content div.longbow div.button div.data label:not(:first-of-type) span, .rollDialog div.dialog-content div.special div.button div.data label:not(:first-of-type) span {
-  border-left: 1px solid RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.longbow div.button div.data label:not(:first-of-type) select, .rollDialog div.dialog-content div.special div.button div.data label:not(:first-of-type) select {
-  border-left: 1px solid RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.longbow div.button div.data div.blockBtn, .rollDialog div.dialog-content div.special div.button div.data div.blockBtn {
-  display: flex;
-  width: calc(100% / 3);
-  justify-content: space-between;
-  min-height: 34px;
-}
-.rollDialog div.dialog-content div.longbow div.button div.data div.blockBtn span, .rollDialog div.dialog-content div.special div.button div.data div.blockBtn span {
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  line-height: 16px;
-  font-size: 13px;
-  font-variant: small-caps;
-  color: white;
-  background: RGB(43 42 51);
-  border: 1px solid RGB(76 74 90);
-  word-break: break-word;
+  background: RGB(76 74 90);
+  padding-left: 5px;
+  height: 100%;
   align-items: center;
 }
-.rollDialog div.dialog-content div.longbow div.button div.data div.blockBtn span.relance, .rollDialog div.dialog-content div.special div.button div.data div.blockBtn span.relance {
+.rollDialog div.dialog-content div.pilonnage select, .rollDialog div.dialog-content div.puissant select, .rollDialog div.dialog-content div.suppression select {
   width: 100%;
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.longbow div.button div.data div.blockBtn span.selected, .rollDialog div.dialog-content div.special div.button div.data div.blockBtn span.selected {
-  width: 100%;
-  background: RGB(76 74 90);
-  border: 1px solid RGB(43 42 51);
-  border-top: 0px;
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.longbow div.button div.data div.blockBtn span.unselected, .rollDialog div.dialog-content div.special div.button div.data div.blockBtn span.unselected {
-  display: none;
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets, .rollDialog div.dialog-content div.special div.button div.effets {
-  display: flex;
-  position: relative;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
+  height: 100%;
+  padding-left: 13px;
+  border: 0px;
+  margin: 0px;
+  padding-top: 0px;
   padding-right: 0px;
   padding-bottom: 0px;
-  padding-left: 0px;
-  border-top: 1px solid RGB(76 74 90);
+  text-align: center;
+  background: RGB(43 42 51);
+  color: white;
+  font-variant: small-caps;
 }
-.rollDialog div.dialog-content div.longbow div.button div.effets h3, .rollDialog div.dialog-content div.special div.button div.effets h3 {
-  display: flex;
-  position: relative;
+.rollDialog div.dialog-content div.pilonnage select option, .rollDialog div.dialog-content div.puissant select option, .rollDialog div.dialog-content div.suppression select option {
+  background: RGB(43 42 51);
+  color: white;
+}
+.rollDialog div.dialog-content div.pilonnage input, .rollDialog div.dialog-content div.puissant input, .rollDialog div.dialog-content div.suppression input {
   width: 100%;
   text-align: center;
-  justify-content: center;
-  line-height: 26px;
-  height: 26px;
-  border-bottom: 0px;
-  background: RGB(76 74 90);
-  margin-bottom: 0px;
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets h3 span, .rollDialog div.dialog-content div.special div.button div.effets h3 span {
-  display: inline;
-  position: absolute;
-  width: fit-content;
-  background: RGB(76 74 90);
-  border-left: 1px solid RGB(43 42 51);
-  right: 0px;
-  font-size: 14px;
-  height: 26px;
-  line-height: 26px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste, .rollDialog div.dialog-content div.special div.button div.effets div.liste {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  width: 100%;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div, .rollDialog div.dialog-content div.special div.button div.effets div.liste div {
-  position: relative;
-  width: max-content;
-  padding-left: 15px;
-  padding-right: 25px;
-  background: RGB(76 74 90);
-  border-radius: 5px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  margin-top: 5px;
-  border: 1px solid black;
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div span.label, .rollDialog div.dialog-content div.special div.button div.effets div.liste div span.label {
-  font-variant: small-caps;
-  color: white;
-  line-height: 20px;
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div img.info, .rollDialog div.dialog-content div.special div.button div.effets div.liste div img.info {
-  display: inline-block;
-  position: absolute;
-  width: 15px;
-  height: 15px;
+  background: RGB(43 42 51);
   border: 0px;
-  background: RGB(76 74 90);
-  top: 4px;
-  right: 2px;
-  cursor: pointer;
+  margin: 0px;
+  padding: 0px;
+  border-radius: 0px;
+  height: 100%;
 }
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div img.info.clicked, .rollDialog div.dialog-content div.longbow div.button div.effets div.liste div img.info:hover, .rollDialog div.dialog-content div.special div.button div.effets div.liste div img.info.clicked, .rollDialog div.dialog-content div.special div.button div.effets div.liste div img.info:hover {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div span.hideInfo, .rollDialog div.dialog-content div.special div.button div.effets div.liste div span.hideInfo {
-  display: none;
-  position: absolute;
-  background: RGB(76 74 90);
-  border: 1px solid black;
-  padding: 5px;
-  z-index: 90;
-  margin-top: -2px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  right: 0;
-  top: 100%;
-  text-align: justify;
-  word-break: break-word;
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste a.edit, .rollDialog div.dialog-content div.special div.button div.effets div.liste a.edit {
-  position: absolute;
-  bottom: 0px;
-  right: 5px;
-  color: white;
-  font-variant: small-caps;
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div, .rollDialog div.dialog-content div.special div.button div.effets div.liste div {
-  background: RGB(43 42 51);
-  cursor: pointer;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 0px;
-  padding-right: 17px;
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div:hover, .rollDialog div.dialog-content div.special div.button div.effets div.liste div:hover {
-  box-shadow: 1px 1px 4px 2px RGB(87 110 178);
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div span.label, .rollDialog div.dialog-content div.special div.button div.effets div.liste div span.label {
-  display: inline-block;
-  line-height: 26px;
-  padding-left: 15px;
-  padding-right: 8px;
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div img.info, .rollDialog div.dialog-content div.special div.button div.effets div.liste div img.info {
-  background: RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div.selected, .rollDialog div.dialog-content div.special div.button div.effets div.liste div.selected {
-  background: RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div.selected img.info, .rollDialog div.dialog-content div.special div.button div.effets div.liste div.selected img.info {
-  background: RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets.w33, .rollDialog div.dialog-content div.special div.button div.effets.w33 {
-  width: calc(100% / 3);
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets.w50, .rollDialog div.dialog-content div.special div.button div.effets.w50 {
-  width: calc(100% / 2);
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets:not(:first-of-type) h3, .rollDialog div.dialog-content div.special div.button div.effets:not(:first-of-type) h3 {
-  border-left: 1px solid RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets:not(:first-of-type) div.liste, .rollDialog div.dialog-content div.special div.button div.effets:not(:first-of-type) div.liste {
-  border-left: 1px solid RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.longbow div.blockBtn, .rollDialog div.dialog-content div.special div.blockBtn {
-  display: flex;
+.rollDialog div.dialog-content div.pilonnage label.select, .rollDialog div.dialog-content div.puissant label.select, .rollDialog div.dialog-content div.suppression label.select {
+  display: grid;
   width: 100%;
-  justify-content: space-between;
+  grid-template-columns: 1fr;
 }
-.rollDialog div.dialog-content div.special div.button div.effets div.liste {
-  height: calc(100% - 26px);
+.rollDialog div.dialog-content div.pilonnage label.score, .rollDialog div.dialog-content div.puissant label.score, .rollDialog div.dialog-content div.suppression label.score {
+  grid-column: 2/4;
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  column-gap: 2px;
+  border: 0px;
+  height: 32px;
 }
-.rollDialog div.dialog-content div.borderNone {
-  border: none;
+.rollDialog div.dialog-content div.allCol {
+  grid-column: 1/7;
+}
+.rollDialog div.dialog-content div.twoCol {
+  grid-template-columns: 1fr 1fr;
+}
+.rollDialog div.dialog-content div.twoCol div.liste div.block {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.rollDialog div.dialog-content div.threeCol {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.rollDialog div.dialog-content div.threeCol div.liste div.block {
+  grid-template-columns: 1fr 1fr;
+}
+.rollDialog div.dialog-content div.colOne {
+  grid-column: 1/3;
+}
+.rollDialog div.dialog-content div.colTwo {
+  grid-column: 3/5;
+}
+.rollDialog div.dialog-content div.colThree {
+  grid-column: 5/7;
+}
+.rollDialog div.dialog-content div.colTwoFour {
+  grid-column: 2/4;
+}
+.rollDialog div.dialog-content div.colTwoFive {
+  grid-column: 2/5;
+}
+.rollDialog div.dialog-content div.colFiveSeven {
+  grid-column: 5/7;
+}
+.rollDialog div.dialog-content div.rowFourTwo {
+  grid-row: 4/6;
+}
+.rollDialog div.dialog-content div.rowThree {
+  grid-row: 3;
+}
+.rollDialog div.dialog-content div.rowFour {
+  grid-row: 4;
+}
+.rollDialog div.dialog-content div.rowFive {
+  grid-row: 5;
+}
+.rollDialog div.dialog-content div.rowSix {
+  grid-row: 6;
+}
+.rollDialog div.dialog-content label.colOne {
+  grid-column: 1/3;
+}
+.rollDialog div.dialog-content label.colTwo {
+  grid-column: 3/5;
+}
+.rollDialog div.dialog-content label.colThree {
+  grid-column: 5/7;
+}
+.rollDialog div.dialog-content label.colTwoFour {
+  grid-column: 2/4;
+}
+.rollDialog div.dialog-content label.colTwoFive {
+  grid-column: 2/5;
+}
+.rollDialog div.dialog-content label.colFiveSeven {
+  grid-column: 5/7;
+}
+.rollDialog div.dialog-content label.rowFourTwo {
+  grid-row: 4/6;
+}
+.rollDialog div.dialog-content label.rowThree {
+  grid-row: 3;
+}
+.rollDialog div.dialog-content label.rowFour {
+  grid-row: 4;
+}
+.rollDialog div.dialog-content label.rowFive {
+  grid-row: 5;
+}
+.rollDialog div.dialog-content label.rowSix {
+  grid-row: 6;
 }
 .rollDialog div.dialog-content label.score {
   display: grid;
@@ -2862,8 +2815,106 @@
   border-radius: 0px;
   height: 100%;
 }
+.rollDialog div.dialog-content label.selectWithInfo, .rollDialog div.dialog-content label.precis {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  justify-content: space-between;
+  border: 1px solid RGB(87 110 178);
+  align-items: center;
+  height: 66px;
+}
+.rollDialog div.dialog-content label.selectWithInfo span.label, .rollDialog div.dialog-content label.precis span.label {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  height: 31px;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  font-size: 16px;
+  letter-spacing: 1px;
+  line-height: 31px;
+}
+.rollDialog div.dialog-content label.selectWithInfo span.info, .rollDialog div.dialog-content label.precis span.info {
+  display: inline-block;
+  position: absolute;
+  width: 21px;
+  height: 21px;
+  line-height: 21px;
+  font-size: 15px;
+  border: 1px solid RGB(43 42 51);
+  border-radius: 50%;
+  text-align: center;
+  background: RGB(76 74 90);
+  bottom: 5px;
+  left: 5px;
+  cursor: pointer;
+}
+.rollDialog div.dialog-content label.selectWithInfo span.info:hover, .rollDialog div.dialog-content label.precis span.info:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+.rollDialog div.dialog-content label.selectWithInfo span.hideInfo, .rollDialog div.dialog-content label.precis span.hideInfo {
+  position: absolute;
+  width: 400px;
+  height: max-content;
+  border: 1px solid black;
+  background: RGB(43 42 51);
+  text-align: justify;
+  left: 30px;
+  z-index: 90;
+  border-radius: 10px;
+  color: white;
+  padding: 2px;
+}
+.rollDialog div.dialog-content label.selectWithInfo select, .rollDialog div.dialog-content label.precis select {
+  width: 100%;
+  height: 31px;
+  padding-left: 13px;
+  border: 0px;
+  margin: 0px;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  text-align: center;
+  background: RGB(43 42 51);
+  color: white;
+  font-variant: small-caps;
+}
+.rollDialog div.dialog-content label.selectWithInfo select option, .rollDialog div.dialog-content label.precis select option {
+  background-color: RGB(43 42 51);
+}
+.rollDialog div.dialog-content label.btn {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr;
+  border: 1px solid RGB(87 110 178);
+}
+.rollDialog div.dialog-content label.btn button.btn {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  grid-gap: 2px;
+  width: 100%;
+  color: white;
+  background: RGB(43 42 51);
+  cursor: pointer;
+  border-radius: 0px;
+  margin: 0px;
+  text-align: left;
+  align-items: center;
+  height: 30px;
+  line-height: 28px;
+}
+.rollDialog div.dialog-content label.btn button.selected {
+  background: RGB(37 85 228);
+  letter-spacing: 1px;
+}
+.rollDialog div.dialog-content label.btn button:hover {
+  background: white;
+  color: RGB(43 42 51);
+}
 .rollDialog div.dialog-content input.label {
-  grid-column: 1/4;
+  grid-column: 1/7;
   margin: 0px;
   border-radius: 0px;
   font-variant: small-caps;
@@ -2879,6 +2930,9 @@
 }
 .rollDialog div.dialog-buttons {
   flex: 0;
+  position: absolute;
+  bottom: 5px;
+  width: calc(100% - 27px);
 }
 .rollDialog div.dialog-buttons button {
   color: white;
@@ -24271,6 +24325,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.combat div.main div.armesDistance div.wpn select option {
   background: RGB(43 42 51);
 }
+.knight section.body div.combat div.main div.armesContact div.wpn select.wpnMainChange,
+.knight section.body div.combat div.main div.armesDistance div.wpn select.wpnMainChange {
+  grid-column: 1/5;
+}
 .knight section.body div.combat div.main div.armesContact div.wpn div.effets,
 .knight section.body div.combat div.main div.armesDistance div.wpn div.effets {
   width: 100%;
@@ -24398,6 +24456,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.body div.combat div.main div.armesContact div.wpn button.addbasechair,
 .knight section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
@@ -31504,6 +31563,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.combat div.main div.armesDistance div.wpn select option {
   background: RGB(43 42 51);
 }
+.pnj section.body div.combat div.main div.armesContact div.wpn select.wpnMainChange,
+.pnj section.body div.combat div.main div.armesDistance div.wpn select.wpnMainChange {
+  grid-column: 1/5;
+}
 .pnj section.body div.combat div.main div.armesContact div.wpn div.effets,
 .pnj section.body div.combat div.main div.armesDistance div.wpn div.effets {
   width: 100%;
@@ -31631,6 +31694,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
+  border-top: 1px solid RGB(76 74 90);
 }
 .pnj section.body div.combat div.main div.armesContact div.wpn button.addbasechair,
 .pnj section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
@@ -33757,6 +33821,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.body div.combat div.main div.armesDistance div.wpn select option {
   background: RGB(43 42 51);
 }
+.creature section.body div.combat div.main div.armesContact div.wpn select.wpnMainChange,
+.creature section.body div.combat div.main div.armesDistance div.wpn select.wpnMainChange {
+  grid-column: 1/5;
+}
 .creature section.body div.combat div.main div.armesContact div.wpn div.effets,
 .creature section.body div.combat div.main div.armesDistance div.wpn div.effets {
   width: 100%;
@@ -33884,6 +33952,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
+  border-top: 1px solid RGB(76 74 90);
 }
 .creature section.body div.combat div.main div.armesContact div.wpn button.addbasechair,
 .creature section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
@@ -35838,6 +35907,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.body div.combat div.main div.armesDistance div.wpn select option {
   background: RGB(43 42 51);
 }
+.bande section.body div.combat div.main div.armesContact div.wpn select.wpnMainChange,
+.bande section.body div.combat div.main div.armesDistance div.wpn select.wpnMainChange {
+  grid-column: 1/5;
+}
 .bande section.body div.combat div.main div.armesContact div.wpn div.effets,
 .bande section.body div.combat div.main div.armesDistance div.wpn div.effets {
   width: 100%;
@@ -35965,6 +36038,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
+  border-top: 1px solid RGB(76 74 90);
 }
 .bande section.body div.combat div.main div.armesContact div.wpn button.addbasechair,
 .bande section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
@@ -38084,6 +38158,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.body div.combat div.main div.armesDistance div.wpn select option {
   background: RGB(43 42 51);
 }
+.vehicule section.body div.combat div.main div.armesDistance div.wpn select.wpnMainChange {
+  grid-column: 1/5;
+}
 .vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets {
   width: 100%;
 }
@@ -38193,6 +38270,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
+  border-top: 1px solid RGB(76 74 90);
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
   display: flex;
@@ -39141,14 +39219,15 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   cursor: pointer;
 }
 .mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
   justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 74px;
 }
 .mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 45px - 29px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
@@ -39157,7 +39236,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block div.subLine input {
   display: inline-block;
-  width: 74px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -39167,21 +39246,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding: 0px;
   margin: 0px;
 }
-.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block div.optionHide {
-  display: none;
+.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block div:not(:first-of-type) span {
+  border-top: 1px solid RGB(43 42 51);
 }
-.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block div.optionShow {
-  display: flex;
+.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block div:not(:first-of-type) input {
+  border-top: 1px solid RGB(76 74 90);
 }
-.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block span.option.withBorder,
-.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block span.label.withBorder {
-  border-bottom: 1px solid RGB(43 42 51) !important;
+.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block:not(:first-of-type) img {
+  border-top: 1px solid RGB(43 42 51);
 }
-.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block span.score.withBorder,
-.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block span.separation.withBorder,
-.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block input.withBorder,
-.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block img.withBorder {
-  border-bottom: 1px solid RGB(76 74 90) !important;
+.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block:not(:first-of-type) span.option {
+  border-top: 1px solid RGB(43 42 51);
+}
+.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block:not(:first-of-type) span.label {
+  border-top: 1px solid RGB(43 42 51);
+}
+.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block:not(:first-of-type) span.score {
+  border-top: 1px solid RGB(76 74 90);
 }
 .mechaarmure section.body div.configurations h2.header {
   display: block;
@@ -40046,157 +40127,216 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 
 .knight-roll {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2px;
+}
+.knight-roll div.tags {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+  justify-content: space-between;
+}
+.knight-roll div.tags span {
+  display: inline-block;
+  padding: 2px;
+  font-variant: small-caps;
+  font-size: 13px;
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 2px RGB(43 42 51);
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+.knight-roll div.dice-result {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2px;
   cursor: pointer;
 }
-.knight-roll div.flavor-wpn {
-  font-size: 14px;
-  font-weight: bold;
+.knight-roll div.dice-flavor {
+  text-align: right;
+  font-size: var(--font-size-12);
 }
 .knight-roll div.dice-formula {
   border-radius: 0px;
   box-shadow: 1px 1px 2px RGB(43 42 51);
-}
-.knight-roll div.dice-total {
-  display: block;
-  width: 100%;
+  margin: 0;
+  line-height: 24px;
+  text-align: center;
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid var(--color-border-light-2);
+}
+.knight-roll div.dice-tooltip {
+  display: none;
+}
+.knight-roll div.important {
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 20px;
+}
+.knight-roll div.listTargets {
+  display: grid;
+  grid-template-columns: 1fr;
+  text-align: left;
+  font-variant: small-caps;
+  font-size: 16px;
   box-shadow: 1px 1px 2px RGB(43 42 51);
-}
-.knight-roll div.dice-total h4.dice-total {
-  border: 0px;
-  background: transparent;
-  box-shadow: none;
-}
-.knight-roll div.dice-total span {
-  font-size: 13px;
-  font-weight: normal;
-  text-align: left;
-  display: block;
-  padding-left: 5px;
-  padding-right: 5px;
-  line-height: 16px;
-}
-.knight-roll div.dice-explode {
-  margin-bottom: -2px;
-  border-bottom: 0px;
-  border-radius: 0px;
-}
-.knight-roll div.subResult div.dice-formula {
-  border-top: 0px;
-  margin-bottom: 0px;
-}
-.knight-roll div.subResult div.dice-formula span.label {
-  font-weight: bold;
-  font-variant: small-caps;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.knight-roll div.subResult div.dice-formula span.result {
-  font-weight: bold;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.knight-roll div.subResult div.dice-formula span.description {
-  display: block;
-  width: 100%;
-  text-align: justify;
-  line-height: 18px;
-  font-size: 13px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.knight-roll div.subResult div.dice-formula span.description p {
-  margin: 0px;
-  word-break: break-word;
-}
-.knight-roll div.otherResults div.dice-formula {
-  text-align: justify;
-  margin-top: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  line-height: 19px;
-  word-break: break-word;
-}
-.knight-roll div.otherResults div.dice-formula div.oneLine {
-  display: blocK;
-  width: 100%;
-  text-align: center;
-  line-height: 24px;
-}
-.knight-roll div.otherResults div.dice-formula div.oneLine span.label {
-  font-weight: bold;
-  font-variant: small-caps;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.knight-roll div.otherResults div.dice-formula > span.label {
-  font-size: 13px;
-}
-.knight-roll div.oneLine {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-.knight-roll div.style {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-highlight);
   margin-bottom: 5px;
+  margin-top: 5px;
 }
-.knight-roll div.style div.dice-total {
+.knight-roll div.listTargets div.target {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  padding-left: 5px;
+  padding-right: 5px;
+  cursor: help;
+}
+.knight-roll div.listTargets div.target.sub {
   font-size: 14px;
+  line-height: 14px;
 }
-.knight-roll div.atkTouche div.dice-formula {
-  margin-bottom: 5px;
-  margin-top: 5px;
-  border-color: white;
+.knight-roll div.listTargets span.label {
+  font-weight: bold;
 }
-.knight-roll div.atkTouche div.dice-formula::before {
-  content: attr(title);
-  position: absolute;
-  left: 0px;
-  top: -5px;
-  background: white;
+.knight-roll div.listTargets span.hit {
+  font-weight: bold;
+  color: #18520b;
+}
+.knight-roll div.listTargets span.dmg {
+  font-weight: bold;
+  color: #AF0000;
+}
+.knight-roll div.listTargets span.fail {
+  font-weight: bold;
+  color: #AF0000;
+}
+.knight-roll div.listTargets span.subtitle {
+  grid-column: 1/3;
+}
+.knight-roll div.btn {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+}
+.knight-roll div.btn button {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  background: RGB(76 74 90);
+  color: white;
   border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  align-items: center;
+  height: 20px;
+  line-height: 20px;
+  padding: 0px;
+  font-variant: small-caps;
+}
+.knight-roll div.btn button:hover {
+  background: white;
+  color: RGB(43 42 51);
+}
+.knight-roll div.btn.full {
+  grid-template-columns: 1fr;
+}
+.knight-roll div.effets {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: left;
+  font-size: 16px;
+  box-shadow: 1px 1px 2px RGB(43 42 51);
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-light-2);
+  padding-left: 2px;
+  padding-right: 2px;
+  text-align: justify;
+}
+.knight-roll div.effets span {
+  display: contents;
+  font-variant: small-caps;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  cursor: help;
+}
+.knight-roll div.details {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  text-align: left;
+  font-size: 16px;
+  box-shadow: 1px 1px 2px RGB(43 42 51);
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-light-2);
+  padding-left: 2px;
+  padding-right: 2px;
+}
+.knight-roll div.details.withTooltip {
+  cursor: pointer;
+}
+.knight-roll div.details.withTooltip div.dice-tooltip {
+  grid-column: 1/3;
+  background: RGB(98 97 111);
+  padding: 2px;
+  margin-left: -2px;
+  margin-right: -2px;
+  color: RGB(193, 193, 193);
+}
+.knight-roll div.details span.label {
+  display: grid;
+  width: 100%;
+  font-weight: bold;
+  font-variant: small-caps;
+  font-size: 14px;
+  height: 20px;
+  align-items: flex-end;
+}
+.knight-roll div.details span.value {
+  display: grid;
+  width: 100%;
+  font-weight: bold;
+  font-size: 18px;
+  height: 20px;
+  align-items: flex-end;
+  justify-content: right;
+}
+.knight-roll div.details span.description {
+  grid-column: 1/3;
+  display: grid;
+  width: 100%;
+  text-align: justify;
+  font-size: 12px;
+}
+.knight-roll div.success {
+  color: #18520b;
+  font-variant: small-caps;
+  font-size: 16px;
+}
+.knight-roll div.fail {
+  color: #AF0000;
+  font-variant: small-caps;
+  font-size: 16px;
+}
+.knight-roll div.text.important {
+  font-variant: small-caps;
+  font-weight: bold;
+}
+.knight-roll h4.dice-total {
+  display: grid;
+  line-height: 24px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-light-2);
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px RGB(43 42 51);
+  word-break: break-all;
+  margin: 0px;
+  font-size: 20px;
+  font-weight: bold;
   padding-left: 5px;
   padding-right: 5px;
-  width: 75px;
-  word-break: keep-all;
-  line-height: 15px;
-}
-.knight-roll div.toHide {
-  border: 1px solid white;
-  border-radius: 0px;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
-}
-.knight-roll div.toHide div.dice-formula {
-  padding-top: 30px;
-  margin-bottom: 5px;
-  margin-top: 5px;
-  border-color: white;
-}
-.knight-roll div.toHide div.dice-formula::before {
-  content: attr(title);
-  position: absolute;
-  left: 0px;
-  top: -5px;
-  background: white;
-  border-radius: 5px;
-  width: 100%;
-  height: 30px;
-  word-break: keep-all;
-  line-height: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.knight-roll div.toHide div.dice-formula span {
-  width: 100%;
-  display: block;
-  text-align: left;
-  padding-left: 5px;
-}
-.knight-roll div.toHide div.dice-total {
-  border-color: white;
 }
 .knight-roll span.caracs {
   word-break: break-word;
@@ -40227,29 +40367,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 100%;
   color: #AF0000;
 }
-.knight-roll span.fullLine {
-  display: block;
-  width: 100%;
-}
-.knight-roll h4.dice-exploit {
-  margin-top: 5px;
-  flex: 0;
-  font-size: 18px;
-  font-weight: bold;
-  position: relative;
-  margin-bottom: 0;
-  margin-left: 0;
-  margin-right: 0;
-  line-height: 24px;
-  text-align: center;
-  background: rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--color-border-light-2);
-  border-radius: 3px;
-  box-shadow: 0 0 2px #fff inset;
-  word-break: break-all;
-  font-variant: small-caps;
-  color: #18520b;
-}
 .knight-roll button.btn {
   background: rgba(0, 0, 0, 0.1);
   box-shadow: 1px 1px 4px RGB(43 42 51);
@@ -40260,6 +40377,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight-roll button.btnDgts, .knight-roll button.btnViolence {
   order: 3;
+}
+.knight-roll button.relancedegats {
+  grid-column: 1/3;
 }
 
 .windowsEvolutionCompanions {

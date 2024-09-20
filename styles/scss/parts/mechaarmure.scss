@@ -875,14 +875,15 @@
               }
 
               div.subLine {
+                display:grid;
                 width:100%;
                 line-height:30px;
                 justify-content: space-between;
-                margin-top:1px;
+                grid-template-columns: 1fr 74px;
 
                 span.label {
                   display:inline-block;
-                  width:calc(100% - 45px - 29px);
+                  width:100%;
                   height:30px;
                   font-variant: small-caps;
                   font-size:16px;
@@ -892,7 +893,7 @@
 
                 input {
                   display: inline-block;
-                  width:74px;
+                  width:100%;
                   height:30px;
                   background:$black;
                   text-align:center;
@@ -904,27 +905,35 @@
                 }
               }
 
-              div.optionHide {
-                display:none;
-              }
+              div {
+                &:not(:first-of-type) {
+                  span {
+                    border-top: 1px solid $black;
+                  }
 
-              div.optionShow {
-                display:flex;
-              }
-
-              span.option,
-              span.label {
-                &.withBorder {
-                  border-bottom:1px solid $black !important;
+                  input {
+                    border-top: 1px solid $lightBlack;
+                  }
                 }
               }
 
-              span.score,
-              span.separation,
-              input,
-              img {
-                &.withBorder {
-                  border-bottom:1px solid $lightBlack !important;
+              &:not(:first-of-type) {
+                img {
+                  border-top: 1px solid $black;
+                }
+
+                span {
+                  &.option {
+                    border-top: 1px solid $black;
+                  }
+
+                  &.label {
+                    border-top: 1px solid $black;
+                  }
+
+                  &.score {
+                    border-top: 1px solid $lightBlack;
+                  }
                 }
               }
             }

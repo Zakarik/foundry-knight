@@ -792,7 +792,6 @@ export class KnightRollDialog extends Application {
       const capaciteultime = act.items.find(items => items.type === 'capaciteultime');
 
       for (let i of act.items) {
-        console.warn(i);
         const system = i.system;
         // ARMURE.
         if (i.type === 'armure') {

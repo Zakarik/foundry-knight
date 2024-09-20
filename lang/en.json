@@ -2172,11 +2172,14 @@
       "JetPilotage":"Jet de pilotage",
       "AttackSurprise":"Attaque surprise",
       "RESULTATS":{
+        "Affecte":"Affecté",
+        "PasAffecte":"Pas affecté",
         "Touche":"Touché",
         "Manque":"Manqué",
         "VsReaction":"vs Réaction",
         "VsDefense":"vs Défense",
-        "PFTarget":"Point faible ciblé !"
+        "PFTarget":"Point faible ciblé !",
+        "DegatsAvec":"Dégâts avec {avec}"
       },
       "CHAIRD2": {
         "Has":"Ajoute la Chair divisé par 2 aux dégâts",

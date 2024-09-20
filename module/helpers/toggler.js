@@ -77,7 +77,7 @@ class Toggler {
   }
 
   _getSiblings(element) {
-    return $(element).siblings();
+    return $(element).siblings().not('.selected');
   }
 
   _toggleClasses(element, forcedVisibility) {

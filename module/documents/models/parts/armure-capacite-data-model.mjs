@@ -2611,8 +2611,11 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
 
   prepareData() {
     if(this.morph) {
-      const nbreChoisi = Object.keys(this.morph.choisi).filter(key => (key !== 'polymorphieLame' && key !== 'polymorphieGriffe' && key !== 'polymorphieCanon' && key !== 'fait') && this.morph.choisi[key]).length;
-      const nbrePolymorphieGuerre = Object.keys(this.morph.active).filter(key => (key === 'polymorphieLame' || key === 'polymorphieGriffe' || key === 'polymorphieCanon') && this.morph.active[key]).length;
+      const choisi = this?.morph?.choisi ?? {};
+      const active = this?.morph?.active ?? {};
+
+      const nbreChoisi = Object.keys(choisi).filter(key => (key !== 'polymorphieLame' && key !== 'polymorphieGriffe' && key !== 'polymorphieCanon' && key !== 'fait') && this.morph.choisi[key]).length;
+      const nbrePolymorphieGuerre = Object.keys(active).filter(key => (key === 'polymorphieLame' || key === 'polymorphieGriffe' || key === 'polymorphieCanon') && this.morph.active[key]).length;
 
       Object.defineProperty(this.selected.morph.polymorphie, 'max', {
         value: nbrePolymorphieGuerre === 2 ? true : false,
@@ -2621,12 +2624,15 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
         configurable:true
       });
 
-      Object.defineProperty(this.selected.morph.choisi, 'fait', {
-        value: nbreChoisi === this.morph.capacites ? true : false,
-        writable:true,
-        enumerable:true,
-        configurable:true
-      });
+      if(this.selected.morph.choisi) {
+        Object.defineProperty(this.selected.morph.choisi, 'fait', {
+          value: nbreChoisi === this.morph.capacites ? true : false,
+          writable:true,
+          enumerable:true,
+          configurable:true
+        });
+
+      }
     }
   }
 }

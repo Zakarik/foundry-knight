@@ -3,8 +3,11 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
 		const {HTMLField, NumberField, SchemaField, StringField, ObjectField, BooleanField} = foundry.data.fields;
 
         return {
+            id:new StringField(),
             active:new SchemaField({
               base:new BooleanField({initial:false}),
+              pnj:new BooleanField({initial:false}),
+              pnjName:new StringField(),
             }),
             description:new HTMLField({initial:''}),
             categorie:new StringField({initial:'effets'}),

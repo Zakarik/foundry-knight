@@ -2,7 +2,9 @@ import { AspectsNPCDataModel } from '../parts/aspects-npc-data-model.mjs';
 import { ArmesImproviseesDataModel } from '../parts/armesimprovisees-data-model.mjs';
 import { DefensesDataModel } from '../parts/defenses-data-model.mjs';
 import { InitiativeDataModel } from '../parts/initiative-data-model.mjs';
-import { Phase2DataModel } from '../parts/phase2-data-model.mjs';
+import { Phase2DataModel } from '../parts/phase2-data-model.mjs';import {
+  getFlatEffectBonus,
+} from "../../../helpers/common.mjs";
 
 export class CreatureDataModel extends foundry.abstract.TypeDataModel {
 	static defineSchema() {

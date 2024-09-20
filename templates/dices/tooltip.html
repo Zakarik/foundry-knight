@@ -3,7 +3,7 @@
     <section class="tooltip-part">
         <div class="dice">
             <header class="part-header flexrow">
-                <span class="part-formula" title="{{base}}{{#each bonus}} + {{bonus}}{{/each}}">{{base}}{{#each bonus}} + {{this}}{{/each}}</span>
+                <span class="part-formula" title="{{#if title}}{{title}}{{else}}{{base}}{{#each bonus}} + {{this}}{{/each}}{{/if}}">{{base}}{{#each bonus}} + {{this}}{{/each}}</span>
                 {{#if flavor}}<span class="part-flavor">{{flavor}}</span>{{/if}}
                 <span class="part-total">{{total}}{{#if totalBonus}} + {{totalBonus}}{{/if}}</span>
             </header>

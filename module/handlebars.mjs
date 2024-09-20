@@ -562,7 +562,7 @@
     Handlebars.registerHelper('moduleCanBeActivate', function (data, type) {
         if(data === undefined) return false;
         let result = false;
-        const system = data.system;
+        const system = data.system?.niveau?.actuel ?? {};
         const isPermanent = system.permanent;
         const hasPNJ = system.pnj?.has ?? false;
         const energieTour = system.energie?.tour?.value ?? 0;

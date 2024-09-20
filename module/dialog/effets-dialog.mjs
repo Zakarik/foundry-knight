@@ -24,23 +24,18 @@ export class KnightEffetsDialog extends FormApplication {
             jet:0,
             carac:{
               fixe:'',
-              labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
               odInclusFixe:false,
               jet:'',
-              labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet"),
               odInclusJet:false
             },
             aspect:{
               fixe:'',
-              labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusFixe"),
               aeInclusFixe:false,
               jet:'',
-              labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusJet"),
               aeInclusJet:false
             },
             conditionnel:{
               has:false,
-              label:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Nocondition"),
               condition:''
             }
           },
@@ -49,23 +44,18 @@ export class KnightEffetsDialog extends FormApplication {
             jet:0,
             carac:{
               fixe:'',
-              labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
               odInclusFixe:false,
               jet:'',
-              labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet"),
               odInclusJet:false
             },
             aspect:{
               fixe:'',
-              labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusFixe"),
               aeInclusFixe:false,
               jet:'',
-              labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusJet"),
               aeInclusJet:false
             },
             conditionnel:{
               has:false,
-              label:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Nocondition"),
               condition:''
             }
           },
@@ -74,23 +64,18 @@ export class KnightEffetsDialog extends FormApplication {
             jet:0,
             carac:{
               fixe:'',
-              labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe"),
               odInclusFixe:false,
               jet:'',
-              labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet"),
               odInclusJet:false
             },
             aspect:{
               fixe:'',
-              labelFixe:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusFixe"),
               aeInclusFixe:false,
               jet:'',
-              labelJet:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusJet"),
               aeInclusJet:false
             },
             conditionnel:{
               has:false,
-              label:game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Nocondition"),
               condition:''
             }
           },
@@ -323,6 +308,10 @@ export class KnightEffetsDialog extends FormApplication {
     return {
         ...super.getData(options),
         cssClass:this.options.classes.join(" "),
+        list:{
+          caracteristique:CONFIG.KNIGHT.caracteristiques,
+          aspect:CONFIG.KNIGHT.aspects,
+        },
         object: {
           actor:this.object.actor,
           id:this.object.id,
@@ -346,6 +335,8 @@ export class KnightEffetsDialog extends FormApplication {
 
   activateListeners(html) {
     super.activateListeners(html);
+
+    this.renderBtn(html);
 
     html.find('img.info').click(ev => {
       const span = $(ev.currentTarget).siblings("span.hideInfo")
@@ -932,22 +923,11 @@ export class KnightEffetsDialog extends FormApplication {
       const subtype = $(ev.currentTarget).data("subtype");
       const data = this.object.data.custom[type];
 
-      if(subtype === 'conditionnel') {
-        data[subtype].has = true;
-        data[subtype].label = game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Condition");
-      } else if(subtype === 'odInclusJet' && data.carac.jet !== '') {
-        data.carac[subtype] = true;
-        data.carac.labelJet = game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusJet");
-      } else if(subtype === 'odInclusFixe' && data.carac.fixe !== '') {
-        data.carac[subtype] = true;
-        data.carac.labelFixe = game.i18n.localize("KNIGHT.EFFETS.CUSTOM.OdInclusFixe");
-      } else if(subtype === 'aeInclusJet' && data.aspect.jet !== '') {
-        data.aspect[subtype] = true;
-        data.aspect.labelJet = game.i18n.localize("KNIGHT.EFFETS.CUSTOM.AeInclusJet");
-      } else if(subtype === 'aeInclusFixe' && data.aspect.fixe !== '') {
-        data.aspect[subtype] = true;
-        data.aspect.labelFixe = game.i18n.localize("KNIGHT.EFFETS.CUSTOM.AeInclusFixe");
-      }
+      if(subtype === 'conditionnel') data[subtype].has = true;
+      else if(subtype === 'odInclusJet') data.carac[subtype] = true;
+      else if(subtype === 'odInclusFixe') data.carac[subtype] = true;
+      else if(subtype === 'aeInclusJet') data.aspect[subtype] = true;
+      else if(subtype === 'aeInclusFixe') data.aspect[subtype] = true;
 
       this.render();
     });
@@ -957,24 +937,12 @@ export class KnightEffetsDialog extends FormApplication {
       ev.stopPropagation();
       const type = $(ev.currentTarget).data("type");
       const subtype = $(ev.currentTarget).data("subtype");
-      const data = this.object.data.custom[type];
 
-      if(subtype === 'conditionnel') {
-        this.object.data.custom[type][subtype].has = false;
-        this.object.data.custom[type][subtype].label = game.i18n.localize("KNIGHT.EFFETS.CUSTOM.Nocondition");
-      } else if(subtype === 'odInclusJet' && data.carac.jet !== '') {
-        this.object.data.custom[type].carac[subtype] = false;
-        this.object.data.custom[type].carac.labelJet = game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusJet");
-      } else if(subtype === 'odInclusFixe' && data.carac.fixe !== '') {
-        this.object.data.custom[type].carac[subtype] = false;
-        this.object.data.custom[type].carac.labelFixe = game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoOdInclusFixe");
-      } else if(subtype === 'aeInclusJet' && data.aspect.jet !== '') {
-        this.object.data.custom[type].aspect[subtype] = false;
-        this.object.data.custom[type].aspect.labelJet = game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusJet");
-      } else if(subtype === 'aeInclusFixe' && data.aspect.fixe !== '') {
-        this.object.data.custom[type].aspect[subtype] = false;
-        this.object.data.custom[type].aspect.labelFixe = game.i18n.localize("KNIGHT.EFFETS.CUSTOM.NoAeInclusFixe");
-      }
+      if(subtype === 'conditionnel') this.object.data.custom[type][subtype].has = false;
+      else if(subtype === 'odInclusJet') this.object.data.custom[type].carac[subtype] = false;
+      else if(subtype === 'odInclusFixe') this.object.data.custom[type].carac[subtype] = false;
+      else if(subtype === 'aeInclusJet') this.object.data.custom[type].aspect[subtype] = false;
+      else if(subtype === 'aeInclusFixe') this.object.data.custom[type].aspect[subtype] = false;
 
       this.render();
     });
@@ -1130,5 +1098,35 @@ export class KnightEffetsDialog extends FormApplication {
         cdf:formData['custom.other.cdf']
       }
     };
+  }
+
+  renderBtn(html) {
+    const btn = $(html).find('button');
+
+    for(let b of btn) {
+      const data = $(b);
+      const type = data.data('type');
+      const subtype = data.data('subtype');
+      const getObject = this.object.data.custom[type];
+
+      switch(subtype) {
+        case 'odInclusFixe':
+        case 'odInclusJet':
+          if(getObject.carac[subtype]) data.find('i').addClass('fa-solid fa-check green');
+          else data.find('i').addClass('fa-solid fa-xmark red');
+          break;
+
+        case 'aeInclusFixe':
+        case 'aeInclusJet':
+          if(getObject.aspect[subtype]) data.find('i').addClass('fa-solid fa-check green');
+          else data.find('i').addClass('fa-solid fa-xmark red');
+          break;
+
+        case 'conditionnel':
+          if(getObject[subtype].has) data.find('i').addClass('fa-solid fa-check green');
+          else data.find('i').addClass('fa-solid fa-xmark red');
+          break;
+      }
+    }
   }
 }

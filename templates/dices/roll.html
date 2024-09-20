@@ -1,8 +1,22 @@
-<div class="dice-roll knight-roll">
+<div class="knight-roll">
     {{#if flavor}}
         <div class="dice-flavor">{{flavor}}</div>
     {{/if}}
-    <div class="dice-result">
+
+    {{#if tags}}
+    <div class="tags">
+        {{#each tags}}
+        <span data-key="{{key}}">{{label}}</span>
+        {{/each}}
+    </div>
+    {{/if}}
+
+    {{#each content}}
+    <section class="content" data-index="{{index}}">
+        <div class="dice-result">
+        {{#if actorName}}
+        <div class="dice-formula">{{actorName}}</div>
+        {{/if}}
         {{#if isSuccess}}
         <div class="dice-formula">
             {{#if rollState}}
@@ -16,6 +30,8 @@
                 {{base}}{{#each bonus}} + {{this}}{{/each}}
             {{/if}}
         </div>
+        {{else}}
+        <div class="dice-formula">{{label}}</div>
         {{/if}}
         {{{tooltip}}}
         <h4 class="dice-total">
@@ -24,6 +40,76 @@
             <span class="{{rollLabel.class}}">{{rollLabel.label}} !</span>
             {{/if}}
         </h4>
-        <h4 class="dice-total dice-success"></h4>
+        </div>
+
+        {{#each targets}}
+        <div class="listTargets dice-formula">
+            <div class="target" data-id="{{id}}">
+                <span class="label">{{name}}</span>
+                {{#if isValue}}
+                <span class="dmg">{{value}}</span>
+                {{else}}
+                <span class="{{ifThen hit 'hit' 'fail'}}">{{localize (ifThen hit 'KNIGHT.JETS.RESULTATS.Touche' 'KNIGHT.JETS.RESULTATS.Manque')}}</span>
+                {{/if}}
+            </div>
+            {{#each effets}}
+                <div class="target sub" data-key="{{key}}" data-id="{{../id}}">
+                    <span class="label">{{label}}</span>
+                    {{#unless empty}}
+                        {{#if value}}
+                        <span>{{value}}</span>
+                        {{else}}
+                        <span class="{{ifThen hit 'hit' 'fail'}}">
+                            {{localize (ifThen hit 'KNIGHT.JETS.RESULTATS.Affecte' 'KNIGHT.JETS.RESULTATS.PasAffecte')}}</span>
+                        {{/if}}
+                        {{#if subtitle}}
+                        <span class="subtitle">{{subtitle}}</span>
+                        {{/if}}
+                    {{/unless}}
+                </div>
+            {{/each}}
+        </div>
+        {{/each}}
+
+        {{#if weapon}}
+        <div class="btn">
+            <button type="action" class="degats">{{localize 'KNIGHT.AUTRE.Degats'}}</button>
+            <button type="action" class="violence">{{localize 'KNIGHT.AUTRE.Violence'}}</button>
+        </div>
+        {{/if}}
+
+        {{#if tirenrafale}}
+        <div class="btn">
+            <button type="action" class="relancedegats" title="{{localize 'KNIGHT.EFFETS.TIRENRAFALE.Relance'}}">{{localize 'KNIGHT.EFFETS.TIRENRAFALE.Label'}}</button>
+        </div>
+        {{/if}}
+
+        {{#each otherBtn}}
+            <div class="btn {{classes}}">
+                <button type="action" title="{{title}}">{{label}}</button>
+            </div>
+        {{/each}}
+    </section>
+    {{/each}}
+
+    {{#if text}}
+    <div class="dice-formula {{classes}}">
+        <span>{{text}}</span>
     </div>
+    {{/if}}
+
+    {{#each detailledEffets}}
+    <div class="details {{ifThen tooltip 'withTooltip' ''}}" data-key="{{key}}">
+        <span class="label">{{label}}</span>
+        {{#if value}}<span class="value">{{value}}</span>{{/if}}
+        <span class="description">{{description}}</span>
+        {{#if tooltip}}{{{tooltip}}}{{/if}}
+    </div>
+    {{/each}}
+
+    {{#if effets}}
+    <div class="effets">
+        {{{effets}}}
+    </div>
+    {{/if}}
 </div>

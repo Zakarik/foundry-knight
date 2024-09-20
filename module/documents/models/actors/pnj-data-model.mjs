@@ -36,6 +36,9 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
         phase2:new EmbeddedDataField(Phase2DataModel),
         phase2Activate:new BooleanField({initial:false}),
         initiative:new EmbeddedDataField(InitiativeDataModel),
+        configurationActive:new StringField({initial:""}),
+        wolf:new ObjectField({}),
+        jetsSpeciaux:new ArrayField(new ObjectField({})),
         armure: new SchemaField({
             base:new NumberField({initial:0, min:0, nullable:false, integer:true}),
             bonusValue:new NumberField({initial:0, nullable:false, integer:true}),
@@ -74,6 +77,65 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
                 succesbonus:new NumberField({ initial: 0, integer: true, nullable: false }),
                 tourspasses:new NumberField({ initial: 1, integer: true, nullable: false }),
                 type:new StringField({ initial: "degats"}),
+            }),
+        }),
+        equipements:new SchemaField({
+            armure:new SchemaField({
+                capacites:new SchemaField({
+                    ascension:new SchemaField({
+                        id:new StringField({initial:"0", nullable:true}),
+                        energie:new NumberField({ initial: 0, integer: true, nullable: false }),
+                    }),
+                    borealis:new SchemaField({
+                        allie:new NumberField({ initial: 0, integer: true, nullable: false }),
+                    }),
+                    changeling:new SchemaField({
+                        fauxetres:new NumberField({ initial: 0, integer: true, nullable: false }),
+                    }),
+                    companions:new SchemaField({
+                        type:new StringField({initial:"", nullable:true}),
+                        energie:new NumberField({ initial: 0, integer: true, nullable: false }),
+                        energieDisponible:new ArrayField(new NumberField()),
+                    }),
+                    forward:new NumberField({ initial: 1, integer: true, nullable: false }),
+                    goliath:new SchemaField({
+                        metre:new NumberField({ initial: 0, integer: true, nullable: false }),
+                    }),
+                    morph:new SchemaField({
+                        nbre:new NumberField({ initial: 0, integer: true, nullable: false }),
+                    }),
+                    puppet:new SchemaField({
+                        cible:new NumberField({ initial: 0, integer: true, nullable: false }),
+                    }),
+                    rage:new SchemaField({
+                        niveau:new ObjectField(),
+                    }),
+                    totem:new SchemaField({
+                        nombre:new NumberField({ initial: 0, integer: true, nullable: false }),
+                    }),
+                    vision:new SchemaField({
+                        energie:new NumberField({ initial: 0, integer: true, nullable: false }),
+                    }),
+                    warlord:new SchemaField({
+                        energie:new SchemaField({
+                            nbre:new NumberField({ initial: 1, integer: true, nullable: false }),
+                        }),
+                        esquive:new SchemaField({
+                            nbre:new NumberField({ initial: 1, integer: true, nullable: false }),
+                        }),
+                        force:new SchemaField({
+                            nbre:new NumberField({ initial: 1, integer: true, nullable: false }),
+                        }),
+                        guerre:new SchemaField({
+                            nbre:new NumberField({ initial: 1, integer: true, nullable: false }),
+                        }),
+                    }),
+                }),
+                special:new SchemaField({
+                    contrecoups:new NumberField({ initial: 0, integer: true, nullable: false }),
+                    flux:new NumberField({ initial: 1, integer: true, nullable: false }),
+                    impregnation:new NumberField({ initial: 0, integer: true, nullable: false }),
+                }),
             }),
         }),
         sante:new SchemaField({
@@ -136,6 +198,8 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
             sante:new BooleanField({initial:true, nullable:false}),
             embuscadeSubis:new BooleanField({initial:false, nullable:false}),
             embuscadePris:new BooleanField({initial:false, nullable:false}),
+            wolfConfiguration:new BooleanField({initial:false, nullable:false}),
+            jetsSpeciaux:new BooleanField({initial:false, nullable:false}),
         }),
       }
   }
