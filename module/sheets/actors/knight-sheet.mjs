@@ -1016,8 +1016,7 @@ export class KnightSheet extends ActorSheet {
       if(type === 'module') {
         const dataModule = this.actor.items.get(module),
               data = dataModule.system,
-              niveau = data.niveau.value,
-              dataNiveau = data.niveau.details[`n${niveau}`];
+              dataNiveau = data.niveau.details.actuel;
 
         dataModule.update({[`system.active.base`]:value});
 
@@ -5372,6 +5371,8 @@ export class KnightSheet extends ActorSheet {
         const eRogue = itemErsatz?.rogue ?? false;
         const eBard = itemErsatz?.bard ?? false;
 
+        console.warn(itemDataNiveau)
+
         if(isLion) {
           lion.modules.push(i);
 
@@ -5530,7 +5531,7 @@ export class KnightSheet extends ActorSheet {
           }
 
         } else {
-          for (const slot in slots) {
+          /*for (const slot in slots) {
             const value = itemSlots[slot];
 
             if(value > 0) {
@@ -5667,6 +5668,7 @@ export class KnightSheet extends ActorSheet {
                 custom:moduleEffetsCustom,
                 liste:moduleEffets.liste
               };
+
               const dataMunitions = itemArme?.optionsmunitions || {has:false};
 
               let degats = itemArme.degats;
@@ -5739,7 +5741,7 @@ export class KnightSheet extends ActorSheet {
               moduleErsatz.bard._id = i._id;
               moduleErsatz.bard.description = data.description;
             }
-          }
+          }*/
 
           module.push(i);
         }
@@ -6180,7 +6182,6 @@ export class KnightSheet extends ActorSheet {
         armes:[{path:['system.effets', 'system.effets2mains', 'system.distance', 'system.structurelles', 'system.ornementales'], simple:true}],
         grenades:[{path:['effets'], simple:true}]
       }[base.key];
-
       this._updateEffects(data, listData, labels, true);
 
       for(let n = 0;n < data.length;n++) {
@@ -6194,8 +6195,6 @@ export class KnightSheet extends ActorSheet {
           }
         }
       }
-
-
     }
   }
 

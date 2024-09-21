@@ -1400,9 +1400,10 @@ Applique les modifications par la mise à jour au Monde.
 
         if(options?.force || MigrationKnight.needUpdate("3.30.0")) {
             let collection = actor.getEmbeddedCollection('ActiveEffect').map(eff => eff._id);
+            const system = actor.system;
 
             collection.forEach(async eff => {
-                await actor.deleteEmbeddedDocuments('ActiveEffect', [eff]);
+                if(eff) await actor.deleteEmbeddedDocuments('ActiveEffect', [eff]);
             });
         }
 
@@ -2311,13 +2312,13 @@ Applique les modifications par la mise à jour au Monde.
         }*/
 
         if(options?.force || MigrationKnight.needUpdate("3.30.0")) {
-            if(actor === null) return;
+            /*if(actor === null || token.actorLink) return;
 
             let collection = actor.getEmbeddedCollection('ActiveEffect').map(eff => eff._id);
 
             collection.forEach(async eff => {
-                await actor.deleteEmbeddedDocuments('ActiveEffect', [eff]);
-            });
+                if(eff) await actor.deleteEmbeddedDocuments('ActiveEffect', [eff]);
+            });*/
         }
     }
  }
