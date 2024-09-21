@@ -432,12 +432,14 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     }
 
   prepareBaseData() {
-    const niveau = this.niveau.value;
+    const niveau = Math.max(this.niveau.value, 1);
+
     const itemDataNiveau = this.niveau.details[`n${niveau}`];
     const itemBonus = itemDataNiveau?.bonus || {};
     const itemArme = itemDataNiveau?.arme || {};
     const itemOD = itemDataNiveau?.overdrives || {};
     const itemErsatz = itemDataNiveau?.ersatz || {};
+
 
     this.niveau.actuel.bonus = itemBonus;
     this.niveau.actuel.arme = itemArme;

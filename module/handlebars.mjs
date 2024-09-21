@@ -871,7 +871,7 @@
             capaciteheroique:game.i18n.localize('KNIGHT.HEROISME.CAPACITE.Label'),
         };
 
-        for(let a of CONFIG.KNIGHT.LIST.caracteristiques) {
+        for(let a in CONFIG.KNIGHT.LIST.caracteristiques) {
             result[a] = game.i18n.localize(CONFIG.KNIGHT.aspects[a]);
 
             for(let c of CONFIG.KNIGHT.LIST.caracteristiques[a]) {

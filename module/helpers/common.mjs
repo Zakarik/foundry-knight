@@ -61,17 +61,20 @@ export function listEffects(raw, custom, labels) {
     }
 
     for(let n = 0;n < custom.length;n++) {
-      liste.push({
-        id:n,
-        name:custom[n].label,
-        description:custom[n].description,
-        custom:true
-      });
+        liste.push({
+          id:n,
+          name:custom[n].label,
+          description:custom[n].description,
+          custom:true
+        });
     }
 
     function _sortByName(x, y){
-      if (x.name.toLowerCase() < y.name.toLowerCase()) {return -1;}
-      if (x.name.toLowerCase() > y.name.toLowerCase()) {return 1;}
+      const xName = x.name?.toLowerCase() ?? '';
+      const yName = y.name?.toLowerCase() ?? '';
+
+      if (xName < yName) {return -1;}
+      if (xName > yName) {return 1;}
       return 0;
     }
 

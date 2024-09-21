@@ -1266,7 +1266,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                         ornementales:arme.ornementales,
                     };
                     tempArme.system.effets.raw = arme.effets.raw.concat(specialRaw);
-                    tempArme.system.effets.custom = arme.effets.raw.concat(specialCustom);
+                    tempArme.system.effets.custom = arme.effets.custom.concat(specialCustom);
                     const armeEffets = getFlatEffectBonus(tempArme, true);
 
                     defenseBonus += armeEffets.defense.bonus;
@@ -1439,10 +1439,10 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
             if(bonus.sante > 0) sante += bonus.sante;
             if(bonus.espoir > 0) espoir += bonus.espoir;
-            if(bonus.recuperation.sante > 0) recuperationSante += bonus.recuperation.sante;
-            if(bonus.recuperation.espoir > 0) recuperationEspoir += bonus.recuperation.espoir;
-            if(bonus.recuperation.armure > 0) recuperationArmure += bonus.recuperation.armure;
-            if(bonus.recuperation.energie > 0) recuperationEnergie += bonus.recuperation.energie;
+            if(bonus.recuperation.sante > 0) recuperationSante += parseInt(bonus.recuperation.sante);
+            if(bonus.recuperation.espoir > 0) recuperationEspoir += parseInt(bonus.recuperation.espoir);
+            if(bonus.recuperation.armure > 0) recuperationArmure += parseInt(bonus.recuperation.armure);
+            if(bonus.recuperation.energie > 0) recuperationEnergie += parseInt(bonus.recuperation.energie);
             if(bonus.initiative.dice > 0) initiativeDice += bonus.initiative.dice;
             if(bonus.initiative.fixe > 0) initiativeFixe += bonus.initiative.fixe;
             if(bonus.initiative.ifEmbuscade.dice > 0 && bonus.initiative.ifEmbuscade.has) initiativeEmbuscadeDice += bonus.initiative.ifEmbuscade.dice;
@@ -1469,27 +1469,30 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
         if(recuperationEspoir > 0) {
             Object.defineProperty(this.espoir.recuperation, 'bonus', {
-                value: recuperationEspoir,
+                value: parseInt(recuperationEspoir),
             });
         }
 
-        if(recuperationSante > 0) {
-            Object.defineProperty(this.combat.nods.soin, 'recuperationBonus', {
-                value: recuperationSante,
-            });
-        }
+        Object.defineProperty(this.combat.nods.soin, 'recuperationBonus', {
+            value: parseInt(recuperationSante),
+            writable:true,
+            enumerable:true,
+            configurable:true
+        });
 
-        if(recuperationArmure > 0) {
-            Object.defineProperty(this.combat.nods.armure, 'recuperationBonus', {
-                value: recuperationArmure,
-            });
-        }
+        Object.defineProperty(this.combat.nods.armure, 'recuperationBonus', {
+            value: parseInt(recuperationArmure),
+            writable:true,
+            enumerable:true,
+            configurable:true
+        });
 
-        if(recuperationEnergie > 0) {
-            Object.defineProperty(this.combat.nods.energie, 'recuperationBonus', {
-                value: recuperationEnergie,
-            });
-        }
+        Object.defineProperty(this.combat.nods.energie, 'recuperationBonus', {
+            value: parseInt(recuperationEnergie),
+            writable:true,
+            enumerable:true,
+            configurable:true
+        });
 
         if(initiativeDice > 0) {
             Object.defineProperty(this.initiative.diceBonus, 'avantages', {

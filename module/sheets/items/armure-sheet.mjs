@@ -1947,12 +1947,6 @@ export class ArmureSheet extends ItemSheet {
     if(!bSEffets) return;
     if(!bREffets) return;
 
-    function _sortByName(x, y){
-      if (x.name.toLowerCase() < y.name.toLowerCase()) {return -1;}
-      if (x.name.toLowerCase() > y.name.toLowerCase()) {return 1;}
-      return 0;
-    }
-
     const bVRaw = bVEffets.raw;
     const bVCustom = bVEffets.custom;
     const bSRaw = bSEffets.raw;
