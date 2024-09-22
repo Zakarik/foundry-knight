@@ -1400,7 +1400,6 @@ Applique les modifications par la mise à jour au Monde.
 
         if(options?.force || MigrationKnight.needUpdate("3.30.0")) {
             let collection = actor.getEmbeddedCollection('ActiveEffect').map(eff => eff._id);
-            const system = actor.system;
 
             collection.forEach(async eff => {
                 if(eff) await actor.deleteEmbeddedDocuments('ActiveEffect', [eff]);

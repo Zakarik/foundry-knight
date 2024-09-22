@@ -2961,6 +2961,7 @@ export class KnightSheet extends ActorSheet {
       const target = $(ev.currentTarget);
       const nbre = +target.data("number");
       const nods = target.data("nods");
+      const dices = target.data("dices");
       const wear = data.system.wear;
 
       if(nbre > 0) {
@@ -2984,7 +2985,7 @@ export class KnightSheet extends ActorSheet {
 
         const rNods = new game.knight.RollKnight(this.actor, {
           name:game.i18n.localize(`KNIGHT.JETS.Nods${nods}`),
-          dices:`3D6`,
+          dices:dices,
           bonus:[recuperation]
         }, false);
 

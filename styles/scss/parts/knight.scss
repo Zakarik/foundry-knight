@@ -5862,21 +5862,42 @@
             border:1px solid $lightBlue;
 
             div.line {
-              display:flex;
+              display:grid;
+              grid-template-columns: 1fr 60px 81px 30px 30px;
               width:100%;
               justify-content: space-between;
               background:$lightBlack;
 
+              &.col5 {
+                grid-template-columns: 1fr 60px 81px 30px 30px;
+
+              }
+
+              &.col4 {
+                grid-template-columns: 1fr 81px 30px 30px;
+
+              }
+
               span.label {
-                width:130px;
+                width:100%;
                 line-height: 30px;
                 padding-left:5px;
+              }
+
+              input[type=text] {
+                width: 100%;
+                height: 100%;
+                border-radius: 0px;
+                border: 1px solid $black;
+                text-align: center;
+                border-top: 1px solid $black;
+                border-bottom: 0px;
               }
 
               div.blockQuantite {
                 display:flex;
                 justify-content: space-between;
-                width:calc(100% - 130px - 61px);
+                width:100%;
                 border-right:1px solid $lightBlack;
                 background:$black;
 
@@ -5887,7 +5908,7 @@
                 }
 
                 input {
-                  width:calc(50% - 4px);
+                  width:100%;
                   height:30px;
                   border:0px;
                   margin:0px;
@@ -5904,7 +5925,7 @@
                 width:61px;
 
                 img {
-                  width: 30px;
+                  width: 100%;
                   height: 30px;
                   border-radius: 0px;
                   border: 0px;

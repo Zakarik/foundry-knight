@@ -24814,20 +24814,36 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border: 1px solid RGB(87 110 178);
 }
 .knight section.body div.combat div.main div.nods div.line {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 60px 81px 30px 30px;
   width: 100%;
   justify-content: space-between;
   background: RGB(76 74 90);
 }
+.knight section.body div.combat div.main div.nods div.line.col5 {
+  grid-template-columns: 1fr 60px 81px 30px 30px;
+}
+.knight section.body div.combat div.main div.nods div.line.col4 {
+  grid-template-columns: 1fr 81px 30px 30px;
+}
 .knight section.body div.combat div.main div.nods div.line span.label {
-  width: 130px;
+  width: 100%;
   line-height: 30px;
   padding-left: 5px;
+}
+.knight section.body div.combat div.main div.nods div.line input[type=text] {
+  width: 100%;
+  height: 100%;
+  border-radius: 0px;
+  border: 1px solid RGB(43 42 51);
+  text-align: center;
+  border-top: 1px solid RGB(43 42 51);
+  border-bottom: 0px;
 }
 .knight section.body div.combat div.main div.nods div.line div.blockQuantite {
   display: flex;
   justify-content: space-between;
-  width: calc(100% - 130px - 61px);
+  width: 100%;
   border-right: 1px solid RGB(76 74 90);
   background: RGB(43 42 51);
 }
@@ -24837,7 +24853,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   line-height: 30px;
 }
 .knight section.body div.combat div.main div.nods div.line div.blockQuantite input {
-  width: calc(50% - 4px);
+  width: 100%;
   height: 30px;
   border: 0px;
   margin: 0px;
@@ -24852,7 +24868,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 61px;
 }
 .knight section.body div.combat div.main div.nods div.line div.blockRoll img {
-  width: 30px;
+  width: 100%;
   height: 30px;
   border-radius: 0px;
   border: 0px;
