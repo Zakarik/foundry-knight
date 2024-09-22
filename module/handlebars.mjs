@@ -970,4 +970,7 @@
         return result;
     });
 
+    Handlebars.registerHelper('hasEditNods', function () {
+        return game.settings.get("knight", "canEditNods");
+    });
  };

@@ -128,6 +128,15 @@ export const RegisterSettings = function () {
         default: false
     });
 
+    game.settings.register("knight", "canEditNods", {
+        name: "KNIGHT.SETTINGS.CANEDITNODS.Label",
+        hint: "KNIGHT.SETTINGS.CANEDITNODS.Hint",
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: false
+    });
+
     game.settings.register("knight", "logo", {
         name: "KNIGHT.SETTINGS.LOGO.Label",
         hint: "KNIGHT.SETTINGS.LOGO.Hint",

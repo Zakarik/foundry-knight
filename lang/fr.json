@@ -551,7 +551,8 @@
         "Autrui":"Sur Autrui",
         "Soin":"Soin",
         "Armure":"Armure",
-        "Energie":"Energie"
+        "Energie":"Energie",
+        "JetParDefaut":"Valeur par défaut des jets du nod"
       },
       "GRENADES":{
         "Label": "Grenades",
@@ -2467,6 +2468,10 @@
       "OLDROLL":{
         "Label":"Jeter les dégâts et la violence en même temps que l'attaque",
         "Hint":"S'il n'est pas activé, il y aura des boutons dans les jets d'attaques pour jeter les dégâts et/ou la violence."
+      },
+      "CANEDITNODS":{
+        "Label":"Permettre d'éditer librement les valeurs par défaut des dés des nods",
+        "Hint":"Ajouter une petite case sur les fiches à côté des nods permettant d'éditer les valeures. Attention, même si cette case est décochée par la suite, les modifications effectuées resteront."
       }
     },
     "GM":{
