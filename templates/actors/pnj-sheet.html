@@ -1042,8 +1042,11 @@
                         </h2>
 
                         {{#each systemData.combat.nods as | key nods|}}
-                        <div class="line">
+                        <div class="line {{ifThen (hasEditNods) 'col5' 'col4'}}">
                             <span class="label">{{getNods nods}}</span>
+                            {{#if (hasEditNods)}}
+                            <input type="text" name="system.combat.nods.{{nods}}.dices" placeholder="3D6" value="{{key.dices}}" data-type="nods" data-nods="{{nods}}" title="{{localize 'KNIGHT.COMBAT.NODS.JetParDefaut'}}" />
+                            {{/if}}
                             <div class="blockQuantite">
                                 <input type="number" name="system.combat.nods.{{nods}}.value" value="{{key.value}}" max="{{key.max}}" />
                                 <span>/</span>

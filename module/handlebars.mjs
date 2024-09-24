@@ -973,4 +973,8 @@
     Handlebars.registerHelper('hasEditNods', function () {
         return game.settings.get("knight", "canEditNods");
     });
+
+    Handlebars.registerHelper('hasPJRestaure', function () {
+        return game.settings.get("knight", "canPJRestaure");
+    });
  };

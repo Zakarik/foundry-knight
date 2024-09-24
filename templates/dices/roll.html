@@ -50,6 +50,9 @@
                 <span class="dmg">{{value}}</span>
                 {{else}}
                 <span class="{{ifThen hit 'hit' 'fail'}}">{{localize (ifThen hit 'KNIGHT.JETS.RESULTATS.Touche' 'KNIGHT.JETS.RESULTATS.Manque')}}</span>
+                    {{#if ptsFaible}}
+                    <span class="hit">{{localize 'KNIGHT.JETS.RESULTATS.PFTarget'}}</span>
+                    {{/if}}
                 {{/if}}
             </div>
             {{#each effets}}

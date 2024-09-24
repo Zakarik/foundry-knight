@@ -548,9 +548,11 @@ Hooks.once('init', async function() {
     });
 
     html.find('.knight-roll div.listTargets div.target').mouseenter(ev => {
+      ev.preventDefault();
+      if (!canvas.ready) return;
       const tgt = $(ev.currentTarget);
       const id = tgt.data('id');
-      const token = canvas.tokens.get(id);
+      const token = canvas?.tokens?.get(id) ?? {isVisible:false};
 
       if(token && token.isVisible) {
         token._onHoverIn(ev, { hoverOutOthers: true });
@@ -615,36 +617,41 @@ async function createMacro(data, slot) {
   const type = data.type;
   const what = data?.what ?? "";
   const other = data?.other ?? "";
-  const label = data.label;
+  const name = data?.name ?? "";
   const actorId = data.actorId;
   const sceneId = data?.sceneId ?? null;
   const tokenId = data?.tokenId ?? null;
+  const getActor = tokenId === null ? game.actors.get(actorId) : canvas.tokens.get(actorId)?.actor ?? undefined;
   const img = data?.img ?? "systems/knight/assets/icons/D6Black.svg";
   const idWpn = data?.idWpn ?? "";
   const mod = data?.mod ?? 0;
+  let label = data.label;
   let command;
   let dataRoll = "";
   let bonusToAdd = "";
   let otherData = "";
   let directRoll = false;
 
+  let idActor = actorId;
+  let idScene = sceneId;
+  let idToken = tokenId;
+
   if(type === "wpn" || type === 'module') {
-    dataRoll = `isWpn:true, idWpn:"${idWpn}"`;
-  } else if(type === 'grenade') {
-    dataRoll = `isWpn:true, idWpn:"", nameWpn:"${what}", num:"", typeWpn:"grenades"`
+    dataRoll = `idWpn:"${idWpn}"`;
+  } else if(type === 'grenades') {
+    dataRoll = `nameWpn:"${what}", num:"", typeWpn:"grenades"`
   } else if(type === 'longbow') {
-    dataRoll = `isWpn:true, idWpn:"-1", nameWpn:"${what}", num:"", typeWpn:"${what}"`
+    dataRoll = `nameWpn:"${what}", num:"", typeWpn:"${what}"`
   } else if(type === 'cea') {
-    dataRoll = `isWpn:true, idWpn:"${idWpn}", nameWpn:"${what}", typeWpn:"${other}"`;
+    dataRoll = `idWpn:"${idWpn}", nameWpn:"${what}", typeWpn:"${other}"`;
   } else if((type === 'special' || type === 'c1' || type === 'c2' || type === 'base') && what === 'mechaarmure') {
-    dataRoll = `isWpn:true, idWpn:"${idWpn}"`;
+    dataRoll = `idWpn:"${idWpn}"`;
     otherData = what;
   } else if(type === 'armesimprovisees') {
-    dataRoll = `isWpn:true, idWpn:"${idWpn}", num:"${what}", typeWpn:"${type}", nameWpn:"${other}"`
+    dataRoll = `idWpn:"${idWpn}", num:"${what}", nameWpn:"${other}"`
   } else if(type === 'nods') {
     directRoll = true;
     dataRoll = `type:"${type}", target:"${other}", id:"${what}"`;
-
   } else {
     if(what !== "") dataRoll += `base:"${what}"`;
     if(other !== "" && bonusToAdd !== "") bonusToAdd += `, autre:"${other}"`;
@@ -653,8 +660,12 @@ async function createMacro(data, slot) {
     else if(mod !== 0) bonusToAdd += `modificateur:"${mod}"`;
   }
 
-  if(!directRoll) command = `game.knight.dialogRollWId("${actorId}", "${sceneId}", "${tokenId}", {${dataRoll}}, {${bonusToAdd}}, {type:"${type}", event:event, data:"${otherData}"})`;
-  else command = `game.knight.directRoll("${actorId}", "${sceneId}", "${tokenId}", {${dataRoll}})`;
+  if(getActor.type === 'mechaarmure') {
+    dataRoll += dataRoll === "" ? `whoActivate:"${getActor.system.pilote}"` : `, whoActivate:"${getActor.system.pilote}"`;
+  }
+
+  if(!directRoll) command = `game.knight.dialogRollWId("${idActor}", "${idScene}", "${idToken}", {${dataRoll}}, {${bonusToAdd}}, {type:"${type}", event:event, data:"${otherData}"})`;
+  else command = `game.knight.directRoll("${idActor}", "${idScene}", "${idToken}", {${dataRoll}})`;
 
   let macro = await Macro.create({
     name: label,

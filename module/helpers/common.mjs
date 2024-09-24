@@ -4494,10 +4494,23 @@ export function getModStyle(style) {
   return result;
 }
 
-export async function confirmationDialog() {
+export async function confirmationDialog(type='delete', label='') {
+  let content = '';
+
+  switch(type) {
+    case 'delete':
+      content = game.i18n.localize("KNIGHT.AUTRE.ConfirmationSuppression");
+      break;
+
+    case 'restoration':
+      content = game.i18n.localize(`KNIGHT.AUTRE.${label}`);
+      break;
+  }
+
+
   const confirmation = await Dialog.confirm({
     title:game.i18n.localize("KNIGHT.AUTRE.Confirmation"),
-    content:game.i18n.localize("KNIGHT.AUTRE.ConfirmationSuppression")
+    content:content
   });
 
   return new Promise(resolve => {

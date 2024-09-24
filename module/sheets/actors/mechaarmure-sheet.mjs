@@ -844,8 +844,6 @@ export class MechaArmureSheet extends ActorSheet {
       });
 
       dialog.open();
-
-      dialogRoll(label, this.actor, {base:caracs, isWpn:true, idWpn:id, nameWpn:name, typeWpn:isDistance, num:num});
     });
   }
 

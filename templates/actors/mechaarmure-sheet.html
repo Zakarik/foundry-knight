@@ -204,7 +204,7 @@
         <div class="tab caracteristiques" data-group="primary" data-tab="caracteristiques">
             <div class="main">
                 <div class="mainBlock">
-                    <div class="block draggable"
+                    <div class="block"
                     data-type="vitesse"
                     data-modificateur="system.vitesse.value"
                     data-label="{{localize "KNIGHT.VEHICULE.Vitesse"}}"
@@ -213,7 +213,7 @@
                             <span class="option {{#unless systemData.vitesse.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="vitesse"></span>
                             <span class="label {{#unless systemData.vitesse.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.VEHICULE.Vitesse"}}</span>
                             <span class="score {{#unless systemData.vitesse.optionDeploy}} withBorder {{/unless}}" title="{{systemData.vitesse.base}} + {{systemData.vitesse.mod}} = {{systemData.vitesse.value}}">{{systemData.vitesse.value}}</span>
-                            <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice" data-type="vitesse" data-label="{{localize "KNIGHT.VEHICULE.Vitesse"}}" />
+                            <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice draggable" data-type="vitesse" data-label="{{localize "KNIGHT.VEHICULE.Vitesse"}}" />
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
@@ -229,7 +229,7 @@
                         </div>
                     </div>
 
-                    <div class="block draggable"
+                    <div class="block"
                     data-type="manoeuvrabilite"
                     data-modificateur="system.manoeuvrabilite.value"
                     data-label="{{localize "KNIGHT.MECHAARMURE.Manoeuvrabilite"}}">
@@ -237,7 +237,7 @@
                             <span class="option {{#unless systemData.manoeuvrabilite.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="manoeuvrabilite"></span>
                             <span class="label {{#unless systemData.manoeuvrabilite.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.VEHICULE.Manoeuvrabilite"}}</span>
                             <span class="score {{#unless systemData.manoeuvrabilite.optionDeploy}} withBorder {{/unless}}" title="{{systemData.manoeuvrabilite.base}} + {{systemData.manoeuvrabilite.mod}} = {{systemData.manoeuvrabilite.value}}">{{systemData.manoeuvrabilite.value}}</span>
-                            <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice" data-type="manoeuvrabilite" data-label="{{localize "KNIGHT.MECHAARMURE.Manoeuvrabilite"}}" />
+                            <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice draggable" data-type="manoeuvrabilite" data-label="{{localize "KNIGHT.MECHAARMURE.Manoeuvrabilite"}}" />
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
@@ -253,7 +253,7 @@
                         </div>
                     </div>
 
-                    <div class="block draggable"
+                    <div class="block"
                     data-type="puissance"
                     data-modificateur="system.puissance.value"
                     data-label="{{localize "KNIGHT.MECHAARMURE.Puissance"}}">
@@ -261,7 +261,7 @@
                             <span class="option {{#if systemData.puissance.optionDeploy}} withoutBorder  {{/if}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="puissance"></span>
                             <span class="label">{{localize "KNIGHT.MECHAARMURE.Puissance"}}</span>
                             <span class="score" title="{{systemData.puissance.base}} + {{systemData.puissance.mod}} = {{systemData.puissance.value}}">{{systemData.puissance.value}}</span>
-                            <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice" data-type="puissance" data-label="{{localize "KNIGHT.MECHAARMURE.Puissance"}}" />
+                            <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice draggable" data-type="puissance" data-label="{{localize "KNIGHT.MECHAARMURE.Puissance"}}" />
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
@@ -279,7 +279,7 @@
                 </div>
 
                 <div class="mainBlock">
-                    <div class="block draggable"
+                    <div class="block"
                     data-type="senseurs"
                     data-modificateur="system.senseurs.value"
                     data-label="{{localize "KNIGHT.MECHAARMURE.Senseurs"}}">
@@ -287,7 +287,7 @@
                             <span class="option {{#unless systemData.senseurs.optionDeploy}} withBorder {{else}} withoutBorder  {{/unless}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="senseurs"></span>
                             <span class="label {{#unless systemData.senseurs.optionDeploy}} withBorder {{/unless}}">{{localize "KNIGHT.MECHAARMURE.Senseurs"}}</span>
                             <span class="score {{#unless systemData.senseurs.optionDeploy}} withBorder {{/unless}}" title="{{systemData.senseurs.base}} + {{systemData.senseurs.mod}} = {{systemData.senseurs.value}}">{{systemData.senseurs.value}}</span>
-                            <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice" data-type="senseurs" data-label="{{localize "KNIGHT.MECHAARMURE.Senseurs"}}" />
+                            <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice draggable" data-type="senseurs" data-label="{{localize "KNIGHT.MECHAARMURE.Senseurs"}}" />
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
@@ -303,7 +303,7 @@
                         </div>
                     </div>
 
-                    <div class="block draggable"
+                    <div class="block"
                     data-type="systemes"
                     data-modificateur="system.systemes.value"
                     data-label="{{localize "KNIGHT.MECHAARMURE.Systemes"}}">
@@ -311,7 +311,7 @@
                             <span class="option {{#if systemData.systemes.optionDeploy}} withoutBorder  {{/if}}"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="systemes"></span>
                             <span class="label">{{localize "KNIGHT.MECHAARMURE.Systemes"}}</span>
                             <span class="score" title="{{systemData.systemes.base}} + {{systemData.systemes.mod}} = {{systemData.systemes.value}}">{{systemData.systemes.value}}</span>
-                            <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice" data-type="systemes" data-label="{{localize "KNIGHT.MECHAARMURE.Systemes"}}" />
+                            <img src="systems/knight/assets/icons/D6Black.svg" class="roll dice draggable" data-type="systemes" data-label="{{localize "KNIGHT.MECHAARMURE.Systemes"}}" />
                         </div>
                         <div class="subLine" style="display:none;">
                             <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>

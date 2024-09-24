@@ -203,6 +203,15 @@ export class PNJSheet extends ActorSheet {
       header.slideUp(200, () => this.render(false));
     });
 
+    html.find('button.setbtn').click(ev => {
+      const target = $(ev.currentTarget);
+      const type = target.data("type");
+      const value = this.actor.system?.[type] ?? false;
+      const result = value ? false : true;
+
+      this.actor.update({[`system.${type}`]:result})
+    });
+
     html.find('div.combat div.armesContact select.wpnMainChange').change(ev => {
       const target = $(ev.currentTarget);
       const id = target.data("id");

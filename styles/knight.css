@@ -17215,7 +17215,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande header.sheet-header .headerData .data,
 .vehicule header.sheet-header .headerData .data,
 .mechaarmure header.sheet-header .headerData .data {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 10px;
+  grid-gap: 5px;
   flex-wrap: wrap;
   justify-content: space-between;
   align-content: flex-start;
@@ -17230,6 +17233,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande header.sheet-header .headerData .data h1.charname,
 .vehicule header.sheet-header .headerData .data h1.charname,
 .mechaarmure header.sheet-header .headerData .data h1.charname {
+  grid-column: 1/3;
   width: 100%;
   border: 0px;
   margin: 0px;
@@ -17264,10 +17268,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .mechaarmure header.sheet-header .headerData .data label {
   display: flex;
   align-items: flex-end;
-  width: calc(50% - 5px);
+  width: 100%;
   flex: none;
   padding-left: 5px;
-  margin-top: 5px;
 }
 .knight header.sheet-header .headerData .data label span,
 .ia header.sheet-header .headerData .data label span,
@@ -25758,7 +25761,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-bottom: 1px solid white;
   border-left: 1px solid white;
   border-right: 1px solid white;
-  width: calc(50% - 5px);
+  width: 100%;
 }
 .ia header.sheet-header .headerData .data div.caractere h2.header {
   display: block;
@@ -26009,6 +26012,27 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding-left: 0px;
 }
 
+.pnj header.sheet-header div.headerData button.setbtn {
+  display: grid;
+  grid-column: 2;
+  grid-template-columns: 16px 1fr;
+  grid-gap: 5px;
+  color: white;
+  font-variant: small-caps;
+  text-align: left;
+  font-size: 16px;
+  border: 1px solid RGB(76 74 90);
+  align-items: center;
+}
+.pnj header.sheet-header div.headerData button.setbtn.unselected i {
+  color: #AF0000;
+}
+.pnj header.sheet-header div.headerData button.setbtn.selected {
+  background: RGB(87 110 178);
+}
+.pnj header.sheet-header div.headerData button.setbtn.selected i {
+  color: #59d13e;
+}
 .pnj section.menu {
   padding-bottom: 1px;
 }
@@ -32495,6 +32519,27 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding-left: 0px;
 }
 
+.creature header.sheet-header div.headerData button.setbtn {
+  display: grid;
+  grid-column: 2;
+  grid-template-columns: 16px 1fr;
+  grid-gap: 5px;
+  color: white;
+  font-variant: small-caps;
+  text-align: left;
+  font-size: 16px;
+  border: 1px solid RGB(76 74 90);
+  align-items: center;
+}
+.creature header.sheet-header div.headerData button.setbtn.unselected i {
+  color: #AF0000;
+}
+.creature header.sheet-header div.headerData button.setbtn.selected {
+  background: RGB(87 110 178);
+}
+.creature header.sheet-header div.headerData button.setbtn.selected i {
+  color: #59d13e;
+}
 .creature section.menu {
   padding-bottom: 1px;
 }
@@ -36903,7 +36948,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule header.sheet-header .headerData .data div.pilote, .vehicule header.sheet-header .headerData .data div.passagers {
   display: flex;
   flex-wrap: wrap;
-  width: calc(50% - 5px);
+  width: 100%;
   flex: none;
   margin-top: 5px;
   border: 1px solid RGB(76 74 90);

@@ -565,6 +565,14 @@ export const KNIGHT = {};
     "masque": "KNIGHT.ASPECTS.MASQUE.Label",
  };
 
+ KNIGHT.mechaarmure = {
+    'vitesse':'KNIGHT.VEHICULE.Vitesse',
+    'manoeuvrabilite':'KNIGHT.VEHICULE.Manoeuvrabilite',
+    'puissance':'KNIGHT.MECHAARMURE.Puissance',
+    'systemes':'KNIGHT.MECHAARMURE.Systèmes',
+    'senseurs':'KNIGHT.MECHAARMURE.Senseurs'
+ }
+
  KNIGHT.caracteristiques = {
     "deplacement": "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.DEPLACEMENT.Label",
     "force": "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.FORCE.Label",

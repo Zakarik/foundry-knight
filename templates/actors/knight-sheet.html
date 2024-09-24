@@ -947,6 +947,17 @@
                             {{~> systems/knight/templates/actors/subtab/modules.html key=key}}
                         {{/each}}
                     </div>
+
+                    <div class="modules item-list">
+                        <h2 class="header js-toggler">
+                            <i class="far fa-minus-square"></i>
+                            {{localize "KNIGHT.ITEMS.ARMURE.Overdrives"}}
+                        </h2>
+
+                        {{#each actor.moduleOD as | key module|}}
+                            {{~> systems/knight/templates/actors/subtab/modules.html key=key}}
+                        {{/each}}
+                    </div>
                 </div>
 
                 <div class="tab-armure MAia" data-group="secondary" data-tab="ia">
@@ -1132,7 +1143,7 @@
                                 {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.ODForce"}} : {{kAI.force}}
                             </h3>
                             {{#each kAI.liste as | key arme|}}
-                                <div class="wpn draggable" style="display:none;"
+                                <div class="wpn" style="display:none;"
                                 data-type="armesimprovisees"
                                 data-label="{{getAI armesimprovisees arme}}"
                                 data-what="{{arme}}"
@@ -1152,10 +1163,15 @@
                                             <span>{{key.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
                                         </div>
 
-                                        <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn"
+                                        <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn draggable"
                                         data-id="contact"
+                                        data-idWpn="contact"
                                         data-name="{{armesimprovisees}}"
+                                        data-other="{{armesimprovisees}}"
                                         data-isDistance="armesimprovisees"
+                                        data-label="{{getAI armesimprovisees arme}}"
+                                        data-type="armesimprovisees"
+                                        data-what="{{arme}}"
                                         data-num="{{arme}}" data-caracteristiques="{{@root/systemData/combat/armesimprovisees/contact}},force" />
                                     </div>
                                     <div class="effets">
@@ -1181,7 +1197,7 @@
                                 {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.ODForce"}} : {{kAI.force}}
                             </h3>
                             {{#each kAI.liste as | key arme|}}
-                                <div class="wpn draggable" style="display:none;"
+                                <div class="wpn" style="display:none;"
                                 data-type="armesimprovisees"
                                 data-label="{{getAI armesimprovisees arme}}"
                                 data-what="{{arme}}"
@@ -1200,10 +1216,15 @@
                                             <span>{{key.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
                                         </div>
 
-                                        <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn"
+                                        <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn draggable"
                                         data-id="distance"
+                                        data-idWpn="distance"
                                         data-name="{{armesimprovisees}}"
+                                        data-other="{{armesimprovisees}}"
+                                        data-label="{{getAI armesimprovisees arme}}"
                                         data-isDistance="armesimprovisees" data-num="{{arme}}"
+                                        data-what="{{arme}}"
+                                        data-type="armesimprovisees"
                                         data-caracteristiques="{{@root/systemData/combat/armesimprovisees/distance}},force" />
                                     </div>
                                     <div class="effets">
@@ -1548,6 +1569,7 @@
 
         <div class="tab options" data-group="primary" data-tab="options">
             <div class="main">
+                {{#if (hasPJRestaure)}}
                 {{#if systemData.jauges.sante}}
                 <button type="action" class="recover unselected" data-type="sante" data-max="{{systemData.sante.max}}">{{localize "KNIGHT.RECUPERER.Sante"}}</button>
                 {{/if}}
@@ -1562,6 +1584,7 @@
 
                 {{#if systemData.jauges.espoir}}
                 <button type="action" class="recover unselected" data-type="espoir" data-max="{{systemData.espoir.max}}">{{localize "KNIGHT.RECUPERER.Espoir"}}</button>
+                {{/if}}
                 {{/if}}
 
                 <button type="action" data-value="{{systemData.options.kraken}}" data-option="kraken" class="{{#if systemData.options.kraken}}selected{{else}}unselected{{/if}}">

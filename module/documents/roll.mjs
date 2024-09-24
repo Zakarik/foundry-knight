@@ -678,8 +678,9 @@ export class RollKnight {
         if(!this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses'])) {
             for(let t of targets) {
                 const actor = t.actor;
-                const getODDexterite = this.getOD('masque', 'dexterite', actor);
-                const armorIsWear = actor.system.wear === 'armure' || actor.system.wear === 'ascension' ? true :false;
+                const getODDexterite = this.getOD('masque', 'dexterite', this.actor);
+                const armorIsWear = this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension' ? true :false;
+                const pointsFaibles = actor.system?.pointsFaibles ?? '';
                 let difficulty = 0;
                 let target = {
                     id:t.id,
@@ -688,13 +689,20 @@ export class RollKnight {
                     type:actor.type,
                     effets:[],
                 };
+                let ptsFaible = false;
 
                 if(weapon.type === 'distance' && armorIsWear && getODDexterite >= 5) difficulty = Math.max(actor.system.defense.value, actor.system.reaction.value);
                 else if(weapon.type === 'distance') difficulty = actor.system.reaction.value;
                 else if(weapon.type === 'contact') difficulty = actor.system.defense.value;
 
+                if (this.carac.some(carac => pointsFaibles.includes(carac))) {
+                    difficulty = Math.ceil(difficulty / 2);
+                    ptsFaible = true;
+                }
+
                 if(content.total > difficulty) {
                     target.marge = content.total-difficulty;
+                    target.ptsFaible = ptsFaible;
                     target.hit = true;
                 }
 
@@ -702,8 +710,9 @@ export class RollKnight {
             }
         } else if(this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses']) && tgt) {
             const actor = tgt.actor;
-            const getODDexterite = this.getOD('masque', 'dexterite', actor);
-            const armorIsWear = actor.system.wear === 'armure' || actor.system.wear === 'ascension' ? true :false;
+            const getODDexterite = this.getOD('masque', 'dexterite', this.actor);
+            const armorIsWear = this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension' ? true :false;
+            const pointsFaibles = actor.system?.pointsFaibles ?? '';
             let difficulty = 0;
             let target = {
                 id:tgt.id,
@@ -712,20 +721,24 @@ export class RollKnight {
                 type:actor.type,
                 effets:[],
             };
-
+            let ptsFaible = false;
 
             if(weapon.type === 'distance' && armorIsWear && getODDexterite >= 5) difficulty = Math.max(actor.system.defense.value, actor.system.reaction.value);
             else if(weapon.type === 'distance') difficulty = actor.system.reaction.value;
             else if(weapon.type === 'contact') difficulty = actor.system.defense.value;
 
+            if (this.carac.some(carac => pointsFaibles.includes(carac))) {
+                difficulty = Math.ceil(difficulty / 2);
+                ptsFaible = true;
+            }
+
             if(content.total > difficulty) {
                 target.marge = content.total-difficulty;
                 target.hit = true;
+                target.ptsFaible = ptsFaible;
             }
 
             content.actorName = actor.name;
-
-            content.targets.push(target);
         }
 
         flags = {
@@ -2930,7 +2943,7 @@ export class RollKnight {
     }
 
     getOD(aspect, name, actor=this.actor) {
-        const data = actor.system.aspects[aspect].caracteristiques[name].overdrive;
+        const data = actor.system?.aspects?.[aspect]?.caracteristiques?.[name]?.overdrive ?? {bonus:[], malus:[]};
         const bonus = Object.values(data.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
         const malus = Object.values(data.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
         let result = 0;

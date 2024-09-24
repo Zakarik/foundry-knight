@@ -72,6 +72,8 @@
     "PointsFaibles":"Points Faibles",
     "AjouterPF":"Ajouter un point faible",
     "Tactique":"Tactique",
+    "Colosse":"Colosse",
+    "Patron":"Patron",
     "VEHICULE":{
       "Manoeuvrabilite":"Manoeuvrabilité",
       "Vitesse":"Vitesse",
@@ -2261,6 +2263,10 @@
       "NonNomme":"Non nommé",
       "Confirmation":"Êtes vous sûre ?",
       "ConfirmationSuppression":"Êtes vous sûre de vouloir supprimer cet objet ?",
+      "ConfirmationEnergie":"Êtes vous sûre de vouloir récupérer toute votre énergie ?",
+      "ConfirmationArmure":"Êtes vous sûre de vouloir récupérer toute votre armure ?",
+      "ConfirmationSante":"Êtes vous sûre de vouloir récupérer toute votre santé ?",
+      "ConfirmationEspoir":"Êtes vous sûre de vouloir récupérer toute votre espoir ?",
       "Reset":"Reset",
       "Difficulte":"Difficulté",
       "MJOnly":"MJ Uniquement",
@@ -2472,6 +2478,10 @@
       "CANEDITNODS":{
         "Label":"Permettre d'éditer librement les valeurs par défaut des dés des nods",
         "Hint":"Ajouter une petite case sur les fiches à côté des nods permettant d'éditer les valeures. Attention, même si cette case est décochée par la suite, les modifications effectuées resteront."
+      },
+      "CANPJRESTAURE":{
+        "Label":"Permettre aux joueurs d'avoir accès aux boutons de restauration de Santé / Armure / Energie / Espoir.",
+        "Hint":"Si cette case est décochée, ces options ne seront pas accessible aux PJ et le MJ sera le seul a pouvoir cliquer dessus."
       }
     },
     "GM":{
