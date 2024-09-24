@@ -688,12 +688,15 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 }
 
             } else if(g.type === 'arme') {
+                const dataProgression = g.system;
+                const gratuit = dataProgression?.gratuit || false;
+
                 list.push({
                     order:g.system.addOrder,
                     id:g._id,
                     name:g.name,
-                    gratuit:g.system.gratuit,
-                    value:g.system.gratuit ? 0 : g.system.prix
+                    gratuit:gratuit || false,
+                    value:gratuit ? 0 : dataProgression.prix,
                 })
             } else if(g.type === 'module') {
                 for(let n = 1;n <= g.system.niveau.value;n++) {

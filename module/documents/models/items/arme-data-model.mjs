@@ -13,6 +13,7 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
       prix: new NumberField({initial: 0}),
       energie: new NumberField({initial: 0}),
       listes: new SchemaField({}),
+      gratuit: new BooleanField({initial:false}),
       options2mains: new SchemaField({
         has: new BooleanField({initial: false}),
         actuel: new StringField({initial: '1main'}),
