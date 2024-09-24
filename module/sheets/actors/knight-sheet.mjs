@@ -5716,8 +5716,6 @@ export class KnightSheet extends ActorSheet {
         const armeE2Raw = data.effets2mains.raw.concat(armorSpecialRaw);
         const armeE2Custom = data.effets2mains.custom.concat(armorSpecialCustom);
 
-        if(type === 'distance') hasDistance = true;
-
         data.effets.raw = [...new Set(armeRaw)];
         data.effets.custom = armeCustom;
 
@@ -5738,14 +5736,6 @@ export class KnightSheet extends ActorSheet {
             data.optionsmunitions.liste[i].custom = custom;
           }
         }
-
-        depensePG.push({
-          order:data.addOrder,
-          id:i._id,
-          name:i.name,
-          gratuit:data.gratuit,
-          value:data.gratuit ? 0 : data.prix
-        });
 
         const optionsmunitions = data.optionsmunitions.has;
         const munition = data.optionsmunitions.actuel;
