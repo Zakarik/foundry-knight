@@ -1016,7 +1016,7 @@ export class KnightSheet extends ActorSheet {
       if(type === 'module') {
         const dataModule = this.actor.items.get(module),
               data = dataModule.system,
-              dataNiveau = data.niveau.details.actuel;
+              dataNiveau = data.niveau.actuel;
 
         dataModule.update({[`system.active.base`]:value});
 
@@ -2771,7 +2771,7 @@ export class KnightSheet extends ActorSheet {
         label:label,
         wpn:id,
         base:base,
-        whatRoll:whatRoll
+        whatRoll:whatRoll,
       });
 
       dialog.open();
@@ -3671,7 +3671,7 @@ export class KnightSheet extends ActorSheet {
       item.update({['system.show']:value});
     });
 
-    html.find('button.recover').click(ev => {
+    html.find('button.recover').click(async ev => {
       const target = $(ev.currentTarget);
       const type = target.data("type");
       const max = target.data("max");
@@ -3682,6 +3682,10 @@ export class KnightSheet extends ActorSheet {
         case 'sante':
         case 'armure':
         case 'energie':
+          if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
+          html.find(`div.${type} input.value`).val(max);
+          break;
+
         case 'grenades':
           html.find(`div.${type} input.value`).val(max);
           break;
@@ -4300,6 +4304,7 @@ export class KnightSheet extends ActorSheet {
     const contact = [];
     const blessures = [];
     const trauma = [];
+    const overdrive = [];
     const module = [];
     const modulepassifs = [];
     const moduleErsatz = {};
@@ -4337,96 +4342,11 @@ export class KnightSheet extends ActorSheet {
     const distinctions = [];
 
     const capaciteultime = items.find(items => items.type === 'capaciteultime');
-    const slots = {
-      tete:[],
-      torse:[],
-      brasDroit:[],
-      brasGauche:[],
-      jambeDroite:[],
-      jambeGauche:[],
-    };
 
     let armureData = {};
     let armureLegendeData = {};
     let longbow = {};
     let art = {};
-    let grenades = {
-      "antiblindage": {
-        "degats": {
-          "dice": 3
-        },
-        "violence": {
-          "dice": 3
-        },
-        "effets":{
-          "liste":[],
-          "raw":[
-            "destructeur",
-            "dispersion 6",
-            "penetrant 6",
-            "percearmure 20"
-          ],
-          "custom":[]
-        }
-      },
-      "explosive": {
-        "degats": {
-          "dice": 3
-        },
-        "violence": {
-          "dice": 3
-        },
-        "effets":{
-          "liste":[],
-          "raw":[
-            "antivehicule",
-            "choc 1",
-            "dispersion 3"
-          ],
-          "custom":[]
-        }
-      },
-      "shrapnel": {
-        "degats": {
-          "dice":3
-        },
-        "violence": {
-          "dice":3
-        },
-        "effets":{
-          "liste":[],
-          "raw":[
-            "dispersion 6",
-            "meurtrier",
-            "ultraviolence"
-          ],
-          "custom":[]
-        }
-      },
-      "flashbang": {
-        "effets":{
-          "liste":[],
-          "raw":[
-            "aucundegatsviolence",
-            "barrage 2",
-            "choc 1",
-            "dispersion 6"
-          ],
-          "custom":[]
-        }
-      },
-      "iem": {
-        "effets":{
-          "liste":[],
-          "raw":[
-            "aucundegatsviolence",
-            "dispersion 6",
-            "parasitage 2"
-          ],
-          "custom":[]
-        }
-      },
-    };
     let reaction = {
       bonus:0,
       malus:0
@@ -4482,7 +4402,6 @@ export class KnightSheet extends ActorSheet {
         "distance":[]
       }
     };
-    let hasDistance = false;
 
     for (let i of items) {
       const data = i.system;
@@ -5360,7 +5279,6 @@ export class KnightSheet extends ActorSheet {
         const niveau = data.niveau.value;
         const isLion = data.isLion;
         const itemDataNiveau = data.niveau.actuel;
-        const itemSlots = data.slots;
         const itemBonus = itemDataNiveau?.bonus || {has:false};
         const itemArme = itemDataNiveau?.arme || {has:false};
         const itemOD = itemDataNiveau?.overdrives || {has:false};
@@ -5371,8 +5289,6 @@ export class KnightSheet extends ActorSheet {
         const itemErsatz = itemDataNiveau.ersatz;
         const eRogue = itemErsatz?.rogue ?? false;
         const eBard = itemErsatz?.bard ?? false;
-
-        console.warn(itemDataNiveau)
 
         if(isLion) {
           lion.modules.push(i);
@@ -5532,14 +5448,6 @@ export class KnightSheet extends ActorSheet {
           }
 
         } else {
-          /*for (const slot in slots) {
-            const value = itemSlots[slot];
-
-            if(value > 0) {
-              slots[slot].push(value);
-            }
-          }
-
           if(itemDataNiveau.permanent || itemActive) {
 
             if(itemBonus.has) {
@@ -5742,9 +5650,10 @@ export class KnightSheet extends ActorSheet {
               moduleErsatz.bard._id = i._id;
               moduleErsatz.bard.description = data.description;
             }
-          }*/
+          }
 
-          module.push(i);
+          if(itemDataNiveau.overdrives.has) overdrive.push(i);
+          else module.push(i);
         }
       }
 
@@ -6010,6 +5919,7 @@ export class KnightSheet extends ActorSheet {
     actorData.modules = module;
     actorData.modulespassifs = modulepassifs;
     actorData.moduleErsatz = moduleErsatz;
+    actorData.moduleOD = overdrive;
     actorData.avantages = avantage;
     actorData.inconvenient = inconvenient;
     actorData.avantagesIA = avantageIA;

@@ -17,6 +17,8 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
         descriptionLimitee:new HTMLField({initial:""}),
         tactique:new HTMLField({initial:""}),
         pointsFaibles:new HTMLField({initial:""}),
+        colosse:new BooleanField({initial:false}),
+        patron:new BooleanField({initial:false}),
         armure: new SchemaField({
             base:new NumberField({initial:0, min:0, nullable:false, integer:true}),
             mod:new NumberField({initial:0, nullable:false, integer:true}),

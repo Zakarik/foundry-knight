@@ -137,6 +137,15 @@ export const RegisterSettings = function () {
         default: false
     });
 
+    game.settings.register("knight", "canPJRestaure", {
+        name: "KNIGHT.SETTINGS.CANPJRESTAURE.Label",
+        hint: "KNIGHT.SETTINGS.CANPJRESTAURE.Hint",
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: true
+    });
+
     game.settings.register("knight", "logo", {
         name: "KNIGHT.SETTINGS.LOGO.Label",
         hint: "KNIGHT.SETTINGS.LOGO.Hint",

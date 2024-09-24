@@ -1,4 +1,39 @@
 .pnj {
+  header.sheet-header {
+    div {
+      &.headerData {
+        button {
+          &.setbtn {
+            display: grid;
+            grid-column: 2;
+            grid-template-columns: 16px 1fr;
+            grid-gap: 5px;
+            color: $white;;
+            font-variant: small-caps;
+            text-align: left;
+            font-size: 16px;
+            border: 1px solid $lightBlack;
+            align-items: center;
+
+            &.unselected {
+              i {
+                color: $red;
+              }
+            }
+
+            &.selected {
+              i {
+                color: $lightGreen;
+              }
+
+              background: $lightBlue;
+            }
+          }
+        }
+      }
+    }
+  }
+
     section.menu {
       padding-bottom:1px;
 

@@ -2603,7 +2603,7 @@ export class KnightRollDialog extends Dialog {
                 }
 
                 if(isBase) {
-                    const whatRoll = this.rollData.whatRoll;
+                    let whatRoll = this.rollData.whatRoll;
                     tgt.removeClass('base');
 
                     if(whatRoll) {

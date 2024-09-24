@@ -383,7 +383,7 @@
             &.passagers {
               display: flex;
               flex-wrap: wrap;
-              width:calc(50% - 5px);
+              width:100%;
               flex:none;
               margin-top:5px;
               border:1px solid $lightBlack;
