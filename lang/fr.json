@@ -2191,7 +2191,8 @@
         "VsReaction":"vs Réaction",
         "VsDefense":"vs Défense",
         "PFTarget":"Point faible ciblé !",
-        "DegatsAvec":"Dégâts avec {avec}"
+        "DegatsAvec":"Dégâts avec {avec}",
+        "ProtegePar":"Protégé par {aspect}"
       },
       "CHAIRD2": {
         "Has":"Ajoute la Chair divisé par 2 aux dégâts",
@@ -2200,6 +2201,10 @@
       "BETE":{
         "Mineur":"Bête mineur",
         "Majeur":"Bête majeur"
+      },
+      "CHAIR":{
+        "Mineur":"Chair mineur",
+        "Majeur":"Chair majeur"
       }
     },
     "AUTRE": {

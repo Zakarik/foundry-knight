@@ -70,9 +70,43 @@ export class RollKnight {
             let allContent = [];
             let allFlag = []
             let allRoll = [];
+            let listTargets = [];
 
             if(this.#isEffetActive(allRaw, weapon.options, ['barrage']) || (this.#hasEffet(allRaw, 'barrage') && this.#hasEffet(allRaw, 'aucundegatsviolence'))) {
-                if(this.#getEffet(allRaw, 'barrage')) text = `${game.i18n.localize(localize['barrage'].label)} ${this.#getEffet(allRaw, 'barrage').split(' ')[1]}`;
+                if(this.#getEffet(allRaw, 'barrage')) {
+                    const targets = game.user.targets;
+
+                    text = `${game.i18n.localize(localize['barrage'].label)} ${this.#getEffet(allRaw, 'barrage').split(' ')[1]}`;
+
+                    if(targets && targets.size > 0) {
+                        for(let t of targets) {
+                            const tActor = t.actor;
+
+                            if(tActor) {
+                                const chairAE = tActor?.system?.aspects?.chair?.ae.majeur?.value ?? 0;
+
+                                if(chairAE > 0) {
+                                    let target = {
+                                        id:t.id,
+                                        simple:true,
+                                        name:tActor.name,
+                                        aspects:tActor.system.aspects,
+                                        type:tActor.type,
+                                        effets:[],
+                                    };
+
+                                    target.effets.push({
+                                        key:'barrage',
+                                        label:game.i18n.localize(localize['barrage'].label),
+                                        subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
+                                    })
+
+                                    listTargets.push(target);
+                                }
+                            }
+                        }
+                    }
+                }
             } else if(this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses'])) {
                 const targets = game.user.targets;
                 let n = 0;
@@ -120,7 +154,8 @@ export class RollKnight {
             this.#sendRollWeapon({
                 rolls:allRoll,
                 content:allContent,
-                text:text,
+                text,
+                targets:listTargets,
                 flags:allFlag,
             })
         }
@@ -679,7 +714,7 @@ export class RollKnight {
         if(!this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses'])) {
             for(let t of targets) {
                 const actor = t.actor;
-                const getODDexterite = this.getOD('masque', 'dexterite', this.actor);
+                const getODDexterite = this.getOD('masque', 'dexterite', actor);
                 const armorIsWear = this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension' ? true :false;
                 const pointsFaibles = actor.system?.pointsFaibles ?? '';
                 let difficulty = 0;
@@ -733,7 +768,7 @@ export class RollKnight {
             }
         } else if(this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses']) && tgt) {
             const actor = tgt.actor;
-            const getODDexterite = this.getOD('masque', 'dexterite', this.actor);
+            const getODDexterite = this.getOD('masque', 'dexterite', actor);
             const armorIsWear = this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension' ? true :false;
             const pointsFaibles = actor.system?.pointsFaibles ?? '';
             let difficulty = 0;
@@ -805,6 +840,7 @@ export class RollKnight {
         const weapon = this.weapon;
         const flag = data?.flags ?? [];
         const tags = this.tags;
+        const targets = data?.targets ?? [];
 
         if(this.weapon.portee) {
             const traPortee = game.i18n.localize(`KNIGHT.PORTEE.${this.weapon.portee.charAt(0).toUpperCase() + this.weapon.portee.slice(1)}`);
@@ -829,6 +865,7 @@ export class RollKnight {
             tags:tags,
             content:content,
             text:text,
+            targets
         }
 
         let flags = {
@@ -1161,12 +1198,14 @@ export class RollKnight {
                             case 'choc':
                             case 'electrifiee':
                                 const comparaison = type === 'knight' ? chair : chair/2;
+                                const chairAE = t?.aspects?.chair?.ae.majeur?.value ?? 0;
 
                                 t.effets.push({
                                     simple:d.simple,
                                     key:d.key,
                                     label:d.label,
-                                    hit:total > comparaison && t.hit ? true : false,
+                                    hit:total > comparaison && t.hit && chairAE === 0  ? true : false,
+                                    subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
                                 })
                                 break;
                         }
@@ -1712,8 +1751,25 @@ export class RollKnight {
                         break;
 
                     case 'barbelee':
-                    case 'meurtrier':
                     case 'destructeur':
+                        if(effet) {
+                            const subdice = hasTenebricide ? 1 : 2;
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau, min:min});
+
+                            rolls.push(subroll.roll);
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                value:`+${subroll.roll.total}`,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                tooltip:subroll.tooltip
+                            });
+                        }
+                        break;
+
+                    case 'meurtrier':
                         if(effet) {
                             const subdice = hasTenebricide ? 1 : 2;
                             const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau, min:min});
@@ -1896,6 +1952,22 @@ export class RollKnight {
                                 label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(CONFIG.KNIGHT.effets[d.simple].label)}`})}`,
                                 empty:true,
                             });
+                        }
+                        break;
+
+                    case 'meurtrier':
+                        const chairAE = t?.aspects?.chair?.ae.majeur?.value ?? 0;
+
+                        if(chairAE > 0) {
+                            addTargets = true;
+
+                            t.effets.push({
+                                simple:d.simple,
+                                key:d.key,
+                                label:d.label,
+                                hit:false,
+                                subtitle:game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
+                            })
                         }
                         break;
                 }
