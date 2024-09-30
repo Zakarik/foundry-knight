@@ -104,6 +104,46 @@
     </div>
     {{/if}}
 
+    {{#each targets}}
+    <div class="listTargets dice-formula">
+        <div class="target" data-id="{{id}}">
+            <span class="label">{{name}}</span>
+            {{log this}}
+            {{#if simple}}
+            <span></span>
+            {{else}}
+                {{#if isValue}}
+                <span class="dmg">{{value}}</span>
+                {{else}}
+                <span class="{{ifThen hit 'hit' 'fail'}}">{{localize (ifThen hit 'KNIGHT.JETS.RESULTATS.Touche' 'KNIGHT.JETS.RESULTATS.Manque')}}</span>
+                    {{#if ptsFaible}}
+                    <span class="hit">{{localize 'KNIGHT.JETS.RESULTATS.PFTarget'}}</span>
+                    {{/if}}
+                    {{#if defense}}
+                    <span class="subtitle defense">{{defense}}</span>
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+        </div>
+        {{#each effets}}
+            <div class="target sub" data-key="{{key}}" data-id="{{../id}}">
+                <span class="label">{{label}}</span>
+                {{#unless empty}}
+                    {{#if value}}
+                    <span>{{value}}</span>
+                    {{else}}
+                    <span class="{{ifThen hit 'hit' 'fail'}}">
+                        {{localize (ifThen hit 'KNIGHT.JETS.RESULTATS.Affecte' 'KNIGHT.JETS.RESULTATS.PasAffecte')}}</span>
+                    {{/if}}
+                    {{#if subtitle}}
+                    <span class="subtitle">{{subtitle}}</span>
+                    {{/if}}
+                {{/unless}}
+            </div>
+        {{/each}}
+    </div>
+    {{/each}}
+
     {{#each detailledEffets}}
     <div class="details {{ifThen tooltip 'withTooltip' ''}}" data-key="{{key}}">
         <span class="label">{{label}}</span>

@@ -2620,8 +2620,12 @@ export class KnightRollDialog extends Dialog {
 
             if(!tgt.hasClass('wHover')) return;
 
+
             if(isPJ) {
                 const isBase = tgt.hasClass('base');
+                console.warn(this);
+                console.warn(isSelected);
+                console.warn(carac);
 
                 if(isSelected) {
                     tgt.removeClass('selected');
@@ -2655,7 +2659,7 @@ export class KnightRollDialog extends Dialog {
                                 $(parents.find(`button.btnCaracteristique.${w} i`)).addClass('fa-solid fa-check-double');
 
                                 this.data.roll.base = w;
-                                whatRoll = whatRoll.filter(itm => itm !== w);
+                                this.data.roll.whatRoll = this.rollData.whatRoll.filter(roll => roll !== w);
                                 break;
                             }
                         }
