@@ -2065,29 +2065,32 @@ export class PNJSheet extends ActorSheet {
 
         default:
           const item = this.actor.items.get(id);
-          if(item.type === 'module') id = `module_${id}`;
-          if(item.type === 'armure') {
-            switch(what) {
-              case 'rayon':
-              case 'salve':
-              case 'vague':
-                id = isDistance === 'distance' ? `capacite_${id}_cea${what.charAt(0).toUpperCase() + what.substr(1)}D` : `capacite_${id}_cea${what.charAt(0).toUpperCase() + what.substr(1)}C`;
-                break;
 
-              case 'borealis':
-                id = isDistance === 'distance' ? `capacite_${id}_borealisD` : `capacite_${id}_borealisC`;
-                break;
+          if(item) {
+            if(item.type === 'module') id = `module_${id}`;
+            if(item.type === 'armure') {
+              switch(what) {
+                case 'rayon':
+                case 'salve':
+                case 'vague':
+                  id = isDistance === 'distance' ? `capacite_${id}_cea${what.charAt(0).toUpperCase() + what.substr(1)}D` : `capacite_${id}_cea${what.charAt(0).toUpperCase() + what.substr(1)}C`;
+                  break;
 
-              case 'lame':
-              case 'griffe':
-              case 'canon':
-                id = `capacite_${id}_morph${what.charAt(0).toUpperCase() + what.substr(1)}`;
-                break;
+                case 'borealis':
+                  id = isDistance === 'distance' ? `capacite_${id}_borealisD` : `capacite_${id}_borealisC`;
+                  break;
+
+                case 'lame':
+                case 'griffe':
+                case 'canon':
+                  id = `capacite_${id}_morph${what.charAt(0).toUpperCase() + what.substr(1)}`;
+                  break;
+              }
             }
-          }
-          if(item.type === 'capacite') id = `pnjcapacite_${id}`;
+            if(item.type === 'capacite') id = `pnjcapacite_${id}`;
 
-          label = name;
+            label = name;
+          }
           break;
       }
 
