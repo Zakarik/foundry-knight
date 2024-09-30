@@ -436,6 +436,7 @@ Hooks.once('init', async function() {
       const roll = new game.knight.RollKnight(flags.actor, {
         name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
         weapon:weapon,
+        surprise:flags.surprise,
       }, false);
 
       let addFlags = {
@@ -456,7 +457,7 @@ Hooks.once('init', async function() {
         total:flags.content[0].total,
         targets:flags.content[0].targets,
         attaque:message.rolls,
-        flags:addFlags
+        flags:addFlags,
       };
 
       if(raw.includes('tirenrafale')) {
@@ -489,6 +490,7 @@ Hooks.once('init', async function() {
       const roll = new game.knight.RollKnight(flags.actor, {
         name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.EFFETS.TIRENRAFALE.Label')}`,
         weapon:weapon,
+        surprise:flags.surprise,
       }, false);
 
       let addFlags = {
@@ -537,6 +539,7 @@ Hooks.once('init', async function() {
       const roll = new game.knight.RollKnight(flags.actor, {
         name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
         weapon:flags.weapon,
+        surprise:flags.surprise,
       }, false);
 
       await roll.doRollViolence({

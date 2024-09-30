@@ -358,7 +358,7 @@ export class RollKnight {
         if(!handleDamage.min) total = roll.total;
 
         rolls.push(roll);
-        content.total = total;
+        content.total = total+Object.values(bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
         content.tooltip = await renderTemplate(RollKnight.tooltip, {parts:[{
             base:`${handleDamage.dices}D6`,
             bonus:bonus,
@@ -642,6 +642,7 @@ export class RollKnight {
         const tgt = data?.target ?? undefined;
         const index = data?.index ?? 0;
 
+        const isSurprise = this.isSurprise;
         const weapon = this.weapon;
         const allRaw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
         const targets = game.user.targets;
@@ -690,14 +691,34 @@ export class RollKnight {
                     effets:[],
                 };
                 let ptsFaible = false;
+                let resultDefense = ``;
 
-                if(weapon.type === 'distance' && armorIsWear && getODDexterite >= 5) difficulty = Math.max(actor.system.defense.value, actor.system.reaction.value);
-                else if(weapon.type === 'distance') difficulty = actor.system.reaction.value;
-                else if(weapon.type === 'contact') difficulty = actor.system.defense.value;
+                if(!isSurprise) {
+                    const defValue = actor.system.defense.value;
+                    const reaValue = actor.system.reaction.value;
 
-                if (this.carac.some(carac => pointsFaibles.includes(carac))) {
-                    difficulty = Math.ceil(difficulty / 2);
-                    ptsFaible = true;
+                    if(weapon.type === 'distance' && armorIsWear && getODDexterite >= 5) {
+                        difficulty = Math.max(actor.system.defense.value, actor.system.reaction.value);
+
+                        if(defValue > reaValue) resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (${defValue})`;
+                        else resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (${reaValue})`;
+                    }
+                    else if(weapon.type === 'distance') {
+                        difficulty = actor.system.reaction.value;
+                        resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (${reaValue})`;
+                    }
+                    else if(weapon.type === 'contact') {
+                        difficulty = actor.system.defense.value;
+                        resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (${defValue})`;
+                    }
+
+                    if (this.carac.some(carac => pointsFaibles.includes(carac))) {
+                        difficulty = Math.ceil(difficulty / 2);
+                        ptsFaible = true;
+                    }
+                } else {
+                    if(weapon.type === 'distance') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (0)`;
+                    else if(weapon.type === 'contact') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (0)`;
                 }
 
                 if(content.total > difficulty) {
@@ -705,6 +726,8 @@ export class RollKnight {
                     target.ptsFaible = ptsFaible;
                     target.hit = true;
                 }
+
+                target.defense = resultDefense;
 
                 content.targets.push(target);
             }
@@ -722,14 +745,36 @@ export class RollKnight {
                 effets:[],
             };
             let ptsFaible = false;
+            let resultDefense = ``;
 
-            if(weapon.type === 'distance' && armorIsWear && getODDexterite >= 5) difficulty = Math.max(actor.system.defense.value, actor.system.reaction.value);
-            else if(weapon.type === 'distance') difficulty = actor.system.reaction.value;
-            else if(weapon.type === 'contact') difficulty = actor.system.defense.value;
 
-            if (this.carac.some(carac => pointsFaibles.includes(carac))) {
-                difficulty = Math.ceil(difficulty / 2);
-                ptsFaible = true;
+            if(!isSurprise) {
+                const defValue = actor.system.defense.value;
+                const reaValue = actor.system.reaction.value;
+
+                if(weapon.type === 'distance' && armorIsWear && getODDexterite >= 5) {
+
+                    difficulty = Math.max(defValue, reaValue);
+
+                    if(defValue > reaValue) resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (${defValue})`;
+                    else resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (${reaValue})`;
+                }
+                else if(weapon.type === 'distance') {
+                    difficulty = actor.system.reaction.value;
+                    resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (${reaValue})`;
+                }
+                else if(weapon.type === 'contact') {
+                    difficulty = actor.system.defense.value;
+                    resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (${defValue})`;
+                }
+
+                if (this.carac.some(carac => pointsFaibles.includes(carac))) {
+                    difficulty = Math.ceil(difficulty / 2);
+                    ptsFaible = true;
+                }
+            } else {
+                if(weapon.type === 'distance') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (0)`;
+                else if(weapon.type === 'contact') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (0)`;
             }
 
             if(content.total > difficulty) {
@@ -737,6 +782,7 @@ export class RollKnight {
                 target.hit = true;
                 target.ptsFaible = ptsFaible;
             }
+            target.defense = resultDefense;
 
             content.actorName = actor.name;
         }
@@ -1138,6 +1184,8 @@ export class RollKnight {
         const armure = this.actor.items.find(itm => itm.type === 'armure');
         const capacites = armure?.system?.capacites?.selected ?? {};
         const getGhost = capacites?.ghost ?? undefined;
+        const getGoliathMeter = this.actor.system?.equipements?.armure?.capacites?.goliath?.metre ?? 0;
+        const getGoliath = capacites?.goliath ?? undefined;
         const getChangeling = capacites?.changeling ?? undefined;
         const merge1 = foundry.utils.mergeObject(CONFIG.KNIGHT.effets, CONFIG.KNIGHT.AMELIORATIONS.distance);
         const merge2 = foundry.utils.mergeObject(merge1, CONFIG.KNIGHT.AMELIORATIONS.ornementales);
@@ -1161,7 +1209,7 @@ export class RollKnight {
         const modulesDice = weapon?.bonus?.degats?.dice ?? 0;
         const modulesFixe = weapon?.bonus?.degats?.fixe ?? 0;
         const modulesDegatsVariable = weapon?.options?.filter(itm => itm.classes.includes('dgtsbonusvariable')) ?? [];
-        const armorIsWear = this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension' ? true : false;
+        const armorIsWear = (this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension') || !this.isPJ ? true : false;
         let detailledEffets = [];
         let effets = [];
         let rollOptions = {
@@ -1173,6 +1221,7 @@ export class RollKnight {
         let title = '';
         let isGhostActive = false;
         let isChangelingActive = false;
+        let isGoliathActive = false;
 
         if(getGhost && armorIsWear) {
             isGhostActive = (getGhost?.active?.conflit ?? false) || (getGhost?.active?.horsconflit ?? false) ? true : false;
@@ -1209,6 +1258,18 @@ export class RollKnight {
 
                 bonus.push(force);
                 title += ` + ${traForce}`;
+            }
+
+            if(getGoliath && armorIsWear) {
+                isGoliathActive = getGoliath?.active ?? false;
+
+                if(isGoliathActive) {
+                    const bGoliath = parseInt(getGoliath?.bonus?.degats?.dice ?? 0);
+
+                    wpnDice += (getGoliathMeter*bGoliath);
+
+                    titleDice += ` + ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.Label')}`;
+                }
             }
         }
 
@@ -1308,8 +1369,6 @@ export class RollKnight {
                 title += ` + ${m.name}`;
             }
         }
-
-        console.warn(raw);
 
         for(let l of list) {
             const loc = localize[l.split(' ')[0]];
@@ -1863,6 +1922,10 @@ export class RollKnight {
         const merge1 = foundry.utils.mergeObject(CONFIG.KNIGHT.effets, CONFIG.KNIGHT.AMELIORATIONS.distance);
         const merge2 = foundry.utils.mergeObject(merge1, CONFIG.KNIGHT.AMELIORATIONS.ornementales);
         const merge3 = foundry.utils.mergeObject(merge2, CONFIG.KNIGHT.AMELIORATIONS.structurelles);
+        const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const capacites = armure?.system?.capacites?.selected ?? {};
+        const getGoliathMeter = this.actor.system?.equipements?.armure?.capacites?.goliath?.metre ?? 0;
+        const getGoliath = capacites?.goliath ?? undefined;
         const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
         const custom = weapon.effets.custom.concat(weapon?.distance?.custom ?? [], weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
         const options = weapon.options;
@@ -1882,11 +1945,13 @@ export class RollKnight {
         const modulesDice = weapon?.bonus?.violence?.dice ?? 0;
         const modulesFixe = weapon?.bonus?.violence?.fixe ?? 0;
         const modulesViolenceVariable = weapon.options.filter(itm => itm.classes.includes('violencebonusvariable'));
+        const armorIsWear = (this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension') || !this.isPJ ? true : false;
         let detailledEffets = [];
         let effets = [];
         let rollOptions = {
             maximize:hasObliteration || (data?.flags?.maximize?.violence ?? false) ? true : false,
         };
+        let isGoliathActive = false;
         let wpnDice = weapon.violence.dice;
         let min = false;
         let titleDice = '';
@@ -1894,6 +1959,21 @@ export class RollKnight {
 
         if(weapon.violence.fixe > 0) bonus.push(weapon.violence.fixe);
         if(hasDevastation) min = parseInt(this.#getEffet(raw, 'devastation').split(' ')[1]);
+
+        if(weapon.type === 'contact') {
+            if(getGoliath && armorIsWear) {
+                isGoliathActive = getGoliath?.active ?? false;
+
+                if(isGoliathActive) {
+                    const bGoliath = parseInt(getGoliath?.bonus?.violence?.dice ?? 0);
+
+                    wpnDice += (getGoliathMeter*bGoliath);
+
+                    titleDice += ` + ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.Label')}`;
+                }
+            }
+
+        }
 
         let fureur = 0;
         let ultraviolence = 0;

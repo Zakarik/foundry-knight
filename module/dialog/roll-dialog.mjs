@@ -149,7 +149,7 @@ export class KnightRollDialog extends Dialog {
         const wear = this.actor.system?.wear ?? '';
         let result = false;
 
-        if(wear === 'armure' || wear === 'ascension') result = true;
+        if(wear === 'armure' || wear === 'ascension' || !this.isPJ) result = true;
 
         return result;
     }
@@ -200,7 +200,8 @@ export class KnightRollDialog extends Dialog {
 
     async #roll(data) {
         const actor = this.actor.type === 'vehicule' ? this.who : this.actor;
-        const armorIsWear = actor.system.wear === 'armure' || actor.system.wear === 'ascension' ? true : false;
+        const armor = actor.items.find(itm => itm.type === 'armure');
+        const armorIsWear = this.armorIsWear;
         const label = data.find('input.label').val();
         const base = this.rollData.base;
         const selected = this.rollData.whatRoll;
@@ -212,7 +213,6 @@ export class KnightRollDialog extends Dialog {
         const modificateur = parseInt(data.find('label.score.modificateur input').val());
         const isNoOd = this.rollData.btn?.nood ?? false;
         const isAttaqueSurprise = this.rollData.btn?.attaquesurprise ?? false;
-        const isPJ = this.isPJ;
         let carac = base ? [this.#getLabelRoll(base)] : [];
         let dices = this.#getValueAspect(actor, base);
         let bonus = [];
@@ -238,14 +238,41 @@ export class KnightRollDialog extends Dialog {
             degats:data.find('button.btn.maximizedegats').hasClass('selected'),
             violence:data.find('button.btn.maximizeviolence').hasClass('selected'),
         }
+        let goliath = 0;
 
-        if((armorIsWear || !isPJ) && !isNoOd) bonus.push(this.#getODAspect(actor, base));
+        if((armorIsWear) && !isNoOd) bonus.push(this.#getODAspect(actor, base));
+
+        if(armorIsWear && armor) {
+            const dataCapacites = actor.system?.equipements?.armure?.capacites ?? {};
+            const dataGoliath = armor.system?.capacites?.selected?.goliath ?? {};
+            const isGoliathActive = armor.system?.capacites?.selected?.goliath?.active ?? false;
+
+            if(isGoliathActive && (base === 'endurance' || base === 'force')) {
+                const meter = parseInt(dataCapacites?.goliath?.metre ?? 0);
+                const bGoliath = parseInt(dataGoliath?.bonus?.[base]?.value ?? 0);
+
+                goliath += (meter*bGoliath);
+            }
+        }
 
         for(let s of selected) {
             dices += this.#getValueAspect(actor, s);
             carac.push(this.#getLabelRoll(s));
 
             if(armorIsWear && !isNoOd) bonus.push(this.#getODAspect(actor, s));
+
+            if(armorIsWear && armor) {
+                const dataCapacites = actor.system?.equipements?.armure?.capacites ?? {};
+                const dataGoliath = armor.system?.capacites?.selected?.goliath ?? {};
+                const isGoliathActive = armor.system?.capacites?.selected?.goliath?.active ?? false;
+
+                if(isGoliathActive && (s === 'endurance' || s === 'force')) {
+                    const meter = parseInt(dataCapacites?.goliath?.metre ?? 0);
+                    const bGoliath = parseInt(dataGoliath?.bonus?.[s]?.value ?? 0);
+
+                    goliath += (meter*bGoliath);
+                }
+            }
         }
 
         if(weapon) {
@@ -502,8 +529,6 @@ export class KnightRollDialog extends Dialog {
             }
         }
 
-        dices += modificateur;
-
         if(modificateur > 0) {
             dices += modificateur;
 
@@ -570,6 +595,22 @@ export class KnightRollDialog extends Dialog {
                 }
                 else updates = foundry.utils.mergeObject(updates, depenseEspoir.update);
             }
+        }
+
+        if(goliath > 0) {
+            tags.push({
+                key:'goliath',
+                label:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.Label')} : +${goliath}`,
+            });
+
+            bonus.push(goliath);
+        }
+
+        if(isAttaqueSurprise) {
+            tags.push({
+                key:'attaquesurprise',
+                label:`${game.i18n.localize('KNIGHT.JETS.AttackSurprise')}`,
+            })
         }
 
         if(doRoll) {

@@ -53,6 +53,9 @@
                     {{#if ptsFaible}}
                     <span class="hit">{{localize 'KNIGHT.JETS.RESULTATS.PFTarget'}}</span>
                     {{/if}}
+                    {{#if defense}}
+                    <span class="subtitle defense">{{defense}}</span>
+                    {{/if}}
                 {{/if}}
             </div>
             {{#each effets}}
