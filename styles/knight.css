@@ -40277,6 +40277,11 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight-roll div.listTargets span.subtitle {
   grid-column: 1/3;
 }
+.knight-roll div.listTargets span.defense {
+  text-align: right;
+  font-size: 14px;
+  line-height: 14px;
+}
 .knight-roll div.btn {
   display: grid;
   grid-template-columns: 1fr 1fr;

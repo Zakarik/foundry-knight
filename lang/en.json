@@ -1,548 +1,550 @@
 {
   "ACTOR":{
     "TypeKnight":"Knight",
-    "TypeIa":"IA",
-    "TypePnj":"PNJ",
-    "TypeCreature":"Créature",
-    "TypeBande":"Bande",
-    "TypeVehicule":"Véhicule",
-    "TypeMechaarmure":"Mécha-armure"
+    "TypeIa":"AI",
+    "TypePnj":"NPC",
+    "TypeCreature":"Creature",
+    "TypeBande":"Band",
+    "TypeVehicule":"Vehicle",
+    "TypeMechaarmure":"Mecha-armour"
   },
   "ITEM":{
-    "TypeAvantage":"Avantage",
-    "TypeInconvenient": "Inconvénient",
-    "TypeMotivationmineure": "Motivation Mineure",
-    "TypeLangue": "Langue",
+    "TypeAvantage":"Advantage",
+    "TypeInconvenient": "Disadvantage",
+    "TypeMotivationmineure": "Lesser Motivation",
+    "TypeLangue": "Language",
     "TypeContact": "Contact",
-    "TypeBlessure": "Blessure Grave",
+    "TypeBlessure": "Permanent Injury",
     "TypeTrauma": "Trauma",
-    "TypeArmure": "Méta-Armure",
+    "TypeArmure": "Meta-Armour",
     "TypeModule": "Module",
-    "TypeArme": "Arme",
-    "TypeArmurelegende":"Méta-Armure de légende",
-    "TypeCapacite":"Capacité (PNJ)",
-    "TypeCarteheroique":"Carte du destin",
-    "TypeCapaciteheroique":"Capacité héroïque",
-    "TypeEffet":"Effet d'arme personnalisé",
+    "TypeArme": "Weapon",
+    "TypeArmurelegende":"Legendary Meta-Armour",
+    "TypeCapacite":"Ability (NPC)",
+    "TypeCarteheroique":"Fate card",
+    "TypeCapaciteheroique":"Heroic ability",
+    "TypeEffet":"Custom weapon effect",
     "TypeArt":"Art",
     "TypeDistinction":"Distinction",
-    "TypeCapaciteultime":"Capacité Ultime"
+    "TypeCapaciteultime":"Ultimate Ability"
   },
   "TYPES":{
     "Actor":{
       "knight":"Knight",
-      "ia":"IA",
-      "pnj":"PNJ",
-      "creature":"Créature",
-      "bande":"Bande",
-      "vehicule":"Véhicule",
-      "mechaarmure":"Mécha-armure"
+      "ia":"AI",
+      "pnj":"NPC",
+      "creature":"Creature",
+      "bande":"Band",
+      "vehicule":"Vehicle",
+      "mechaarmure":"Mecha-armour"
     },
     "Item":{
-      "avantage":"Avantage",
-      "inconvenient": "Inconvénient",
-      "motivationMineure": "Motivation Mineure",
-      "langue": "Langue",
+      "avantage":"Advantage",
+      "inconvenient": "Disadvantage",
+      "motivationMineure": "Lesser Motivation",
+      "langue": "Language",
       "contact": "Contact",
-      "blessure": "Blessure Grave",
+      "blessure": "Permanent Injury",
       "trauma": "Trauma",
-      "armure": "Méta-Armure",
+      "armure": "Meta-Armour",
       "module": "Module",
-      "arme": "Arme",
-      "armurelegende":"Méta-Armure de légende",
-      "capacite":"Capacité (PNJ)",
-      "carteheroique":"Carte du destin",
-      "capaciteheroique":"Capacité héroïque",
-      "effet":"Effet d'arme personnalisé",
+      "arme": "Weapon",
+      "armurelegende":"Legendary Meta-Armour",
+      "capacite":"Ability (NPC)",
+      "carteheroique":"Fate card",
+      "capaciteheroique":"Heroic ability",
+      "effet":"Custom weapon effect",
       "art":"Art",
       "distinction":"Distinction",
-      "capaciteultime":"Capacité Ultime"
+      "capaciteultime":"Ultimate Ability"
     }
   },
   "KNIGHT": {
-    "Nom":"Nom",
-    "Surnom":"Surnom",
-    "Age":"Âge",
-    "Archetype":"Archétype",
-    "HautFait":"Haut-Fait",
-    "Section":"Section d'origine",
-    "Blason":"Blason",
-    "Description":"Description",
-    "DescriptionLimitee":"Description Limitée",
-    "PointsFaibles":"Points Faibles",
-    "AjouterPF":"Ajouter un point faible",
-    "Tactique":"Tactique",
+    "Nom":"Name",
+    "Surnom":"Callsign",
+    "Age":"Age",
+    "Archetype":"Archetype",
+    "HautFait":"Great Deed",
+    "Section":"Division",
+    "Blason":"Crest",
+    "Description":"Details",
+    "DescriptionLimitee":"Limited Details",
+    "PointsFaibles":"Weak point",
+    "AjouterPF":"Add a weak point",
+    "Tactique":"Tactics",
+    "Colosse":"Behemoth",
+    "Patron":"Boss",
     "VEHICULE":{
-      "Manoeuvrabilite":"Manoeuvrabilité",
-      "Vitesse":"Vitesse",
-      "Pilotage":"Pilotage",
-      "Pilote":"Pilote",
-      "PasPilote":"Aucun pilote",
-      "Passagers":"Passagers",
-      "PasPassager":"Glissez - déposez un personnage pour l'ajouter au véhicule",
-      "DeletePilote":"Supprimer le pilote",
-      "DeletePassager":"Supprimer le passager",
-      "PasserPilote":"Faire passer en pilote",
-      "PasserPassager":"Faire passer en passager",
-      "ArmeUtiliseePar":"Arme utilisée par"
+      "Manoeuvrabilite":"Handling",
+      "Vitesse":"Speed",
+      "Pilotage":"Driving",
+      "Pilote":"Pilot",
+      "PasPilote":"No Pilot",
+      "Passagers":"Crew",
+      "PasPassager":"Drag and drop a character to add it to the vehicle",
+      "DeletePilote":"Remove pilot",
+      "DeletePassager":"Remove crew",
+      "PasserPilote":"Switch to pilot",
+      "PasserPassager":"Switch to crew",
+      "ArmeUtiliseePar":"Weapon used by"
     },
     "MECHAARMURE":{
-      "Label":"Mécha-armure",
-      "Pilote":"Pilote",
-      "Caracteristiques":"Caractéristiques",
-      "PasPilote":"Glissez - déposez un personnage pour l'ajouter à la mécha-armure",
-      "Puissance":"Puissance",
-      "Senseurs":"Senseurs",
-      "Systemes":"Systèmes",
+      "Label":"Mecha-armour",
+      "Pilote":"Pilot",
+      "Caracteristiques":"Characteristics",
+      "PasPilote":"Drag and drop a character to add it to the mecha-armour",
+      "Puissance":"Power",
+      "Senseurs":"Sensors",
+      "Systemes":"Systems",
       "CONFIGURATIONS":{
         "Label":"Configuration",
         "Configurations":"Configurations",
-        "NomC1":"Nom de la configuration 1",
-        "NomC2":"Nom de la configuration 2"
+        "NomC1":"Configuration name 1",
+        "NomC2":"Configuration name 2"
       },
       "MODULES":{
         "BASE":{
-          "Label":"Modules et Armes de base"
+          "Label":"Modules and basic weapons"
         },
         "VOLMARKIV":{
-          "Label":"Vol Mark IV",
-          "Description":"L’Archangel peut voler constamment à une vitesse égale à 3 ou en vol stationnaire, sans dépenser de noyau d’énergie. Grâce à ce module, il peut monter jusqu’à 3000 mètres de hauteur. Tant qu’il utilise ce module, il reçoit un bonus de 3 à sa manœuvrabilité et peut se déplacer à portée moyenne pour une simple action de déplacement."
+          "Label":"Flight Mark IV",
+          "Description":"The Archangel can fly constantly at a speed of 3, or hover, without expending a core of energy. Thanks to this module, it can climb to heights of up to 3,000 meters. While using this module, he receives a bonus of 3 to his handling and can move at medium range for a single move action."
         },
         "SAUTMARKIV":{
-          "Label":"Saut Mark IV",
-          "Description":"Grâce à ce module, la mecha-armure peut sauter à une longueur et une hauteur égale à portée longue. Le temps de saut est égal à un tour complet. Le Nephilim peut parfaitement agir durant le saut. Lorsque la mecha-armure atterrit, elle perd automatiquement 1 point de résilience.",
-          "Atterrissage":"Atterrissage"
+          "Label":"Jump Mark IV",
+          "Description":"Thanks to this module, the mecha-armour can jump to an equal length and height at long range. Jump time is equal to a full turn. The Nephilim can act perfectly during the jump. When the mecha-armour lands, it automatically loses 1 point of resilience.",
+          "Atterrissage":"Landing"
         },
         "VAGUESOIN":{
-          "Label":"Vague de soin",
-          "Description":"L’Archangel peut déployer une vague de soin à portée longue. Chaque allié dans la vague (en dehors d’une mecha-armure ou d’un véhicule) récupère 40 PS. La vague de soin peut cibler à la place une bande alliée pour lui rendre 150 points de cohésion."
+          "Label":"Wave of care",
+          "Description":"The Archangel can deploy a long-range healing wave. Each ally in the wave (apart from a mecha-armour or vehicle) recovers 40 SP. The healing wave can instead target an allied band to restore 150 points of cohesion."
         },
         "CANONMETATRON":{
-          "Label":"Canon Métatron",
-          "Description":"Grâce à ce canon lançant une nuée de nanomachines, l’Archangel peut cibler un ennemi à portée longue. Lorsque le pilote attaque une mecha-armure avec le canon et cherche à utiliser briser la résilience, alors la perte de points de résilience de la cible est augmentée de 6.<br/><br/><b>Attention :</b> Le canon Métatron ne fonctionne que contre les mecha-armures, les véhicules, les méta-armures et les ennemis possédant une technologie de pointe."
+          "Label":"Metatron Cannon",
+          "Description":"Thanks to this cannon, which launches a cloud of nanomachines, the Archangel can target an enemy at long range. When the pilot attacks a mecha-armour with the cannon and seeks to use break resilience, then the target's loss of resilience points is increased by 6.<br/><br/><b>Please note:</b> The Metatron cannon only works against mecha-armours, vehicles, meta-armours and enemies with advanced technology."
         },
         "CANONNOE":{
-          "Label":"Canon Noé",
-          "Description":"L’Archangel peut tirer des nanoC jusqu’à portée longue sur une mecha-armure, des méta-armures ou des véhicules alliés pour leur faire recouvrer du blindage ou des PA. Jusqu’à six chevaliers ou trois véhicules alliés peuvent être ciblés. Les véhicules ou méta-armures alliés visés récupèrent automatiquement 30 PA. Une mecha-armure (et une seule) peut être ciblée. Elle récupère dans ce cas 20 points de blindage ou 1D6 points de résilience."
+          "Label":"Noah Cannon",
+          "Description":"The Archangel can fire nanoC up to long range at mecha-armour, meta-armour or allied vehicles to restore armour or AP. Up to six knight or three allied vehicles can be targeted. Targeted allied vehicles or meta-armour automatically recover 30 AP. One mecha-armour (and only one) can be targeted. In this case, it recovers 20 armour points or 1D6 resilience points."
         },
         "CANONMAGMA":{
-          "Label":"Canon Magma",
-          "Description":"Le Nephilim dispose de deux canons puissants capables de déverser du plasma en fusion sur ses ennemis. En termes de jeu, le Nephilim peut décider de tirer avec ses canons pour infliger des dégâts ou de la violence de manière normale.<br/><br/>Cependant, en utilisant une action de combat et en dépensant 3 noyaux d’énergie supplémentaires, le pilote peut décider de déverser la fureur de ses canons Magma sur une bande ennemie. S’il décide d’effectuer cette action, alors une bande ennemie d’une cohésion égale ou inférieure à 300 est simplement éliminée.<br/><br/>Puisqu’il dispose de deux canons magmas, le chevalier peut utiliser une action de combat pour chacun et donc tirer avec les deux lors de son tour.",
-          "AneantirBande":"Anéantir une bande"
+          "Label":"Magma Cannon",
+          "Description":"The Nephilim has two powerful cannons capable of pouring molten plasma onto its enemies. In game terms, the Nephilim can decide to fire its cannons to inflict damage or violence in the normal way.<br/><br/>However, by using a combat action and expending 3 extra energy cores, the pilot can decide to unleash the fury of his Magma cannons on an enemy gang. If he decides to perform this action, then an enemy band with a cohesion equal to or less than 300 is simply eliminated.<br/><br/>Since he has two magma cannons at his disposal, the knight can use one combat action for each, and therefore fire both on his turn.",
+          "AneantirBande":"Destroying a band"
         },
         "LAMESCINETIQUESGEANTES":{
-          "Label":"Lames Cinétiques Géantes",
-          "Description":"Deux lames cinétiques rétractiles de 3 mètres chacune sont dissimulées dans les avant-bras de la mecha-armure et peuvent être déployées d’un geste. Ce sont les armes principales de la Mécha-Armure. Le pilote peut utiliser chacune des lames durant son tour en dépensant deux actions.<br/><br/>Spécial – La Mécha-armure peut dépenser 1 noyau d’énergie pour obtenir l’effet pénétrant 10. Il peut aussi en dépenser 2 pour obtenir l’effet ignore CdF."
+          "Label":"Giant Kinetic Blades",
+          "Description":"Two retractable kinetic blades, each 3 meters long, are concealed in the mecha-armour's forearms and can be deployed with a single gesture. These are the mecha-armour's main weapons. The pilot can use each blade during his turn by spending two actions.<br/><br/>Special - The mecha-armour can spend 1 energy core to obtain the Penetration 10 effect, or 2 to obtain the Ignore FF effect."
         },
         "MITRAILLEUSESSURTUR":{
-          "Label":"Mitrailleuses Surtur",
-          "Description":"Ces quatre mitrailleuses sur pivot permettent de nettoyer une zone à portée moyenne et de protéger le Nephilim des bandes. Lorsque le pilote utilise ces mitrailleuses, toutes les bandes à portée moyenne sont touchées."
+          "Label":"Surtur machine guns",
+          "Description":"These four pivot-mounted machine guns can clear a medium-range area and protect the Nephilim from the bands. When the pilot uses these machine guns, all medium-range strips are hit."
         },
         "TOURELLESLASERSAUTOMATISEES":{
-          "Label":"Tourelles Lasers Automatisées",
-          "Description":"Ces deux tourelles lasers automatisées permettent de nettoyer une zone à portée courte et de protéger le Demon des bandes et des ennemis proches. Le pilote active les tourelles lasers d’une simple pensée. S’il le fait, toutes les bandes et ennemis à portée courte subissent automatiquement 6D6 points de dégâts ou 10D6 points de violence avec l’effet anti-Anathème."
+          "Label":"Automated Laser Turrets",
+          "Description":"These two automated laser turrets can clear a short-range area and protect the Demon from nearby bands and enemies. The pilot activates the laser turrets with a simple thought. If he does, all bands and enemies within short range automatically suffer 6D6 points of damage or 10D6 points of violence with the Anti-Anathema effect."
         },
         "MISSILESJERICHO":{
-          "Label":"Missiles Jericho",
-          "Description":"La configuration Anak équipe le Nephilim de quatre lanceurs de missiles Jericho. Ces derniers-nés de la technologie de la Byrd Corporation sont des missiles intelligents, lancés par lot de 10, qui éclatent à portée moyenne de leur objectif pour se diviser en centaines de projectiles autopropulsés, traquant leurs cibles sur des kilomètres.<br/><br/>Le chevalier dans la mecha-armure peut dépenser 1 noyau d’énergie pour cibler une zone extérieure à celle où il est présent.<br/><br/>Lorsque les missiles Jericho sont utilisés, ce sont tous les ennemis de cette zone, bande, hostiles, salopards, patrons et colosses qui sont touchés.",
-          "ZoneExterieure":"Zone extérieure"
+          "Label":"Jericho missiles",
+          "Description":"The Anak configuration equips the Nephilim with four Jericho missile launchers. These latest products of Byrd Corporation technology are intelligent missiles, launched in batches of 10, which explode at medium range from their target and split into hundreds of self-propelled projectiles, tracking their targets for kilometers.<br/><br/>The knight in the mecha-armour can expend 1 energy core to target an area outside the one in which he is present.<br/><br/>When Jericho missiles are used, all enemies in the area - bands, brute, badass, bosses and behemoth - are hit.",
+          "ZoneExterieure":"External zone"
         },
         "SOUFFLEDEMONIAQUE":{
-          "Label":"Souffle Démoniaque",
-          "Description":"Par la gueule du Demon, le pilote peut relâcher un puissant souffle de nanomachines destiné à briser la résilience des mecha-armures adverses.<br/><br/><b>Effet :</b> À portée contact, le Demon peut propulser un puissant souffle de nanomachines depuis sa gueule. Les systèmes de défense de la mecha-armure ou du véhicule ciblé sont alors perturbés et les plaques de blindage sont déformées sous l’effet du souffle."
+          "Label":"Demonic Breath",
+          "Description":"Through the Demon's maw, the pilot can release a powerful blast of nanomachinery designed to break the resilience of opposing mecha-armour.<br/><br/><b>Effect:</b> At contact range, the Demon can propel a powerful blast of nanomachinery from its mouth. The blast disrupts the defense systems of the targeted mecha-armour or vehicle, deforming its armour plates."
         },
         "POINGSSONIQUES":{
-          "Label":"Poings Soniques",
-          "Description":"Une paire de bras est ajoutée au torse de la mechaarmure pour lui donner un impact encore plus grand au combat. Chaque bras supplémentaire est terminé par un énorme poing sonique libérant des ondes sonores à portée contact à même de briser les murs et les véhicules les plus résistants.<br/><br/><b>Effet :</b> Avec sa mecha-armure, en dépensant les noyaux d’énergie adéquats, le pilote peut effectuer à son tour une action gratuite avec les bras additionnels pour utiliser les poings soniques (et uniquement avec eux). De plus, le chevalier peut activer de nouveau ses poings soniques grâce à une action de combat normale."
+          "Label":"Sonic Fists",
+          "Description":"A pair of arms is added to the mecha-armour's torso to give it even greater impact in combat. Each additional arm is terminated by a huge sonic fist, releasing sound waves at contact range capable of shattering even the toughest walls and vehicles.<br/><br/><b>Effect:</b> With his mecha-armour, by spending the appropriate energy cores, the pilot can in turn perform a free action with the additional arms to use the sonic fists (and only with them). In addition, the knight can re-activate his sonic fists with a normal combat action."
         },
         "CHOCSONIQUE":{
-          "Label":"Choc Sonique",
-          "Description":"En frappant sur le sol, de ses poings soniques, la mechaarmure libère une onde sonore à même de paralyser la majorité des ennemis."
+          "Label":"Sonic impact",
+          "Description":"By striking the ground with its sonic impact, the mecha-armour releases a sound wave capable of paralyzing most enemies."
         },
         "BOUCLIERAMRITA":{
-          "Label":"Boucliers Amrita",
-          "Description":"Sur les bras additionnels de la mecha-armure peuvent être déployés deux boucliers escamotables de 6 mètres de hauteur pour 3 mètres de large. Composés de plaques d’élément alpha alvéolées et pourvus de leur propre champ de force, ces deux boucliers sont quasiment indestructibles.<br/><br/><b>Effet :</b> Lorsque le Demon active les boucliers Amrita, il ne peut plus utiliser ses bras additionnels pour frapper et ne bénéficie plus de l’action de combat bonus octroyée par les poings soniques. Cependant, il reçoit un bonus de 4 à sa résilience maximale, de 4 à sa défense, de 4 à sa réaction et de 4 à son CdF.",
-          "Duree":"Jusqu’à désactivation (désactiver les boucliers Amrita ne coûte aucune action)"
+          "Label":"Amrita shields",
+          "Description":"Two retractable shields, 6 meters high and 3 meters wide, can be deployed on the additional arms of the mecha-armour. Composed of honeycombed alpha element plates and equipped with their own force field, these two shields are virtually indestructible.<br/><br/><b>Effect:</b> When the Demon activates Amrita shields, he can no longer use his additional arms to strike, and no longer benefits from the bonus combat action granted by sonic impact. However, he receives a bonus of 4 to his maximum resilience, 4 to his defense, 4 to his reaction and 4 to his FF.",
+          "Duree":"Until deactivated (deactivating Amrita shields costs no action)"
         },
         "OFFERING":{
           "Label":"Offering",
-          "Description":"S’il verrouille une mecha-armure alliée, l’Archangel peut lui donner plusieurs bonus en sacrifiant une partie de ses noyaux d’énergie. La mecha-armure ainsi augmentée peut agir plus vite ou voir ses capacités renforcées. Un Archangel ne peut pas effectuer la capacité Offering sur un autre Archangel en configuration Gabriel.<br/><br/><b>Attention :</b> Un Archangel peut utiliser plusieurs fois les effets de la capacité Offering lors d’un même tour en utilisant ses actions de combat, mais seulement pour appliquer des effets différents (et uniquement différents).<br/><br/><b>Effet :</b> En dépensant des noyaux d’énergie, l’Archangel en configuration Gabriel peut appliquer les effets suivants sur une ou deux mecha-armures alliées à portée moyenne (1 au choix par activation de la capacité). Les effets de la capacité Offering ne peuvent pas se cumuler sur une même mecha-armure.<br/><br/><b>1 noyau d’énergie :</b> Augmenter les dégâts et la violence de la mecha-armure alliée de 4D6.<br/><b>1 noyau d’énergie :</b> Augmenter de 3 points un score de caractéristique parmi manœuvrabilité, senseurs, systèmes et puissance.<br/><b>2 noyau d’énergie :</b> Octroyer une action supplé- mentaire à une mecha-armure alliée.<br/><b>2 noyau d’énergie :</b> Augmenter de 5 le CdF d’une mecha-armure alliée.<br/><b>1 à 5 noyau d’énergie :</b> Octroyer 1 à 5 noyaux d’énergie (en fonction des noyaux dépensés) à une méta-armure alliée."
+          "Description":"If he locks an allied mecha-armour, the Archangel can give it several bonuses by sacrificing part of its energy cores. The mecha-armour thus augmented can act faster or have its abilities enhanced. An Archangel cannot use the Offering ability on another Archangel in Gabriel configuration.<br/><br/><b>Warning:</b> An Archangel can use the effects of the Offering ability several times in a single turn using his combat actions, but only to apply different (and only different) effects.<br/><br/><b>Effect:</b> By expending energy cores, the Archangel in Gabriel configuration can apply the following effects to one or two allied mecha-armours at medium range (1 at choice per ability activation). The effects of the Offering ability cannot be cumulated on the same mecha-armour.<br/><br/><b>1 energy core:</b> Increase the damage and violence of the allied mecha-armour by 4D6.<br/><b>1 energy core:</b> Increase by 3 points a characteristic score from among handling, sensors, systems and power.<br/><b>2 energy core:</b> Grant an additional action to an allied mecha-armour.<br/><b>2 energy core:</b> Increase the FF of an allied mecha-armour by 5.<br/><b>1 to 5 energy cores:</b> Grant 1 to 5 energy cores (depending on cores spent) to an allied meta-armour."
         },
         "CURSE":{
           "Label":"Curse",
-          "Description":"En activant la capacité Curse, le pilote choisit de perturber une mecha-armure ou un colosse ennemi. Il va alors sacrifier son énergie pour brouiller les sens ennemis ou tout simplement rendre plus hasardeux son fonctionnement.<br/><br/><b>Attention :</b> Un Archangel peut utiliser plusieurs fois les effets de la capacité Curse lors d’un même tour en utilisant ses actions de combat, mais seulement pour appliquer des effets différents (et uniquement différents).<br/><br/><b>Effet :</b> En dépensant des noyaux d’énergie, l’Archangel en configuration Gabriel peut appliquer les effets suivants sur une ou deux mecha-armures ennemies ou un colosse à portée moyenne (1 au choix par activation de la capacité). Les effets de la capacité Curse ne peuvent pas se cumuler sur un même ennemi.<br/><br/><b>1 noyau d’énergie :</b> Diminuer les dégâts et la violence d’une mecha-armure ennemie de 4D6.<br/><b>1 noyau d’énergie :</b> Retirer 4 réussites aux tests de la cible pendant son prochain tour.<br/><b>2 noyaux d’énergie :</b> Baisser automatiquement la résilience d’une mecha-armure ennemie de 1D6 points ou de 3 points (au choix), ce malus n’a pas de limite de durée.<br/><b>3 noyaux d’énergie :</b> Annuler le CdF d’une mechaarmure ennemie pendant 1 tour.<br/><b>5 noyaux d’énergie :</b> Annuler la résilience d’une mecha-armure ennemie pendant 1 tour.<b>5 noyaux d’énergie :</b> Infliger automatiquement l’effet choc 1D3 + 1 à une mecha-armure ou un colosse ennemi.",
-          "DiminuerDegatsViolence":"Diminuer les dégâts et la violence",
-          "DiminueDegatsViolence":"Diminue les dégâts et la violence",
-          "RetirerReussite":"Retirer des réussites",
-          "RetireReussite":"Retire des réussites",
-          "BaisserResilience":"Baisser la résilience",
-          "BaisseResilience":"Baisse de la résilience",
-          "AnnulerChampDeForce":"Annuler le champ de force",
-          "AnnuleChampDeForce":"Annule le champ de force",
-          "AnnulerResilience":"Annuler la résilience",
-          "AnnuleResilience":"Annule la résilience",
-          "Choc":"Infliger Choc 1D3+1"
+          "Description":"By activating the Curse ability, the pilot chooses to disrupt an enemy mecha-armour or Behemoth. He will then sacrifice his energy to confuse the enemy's senses or simply make its operation more hazardous.<br/><br/><b>Warning:</b> An Archangel can use the effects of the Curse ability several times in a single turn using his combat actions, but only to apply different effects (and only different ones).<br/><br/><b>Effect:</b> By expending energy cores, the Archangel in Gabriel configuration can apply the following effects on one or two enemy mecha-armours or a Behemoth at medium range (choice of 1 per ability activation). The effects of the Curse ability cannot be cumulated on the same enemy.<br/><br/><b>1 energy core:</b> Reduce the damage and violence of an enemy mecha-armour by 4D6.<br/><b>1 energy core:</b> Remove 4 successes from the target's tests during its next turn.<br/><b>2 energy cores:</b> Automatically lowers the resilience of an enemy mecha-armour by 1D6 points or 3 points (your choice), this malus has no time limit.<br/><b>3 energy cores:</b> Cancel the FF of an enemy mecha-armour for 1 turn.<br/><b>5 energy cores:</b> Cancel the resilience of an enemy mecha-armour for 1 turn.<b>5 energy cores:</b> Automatically inflict the stun effect 1D3 + 1 on an enemy mecha-armour or Behemoth.",
+          "DiminuerDegatsViolence":"Reducing damage and violence",
+          "DiminueDegatsViolence":"Reduces damage and violence",
+          "RetirerReussite":"Withdrawing successes",
+          "RetireReussite":"Withdraws successes",
+          "BaisserResilience":"Reducing resilience",
+          "BaisseResilience":"Reduced resilience",
+          "AnnulerChampDeForce":"Cancel the force field",
+          "AnnuleChampDeForce":"Cancels the force field",
+          "AnnulerResilience":"Cancelling resilience",
+          "AnnuleResilience":"Cancels resilience",
+          "Choc":"Inflict Stun 1D3+1"
         },
         "PODMIRACLE":{
-          "Label":"Pod Miracle",
-          "Description":"Le pod Miracle permet à l’Archangel de planter au sol une machine, semblable à une petite tour de 6 mètres de haut surmontée d’un prisme, diffusant sur une surface égale à portée courte, une brume de nanoM et de nanoC. Les alliés à l’intérieur sont soignés et réparés pendant 2D6 tours.<br/><br/><b>Effet :</b> Tous les alliés pris dans la brume récupèrent par tour 3D6 PS et 3D6 PA. Les mecha-armures dans la zone récupèrent 1D6 points de blindage et 1 de résilience par tour. Le pod dispose de 60 points de blindage, d’une résilience de 1 et d’un CdF de 10. Il peut être pris pour cible par un ennemi qui le touche automatiquement s’il est à portée. Une fois le pod détruit, l’effet disparaît. Les effets de plusieurs pods Miracle ne peuvent pas se cumuler sur une même cible.",
-          "RecuperationPS":"Récupération de PS",
-          "RecuperationPA":"Récupération de PA",
-          "RecuperationBlindage":"Récupération de Blindage",
-          "RecuperationResilience":"Récupération de Resilience",
-          "Destruction":"Destruction du Pod"
+          "Label":"Miracle Pod",
+          "Description":"The Miracle pod enables the Archangel to plant a machine on the ground, similar to a small 6-meter-high tower topped with a prism, spreading a mist of nanoM and nanoC over an equal area at short range. Allies inside are healed and repaired for 2D6 turns.<br/><br/><b>Effect:</b> All allies caught in the mist recover 3D6 SP and 3D6 AP per turn. Mecha-armours in the area recover 1D6 points of armour and 1 of resilience per turn. The pod has 60 armour points, a resilience of 1 and a FF of 10. It can be targeted by an enemy, which automatically hits it if within range. Once the pod is destroyed, the effect disappears. The effects of several Miracle pods cannot be cumulated on the same target.",
+          "RecuperationPS":"HP recovery",
+          "RecuperationPA":"AP recovery",
+          "RecuperationBlindage":"Shield recovery",
+          "RecuperationResilience":"Resilience recovery",
+          "Destruction":"Destroy the Pod"
         },
         "PODINVULNERABILITE":{
-          "Label":"Pod Invulnérabilité",
-          "Description":"Le module d’invulnérabilité permet au Nephilim de déployer un pod au niveau du sol (et uniquement au niveau du sol) pouvant générer un dôme de force sécurisant une surface dont la taille est égale à portée courte.<br/><br/><b>Effets :</b> À l’intérieur du dôme, les alliés (de la taille d’une méta-armure Paladin au maximum) sont protégés de la grande majorité des attaques à distance. Seules les attaques des armes possédant une violence ou des dégâts supérieurs à 12D6 peuvent pénétrer le dôme. De plus, les véhicules situés à l’intérieur qui ne possèdent pas de résilience reçoivent 10 points de résilience et la règle invulnérabilité.<br/><br/>Les personnages qui veulent y entrer ou en sortir doivent manifester une force colossale (aspect Chair ou Bête de 14 ou plus ou aspect exceptionnel Chair ou Bête de 8 au plus) ou simplement être des mecha-armures. Si un personnage y entre ou en sort, le pod est détruit. Le dôme créé par le pod d’invulnérabilité peut durer jusqu’à 2D6 tours, même si la mecha-armure du pilote qui l’a lancé est détruite ou foldée. Seuls le pilote, Merlin ou Gauvain peuvent décider de l’annuler avant.<br/><br/>Les effets de plusieurs pods d’invulnérabilité ne peuvent pas se cumuler."
+          "Label":"Invulnerability Pod",
+          "Description":"The invulnerability module enables the Nephilim to deploy a pod at ground level (and only at ground level) that can generate a force dome securing an area equal in size to short range.<br/><br/><b>Effects:</b> Inside the dome, allies (up to the size of a Paladin meta-armor) are protected from the vast majority of ranged attacks. Only weapon attacks possessing violence or damage greater than 12D6 can penetrate the dome. In addition, vehicles inside the dome without resilience receive 10 points of resilience and the invulnerability rule.<br/><br/>Characters wishing to enter or exit the pod must demonstrate colossal strength (Flesh or Beast aspect of 14 or more, or exceptional Flesh or Beast aspect of 8 or less), or simply be mecha-armours. If a character enters or exits, the pod is destroyed. The dome created by the invulnerability pod can last up to 2D6 turns, even if the mecha-armour of the pilot who launched it is destroyed or folded. Only the pilot, Merlin or Gauvain can decide to cancel it first.<br/><br/>The effects of several invulnerability pods cannot be cumulated."
         },
         "DRONESEVACUATION":{
-          "Label":"Drones d'évacuation",
-          "Description":"L’Archangel peut lancer une série de drones d’évacuation, en nuée de 1 à 20 unités. Ils permettent d’évacuer des chevaliers ou des civils depuis toute une zone vers une zone en sécurité en s’accrochant à eux et en les téléportant. Les drones sont déployés depuis le dos de la mecha-armure et volent très rapidement vers leur cible.<br/><br/><b>Effet :</b> Sur toute une zone, jusqu’à 20 unités de taille humaine ou légèrement supérieure (taille de métaarmure Paladin au maximum) peuvent être téléportées vers une zone en sécurité grâce aux drones. Ceux-ci peuvent être utilisés une fois par tour seulement en dehors du tour du PJ pour prévenir par exemple la mort de civils, de chevaliers et les pertes qui en découleraient.",
-          "Portee":"Zone entière"
+          "Label":"Evacuation drones",
+          "Description":"The Archangel can launch a series of evacuation drones, in swarms of 1 to 20 units. These can be used to evacuate knights or civilians from an entire area to a safe zone by latching onto them and teleporting them away. The drones are deployed from the back of the mecha-armour and fly rapidly to their target.<br/><br/><b>Effect:</b> Over an entire area, up to 20 human-sized or slightly larger units (maximum Paladin meta-armour size) can be teleported to a safe area using drones. These can be used once per turn only outside the PJ's turn to prevent, for example, the death of civilians, knights and consequent casualties.",
+          "Portee":"Entire area"
         },
         "DRONESAIRAIN":{
-          "Label":"Drones d'airain",
-          "Description":"Le Nephilim peut lancer jusqu’à portée longue une série de six drones déployant des couverts sur une surface égale à portée courte, permettant aux chevaliers et soldats alliés de se mettre en sécurité. Six autres drones s’envolent et viennent protéger les mecha-armures alliées proches tant qu’elles restent à portée d’effet. Lorsque les drones d’airain sont déployés, chaque allié de taille normale (de la taille d’une méta-armure Paladin maximum) reçoit un bonus de 4 en réaction et de 4 en défense. De plus, les mecha-armures alliées reçoivent un bonus de 4 à leur total de résilience et voient leur résilience augmenter de 4. Les bandes alliées voient leur cohésion augmenter de 100 et leur débordement augmenter de 4.<br/><br/>Plusieurs drones d’airain ne peuvent pas être déployés sur une même zone."
+          "Label":"Drones of bronze",
+          "Description":"The Nephilim can launch up to long range a series of six drones deploying cover over an equal area at short range, allowing allied knights and soldiers to reach safety. A further six drones take to the skies to protect nearby allied mecha-armours as long as they remain within range. When the drones are deployed, each normal-sized ally (up to the size of a Paladin meta-armour) receives a bonus of 4 on reaction and 4 on defense. In addition, allied mecha-armours receive a bonus of 4 to their total resilience and see their resilience increased by 4. Allied bands see their cohesion increased by 100 and their overrun increased by 4.<br/><br/>Several drones cannot be deployed in the same area."
         },
         "MODULEEMBLEM":{
-          "Label":"Module Emblem",
-          "Description":"Le Nephilim peut enclencher le module Emblem pour inciter tous les ennemis situés à portée longue et disposant d’un score de Machine ou Masque inférieur à 14 à l’attaquer ou à lui tirer dessus. Le Nephilim devient ainsi la cible prioritaire de tous les ennemis. De plus, si une ou plusieurs bandes sont à portée moyenne du Nephilim, seul lui subit le débordement. Un seul module Emblem peut être activé sur une même zone.",
-          "Duree":"Spécial – L’effet du module Emblem dure jusqu’à ce que l’attention des ennemis soit attirée par autre chose"
+          "Label":"Emblem module",
+          "Description":"The Nephilim can activate the Emblem module, prompting all enemies within long range and with a Machine or Mask score below 14 to attack or shoot at it. The Nephilim thus becomes the priority target for all enemies. What's more, if one or more bands are within medium range of the Nephilim, only it suffers the overrun. Only one Emblem module can be activated in any one area.",
+          "Duree":"Special - The effect of the Emblem module lasts until the enemy's attention is drawn to something else."
         },
         "MODULEINFERNO":{
-          "Label":"Module Inferno",
-          "Description":"S’il est acculé par ses ennemis, le Demon peut déclencher le module Inferno pour provoquer autour de lui une explosion d’énergie rouge et brûlante à portée courte.<br/><br/><b>Effet :</b> Les ennemis de taille humaine (taille d’une méta-armure Paladin maximum) sans CdF ou bouclier pris dans l’explosion sont automatiquement annihilés. Les ennemis de taille supérieure de type hostile, bande ou salopard qui ne sont pas des mecha-armures ou des colosses subissent automatiquement 10D6 + 20 de dégâts ou de violence sans CdF. Les mecha-armures et colosses à portée courte subissent quant à eux 10D6 + 20 points de dégâts.<br/><br/>Attention : Lorsque le pilote déclenche le module Inferno, son CdF se désactive durant 1D3 tours.",
-          "Cdf":"Désactivation du Champ De Force"
+          "Label":"Inferno module",
+          "Description":"If cornered by his enemies, the Demon can trigger the Inferno module to cause a short-range explosion of red-hot energy around him.<br/><br/><b>Effect:</b> Enemies of human size (maximum Paladin meta-armour size) without FF or shielding caught in the explosion are automatically annihilated. Larger brute, band or badass enemies who are not mecha-armours or Behemoths automatically suffer 10D6 + 20 damage or violence without FF. Short-range mecha-armours and Behemoths take 10D6 + 20 damage.<br/><br/>Warning: When the pilot triggers the Inferno module, his FF is deactivated for 1D3 turns.",
+          "Cdf":"Force Field Deactivation"
         },
         "MODULEWRAITH":{
-          "Label":"Module Wraith",
-          "Description":"Le module Wraith permet au pilote de rendre sa mecha-armure quasi invisible et de disparaître sur les systèmes sensoriels des mecha-armures et équipements adverses en phasant. Le Demon peut ainsi s’approcher suffisamment de ses ennemis pour leur infliger une puissante attaque. Juste après cette attaque, l’invisibilité de la mecha-armure s’arrête.<br/><br/><b>Effet :</b> Le module Wraith fonctionne exactement comme le mode Ghost de la méta-armure Rogue, à ceci près que les armes utilisées par le Demon n’ont pas besoin de l’effet silencieux pour que les bonus octroyés aux tests et aux dégâts soient appliqués. De plus, si le Demon réussit à surprendre une mecha-armure ou un colosse ennemi, il inflige son maximum de dégâts. Un test base Discrétion (auquel s’ajoute la manœuvrabilité) peut être demandé. Pour activer le module, il faut être hors de vue des ennemis ou à portée moyenne au moins.",
-          "Duree":"Jusqu'au début du prochain tour du chevalier",
-          "PasMax":"N'inflige pas le maximum de dégâts",
-          "Max":"Inflige le maximum de dégâts",
-          "CliquerMax":"Cliquer pour infliger le maximum de dégâts",
-          "CliquerPasMax":"Cliquer pour ne pas infliger le maximum de dégâts"
+          "Label":"Wraith module",
+          "Description":"The Wraith module enables the pilot to render his mecha-armour virtually invisible, disappearing on the sensory systems of opposing mecha-armours and equipment by phasing. This enables the Demon to get close enough to enemies to inflict a powerful attack. Immediately after this attack, the mecha-armour's invisibility stops.<br/><br/><b>Effect:</b> The Wraith module works exactly like the Ghost mode of the Rogue meta-armor, except that the weapons used by the Demon don't need the silent effect for the bonuses granted to tests and damage to be applied. What's more, if the Demon manages to surprise an enemy mecha-armour or Behemoth, it inflicts its maximum damage. A basic Discretion test (to which handling is added) may be required. To activate the module, you need to be out of sight of enemies, or at least at medium range.",
+          "Duree":"Until the start of the knight's next turn",
+          "PasMax":"Does not inflict maximum damage",
+          "Max":"Inflicts maximum damage",
+          "CliquerMax":"Click to inflict maximum damage",
+          "CliquerPasMax":"Click to avoid maximum damage"
         },
         "STATIONDEFENSEAUTOMATISE":{
-          "Label":"Station de Défense Automatisée",
-          "Description":"La configuration Og met aussi à disposition du pilote plusieurs grands drones de déploiement de station de défense automatisée destinée à renforcer la puissance de feu des alliés lors d’une bataille.<br/><br/><b>Effets :</b> Ces stations peuvent être déployées à portée moyenne ou inférieure et s’ouvrent comme des fleurs hexagonales de 30 mètres de diamètre pourvues de six bunkers blindés ultra-résistants, de dix shotguns automatiques lourds montés en tourelle intelligente, de dix railguns sur pivot, d’un énorme stock de munitions, de nods et de grenades, d’une tour de communication, d’un champ de force Shrine, d’une station médicale et d’une station de réparation.<br/><br/>Grâce à cet équipement, la station est considérée comme possédant et infligeant un débordement de 10 aux ennemis à portée moyenne. De plus, chaque mechaarmure et véhicule ennemi possédant de la résilience et situé à portée moyenne de la station perd 1 point de résilience par tour.<br/><br/>De plus, la station dispose de plus d’une tour d’artillerie pouvant être contrôlée par le pilote. Elle est équipée d’un pod missile et d’un pod roquette pouvant tirer jusqu’à portée longue depuis la station et avec des munitions illimitées. Une fois par tour en phase de conflit, le pilote de la mecha-armure peut décider de tirer sans dépenser d’action avec un des deux pods de la station. Le tir touche automatiquement. On considère qu’il commande à la station de tirer. Il n’a pas besoin d’être dans la même zone pour utiliser cette capacité.<br/><br/>La station dispose de 80 points de blindage, d’une résilience de 1 et d’un CdF de 10. Elle peut être prise pour cible par un ennemi qui la touche automatiquement s’il est à portée. Une fois la station détruite, l’effet disparaît. Une seule station peut être déployée en même temps. Pour en déployer une nouvelle, il faut que l’ancienne station de défense soit détruite.",
-          "Destruction":"Destruction de la station"
+          "Label":"Automated Defense Station",
+          "Description":"The Og configuration also provides the pilot with several large drones for deployment of automated defense stations designed to boost allied firepower in battle.<br/><br/><b>Effects:</b> These stations can be deployed at medium or lower ranges and open up like 30-meter-diameter hexagonal flowers equipped with six heavy-duty armored bunkers, ten heavy automatic shotguns mounted in smart turrets, ten pivot-mounted railguns, a huge stockpile of ammunition, nodes and grenades, a communications tower, a Shrine force field, a medical station and a repair station.<br/><br/>Thanks to this equipment, the station is considered to possess and inflict an overrun of 10 on enemies at medium range. In addition, every enemy mecha-armour and vehicle with resilience within medium range of the station loses 1 point of resilience per turn.<br/><br/>The station also features a pilot-controlled artillery tower. It's equipped with a pod missile and a pod rocket that can fire up to long range from the station, with unlimited ammunition. Once per turn in the conflict phase, the mecha-armour pilot can decide to fire one of the station's two pods without spending an action. The shot hits automatically. He is considered to be commanding the station to fire. He does not need to be in the same zone to use this ability.<br/><br/>The station has 80 armor points, a resilience of 1 and a FF of 10, and can be targeted by an enemy who automatically hits it if within range. Once the station is destroyed, the effect disappears. Only one station can be deployed at a time. To deploy a new one, the old defense station must be destroyed.",
+          "Destruction":"Destruction of the station"
         },
         "MODESIEGETOWER":{
-          "Label":"Mode Siege Tower",
-          "Description":"La configuration Anak permet au Nephilim de s’ancrer dans le sol, à l’instar de la méta-armure Paladin, pour tirer plus efficacement parti des puissants canons qui le hérissent. Lorsque le mode Siege Tower est enclenché, la mecha-armure ne peut plus effectuer d’action de déplacement comme marcher ou sauter, cependant elle peut tirer plus souvent grâce à la mise en route de systèmes de refroidissement dernière génération. Aussi, le Nephilim devient presque indélogeable car, sur sa structure, apparaissent d’énormes plaques de blindage en élément alpha, presque impossibles à détruire.<br/><br/><b>Effets :</b> Lorsque le mode Siege Tower est enclenché, la mecha-armure ne peut plus se déplacer, de n’importe quelle manière. En contrepartie, elle reçoit une action de combat supplémentaire, à dépenser pour utiliser les missiles Jericho ou les canons Magma, qui ne rentre pas dans la limite d’utilisation des armes lors d’un même tour de conflit. De plus, tant qu’il est en mode Siege Tower, la mécha-armure gagne 10 points de résilience à ajouter à son maximum. Tant qu’elle est dans ce mode, la mecha-armure ne peut pas regagner de point de résilience.",
-          "Duree":"Sans limite, mais désactiver le mode Siege Tower s’effectue à la fin d’un tour et doit être clairement annoncé. Le chevalier ne peut pas réactiver le mode Siege Tower durant le tour qui suit sa désactivation. Il doit attendre au moins un tour complet."
+          "Label":"Siege Tower mode",
+          "Description":"The Anak configuration allows the Nephilim to anchor itself in the ground, like the Paladin meta-armour, to take more effective advantage of the powerful guns that bristle around it. When Siege Tower mode is engaged, the mecha-armour can no longer perform movement actions such as walking or jumping, but it can fire more often thanks to the latest-generation cooling systems. The Nephilim also becomes almost impossible to dislodge, as huge alpha-element armor plates appear on its structure, making it almost impossible to destroy.<br/><br/><b>Effects:</b> When Siege Tower mode is engaged, the mecha-armour can no longer move in any way. In return, it receives an additional combat action, to be spent on using Jericho missiles or Magma cannons, which do not fit into the limit on weapon use during a single round of conflict. In addition, while in Siege Tower mode, the mecha-armour gains 10 points of resilience to add to its maximum. While in Siege Tower mode, mecha-armour cannot regain resilience points.",
+          "Duree":"No limit, but deactivating Siege Tower mode is done at the end of a turn and must be clearly announced. The knight cannot reactivate Siege Tower mode during the turn following its deactivation. He must wait at least one full turn."
         },
         "NANOBRUME":{
-          "Label":"Nanobrume",
-          "Description":"La configuration Djinn permet aussi de déployer à portée courte des nanomachines se dispersant en une brume brouillant la vue et les systèmes ennemis : un outil idéal pour se désengager d’un combat et redevenir invisible.<br/><br/><b>Effet :</b> La nanobrume permet au Demon de recevoir un bonus temporaire de 3 en défense et en réaction tant qu’il est à l’intérieur. De plus, tant qu’il est dans la nanobrume, le Demon peut utiliser son module Wraith comme s’il était hors de vue des ennemis."
+          "Label":"Nanomist",
+          "Description":"The Djinn configuration can also be used to deploy nanomachines at short range, dispersing them in a haze that blurs enemy vision and systems: an ideal tool for disengaging from combat and becoming invisible once more.<br/><br/><b>Effect:</b> The nanomist allows the Demon to receive a temporary bonus of 3 to defense and reaction while inside it. What's more, as long as he's inside the nanomist, the Demon can use his Wraith module as if he were out of sight of enemies."
         }
       }
     },
     "IA":{
-      "Label":"IA",
-      "Caractere":"Caractère",
+      "Label":"AI",
+      "Caractere":"Personality",
       "IDENTITE":{
-        "Label":"Identité",
-        "Code":"Code de fabrication"
+        "Label":"Identity",
+        "Code":"Manufacturing code"
       },
-      "MonstrerAvantage":"Montrer cet avantage lors des jets de combat",
-      "MonstrerDesavantage":"Montrer cet avantage lors des jets de combat",
-      "MasqueAvantage":"Masquer cet désavantage lors des jets de combat",
-      "MasqueDesavantage":"Masque ce désavantage lors des jets de combat"
+      "MonstrerAvantage":"Show this advantage on combat rolls",
+      "MonstrerDesavantage":"Show this disadvantage when making combat rolls",
+      "MasqueAvantage":"Hide this advantage when making combat rolls",
+      "MasqueDesavantage":"Masks this disadvantage when making combat rolls"
     },
     "ARMURE":{
-      "Label":"Méta-Armure",
-      "CreerArmure": "Créer l'armure",
+      "Label":"Meta-Armour",
+      "CreerArmure": "Creating armor",
       "Guardian":"Guardian",
-      "TenueCivile": "Tenue Civile"
+      "TenueCivile": "Civilian clothing"
     },
     "LATERAL":{
-      "Sante":"Santé",
-      "Armure":"Armure",
-      "Cohesion":"Cohésion",
-      "Energie":"Energie",
+      "Sante":"Health",
+      "Armure":"Armour",
+      "Cohesion":"Cohesion",
+      "Energie":"Energy",
       "Egide":"Egide",
       "Flux":"Flux",
-      "ChampDeForce":"Champ de force",
-      "ChampDeForce-short":"CDF",
-      "Espoir":"Espoir",
-      "Heroisme":"Héroïsme",
-      "Reaction":"Réaction",
-      "Defense":"Défense",
+      "ChampDeForce":"Force fields",
+      "ChampDeForce-short":"FF",
+      "Espoir":"Hope",
+      "Heroisme":"Heroism",
+      "Reaction":"Reaction",
+      "Defense":"Defense",
       "Initiative": "Initiative",
-      "Blindage":"Blindage",
+      "Blindage":"Shield",
       "Resilience":"Résilience",
-      "Bouclier":"Bouclier",
-      "Noyaux":"Noyaux d'énergie",
-      "Noyau":"Noyau d'énergie"
+      "Bouclier":"Shielding",
+      "Noyaux":"Energy cores",
+      "Noyau":"Energy core"
     },
     "PERSONNAGE":{
-      "Label":"Personnage",
-      "MotivationMajeure":"Motivation majeure",
-      "MotivationMineures":"Motivations mineures",
-      "MotivationAccomplie":"Motivation accomplie",
-      "Avantages": "Avantages",
-      "Inconvenient": "Inconvénient",
-      "Distinctions":"Distinctions"
+      "Label":"Character",
+      "MotivationMajeure":"Main motivation",
+      "MotivationMineures":"Lesser motivations",
+      "MotivationAccomplie":"Motivation achieved",
+      "Avantages": "Advantages",
+      "Inconvenient": "Disadvantage",
+      "Distinctions":"Awards"
     },
     "ASPECTS": {
-      "Label":"Aspects et caractéristiques",
+      "Label":"Aspects and characteristics",
       "Aspect":"Aspect",
       "Aspects":"Aspects",
-      "Exceptionnels":"Aspects exceptionnels",
-      "Exceptionnel-short":"AE",
+      "Exceptionnels":"Exceptional aspects",
+      "Exceptionnel-short":"EA",
       "OD": "OD",
       "CHAIR":{
-        "Label": "Chair",
+        "Label": "Flesh",
         "CARACTERISTIQUES":{
           "DEPLACEMENT": {
-            "Label":"Déplacement",
-            "OD":"Calculateur de trajectoire et servomoteurs améliorés",
-            "OD1":"Le héros peut parcourir en une action de déplacement une distance égale ou inférieure à portée courte. En cas d’utilisation du module de course avec cet overdrive, l’action de déplacement citée plus haut est gratuite et ne compte pas comme une action de déplacement. Une seule peut être effectuée par tour.",
-            "OD2":"Le personnage devient extrêmement agile, même si son armure semble ne pas pouvoir le permettre. Lorsqu’il effectue une action de déplacement, les obstacles de sa taille ne le gênent pas (muret, couvert, camionnette, portail, etc.). Il peut les passer sans effectuer de test. Attention, cela ne veut pas dire qu’il est silencieux.",
-            "OD3":"Le héros peut parcourir en une action de déplacement une distance égale ou inférieure à portée moyenne. En cas d’utilisation du module de course avec cet overdrive, cette action est gratuite et ne compte pas comme une action de déplacement. Une seule peut être effectuée par tour.",
-            "OD4":"Le personnage devient aussi agile qu’un félin, même si son armure semble ne pas pouvoir le permettre. Lorsqu’il effectue une action de déplacement, les obstacles dont la taille est égale ou inférieure à 5 mètres ne le gênent pas (mur, fenêtre du premier étage, remorque de camion, etc.). Il peut les passer sans effectuer de test.",
-            "OD5":"En méta-armure, le personnage est si agile qu’il ne subit les dégâts et malus de chute que depuis des hauteurs égales à 50 mètres et plus. En dessous, il sait se réceptionner sans dégâts."
+            "Label":"Movement",
+            "OD":"Trajectory optimisation planner and improved servomotors",
+            "OD1":"The Knight’s move action allows them to cover a distance of up to short range. If a sprint module is used at the same time as this overdrive, the above move action is free and does not count as a move action. Only one free move action can be obtained via overdrive per turn.",
+            "OD2":"The character becomes extremely agile, even with an armour that seems incapable of moving nimbly. During their move action, obstacles of the same height as the Knight (such as low walls, covers, cars, and fencing) do not slow them down at all. They can vault over them without having to perform a skill check. This does not mean they are quiet about it, however.",
+            "OD3":"The Knight’s move action allows them to cover a distance of up to medium range. If a sprint module is used at the same time as this overdrive, the above move action is free and does not count as a move action. Only one free move action can be obtained via overdrive per turn.",
+            "OD4":"The character becomes graceful as a cat, even with an armour that seems incapable of moving nimbly. During move actions, obstacles up to 15 feet in height (walls, second-floor windows, trucks, and the like) do not slow them down at all. They can vault over them without having to perform a skill check.",
+            "OD5":"While wearing their meta-armour, the character only takes fall damage from heights of 150 feet or higher. Their preternatural agility allows them to land without hurting themselves or their armour."
           },
           "FORCE": {
-            "Label":"Force",
-            "OD":"Fibres musculaires et endosquelette augmenté",
-            "OD1":"Le personnage peut soulever 500 kg, il ajoute 3 points à ses dégâts au contact.",
-            "OD2":"Le personnage peut soulever 2 tonnes, il ajoute désormais 6 points à ses dégâts au contact.",
-            "OD3":"Le personnage peut soulever 10 tonnes, il ajoute désormais 9 points à ses dégâts au contact.",
-            "OD4":"Le personnage peut soulever 30 tonnes, il ajoute désormais 12 points à ses dégâts au contact.",
-            "OD5":"Le personnage peut soulever 80 tonnes, il ajoute désormais 15 points à ses dégâts au contact."
+            "Label":"Strength",
+            "OD":"Reinforced endoskeleton and muscle fibres",
+            "OD1":"The character can lift 1,000 lb and adds 3 points to their melee damage.",
+            "OD2":"The character can lift 2 tons and adds 6 points to their melee damage.",
+            "OD3":"The character can lift 10 tons and adds 9 points to their melee damage.",
+            "OD4":"The character can lift 30 tons and adds 12 points to their melee damage.",
+            "OD5":"The character can lift 90 tons and adds 15 points to their melee damage."
           },
           "ENDURANCE": {
             "Label": "Endurance",
-            "OD":"Compensateur de dégâts",
-            "OD2":"Le personnage ne subit plus l’effet choc 1 .",
-            "OD3":"Tant qu’il porte sa méta-armure, le personnage gagne 6 points de santé.",
-            "OD4":"Le personnage ne subit plus les effets choc 2 et inférieurs.",
-            "OD5":"Le personnage soustrait toujours son score d’Endurance (sans les overdrives) au score de débordement des bandes. Ainsi, si une bande provoque un malus de débordement de 8 et que le héros a un score d’Endurance de 4, il ne se voit infliger que 4 points de dégâts (8 – 4 = 4). Lorsque le malus s’accumule, le personnage soustrait son Endurance à chaque addition du malus. Ainsi, si la bande doit infliger 16 points de dégâts après 2 tours de phase de conflit (8 au premier tour plus 8 au second), le héros soustrait son Endurance à chaque fois, c’est-à-dire 4 dans l’exemple, et ne se voit infliger ainsi que 8 points de dégâts."
+            "OD":"Damage compensator",
+            "OD2":"The character is no longer affected by stun 1 effects.",
+            "OD3":"While in meta-armour, the character’s health is increased by 6 points.",
+            "OD4":"The character is no longer affected by stun 2 effects or lower.",
+            "OD5":"The character always subtracts their Endurance score (without adding their overdrives) from a band’s overrun value each turn. If a band deals 8 overrun damage, for instance, and the character has an Endurance score of 4, they only suffer 4 points of damage (8 - 4 = 4). Each time the band’s overrun value increases, the character’s Endurance score is subtracted again. In the previous example, the band’s overrun value of 8 would deal 16 damage on the second round. Since the character subtracts their Endurance score of 4 each time, they would only take 8 damage on the second turn, 12 on the third, and so on."
           }
         },
         "AE":{
-          "Mineur":"Le PNJ soustrait toujours son score de l’aspect exceptionnel Chair aux dégâts qu’il reçoit.",
-          "Majeur":"Le PNJ ignore purement les effets barrage X, choc X et meurtrier des armes."
+          "Mineur":"Subtract aspect score from damage taken.",
+          "Majeur":"Ignore all barrage X, stun X, and wounding weapon effects."
         }
       },
       "BETE":{
-        "Label": "Bête",
+        "Label": "Beast",
         "CARACTERISTIQUES":{
           "HARGNE": {
-            "Label":"Hargne",
-            "OD":"Booster d'adrénaline",
-            "OD3":"Le personnage ne meurt pas lorsqu’il tombe à 0 point de santé. En lieu et place, il combat la mort et reste debout, vivant, capable d’agir mais subit tout de même une blessure grave. Si un ennemi réussit de nouveau une attaque sur le personnage ou si le personnage subit de nouveau des dégâts sur sa santé (peu importe les dégâts subis), il tombe à l’agonie et subit les effets habituels.",
-            "OD4":"Le personnage est un roc. Lorsqu’il tombe à 0 point de santé, il peut agir normalement. Il ne subit pas de blessure grave. À chaque nouveau dégât sur sa santé, au début de son tour de jeu, le héros doit réussir un test base Hargne dont la difficulté est la somme des dégâts qu’il a subis sur sa santé lors du dernier tour multipliée par deux. S’il rate, il tombe à l’agonie et subit les effets habituels. S’il réussit, il continue à combattre malgré les blessures. Quoi qu’il arrive, pour chaque tranche de 5 points de santé perdus après avoir atteint 0 point de santé, le personnage subit une blessure grave.",
-            "OD5":"Le personnage ignore purement et simplement la capacité Anathème."
+            "Label":"Aggression",
+            "OD":"Adrenaline boosters",
+            "OD3":"When a PC reaches 0 health points, they do not suffer the full death’s door effect. Instead, they fight death and stay standing. They still suffer a grievous wound, but they can still take actions as if they were above 0 HP. If another enemy manages to hit them, or if they suffer any amount of damage to their health points, they immediately suffer the usual death’s door effects.",
+            "OD4":"The character is as solid as a rock. When they reach 0 health points, they can act normally. They do not suffer a grievous wound (yet). At the beginning of each of their turns, if they took health damage on their previous turn, they must make an Aggression based skill check. This check’s difficulty is the amount of damage they suffered last turn times two. If they fail the check, they fall to death’s door and suffer all the usual consequences. If they succeed, they may keep on fighting. The character suffers one grievous wound every 5 points of health damage they take after reaching 0 HP.",
+            "OD5":"The character is no longer affected by the Anathema effect."
           },
           "COMBAT": {
             "Label":"Combat",
-            "OD":"IA de close combat",
-            "OD2":"Lorsqu’il entre dans une phase de conflit dans laquelle il combat et tant qu’il se bat au corps à corps, le personnage gagne un bonus de 2 en réaction. Cela représente le fait qu’il se sert de son ou ses ennemis pour se protéger des tirs.",
-            "OD3":"Le personnage peut utiliser le style akimbo avec les armes de contact, en ayant seulement un malus de 1 dé à ses jets d’attaque.",
-            "OD4":"Le personnage peut utiliser le style ambidextre avec les armes de contact, en ayant seulement un malus de 1 dé à ses jets d’attaque.",
-            "OD5":"Lorsqu’une bande est présente dans un combat contre un hostile, un salopard, un patron ou un colosse, le personnage peut décider, avec une seule et même attaque de combat par tour, d’infliger la violence de ses armes à la bande et les dégâts de son attaque à l’ennemi visé. L’attaque doit toucher l’ennemi ciblé, la violence sur la bande n’étant qu’un effet bonus."
+            "OD":"Close combat AI",
+            "OD2":"During a conflict phase in which the character fights in contact range with an enemy, the PC gains a +2 bonus to their reaction. This bonus represents the character using their enemy or enemies as makeshift cover to block lines of sight from attacks.",
+            "OD3":"The character only suffers a 1 D penalty to their attacks when using akimbo style with melee weapons.",
+            "OD4":"The character only suffers a 1 D penalty to their attacks when using ambidextrous style with melee weapons.",
+            "OD5":"When a band is present during a conflict phase involving a brute, badass, boss, or behemoth, the character may choose to inflict their weapon or weapons’ damage to an enemy and their violence on the band. This can only be done with one of the character’s melee attacks per turn. The attack must hit its target–the violence dealt to the band’s cohesion acts as a bonus side effect of the successful blow."
           },
           "INSTINCT": {
             "Label": "Instinct",
-            "OD":"Activateur cérébral",
-            "OD2":"Au début d’une phase de conflit, le personnage teste toujours deux fois son initiative et choisit le meilleur score.",
-            "OD3":"Pour chaque overdrive d’Instinct, le personnage ajoute désormais 3 points à son score d’initiative.",
-            "OD4":"Lorsqu’il est attaqué par surprise, le personnage conserve toujours ses scores de défense et de réaction normaux ainsi que son CdF.",
-            "OD5":"Le personnage ressent lorsque des ennemis invisibles sont présents dans le lieu où il se trouve. Il ne peut jamais être pris en embuscade. Ses alliés profitent de cette capacité."
+            "OD":"Cerebral activator",
+            "OD2":"At the start of a conflict phase, the character tests their initiative twice and keeps the better score.",
+            "OD3":"Each Instinct overdrive the character has now gives them + 3 bonus points to their initiative.",
+            "OD4":"The character always keeps their full defence, reaction, and FF values, even when attacked by surprise.",
+            "OD5":"The character senses the presence of invisible enemies nearby. They cannot be ambushed. This special ability applies to their allies as well."
           }
         },
         "AE":{
-          "Mineur":"Le PNJ ajoute à ses dégâts au contact son score de l’aspect exceptionnel Bête.",
-          "Majeur":"Le PNJ ajoute à ses dégâts au contact son score de l’aspect Bête (en plus du score de l’aspect exceptionnel)."
+          "Mineur":"Add exceptional aspect score to melee damage dealt.",
+          "Majeur":"Add exceptional aspect score and Beast score to melee damage dealt."
         }
       },
       "MACHINE":{
         "Label": "Machine",
         "CARACTERISTIQUES":{
           "TIR": {
-            "Label":"Tir",
-            "OD":"Assistance au tir",
-            "OD2":"Le personnage ignore le premier malus de portée. S’il veut tirer à portée moyenne avec une arme à portée courte, il ne reçoit pas de malus. Cependant, s’il veut tirer à portée longue avec une arme à portée courte, il reçoit le malus précisé par les règles, et ainsi de suite. Seul le premier malus est annulé.",
-            "OD3":"Le personnage peut utiliser le style akimbo avec les armes à distance en ayant seulement un malus de 1 dé à ses jets d’attaque.",
-            "OD4":"Le personnage peut utiliser le style ambidextre avec les armes à distance en ayant seulement un malus de 1 dé à ses jets d’attaque. Ce bonus ne fonctionne pas avec le mode Watchtower de la méta-armure Paladin.",
-            "OD5":"Lorsqu’une bande est présente dans une phase de conflit contre un hostile, un salopard, un patron ou un colosse, le personnage peut décider, avec une seule et même attaque de tir par tour, d’infliger la violence de ses armes à la bande et les dégâts de son attaque à l’ennemi visé. L’attaque doit toucher l’ennemi ciblé, la violence sur la bande n’étant qu’un effet bonus."
+            "Label":"Ranged",
+            "OD":"Targeting systems",
+            "OD2":"The character ignores the first range penalty that should apply to them. They suffer no penalty for firing at medium range with a short-range weapon. If they wish to fire at long range with a short-range weapon, however, they receive the full penalty, as they only ignore the first one.",
+            "OD3":"The character only suffers a 1D penalty to their attacks when using akimbo style with ranged weapons.",
+            "OD4":"The character only suffers a 1D penalty to their attacks when using ambidextrous style with ranged weapons. This bonus does not work with the Paladin’s Watchtower mode.",
+            "OD5":"When a band is present during a conflict phase involving a brute, badass, boss, or behemoth, the character may choose to inflict their weapon or weapons’ damage to an enemy and their violence on the band. This can only be done with one of the character’s ranged attacks per turn. The attack must hit its target–the violence dealt to the band’s cohesion acts as a bonus side effect of the successful shot."
           },
           "SAVOIR": {
-            "Label":"Savoir",
-            "OD":"IA évoluée",
-            "OD1":"Le personnage a instantanément accès aux banques d’information standard et aux encyclopédies sur la RA.",
-            "OD2":"Grâce à l’IA, le personnage peut obtenir des informations en temps réel sur une situation proche (à moins de 2 kilomètres). L’IA se connecte aux flux d’informations, aux caméras locales, aux satellites, etc. Pour que ce bonus fonctionne, il faut que le personnage interroge l’IA. Le MJ doit répondre aux questions de manière honnête, mais ne doit pas tout révéler.",
-            "OD3":"Désormais, lorsque le personnage soigne un être vivant, il lui rend 1D6 points de santé supplémentaire (maximum une fois par scène). L’IA l’assiste et le guide lors des soins qu’il procure, même lors des opérations de chirurgie.",
-            "OD4":"Le personnage a maintenant accès à toutes les bases de données du Knight et des immortels grâce à son IA. Il connaît la fiche d’identité et l’histoire de chaque personne répertoriée en quelques secondes seulement. Pour que ce bonus fonctionne, il faut que le personnage interroge l’IA. Au MJ d’improviser et de donner ces informations de manière honnête.",
-            "OD5":"L’IA, très évoluée, empêche le personnage de s’enfoncer dans des situations dangereuses ou grotesques. Par des conseils ou un léger pilotage automatique de quelques millièmes de seconde, elle permet au héros d’éviter les catastrophes. Dès à présent, le personnage ignore purement et simplement les échecs critiques sur n’importe quel test."
+            "Label":"Knowledge",
+            "OD":"Improved AI",
+            "OD1":"The character gets immediate access to standard AR information databases and encyclopedias.",
+            "OD2":"By consulting their AI, the character may get updates on nearby situations (up to a mile away). The AI connects to and sifts through data streams, surveillance cameras, satellites, etc. To get any information, the PC has to actively ask their AI for it. The GM must answer truthfully, but does not need to reveal everything.",
+            "OD3":"When the PC heals a living being, they restore an additional 1D6 health points (once per scene at the most). Their AI assists them, guiding their hand even during delicate operations..",
+            "OD4":"The character now has access to all of the Immortals’ and Avalon’s databases thanks to their AI. They can access the identity sheets and personal information of anyone they have on file in a matter of seconds. To obtain any information, the PC has to actively ask their AI for it. It is up to the GM to improvise and provide information as truthfully as possible.",
+            "OD5":"The AI is now advanced enough to prevent its user from making grotesque mistakes and blunders. A few words of advice or subtly modifying the armour’s movements by a fraction of an inch now and then allows the AI to keep its user a little safer. The character can no longer critically fail a skill check."
           },
           "TECHNIQUE": {
-            "Label":"Technique",
-            "OD":"Système d'ingénierie intégré (gant outil, bras articulé, etc.)",
-            "OD1":"Le personnage peut se connecter, s’il est à portée de contact, à n’importe quel appareil technologique, n’importe quelle machine, etc., pour peu qu’il n’y ait pas de pare-feu. En se connectant, le personnage peut récupérer des données, mais aussi voir l’état de la machine, etc.",
-            "OD2":"Le héros peut effectuer un test base Technique pour connaître le fonctionnement, réparer, hacker, modifier, bricoler ou démonter n’importe quel objet technologique ou machine, même ceux qu’il ne connaît pas et dont il n’a jamais entendu parler. La difficulté du test dépend de la complexité de l’objet, elle est donc à la discrétion du MJ.",
-            "OD3":"Le personnage peut se connecter à n’importe quel objet technologique ou machine à portée lointaine grâce au wifi. Il peut en outre passer directement les pare-feu les plus simples, sans effectuer de test, toujours à la discrétion du MJ.",
-            "OD4":"Comme action de déplacement, le personnage peut décider d’effectuer une réparation d’urgence d’une méta-armure, d’une arme cassée ou d’un véhicule. En réussissant un test base Technique difficulté très difficile (9), le personnage peut rendre 6 PA à une méta-armure ou à un véhicule. Dans le cas d’une arme cassée, le personnage réussit à la réparer lorsqu’il réussit le test. Rater la réparation d’une arme cassée empêche quiconque de la réparer et il faudra la faire remplacer à Camelot.",
-            "OD5":"Le personnage peut bidouiller instinctivement des virus, des programmes de contrôle ou encore des routines qu’il peut inclure à distance dans une machine ou un objet technologique. La puissance du programme est égale à un test base Technique lors de sa création. Cette puissance doit être opposée à une difficulté pouvant représenter un pare-feu ou encore la distance entre le héros et la machine. Le personnage peut faire fonctionner en simultanée un nombre de programmes égal à son score de Technique sans les overdrives. Il ne peut lancer qu’un programme par tour de jeu et, en phase de conflit, cela lui coûte son action de déplacement. Enfin, lors de la création d’un programme, le héros doit discuter de ses effets avec le MJ. Les effets doivent rester simples (activer et commander un véhicule à distance, récupérer des données après un compte à rebours, détruire des données via un virus, etc.)."
+            "Label":"Tech",
+            "OD":"Integrated engineering systems (omnitool gauntlet, mechanical arm, etc.)",
+            "OD1":"The character can connect by simple physical contact to any technological device, any machine, etc., so long as they are not protected by a firewall. By connecting in this manner they may obtain information from the machine, see what state it is in, etc.",
+            "OD2":"The character may make a Tech based skill check to understand how any technological device or machine works, how to work it, hack it, modify it, dismantle it, etc. They can do this even with devices they have never seen or heard of before. The test’s difficulty depends on how advanced and complex the device is, to be determined by the GM.",
+            "OD3":"The character can connect wirelessly to any technological device or machine up to long range. They can bypass simple firewalls without skill check (whether a machine’s protections are simple enough to bypass automatically or not is up to the GM).",
+            "OD4":"As a move action, the character may attempt to make emergency repairs on a meta-armour, a broken weapon, or a vehicle. A successful Tech based skill check against a very arduous difficulty (9) allows the PC to restore 6 AP to a damaged meta-armour or vehicle. A broken weapon is repaired on a successful skill check. If they fail the check when attempting to repair a weapon, it is out of commission and needs to be replaced in Camelot.",
+            "OD5":"The character can program viruses, control programs, and backdoor subroutines on the fly. These programs can be remotely installed in machines and technological devices. How powerful their programs are when they are made depends on a Tech based skill check. The check’s result can be used to determine whether the character overcomes a machine’s firewall, the difficulty of remotely accessing the machine, etc. The character can use a number of programs equal to their Tech score (without overdrives) simultaneously. They can only start up one program per turn. During a conflict phase this requires a move action. Programs they create, as well as their intended effects, must be approved by the GM. Their effects must remain simple (remotely start and control a vehicle, download data after a set amount of time has passed, destroy data with a virus, etc.)"
           }
         },
         "AE":{
-          "Mineur":"Le PNJ ajoute son score de Machine exceptionnelle à son score de réaction.",
-          "Majeur":"Le PNJ est insensible aux capacités d’armure qui jouent sur les sens telles que le mode Ghost ou le mode Changeling. L’invisibilité comme les illusions ou les leurres n’ont pas d’effet sur lui."
+          "Mineur":"Add exceptional aspect score to NPC’s reaction.",
+          "Majeur":"The NPC ignores any abilities affecting their senses."
         }
       },
       "DAME":{
-        "Label": "Dame",
+        "Label": "Lady",
         "CARACTERISTIQUES":{
           "AURA": {
             "Label": "Aura",
-            "OD":"Régulateur de phéromone",
-            "OD2":"Le personnage, lorsqu’il combat des humains, est toujours attaqué en dernier par les hostiles ou les salopards.",
-            "OD3":"Lorsqu’il rencontre des humains, qu’il aide ou non, le personnage peut décider de s’en faire des contacts qui deviendront ses amis ou ses amants. Par scénario, le héros peut ainsi se créer deux contacts qu’il pourra joindre via le RA, qui pourront l’aider et même l’assister dans des situations variées, voire l’accompagner comme des pages. Attention, seuls les PNJ avec un score de Dame ou de Machine divisé par 2 inférieur au score d’Aura du héros peuvent devenir des contacts.",
-            "OD4":"Le personnage, par un simple test base Aura opposé au score de Machine divisé par 2 le plus haut parmi les PNJ, peut attirer toute l’attention sur lui, permettant ainsi de créer des diversions, de préparer un discours, etc. Il attire généralement l’attention pendant un tour de jeu complet (10 secondes). En combat, cette capacité peut fonctionner, mais est soumise à un test base Aura dont la difficulté est à la discrétion du MJ.",
-            "OD5":"Le personnage en impose tellement qu’il peut ajouter son score d’Aura à son total de défense."
+            "OD":"Pheromone regulator",
+            "OD2":"When fighting humans, brutes and badasses will always attack the character last.",
+            "OD3":"When they meet other humans, the character may decide that they become friends or lovers, regardless of whether the character has helped them or not. During each mission, the hero may create up to two new contacts who can be reached via the AR network, ones who can help them within reason or who could accompany them as retainers. One restriction applies: to make them a contact this way, the character’s Aura score must be higher than the NPC’s Lady or Machine aspect divided by two.",
+            "OD4":"By performing an Aura based skill check, the character may draw all attention to them for a short duration. The difficulty to beat is half the highest Machine score of all the affected NPCs. By creating a diversion, making a speech, etc., the character draws attention for roughly one whole turn (10 seconds). This ability may be used in combat, but the Aura skill check difficulty is up to the GM.",
+            "OD5":"The character’s presence is so overwhelming that they now add their Aura score to their defence."
           },
           "PAROLE": {
-            "Label":  "Parole",
-            "OD":"Modulateur de voix",
-            "OD1":"Lorsqu’un allié vient de tomber à 0 point de vie (il y a moins d’une minute), le héros peut décider de lui parler et de l’encourager à rester en vie. Tant que le héros lui parle, l’allié conserve un dernier souffle de vie et ne mourra pas, même s’il a subi la mort sur son tirage de blessure grave (dans ce cas, il doit effectuer un nouveau jet jusqu’à ce qu’il obtienne autre chose que la mort). Le héros ne peut rien faire d’autre qu’être au chevet de l’allié (un seul allié). Ce bonus ne modifie pas les autres effets des blessures et ceux des soins prodigués par les autorités compétentes.",
-            "OD2":"Par ses paroles, le personnage peut faire regagner 1D6 points d’espoir à un autre héros. Il doit déclamer un discours plein d’espoir. Il ne peut utiliser ce bonus qu’une fois par héros lors d’une mission.",
-            "OD3":"Le personnage est capable d’imiter la voix de n’importe quelle personne qu’il a déjà entendue parler sans effectuer de jet base Parole ou Discrétion.",
-            "OD4":"En modulant sa voix et en se concentrant sur un être humain (pas une créature ou un robot), le personnage est capable de l’hypnotiser tant qu’il parle, sur un jet base Parole opposé à son score de Machine divisé par 2. Si le test réussit, tant que le héros parle (au prix d’une action de combat lors d’une phase de conflit), la personne visée ne peut plus agir et est en pleine hypnose. Avec un test réussi base Parole contre le score de Machine divisé par 2 de la personne visée, le héros peut lui faire accomplir des actions simples (qui n’attentent à la vie de personne) tant qu’il reste concentré et tant qu’il parle. Les PNJ disposant d’un aspect Bête exceptionnelle majeure, Machine exceptionnelle majeure, Dame exceptionnelle majeure ou Masque exceptionnel majeur sont immunisés à cet effet.",
-            "OD5":"Par ses paroles, le personnage peut faire regagner 2D6 points d’espoir à un allié. Il doit déclamer un discours plein d’espoir. Il ne peut utiliser ce bonus qu’une fois par allié lors d’une mission. Cette capacité remplace celle du niveau 2."
+            "Label":  "Eloquence",
+            "OD":"Voice modulator",
+            "OD1":"Shortly after an ally loses their last health point (reached 0 HP less than a minute ago), the character can try to help them cling to life with their encouraging words. So long as the character keeps talking to them, the ally holds on and will not die, even if they rolled a death result on their grievous wounds roll (in that case they must roll until they get another result). The character cannot perform any other action than staying by the person they are helping cling to life (one ally at the most). This bonus has no other effect on wounds or healing provided to the target.",
+            "OD2":"Encouraging words allow the character to restore 1D6 hope points to another PC. For this to work, the character must make a speech full of hope and determination. Each PC can only be targeted by this effect once per mission.",
+            "OD3":"The character can imitate the voice of anyone they have previously heard talk. This does not require an Eloquence or Stealth check.",
+            "OD4":"By modulating their tone and concentrating on a single human being (not a creature or a robot), the character can hypnotise their target for as long as they can keep talking. This requires an Eloquence based skill check against the target’s Machine aspect divided by 2. If the skill check is a success, the character can keep talking (using a combat action if done during a conflict phase) to keep their target enthralled and unable to act. With a further successful Eloquence skill check against the target’s Machine aspect divided by 2, the character can make their target perform simple (non-threatening) actions as long as they keep concentrating on and talking to their target. NPCs with an exceptional major Beast, Machine, Lady, or Mask aspect are immune to this effect.",
+            "OD5":"Encouraging words allow the character to restore 2D6 hope points to another PC. For this to work, the character must make a speech full of hope and determination. Each PC can only be targeted by this effect once per mission. This ability replaces the level 2 one."
           },
           "SANGFROID": {
-            "Label": "Sang-Froid",
-            "OD":"Diffuseur d'endorphine",
-            "OD2":"Très calme grâce à sa méta-armure, le personnage ignore toujours les malus de difficulté dus à une situation stressante que le MJ pourrait lui infliger.",
-            "OD3":"Le personnage peut relancer (une seule fois par test) un jet d’espoir raté (Hargne combo Sang-Froid). Il doit conserver le second résultat s’il choisi de relancer son jet.",
-            "OD4":"Le personnage ignore la capacité peur.",
-            "OD5":"Le personnage ignore la capacité domination."
+            "Label": "Composure",
+            "OD":"Endorphin injectors",
+            "OD2":"Thanks to the calming chemicals in their metaarmour, the character can ignore any added difficulty on a skill check that they would normally suffer from stressful situations.",
+            "OD3":"Once per skill check, the character may reroll a failed hope test (Aggression combo Composure). If they choose to reroll, they must keep the new result.",
+            "OD4":"The character is no longer affected by the fear effect.",
+            "OD5":"The character is no longer affected by the domination effect."
           }
         },
         "AE":{
-          "Mineur":"Le PNJ, s’il est accompagné d’autres PNJ de la même faction que lui, peut toujours décider de reporter les dégâts qu’il subit sur des alliés proches, à portée courte. Cela représente le fait que des PNJ alliés s’interposent pour sauvegarder sa vie.",
-          "Majeur":"Un PJ qui souhaite attaquer ce PNJ doit réussir un test base Hargne dont la difficulté est égale au score de la Dame exceptionnelle du PNJ. S’il ne réussit pas ce test, il est subjugué par le PNJ et ne se résout pas à l’attaquer."
+          "Mineur":"If the NPC is accompanied by other NPCs from their faction, they may redirect any damage they take towards one or more allies at close range.",
+          "Majeur":"Any PC wishing to attack the NPC must roll an Aggression based skill check against a difficulty equal to the NPC’s exceptional Lady score. If the skill check fails, they are unable to attack."
         }
       },
       "MASQUE":{
-        "Label": "Masque",
+        "Label": "Mask",
         "CARACTERISTIQUES":{
           "DISCRETION": {
-            "Label": "Discrétion",
-            "OD":"Atténuateur de bruit et camouflage intelligent",
-            "OD2":"Désormais, lorsqu’il attaque un ennemi qui ne le voit pas, le personnage ajoute son score de Discrétion (sans les overdrives) aux dégâts infligés. Ce bonus peut être cumulé avec d’autres modules ou effets.",
-            "OD3":"Le personnage ne peut jamais être repéré à cause de ses bruits de pas. S’il doit parcourir une distance courte ou moyenne alors qu’il a peu de chance d’être repéré, il ne fait pas de test et réussit automatiquement.",
-            "OD4":"Lorsqu’il reste immobile pour se cacher, le personnage se fond dans le décor. Les ennemis ayant un score de Machine ou de Masque inférieur à 12 ne le voient simplement pas. Pour les autres, il doit tout de même effectuer un test.",
-            "OD5":"Désormais, lorsqu’il attaque un ennemi qui ne le voit pas, le personnage ajoute son score de Discrétion (avec les overdrives) aux dégâts infligés. Ce bonus peut être cumulé avec d’autres modules ou effets. En outre, il peut toujours décider de commencer une phase de conflit en embuscade."
+            "Label": "Stealth",
+            "OD":"Smart camouflage and noise dampener",
+            "OD2":"Now, when the character attacks a target that has not located them, they add their Stealth score (without overdrives) to the damage they inflict. This bonus can be added to other module and effect bonuses.",
+            "OD3":"The sound of the character’s footsteps never reveals their location. When covering short or medium distances with little risk of being caught, they are not required to make any skill checks and automatically succeed.",
+            "OD4":"When standing still, the character seems to melt into their surroundings. Enemies with a Machine or Mask aspect score lower than 12 are incapable of spotting the PC. The character must still make a Stealth skill check to hide from enemies with a higher score.",
+            "OD5":"Now, when the character attacks a target that has not located them, they add their Stealth score (with overdrives) to the damage they inflict. This bonus can be added to other module and effect bonuses. Furthermore, they may always choose to begin any conflict phase in an ambushing position."
           },
           "DEXTERITE": {
-            "Label": "Dextérité",
-            "OD":"Système d'aide à la coordination",
-            "OD3":"Le personnage ne peut jamais être désarmé à cause d’une attaque ou d’une défense ratée en phase de conflit, même en cas d’échec critique. En outre, il ne peut pas tomber ou être renversé à cause d’un malus d’environnement (pluie, boue, givre, etc.).",
-            "OD4":"Le personnage ignore l’effet lourd des armes. En outre, lors d’un test base Combat ou Tir, il peut toujours décider de remplacer ces caractéristiques par la Dextérité.",
-            "OD5":"Le personnage peut parer les projectiles et les tirs avec ses armes. Dès à présent, il peut utiliser son score de défense au lieu de son score de réaction pour éviter (parer dans ce cas) les tirs et les choses qui lui sont lancées."
+            "Label": "Dexterity",
+            "OD":"Improved coordination enhancer",
+            "OD3":"The character can never be disarmed by a missed attack or defence, not even on a critical failure. Furthermore, they cannot fall or be knocked over because of environmental hazards such as rain, mud, ice, and similar impediments.",
+            "OD4":"The character is unaffected by the heavy weapon trait. Furthermore, when they perform a Combat or Ranged based skill check, they may always choose to make a Dexterity based skill check instead.",
+            "OD5":"The character can parry shots and bullets with their weapons. They may now use their defence score rather than their reaction score to dodge (or parry, in this case) shots and thrown weapons."
           },
           "PERCEPTION": {
             "Label": "Perception",
-            "OD":"Afficheur tête haute et sens augmentés",
-            "OD1":"Le personnage dispose d’un zoom x400. Il peut ainsi zoomer sur des détails situés à portée lointaine.",
-            "OD2":"Le personnage dispose maintenant d’un zoom audio lui permettant d’entendre des conversations situées à portée lointaine.",
-            "OD3":"Désormais, le personnage possède un zoom olfactif, lui permettant de sentir des odeurs à portée lointaine, mais aussi de les identifier via la base de données. De plus, le héros dispose d’un « zoom » pour son sens du toucher. Il peut ainsi repérer des aspérités minuscules en touchant une surface ou encore ressentir les vibrations. Ces zooms nécessitent d’être activés volontairement via une pensée.",
-            "OD4":"L’afficheur tête haute affiche maintenant une série d’informations sur tout objet, personne ou bâtiment sur lequel le personnage se concentre. Voici la liste des informations disponibles pour les objets, machines : nom, poids, taille, diamètre, dangerosité, carburant ou munitions utilisés, concepteur, date de fabrication, détails supplémentaires si répertoriés.<br/>Pour les bâtiments : nom, date de création, créateur, taille, nombre de pièces, état du bâtiment, appartenance actuelle, détails supplémentaires si répertoriés.<br/>Pour les personnes : poids, taille, âge, nom, niveau de menace si répertoriés, origines, détails supplémentaires si répertoriés. Si le personnage appartient à une arche, ses relations, sa profession et son casier judiciaire sont disponibles.",
-            "OD5":"Désormais, le personnage dispose d’un sonar constamment actif. Il repère les êtres vivants situés à portée moyenne autour de lui (qu’ils soient situés plus haut ou plus bas) malgré les obstacles (murs, sol, plafond…). Lorsqu’il est attaqué par surprise, dans le dos ou par un ennemi invisible, le personnage conserve toujours ses scores de défense et de réaction normaux."
+            "OD":"Improved HUD and sensory abilities",
+            "OD1":"The armour’s zoom function now increases to x400. They can zoom in on minute details at far range.",
+            "OD2":"The character’s armour now has an audio zoom that can focus on conversations taking place far away (up to far range).",
+            "OD3":"The character’s armour now has an olfactory zoom, allowing them to smell distant odours (up to far range). It also analyses them and compares them with a database of various scents. The suit also has a touch zoom. Its gauntlets can find the minutest ridges on a smooth surface, and sense vibrations with ease. These zooms need to be mentally activated.",
+            "OD4":"When focusing on an item, building, or person, the armour’s HUD now provides the character with a detailed list of information.<br/>The following data can be obtained by focusing on an item or machine: name, weight, size, diameter, how dangerous it is, what fuel or ammunition it uses, who designed it, manufacturing date, and additional notes if any are available.<br/>Buildings: name, construction date, architect, size, number of rooms, current structural integrity, current ownership, and additional notes if any are available.<br/>People: weight, height, age, name, risk factor if known, ethnicity, place of birth, and additional notes if any are available. If the person comes from an ark, their known associates, profession, and criminal record are also shown.",
+            "OD5":"The armour now has a permanent sonar function. It detects all living beings at short range around the character (above and below included) through obstacles such as walls, floors, etc. The character always keeps their full defence and reaction values, even when attacked by surprise, from behind, or by an invisible enemy."
           }
         },
         "AE":{
-          "Mineur":"Le PNJ ajoute son score de Masque exceptionnel à son score de défense.",
-          "Majeur":"Le PNJ agit toujours, peu importe son nombre d’actions, comme s’il avait un score d’initiative de 30. Le MJ ne lance pas les dés."
+          "Mineur":"Add exceptional aspect score to NPC’s defence.",
+          "Majeur":"The GM does not need to roll to determine this NPC’s initiative. The NPC’s initiative is always 30."
         }
       }
     },
     "CAPACITES":{
-      "Label":"Capacités"
+      "Label":"Abilities"
     },
     "COMBAT": {
       "Label": "Combat",
       "STYLES": {
-        "Label": "Style de combat",
+        "Label": "Fighting styles",
         "STANDARD": {
-          "FullLabel":"Style Standard",
+          "FullLabel":"Standard Style",
           "Label": "Standard",
-          "Info": "Pas de bonus, ni de malus."
+          "Info": "No bonus, no malus."
         },
         "ACOUVERT": {
-          "FullLabel":"Style à Couvert",
-          "Label": "À Couvert",
-          "Info": "<b>Bonus :</b> +2 Réaction. <br/><br/><b>Malus :</b> -3D Attaque."
+          "FullLabel":"Taking cover",
+          "Label": "Cover",
+          "Info": "<b>Bonus :</b> +2 Reaction. <br/><br/><b>Malus :</b> -3D Attack."
         },
         "AGRESSIF": {
-          "FullLabel":"Style Agressif",
-          "Label": "Agressif",
-          "Info": "<b>Bonus :</b> +3D Attaque. <br/><br/><b>Malus :</b> -2 Réaction / -2 Défense."
+          "FullLabel":"Aggressive style",
+          "Label": "Aggressive",
+          "Info": "<b>Bonus :</b> +3D Attack. <br/><br/><b>Malus :</b> -2 Reaction / -2 Defence."
         },
         "AKIMBO": {
-          "FullLabel":"Style Akimbo",
+          "FullLabel":"Akimbo Style",
           "Label": "Akimbo",
-          "Info": "<b>Bonus :</b> Peut effectuer une attaque avec deux armes simultanéments. Cumule les dés de Dégâts de ses deux armes. Additionne la moitié des dés de Violence de la seconde arme avec ceux de la première. <br/><br/><b>Malus :</b> -3D Attaque."
+          "Info": "<b>Bonus :</b> Can perform an attack with two weapons simultaneously. Cumulates the damage dice of both weapons. Adds half the Violence dice of the second weapon to those of the first. <br/><br/><b>Malus :</b> -3D Attack."
         },
         "AMBIDEXTRE": {
-          "FullLabel":"Style Ambidextre",
-          "Label": "Ambidextre",
-          "Info": "<b>Bonus :</b> Peut effectuer une attaque avec chacune de ses armes en main. <br/><br/><b>Malus :</b> -3D Attaque."
+          "FullLabel":"Ambidextrous Style",
+          "Label": "Ambidextrous",
+          "Info": "<b>Bonus :</b> Can perform one attack with each weapon in hand. <br/><br/><b>Malus :</b> -3D Attaque."
         },
         "DEFENSIF": {
-          "FullLabel":"Style Défensif",
-          "Label": "Défensif",
-          "Info": "<b>Bonus :</b> +2 Défense. <br/><br/><b>Malus :</b> -3D Attaque."
+          "FullLabel":"Defensive Style",
+          "Label": "Defensive",
+          "Info": "<b>Bonus :</b> +2 Defence. <br/><br/><b>Malus :</b> -3D Attack."
         },
         "PRECIS": {
-          "FullLabel":"Style Précis",
-          "Label": "Précis",
-          "Info": "<b>Limitations :</b> Uniquement armes au contact à deux mains. <br/><br/><b>Bonus :</b> +1 Caractéristique (parmi Dextérité, Savoir, Instinct ou Sang-Froid), sauf OD. <br/><br/><b>Malus :</b> Utilisation d'action de combat + déplacement."
+          "FullLabel":"Accurate Style",
+          "Label": "Accurate",
+          "Info": "<b>Limitations :</b> Only two-handed contact weapons. <br/><br/><b>Bonus :</b> +1 Characteristic (from Dexterity, Knowledge, Instinct or Composure), except OD. <br/><br/><b>Malus :</b> Use of combat action + move."
         },
         "PILONNAGE": {
-          "FullLabel":"Style Pilonnage",
-          "Label": "Pilonnage",
-          "Info": "<b>Limitations :</b> Uniquement armes de tir à deux mains. <br/><br/><b>Bonus :</b> +1 Dégâts ou Violence par Attaques successives sur la même cible après la première. (max +6D) <br/><br/><b>Malus :</b> -2D Attaque.",
-          "Tourspasses":"Tours passés à tirer"
+          "FullLabel":"Shelling Style",
+          "Label": "Shelling",
+          "Info": "<b>Limitations :</b> Two-handed weapons only. <br/><br/><b>Bonus :</b> +1 Damage or Violence by successive Attacks on the same target after the first. (max +6D) <br/><br/><b>Malus :</b> -2D Attack.",
+          "Tourspasses":"Turns spent shooting"
         },
         "PUISSANT": {
-          "FullLabel":"Style Puissant",
+          "FullLabel":"Puissant Style",
           "Label": "Puissant",
-          "Info": "<b>Limitations :</b> Uniquement armes de contact avec l'effet Lourd. <br/><br/><b>Bonus :</b> Peut sacrifier 1D à l'Attaque pour 1D de Dégâts ou de Violence supplémentaire. (max -6D / +6D) <br/><br/><b>Malus :</b> -2 Réaction / -2 Défense.",
-          "Sacrifice":"Sacrifice dés d'attaques"
+          "Info": "<b>Limitations :</b> Only contact weapons with Heavy effect. <br/><br/><b>Bonus :</b> Can sacrifice 1D to Attack for 1D additional Damage or Violence. (max -6D / +6D) <br/><br/><b>Malus :</b> -2 Reaction / -2 Defence.",
+          "Sacrifice":"Sacrifice of attack dice"
         },
         "SUPPRESSION": {
-          "FullLabel":"Style Suppression",
-          "Label": "Suppression",
-          "Info": "<b>Limitations :</b> Uniquement armes de tir avec l'effet Lourd. <br/><br/><b>Bonus :</b> Au choix : Peut sacrifier 2D de Dégâts pour retirer 1D de dégâts aux attaques d'un hostile, salopard ou patron. (max 6D sacrifiés) / Au choix : Peut sacrifier 2D de Violence pour retirer 1D de Débordement aux attaques d'une bande. (max 8D sacrifiés)",
-          "Sacrifice":"Sacrifice de dés",
-          "Info-short-degats":"La moitié de ces dés sont soustrait aux dégâts de la cible",
-          "Info-short-violence":"La moitié de ces dés sont soustrait au débordement de la cible"
+          "FullLabel":"Suppressive Style",
+          "Label": "Suppressive",
+          "Info": "<b>Limitations :</b> Only ranged weapons with Heavy effect. <br/><br/><b>Bonus :</b> Choice: can sacrifice 2D damage to remove 1D damage from a Brute, Badass or Boss's attack. (max 6D sacrificed) / Choice: may sacrifice 2D Violence to remove 1D Overrun from a band's attacks. (max 8D sacrificed)",
+          "Sacrifice":"Sacrifice of dice",
+          "Info-short-degats":"Half of these dice are subtracted from the target's damage.",
+          "Info-short-violence":"Half of these dice are subtracted from the target's overrun."
         }
       },
       "ARMES":{
-        "Label":"Armes",
-        "Equiper":"Déployer l'arme",
-        "Desequiper":"Ranger l'arme",
-        "Poser":"Poser l'arme à l'armurerie",
-        "Prendre":"Prendre l'arme sur soi",
+        "Label":"Weapons",
+        "Equiper":"Deploying the weapon",
+        "Desequiper":"Storing the weapon",
+        "Poser":"Take the weapon to the armory",
+        "Prendre":"Taking the weapon with you",
         "Rack":"Rack",
-        "Armoury":"Armurerie",
+        "Armoury":"Armory",
         "CONTACT":{
-          "Label": "Armes de contact"
+          "Label": "Contact weapons"
         },
         "DISTANCE":{
-          "Label": "Armes à distance"
+          "Label": "Ranged weapons"
         },
         "TOURELLE":{
-          "Label": "Armes sur tourelle"
+          "Label": "Turret-mounted weapons"
         }
       },
       "NODS":{
@@ -551,7 +553,8 @@
         "Autrui":"Sur Autrui",
         "Soin":"Soin",
         "Armure":"Armure",
-        "Energie":"Energie"
+        "Energie":"Energie",
+        "JetParDefaut":"Valeur par défaut des jets du nod"
       },
       "GRENADES":{
         "Label": "Grenades",
@@ -2169,8 +2172,17 @@
       "Nodssoin":"Nods de Soin",
       "Nodsarmure":"Nods d'Armure",
       "Nodsenergie":"Nods d'Energie",
+      "NotNods":"Pas assez de nods",
       "JetPilotage":"Jet de pilotage",
       "AttackSurprise":"Attaque surprise",
+      "MaximizeDegats":"Maximiser les dégâts",
+      "MaximizeViolence":"Maximiser la violence",
+      "MaximizeDegatsTag":"Dégâts Maximisés",
+      "MaximizeViolenceTag":"Violence Maximisée",
+      "JetReussi":"Jet réussi",
+      "JetEchoue":"Jet échoué",
+      "AugmenterDebordement":"Augmenter le débordement",
+      "DebordementAugmente":"Le débordement augmente...",
       "RESULTATS":{
         "Affecte":"Affecté",
         "PasAffecte":"Pas affecté",
@@ -2251,6 +2263,10 @@
       "NonNomme":"Non nommé",
       "Confirmation":"Êtes vous sûre ?",
       "ConfirmationSuppression":"Êtes vous sûre de vouloir supprimer cet objet ?",
+      "ConfirmationEnergie":"Êtes vous sûre de vouloir récupérer toute votre énergie ?",
+      "ConfirmationArmure":"Êtes vous sûre de vouloir récupérer toute votre armure ?",
+      "ConfirmationSante":"Êtes vous sûre de vouloir récupérer toute votre santé ?",
+      "ConfirmationEspoir":"Êtes vous sûre de vouloir récupérer toute votre espoir ?",
       "Reset":"Reset",
       "Difficulte":"Difficulté",
       "MJOnly":"MJ Uniquement",
@@ -2458,6 +2474,14 @@
       "OLDROLL":{
         "Label":"Jeter les dégâts et la violence en même temps que l'attaque",
         "Hint":"S'il n'est pas activé, il y aura des boutons dans les jets d'attaques pour jeter les dégâts et/ou la violence."
+      },
+      "CANEDITNODS":{
+        "Label":"Permettre d'éditer librement les valeurs par défaut des dés des nods",
+        "Hint":"Ajouter une petite case sur les fiches à côté des nods permettant d'éditer les valeures. Attention, même si cette case est décochée par la suite, les modifications effectuées resteront."
+      },
+      "CANPJRESTAURE":{
+        "Label":"Permettre aux joueurs d'avoir accès aux boutons de restauration de Santé / Armure / Energie / Espoir.",
+        "Hint":"Si cette case est décochée, ces options ne seront pas accessible aux PJ et le MJ sera le seul a pouvoir cliquer dessus."
       }
     },
     "GM":{

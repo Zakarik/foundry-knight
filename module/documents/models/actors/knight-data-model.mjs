@@ -761,6 +761,8 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             perception:0,
         };
 
+        const aspects = ['chair','bete', 'machine', 'dame', 'masque'];
+
         for(let p in item) {
             const carac = item[p].caracteristique;
 
@@ -770,12 +772,21 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
         for(let b in bonus) {
             const path = this._getAspectPath(b);
-
             if(!path) continue;
 
-            Object.defineProperty(path, 'bonus', {
-                value: bonus[b],
-            });
+            if(aspects.includes(b)) {
+                Object.defineProperty(path.bonus, 'experience', {
+                    value: bonus[b],
+                    writable:true,
+                    enumerable:true,
+                    configurable:true
+                });
+            } else {
+                Object.defineProperty(path, 'bonus', {
+                    value: bonus[b],
+                });
+            }
+
         }
     }
 
@@ -944,7 +955,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                     bonus = this.contacts.mod;
 
                     if(this.wear === 'armure' && this.capaciteUltime) {
-                        if(this.capaciteUltime.system.passives.contact.actif && this.capaciteUltime.system.type === 'passive') bonus += this.capaciteUltime.contact.value;
+                        if(this.capaciteUltime.system.passives.contact.active && this.capaciteUltime.system.type === 'passive') bonus += this.capaciteUltime.contact.value;
                     }
 
 
