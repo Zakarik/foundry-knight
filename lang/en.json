@@ -548,697 +548,697 @@
         }
       },
       "NODS":{
-        "Label":"Nods",
-        "SoiMeme":"Sur Soi-même",
-        "Autrui":"Sur Autrui",
-        "Soin":"Soin",
-        "Armure":"Armure",
-        "Energie":"Energie",
-        "JetParDefaut":"Valeur par défaut des jets du nod"
+        "Label":"Nodes",
+        "SoiMeme":"On yourself",
+        "Autrui":"On Others",
+        "Soin":"Health",
+        "Armure":"Armour",
+        "Energie":"Energy",
+        "JetParDefaut":"Default value for nodes rolls"
       },
       "GRENADES":{
         "Label": "Grenades",
         "Singulier": "Grenade",
         "Shrapnel": "Shrapnel",
         "Flashbang": "Flashbang",
-        "Antiblindage": "Anti-blindage",
-        "Iem": "IEM",
+        "Antiblindage": "Armour-Piercing",
+        "Iem": "EMP",
         "Explosive": "Explosive",
-        "Add":"Ajouter un type de grenade"
+        "Add":"Add a type of grenade"
       },
       "ARMESIMPROVISEES":{
-        "LabelDistance":"Armes improvisées (Distance)",
-        "LabelContact":"Armes improvisées (Contact)",
-        "ODForce":"OD de Force",
-        "Chair":"Chair Exceptionnelle",
-        "Utilisations":"Utilisations",
+        "LabelDistance":"Improvised weapons (Ranged)",
+        "LabelContact":"Improvised weapons (Melee)",
+        "ODForce":"Strength OD",
+        "Chair":"Exceptional Flesh",
+        "Utilisations":"Uses",
         "AI1":{
-          "1":"Lampadaire, panneau, petit arbre, cadavre, etc.",
-          "2":"Citerne d’essence, transformateur électrique, etc.",
-          "3":"Moto, petit véhicule, etc."
+          "1":"Lamp post, billboard, small tree, corpse",
+          "2":"Large gas tank, electrical transformer",
+          "3":"Motorbike, small vehicle"
         },
         "AI2":{
-          "1":"Arbre, poteau en béton, etc.",
-          "2":"Petit château d’eau, cuve industrielle pleine, etc.",
-          "3":"Voiture, véhicule de taille moyenne, etc."
+          "1":"Tree, stone pillar",
+          "2":"Small water tower, full industrial tank",
+          "3":"Car, average size vehicle"
         },
         "AI3":{
-          "1":"Charpente métallique, gros arbre, etc.",
-          "2":"Façade de maison, morceau de route, rails, etc.",
-          "3":"Camionnette, gros 4x4, etc."
+          "1":"Steel structure, large tree",
+          "2":"Front of a small house, portion of road, train tracks",
+          "3":"Van, large pickup"
         },
         "AI4":{
-          "1":"Façade de petit immeuble, remorque de camion, etc.",
-          "2":"Camion, petit véhicule de chantier, etc."
+          "1":"Front of a medium-sized building, truck trailer",
+          "2":"Truck, small construction vehicle"
         },
         "AI5":{
-          "1":"Façade d’immeuble, grue, container plein, etc.",
-          "2":"Yacht de 20 mètres, blindé, mécha-armure, etc."
+          "1":"Front of a large building, crane, full container",
+          "2":"60 ft yacht, armoured vehicle, mecha-armour"
         }
       }
     },
     "HISTORIQUE": {
-      "Label": "Historique",
-      "Langues": "Langues",
-      "Contacts": "Contacts",
-      "Blessures": "Blessures Graves",
-      "Traumas": "Traumas",
-      "Histoire": "Histoire"
+      "Label": "Background",
+      "Langues": "Languages",
+      "Contacts": "Contact",
+      "Blessures": "Injury",
+      "Traumas": "Trauma",
+      "Histoire": "Backstory"
     },
     "OPTIONS":{
       "Label":"Options",
       "ART":{
-        "Has":"Possède de l'Art",
-        "Hasnt":"Ne possède pas d'Art"
+        "Has":"Has Art",
+        "Hasnt":"Hasn't Art"
       },
       "KRAKEN":{
-        "Has":"Membre de la section Kraken",
-        "Hasnt":"Pas membre de la section Kraken"
+        "Has":"Member of the Kraken section",
+        "Hasnt":"Not a member of the Kraken section"
       },
       "ENERGIE":{
-        "Has":"A de l'énergie",
-        "Hasnt":"N'a pas d'énergie"
+        "Has":"Has energy",
+        "Hasnt":"Hasn't energy"
       },
       "ARMURE":{
-        "Has":"A de l'armure",
-        "Hasnt":"N'a pas d'armure"
+        "Has":"Has armour",
+        "Hasnt":"Hasn't armour"
       },
       "BOUCLIER":{
-        "Has":"A un bouclier",
-        "Hasnt":"N'a pas de bouclier"
+        "Has":"Has shielding",
+        "Hasnt":"Hasn't shielding"
       },
       "CHAMPDEFORCE":{
-        "Has":"A un champ de force",
-        "Hasnt":"N'a pas de champ de force"
+        "Has":"Has field force",
+        "Hasnt":"Hasn't field force"
       },
       "SANTE":{
         "Has":"A de la santé",
         "Hasnt":"N'a pas de santé"
       },
       "RESILIENCE":{
-        "Has":"A de la résilience",
-        "Hasnt":"N'a pas de résilience"
+        "Has":"Has resilience",
+        "Hasnt":"Hasn't resilience"
       },
       "ESPOIR":{
-        "Has":"A de l'espoir",
-        "Hasnt":"N'a pas d'espoir"
+        "Has":"Has hope",
+        "Hasnt":"Hasn't hope"
       },
       "MODULES":{
-        "Has":"Peut recevoir des modules",
-        "Hasnt":"Ne peut pas recevoir des modules"
+        "Has":"Can be fitted with modules",
+        "Hasnt":"Cannot accept modules"
       },
       "PHASE2":{
-        "Has":"Possède une Phase 2",
-        "Hasnt":"Ne possède pas de Phase 2"
+        "Has":"Has a Phase 2",
+        "Hasnt":"Hasn't a Phase 2"
       }
     },
     "EFFETS":{
-      "Label":"Effets",
-      "Effet":"Effet",
-      "Edit":"Modifier les effet",
-      "Add":"Effets possibles à ajouter",
-      "Presents":"Effets présents",
+      "Label":"Effects",
+      "Effet":"Effect",
+      "Edit":"Edit effects",
+      "Add":"Possible effects to add",
+      "Presents":"Current effects",
       "CUSTOM":{
-        "Label":"Effet personnalisé",
-        "Nocondition":"Bonus non conditionnel",
-        "Condition":"Bonus conditionnel",
-        "CaracFixe":"Bonus de caractéristique fixe",
-        "CaracJet":"Bonus de caractéristique au jet",
-        "AspectFixe":"Bonus d'aspect fixe",
-        "AspectJet":"Bonus d'aspect au jet",
-        "OdInclusJet":"OD Inclus dans le jet",
-        "NoOdInclusJet":"OD Non-Inclus dans le jet",
-        "OdInclusFixe":"OD Inclus dans le bonus fixe",
-        "NoOdInclusFixe":"OD Non-Inclus dans le bonus fixe",
-        "AeInclusJet":"Aspect Exceptionnel Inclus dans le jet",
-        "NoAeInclusJet":"Aspect Exceptionnel Non-Inclus dans le jet",
-        "AeInclusFixe":"Aspect Exceptionnel Inclus dans le bonus fixe",
-        "NoAeInclusFixe":"Aspect Exceptionnel Non-Inclus dans le bonus fixe"
+        "Label":"Custom effect",
+        "Nocondition":"Non-conditional bonus",
+        "Condition":"Conditional bonus",
+        "CaracFixe":"Fixed characteristic bonus",
+        "CaracJet":"Characteristic bonus on roll",
+        "AspectFixe":"Fixed aspect bonus",
+        "AspectJet":"Aspect bonus on roll",
+        "OdInclusJet":"OD Included in roll",
+        "NoOdInclusJet":"OD Not included in roll",
+        "OdInclusFixe":"OD Included in fixed bonus",
+        "NoOdInclusFixe":"OD Not Included in fixed bonus",
+        "AeInclusJet":"Exceptional Aspect Included in the roll",
+        "NoAeInclusJet":"Exceptional Aspect Not Included in the roll",
+        "AeInclusFixe":"Exceptional Aspect Included in fixed bonus",
+        "NoAeInclusFixe":"Exceptional Aspect Not Included in fixed bonus"
       },
       "AFFECTEANATHEME": {
-        "Label":"Affecte uniquement l'anathème",
-        "Description":"Affecte uniquement les créatures de l’Anathème.",
-        "Description-short":"Affecte uniquement les créatures de l’Anathème."
+        "Label":"Only affects creatures of the Anathema",
+        "Description":"Only affects creatures of the Anathema.",
+        "Description-short":"Only affects creatures of the Anathema."
       },
       "ANATHEME": {
-        "Label":"Anathème",
-        "Description":"Le PJ peut décider d’infliger ses dégâts sur les points d’espoir plutôt que sur les points de santé. Le CdF fonctionne, mais pas les points d’armure. Si le PNJ est tué, les PJ ayant subi cet effet récupèrent 1D6 points d’espoir par tranche complète de 6 points d’espoir perdus",
-        "Description-short":"Peut infliger les dégâts sur les points d'espoir plutôt que sur les PS, ignore l'armure."
+        "Label":"Anathema",
+        "Description":"The NPC may choose to deal its damage to the target’s hope points rather than their health points. FF values still apply, but armour points are ignored. If the NPC is killed or destroyed, the PC or PCs whose energy was drained recover 1D6 hope per 6 whole hope points lost.",
+        "Description-short":"May deal its damage to the  hope points rather than health points, armour points are ignored."
       },
       "ANTIANATHEME": {
-        "Label":"Anti-Anathème",
-        "Description":"L'arme ignore purement et simplement la valeur de bouclier et de _Chair_ exceptionnelle (qu'elle soit majeure ou mineure) de la créature de l'Anathème prise pour cible. Les PA, puis la santé de la cible sont directement touchés. Lorsqu'une arme de ce type touche une bande de créatures de l'Anathème, ses scores de bouclier et de Chair exceptionnelle sont ignorés.",
-        "Description-short":"Ignore le bouclier et la Chair exceptionnelle majeure et mineure."
+        "Label":"Anti-Anathema",
+        "Description":"When this weapon is used against a creature of the Anathema, it ignores any shield or exceptional Flesh values the target may have. Damage is inflicted directly to their AP, if applicable, then their health. When a weapon with this effect hits a band of creatures of the Anathema, ignore its shield and exceptional Flesh.",
+        "Description-short":"Ignores any shield or exceptional Flesh values."
       },
       "ANTIVEHICULE": {
-        "Label":"Anti-Véhicule",
-        "Description":"Les armes possédant cet effet sont conçues pour détruire les véhicules, les blindés et abattre les ennemis de type colosse. Lorsque l'arme tire sur un véhicule ou un colosse, elle inflige ses dégâts normaux et n'a pas besoin d'infliger des tranches de 10 points de dégâts pour en infliger 1 à ces énormes ennemis.",
-        "Description-short":"Lorsque l'arme tire sur un véhicule ou un colosse, elle inflige ses dégâts normaux."
+        "Label":"Anti-vehicle",
+        "Description":"Weapons with this effect are designed to destroy armoured cars and other vehicles, and to take down behemoth class enemies. When this weapon is used against a vehicle or a behemoth, it inflicts regular damage (rather than having to deal 10 points of damage to inflict one point as is the rule against colossal enemies).",
+        "Description-short":"When this weapon is used against a vehicle or a behemoth, it inflicts regular damage."
       },
       "ARTILLERIE": {
-        "Label":"Artillerie",
-        "Description":"Si la cible a préalablement été désignée, l'arme peut tirer sans les malus de portée et sans ligne de vue (il faut quand même une ligne de tir direct). La cible ne bénéficie d'aucun bonus de couvert. Attention, il faut que la munition puisse atteindre la cible d'une manière ou d'une autre et qu'un test de tir soit effectué. Une cible préalablement désignée est toujours atteignable, quelle que soit la distance et le « couvert », sans avoir besoin de ligne de tir dégagée.",
-        "Description-short":"Aucun malus de portée, et aucun bonus de couvert, si la cible est désignée. "
+        "Label":"Artillery",
+        "Description":"If a target has previously been holo-targeted, a weapon with the artillery effect can fire at it without line of sight or range penalties (a line of fire to the target is still required). The target loses any cover bonuses they may have. The weapon’s ammunition must still be capable of reaching the target somehow, and an attack roll is still required. A holotargeted enemy can always be fired at, no matter how far away or how concealed it is or believes it is, even without a clear line of fire.",
+        "Description-short":"No range penalties, and no cover bonuses, If the target has previously been holo-targeted. "
       },
       "ASSASSIN": {
         "Label":"Assassin",
-        "Description":"Ajoute XD6 aux dégâts lors des attaques surprises.",
-        "Description-short":"En cas d'attaque surprise."
+        "Description":"This effect adds XD6 to damage on a successful surprise attack.",
+        "Description-short":"In case of surprise attack."
       },
       "ASSISTANCEATTAQUE": {
-        "Label":"Assistance à l'attaque",
-        "Description":"Lorsqu'un jet pour toucher est effectué avec cette arme, chaque réussite excédentaire au-dessus du score de _réaction_ (dans le cas d'un tir) ou de _défense_ (dans le cas d'une attaque au contact) de la cible permet de lui infliger 1 point de dégât (ou de violence dans le cas d'une bande) supplémentaire.",
-        "Description-short":"+1 par succès excédentaire sur l'attaque."
+        "Label":"Assisted aim",
+        "Description":"When a skill check is made to hit a target with this weapon, each success surpassing the number required to hit (against a target’s reaction for ranged attacks or defence for melee attacks) deals 1 additional point of damage or violence.",
+        "Description-short":"+1 for each additional success on the attack."
       },
       "AUCUNDEGATSVIOLENCE":{
-        "Label":"Aucun dégâts / violence",
-        "Description":"N'inflige pas de dégâts, ni de violence."
+        "Label":"No damage / violence",
+        "Description":"Does not inflict damage or violence."
       },
       "BARRAGE": {
         "Label":"Barrage",
-        "Description":"Au lieu de faire une attaque, le chevalier peut décider, au prix de son action de combat, de diminuer la _défense_ et la _réaction_ de la bande ou du PNJ ciblé d'un nombre de points égal à X jusqu'au début de son prochain tour, permettant ainsi à ses alliés de toucher plus facilement. L'effet s'applique automatiquement. Aucun autre effet, et aucun dégât de l'arme ne s'applique. Plusieurs effets _barrage_ peuvent s'appliquer sur une même cible et se cumulent. Mais attention, l'effet _barrage_ infligé par l'arme d'un PJ prend fin au début de son tour de jeu suivant (dès ce que c'est à lui de jouer de nouveau).",
-        "Description-short":"Le chevalier peut décider de diminuer la défense et la réaction d'un nombre de points égal à X jusqu'au début de son prochain tour. L'effet s'applique automatiquement. Aucun autre effet, et aucun dégât de l'arme ne s'applique. Cumulatif.",
-        "Active":"Barrage activé",
-        "Desactive":"Barrage désactivé"
+        "Description":"Instead of attacking, the user of this weapon may choose to forfeit their combat action and lower an enemy NPC or band’s defence and reaction scores by X amount until the start of the attacker’s next turn, thus increasing their allies’ chance to hit the target. This effect is automatically successful. The weapon deals no damage and none of its other effects apply. Several barrage effects can stack on a target. Remember, though, that a barrage effect only lasts until the start of the character’s next combat turn (when it is their turn to act again).",
+        "Description-short":"The user of this weapon may choose to lower an enemy NPC or band’s defence and reaction scores by X amount until the start of the attacker’s next turn. This effect is automatically successful. The weapon deals no damage and none of its other effects apply. Several barrage effects can stack on a target.",
+        "Active":"Barrage activated",
+        "Desactive":"Barrage deactivated"
       },
       "BOURREAU": {
-        "Label":"Bourreau",
-        "Description":"Quand lance les dés de dégâts, tout résultat inférieur ou égal à X est considéré comme un 4.",
-        "Description-short":"Quand lance les dés de dégâts, tout résultat inférieur ou égal à X est considéré comme un 4."
+        "Label":"Executioner",
+        "Description":"When rolling damage dice, any result less than or equal to X is considered a 4.",
+        "Description-short":"When rolling damage dice, any result less than or equal to X is considered a 4."
       },
       "BRISERLARESILIENCE": {
-        "Label":"Briser la résilience",
-        "Description":"Le personnage, s’il décide d’attaquer normalement la cible, fait baisser en plus la résilience de la cible de 1D6 points. Cette règle s’applique en plus des dégâts éventuellement infligés. Si le personnage décide de faire baisser la résilience de la cible, alors il ajoute 1D6 supplémentaire aux points de résilience qu’il retire.",
-        "Description-short":"Peut attaquer normalement la cible et faire baisser la résilience de 1D6 en plus, ou viser directement la résilience et la faire baisser de 1D6 supplémentaire.",
-        "Description-active":"Fait baisser la résilience de 1D6 supplémentaire.",
-        "Description-unactive":"Fait baisser la résilience de 1D6 en plus",
-        "Active":"Cible la résilience",
-        "Desactive":"Attaque normalement",
-        "CliquerActiver":"Cliquer pour cibler la résilience",
-        "CliquerDesactiver":"Cliquer pour attaquer normalement"
+        "Label":"Breaking resilience",
+        "Description":"If the character decides to attack the target normally, he additionally lowers the target's resilience by 1D6 points. This rule applies in addition to any damage inflicted. If the character decides to lower the target's resilience, then he adds a further 1D6 to the resilience points he removes.",
+        "Description-short":"Can attack the target normally and lower resilience by a further 1D6, or aim directly at resilience and lower it by a further 1D6.",
+        "Description-active":"Reduces resilience by a further 1D6.",
+        "Description-unactive":"Reduces resilience by an additional 1D6",
+        "Active":"Targets resilience",
+        "Desactive":"Attack normally",
+        "CliquerActiver":"Click to target resilience",
+        "CliquerDesactiver":"Click to attack normally"
       },
       "CADENCE": {
         "Label":"Cadence",
-        "Description":"L’arme est très rapide et peut cibler X adversaires par action de combat au lieu d’un seul. Une attaque doit être réalisée pour chacune des cibles, avec 3 dés de malus. Chacune des cibles ne peut être distante de plus de 2 mètres.",
-        "Description-short":"L’arme est très rapide et peut cibler X adversaires par action de combat au lieu d’un seul, avec 3 dés de malus.",
-        "Active":"Cadence activé",
-        "Desactive":"Cadence désactivé"
+        "Description":"This weapon is very fast, and can target up to X opponents in a single combat action. Attack rolls must be made against each target, with a penalty of -3D to each attack. The targets cannot be more than 6 feet apart.",
+        "Description-short":"This weapon is very fast, and can target up to X opponents in a single combat action, with a penalty of -3D.",
+        "Active":"Cadence activated",
+        "Desactive":"Cadence deactivated"
       },
       "CHARGEUR": {
-        "Label":"Chargeur",
-        "Description":"L’arme ou le module dispose d’un nombre d’utilisations indiqué par X. Une fois utilisé autant de fois que X, on estime qu’il n’a plus de munitions et ne peut donc plus faire feu. L’arme ou le module doit être rechargé (gratuitement) à Camelot entre deux missions.",
-        "Description-short":"L’arme ou le module dispose d’un nombre d’utilisations indiqué par X."
+        "Label":"Clip",
+        "Description":"This weapon or module has a limited number of uses per mission, as indicated by X. Once this number of uses has been depleted, the weapon or module can no longer fire or be activated. It must be reloaded (for free) in Camelot in between missions.",
+        "Description-short":"This weapon or module has a limited number of uses per mission, as indicated by X."
       },
       "CHOC": {
-        "Label":"Choc",
-        "Description":"Si le jet pour toucher avec l'arme est supérieur au score de l'aspect _Chair_ (divisé par 2 pour un PNJ) de la cible, celle-ci perd ses X prochaines actions. Cet effet ne fonctionne pas contre les bandes. Attention, l'effet ne peut pas se cumuler alors que la cible est déjà sous l'effet _choc_. Dans certaines circonstances, l'effet _choc_ peut être considéré comme automatique et ne prend donc pas en compte le score de l'aspect _Chair_. Lorsque l'effet _choc_ est censé s'appliquer automatiquement, il faut tout de même que le personnage touche sa cible. En revanche, son résultat n'a pas besoin d'égaler l'aspect _Chair_ divisé par deux de la cible pour que l'effet fonctionne. En fonction des circonstances, le MJ peut décider qu'un personnage sous l'effet choc subit un malus de 2 à sa _réaction_ et à sa _défense_. L'effet ne se cumule pas avec _parasitage X_.",
-        "Description-short":"Si le nombre de succès est supérieur à l'aspect Chair (ou Chair / 2 pour un PNJ), la cible perd ses X prochaines actions."
+        "Label":"Stun",
+        "Description":"If this weapon’s attack roll is higher than the target’s _Flesh_ aspect (divided by 2 for NPCs), then they lose their next X actions. This has no effect on bands. This effect cannot be applied to a target that is already stunned by another _stun_ effect. Under certain circumstances, a _stun_ effect may be automatic as long as the skill check to hit succeeds, regardless of the target’s _Flesh_ aspect score. The attacking character still needs to roll to hit. The attack roll does not need to be higher than the target’s _Flesh_ aspect (or half their aspect, rounded up, for an NPC) for the stun to work. A stunned character may suffer a 2-point penalty to their _reaction_ and _defence_ scores if the GM considers it appropriate. This effect does not stack with the _interference_ X effect.",
+        "Description-short":"If this weapon’s attack roll is higher than the target’s Flesh aspect (divided by 2 for NPCs), then they lose their next X actions."
       },
       "CONVICTION": {
         "Label":"Conviction",
-        "Description":"Quand vainc un ennemi, reçoit 1PEs (max 1 par attaque), 3PEs si vainc une bande.",
-        "Description-short":"Quand vainc un ennemi, reçoit 1PEs (max 1 par attaque), 3PEs si vainc une bande."
+        "Description":"When defeating an enemy, receives 1 hope points (max 1 per attack), 3 hope points if defeating a band.",
+        "Description-short":"When defeating an enemy, receives 1 hope points (max 1 per attack), 3 hope points if defeating a band."
       },
       "DEFENSE": {
-        "Label":"Défense",
-        "Description":"L’utilisateur reçoit un modificateur de _défense_, X représentant cette valeur, tant qu’il utilise cette arme ou module. Les modificateurs reçus peuvent se cumuler tant que le personnage peut recevoir l’effet.",
-        "Description-short":"L’utilisateur reçoit un modificateur de défense, X représentant cette valeur, tant qu’il utilise cette arme ou module."
+        "Label":"Defence",
+        "Description":"The wielder of this weapon gains a bonus to their _defence_ score equal to X. These bonuses add to any others so long as the character is capable of using the weapon or module.",
+        "Description-short":"The wielder of this weapon gains a bonus to their _defence_ score equal to X, as long as it uses this weapon or module."
       },
       "DEGATSCONTINUS": {
-        "Label":"Dégâts continus",
-        "Description":"L'arme inflige X points de dégâts à chaque tour durant 1D6 tours. Les dégâts sont subis par la cible à chacun de ses tours de jeu et ignorent les éventuels scores de CdF ou de bouclier. Au regard de la technologie utilisée, l'effet ne peut se stopper que si la cible reçoit les soins appropriés ou s'il se termine de lui-même. Typiquement, cet effet se retrouve sur les armes causant des brûlures. Cet effet ne peut être cumulé sur une même créature tant que l'effet est déjà présent au moins une fois.",
-        "Description-short":"L'arme inflige X points de dégâts à chaque tour durant 1D6 tours."
+        "Label":"Ongoing damage",
+        "Description":"This weapon inflicts X damage each turn for 1D6 turns. This damage ignores force fields and shields, hurting the target on each of its turns. The effect only ends if appropriate measures (antitoxins, flame-retardant chemicals) are taken or once the effect runs its course. This effect is mostly found on weapons that set their targets on fire. Ongoing damage X effects do not stack, and only one can be active at a time on a single target.",
+        "Description-short":"This weapon inflicts X damage each turn for 1D6 turns"
       },
       "DEMORALISANT": {
-        "Label":"Démoralisant",
-        "Description":"Avec une attaque réussie, l'arme enlève 2 points au score de débordement que les bandes composées d'humains infligent, avant calcul des dégâts effectifs. Les dégâts effectifs du tour sont donc égaux débordement moins 2 multiplié par le nombre de tours écoulés à ce tour. Autrement dit, démoralisant réduit le débordement pour le tour en cours, et uniquement le tour en cours.\r\n**Précision** : Si l'effet _démoralisant_ est appliqué plusieurs fois, cela se cumule en ajoutant un tour de durée (et non pas en sous-trayant des points supplémentaires au débordement de la bande ciblée).",
-        "Description-short":"Si l'attaque réussie, retire 2 points au débordement de la Bande."
+        "Label":"Demoralising",
+        "Description":"This weapon reduces a band’s overrun score by 2 for this round on a successful attack, before calculating the band’s total damage for the turn. A band’s damage is therefore equal to its overrun score minus two, multiplied by the number of combat rounds that have passed so far. In other words, demoralising effects only reduce a band’s damage for the current turn.\r\n**Note** that if a weapon with _demoralising_ affects a band more than once in a turn, its effect duration is increased by 1 turn for each additional application. The overrun damage reduction remains the same.",
+        "Description-short":"This weapon reduces a band’s overrun score by 2 for this round on a successful attack."
       },
       "DEUXMAINS": {
-        "Label":"Deux mains",
-        "Description":"Cet effet signifie simplement que le chevalier doit utiliser ses deux mains pour frapper ou tirer avec l'arme. Utiliser à une main une arme possédant cet effet est impossible, l'arme étant trop lourde ou possédant trop de recul pour toucher efficacement.",
-        "Description-short":"Cet effet signifie simplement que le chevalier doit utiliser ses deux mains pour frapper ou tirer avec l'arme."
+        "Label":"Two-handed",
+        "Description":"Characters must use both hands to wield this weapon. Using a weapon with this effect one-handed is simply impossible. It is either too heavy or has too much recoil to be used with only one hand.",
+        "Description-short":"Characters must use both hands to wield this weapon."
       },
       "DESIGNATION": {
-        "Label":"Désignation",
-        "Description":"L'arme peut désigner une cible (une seule cible, pas une bande) une fois par tour. Son utilisateur et ses alliés reçoivent un bonus de 1 réussite automatique pour toucher la cible et ignorent toujours les éventuels échecs critiques qu'ils pourraient subir lorsqu'ils tentent de la toucher. Désigner une cible ne coûte pas d'action. Il n'y a aucun test à effectuer pour désigner une cible et la portée de la _désignation_ est celle de l'arme utilisée. La cible demeure désignée durant toute la scène ou toute la phase de conflit. Une fois désignée, l'armure va suivre les mouvements et les bruits de la cible et représenter sa position, ce qui permet au chevalier de lui tirer dessus avec une arme disposant de l'effet _artillerie_ notamment, ou d'utiliser automatiquement tout effet venant de ses éventuelles visions alternatives. L'effet permet par exemple, couplé avec un module de type vision prédatrice, de voir la cible à travers les murs, silhouettée sur la visière à Réalité Augmentée de la méta-armure. Tant que la signature de la cible reste visible par la méta-armure, la cible reste désignée.\r\n**Attention** : L'effet ne peut être cumulé sur une même cible.",
-        "Description-short":"L'arme peut désigner une cible (une seule cible, pas une bande) une fois par tour. Son utilisateur et ses alliés reçoivent un bonus de 1 réussite automatique pour toucher la cible et ignorent toujours les éventuels échecs critiques qu'ils pourraient subir lorsqu'ils tentent de la toucher."
+        "Label":"Holo-targeting",
+        "Description":"This weapon can holo-target one enemy (and only one, not a band) once per turn. Its wielder and their allies gain 1 automatic success on any skill check made to hit the marked target and ignore any critical failure results on their attack checks. Holo-targeting an enemy this way does not require an action. No skill check is required to mark a target and the _holo-targeting_ range is that of the weapon used. The target remains marked for the entire scene or conflict phase. A marked target is automatically tracked by the user’s armour. It uses the target’s movement and sound made to give a precise indication of its position, allowing the Knight to fire at it with weapons with the _artillery_ effect or use any alternate mode of sight effects on it automatically. Combined with predator vision, for instance, it would allow the user to see a target through walls as a silhouette on their meta-armour’s Augmented Reality HUD. Targets remain marked so long as the meta-armour can realistically keep track of them.\r\n**Caution**: This effect cannot stack multiple times on a single target.",
+        "Description-short":"This weapon can holo-target one enemy (and only one, not a band) once per turn. Its wielder and their allies gain 1 automatic success on any skill check made to hit the marked target and ignore any critical failure results on their attack checks."
       },
       "DESTRUCTEUR": {
-        "Label":"Destructeur",
-        "Description":"Lorsque les dégâts impactent les points d'armure de la cible, si elle a des PA, on ajoute 2D6 au total de dégâts. Si un seul point de dégâts passe le bouclier et le CdF de la cible, l'effet est appliqué.",
-        "Description-short":"Lorsque les dégâts impactent les points d'armure de la cible."
+        "Label":"Destructive",
+        "Description":"When a weapon with this effect deals damage to a target’s armour (provided it has Armour Points), add an additional 2D6 to the total damage. So long as at least one point of damage passes the target’s shield or FF, destructive is immediately added to the remaining damage.",
+        "Description-short":"When a weapon with this effect deals damage to a target’s armour."
       },
       "DEVASTATION": {
-        "Label":"Dévastation",
-        "Description":"Quand lance les dés de violence, tout résultat inférieur ou égal à X est considéré comme un 5.",
-        "Description-short":"Quand lance les dés de violence, tout résultat inférieur ou égal à X est considéré comme un 5."
+        "Label":"Devasting",
+        "Description":"When rolling violence dice, any result less than or equal to X is considered a 5.",
+        "Description-short":"When rolling violence dice, any result less than or equal to X is considered a 5."
       },
       "DISPERSION": {
-        "Label":"Dispersion",
-        "Description":"L'arme peut toucher plusieurs ennemis et ses dégâts peuvent donc s'appliquer à plusieurs du moment que ces ennemis sont à moins de deux mètres les uns des autres. X représente le nombre d'ennemis que l'arme peut toucher dans une même action. Un seul jet d'attaque est à effectuer contre un seul ennemi. Les autres ennemis proches subissent automatiquement les dégâts et les autres effets que _dispersion_, à condition que le résultat du test d'attaque dépasse leur score d'opposition. Typiquement, les lance-flammes ou les armes explosives infligent cet effet. Cet effet n'affecte pas les bandes contre lesquelles seule la violence peut s'appliquer.\r\n**Attention** : Si l'effet est utilisé contre des ennemis au contact avec un autre PJ, ce dernier subit aussi les dégâts de la _dispersion_.",
-        "Description-short":"L'arme peut toucher plusieurs ennemis et ses dégâts peuvent donc s'appliquer à plusieurs du moment que ces ennemis sont à moins de deux mètres les uns des autres. X représente le nombre d'ennemis."
+        "Label":"Scatter",
+        "Description":"This weapon can hit and deal damage to several enemies, so long as they are no farther than 6 feet away from each other. X is the number of enemies that can be hit in a single attack. Only one skill check to hit is required against one of the enemies. Nearby foes are dealt damage and suffer any additional weapon effects other than _scatter_, provided the initial attack roll is high enough to hit them too. Weapons such as flamethrowers and explosives often have this effect. This effect does not apply to or inflict damage on enemy bands.\r\n**Caution**: If a weapon with this effect is used against enemies in melee combat with an ally, they may also take _scatter_ damage.",
+        "Description-short":"This weapon can hit and deal damage to several enemies, so long as they are no farther than 6 feet away from each other. X is the number of enemies that can be hit."
       },
       "ENCHAINE": {
-        "Label":"En chaîne",
-        "Description":"Lorsque le PJ utilisant cette arme réussit à éliminer (pas forcément à tuer, neutraliser suffit) un hostile ou un salopard, il peut effectuer au prix de 3 PE, au même tour et à la même _initiative_, une autre attaque sur un autre hostile ou un autre salopard qui se trouve à portée de son arme (un test pour toucher est de nouveau nécessaire). Si cette deuxième attaque élimine la cible, l'effet peut s'appliquer une nouvelle fois et ainsi de suite. Le coût en énergie intervient en plus de l'éventuel coût en énergie de l'arme. Chaque nouvelle attaque doit donner lieu à une dépense d'énergie en conséquence. Dans le cas où plusieurs ennemis sont éliminés en même temps, l'effet en chaîne ne s'applique qu'une seule fois.",
-        "Description-short":"Lorsque le PJ utilisant cette arme réussit à éliminer (pas forcément à tuer, neutraliser suffit) un hostile ou un salopard, il peut effectuer au prix de 3 PE une autre attaque sur un autre hostile ou un autre salopard."
+        "Label":"Chain attack",
+        "Description":"When a PC wielding a weapon with this effect removes an enemy brute or badass from combat (they do not necessarily have to kill their target, defeating them is enough) they may perform another attack on another enemy brute or badass in range. Doing this costs 3 EP and requires another attack roll, and the attack takes place at the same _initiative_ as the previous one. If the second attack defeats its target, the effect can be used again, and so on. The energy cost is added to any other energy requirements the weapon may have. The weapon’s energy costs must be paid for each additional attack. Even if several enemies are defeated at once, they only trigger one _chain attack_.",
+        "Description-short":"When a PC wielding a weapon with this effect removes an enemy brute or badass from combat (they do not necessarily have to kill their target, defeating them is enough) they may perform another attack on another enemy brute or badass in range. Doing this costs 3 EP and requires another attack roll."
       },
       "ESPERANCE": {
-        "Label":"Espérance",
-        "Description":"S’il le veut, un PJ peut décider d’échanger les dégâts qu’il devrait infliger contre l’application de l’effet _espérance_. Les PNJ désespérés touchés par l’attaque peuvent effectuer un test de _Bête_ difficulté (5) pour combattre le désespoir. Chaque attaque supplémentaire infligée par l’équipement à un même désespéré et appliquant l’effet _espérance_ fait baisser le niveau de difficulté du test de 1. Si le désespéré réussit son test, alors il a réussi à vaincre le désespoir et n’est plus un ennemi.",
-        "Description-short":"S’il le veut, un PJ peut décider d’échanger les dégâts qu’il devrait infliger contre l’application de l’effet _espérance_. Les PNJ désespérés touchés par l’attaque peuvent effectuer un test de _Bête_ difficulté (5) pour combattre le désespoir. Chaque attaque supplémentaire infligée par l’équipement à un même désespéré et appliquant l’effet _espérance_ fait baisser le niveau de difficulté du test de 1. Si le désespéré réussit son test, alors il a réussi à vaincre le désespoir et n’est plus un ennemi."
+        "Label":"Ray of hope",
+        "Description":"This effect is particularly powerful against the hopeless. Should they choose to do so, a PC can forgo the damage they should inflict and apply _ray of hope_ instead. Instead of dealing damage, the weapon passes harmlessly through its target, taking some of its despair with it.\r\nWhen this happens, a hopeless NPC can perform a _Beast_ check against an arduous (5) difficulty (or an _Aggression_ combo _Composure_ roll if a PC is targeted) to fight off their hopelessness. Each additional attack dealt by the weapon to the individual with the _ray of hope_ effect lowers the difficulty of this check by 1. If the hopeless target succeeds their check, they are no longer in the grip of despair and are temporarily no longer an enemy. They can join the Knights in the rest of an ongoing fight or be too traumatised by what they have lived through to participate (GM‘s choice).\r\nAgainst a band of hopeless, this weapon simply lowers their cohesion. If the character deals enough violence with a _ray of hope_ weapon to bring a band‘s cohesion down to 0, the hopeless regain their sanity and a measure of hope, at least for a while. They remember all they did while in the grip of despair, however.\r\nAgainst other enemy types, equipment with the _ray of hope_ effect deals damage and violence as usual.",
+        "Description-short":"A PC can forgo the damage they should inflict and apply _ray of hope_ instead. When this happens, a hopeless NPC can perform a _Beast_ check against difficulty (5) to fight off their hopelessness. Each additional attack dealt by the weapon to the individual with the _ray of hope_ effect lowers the difficulty of this check by 1. If the hopeless target succeeds their check, they are no longer in the grip of despair and are temporarily no longer an enemy."
       },
       "EXCELLENCE": {
         "Label":"Excellence",
-        "Description":"Sur test d'attaque, chaque réussite excédentaire (OD compris) inflige 2 points de dégâts (ou de violence) supplémentaire.",
-        "Description-short":"Sur test d'attaque, chaque réussite excédentaire (OD compris) inflige 2 points de dégâts (ou de violence) supplémentaire."
+        "Description":"On an attack roll, each excess success (including OD) inflicts an additional 2 points of damage (or violence).",
+        "Description-short":"On an attack roll, each excess success (including OD) inflicts an additional 2 points of damage (or violence)."
       },
       "FUREUR": {
-        "Label":"Fureur",
-        "Description":"Lorsque l'arme est utilisée contre une bande avec un score d'aspect _Chair_ de 10 ou plus, la violence de l'arme est augmentée de 4D6.",
-        "Description-short":"Si la bande a un score de Chair de 10 ou plus. "
+        "Label":"Wrath",
+        "Description":"When this weapon is used against an enemy band with a _Flesh_ score of 10 or higher, its violence is increased 4D6 points.",
+        "Description-short":"If the band has a _Flesh_ score of 10 or higher. "
       },
       "GUIDAGE": {
-        "Label":"Guidage",
-        "Description":"À chaque test d'attaque, 5 PE pour compter les impairs comme réussite plutôt que les pairs.",
-        "Description-short":"À chaque test d'attaque, 5 PE pour compter les impairs comme réussite plutôt que les pairs.",
-        "Active":"Guidage activé",
-        "Desactive":"Guidage désactivé"
+        "Label":"Guidance",
+        "Description":"For each attack test, 5 EP to count odd numbers as successes rather than even numbers.",
+        "Description-short":"For each attack test, 5 EP to count odd numbers as successes rather than even numbers.",
+        "Active":"Guidance activated",
+        "Desactive":"Guidance deactivated"
       },
       "IGNOREARMURE": {
-        "Label":"Ignore Armure",
+        "Label":"Ignore Armour",
         "Description":"L'arme ignore purement et simplement la valeur de points d'armure d'un adversaire. La santé de la cible est directement touchée si les dégâts passent le CdF ou le bouclier.",
         "Description-short":"L'arme ignore purement et simplement la valeur de points d'armure d'un adversaire. La santé de la cible est directement touchée si les dégâts passent le CdF ou le bouclier."
       },
       "IGNORECHAMPDEFORCE": {
         "Label":"Ignore Champ De Force",
-        "Description":"L'arme ignore purement et simplement le champ de force d'un adversaire. Les PS de la cible sont directement touchée si les dégâts passent les PA ou le bouclier.",
-        "Description-short":"L'arme ignore purement et simplement le champ de force d'un adversaire. Les PS de la cible sont directement touchée si les dégâts passent les PA ou le bouclier."
+        "Description":"A weapon with this effect simply ignores a target’s armour points. Any damage that gets through shields or force fields directly hits the target’s health.",
+        "Description-short":"A weapon with this effect simply ignores a target’s armour points. Any damage that gets through shields or force fields directly hits the target’s health."
       },
       "IMMOBILISATION":{
-        "Label":"Immobilisation"
+        "Label":"Immobilization"
       },
       "JUMELEAKIMBO": {
-        "Label":"Jumelé (akimbo)",
-        "Description":"Lorsqu’on utilise deux exemplaires de cette arme en style akimbo, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
-        "Description-short":"Lorsqu’on utilise deux exemplaires de cette arme en style akimbo, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3)."
+        "Label":"Twinned (akimbo)",
+        "Description":"When two identical weapons with twinned (akimbo) are used with the akimbo combat style, the penalty to attack checks is reduced by 2 (resulting in a 1-die penalty instead of 3).",
+        "Description-short":"When two identical weapons with twinned (akimbo) are used with the akimbo combat style, the penalty to attack checks is reduced by 2 (resulting in a 1-die penalty instead of 3)."
       },
       "JUMELEAMBIDEXTRIE": {
-        "Label":"Jumelé (ambidextrie)",
-        "Description":"Lorsqu’on utilise deux armes disposant de cet effet en style ambidextre, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
-        "Description-short":"Lorsqu’on utilise deux armes disposant de cet effet en style ambidextre, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
-        "Active":"Jumelé (ambidextrie) activé",
-        "Desactive":"Jumelé (ambidextrie) désactivé"
+        "Label":"Twinned (ambidextrous)",
+        "Description":"When two weapons with twinned (ambidextrous) are used with the ambidextrous combat style, the penalty to attack checks is reduced by 2 (resulting in a 1-die penalty instead of 3).",
+        "Description-short":"When two weapons with twinned (ambidextrous) are used with the ambidextrous combat style, the penalty to attack checks is reduced by 2 (resulting in a 1-die penalty instead of 3).",
+        "Active":"Twinned (ambidextrous) activated",
+        "Desactive":"Twinned (ambidextrous) deactivated"
       },
       "LESTE": {
-        "Label":"Lesté",
-        "Description":"Lorsque l’arme est utilisée, son utilisateur ajoute le score de la caractéristique _Force_ multipliée par deux (ou Chair complet pour un PNJ) lorsqu’il détermine les dégâts plutôt que sa _Force_ seule (ou _Chair_ divisé par 2). Seuls les PJ ayant un score de _Force_ égal ou supérieur à 4 ou possédant un overdrive de _Force_ peuvent utiliser une arme avec un tel effet.",
-        "Description-short":"Lorsque l’arme est utilisée, son utilisateur ajoute le score de la caractéristique Force multipliée par deux (ou Chair complet pour un PNJ) lorsqu’il détermine les dégâts plutôt que sa Force seule (ou _Chair_ divisé par 2)."
+        "Label":"Weighted",
+        "Description":"When using this weapon, its wielder adds twice their Strength characteristic (or their whole _Flesh_ aspect for an NPC) to damage rolls rather than just their _Strength_ (or half their Flesh, rounded up, for an NPC). PCs require a minimum _Strength_ score of 4 or at least one Strength overdrive in order to wield a weighted weapon.",
+        "Description-short":"When using this weapon, its wielder adds twice their Strength characteristic (or their whole _Flesh_ aspect for an NPC) to damage rolls rather than just their _Strength_ (or half their Flesh, rounded up, for an NPC)."
       },
       "LOURD": {
-        "Label":"Lourd",
-        "Description":"Pour utiliser cette arme, vous devez dépenser une (et une seule) action de déplacement et une (et une seule) action de combat. Les actions supplémentaires acquises ne sont pas touchées par cet effet.",
-        "Description-short":"Pour utiliser cette arme, vous devez dépenser une (et une seule) action de déplacement et une (et une seule) action de combat."
+        "Label":"Heavy",
+        "Description":"Wielding a weapon with this effect requires one (and only one) move action as well as one (and only one) combat action. Additional actions are untouched by this effect.",
+        "Description-short":"Wielding a weapon with this effect requires one (and only one) move action as well as one (and only one) combat action."
       },
       "LUMIERE": {
-        "Label":"Lumière",
-        "Description":"Lorsque l'arme frappe une créature de l'Anathème ou une bande de l'Anathème, ses scores de _défense_ et de _réaction_ sont réduits d'une certaine valeur jusqu'à la fin du prochain tour du PJ qui a infligé l'effet _lumière_. X représente cette valeur. Cet effet ne peut pas se cumuler sur une même cible.",
-        "Description-short":"Lorsque l'arme frappe une créature de l'Anathème ou une bande de l'Anathème, ses scores de défense et de réaction sont réduits de X jusqu'à la fin du prochain tour du PJ qui a infligé l'effet lumière."
+        "Label":"Radiance",
+        "Description":"When a character strikes a creature or band of the Anathema with this weapon, its defence and reaction scores are lowered by a certain amount until the end of the attacker’s next initiative. X is the number of points the target loses. This effect cannot stack multiple times on a given enemy.",
+        "Description-short":"When a character strikes a creature or band of the Anathema with this weapon, its defence and reaction scores are lowered by a certain amount until the end of the attacker’s next initiative. X is the number of points the target loses."
       },
       "MEURTRIER": {
-        "Label":"Meurtrier",
-        "Description":"Lorsque les dégâts impactent la santé de la cible, on ajoute 2D6 au total des dégâts. Si un seul point de dégâts passe l'armure, le bouclier et le CdF de la cible, l'effet _meurtrier_ est appliqué.",
-        "Description-short":"Lorsque les dégâts impactent la santé de la cible."
+        "Label":"Wounding",
+        "Description":"If this weapon inflicts damage to a target’s health points, 2D6 additional points of damage are immediately added to the total damage dealt. So long as at least one HP of damage is dealt, wounding immediately takes effect.",
+        "Description-short":"When damage affects the target's health points."
       },
       "OBLITERATION": {
-        "Label":"Oblitération",
-        "Description":"Ces équipements particulièrement puissants infligent des dégâts considérables aux cibles les moins résistantes. Contre un ennemi de type hostile, ils infligent toujours les dégâts maximum.",
-        "Description-short":"Contre un ennemi de type hostile, ils infligent toujours les dégâts maximum.",
-        "Active":"Obliteration activé",
-        "Desactive":"Obliteration désactivé"
+        "Label":"Obliteration",
+        "Description":"Weapons with the powerful obliteration effect inflict considerable damage to frailer enemies. Against brute type enemies, they always deal the highest damage possible on all their damage dice (as if they had all rolled 6s). No dice need to be rolled at all. If the weapon has the scatter effect, each brute hit by the attack takes maximum damage.",
+        "Description-short":"Against brute type enemies, they always deal the highest damage possible.",
+        "Active":"Obliteration activated",
+        "Desactive":"Obliteration deactivated"
       },
       "ORFEVRERIE": {
-        "Label":"Orfévrerie",
-        "Description":"Lorsque l’arme est utilisée, son utilisateur ajoute sa caractéristique _Dextérité_ (+ 1 point de dégâts par overdrive) (ou _Masque_ divisé par 2, arrondi à l’entier supérieur, pour un PNJ) lorsqu’il détermine les dégâts en plus d’autres caractéristiques déjà incluses.",
-        "Description-short":"Lorsque l’arme est utilisée, son utilisateur ajoute sa caractéristique Dextérité (+ 1 point de dégâts par overdrive)."
+        "Label":"Finecrafted",
+        "Description":"When this weapon is used, its wielder adds their _Dexterity_ characteristic (+1 point for each overdrive) to their damage, in addition to any existing modifiers. NPCs instead add half their _Mask_ (rounded up) to their damage (as well as any exceptional _Mask_ aspect score they may have) to their damage.",
+        "Description-short":"When this weapon is used, its wielder adds their _Dexterity_ characteristic (+1 point for each overdrive) to their damage."
       },
       "PARASITAGE": {
-        "Label":"Parasitage",
-        "Description":"Cet effet s'applique uniquement aux méta-armures, exosquelettes, robots, véhicules, créatures de la Machine et tous les ennemis possédant la capacité _sensibilité IEM_. La cible touchée par une attaque avec _parasitage X_ perd automatiquement ses X prochaines actions.\r\n**Attention** : l'effet ne peut pas se cumuler alors que la cible est déjà sous l'effet _parasitage X_ et ne se cumule pas avec l'effet _choc X_.",
-        "Description-short":"Cet effet s'applique uniquement aux machines. La cible touchée perd automatiquement ses X prochaines actions."
+        "Label":"Interference",
+        "Description":"_Interference_ only affects meta-armour, exoskeletons, robots, vehicles, servants of the Machine, and enemies with the _EMP sensitive_ trait. A valid target hit by an _interference_ X attack loses its next X actions.\r\n **Warning**: This effect cannot be applied to a target that is already affected by another _interference_ X or a _stun_ X effect.",
+        "Description-short":"Only affects meta-armour, exoskeletons, robots, vehicles, servants of the Machine. The target loses its next X actions."
       },
       "PENETRANT": {
-        "Label":"Pénétrant",
-        "Description":"Penetrant X baisse le champ de force de la cible de X. Donc, sur un champ de force de 14, une attaque avec Pénétrant 6 baisse le champ de force à 8. Cet effet ne fonctionne pas contre le score de bouclier d'une cible.",
-        "Description-short":"L'arme ignore une certaine valeur de champ de force, X représentant cette valeur."
+        "Label":"Penetration",
+        "Description":"This weapon ignores X force field points. If X is equal to or higher than the force field strength of the target, its force field is simply ignored and damage is dealt straight to its armour (or health if it has no AP). This effect does not bypass Anathema shield values.",
+        "Description-short":"This weapon ignores X force field points."
       },
       "PERCEARMURE": {
-        "Label":"Perce Armure",
-        "Description":"L'arme ignore une certaine valeur d'armure, X représentant cette valeur. Si la valeur est égale ou supérieure aux points d'armure de l'ennemi, le total de PA est simplement ignoré et la santé est directement touchée.",
-        "Description-short":"L'arme ignore une certaine valeur d'armure, X représentant cette valeur.."
+        "Label":"Armour-piercing",
+        "Description":"This weapon ignores X armour points. If this value is higher than the enemy’s armour points, damage is immediately inflicted on the target’s health points.",
+        "Description-short":"This weapon ignores X armour points"
       },
       "PRECISION": {
-        "Label":"Precision",
-        "Description":"Lorsque l’arme est utilisée, son utilisateur ajoute sa caractéristique _Tir_ (+ 1 point de dégâts par overdrive) (ou _Machine_ divisé par 2, arrondi à l’entier supérieur, pour un PNJ) lorsqu’il détermine les dégâts.",
-        "Description-short":"Lorsque l’arme est utilisée, son utilisateur ajoute sa caractéristique Tir (+ 1 point de dégâts par overdrive)."
+        "Label":"Precise",
+        "Description":"When this weapon is used, its wielder adds their _Ranged_ characteristic (+1 point for each overdrive) to their damage, in addition to any existing modifiers. NPCs instead add half their _Machine_(rounded up) to their damage (as well as any exceptional _Machine_ aspect score they may have) to their damage.",
+        "Description-short":"When this weapon is used, its wielder adds their _Ranged_ characteristic (+1 point for each overdrive) to their damage."
       },
       "REACTION": {
-        "Label":"Réaction",
-        "Description":"L’utilisateur bénéficie d’un bonus en _réaction_, X représentant cette valeur, tant qu’il utilise cette arme ou module. Les bonus reçus peuvent se cumuler tant que le personnage peut bénéficier de l’effet.",
-        "Description-short":"L’utilisateur bénéficie d’un bonus en réaction, X représentant cette valeur, tant qu’il utilise cette arme ou module."
+        "Label":"Reaction",
+        "Description":"The wielder of this weapon gains a bonus to their _reaction_ score equal to X. These bonuses add to any others so long as the character is capable of using the weapon or module.",
+        "Description-short":"The wielder of this weapon gains a bonus to their _reaction_ score equal to X, as long as it uses this weapon or module."
       },
       "REGULARITE": {
-        "Label":"Régularité",
-        "Description":"Sur les tests d'attaque, chaque 6 obtenu ajoute 3 au calcul des dégâts.",
-        "Description-short":"Sur les tests d'attaque, chaque 6 obtenu ajoute 3 au calcul des dégâts."
+        "Label":"Regularity",
+        "Description":"On attack rolls, each 6 obtained adds 3 to the damage calculation.",
+        "Description-short":"On attack rolls, each 6 obtained adds 3 to the damage calculation."
       },
       "SILENCIEUX": {
-        "Label":"Silencieux",
-        "Description":"Le personnage ne peut être repéré par un autre personnage parce qu'il utilise son arme. Lorsque cet effet est utilisé pendant une attaque surprise, une invisibilité, un mode Ghost ou un mode Changeling, le score de la caractéristique _Discrétion_ (plus les éventuels OD) du PJ est ajouté aux dégâts. Dans le cas des PNJ, c'est la moitié du score de _Masque_ (plus le score de _Masque_ exceptionnel éventuel) qui est ajouté aux dégâts. Cet effet peut s'ajouter à ceux du mode Ghost et du niveau 2 de l'overdrive de _Discrétion_.",
-        "Description-short":"En cas d'attaque surprise."
+        "Label":"Silencer",
+        "Description":"Using a silenced weapon does not cause a character to be detected by others. If a silenced weapon is used for a surprise attack or if the user is in Ghost mode, they add their _Stealth_ characteristic (+1 point per overdrive) to their damage. NPCs add half their _Mask_ value, rounded up (as well as any exceptional _Mask_ aspect score they may have) to their damage. Silencer effects add their extra damage to a Rogue armour’s Ghost mode and the level 2 _Stealth_ overdrive effect.",
+        "Description-short":"In case of surprise attack."
       },
       "SOUMISSION": {
-        "Label":"Soumission",
-        "Description":"Après avoir touché sa cible avec un effet _soumission_, l’attaquant peut soumettre sa cible physiquement et l’empêcher de se déplacer ou d’attaquer qui que ce soit d’autre que l’attaquant, et ce au contact. Pour se libérer de l’effet _soumission_, la cible touchée doit, à son tour, réussir un test base _Déplacement_ ou _Combat_ (aspect _Chair_ ou _Bête_) dont la difficulté est définie par le nombre de réussites de l’attaquant. Si la cible n’a pas pu se libérer à son tour, l’attaquant peut maintenir la soumission sans relancer les dés et infliger des dégâts normalement, ou relancer un test d’attaque afin de renforcer sa prise. Si le jet est à nouveau réussi, les dégâts sont infligés sans prendre en considération tout éventuel champ de force ou bouclier (pour les créatures de l’Anathème). L’effet _soumission_ ne peut impacter les colosses."
+        "Label":"Submission",
+        "Description":"By hitting a target with a submission effect, the attacker can pin their target down and prevent them from moving. Furthermore, the pinned target may only attack the one who has them pinned, and only with melee attacks. To break free from a _submission_ effect, the pinned target must, on its turn, succeed at a base _Movement_ or _Combat_ skill check (_Flesh_ or _Beast_ aspect for NPCs) with a difficulty equal to the successes obtained on the pinner’s attack roll. If the target hasn’t managed to break free on its turn, the attacker may either maintain their hold and inflict their weapon damage without having to roll to hit, or try to get a better hold on their target. If this second skill check succeeds, any damage dealt bypasses force fields and anathema shields. _Submission_ effects do not work on behemoth class enemies."
       },
       "TENEBRICIDE": {
-        "Label":"Ténébricide",
-        "Description":"L’équipement a été pensé pour anéantir les créatures de l’Anathème et uniquement celles-ci. Contre des ennemis humains, il n’inflige que la moitié de ses dés de dégâts et de ses dés de violence.",
-        "Description-short":"Contre des ennemis humains, il n’inflige que la moitié de ses dés de dégâts et de ses dés de violence.",
-        "Active":"Ténébricide activé",
-        "Desactive":"Ténébricide désactivé"
+        "Label":"Shadowpurge",
+        "Description":"This piece of equipment was destined for one singular purpose: destroying creatures of the Anathema. Against humans (of any type), it only does half its usual damage or violence dice.",
+        "Description-short":"Against humans, it only does half its usual damage or violence dice.",
+        "Active":"Shadowpurge activated",
+        "Desactive":"Shadowpurge deactivated"
       },
       "TIRENRAFALE": {
-        "Label":"Tir en rafale",
-        "Description":"Lors du calcul des dégâts, il est possible, une fois par attaque, d’annuler tous les résultats et de relancer les dés. Le nouveau résultat remplace le premier et doit être conservé. Il n’est pas possible de prendre la moyenne des dégâts en utilisant cet effet.",
-        "Description-short":"Lors du calcul des dégâts, il est possible, une fois par attaque, d’annuler tous les résultats et de relancer les dés. Le nouveau résultat remplace le premier et doit être conservé. Il n’est pas possible de prendre la moyenne des dégâts en utilisant cet effet.",
-        "Relance":"Relance les dégâts"
+        "Label":"Burst fire",
+        "Description":"Once per attack, while determining damage, a character using a weapon with burst fire may reroll all their damage dice. The second roll replaces the first result and must be kept, even if it is worse. When this effect is used, the weapon’s average damage may not be chosen to replace the first roll.",
+        "Description-short":"Once per attack, while determining damage, a character using a weapon with burst fire may reroll all their damage dice. The second roll replaces the first result and must be kept, even if it is worse. When this effect is used, the weapon’s average damage may not be chosen to replace the first roll.",
+        "Relance":"Reroll damage"
       },
       "TIRENSECURITE": {
-        "Label":"Tir en sécurité",
-        "Description":"Grâce à une caméra sur le bout du canon ou à un canon déformable, le porteur de l’arme peut tirer tout en bénéficiant des bonus du style à couvert sans subir de malus au tir.",
-        "Description-short":"Grâce à une caméra sur le bout du canon ou à un canon déformable, le porteur de l’arme peut tirer tout en bénéficiant des bonus du style à couvert sans subir de malus au tir."
+        "Label":"Safe shot",
+        "Description":"By using a weapon-mounted camera or a modified barrel, this weapon’s wielder may fire without incurring any penalties due to hiding behind cover.",
+        "Description-short":"By using a weapon-mounted camera or a modified barrel, this weapon’s wielder may fire without incurring any penalties due to hiding behind cover."
       },
       "ULTRAVIOLENCE": {
         "Label":"Ultraviolence",
-        "Description":"Lorsque l'arme est utilisée contre une bande avec un score d'aspect _Chair_ de moins de 10, la violence de l'arme est augmentée de 2D6.",
-        "Description-short":"Lorsque l'arme est utilisée contre une bande avec un score d'aspect _Chair_ de moins de 10."
+        "Description":"When this weapon is used against an enemy with a _Flesh_ score of 10 or lower, its violence is increased 2D6 points.",
+        "Description-short":"When this weapon is used against an enemy with a _Flesh_ score of 10 or lower"
       }
     },
     "AMELIORATIONS":{
-      "Desactiver":"Cliquer pour désactiver",
-      "Activer":"Cliquer pour activer",
+      "Desactiver":"Click to deactivate",
+      "Activer":"Click to activate",
       "LABEL":{
-        "Distance":"Améliorations",
-        "DistanceLong":"Amélioration d'arme à distance",
-        "Structurelle":"Amélioration structurelle",
-        "Structurelles":"Améliorations structurelles",
-        "Ornementale":"Amélioration ornementale",
-        "Ornementales":"Améliorations ornementales"
+        "Distance":"Enhancements",
+        "DistanceLong":"Ranged weapon enhancements",
+        "Structurelle":"Structural enhancement",
+        "Structurelles":"Structural enhancements",
+        "Ornementale":"Ornamental enhancement",
+        "Ornementales":"Ornamental enhancements"
       },
       "EDIT":{
-        "Distance":"Modifier les améliorations",
-        "Structurelles":"Modifier les améliorations structurelles",
-        "Ornementales":"Modifier les améliorations ornementales"
+        "Distance":"Edit enhancements",
+        "Structurelles":"Edit structural enhancements",
+        "Ornementales":"Edit ornamental enhancements"
       },
       "AGRESSIVE":{
-        "Label":"Agressive",
-        "Description":"Lorsque le personnage se bat en style agressif avec l’arme, celle-ci voit ses dégâts augmenter de 1D6 (3).",
-        "Description-short":"Lorsque le personnage se bat en style agressif avec l’arme, celle-ci voit ses dégâts augmenter de 1D6 (3)."
+        "Label":"Aggressive",
+        "Description":"When the character fights in aggressive style with the weapon, its damage is increased by 1D6 (3).",
+        "Description-short":"When the character fights in aggressive style with the weapon, its damage is increased by 1D6 (3)."
       },
       "ALLEGEE":{
-        "Label":"Allégée",
-        "Description":"L’arme perd 1D6 (3) aux dégâts qu’elle infligeait à l’origine. En contrepartie, elle perd l’effet deux mains et peut donc être manipulée à une main.",
-        "Description-short":"L’arme perd 1D6 (3) aux dégâts qu’elle infligeait à l’origine. En contrepartie, elle perd l’effet deux mains et peut donc être manipulée à une main."
+        "Label":"Lightweight",
+        "Description":"The weapon loses 1D6 (3) to the damage it originally inflicted. In return, it loses its two-handed effect and can now be wielded with one hand.",
+        "Description-short":"The weapon loses 1D6 (3) to the damage it originally inflicted. In return, it loses its two-handed effect and can now be wielded with one hand."
       },
       "ARABESQUESIRIDESCENTES":{
-        "Label":"Arabesques iridescentes",
-        "Description":"L’arme possède désormais l’effet lumière 1 ou octroie un bonus de 1 à l’effet lumière X.\r\nLorsque l'arme frappe une créature de l'Anathème ou une bande de l'Anathème, ses scores de _défense_ et de _réaction_ sont réduits d'une certaine valeur jusqu'à la fin du prochain tour du PJ qui a infligé l'effet _lumière_. X représente cette valeur. Cet effet ne peut pas se cumuler sur une même cible.",
-        "Description-short":"Lorsque l'arme frappe une créature de l'Anathème ou une bande de l'Anathème, ses scores de _défense_ et de _réaction_ sont réduits d'une certaine valeur jusqu'à la fin du prochain tour du PJ qui a infligé l'effet _lumière_. X représente cette valeur. Cet effet ne peut pas se cumuler sur une même cible."
+        "Label":"Iridescent Arabesques",
+        "Description":"The weapon now has radiance 1 effect or grants a bonus of 1 to radiance effect X.\r\nWhen the weapon strikes an Anathema creature or an Anathema band, its _defense_ and _reaction_ scores are reduced by a certain value until the end of the next turn of the PJ who inflicted the _radiance_ effect. X represents this value. This effect cannot be cumulated on the same target.",
+        "Description-short":"When the weapon strikes an Anathema creature or an Anathema band, its _defense_ and _reaction_ scores are reduced by a certain value until the end of the next turn of the PJ who inflicted the _radiance_ effect. X represents this value. This effect cannot be cumulated on the same target."
       },
       "ARMEAZURINE":{
-        "Label":"Arme azurine",
-        "Description":"L’arme reçoit un bonus de 1D6 (3) points de dégâts et 1D6 (3) points de violence lorsqu’elle cible une créature de la Dame.",
-        "Description-short":"Lorsque cible une créature de la Dame."
+        "Label":"Azurine weapon",
+        "Description":"The weapon receives a bonus of 1D6 (3) points of damage and 1D6 (3) points of violence when targeting a Lady's creature.",
+        "Description-short":"When targeting a Lady's creature."
       },
       "ARMEROUGESANG":{
-        "Label":"Arme rouge sang",
-        "Description":"L’arme reçoit un bonus de 1D6 (3) points de dégâts et 1D6 (3) points de violence lorsqu’elle cible une créature de la Chair.",
-        "Description-short":"Lorsque cible une créature de la Chair."
+        "Label":"Blood-red weapon",
+        "Description":"The weapon receives a bonus of 1D6 (3) points of damage and 1D6 (3) points of violence when targeting a Flesh's creature.",
+        "Description-short":"When targeting a Flesh's creature."
       },
       "ARMUREGRAVEE":{
-        "Label":"Armure gravée",
-        "Description":"Lorsque le chevalier l’a en main, l’arme lui procure désormais un bonus de 2 au champ de force de sa méta-armure et de sa combinaison Guardian.",
-        "Description-short":"Donne un bonus de 2 au champ de force de sa méta-armure et de sa combinaison Guardian."
+        "Label":"Engraved armor",
+        "Description":"When in the knight's hand, the weapon now provides a 2 bonus to the force field of his meta armour and Guardian suit.",
+        "Description-short":"Provides a 2 bonus to the force field of his meta armour and Guardian suit."
       },
       "ASSASSINE":{
-        "Label":"Assassine",
-        "Description":"Désormais, l’arme possède l’effet silencieux.\r\nLe personnage ne peut être repéré par un autre personnage parce qu'il utilise son arme. Lorsque cet effet est utilisé pendant une attaque surprise, une invisibilité, un mode Ghost ou un mode Changeling, le score de la caractéristique _Discrétion_ (plus les éventuels OD) du PJ est ajouté aux dégâts. Dans le cas des PNJ, c'est la moitié du score de _Masque_ (plus le score de _Masque_ exceptionnel éventuel) qui est ajouté aux dégâts. Cet effet peut s'ajouter à ceux du mode Ghost et du niveau 2 de l'overdrive de _Discrétion_.",
-        "Description-short":"En cas d'attaque surprise."
+        "Label":"Assassin",
+        "Description":"The weapon now has a silencer effect.\r\nPreventing the character from being detected by another character while using the weapon. When this effect is used during a surprise attack, invisibility, Ghost mode or Changeling mode, the PC's _Stealth_ characteristic score (plus any OD) is added to the damage. In the case of NPCs, half the _Mask_ score (plus any exceptional _Mask_ score) is added to the damage. This effect can be added to those of Ghost mode and level 2 of _Stealth_ overdrive.",
+        "Description-short":"In case of surprise attack."
       },
       "BARBELEE":{
-        "Label":"Barbelée",
-        "Description":"L’arme gagne l’effet meurtrier.\r\nLorsque les dégâts impactent la santé de la cible, on ajoute 2D6 au total des dégâts. Si un seul point de dégâts passe l'armure, le bouclier et le CdF de la cible, l'effet _meurtrier_ est appliqué.",
-        "Description-short":"Lorsque les dégâts impactent la santé de la cible."
+        "Label":"Barbed wire",
+        "Description":"The weapon gains the wounding effect.\r\nWhen damage affects the target's health, 2D6 is added to the total damage. If a single point of damage passes the target's armor, shielding and FF, the _wounding_ effect is applied.",
+        "Description-short":"When damage affects the target's health."
       },
       "BLASONCHEVALIER":{
-        "Label":"Blason du chevalier",
-        "Description":"Désormais, lorsque le chevalier accomplit la motivation mineure liée à son blason et que l’arme l’a aidé pour cela, il gagne un point d’espoir supplémentaire à ajouter à sa valeur actuelle.",
-        "Description-short":"Désormais, lorsque le chevalier accomplit la motivation mineure liée à son blason et que l’arme l’a aidé pour cela, il gagne un point d’espoir supplémentaire."
+        "Label":"Knight's crest",
+        "Description":"From now on, when the knight achieves the minor motivation linked to his crest and the weapon has helped him to do so, he gains an extra point of hope to add to his current value.",
+        "Description-short":"From now on, when the knight achieves the minor motivation linked to his crest and the weapon has helped him to do so, he gains an extra point of hope."
       },
       "BOUCLIERGRAVE":{
-        "Label":"Bouclier gravé",
-        "Description":"L’arme procure l’effet défense 1 ou octroie un bonus de 1 à l’effet défense X.\r\nL’utilisateur reçoit un modificateur de _défense_, X représentant cette valeur, tant qu’il utilise cette arme ou module. Les modificateurs reçus peuvent se cumuler tant que le personnage peut recevoir l’effet.",
-        "Description-short":"L’arme procure l’effet défense 1 ou octroie un bonus de 1 à l’effet défense X."
+        "Label":"Engraved shield",
+        "Description":"The weapon provides defence 1 effect or grants a bonus of 1 to defence X effect.\r\nThe user receives a _defence_ modifier, with X representing this value, for as long as he uses this weapon or module. Modifiers received can be accumulated for as long as the character can receive the effect.",
+        "Description-short":"The weapon provides defence 1 effect or grants a bonus of 1 to defence X effect."
       },
       "CANONLONG":{
-        "Label":"Canon long",
-        "Description":"L’arme offre une réussite automatique (en plus des éventuels effets octroyant des réussites automatiques) lorsque le tireur fait feu à portée moyenne ou supérieure. À portée courte ou inférieure, la difficulté des tirs est augmentée de 3 (comme si la réaction des ennemis était augmentée de 3 points).",
-        "Description-short":"À portée moyenne ou supérieure, offre une réussite automatique. À portée courte ou inférieure, la difficulté des tirs est augmentée de 3."
+        "Label":"Long barrel",
+        "Description":"Attacks made at medium range or above gain one automatic success (in addition to any automatic successes from overdrives or other effects). At short or contact range, all ranged combat checks are made with a 3-point penalty (as if the enemy’s reaction were 3 points higher).",
+        "Description-short":"At medium range or above gain one automatic success. At short or contact range, all ranged combat checks are made with a 3-point penalty."
       },
       "CANONRACCOURCI":{
-        "Label":"Canon raccourci",
-        "Description":"À portée courte ou inférieure, l’arme possède l’effet dispersion 3. En revanche, à portée moyenne ou supérieure, la difficulté des tirs est augmentée de 3 (comme si la réaction des ennemis était augmentée de 3 points).",
-        "Description-short":"À portée courte ou inférieure, offre dispersion 3. À portée moyenne ou supérieure, la difficulté des tirs est augmentée de 3."
+        "Label":"Short barrel",
+        "Description":"Up to short range, the weapon gains scatter 3. At medium range and up, all ranged combat checks are made with a 3-point penalty (as if the enemy’s reaction were 3 points higher).",
+        "Description-short":"Up to short range, the weapon gains scatter 3. At medium range and up, all ranged combat checks are made with a 3-point penalty."
       },
       "CHAMBREDOUBLE":{
-        "Label":"Chambre double",
-        "Description":"L’arme gagne l’effet cadence 2.\r\nL’arme est très rapide et peut cibler 2 adversaires par action de combat au lieu d’un seul. Une attaque doit être réalisée pour chacune des cibles, avec 3 dés de malus. Chacune des cibles ne peut être distante de plus de 2 mètres.",
-        "Description-short":"L’arme gagne l’effet cadence 2.\r\nL’arme est très rapide et peut cibler 2 adversaires par action de combat au lieu d’un seul. Une attaque doit être réalisée pour chacune des cibles, avec 3 dés de malus. Chacune des cibles ne peut être distante de plus de 2 mètres.",
-        "Active":"Chambre double activé",
-        "Desactive":"Chambre double désactivé"
+        "Label":"Twin chambers",
+        "Description":"The weapon gains the cadence 2 effect.\r\nThis weapon is very fast, and can target up to X opponents in a single combat action. Attack rolls must be made against each target, with a penalty of -3 D to each attack. The targets cannot be more than 6 feet apart.",
+        "Description-short":"The weapon gains the cadence 2 effect.\r\nThis weapon is very fast, and can target up to X opponents in a single combat action. Attack rolls must be made against each target, with a penalty of -3 D to each attack. The targets cannot be more than 6 feet apart.",
+        "Active":"Twin chambers activated",
+        "Desactive":"Twin chambers deactivated"
       },
       "CHARGEURBALLESGRAPPES":{
-        "Label":"Chargeur et balles grappes",
-        "Description":"L’arme voit sa violence augmenter de 1D6, en revanche, ses dégâts diminuent de 1D6.",
-        "Description-short":"L’arme voit sa violence augmenter de 1D6, en revanche, ses dégâts diminuent de 1D6.",
-        "Active":"Chargeur et balles grappes activé",
-        "Desactive":"Chargeur et balles grappes désactivé"
+        "Label":"Cluster ammunition",
+        "Description":"The weapon’s violence is increased by 1D6, but its damage is reduced by 1D6.",
+        "Description-short":"The weapon’s violence is increased by 1D6, but its damage is reduced by 1D6.",
+        "Active":"Cluster ammunition activated",
+        "Desactive":"Cluster ammunition deactivated"
       },
       "CHARGEURMUNITIONSEXPLOSIVES":{
-        "Label":"Chargeur et munitions explosives",
-        "Description":"L’arme voit ses dégâts augmenter de 1D6, en revanche, sa violence diminue de 1D6.",
-        "Description-short":"L’arme voit ses dégâts augmenter de 1D6, en revanche, sa violence diminue de 1D6.",
-        "Active":"Chargeur et munitions explosives activé",
-        "Desactive":"Chargeur et munitions explosives désactivé"
+        "Label":"Explosive ammunition",
+        "Description":"The weapon’s damage is increased by 1D6, but its violence is reduced by 1D6.",
+        "Description-short":"The weapon’s damage is increased by 1D6, but its violence is reduced by 1D6.",
+        "Active":"Explosive ammunition activated",
+        "Desactive":"Explosive ammunition deactivated"
       },
       "CHENESCULPTE":{
-        "Label":"Chêne sculpté",
-        "Description":"L’arme reçoit un bonus de 2D6 (6) points de dégâts lorsqu’elle cible un colosse de l’Anathème.",
-        "Description-short":"Lorsque cible un colosse de l’Anathème."
+        "Label":"Sculpted oak",
+        "Description":"The weapon receives a bonus of 2D6 (6) points of damage when targeting an Anathema's behemoth.",
+        "Description-short":"When targeting an Anathema's behemoth."
       },
       "CHROMELIGNESLUMINEUSES":{
-        "Label":"Chromée avec lignes lumineuses et colorées",
-        "Description":"L’arme possède désormais l’effet cadence 2.\r\nL’arme est très rapide et peut cibler 2 adversaires par action de combat au lieu d’un seul. Une attaque doit être réalisée pour chacune des cibles, avec 3 dés de malus. Chacune des cibles ne peut être distante de plus de 2 mètres.",
-        "Description-short":"L’arme est très rapide et peut cibler 2 adversaires par action de combat au lieu d’un seul. Une attaque doit être réalisée pour chacune des cibles, avec 3 dés de malus. Chacune des cibles ne peut être distante de plus de 2 mètres.",
-        "Active":"Chromée avec lignes lumineuses et colorées activé",
-        "Desactive":"Chromée avec lignes lumineuses et colorées désactivé"
+        "Label":"Chrome-plated with bright and colorful lines",
+        "Description":"The weapon now has a cadence 2 effect.\r\nThis weapon is very fast, and can target up to X opponents in a single combat action. Attack rolls must be made against each target, with a penalty of -3 D to each attack. The targets cannot be more than 6 feet apart.",
+        "Description-short":"This weapon is very fast, and can target up to X opponents in a single combat action. Attack rolls must be made against each target, with a penalty of -3 D to each attack. The targets cannot be more than 6 feet apart.",
+        "Active":"Chrome-plated with bright and colorful lines activated",
+        "Desactive":"Chrome-plated with bright and colorful lines deactivated"
       },
       "CODEKNIGHTGRAVE":{
-        "Label":"Code du Knight gravé",
-        "Description":"Lorsque le chevalier a l’arme en main, ses pertes d’espoir sont réduites de 1 point. Ce bonus peut se cumuler avec d’autres réductions.",
-        "Description-short":"Lorsque le chevalier a l’arme en main, ses pertes d’espoir sont réduites de 1 point."
+        "Label":"Engraved Avalon's code",
+        "Description":"When the knight has the weapon in hand, his loss of hope is reduced by 1 point. This bonus can be cumulated with other reductions.",
+        "Description-short":"When the knight has the weapon in hand, his loss of hope is reduced by 1 point."
       },
       "CONNECTEE":{
-        "Label":"Connectée",
-        "Description":"L’arme possède désormais l’effet assistance à l’attaque.\r\nLorsqu'un jet pour toucher est effectué avec cette arme, chaque réussite excédentaire au-dessus du score de _réaction_ (dans le cas d'un tir) ou de _défense_ (dans le cas d'une attaque au contact) de la cible permet de lui infliger 1 point de dégât (ou de violence dans le cas d'une bande) supplémentaire.",
-        "Description-short":"+1 par succès excédentaire sur l'attaque."
+        "Label":"Connected",
+        "Description":"The weapon now has the assisted aim effect.\r\nWhen a skill check is made to hit a target with this weapon, each success surpassing the number required to hit (against a target’s reaction for ranged attacks or defence for melee attacks) deals 1 additional point of damage or violence.",
+        "Description-short":"+1 for each additional success on the attack."
       },
       "CRANERIEURGRAVE":{
-        "Label":"Crâne rieur gravé",
-        "Description":"L’arme possède désormais l’effet oblitération.\r\nCes équipements particulièrement puissants infligent des dégâts considérables aux cibles les moins résistantes. Contre un ennemi de type hostile, ils infligent toujours les dégâts maximum.",
-        "Description-short":"Contre un ennemi de type hostile, ils infligent toujours les dégâts maximum.",
-        "Active":"Crâne rieur gravé activé",
-        "Desactive":"Crâne rieur gravé désactivé"
+        "Label":"Engraved laughing skull",
+        "Description":"The weapon now has the obliteration effect.\r\nWeapons with the powerful obliteration effect inflict considerable damage to frailer enemies. Against brute type enemies, they always deal the highest damage possible on all their damage dice (as if they had all rolled 6s). No dice need to be rolled at all. If the weapon has the scatter effect, each brute hit by the attack takes maximum damage.",
+        "Description-short":"Against brute type enemies, they always deal the highest damage possible.",
+        "Active":"Engraved laughing skull activated",
+        "Desactive":"Engraved laughing skull deactivated"
       },
       "ELECTRIFIEE":{
-        "Label":"Électrifiée",
-        "Description":"L’arme gagne l’effet choc 1.\r\nSi le jet pour toucher avec l'arme est supérieur au score de l'aspect _Chair_ (divisé par 2 pour un PNJ) de la cible, celle-ci perd sa prochaine action. Cet effet ne fonctionne pas contre les bandes. Attention, l'effet ne peut pas se cumuler alors que la cible est déjà sous l'effet _choc_. Dans certaines circonstances, l'effet _choc_ peut être considéré comme automatique et ne prend donc pas en compte le score de l'aspect _Chair_. Lorsque l'effet _choc_ est censé s'appliquer automatiquement, il faut tout de même que le personnage touche sa cible. En revanche, son résultat n'a pas besoin d'égaler l'aspect _Chair_ divisé par deux de la cible pour que l'effet fonctionne. En fonction des circonstances, le MJ peut décider qu'un personnage sous l'effet choc subit un malus de 2 à sa _réaction_ et à sa _défense_. L'effet ne se cumule pas avec _parasitage X_.",
-        "Description-short":"Si le nombre de succès est supérieur à l'aspect Chair (ou Chair / 2 pour un PNJ), la cible perd sa prochaines actions."
+        "Label":"Electrified",
+        "Description":"The weapon now has the stun 1 effect.\r\nIf this weapon’s attack roll is higher than the target’s _Flesh_ aspect (divided by 2 for NPCs), then they lose their next X actions. This has no effect on bands. This effect cannot be applied to a target that is already stunned by another _stun_ effect. Under certain circumstances, a _stun_ effect may be automatic as long as the skill check to hit succeeds, regardless of the target’s _Flesh_ aspect score. The attacking character still needs to roll to hit. The attack roll does not need to be higher than the target’s _Flesh_ aspect (or half their aspect, rounded up, for an NPC) for the stun to work. A stunned character may suffer a 2-point penalty to their _reaction_ and _defence_ scores if the GM considers it appropriate. This effect does not stack with the _interference_ X effect.",
+        "Description-short":"If this weapon’s attack roll is higher than the target’s Flesh aspect (divided by 2 for NPCs), then they lose their next X actions."
       },
       "FAUCHEUSEGRAVEE":{
-        "Label":"Faucheuse gravée",
-        "Description":"L’arme reçoit un bonus de 1D6 (3) à ses dégâts.",
-        "Description-short":"L’arme reçoit un bonus de 1D6 (3) à ses dégâts."
+        "Label":"Engraved reaper",
+        "Description":"The weapon receives a 1D6 (3) bonus to its damage.",
+        "Description-short":"The weapon receives a 1D6 (3) bonus to its damage."
       },
       "FAUCONPLUMESLUMINESCENTES":{
-        "Label":"Faucon et plumes luminescentes",
-        "Description":"L’arme possède désormais l’effet anti-Anathème.\r\nL'arme ignore purement et simplement la valeur de bouclier et de _Chair_ exceptionnelle (qu'elle soit majeure ou mineure) de la créature de l'Anathème prise pour cible. Les PA, puis la santé de la cible sont directement touchés. Lorsqu'une arme de ce type touche une bande de créatures de l'Anathème, ses scores de bouclier et de Chair exceptionnelle sont ignorés.",
-        "Description-short":"Ignore le bouclier et la Chair exceptionnelle majeure et mineure."
+        "Label":"Hawk and luminescent feathers",
+        "Description":"When this weapon is used against a creature of the Anathema, it ignores any shield or exceptional Flesh values the target may have. Damage is inflicted directly to their AP, if applicable, then their health. When a weapon with this effect hits a band of creatures of the Anathema, ignore its shield and exceptional Flesh.",
+        "Description-short":"Ignores any shield or exceptional Flesh values."
       },
       "FLAMMESSTYLISEES":{
-        "Label":"Flammes stylisées",
-        "Description":"L’arme reçoit un bonus de 1D6 (3) à sa violence.",
-        "Description-short":"L’arme reçoit un bonus de 1D6 (3) à sa violence."
+        "Label":"Stylised flames",
+        "Description":"The weapon receives a 1D6 (3) bonus to its violence.",
+        "Description-short":"The weapon receives a 1D6 (3) bonus to its violence."
       },
       "GRIFFURESGRAVEES":{
-        "Label":"Griffures gravées",
-        "Description":"L’arme reçoit un bonus de 1D6 (3) points de dégâts et 1D6 (3) points de violence lorsqu’elle cible une créature de la Bête.",
-        "Description-short":"Lorsque cible une créature de la Bête."
+        "Label":"Engraved stripes",
+        "Description":"The weapon receives a bonus of 1D6 (3) points of damage and 1D6 (3) points of violence when targeting a Beast's creature.",
+        "Description-short":"When targeting a Beast's creature."
       },
       "INDESTRUCTIBLE":{
         "Label":"Indestructible",
-        "Description":"L’arme est indestructible. Elle ne peut pas être brisée, broyée, cassée, démantelée, brûlée, etc.",
-        "Description-short":"L’arme est indestructible. Elle ne peut pas être brisée, broyée, cassée, démantelée, brûlée, etc."
+        "Description":"The weapon is indestructible. It cannot be shattered, crushed, broken, dismantled, burned, etc.",
+        "Description-short":"The weapon is indestructible. It cannot be shattered, crushed, broken, dismantled, burned, etc."
       },
       "INTERFACEGUIDAGE":{
-        "Label":"Interface de guidage",
-        "Description":"L’arme gagne l’effet tir en sécurité.\r\nGrâce à une caméra sur le bout du canon ou à un canon déformable, le porteur de l’arme peut tirer tout en bénéficiant des bonus du style à couvert sans subir de malus au tir."
+        "Label":"Guiding interface",
+        "Description":"The weapon gains the safe-shot effect.\r\nBy using a weapon-mounted camera or a modified barrel, this weapon’s wielder may fire without incurring any penalties due to hiding behind cover."
       },
       "JUMELLE":{
-        "Label":"Jumelle",
-        "Description":"Lorsque l’arme est utilisée de concert avec sa jumelle, les deux armes gagnent l’effet jumelé (akimbo).\r\nLorsqu’on utilise deux exemplaires de cette arme en style akimbo, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
-        "Description-short":"Lorsqu’on utilise deux exemplaires de cette arme en style akimbo, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3)."
+        "Label":"Twins",
+        "Description":"When used in conjunction with its twin, both weapons gain the twinned (akimbo) effect.\r\nWhen using two copies of this weapon with the akimbo combat style, the penalty to attack checks is reduced by 2 (resulting in a 1-die penalty instead of 3).",
+        "Description-short":"nWhen using two copies of this weapon with the akimbo combat style, the penalty to attack checks is reduced by 2 (resulting in a 1-die penalty instead of 3)."
       },
       "JUMELAGEAKIMBO":{
-        "Label":"Jumelage (Akimbo)",
-        "Description":"Les armes gagnent l’effet jumelage (akimbo)\r\nLorsqu’on utilise deux exemplaires de cette arme en style akimbo, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
-        "Description-short":"Lorsqu’on utilise deux exemplaires de cette arme en style akimbo, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3)."
+        "Label":"Twinning (Akimbo)",
+        "Description":"The weapon now has the twinned (akimbo) effect.\r\nWhen two identical weapons with twinning (akimbo) are used with the akimbo combat style, the penalty to attack checks is reduced by 2 (resulting in a 1-die penalty instead of 3).",
+        "Description-short":"When two identical weapons with twinning (akimbo) are used with the akimbo combat style, the penalty to attack checks is reduced by 2 (resulting in a 1-die penalty instead of 3)."
       },
       "JUMELAGEAMBIDEXTRIE":{
-        "Label":"Jumelage (Ambidextrie)",
-        "Description":"Les armes gagnent l’effet jumelage (ambidextrie)\r\nLorsqu’on utilise deux armes disposant de cet effet en style ambidextre, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
-        "Description-short":"Lorsqu’on utilise deux armes disposant de cet effet en style ambidextre, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
-        "Active":"Jumelage (Ambidextrie) activé",
-        "Desactive":"Jumelage (Ambidextrie) désactivé"
+        "Label":"Twinning (Ambidextrous)",
+        "Description":"The weapon now has the twinned (ambidextrous) effect.\r\nWhen two weapons with twinning (ambidextrous) are used with the ambidextrous combat style, the penalty to attack checks is reduced by 2 (resulting in a 1-die penalty instead of 3).",
+        "Description-short":"When two weapons with twinning (ambidextrous) are used with the ambidextrous combat style, the penalty to attack checks is reduced by 2 (resulting in a 1-die penalty instead of 3).",
+        "Active":"Twinning (Ambidextrous) activated",
+        "Desactive":"Twinning (Ambidextrous) deactivated"
       },
       "LUMINEUSE":{
-        "Label":"Lumineuse",
-        "Description":"Désormais l’arme possède l’effet lumière 2.\r\nLorsque l'arme frappe une créature de l'Anathème ou une bande de l'Anathème, ses scores de _défense_ et de _réaction_ sont réduits de 2 valeur jusqu'à la fin du prochain tour du PJ qui a infligé l'effet _lumière_. Cet effet ne peut pas se cumuler sur une même cible.",
-        "Description-short":"Lorsque l'arme frappe une créature de l'Anathème ou une bande de l'Anathème, ses scores de défense et de réaction sont réduits de 2 jusqu'à la fin du prochain tour du PJ qui a infligé l'effet lumière."
+        "Label":"Luminous",
+        "Description":"The weapon now has the radiance 2 effect\r\nWhen a character strikes a creature or band of the Anathema with this weapon, its defence and reaction scores are lowered by a certain amount until the end of the attacker’s next initiative. X is the number of points the target loses. This effect cannot stack multiple times on a given enemy.",
+        "Description-short":"When a character strikes a creature or band of the Anathema with this weapon, its defence and reaction scores are lowered by a certain amount until the end of the attacker’s next initiative. X is the number of points the target loses."
       },
       "LUNETTEINTELLIGENTE":{
-        "Label":"Lunette intelligente",
-        "Description":"Les armes à deux mains voient leur portée augmenter d’un niveau, sans malus.",
-        "Description-short":"Les armes à deux mains voient leur portée augmenter d’un niveau, sans malus."
+        "Label":"Smart scope",
+        "Description":"Two-handed weapon range is upgraded one level, with no downsides.",
+        "Description-short":"Two-handed weapon range is upgraded one level, with no downsides."
       },
       "MASQUEBRISESCULPTE":{
-        "Label":"Masque brisé sculpté",
-        "Description":"L’arme reçoit un bonus de 1D6 (3) points de dégâts et 1D6 (3) points de violence lorsqu’elle cible une créature du Masque.",
-        "Description-short":"Lorsque cible une créature de la Masque."
+        "Label":"Sculpted broken mask",
+        "Description":"The weapon receives a bonus of 1D6 (3) points of damage and 1D6 (3) points of violence when targeting a Mask's creature.",
+        "Description-short":"When targeting a Mask's creature."
       },
       "MASSIVE":{
         "Label":"Massive",
-        "Description":"Désormais, l’arme possède l’effet lesté. En revanche, lorsqu’il a l’arme en main, le chevalier voit sa défense diminuer de 1 point.\r\nLorsque l’arme est utilisée, son utilisateur ajoute le score de la caractéristique _Force_ multipliée par deux (ou Chair complet pour un PNJ) lorsqu’il détermine les dégâts plutôt que sa _Force_ seule (ou _Chair_ divisé par 2). Seuls les PJ ayant un score de _Force_ égal ou supérieur à 4 ou possédant un overdrive de _Force_ peuvent utiliser une arme avec un tel effet.",
-        "Description-short":"Lorsque l’arme est utilisée, son utilisateur ajoute le score de la caractéristique Force multipliée par deux (ou Chair complet pour un PNJ) lorsqu’il détermine les dégâts plutôt que sa Force seule (ou _Chair_ divisé par 2). De plus, la défense du chevalier est diminuée de 1."
+        "Description":"The weapon now has the weighted effect. However, when the weapon is in hand, the knight's defense is reduced by 1 point.\r\nWhen using this weapon, its wielder adds twice their Strength characteristic (or their whole _Flesh_ aspect for an NPC) to damage rolls rather than just their _Strength_ (or half their Flesh, rounded up, for an NPC). PCs require a minimum _Strength_ score of 4 or at least one Strength overdrive in order to wield a weighted weapon.",
+        "Description-short":"When using this weapon, its wielder adds twice their Strength characteristic (or their whole _Flesh_ aspect for an NPC) to damage rolls rather than just their _Strength_ (or half their Flesh, rounded up, for an NPC). In addition, the knight's defense is reduced by 1."
       },
       "MUNITIONSDRONES":{
-        "Label":"Munitions drones",
-        "Description":"L’amélioration confère un bonus de 3 réussites automatiques au tir contre une cible.",
-        "Description-short":"L’amélioration confère un bonus de 3 réussites automatiques au tir contre une cible.",
-        "Active":"Munitions drones activé",
-        "Desactive":"Munitions drones désactivé"
+        "Label":"Drone ammunition",
+        "Description":"The user gains 3 automatic successes on their attack rolls.",
+        "Description-short":"The user gains 3 automatic successes on their attack rolls.",
+        "Active":"Drone ammunition activated",
+        "Desactive":"Drone ammunition deactivated"
       },
       "MUNITIONSHYPERVELOCITE":{
-        "Label":"Munitions hyper vélocité",
-        "Description":"L’arme bénéficie de l’effet assistance à l’attaque. Une arme légère gagne l’effet deux mains, une arme à deux mains gagne l’effet lourd.\r\nLorsqu'un jet pour toucher est effectué avec cette arme, chaque réussite excédentaire au-dessus du score de _réaction_ (dans le cas d'un tir) ou de _défense_ (dans le cas d'une attaque au contact) de la cible permet de lui infliger 1 point de dégât (ou de violence dans le cas d'une bande) supplémentaire.",
-        "Description-short":"+1 par succès excédentaire sur l'attaque.",
-        "Active":"Munitions hyper vélocité activé",
-        "Desactive":"Munitions hyper vélocité désactivé"
+        "Label":"Hyper velocity ammunition",
+        "Description":"The weapon gains the assisted aim effect. Light weapons also get the two-handed effect, whereas two-handed weapons gain the heavy effect.\r\nWhen a skill check is made to hit a target with this weapon, each success surpassing the number required to hit (against a target’s reaction for ranged attacks or defence for melee attacks) deals 1 additional point of damage or violence.",
+        "Description-short":"+1 for each additional success on the attack.",
+        "Active":"Hyper velocity ammunition activated",
+        "Desactive":"Hyper velocity ammunition deactivated"
       },
       "MUNITIONSIEM":{
-        "Label":"Munitions IEM",
-        "Description":"L’arme gagne l’effet parasitage 2, mais perd 1D6 de dégâts et de violence.\r\nCet effet s'applique uniquement aux méta-armures, exosquelettes, robots, véhicules, créatures de la Machine et tous les ennemis possédant la capacité _sensibilité IEM_. La cible touchée par une attaque avec _parasitage 2_ perd automatiquement ses 2 prochaines actions.\r\n**Attention** : l'effet ne peut pas se cumuler alors que la cible est déjà sous l'effet _parasitage X_ et ne se cumule pas avec l'effet _choc X_.",
-        "Description-short":"Cet effet s'applique uniquement aux machines. La cible touchée perd automatiquement ses 2 prochaines actions. Perd 1D6 de dégâts et de violence.",
-        "Active":"Munitions IEM activé",
-        "Desactive":"Munitions IEM désactivé"
+        "Label":"EMP ammunition",
+        "Description":"The weapon gains an _interference_ 2 effect, but loses 1D6 damage and violence.\r\n_Interference_ only affects meta-armour, exoskeletons, robots, vehicles, servants of the Machine, and enemies with the _EMP sensitive_ trait. A valid target hit by an _interference_ X attack loses its next X actions.\r\n **Warning**: This effect cannot be applied to a target that is already affected by another _interference_ X or a _stun_ X effect.",
+        "Description-short":"Only affects meta-armour, exoskeletons, robots, vehicles, servants of the Machine. The target loses its next X actions.",
+        "Active":"EMP ammunition activated",
+        "Desactive":"EMP ammunition deactivated"
       },
       "MUNITIONSNONLETALES":{
-        "Label":"Munitions non létales",
-        "Description":"Les tirs de l’arme ne peuvent pas tuer la cible.",
-        "Description-short":"Les tirs de l’arme ne peuvent pas tuer la cible.",
-        "Active":"Munitions non létale activé",
-        "Desactive":"Munitions non létale désactivé"
+        "Label":"Non-Lethal ammunition",
+        "Description":"This weapon cannot kill its targets.",
+        "Description-short":"This weapon cannot kill its targets.",
+        "Active":"Non-Lethal ammunition activated",
+        "Desactive":"Non-Lethal ammunition deactivated"
       },
       "MUNITIONSSUBSONIQUES":{
-        "Label":"Munitions subsoniques",
-        "Description":"L’arme possède l’effet silencieux.\r\nLe personnage ne peut être repéré par un autre personnage parce qu'il utilise son arme. Lorsque cet effet est utilisé pendant une attaque surprise, une invisibilité, un mode Ghost ou un mode Changeling, le score de la caractéristique _Discrétion_ (plus les éventuels OD) du PJ est ajouté aux dégâts. Dans le cas des PNJ, c'est la moitié du score de _Masque_ (plus le score de _Masque_ exceptionnel éventuel) qui est ajouté aux dégâts. Cet effet peut s'ajouter à ceux du mode Ghost et du niveau 2 de l'overdrive de _Discrétion_.",
-        "Description-short":"En cas d'attaque surprise.",
-        "Active":"Munitions subsoniques activé",
-        "Desactive":"Munitions subsoniques désactivé"
+        "Label":"Subsonic ammunition",
+        "Description":"The weapon gains the silencer effect.\r\nUsing a silenced weapon does not cause a character to be detected by others. If a silenced weapon is used for a surprise attack or if the user is in Ghost mode, they add their _Stealth_ characteristic (+1 point per overdrive) to their damage. NPCs add half their _Mask_ value, rounded up (as well as any exceptional _Mask_ aspect score they may have) to their damage. Silencer effects add their extra damage to a Rogue armour’s Ghost mode and the level 2 _Stealth_ overdrive effect.",
+        "Description-short":"In case of surprise attack.",
+        "Active":"Subsonic ammunition activated",
+        "Desactive":"Subsonic ammunition deactivated"
       },
       "POINTEURLASER":{
-        "Label":"Pointeur laser",
-        "Description":"L’arme procure 3D6 de bonus à l'attaque au tireur à portée courte ou moyenne.",
-        "Description-short":"+3D6 à portée courte ou moyenne.",
-        "Active":"Pointeur laser activé (portée courte ou moyenne)",
-        "Desactive":"Pointeur laser désactivé (portée courte ou moyenne)"
+        "Label":"Laser sight",
+        "Description":"Attack rolls with this weapon gain 3D6 at short or medium range.",
+        "Description-short":"+3D6 at short or medium range.",
+        "Active":"Laser sight activated (short or medium range)",
+        "Desactive":"Laser sight deactivated (short or medium range)"
       },
       "PROTECTIONARME":{
-        "Label":"Protection d'arme",
-        "Description":"La réaction du tireur est augmentée de 2.",
-        "Description-short":"La réaction du tireur est augmentée de 2."
+        "Label":"Weapon shield",
+        "Description":"The wielder’s _reaction_ is increased by 2 points.",
+        "Description-short":"The wielder’s _reaction_ is increased by 2 points."
       },
       "PROTECTRICE":{
-        "Label":"Protectrice",
-        "Description":"Si le personnage se bat en style défensif, le malus n’est que de -1D lorsqu’il attaque avec l’arme. Attention, s’il porte plusieurs attaques avec des armes différentes, toutes doivent posséder l’amélioration protectrice pour que le bonus soit effectif.",
+        "Label":"Protective",
+        "Description":"If the character fights in defensive style, the malus is only -1D when attacking with the weapon. Note that if the character makes several attacks with different weapons, they must all have the protective upgrade for the bonus to be effective.",
         "Description-short":"Si le personnage se bat en style défensif, le malus n’est que de -1D lorsqu’il attaque avec l’arme."
       },
       "REVETEMENTOMEGA":{
-        "Label":"Revêtement omega",
-        "Description":"L’arme gagne l’effet assassin 2.\r\nAjoute 2D6 aux dégâts lors des attaques surprises.",
-        "Description-short":"En cas d'attaque surprise."
+        "Label":"Omega coating",
+        "Description":"The weapon gains the _assassin_ 2 effect.\r\nThis effect adds 2D6 to damage on a successful surprise attack.",
+        "Description-short":"In case of surprise attack."
       },
       "ROUAGESCASSESGRAVES":{
-        "Label":"Rouages cassés gravés",
-        "Description":"L’arme reçoit un bonus de 1D6 (3) points de dégâts et 1D6 (3) points de violence lorsqu’elle cible une créature de la Machine.",
-        "Description-short":"Lorsque cible une créature de la Machine."
+        "Label":"Engraved broken cogs",
+        "Description":"The weapon receives a bonus of 1D6 (3) points of damage and 1D6 (3) points of violence when targeting a Machine's creature.",
+        "Description-short":"When targeting a Machine's creature."
       },
       "SILLONSLIGNESFLECHES":{
-        "Label":"Sillons formant des lignes et des flèches",
-        "Description":"L’arme reçoit un bonus de +3 permanent aux dégâts qu’elle inflige.",
-        "Description-short":"L’arme reçoit un bonus de +3 permanent aux dégâts qu’elle inflige."
+        "Label":"Furrows forming lines and arrows",
+        "Description":"The weapon receives a permanent +3 bonus to the damage it inflicts.",
+        "Description-short":"The weapon receives a permanent +3 bonus to the damage it inflicts."
       },
       "SOEUR":{
-        "Label":"Soeur",
-        "Description":"Lorsque l’arme est utilisée avec une autre arme à une main en style ambidextrie, elle gagne l’effet jumelé (ambidextrie). Le malus n’est diminué que sur l’attaque effectuée avec l’arme possédant l’amélioration et uniquement celle-ci.\r\nLorsqu’on utilise deux armes disposant de cet effet en style ambidextre, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
-        "Description-short":"Lorsqu’on utilise deux armes disposant de cet effet en style ambidextre, le malus est diminué de 2 (soit 1 dé de malus au lieu de 3).",
-        "Active":"Soeur activé",
-        "Desactive":"Soeur désactivé"
+        "Label":"Sister",
+        "Description":"When the weapon is used with another one-handed weapon in ambidextrous style, it gains the twinned (ambidextrous) effect. The malus is reduced only on the attack made with the upgraded weapon.\r\nWhen two weapons with this effect are used with the ambidextrous combat style, the penalty to attack checks is reduced by 2 (resulting in a 1-die penalty instead of 3)..",
+        "Description-short":"When two weapons with this effect are used with the ambidextrous combat style, the penalty to attack checks is reduced by 2 (resulting in a 1-die penalty instead of 3).",
+        "Active":"Sister activated",
+        "Desactive":"Sister deactivated"
       },
       "SOURNOISE":{
-        "Label":"Sournoise",
-        "Description":"L’arme gagne l’effet orfèvrerie.\r\nLorsque l’arme est utilisée, son utilisateur ajoute sa caractéristique _Dextérité_ (+ 1 point de dégâts par overdrive) (ou _Masque_ divisé par 2, arrondi à l’entier supérieur, pour un PNJ) lorsqu’il détermine les dégâts en plus d’autres caractéristiques déjà incluses.",
-        "Description-short":"Lorsque l’arme est utilisée, son utilisateur ajoute sa caractéristique Dextérité (+ 1 point de dégâts par overdrive)."
+        "Label":"Sneaky",
+        "Description":"The weapon gains the finecrafted effect.\r\nWhen this weapon is used, its wielder adds their _Dexterity_ characteristic (+1 point for each overdrive) to their damage, in addition to any existing modifiers. NPCs instead add half their _Mask_ (rounded up) to their damage (as well as any exceptional _Mask_ aspect score they may have) to their damage.",
+        "Description-short":"When this weapon is used, its wielder adds their _Dexterity_ characteristic (+1 point for each overdrive) to their damage."
       },
       "STRUCTUREALPHA":{
-        "Label":"Structure alpha",
-        "Description":"L’arme est indestructible. Elle ne peut pas être brisée, broyée, cassée, démantelée, brûlée, etc.",
-        "Description-short":"L’arme est indestructible. Elle ne peut pas être brisée, broyée, cassée, démantelée, brûlée, etc."
+        "Label":"Alpha reinforcement",
+        "Description":"The weapon is indestructible. It can no longer be broken, dismantled, melted, crushed, etc.",
+        "Description-short":"The weapon is indestructible. It can no longer be broken, dismantled, melted, crushed, etc."
       },
       "SURMESURE":{
-        "Label":"Sur mesure",
-        "Description":"Désormais, lorsqu’il touche une cible avec cette arme, le personnage ajoute son score dans la caractéristique Combat (OD inclus) aux dégâts qu’il lui inflige.",
-        "Description-short":"Lorsque l’arme est utilisée, son utilisateur ajoute sa caractéristique Combat (+ 1 point de dégâts par overdrive)."
+        "Label":"Tailor-made",
+        "Description":"From now on, when hitting a target with this weapon, the character adds his Combat characteristic score (including OD) to the damage he inflicts.",
+        "Description-short":"When this weapon is used, the character adds his Combat characteristic score (including OD) to the damage he inflicts."
       },
       "SYSTEMEREFROIDISSEMENT":{
-        "Label":"Système de refroidissement",
-        "Description":"L’arme concernée gagne l’effet tir en rafale et barrage 1. Une arme légère gagne l’effet deux mains, une arme à deux mains gagne l’effet lourd.\r\nLors du calcul des dégâts, il est possible, une fois par attaque, d’annuler tous les résultats et de relancer les dés. Le nouveau résultat remplace le premier et doit être conservé. Il n’est pas possible de prendre la moyenne des dégâts en utilisant cet effet.\r\nAu lieu de faire une attaque, le chevalier peut décider, au prix de son action de combat, de diminuer la _défense_ et la _réaction_ de la bande ou du PNJ ciblé d'un nombre de points égal à 1 jusqu'au début de son prochain tour, permettant ainsi à ses alliés de toucher plus facilement. L'effet s'applique automatiquement. Aucun autre effet, et aucun dégât de l'arme ne s'applique. Plusieurs effets _barrage_ peuvent s'appliquer sur une même cible et se cumulent. Mais attention, l'effet _barrage_ infligé par l'arme d'un PJ prend fin au début de son tour de jeu suivant (dès ce que c'est à lui de jouer de nouveau).",
-        "Description-short":"L’arme concernée gagne l’effet tir en rafale et barrage 1. Lors du calcul des dégâts, il est possible, une fois par attaque, d’annuler tous les résultats et de relancer les dés. Le nouveau résultat remplace le premier et doit être conservé. \r\nAu lieu de faire une attaque, le chevalier peut décider, au prix de son action de combat, de diminuer la _défense_ et la _réaction_ de la bande ou du PNJ ciblé d'un nombre de points égal à 1 jusqu'au début de son prochain tour.",
-        "Active":"Système de refroidissement (Barrage) activé",
-        "Desactive":"Système de refroidissement (Barrage) désactivé",
-        "Tirenrafale":"Système de refroidissement (Tir en rafale)"
+        "Label":"Coolant system",
+        "Description":"The weapon gains the burst fire and barrage 1 effects. Light weapons also get the two-handed effect, whereas two-handed weapons obtain the heavy effect.\r\nOnce per attack, while determining damage, a character using a weapon with burst fire may reroll all their damage dice. The second roll replaces the first result and must be kept, even if it is worse. When this effect is used, the weapon’s average damage may not be chosen to replace the first roll.\r\nInstead of attacking, the user of this weapon may choose to forfeit their combat action and lower an enemy NPC or band’s defence and reaction scores by 1 amount until the start of the attacker’s next turn, thus increasing their allies’ chance to hit the target. This effect is automatically successful. The weapon deals no damage and none of its other effects apply. Several barrage effects can stack on a target. Remember, though, that a barrage effect only lasts until the start of the character’s next combat turn (when it is their turn to act again).",
+        "Description-short":"The weapon gains the burst fire and barrage 1 effects. while determining damage, a character using a weapon with burst fire may reroll all their damage dice. The second roll replaces the first result and must be kept.\r\nInstead of attacking, the user of this weapon may choose to forfeit their combat action and lower an enemy NPC or band’s defence and reaction scores by 1 amount until the start of the attacker’s next turn.",
+        "Active":"Coolant system (Barrage) activated",
+        "Desactive":"Coolant system (Barrage) deactivated",
+        "Tirenrafale":"Coolant system (Burst fire)"
       }
     },
     "ITEMS":{

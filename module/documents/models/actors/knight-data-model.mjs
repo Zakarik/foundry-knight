@@ -487,6 +487,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         this.#setJauges();
         this.#experience();
         this.#base();
+        this.#updateCapacites();
         this.#capacites();
         this.#speciaux();
         this.#blessures();
@@ -1652,6 +1653,46 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                     Object.defineProperty(this.aspects[a.key], 'max', {
                         value: a.value,
                     });
+                    break;
+            }
+        }
+    }
+
+    #updateCapacites() {
+        const armor = this.dataArmor;
+        const capaciteUltime = this.capaciteUltime;
+
+        if(!capaciteUltime) return;
+
+        if(capaciteUltime.system.type !== 'passive') return;
+
+        const dataCUCapacites = capaciteUltime.system.passives.capacites;
+        const dataCUSpecial = capaciteUltime.system.passives.special;
+
+        for(let c in dataCUCapacites) {
+            if(c === 'actif') continue;
+
+            let data = dataCUCapacites[c];
+            let capaciteSelected = armor?.system?.capacites?.selected?.[c] ?? undefined;
+
+            if(data.actif !== true || !capaciteSelected) continue;
+
+            capaciteSelected = foundry.utils.mergeObject(capaciteSelected, data.update);
+        }
+
+        for(let s in dataCUSpecial) {
+            let data = dataCUSpecial[s];
+            let specialSelected = armor?.system?.special?.selected?.[s] ?? undefined;
+
+            if(!specialSelected) continue;
+
+            switch(s) {
+                case 'contrecoups':
+                    specialSelected.unactif = data.actif;
+                    break;
+
+                default:
+                    specialSelected = foundry.utils.mergeObject(specialSelected, data.update);
                     break;
             }
         }

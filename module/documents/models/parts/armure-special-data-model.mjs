@@ -115,6 +115,7 @@ export class ArmureSpecialDataModel extends foundry.abstract.DataModel {
           })
         }),
         contrecoups: new SchemaField({
+          unactif:new BooleanField({initial: false}),
           label: new StringField(),
           description: new StringField(),
           tableau: new SchemaField({
