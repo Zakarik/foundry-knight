@@ -5599,7 +5599,7 @@ export class KnightSheet extends ActorSheet {
             case "ascension":
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.ascension.actif) {
-                  data.capacites.selected[key] = Object.assign(data.capacites.selected[key], {
+                  data.capacites.selected[key] = foundry.utils.mergeObject(data.capacites.selected[key], {
                     permanent:passiveUltime.capacites.ascension.update.permanent,
                     prestige:passiveUltime.capacites.ascension.update.prestige,
                   });
@@ -5618,7 +5618,7 @@ export class KnightSheet extends ActorSheet {
             case "cea":
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.cea.actif) {
-                  data.capacites.selected[key] = Object.assign(data.capacites.selected[key], {
+                  data.capacites.selected[key] = foundry.utils.mergeObject(data.capacites.selected[key], {
                     vague:{
                       degats:{
                         dice:passiveUltime.capacites.cea.update.vague.degats.dice,
@@ -5977,7 +5977,7 @@ export class KnightSheet extends ActorSheet {
             case "morph":
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.morph.actif) {
-                  data.capacites.selected[key] = Object.assign(data.capacites.selected[key], {
+                  data.capacites.selected[key] = foundry.utils.mergeObject(data.capacites.selected[key], {
                     etirement:{
                       portee:passiveUltime.capacites.morph.update.etirement.portee,
                     },
@@ -6177,7 +6177,7 @@ export class KnightSheet extends ActorSheet {
             case "oriflamme":
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.oriflamme.actif) {
-                  data.capacites.selected[key] = Object.assign(data.capacites.selected[key], {
+                  data.capacites.selected[key] = foundry.utils.mergeObject(data.capacites.selected[key], {
                     activation:passiveUltime.capacites.oriflamme.update.activation,
                     duree:passiveUltime.capacites.oriflamme.update.duree,
                     portee:passiveUltime.capacites.oriflamme.update.portee,
@@ -6203,7 +6203,7 @@ export class KnightSheet extends ActorSheet {
             case "rage":
               if(passiveUltime !== undefined) {
                 if(passiveUltime.capacites.actif && passiveUltime.capacites.rage.actif) {
-                  data.capacites.selected[key] = Object.assign(data.capacites.selected[key], {
+                  data.capacites.selected[key] = foundry.utils.mergeObject(data.capacites.selected[key], {
                     fureur:{
                       defense:passiveUltime.capacites.rage.update.fureur.defense,
                       reaction:passiveUltime.capacites.rage.update.fureur.reaction,
