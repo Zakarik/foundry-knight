@@ -1,3 +1,11 @@
+## v3.29.6
+### Bugfix
+- Correction d'un bug affectant les capacités ultimes passives.
+
+## v3.29.5
+### Bugfix
+- Correction d'un bug affectant la Monk
+
 ## v3.29.4
 ### Bugfix
 - Correction d'un bug pouvant empêcher l'utilisation du champ de force Shrine dans certains cas.
