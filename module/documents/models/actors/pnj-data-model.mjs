@@ -14,6 +14,7 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
   const {SchemaField, EmbeddedDataField, StringField, NumberField, BooleanField, ObjectField, ArrayField, HTMLField} = foundry.data.fields;
 
       return {
+        version:new NumberField({initial:0, nullable:false, integer:true}),
         age:new StringField({ initial: ""}),
         archetype:new StringField({ initial: ""}),
         metaarmure:new StringField({ initial: ""}),
@@ -238,6 +239,51 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
 
   get dataArmor() {
       return this.items.find(items => items.type === 'armure');
+  }
+  static migrateData(source) {
+      if(source.version < 1) {
+          const mods = ['armure', 'sante', 'energie', 'champDeForce', 'bouclier', 'reaction', 'defense', 'initiative', 'egide'];
+
+          for(let m of mods) {
+            if(!source[m]) continue;
+
+              for(let b in source[m].bonus) {
+                  source[m].bonus[b] = 0;
+              }
+
+              for(let b in source[m].malus) {
+                  source[m].malus[b] = 0;
+              }
+          }
+
+          for(let i in source.initiative.diceBonus) {
+              source.initiative.diceBonus[i] = 0;
+          }
+
+          for(let i in source.initiative.diceMalus) {
+              source.initiative.diceMalus[i] = 0;
+          }
+
+          for(let i in source.initiative.embuscade.diceBonus) {
+              source.initiative.embuscade.diceBonus[i] = 0;
+          }
+
+          for(let i in source.initiative.embuscade.diceMalus) {
+              source.initiative.embuscade.diceMalus[i] = 0;
+          }
+
+          for(let i in source.initiative.embuscade.bonus) {
+              source.initiative.embuscade.bonus[i] = 0;
+          }
+
+          for(let i in source.initiative.embuscade.malus) {
+              source.initiative.embuscade.malus[i] = 0;
+          }
+
+          source.version = 1;
+      }
+
+      return super.migrateData(source);
   }
 
   prepareBaseData() {
@@ -820,14 +866,12 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
       const defenses = ['defense', 'reaction'];
 
       for(let d of defenses) {
-          const aspect = this.aspect[CONFIG.KNIGHT.LIST.derived[d]];
-
           const base = this[d].base;
           const bonus = this[d]?.bonus?.user ?? 0;
           const malus = this[d]?.malus?.user ?? 0;
 
           Object.defineProperty(this[d], 'mod', {
-              value: bonus-malus+aspect.value+aspect.mineur+aspect.majeur,
+              value: bonus-malus,
           });
 
           Object.defineProperty(this[d], 'value', {

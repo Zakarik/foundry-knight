@@ -15,6 +15,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 		const {SchemaField, EmbeddedDataField, StringField, NumberField, BooleanField, ObjectField, ArrayField, HTMLField} = foundry.data.fields;
 
         return {
+            version:new NumberField({initial:0, nullable:false, integer:true}),
             wear:new StringField({initial:"tenueCivile"}),
 			age:new StringField({ initial: ""}),
 			archetype:new StringField({ initial: ""}),
@@ -480,6 +481,68 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         }
 
         return result;
+    }
+
+    static migrateData(source) {
+        if(source.version < 1) {
+            const mods = ['sante', 'reaction', 'defense', 'espoir', 'initiative', 'egide'];
+            const equipements = ['ascension', 'guardian', 'armure'];
+            const eMods = ['armure', 'champDeForce', 'energie'];
+
+            for(let m of mods) {
+                if(!source[m]) continue;
+
+                for(let b in source[m].bonus) {
+                    source[m].bonus[b] = 0;
+                }
+
+                for(let b in source[m].malus) {
+                    source[m].malus[b] = 0;
+                }
+            }
+
+            for(let i in source.initiative.diceBonus) {
+                source.initiative.diceBonus[i] = 0;
+            }
+
+            for(let i in source.initiative.diceMalus) {
+                source.initiative.diceMalus[i] = 0;
+            }
+
+            for(let i in source.initiative.embuscade.diceBonus) {
+                source.initiative.embuscade.diceBonus[i] = 0;
+            }
+
+            for(let i in source.initiative.embuscade.diceMalus) {
+                source.initiative.embuscade.diceMalus[i] = 0;
+            }
+
+            for(let i in source.initiative.embuscade.bonus) {
+                source.initiative.embuscade.bonus[i] = 0;
+            }
+
+            for(let i in source.initiative.embuscade.malus) {
+                source.initiative.embuscade.malus[i] = 0;
+            }
+
+            for(let e of equipements) {
+                for(let d of eMods) {
+                    if(!source.equipements?.[e]?.bonus?.[d] ?? undefined) continue;
+
+                    for(let v in source.equipements[e].bonus[d]) {
+                        source.equipements[e].bonus[d][v] = 0;
+                    }
+
+                    for(let v in source.equipements[e].malus[d]) {
+                        source.equipements[e].malus[d][v] = 0;
+                    }
+                }
+            }
+
+            source.version = 1;
+        }
+
+        return super.migrateData(source);
     }
 
     prepareBaseData() {

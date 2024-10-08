@@ -3,6 +3,7 @@ export class VehiculeDataModel extends foundry.abstract.TypeDataModel {
 		const {SchemaField, EmbeddedDataField, StringField, NumberField, BooleanField, ObjectField, ArrayField, HTMLField} = foundry.data.fields;
 
     return {
+        version:new NumberField({initial:0, nullable:false, integer:true}),
         description:new HTMLField({initial:""}),
         descriptionLimitee:new HTMLField({initial:""}),
         manoeuvrabilite:new NumberField({ initial: 0, integer: true, nullable: false }),
@@ -85,6 +86,27 @@ export class VehiculeDataModel extends foundry.abstract.TypeDataModel {
     if(!game.actors.get(this.equipage.pilote.id)) return undefined;
 
     return game.actors.get(this.equipage.pilote.id);
+  }
+  static migrateData(source) {
+      if(source.version < 1) {
+          const mods = ['armure', 'energie', 'champDeForce'];
+
+          for(let m of mods) {
+            if(!source[m]) continue;
+
+              for(let b in source[m].bonus) {
+                  source[m].bonus[b] = 0;
+              }
+
+              for(let b in source[m].malus) {
+                  source[m].malus[b] = 0;
+              }
+          }
+
+          source.version = 1;
+      }
+
+      return super.migrateData(source);
   }
 
   prepareBaseData() {

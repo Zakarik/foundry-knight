@@ -40,6 +40,8 @@ export class BandeSheet extends ActorSheet {
 
     actualiseRoll(this.actor);
 
+    console.warn(context);
+
     return context;
   }
 
