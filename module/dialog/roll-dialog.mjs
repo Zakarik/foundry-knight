@@ -2,6 +2,7 @@ import toggler from '../helpers/toggler.js';
 import {
     getModStyle,
     listEffects,
+    getAllEffects,
 } from "../helpers/common.mjs";
 
 export class KnightRollDialog extends Dialog {
@@ -414,6 +415,8 @@ export class KnightRollDialog extends Dialog {
             const violenceVariable = weapon.options.find(itm => itm.classes.includes('violencevariable') && itm.key === 'select');
             const dgtsBonusVariable = weapon.options.find(itm => itm.classes.includes('dgtsbonusvariable') && itm.key === 'select');
             const violenceBonusVariable = weapon.options.find(itm => itm.classes.includes('violencebonusvariable') && itm.key === 'select');
+            const boostdegats = weapon.options.find(itm => itm.classes.includes('boostdegats') && itm.key === 'select');
+            const boostviolence = weapon.options.find(itm => itm.classes.includes('boostviolence') && itm.key === 'select');
 
             if(dgtsVariable) {
                 const dgtsVariableSelected = parseInt($(weaponData.find(`label.dgtsvariable select`)).val());
@@ -483,6 +486,22 @@ export class KnightRollDialog extends Dialog {
                 }
 
                 cout += coutViolence;
+            }
+
+            if(boostdegats) {
+                const boostDegatsSelected = parseInt($(weaponData.find(`label.boostdegats select`)).val());
+
+                cout += boostDegatsSelected*boostdegats.value;
+
+                boostdegats.selected = boostDegatsSelected;
+            }
+
+            if(boostviolence) {
+                const boostViolenceSelected = parseInt($(weaponData.find(`label.boostviolence select`)).val());
+
+                cout += boostViolenceSelected*boostviolence.value;
+
+                boostviolence.selected = boostViolenceSelected;
             }
 
             for(let c of custom) {
@@ -1082,6 +1101,7 @@ export class KnightRollDialog extends Dialog {
         const configurationMechaArmure = actor.system?.configurations?.actuel ?? 'c1';
         const modulesMechaArmure = actor.system?.configurations?.liste ?? {};
         const listeModulesMechaArmure = configurationMechaArmure === 'c1' ? foundry.utils.mergeObject(foundry.utils.deepClone(modulesMechaArmure?.base?.modules ?? {}), modulesMechaArmure?.c1?.modules ?? {}) : foundry.utils.mergeObject(foundry.utils.deepClone(modulesMechaArmure?.base?.modules ?? {}), modulesMechaArmure?.c2?.modules ?? {});
+        const labels = getAllEffects();
         let contact = [];
         let distance = [];
         let aicontact = [];
@@ -1774,13 +1794,13 @@ export class KnightRollDialog extends Dialog {
                                     energie:dataC.effets.liste1.energie,
                                     raw:dataC.effets.liste1.raw,
                                     custom:dataC.effets.liste1.custom,
-                                    liste:listEffects(dataC.effets.liste1.raw, dataC.effets.liste1.custom, CONFIG.KNIGHT.effets),
+                                    liste:listEffects(dataC.effets.liste1.raw, dataC.effets.liste1.custom, labels),
                                 },
                                 liste2:{
                                     energie:dataC.effets.liste2.energie,
                                     raw:dataC.effets.liste2.raw,
                                     custom:dataC.effets.liste2.custom,
-                                    liste:listEffects(dataC.effets.liste2.raw, dataC.effets.liste2.custom, CONFIG.KNIGHT.effets),
+                                    liste:listEffects(dataC.effets.liste2.raw, dataC.effets.liste2.custom, labels),
                                 },
                             }
                         }
@@ -1790,7 +1810,7 @@ export class KnightRollDialog extends Dialog {
                                 energie:dataC.effets.liste3.energie,
                                 raw:dataC.effets.liste3.raw,
                                 custom:dataC.effets.liste3.custom,
-                                liste:listEffects(dataC.effets.liste3.raw, dataC.effets.liste3.custom, CONFIG.KNIGHT.effets),
+                                liste:listEffects(dataC.effets.liste3.raw, dataC.effets.liste3.custom, labels),
                             };
 
                             possibility.possibility.classes = 'threeCol';
@@ -2124,6 +2144,44 @@ export class KnightRollDialog extends Dialog {
         data.degats.addchair = system?.degats?.addchair ?? true;
         data.options = modules.options ? modules.options.concat(data.options) : data.options;
 
+        if(this.#hasEffet(raw, 'boostviolence')) {
+            let classes = ['selectDouble', 'boostviolence'];
+            const boostViolenceEntry = raw.find(entry => entry.includes("boostviolence"));
+            const boostViolenceValue = parseInt(boostViolenceEntry.split(' ')[1]);
+            const list = Array.from({length: boostViolenceValue+1}, (_, index) => [index, `${index}D6`]).reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
+
+            if(!this.#hasEffet(raw, 'boostdegats')) classes.push('full');
+
+            data.options.push({
+                key:'select',
+                classes:classes.join(' '),
+                label:game.i18n.localize(CONFIG.KNIGHT.effetsfm4.boostviolence.label),
+                list,
+                selected:0,
+                value:1,
+                selectvalue:0,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'boostdegats')) {
+            let classes = ['selectDouble', 'boostdegats'];
+            const boostDegatsEntry = raw.find(entry => entry.includes("boostdegats"));
+            const boostDegatsValue = parseInt(boostDegatsEntry.split(' ')[1]);
+            const list = Array.from({length: boostDegatsValue+1}, (_, index) => [index, `${index}D6`]).reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
+
+            if(!this.#hasEffet(raw, 'boostviolence')) classes.push('full');
+
+            data.options.push({
+                key:'select',
+                classes:classes.join(' '),
+                label:game.i18n.localize(CONFIG.KNIGHT.effetsfm4.boostdegats.label),
+                list,
+                selected:0,
+                value:1,
+                selectvalue:0,
+            });
+        }
+
         if(this.#hasEffet(raw, 'soeur')) {
             let classes = ['jumelageambidextrie', 'active', 'full'];
 
@@ -2225,10 +2283,8 @@ export class KnightRollDialog extends Dialog {
                 active:false,
             });
         }
-        const merge1 = foundry.utils.mergeObject(CONFIG.KNIGHT.effets, CONFIG.KNIGHT.AMELIORATIONS.distance);
-        const merge2 = foundry.utils.mergeObject(merge1, CONFIG.KNIGHT.AMELIORATIONS.ornementales);
-        const merge3 = foundry.utils.mergeObject(merge2, CONFIG.KNIGHT.AMELIORATIONS.structurelles);
-        const localize = merge3;
+
+        const localize = getAllEffects();
 
         if(raw1 || custom1) data.eff1 = {
             value:system?.eff1?.value ?? 0,
@@ -2295,6 +2351,10 @@ export class KnightRollDialog extends Dialog {
         }
 
         data.options.sort((a, b) => {
+            if (a.classes.includes('violencevariable')) return -1;
+            if (b.classes.includes('violencevariable')) return 1;
+            if (a.classes.includes('dgtsvariable')) return -1;
+            if (b.classes.includes('dgtsvariable')) return 1;
             if (a.key === 'select') return -1;
             if (b.key === 'select') return 1;
             if (a.classes.includes('roll')) return -1;
@@ -2471,6 +2531,44 @@ export class KnightRollDialog extends Dialog {
         }
 
         data.options = modules.options ? modules.options.concat(data.options) : data.options;
+
+        if(this.#hasEffet(raw, 'boostviolence')) {
+            let classes = ['selectDouble', 'boostviolence'];
+            const boostViolenceEntry = raw.find(entry => entry.includes("boostviolence"));
+            const boostViolenceValue = parseInt(boostViolenceEntry.split(' ')[1]);
+            const list = Array.from({length: boostViolenceValue+1}, (_, index) => [index, `${index}D6`]).reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
+
+            if(!this.#hasEffet(raw, 'boostdegats')) classes.push('full');
+
+            data.options.push({
+                key:'select',
+                classes:classes.join(' '),
+                label:game.i18n.localize(CONFIG.KNIGHT.effetsfm4.boostviolence.label),
+                list,
+                selected:0,
+                value:1,
+                selectvalue:0,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'boostdegats')) {
+            let classes = ['selectDouble', 'boostdegats'];
+            const boostDegatsEntry = raw.find(entry => entry.includes("boostdegats"));
+            const boostDegatsValue = parseInt(boostDegatsEntry.split(' ')[1]);
+            const list = Array.from({length: boostDegatsValue+1}, (_, index) => [index, `${index}D6`]).reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
+
+            if(!this.#hasEffet(raw, 'boostviolence')) classes.push('full');
+
+            data.options.push({
+                key:'select',
+                classes:classes.join(' '),
+                label:game.i18n.localize(CONFIG.KNIGHT.effetsfm4.boostdegats.label),
+                list,
+                selected:0,
+                value:1,
+                selectvalue:0,
+            });
+        }
 
         if(this.#hasEffet(raw, 'tirenrafale')) {
             let classes = ['tirenrafale', 'center', 'roll', 'full'];
@@ -2843,6 +2941,8 @@ export class KnightRollDialog extends Dialog {
         const violenceWpn = parent.find('div.data label.violencevariable');
         const dgtsBonusWpn = parent.find('div.data label.dgtsbonusvariable');
         const violenceBonusWpn = parent.find('div.data label.violencebonusvariable');
+        const boostdegats = parent.find('div.data label.boostdegats');
+        const boostviolence = parent.find('div.data label.boostviolence');
 
         for(let w of mainsWpn) {
             const parent = $(w).parents('div.button');
@@ -3062,6 +3162,60 @@ export class KnightRollDialog extends Dialog {
                         moduleVariable.violence = val;
                     }
                 }
+            });
+        }
+
+        for(let w of boostdegats) {
+            const parent = $(w).parents('div.button');
+            const select = $(w).find('select');
+            const id = $(parent).data('id');
+            const wpn = this.data.roll.allWpn.find(itm => itm.id === id);
+            const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
+            let options = wpn.options.find(itm => itm.classes.includes('boostdegats'));
+
+            if(allVariable && options.list.hasOwnProperty(allVariable?.degats ?? options.selected)) $(select).val(allVariable?.degats ?? options.selected);
+            else if(options.list.hasOwnProperty(wpn.degats.dice)) $(select).val(wpn.degats.dice);
+            else wpn.degats = {dice:options.selected, fixe:options.selectvalue};
+
+            $(select).change(ev => {
+                const tgt = $(ev.currentTarget);
+                const val = tgt.val();
+
+                wpn.degats.dice = parseInt(val);
+
+                if(!allVariable) {
+                    this.data.roll.allVariableWpn.push({
+                        id:id,
+                        degats:val,
+                    })
+                } else allVariable.degats = val;
+            });
+        }
+
+        for(let w of boostviolence) {
+            const parent = $(w).parents('div.button');
+            const select = $(w).find('select');
+            const id = $(parent).data('id');
+            const wpn = this.data.roll.allWpn.find(itm => itm.id === id);
+            const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
+            let options = wpn.options.find(itm => itm.classes.includes('boostviolence'));
+
+            if(allVariable && options.list.hasOwnProperty(allVariable?.violence ?? options.selected)) $(select).val(allVariable?.violence ?? options.selected);
+            else if(options.list.hasOwnProperty(wpn.violence.dice)) $(select).val(wpn.violence.dice);
+            else wpn.violence = {dice:options.selected, fixe:options.selectvalue};
+
+            $(select).change(ev => {
+                const tgt = $(ev.currentTarget);
+                const val = tgt.val();
+
+                wpn.violence.dice = parseInt(val);
+
+                if(!allVariable) {
+                    this.data.roll.allVariableWpn.push({
+                        id:id,
+                        violence:val,
+                    })
+                } else allVariable.violence = val;
             });
         }
 
@@ -4104,6 +4258,7 @@ export class KnightRollDialog extends Dialog {
     }
 
     #getWpnComplexeHTML(data={}) {
+        const labels = getAllEffects();
         const start = `<div class="wpn wpnComplexe longbow button" data-id="${data.id}">
                 <button type="action" class="${data.classes}">
                     <i></i>
@@ -4196,7 +4351,7 @@ export class KnightRollDialog extends Dialog {
                         </header>
                         <div class="block">`;
 
-            const effetsList = listEffects(data.possibility.liste1.raw, data.possibility.liste1.custom, CONFIG.KNIGHT.effets);
+            const effetsList = listEffects(data.possibility.liste1.raw, data.possibility.liste1.custom, labels);
 
             for(let l of effetsList) {
                 effets += `<a title="${l.description}" data-raw="${l.raw}">
@@ -4217,7 +4372,7 @@ export class KnightRollDialog extends Dialog {
                         </header>
                         <div class="block">`;
 
-            const effetsList = listEffects(data.possibility.liste2.raw, data.possibility.liste2.custom, CONFIG.KNIGHT.effets);
+            const effetsList = listEffects(data.possibility.liste2.raw, data.possibility.liste2.custom, labels);
 
             for(let l of effetsList) {
                 effets += `<a title="${l.description}" data-raw="${l.raw}">
@@ -4238,7 +4393,7 @@ export class KnightRollDialog extends Dialog {
                         </header>
                         <div class="block">`;
 
-            const effetsList = listEffects(data.possibility.liste3.raw, data.possibility.liste3.custom, CONFIG.KNIGHT.effets);
+            const effetsList = listEffects(data.possibility.liste3.raw, data.possibility.liste3.custom, labels);
 
             for(let l of effetsList) {
                 effets += `<a title="${l.description}" data-raw="${l.raw}">

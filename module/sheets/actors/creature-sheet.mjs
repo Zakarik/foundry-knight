@@ -11,7 +11,8 @@ import {
   commonPNJ,
   hideShowLimited,
   dragMacro,
-  actualiseRoll
+  actualiseRoll,
+  getAllEffects
 } from "../../helpers/common.mjs";
 
 import toggler from '../../helpers/toggler.js';
@@ -500,6 +501,7 @@ export class CreatureSheet extends ActorSheet {
     const actorData = sheetData.actor;
     const system = sheetData.data.system;
     const phase2Activate = system.phase2Activate;
+    const localize = getAllEffects();
 
     const armesContact = [];
     const armesDistance = [];
@@ -523,7 +525,7 @@ export class CreatureSheet extends ActorSheet {
         const options2mains = data?.options2mains?.has || false;
         const raw = data.effets.raw;
         const custom = data.effets.custom;
-        const labels = CONFIG.KNIGHT.effets;
+        const labels = localize;
 
         data.effets.liste = listEffects(raw, custom, labels);
 
@@ -655,7 +657,7 @@ export class CreatureSheet extends ActorSheet {
         }
 
         if(data.degats.has) {
-          const labels = CONFIG.KNIGHT.effets;
+          const labels = localize;
 
           data.degats.system.effets.liste = listEffects(data.degats.system.effets.raw, data.degats.system.effets.custom, labels);
         }

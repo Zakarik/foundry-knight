@@ -1,5 +1,5 @@
 import {
-    getModStyle,
+    getAllEffects,
 } from "../helpers/common.mjs";
 
 // DATA
@@ -61,10 +61,7 @@ export class RollKnight {
             total = await this.#sendRoll(process, effets, addData);
         } else {
             const weapon = this.weapon;
-            const merge1 = foundry.utils.mergeObject(CONFIG.KNIGHT.effets, CONFIG.KNIGHT.AMELIORATIONS.distance);
-            const merge2 = foundry.utils.mergeObject(merge1, CONFIG.KNIGHT.AMELIORATIONS.ornementales);
-            const merge3 = foundry.utils.mergeObject(merge2, CONFIG.KNIGHT.AMELIORATIONS.distance);
-            const localize = foundry.utils.mergeObject(merge3, CONFIG.KNIGHT.AMELIORATIONS.structurelles);
+            const localize = getAllEffects();
             const allRaw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
             let text = '';
             let allContent = [];
@@ -593,9 +590,7 @@ export class RollKnight {
         };
 
         if(!foundry.utils.isEmpty(effets)) {
-            const merge1 = foundry.utils.mergeObject(CONFIG.KNIGHT.effets, CONFIG.KNIGHT.AMELIORATIONS.distance);
-            const merge2 = foundry.utils.mergeObject(merge1, CONFIG.KNIGHT.AMELIORATIONS.ornementales);
-            const localize = foundry.utils.mergeObject(merge2, CONFIG.KNIGHT.AMELIORATIONS.structurelles);
+            const localize = getAllEffects();
 
             for(let e of effets.raw) {
                 const loc = localize[e.split(' ')[0]];
@@ -951,9 +946,7 @@ export class RollKnight {
 
     async #handleAttaqueEffet(weapon, content, rolls) {
         const armorIsWear = this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension' ? true : false;
-        const merge1 = foundry.utils.mergeObject(CONFIG.KNIGHT.effets, CONFIG.KNIGHT.AMELIORATIONS.distance);
-        const merge2 = foundry.utils.mergeObject(merge1, CONFIG.KNIGHT.AMELIORATIONS.ornementales);
-        const localize = foundry.utils.mergeObject(merge2, CONFIG.KNIGHT.AMELIORATIONS.structurelles);
+        const localize = getAllEffects();
         const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
         const options = weapon.options;
         const list = CONFIG.KNIGHT.LIST.EFFETS.attaque;
@@ -1226,13 +1219,10 @@ export class RollKnight {
         const getGoliathMeter = this.actor.system?.equipements?.armure?.capacites?.goliath?.metre ?? 0;
         const getGoliath = capacites?.goliath ?? undefined;
         const getChangeling = capacites?.changeling ?? undefined;
-        const merge1 = foundry.utils.mergeObject(CONFIG.KNIGHT.effets, CONFIG.KNIGHT.AMELIORATIONS.distance);
-        const merge2 = foundry.utils.mergeObject(merge1, CONFIG.KNIGHT.AMELIORATIONS.ornementales);
-        const merge3 = foundry.utils.mergeObject(merge2, CONFIG.KNIGHT.AMELIORATIONS.structurelles);
         const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
         const custom = weapon.effets.custom.concat(weapon?.distance?.custom ?? [], weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
         const options = weapon?.options ?? [];
-        const localize = foundry.utils.mergeObject(merge3, CONFIG.KNIGHT.AMELIORATIONS.structurelles);
+        const localize = getAllEffects();
         const hasObliteration = this.#isEffetActive(raw, options, ['obliteration']);
         const hasTenebricide = this.#isEffetActive(raw, options, ['tenebricide']);
         const hasBourreau = this.#isEffetActive(raw, options, ['bourreau']);
@@ -1437,9 +1427,25 @@ export class RollKnight {
                         });
                         break;
 
+                    case 'boostdegats':
+                        if(effet) {
+                            const boostDegatsDice = options.find(itm => itm.classes.includes('boostdegats') && itm.key === 'select');
+                            wpnDice += boostDegatsDice.selected;
+                            titleDice += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
                     case 'munitionsiem':
                         if(effet) {
                             wpnDice -= 1;
+                            titleDice += loc?.double ?? false ? ` - ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` - ${game.i18n.localize(loc.label)}`;
 
                             detailledEffets.push({
                                 simple:l,
@@ -1536,6 +1542,7 @@ export class RollKnight {
                     case 'chargeurmunitionsexplosives':
                         if(effet) {
                             wpnDice += 1;
+                            titleDice += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
 
                             effets.push({
                                 simple:l,
@@ -1549,6 +1556,7 @@ export class RollKnight {
                     case 'chargeurballesgrappes':
                         if(effet) {
                             wpnDice -= 1;
+                            titleDice += loc?.double ?? false ? ` - ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` - ${game.i18n.localize(loc.label)}`;
 
                             effets.push({
                                 simple:l,
@@ -1935,7 +1943,7 @@ export class RollKnight {
                             t.effets.push({
                                 simple:d.simple,
                                 key:d.key,
-                                label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(CONFIG.KNIGHT.effets[d.simple].label)}`})}`,
+                                label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
                                 empty:true,
                             });
                         }
@@ -1949,7 +1957,7 @@ export class RollKnight {
                             t.effets.push({
                                 simple:d.simple,
                                 key:d.key,
-                                label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(CONFIG.KNIGHT.effets[d.simple].label)}`})}`,
+                                label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
                                 empty:true,
                             });
                         }
@@ -1991,9 +1999,6 @@ export class RollKnight {
     }
 
     async #handleViolenceEffet(weapon, data={}, bonus=[], content={}, rolls=[]) {
-        const merge1 = foundry.utils.mergeObject(CONFIG.KNIGHT.effets, CONFIG.KNIGHT.AMELIORATIONS.distance);
-        const merge2 = foundry.utils.mergeObject(merge1, CONFIG.KNIGHT.AMELIORATIONS.ornementales);
-        const merge3 = foundry.utils.mergeObject(merge2, CONFIG.KNIGHT.AMELIORATIONS.structurelles);
         const armure = this.actor.items.find(itm => itm.type === 'armure');
         const capacites = armure?.system?.capacites?.selected ?? {};
         const getGoliathMeter = this.actor.system?.equipements?.armure?.capacites?.goliath?.metre ?? 0;
@@ -2001,7 +2006,7 @@ export class RollKnight {
         const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
         const custom = weapon.effets.custom.concat(weapon?.distance?.custom ?? [], weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
         const options = weapon.options;
-        const localize = foundry.utils.mergeObject(merge3, CONFIG.KNIGHT.AMELIORATIONS.structurelles);
+        const localize = getAllEffects();
         const hasObliteration = this.#isEffetActive(raw, options, ['obliteration']);
         const hasTenebricide = this.#isEffetActive(raw, options, ['tenebricide']);
         const hasDevastation = this.#isEffetActive(raw, options, ['devastation']);
@@ -2131,12 +2136,67 @@ export class RollKnight {
                     case 'flammesstylisees':
                         if(effet) {
                             wpnDice += 1;
+                            titleDice += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
 
                             effets.push({
                                 simple:l,
                                 key:effet,
                                 label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
                                 description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+                    case 'boostviolence':
+                        if(effet) {
+                            const boostViolenceDice = options.find(itm => itm.classes.includes('boostviolence') && itm.key === 'select');
+                            wpnDice += boostViolenceDice.selected;
+                            titleDice += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+
+                    case 'intimidanthum':
+                        if(effet) {
+                            const total = this.actor.type === 'knight' ? this.getCaracteristique('dame', 'aura') : this.getAspect('dame')/2;
+                            let totalOD = 0;
+
+                            if(this.actor.type === 'knight') {
+                                totalOD = armorIsWear ? this.getOD('dame', 'aura') : 0;
+                            } else totalOD = this.getAE('dame');
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                value:`+${total+totalOD}`,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                        }
+                        break;
+
+                    case 'intimidantana':
+                        if(effet) {
+                            const total = this.actor.type === 'knight' ? this.getCaracteristique('dame', 'aura') : this.getAspect('dame')/2;
+                            let totalOD = 0;
+
+                            if(this.actor.type === 'knight') {
+                                totalOD = armorIsWear ? this.getOD('dame', 'aura') : 0;
+                            } else totalOD = this.getAE('dame');
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                value:`+${total+totalOD}`,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
                             });
                         }
                         break;
@@ -2164,6 +2224,7 @@ export class RollKnight {
                     case 'chargeurmunitionsexplosives':
                         if(effet) {
                             wpnDice -= 1;
+                            titleDice += loc?.double ?? false ? ` - ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` - ${game.i18n.localize(loc.label)}`;
 
                             effets.push({
                                 simple:l,
@@ -2177,6 +2238,7 @@ export class RollKnight {
                     case 'chargeurballesgrappes':
                         if(effet) {
                             wpnDice += 1;
+                            titleDice += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
 
                             effets.push({
                                 simple:l,
@@ -2233,6 +2295,7 @@ export class RollKnight {
                     case 'munitionsiem':
                         if(effet) {
                             wpnDice -= 1;
+                            titleDice += loc?.double ?? false ? ` - ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` - ${game.i18n.localize(loc.label)}`;
 
                             detailledEffets.push({
                                 simple:l,
@@ -2403,7 +2466,7 @@ export class RollKnight {
                             t.effets.push({
                                 simple:d.simple,
                                 key:d.key,
-                                label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(CONFIG.KNIGHT.effets[d.simple].label)}`})}`,
+                                label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
                                 empty:true,
                             });
                         }
@@ -2418,7 +2481,7 @@ export class RollKnight {
                                 t.effets.push({
                                     simple:d.simple,
                                     key:d.key,
-                                    label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(CONFIG.KNIGHT.effets[d.simple].label)}`})}`,
+                                    label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
                                     empty:true,
                                 });
                             }
@@ -2434,7 +2497,7 @@ export class RollKnight {
                                 t.effets.push({
                                     simple:d.simple,
                                     key:d.key,
-                                    label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(CONFIG.KNIGHT.effets[d.simple].label)}`})}`,
+                                    label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
                                     empty:true,
                                 });
                             }

@@ -1,5 +1,8 @@
-import { SortByLabel } from "../../helpers/common.mjs";
-import { listEffects } from "../../helpers/common.mjs";
+import {
+  SortByLabel,
+  listEffects,
+  getAllEffects,
+} from "../../helpers/common.mjs";
 import toggler from '../../helpers/toggler.js';
 /**
  * @extends {ItemSheet}
@@ -1845,7 +1848,7 @@ export class ArmureSheet extends ItemSheet {
 
     const bRaw = bEffets.raw;
     const bCustom = bEffets.custom;
-    const bLabels = CONFIG.KNIGHT.effets;
+    const bLabels = getAllEffects();
 
     bEffets.liste = listEffects(bRaw, bCustom, bLabels);
   }
@@ -1857,7 +1860,7 @@ export class ArmureSheet extends ItemSheet {
     const cLEffets = cEffets.desactivationexplosive.effets;
     const raw = cLEffets.raw;
     const custom = cLEffets.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     cLEffets.liste = listEffects(raw, custom, labels);
   }
@@ -1869,7 +1872,7 @@ export class ArmureSheet extends ItemSheet {
     const effetsG = capacite.polymorphie.griffe.effets;
     const rawG = effetsG.raw;
     const customG = effetsG.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     const effetsL = capacite.polymorphie.lame.effets;
     const rawL = effetsL.raw;
@@ -1909,8 +1912,7 @@ export class ArmureSheet extends ItemSheet {
     const lRA = lA.raw;
     const lCA = lA.custom;
 
-    const labels = CONFIG.KNIGHT.effets;
-    const labelsA = CONFIG.KNIGHT.AMELIORATIONS.distance;
+    const labels = getAllEffects();
 
     const lEffets3 = lE3.acces;
 
@@ -1918,7 +1920,7 @@ export class ArmureSheet extends ItemSheet {
     lE1.liste = listEffects(lR1, lC1, labels);
     lE2.liste = listEffects(lR2, lC2, labels);
     lE3.liste = listEffects(lR3, lC3, labels);
-    lA.liste = listEffects(lRA, lCA, labelsA);
+    lA.liste = listEffects(lRA, lCA, labels);
 
     if(lEffets3) {
       lE3.label = game.i18n.localize(CONFIG.KNIGHT.longbow["effets3"]);
@@ -1933,7 +1935,7 @@ export class ArmureSheet extends ItemSheet {
 
     const bRaw = bEffets.raw;
     const bCustom = bEffets.custom;
-    const bLabels = CONFIG.KNIGHT.effets;
+    const bLabels = getAllEffects();
 
     bEffets.liste = listEffects(bRaw, bCustom, bLabels);
   }
@@ -1954,7 +1956,7 @@ export class ArmureSheet extends ItemSheet {
     const bRRaw = bREffets.raw;
     const bRCustom = bREffets.custom;
 
-    const bLabels = CONFIG.KNIGHT.effets;
+    const bLabels = getAllEffects();
 
     bVEffets.liste = listEffects(bVRaw, bVCustom, bLabels);
     bSEffets.liste = listEffects(bSRaw, bSCustom, bLabels);
@@ -1967,7 +1969,7 @@ export class ArmureSheet extends ItemSheet {
     const wEffets = companions?.wolf?.armes || false;
     const bEffets = companions?.wolf?.configurations?.fighter?.bonus?.effets || false;
 
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     if(!companions) return;
 
@@ -2002,7 +2004,7 @@ export class ArmureSheet extends ItemSheet {
 
     const raw = plEffets.raw;
     const custom = plEffets.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     plEffets.liste = listEffects(raw, custom, labels);
   }
@@ -2014,7 +2016,7 @@ export class ArmureSheet extends ItemSheet {
 
     const raw = iEffets.raw;
     const custom = iEffets.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     iEffets.liste = listEffects(raw, custom, labels);
   }
@@ -2491,7 +2493,7 @@ export class ArmureSheet extends ItemSheet {
 
     const raw = plEffets.raw;
     const custom = plEffets.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     plEffets.liste = listEffects(raw, custom, labels);
   }
@@ -2502,7 +2504,7 @@ export class ArmureSheet extends ItemSheet {
 
     const bRaw = bEffets.raw;
     const bCustom = bEffets.custom;
-    const bLabels = CONFIG.KNIGHT.effets;
+    const bLabels = getAllEffects();
 
     bEffets.liste = listEffects(bRaw, bCustom, bLabels);
   }
@@ -2513,7 +2515,7 @@ export class ArmureSheet extends ItemSheet {
 
     const bRaw = bEffets.raw;
     const bCustom = bEffets.custom;
-    const bLabels = CONFIG.KNIGHT.effets;
+    const bLabels = getAllEffects();
 
     bEffets.liste = listEffects(bRaw, bCustom, bLabels);
   }
@@ -2525,7 +2527,7 @@ export class ArmureSheet extends ItemSheet {
     const cLEffets = cEffets.desactivationexplosive.effets;
     const raw = cLEffets.raw;
     const custom = cLEffets.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     cLEffets.liste = listEffects(raw, custom, labels);
   }
@@ -2537,7 +2539,7 @@ export class ArmureSheet extends ItemSheet {
 
     const raw = iEffets.raw;
     const custom = iEffets.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     iEffets.liste = listEffects(raw, custom, labels);
   }
@@ -2565,7 +2567,7 @@ export class ArmureSheet extends ItemSheet {
 
     const lEffets3 = lE3.acces;
 
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     if(lEffets3) {
       lE3.label = game.i18n.localize(CONFIG.KNIGHT.longbow["effets3"]);
@@ -2586,7 +2588,7 @@ export class ArmureSheet extends ItemSheet {
     const effetsG = cEffets.polymorphie.griffe.effets;
     const rawG = effetsG.raw;
     const customG = effetsG.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     const effetsL = cEffets.polymorphie.lame.effets;
     const rawL = effetsL.raw;
@@ -2616,7 +2618,7 @@ export class ArmureSheet extends ItemSheet {
     const bSCustom = bSEffets.custom;
     const bRRaw = bREffets.raw;
     const bRCustom = bREffets.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     bVEffets.liste = listEffects(bVRaw, bVCustom, labels);
     bSEffets.liste = listEffects(bSRaw, bSCustom, labels);

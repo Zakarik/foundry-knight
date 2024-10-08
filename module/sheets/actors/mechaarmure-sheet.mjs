@@ -6,6 +6,7 @@ import {
   options,
   hideShowLimited,
   dragMacro,
+  getAllEffects
 } from "../../helpers/common.mjs";
 
 import {
@@ -1071,7 +1072,7 @@ export class MechaArmureSheet extends ActorSheet {
   _prepareEffetsModules(context) {
     const getData = context.data.system;
     const modules = ['canonMetatron', 'canonMagma', 'lamesCinetiquesGeantes', 'missilesJericho', 'souffleDemoniaque', 'poingsSoniques', 'chocSonique'];
-    const effetsLabels = CONFIG.KNIGHT.effets;
+    const effetsLabels = getAllEffects();
 
     for(let i = 0; i < modules.length;i++) {
       const base = getData.configurations.liste.base.modules?.[modules[i]] || false;
@@ -1092,7 +1093,7 @@ export class MechaArmureSheet extends ActorSheet {
 
           for(let n = 0;n < baseE1.raw.length;n++) {
             const split = baseE1.raw[n].split(" ");
-            const name = game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].label);
+            const name = game.i18n.localize(effetsLabels[split[0]].label);
             const sub = split[1];
             let complet = name;
 
@@ -1101,13 +1102,13 @@ export class MechaArmureSheet extends ActorSheet {
             effets1.push({
               raw:baseE1.raw[n],
               name:complet,
-              description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
+              description:game.i18n.localize(effetsLabels[split[0]].description)
             });
           }
 
           for(let n = 0;n < baseE2.raw.length;n++) {
             const split = baseE2.raw[n].split(" ");
-            const name = game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].label);
+            const name = game.i18n.localize(effetsLabels[split[0]].label);
             const sub = split[1];
             let complet = name;
 
@@ -1116,7 +1117,7 @@ export class MechaArmureSheet extends ActorSheet {
             effets2.push({
               raw:baseE2.raw[n],
               name:complet,
-              description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
+              description:game.i18n.localize(effetsLabels[split[0]].description)
             });
           }
 
@@ -1139,7 +1140,7 @@ export class MechaArmureSheet extends ActorSheet {
 
           for(let n = 0;n < baseE1.raw.length;n++) {
             const split = baseE1.raw[n].split(" ");
-            const name = game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].label);
+            const name = game.i18n.localize(effetsLabels[split[0]].label);
             const sub = split[1];
             let complet = name;
 
@@ -1148,13 +1149,13 @@ export class MechaArmureSheet extends ActorSheet {
             effets1.push({
               raw:baseE1.raw[n],
               name:complet,
-              description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
+              description:game.i18n.localize(effetsLabels[split[0]].description)
             });
           }
 
           for(let n = 0;n < baseE2.raw.length;n++) {
             const split = baseE2.raw[n].split(" ");
-            const name = game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].label);
+            const name = game.i18n.localize(effetsLabels[split[0]].label);
             const sub = split[1];
             let complet = name;
 
@@ -1163,7 +1164,7 @@ export class MechaArmureSheet extends ActorSheet {
             effets2.push({
               raw:baseE2.raw[n],
               name:complet,
-              description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
+              description:game.i18n.localize(effetsLabels[split[0]].description)
             });
           }
 
@@ -1186,7 +1187,7 @@ export class MechaArmureSheet extends ActorSheet {
 
           for(let n = 0;n < baseE1.raw.length;n++) {
             const split = baseE1.raw[n].split(" ");
-            const name = game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].label);
+            const name = game.i18n.localize(effetsLabels[split[0]].label);
             const sub = split[1];
             let complet = name;
 
@@ -1195,13 +1196,13 @@ export class MechaArmureSheet extends ActorSheet {
             effets1.push({
               raw:baseE1.raw[n],
               name:complet,
-              description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
+              description:game.i18n.localize(effetsLabels[split[0]].description)
             });
           }
 
           for(let n = 0;n < baseE2.raw.length;n++) {
             const split = baseE2.raw[n].split(" ");
-            const name = game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].label);
+            const name = game.i18n.localize(effetsLabels[split[0]].label);
             const sub = split[1];
             let complet = name;
 
@@ -1210,7 +1211,7 @@ export class MechaArmureSheet extends ActorSheet {
             effets2.push({
               raw:baseE2.raw[n],
               name:complet,
-              description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
+              description:game.i18n.localize(effetsLabels[split[0]].description)
             });
           }
 

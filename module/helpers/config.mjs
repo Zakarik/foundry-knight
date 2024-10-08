@@ -522,6 +522,7 @@ export const KNIGHT = {};
         'bourreau',
         'regularite',
         'sillonslignesfleches',
+        'boostdegats',
       ],
       violence:[
         'affecteanatheme',
@@ -545,6 +546,9 @@ export const KNIGHT = {};
         'rouagescassesgraves',
         'fauconplumesluminescentes',
         'flammesstylisees',
+        'boostviolence',
+        'intimidanthum',
+        'intimidantana',
       ],
     }
  }
@@ -885,6 +889,49 @@ export const KNIGHT = {};
      "double":false
    }
  };
+
+ KNIGHT.effetsfm4 = {
+  "immobilisation": {
+    "label":"KNIGHT.EFFETS.IMMOBILISATION.Label",
+    "description":"KNIGHT.EFFETS.IMMOBILISATION.Description",
+    "double":true
+  },
+  "boostdegats": {
+    "label":"KNIGHT.EFFETS.BOOSTDEGATS.Label",
+    "description":"KNIGHT.EFFETS.BOOSTDEGATS.Description",
+    "double":true
+  },
+  "boostviolence": {
+    "label":"KNIGHT.EFFETS.BOOSTVIOLENCE.Label",
+    "description":"KNIGHT.EFFETS.BOOSTVIOLENCE.Description",
+    "double":true
+  },
+  "intimidanthum": {
+    "label":"KNIGHT.EFFETS.INTIMIDANTEHUMAINS.Label",
+    "description":"KNIGHT.EFFETS.INTIMIDANTEHUMAINS.Description",
+    "double":false
+  },
+  "intimidantana": {
+    "label":"KNIGHT.EFFETS.INTIMIDANTEANATHEME.Label",
+    "description":"KNIGHT.EFFETS.INTIMIDANTEANATHEME.Description",
+    "double":false
+  },
+  "cdf": {
+    "label":"KNIGHT.EFFETS.CDF.Label",
+    "description":"KNIGHT.EFFETS.CDF.Description",
+    "double":true
+  },
+  "retourflamme": {
+    "label":"KNIGHT.EFFETS.RETOURFLAMME.Label",
+    "description":"KNIGHT.EFFETS.RETOURFLAMME.Description",
+    "double":false
+  },
+  "sansarmure": {
+    "label":"KNIGHT.EFFETS.SANSARMURE.Label",
+    "description":"KNIGHT.EFFETS.SANSARMURE.Description",
+    "double":false
+  }
+ }
 
  KNIGHT.AMELIORATIONS = {
   distance:{

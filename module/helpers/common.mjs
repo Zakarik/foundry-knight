@@ -5,6 +5,16 @@ export const listLogo = [
   "version3"
 ];
 
+export function getAllEffects() {
+  const merge0 = foundry.utils.mergeObject({}, CONFIG.KNIGHT.effets);
+  const merge1 = foundry.utils.mergeObject(merge0, CONFIG.KNIGHT.effetsfm4);
+  const merge2 = foundry.utils.mergeObject(merge1, CONFIG.KNIGHT.AMELIORATIONS.distance);
+  const merge3 = foundry.utils.mergeObject(merge2, CONFIG.KNIGHT.AMELIORATIONS.ornementales);
+  const merge4 = foundry.utils.mergeObject(merge3, CONFIG.KNIGHT.AMELIORATIONS.structurelles);
+
+  return merge4;
+}
+
 export function SortByLabel(x, y){
     if (x.label.toLowerCase() < y.label.toLowerCase()) {return -1;}
     if (x.label.toLowerCase() > y.label.toLowerCase()) {return 1;}
@@ -97,6 +107,8 @@ export function searchTrueValue(array) {
 }
 
 export async function getEffets(actor, typeWpn, style, data, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ = false, energie=0) {
+    const localize = getAllEffects();
+
     const ghostConflit = actor?.armureData?.system?.capacites?.selected?.ghost?.active?.conflit || false;
     const ghostHConflit = actor?.armureData?.system?.capacites?.selected?.ghost?.active?.horsconflit || false;
     const ersatzRogue = actor?.moduleErsatz?.rogue?.has || false;
@@ -209,14 +221,14 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           priorDegats = true;
           priorViolence = true;
 
-          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `${game.i18n.localize(localize[name].label)}`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
         case 'anatheme':
           priorDegats = true;
 
-          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `${game.i18n.localize(localize[name].label)}`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
 
         case 'briserlaresilience':
@@ -232,8 +244,8 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           }
           await bSub.evaluate(minMaxDgts);
 
-          sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-          sub.desc = data.briserlaresilience ? game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-active`) : game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-unactive`);
+          sub.name = `+ ${game.i18n.localize(localize[name].label)}`;
+          sub.desc = data.briserlaresilience ? game.i18n.localize(`${localize[name].description}-active`) : game.i18n.localize(`${localize[name].description}-unactive`);
           sub.tooltip = await bSub.getTooltip();
           sub.total = bSub._total;
           sub.formula = bSub._formula;
@@ -248,25 +260,25 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
             priorViolence = true;
           }
 
-          if(!other) sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-          else if(other) sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          if(!other) sub.name = `+ ${game.i18n.localize(localize[name].label)}`;
+          else if(other) sub.name = `${game.i18n.localize(localize[name].label)}`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
 
         case 'excellence':
           priorDegats = true;
           priorViolence = true;
 
-          sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `+ ${game.i18n.localize(localize[name].label)}`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
 
         case 'esperance':
           priorDegats = true;
           priorViolence = true;
 
-          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `${game.i18n.localize(localize[name].label)}`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
 
         case 'antianatheme':
@@ -276,24 +288,24 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
             priorViolence = true;
           }
 
-          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `${game.i18n.localize(localize[name].label)}`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
 
         case 'artillerie':
         case 'demoralisant':
           priorAttack = true;
 
-          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `${game.i18n.localize(localize[name].label)}`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
 
         case 'assassin':
           if(revetementomega && value < 2) {
             other = true;
 
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${value}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)} ${value}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           } else {
             priorDegats = true;
 
@@ -309,8 +321,8 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
             }
             await aSub.evaluate(minMaxDgts);
 
-            sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${value}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `+ ${game.i18n.localize(localize[name].label)} ${value}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
             sub.tooltip = await aSub.getTooltip();
             sub.total = aSub._total;
             sub.formula = aSub._formula;
@@ -328,8 +340,8 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         case 'lourd':
           other = true;
 
-          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `${game.i18n.localize(localize[name].label)}`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
 
         case 'tirensecurite':
@@ -338,11 +350,11 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           else other = true;
 
           if(other) {
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           } else {
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           }
           break;
 
@@ -352,11 +364,11 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           else other = true;
 
           if(other) {
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           } else {
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           }
           break;
 
@@ -366,11 +378,11 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           else other = true;
 
           if(other) {
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           } else {
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           }
           break;
 
@@ -378,8 +390,8 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           if(!data.barrage) {
             other = true;
 
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${value}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)} ${value}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           } else {
             barrageValue = value;
             onlyAttack = true;
@@ -392,15 +404,15 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           if(cadence) {
             includeAttack = true;
 
-            sub.name = `-3${game.i18n.localize('KNIGHT.JETS.Des-short')} ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `-3${game.i18n.localize('KNIGHT.JETS.Des-short')} ${game.i18n.localize(localize[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
             attackDice -= 3;
             nRoll = value;
           } else {
             other = true;
 
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${value}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)} ${value}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           }
           break;
 
@@ -414,17 +426,17 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         case 'soumission':
           other = true;
 
-          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${value}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `${game.i18n.localize(localize[name].label)} ${value}`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
 
         case 'defense':
           other = true;
 
-          if(boucliergrave) sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${value+1}`;
-          else sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${value}`;
+          if(boucliergrave) sub.name = `${game.i18n.localize(localize[name].label)} ${value+1}`;
+          else sub.name = `${game.i18n.localize(localize[name].label)} ${value}`;
 
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
 
         case 'lumiere':
@@ -432,16 +444,16 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
 
           const vLumiere = arabesqueiridescentes ? value+1 : value;
 
-          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${vLumiere}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `${game.i18n.localize(localize[name].label)} ${vLumiere}`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
 
         case 'choc':
           if(electrifiee && value > 1) priorAttack = true;
           else other = true;
 
-          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${value}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `${game.i18n.localize(localize[name].label)} ${value}`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
 
         case 'degatscontinus':
@@ -453,8 +465,8 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
 
           const tour = dcSub._total > 1 ? game.i18n.localize('KNIGHT.AUTRE.Tours') : game.i18n.localize('KNIGHT.AUTRE.Tour');
 
-          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${value} (${dcSub._total} ${tour})`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `${game.i18n.localize(localize[name].label)} ${value} (${dcSub._total} ${tour})`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
 
           rollAtt = rollAtt.concat(dcSub);
           break;
@@ -464,8 +476,8 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
 
           const adSDice = tenebricide === true ? Math.floor(2/2) : 2;
 
-          sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `+ ${game.i18n.localize(localize[name].label)}`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
 
           const dSub = new game.knight.RollKnight(`${adSDice}D6`, actor.system);
           dSub._success = false;
@@ -490,8 +502,8 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
 
             const amSDice = tenebricide === true ? Math.floor(2/2) : 2;
 
-            sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `+ ${game.i18n.localize(localize[name].label)}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
 
             const mSub = new game.knight.RollKnight(`${amSDice}D6`, actor.system);
             mSub._success = false;
@@ -511,8 +523,8 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           } else {
             other = true;
 
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           }
           break;
 
@@ -521,8 +533,8 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
 
           const fSDice = tenebricide === true ? Math.floor(4/2) : 4;
 
-          sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} ${value}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `+ ${game.i18n.localize(localize[name].label)} ${value}`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
 
           const fSub = new game.knight.RollKnight(`${fSDice}D6`, actor.system);
           fSub._success = false;
@@ -544,14 +556,14 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         case 'leste':
           if(typeWpn === 'tourelle') {
             other = true;
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           } else {
             const force = isPNJ ? Math.floor(+actor.system.aspects.chair.value/2) : +actor.system.aspects.chair.caracteristiques.force.value;
             includeDegats = true;
 
-            sub.name = `+${force} ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `+${force} ${game.i18n.localize(localize[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
             dgtsBonus += force;
           }
           break;
@@ -559,15 +571,15 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         case 'orfevrerie':
           if(typeWpn === 'tourelle') {
             other = true;
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           } else {
             const dexterite = isPNJ ? Math.floor(+actor.system.aspects.masque.value/2) : +actor.system.aspects.masque.caracteristiques.dexterite.value;
             const dexteriteOD = isPNJ ? 0 : +actor.system.aspects.masque.caracteristiques.dexterite.overdrive.value;
             includeDegats = true;
 
-            sub.name = `+${dexterite+dexteriteOD} ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `+${dexterite+dexteriteOD} ${game.i18n.localize(localize[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
             dgtsBonus += dexterite+dexteriteOD;
           }
           break;
@@ -575,15 +587,15 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         case 'precision':
           if(typeWpn === 'tourelle') {
             other = true;
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           } else {
             const tir = isPNJ ? Math.floor(+actor.system.aspects.machine.value/2) : +actor.system.aspects.machine.caracteristiques.tir.value;
             const tirOD = isPNJ ? 0 : +actor.system.aspects.machine.caracteristiques.tir.overdrive.value;
             includeDegats = true;
 
-            sub.name = `+${tir+tirOD} ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `+${tir+tirOD} ${game.i18n.localize(localize[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
             dgtsBonus += tir+tirOD;
           }
           break;
@@ -591,8 +603,8 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
         case 'silencieux':
           if(typeWpn === 'tourelle') {
             other = true;
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           } else {
             const discretion = isPNJ ? Math.floor(+actor.system.aspects.masque.value/2) : +actor.system.aspects.masque.caracteristiques.discretion.value;
             const discretionOD = isPNJ ? +actor.system.aspects.masque.ae.mineur.value + +actor.system.aspects.masque.ae.majeur.value : +actor.system.aspects.masque.caracteristiques.discretion.overdrive.value;
@@ -600,21 +612,21 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
             if(assassine || subsoniques) {
               other = true;
 
-              sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-              sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+              sub.name = `${game.i18n.localize(localize[name].label)}`;
+              sub.desc = game.i18n.localize(`${localize[name].description}-short`);
             } else {
               if((hasGhost && !isPNJ) || (hasChangeling && !isPNJ)) {
                 includeDegats = true;
 
-                sub.name = `+${discretion+discretionOD} ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-                sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+                sub.name = `+${discretion+discretionOD} ${game.i18n.localize(localize[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+                sub.desc = game.i18n.localize(`${localize[name].description}-short`);
 
                 dgtsBonus += discretion+discretionOD;
               } else {
                 priorDegats = true;
 
-                sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-                sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+                sub.name = `+ ${game.i18n.localize(localize[name].label)}`;
+                sub.desc = game.i18n.localize(`${localize[name].description}-short`);
                 sub.total = discretion+discretionOD;
               }
             }
@@ -626,8 +638,8 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
 
           const uvSDice = tenebricide === true ? Math.floor(2/2) : 2;
 
-          sub.name = `+ ${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `+ ${game.i18n.localize(localize[name].label)}`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
 
           const uvSub = new game.knight.RollKnight(`${uvSDice}D6`, actor.system);
           uvSub._success = false;
@@ -651,13 +663,13 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
             includeDegats = true;
             includeViolence = true;
 
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           } else {
             other = true;
 
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           }
           break;
 
@@ -665,42 +677,42 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
           if(obliteration && !cranerieur) {
             includeDegats = true;
 
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           } else {
             other = true;
 
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           }
           break;
 
         case 'tirenrafale':
             other = true;
 
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
 
         case 'bourreau':
           includeDegats = true;
 
-          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `${game.i18n.localize(localize[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
 
         case 'devastation':
           includeViolence = true;
 
-          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `${game.i18n.localize(localize[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
 
         case 'conviction':
           other = true;
 
-          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `${game.i18n.localize(localize[name].label)}`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
 
         case 'guidage':
@@ -708,29 +720,29 @@ export async function getEffets(actor, typeWpn, style, data, effetsWpn, distance
             includeAttack = true;
             depenseEnergie += 5;
 
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           } else {
             other = true;
 
-            sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-            sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+            sub.name = `${game.i18n.localize(localize[name].label)}`;
+            sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           }
           break;
 
         case 'regularite':
           includeDegats = true;
 
-          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `${game.i18n.localize(localize[name].label)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
 
         case 'aucundegatsviolence':
           other = true;
           onlyAttack = true;
 
-          sub.name = `${game.i18n.localize(CONFIG.KNIGHT.effets[name].label)}`;
-          sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.effets[name].description}-short`);
+          sub.name = `${game.i18n.localize(localize[name].label)}`;
+          sub.desc = game.i18n.localize(`${localize[name].description}-short`);
           break;
       }
 
@@ -2224,6 +2236,8 @@ export async function getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, 
 }
 
 export async function getStructurelle(actor, typeWpn, style, data, effetsWpn, structurellesWpn, isPNJ = false) {
+const localize = getAllEffects();
+
 const sIAttack = [];
 const sPAttack = [];
 const sSAttack = [];
@@ -2470,7 +2484,7 @@ for(let i = 0;i < structurellesWpn.raw.length;i++) {
     case 'lumineuse':
         other = true;
 
-        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].label)} (${game.i18n.localize(CONFIG.KNIGHT.effets['lumiere'].label)} 2)`;
+        sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].label)} (${game.i18n.localize(localize['lumiere'].label)} 2)`;
         sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.structurelles[name].description}-short`);
         break;
 
@@ -3025,6 +3039,8 @@ return {
 }
 
 export async function getOrnementale(actor, typeWpn, data, effetsWpn, ornementalesWpn, isPNJ = false) {
+  const localize = getAllEffects();
+
   const sIAttack = [];
   const sPAttack = [];
   const sSAttack = [];
@@ -3134,7 +3150,7 @@ export async function getOrnementale(actor, typeWpn, data, effetsWpn, ornemental
       case 'arabesqueiridescentes':
           other = true;
           const vLumiere = lumiere ? `+1 ${game.i18n.localize('KNIGHT.AUTRE.Inclus')}` : `1`;
-          const vLLumiere = `(${game.i18n.localize(CONFIG.KNIGHT.effets['lumiere'].label)} ${vLumiere})`;
+          const vLLumiere = `(${game.i18n.localize(localize['lumiere'].label)} ${vLumiere})`;
 
           sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.ornementales[name].label)} ${vLLumiere}`;
           sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.ornementales[name].description}-short`);
@@ -3220,7 +3236,7 @@ export async function getOrnementale(actor, typeWpn, data, effetsWpn, ornemental
       case 'boucliergrave':
           other = true;
           const vDefense = defense ? `+1 ${game.i18n.localize('KNIGHT.AUTRE.Inclus')}` : `1`;
-          const vLDefense = `(${game.i18n.localize(CONFIG.KNIGHT.effets['defense'].label)} ${vDefense})`;
+          const vLDefense = `(${game.i18n.localize(localize['defense'].label)} ${vDefense})`;
 
           sub.name = `${game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.ornementales[name].label)} ${vLDefense}`;
           sub.desc = game.i18n.localize(`${CONFIG.KNIGHT.AMELIORATIONS.ornementales[name].description}-short`);
@@ -4639,6 +4655,7 @@ export function getFlatEffectBonus(wpn, forceEquipped=false) {
     const whatBonus = {
       defense:typeof eff === 'string' || eff instanceof String ? Number(eff.split(' ')[1]) : 0,
       reaction:typeof eff === 'string' || eff instanceof String ? Number(eff.split(' ')[1]) : 0,
+      cdf:typeof eff === 'string' || eff instanceof String ? Number(eff.split(' ')[1]) : 0,
       boucliergrave:1,
       protectionarme:2,
       armuregravee:2,
@@ -5352,6 +5369,7 @@ export async function generateNavigator() {
 }
 
 export async function importActor(json, type) {
+  const localize = getAllEffects();
   const listTemplate = game.template.Actor;
   const traAspects = {'chair':'chair', 'bête':'bete', 'machine':'machine', 'dame':'dame', 'masque':'masque'};
   const aspects = json.aspects;
@@ -5505,7 +5523,7 @@ export async function importActor(json, type) {
       .replaceAll('ignore cdf', 'ignorechampdeforce')
       .replaceAll('degats continus', 'degatscontinus')
       .replaceAll('perce armure', 'percearmure');
-      const isExist = CONFIG.KNIGHT.effets?.[tra.split(' ')[0]] ?? '';
+      const isExist = localize?.[tra.split(' ')[0]] ?? '';
 
       if(isExist !== '') itm.system.effets.raw.push(tra);
       else itm.system.effets.custom.push({
