@@ -6,7 +6,8 @@ import {
   options,
   hideShowLimited,
   dragMacro,
-  actualiseRoll
+  actualiseRoll,
+  getAllEffects,
 } from "../../helpers/common.mjs";
 
 import toggler from '../../helpers/toggler.js';
@@ -450,12 +451,7 @@ export class VehiculeSheet extends ActorSheet {
       "contact":[],
       "distance":[]
     };
-    const labels = Object.assign({},
-      CONFIG.KNIGHT.effets,
-      CONFIG.KNIGHT.AMELIORATIONS.distance,
-      CONFIG.KNIGHT.AMELIORATIONS.structurelles,
-      CONFIG.KNIGHT.AMELIORATIONS.ornementales
-    );
+    const labels = Object.assign({}, getAllEffects());
 
     for (let i of sheetData.items) {
       const data = i.system;
@@ -464,18 +460,16 @@ export class VehiculeSheet extends ActorSheet {
       if (i.type === 'arme') {
         const raw = data.effets.raw;
         const custom = data.effets.custom;
-        const labels = CONFIG.KNIGHT.effets;
 
         data.effets.liste = listEffects(raw, custom, labels);
 
         const rawDistance = data.distance.raw;
         const customDistance = data.distance.custom;
-        const labelsDistance = CONFIG.KNIGHT.AMELIORATIONS.distance;
         const optionsMunitions = data?.optionsmunitions?.has || false;
         const munition = data?.options2mains?.actuel || "";
         const effetMunition = data?.optionsmunitions?.liste || {};
 
-        data.distance.liste = listEffects(rawDistance, customDistance, labelsDistance);
+        data.distance.liste = listEffects(rawDistance, customDistance, labels);
 
         if(optionsMunitions === true) {
           data.degats.dice = data.optionsmunitions?.liste?.[munition]?.degats?.dice || 0;
@@ -704,12 +698,7 @@ export class VehiculeSheet extends ActorSheet {
   _prepareTranslation(actor, system) {
     const { modules,
       armesDistance } = actor;
-    const labels = Object.assign({},
-      CONFIG.KNIGHT.effets,
-      CONFIG.KNIGHT.AMELIORATIONS.distance,
-      CONFIG.KNIGHT.AMELIORATIONS.structurelles,
-      CONFIG.KNIGHT.AMELIORATIONS.ornementales
-    );
+    const labels = Object.assign({}, getAllEffects());
     const wpnModules = [
       {data:modules, key:'modules'},
       {data:armesDistance, key:'armes'},

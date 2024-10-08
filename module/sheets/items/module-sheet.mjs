@@ -1,13 +1,19 @@
 import {
   SortByLabel,
   listEffects,
-  compareArrays
+  getAllEffects,
  } from "../../helpers/common.mjs";
 import toggler from '../../helpers/toggler.js';
 /**
  * @extends {ItemSheet}
  */
 export class ModuleSheet extends ItemSheet {
+  constructor(options={}) {
+    super(options);
+    const niveau = this.item.system.niveau.value;
+
+    this._tabs[0].active = `niveau_n${niveau}`;
+  }
 
   /** @inheritdoc */
   static get defaultOptions() {
@@ -124,8 +130,6 @@ export class ModuleSheet extends ItemSheet {
 
     context.systemData = context.data.system;
 
-    console.warn(context);
-
     return context;
   }
 
@@ -140,10 +144,12 @@ export class ModuleSheet extends ItemSheet {
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
 
+    console.warn();
+
     html.find('button.nbreniveau').click(ev => {
       const target = $(ev.currentTarget);
       const value = target.data("value");
-      const getData = this.getData().data.system.niveau;
+      const getData = this.item.system.niveau;
       const data = getData.details;
       const length = Math.max(value, Object.keys(data).length);
       const update = {};
@@ -733,21 +739,20 @@ export class ModuleSheet extends ItemSheet {
       const ornementales = data.arme.ornementales || false;
       const effetsJetSimple = data.jetsimple.effets || false;
       const pnjListe = data.pnj.liste;
+      const labels = getAllEffects();
 
       if(beffets !== false) {
         const raw = beffets.raw;
         const custom = beffets.custom;
-        const labelsE = CONFIG.KNIGHT.effets;
 
-        beffets.liste = listEffects(raw, custom, labelsE);
+        beffets.liste = listEffects(raw, custom, labels);
       }
 
       if(effets !== false) {
         const raw = effets.raw;
         const custom = effets.custom;
-        const labelsE = CONFIG.KNIGHT.effets;
 
-        effets.liste = listEffects(raw, custom, labelsE);
+        effets.liste = listEffects(raw, custom, labels);
       }
 
       for(let i = 0; i < length;i++) {
@@ -755,7 +760,6 @@ export class ModuleSheet extends ItemSheet {
 
         const bRaw = bEffets.raw;
         const bCustom = bEffets.custom;
-        const labels = CONFIG.KNIGHT.effets;
 
         bEffets.liste = listEffects(bRaw, bCustom, labels);
       }
@@ -763,33 +767,29 @@ export class ModuleSheet extends ItemSheet {
       if(distance !== false) {
         const raw = distance.raw;
         const custom = distance.custom;
-        const labelsD = CONFIG.KNIGHT.AMELIORATIONS.distance;
 
-        distance.liste = listEffects(raw, custom, labelsD);
+        distance.liste = listEffects(raw, custom, labels);
       }
 
       if(structurelles !== false) {
         const raw = structurelles.raw;
         const custom = structurelles.custom;
-        const labelsS = CONFIG.KNIGHT.AMELIORATIONS.structurelles;
 
-        structurelles.liste = listEffects(raw, custom, labelsS);
+        structurelles.liste = listEffects(raw, custom, labels);
       }
 
       if(ornementales !== false) {
         const raw = ornementales.raw;
         const custom = ornementales.custom;
-        const labelsO = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
 
-        ornementales.liste = listEffects(raw, custom, labelsO);
+        ornementales.liste = listEffects(raw, custom, labels);
       }
 
       if(effetsJetSimple !== false) {
         const raw = effetsJetSimple.raw;
         const custom = effetsJetSimple.custom;
-        const labelsE = CONFIG.KNIGHT.effets;
 
-        effetsJetSimple.liste = listEffects(raw, custom, labelsE);
+        effetsJetSimple.liste = listEffects(raw, custom, labels);
       }
 
       for (let [key, pnj] of Object.entries(pnjListe)) {
@@ -799,9 +799,8 @@ export class ModuleSheet extends ItemSheet {
           for (let [kArme, arme] of Object.entries(pnjArmes)) {
             const rArme = arme.effets.raw;
             const cArme = arme.effets.custom;
-            const labelsA = CONFIG.KNIGHT.effets;
 
-            arme.effets.liste = listEffects(rArme, cArme, labelsA);
+            arme.effets.liste = listEffects(rArme, cArme, labels);
           }
         }
       }

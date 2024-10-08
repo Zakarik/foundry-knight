@@ -1,5 +1,8 @@
-import { SortByLabel } from "../../helpers/common.mjs";
-import { listEffects } from "../../helpers/common.mjs";
+import {
+  SortByLabel,
+  listEffects,
+  getAllEffects,
+} from "../../helpers/common.mjs";
 import toggler from '../../helpers/toggler.js';
 /**
  * @extends {ItemSheet}
@@ -389,7 +392,7 @@ export class ArmureLegendeSheet extends ItemSheet {
 
     const bRaw = bEffets.raw;
     const bCustom = bEffets.custom;
-    const bLabels = CONFIG.KNIGHT.effets;
+    const bLabels = getAllEffects();
 
     bEffets.liste = listEffects(bRaw, bCustom, bLabels);
   }
@@ -400,7 +403,7 @@ export class ArmureLegendeSheet extends ItemSheet {
     const wEffets = companions?.wolf?.armes || false;
     const bEffets = companions?.wolf?.configurations?.fighter?.bonus?.effets || false;
 
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     if(!companions) return;
 

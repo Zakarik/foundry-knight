@@ -12,7 +12,8 @@ import {
   hideShowLimited,
   dragMacro,
   createSheet,
-  actualiseRoll
+  actualiseRoll,
+  getAllEffects,
 } from "../../helpers/common.mjs";
 
 import toggler from '../../helpers/toggler.js';
@@ -2583,12 +2584,7 @@ export class PNJSheet extends ActorSheet {
       "masque":system.aspects.masque.value,
     };
     const aspectLieSupp = [];
-    const labels = Object.assign({},
-      CONFIG.KNIGHT.effets,
-      CONFIG.KNIGHT.AMELIORATIONS.distance,
-      CONFIG.KNIGHT.AMELIORATIONS.structurelles,
-      CONFIG.KNIGHT.AMELIORATIONS.ornementales
-    );
+    const labels = Object.assign({}, getAllEffects());
 
     let art = {};
     let armureData = {};
@@ -3438,12 +3434,7 @@ export class PNJSheet extends ActorSheet {
     const special = armureData?.system?.special?.selected ?? {};
     const legend = armureLegendeData?.capacites?.selected ?? {};
     const listToVerify = {...capacites, ...special};
-    const labels = Object.assign({},
-      CONFIG.KNIGHT.effets,
-      CONFIG.KNIGHT.AMELIORATIONS.distance,
-      CONFIG.KNIGHT.AMELIORATIONS.structurelles,
-      CONFIG.KNIGHT.AMELIORATIONS.ornementales
-    );
+    const labels = Object.assign({}, getAllEffects());
     const wpnModules = [
       {data:modules, key:'modules'},
       {data:armesContact, key:'armes'},

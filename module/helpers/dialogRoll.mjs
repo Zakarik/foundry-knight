@@ -3,8 +3,8 @@ import {
   actorIsPj,
   getCaracValue,
   getODValue,
-  getNestedPropertyValue,
   getArmor,
+  getAllEffects,
 } from "./common.mjs";
 
 function normalizeTxt(str) {
@@ -672,6 +672,8 @@ DATA :
   - (int) addNum : S'il y a un numéro à ajouter à la fin du nom.
 */
 export async function doDgts(data) {
+  const localize = getAllEffects();
+
   const actor = data.actor;
   const dataWpn = data.dataWpn;
   const listAllEffets = data.listAllE;
@@ -736,7 +738,7 @@ export async function doDgts(data) {
   let effets = listAllEffets;
 
   if(effets.regularite) {
-    const regulariteIndex = effets.degats.include.findIndex(str => { if(str.name.includes(game.i18n.localize(CONFIG.KNIGHT.effets['regularite'].label))) return true; });
+    const regulariteIndex = effets.degats.include.findIndex(str => { if(str.name.includes(game.i18n.localize(localize['regularite'].label))) return true; });
     effets.degats.include[regulariteIndex].name = `+${regularite} ${effets.degats.include[regulariteIndex].name}`;
   }
 

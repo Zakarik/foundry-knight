@@ -103,7 +103,14 @@ export class KnightEffetsDialog extends FormApplication {
 
   async getData(options = null) {
     const tEffets = this.object.typeEffets;
-    const possibles = CONFIG.KNIGHT.effets;
+    const hasCodexFM4 = game.settings.get("knight", "codexfm4");
+    const effets = CONFIG.KNIGHT.effets;
+    const effetsfm4 = CONFIG.KNIGHT.effetsfm4;
+    let pe = foundry.utils.mergeObject({}, effets);
+
+    if(hasCodexFM4) pe = foundry.utils.mergeObject(pe, effetsfm4);
+
+    const possibles = pe;
     const distance = CONFIG.KNIGHT.AMELIORATIONS.distance;
     const structurelles = CONFIG.KNIGHT.AMELIORATIONS.structurelles;
     const ornements = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
@@ -119,7 +126,7 @@ export class KnightEffetsDialog extends FormApplication {
             key:key,
             double:effet.double,
             name:game.i18n.localize(effet.label),
-            description:game.i18n.localize(CONFIG.KNIGHT.effets[key].description),
+            description:game.i18n.localize(possibles[key].description),
             max:effet.max
           });
         }
@@ -128,7 +135,7 @@ export class KnightEffetsDialog extends FormApplication {
       for(let n = 0;n < raw.length;n++) {
         const split = raw[n].split(" ");
         const secondSplit = split[0].split("<space>");
-        const name = game.i18n.localize(CONFIG.KNIGHT.effets[secondSplit[0]].label);
+        const name = game.i18n.localize(possibles[secondSplit[0]].label);
         const sub = split[1];
         const other = Object.values(secondSplit);
         let complet = name;
@@ -143,7 +150,7 @@ export class KnightEffetsDialog extends FormApplication {
         liste.push({
           id:n,
           name:complet,
-          description:game.i18n.localize(CONFIG.KNIGHT.effets[secondSplit[0]].description),
+          description:game.i18n.localize(possibles[secondSplit[0]].description),
           custom:false
         });
       }
@@ -302,6 +309,7 @@ export class KnightEffetsDialog extends FormApplication {
     }
 
     liste.sort(_sortByName);
+    ePossibles.sort(_sortByName);
 
     this.options.title = this.object.title;
 

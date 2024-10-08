@@ -5,7 +5,7 @@
         </h1>
 
         <select name="system.niveau.value" {{#if systemData.noEditLvl}}disabled{{/if}}>
-            {{selectOptions (getNiveau systemData.niveau.liste) selected=systemData.niveau.value}}
+            {{selectOptions (getNiveau systemData.niveau.details) selected=systemData.niveau.value}}
         </select>
     </header>
 

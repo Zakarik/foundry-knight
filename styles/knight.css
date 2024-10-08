@@ -12904,17 +12904,19 @@
   cursor: pointer;
 }
 .module .sheet-header {
+  display: grid;
+  grid-template-columns: 1fr 100px;
+  grid-gap: 2px;
   height: 48px;
   max-height: 48px;
 }
 .module .sheet-header h1.charname {
-  width: calc(100% - 150px);
+  width: 100%;
   height: 48px;
   max-height: 48px;
   border: 0px;
   margin: 0px;
   padding: 0px;
-  margin-right: 10px;
 }
 .module .sheet-header h1.charname input[type=text] {
   margin: 0px;
@@ -14432,7 +14434,11 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   margin: 0px;
-  border-bottom: 1px solid RGB(43 42 51);
+  border-top: 1px solid RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 .module section.body nav a {
   display: grid;
@@ -14441,7 +14447,7 @@
   text-align: left;
   font-variant: small-caps;
   font-size: 16px;
-  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
   border-bottom: 1px solid RGB(87 110 178);
 }
 .module section.body nav a i.active {
@@ -14450,17 +14456,8 @@
 .module section.body nav a.active i.active {
   display: inline;
 }
-.module section.body nav a:first-of-type {
-  border-top-left-radius: 5px;
-}
-.module section.body nav a:nth-of-type(1), .module section.body nav a:nth-of-type(2), .module section.body nav a:nth-of-type(3) {
-  border-top: 1px solid RGB(87 110 178);
-}
-.module section.body nav a:nth-of-type(3) {
-  border-top-right-radius: 5px;
-}
 .module section.body nav a:nth-of-type(3n+3) {
-  border-right: 1px solid RGB(87 110 178);
+  border-right: 0px;
 }
 .module section.body div.niveaux {
   display: none;

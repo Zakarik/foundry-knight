@@ -962,9 +962,12 @@
 
     Handlebars.registerHelper('getNiveau', function (list) {
         let result = {};
+        let n = 1;
 
         for(let p in list) {
-            result[p] = `${game.i18n.localize('KNIGHT.ITEMS.MODULE.Niveau')} ${p}`;
+            result[n] = `${game.i18n.localize('KNIGHT.ITEMS.MODULE.Niveau')} ${n}`;
+
+            n++;
         }
 
         return result;
