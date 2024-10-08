@@ -475,6 +475,51 @@ export class MechaArmureDataModel extends foundry.abstract.TypeDataModel {
           }),
         }
     }
+    static migrateData(source) {
+        if(source.version < 1) {
+            const mods = ['reaction', 'defense', 'initiative'];
+
+            for(let m of mods) {
+              if(!source[m]) continue;
+
+                for(let b in source[m].bonus) {
+                    source[m].bonus[b] = 0;
+                }
+
+                for(let b in source[m].malus) {
+                    source[m].malus[b] = 0;
+                }
+            }
+
+            for(let i in source.initiative.diceBonus) {
+                source.initiative.diceBonus[i] = 0;
+            }
+
+            for(let i in source.initiative.diceMalus) {
+                source.initiative.diceMalus[i] = 0;
+            }
+
+            for(let i in source.initiative.embuscade.diceBonus) {
+                source.initiative.embuscade.diceBonus[i] = 0;
+            }
+
+            for(let i in source.initiative.embuscade.diceMalus) {
+                source.initiative.embuscade.diceMalus[i] = 0;
+            }
+
+            for(let i in source.initiative.embuscade.bonus) {
+                source.initiative.embuscade.bonus[i] = 0;
+            }
+
+            for(let i in source.initiative.embuscade.malus) {
+                source.initiative.embuscade.malus[i] = 0;
+            }
+
+            source.version = 1;
+        }
+
+        return super.migrateData(source);
+    }
 
   prepareBaseData() {
     this.#modules();
