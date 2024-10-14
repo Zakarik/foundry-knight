@@ -1,3 +1,7 @@
+## v3.30.3
+### Bugfix
+- Le Masque Exceptionnel ne s'ajoutait pas à la défense pour les PNJ/Bande/Créatures, c'est à présent corrigé.
+
 ## v3.30.2
 ### Bugfix
 - Correction d'un bug sur les jets de dégâts des armes de contact.
