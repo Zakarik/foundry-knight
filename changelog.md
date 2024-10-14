@@ -1,3 +1,7 @@
+## v3.30.1
+### Bugfix
+- Correction d'un bug empêchant le chargement des PJ dans certains cas.
+
 ## v3.30.0
 - Refonte complète du système interne pour passer au Data Model. Il est possible qu'il demeure des bugs que je n'aurai pas vu passer, n'hésitez pas à m'en faire part.
 PENSEZ A SAUVEGARDER, AU CAS OU !

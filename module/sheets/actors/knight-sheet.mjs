@@ -4948,7 +4948,7 @@ export class KnightSheet extends ActorSheet {
             }
           }
 
-          if(itemDataNiveau.overdrives.has) overdrive.push(i);
+          if(itemOD.has) overdrive.push(i);
           else module.push(i);
         }
       }
