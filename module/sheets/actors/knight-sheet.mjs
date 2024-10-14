@@ -4428,6 +4428,7 @@ export class KnightSheet extends ActorSheet {
 
       // ARMURE.
       if (i.type === 'armure') {
+
         let passiveUltime = undefined;
 
         if(capaciteultime !== undefined) {
