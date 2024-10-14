@@ -1,3 +1,8 @@
+## v3.30.2
+### Bugfix
+- Correction d'un bug sur les jets de dégâts des armes de contact.
+- La Machine Exceptionnelle ne s'ajoutait pas à la réaction pour les PNJ/Bande/Créatures, c'est à présent corrigé.
+
 ## v3.30.1
 ### Bugfix
 - Correction d'un bug empêchant le chargement des PJ dans certains cas.

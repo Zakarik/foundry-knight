@@ -294,6 +294,8 @@ export class RollKnight {
 
         if(!handleDamage.min) total = roll.total;
 
+        console.warn(total);
+
         rolls.push(roll);
         content.total = total+Object.values(bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
         content.tooltip = await renderTemplate(RollKnight.tooltip, {parts:[{
@@ -1282,6 +1284,8 @@ export class RollKnight {
                 force = this.getCaracteristique('chair', 'force');
                 traForce = game.i18n.localize(CONFIG.KNIGHT.caracteristiques.force);
 
+                console.warn(force)
+
                 bonus.push(force);
                 title += ` + ${traForce}`;
             } else {
@@ -1925,6 +1929,7 @@ export class RollKnight {
             if (!a.tooltip && b.tooltip) return 1;
             return a.label.localeCompare(b.label);
         });
+
         effets.sort((a, b) => a.label.localeCompare(b.label));
         const roll = new Roll(formula);
         await roll.evaluate(rollOptions);
@@ -3154,8 +3159,8 @@ export class RollKnight {
         let result = 0;
 
         result += data?.base ?? 0;
-        result += data?.bonus ?? 0;
-        result -= data?.malus ?? 0;
+        result += Object.values(data?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+        result -= Object.values(data?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
         return result;
     }

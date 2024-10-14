@@ -864,6 +864,14 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
 
   #defenses() {
       const defenses = ['defense', 'reaction'];
+      const machineAE = this.aspect.machine.mineur+this.aspect.machine.majeur;
+
+      Object.defineProperty(this.reaction.bonus, 'machine', {
+        value: machineAE,
+        writable:true,
+        enumerable:true,
+        configurable:true
+      });
 
       for(let d of defenses) {
           const base = this[d].base;
