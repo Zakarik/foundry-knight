@@ -390,6 +390,7 @@ export const KNIGHT = {};
     activationcapacites:{
       aucune:'KNIGHT.ACTIVATION.Aucune',
       toutes:'KNIGHT.ACTIVATION.Toutes',
+      deplacementcombat:'KNIGHT.ACTIVATION.DeplacementCombat',
       combat:'KNIGHT.ACTIVATION.Combat',
       deplacement:'KNIGHT.ACTIVATION.Deplacement',
       tour:'KNIGHT.ACTIVATION.Tour',

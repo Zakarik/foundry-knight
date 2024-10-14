@@ -144,8 +144,6 @@ export class ModuleSheet extends ItemSheet {
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
 
-    console.warn();
-
     html.find('button.nbreniveau').click(ev => {
       const target = $(ev.currentTarget);
       const value = target.data("value");

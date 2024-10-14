@@ -814,6 +814,9 @@
         "Description":"On an attack roll, each excess success (including OD) inflicts an additional 2 points of damage (or violence).",
         "Description-short":"On an attack roll, each excess success (including OD) inflicts an additional 2 points of damage (or violence)."
       },
+      "FUMIGENE":{
+        "Label":"Smokescreen"
+      },
       "FUREUR": {
         "Label":"Wrath",
         "Description":"When this weapon is used against an enemy band with a _Flesh_ score of 10 or higher, its violence is increased 4D6 points.",
@@ -2228,7 +2231,8 @@
         "VsReaction":"vs Reaction",
         "VsDefense":"vs Defence",
         "PFTarget":"Targeted weak point !",
-        "DegatsAvec":"Damage with {avec}"
+        "DegatsAvec":"Damage with {avec}",
+        "ProtegePar":"Protected by {aspect}"
       },
       "CHAIRD2": {
         "Has":"Adds Flesh divided by 2 to damage",
@@ -2237,6 +2241,10 @@
       "BETE":{
         "Mineur":"Minor beast",
         "Majeur":"Major beast"
+      },
+      "CHAIR":{
+        "Mineur":"Minor flesh",
+        "Majeur":"Major flesh"
       }
     },
     "AUTRE": {
@@ -2364,6 +2372,7 @@
       "ConflitScene":"A conflict phase or scene",
       "ConflitTuer":"Until the end of the conflict phase or until the knight has successfully killed an enemy.",
       "ConflitSceneProlonger":"A scene or phase of conflict can be extended with exactly the same EP value.",
+      "Heure":"1 hour",
       "Permanent":"Permanent",
       "Sanslimite":"Unlimited"
     },
@@ -2380,6 +2389,7 @@
       "Tour": "1 turn",
       "Tour6Sec": "1 turn / 6 seconds",
       "Toutes": "Move action, Combat action or 1 Turn",
+      "DeplacementCombat": "Move action or Combat action",
       "TourComplet": "Full turn"
     },
     "BONUS":{
@@ -2505,8 +2515,8 @@
         "Version3":"Version 3"
       },
       "CODEXFM4":{
-        "Label":"Add token status & effects from Fan Made 4 Codex",
-        "Hint":"Adds token status & effect 'Immobilization', 'Boost', 'CdF', 'Intimidating', 'Flashback', 'Unarmored'."
+        "Label":"Include Codex Fan Made 4",
+        "Hint":"Adds token & effect status 'Immobilization', 'Boost', 'FF', 'Intimidating', 'Flashback', 'Unarmored'."
       },
       "OLDROLL":{
         "Label":"Roll damage and violence at the same time as the attack",

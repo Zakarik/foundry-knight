@@ -47,8 +47,6 @@ export class MechaArmureSheet extends ActorSheet {
 
     actualiseRoll(this.actor);
 
-    console.warn(context);
-
     return context;
   }
 
@@ -143,10 +141,6 @@ export class MechaArmureSheet extends ActorSheet {
       const data = this.actor.system;
       const value = data.modules.actuel[type];
       const modules = data.modules.liste[value];
-
-      console.warn(type)
-      console.warn(value)
-      console.warn(data.modules.actuel)
 
       modules['key'] = value;
       modules['type'] = type;

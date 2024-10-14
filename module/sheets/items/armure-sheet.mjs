@@ -87,8 +87,6 @@ export class ArmureSheet extends ItemSheet {
 
     context.systemData = context.data.system;
 
-    console.warn(context);
-
     return context;
   }
 
@@ -2337,14 +2335,14 @@ export class ArmureSheet extends ItemSheet {
 
     if(!capacite) return;
 
-    const colereBonus = capacite.colere.combosBonus.has;
-    const colereInterdits = capacite.colere.combosInterdits.has;
+    const colereBonus = capacite?.colere?.combosBonus?.has ?? false;
+    const colereInterdits = capacite?.colere?.combosInterdits?.has ?? false;
 
-    const rageBonus = capacite.rage.combosBonus.has;
-    const rageInterdits = capacite.rage.combosInterdits.has;
+    const rageBonus = capacite?.rage?.combosBonus?.has ?? false;
+    const rageInterdits = capacite?.rage?.combosInterdits?.has ?? false;
 
-    const fureurBonus = capacite.fureur.combosBonus.has;
-    const fureurInterdits = capacite.fureur.combosInterdits.has;
+    const fureurBonus = capacite?.fureur?.combosBonus?.has ?? false;
+    const fureurInterdits = capacite?.fureur?.combosInterdits?.has ?? false;
 
     if(colereBonus) {
       capacite.colere.combosBonus.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboBonus"]);

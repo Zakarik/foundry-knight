@@ -1,3 +1,24 @@
+## v3.30.0
+- Refonte complète du système interne pour passer au Data Model. Il est possible qu'il demeure des bugs que je n'aurai pas vu passer, n'hésitez pas à m'en faire part.
+PENSEZ A SAUVEGARDER, AU CAS OU !
+
+### Améliorations
+- Refonte du lanceur de dé, pour qu'il soit plus facilement modifiable par moi, et plus pratique à utiliser pour les joueurs.
+- Amélioration générale de la gestion des personnages.
+- Ajout d'un status "Fumigène" qui applique automatiquement les bonus en défense / réaction et appliquera le malus dans la case 'modificateur' dans les jets de dés.
+- Amélioration de l'affichage et de la gestion des jets de manière global.
+ATTENTION : LES ANCIENS JETS (avant la mise à jour) APPARAITRONT AVEC DES BUGS. C'EST NORMAL.
+- Ajout d'une case "Colosse" et d'une case "Patron" sur les créatures.
+Inutilisées par le système, elles servent pour ceux qui souhaitent faire des macros particulières.
+- Ajout de tous les effets d'armes du Codex Fan Made 4, et de leur gestion.
+- Ajout d'une confirmation lors de la pression des boutons de restauration Espoir / Santé / Energie.
+- Les modules d'Overdrives sont affichés séparément des autres modules pour des questions de clarté.
+- Ajout de la traduction anglaise du système. S'il y a des coquilles dans celle-ci, ne pas hésiter à m'en faire part.
+- Ajout d'un artwork pour le système, pour qu'il fasse beau au milieu de vos mondes !
+
+### Bugfix
+- Correction d'un bug sur le Mode Goliath (sur l'armure en elle-même).
+
 ## v3.29.6
 ### Bugfix
 - Correction d'un bug affectant les capacités ultimes passives.

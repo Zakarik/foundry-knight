@@ -181,14 +181,14 @@ Hooks.once('init', async function() {
       label:"KNIGHT.EFFETS.LUMIERE.Label",
       icon:'systems/knight/assets/icons/effects/lumiere.svg',
       changes:[{
-        key: `system.defense.malusValue`,
+        key: `system.defense.malus.lumiere`,
         mode: 2,
         priority: 4,
         icon:'',
         value: 1
       },
       {
-        key: `system.reaction.malusValue`,
+        key: `system.reaction.malus.lumiere`,
         mode: 2,
         priority: 4,
         icon:'',
@@ -200,14 +200,14 @@ Hooks.once('init', async function() {
       label:"KNIGHT.EFFETS.BARRAGE.Label",
       icon:'systems/knight/assets/icons/effects/barrage.svg',
       changes:[{
-        key: `system.defense.malusValue`,
+        key: `system.defense.malus.barrage`,
         mode: 2,
         priority: 4,
         icon:'',
         value: 1
       },
       {
-        key: `system.reaction.malusValue`,
+        key: `system.reaction.malus.barrage`,
         mode: 2,
         priority: 4,
         icon:'',
@@ -238,6 +238,25 @@ Hooks.once('init', async function() {
       id:'soumission',
       label:"KNIGHT.EFFETS.SOUMISSION.Label",
       icon:'systems/knight/assets/icons/effects/soumission.svg'
+    },
+    {
+      id:'fumigene',
+      label:"KNIGHT.EFFETS.FUMIGENE.Label",
+      icon:'systems/knight/assets/icons/effects/fumigene.svg',
+      changes:[{
+        key: `system.defense.bonus.fumigene`,
+        mode: 2,
+        priority: 4,
+        icon:'',
+        value: 2
+      },
+      {
+        key: `system.reaction.bonus.fumigene`,
+        mode: 2,
+        priority: 4,
+        icon:'',
+        value: 2
+      }]
     }
   ];
 
@@ -613,6 +632,28 @@ Hooks.once("setup", async function() {
 Hooks.once("ready", HooksKnight.ready);
 Hooks.on('deleteItem', doc => toggler.clearForId(doc.id));
 Hooks.on('deleteActor', doc => toggler.clearForId(doc.id));
+
+Hooks.on("updateActiveEffect", function(effect, effectData, diffData, options, userId) {
+  const status = effect.statuses;
+  let effectCounter = foundry.utils.getProperty(effectData, "flags.statuscounter.counter");
+
+  if (effectCounter && (status.has("barrage") || status.has("lumiere"))) {
+    let update = []
+    for(let e of effect.changes) {
+      update.push({
+        key:e.key,
+        mode:e.mode,
+        priority:e.priority,
+        value:`${effectCounter.value}`
+      });
+    }
+
+    effect.parent.updateEmbeddedDocuments('ActiveEffect', [{
+      "_id":effect._id,
+      changes:update,
+    }])
+  }
+});
 
 async function createMacro(data, slot) {
   if(foundry.utils.isEmpty(data)) return;

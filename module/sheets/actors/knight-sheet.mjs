@@ -60,8 +60,6 @@ export class KnightSheet extends ActorSheet {
 
     actualiseRoll(this.actor);
 
-    console.warn(context);
-
     return context;
   }
 
@@ -849,7 +847,6 @@ export class KnightSheet extends ActorSheet {
                   }
                 }
 
-                console.warn(armorCapacites)
                 if(armorCapacites.rage.colere.combosBonus.has && value) {
                   for (let [key, combo] of Object.entries(armorCapacites.rage.colere.combosBonus.liste)){
                     if(combo != "") {
@@ -2698,6 +2695,8 @@ export class KnightSheet extends ActorSheet {
       const other = parent.data("other");
       const what = parent.data("what");
       const armure = this.actor.items.find(itm => itm.type === 'armure');
+      const hasFumigene = this.actor.statuses.has('fumigene');
+      let modificateur = 0;
       let id = target.data("id");
       let base = '';
       let whatRoll = [];
@@ -2723,11 +2722,16 @@ export class KnightSheet extends ActorSheet {
           const dataGrenade = this.actor.system.combat.grenades.liste[name];
           id = `grenade_${name}`;
           label = dataGrenade.custom ? `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${dataGrenade.label}` : `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${name.charAt(0).toUpperCase()+name.substr(1)}`)}`;
+
+          if(hasFumigene) modificateur -= 3;
+
           break;
 
         case 'longbow':
           label = game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label`);
           id = `capacite_${armure.id}_longbow`;
+
+          if(hasFumigene) modificateur -= 3;
           break;
 
         case 'armesimprovisees':
@@ -2737,7 +2741,10 @@ export class KnightSheet extends ActorSheet {
 
           whatRoll.push('force');
 
-          if(id === 'distance') base = 'tir';
+          if(id === 'distance') {
+            base = 'tir';
+            if(hasFumigene) modificateur -= 3;
+          }
           else base = 'combat';
           break;
 
@@ -2753,10 +2760,14 @@ export class KnightSheet extends ActorSheet {
                 case 'salve':
                 case 'vague':
                   id = isDistance === 'distance' ? `capacite_${id}_cea${what.charAt(0).toUpperCase() + what.substr(1)}D` : `capacite_${id}_cea${what.charAt(0).toUpperCase() + what.substr(1)}C`;
+
+                  if(isDistance === 'distance' && hasFumigene) modificateur -= 2;
                   break;
 
                 case 'borealis':
                   id = isDistance === 'distance' ? `capacite_${id}_borealisD` : `capacite_${id}_borealisC`;
+
+                  if(isDistance === 'distance' && hasFumigene) modificateur -= 2;
                   break;
 
                 case 'lame':
@@ -2765,6 +2776,9 @@ export class KnightSheet extends ActorSheet {
                   id = `capacite_${id}_morph${what.charAt(0).toUpperCase() + what.substr(1)}`;
                   break;
               }
+            }
+            if(item.type === 'arme') {
+              if(item.system.type === 'distance' && hasFumigene) modificateur -= 3;
             }
 
           }
@@ -2777,6 +2791,7 @@ export class KnightSheet extends ActorSheet {
         wpn:id,
         base:base,
         whatRoll:whatRoll,
+        modificateur
       });
 
       dialog.open();
@@ -5319,7 +5334,7 @@ export class KnightSheet extends ActorSheet {
     const special = armureData?.system?.special?.selected ?? {};
     const legend = armureLegendeData?.capacites?.selected ?? {};
     const listToVerify = {...capacites, ...special};
-    const labels = Object.assign({}, getAllEffects());
+    const labels = getAllEffects();
     const wpnModules = [
       {data:modules, key:'modules'},
       {data:armesContactEquipee, key:'armes'},

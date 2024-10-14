@@ -11,6 +11,7 @@
                     grid-template-columns: repeat(7, 1fr);
                     border: 0px;
                     margin-bottom: 0px;
+                    align-items: flex-end;
 
                     a {
                         display: flex;
@@ -18,6 +19,7 @@
                         align-items: center;
                         border-top: 1px solid $lightBlue;
                         border-left: 1px solid $lightBlue;
+                        min-height: 51px;
 
                         &:first-of-type {
                             border-top-left-radius: 5px;

@@ -814,6 +814,9 @@
         "Description":"Sur test d'attaque, chaque réussite excédentaire (OD compris) inflige 2 points de dégâts (ou de violence) supplémentaire.",
         "Description-short":"Sur test d'attaque, chaque réussite excédentaire (OD compris) inflige 2 points de dégâts (ou de violence) supplémentaire."
       },
+      "FUMIGENE":{
+        "Label":"Fumigène"
+      },
       "FUREUR": {
         "Label":"Fureur",
         "Description":"Lorsque l'arme est utilisée contre une bande avec un score d'aspect _Chair_ de 10 ou plus, la violence de l'arme est augmentée de 4D6.",
@@ -2369,6 +2372,7 @@
       "ConflitScene":"Une phase de conflit ou une scène",
       "ConflitTuer":"Jusqu'à la fin de la phase de conflit ou jusqu'à ce que le chevalier ait réussi à tuer un ennemi.",
       "ConflitSceneProlonger":"Une scène ou une phase de conflit, peut être prolongé en conservant exactement la même valeur de PE octroyée.",
+      "Heure":"1 heure",
       "Permanent":"Permanent",
       "Sanslimite":"Sanslimite"
     },
@@ -2384,6 +2388,7 @@
       "Combat6Sec": "Action de Combat / 6 secondes",
       "Tour": "1 tour",
       "Tour6Sec": "1 tour / 6 secondes",
+      "DeplacementCombat": "Action de déplacement ou de combat",
       "Toutes": "Action de déplacement, de combat ou 1 tour",
       "TourComplet": "Tour complet"
     },
@@ -2510,8 +2515,8 @@
         "Version3":"Version 3"
       },
       "CODEXFM4":{
-        "Label":"Ajouter les status de token & effets liés au Codex Fan Made 4",
-        "Hint":"Ajoute le status de token & effets 'Immobilisation', 'Boost', 'CdF', 'Intimidante', 'Retour de flamme', 'Sans armure'"
+        "Label":"Inclure le Codex Fan Made 4",
+        "Hint":"Ajoute le status de token & effets 'Immobilisation', 'Boost', 'CdF', 'Intimidante', 'Retour de flamme', 'Sans armure'."
       },
       "OLDROLL":{
         "Label":"Jeter les dégâts et la violence en même temps que l'attaque",

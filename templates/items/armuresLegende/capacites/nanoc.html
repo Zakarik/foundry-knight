@@ -36,13 +36,6 @@
                 min="0"
                 {{#if this.softlock}}disabled{{/if}}/>
             </label>
-            <label class="longspan">
-                <span>{{localize "KNIGHT.AUTRE.Prolonger"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ParMinute"}}</span>
-                <input type="number" name="system.capacites.selected.nanoc.energie.prolonger"
-                value="{{this.energie.prolonger}}"
-                min="0"
-                {{#if this.softlock}}disabled{{/if}}/>
-            </label>
             <label class="shortspan separation">
                 <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                 <select name="system.capacites.selected.nanoc.activation" {{#if this.softlock}}disabled{{/if}}>
