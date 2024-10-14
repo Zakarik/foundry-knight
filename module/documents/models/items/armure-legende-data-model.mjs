@@ -115,7 +115,7 @@ export class ArmureLegendeDataModel extends foundry.abstract.TypeDataModel {
                 nanoc: new SchemaField({
                   label: new StringField(),
                   description: new StringField(),
-                  activation: new StringField({initial: "toutes"}),
+                  activation: new StringField({initial: "deplacementcombat"}),
                   duree: new StringField(),
                   energie: new SchemaField({
                     base: new NumberField({initial: 4}),
@@ -456,6 +456,7 @@ export class ArmureLegendeDataModel extends foundry.abstract.TypeDataModel {
                     crow: new NumberField({initial: 52})
                   }),
                   lion: new SchemaField({
+                    img: new StringField({initial: "systems/knight/assets/lion.jpg"}),
                     PG: new NumberField({initial: 180}),
                     aspects: new SchemaField({
                       chair: new SchemaField({
@@ -532,6 +533,7 @@ export class ArmureLegendeDataModel extends foundry.abstract.TypeDataModel {
                     })
                   }),
                   wolf: new SchemaField({
+                    img: new StringField({initial: "systems/knight/assets/wolf.jpg"}),
                     aspects: new SchemaField({
                       chair: new SchemaField({
                         value: new NumberField({initial: 2}),
@@ -647,6 +649,7 @@ export class ArmureLegendeDataModel extends foundry.abstract.TypeDataModel {
                     })
                   }),
                   crow: new SchemaField({
+                    img: new StringField({initial: "systems/knight/assets/crow.jpg"}),
                     capacites: new StringField(),
                     aspects: new SchemaField({
                       chair: new SchemaField({
@@ -730,8 +733,8 @@ export class ArmureLegendeDataModel extends foundry.abstract.TypeDataModel {
                   description: new StringField()
                 })
               }),
-              liste: new SchemaField({}),
-              selected: new SchemaField({})
+              liste: new ObjectField({}),
+              selected: new ObjectField({})
             }),
             special: new SchemaField({
               all: new SchemaField({
@@ -753,7 +756,7 @@ export class ArmureLegendeDataModel extends foundry.abstract.TypeDataModel {
                   })
                 })
               }),
-              selected: new SchemaField({})
+              selected: new ObjectField({})
             })
         };
     }

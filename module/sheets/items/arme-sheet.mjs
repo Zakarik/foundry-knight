@@ -468,7 +468,7 @@ export class ArmeSheet extends ItemSheet {
 
     const bRaw = bEffets.raw;
     const bCustom = bEffets.custom;
-    const labels = getAllEffects;
+    const labels = getAllEffects();
 
     bEffets.liste = listEffects(bRaw, bCustom, labels);
   }
@@ -482,7 +482,7 @@ export class ArmeSheet extends ItemSheet {
 
       const bRaw = bEffets.raw;
       const bCustom = bEffets.custom;
-      const labels = getAllEffects;
+      const labels = getAllEffects();
 
       bEffets.liste = listEffects(bRaw, bCustom, labels);
     }
@@ -493,7 +493,7 @@ export class ArmeSheet extends ItemSheet {
 
     const bRaw = bEffets.raw;
     const bCustom = bEffets.custom;
-    const labels = CONFIG.KNIGHT.AMELIORATIONS.distance;
+    const labels = getAllEffects();
 
     bEffets.liste = listEffects(bRaw, bCustom, labels);
   }
@@ -503,7 +503,7 @@ export class ArmeSheet extends ItemSheet {
 
     const bRaw = bEffets.raw;
     const bCustom = bEffets.custom;
-    const labels = CONFIG.KNIGHT.AMELIORATIONS.structurelles;
+    const labels = getAllEffects();
 
     bEffets.liste = listEffects(bRaw, bCustom, labels);
   }
@@ -513,7 +513,7 @@ export class ArmeSheet extends ItemSheet {
 
     const bRaw = bEffets.raw;
     const bCustom = bEffets.custom;
-    const labels = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
+    const labels = getAllEffects();
 
     bEffets.liste = listEffects(bRaw, bCustom, labels);
   }

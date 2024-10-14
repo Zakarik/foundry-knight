@@ -240,6 +240,7 @@ export class ArmureLegendeSheet extends ItemSheet {
     this._prepareMechanicTranslation(context);
     this._prepareCompanionsTranslation(context);
     this._prepareShrineTranslation(context);
+    this._prepareWarlordTranslation(context);
     this._prepareEffetsSelectedOriflamme(context);
     this._prepareEffetsSelectedCompanions(context);
     this._prepareDurationTranslation(context);
@@ -347,15 +348,16 @@ export class ArmureLegendeSheet extends ItemSheet {
   }
 
   _prepareWarlordTranslation(context) {
+    const base = context.data.system.capacites.all.warlord.base;
     const capacite = context.data.system.capacites.all.warlord.impulsions;
 
-    capacite.action.duree = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.action["duree"]);
+    base.action.duree = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.action["duree"]);
     capacite.esquive.duree = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.esquive["duree"]);
     capacite.force.duree = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.force["duree"]);
     capacite.guerre.duree = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.guerre["duree"]);
     capacite.energie.duree = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.energie["duree"]);
 
-    capacite.action.bonus.description = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.action["bonus"]);
+    base.action.bonus.description = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.action["bonus"]);
     capacite.energie.bonus.description = game.i18n.localize(CONFIG.KNIGHT.warlord.impulsions.energie["bonus"]);
   }
 
@@ -431,8 +433,12 @@ export class ArmureLegendeSheet extends ItemSheet {
     }
   }
 
+  _prepareNanoCTranslation(context) {
+    context.data.system.capacites.all.nanoc.duree = game.i18n.localize('KNIGHT.DUREE.Heure');
+  }
+
   _prepareDurationTranslation(context) {
-    const listCapacite = ["changeling", "falcon", "goliath", "ghost", "nanoc", "oriflamme", "shrine", "type", "vision", "puppet", "windtalker", "companions", "totem", "record", "rewind"];
+    const listCapacite = ["changeling", "falcon", "goliath", "ghost", "oriflamme", "shrine", "type", "vision", "puppet", "windtalker", "companions", "totem", "record", "rewind"];
 
     for(let i = 0;i < listCapacite.length;i++) {
       const capacite = context.data.system.capacites.all[listCapacite[i]];

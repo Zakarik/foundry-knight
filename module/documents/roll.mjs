@@ -712,6 +712,7 @@ export class RollKnight {
                 const getODDexterite = this.getOD('masque', 'dexterite', actor);
                 const armorIsWear = this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension' ? true :false;
                 const pointsFaibles = actor.system?.pointsFaibles ?? '';
+
                 let difficulty = 0;
                 let target = {
                     id:t.id,
@@ -724,8 +725,14 @@ export class RollKnight {
                 let resultDefense = ``;
 
                 if(!isSurprise) {
-                    const defValue = actor.system.defense.value;
-                    const reaValue = actor.system.reaction.value;
+                    let defValue = actor.system.defense.value;
+                    let reaValue = actor.system.reaction.value;
+
+                    if (this.carac.some(carac => pointsFaibles.includes(carac))) {
+                        defValue = Math.ceil(defValue / 2);
+                        reaValue = Math.ceil(reaValue / 2);
+                        ptsFaible = true;
+                    }
 
                     if(weapon.type === 'distance' && armorIsWear && getODDexterite >= 5) {
                         difficulty = Math.max(actor.system.defense.value, actor.system.reaction.value);
@@ -734,26 +741,22 @@ export class RollKnight {
                         else resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (${reaValue})`;
                     }
                     else if(weapon.type === 'distance') {
-                        difficulty = actor.system.reaction.value;
+                        difficulty = reaValue;
                         resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (${reaValue})`;
                     }
                     else if(weapon.type === 'contact') {
-                        difficulty = actor.system.defense.value;
+                        difficulty = defValue;
                         resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (${defValue})`;
-                    }
-
-                    if (this.carac.some(carac => pointsFaibles.includes(carac))) {
-                        difficulty = Math.ceil(difficulty / 2);
-                        ptsFaible = true;
                     }
                 } else {
                     if(weapon.type === 'distance') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (0)`;
                     else if(weapon.type === 'contact') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (0)`;
                 }
 
+                target.ptsFaible = ptsFaible;
+
                 if(content.total > difficulty) {
                     target.marge = content.total-difficulty;
-                    target.ptsFaible = ptsFaible;
                     target.hit = true;
                 }
 
@@ -1208,7 +1211,7 @@ export class RollKnight {
         }
 
         content.detailledEffets = detailledEffets;
-        content.effets = effets.map(effet => `<span title="${effet.description}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
+        content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
     }
 
     async #handleDamageEffet(weapon, data={}, bonus=[], content={}, rolls=[]) {
@@ -1894,7 +1897,7 @@ export class RollKnight {
                         key:c.label,
                         value:`+${subroll.roll.total}`,
                         label:`${c.label}`,
-                        description:this.#sanitizeTxt(c.description),
+                        description:this.#sanitizeTxt(c.degats.conditionnel.condition),
                         tooltip:subroll.tooltip
                     });
                 } else {
@@ -1993,7 +1996,7 @@ export class RollKnight {
         if(addTargets) results.targets = targets;
 
         content.detailledEffets = detailledEffets;
-        content.effets = effets.map(effet => `<span title="${effet.description}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
+        content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
 
         return results;
     }
@@ -2416,7 +2419,7 @@ export class RollKnight {
                         key:c.label,
                         value:`+${subroll.roll.total}`,
                         label:`${c.label}`,
-                        description:this.#sanitizeTxt(c.description),
+                        description:this.#sanitizeTxt(c.violence.conditionnel.condition),
                         tooltip:subroll.tooltip
                     });
                 } else {
@@ -2518,7 +2521,7 @@ export class RollKnight {
         if(addTargets) results.targets = targets;
 
         content.detailledEffets = detailledEffets;
-        content.effets = effets.map(effet => `<span title="${effet.description}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
+        content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
 
         return results;
     }

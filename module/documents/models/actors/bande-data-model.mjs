@@ -145,8 +145,8 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
             const aspect = this.aspect[CONFIG.KNIGHT.LIST.derived[d]];
 
             const base = this[d].base;
-            const bonus = this[d]?.bonus?.user ?? 0;
-            const malus = this[d]?.malus?.user ?? 0;
+            const bonus = Object.values(this[d]?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+            const malus = Object.values(this[d]?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
             Object.defineProperty(this[d], 'mod', {
                 value: bonus-malus,

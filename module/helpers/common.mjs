@@ -44,6 +44,7 @@ export function sum(total, num) {
 }
 
 export function listEffects(raw, custom, labels) {
+    const l = getAllEffects();
     const liste = [];
 
     if(raw === undefined) return;
@@ -73,7 +74,7 @@ export function listEffects(raw, custom, labels) {
     for(let n = 0;n < custom.length;n++) {
         liste.push({
           id:n,
-          name:custom[n].label,
+          name:custom[n]?.label ?? '***',
           description:custom[n].description,
           custom:true
         });

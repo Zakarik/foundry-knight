@@ -3808,7 +3808,217 @@
   margin-top: 10px;
 }
 
-.blessure h2.header,
+.blessure h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.blessure h2.header .headerScore {
+  position: absolute;
+  width: 40px;
+  background: RGB(76 74 90);
+  line-height: 21px;
+  text-align: center;
+  right: 1px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 1px;
+}
+.blessure h2.header .headerQuantity {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 48px;
+  background: RGB(76 74 90);
+  line-height: 22px;
+  height: 22px;
+  text-align: center;
+  right: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 0px;
+}
+.blessure h2.header .headerQuantity input {
+  text-align: center;
+  width: 20px;
+  height: 22px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
+}
+.blessure h2.header .headerQuantity span {
+  width: 8px;
+  line-height: 22px;
+  color: white;
+}
+.blessure h2.header a.verrouillage {
+  position: absolute;
+  right: 5px;
+  width: max-content;
+  line-height: 21px;
+  color: white;
+  font-variant: small-caps;
+  font-size: 12px;
+}
+.blessure h2.header a.verrouillage:hover {
+  text-shadow: 0 0 10px white;
+}
+.blessure h2.header .far {
+  cursor: pointer;
+}
+.blessure header.sheet-header {
+  flex: none;
+}
+.blessure header.sheet-header h1.charname {
+  width: 100%;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+.blessure header.sheet-header h1.charname input[type=text] {
+  margin: 0px;
+  width: 100%;
+  text-align: center;
+  border-top: 0px;
+  border-right: 0px;
+  border-left: 0px;
+  border-radius: 0px;
+  border-width: unset;
+  border-color: white;
+  background: transparent;
+}
+.blessure div.main {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.blessure div.main .button {
+  width: calc(50% - 5px);
+  line-height: 27px;
+  color: white;
+  text-align: center;
+  padding: 0px;
+  border-radius: 0px;
+  margin: 0px;
+  cursor: pointer;
+}
+.blessure div.main .button.unclicked {
+  background: RGB(43 42 51);
+  border: 2px solid RGB(76 74 90);
+}
+.blessure div.main .button.clicked {
+  background: RGB(76 74 90);
+  border: 2px solid RGB(43 42 51);
+}
+.blessure div.main .button:first-of-type {
+  margin-right: auto;
+}
+.blessure div.main .button:last-of-type {
+  margin-left: auto;
+}
+.blessure div.main div.aspect {
+  display: flex;
+  width: calc(50% - 5px);
+  flex: none;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  background: RGB(76 74 90);
+  border: 1px solid RGB(87 110 178);
+  margin-top: 5px;
+}
+.blessure div.main div.aspect input[type=number].aspect {
+  width: 25%;
+  height: 81px;
+  border-left: 0px;
+  border-top: 0px;
+  border-bottom: 0px;
+  border-right: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+  text-align: center;
+  background: RGB(43 42 51);
+  font-size: 50px;
+}
+.blessure div.main div.aspect div.caracteristiques {
+  display: flex;
+  width: 75%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.blessure div.main div.aspect div.caracteristiques div.line {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.blessure div.main div.aspect div.caracteristiques div.line label.carac {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  line-height: 26px;
+  border-top: 0px;
+  border-left: 0px;
+  border-bottom: 0px;
+  border-right: 1px solid RGB(76 74 90);
+}
+.blessure div.main div.aspect div.caracteristiques div.line label.carac span {
+  width: calc(100% - 50px);
+  padding-left: 5px;
+}
+.blessure div.main div.aspect div.caracteristiques div.line label.carac input {
+  width: 50px;
+  text-align: center;
+  border-radius: 0px;
+  background: RGB(43 42 51);
+}
+.blessure div.main div.aspect div.caracteristiques div.line:not(:last-of-type) span {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.blessure div.main div.aspect div.caracteristiques div.line:not(:last-of-type) input {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: RGB(76 74 90);
+}
+.blessure div.main div.aspect div.caracteristiques div.line:last-of-type span {
+  border-bottom: 0px;
+}
+.blessure div.main div.aspect div.caracteristiques div.line:last-of-type input {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+}
+.blessure div.main div.aspect:not(:last-of-type) {
+  margin-bottom: 5px;
+}
+.blessure div.main div.aspect:not(:last-of-type):nth-of-type(odd) {
+  margin-right: auto;
+}
+.blessure div.main div.aspect:not(:last-of-type):nth-of-type(even) {
+  margin-left: auto;
+}
+.blessure div.description {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .trauma h2.header {
   display: block;
   position: relative;
@@ -3827,7 +4037,6 @@
   font-weight: bold;
   letter-spacing: 1px;
 }
-.blessure h2.header .headerScore,
 .trauma h2.header .headerScore {
   position: absolute;
   width: 40px;
@@ -3839,7 +4048,6 @@
   font-weight: normal;
   top: 1px;
 }
-.blessure h2.header .headerQuantity,
 .trauma h2.header .headerQuantity {
   position: absolute;
   display: flex;
@@ -3854,7 +4062,6 @@
   font-weight: normal;
   top: 0px;
 }
-.blessure h2.header .headerQuantity input,
 .trauma h2.header .headerQuantity input {
   text-align: center;
   width: 20px;
@@ -3864,13 +4071,11 @@
   padding: 0px;
   background: transparent;
 }
-.blessure h2.header .headerQuantity span,
 .trauma h2.header .headerQuantity span {
   width: 8px;
   line-height: 22px;
   color: white;
 }
-.blessure h2.header a.verrouillage,
 .trauma h2.header a.verrouillage {
   position: absolute;
   right: 5px;
@@ -3880,26 +4085,21 @@
   font-variant: small-caps;
   font-size: 12px;
 }
-.blessure h2.header a.verrouillage:hover,
 .trauma h2.header a.verrouillage:hover {
   text-shadow: 0 0 10px white;
 }
-.blessure h2.header .far,
 .trauma h2.header .far {
   cursor: pointer;
 }
-.blessure header.sheet-header,
 .trauma header.sheet-header {
   flex: none;
 }
-.blessure header.sheet-header h1.charname,
 .trauma header.sheet-header h1.charname {
   width: 100%;
   border: 0px;
   margin: 0px;
   padding: 0px;
 }
-.blessure header.sheet-header h1.charname input[type=text],
 .trauma header.sheet-header h1.charname input[type=text] {
   margin: 0px;
   width: 100%;
@@ -3912,36 +4112,33 @@
   border-color: white;
   background: transparent;
 }
-.blessure div.main,
 .trauma div.main {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
   width: 100%;
   justify-content: center;
   flex-wrap: wrap;
   align-items: flex-start;
   align-content: flex-start;
 }
-.blessure div.main div.gain,
 .trauma div.main div.gain {
   display: flex;
   width: 100%;
 }
-.blessure div.main div.gain label,
 .trauma div.main div.gain label {
   display: flex;
   justify-content: space-between;
-  width: calc(50% - 5px);
+  width: 100%;
   line-height: 26px;
   border: 1px solid RGB(87 110 178);
   margin-right: auto;
 }
-.blessure div.main div.gain label span,
 .trauma div.main div.gain label span {
   width: calc(100% - 50px);
   padding-left: 5px;
   background: RGB(76 74 90);
 }
-.blessure div.main div.gain label input,
 .trauma div.main div.gain label input {
   width: 50px;
   text-align: center;
@@ -3951,48 +4148,16 @@
   border-radius: 0px;
   background: RGB(43 42 51);
 }
-.blessure div.main .button,
-.trauma div.main .button {
-  width: calc(50% - 5px);
-  line-height: 27px;
-  color: white;
-  text-align: center;
-  padding: 0px;
-  border-radius: 0px;
-  margin: 0px;
-  cursor: pointer;
-}
-.blessure div.main .button.unclicked,
-.trauma div.main .button.unclicked {
-  background: RGB(43 42 51);
-  border: 2px solid RGB(76 74 90);
-}
-.blessure div.main .button.clicked,
-.trauma div.main .button.clicked {
-  background: RGB(76 74 90);
-  border: 2px solid RGB(43 42 51);
-}
-.blessure div.main .button:first-of-type,
-.trauma div.main .button:first-of-type {
-  margin-right: auto;
-}
-.blessure div.main .button:last-of-type,
-.trauma div.main .button:last-of-type {
-  margin-left: auto;
-}
-.blessure div.main div.aspect,
 .trauma div.main div.aspect {
   display: flex;
-  width: calc(50% - 5px);
+  width: 100%;
   flex: none;
   align-items: flex-start;
   align-content: flex-start;
   flex-wrap: wrap;
   background: RGB(76 74 90);
   border: 1px solid RGB(87 110 178);
-  margin-top: 5px;
 }
-.blessure div.main div.aspect input[type=number].aspect,
 .trauma div.main div.aspect input[type=number].aspect {
   width: 25%;
   height: 81px;
@@ -4005,20 +4170,17 @@
   background: RGB(43 42 51);
   font-size: 50px;
 }
-.blessure div.main div.aspect div.caracteristiques,
 .trauma div.main div.aspect div.caracteristiques {
   display: flex;
   width: 75%;
   justify-content: space-between;
   flex-wrap: wrap;
 }
-.blessure div.main div.aspect div.caracteristiques div.line,
 .trauma div.main div.aspect div.caracteristiques div.line {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
-.blessure div.main div.aspect div.caracteristiques div.line label.carac,
 .trauma div.main div.aspect div.caracteristiques div.line label.carac {
   display: flex;
   justify-content: space-between;
@@ -4029,53 +4191,40 @@
   border-bottom: 0px;
   border-right: 1px solid RGB(76 74 90);
 }
-.blessure div.main div.aspect div.caracteristiques div.line label.carac span,
 .trauma div.main div.aspect div.caracteristiques div.line label.carac span {
   width: calc(100% - 50px);
   padding-left: 5px;
 }
-.blessure div.main div.aspect div.caracteristiques div.line label.carac input,
 .trauma div.main div.aspect div.caracteristiques div.line label.carac input {
   width: 50px;
   text-align: center;
   border-radius: 0px;
   background: RGB(43 42 51);
 }
-.blessure div.main div.aspect div.caracteristiques div.line:not(:last-of-type) span,
 .trauma div.main div.aspect div.caracteristiques div.line:not(:last-of-type) span {
   border-bottom: 1px solid RGB(43 42 51);
 }
-.blessure div.main div.aspect div.caracteristiques div.line:not(:last-of-type) input,
 .trauma div.main div.aspect div.caracteristiques div.line:not(:last-of-type) input {
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
   border-bottom: RGB(76 74 90);
 }
-.blessure div.main div.aspect div.caracteristiques div.line:last-of-type span,
 .trauma div.main div.aspect div.caracteristiques div.line:last-of-type span {
   border-bottom: 0px;
 }
-.blessure div.main div.aspect div.caracteristiques div.line:last-of-type input,
 .trauma div.main div.aspect div.caracteristiques div.line:last-of-type input {
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
   border-bottom: 0px;
 }
-.blessure div.main div.aspect:not(:last-of-type),
-.trauma div.main div.aspect:not(:last-of-type) {
-  margin-bottom: 5px;
-}
-.blessure div.main div.aspect:not(:last-of-type):nth-of-type(odd),
-.trauma div.main div.aspect:not(:last-of-type):nth-of-type(odd) {
+.trauma div.main div.aspect:last-of-type {
+  grid-column: 1/3;
+  width: 50%;
+  margin-left: auto;
   margin-right: auto;
 }
-.blessure div.main div.aspect:not(:last-of-type):nth-of-type(even),
-.trauma div.main div.aspect:not(:last-of-type):nth-of-type(even) {
-  margin-left: auto;
-}
-.blessure div.description,
 .trauma div.description {
   margin-top: 5px;
   margin-bottom: 5px;
@@ -40464,6 +40613,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   grid-template-columns: repeat(7, 1fr);
   border: 0px;
   margin-bottom: 0px;
+  align-items: flex-end;
 }
 .compendium section.window-content section.body nav a {
   display: flex;
@@ -40471,6 +40621,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   align-items: center;
   border-top: 1px solid RGB(87 110 178);
   border-left: 1px solid RGB(87 110 178);
+  min-height: 51px;
 }
 .compendium section.window-content section.body nav a:first-of-type {
   border-top-left-radius: 5px;

@@ -43,8 +43,6 @@ export class VehiculeSheet extends ActorSheet {
 
     actualiseRoll(this.actor);
 
-    console.warn(context)
-
     return context;
   }
 
@@ -259,6 +257,7 @@ export class VehiculeSheet extends ActorSheet {
       const name = target.data("name");
       const actorId = target.data("who");
       let id = target.data("id");
+      let modificateur = 0;
 
       if(actorId === '') return;
       const item = this.actor.items.get(id);
@@ -266,11 +265,28 @@ export class VehiculeSheet extends ActorSheet {
       if(item.type === 'module') id = `module_${id}`;
 
       const actor = this.actor.token ? this.actor.token.id : this.actor.id;
+      const getActor = this.actor.token ? canvas.tokens.get(actor).actor : game.actors.get(actor);
+
+      if(getActor) {
+        if(actor.type === 'pnj' || actor.type === 'creature') {
+          const beteAE = (getActor.system?.aspects?.bete?.ae?.majeur?.value ?? 0) > 0 || (getActor.system?.aspects?.bete?.ae?.mineur?.value ?? 0) > 0 ? true : false
+          const machineAE = (getActor.system?.aspects?.machine?.ae?.majeur?.value ?? 0) > 0 || (getActor.system?.aspects?.machine?.ae?.mineur?.value ?? 0) > 0 ? true : false
+          const masqueAE = (getActor.system?.aspects?.masque?.ae?.majeur?.value ?? 0) > 0 || (getActor.system?.aspects?.masque?.ae?.mineur?.value ?? 0) > 0 ? true : false
+          const hasFumigene = this.actor.statuses.has('fumigene');
+          const notFumigene = beteAE || machineAE || masqueAE ? true : false;
+
+          if(hasFumigene && !notFumigene) modificateur -= 3;
+        } else if(actor.type === 'knight') {
+          const hasFumigene = this.actor.statuses.has('fumigene');
+          if(hasFumigene) modificateur -= 3;
+        }
+      }
 
       const dialog = new game.knight.applications.KnightRollDialog(actor, {
         whoActivate:actorId,
         label:name,
         wpn:id,
+        modificateur
       });
 
       dialog.open();

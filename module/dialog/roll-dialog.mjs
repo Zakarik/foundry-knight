@@ -178,8 +178,6 @@ export class KnightRollDialog extends Dialog {
         }
 
         this.#updateBonusInterdits(undefined, this.data.roll.html);
-
-        console.warn(this.rollData);
     }
 
     async open() {
@@ -2721,9 +2719,6 @@ export class KnightRollDialog extends Dialog {
 
             if(isPJ) {
                 const isBase = tgt.hasClass('base');
-                console.warn(this);
-                console.warn(isSelected);
-                console.warn(carac);
 
                 if(isSelected) {
                     tgt.removeClass('selected');
@@ -2746,10 +2741,11 @@ export class KnightRollDialog extends Dialog {
                 }
 
                 if(isBase) {
-                    let whatRoll = this.rollData.whatRoll;
+                    let whatRoll = this.rollData?.whatRoll ?? [];
                     tgt.removeClass('base');
 
-                    if(whatRoll) {
+                    if(whatRoll.length === 0) this.data.roll.base = "";
+                    else if(whatRoll) {
                         for(let w of whatRoll) {
                             if($(parents.find(`button.btnCaracteristique.${w}`)).hasClass('wHover')) {
                                 $(parents.find(`button.btnCaracteristique.${w}`)).addClass('base');

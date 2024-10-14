@@ -53,8 +53,6 @@ export class CreatureSheet extends ActorSheet {
 
     actualiseRoll(this.actor);
 
-    console.warn(context);
-
     return context;
   }
 
@@ -262,6 +260,12 @@ export class CreatureSheet extends ActorSheet {
       const parent = target.parents('div.wpn');
       const other = parent.data("other");
       const what = parent.data("what");
+      const beteAE = (this.actor.system?.aspects?.bete?.ae?.majeur?.value ?? 0) > 0 || (this.actor.system?.aspects?.bete?.ae?.mineur?.value ?? 0) > 0 ? true : false
+      const machineAE = (this.actor.system?.aspects?.machine?.ae?.majeur?.value ?? 0) > 0 || (this.actor.system?.aspects?.machine?.ae?.mineur?.value ?? 0) > 0 ? true : false
+      const masqueAE = (this.actor.system?.aspects?.masque?.ae?.majeur?.value ?? 0) > 0 || (this.actor.system?.aspects?.masque?.ae?.mineur?.value ?? 0) > 0 ? true : false
+      const hasFumigene = this.actor.statuses.has('fumigene');
+      const notFumigene = beteAE || machineAE || masqueAE ? true : false;
+      let modificateur = 0;
       let id = target.data("id");
       let base = '';
       let whatRoll = [];
@@ -273,6 +277,8 @@ export class CreatureSheet extends ActorSheet {
           const dataGrenade = this.actor.system.combat.grenades.liste[name];
           id = `grenade_${name}`;
           label = dataGrenade.custom ? `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${dataGrenade.label}` : `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${name.charAt(0).toUpperCase()+name.substr(1)}`)}`;
+
+          if(hasFumigene && !notFumigene) modificateur -= 3;
           break;
 
         case 'armesimprovisees':
@@ -281,7 +287,10 @@ export class CreatureSheet extends ActorSheet {
 
           whatRoll.push('force');
 
-          if(id === 'distance') base = 'tir';
+          if(id === 'distance') {
+            base = 'tir';
+            if(hasFumigene && !notFumigene) modificateur -= 3;
+          }
           else base = 'combat';
           break;
 
@@ -301,10 +310,12 @@ export class CreatureSheet extends ActorSheet {
                 case 'salve':
                 case 'vague':
                   id = isDistance === 'distance' ? `capacite_${id}_cea${what.charAt(0).toUpperCase() + what.substr(1)}D` : `capacite_${id}_cea${what.charAt(0).toUpperCase() + what.substr(1)}C`;
+                  if(isDistance === 'distance' && hasFumigene && !notFumigene) modificateur -= 3;
                   break;
 
                 case 'borealis':
                   id = isDistance === 'distance' ? `capacite_${id}_borealisD` : `capacite_${id}_borealisC`;
+                  if(isDistance === 'distance' && hasFumigene && !notFumigene) modificateur -= 3;
                   break;
 
                 case 'lame':
@@ -315,6 +326,9 @@ export class CreatureSheet extends ActorSheet {
               }
             }
             if(item.type === 'capacite') id = `pnjcapacite_${id}`;
+            if(item.type === 'arme') {
+              if(item.system.type === 'distance' && hasFumigene && !notFumigene) modificateur -= 3;
+            }
 
             label = name;
           }
@@ -551,10 +565,9 @@ export class CreatureSheet extends ActorSheet {
         if(type === 'distance') {
           const rawDistance = data.distance.raw;
           const customDistance = data.distance.custom;
-          const labelsDistance = CONFIG.KNIGHT.AMELIORATIONS.distance;
           const effetMunition = data?.optionsmunitions?.liste || {};
 
-          data.distance.liste = listEffects(rawDistance, customDistance, labelsDistance);
+          data.distance.liste = listEffects(rawDistance, customDistance, labels);
 
           if(optionsMunitions !== false) {
             for (let [kM, munition] of Object.entries(effetMunition)) {
@@ -568,15 +581,13 @@ export class CreatureSheet extends ActorSheet {
         } else if(type === 'contact') {
           const rawStructurelles = data.structurelles.raw;
           const customStructurelles = data.structurelles.custom;
-          const labelsStructurelles = CONFIG.KNIGHT.AMELIORATIONS.structurelles;
 
-          data.structurelles.liste = listEffects(rawStructurelles, customStructurelles, labelsStructurelles);
+          data.structurelles.liste = listEffects(rawStructurelles, customStructurelles, labels);
 
           const rawOrnementales = data.ornementales.raw;
           const customOrnementales = data.ornementales.custom;
-          const labelsOrnementales = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
 
-          data.ornementales.liste = listEffects(rawOrnementales, customOrnementales, labelsOrnementales);
+          data.ornementales.liste = listEffects(rawOrnementales, customOrnementales, labels);
 
           if(options2mains) {
             const raw2 = data.effets2mains.raw;

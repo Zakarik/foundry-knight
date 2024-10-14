@@ -828,7 +828,6 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             perception:0,
         };
 
-        const aspects = ['chair','bete', 'machine', 'dame', 'masque'];
 
         for(let p in item) {
             const carac = item[p].caracteristique;
@@ -841,19 +840,12 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             const path = this._getAspectPath(b);
             if(!path) continue;
 
-            if(aspects.includes(b)) {
-                Object.defineProperty(path.bonus, 'experience', {
-                    value: bonus[b],
-                    writable:true,
-                    enumerable:true,
-                    configurable:true
-                });
-            } else {
-                Object.defineProperty(path, 'bonus', {
-                    value: bonus[b],
-                });
-            }
-
+            Object.defineProperty(path.bonus, 'experience', {
+                value: bonus[b],
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
         }
     }
 
@@ -2271,7 +2263,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         }
 
         for(let c of caracteristiques) {
-            Object.defineProperty(this._getAspectPath(c).malus, 'traumas', {
+            Object.defineProperty(this._getAspectPath(c.key).malus, 'traumas', {
                 value: c.value,
                 writable:true,
                 enumerable:true,

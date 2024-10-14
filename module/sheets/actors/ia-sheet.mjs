@@ -30,8 +30,6 @@ export class IASheet extends ActorSheet {
 
     context.systemData = context.data.system;
 
-    console.warn(context);
-
     return context;
   }
 

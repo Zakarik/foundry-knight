@@ -29,7 +29,6 @@ export class TraumaSheet extends ItemSheet {
     }
 
     context.systemData = context.data.system;
-
     return context;
   }
 
