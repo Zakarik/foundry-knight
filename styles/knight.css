@@ -40521,6 +40521,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   text-align: justify;
   font-size: 12px;
 }
+.knight-roll div.details span.merge {
+  grid-column: 1/3;
+}
 .knight-roll div.success {
   color: #18520b;
   font-variant: small-caps;

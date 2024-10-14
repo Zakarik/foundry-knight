@@ -145,9 +145,13 @@
 
     {{#each detailledEffets}}
     <div class="details {{ifThen tooltip 'withTooltip' ''}}" data-key="{{key}}">
-        <span class="label">{{label}}</span>
-        {{#if value}}<span class="value">{{value}}</span>{{/if}}
-        <span class="description">{{description}}</span>
+        {{#if value}}
+            <span class="label">{{label}}</span>
+            <span class="value">{{value}}</span>
+        {{else}}
+            <span class="label merge">{{label}}</span>
+        {{/if}}
+        <span class="description {{#unless value}}merge{{/unless}}">{{description}}</span>
         {{#if tooltip}}{{{tooltip}}}{{/if}}
     </div>
     {{/each}}

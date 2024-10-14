@@ -933,14 +933,16 @@ export class RollKnight {
 
     #hasEffet(list, searched) {
         let result = false;
+        let split = searched.split(' ')[0];
 
-        if(list.some(effet => effet.includes(searched))) result = true;
+        if(list.some(effet => effet === split)) result = true;
 
         return result;
     }
 
     #getEffet(list, searched) {
-        return list.find(effet => effet.includes(searched));
+        const split = searched.split(' ')[0];
+        return list.find(effet => effet === split);
     }
 
     #searchOptions(list, searched) {

@@ -219,6 +219,10 @@
           text-align: justify;
           font-size: 12px;
         }
+
+        &.merge {
+          grid-column: 1 / 3;
+        }
       }
     }
 
