@@ -1,6 +1,6 @@
 <form class="capacite {{cssClass}}" autocomplete="off">
     <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
-    
+
     <header class="sheet-header flexrow">
         <h1 class="charname">
             <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
@@ -21,7 +21,7 @@
                 {{/if}}
             </button>
         </div>
-    
+
         <div class="button {{#if systemData.bonus.aspectsLieSupplementaire.has}}selected{{/if}}">
             <button type="action" class="{{#if systemData.bonus.aspectsLieSupplementaire.has}}selected{{else}}unselected{{/if}}" data-type="aspectsLieSupplementaire" data-value="{{systemData.bonus.aspectsLieSupplementaire.has}}">
                 {{#if systemData.bonus.aspectsLieSupplementaire.has}}
@@ -35,11 +35,7 @@
                     {{localize "KNIGHT.ASPECTS.Aspect"}}
                 </span>
                 <select name="system.bonus.aspectsLieSupplementaire.value">
-                    {{#select systemData.bonus.aspectsLieSupplementaire.value}}
-                        {{#each systemData.aspects as | key aspect|}}
-                            <option value="{{aspect}}">{{getAspect aspect}}</option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (onlyAspects) selected=systemData.bonus.aspectsLieSupplementaire.value localize=true}}
                 </select>
             </label>
         </div>
@@ -64,11 +60,7 @@
                     {{localize "KNIGHT.ITEMS.CAPACITES.AspectBonus"}}
                 </span>
                 <select name="system.bonus.sante.aspect.value">
-                    {{#select systemData.bonus.sante.aspect.value}}
-                        {{#each systemData.aspects as | key aspect|}}
-                            <option value="{{aspect}}">{{getAspect aspect}}</option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (onlyAspects) selected=systemData.bonus.sante.aspect.value localize=true}}
                 </select>
             </label>
             <label class="longspan" {{#unless systemData.bonus.sante.aspect.lie}}style="display:none;"{{/unless}} {{#unless systemData.bonus.sante.has}}style="display:none;"{{/unless}}>
@@ -84,7 +76,7 @@
                 <input type="number" name="system.bonus.sante.value" value="{{systemData.bonus.sante.value}}" min="0" />
             </label>
         </div>
-        
+
         <div class="button {{#if systemData.bonus.armure.has}}selected{{/if}}">
             <button type="action" class="{{#if systemData.bonus.armure.has}}selected{{else}}unselected{{/if}}" data-type="armure" data-value="{{systemData.bonus.armure.has}}">
                 {{#if systemData.bonus.armure.has}}
@@ -105,11 +97,7 @@
                     {{localize "KNIGHT.ITEMS.CAPACITES.AspectBonus"}}
                 </span>
                 <select name="system.bonus.armure.aspect.value">
-                    {{#select systemData.bonus.armure.aspect.value}}
-                        {{#each systemData.aspects as | key aspect|}}
-                            <option value="{{aspect}}">{{getAspect aspect}}</option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (onlyAspects) selected=systemData.bonus.armure.aspect.value localize=true}}
                 </select>
             </label>
             <label class="longspan" {{#unless systemData.bonus.armure.aspect.lie}}style="display:none;"{{/unless}} {{#unless systemData.bonus.armure.has}}style="display:none;"{{/unless}}>
@@ -125,7 +113,7 @@
                 <input type="number" name="system.bonus.armure.value" value="{{systemData.bonus.armure.value}}" min="0" />
             </label>
         </div>
-        
+
         <div class="button {{#if systemData.bonus.aspectMax.has}}selected{{/if}}">
             <button type="action" class="{{#if systemData.bonus.aspectMax.has}}selected{{else}}unselected{{/if}}" data-type="aspectMax" data-value="{{systemData.bonus.aspectMax.has}}">
                 {{#if systemData.bonus.aspectMax.has}}
@@ -139,11 +127,7 @@
                     {{localize "KNIGHT.ASPECTS.Aspect"}}
                 </span>
                 <select name="system.bonus.aspectMax.aspect">
-                    {{#select systemData.bonus.aspectMax.aspect}}
-                        {{#each systemData.aspects as | key aspect|}}
-                            <option value="{{aspect}}">{{getAspect aspect}}</option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (onlyAspects) selected=systemData.bonus.aspectMax.aspect localize=true}}
                 </select>
             </label>
             <label class="longspan" {{#unless systemData.bonus.aspectMax.has}}style="display:none;"{{/unless}}>
@@ -159,7 +143,7 @@
                 <input type="number" name="system.bonus.aspectMax.maximum.ae" value="{{systemData.bonus.aspectMax.maximum.ae}}" min="0" />
             </label>
         </div>
-        
+
         <div class="button {{#if systemData.degats.has}}selected{{/if}}">
             <button type="action" class="{{#if systemData.degats.has}}selected{{else}}unselected{{/if}}" data-type="degats" data-value="{{systemData.degats.has}}">
                 {{#if systemData.degats.has}}
@@ -186,7 +170,7 @@
                 </a>
             </div>
         </div>
-        
+
         <div class="button {{#if systemData.attaque.has}}selected{{/if}}">
             <button type="action" class="{{#if systemData.attaque.has}}selected{{else}}unselected{{/if}}" data-type="attaque" data-value="{{systemData.attaque.has}}">
                 {{#if systemData.attaque.has}}
@@ -196,23 +180,14 @@
                 {{/if}}
             </button>
             <select name="system.attaque.type" {{#unless systemData.attaque.has}}style="display:none;"{{/unless}}>
-                {{#select systemData.attaque.type}}
-                    <option value="contact">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Contact"}}</option>
-                    <option value="distance">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Distance"}}</option>
-                {{/select}}
+                {{selectOptions (getList 'typearmes') selected=systemData.attaque.type localize=true}}
             </select>
             <label class="doubleLine" {{#unless systemData.attaque.has}}style="display:none;"{{/unless}}>
                 <span class="label">
                     {{localize "KNIGHT.PORTEE.Label"}}
                 </span>
                 <select name="system.attaque.portee">
-                    {{#select systemData.attaque.portee}}
-                        <option value="contact">{{getPortee 'contact'}}</option>
-                        <option value="courte">{{getPortee 'courte'}}</option>
-                        <option value="moyenne">{{getPortee 'moyenne'}}</option>
-                        <option value="longue">{{getPortee 'longue'}}</option>
-                        <option value="lointaine">{{getPortee 'lointaine'}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'portee') selected=systemData.attaque.portee localize=true}}
                 </select>
             </label>
             <h3 {{#unless systemData.attaque.has}}style="display:none;"{{/unless}}>{{localize "KNIGHT.AUTRE.Degats"}}</h3>

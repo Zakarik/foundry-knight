@@ -1,7 +1,6 @@
 // Import document classes.
 import { KnightActor } from "./documents/actor.mjs";
 import { KnightItem } from "./documents/item.mjs";
-import { RollKnight } from "./documents/roll.mjs";
 
 // Import sheet classes.
 import { KnightSheet } from "./sheets/actors/knight-sheet.mjs";
@@ -49,8 +48,30 @@ import { GmInitiative } from "./gm/gmInitiative.mjs";
 import { GmMonitor } from "./gm/gmMonitor.mjs";
 import HooksKnight from "./hooks.mjs";
 
+// MODELS
+import { KnightDataModel } from "./documents/models/actors/knight-data-model.mjs";
+import { IADataModel } from "./documents/models/actors/ia-data-model.mjs";
+import { PNJDataModel } from "./documents/models/actors/pnj-data-model.mjs";
+import { CreatureDataModel } from "./documents/models/actors/creature-data-model.mjs";
+import { BandeDataModel } from "./documents/models/actors/bande-data-model.mjs";
+import { VehiculeDataModel } from "./documents/models/actors/vehicule-data-model.mjs";
+import { MechaArmureDataModel } from "./documents/models/actors/mecha-armure-data-model.mjs";
+import { CapaciteUltimeDataModel } from "./documents/models/items/capacite-ultime-data-model.mjs";
+import { DistinctionDataModel } from "./documents/models/items/distinction-data-model.mjs";
+import { ArtDataModel } from "./documents/models/items/art-data-model.mjs";
+import { SimpleDataModel } from "./documents/models/items/simple-data-model.mjs";
+import { EffetDataModel } from "./documents/models/items/effet-data-model.mjs";
+import { ModuleDataModel } from "./documents/models/items/module-data-model.mjs";
+import { TraumaDataModel } from "./documents/models/items/trauma-data-model.mjs";
+import { BlessureDataModel } from "./documents/models/items/blessure-data-model.mjs";
+import { AvantageDataModel } from "./documents/models/items/avantage-data-model.mjs";
+import { InconvenientDataModel } from "./documents/models/items/inconvenient-data-model.mjs";
+import { CapaciteDataModel } from "./documents/models/items/capacite-data-model.mjs";
+import { ArmureLegendeDataModel } from "./documents/models/items/armure-legende-data-model.mjs";
+import { ArmeDataModel } from "./documents/models/items/arme-data-model.mjs";
+import { ArmureDataModel } from "./documents/models/items/armure-data-model.mjs";
+
 import {
-  updateEffect,
   listLogo,
   SortByLabel,
   generateNavigator,
@@ -58,11 +79,11 @@ import {
 } from "./helpers/common.mjs";
 
 import {
-  doDgts,
-  doViolence,
   dialogRollWId,
   directRoll,
 } from "./helpers/dialogRoll.mjs";
+
+import {RollKnight} from "./documents/roll.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -112,11 +133,42 @@ Hooks.once('init', async function() {
   };
 
   // Define custom Roll class
-  CONFIG.Dice.rolls.unshift(RollKnight);
+  //CONFIG.Dice.rolls.unshift(RollKnight);
 
   // Define custom Document classes
   CONFIG.Actor.documentClass = KnightActor;
   CONFIG.Item.documentClass = KnightItem;
+
+  CONFIG.Actor.dataModels = {
+    knight:KnightDataModel,
+    ia:IADataModel,
+    pnj:PNJDataModel,
+    creature:CreatureDataModel,
+    bande:BandeDataModel,
+    vehicule:VehiculeDataModel,
+    mechaarmure:MechaArmureDataModel,
+  };
+
+  CONFIG.Item.dataModels = {
+    arme:ArmeDataModel,
+    armure:ArmureDataModel,
+    avantage:AvantageDataModel,
+    inconvenient:InconvenientDataModel,
+    motivationMineure:SimpleDataModel,
+    langue:SimpleDataModel,
+    capaciteultime:CapaciteUltimeDataModel,
+    distinction:DistinctionDataModel,
+    art:ArtDataModel,
+    capaciteheroique:SimpleDataModel,
+    carteheroique:SimpleDataModel,
+    contact:SimpleDataModel,
+    effet:EffetDataModel,
+    module:ModuleDataModel,
+    trauma:TraumaDataModel,
+    blessure:BlessureDataModel,
+    capacite:CapaciteDataModel,
+    armurelegende:ArmureLegendeDataModel,
+  };
 
   let statusEffects = [
     {
@@ -129,14 +181,14 @@ Hooks.once('init', async function() {
       label:"KNIGHT.EFFETS.LUMIERE.Label",
       icon:'systems/knight/assets/icons/effects/lumiere.svg',
       changes:[{
-        key: `system.defense.malusValue`,
+        key: `system.defense.malus.lumiere`,
         mode: 2,
         priority: 4,
         icon:'',
         value: 1
       },
       {
-        key: `system.reaction.malusValue`,
+        key: `system.reaction.malus.lumiere`,
         mode: 2,
         priority: 4,
         icon:'',
@@ -148,14 +200,14 @@ Hooks.once('init', async function() {
       label:"KNIGHT.EFFETS.BARRAGE.Label",
       icon:'systems/knight/assets/icons/effects/barrage.svg',
       changes:[{
-        key: `system.defense.malusValue`,
+        key: `system.defense.malus.barrage`,
         mode: 2,
         priority: 4,
         icon:'',
         value: 1
       },
       {
-        key: `system.reaction.malusValue`,
+        key: `system.reaction.malus.barrage`,
         mode: 2,
         priority: 4,
         icon:'',
@@ -186,6 +238,25 @@ Hooks.once('init', async function() {
       id:'soumission',
       label:"KNIGHT.EFFETS.SOUMISSION.Label",
       icon:'systems/knight/assets/icons/effects/soumission.svg'
+    },
+    {
+      id:'fumigene',
+      label:"KNIGHT.EFFETS.FUMIGENE.Label",
+      icon:'systems/knight/assets/icons/effects/fumigene.svg',
+      changes:[{
+        key: `system.defense.bonus.fumigene`,
+        mode: 2,
+        priority: 4,
+        icon:'',
+        value: 2
+      },
+      {
+        key: `system.reaction.bonus.fumigene`,
+        mode: 2,
+        priority: 4,
+        icon:'',
+        value: 2
+      }]
     }
   ];
 
@@ -340,6 +411,189 @@ Hooks.once('init', async function() {
       icon:'systems/knight/assets/icons/effects/immobilisation.svg'
     });
   }
+
+  Hooks.on("renderChatMessage", (message, html, messageData) => {
+    const version = game.version.split('.')[0];
+    const isVersion12 = version >= 12 ? true : false;
+
+    if(!game.user.isGM) {
+      html.find('.knight-roll div.listTargets').remove();
+    }
+
+    if(isVersion12) {
+      if(game.user.id !== message.author.id && !game.user.isGM) {
+        html.find('.knight-roll div.btn').remove();
+      }
+    } else {
+      if(game.user.id !== message.user.id && !game.user.isGM) {
+        html.find('.knight-roll div.btn').remove();
+      }
+    }
+
+    html.find('.knight-roll div.dice-result').click(ev => {
+      const tgt = $(ev.currentTarget);
+
+      tgt.find('div.dice-tooltip').toggle({
+        complete: () => {},
+      });
+    });
+
+    html.find('.knight-roll div.details.withTooltip').click(ev => {
+      const tgt = $(ev.currentTarget);
+
+      tgt.find('div.dice-tooltip').toggle({
+        complete: () => {},
+      });
+    });
+
+    html.find('.knight-roll button.degats').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const flags = message.flags;
+      const weapon = flags.weapon;
+      const raw = weapon.effets.raw.concat(weapon?.distance?.raw ?? [], weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
+
+      const roll = new game.knight.RollKnight(flags.actor, {
+        name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
+        weapon:weapon,
+        surprise:flags.surprise,
+      }, false);
+
+      let addFlags = {
+        flavor:flags.flavor,
+        total:flags.content[0].total,
+        targets:flags.content[0].targets,
+        attaque:message.rolls,
+        weapon:weapon,
+        actor:flags.actor,
+        surprise:flags.surprise,
+        style:flags.style,
+        dataStyle:flags.dataStyle,
+        dataMod:flags.dataMod,
+        maximize:flags.maximize,
+      };
+
+      let data = {
+        total:flags.content[0].total,
+        targets:flags.content[0].targets,
+        attaque:message.rolls,
+        flags:addFlags,
+      };
+
+      if(raw.includes('tirenrafale')) {
+        data.content = {
+          tirenrafale:true,
+        }
+      }
+
+      await roll.doRollDamage(data);
+    });
+
+    html.find('.knight-roll .btn.debordement button').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
+      const tour = parseInt(actor.system.debordement.tour);
+
+      await actor.update({['system.debordement.tour']:tour+1});
+      const roll = new game.knight.RollKnight(actor, {
+        name:`${actor.name}`,
+      }, false);
+
+      roll.sendMessage({text:'Le débordement augmente...', classes:'important'});
+    });
+
+    html.find('.knight-roll button.relancedegats').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const flags = message.flags;
+      const weapon = flags.weapon;
+
+      const roll = new game.knight.RollKnight(flags.actor, {
+        name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.EFFETS.TIRENRAFALE.Label')}`,
+        weapon:weapon,
+        surprise:flags.surprise,
+      }, false);
+
+      let addFlags = {
+        flavor:flags.flavor,
+        total:flags.total,
+        targets:flags.targets,
+        attaque:message.rolls,
+        weapon:weapon,
+        actor:flags.actor,
+        surprise:flags.surprise,
+        style:flags.style,
+        dataStyle:flags.dataStyle,
+        dataMod:flags.dataMod,
+        maximize:flags.maximize,
+      };
+
+      let data = {
+        total:flags.total,
+        targets:flags.targets,
+        attaque:flags.attaque,
+        flags:addFlags,
+      };
+
+      await roll.doRollDamage(data);
+    });
+
+    html.find('.knight-roll button.violence').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const flags = message.flags;
+      const weapon = flags.weapon;
+
+      let addFlags = {
+        flavor:flags.flavor,
+        total:flags.content[0].total,
+        targets:flags.content[0].targets,
+        attaque:message.rolls,
+        weapon:weapon,
+        actor:flags.actor,
+        surprise:flags.surprise,
+        style:flags.style,
+        dataStyle:flags.dataStyle,
+        dataMod:flags.dataMod,
+        maximize:flags.maximize,
+      };
+
+      const roll = new game.knight.RollKnight(flags.actor, {
+        name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
+        weapon:flags.weapon,
+        surprise:flags.surprise,
+      }, false);
+
+      await roll.doRollViolence({
+        total:flags.content[0].total,
+        targets:flags.content[0].targets,
+        attaque:message.rolls,
+        flags:addFlags,
+      });
+    });
+
+    html.find('.knight-roll div.listTargets div.target').mouseenter(ev => {
+      ev.preventDefault();
+      if (!canvas.ready) return;
+      const tgt = $(ev.currentTarget);
+      const id = tgt.data('id');
+      const token = canvas?.tokens?.get(id) ?? {isVisible:false};
+
+      if(token && token.isVisible) {
+        token._onHoverIn(ev, { hoverOutOthers: true });
+
+        this._hoveredToken = token;
+      }
+    });
+
+    html.find('.knight-roll div.listTargets div.target').mouseleave(ev => {
+      ev.preventDefault();
+      if (!canvas.ready) return;
+
+      if (this._hoveredToken) {
+        this._hoveredToken._onHoverOut(ev);
+      }
+
+      this._hoveredToken = null;
+    });
+  });
 });
 
 /* -------------------------------------------- */
@@ -379,60 +633,26 @@ Hooks.once("ready", HooksKnight.ready);
 Hooks.on('deleteItem', doc => toggler.clearForId(doc.id));
 Hooks.on('deleteActor', doc => toggler.clearForId(doc.id));
 
-Hooks.on('renderChatMessage', (message, html, data) => {
-  const user = data.user;
-  const author = data.author;
+Hooks.on("updateActiveEffect", function(effect, effectData, diffData, options, userId) {
+  const status = effect.statuses;
+  let effectCounter = foundry.utils.getProperty(effectData, "flags.statuscounter.counter");
 
-  if(!user.isGM) {
-    html.find('div.atkTouche').remove();
-    html.find('div.toHide').remove();
+  if (effectCounter && (status.has("barrage") || status.has("lumiere"))) {
+    let update = []
+    for(let e of effect.changes) {
+      update.push({
+        key:e.key,
+        mode:e.mode,
+        priority:e.priority,
+        value:`${effectCounter.value}`
+      });
+    }
+
+    effect.parent.updateEmbeddedDocuments('ActiveEffect', [{
+      "_id":effect._id,
+      changes:update,
+    }])
   }
-
-  if(user._id !== author._id && !user.isGM) {
-    html.find('button.btnDgts').remove();
-    html.find('button.btnViolence').remove();
-  } else {
-    html.find('button.btnDgts').click(async ev => {
-      ev.stopPropagation();
-      const target = $(ev.currentTarget);
-      const data = target.data('all');
-      const regularite = Number(target.data('regularite'));
-      const assAtk = target?.data('assatk') ?? undefined;
-      const connectee = target?.data('connectee') ?? undefined;
-      const hyperVelocite = target?.data('hypervelocite') ?? undefined;
-
-      let dataToAdd = {
-        regularite:regularite
-      };
-
-      if(assAtk !== undefined) dataToAdd.assAtk = assAtk;
-      if(connectee !== undefined) dataToAdd.connectee = connectee;
-      if(hyperVelocite !== undefined) dataToAdd.hyperVelocite = hyperVelocite;
-
-      const allData = foundry.utils.mergeObject(data, dataToAdd);
-
-      doDgts(allData);
-    });
-
-    html.find('button.btnViolence').click(async ev => {
-        ev.stopPropagation();
-        const target = $(ev.currentTarget);
-        const data = target.data('all');
-        const assAtk = target?.data('assatk') ?? undefined;
-        const connectee = target?.data('connectee') ?? undefined;
-        const hyperVelocite = target?.data('hypervelocite') ?? undefined;
-        let dataToAdd = {};
-
-        if(assAtk !== undefined) dataToAdd.assAtk = assAtk;
-        if(connectee !== undefined) dataToAdd.connectee = connectee;
-        if(hyperVelocite !== undefined) dataToAdd.hyperVelocite = hyperVelocite;
-
-        const allData = foundry.utils.mergeObject(data, dataToAdd);
-
-        doViolence(allData);
-    });
-  }
-
 });
 
 async function createMacro(data, slot) {
@@ -441,36 +661,41 @@ async function createMacro(data, slot) {
   const type = data.type;
   const what = data?.what ?? "";
   const other = data?.other ?? "";
-  const label = data.label;
+  const name = data?.name ?? "";
   const actorId = data.actorId;
   const sceneId = data?.sceneId ?? null;
   const tokenId = data?.tokenId ?? null;
+  const getActor = tokenId === null ? game.actors.get(actorId) : canvas.tokens.get(actorId)?.actor ?? undefined;
   const img = data?.img ?? "systems/knight/assets/icons/D6Black.svg";
   const idWpn = data?.idWpn ?? "";
   const mod = data?.mod ?? 0;
+  let label = data.label;
   let command;
   let dataRoll = "";
   let bonusToAdd = "";
   let otherData = "";
   let directRoll = false;
 
+  let idActor = actorId;
+  let idScene = sceneId;
+  let idToken = tokenId;
+
   if(type === "wpn" || type === 'module') {
-    dataRoll = `isWpn:true, idWpn:"${idWpn}"`;
-  } else if(type === 'grenade') {
-    dataRoll = `isWpn:true, idWpn:"", nameWpn:"${what}", num:"", typeWpn:"grenades"`
+    dataRoll = `idWpn:"${idWpn}"`;
+  } else if(type === 'grenades') {
+    dataRoll = `nameWpn:"${what}", num:"", typeWpn:"grenades"`
   } else if(type === 'longbow') {
-    dataRoll = `isWpn:true, idWpn:"-1", nameWpn:"${what}", num:"", typeWpn:"${what}"`
+    dataRoll = `nameWpn:"${what}", num:"", typeWpn:"${what}"`
   } else if(type === 'cea') {
-    dataRoll = `isWpn:true, idWpn:"${idWpn}", nameWpn:"${what}", typeWpn:"${other}"`;
+    dataRoll = `idWpn:"${idWpn}", nameWpn:"${what}", typeWpn:"${other}"`;
   } else if((type === 'special' || type === 'c1' || type === 'c2' || type === 'base') && what === 'mechaarmure') {
-    dataRoll = `isWpn:true, idWpn:"${idWpn}"`;
+    dataRoll = `idWpn:"${idWpn}"`;
     otherData = what;
   } else if(type === 'armesimprovisees') {
-    dataRoll = `isWpn:true, idWpn:"${idWpn}", num:"${what}", typeWpn:"${type}", nameWpn:"${other}"`
+    dataRoll = `idWpn:"${idWpn}", num:"${what}", nameWpn:"${other}"`
   } else if(type === 'nods') {
     directRoll = true;
     dataRoll = `type:"${type}", target:"${other}", id:"${what}"`;
-
   } else {
     if(what !== "") dataRoll += `base:"${what}"`;
     if(other !== "" && bonusToAdd !== "") bonusToAdd += `, autre:"${other}"`;
@@ -479,8 +704,12 @@ async function createMacro(data, slot) {
     else if(mod !== 0) bonusToAdd += `modificateur:"${mod}"`;
   }
 
-  if(!directRoll) command = `game.knight.dialogRollWId("${actorId}", "${sceneId}", "${tokenId}", {${dataRoll}}, {${bonusToAdd}}, {type:"${type}", event:event, data:"${otherData}"})`;
-  else command = `game.knight.directRoll("${actorId}", "${sceneId}", "${tokenId}", {${dataRoll}})`;
+  if(getActor.type === 'mechaarmure') {
+    dataRoll += dataRoll === "" ? `whoActivate:"${getActor.system.pilote}"` : `, whoActivate:"${getActor.system.pilote}"`;
+  }
+
+  if(!directRoll) command = `game.knight.dialogRollWId("${idActor}", "${idScene}", "${idToken}", {${dataRoll}}, {${bonusToAdd}}, {type:"${type}", event:event, data:"${otherData}"})`;
+  else command = `game.knight.directRoll("${idActor}", "${idScene}", "${idToken}", {${dataRoll}})`;
 
   let macro = await Macro.create({
     name: label,

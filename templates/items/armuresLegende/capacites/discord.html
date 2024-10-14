@@ -38,12 +38,7 @@
             <label class="shortspan">
                 <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                 <select name="system.capacites.selected.discord.tour.activation" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.tour.activation}}
-                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'activationsimple') selected=this.tour.activation localize=true}}
                 </select>
             </label>
             <label class="shortspan">
@@ -69,12 +64,7 @@
             <label class="shortspan">
                 <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                 <select name="system.capacites.selected.discord.scene.activation" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.scene.activation}}
-                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'activationsimple') selected=this.scene.activation localize=true}}
                 </select>
             </label>
             <label class="shortspan">

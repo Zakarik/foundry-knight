@@ -40,13 +40,7 @@
             <label class="shortspan separation">
                 <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                 <select name="system.capacites.selected.borealis.support.activation" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.support.activation}}
-                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                    <option value="toutes">{{localize "KNIGHT.ACTIVATION.Toutes"}}</option>
-                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'activationcapacites') selected=this.support.activation localize=true}}
                 </select>
             </label>
             <label class="shortspan">
@@ -87,25 +81,13 @@
             <label class="shortspan">
                 <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                 <select name="system.capacites.selected.borealis.offensif.activation" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.offensif.activation}}
-                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                    <option value="toutes">{{localize "KNIGHT.ACTIVATION.Toutes"}}</option>
-                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'activationcapacites') selected=this.offensif.activation localize=true}}
                 </select>
             </label>
             <label class="shortspan">
                 <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
                 <select name="system.capacites.selected.borealis.offensif.portee" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.offensif.portee}}
-                    <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                    <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                    <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                    <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                    <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'portee') selected=this.offensif.portee localize=true}}
                 </select>
             </label>
             <label class="shortspan">
@@ -138,13 +120,7 @@
             <label class="shortspan separation">
                 <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                 <select name="system.capacites.selected.borealis.utilitaire.activation" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.utilitaire.activation}}
-                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                    <option value="toutes">{{localize "KNIGHT.ACTIVATION.Toutes"}}</option>
-                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'activationcapacites') selected=this.utilitaire.activation localize=true}}
                 </select>
             </label>
             <label class="shortspan">

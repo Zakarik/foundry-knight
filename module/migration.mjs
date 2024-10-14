@@ -6,10 +6,11 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.29.3";
+    static NEEDED_VERSION = "3.30.0";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
+        console.warn(version, currentVersion)
         return !currentVersion || foundry.utils.isNewerVersion(version, currentVersion);
     }
 
@@ -1396,6 +1397,14 @@ Applique les modifications par la mise à jour au Monde.
                     item.update(update);
                 }
             }
+        }
+
+        if(options?.force || MigrationKnight.needUpdate("3.30.0")) {
+            let collection = actor.getEmbeddedCollection('ActiveEffect').map(eff => eff._id);
+
+            collection.forEach(async eff => {
+                if(eff) await actor.deleteEmbeddedDocuments('ActiveEffect', [eff]);
+            });
         }
 
         return update;

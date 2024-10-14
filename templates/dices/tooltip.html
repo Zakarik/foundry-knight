@@ -3,16 +3,14 @@
     <section class="tooltip-part">
         <div class="dice">
             <header class="part-header flexrow">
-                <span class="part-formula" title="{{this.details}}">{{this.formula}}</span>
-                {{#if this.flavor}}<span class="part-flavor">{{this.flavor}}</span>{{/if}}
-                {{#unless this.isTable}}
-                <span class="part-total" title="{{this.details}}">{{this.total}}{{this.operator}}{{this.mod}}</span>
-                {{/unless}}
+                <span class="part-formula" title="{{#if title}}{{title}}{{else}}{{base}}{{#each bonus}} + {{this}}{{/each}}{{/if}}">{{base}}{{#each bonus}} + {{this}}{{/each}}</span>
+                {{#if flavor}}<span class="part-flavor">{{flavor}}</span>{{/if}}
+                <span class="part-total">{{total}}{{#if totalBonus}} + {{totalBonus}}{{/if}}</span>
             </header>
             <ol class="dice-rolls">
-            {{#each this.rolls}}
-                <li class="roll {{this.classes}}">{{{this.result}}}</li>
-            {{/each}}
+                {{#each results}}
+                    <li class="roll {{class}}">{{{value}}}</li>
+                {{/each}}
             </ol>
         </div>
     </section>

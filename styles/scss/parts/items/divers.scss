@@ -35,8 +35,7 @@
   }
 }
 
-.blessure,
-.trauma {
+.blessure {
   @include header();
 
   header.sheet-header {
@@ -70,36 +69,6 @@
     flex-wrap: wrap;
     align-items: flex-start;
     align-content: flex-start;
-
-    div.gain {
-      display:flex;
-      width:100%;
-
-      label {
-        display:flex;
-        justify-content: space-between;
-        width:calc(50% - 5px);
-        line-height:26px;
-        border:1px solid $lightBlue;
-        margin-right:auto;
-
-        span {
-          width:calc(100% - 50px);
-          padding-left:5px;
-          background:$lightBlack;
-        }
-
-        input {
-          width:50px;
-          text-align: center;
-          border-top:0px;
-          border-right:0px;
-          border-bottom:0px;
-          border-radius: 0px;
-          background:$black;
-        }
-      }
-    }
 
     .button {
       width: calc(50% - 5px);
@@ -226,6 +195,174 @@
         &:nth-of-type(even) {
           margin-left:auto;
         }
+      }
+    }
+  }
+
+  div.description {
+    margin-top:5px;
+    margin-bottom:5px;
+  }
+}
+
+.trauma {
+  @include header();
+
+  header.sheet-header {
+    flex:none;
+
+    h1.charname {
+      width:100%;
+      border:0px;
+      margin:0px;
+      padding:0px;
+
+      input[type="text"] {
+        margin: 0px;
+        width: 100%;
+        text-align: center;
+        border-top: 0px;
+        border-right: 0px;
+        border-left: 0px;
+        border-radius: 0px;
+        border-width: unset;
+        border-color: $white;
+        background:transparent;
+      }
+    }
+  }
+
+  div.main {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 5px;
+    width:100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+
+    div.gain {
+      display:flex;
+      width:100%;
+
+      label {
+        display:flex;
+        justify-content: space-between;
+        width:100%;
+        line-height:26px;
+        border:1px solid $lightBlue;
+        margin-right:auto;
+
+        span {
+          width:calc(100% - 50px);
+          padding-left:5px;
+          background:$lightBlack;
+        }
+
+        input {
+          width:50px;
+          text-align: center;
+          border-top:0px;
+          border-right:0px;
+          border-bottom:0px;
+          border-radius: 0px;
+          background:$black;
+        }
+      }
+    }
+
+    div.aspect {
+      display:flex;
+      width:100%;
+      flex:none;
+      align-items:flex-start;
+      align-content: flex-start;
+      flex-wrap: wrap;
+      background:$lightBlack;
+      border:1px solid $lightBlue;
+
+      input[type="number"].aspect {
+        width:25%;
+        height:81px;
+        border-left:0px;
+        border-top:0px;
+        border-bottom:0px;
+        border-right:1px solid $lightBlack;
+        border-radius:0px;
+        text-align: center;
+        background:$black;
+        font-size:50px;
+      }
+
+      div.caracteristiques {
+        display:flex;
+        width:75%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        div.line {
+          display:flex;
+          justify-content: space-between;
+          width:100%;
+
+          label.carac {
+            display:flex;
+            justify-content: space-between;
+            width:100%;
+            line-height:26px;
+            border-top:0px;
+            border-left:0px;
+            border-bottom:0px;
+            border-right:1px solid $lightBlack;
+
+            span {
+              width:calc(100% - 50px);
+              padding-left:5px;
+            }
+
+            input {
+              width:50px;
+              text-align: center;
+              border-radius: 0px;
+              background:$black;
+            }
+          }
+
+          &:not(:last-of-type) {
+            span {
+              border-bottom:1px solid $black;
+            }
+
+            input {
+              border-top:0px;
+              border-left:0px;
+              border-right:0px;
+              border-bottom:$lightBlack;
+            }
+          }
+
+          &:last-of-type {
+            span {
+              border-bottom:0px;
+            }
+
+            input {
+              border-top:0px;
+              border-left:0px;
+              border-right:0px;
+              border-bottom:0px;
+            }
+          }
+        }
+      }
+
+      &:last-of-type {
+        grid-column: 1 / 3;
+
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
       }
     }
   }

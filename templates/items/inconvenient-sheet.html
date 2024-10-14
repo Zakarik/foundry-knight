@@ -5,10 +5,7 @@
                 <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
                 {{#unless systemData.onlyIA}}
                 <select name="system.type">
-                    {{#select systemData.type}}
-                        <option value="standard">{{localize "KNIGHT.AUTRE.Standard"}}</option>
-                        <option value="ia">{{localize "KNIGHT.IA.Label"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'typeavantage') selected=systemData.type localize=true}}
                 </select>
                 {{/unless}}
             </h1>
@@ -21,7 +18,7 @@
                         </span>
                         <input type="number" name="system.malus.sante" min="0" value="{{systemData.malus.sante}}" />
                     </label>
-    
+
                     <label class="espoir">
                         <span>
                             {{localize "KNIGHT.ITEMS.DESAVANTAGE.MalusEspoir"}}
@@ -44,7 +41,7 @@
                             <input type="number" name="system.malus.initiative.ifEmbuscade.fixe" min="0" value="{{systemData.malus.initiative.ifEmbuscade.fixe}}" />
                         </div>
                     </div>
-    
+
                     <div class="augmentationCout">
                         <button type="action" class="button {{#if systemData.malus.coutsAugmentes.has}} buttonChecked {{else}} buttonUnchecked {{/if}}">{{localize "KNIGHT.ITEMS.DESAVANTAGE.AugmentationCout"}}</button>
                         <div class="{{#if systemData.malus.coutsAugmentes.has}} blockAspect {{else}} hiddenBlock {{/if}}">
@@ -82,29 +79,29 @@
                         </span>
                         <input type="number" name="system.malus.recuperation.sante" value="{{systemData.malus.recuperation.sante}}" />
                     </label>
-    
+
                     <label class="recuperationArmure">
                         <span>
                             {{localize "KNIGHT.ITEMS.DESAVANTAGE.RecuperationArmure"}}
                         </span>
                         <input type="number" name="system.malus.recuperation.armure" value="{{systemData.malus.recuperation.armure}}" />
                     </label>
-    
+
                     <label class="recuperationEnergie">
                         <span>
                             {{localize "KNIGHT.ITEMS.DESAVANTAGE.RecuperationEnergie"}}
                         </span>
                         <input type="number" name="system.malus.recuperation.energie" value="{{systemData.malus.recuperation.energie}}" />
                     </label>
-    
+
                     <label class="recuperationEspoir">
                         <span>
                             {{localize "KNIGHT.ITEMS.DESAVANTAGE.RecuperationEspoir"}}
                         </span>
                         <input type="number" name="system.malus.recuperation.espoir" value="{{systemData.malus.recuperation.espoir}}" />
-                    </label> 
-                    
-                    <button type="action" class="button espoir {{#if systemData.limitations.espoir.aucunGain}} buttonChecked {{else}} buttonUnchecked {{/if}}">{{localize "KNIGHT.ITEMS.DESAVANTAGE.AucunGainEspoir"}}</button>  
+                    </label>
+
+                    <button type="action" class="button espoir {{#if systemData.limitations.espoir.aucunGain}} buttonChecked {{else}} buttonUnchecked {{/if}}">{{localize "KNIGHT.ITEMS.DESAVANTAGE.AucunGainEspoir"}}</button>
                 </div>
 
                 <div class="limitations">
@@ -135,7 +132,7 @@
                         <button type="action" class="button {{#if systemData.limitations.aspects.masque.has}} buttonChecked {{else}} buttonUnchecked {{/if}}" data-type="masque">{{localize "KNIGHT.ITEMS.DESAVANTAGE.LIMITATIONSCORE.AspectMasque"}}</button>
                         <input type="number" class="{{#if systemData.limitations.aspects.masque.has}} inputShow {{else}} inputHidden {{/if}}"name="system.limitations.aspects.masque.value" value="{{systemData.limitations.aspects.masque.value}}" min="1" max="{{systemData.limitations.aspects.masque.max}}" />
                     </div>
-                </div> 
+                </div>
             </div>
             {{/if}}
         </div>

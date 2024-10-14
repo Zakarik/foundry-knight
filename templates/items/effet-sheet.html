@@ -5,16 +5,11 @@
                 <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
             </h1>
             <select name="system.type">
-                {{#select systemData.type}}
-                    <option value="effets">{{localize "KNIGHT.EFFETS.Effet"}}</option>
-                    <option value="distance">{{localize "KNIGHT.AMELIORATIONS.LABEL.DistanceLong"}}</option>
-                    <option value="structurelles">{{localize "KNIGHT.AMELIORATIONS.LABEL.Structurelle"}}</option>
-                    <option value="ornementales">{{localize "KNIGHT.AMELIORATIONS.LABEL.Ornementale"}}</option>
-                {{/select}}
+                {{selectOptions (getList 'typeeffet') selected=systemData.type localize=true}}
             </select>
         </div>
     </header>
-    <div class="effetCustom">        
+    <div class="effetCustom">
         {{editor systemData.description target="system.description" button=true owner="owner" editable="editable"}}
 
         <div class="attaque">
@@ -33,16 +28,7 @@
             <label class="middlespan">
                 <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.CaracFixe"}}</span>
                 <select name="system.attaque.carac.fixe" data-type="attaque" data-subtype="fixe">
-                    {{#select systemData.attaque.carac.fixe}}
-                        <option value=""></option>
-                        {{#each systemData.aspects as | key aspect|}}
-                            <optgroup label="{{getAspect aspect}}">
-                                {{#each key as | keyCarac caracteristique|}}
-                                    <option value="{{keyCarac}}">{{getCarac keyCarac}}</option>
-                                {{/each}}
-                            </optgroup>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (onlyCarac) selected=systemData.attaque.carac.fixe localize=true blank=''}}
                 </select>
             </label>
             <button type="action" class="{{#if systemData.attaque.carac.odInclusFixe}}selected{{else}}unselected{{/if}}"
@@ -52,16 +38,7 @@
             <label class="middlespan">
                 <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.CaracJet"}}</span>
                 <select class="noBorderTop" name="system.attaque.carac.jet" data-type="attaque" data-subtype="jet">
-                    {{#select systemData.attaque.carac.jet}}
-                        <option value=""></option>
-                        {{#each systemData.aspects as | key aspect|}}
-                            <optgroup label="{{getAspect aspect}}">
-                                {{#each key as | keyCarac caracteristique|}}
-                                    <option value="{{keyCarac}}">{{getCarac keyCarac}}</option>
-                                {{/each}}
-                            </optgroup>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (onlyCarac) selected=systemData.attaque.carac.jet localize=true blank=''}}
                 </select>
             </label>
             <button type="action" class="{{#if systemData.attaque.carac.odInclusJet}}selected{{else}}unselected{{/if}}"
@@ -73,12 +50,7 @@
             <label class="middlespan">
                 <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.AspectFixe"}}</span>
                 <select class="noBorderTop" name="system.attaque.aspect.fixe" data-type="attaque" data-subtype="fixe" data-pnj="true">
-                    {{#select systemData.attaque.aspect.fixe}}
-                        <option value=""></option>
-                        {{#each systemData.aspects as | key aspect|}}
-                            <option value="{{aspect}}">{{getAspect aspect}}</option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (onlyAspects) selected=systemData.attaque.aspect.fixe localize=true blank=''}}
                 </select>
             </label>
             <button type="action" class="{{#if systemData.attaque.aspect.aeInclusFixe}}selected{{else}}unselected{{/if}}"
@@ -88,12 +60,7 @@
             <label class="middlespan">
                 <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.CaracJet"}}</span>
                 <select class="noBorderTop" name="system.attaque.aspect.jet" data-type="attaque" data-subtype="jet" data-pnj="true">
-                    {{#select systemData.attaque.aspect.jet}}
-                        <option value=""></option>
-                        {{#each systemData.aspects as | key aspect|}}
-                                <option value="{{aspect}}">{{getAspect aspect}}</option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (onlyAspects) selected=systemData.attaque.aspect.jet localize=true blank=''}}
                 </select>
             </label>
             <button type="action" class="{{#if systemData.attaque.aspect.aeInclusJet}}selected{{else}}unselected{{/if}}"
@@ -124,16 +91,7 @@
             <label class="middlespan">
                 <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.CaracFixe"}}</span>
                 <select name="system.degats.carac.fixe" data-type="degats" data-subtype="fixe">
-                    {{#select systemData.degats.carac.fixe}}
-                        <option value=""></option>
-                        {{#each systemData.aspects as | key aspect|}}
-                            <optgroup label="{{getAspect aspect}}">
-                                {{#each key as | keyCarac caracteristique|}}
-                                    <option value="{{keyCarac}}">{{getCarac keyCarac}}</option>
-                                {{/each}}
-                            </optgroup>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (onlyCarac) selected=systemData.degats.carac.fixe localize=true blank=''}}
                 </select>
             </label>
             <button type="action" class="{{#if systemData.degats.carac.odInclusFixe}}selected{{else}}unselected{{/if}}"
@@ -143,16 +101,7 @@
             <label class="middlespan">
                 <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.CaracJet"}}</span>
                 <select class="noBorderTop" name="system.degats.carac.jet" data-type="degats" data-subtype="jet">
-                    {{#select systemData.degats.carac.jet}}
-                        <option value=""></option>
-                        {{#each systemData.aspects as | key aspect|}}
-                            <optgroup label="{{getAspect aspect}}">
-                                {{#each key as | keyCarac caracteristique|}}
-                                    <option value="{{keyCarac}}">{{getCarac keyCarac}}</option>
-                                {{/each}}
-                            </optgroup>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (onlyCarac) selected=systemData.degats.carac.jet localize=true blank=''}}
                 </select>
             </label>
             <button type="action" class="{{#if systemData.degats.carac.odInclusJet}}selected{{else}}unselected{{/if}}"
@@ -164,12 +113,7 @@
             <label class="middlespan">
                 <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.AspectFixe"}}</span>
                 <select class="noBorderTop" name="system.degats.aspect.fixe" data-type="degats" data-subtype="fixe" data-pnj="true">
-                    {{#select systemData.degats.aspect.fixe}}
-                        <option value=""></option>
-                        {{#each systemData.aspects as | key aspect|}}
-                            <option value="{{aspect}}">{{getAspect aspect}}</option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (onlyAspects) selected=systemData.degats.aspect.fixe localize=true blank=''}}
                 </select>
             </label>
             <button type="action" class="{{#if systemData.degats.aspect.aeInclusFixe}}selected{{else}}unselected{{/if}}"
@@ -179,12 +123,7 @@
             <label class="middlespan">
                 <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.AspectJet"}}</span>
                 <select class="noBorderTop" name="system.degats.aspect.jet" data-type="degats" data-subtype="jet" data-pnj="true">
-                    {{#select systemData.degats.aspect.jet}}
-                        <option value=""></option>
-                        {{#each systemData.aspects as | key aspect|}}
-                                <option value="{{aspect}}">{{getAspect aspect}}</option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (onlyAspects) selected=systemData.degats.aspect.jet localize=true blank=''}}
                 </select>
             </label>
             <button type="action" class="{{#if systemData.degats.aspect.aeInclusJet}}selected{{else}}unselected{{/if}}"
@@ -215,16 +154,7 @@
             <label class="middlespan">
                 <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.CaracFixe"}}</span>
                 <select name="system.violence.carac.fixe" data-type="violence" data-subtype="fixe">
-                    {{#select systemData.violence.carac.fixe}}
-                        <option value=""></option>
-                        {{#each systemData.aspects as | key aspect|}}
-                            <optgroup label="{{getAspect aspect}}">
-                                {{#each key as | keyCarac caracteristique|}}
-                                    <option value="{{keyCarac}}">{{getCarac keyCarac}}</option>
-                                {{/each}}
-                            </optgroup>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (onlyCarac) selected=systemData.violence.carac.fixe localize=true blank=''}}
                 </select>
             </label>
             <button type="action" class="{{#if systemData.violence.carac.odInclusFixe}}selected{{else}}unselected{{/if}}"
@@ -234,16 +164,7 @@
             <label class="middlespan">
                 <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.CaracJet"}}</span>
                 <select class="noBorderTop" name="system.violence.carac.jet" data-type="violence" data-subtype="jet">
-                    {{#select systemData.violence.carac.jet}}
-                        <option value=""></option>
-                        {{#each systemData.aspects as | key aspect|}}
-                            <optgroup label="{{getAspect aspect}}">
-                                {{#each key as | keyCarac caracteristique|}}
-                                    <option value="{{keyCarac}}">{{getCarac keyCarac}}</option>
-                                {{/each}}
-                            </optgroup>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (onlyCarac) selected=systemData.violence.carac.jet localize=true blank=''}}
                 </select>
             </label>
             <button type="action" class="{{#if systemData.violence.carac.odInclusJet}}selected{{else}}unselected{{/if}}"
@@ -255,12 +176,7 @@
             <label class="middlespan">
                 <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.AspectFixe"}}</span>
                 <select class="noBorderTop" name="system.violence.aspect.fixe" data-type="violence" data-subtype="fixe" data-pnj="true">
-                    {{#select systemData.violence.aspect.fixe}}
-                        <option value=""></option>
-                        {{#each systemData.aspects as | key aspect|}}
-                            <option value="{{aspect}}">{{getAspect aspect}}</option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (onlyAspects) selected=systemData.violence.aspect.fixe localize=true blank=''}}
                 </select>
             </label>
             <button type="action" class="{{#if systemData.violence.aspect.aeInclusFixe}}selected{{else}}unselected{{/if}}"
@@ -270,12 +186,7 @@
             <label class="middlespan">
                 <span class="title">{{localize "KNIGHT.EFFETS.CUSTOM.AspectJet"}}</span>
                 <select class="noBorderTop" name="system.violence.aspect.jet" data-type="violence" data-subtype="jet" data-pnj="true">
-                    {{#select systemData.violence.aspect.jet}}
-                        <option value=""></option>
-                        {{#each systemData.aspects as | key aspect|}}
-                                <option value="{{aspect}}">{{getAspect aspect}}</option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions (onlyAspects) selected=systemData.violence.aspect.jet localize=true blank=''}}
                 </select>
             </label>
             <button type="action" class="{{#if systemData.violence.aspect.aeInclusJet}}selected{{else}}unselected{{/if}}"

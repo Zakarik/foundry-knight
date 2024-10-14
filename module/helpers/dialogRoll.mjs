@@ -3,8 +3,8 @@ import {
   actorIsPj,
   getCaracValue,
   getODValue,
-  getNestedPropertyValue,
   getArmor,
+  getAllEffects,
 } from "./common.mjs";
 
 function normalizeTxt(str) {
@@ -31,23 +31,17 @@ function containsWord(text, words) {
 }
 
 export function getKnightRoll(actor, hasEntraide=true) {
-  const nActor = actor?._id ?? 1;;
-  const filterInstance = Object.values(ui.windows).filter((app) => app instanceof game.knight.applications.KnightRollDialog);
-  let hasInstance = undefined;
+  const nActor = actor?.id ?? 1;
+  const findInstance = Object.values(ui.windows).find((app) => app.options.baseApplication === `knightRollDialog/${nActor}`);
   let isExist = false;
+  let result = null;
 
-  for(let i of filterInstance) {
-    const iActor = i?.data?.actor?._id ?? 0;
-
-    if(iActor === nActor) {
-      isExist = true;
-      hasInstance = i;
-    }
+  if(findInstance) {
+    isExist = true;
+    result = findInstance;
   }
 
-  let result = {};
-
-  if(hasEntraide) {
+  /*if(hasEntraide) {
     result = hasInstance ?? new game.knight.applications.KnightRollDialog({
       title:actor.name+" : "+game.i18n.localize("KNIGHT.JETS.Label"),
       buttons: {
@@ -82,7 +76,7 @@ export function getKnightRoll(actor, hasEntraide=true) {
         }
       }
     });
-  }
+  }*/
 
   return {instance:result, previous:isExist};
 }
@@ -128,205 +122,122 @@ export function actualiseRoll(actor) {
   if(toActualise !== undefined) toActualise.actualise(actor);
 }
 
-export function dialogRoll(label, actor, data={}) {
-    const queryInstance = getKnightRoll(actor, actorIsPj(actor));
-    const rollApp = queryInstance.instance;
+export async function dialogRoll(label, actor, data={}) {
+    const queryInstance = getKnightRoll(actor);
+
+    if(queryInstance.previous) {
+      queryInstance.instance.bringToTop();
+    } else {
+      const dialog = new game.knight.applications.KnightRollDialog(actor);
+      await dialog.open();
+    }
+    /*const rollApp = queryInstance.instance;
 
     rollApp.setLabel(label);
     rollApp.setAct(actor);
     rollApp.setR(data);
     rollApp.render(true);
 
-    if(queryInstance.previous) rollApp.bringToTop();
+    if(queryInstance.previous) rollApp.bringToTop();*/
 }
 
 export async function dialogRollWId(actorId, sceneId, tokenId, data={}, bonusToAdd={}, special={}) {
-    const isWpn = data?.isWpn ?? false;
-    const typeWpn = data?.typeWpn ?? "";
-    const actor = tokenId === "null" ? game.actors.get(actorId) : game.scenes.get(sceneId).tokens.find(token => token.id === tokenId).actor;
-    const modificateur = bonusToAdd?.modificateur ?? "";
-    const autre = bonusToAdd?.autre ?? "";
-    const type = special?.type ?? "";
-    const hasShift = special?.event?.shiftKey ?? false;
-    const wear = actor.system.wear;
-    const onlyArmor = ['longbow', 'cea', 'module'];
-    let getWpn;
-    let vehicule = false;
-    let tireur = "";
-    let label = "";
-    let actProcessed = {};
-    let listWpn = {};
-    let keys = {};
-    let filterWpn = {};
-    let queryInstance;
-    let rollApp;
+  const type = special?.type ?? "";
+  const actor = tokenId === "null" ? actorId : tokenId;
+  const getActor = tokenId === "null" ? game.actors.get(actor) : canvas.tokens.get(actor)?.actor ?? undefined;
+  const nameWpn = data.nameWpn;
+  const idWpn = data.idWpn;
+  const num = data.num;
+  const whoActivate = data.whoActivate;
+  if(!getActor) return;
 
-    if(onlyArmor.includes(type) && (wear !== 'armure' || actor.type !== 'knight')) return;
+  const armure = getActor.items.find(itm => itm.type === 'armure');
 
-    if((type === "espoir" && !hasShift) || type !== "espoir") {
-      queryInstance = vehicule ? getKnightRoll(tireur, actorIsPj(tireur)) : getKnightRoll(actor, actorIsPj(actor));
-      rollApp = queryInstance.instance;
+  let label = '';
+  let base = undefined;
+  let whatRoll = [];
+  let id = undefined;
+  let bonus = 0;
 
-      if(vehicule) actProcessed = rollApp.setAct(tireur);
-      else actProcessed = rollApp.setAct(actor);
-    }
+  switch(type) {
+    case 'caracteristique':
+      label = game.i18n.localize(CONFIG.KNIGHT.caracteristiques[data.base]);
+      base = data.base;
+    break;
 
-    switch(type) {
-      case 'caracteristique':
-        label = game.i18n.localize(CONFIG.KNIGHT.caracteristiques[data.base]);
-      break;
+    case 'aspect':
+      label = game.i18n.localize(CONFIG.KNIGHT.aspects[data.base]);
+      base = data.base;
+    break;
 
-      case 'aspect':
-        label = game.i18n.localize(CONFIG.KNIGHT.aspects[data.base]);
-      break;
+    case 'espoir':
+      label = game.i18n.localize("KNIGHT.JETS.JetEspoir");
+      base = 'hargne',
+      whatRoll.push('sangFroid');
+    break;
 
-      case 'espoir':
-        label = game.i18n.localize("KNIGHT.JETS.JetEspoir");
-      break;
+    case 'wpn':
+      label = getActor.items.get(idWpn).name;
+      id = idWpn;
+    break;
 
-      case 'wpn':
-        label = actor.items.get(data.idWpn).name;
-      break;
+    case 'longbow':
+      label = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label");
+      id = `capacite_${armure.id}_longbow`;
+    break;
 
-      case 'longbow':
-        label = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label");
-      break;
+    case 'grenades':
+      const nbreGrenade = getActor.system?.combat?.grenades?.quantity?.value ?? 0;
 
-      case 'grenade':
-        const grenades = actor.system.combat.grenades.liste[data.nameWpn];
-        if(grenades.custom) label = grenades.label;
-        else label = game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${data.nameWpn.toString().charAt(0).toUpperCase()+data.nameWpn.toString().substr(1)}`);
-      break;
-
-      case 'cea':
-        if(data.typeWpn === 'distance') listWpn = actProcessed.listWpnDistance;
-        else if(data.typeWpn === 'contact') listWpn = actProcessed.listWpnContact;
-        keys = Object.keys(listWpn);
-        filterWpn = keys.find(key => listWpn[key].system.subCapaciteName === data.nameWpn);
-
-        label = listWpn[filterWpn].name;
-        data['nameWpn'] = listWpn[filterWpn].name;
-        data['num'] = filterWpn;
-      break;
-
-      case 'special':
-        if(special.data === 'mechaarmure') {
-          keys = actProcessed.listWpnSpecial.findIndex(wpn => wpn._id === data.idWpn);
-          filterWpn = actProcessed.listWpnSpecial.find(wpn => wpn._id === data.idWpn);
-
-          data['num'] = keys;
-          data['nameWpn'] = filterWpn.name;
-          data['typeWpn'] = filterWpn.type;
-        }
-      break;
-
-      case 'base':
-      case 'c1':
-      case 'c2':
-        if(special.data === 'mechaarmure') {
-          keys = actProcessed.listWpnMA.findIndex(wpn => wpn._id === data.idWpn && wpn.type === type);
-          filterWpn = actProcessed.listWpnMA.find(wpn => wpn._id === data.idWpn && wpn.type === type);
-
-          data['num'] = keys;
-          data['nameWpn'] = filterWpn.name;
-          data['typeWpn'] = filterWpn.type;
-        }
-      break;
-
-      case 'armesimprovisees':
-        label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[data.nameWpn][data.num]);
-        if(actorIsPj(actor)) {
-          data['base'] = actor.system.combat.armesimprovisees[data.idWpn];
-          data['autre'] = ['force'];
-        }
-        else data['base'] = actor.system.combat.armesimprovisees.aspect;
-        break;
-    }
-
-    if(isWpn && special.data !== 'mechaarmure') {
-      if(type !== 'grenade' && type !== 'longbow' && type !== 'cea' && type !== 'module' && type !== 'armesimprovisees') {
-        getWpn = actor.items.get(data.idWpn);
-        const isEquipped = actorIsPj(actor) ? getWpn.system?.equipped ?? false : true;
-        const typeWpn = getWpn.system.tourelle.has ? 'tourelle' : getWpn.system.type;
-        if(typeWpn === 'distance') listWpn = actProcessed.listWpnDistance;
-        else if(typeWpn === 'contact') listWpn = actProcessed.listWpnContact;
-        else if(typeWpn === 'tourelle') listWpn = actProcessed.listWpnTourelle;
-        keys = Object.keys(listWpn);
-        filterWpn = keys.find(key => listWpn[key]._id === getWpn._id);
-
-        data['nameWpn'] = getWpn.name;
-        data['typeWpn'] = typeWpn;
-        data['num'] = filterWpn;
-
-        if(!isEquipped && typeWpn !== 'tourelle') return;
-        if(actor.type === 'vehicule') {
-          vehicule = true;
-          data['vehicule'] = actor;
-          tireur = getWpn.system.whoActivate;
-          if(tireur === "") return;
-          else tireur = game.actors.get(tireur);
-        }
-      } else if(type === 'module') {
-
-        getWpn = actor.items.get(data.idWpn);
-        let isActive = false;
-
-        for(let w in getWpn.system.active) {
-          if(getWpn.system.active[w]) isActive = true;
-        }
-
-        if(!isActive) return;
-
-        data['nameWpn'] = getWpn.name;
-        data['typeWpn'] = getWpn.system.arme.type;
-
-        if(data.typeWpn === 'distance') listWpn = actProcessed.listWpnDistance;
-        else if(data.typeWpn === 'contact') listWpn = actProcessed.listWpnContact;
-
-        keys = Object.keys(listWpn);
-        filterWpn = keys.find(key => listWpn[key]._id === getWpn._id);
-        data['num'] = filterWpn;
-      }
-    }
-
-    if(modificateur !== "") data['modificateur'] = getNestedPropertyValue(actor, modificateur);
-    if(autre !== "") data['autre'] = bonusToAdd.autre.split(",");
-
-    if(type === "espoir" && hasShift) {
-      const base = data?.base ?? "";
-
-      let carac = base !== "" ? getCaracValue(data.base, actor, true) : 0;
-      let od = wear === 'armure' && base !== "" ? getODValue(data.base, actor, true) : 0;
-      let autre = [];
-
-      for(let a of data.autre) {
-        autre.push(game.i18n.localize(CONFIG.KNIGHT.caracteristiques[a]));
-        carac += getCaracValue(a, actor, true);
-        od += wear === 'armure' ? getODValue(a, actor, true) : 0;
+      if(nbreGrenade === 0) {
+        ui.notifications.warn(game.i18n.localize(`KNIGHT.AUTRE.NoGrenades`));
+        return;
       }
 
-      const roll = wear === 'armure' ? `${carac}d6+${od}` : `${carac}d6`;
-      const exec = new game.knight.RollKnight(roll, actor.system);
+      const grenades = getActor.system.combat.grenades.liste[nameWpn];
+      id = `grenade_${nameWpn}`;
+      label = grenades.custom ? `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${grenades.label}` : `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${data.nameWpn.charAt(0).toUpperCase()+data.nameWpn.substr(1)}`)}`;
+    break;
 
-      exec._success = true;
-      exec._flavor = label;
-      exec._base = game.i18n.localize(CONFIG.KNIGHT.caracteristiques[data.base]);
-      exec._autre = autre;
-      exec._details = wear === 'armure' ? `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')})d6 + ${od} (${game.i18n.localize('KNIGHT.ITEMS.ARMURE.Overdrive')})` : `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')})d6`;
-      await exec.toMessage({
-        speaker: {
-        actor: actor?.id || null,
-        token: actor?.token?.id || null,
-        alias: actor?.name || null,
-        }
-      });
-    } else {
-      rollApp.setLabel(label);
-      rollApp.setR(data);
-      rollApp.render(true);
+    case 'cea':
+      label = game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.${nameWpn.toUpperCase()}.Label`);
 
-      if(queryInstance.previous) rollApp.bringToTop();
-    }
+      if(data.typeWpn === 'distance') id = `capacite_${idWpn}_cea${nameWpn.charAt(0).toUpperCase() + nameWpn.substr(1)}D`;
+      else id = `capacite_${idWpn}_cea${nameWpn.charAt(0).toUpperCase() + nameWpn.substr(1)}C`;
+    break;
+
+    case 'base':
+    case 'c1':
+    case 'c2':
+      id = `ma_${actor}_${idWpn}`
+    break;
+
+    case 'armesimprovisees':
+      label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[nameWpn][num]);
+      id = idWpn === 'distance' ? `${nameWpn}${num}d` : `${nameWpn}${num}c`;
+
+      whatRoll.push('force');
+
+      if(idWpn === 'distance') base = 'tir';
+      else base = 'combat';
+      break;
+  }
+
+  if(getActor.type === 'mechaarmure' && special.type) {
+    label = game.i18n.localize(CONFIG.KNIGHT.mechaarmure[special.type]);
+    bonus = getActor.system?.[type]?.value ?? 0;
+  }
+
+  const dialog = new game.knight.applications.KnightRollDialog(actor, {
+    whoActivate:whoActivate,
+    label:label,
+    wpn:id,
+    base:base,
+    whatRoll:whatRoll,
+    modificateur:bonus,
+  });
+
+  dialog.open();
 }
 
 export async function directRoll(actorId, sceneId, tokenId, data={}) {
@@ -761,6 +672,8 @@ DATA :
   - (int) addNum : S'il y a un numéro à ajouter à la fin du nom.
 */
 export async function doDgts(data) {
+  const localize = getAllEffects();
+
   const actor = data.actor;
   const dataWpn = data.dataWpn;
   const listAllEffets = data.listAllE;
@@ -825,7 +738,7 @@ export async function doDgts(data) {
   let effets = listAllEffets;
 
   if(effets.regularite) {
-    const regulariteIndex = effets.degats.include.findIndex(str => { if(str.name.includes(game.i18n.localize(CONFIG.KNIGHT.effets['regularite'].label))) return true; });
+    const regulariteIndex = effets.degats.include.findIndex(str => { if(str.name.includes(game.i18n.localize(localize['regularite'].label))) return true; });
     effets.degats.include[regulariteIndex].name = `+${regularite} ${effets.degats.include[regulariteIndex].name}`;
   }
 

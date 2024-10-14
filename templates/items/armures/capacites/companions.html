@@ -39,12 +39,7 @@
             <label class="shortspan separation">
                 <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                 <select name="system.capacites.selected.companions.activation" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.activation}}
-                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                    <option value="tour6Sec">{{localize "KNIGHT.ACTIVATION.Tour6Sec"}}</option>
-                    <option value="combat3Sec">{{localize "KNIGHT.ACTIVATION.Combat3Sec"}}</option>
-                    <option value="deplacement3Sec">{{localize "KNIGHT.ACTIVATION.Deplacement3Sec"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'activation6sec') selected=this.activation localize=true}}
                 </select>
             </label>
             <label class="shortspan">
@@ -83,19 +78,7 @@
                         <label class="full">
                             <span>{{localize "KNIGHT.ASPECTS.Exceptionnel-short"}}</span>
                             <select name="system.capacites.selected.companions.lion.aspects.{{aspect}}.ae" {{#if ../this.softlock}}disabled{{/if}}>
-                                {{#select key.ae}}
-                                    <option value="0">-</option>
-                                    <option value="1">{{localize "KNIGHT.AUTRE.Mineur"}} (1)</option>
-                                    <option value="2">{{localize "KNIGHT.AUTRE.Mineur"}} (2)</option>
-                                    <option value="3">{{localize "KNIGHT.AUTRE.Mineur"}} (3)</option>
-                                    <option value="4">{{localize "KNIGHT.AUTRE.Mineur"}} (4)</option>
-                                    <option value="5">{{localize "KNIGHT.AUTRE.Mineur"}} (5)</option>
-                                    <option value="6">{{localize "KNIGHT.AUTRE.Majeur"}} (6)</option>
-                                    <option value="7">{{localize "KNIGHT.AUTRE.Majeur"}} (7)</option>
-                                    <option value="8">{{localize "KNIGHT.AUTRE.Majeur"}} (8)</option>
-                                    <option value="9">{{localize "KNIGHT.AUTRE.Majeur"}} (9)</option>
-                                    <option value="10">{{localize "KNIGHT.AUTRE.Majeur"}} (10)</option>
-                                {{/select}}
+                                {{selectOptions (getAECompanions) selected=key.ae localize=true}}
                             </select>
                         </label>
                     </div>
@@ -181,13 +164,7 @@
                         <div class="portee">
                             <select name="system.capacites.selected.companions.lion.armes.contact.{{arme}}.portee"
                                 {{#if ../this.softlock}}disabled{{/if}} >
-                                {{#select key.portee}}
-                                <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                                <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                                <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                                <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                                <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                                {{/select}}
+                                {{selectOptions (getList 'portee') selected=key.portee localize=true}}
                             </select>
                         </div>
                     </div>
@@ -226,19 +203,7 @@
                         <label class="full">
                             <span>{{localize "KNIGHT.ASPECTS.Exceptionnel-short"}}</span>
                             <select name="system.capacites.selected.companions.wolf.aspects.{{aspect}}.ae" {{#if ../this.softlock}}disabled{{/if}}>
-                                {{#select key.ae}}
-                                    <option value="0">-</option>
-                                    <option value="1">{{localize "KNIGHT.AUTRE.Mineur"}} (1)</option>
-                                    <option value="2">{{localize "KNIGHT.AUTRE.Mineur"}} (2)</option>
-                                    <option value="3">{{localize "KNIGHT.AUTRE.Mineur"}} (3)</option>
-                                    <option value="4">{{localize "KNIGHT.AUTRE.Mineur"}} (4)</option>
-                                    <option value="5">{{localize "KNIGHT.AUTRE.Mineur"}} (5)</option>
-                                    <option value="6">{{localize "KNIGHT.AUTRE.Majeur"}} (6)</option>
-                                    <option value="7">{{localize "KNIGHT.AUTRE.Majeur"}} (7)</option>
-                                    <option value="8">{{localize "KNIGHT.AUTRE.Majeur"}} (8)</option>
-                                    <option value="9">{{localize "KNIGHT.AUTRE.Majeur"}} (9)</option>
-                                    <option value="10">{{localize "KNIGHT.AUTRE.Majeur"}} (10)</option>
-                                {{/select}}
+                                {{selectOptions (getAECompanions) selected=key.ae localize=true}}
                             </select>
                         </label>
                     </div>
@@ -324,13 +289,7 @@
                         <div class="portee">
                             <select name="system.capacites.selected.companions.wolf.armes.contact.{{arme}}.portee"
                                 {{#if ../this.softlock}}disabled{{/if}} >
-                                {{#select key.portee}}
-                                <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                                <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                                <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                                <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                                <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                                {{/select}}
+                                {{selectOptions (getList 'portee') selected=key.portee localize=true}}
                             </select>
                         </div>
                     </div>

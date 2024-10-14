@@ -22,12 +22,7 @@
     <label class="shortspan separation">
         <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
         <select name="system.evolutions.liste.{{key}}.capacites.ghost.activation" >
-            {{#select this.activation}}
-            <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-            <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-            <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-            <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-            {{/select}}
+            {{selectOptions (getList 'activationsimple') selected=this.activation localize=true}}
         </select>
     </label>
     <label class="shortspan">
@@ -48,32 +43,14 @@
     <label class="middlespan separation">
         <span>{{localize "KNIGHT.BONUS.Attaque"}}</span>
         <select name="system.evolutions.liste.{{key}}.capacites.ghost.bonus.attaque" >
-            {{#select this.bonus.attaque}}
-                <option value=""></option>
-                {{#each this.bonus.aspects as | key aspect|}}
-                    <optgroup label="{{getAspect aspect}}">
-                        {{#each key.liste as | keyCarac caracteristique|}}
-                            <option value="{{caracteristique}}">{{getCarac caracteristique}}</option>
-                        {{/each}}
-                    </optgroup>
-                {{/each}}
-            {{/select}}
+            {{selectOptions (onlyCarac) selected=this.bonus.attaque localize=true}}
         </select>
     </label>
     <h4 class="separation">{{localize "KNIGHT.BONUS.Degats"}}</h4>
     <label class="middlespan noSeparation">
         <span>{{localize "KNIGHT.ITEMS.Caracteristique"}}</span>
         <select name="system.evolutions.liste.{{key}}.capacites.ghost.bonus.degats.caracteristique" >
-            {{#select this.bonus.degats.caracteristique}}
-                <option value=""></option>
-                {{#each this.bonus.aspects as | key aspect|}}
-                    <optgroup label="{{getAspect aspect}}">
-                        {{#each key.liste as | keyCarac caracteristique|}}
-                            <option value="{{caracteristique}}">{{getCarac caracteristique}}</option>
-                        {{/each}}
-                    </optgroup>
-                {{/each}}
-            {{/select}}
+            {{selectOptions (onlyCarac) selected=this.bonus.degats.caracteristique localize=true}}
         </select>
     </label>
     <button type="action" class=" {{#if this.bonus.degats.od}}selected{{/if}}"

@@ -33,23 +33,13 @@
                 <label class="middlespan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.PORTEE.Min"}}</span>
                     <select name="system.capacites.selected.longbow.portee.min" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.portee.min}}
-                        <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                        <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                        <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                        <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'porteerestreint') selected=this.portee.min localize=true}}
                     </select>
                 </label>
                 <label class="middlespan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.PORTEE.Max"}}</span>
                     <select name="system.capacites.selected.longbow.portee.max" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.portee.max}}
-                        <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                        <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                        <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                        <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'porteerestreint') selected=this.portee.max localize=true}}
                     </select>
                 </label>
             </div>

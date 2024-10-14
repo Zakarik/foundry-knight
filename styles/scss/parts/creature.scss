@@ -1,4 +1,39 @@
 .creature {
+  header.sheet-header {
+    div {
+      &.headerData {
+        button {
+          &.setbtn {
+            display: grid;
+            grid-column: 2;
+            grid-template-columns: 16px 1fr;
+            grid-gap: 5px;
+            color: $white;;
+            font-variant: small-caps;
+            text-align: left;
+            font-size: 16px;
+            border: 1px solid $lightBlack;
+            align-items: center;
+
+            &.unselected {
+              i {
+                color: $red;
+              }
+            }
+
+            &.selected {
+              i {
+                color: $lightGreen;
+              }
+
+              background: $lightBlue;
+            }
+          }
+        }
+      }
+    }
+  }
+
     section.menu {
       padding-bottom:1px;
 
@@ -49,14 +84,14 @@
       div.armure,
       div.energie {
         div.line {
-          display:flex;
+          display:grid;
           width:100%;
           line-height:29px;
-          justify-content: space-between;
+          grid-template-columns: 30px 1fr 26px 8px 26px;
 
           span.option {
             display: inline-block;
-            width:30px;
+            width:100%;
             height:30px;
             text-align:center;
 
@@ -70,17 +105,11 @@
                 filter: drop-shadow(0px 0px 5px $blue);
               }
             }
-
-            &.withoutBorder {
-              img {
-                filter: drop-shadow(0px 0px 5px $blue);
-              }
-            }
           }
 
           span.label {
             display:inline-block;
-            width:calc(100% - 30px - 60px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:14px;
@@ -90,7 +119,7 @@
 
           input {
             display: inline-block;
-            width:26px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
@@ -105,7 +134,7 @@
 
           span.separation {
             display: inline-block;
-            width:8px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
@@ -114,7 +143,7 @@
 
           span.score {
             display: inline-block;
-            width:26px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
@@ -123,24 +152,25 @@
         }
 
         div.subLine {
+          display: grid;
+          grid-template-columns: 1fr 60px;
           width:100%;
           line-height:30px;
-          justify-content: space-between;
-          margin-top:1px;
 
           span.label {
             display:inline-block;
-            width:calc(100% - 60px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:16px;
             letter-spacing: 1px;
             padding-left:1px;
+            border-bottom: 1px solid $black;
           }
 
           input {
             display: inline-block;
-            width:60px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
@@ -149,6 +179,62 @@
             border-radius:0px;
             padding:0px;
             margin:0px;
+            border-bottom: 1px solid $lightBlack;
+          }
+        }
+      }
+
+      div.sante {
+        div.subLine {
+          &:nth-of-type(2) {
+            span.label {
+              border-top: 1px solid $black;
+            }
+
+            input {
+              border-top: 1px solid $lightBlack;
+            }
+          }
+
+          &:last-of-type {
+            span.label {
+              border: 0px;
+            }
+
+            input {
+              border: 0px;
+            }
+          }
+        }
+      }
+
+      div.armure,
+      div.energie {
+        div.line {
+          span {
+            &.option,
+            &.label {
+              border-bottom: 1px solid $black;
+            }
+
+            &.separation,
+            &.score {
+              border-bottom: 1px solid $lightBlack;
+            }
+          }
+
+          input {
+            border-bottom: 1px solid $lightBlack;
+          }
+        }
+
+        div.subline {
+          span.label {
+            border-bottom: 1px solid $black;
+          }
+
+          input {
+            border-bottom: 1px solid $lightBlack;
           }
         }
       }
@@ -173,14 +259,15 @@
 
       div.bouclier {
         div.line {
-          display:flex;
+          display:grid;
           width:100%;
           line-height:29px;
           justify-content: space-between;
+          grid-template-columns: 30px 1fr 60px;
 
           span.option {
             display: inline-block;
-            width:30px;
+            width:100%;
             height:30px;
             text-align:center;
 
@@ -204,7 +291,7 @@
 
           span.label {
             display:inline-block;
-            width:calc(100% - 30px - 60px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:14px;
@@ -214,7 +301,7 @@
 
           span.score {
             display: inline-block;
-            width:60px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
@@ -223,24 +310,26 @@
         }
 
         div.subLine {
+          display: grid;
           width:100%;
           line-height:30px;
           justify-content: space-between;
-          margin-top:1px;
+          grid-template-columns: 1fr 60px;
 
           span.label {
             display:inline-block;
-            width:calc(100% - 60px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:16px;
             letter-spacing: 1px;
             padding-left:5px;
+            border-bottom: 1px solid $black;
           }
 
           input {
             display: inline-block;
-            width:60px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
@@ -249,6 +338,7 @@
             border-radius:0px;
             padding:0px;
             margin:0px;
+            border-bottom: 1px solid $lightBlack;
           }
         }
       }
@@ -256,16 +346,17 @@
       div.reaction,
       div.defense {
         div.line {
-          display:flex;
+          display:grid;
           width:100%;
           line-height:29px;
-          justify-content: space-between;
+          grid-template-columns: 30px 1fr 45px;
 
           span.option {
             display: inline-block;
-            width:30px;
+            width:100%;
             height:30px;
             text-align:center;
+            border-bottom: 1px solid $black;
 
             img {
               height:29px;
@@ -281,43 +372,46 @@
 
           span.label {
             display:inline-block;
-            width:calc(100% - 30px - 45px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:14px;
             letter-spacing: 1px;
             padding-left:1px;
+            border-bottom: 1px solid $black;
           }
 
           span.score {
             display: inline-block;
-            width:45px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
             font-size:16px;
+            border-bottom: 1px solid $lightBlack;
           }
         }
 
         div.subLine {
+          display: grid;
           width:100%;
           line-height:30px;
-          justify-content: space-between;
-          margin-top:1px;
+          grid-template-columns: 1fr 45px;
 
           span.label {
             display:inline-block;
-            width:calc(100% - 45px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:14px;
             letter-spacing: 1px;
             padding-left:5px;
+            border-bottom: 1px solid $black;
           }
 
           input {
             display: inline-block;
-            width:45px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
@@ -326,22 +420,25 @@
             border-radius:0px;
             padding:0px;
             margin:0px;
+            border-bottom: 1px solid $lightBlack;
           }
         }
       }
 
       div.initiative {
         div.line {
-          display:flex;
+          display:grid;
           width:100%;
           line-height:29px;
-          justify-content: space-between;
+          grid-template-columns: 30px 1fr 45px;
 
           span.option {
             display: inline-block;
-            width:30px;
+            width:100%;
             height:30px;
             text-align:center;
+            border-top: 0px !important;
+            border-bottom: 1px solid $black !important;
 
             img {
               height:29px;
@@ -357,43 +454,49 @@
 
           span.label {
             display:inline-block;
-            width:calc(100% - 30px - 45px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:14px;
             letter-spacing: 1px;
             padding-left:1px;
+            border-top: 0px !important;
+            border-bottom: 1px solid $black !important;
           }
 
           span.score {
             display: inline-block;
-            width:45px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
             font-size:12px;
+            border-top: 0px !important;
+            border-bottom: 1px solid $lightBlack !important;
           }
         }
 
         div.subLine {
+          display: grid;
           width:100%;
           line-height:30px;
-          justify-content: space-between;
-          margin-top:1px;
+          grid-template-columns: 1fr 45px;
 
           span.label {
             display:inline-block;
-            width:calc(100% - 45px);
+            width:100%;
             height:30px;
             font-variant: small-caps;
             font-size:14px;
             letter-spacing: 1px;
             padding-left:5px;
+            border-top: 0px !important;
+            border-bottom: 1px solid $black !important;
           }
 
           input {
             display: inline-block;
-            width:45px;
+            width:100%;
             height:30px;
             background:$black;
             text-align:center;
@@ -402,6 +505,8 @@
             border-radius:0px;
             padding:0px;
             margin:0px;
+            border-top: 0px !important;
+            border-bottom: 1px solid $lightBlack !important;
           }
         }
       }
@@ -411,22 +516,6 @@
 
         >div {
           display:block;
-
-          div.line {
-            span {
-              &.label {
-                border-bottom:1px solid $black;
-              }
-
-              &.separation {
-                border-bottom:1px solid $lightBlack;
-              }
-            }
-
-            input {
-              border-bottom:1px solid $lightBlack;
-            }
-          }
 
           &.espoir {
             div.line {
@@ -443,40 +532,30 @@
             }
           }
 
-          div.optionHide {
-            display:none;
-          }
-
-          div.optionShow {
-            display:flex;
-          }
-
-          span.option,
-          span.label {
-            &.withBorder {
-              border-bottom:1px solid $black;
-            }
-          }
-
-          span.score,
-          span.separation,
-          input {
-            &.withBorder {
-              border-bottom:1px solid $lightBlack;
-            }
-          }
-
           &:last-of-type {
             div.line {
-              span {
-                &.label,
-                &.separation {
-                  border-bottom:0px;
+              span,
+              input {
+                border-bottom: 0px;
+              }
+            }
+
+            div.subLine {
+              &:nth-of-type(2) {
+                span {
+                  border-top: 1px solid $black;
+                }
+
+                input {
+                  border-top: 1px solid $lightBlack;
                 }
               }
 
-              input {
-                border-bottom:0px;
+              &:last-of-type {
+                span,
+                input {
+                  border-bottom: 0px;
+                }
               }
             }
           }

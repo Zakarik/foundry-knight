@@ -442,8 +442,8 @@
 }
 .effetsDialog div.dialog-content div.effetCustom div.header button.ajouter {
   width: 100px;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
+  border-left: 1px solid RGB(43 42 51);
+  border-right: 1px solid RGB(43 42 51);
   background: RGB(76 74 90);
 }
 .effetsDialog div.dialog-content div.effetCustom div.header.edit input.nom {
@@ -764,6 +764,8 @@
   display: none;
 }
 .effetsDialog div.dialog-content div.effetCustom button {
+  display: grid;
+  grid-template-columns: 21px 1fr;
   border-left: 0px;
   border-top: 1px solid black;
   border-right: 0px;
@@ -773,9 +775,24 @@
   color: white;
   margin: 0px;
   cursor: pointer;
+  text-align: left;
+  align-items: center;
+  align-content: center;
 }
 .effetsDialog div.dialog-content div.effetCustom button.selected {
   background: RGB(76 74 90);
+}
+.effetsDialog div.dialog-content div.effetCustom button i {
+  font-size: 20px;
+}
+.effetsDialog div.dialog-content div.effetCustom button i.green {
+  color: #59d13e;
+}
+.effetsDialog div.dialog-content div.effetCustom button i.red {
+  color: #AF0000;
+}
+.effetsDialog div.dialog-content div.effetCustom button.ajouter, .effetsDialog div.dialog-content div.effetCustom button.update, .effetsDialog div.dialog-content div.effetCustom button.annuler {
+  grid-template-columns: 1fr;
 }
 .effetsDialog div.dialog-content div.effetCustom div.editor {
   min-height: 150px;
@@ -1560,16 +1577,28 @@
 }
 
 .rollDialog div.dialog-content {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   justify-content: space-between;
   flex-wrap: wrap;
   align-content: baseline;
-  align-items: baseline;
+  align-items: flex-start;
+  grid-gap: 2px;
+  row-gap: 2px;
+  padding-bottom: 35px;
+}
+.rollDialog div.dialog-content p {
+  display: contents;
+}
+.rollDialog div.dialog-content div.aspects {
+  grid-column: 1/7;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 2px;
 }
 .rollDialog div.dialog-content div.aspect {
-  width: calc((100% / 5) - 5px);
+  width: 100%;
   border: 1px solid RGB(87 110 178);
-  margin-bottom: 5px;
 }
 .rollDialog div.dialog-content div.aspect h2.header {
   display: block;
@@ -1590,28 +1619,432 @@
   letter-spacing: 1px;
 }
 .rollDialog div.dialog-content div.aspect button {
+  display: grid;
+  grid-template-columns: max-content 1fr max-content;
+  color: white;
+  background: RGB(76 74 90);
+  border-radius: 0px;
+  margin: 0px;
+  grid-gap: 2px;
+  align-items: center;
+  cursor: not-allowed;
+}
+.rollDialog div.dialog-content div.aspect button:not(:first-of-type) {
+  border-top: 0px;
+}
+.rollDialog div.dialog-content div.aspect button.selected {
+  background: RGB(87 110 178);
+}
+.rollDialog div.dialog-content div.aspect button.selected span.label {
+  letter-spacing: 1px;
+}
+.rollDialog div.dialog-content div.aspect button.base {
+  background: RGB(37 85 228);
+}
+.rollDialog div.dialog-content div.aspect button.base span.label {
+  letter-spacing: 1px;
+}
+.rollDialog div.dialog-content div.aspect button.wHover {
+  cursor: pointer;
+}
+.rollDialog div.dialog-content div.aspect button.wHover:hover {
+  background: white;
+  color: RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.aspect button span.label {
+  text-align: left;
+}
+.rollDialog div.dialog-content div.aspect button span.value {
+  text-align: center;
+}
+.rollDialog div.dialog-content div.wpn {
+  display: flex;
+  width: 100%;
+  border: 1px solid RGB(87 110 178);
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.rollDialog div.dialog-content div.wpn.colOne {
+  grid-column: 1/4;
+}
+.rollDialog div.dialog-content div.wpn.colTwo {
+  grid-column: 4/7;
+}
+.rollDialog div.dialog-content div.wpn.colDuo {
+  grid-column: 1/7;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 2px;
+}
+.rollDialog div.dialog-content div.wpn.colDuo h2,
+.rollDialog div.dialog-content div.wpn.colDuo h3 {
+  grid-column: 1/3;
+}
+.rollDialog div.dialog-content div.wpn h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  text-align: left;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  padding-left: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.rollDialog div.dialog-content div.wpn h2.header i {
+  cursor: pointer;
+}
+.rollDialog div.dialog-content div.wpn h3.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(43 42 51);
+  margin: 0px;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid RGB(43 42 51);
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 16px;
+  padding-left: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.rollDialog div.dialog-content div.wpn div.button {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.rollDialog div.dialog-content div.wpn div.button > button {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  grid-gap: 2px;
+  width: 100%;
   color: white;
   background: RGB(76 74 90);
   cursor: pointer;
   border-radius: 0px;
   margin: 0px;
+  text-align: left;
+  align-items: center;
 }
-.rollDialog div.dialog-content div.aspect button:not(:first-of-type) {
-  border-top: 0px;
-}
-.rollDialog div.dialog-content div.aspect button.base {
+.rollDialog div.dialog-content div.wpn div.button > button.selected {
   background: RGB(37 85 228);
-  text-decoration: underline;
   letter-spacing: 1px;
 }
-.rollDialog div.dialog-content div.aspect button.selected {
-  background: RGB(87 110 178);
-  text-decoration: underline;
-  letter-spacing: 1px;
-}
-.rollDialog div.dialog-content div.aspect button:hover {
+.rollDialog div.dialog-content div.wpn div.button > button:hover {
   background: white;
   color: RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.wpn div.data {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  align-items: flex-start;
+  border-left: 1px solid var(--color-border-light-primary);
+  border-right: 1px solid var(--color-border-light-primary);
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectDouble {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectDouble span {
+  display: grid;
+  background: RGB(76 74 90);
+  color: white;
+  width: 100%;
+  font-variant: small-caps;
+  text-align: center;
+  height: 24px;
+  align-items: center;
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectDouble select {
+  background: RGB(43 42 51);
+  text-align: center;
+  width: 100%;
+  color: white;
+  height: 24px;
+  border: 0px;
+  padding-left: 20px;
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectDouble select option {
+  background: RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectDouble.full {
+  grid-column: 1/3;
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectSimple {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectSimple select {
+  background: RGB(43 42 51);
+  text-align: center;
+  width: 100%;
+  color: white;
+  height: 24px;
+  border: 0px;
+  padding-left: 20px;
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectSimple select option {
+  background: RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectSimple.full {
+  grid-column: 1/3;
+}
+.rollDialog div.dialog-content div.wpn div.data button {
+  display: grid;
+  grid-template-columns: 21px 1fr;
+  grid-gap: 2px;
+  text-align: left;
+  border-radius: 0px;
+  background: RGB(43 42 51);
+  border-top: 1px solid RGB(76 74 90);
+  font-variant: small-caps;
+  color: white;
+  border-left: 0px;
+  border-bottom: 0px;
+  padding: 0px;
+  align-items: center;
+}
+.rollDialog div.dialog-content div.wpn div.data button.full {
+  grid-column: 1/3;
+}
+.rollDialog div.dialog-content div.wpn div.data button.selected {
+  background: RGB(76 74 90);
+  border-top: 1px solid RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.wpn div.data button.center {
+  text-align: center;
+}
+.rollDialog div.dialog-content div.wpn div.data button.roll {
+  background: RGB(76 74 90);
+  grid-template-columns: 1fr;
+}
+.rollDialog div.dialog-content div.wpn div.data button:hover {
+  background: white;
+  color: RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.wpn div.data i {
+  font-size: 20px;
+}
+.rollDialog div.dialog-content div.wpn div.data i.green {
+  color: #59d13e;
+}
+.rollDialog div.dialog-content div.wpn div.data i.red {
+  color: #AF0000;
+}
+.rollDialog div.dialog-content div.wpn div.cat {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+.rollDialog div.dialog-content div.wpn div.cat i {
+  cursor: pointer;
+}
+.rollDialog div.dialog-content div.complexe {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.rollDialog div.dialog-content div.complexe h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  text-align: left;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  padding-left: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.rollDialog div.dialog-content div.complexe h2.header i {
+  cursor: pointer;
+}
+.rollDialog div.dialog-content div.complexe div.button > button {
+  display: grid;
+  grid-template-columns: max-content 1fr max-content;
+  grid-gap: 2px;
+  width: 100%;
+  color: white;
+  background: RGB(76 74 90);
+  cursor: pointer;
+  border-radius: 0px;
+  margin: 0px;
+  text-align: left;
+  align-items: center;
+  padding-right: 0px;
+}
+.rollDialog div.dialog-content div.complexe div.button > button.selected {
+  background: RGB(37 85 228);
+  letter-spacing: 1px;
+}
+.rollDialog div.dialog-content div.complexe div.button > button.selected span {
+  letter-spacing: 0px;
+}
+.rollDialog div.dialog-content div.complexe div.button > button:hover {
+  background: white;
+  color: RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.complexe div.button > button span {
+  padding-left: 5px;
+  padding-right: 5px;
+  background: RGB(43 42 51);
+  color: white;
+  font-variant: small-caps;
+  font-size: 14px;
+  letter-spacing: 0px;
+}
+.rollDialog div.dialog-content div.complexe div.wpnComplexe {
+  border: 1px solid RGB(87 110 178);
+}
+.rollDialog div.dialog-content div.complexe div.bases {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: flex-start;
+}
+.rollDialog div.dialog-content div.complexe div.bases label {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  justify-content: space-between;
+  border: 1px solid RGB(87 110 178);
+  align-items: flex-start;
+  height: 62px;
+  border-left: 0px;
+}
+.rollDialog div.dialog-content div.complexe div.bases label span {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  height: 30px;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  font-size: 16px;
+  letter-spacing: 1px;
+  line-height: 30px;
+}
+.rollDialog div.dialog-content div.complexe div.bases label select {
+  width: 100%;
+  height: 30px;
+  padding-left: 13px;
+  border: 0px;
+  margin: 0px;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  text-align: center;
+  background: RGB(43 42 51);
+  color: white;
+  font-variant: small-caps;
+}
+.rollDialog div.dialog-content div.complexe div.bases label select option {
+  background-color: RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.complexe div.bases label:last-of-type {
+  border-right: 0px;
+}
+.rollDialog div.dialog-content div.complexe div.data {
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.rollDialog div.dialog-content div.complexe div.data label.violencebonusvariable {
+  border-left: 1px solid RGB(87 110 178);
+}
+.rollDialog div.dialog-content div.complexe div.effets {
+  display: grid;
+  width: 100%;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.rollDialog div.dialog-content div.complexe div.liste {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+  background: RGB(43 42 51);
+  align-items: flex-start;
+  align-content: flex-start;
+  height: 100%;
+}
+.rollDialog div.dialog-content div.complexe div.liste header {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  background: RGB(76 74 90);
+  height: 25px;
+  line-height: 25px;
+  font-size: 16px;
+}
+.rollDialog div.dialog-content div.complexe div.liste header span {
+  display: block;
+  width: 100%;
+  height: calc(100% - 1px);
+  color: white;
+}
+.rollDialog div.dialog-content div.complexe div.liste header span.label {
+  text-align: center;
+  font-variant: small-caps;
+}
+.rollDialog div.dialog-content div.complexe div.liste header span.score {
+  background: RGB(43 42 51);
+  font-variant: small-caps;
+  text-align: center;
+}
+.rollDialog div.dialog-content div.complexe div.liste div.block {
+  display: grid;
+  grid-gap: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+}
+.rollDialog div.dialog-content div.complexe div.liste a {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  border-radius: 5px;
+  background: RGB(76 74 90);
+  border: 1px solid RGB(76 74 90);
+  padding: 2px;
+  font-variant: small-caps;
+  font-size: 14px;
+  column-gap: 5px;
+}
+.rollDialog div.dialog-content div.complexe div.liste a.checked {
+  background: RGB(37 85 228);
+}
+.rollDialog div.dialog-content div.complexe div.liste a:hover {
+  text-shadow: none;
+  background: white;
+  color: RGB(43 42 51);
+}
+.rollDialog div.dialog-content div.complexe div.liste:not(:first-of-type) {
+  border-left: 1px solid RGB(87 110 178);
 }
 .rollDialog div.dialog-content div.details {
   display: flex;
@@ -1650,30 +2083,6 @@
   grid-template-columns: 1fr 1fr 1fr;
   align-items: flex-start;
   column-gap: 1px;
-}
-.rollDialog div.dialog-content div.bonus label {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.bonus label span {
-  display: inline-block;
-  line-height: 32px;
-  width: calc(100% - 50px);
-  background: RGB(76 74 90);
-  line-height: 27px;
-  padding-left: 5px;
-}
-.rollDialog div.dialog-content div.bonus label input {
-  width: 50px;
-  text-align: center;
-  background: RGB(43 42 51);
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  border-radius: 0px;
-  height: 32px;
 }
 .rollDialog div.dialog-content div.bonus div.styleCombat {
   position: relative;
@@ -1829,19 +2238,19 @@
   background: white;
   color: RGB(43 42 51);
 }
-.rollDialog div.dialog-content div.bonus div.pilonnage, .rollDialog div.dialog-content div.bonus div.puissant {
+.rollDialog div.dialog-content div.bonus div.puissant {
   display: none;
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
   border-top: 1px solid RGB(76 74 90);
 }
-.rollDialog div.dialog-content div.bonus div.pilonnage label, .rollDialog div.dialog-content div.bonus div.puissant label {
+.rollDialog div.dialog-content div.bonus div.puissant label {
   height: 30px;
   line-height: 30px;
   border: 0px;
 }
-.rollDialog div.dialog-content div.bonus div.pilonnage select, .rollDialog div.dialog-content div.bonus div.puissant select {
+.rollDialog div.dialog-content div.bonus div.puissant select {
   display: inline-block;
   width: 100%;
   height: 33px;
@@ -1861,7 +2270,7 @@
   border-top: 1px solid RGB(76 74 90);
   border-bottom: 1px solid RGB(76 74 90);
 }
-.rollDialog div.dialog-content div.bonus div.pilonnage select option, .rollDialog div.dialog-content div.bonus div.puissant select option {
+.rollDialog div.dialog-content div.bonus div.puissant select option {
   background: RGB(43 42 51);
 }
 .rollDialog div.dialog-content div.bonus div.noOd {
@@ -1889,192 +2298,51 @@
   background: white;
   color: RGB(43 42 51);
 }
-.rollDialog div.dialog-content div.wpn {
-  display: flex;
-  width: calc((100% / 2) - 5px);
+.rollDialog div.dialog-content div.scoredice {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  width: 100%;
+  justify-content: space-between;
   border: 1px solid RGB(87 110 178);
-  flex-wrap: wrap;
-  margin-bottom: 5px;
-  align-items: flex-start;
-  align-content: flex-start;
+  align-items: center;
+  grid-gap: 2px;
+  height: 32px;
 }
-.rollDialog div.dialog-content div.wpn h2.header {
-  display: block;
-  position: relative;
+.rollDialog div.dialog-content div.scoredice span {
+  display: grid;
   width: 100%;
-  text-transform: uppercase;
-  text-align: left;
-  color: white;
-  background: RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  margin: 0px;
-  border: 0px;
-  line-height: 21px;
-  padding-top: 2px;
-  padding-left: 5px;
-  font-size: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-.rollDialog div.dialog-content div.wpn h2.header i {
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.wpn div.button {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-.rollDialog div.dialog-content div.wpn div.button button {
-  width: 100%;
-  color: white;
   background: RGB(76 74 90);
-  cursor: pointer;
-  border-radius: 0px;
-  margin: 0px;
-}
-.rollDialog div.dialog-content div.wpn div.button button:not(:first-of-type):not(:nth-of-type(2)) {
-  border-top: 0px;
-}
-.rollDialog div.dialog-content div.wpn div.button button:nth-of-type(even) {
-  border-left: 0px;
-}
-.rollDialog div.dialog-content div.wpn div.button button.selected {
-  background: RGB(37 85 228);
-  text-decoration: underline;
-  letter-spacing: 1px;
-}
-.rollDialog div.dialog-content div.wpn div.button button:hover {
-  background: white;
-  color: RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.params {
-  display: flex;
-  width: 50%;
-  justify-content: space-between;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.params span {
-  width: 50%;
-  border: 0px;
-  text-align: left;
-  justify-content: left;
   padding-left: 5px;
-  background: RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.params select {
-  width: 50%;
-  text-align: center;
-  padding: 0px;
-  border-radius: 0px;
-  border: 0px;
-  background: transparent;
-  color: white;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.params select option {
-  background: RGB(43 42 51);
-  color: white;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.params:first-of-type {
-  border-right: 1px solid RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.paramsTwoLine {
-  display: flex;
-  width: 50%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.paramsTwoLine span {
-  width: 100%;
-  border: 0px;
-  text-align: center;
-  justify-content: center;
-  padding-left: 5px;
-  background: RGB(76 74 90);
-  line-height: 27px;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.paramsTwoLine select {
-  width: 100%;
-  text-align: center;
-  padding: 0px;
-  border-radius: 0px;
-  border: 0px;
-  background: transparent;
-  color: white;
-  line-height: 27px;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.paramsTwoLine select option {
-  background: RGB(43 42 51);
-  color: white;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.paramsTwoLine:not(:first-of-type) span {
-  border-left: 1px solid RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams label.paramsTwoLine:not(:first-of-type) select {
-  border-left: 1px solid RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams select.choixmain,
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams select.choixmunition {
-  border: 0px;
-  width: 100%;
-  color: white;
-  font-variant: small-caps;
-  text-align: center;
-}
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams select.choixmain option,
-.rollDialog div.dialog-content div.wpn div.button div.subButtons div.lineParams select.choixmunition option {
-  background: RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.wpn div.button span {
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  line-height: 20px;
-  font-size: 15px;
-  font-variant: small-caps;
-  color: white;
-  background: RGB(43 42 51);
-  border: 1px solid RGB(76 74 90);
-  word-break: break-word;
+  height: 100%;
   align-items: center;
 }
-.rollDialog div.dialog-content div.wpn div.button span.relance {
-  width: 100%;
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.wpn div.button span.selected {
-  width: 100%;
+.rollDialog div.dialog-content div.scoredice label {
+  display: grid;
+  grid-template-columns: 1fr max-content 1fr;
   background: RGB(76 74 90);
-  border: 1px solid RGB(43 42 51);
-  border-top: 0px;
-  cursor: pointer;
+  height: 30px;
+  align-items: center;
 }
-.rollDialog div.dialog-content div.wpn div.button span.unselected {
-  display: none;
-  border-top: 0px;
-  cursor: pointer;
-  opacity: 0.5;
+.rollDialog div.dialog-content div.scoredice label span {
+  margin: 0px;
+  padding: 0px;
+  background: RGB(43 42 51);
 }
-.rollDialog div.dialog-content div.wpn div.blockBtn {
-  display: flex;
+.rollDialog div.dialog-content div.scoredice label input {
   width: 100%;
-  justify-content: space-between;
-  min-height: 34px;
+  background: RGB(43 42 51);
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  border-radius: 0px;
+  height: 100%;
+  min-width: 0px;
 }
-.rollDialog div.dialog-content div.wpn.fullWpn {
-  width: 100%;
+.rollDialog div.dialog-content div.scoredice label input:first-of-type {
+  text-align: right;
+}
+.rollDialog div.dialog-content div.scoredice label input:last-of-type {
+  text-align: left;
 }
 .rollDialog div.dialog-content div.wpnMA {
   display: flex;
@@ -2369,476 +2637,284 @@
 .rollDialog div.dialog-content div.armesimprovisees div.block.show {
   display: block !important;
 }
-.rollDialog div.dialog-content div.grenades {
-  display: flex;
+.rollDialog div.dialog-content div.pilonnage, .rollDialog div.dialog-content div.puissant, .rollDialog div.dialog-content div.suppression {
+  display: grid;
   width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
   border: 1px solid RGB(87 110 178);
-  flex-wrap: wrap;
-  margin-bottom: 5px;
-  align-items: flex-start;
-  align-content: flex-start;
-  justify-content: space-between;
+  height: 66px;
 }
-.rollDialog div.dialog-content div.grenades h2.header {
-  display: block;
-  position: relative;
-  width: 100%;
-  text-transform: uppercase;
-  text-align: left;
-  color: white;
-  background: RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  margin: 0px;
-  border: 0px;
-  line-height: 21px;
-  padding-top: 2px;
-  padding-left: 5px;
-  font-size: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-.rollDialog div.dialog-content div.grenades h2.header i {
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.grenades div.button {
-  display: flex;
-  width: calc(50% - 10px);
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-.rollDialog div.dialog-content div.grenades div.button button {
-  width: 100%;
-  color: white;
-  background: RGB(76 74 90);
-  cursor: pointer;
-  border-radius: 0px;
-  margin: 0px;
-}
-.rollDialog div.dialog-content div.grenades div.button button:not(:first-of-type):not(:nth-of-type(2)) {
-  border-top: 0px;
-}
-.rollDialog div.dialog-content div.grenades div.button button:nth-of-type(even) {
-  border-left: 0px;
-}
-.rollDialog div.dialog-content div.grenades div.button button.selected {
-  background: RGB(37 85 228);
-  text-decoration: underline;
-  letter-spacing: 1px;
-}
-.rollDialog div.dialog-content div.grenades div.button button:hover {
-  background: white;
-  color: RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.params {
-  display: flex;
-  width: 50%;
-  justify-content: space-between;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.params span {
-  width: 50%;
-  border: 0px;
-  text-align: left;
-  justify-content: left;
-  padding-left: 5px;
-  background: RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.params select {
-  width: 50%;
-  text-align: center;
-  padding: 0px;
-  border-radius: 0px;
-  border: 0px;
-  background: transparent;
-  color: white;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.params select option {
-  background: RGB(43 42 51);
-  color: white;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.params:first-of-type {
-  border-right: 1px solid RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.paramsTwoLine {
-  display: flex;
-  width: 50%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.paramsTwoLine span {
-  width: 100%;
-  border: 0px;
-  text-align: center;
-  justify-content: center;
-  padding-left: 5px;
-  background: RGB(76 74 90);
-  line-height: 27px;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.paramsTwoLine select {
-  width: 100%;
-  text-align: center;
-  padding: 0px;
-  border-radius: 0px;
-  border: 0px;
-  background: transparent;
-  color: white;
-  line-height: 27px;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.paramsTwoLine select option {
-  background: RGB(43 42 51);
-  color: white;
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.paramsTwoLine:not(:first-of-type) span {
-  border-left: 1px solid RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.grenades div.button div.subButtons div.lineParams label.paramsTwoLine:not(:first-of-type) select {
-  border-left: 1px solid RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.grenades div.button span {
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  line-height: 16px;
-  font-size: 13px;
-  font-variant: small-caps;
-  color: white;
-  background: RGB(43 42 51);
-  border: 1px solid RGB(76 74 90);
-  word-break: break-word;
-  align-items: center;
-}
-.rollDialog div.dialog-content div.grenades div.button span.relance {
-  width: 100%;
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.grenades div.button span.selected {
-  width: 100%;
-  background: RGB(76 74 90);
-  border-top: 0px;
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.grenades div.button span.unselected {
-  display: none;
-  border-top: 0px;
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.grenades div.blockBtn {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  min-height: 34px;
-}
-.rollDialog div.dialog-content div.longbow, .rollDialog div.dialog-content div.special {
-  display: flex;
-  width: 100%;
-  border: 1px solid RGB(87 110 178);
-  flex-wrap: wrap;
-  margin-bottom: 5px;
-  align-items: flex-start;
-  align-content: flex-start;
-  justify-content: space-between;
-}
-.rollDialog div.dialog-content div.longbow h2.header, .rollDialog div.dialog-content div.special h2.header {
-  display: block;
-  position: relative;
-  width: 100%;
-  text-transform: uppercase;
-  text-align: left;
-  color: white;
-  background: RGB(87 110 178);
-  border-left: 1px solid RGB(87 110 178);
-  border-right: 1px solid RGB(87 110 178);
-  margin: 0px;
-  border: 0px;
-  line-height: 21px;
-  padding-top: 2px;
-  padding-left: 5px;
-  font-size: 20px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-.rollDialog div.dialog-content div.longbow h2.header i, .rollDialog div.dialog-content div.special h2.header i {
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.longbow div.button, .rollDialog div.dialog-content div.special div.button {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-.rollDialog div.dialog-content div.longbow div.button button, .rollDialog div.dialog-content div.special div.button button {
-  position: relative;
-  width: 100%;
-  color: white;
-  background: RGB(76 74 90);
-  cursor: pointer;
-  border-radius: 0px;
-  margin: 0px;
-}
-.rollDialog div.dialog-content div.longbow div.button button:not(:first-of-type):not(:nth-of-type(2)), .rollDialog div.dialog-content div.special div.button button:not(:first-of-type):not(:nth-of-type(2)) {
-  border-top: 0px;
-}
-.rollDialog div.dialog-content div.longbow div.button button:nth-of-type(even), .rollDialog div.dialog-content div.special div.button button:nth-of-type(even) {
-  border-left: 0px;
-}
-.rollDialog div.dialog-content div.longbow div.button button.selected, .rollDialog div.dialog-content div.special div.button button.selected {
-  background: RGB(37 85 228);
-  text-decoration: underline;
-  letter-spacing: 1px;
-}
-.rollDialog div.dialog-content div.longbow div.button button:hover, .rollDialog div.dialog-content div.special div.button button:hover {
-  background: white;
-  color: RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.longbow div.button button span, .rollDialog div.dialog-content div.special div.button button span {
-  display: inline;
-  position: absolute;
-  width: fit-content;
-  background: RGB(76 74 90);
-  border-left: 1px solid RGB(43 42 51);
-  right: 0px;
-  font-size: 14px;
-  height: 29px;
-  line-height: 29px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.rollDialog div.dialog-content div.longbow div.button div.data, .rollDialog div.dialog-content div.special div.button div.data {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.rollDialog div.dialog-content div.longbow div.button div.data label, .rollDialog div.dialog-content div.special div.button div.data label {
-  display: flex;
-  flex-wrap: wrap;
-  width: calc(100% / 3);
-}
-.rollDialog div.dialog-content div.longbow div.button div.data label span, .rollDialog div.dialog-content div.special div.button div.data label span {
+.rollDialog div.dialog-content div.pilonnage span.label, .rollDialog div.dialog-content div.puissant span.label, .rollDialog div.dialog-content div.suppression span.label {
+  grid-column: 1/4;
   display: inline-block;
   width: 100%;
   text-align: center;
-  height: 26px;
+  height: 32px;
   font-variant: small-caps;
+  background: RGB(76 74 90);
   font-size: 16px;
   letter-spacing: 1px;
-  line-height: 26px;
-  background: RGB(76 74 90);
+  line-height: 32px;
+  border-bottom: 1px solid black;
 }
-.rollDialog div.dialog-content div.longbow div.button div.data label select, .rollDialog div.dialog-content div.special div.button div.data label select {
+.rollDialog div.dialog-content div.pilonnage span.sublabel, .rollDialog div.dialog-content div.puissant span.sublabel, .rollDialog div.dialog-content div.suppression span.sublabel {
+  display: grid;
   width: 100%;
-  text-align: center;
-  padding: 0px;
-  border-radius: 0px;
-  border: 0px;
-  background: transparent;
-  color: white;
-  padding-left: 10px;
-}
-.rollDialog div.dialog-content div.longbow div.button div.data label select option, .rollDialog div.dialog-content div.special div.button div.data label select option {
-  background: RGB(43 42 51);
-  color: white;
-}
-.rollDialog div.dialog-content div.longbow div.button div.data label:not(:first-of-type) span, .rollDialog div.dialog-content div.special div.button div.data label:not(:first-of-type) span {
-  border-left: 1px solid RGB(43 42 51);
-}
-.rollDialog div.dialog-content div.longbow div.button div.data label:not(:first-of-type) select, .rollDialog div.dialog-content div.special div.button div.data label:not(:first-of-type) select {
-  border-left: 1px solid RGB(76 74 90);
-}
-.rollDialog div.dialog-content div.longbow div.button div.data div.blockBtn, .rollDialog div.dialog-content div.special div.button div.data div.blockBtn {
-  display: flex;
-  width: calc(100% / 3);
-  justify-content: space-between;
-  min-height: 34px;
-}
-.rollDialog div.dialog-content div.longbow div.button div.data div.blockBtn span, .rollDialog div.dialog-content div.special div.button div.data div.blockBtn span {
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  line-height: 16px;
-  font-size: 13px;
-  font-variant: small-caps;
-  color: white;
-  background: RGB(43 42 51);
-  border: 1px solid RGB(76 74 90);
-  word-break: break-word;
+  background: RGB(76 74 90);
+  padding-left: 5px;
+  height: 100%;
   align-items: center;
 }
-.rollDialog div.dialog-content div.longbow div.button div.data div.blockBtn span.relance, .rollDialog div.dialog-content div.special div.button div.data div.blockBtn span.relance {
+.rollDialog div.dialog-content div.pilonnage select, .rollDialog div.dialog-content div.puissant select, .rollDialog div.dialog-content div.suppression select {
   width: 100%;
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.longbow div.button div.data div.blockBtn span.selected, .rollDialog div.dialog-content div.special div.button div.data div.blockBtn span.selected {
-  width: 100%;
-  background: RGB(76 74 90);
-  border: 1px solid RGB(43 42 51);
-  border-top: 0px;
-  cursor: pointer;
-}
-.rollDialog div.dialog-content div.longbow div.button div.data div.blockBtn span.unselected, .rollDialog div.dialog-content div.special div.button div.data div.blockBtn span.unselected {
-  display: none;
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets, .rollDialog div.dialog-content div.special div.button div.effets {
-  display: flex;
-  position: relative;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
+  height: 100%;
+  padding-left: 13px;
+  border: 0px;
+  margin: 0px;
+  padding-top: 0px;
   padding-right: 0px;
   padding-bottom: 0px;
-  padding-left: 0px;
-  border-top: 1px solid RGB(76 74 90);
+  text-align: center;
+  background: RGB(43 42 51);
+  color: white;
+  font-variant: small-caps;
 }
-.rollDialog div.dialog-content div.longbow div.button div.effets h3, .rollDialog div.dialog-content div.special div.button div.effets h3 {
-  display: flex;
-  position: relative;
+.rollDialog div.dialog-content div.pilonnage select option, .rollDialog div.dialog-content div.puissant select option, .rollDialog div.dialog-content div.suppression select option {
+  background: RGB(43 42 51);
+  color: white;
+}
+.rollDialog div.dialog-content div.pilonnage input, .rollDialog div.dialog-content div.puissant input, .rollDialog div.dialog-content div.suppression input {
   width: 100%;
   text-align: center;
-  justify-content: center;
-  line-height: 26px;
-  height: 26px;
-  border-bottom: 0px;
-  background: RGB(76 74 90);
-  margin-bottom: 0px;
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets h3 span, .rollDialog div.dialog-content div.special div.button div.effets h3 span {
-  display: inline;
-  position: absolute;
-  width: fit-content;
-  background: RGB(76 74 90);
-  border-left: 1px solid RGB(43 42 51);
-  right: 0px;
-  font-size: 14px;
-  height: 26px;
-  line-height: 26px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste, .rollDialog div.dialog-content div.special div.button div.effets div.liste {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  width: 100%;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div, .rollDialog div.dialog-content div.special div.button div.effets div.liste div {
-  position: relative;
-  width: max-content;
-  padding-left: 15px;
-  padding-right: 25px;
-  background: RGB(76 74 90);
-  border-radius: 5px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  margin-top: 5px;
-  border: 1px solid black;
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div span.label, .rollDialog div.dialog-content div.special div.button div.effets div.liste div span.label {
-  font-variant: small-caps;
-  color: white;
-  line-height: 20px;
-}
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div img.info, .rollDialog div.dialog-content div.special div.button div.effets div.liste div img.info {
-  display: inline-block;
-  position: absolute;
-  width: 15px;
-  height: 15px;
+  background: RGB(43 42 51);
   border: 0px;
-  background: RGB(76 74 90);
-  top: 4px;
-  right: 2px;
-  cursor: pointer;
+  margin: 0px;
+  padding: 0px;
+  border-radius: 0px;
+  height: 100%;
 }
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div img.info.clicked, .rollDialog div.dialog-content div.longbow div.button div.effets div.liste div img.info:hover, .rollDialog div.dialog-content div.special div.button div.effets div.liste div img.info.clicked, .rollDialog div.dialog-content div.special div.button div.effets div.liste div img.info:hover {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+.rollDialog div.dialog-content div.pilonnage label.select, .rollDialog div.dialog-content div.puissant label.select, .rollDialog div.dialog-content div.suppression label.select {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr;
 }
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div span.hideInfo, .rollDialog div.dialog-content div.special div.button div.effets div.liste div span.hideInfo {
-  display: none;
-  position: absolute;
-  background: RGB(76 74 90);
-  border: 1px solid black;
-  padding: 5px;
-  z-index: 90;
-  margin-top: -2px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  right: 0;
-  top: 100%;
-  text-align: justify;
-  word-break: break-word;
+.rollDialog div.dialog-content div.pilonnage label.score, .rollDialog div.dialog-content div.puissant label.score, .rollDialog div.dialog-content div.suppression label.score {
+  grid-column: 2/4;
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  column-gap: 2px;
+  border: 0px;
+  height: 32px;
 }
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste a.edit, .rollDialog div.dialog-content div.special div.button div.effets div.liste a.edit {
-  position: absolute;
-  bottom: 0px;
-  right: 5px;
-  color: white;
-  font-variant: small-caps;
+.rollDialog div.dialog-content div.allCol {
+  grid-column: 1/7;
 }
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div, .rollDialog div.dialog-content div.special div.button div.effets div.liste div {
-  background: RGB(43 42 51);
-  cursor: pointer;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 0px;
-  padding-right: 17px;
+.rollDialog div.dialog-content div.twoCol {
+  grid-template-columns: 1fr 1fr;
 }
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div:hover, .rollDialog div.dialog-content div.special div.button div.effets div.liste div:hover {
-  box-shadow: 1px 1px 4px 2px RGB(87 110 178);
+.rollDialog div.dialog-content div.twoCol div.liste div.block {
+  grid-template-columns: 1fr 1fr 1fr;
 }
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div span.label, .rollDialog div.dialog-content div.special div.button div.effets div.liste div span.label {
-  display: inline-block;
-  line-height: 26px;
-  padding-left: 15px;
-  padding-right: 8px;
+.rollDialog div.dialog-content div.threeCol {
+  grid-template-columns: 1fr 1fr 1fr;
 }
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div img.info, .rollDialog div.dialog-content div.special div.button div.effets div.liste div img.info {
-  background: RGB(43 42 51);
+.rollDialog div.dialog-content div.threeCol div.liste div.block {
+  grid-template-columns: 1fr 1fr;
 }
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div.selected, .rollDialog div.dialog-content div.special div.button div.effets div.liste div.selected {
-  background: RGB(76 74 90);
+.rollDialog div.dialog-content div.colOne {
+  grid-column: 1/3;
 }
-.rollDialog div.dialog-content div.longbow div.button div.effets div.liste div.selected img.info, .rollDialog div.dialog-content div.special div.button div.effets div.liste div.selected img.info {
-  background: RGB(76 74 90);
+.rollDialog div.dialog-content div.colTwo {
+  grid-column: 3/5;
 }
-.rollDialog div.dialog-content div.longbow div.button div.effets.w33, .rollDialog div.dialog-content div.special div.button div.effets.w33 {
-  width: calc(100% / 3);
+.rollDialog div.dialog-content div.colThree {
+  grid-column: 5/7;
 }
-.rollDialog div.dialog-content div.longbow div.button div.effets.w50, .rollDialog div.dialog-content div.special div.button div.effets.w50 {
-  width: calc(100% / 2);
+.rollDialog div.dialog-content div.colTwoFour {
+  grid-column: 2/4;
 }
-.rollDialog div.dialog-content div.longbow div.button div.effets:not(:first-of-type) h3, .rollDialog div.dialog-content div.special div.button div.effets:not(:first-of-type) h3 {
-  border-left: 1px solid RGB(43 42 51);
+.rollDialog div.dialog-content div.colTwoFive {
+  grid-column: 2/5;
 }
-.rollDialog div.dialog-content div.longbow div.button div.effets:not(:first-of-type) div.liste, .rollDialog div.dialog-content div.special div.button div.effets:not(:first-of-type) div.liste {
-  border-left: 1px solid RGB(76 74 90);
+.rollDialog div.dialog-content div.colFiveSeven {
+  grid-column: 5/7;
 }
-.rollDialog div.dialog-content div.longbow div.blockBtn, .rollDialog div.dialog-content div.special div.blockBtn {
-  display: flex;
+.rollDialog div.dialog-content div.rowFourTwo {
+  grid-row: 4/6;
+}
+.rollDialog div.dialog-content div.rowThree {
+  grid-row: 3;
+}
+.rollDialog div.dialog-content div.rowFour {
+  grid-row: 4;
+}
+.rollDialog div.dialog-content div.rowFive {
+  grid-row: 5;
+}
+.rollDialog div.dialog-content div.rowSix {
+  grid-row: 6;
+}
+.rollDialog div.dialog-content label.colOne {
+  grid-column: 1/3;
+}
+.rollDialog div.dialog-content label.colTwo {
+  grid-column: 3/5;
+}
+.rollDialog div.dialog-content label.colThree {
+  grid-column: 5/7;
+}
+.rollDialog div.dialog-content label.colTwoFour {
+  grid-column: 2/4;
+}
+.rollDialog div.dialog-content label.colTwoFive {
+  grid-column: 2/5;
+}
+.rollDialog div.dialog-content label.colFiveSeven {
+  grid-column: 5/7;
+}
+.rollDialog div.dialog-content label.rowFourTwo {
+  grid-row: 4/6;
+}
+.rollDialog div.dialog-content label.rowThree {
+  grid-row: 3;
+}
+.rollDialog div.dialog-content label.rowFour {
+  grid-row: 4;
+}
+.rollDialog div.dialog-content label.rowFive {
+  grid-row: 5;
+}
+.rollDialog div.dialog-content label.rowSix {
+  grid-row: 6;
+}
+.rollDialog div.dialog-content label.score {
+  display: grid;
+  grid-template-columns: 1fr 50px;
   width: 100%;
   justify-content: space-between;
+  border: 1px solid RGB(87 110 178);
+  align-items: center;
+  grid-gap: 2px;
+  height: 30px;
 }
-.rollDialog div.dialog-content div.special div.button div.effets div.liste {
-  height: calc(100% - 26px);
+.rollDialog div.dialog-content label.score span {
+  display: grid;
+  width: 100%;
+  background: RGB(76 74 90);
+  padding-left: 5px;
+  height: 100%;
+  align-items: center;
 }
-.rollDialog div.dialog-content div.borderNone {
-  border: none;
+.rollDialog div.dialog-content label.score input {
+  width: 100%;
+  text-align: center;
+  background: RGB(43 42 51);
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  border-radius: 0px;
+  height: 100%;
+}
+.rollDialog div.dialog-content label.selectWithInfo, .rollDialog div.dialog-content label.precis {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  justify-content: space-between;
+  border: 1px solid RGB(87 110 178);
+  align-items: center;
+  height: 66px;
+}
+.rollDialog div.dialog-content label.selectWithInfo span.label, .rollDialog div.dialog-content label.precis span.label {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  height: 31px;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  font-size: 16px;
+  letter-spacing: 1px;
+  line-height: 31px;
+}
+.rollDialog div.dialog-content label.selectWithInfo span.info, .rollDialog div.dialog-content label.precis span.info {
+  display: inline-block;
+  position: absolute;
+  width: 21px;
+  height: 21px;
+  line-height: 21px;
+  font-size: 15px;
+  border: 1px solid RGB(43 42 51);
+  border-radius: 50%;
+  text-align: center;
+  background: RGB(76 74 90);
+  bottom: 5px;
+  left: 5px;
+  cursor: pointer;
+}
+.rollDialog div.dialog-content label.selectWithInfo span.info:hover, .rollDialog div.dialog-content label.precis span.info:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+.rollDialog div.dialog-content label.selectWithInfo span.hideInfo, .rollDialog div.dialog-content label.precis span.hideInfo {
+  position: absolute;
+  width: 400px;
+  height: max-content;
+  border: 1px solid black;
+  background: RGB(43 42 51);
+  text-align: justify;
+  left: 30px;
+  z-index: 90;
+  border-radius: 10px;
+  color: white;
+  padding: 2px;
+}
+.rollDialog div.dialog-content label.selectWithInfo select, .rollDialog div.dialog-content label.precis select {
+  width: 100%;
+  height: 31px;
+  padding-left: 13px;
+  border: 0px;
+  margin: 0px;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  text-align: center;
+  background: RGB(43 42 51);
+  color: white;
+  font-variant: small-caps;
+}
+.rollDialog div.dialog-content label.selectWithInfo select option, .rollDialog div.dialog-content label.precis select option {
+  background-color: RGB(43 42 51);
+}
+.rollDialog div.dialog-content label.btn {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr;
+  border: 1px solid RGB(87 110 178);
+}
+.rollDialog div.dialog-content label.btn button.btn {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  grid-gap: 2px;
+  width: 100%;
+  color: white;
+  background: RGB(43 42 51);
+  cursor: pointer;
+  border-radius: 0px;
+  margin: 0px;
+  text-align: left;
+  align-items: center;
+  height: 30px;
+  line-height: 28px;
+}
+.rollDialog div.dialog-content label.btn button.selected {
+  background: RGB(37 85 228);
+  letter-spacing: 1px;
+}
+.rollDialog div.dialog-content label.btn button:hover {
+  background: white;
+  color: RGB(43 42 51);
 }
 .rollDialog div.dialog-content input.label {
+  grid-column: 1/7;
   margin: 0px;
   border-radius: 0px;
   font-variant: small-caps;
@@ -2854,6 +2930,9 @@
 }
 .rollDialog div.dialog-buttons {
   flex: 0;
+  position: absolute;
+  bottom: 5px;
+  width: calc(100% - 27px);
 }
 .rollDialog div.dialog-buttons button {
   color: white;
@@ -3729,7 +3808,217 @@
   margin-top: 10px;
 }
 
-.blessure h2.header,
+.blessure h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.blessure h2.header .headerScore {
+  position: absolute;
+  width: 40px;
+  background: RGB(76 74 90);
+  line-height: 21px;
+  text-align: center;
+  right: 1px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 1px;
+}
+.blessure h2.header .headerQuantity {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 48px;
+  background: RGB(76 74 90);
+  line-height: 22px;
+  height: 22px;
+  text-align: center;
+  right: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 0px;
+}
+.blessure h2.header .headerQuantity input {
+  text-align: center;
+  width: 20px;
+  height: 22px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
+}
+.blessure h2.header .headerQuantity span {
+  width: 8px;
+  line-height: 22px;
+  color: white;
+}
+.blessure h2.header a.verrouillage {
+  position: absolute;
+  right: 5px;
+  width: max-content;
+  line-height: 21px;
+  color: white;
+  font-variant: small-caps;
+  font-size: 12px;
+}
+.blessure h2.header a.verrouillage:hover {
+  text-shadow: 0 0 10px white;
+}
+.blessure h2.header .far {
+  cursor: pointer;
+}
+.blessure header.sheet-header {
+  flex: none;
+}
+.blessure header.sheet-header h1.charname {
+  width: 100%;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+}
+.blessure header.sheet-header h1.charname input[type=text] {
+  margin: 0px;
+  width: 100%;
+  text-align: center;
+  border-top: 0px;
+  border-right: 0px;
+  border-left: 0px;
+  border-radius: 0px;
+  border-width: unset;
+  border-color: white;
+  background: transparent;
+}
+.blessure div.main {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.blessure div.main .button {
+  width: calc(50% - 5px);
+  line-height: 27px;
+  color: white;
+  text-align: center;
+  padding: 0px;
+  border-radius: 0px;
+  margin: 0px;
+  cursor: pointer;
+}
+.blessure div.main .button.unclicked {
+  background: RGB(43 42 51);
+  border: 2px solid RGB(76 74 90);
+}
+.blessure div.main .button.clicked {
+  background: RGB(76 74 90);
+  border: 2px solid RGB(43 42 51);
+}
+.blessure div.main .button:first-of-type {
+  margin-right: auto;
+}
+.blessure div.main .button:last-of-type {
+  margin-left: auto;
+}
+.blessure div.main div.aspect {
+  display: flex;
+  width: calc(50% - 5px);
+  flex: none;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  background: RGB(76 74 90);
+  border: 1px solid RGB(87 110 178);
+  margin-top: 5px;
+}
+.blessure div.main div.aspect input[type=number].aspect {
+  width: 25%;
+  height: 81px;
+  border-left: 0px;
+  border-top: 0px;
+  border-bottom: 0px;
+  border-right: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+  text-align: center;
+  background: RGB(43 42 51);
+  font-size: 50px;
+}
+.blessure div.main div.aspect div.caracteristiques {
+  display: flex;
+  width: 75%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.blessure div.main div.aspect div.caracteristiques div.line {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.blessure div.main div.aspect div.caracteristiques div.line label.carac {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  line-height: 26px;
+  border-top: 0px;
+  border-left: 0px;
+  border-bottom: 0px;
+  border-right: 1px solid RGB(76 74 90);
+}
+.blessure div.main div.aspect div.caracteristiques div.line label.carac span {
+  width: calc(100% - 50px);
+  padding-left: 5px;
+}
+.blessure div.main div.aspect div.caracteristiques div.line label.carac input {
+  width: 50px;
+  text-align: center;
+  border-radius: 0px;
+  background: RGB(43 42 51);
+}
+.blessure div.main div.aspect div.caracteristiques div.line:not(:last-of-type) span {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.blessure div.main div.aspect div.caracteristiques div.line:not(:last-of-type) input {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: RGB(76 74 90);
+}
+.blessure div.main div.aspect div.caracteristiques div.line:last-of-type span {
+  border-bottom: 0px;
+}
+.blessure div.main div.aspect div.caracteristiques div.line:last-of-type input {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+}
+.blessure div.main div.aspect:not(:last-of-type) {
+  margin-bottom: 5px;
+}
+.blessure div.main div.aspect:not(:last-of-type):nth-of-type(odd) {
+  margin-right: auto;
+}
+.blessure div.main div.aspect:not(:last-of-type):nth-of-type(even) {
+  margin-left: auto;
+}
+.blessure div.description {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .trauma h2.header {
   display: block;
   position: relative;
@@ -3748,7 +4037,6 @@
   font-weight: bold;
   letter-spacing: 1px;
 }
-.blessure h2.header .headerScore,
 .trauma h2.header .headerScore {
   position: absolute;
   width: 40px;
@@ -3760,7 +4048,6 @@
   font-weight: normal;
   top: 1px;
 }
-.blessure h2.header .headerQuantity,
 .trauma h2.header .headerQuantity {
   position: absolute;
   display: flex;
@@ -3775,7 +4062,6 @@
   font-weight: normal;
   top: 0px;
 }
-.blessure h2.header .headerQuantity input,
 .trauma h2.header .headerQuantity input {
   text-align: center;
   width: 20px;
@@ -3785,13 +4071,11 @@
   padding: 0px;
   background: transparent;
 }
-.blessure h2.header .headerQuantity span,
 .trauma h2.header .headerQuantity span {
   width: 8px;
   line-height: 22px;
   color: white;
 }
-.blessure h2.header a.verrouillage,
 .trauma h2.header a.verrouillage {
   position: absolute;
   right: 5px;
@@ -3801,26 +4085,21 @@
   font-variant: small-caps;
   font-size: 12px;
 }
-.blessure h2.header a.verrouillage:hover,
 .trauma h2.header a.verrouillage:hover {
   text-shadow: 0 0 10px white;
 }
-.blessure h2.header .far,
 .trauma h2.header .far {
   cursor: pointer;
 }
-.blessure header.sheet-header,
 .trauma header.sheet-header {
   flex: none;
 }
-.blessure header.sheet-header h1.charname,
 .trauma header.sheet-header h1.charname {
   width: 100%;
   border: 0px;
   margin: 0px;
   padding: 0px;
 }
-.blessure header.sheet-header h1.charname input[type=text],
 .trauma header.sheet-header h1.charname input[type=text] {
   margin: 0px;
   width: 100%;
@@ -3833,36 +4112,33 @@
   border-color: white;
   background: transparent;
 }
-.blessure div.main,
 .trauma div.main {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
   width: 100%;
   justify-content: center;
   flex-wrap: wrap;
   align-items: flex-start;
   align-content: flex-start;
 }
-.blessure div.main div.gain,
 .trauma div.main div.gain {
   display: flex;
   width: 100%;
 }
-.blessure div.main div.gain label,
 .trauma div.main div.gain label {
   display: flex;
   justify-content: space-between;
-  width: calc(50% - 5px);
+  width: 100%;
   line-height: 26px;
   border: 1px solid RGB(87 110 178);
   margin-right: auto;
 }
-.blessure div.main div.gain label span,
 .trauma div.main div.gain label span {
   width: calc(100% - 50px);
   padding-left: 5px;
   background: RGB(76 74 90);
 }
-.blessure div.main div.gain label input,
 .trauma div.main div.gain label input {
   width: 50px;
   text-align: center;
@@ -3872,48 +4148,16 @@
   border-radius: 0px;
   background: RGB(43 42 51);
 }
-.blessure div.main .button,
-.trauma div.main .button {
-  width: calc(50% - 5px);
-  line-height: 27px;
-  color: white;
-  text-align: center;
-  padding: 0px;
-  border-radius: 0px;
-  margin: 0px;
-  cursor: pointer;
-}
-.blessure div.main .button.unclicked,
-.trauma div.main .button.unclicked {
-  background: RGB(43 42 51);
-  border: 2px solid RGB(76 74 90);
-}
-.blessure div.main .button.clicked,
-.trauma div.main .button.clicked {
-  background: RGB(76 74 90);
-  border: 2px solid RGB(43 42 51);
-}
-.blessure div.main .button:first-of-type,
-.trauma div.main .button:first-of-type {
-  margin-right: auto;
-}
-.blessure div.main .button:last-of-type,
-.trauma div.main .button:last-of-type {
-  margin-left: auto;
-}
-.blessure div.main div.aspect,
 .trauma div.main div.aspect {
   display: flex;
-  width: calc(50% - 5px);
+  width: 100%;
   flex: none;
   align-items: flex-start;
   align-content: flex-start;
   flex-wrap: wrap;
   background: RGB(76 74 90);
   border: 1px solid RGB(87 110 178);
-  margin-top: 5px;
 }
-.blessure div.main div.aspect input[type=number].aspect,
 .trauma div.main div.aspect input[type=number].aspect {
   width: 25%;
   height: 81px;
@@ -3926,20 +4170,17 @@
   background: RGB(43 42 51);
   font-size: 50px;
 }
-.blessure div.main div.aspect div.caracteristiques,
 .trauma div.main div.aspect div.caracteristiques {
   display: flex;
   width: 75%;
   justify-content: space-between;
   flex-wrap: wrap;
 }
-.blessure div.main div.aspect div.caracteristiques div.line,
 .trauma div.main div.aspect div.caracteristiques div.line {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
-.blessure div.main div.aspect div.caracteristiques div.line label.carac,
 .trauma div.main div.aspect div.caracteristiques div.line label.carac {
   display: flex;
   justify-content: space-between;
@@ -3950,53 +4191,40 @@
   border-bottom: 0px;
   border-right: 1px solid RGB(76 74 90);
 }
-.blessure div.main div.aspect div.caracteristiques div.line label.carac span,
 .trauma div.main div.aspect div.caracteristiques div.line label.carac span {
   width: calc(100% - 50px);
   padding-left: 5px;
 }
-.blessure div.main div.aspect div.caracteristiques div.line label.carac input,
 .trauma div.main div.aspect div.caracteristiques div.line label.carac input {
   width: 50px;
   text-align: center;
   border-radius: 0px;
   background: RGB(43 42 51);
 }
-.blessure div.main div.aspect div.caracteristiques div.line:not(:last-of-type) span,
 .trauma div.main div.aspect div.caracteristiques div.line:not(:last-of-type) span {
   border-bottom: 1px solid RGB(43 42 51);
 }
-.blessure div.main div.aspect div.caracteristiques div.line:not(:last-of-type) input,
 .trauma div.main div.aspect div.caracteristiques div.line:not(:last-of-type) input {
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
   border-bottom: RGB(76 74 90);
 }
-.blessure div.main div.aspect div.caracteristiques div.line:last-of-type span,
 .trauma div.main div.aspect div.caracteristiques div.line:last-of-type span {
   border-bottom: 0px;
 }
-.blessure div.main div.aspect div.caracteristiques div.line:last-of-type input,
 .trauma div.main div.aspect div.caracteristiques div.line:last-of-type input {
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
   border-bottom: 0px;
 }
-.blessure div.main div.aspect:not(:last-of-type),
-.trauma div.main div.aspect:not(:last-of-type) {
-  margin-bottom: 5px;
-}
-.blessure div.main div.aspect:not(:last-of-type):nth-of-type(odd),
-.trauma div.main div.aspect:not(:last-of-type):nth-of-type(odd) {
+.trauma div.main div.aspect:last-of-type {
+  grid-column: 1/3;
+  width: 50%;
+  margin-left: auto;
   margin-right: auto;
 }
-.blessure div.main div.aspect:not(:last-of-type):nth-of-type(even),
-.trauma div.main div.aspect:not(:last-of-type):nth-of-type(even) {
-  margin-left: auto;
-}
-.blessure div.description,
 .trauma div.description {
   margin-top: 5px;
   margin-bottom: 5px;
@@ -12825,17 +13053,19 @@
   cursor: pointer;
 }
 .module .sheet-header {
+  display: grid;
+  grid-template-columns: 1fr 100px;
+  grid-gap: 2px;
   height: 48px;
   max-height: 48px;
 }
 .module .sheet-header h1.charname {
-  width: calc(100% - 150px);
+  width: 100%;
   height: 48px;
   max-height: 48px;
   border: 0px;
   margin: 0px;
   padding: 0px;
-  margin-right: 10px;
 }
 .module .sheet-header h1.charname input[type=text] {
   margin: 0px;
@@ -14353,7 +14583,11 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   margin: 0px;
-  border-bottom: 1px solid RGB(43 42 51);
+  border-top: 1px solid RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 .module section.body nav a {
   display: grid;
@@ -14362,7 +14596,7 @@
   text-align: left;
   font-variant: small-caps;
   font-size: 16px;
-  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
   border-bottom: 1px solid RGB(87 110 178);
 }
 .module section.body nav a i.active {
@@ -14371,17 +14605,8 @@
 .module section.body nav a.active i.active {
   display: inline;
 }
-.module section.body nav a:first-of-type {
-  border-top-left-radius: 5px;
-}
-.module section.body nav a:nth-of-type(1), .module section.body nav a:nth-of-type(2), .module section.body nav a:nth-of-type(3) {
-  border-top: 1px solid RGB(87 110 178);
-}
-.module section.body nav a:nth-of-type(3) {
-  border-top-right-radius: 5px;
-}
 .module section.body nav a:nth-of-type(3n+3) {
-  border-right: 1px solid RGB(87 110 178);
+  border-right: 0px;
 }
 .module section.body div.niveaux {
   display: none;
@@ -17136,7 +17361,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande header.sheet-header .headerData .data,
 .vehicule header.sheet-header .headerData .data,
 .mechaarmure header.sheet-header .headerData .data {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 10px;
+  grid-gap: 5px;
   flex-wrap: wrap;
   justify-content: space-between;
   align-content: flex-start;
@@ -17151,6 +17379,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande header.sheet-header .headerData .data h1.charname,
 .vehicule header.sheet-header .headerData .data h1.charname,
 .mechaarmure header.sheet-header .headerData .data h1.charname {
+  grid-column: 1/3;
   width: 100%;
   border: 0px;
   margin: 0px;
@@ -17185,10 +17414,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .mechaarmure header.sheet-header .headerData .data label {
   display: flex;
   align-items: flex-end;
-  width: calc(50% - 5px);
+  width: 100%;
   flex: none;
   padding-left: 5px;
-  margin-top: 5px;
 }
 .knight header.sheet-header .headerData .data label span,
 .ia header.sheet-header .headerData .data label span,
@@ -17409,19 +17637,20 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.menu div.sante div.line,
 .knight section.menu div.armure div.line,
 .knight section.menu div.energie div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 26px 8px 26px;
 }
 .knight section.menu div.espoir div.line span.option,
 .knight section.menu div.sante div.line span.option,
 .knight section.menu div.armure div.line span.option,
 .knight section.menu div.energie div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.espoir div.line span.option img,
 .knight section.menu div.sante div.line span.option img,
@@ -17449,19 +17678,20 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.menu div.armure div.line span.label,
 .knight section.menu div.energie div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.espoir div.line input,
 .knight section.menu div.sante div.line input,
 .knight section.menu div.armure div.line input,
 .knight section.menu div.energie div.line input {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -17472,56 +17702,60 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
   padding-bottom: 1px;
   z-index: 10;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.espoir div.line span.separation,
 .knight section.menu div.sante div.line span.separation,
 .knight section.menu div.armure div.line span.separation,
 .knight section.menu div.energie div.line span.separation {
   display: inline-block;
-  width: 8px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.espoir div.line span.score,
 .knight section.menu div.sante div.line span.score,
 .knight section.menu div.armure div.line span.score,
 .knight section.menu div.energie div.line span.score {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.espoir div.subLine,
 .knight section.menu div.sante div.subLine,
 .knight section.menu div.armure div.subLine,
 .knight section.menu div.energie div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .knight section.menu div.espoir div.subLine span.label,
 .knight section.menu div.sante div.subLine span.label,
 .knight section.menu div.armure div.subLine span.label,
 .knight section.menu div.energie div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.espoir div.subLine input,
 .knight section.menu div.sante div.subLine input,
 .knight section.menu div.armure div.subLine input,
 .knight section.menu div.energie div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -17530,40 +17764,37 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-top: 1px solid RGB(76 74 90);
 }
-.knight section.menu div.egide button,
-.knight section.menu div.espoir button {
+.knight section.menu button {
   width: 100%;
   font-size: 11px;
   line-height: 20px;
   background: RGB(43 42 51);
-  border-top: 1px solid RGB(76 74 90);
+  border-bottom: 0px;
   border-left: 0px;
   border-right: 0px;
-  border-bottom: 1px solid RGB(76 74 90);
+  border-top: 1px solid RGB(76 74 90);
   border-radius: 0px;
   font-variant: small-caps;
   color: white;
   cursor: pointer;
   margin: 0px;
 }
-.knight section.menu div.egide button:not(:last-of-type),
-.knight section.menu div.espoir button:not(:last-of-type) {
-  border-bottom: 0px;
-}
 .knight section.menu div.champDeForce div.line,
 .knight section.menu div.egide div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 60px;
 }
 .knight section.menu div.champDeForce div.line span.option,
 .knight section.menu div.egide div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.champDeForce div.line span.option img,
 .knight section.menu div.egide div.line span.option img {
@@ -17576,50 +17807,50 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.menu div.egide div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.knight section.menu div.champDeForce div.line span.option.withoutBorder img,
-.knight section.menu div.egide div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
 .knight section.menu div.champDeForce div.line span.label,
 .knight section.menu div.egide div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.champDeForce div.line span.score,
 .knight section.menu div.egide div.line span.score {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.champDeForce div.subLine,
 .knight section.menu div.egide div.subLine {
+  display: grid;
+  grid-template-columns: 1fr 60px;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .knight section.menu div.champDeForce div.subLine span.label,
 .knight section.menu div.egide div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.champDeForce div.subLine input,
 .knight section.menu div.egide div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -17628,31 +17859,33 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.flux div.line,
 .knight section.menu div.contrecoups div.line,
 .knight section.menu div.impregnation div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 60px;
 }
 .knight section.menu div.flux div.line span.label,
 .knight section.menu div.contrecoups div.line span.label,
 .knight section.menu div.impregnation div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.flux div.line input,
 .knight section.menu div.contrecoups div.line input,
 .knight section.menu div.impregnation div.line input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -17663,25 +17896,27 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
   padding-bottom: 1px;
   z-index: 10;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.heroisme div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 26px 8px 26px;
 }
 .knight section.menu div.heroisme div.line span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.heroisme div.line input {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -17692,36 +17927,40 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
   padding-bottom: 1px;
   z-index: 10;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.heroisme div.line span.separation {
   display: inline-block;
-  width: 8px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.heroisme div.line span.score {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.reaction div.line,
 .knight section.menu div.defense div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 45px;
 }
 .knight section.menu div.reaction div.line span.option,
 .knight section.menu div.defense div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.reaction div.line span.option img,
 .knight section.menu div.defense div.line span.option img {
@@ -17737,43 +17976,46 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.menu div.reaction div.line span.label,
 .knight section.menu div.defense div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.reaction div.line span.score,
 .knight section.menu div.defense div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.reaction div.subLine,
 .knight section.menu div.defense div.subLine {
+  display: grid;
+  grid-template-columns: 1fr 45px;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
 }
 .knight section.menu div.reaction div.subLine span.label,
 .knight section.menu div.defense div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.reaction div.subLine input,
 .knight section.menu div.defense div.subLine input {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -17782,18 +18024,20 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.initiative div.line {
-  display: flex;
+  display: grid;
+  grid-template-columns: 30px 1fr 45px;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
 }
 .knight section.menu div.initiative div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.initiative div.line span.option img {
   height: 29px;
@@ -17806,39 +18050,42 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight section.menu div.initiative div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.initiative div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 12px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.initiative div.subLine {
+  display: grid;
+  grid-template-columns: 1fr 45px;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
 }
 .knight section.menu div.initiative div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.menu div.initiative div.subLine input {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -17847,6 +18094,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.menu div.styleCombat {
   position: relative;
@@ -17930,23 +18178,11 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.menu section.mainBlock {
   display: block;
 }
-.knight section.menu section.mainBlock > div {
-  display: block;
-}
-.knight section.menu section.mainBlock > div div.optionHide {
-  display: none;
-}
-.knight section.menu section.mainBlock > div div.optionShow {
-  display: flex;
-}
-.knight section.menu section.mainBlock > div span.option.withBorder,
-.knight section.menu section.mainBlock > div span.label.withBorder {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.knight section.menu section.mainBlock > div span.score.withBorder,
-.knight section.menu section.mainBlock > div span.separation.withBorder,
-.knight section.menu section.mainBlock > div input.withBorder {
-  border-bottom: 1px solid RGB(76 74 90);
+.knight section.menu section.mainBlock > div:first-of-type div.line span,
+.knight section.menu section.mainBlock > div:first-of-type div.line input,
+.knight section.menu section.mainBlock > div:first-of-type div.subline span,
+.knight section.menu section.mainBlock > div:first-of-type div.subline input {
+  border-top: 0px;
 }
 .knight section.menu section.mainBlock > div:last-of-type {
   border-bottom: 1px solid black;
@@ -17962,6 +18198,26 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.menu section.mainBlock:last-of-type > div:last-of-type {
   border-bottom: 0px;
   margin-bottom: 1px;
+}
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.line span.option,
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.line span.label {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.line span.score,
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.line input {
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:last-of-type span.option,
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:last-of-type span.label {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:last-of-type span.score,
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:last-of-type input {
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:nth-of-type(2) span,
+.knight section.menu section.mainBlock:last-of-type > div:last-of-type div.subLine:nth-of-type(2) input {
+  border-top: 0px;
 }
 .knight section.menu section.hidden {
   display: none;
@@ -24218,6 +24474,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.combat div.main div.armesDistance div.wpn select option {
   background: RGB(43 42 51);
 }
+.knight section.body div.combat div.main div.armesContact div.wpn select.wpnMainChange,
+.knight section.body div.combat div.main div.armesDistance div.wpn select.wpnMainChange {
+  grid-column: 1/5;
+}
 .knight section.body div.combat div.main div.armesContact div.wpn div.effets,
 .knight section.body div.combat div.main div.armesDistance div.wpn div.effets {
   width: 100%;
@@ -24345,6 +24605,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.body div.combat div.main div.armesContact div.wpn button.addbasechair,
 .knight section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
@@ -24702,20 +24963,36 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border: 1px solid RGB(87 110 178);
 }
 .knight section.body div.combat div.main div.nods div.line {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 60px 81px 30px 30px;
   width: 100%;
   justify-content: space-between;
   background: RGB(76 74 90);
 }
+.knight section.body div.combat div.main div.nods div.line.col5 {
+  grid-template-columns: 1fr 60px 81px 30px 30px;
+}
+.knight section.body div.combat div.main div.nods div.line.col4 {
+  grid-template-columns: 1fr 81px 30px 30px;
+}
 .knight section.body div.combat div.main div.nods div.line span.label {
-  width: 130px;
+  width: 100%;
   line-height: 30px;
   padding-left: 5px;
+}
+.knight section.body div.combat div.main div.nods div.line input[type=text] {
+  width: 100%;
+  height: 100%;
+  border-radius: 0px;
+  border: 1px solid RGB(43 42 51);
+  text-align: center;
+  border-top: 1px solid RGB(43 42 51);
+  border-bottom: 0px;
 }
 .knight section.body div.combat div.main div.nods div.line div.blockQuantite {
   display: flex;
   justify-content: space-between;
-  width: calc(100% - 130px - 61px);
+  width: 100%;
   border-right: 1px solid RGB(76 74 90);
   background: RGB(43 42 51);
 }
@@ -24725,7 +25002,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   line-height: 30px;
 }
 .knight section.body div.combat div.main div.nods div.line div.blockQuantite input {
-  width: calc(50% - 4px);
+  width: 100%;
   height: 30px;
   border: 0px;
   margin: 0px;
@@ -24740,7 +25017,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 61px;
 }
 .knight section.body div.combat div.main div.nods div.line div.blockRoll img {
-  width: 30px;
+  width: 100%;
   height: 30px;
   border-radius: 0px;
   border: 0px;
@@ -25630,7 +25907,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-bottom: 1px solid white;
   border-left: 1px solid white;
   border-right: 1px solid white;
-  width: calc(50% - 5px);
+  width: 100%;
 }
 .ia header.sheet-header .headerData .data div.caractere h2.header {
   display: block;
@@ -25881,6 +26158,27 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding-left: 0px;
 }
 
+.pnj header.sheet-header div.headerData button.setbtn {
+  display: grid;
+  grid-column: 2;
+  grid-template-columns: 16px 1fr;
+  grid-gap: 5px;
+  color: white;
+  font-variant: small-caps;
+  text-align: left;
+  font-size: 16px;
+  border: 1px solid RGB(76 74 90);
+  align-items: center;
+}
+.pnj header.sheet-header div.headerData button.setbtn.unselected i {
+  color: #AF0000;
+}
+.pnj header.sheet-header div.headerData button.setbtn.selected {
+  background: RGB(87 110 178);
+}
+.pnj header.sheet-header div.headerData button.setbtn.selected i {
+  color: #59d13e;
+}
 .pnj section.menu {
   padding-bottom: 1px;
 }
@@ -25928,18 +26226,19 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.menu div.sante div.line,
 .pnj section.menu div.armure div.line,
 .pnj section.menu div.energie div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 26px 8px 26px;
 }
 .pnj section.menu div.sante div.line span.option,
 .pnj section.menu div.armure div.line span.option,
 .pnj section.menu div.energie div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .pnj section.menu div.sante div.line span.option img,
 .pnj section.menu div.armure div.line span.option img,
@@ -25963,18 +26262,19 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.menu div.armure div.line span.label,
 .pnj section.menu div.energie div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .pnj section.menu div.sante div.line input,
 .pnj section.menu div.armure div.line input,
 .pnj section.menu div.energie div.line input {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -25985,51 +26285,55 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
   padding-bottom: 1px;
   z-index: 10;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .pnj section.menu div.sante div.line span.separation,
 .pnj section.menu div.armure div.line span.separation,
 .pnj section.menu div.energie div.line span.separation {
   display: inline-block;
-  width: 8px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .pnj section.menu div.sante div.line span.score,
 .pnj section.menu div.armure div.line span.score,
 .pnj section.menu div.energie div.line span.score {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .pnj section.menu div.sante div.subLine,
 .pnj section.menu div.armure div.subLine,
 .pnj section.menu div.energie div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .pnj section.menu div.sante div.subLine span.label,
 .pnj section.menu div.armure div.subLine span.label,
 .pnj section.menu div.energie div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .pnj section.menu div.sante div.subLine input,
 .pnj section.menu div.armure div.subLine input,
 .pnj section.menu div.energie div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -26038,6 +26342,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .pnj section.menu div.resilience button {
   width: 100%;
@@ -26054,75 +26359,69 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   cursor: pointer;
   margin: 0px;
 }
-.pnj section.menu div.bouclier div.line,
-.pnj section.menu div.champDeForce div.line {
-  display: flex;
+.pnj section.menu div.bouclier div.line {
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 60px;
 }
-.pnj section.menu div.bouclier div.line span.option,
-.pnj section.menu div.champDeForce div.line span.option {
+.pnj section.menu div.bouclier div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
-.pnj section.menu div.bouclier div.line span.option img,
-.pnj section.menu div.champDeForce div.line span.option img {
+.pnj section.menu div.bouclier div.line span.option img {
   height: 29px;
   width: 29px;
   border: 0px;
   cursor: pointer;
 }
-.pnj section.menu div.bouclier div.line span.option img:hover,
-.pnj section.menu div.champDeForce div.line span.option img:hover {
+.pnj section.menu div.bouclier div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.pnj section.menu div.bouclier div.line span.option.withoutBorder img,
-.pnj section.menu div.champDeForce div.line span.option.withoutBorder img {
+.pnj section.menu div.bouclier div.line span.option.withoutBorder img {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.pnj section.menu div.bouclier div.line span.label,
-.pnj section.menu div.champDeForce div.line span.label {
+.pnj section.menu div.bouclier div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
-.pnj section.menu div.bouclier div.line span.score,
-.pnj section.menu div.champDeForce div.line span.score {
+.pnj section.menu div.bouclier div.line span.score {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
-.pnj section.menu div.bouclier div.subLine,
-.pnj section.menu div.champDeForce div.subLine {
+.pnj section.menu div.bouclier div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
-.pnj section.menu div.bouclier div.subLine span.label,
-.pnj section.menu div.champDeForce div.subLine span.label {
+.pnj section.menu div.bouclier div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
-.pnj section.menu div.bouclier div.subLine input,
-.pnj section.menu div.champDeForce div.subLine input {
+.pnj section.menu div.bouclier div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -26131,20 +26430,92 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.pnj section.menu div.champDeForce div.line {
+  display: grid;
+  width: 100%;
+  line-height: 29px;
+  grid-template-columns: 30px 1fr 60px;
+}
+.pnj section.menu div.champDeForce div.line span.option {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  text-align: center;
+}
+.pnj section.menu div.champDeForce div.line span.option img {
+  height: 29px;
+  width: 29px;
+  border: 0px;
+  cursor: pointer;
+}
+.pnj section.menu div.champDeForce div.line span.option img:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+.pnj section.menu div.champDeForce div.line span.option.withoutBorder img {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+.pnj section.menu div.champDeForce div.line span.label {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  font-variant: small-caps;
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding-left: 1px;
+}
+.pnj section.menu div.champDeForce div.line span.score {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+}
+.pnj section.menu div.champDeForce div.subLine {
+  display: grid;
+  width: 100%;
+  line-height: 30px;
+  grid-template-columns: 1fr 60px;
+}
+.pnj section.menu div.champDeForce div.subLine span.label {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  font-variant: small-caps;
+  font-size: 16px;
+  letter-spacing: 1px;
+  padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.pnj section.menu div.champDeForce div.subLine input {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .pnj section.menu div.reaction div.line,
 .pnj section.menu div.defense div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 45px;
 }
 .pnj section.menu div.reaction div.line span.option,
 .pnj section.menu div.defense div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .pnj section.menu div.reaction div.line span.option img,
 .pnj section.menu div.defense div.line span.option img {
@@ -26160,43 +26531,46 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.menu div.reaction div.line span.label,
 .pnj section.menu div.defense div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .pnj section.menu div.reaction div.line span.score,
 .pnj section.menu div.defense div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .pnj section.menu div.reaction div.subLine,
 .pnj section.menu div.defense div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 45px;
 }
 .pnj section.menu div.reaction div.subLine span.label,
 .pnj section.menu div.defense div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .pnj section.menu div.reaction div.subLine input,
 .pnj section.menu div.defense div.subLine input {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -26205,18 +26579,20 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .pnj section.menu div.initiative div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 45px;
 }
 .pnj section.menu div.initiative div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .pnj section.menu div.initiative div.line span.option img {
   height: 29px;
@@ -26229,39 +26605,43 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .pnj section.menu div.initiative div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .pnj section.menu div.initiative div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 12px;
+  border-bottom: 1px solid RGB(76 74 90) !important;
 }
 .pnj section.menu div.initiative div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 45px;
 }
 .pnj section.menu div.initiative div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .pnj section.menu div.initiative div.subLine input {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -26270,6 +26650,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(76 74 90) !important;
 }
 .pnj section.menu section.mainBlock {
   display: block;
@@ -26277,40 +26659,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.menu section.mainBlock > div {
   display: block;
 }
-.pnj section.menu section.mainBlock > div div.line span.label {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.pnj section.menu section.mainBlock > div div.line span.separation {
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.pnj section.menu section.mainBlock > div div.line input {
-  border-bottom: 1px solid RGB(76 74 90);
-}
 .pnj section.menu section.mainBlock > div.espoir div.line span.label, .pnj section.menu section.mainBlock > div.espoir div.line span.separation {
   border-bottom: 0px;
 }
 .pnj section.menu section.mainBlock > div.espoir div.line input {
   border-bottom: 0px;
 }
-.pnj section.menu section.mainBlock > div div.optionHide {
-  display: none;
-}
-.pnj section.menu section.mainBlock > div div.optionShow {
-  display: flex;
-}
-.pnj section.menu section.mainBlock > div span.option.withBorder,
-.pnj section.menu section.mainBlock > div span.label.withBorder {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.pnj section.menu section.mainBlock > div span.score.withBorder,
-.pnj section.menu section.mainBlock > div span.separation.withBorder,
-.pnj section.menu section.mainBlock > div input.withBorder {
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.pnj section.menu section.mainBlock > div:last-of-type div.line span.label, .pnj section.menu section.mainBlock > div:last-of-type div.line span.separation {
+.pnj section.menu section.mainBlock > div:last-of-type div.line span,
+.pnj section.menu section.mainBlock > div:last-of-type div.line input {
   border-bottom: 0px;
 }
-.pnj section.menu section.mainBlock > div:last-of-type div.line input {
+.pnj section.menu section.mainBlock > div:last-of-type div.subLine:nth-of-type(2) span {
+  border-top: 1px solid RGB(43 42 51);
+}
+.pnj section.menu section.mainBlock > div:last-of-type div.subLine:nth-of-type(2) input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.pnj section.menu section.mainBlock > div:last-of-type div.subLine:last-of-type span,
+.pnj section.menu section.mainBlock > div:last-of-type div.subLine:last-of-type input {
   border-bottom: 0px;
 }
 .pnj section.menu section.mainBlock:not(:first-of-type) > div:first-of-type {
@@ -31383,6 +31749,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.combat div.main div.armesDistance div.wpn select option {
   background: RGB(43 42 51);
 }
+.pnj section.body div.combat div.main div.armesContact div.wpn select.wpnMainChange,
+.pnj section.body div.combat div.main div.armesDistance div.wpn select.wpnMainChange {
+  grid-column: 1/5;
+}
 .pnj section.body div.combat div.main div.armesContact div.wpn div.effets,
 .pnj section.body div.combat div.main div.armesDistance div.wpn div.effets {
   width: 100%;
@@ -31510,6 +31880,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
+  border-top: 1px solid RGB(76 74 90);
 }
 .pnj section.body div.combat div.main div.armesContact div.wpn button.addbasechair,
 .pnj section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
@@ -32294,6 +32665,27 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding-left: 0px;
 }
 
+.creature header.sheet-header div.headerData button.setbtn {
+  display: grid;
+  grid-column: 2;
+  grid-template-columns: 16px 1fr;
+  grid-gap: 5px;
+  color: white;
+  font-variant: small-caps;
+  text-align: left;
+  font-size: 16px;
+  border: 1px solid RGB(76 74 90);
+  align-items: center;
+}
+.creature header.sheet-header div.headerData button.setbtn.unselected i {
+  color: #AF0000;
+}
+.creature header.sheet-header div.headerData button.setbtn.selected {
+  background: RGB(87 110 178);
+}
+.creature header.sheet-header div.headerData button.setbtn.selected i {
+  color: #59d13e;
+}
 .creature section.menu {
   padding-bottom: 1px;
 }
@@ -32337,16 +32729,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu div.sante div.line,
 .creature section.menu div.armure div.line,
 .creature section.menu div.energie div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 26px 8px 26px;
 }
 .creature section.menu div.sante div.line span.option,
 .creature section.menu div.armure div.line span.option,
 .creature section.menu div.energie div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
 }
@@ -32363,16 +32755,11 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu div.energie div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.creature section.menu div.sante div.line span.option.withoutBorder img,
-.creature section.menu div.armure div.line span.option.withoutBorder img,
-.creature section.menu div.energie div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
 .creature section.menu div.sante div.line span.label,
 .creature section.menu div.armure div.line span.label,
 .creature section.menu div.energie div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
@@ -32383,7 +32770,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu div.armure div.line input,
 .creature section.menu div.energie div.line input {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -32399,7 +32786,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu div.armure div.line span.separation,
 .creature section.menu div.energie div.line span.separation {
   display: inline-block;
-  width: 8px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -32409,7 +32796,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu div.armure div.line span.score,
 .creature section.menu div.energie div.line span.score {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -32418,27 +32805,28 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu div.sante div.subLine,
 .creature section.menu div.armure div.subLine,
 .creature section.menu div.energie div.subLine {
+  display: grid;
+  grid-template-columns: 1fr 60px;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
 }
 .creature section.menu div.sante div.subLine span.label,
 .creature section.menu div.armure div.subLine span.label,
 .creature section.menu div.energie div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .creature section.menu div.sante div.subLine input,
 .creature section.menu div.armure div.subLine input,
 .creature section.menu div.energie div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -32447,6 +32835,41 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.creature section.menu div.sante div.subLine:nth-of-type(2) span.label {
+  border-top: 1px solid RGB(43 42 51);
+}
+.creature section.menu div.sante div.subLine:nth-of-type(2) input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.creature section.menu div.sante div.subLine:last-of-type span.label {
+  border: 0px;
+}
+.creature section.menu div.sante div.subLine:last-of-type input {
+  border: 0px;
+}
+.creature section.menu div.armure div.line span.option, .creature section.menu div.armure div.line span.label,
+.creature section.menu div.energie div.line span.option,
+.creature section.menu div.energie div.line span.label {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.creature section.menu div.armure div.line span.separation, .creature section.menu div.armure div.line span.score,
+.creature section.menu div.energie div.line span.separation,
+.creature section.menu div.energie div.line span.score {
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.creature section.menu div.armure div.line input,
+.creature section.menu div.energie div.line input {
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.creature section.menu div.armure div.subline span.label,
+.creature section.menu div.energie div.subline span.label {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.creature section.menu div.armure div.subline input,
+.creature section.menu div.energie div.subline input {
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .creature section.menu div.resilience button {
   width: 100%;
@@ -32464,14 +32887,15 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
 }
 .creature section.menu div.bouclier div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
   justify-content: space-between;
+  grid-template-columns: 30px 1fr 60px;
 }
 .creature section.menu div.bouclier div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
 }
@@ -32489,7 +32913,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .creature section.menu div.bouclier div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
@@ -32498,30 +32922,32 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .creature section.menu div.bouclier div.line span.score {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
 }
 .creature section.menu div.bouclier div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
   justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .creature section.menu div.bouclier div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .creature section.menu div.bouclier div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -32530,20 +32956,22 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .creature section.menu div.reaction div.line,
 .creature section.menu div.defense div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 45px;
 }
 .creature section.menu div.reaction div.line span.option,
 .creature section.menu div.defense div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .creature section.menu div.reaction div.line span.option img,
 .creature section.menu div.defense div.line span.option img {
@@ -32559,43 +32987,46 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu div.reaction div.line span.label,
 .creature section.menu div.defense div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .creature section.menu div.reaction div.line span.score,
 .creature section.menu div.defense div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .creature section.menu div.reaction div.subLine,
 .creature section.menu div.defense div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 45px;
 }
 .creature section.menu div.reaction div.subLine span.label,
 .creature section.menu div.defense div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .creature section.menu div.reaction div.subLine input,
 .creature section.menu div.defense div.subLine input {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -32604,18 +33035,21 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .creature section.menu div.initiative div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 45px;
 }
 .creature section.menu div.initiative div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .creature section.menu div.initiative div.line span.option img {
   height: 29px;
@@ -32628,39 +33062,45 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .creature section.menu div.initiative div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .creature section.menu div.initiative div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 12px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(76 74 90) !important;
 }
 .creature section.menu div.initiative div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 45px;
 }
 .creature section.menu div.initiative div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .creature section.menu div.initiative div.subLine input {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -32669,6 +33109,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(76 74 90) !important;
 }
 .creature section.menu section.mainBlock {
   display: block;
@@ -32676,40 +33118,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu section.mainBlock > div {
   display: block;
 }
-.creature section.menu section.mainBlock > div div.line span.label {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.creature section.menu section.mainBlock > div div.line span.separation {
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.creature section.menu section.mainBlock > div div.line input {
-  border-bottom: 1px solid RGB(76 74 90);
-}
 .creature section.menu section.mainBlock > div.espoir div.line span.label, .creature section.menu section.mainBlock > div.espoir div.line span.separation {
   border-bottom: 0px;
 }
 .creature section.menu section.mainBlock > div.espoir div.line input {
   border-bottom: 0px;
 }
-.creature section.menu section.mainBlock > div div.optionHide {
-  display: none;
-}
-.creature section.menu section.mainBlock > div div.optionShow {
-  display: flex;
-}
-.creature section.menu section.mainBlock > div span.option.withBorder,
-.creature section.menu section.mainBlock > div span.label.withBorder {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.creature section.menu section.mainBlock > div span.score.withBorder,
-.creature section.menu section.mainBlock > div span.separation.withBorder,
-.creature section.menu section.mainBlock > div input.withBorder {
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.creature section.menu section.mainBlock > div:last-of-type div.line span.label, .creature section.menu section.mainBlock > div:last-of-type div.line span.separation {
+.creature section.menu section.mainBlock > div:last-of-type div.line span,
+.creature section.menu section.mainBlock > div:last-of-type div.line input {
   border-bottom: 0px;
 }
-.creature section.menu section.mainBlock > div:last-of-type div.line input {
+.creature section.menu section.mainBlock > div:last-of-type div.subLine:nth-of-type(2) span {
+  border-top: 1px solid RGB(43 42 51);
+}
+.creature section.menu section.mainBlock > div:last-of-type div.subLine:nth-of-type(2) input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.creature section.menu section.mainBlock > div:last-of-type div.subLine:last-of-type span,
+.creature section.menu section.mainBlock > div:last-of-type div.subLine:last-of-type input {
   border-bottom: 0px;
 }
 .creature section.menu section.mainBlock:not(:first-of-type) > div:first-of-type {
@@ -33602,6 +34028,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.body div.combat div.main div.armesDistance div.wpn select option {
   background: RGB(43 42 51);
 }
+.creature section.body div.combat div.main div.armesContact div.wpn select.wpnMainChange,
+.creature section.body div.combat div.main div.armesDistance div.wpn select.wpnMainChange {
+  grid-column: 1/5;
+}
 .creature section.body div.combat div.main div.armesContact div.wpn div.effets,
 .creature section.body div.combat div.main div.armesDistance div.wpn div.effets {
   width: 100%;
@@ -33729,6 +34159,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
+  border-top: 1px solid RGB(76 74 90);
 }
 .creature section.body div.combat div.main div.armesContact div.wpn button.addbasechair,
 .creature section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
@@ -34311,16 +34742,17 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding-bottom: 1px;
 }
 .bande section.menu div.sante div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 26px 8px 26px;
 }
 .bande section.menu div.sante div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.sante div.line span.option img {
   height: 29px;
@@ -34331,21 +34763,19 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.menu div.sante div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.bande section.menu div.sante div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
 .bande section.menu div.sante div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 13px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.sante div.line input {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -34356,41 +34786,45 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
   padding-bottom: 1px;
   z-index: 10;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.sante div.line span.separation {
   display: inline-block;
-  width: 8px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.sante div.line span.score {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 14px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.sante div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .bande section.menu div.sante div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.sante div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -34399,6 +34833,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.energie div.line,
 .bande section.menu div.resilience div.line,
@@ -34456,23 +34891,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-size: 14px;
 }
 .bande section.menu div.debordement div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 60px;
 }
 .bande section.menu div.debordement div.line span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 3px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.debordement div.line input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -34483,15 +34919,15 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
   padding-bottom: 1px;
   z-index: 10;
+  border-bottom: 1px solid RGB(76 74 90);
 }
-.bande section.menu div.debordement div.subLine {
-  display: flex;
+.bande section.menu div.debordement div.tour {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
-.bande section.menu div.debordement div.subLine span.label {
+.bande section.menu div.debordement div.tour span.label {
   display: inline-block;
   width: calc(100% - 60px);
   height: 30px;
@@ -34499,9 +34935,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 3px;
-  border-bottom: 1px solid RGB(43 42 51);
 }
-.bande section.menu div.debordement div.subLine input {
+.bande section.menu div.debordement div.tour input {
   display: inline-block;
   width: 60px;
   height: 30px;
@@ -34512,7 +34947,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
-  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.debordement button {
   width: 100%;
@@ -34530,14 +34964,14 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
 }
 .bande section.menu div.bouclier div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 60px;
 }
 .bande section.menu div.bouclier div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
 }
@@ -34550,12 +34984,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.menu div.bouclier div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.bande section.menu div.bouclier div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
 .bande section.menu div.bouclier div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
@@ -34564,30 +34995,32 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .bande section.menu div.bouclier div.line span.score {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
 }
 .bande section.menu div.bouclier div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
   justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .bande section.menu div.bouclier div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.bouclier div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -34596,16 +35029,17 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.champDeForce div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 60px;
 }
 .bande section.menu div.champDeForce div.line span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
@@ -34614,7 +35048,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .bande section.menu div.champDeForce div.line span.score {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -34622,17 +35056,18 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .bande section.menu div.reaction div.line,
 .bande section.menu div.defense div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 45px;
 }
 .bande section.menu div.reaction div.line span.option,
 .bande section.menu div.defense div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.reaction div.line span.option img,
 .bande section.menu div.defense div.line span.option img {
@@ -34648,12 +35083,13 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.menu div.reaction div.line span.label,
 .bande section.menu div.defense div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.reaction div.line span.score,
 .bande section.menu div.defense div.line span.score {
@@ -34663,28 +35099,30 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.reaction div.subLine,
 .bande section.menu div.defense div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 45px;
 }
 .bande section.menu div.reaction div.subLine span.label,
 .bande section.menu div.defense div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.reaction div.subLine input,
 .bande section.menu div.defense div.subLine input {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -34693,56 +35131,34 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.initiative div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 45px;
 }
 .bande section.menu div.initiative div.line span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 3px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .bande section.menu div.initiative div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 12px;
-}
-.bande section.menu div.initiative div.subLine {
-  width: 100%;
-  line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
-}
-.bande section.menu div.initiative div.subLine span.label {
-  display: inline-block;
-  width: calc(100% - 45px);
-  height: 30px;
-  font-variant: small-caps;
-  font-size: 14px;
-  letter-spacing: 1px;
-  padding-left: 5px;
-}
-.bande section.menu div.initiative div.subLine input {
-  display: inline-block;
-  width: 45px;
-  height: 30px;
-  background: RGB(43 42 51);
-  text-align: center;
-  font-size: 16px;
-  border: 0px;
-  border-radius: 0px;
-  padding: 0px;
-  margin: 0px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .bande section.menu section.mainBlock {
   display: block;
@@ -34750,34 +35166,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.menu section.mainBlock > div {
   display: block;
 }
-.bande section.menu section.mainBlock > div div.line span.label {
-  border-bottom: 1px solid RGB(43 42 51);
-}
 .bande section.menu section.mainBlock > div.espoir div.line span.label, .bande section.menu section.mainBlock > div.espoir div.line span.separation {
   border-bottom: 0px;
 }
 .bande section.menu section.mainBlock > div.espoir div.line input {
   border-bottom: 0px;
 }
-.bande section.menu section.mainBlock > div div.optionHide {
-  display: none;
-}
-.bande section.menu section.mainBlock > div div.optionShow {
-  display: flex;
-}
-.bande section.menu section.mainBlock > div span.option.withBorder,
-.bande section.menu section.mainBlock > div span.label.withBorder {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.bande section.menu section.mainBlock > div span.score.withBorder,
-.bande section.menu section.mainBlock > div span.separation.withBorder,
-.bande section.menu section.mainBlock > div input.withBorder {
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.bande section.menu section.mainBlock > div:last-of-type div.line span.label, .bande section.menu section.mainBlock > div:last-of-type div.line span.separation {
+.bande section.menu section.mainBlock > div:last-of-type div.line span,
+.bande section.menu section.mainBlock > div:last-of-type div.line input {
   border-bottom: 0px;
 }
-.bande section.menu section.mainBlock > div:last-of-type div.line input {
+.bande section.menu section.mainBlock > div:last-of-type div.subLine:nth-of-type(2) span {
+  border-top: 1px solid RGB(43 42 51);
+}
+.bande section.menu section.mainBlock > div:last-of-type div.subLine:nth-of-type(2) input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.bande section.menu section.mainBlock > div:last-of-type div.subLine:last-of-type span,
+.bande section.menu section.mainBlock > div:last-of-type div.subLine:last-of-type input {
   border-bottom: 0px;
 }
 .bande section.menu section.mainBlock:not(:first-of-type) > div:first-of-type {
@@ -35708,6 +36114,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.body div.combat div.main div.armesDistance div.wpn select option {
   background: RGB(43 42 51);
 }
+.bande section.body div.combat div.main div.armesContact div.wpn select.wpnMainChange,
+.bande section.body div.combat div.main div.armesDistance div.wpn select.wpnMainChange {
+  grid-column: 1/5;
+}
 .bande section.body div.combat div.main div.armesContact div.wpn div.effets,
 .bande section.body div.combat div.main div.armesDistance div.wpn div.effets {
   width: 100%;
@@ -35835,6 +36245,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
+  border-top: 1px solid RGB(76 74 90);
 }
 .bande section.body div.combat div.main div.armesContact div.wpn button.addbasechair,
 .bande section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
@@ -36362,10 +36773,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .vehicule section.menu div.energie div.line,
 .vehicule section.menu div.armure div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 26px 8px 26px;
 }
 .vehicule section.menu div.energie div.line span.option,
 .vehicule section.menu div.armure div.line span.option {
@@ -36373,6 +36784,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 30px;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .vehicule section.menu div.energie div.line span.option img,
 .vehicule section.menu div.armure div.line span.option img {
@@ -36385,24 +36797,21 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.menu div.armure div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.vehicule section.menu div.energie div.line span.option.withoutBorder img,
-.vehicule section.menu div.armure div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
 .vehicule section.menu div.energie div.line span.label,
 .vehicule section.menu div.armure div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .vehicule section.menu div.energie div.line input,
 .vehicule section.menu div.armure div.line input {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -36413,41 +36822,45 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
   padding-bottom: 1px;
   z-index: 10;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .vehicule section.menu div.energie div.line span.separation,
 .vehicule section.menu div.armure div.line span.separation {
   display: inline-block;
-  width: 8px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .vehicule section.menu div.energie div.line span.score,
 .vehicule section.menu div.armure div.line span.score {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .vehicule section.menu div.energie div.subLine,
 .vehicule section.menu div.armure div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .vehicule section.menu div.energie div.subLine span.label,
 .vehicule section.menu div.armure div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .vehicule section.menu div.energie div.subLine input,
 .vehicule section.menu div.armure div.subLine input {
@@ -36461,16 +36874,17 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .vehicule section.menu div.champDeForce div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 60px;
 }
 .vehicule section.menu div.champDeForce div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
 }
@@ -36483,12 +36897,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.menu div.champDeForce div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.vehicule section.menu div.champDeForce div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
 .vehicule section.menu div.champDeForce div.line span.label {
   display: inline-block;
-  width: calc(100% - 60px - 30px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
@@ -36497,7 +36908,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .vehicule section.menu div.champDeForce div.line span.score {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -36510,19 +36921,20 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   z-index: 10;
 }
 .vehicule section.menu div.champDeForce div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .vehicule section.menu div.champDeForce div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .vehicule section.menu div.champDeForce div.subLine input {
   display: inline-block;
@@ -36535,20 +36947,21 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .vehicule section.menu div.passagers div.line,
 .vehicule section.menu div.manoeuvrabilite div.line,
 .vehicule section.menu div.vitesse div.line {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 35px;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
 }
 .vehicule section.menu div.passagers div.line span.label,
 .vehicule section.menu div.manoeuvrabilite div.line span.label,
 .vehicule section.menu div.vitesse div.line span.label {
   display: inline-block;
-  width: calc(100% - 35px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
@@ -36559,7 +36972,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.menu div.manoeuvrabilite div.line input,
 .vehicule section.menu div.vitesse div.line input {
   display: inline-block;
-  width: 35px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -36571,31 +36984,39 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding-bottom: 1px;
   z-index: 10;
 }
+.vehicule section.menu div.passagers div.line span.label {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.vehicule section.menu div.passagers div.line input {
+  border-bottom: 1px solid RGB(76 74 90);
+}
 .vehicule section.menu div.reaction div.line,
 .vehicule section.menu div.defense div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 45px;
 }
 .vehicule section.menu div.reaction div.line span.label,
 .vehicule section.menu div.defense div.line span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .vehicule section.menu div.reaction div.line span.score,
 .vehicule section.menu div.defense div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .vehicule section.menu div.manoeuvrabilite div.line span {
   border-bottom: 0px !important;
@@ -36617,27 +37038,29 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
 }
 .vehicule section.menu div.initiative div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 45px;
 }
 .vehicule section.menu div.initiative div.line span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .vehicule section.menu div.initiative div.line span.score {
   display: inline-block;
-  width: 45px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 12px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .vehicule section.menu section.mainBlock {
   display: block;
@@ -36645,37 +37068,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.menu section.mainBlock > div {
   display: block;
 }
-.vehicule section.menu section.mainBlock > div div.line span.label {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.vehicule section.menu section.mainBlock > div div.line span.score {
-  border-bottom: 1px solid RGB(76 74 90);
-}
 .vehicule section.menu section.mainBlock > div.espoir div.line span.label, .vehicule section.menu section.mainBlock > div.espoir div.line span.separation {
   border-bottom: 0px;
 }
 .vehicule section.menu section.mainBlock > div.espoir div.line input {
-  border-bottom: 0px;
-}
-.vehicule section.menu section.mainBlock > div div.optionHide {
-  display: none;
-}
-.vehicule section.menu section.mainBlock > div div.optionShow {
-  display: flex;
-}
-.vehicule section.menu section.mainBlock > div span.option.withBorder,
-.vehicule section.menu section.mainBlock > div span.label.withBorder {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.vehicule section.menu section.mainBlock > div span.score.withBorder,
-.vehicule section.menu section.mainBlock > div span.separation.withBorder,
-.vehicule section.menu section.mainBlock > div input.withBorder {
-  border-bottom: 1px solid RGB(76 74 90);
-}
-.vehicule section.menu section.mainBlock > div:last-of-type div.line span.label, .vehicule section.menu section.mainBlock > div:last-of-type div.line span.separation {
-  border-bottom: 0px;
-}
-.vehicule section.menu section.mainBlock > div:last-of-type div.line input {
   border-bottom: 0px;
 }
 .vehicule section.menu section.mainBlock:not(:first-of-type) > div:first-of-type {
@@ -36698,7 +37094,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule header.sheet-header .headerData .data div.pilote, .vehicule header.sheet-header .headerData .data div.passagers {
   display: flex;
   flex-wrap: wrap;
-  width: calc(50% - 5px);
+  width: 100%;
   flex: none;
   margin-top: 5px;
   border: 1px solid RGB(76 74 90);
@@ -37969,6 +38365,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.body div.combat div.main div.armesDistance div.wpn select option {
   background: RGB(43 42 51);
 }
+.vehicule section.body div.combat div.main div.armesDistance div.wpn select.wpnMainChange {
+  grid-column: 1/5;
+}
 .vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets {
   width: 100%;
 }
@@ -38078,6 +38477,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
+  border-top: 1px solid RGB(76 74 90);
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn button.addbasechair {
   display: flex;
@@ -38275,16 +38675,17 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
 }
 .mechaarmure section.menu div.resilience div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 30px 1fr 26px 8px 26px;
 }
 .mechaarmure section.menu div.resilience div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .mechaarmure section.menu div.resilience div.line span.option img {
   height: 29px;
@@ -38295,20 +38696,18 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .mechaarmure section.menu div.resilience div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.mechaarmure section.menu div.resilience div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
 .mechaarmure section.menu div.resilience div.line span.label {
   display: inline-block;
-  width: calc(100% - 30px - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .mechaarmure section.menu div.resilience div.line input {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -38319,41 +38718,45 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin: 0px;
   padding-bottom: 1px;
   z-index: 10;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .mechaarmure section.menu div.resilience div.line span.separation {
   display: inline-block;
-  width: 8px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .mechaarmure section.menu div.resilience div.line span.score {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .mechaarmure section.menu div.resilience div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .mechaarmure section.menu div.resilience div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .mechaarmure section.menu div.resilience div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -38362,28 +38765,26 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
-.mechaarmure section.menu div.energie div.line,
-.mechaarmure section.menu div.blindage div.line {
-  display: flex;
+.mechaarmure section.menu div.energie div.line {
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 26px 8px 26px;
 }
-.mechaarmure section.menu div.energie div.line span.label,
-.mechaarmure section.menu div.blindage div.line span.label {
+.mechaarmure section.menu div.energie div.line span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
 }
-.mechaarmure section.menu div.energie div.line input,
-.mechaarmure section.menu div.blindage div.line input {
+.mechaarmure section.menu div.energie div.line input {
   display: inline-block;
-  width: 26px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -38395,26 +38796,75 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding-bottom: 1px;
   z-index: 10;
 }
-.mechaarmure section.menu div.energie div.line span.separation,
-.mechaarmure section.menu div.blindage div.line span.separation {
+.mechaarmure section.menu div.energie div.line span.separation {
   display: inline-block;
-  width: 8px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
 }
-.mechaarmure section.menu div.champDeForce div.line {
-  display: flex;
+.mechaarmure section.menu div.blindage div.line {
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 26px 8px 26px;
+}
+.mechaarmure section.menu div.blindage div.line span.label {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  font-variant: small-caps;
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.mechaarmure section.menu div.blindage div.line span.score {
+  display: inline-block;
+  width: 45px;
+  height: 30px;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.mechaarmure section.menu div.blindage div.line input {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  margin: 0px;
+  padding-bottom: 1px;
+  z-index: 10;
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.mechaarmure section.menu div.blindage div.line span.separation {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.mechaarmure section.menu div.champDeForce div.line {
+  display: grid;
+  width: 100%;
+  line-height: 29px;
+  grid-template-columns: 30px 1fr 60px;
 }
 .mechaarmure section.menu div.champDeForce div.line span.option {
   display: inline-block;
-  width: 30px;
+  width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .mechaarmure section.menu div.champDeForce div.line span.option img {
   height: 29px;
@@ -38425,20 +38875,18 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .mechaarmure section.menu div.champDeForce div.line span.option img:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.mechaarmure section.menu div.champDeForce div.line span.option.withoutBorder img {
-  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
-}
 .mechaarmure section.menu div.champDeForce div.line span.label {
   display: inline-block;
-  width: calc(100% - 60px - 30px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .mechaarmure section.menu div.champDeForce div.line span.score {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -38447,21 +38895,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .mechaarmure section.menu div.champDeForce div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
-  justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 60px;
 }
 .mechaarmure section.menu div.champDeForce div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .mechaarmure section.menu div.champDeForce div.subLine input {
   display: inline-block;
@@ -38474,23 +38924,25 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-radius: 0px;
   padding: 0px;
   margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .mechaarmure section.menu div.reaction div.line,
 .mechaarmure section.menu div.defense div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 45px;
 }
 .mechaarmure section.menu div.reaction div.line span.label,
 .mechaarmure section.menu div.defense div.line span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .mechaarmure section.menu div.reaction div.line span.score,
 .mechaarmure section.menu div.defense div.line span.score {
@@ -38500,21 +38952,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .mechaarmure section.menu div.initiative div.line {
-  display: flex;
+  display: grid;
   width: 100%;
   line-height: 29px;
-  justify-content: space-between;
+  grid-template-columns: 1fr 45px;
 }
 .mechaarmure section.menu div.initiative div.line span.label {
   display: inline-block;
-  width: calc(100% - 45px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 5px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .mechaarmure section.menu div.initiative div.line span.score {
   display: inline-block;
@@ -38523,6 +38978,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   text-align: center;
   font-size: 12px;
+  border-top: 0px !important;
+  border-bottom: 1px solid RGB(43 42 51) !important;
 }
 .mechaarmure section.menu section.mainBlock {
   display: block;
@@ -38530,23 +38987,22 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .mechaarmure section.menu section.mainBlock > div {
   display: block;
 }
-.mechaarmure section.menu section.mainBlock > div div.optionHide {
-  display: none;
-}
-.mechaarmure section.menu section.mainBlock > div div.optionShow {
-  display: flex;
-}
-.mechaarmure section.menu section.mainBlock > div span.option.withBorder,
-.mechaarmure section.menu section.mainBlock > div span.label.withBorder {
-  border-bottom: 1px solid RGB(43 42 51);
-}
-.mechaarmure section.menu section.mainBlock > div span.score.withBorder,
-.mechaarmure section.menu section.mainBlock > div span.separation.withBorder,
-.mechaarmure section.menu section.mainBlock > div input.withBorder {
-  border-bottom: 1px solid RGB(76 74 90);
-}
 .mechaarmure section.menu section.mainBlock > div:last-of-type {
   border-bottom: 1px solid black;
+}
+.mechaarmure section.menu section.mainBlock > div:last-of-type div.line span,
+.mechaarmure section.menu section.mainBlock > div:last-of-type div.line input {
+  border-bottom: 0px;
+}
+.mechaarmure section.menu section.mainBlock > div:last-of-type div.subLine:nth-of-type(2) span {
+  border-top: 1px solid RGB(43 42 51);
+}
+.mechaarmure section.menu section.mainBlock > div:last-of-type div.subLine:nth-of-type(2) input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.mechaarmure section.menu section.mainBlock > div:last-of-type div.subLine:last-of-type span,
+.mechaarmure section.menu section.mainBlock > div:last-of-type div.subLine:last-of-type input {
+  border-bottom: 0px;
 }
 .mechaarmure section.menu section.mainBlock:not(:first-of-type) > div:first-of-type {
   border-top: 1px solid black;
@@ -38970,14 +39426,15 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   cursor: pointer;
 }
 .mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block div.subLine {
+  display: grid;
   width: 100%;
   line-height: 30px;
   justify-content: space-between;
-  margin-top: 1px;
+  grid-template-columns: 1fr 74px;
 }
 .mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block div.subLine span.label {
   display: inline-block;
-  width: calc(100% - 45px - 29px);
+  width: 100%;
   height: 30px;
   font-variant: small-caps;
   font-size: 16px;
@@ -38986,7 +39443,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block div.subLine input {
   display: inline-block;
-  width: 74px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -38996,21 +39453,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding: 0px;
   margin: 0px;
 }
-.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block div.optionHide {
-  display: none;
+.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block div:not(:first-of-type) span {
+  border-top: 1px solid RGB(43 42 51);
 }
-.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block div.optionShow {
-  display: flex;
+.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block div:not(:first-of-type) input {
+  border-top: 1px solid RGB(76 74 90);
 }
-.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block span.option.withBorder,
-.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block span.label.withBorder {
-  border-bottom: 1px solid RGB(43 42 51) !important;
+.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block:not(:first-of-type) img {
+  border-top: 1px solid RGB(43 42 51);
 }
-.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block span.score.withBorder,
-.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block span.separation.withBorder,
-.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block input.withBorder,
-.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block img.withBorder {
-  border-bottom: 1px solid RGB(76 74 90) !important;
+.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block:not(:first-of-type) span.option {
+  border-top: 1px solid RGB(43 42 51);
+}
+.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block:not(:first-of-type) span.label {
+  border-top: 1px solid RGB(43 42 51);
+}
+.mechaarmure section.body div.caracteristiques div.main div.mainBlock div.block:not(:first-of-type) span.score {
+  border-top: 1px solid RGB(76 74 90);
 }
 .mechaarmure section.body div.configurations h2.header {
   display: block;
@@ -39875,157 +40334,221 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 
 .knight-roll {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2px;
+}
+.knight-roll div.tags {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+  justify-content: space-between;
+}
+.knight-roll div.tags span {
+  display: inline-block;
+  padding: 2px;
+  font-variant: small-caps;
+  font-size: 13px;
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 2px RGB(43 42 51);
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+.knight-roll div.dice-result {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2px;
   cursor: pointer;
 }
-.knight-roll div.flavor-wpn {
-  font-size: 14px;
-  font-weight: bold;
+.knight-roll div.dice-flavor {
+  text-align: right;
+  font-size: var(--font-size-12);
 }
 .knight-roll div.dice-formula {
   border-radius: 0px;
   box-shadow: 1px 1px 2px RGB(43 42 51);
-}
-.knight-roll div.dice-total {
-  display: block;
-  width: 100%;
+  margin: 0;
+  line-height: 24px;
+  text-align: center;
   background: rgba(0, 0, 0, 0.1);
   border: 1px solid var(--color-border-light-2);
+}
+.knight-roll div.dice-tooltip {
+  display: none;
+}
+.knight-roll div.important {
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 20px;
+}
+.knight-roll div.listTargets {
+  display: grid;
+  grid-template-columns: 1fr;
+  text-align: left;
+  font-variant: small-caps;
+  font-size: 16px;
   box-shadow: 1px 1px 2px RGB(43 42 51);
-}
-.knight-roll div.dice-total h4.dice-total {
-  border: 0px;
-  background: transparent;
-  box-shadow: none;
-}
-.knight-roll div.dice-total span {
-  font-size: 13px;
-  font-weight: normal;
-  text-align: left;
-  display: block;
-  padding-left: 5px;
-  padding-right: 5px;
-  line-height: 16px;
-}
-.knight-roll div.dice-explode {
-  margin-bottom: -2px;
-  border-bottom: 0px;
-  border-radius: 0px;
-}
-.knight-roll div.subResult div.dice-formula {
-  border-top: 0px;
-  margin-bottom: 0px;
-}
-.knight-roll div.subResult div.dice-formula span.label {
-  font-weight: bold;
-  font-variant: small-caps;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.knight-roll div.subResult div.dice-formula span.result {
-  font-weight: bold;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.knight-roll div.subResult div.dice-formula span.description {
-  display: block;
-  width: 100%;
-  text-align: justify;
-  line-height: 18px;
-  font-size: 13px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.knight-roll div.subResult div.dice-formula span.description p {
-  margin: 0px;
-  word-break: break-word;
-}
-.knight-roll div.otherResults div.dice-formula {
-  text-align: justify;
-  margin-top: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  line-height: 19px;
-  word-break: break-word;
-}
-.knight-roll div.otherResults div.dice-formula div.oneLine {
-  display: blocK;
-  width: 100%;
-  text-align: center;
-  line-height: 24px;
-}
-.knight-roll div.otherResults div.dice-formula div.oneLine span.label {
-  font-weight: bold;
-  font-variant: small-caps;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.knight-roll div.otherResults div.dice-formula > span.label {
-  font-size: 13px;
-}
-.knight-roll div.oneLine {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-.knight-roll div.style {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-highlight);
   margin-bottom: 5px;
+  margin-top: 5px;
 }
-.knight-roll div.style div.dice-total {
+.knight-roll div.listTargets div.target {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  padding-left: 5px;
+  padding-right: 5px;
+  cursor: help;
+}
+.knight-roll div.listTargets div.target.sub {
   font-size: 14px;
+  line-height: 14px;
 }
-.knight-roll div.atkTouche div.dice-formula {
-  margin-bottom: 5px;
-  margin-top: 5px;
-  border-color: white;
+.knight-roll div.listTargets span.label {
+  font-weight: bold;
 }
-.knight-roll div.atkTouche div.dice-formula::before {
-  content: attr(title);
-  position: absolute;
-  left: 0px;
-  top: -5px;
-  background: white;
+.knight-roll div.listTargets span.hit {
+  font-weight: bold;
+  color: #18520b;
+}
+.knight-roll div.listTargets span.dmg {
+  font-weight: bold;
+  color: #AF0000;
+}
+.knight-roll div.listTargets span.fail {
+  font-weight: bold;
+  color: #AF0000;
+}
+.knight-roll div.listTargets span.subtitle {
+  grid-column: 1/3;
+}
+.knight-roll div.listTargets span.defense {
+  text-align: right;
+  font-size: 14px;
+  line-height: 14px;
+}
+.knight-roll div.btn {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+}
+.knight-roll div.btn button {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  background: RGB(76 74 90);
+  color: white;
   border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  align-items: center;
+  height: 20px;
+  line-height: 20px;
+  padding: 0px;
+  font-variant: small-caps;
+}
+.knight-roll div.btn button:hover {
+  background: white;
+  color: RGB(43 42 51);
+}
+.knight-roll div.btn.full {
+  grid-template-columns: 1fr;
+}
+.knight-roll div.effets {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: left;
+  font-size: 16px;
+  box-shadow: 1px 1px 2px RGB(43 42 51);
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-light-2);
+  padding-left: 2px;
+  padding-right: 2px;
+  text-align: justify;
+}
+.knight-roll div.effets span {
+  display: contents;
+  font-variant: small-caps;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  cursor: help;
+}
+.knight-roll div.details {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  text-align: left;
+  font-size: 16px;
+  box-shadow: 1px 1px 2px RGB(43 42 51);
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-light-2);
+  padding-left: 2px;
+  padding-right: 2px;
+}
+.knight-roll div.details.withTooltip {
+  cursor: pointer;
+}
+.knight-roll div.details.withTooltip div.dice-tooltip {
+  grid-column: 1/3;
+  background: RGB(98 97 111);
+  padding: 2px;
+  margin-left: -2px;
+  margin-right: -2px;
+  color: RGB(193, 193, 193);
+}
+.knight-roll div.details span.label {
+  display: grid;
+  width: 100%;
+  font-weight: bold;
+  font-variant: small-caps;
+  font-size: 14px;
+  height: 20px;
+  align-items: flex-end;
+}
+.knight-roll div.details span.value {
+  display: grid;
+  width: 100%;
+  font-weight: bold;
+  font-size: 18px;
+  height: 20px;
+  align-items: flex-end;
+  justify-content: right;
+}
+.knight-roll div.details span.description {
+  grid-column: 1/3;
+  display: grid;
+  width: 100%;
+  text-align: justify;
+  font-size: 12px;
+}
+.knight-roll div.success {
+  color: #18520b;
+  font-variant: small-caps;
+  font-size: 16px;
+}
+.knight-roll div.fail {
+  color: #AF0000;
+  font-variant: small-caps;
+  font-size: 16px;
+}
+.knight-roll div.text.important {
+  font-variant: small-caps;
+  font-weight: bold;
+}
+.knight-roll h4.dice-total {
+  display: grid;
+  line-height: 24px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-border-light-2);
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px RGB(43 42 51);
+  word-break: break-all;
+  margin: 0px;
+  font-size: 20px;
+  font-weight: bold;
   padding-left: 5px;
   padding-right: 5px;
-  width: 75px;
-  word-break: keep-all;
-  line-height: 15px;
-}
-.knight-roll div.toHide {
-  border: 1px solid white;
-  border-radius: 0px;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
-}
-.knight-roll div.toHide div.dice-formula {
-  padding-top: 30px;
-  margin-bottom: 5px;
-  margin-top: 5px;
-  border-color: white;
-}
-.knight-roll div.toHide div.dice-formula::before {
-  content: attr(title);
-  position: absolute;
-  left: 0px;
-  top: -5px;
-  background: white;
-  border-radius: 5px;
-  width: 100%;
-  height: 30px;
-  word-break: keep-all;
-  line-height: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.knight-roll div.toHide div.dice-formula span {
-  width: 100%;
-  display: block;
-  text-align: left;
-  padding-left: 5px;
-}
-.knight-roll div.toHide div.dice-total {
-  border-color: white;
 }
 .knight-roll span.caracs {
   word-break: break-word;
@@ -40056,29 +40579,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 100%;
   color: #AF0000;
 }
-.knight-roll span.fullLine {
-  display: block;
-  width: 100%;
-}
-.knight-roll h4.dice-exploit {
-  margin-top: 5px;
-  flex: 0;
-  font-size: 18px;
-  font-weight: bold;
-  position: relative;
-  margin-bottom: 0;
-  margin-left: 0;
-  margin-right: 0;
-  line-height: 24px;
-  text-align: center;
-  background: rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--color-border-light-2);
-  border-radius: 3px;
-  box-shadow: 0 0 2px #fff inset;
-  word-break: break-all;
-  font-variant: small-caps;
-  color: #18520b;
-}
 .knight-roll button.btn {
   background: rgba(0, 0, 0, 0.1);
   box-shadow: 1px 1px 4px RGB(43 42 51);
@@ -40089,6 +40589,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight-roll button.btnDgts, .knight-roll button.btnViolence {
   order: 3;
+}
+.knight-roll button.relancedegats {
+  grid-column: 1/3;
 }
 
 .windowsEvolutionCompanions {
@@ -40110,6 +40613,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   grid-template-columns: repeat(7, 1fr);
   border: 0px;
   margin-bottom: 0px;
+  align-items: flex-end;
 }
 .compendium section.window-content section.body nav a {
   display: flex;
@@ -40117,6 +40621,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   align-items: center;
   border-top: 1px solid RGB(87 110 178);
   border-left: 1px solid RGB(87 110 178);
+  min-height: 51px;
 }
 .compendium section.window-content section.body nav a:first-of-type {
   border-top-left-radius: 5px;

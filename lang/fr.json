@@ -72,6 +72,8 @@
     "PointsFaibles":"Points Faibles",
     "AjouterPF":"Ajouter un point faible",
     "Tactique":"Tactique",
+    "Colosse":"Colosse",
+    "Patron":"Patron",
     "VEHICULE":{
       "Manoeuvrabilite":"Manoeuvrabilité",
       "Vitesse":"Vitesse",
@@ -516,7 +518,7 @@
           "FullLabel":"Style Puissant",
           "Label": "Puissant",
           "Info": "<b>Limitations :</b> Uniquement armes de contact avec l'effet Lourd. <br/><br/><b>Bonus :</b> Peut sacrifier 1D à l'Attaque pour 1D de Dégâts ou de Violence supplémentaire. (max -6D / +6D) <br/><br/><b>Malus :</b> -2 Réaction / -2 Défense.",
-          "Sacrifice":"Sacrifice dés d'attaques"
+          "Sacrifice":"Sacrifice de dés d'attaques"
         },
         "SUPPRESSION": {
           "FullLabel":"Style Suppression",
@@ -551,7 +553,8 @@
         "Autrui":"Sur Autrui",
         "Soin":"Soin",
         "Armure":"Armure",
-        "Energie":"Energie"
+        "Energie":"Energie",
+        "JetParDefaut":"Valeur par défaut des jets du nod"
       },
       "GRENADES":{
         "Label": "Grenades",
@@ -803,13 +806,16 @@
       },
       "ESPERANCE": {
         "Label":"Espérance",
-        "Description":"S’il le veut, un PJ peut décider d’échanger les dégâts qu’il devrait infliger contre l’application de l’effet _espérance_. Les PNJ désespérés touchés par l’attaque peuvent effectuer un test de _Bête_ difficulté (5) pour combattre le désespoir. Chaque attaque supplémentaire infligée par l’équipement à un même désespéré et appliquant l’effet _espérance_ fait baisser le niveau de difficulté du test de 1. Si le désespéré réussit son test, alors il a réussi à vaincre le désespoir et n’est plus un ennemi.",
+        "Description":"Contre des désespérés, l’équipement est extrêmement puissant. S’il le veut, un PJ peut décider d’échanger les dégâts qu’il devrait infliger contre l’application de l’effet _espérance_. L’arme, plutôt que d’infliger des dégâts, traverse alors le corps du désespéré, arrachant une partie de son désespoir.\r\nS’il le fait, chaque PNJ désespéré touché par l’attaque peut effectuer un test de _Bête_ difficulté ardu (5) (ou _Hargne_ combo _Sang-Froid_ dans le cas d’un PJ) pour combattre le désespoir. Chaque attaque supplémentaire infligée par l’équipement à un même désespéré et appliquant l’effet _espérance_ fait baisser le niveau de difficulté du test de 1. Si le désespéré réussit son test, alors il a réussi à vaincre le désespoir et n’est plus un ennemi. Il peut se joindre aux chevaliers ou rester terrorisé par ce qu’il a commis ou par ce qui lui est arrivé (au choix du MJ).\r\nContre une bande de désespérés, on considère que l’équipement fait simplement baisser sa cohésion. Cependant, si le personnage utilisant un équipement avec l’effet _espérance_ a infligé assez de violence à une bande pour qu’elle tombe à 0 point de cohésion, les désespérés qui la composent reprennent espoir et retrouvent simplement leurs esprits. Ils se souviendront tout de même des actes qu’ils ont commis.\r\nContre les autres types d’ennemis, les équipements possédant l’effet _espérance_ infligent des dégâts et de la violence de manière normale.",
         "Description-short":"S’il le veut, un PJ peut décider d’échanger les dégâts qu’il devrait infliger contre l’application de l’effet _espérance_. Les PNJ désespérés touchés par l’attaque peuvent effectuer un test de _Bête_ difficulté (5) pour combattre le désespoir. Chaque attaque supplémentaire infligée par l’équipement à un même désespéré et appliquant l’effet _espérance_ fait baisser le niveau de difficulté du test de 1. Si le désespéré réussit son test, alors il a réussi à vaincre le désespoir et n’est plus un ennemi."
       },
       "EXCELLENCE": {
         "Label":"Excellence",
         "Description":"Sur test d'attaque, chaque réussite excédentaire (OD compris) inflige 2 points de dégâts (ou de violence) supplémentaire.",
         "Description-short":"Sur test d'attaque, chaque réussite excédentaire (OD compris) inflige 2 points de dégâts (ou de violence) supplémentaire."
+      },
+      "FUMIGENE":{
+        "Label":"Fumigène"
       },
       "FUREUR": {
         "Label":"Fureur",
@@ -832,9 +838,6 @@
         "Label":"Ignore Champ De Force",
         "Description":"L'arme ignore purement et simplement le champ de force d'un adversaire. Les PS de la cible sont directement touchée si les dégâts passent les PA ou le bouclier.",
         "Description-short":"L'arme ignore purement et simplement le champ de force d'un adversaire. Les PS de la cible sont directement touchée si les dégâts passent les PA ou le bouclier."
-      },
-      "IMMOBILISATION":{
-        "Label":"Immobilisation"
       },
       "JUMELEAKIMBO": {
         "Label":"Jumelé (akimbo)",
@@ -941,6 +944,46 @@
         "Label":"Ultraviolence",
         "Description":"Lorsque l'arme est utilisée contre une bande avec un score d'aspect _Chair_ de moins de 10, la violence de l'arme est augmentée de 2D6.",
         "Description-short":"Lorsque l'arme est utilisée contre une bande avec un score d'aspect _Chair_ de moins de 10."
+      },
+      "IMMOBILISATION":{
+        "Label":"Immobilisation",
+        "Description":"Après avoir touché une cible avec une arme possédant l’effet immobilisation X, celle-ci est entravée et ne peut plus se déplacer. Pour se libérer de l’effet Immobilisation, la cible touchée doit, à son tour, au prix d’une action de déplacement, réussir un test base Déplacement ou Dextérité (aspect Chair ou Masque) difficulté X.",
+        "Description-short":"La cible est immobilisée. A son tour, elle doit faire une action de déplacement et réussir un jet Déplacement ou Dextérité (aspect Chair ou Masque) difficulté X."
+      },
+      "BOOSTDEGATS":{
+        "Label":"Boost (dégâts)",
+        "Description":"Le chevalier ajoute 1D6 de dégâts pour chaque PE utilisé pour cet effet, dans la limite de XD6 par action.",
+        "Description-short":"Le chevalier ajoute 1D6 de dégâts pour chaque PE utilisé pour cet effet, dans la limite de XD6 par action."
+      },
+      "BOOSTVIOLENCE":{
+        "Label":"Boost (violence)",
+        "Description":"Le chevalier ajoute 1D6 de violence pour chaque PE utilisé pour cet effet, dans la limite de XD6 par action.",
+        "Description-short":"Le chevalier ajoute 1D6 de violence pour chaque PE utilisé pour cet effet, dans la limite de XD6 par action."
+      },
+      "INTIMIDANTEHUMAINS":{
+        "Label":"Intimidante (humains)",
+        "Description":"Lorsque l’arme est utilisée contre des bandes humaines, le score de la caractéristique Aura (plus les éventuels OD) du PJ est ajouté à la violence. Dans le cas des PNJ, c’est la moitié du score de Dame (plus le score de Dame exceptionnel éventuel) qui est ajoutée à la violence.",
+        "Description-short":"Lorsqu'utilisé contre des bandes humaines, ajoute Aura (+OD) ou Dame/2 (+Aspect Exceptionnel) à la violence."
+      },
+      "INTIMIDANTEANATHEME":{
+        "Label":"Intimidante (anathème)",
+        "Description":"Lorsque l’arme est utilisée contre des bandes de l'anathème, le score de la caractéristique Aura (plus les éventuels OD) du PJ est ajouté à la violence. Dans le cas des PNJ, c’est la moitié du score de Dame (plus le score de Dame exceptionnel éventuel) qui est ajoutée à la violence.",
+        "Description-short":"Lorsqu'utilisé contre des bandes de l'anathème, ajoute Aura (+OD) ou Dame/2 (+Aspect Exceptionnel) à la violence."
+      },
+      "CDF":{
+        "Label":"CDF",
+        "Description":"L’utilisateur reçoit un modificateur de CdF, X représentant cette valeur, tant qu’il utilise cette arme ou module. Les modificateurs reçus s'ajoutent à l'éventuel CdF d'une méta armure ou d'une combinaison Guardian et peuvent se cumuler avec de possibles modules ou capacité de méta-armure.",
+        "Description-short":"Ajoute un bonus égal à X au CdF de l'armure ou de la guardian."
+      },
+      "RETOURFLAMME":{
+        "Label":"Retour de flamme",
+        "Description":"Si l’utilisateur n’obtient aucune réussite sur son jet d’attaque, il subit les dégâts de l’arme à la place de la cible.",
+        "Description-short":"Si l’utilisateur n’obtient aucune réussite sur son jet d’attaque, il subit les dégâts de l’arme à la place de la cible."
+      },
+      "SANSARMURE":{
+        "Label":"Sans armure",
+        "Description":"L’arme peut être utilisée sans méta-armure.",
+        "Description-short":"L’arme peut être utilisée sans méta-armure."
       }
     },
     "AMELIORATIONS":{
@@ -2169,14 +2212,27 @@
       "Nodssoin":"Nods de Soin",
       "Nodsarmure":"Nods d'Armure",
       "Nodsenergie":"Nods d'Energie",
+      "NotNods":"Pas assez de nods",
       "JetPilotage":"Jet de pilotage",
       "AttackSurprise":"Attaque surprise",
+      "MaximizeDegats":"Maximiser les dégâts",
+      "MaximizeViolence":"Maximiser la violence",
+      "MaximizeDegatsTag":"Dégâts Maximisés",
+      "MaximizeViolenceTag":"Violence Maximisée",
+      "JetReussi":"Jet réussi",
+      "JetEchoue":"Jet échoué",
+      "AugmenterDebordement":"Augmenter le débordement",
+      "DebordementAugmente":"Le débordement augmente...",
       "RESULTATS":{
+        "Affecte":"Affecté",
+        "PasAffecte":"Pas affecté",
         "Touche":"Touché",
         "Manque":"Manqué",
         "VsReaction":"vs Réaction",
         "VsDefense":"vs Défense",
-        "PFTarget":"Point faible ciblé !"
+        "PFTarget":"Point faible ciblé !",
+        "DegatsAvec":"Dégâts avec {avec}",
+        "ProtegePar":"Protégé par {aspect}"
       },
       "CHAIRD2": {
         "Has":"Ajoute la Chair divisé par 2 aux dégâts",
@@ -2185,6 +2241,10 @@
       "BETE":{
         "Mineur":"Bête mineur",
         "Majeur":"Bête majeur"
+      },
+      "CHAIR":{
+        "Mineur":"Chair mineur",
+        "Majeur":"Chair majeur"
       }
     },
     "AUTRE": {
@@ -2248,6 +2308,10 @@
       "NonNomme":"Non nommé",
       "Confirmation":"Êtes vous sûre ?",
       "ConfirmationSuppression":"Êtes vous sûre de vouloir supprimer cet objet ?",
+      "ConfirmationEnergie":"Êtes vous sûre de vouloir récupérer toute votre énergie ?",
+      "ConfirmationArmure":"Êtes vous sûre de vouloir récupérer toute votre armure ?",
+      "ConfirmationSante":"Êtes vous sûre de vouloir récupérer toute votre santé ?",
+      "ConfirmationEspoir":"Êtes vous sûre de vouloir récupérer toute votre espoir ?",
       "Reset":"Reset",
       "Difficulte":"Difficulté",
       "MJOnly":"MJ Uniquement",
@@ -2308,6 +2372,7 @@
       "ConflitScene":"Une phase de conflit ou une scène",
       "ConflitTuer":"Jusqu'à la fin de la phase de conflit ou jusqu'à ce que le chevalier ait réussi à tuer un ennemi.",
       "ConflitSceneProlonger":"Une scène ou une phase de conflit, peut être prolongé en conservant exactement la même valeur de PE octroyée.",
+      "Heure":"1 heure",
       "Permanent":"Permanent",
       "Sanslimite":"Sanslimite"
     },
@@ -2323,6 +2388,7 @@
       "Combat6Sec": "Action de Combat / 6 secondes",
       "Tour": "1 tour",
       "Tour6Sec": "1 tour / 6 secondes",
+      "DeplacementCombat": "Action de déplacement ou de combat",
       "Toutes": "Action de déplacement, de combat ou 1 tour",
       "TourComplet": "Tour complet"
     },
@@ -2449,12 +2515,20 @@
         "Version3":"Version 3"
       },
       "CODEXFM4":{
-        "Label":"Ajouter les status de token liés au Codex Fan Made 4",
-        "Hint":"Ajoute le status de token 'Immobilisation'"
+        "Label":"Inclure le Codex Fan Made 4",
+        "Hint":"Ajoute le status de token & effets 'Immobilisation', 'Boost', 'CdF', 'Intimidante', 'Retour de flamme', 'Sans armure'."
       },
       "OLDROLL":{
         "Label":"Jeter les dégâts et la violence en même temps que l'attaque",
         "Hint":"S'il n'est pas activé, il y aura des boutons dans les jets d'attaques pour jeter les dégâts et/ou la violence."
+      },
+      "CANEDITNODS":{
+        "Label":"Permettre d'éditer librement les valeurs par défaut des dés des nods",
+        "Hint":"Ajouter une petite case sur les fiches à côté des nods permettant d'éditer les valeures. Attention, même si cette case est décochée par la suite, les modifications effectuées resteront."
+      },
+      "CANPJRESTAURE":{
+        "Label":"Permettre aux joueurs d'avoir accès aux boutons de restauration de Santé / Armure / Energie / Espoir.",
+        "Hint":"Si cette case est décochée, ces options ne seront pas accessible aux PJ et le MJ sera le seul a pouvoir cliquer dessus."
       }
     },
     "GM":{
