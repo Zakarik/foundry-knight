@@ -1,44 +1,16 @@
 import {
   listEffects,
   confirmationDialog,
-  effectsGestion,
-  getFlatEffectBonus,
   getDefaultImg,
   diceHover,
   options,
   hideShowLimited,
   dragMacro,
+  actualiseRoll,
+  getAllEffects,
 } from "../../helpers/common.mjs";
 
-import {
-  dialogRoll,
-  actualiseRoll,
-} from "../../helpers/dialogRoll.mjs";
-
 import toggler from '../../helpers/toggler.js';
-
-const path = {
-  reaction:{
-    bonus:'system.reaction.bonusValue',
-    malus:'system.reaction.malusValue',
-  },
-  defense:{
-    bonus:'system.defense.bonusValue',
-    malus:'system.defense.malusValue',
-  },
-  armure:{
-    bonus:'system.armure.bonusValue',
-    malus:'system.armure.malusValue',
-  },
-  energie:{
-    bonus:'system.energie.bonusValue',
-    malus:'system.energie.malusValue',
-  },
-  champDeForce:{
-    bonus:'system.champDeForce.bonusValue',
-    malus:'system.champDeForce.malusValue',
-  },
-};
 
 /**
  * @extends {ActorSheet}
@@ -92,6 +64,7 @@ export class VehiculeSheet extends ActorSheet {
     super.activateListeners(html);
 
     toggler.init(this.id, html);
+
     hideShowLimited(this.actor, html);
 
     // Everything below here is only needed if the sheet is editable
@@ -196,9 +169,13 @@ export class VehiculeSheet extends ActorSheet {
       const actorId = data.data.system.equipage.pilote.id;
       if(actorId === '') return;
 
-      const actor = game.actors.get(actorId);
+      const dialog = new game.knight.applications.KnightRollDialog(actorId, {
+        label:label,
+        base:aspect,
+        succesbonus:reussites,
+      });
 
-      dialogRoll(label, actor, {base:aspect, succesBonus:reussites});
+      dialog.open();
     });
 
     html.find('.passager-delete').click(ev => {
@@ -259,31 +236,60 @@ export class VehiculeSheet extends ActorSheet {
     });
 
     html.find('.jetPilotage').click(ev => {
-      const data = this.getData();
-      const actorId = data.data.system.equipage.pilote.id;
-      const manoeuvrabilite = data.data.system.manoeuvrabilite;
+      const actorId = this.actor.system.equipage.pilote.id;
+      const manoeuvrabilite = this.actor.system.manoeuvrabilite;
       const label = `${game.i18n.localize("KNIGHT.VEHICULE.Pilotage")} : ${this.actor.name}`
 
       if(actorId === '') return;
+      const actor = this.actor.token ? this.actor.token.id : this.actor.id;
 
-      const actor = game.actors.get(actorId);
+      const dialog = new game.knight.applications.KnightRollDialog(actor, {
+        whoActivate:actorId,
+        label:label,
+        succesbonus:manoeuvrabilite,
+      });
 
-      dialogRoll(label, actor, {modificateur:manoeuvrabilite});
+      dialog.open();
     });
 
     html.find('.jetWpn').click(ev => {
       const target = $(ev.currentTarget);
       const name = target.data("name");
-      const id = target.data("id");
       const actorId = target.data("who");
-      const isDistance = target.data("isdistance");
-      const num = target.data("num");
+      let id = target.data("id");
+      let modificateur = 0;
 
       if(actorId === '') return;
+      const item = this.actor.items.get(id);
 
-      const actor = game.actors.get(actorId);
+      if(item.type === 'module') id = `module_${id}`;
 
-      dialogRoll(name, actor, {isWpn:true, idWpn:id, nameWpn:name, typeWpn:isDistance, num:num, vehicule:this.actor});
+      const actor = this.actor.token ? this.actor.token.id : this.actor.id;
+      const getActor = this.actor.token ? canvas.tokens.get(actor).actor : game.actors.get(actor);
+
+      if(getActor) {
+        if(actor.type === 'pnj' || actor.type === 'creature') {
+          const beteAE = (getActor.system?.aspects?.bete?.ae?.majeur?.value ?? 0) > 0 || (getActor.system?.aspects?.bete?.ae?.mineur?.value ?? 0) > 0 ? true : false
+          const machineAE = (getActor.system?.aspects?.machine?.ae?.majeur?.value ?? 0) > 0 || (getActor.system?.aspects?.machine?.ae?.mineur?.value ?? 0) > 0 ? true : false
+          const masqueAE = (getActor.system?.aspects?.masque?.ae?.majeur?.value ?? 0) > 0 || (getActor.system?.aspects?.masque?.ae?.mineur?.value ?? 0) > 0 ? true : false
+          const hasFumigene = this.actor.statuses.has('fumigene');
+          const notFumigene = beteAE || machineAE || masqueAE ? true : false;
+
+          if(hasFumigene && !notFumigene) modificateur -= 3;
+        } else if(actor.type === 'knight') {
+          const hasFumigene = this.actor.statuses.has('fumigene');
+          if(hasFumigene) modificateur -= 3;
+        }
+      }
+
+      const dialog = new game.knight.applications.KnightRollDialog(actor, {
+        whoActivate:actorId,
+        label:name,
+        wpn:id,
+        modificateur
+      });
+
+      dialog.open();
     });
 
     html.find('.whoActivate').change(ev => {
@@ -441,7 +447,6 @@ export class VehiculeSheet extends ActorSheet {
   }
 
   async _prepareCharacterItems(sheetData) {
-    const version = game.version.split('.');
     const actorData = sheetData.actor;
 
     const armesDistance = [];
@@ -462,13 +467,7 @@ export class VehiculeSheet extends ActorSheet {
       "contact":[],
       "distance":[]
     };
-    const effects = {armes:[], modules:[]};
-    const labels = Object.assign({},
-      CONFIG.KNIGHT.effets,
-      CONFIG.KNIGHT.AMELIORATIONS.distance,
-      CONFIG.KNIGHT.AMELIORATIONS.structurelles,
-      CONFIG.KNIGHT.AMELIORATIONS.ornementales
-    );
+    const labels = Object.assign({}, getAllEffects());
 
     for (let i of sheetData.items) {
       const data = i.system;
@@ -477,18 +476,16 @@ export class VehiculeSheet extends ActorSheet {
       if (i.type === 'arme') {
         const raw = data.effets.raw;
         const custom = data.effets.custom;
-        const labels = CONFIG.KNIGHT.effets;
 
         data.effets.liste = listEffects(raw, custom, labels);
 
         const rawDistance = data.distance.raw;
         const customDistance = data.distance.custom;
-        const labelsDistance = CONFIG.KNIGHT.AMELIORATIONS.distance;
         const optionsMunitions = data?.optionsmunitions?.has || false;
         const munition = data?.options2mains?.actuel || "";
         const effetMunition = data?.optionsmunitions?.liste || {};
 
-        data.distance.liste = listEffects(rawDistance, customDistance, labelsDistance);
+        data.distance.liste = listEffects(rawDistance, customDistance, labels);
 
         if(optionsMunitions === true) {
           data.degats.dice = data.optionsmunitions?.liste?.[munition]?.degats?.dice || 0;
@@ -505,36 +502,6 @@ export class VehiculeSheet extends ActorSheet {
           }
         }
 
-        const bonusEffects = getFlatEffectBonus(i);
-
-        effects.armes.push({
-          key: path.defense.bonus,
-          mode: 2,
-          priority: 3,
-          value: bonusEffects.defense.bonus
-        });
-
-        effects.armes.push({
-          key: path.defense.malus,
-          mode: 2,
-          priority: 3,
-          value: bonusEffects.defense.malus
-        });
-
-        effects.armes.push({
-          key: path.reaction.bonus,
-          mode: 2,
-          priority: 3,
-          value: bonusEffects.reaction.bonus
-        });
-
-        effects.armes.push({
-          key: path.reaction.malus,
-          mode: 2,
-          priority: 3,
-          value: bonusEffects.reaction.malus
-        });
-
         armesDistance.push(i);
       }
 
@@ -544,7 +511,6 @@ export class VehiculeSheet extends ActorSheet {
         const itemDataNiveau = data.niveau.details[`n${niveau}`];
         const itemBonus = itemDataNiveau?.bonus || {has:false};
         const itemArme = itemDataNiveau?.arme || {has:false};
-        const itemEffets = itemDataNiveau?.effets || {has:false};
         const itemOD = itemDataNiveau?.overdrives || {has:false};
         const itemActive = data?.active?.base || false;
         const itemErsatz = itemDataNiveau.ersatz;
@@ -558,50 +524,12 @@ export class VehiculeSheet extends ActorSheet {
         }
 
         if(itemDataNiveau.permanent || itemActive) {
-          let bonusDef = 0;
-          let bonusRea = 0;
-
-          if(itemEffets.has) {
-            const bDefense = itemEffets.raw.find(str => { if(str.includes('defense')) return str; });
-            const bReaction = itemEffets.raw.find(str => { if(str.includes('reaction')) return str; });
-
-            if(bDefense !== undefined) bonusDef += +bDefense.split(' ')[1];
-            if(bReaction !== undefined) bonusRea += +bReaction.split(' ')[1];
-          }
-
           if(itemBonus.has) {
-            const iBArmure = itemBonus.armure;
-            const iBCDF = itemBonus.champDeForce;
-            const iBEnergie = itemBonus.energie;
             const iBDgts = itemBonus.degats;
             const iBDgtsVariable = iBDgts.variable;
             const iBViolence = itemBonus.violence;
             const iBViolenceVariable = iBViolence.variable;
 
-            if(iBArmure.has) {
-              effects.modules.push({
-                key: path.armure.bonus,
-                mode: 2,
-                priority: null,
-                value: iBArmure.value
-              });
-            }
-            if(iBCDF.has) {
-              effects.modules.push({
-                key: path.champDeForce.bonus,
-                mode: 2,
-                priority: null,
-                value: iBCDF.value
-              });
-            }
-            if(iBEnergie.has) {
-              effects.modules.push({
-                key: path.energie.bonus,
-                mode: 2,
-                priority: null,
-                value: iBEnergie.value
-              });
-            }
             if(iBDgts.has) {
               if(iBDgtsVariable.has) {
                 moduleBonusDgtsVariable[iBDgts.type].push({
@@ -660,13 +588,6 @@ export class VehiculeSheet extends ActorSheet {
 
           if(itemArme.has) {
             const moduleEffets = itemArme.effets;
-            const moiduleEffetsRaw = moduleEffets.raw;
-            const moduleEffetsCustom = moduleEffets.custom;
-            const moduleEffetsFinal = {
-              raw:[...new Set(moiduleEffetsRaw)],
-              custom:moduleEffetsCustom,
-              liste:moduleEffets.liste
-            };
 
             let degats = itemArme.degats;
             let violence = itemArme.violence;
@@ -696,42 +617,9 @@ export class VehiculeSheet extends ActorSheet {
               }
             }
 
-            const bDefense = moduleEffetsFinal.raw.find(str => { if(str.includes('defense')) return str; });
-            const bReaction = moduleEffetsFinal.raw.find(str => { if(str.includes('reaction')) return str; });
-
-            if(bDefense !== undefined) bonusDef += bDefense.split(' ')[1];
-            if(bReaction !== undefined) bonusRea += bReaction.split(' ')[1];
-
-            const bonusEffects = getFlatEffectBonus(moduleWpn, true);
-
-            effects.modules.push({
-              key: path.champDeForce.bonus,
-              mode: 2,
-              priority: null,
-              value: bonusEffects.cdf.bonus
-            });
-
             if(itemArme.type === 'distance') {
               armesDistance.push(moduleWpn);
             }
-          }
-
-          if(bonusDef > 0) {
-            effects.modules.push({
-              key: path.defense.bonus,
-              mode: 2,
-              priority: null,
-              value: bonusDef
-            });
-          }
-
-          if(bonusRea > 0) {
-            effects.modules.push({
-              key: path.reaction.bonus,
-              mode: 2,
-              priority: null,
-              value: bonusRea
-            });
           }
         }
 
@@ -766,13 +654,6 @@ export class VehiculeSheet extends ActorSheet {
 
     actorData.armesDistance = armesDistance;
     actorData.modules = module;
-
-    const listWithEffect = [
-      {label:'Armes', data:effects.armes},
-      {label:'Modules', data:effects.modules},
-    ];
-
-    if(sheetData.editable) effectsGestion(this.actor, listWithEffect);
   }
 
   async _depensePE(label, depense, autosubstract=true, html=false) {
@@ -833,12 +714,7 @@ export class VehiculeSheet extends ActorSheet {
   _prepareTranslation(actor, system) {
     const { modules,
       armesDistance } = actor;
-    const labels = Object.assign({},
-      CONFIG.KNIGHT.effets,
-      CONFIG.KNIGHT.AMELIORATIONS.distance,
-      CONFIG.KNIGHT.AMELIORATIONS.structurelles,
-      CONFIG.KNIGHT.AMELIORATIONS.ornementales
-    );
+    const labels = Object.assign({}, getAllEffects());
     const wpnModules = [
       {data:modules, key:'modules'},
       {data:armesDistance, key:'armes'},

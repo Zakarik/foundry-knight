@@ -41,12 +41,7 @@
                 <label class="shortspan separation">
                     <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                     <select name="system.capacites.selected.goliath.activation" {{#if this.softlock}}disabled{{/if}}>
-                        {{#select this.activation}}
-                        <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                        <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                        <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                        <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                        {{/select}}
+                        {{selectOptions (getList 'activationsimple') selected=this.activation localize=true}}
                     </select>
                 </label>
                 <label class="shortspan">
@@ -78,7 +73,7 @@
             <div class="data">
                 <label class="singleLine">
                     <span>{{localize "KNIGHT.BONUS.ChampDeForce"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.Metre"}}</span>
-                    <input type="number" name="system.capacites.barbarian.selected.bonus.cdf.value"
+                    <input type="number" name="system.capacites.selected.goliath.bonus.cdf.value"
                     value="{{this.bonus.cdf.value}}"
                     min="0"
                     {{#if this.softlock}}disabled{{/if}}/>

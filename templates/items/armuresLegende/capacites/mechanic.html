@@ -32,12 +32,7 @@
             <label class="shortspan">
                 <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                 <select name="system.capacites.selected.mechanic.activation.contact" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.activation.contact}}
-                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'activationsimple') selected=this.activation.contact localize=true}}
                 </select>
             </label>
             <div class="shortspan triple">
@@ -71,12 +66,7 @@
             <label class="shortspan">
                 <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                 <select name="system.capacites.selected.mechanic.activation.distance" {{#if this.softlock}}disabled{{/if}}>
-                    {{#select this.activation.distance}}
-                    <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                    <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-                    <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                    <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'activationsimple') selected=this.activation.distance localize=true}}
                 </select>
             </label>
             <div class="shortspan triple">

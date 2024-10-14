@@ -90,12 +90,7 @@
         <div class="add">
             <a data-value="{{systemData.capacites.actuel}}">{{localize "KNIGHT.AUTRE.Ajouter"}}</a>
             <select name="system.capacites.actuel">
-                {{#select systemData.capacites.actuel}}
-                <option value=""></option>
-                    {{#each systemData.capacites.liste  as | key capacite|}}
-                        <option value="{{key.key}}">{{key.label}}</option>
-                    {{/each}}
-                {{/select}}
+                {{selectOptions systemData.capacites.liste selected=systemData.capacites.actuel localize=true blank='' nameAttr="key" labelAttr="label"}}
             </select>
         </div>
         {{#each systemData.capacites.selected as | key selected|}}
@@ -111,12 +106,7 @@
         <div class="add">
             <a data-value="{{systemData.special.actuel}}">{{localize "KNIGHT.AUTRE.Ajouter"}}</a>
             <select name="system.special.actuel">
-                {{#select systemData.special.actuel}}
-                <option value=""></option>
-                {{#each systemData.special.liste  as | key special|}}
-                    <option value="{{key.key}}">{{key.label}}</option>
-                {{/each}}
-                {{/select}}
+                {{selectOptions systemData.special.liste selected=systemData.special.actuel localize=true blank='' nameAttr="key" labelAttr="label"}}
             </select>
         </div>
         {{#each systemData.special.selected as | key selected|}}

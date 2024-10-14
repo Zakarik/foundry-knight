@@ -1,5 +1,8 @@
-import { SortByLabel } from "../../helpers/common.mjs";
-import { listEffects } from "../../helpers/common.mjs";
+import {
+  SortByLabel,
+  listEffects,
+  getAllEffects,
+} from "../../helpers/common.mjs";
 import toggler from '../../helpers/toggler.js';
 /**
  * @extends {ItemSheet}
@@ -96,65 +99,29 @@ export class ArmureSheet extends ItemSheet {
     toggler.init(this.id, html);
 
     // Everything below here is only needed if the sheet is editable
-    if ( !this.isEditable ) return;
-
-    html.find('input.generation').change(ev => {
-      const value = $(ev.currentTarget).val();
-
-      let update = {
-        system:{
-          jauges:{
-            sante:true
-          }
-        }
-      };
-
-      if(value >= 4) {
-        update = {
-          system:{
-            jauges:{
-              sante:false
-            }
-          }
-        };
-      }
-
-      this.item.update(update);
-    });
+    if (!this.isEditable) return;
 
     html.find('.buttonJauge').click(ev => {
       const value = $(ev.currentTarget).data("value");
       const type = $(ev.currentTarget).data("type");
-
+      let update = {};
       let result = false;
 
       if(!value) { result = true; }
 
-      const update = {
-        data:{
-          jauges:{
-            [type]:result
-          }
-        }
-      };
+      update[`system.jauges.${type}`] = result;
 
       this.item.update(update);
     });
 
     html.find('.buttonEspoir').click(ev => {
       const value = $(ev.currentTarget).data("value");
-
+      let update = {};
       let result = false;
 
       if(!value) { result = true; }
 
-      const update = {
-        data:{
-          espoir:{
-            bonus:result
-          }
-        }
-      };
+      update['system.espoir.bonus'] = result;
 
       this.item.update(update);
     });
@@ -162,6 +129,7 @@ export class ArmureSheet extends ItemSheet {
     html.find('.buttonREnergie').click(ev => {
       const value = $(ev.currentTarget).data("value");
 
+      let update = {};
       let result = false;
       let energie = true;
 
@@ -170,16 +138,8 @@ export class ArmureSheet extends ItemSheet {
         energie = false;
       }
 
-      const update = {
-        data:{
-          jauges:{
-            energie:energie
-          },
-          espoir:{
-            remplaceEnergie:result
-          }
-        }
-      };
+      update[`system.jauges.energie`] = energie;
+      update[`system.espoir.remplaceEnergie`] = result;
 
       this.item.update(update);
     });
@@ -191,7 +151,7 @@ export class ArmureSheet extends ItemSheet {
 
       if(actor && value > max) {
         this.item.update({[`system.armure.value`]:max});
-        actor.update({[`system.armure.value`]:max});2
+        actor.update({[`system.armure.value`]:max});
       }
     });
 
@@ -201,6 +161,7 @@ export class ArmureSheet extends ItemSheet {
       let base = data.data.system.capacites.c2038Necromancer.sarcophage.bonus.liste;
       let liste = data.data.system.capacites.selected.sarcophage.bonus.liste;
       let textarea = data.data.system.capacites.selected.sarcophage.textarea;
+      let update = {};
 
       for(let i = 0;i < value;i++) {
         if(liste[`b${i}`] === undefined) {
@@ -257,20 +218,8 @@ export class ArmureSheet extends ItemSheet {
         }
       }
 
-      const update = {
-        data:{
-          capacites:{
-            selected:{
-              sarcophage:{
-                bonus:{
-                  liste
-                },
-                textarea
-              }
-            }
-          }
-        }
-      };
+      update[`system.capacites.selected.sarcophage.bonus.liste`] = liste;
+      update[`system.capacites.selected.sarcophage.textarea`] = textarea;
 
       this.item.update(update);
 
@@ -604,7 +553,7 @@ export class ArmureSheet extends ItemSheet {
       this.item.update(update);
     });
 
-    html.find('div.capacites div.add a').click(ev => {
+    html.find('div.capacites div.add a').click(async ev => {
       const value = $(ev.currentTarget).data("value");
 
       if(value === "") return;
@@ -682,7 +631,7 @@ export class ArmureSheet extends ItemSheet {
         }
       }
 
-      this.item.update(update);
+      await this.item.update(update);
     });
 
     html.find('div.capacites a.verrouillage').click(ev => {
@@ -1897,7 +1846,7 @@ export class ArmureSheet extends ItemSheet {
 
     const bRaw = bEffets.raw;
     const bCustom = bEffets.custom;
-    const bLabels = CONFIG.KNIGHT.effets;
+    const bLabels = getAllEffects();
 
     bEffets.liste = listEffects(bRaw, bCustom, bLabels);
   }
@@ -1909,7 +1858,7 @@ export class ArmureSheet extends ItemSheet {
     const cLEffets = cEffets.desactivationexplosive.effets;
     const raw = cLEffets.raw;
     const custom = cLEffets.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     cLEffets.liste = listEffects(raw, custom, labels);
   }
@@ -1921,7 +1870,7 @@ export class ArmureSheet extends ItemSheet {
     const effetsG = capacite.polymorphie.griffe.effets;
     const rawG = effetsG.raw;
     const customG = effetsG.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     const effetsL = capacite.polymorphie.lame.effets;
     const rawL = effetsL.raw;
@@ -1961,8 +1910,7 @@ export class ArmureSheet extends ItemSheet {
     const lRA = lA.raw;
     const lCA = lA.custom;
 
-    const labels = CONFIG.KNIGHT.effets;
-    const labelsA = CONFIG.KNIGHT.AMELIORATIONS.distance;
+    const labels = getAllEffects();
 
     const lEffets3 = lE3.acces;
 
@@ -1970,7 +1918,7 @@ export class ArmureSheet extends ItemSheet {
     lE1.liste = listEffects(lR1, lC1, labels);
     lE2.liste = listEffects(lR2, lC2, labels);
     lE3.liste = listEffects(lR3, lC3, labels);
-    lA.liste = listEffects(lRA, lCA, labelsA);
+    lA.liste = listEffects(lRA, lCA, labels);
 
     if(lEffets3) {
       lE3.label = game.i18n.localize(CONFIG.KNIGHT.longbow["effets3"]);
@@ -1985,7 +1933,7 @@ export class ArmureSheet extends ItemSheet {
 
     const bRaw = bEffets.raw;
     const bCustom = bEffets.custom;
-    const bLabels = CONFIG.KNIGHT.effets;
+    const bLabels = getAllEffects();
 
     bEffets.liste = listEffects(bRaw, bCustom, bLabels);
   }
@@ -1999,12 +1947,6 @@ export class ArmureSheet extends ItemSheet {
     if(!bSEffets) return;
     if(!bREffets) return;
 
-    function _sortByName(x, y){
-      if (x.name.toLowerCase() < y.name.toLowerCase()) {return -1;}
-      if (x.name.toLowerCase() > y.name.toLowerCase()) {return 1;}
-      return 0;
-    }
-
     const bVRaw = bVEffets.raw;
     const bVCustom = bVEffets.custom;
     const bSRaw = bSEffets.raw;
@@ -2012,7 +1954,7 @@ export class ArmureSheet extends ItemSheet {
     const bRRaw = bREffets.raw;
     const bRCustom = bREffets.custom;
 
-    const bLabels = CONFIG.KNIGHT.effets;
+    const bLabels = getAllEffects();
 
     bVEffets.liste = listEffects(bVRaw, bVCustom, bLabels);
     bSEffets.liste = listEffects(bSRaw, bSCustom, bLabels);
@@ -2025,7 +1967,7 @@ export class ArmureSheet extends ItemSheet {
     const wEffets = companions?.wolf?.armes || false;
     const bEffets = companions?.wolf?.configurations?.fighter?.bonus?.effets || false;
 
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     if(!companions) return;
 
@@ -2060,7 +2002,7 @@ export class ArmureSheet extends ItemSheet {
 
     const raw = plEffets.raw;
     const custom = plEffets.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     plEffets.liste = listEffects(raw, custom, labels);
   }
@@ -2072,7 +2014,7 @@ export class ArmureSheet extends ItemSheet {
 
     const raw = iEffets.raw;
     const custom = iEffets.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     iEffets.liste = listEffects(raw, custom, labels);
   }
@@ -2393,14 +2335,14 @@ export class ArmureSheet extends ItemSheet {
 
     if(!capacite) return;
 
-    const colereBonus = capacite.colere.combosBonus.has;
-    const colereInterdits = capacite.colere.combosInterdits.has;
+    const colereBonus = capacite?.colere?.combosBonus?.has ?? false;
+    const colereInterdits = capacite?.colere?.combosInterdits?.has ?? false;
 
-    const rageBonus = capacite.rage.combosBonus.has;
-    const rageInterdits = capacite.rage.combosInterdits.has;
+    const rageBonus = capacite?.rage?.combosBonus?.has ?? false;
+    const rageInterdits = capacite?.rage?.combosInterdits?.has ?? false;
 
-    const fureurBonus = capacite.fureur.combosBonus.has;
-    const fureurInterdits = capacite.fureur.combosInterdits.has;
+    const fureurBonus = capacite?.fureur?.combosBonus?.has ?? false;
+    const fureurInterdits = capacite?.fureur?.combosInterdits?.has ?? false;
 
     if(colereBonus) {
       capacite.colere.combosBonus.label = game.i18n.localize(CONFIG.KNIGHT.rage["comboBonus"]);
@@ -2549,7 +2491,7 @@ export class ArmureSheet extends ItemSheet {
 
     const raw = plEffets.raw;
     const custom = plEffets.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     plEffets.liste = listEffects(raw, custom, labels);
   }
@@ -2560,7 +2502,7 @@ export class ArmureSheet extends ItemSheet {
 
     const bRaw = bEffets.raw;
     const bCustom = bEffets.custom;
-    const bLabels = CONFIG.KNIGHT.effets;
+    const bLabels = getAllEffects();
 
     bEffets.liste = listEffects(bRaw, bCustom, bLabels);
   }
@@ -2571,7 +2513,7 @@ export class ArmureSheet extends ItemSheet {
 
     const bRaw = bEffets.raw;
     const bCustom = bEffets.custom;
-    const bLabels = CONFIG.KNIGHT.effets;
+    const bLabels = getAllEffects();
 
     bEffets.liste = listEffects(bRaw, bCustom, bLabels);
   }
@@ -2583,7 +2525,7 @@ export class ArmureSheet extends ItemSheet {
     const cLEffets = cEffets.desactivationexplosive.effets;
     const raw = cLEffets.raw;
     const custom = cLEffets.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     cLEffets.liste = listEffects(raw, custom, labels);
   }
@@ -2595,7 +2537,7 @@ export class ArmureSheet extends ItemSheet {
 
     const raw = iEffets.raw;
     const custom = iEffets.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     iEffets.liste = listEffects(raw, custom, labels);
   }
@@ -2623,7 +2565,7 @@ export class ArmureSheet extends ItemSheet {
 
     const lEffets3 = lE3.acces;
 
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     if(lEffets3) {
       lE3.label = game.i18n.localize(CONFIG.KNIGHT.longbow["effets3"]);
@@ -2644,7 +2586,7 @@ export class ArmureSheet extends ItemSheet {
     const effetsG = cEffets.polymorphie.griffe.effets;
     const rawG = effetsG.raw;
     const customG = effetsG.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     const effetsL = cEffets.polymorphie.lame.effets;
     const rawL = effetsL.raw;
@@ -2674,7 +2616,7 @@ export class ArmureSheet extends ItemSheet {
     const bSCustom = bSEffets.custom;
     const bRRaw = bREffets.raw;
     const bRCustom = bREffets.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     bVEffets.liste = listEffects(bVRaw, bVCustom, labels);
     bSEffets.liste = listEffects(bSRaw, bSCustom, labels);

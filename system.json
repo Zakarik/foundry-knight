@@ -38,6 +38,12 @@
     "minimum": "11",
     "verified": "12"
   },
+  "media": [
+    {
+        "type": "setup",
+        "thumbnail": "systems/knight/assets/artwork/knight-thumbnail.webp"
+    }
+  ],
   "primaryTokenAttribute":"sante",
   "secondaryTokenAttribute":"armure",
   "gridDistance": 5,

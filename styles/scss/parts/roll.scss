@@ -1,280 +1,320 @@
 .knight-roll {
-    cursor:pointer;
+  display:grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2px;
 
-    div {
-      &.flavor-wpn {
-        font-size:14px;
-        font-weight:bold;
-      }
+  div {
+    &.tags {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 2px;
+      justify-content: space-between;
 
-      &.dice-formula {
-        border-radius:0px;
-        box-shadow: 1px 1px 2px $black;
-      }
-
-      &.dice-total {
-        display:block;
-        width:100%;
+      span {
+        display: inline-block;
+        padding:2px;
+        font-variant: small-caps;
+        font-size: 13px;
         background: rgba(0, 0, 0, 0.1);
-        border: 1px solid var(--color-border-light-2);
         box-shadow: 1px 1px 2px $black;
+        text-align:center;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+      }
+    }
 
-        h4.dice-total {
-          border:0px;
-          background:transparent;
-          box-shadow:none;
-        }
+    &.dice-result {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-gap: 2px;
+      cursor: pointer;
+    }
 
-        span {
-          font-size: 13px;
-          font-weight: normal;
-          text-align: left;
-          display: block;
+    &.dice-flavor {
+      text-align: right;
+      font-size: var(--font-size-12);
+    }
+
+    &.dice-formula {
+      border-radius:0px;
+      box-shadow: 1px 1px 2px $black;
+      margin: 0;
+      line-height: 24px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--color-border-light-2);
+    }
+
+    &.dice-tooltip {
+      display: none;
+    }
+
+    &.important {
+      font-variant: small-caps;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    &.listTargets {
+      display: grid;
+      grid-template-columns: 1fr;
+      text-align: left;
+      font-variant: small-caps;
+      font-size: 16px;
+      box-shadow: 1px 1px 2px $black;
+      background: rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--color-border-highlight);
+      margin-bottom: 5px;
+      margin-top: 5px;
+
+      div {
+        &.target {
+          display: grid;
+          grid-template-columns: 1fr max-content;
           padding-left: 5px;
           padding-right: 5px;
-          line-height: 16px;
-        }
-      }
 
-      &.dice-explode {
-        margin-bottom:-2px;
-        border-bottom:0px;
-        border-radius:0px;
-      }
+          cursor:help;
 
-      &.subResult {
-        div {
-          &.dice-formula {
-            border-top:0px;
-            margin-bottom:0px;
-
-            span {
-              &.label {
-                font-weight:bold;
-                font-variant: small-caps;
-                padding-left:5px;
-                padding-right:5px;
-              }
-
-              &.result {
-                font-weight:bold;
-                padding-left:5px;
-                padding-right:5px;
-              }
-
-              &.description {
-                display:block;
-                width:100%;
-                text-align: justify;
-                line-height: 18px;
-                font-size:13px;
-                padding-left:5px;
-                padding-right:5px;
-
-                p {
-                  margin:0px;
-                  word-break:break-word;
-                }
-              }
-            }
+          &.sub {
+            font-size: 14px;
+            line-height: 14px;
           }
         }
       }
 
-      &.otherResults {
-        div {
-          &.dice-formula {
-            text-align: justify;
-            margin-top:5px;
-            padding-left:5px;
-            padding-right:5px;
-            line-height: 19px;
-            word-break: break-word;
-
-            div {
-              &.oneLine {
-                display:blocK;
-                width:100%;
-                text-align: center;
-                line-height: 24px;
-
-                span {
-                  &.label {
-                    font-weight:bold;
-                    font-variant: small-caps;
-                    padding-left:5px;
-                    padding-right:5px;
-                  }
-                }
-              }
-            }
-
-            >span {
-              &.label {
-                font-size:13px;
-              }
-            }
-          }
-
-
-        }
-      }
-
-      &.oneLine {
-        display:flex;
-        width:100%;
-        justify-content: space-between;
-      }
-
-      &.style {
-        margin-bottom:5px;
-
-        div.dice-total {
-          font-size:14px;
-        }
-      }
-
-      &.atkTouche {
-        div.dice-formula {
-          margin-bottom: 5px;
-          margin-top: 5px;
-          border-color: $white;
-
-          &::before {
-            content: attr(title);
-            position: absolute;
-            left: 0px;
-            top: -5px;
-            background: white;
-            border-radius: 5px;
-            padding-left: 5px;
-            padding-right: 5px;
-            width: 75px;
-            word-break: keep-all;
-            line-height: 15px;
-          }
-        }
-      }
-
-      &.toHide {
-        border: 1px solid $white;
-        border-radius: 0px;
-        border-top-right-radius: 10px;
-        border-top-left-radius: 10px;
-
-        div.dice-formula {
-          padding-top: 30px;
-          margin-bottom: 5px;
-          margin-top: 5px;
-          border-color: $white;
-
-          &::before {
-            content: attr(title);
-            position: absolute;
-            left: 0px;
-            top: -5px;
-            background: white;
-            border-radius: 5px;
-            width: 100%;
-            height: 30px;
-            word-break: keep-all;
-            line-height: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-
-          span {
-            width: 100%;
-            display: block;
-            text-align: left;
-            padding-left: 5px;
-          }
+      span {
+        &.label {
+          font-weight: bold;
         }
 
-        div.dice-total {
-          border-color: $white;
+        &.hit {
+          font-weight: bold;
+          color: $green;
+        }
+
+        &.dmg {
+          font-weight: bold;
+          color: $red;
+        }
+
+        &.fail {
+          font-weight: bold;
+          color: $red;
+        }
+
+        &.subtitle {
+          grid-column: 1 / 3;
+        }
+
+        &.defense {
+          text-align: right;
+          font-size: 14px;
+          line-height: 14px;
         }
       }
     }
 
-    span {
-      &.caracs {
-        word-break: break-word;
-      }
+    &.btn {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 5px;
 
-      &.explode {
-        display:block;
-        width:100%;
+      button {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100%;
+        background: $lightBlack;
+        color: $white;
+        border-radius: 5px;
+        cursor: pointer;
         text-align: center;
-        color:$green;
+        align-items: center;
+        height: 20px;
+        line-height: 20px;
+        padding: 0px;
         font-variant: small-caps;
-        font-size:18px;
-      }
-
-      &.epicFail {
-        display:block;
-        width:100%;
-        text-align: center;
-        color:$red;
-        font-variant: small-caps;
-        font-size:18px;
-      }
-
-      &.dice-success {
-        display:block;
-        width:100%;
-        color:$green;
-      }
-
-      &.dice-fail {
-        display:block;
-        width:100%;
-        color:$red;
-      }
-
-      &.fullLine {
-        display:block;
-        width:100%;
-      }
-    }
-
-    h4 {
-      &.dice-exploit {
-        margin-top:5px;
-        flex: 0;
-        font-size: 18px;
-        font-weight: bold;
-        position: relative;
-        margin-bottom: 0;
-        margin-left: 0;
-        margin-right: 0;
-        line-height: 24px;
-        text-align: center;
-        background: rgba(0, 0, 0, 0.1);
-        border: 1px solid var(--color-border-light-2);
-        border-radius: 3px;
-        box-shadow: 0 0 2px #fff inset;
-        word-break: break-all;
-        font-variant: small-caps;
-        color:$green;
-      }
-    }
-
-    button {
-      &.btn {
-        background: rgba(0, 0, 0, 0.1);
-        box-shadow: 1px 1px 4px $black;
 
         &:hover {
-          background:$black;
-          color:$lightGrey;
+          background: $white;
+          color: $black;
         }
       }
 
-      &.btnDgts,
-      &.btnViolence {
-        order:3;
+      &.full {
+        grid-template-columns: 1fr;
       }
     }
+
+    &.effets {
+      display: flex;
+      flex-wrap: wrap;
+      text-align: left;
+      font-size: 16px;
+      box-shadow: 1px 1px 2px $black;
+      background: rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--color-border-light-2);
+      padding-left: 2px;
+      padding-right: 2px;
+      text-align: justify;
+
+      span {
+        display: contents;
+        font-variant: small-caps;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        cursor: help;
+      }
+    }
+
+    &.details {
+      display: grid;
+      grid-template-columns: 1fr 50px;
+      text-align: left;
+      font-size: 16px;
+      box-shadow: 1px 1px 2px $black;
+      background: rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--color-border-light-2);
+      padding-left: 2px;
+      padding-right: 2px;
+
+      &.withTooltip {
+        cursor: pointer;
+
+        div.dice-tooltip {
+          grid-column: 1 / 3;
+          background: $veryLightBlack;
+          padding: 2px;
+          margin-left: -2px;
+          margin-right: -2px;
+          color: $lightGrey;
+        }
+      }
+
+      span {
+        &.label {
+          display: grid;
+          width: 100%;
+          font-weight: bold;
+          font-variant: small-caps;
+          font-size: 14px;
+          height: 20px;
+          align-items: flex-end;
+        }
+
+        &.value {
+          display: grid;
+          width: 100%;
+          font-weight: bold;
+          font-size: 18px;
+          height: 20px;
+          align-items: flex-end;
+          justify-content: right;
+        }
+
+        &.description {
+          grid-column: 1 / 3;
+          display: grid;
+          width: 100%;
+          text-align: justify;
+          font-size: 12px;
+        }
+      }
+    }
+
+    &.success {
+      color: $green;
+      font-variant: small-caps;
+      font-size: 16px;
+    }
+
+    &.fail {
+      color: $red;
+      font-variant: small-caps;
+      font-size: 16px;
+    }
+
+    &.text {
+      &.important {
+        font-variant: small-caps;
+        font-weight: bold;
+      }
+    }
+  }
+
+  h4 {
+    &.dice-total {
+      display: grid;
+      line-height: 24px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--color-border-light-2);
+      border-radius: 3px;
+      box-shadow: 1px 1px 2px $black;
+      word-break: break-all;
+      margin: 0px;
+
+      font-size: 20px;
+      font-weight: bold;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+  }
+
+  span {
+    &.caracs {
+      word-break: break-word;
+    }
+
+    &.explode {
+      display:block;
+      width:100%;
+      text-align: center;
+      color:$green;
+      font-variant: small-caps;
+      font-size:18px;
+    }
+
+    &.epicFail {
+      display:block;
+      width:100%;
+      text-align: center;
+      color:$red;
+      font-variant: small-caps;
+      font-size:18px;
+    }
+
+    &.dice-success {
+      display:block;
+      width:100%;
+      color:$green;
+    }
+
+    &.dice-fail {
+      display:block;
+      width:100%;
+      color:$red;
+    }
+  }
+
+  button {
+    &.btn {
+      background: rgba(0, 0, 0, 0.1);
+      box-shadow: 1px 1px 4px $black;
+
+      &:hover {
+        background:$black;
+        color:$lightGrey;
+      }
+    }
+
+    &.btnDgts,
+    &.btnViolence {
+      order:3;
+    }
+
+    &.relancedegats {
+      grid-column: 1 / 3;
+    }
+  }
 }

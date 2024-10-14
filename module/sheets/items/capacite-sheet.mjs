@@ -1,4 +1,7 @@
-import { listEffects } from "../../helpers/common.mjs";
+import {
+  listEffects,
+  getAllEffects,
+} from "../../helpers/common.mjs";
 
 /**
  * @extends {ItemSheet}
@@ -117,7 +120,7 @@ export class CapaciteSheet extends ItemSheet {
 
     const bRaw = dEffets.raw;
     const bCustom = dEffets.custom;
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     dEffets.liste = listEffects(bRaw, bCustom, labels);
 

@@ -5,10 +5,7 @@
                 <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
                 {{#unless systemData.onlyIA}}
                 <select name="system.type">
-                    {{#select systemData.type}}
-                        <option value="standard">{{localize "KNIGHT.AUTRE.Standard"}}</option>
-                        <option value="ia">{{localize "KNIGHT.IA.Label"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'typeavantage') selected=systemData.type localize=true}}
                 </select>
                 {{/unless}}
             </h1>
@@ -21,7 +18,7 @@
                         </span>
                         <input type="number" name="system.bonus.sante" min="0" value="{{systemData.bonus.sante}}" />
                     </label>
-    
+
                     <label class="espoir">
                         <span>
                             {{localize "KNIGHT.ITEMS.AVANTAGE.BonusEspoir"}}
@@ -44,7 +41,7 @@
                             <input type="number" name="system.bonus.initiative.ifEmbuscade.fixe" min="0" value="{{systemData.bonus.initiative.ifEmbuscade.fixe}}" />
                         </div>
                     </div>
-    
+
                     <div class="diminutionCout">
                         <button type="action" class="button {{#if systemData.bonus.coutsReduits.has}} buttonChecked {{else}} buttonUnchecked {{/if}}" data-type="diminutionCout">{{localize "KNIGHT.ITEMS.AVANTAGE.DiminutionCout"}}</button>
                         <div class="{{#if systemData.bonus.coutsReduits.has}} blockAspect {{else}} hiddenBlock {{/if}}">
@@ -82,21 +79,21 @@
                         </span>
                         <input type="number" name="system.bonus.recuperation.sante" value="{{systemData.bonus.recuperation.sante}}" />
                     </label>
-    
+
                     <label class="recuperationArmure">
                         <span>
                             {{localize "KNIGHT.ITEMS.AVANTAGE.RecuperationArmure"}}
                         </span>
                         <input type="number" name="system.bonus.recuperation.armure" value="{{systemData.bonus.recuperation.armure}}" />
                     </label>
-    
+
                     <label class="recuperationEnergie">
                         <span>
                             {{localize "KNIGHT.ITEMS.AVANTAGE.RecuperationEnergie"}}
                         </span>
                         <input type="number" name="system.bonus.recuperation.energie" value="{{systemData.bonus.recuperation.energie}}" />
                     </label>
-    
+
                     <label class="recuperationEspoir">
                         <span>
                             {{localize "KNIGHT.ITEMS.AVANTAGE.RecuperationEspoir"}}

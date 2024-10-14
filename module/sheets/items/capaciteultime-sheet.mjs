@@ -1,4 +1,7 @@
-import { listEffects } from "../../helpers/common.mjs";
+import {
+  listEffects,
+  getAllEffects,
+} from "../../helpers/common.mjs";
 /**
  * @extends {ItemSheet}
  */
@@ -186,7 +189,7 @@ export class CapaciteUltimeSheet extends ItemSheet {
   }
 
   _prepareEffets(context) {
-    const labels = CONFIG.KNIGHT.effets;
+    const labels = getAllEffects();
 
     const oriflamme = context.data.system.passives.capacites.oriflamme.update.effets;
 

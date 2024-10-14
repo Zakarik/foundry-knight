@@ -2,15 +2,15 @@
     <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXHORSCONFLIT.Label"}}</h4>
     <label class="longspan">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXHORSCONFLIT.FluxParCreature"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.special.recolteflux.horsconflit.base" 
-        value="{{this.horsconflit.base}}" 
+        <input type="number" name="system.evolutions.liste.{{key}}.special.recolteflux.horsconflit.base"
+        value="{{this.horsconflit.base}}"
         min="0"
          />
     </label>
     <label class="longspan">
         <span>{{localize "KNIGHT.AUTRE.Limite"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.special.recolteflux.horsconflit.limite" 
-        value="{{this.horsconflit.limite}}" 
+        <input type="number" name="system.evolutions.liste.{{key}}.special.recolteflux.horsconflit.limite"
+        value="{{this.horsconflit.limite}}"
         min="0"
          />
     </label>
@@ -18,13 +18,7 @@
         <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
         <select name="system.evolutions.liste.{{key}}.special.recolteflux.horsconflit.portee"
              >
-            {{#select this.horsconflit.portee}}
-                <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-            {{/select}}
+            {{selectOptions (getList 'portee') selected=this.horsconflit.portee localize=true}}
         </select>
     </label>
 </div>
@@ -33,50 +27,43 @@
     <h4 class="title">{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.Label"}}</h4>
     <label class="longspan">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.DebutConflit"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.special.recolteflux.conflit.base" 
-        value="{{this.conflit.base}}" 
+        <input type="number" name="system.evolutions.liste.{{key}}.special.recolteflux.conflit.base"
+        value="{{this.conflit.base}}"
         min="0"
          />
     </label>
     <label class="longspan">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.ParTour"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.special.recolteflux.conflit.tour" 
-        value="{{this.conflit.tour}}" 
+        <input type="number" name="system.evolutions.liste.{{key}}.special.recolteflux.conflit.tour"
+        value="{{this.conflit.tour}}"
         min="0"
          />
     </label>
     <label class="longspan">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.ParHostile"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.special.recolteflux.conflit.hostile" 
-        value="{{this.conflit.hostile}}" 
+        <input type="number" name="system.evolutions.liste.{{key}}.special.recolteflux.conflit.hostile"
+        value="{{this.conflit.hostile}}"
         min="0"
          />
     </label>
     <label class="longspan">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.ParSalopard"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.special.recolteflux.conflit.salopard" 
-        value="{{this.conflit.salopard}}" 
+        <input type="number" name="system.evolutions.liste.{{key}}.special.recolteflux.conflit.salopard"
+        value="{{this.conflit.salopard}}"
         min="0"
          />
     </label>
     <label class="longspan">
         <span>{{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.RECOLTEFLUX.FLUXENCONFLIT.ParPatron"}}</span>
-        <input type="number" name="system.evolutions.liste.{{key}}.special.recolteflux.conflit.patron" 
-        value="{{this.conflit.patron}}" 
+        <input type="number" name="system.evolutions.liste.{{key}}.special.recolteflux.conflit.patron"
+        value="{{this.conflit.patron}}"
         min="0"
          />
     </label>
     <label class="shortspan separation">
         <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
-        <select name="system.evolutions.liste.{{key}}.special.recolteflux.conflit.portee"
-             >
-            {{#select this.conflit.portee}}
-                <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-            {{/select}}
+        <select name="system.evolutions.liste.{{key}}.special.recolteflux.conflit.portee">
+            {{selectOptions (getList 'portee') selected=this.conflit.portee localize=true}}
         </select>
     </label>
 </div>

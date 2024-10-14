@@ -1,3753 +1,4606 @@
+import toggler from '../helpers/toggler.js';
 import {
-  SortByName,
-  searchTrueValue,
-  getAspectValue,
-  getAEValue,
-  getCaracValue,
-  getODValue,
-  getCaracPiloteValue,
-  getODPiloteValue,
-  getEffets,
-  getDistance,
-  getStructurelle,
-  getOrnementale,
-  getCapacite,
-  getModuleBonus,
-  getModStyle,
-  getArmor,
-  getSpecial,
-  caracToAspect,
-  actorIsPj,
-  actorIsMa,
+    getModStyle,
+    listEffects,
+    getAllEffects,
 } from "../helpers/common.mjs";
 
-import {
-  doAttack,
-  doDgts,
-  doViolence,
-} from "../helpers/dialogRoll.mjs";
-
-/**
- * Edit dialog
- * @extends {Dialog}
- */
-export class KnightRollDialog extends Application {
-  constructor(data, options) {
-      super(options);
-      this.data = data;
-  }
-
-  static get defaultOptions() {
-      return foundry.utils.mergeObject(super.defaultOptions, {
-        template: "systems/knight/templates/dialog/roll-sheet.html",
-      classes: ["dialog", "knight", "rollDialog"],
-      width: 800,
-      height:800,
-      jQuery: true,
-      resizable: true,
-    });
-  }
-
-  /** @inheritdoc */
-  getData(options) {
-    this.options.title = this.data.title;
-    let buttons = Object.keys(this.data.buttons).reduce((obj, key) => {
-      let b = this.data.buttons[key];
-      b.cssClass = [key, this.data.default === key ? "default" : ""].filterJoin(" ");
-      if ( b.condition !== false ) obj[key] = b;
-      return obj;
-    }, {});
-
-    const {
-      actor = {},
-      isToken = false,
-      label = '',
-      aspects = {},
-      base = '',
-      lock = [],
-      interdits = [],
-      autre = [],
-      difficulte = false,
-      modificateur = 0,
-      succesBonus = 0,
-      degatsBonus = { dice: 0, fixe: 0 },
-      violenceBonus = { dice: 0, fixe: 0 },
-      moduleErsatz = false,
-      listWpnContact = [],
-      listWpnDistance = [],
-      listWpnTourelle = [],
-      listGrenades = [],
-      listWpnImprovisees = [],
-      listWpnMA = [],
-      listWpnSpecial = [],
-      longbow = {},
-      isWpn = false,
-      idWpn = '',
-      nameWpn = '',
-      typeWpn = '',
-      chambredouble = false,
-      chromeligneslumineuses = false,
-      cadence = false,
-      barrage = false,
-      systemerefroidissement = false,
-      guidage = false,
-      tenebricide = false,
-      obliteration = false,
-      cranerieur = false,
-      tirenrafale = false,
-      briserlaresilience = false,
-      jumeleambidextrie = false,
-      soeur = false,
-      jumelageambidextrie = false,
-      style = '',
-      num = 0,
-      pnj = false,
-      ma = false,
-      hasWraith = false,
-      moduleWraith = false,
-      ameliorations = {},
-      deploy = {},
-      noOd = false,
-      avDv = false,
-      bonusTemp = { has: false, modificateur: 0, succesbonus: 0 },
-      vehicule = {},
-      attackSurprise = false,
-    } = this.data;
-
-    const hasLongbow = longbow?.has || false;
-
-    if(hasLongbow) {
-      const degats = +longbow.degats.cout;
-      const violence = +longbow.violence.cout;
-      const portee = +longbow.portee.cout;
-      const coutsL1 = +longbow.effets.liste1.cout;
-      const coutsL2 = +longbow.effets.liste2.cout;
-      const coutsL3 = +longbow.effets.liste3.cout;
-
-      this.data.longbow.energie = degats+violence+portee+coutsL1+coutsL2+coutsL3;
-    }
-
-    return {
-      actor,
-      isToken,
-      label,
-      aspects,
-      base,
-      lock,
-      interdits,
-      autre,
-      difficulte,
-      modificateur,
-      succesBonus,
-      degatsBonus: degatsBonus,
-      violenceBonus: violenceBonus,
-      moduleErsatz,
-      listWpnContact,
-      listWpnDistance,
-      listWpnTourelle,
-      listGrenades,
-      listWpnImprovisees,
-      listWpnMA,
-      listWpnSpecial,
-      longbow,
-      isWpn,
-      idWpn,
-      nameWpn,
-      typeWpn,
-      chambredouble,
-      chromeligneslumineuses,
-      cadence,
-      barrage,
-      systemerefroidissement,
-      guidage,
-      tenebricide,
-      obliteration,
-      cranerieur,
-      tirenrafale,
-      briserlaresilience,
-      jumeleambidextrie,
-      soeur,
-      jumelageambidextrie,
-      style,
-      num,
-      pnj,
-      ma,
-      hasWraith,
-      moduleWraith,
-      ameliorations,
-      deploy: {
-        wpnContact: deploy?.wpnContact || false,
-        wpnDistance: deploy?.wpnDistance || false,
-        wpnTourelle: deploy?.wpnTourelle || false,
-        wpnArmesImproviseesContact: deploy?.wpnArmesImproviseesContact || false,
-        wpnArmesImproviseesDistance: deploy?.wpnArmesImproviseesDistance || false,
-        grenades: deploy?.grenades || false,
-        longbow: deploy?.longbow || false,
-        wpnMA: deploy?.wpnMA || false,
-        wpnArmesImprovisees: deploy?.wpnArmesImprovisees || false,
-      },
-      noOd,
-      avDv,
-      bonusTemp: {
-        has: bonusTemp?.has || false,
-        modificateur: bonusTemp?.modificateur || 0,
-        succesbonus: bonusTemp?.succesbonus || 0
-      },
-      vehicule,
-      attackSurprise,
-      buttons
-    };
-  }
-
-  async setActor(actor, isToken) {
-    this.data.actor = actor;
-    this.data.isToken = isToken;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.actor,
-          this.data.isToken,
-        );
-      }, 0);
-    });
-  }
-
-  //ON MODIFIE LE LABEL
-  setLabel(label) {
-    this.data.label = label;
-
-    return {
-      label:this.data.label,
-    };
-  }
-
-  //ON GERE L'ACTEUR
-  setAct(act) {
-    const isPJ = actorIsPj(act);
-    const isMA = actorIsMa(act);
-    const extractWpn = this.extractWpn(act);
-    const data = act.system;
-    const rawStyle = data?.combat?.style ?? '';
-    const getStyle = getModStyle(rawStyle);
-    const lAspectsInterdits = data?.combos?.interdits?.aspects ?? {};
-    const lCaracsInterdits = data?.combos?.interdits?.caracteristiques ?? {};
-    const sucBonus = data?.combat?.data?.succesbonus ?? 0;
-    const mod = data?.combat?.data?.modificateur ?? 0;
-    const degatsDice = data?.combat?.data?.degatsbonus?.dice ?? 0;
-    const degatsFixe = data?.combat?.data?.degatsbonus?.fixe ?? 0;
-    const violenceDice = data?.combat?.data?.violencebonus?.dice ?? 0;
-    const violenceFixe = data?.combat?.data?.violencebonus?.fixe ?? 0;
-    const wpnContact = extractWpn?.contact ?? [];
-    const wpnDistance = extractWpn?.distance ?? [];
-    const wpnTourelle = extractWpn?.tourelle ?? [];
-    const wpnMa = extractWpn?.wpn ?? [];
-    const armesimprovisees = extractWpn.armesimprovisees;
-    let lgbow = extractWpn?.longbow;
-    let wpnMunitionsList = [wpnDistance, wpnTourelle]
-    let int = [];
-
-    if(lgbow?.effets?.raw ?? undefined !== undefined) lgbow.effets.raw = [];
-
-
-
-    for (let [key, interdit] of Object.entries(lAspectsInterdits)){
-      int = int.concat(interdit);
-    }
-
-    if(isPJ) {
-      for (let [key, interdit] of Object.entries(lCaracsInterdits)){
-        int = int.concat(interdit);
-      }
-    }
-
-    for (let [kAspect, aspect] of Object.entries(data.aspects)){
-      if(int.includes(kAspect)) {
-        delete data.aspects[kAspect];
-      }
-
-      if(isPJ) {
-        for (let [kCaracs, carac] of Object.entries(aspect.caracteristiques)){
-          if(int.includes(kCaracs)) {
-            delete data.aspects[kAspect].caracteristiques[kCaracs];
-          }
-        }
-      }
-    }
-
-    for(let i = 0; i < wpnMunitionsList.length;i++) {
-      const wpnM = wpnMunitionsList[i];
-
-      for(let wpn of wpnM) {
-        const wpnData = wpn.system;
-        const wpnMunitions = wpnData?.optionsmunitions || {has:false};
-        const wpnMunitionActuel = wpnMunitions?.actuel || "0";
-        const wpnMunitionsListe = wpnMunitions?.liste?.[wpnMunitionActuel] || {};
-
-        if(wpnMunitions.has) {
-          const eRaw = wpnData.effets.raw.concat(wpnMunitionsListe.raw);
-          const eCustom = wpnData.effets.custom.concat(wpnMunitionsListe.custom);
-
-          wpnData.effets = {
-            raw:[...new Set(eRaw)],
-            custom:[...new Set(eCustom)],
-          }
-        }
-      }
-    }
-
-    //L'ACTEUR
-    this.data.actor = act;
-    this.data.isToken = act?.isToken ?? false;
-    this.data.pnj = isPJ ? false : true;
-    this.data.ma = act?.type === 'mechaarmure' ? true : false;
-    //ASPECTS ET INTERDITS
-    this.data.aspects = data.aspects;
-    this.data.interdits = int;
-    //DIFFERENTS BONUS
-    this.data.modificateur = mod;
-    this.data.succesBonus = sucBonus;
-    this.data.degatsBonus = {dice:degatsDice, fixe:degatsFixe};
-    this.data.violenceBonus = {dice:violenceDice, fixe:violenceFixe};
-    //LISTE DES ARMES
-    this.data.listWpnContact = !isMA ? wpnContact ?? [] : [];
-    this.data.listWpnDistance = !isMA ? wpnDistance ?? [] : [];
-    this.data.listWpnTourelle = !isMA ? wpnTourelle ?? [] : [];
-    this.data.listGrenades = !isMA ? extractWpn?.grenade ?? [] : [];
-    this.data.listWpnImprovisees = {
-      bonuscontact:armesimprovisees.bonuscontact,
-      contact:armesimprovisees.liste,
-      distance:armesimprovisees.liste};
-    this.data.longbow = !isMA ? lgbow : [];
-    this.data.listWpnMA = isMA ? wpnMa : [];
-    this.data.listWpnSpecial = extractWpn?.wpnSpecial ?? [];
-    //DEPLOIEMENT DES ONGLETS
-    this.data.deploy = {};
-    //STYLE
-    this.data.style = {
-      fulllabel:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${rawStyle.toUpperCase()}.FullLabel`),
-      label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${rawStyle.toUpperCase()}.Label`),
-      raw:rawStyle,
-      info:data.combat.styleInfo,
-      caracteristiques:getStyle.caracteristiques,
-      tourspasses:data.combat.data.tourspasses,
-      type:data.combat.data.type,
-      sacrifice:data.combat.data.sacrifice,
-      maximum:6
-    };
-    //AVANTAGES ET DESAVANTAGES DE l'IA
-    this.data.avDv = {
-      avantages:act.avantagesIA,
-      inconvenient:act.inconvenientIA
-    };
-
-    return {
-      actor:this.data.actor,
-      isToken:this.data.isToken,
-      pnj:this.data.pnj,
-      aspects:this.data.aspects,
-      interdits:this.data.interdits,
-      modificateur:this.data.modificateur,
-      succesBonus:this.data.succesBonus,
-      degatsBonus:this.data.degatsBonus,
-      violenceBonus:this.data.violenceBonus,
-      listWpnContact:this.data.listWpnContact,
-      listWpnDistance:this.data.listWpnDistance,
-      listWpnTourelle:this.data.listWpnTourelle,
-      listGrenades:this.data.listGrenades,
-      listWpnImprovisee:this.data.listWpnImprovisee,
-      listWpnSpecial:this.data.listWpnSpecial,
-      longbow:this.data.longbow,
-      listWpnMA:this.data.listWpnMA,
-      deploy:this.data.deploy,
-      style:this.data.style,
-      avDv:this.data.avDv,
-    };
-  }
-
-  //ON GERE LE JET
-  setR(data) {
-    const actor = this.data.actor;
-    const isPJ = actorIsPj(actor);
-    const isMA = actorIsMa(actor);
-    const system = actor.system;
-    const bonus = system?.combos?.bonus ?? {};
-    const interdits = this.data.interdits;
-    const typeWpn = data?.typeWpn ?? this?.data?.typeWpn ?? '';
-    const idWpn = data?.idWpn ?? this?.data?.idWpn ?? '';
-    const nameWpn = data?.nameWpn ?? this?.data?.nameWpn ?? '';
-    const sucBonus = data?.succesbonus ?? this.data?.succesBonus ?? 0;
-    const mod = data?.modificateur ?? this.data?.modificateur ?? 0;
-    const degatsDice = data?.degatsDice ?? this.data?.degatsBonus?.dice ?? 0;
-    const degatsFixe = data?.degatsFixe ?? this.data?.degatsBonus?.fixe ?? 0;
-    const violenceDice = data?.violenceDice ?? this.data?.violenceBonus?.dice ?? 0;
-    const violenceFixe = data?.violenceFixe ?? this.data?.violenceBonus?.fixe ?? 0;
-    const modTemp = data?.modificateurTemp ?? 0;
-    const sucTemp = data?.succesTemp ?? 0;
-    const vehicule = data?.vehicule ?? undefined;
-
-    let base = data?.base ?? this.data?.base ?? '';
-    let autre = data?.autre ?? this.data?.autre ?? [];
-    let deploy = this.data.deploy;
-
-    if(isPJ) {
-      const bCarac = bonus?.caracteristiques ?? {};
-      const caracBonus = [...new Set(Object.values(bCarac).reduce((acc, val) => acc.concat(val), []))];
-
-      if(interdits.includes(base) || interdits.includes(caracToAspect(base))) base = '';
-
-      autre = [...new Set([...autre, ...caracBonus])]
-      autre = autre.filter(x => !interdits.includes(x));
-      autre = autre.filter(x => !interdits.includes(caracToAspect(x)));
-    } else {
-      if(interdits.includes(base)) base = '';
-    }
-
-    //JET
-    this.data.base = base;
-    this.data.autre = autre;
-    this.data.lock = data?.lock ?? this.data?.lock ?? [];
-    this.data.difficulte = data?.difficulte ?? this.data?.difficulte ?? false;
-    //ARME SELECTIONNEE
-    this.data.isWpn = data?.isWpn ?? false;
-    this.data.idWpn = idWpn ?? -1;
-    this.data.nameWpn = nameWpn;
-    this.data.typeWpn = typeWpn;
-    this.data.num = data?.num ?? this?.data?.num ?? -1;
-    //EFFETS SPECIAUX ARME SELECTIONNEE
-    if(typeWpn === 'grenades' && nameWpn !== '') {
-      const hasEffect = this.data.listGrenades?.[nameWpn]?.effets ?? false;
-      if(!hasEffect) {
-        this.data.barrage = false;
-        this.data.typeWpn = '';
-        this.data.nameWpn = '';
-      } else {
-        this.data.barrage = this.data.listGrenades[nameWpn].effets.raw.find(str => { if(str.includes('barrage')) return true; });
-      }
-    }
-
-    //PAS D'OD DANS LE JET
-    this.data.noOd = data?.noOd ?? false;
-    //MODIFICATEURS TEMPORAIRES
-    this.data.bonusTemp = {
-      has:modTemp > 0 || sucTemp > 0 ? true : false,
-      modificateur:modTemp,
-      succesbonus:sucTemp
-    }
-    //MODIFICATEURS NON-TEMPORAIRES
-    this.data.modificateur = mod;
-    this.data.succesBonus = sucBonus;
-    this.data.degatsBonus = {dice:degatsDice, fixe:degatsFixe};
-    this.data.violenceBonus = {dice:violenceDice, fixe:violenceFixe};
-
-    //GESTION DES ONGLETS
-    switch(typeWpn) {
-      case 'contact':
-        deploy.wpnContact = true
-        break;
-
-      case 'distance':
-        deploy.wpnDistance = true
-        break;
-
-      case 'tourelle':
-        deploy.wpnTourelle = true
-        break;
-
-      case 'armesimprovisees':
-        if(idWpn == 'contact') {
-          deploy.wpnArmesImproviseesContact = true
-        } else if(idWpn == 'distance') {
-          deploy.wpnArmesImproviseesDistance = true
-        }
-        break;
-
-      case 'longbow':
-        deploy.longbow = true;
-        break;
-
-      case 'grenades':
-        deploy.grenades = true;
-        break;
-    }
-
-    this.data.deploy = deploy;
-    this.data.vehicule = vehicule;
-    this.data.ameliorations = {};
-
-    if(isMA) {
-      const configuration = actor.system.configurations.actuel;
-      this.data.hasWraith = actor?.system?.configurations?.liste?.[configuration]?.modules?.moduleWraith?.active ?? false;
-    } else this.data.hasWraith = false;
-
-    if(vehicule !== undefined) {
-      let vehiculeWpn = vehicule.items.filter(wpn => wpn.type === 'arme' && wpn.system.whoActivate !== "");
-
-      for (let i of vehicule.items.filter(mdl => mdl.type === 'module')) {
-        const system = i.system;
-        const niveau = system.niveau.value;
-        const itemDataNiveau = system.niveau.details[`n${niveau}`];
-        const itemArme = itemDataNiveau?.arme || {has:false};
-        const itemActive = system?.active?.base || false;
-
-        if(itemArme === false) continue;
-        if(itemDataNiveau.whoActivate === "") continue;
-
-        if(itemDataNiveau.permanent || itemActive) {
-          if(itemArme.has) {
-            const moduleArmeType = itemArme.type;
-            const moduleEffets = itemArme.effets;
-            const moiduleEffetsRaw = moduleEffets.raw;
-            const moduleEffetsCustom = moduleEffets.custom || [];
-            const moduleEffetsFinal = {
-              raw:[...new Set(moiduleEffetsRaw)],
-              custom:moduleEffetsCustom,
-              liste:moduleEffets.liste
-            };
-            const dataMunitions = itemArme?.optionsmunitions || {has:false};
-
-            let degats = itemArme.degats;
-            let violence = itemArme.violence;
-
-            if(dataMunitions.has) {
-              let actuel = dataMunitions.actuel;
-
-              if(actuel === undefined) {
-                dataMunitions.actuel = "0";
-                actuel = "1";
-              }
-
-              for (let i = 0; i <= actuel; i++) {
-
-                const raw = dataMunitions.liste[i].raw.concat(armorSpecialRaw);
-                const custom = dataMunitions.liste[i].custom.concat(armorSpecialCustom);
-
-                itemArme.optionsmunitions.liste[i].raw = [...new Set(raw)];
-                itemArme.optionsmunitions.liste[i].custom = custom;
-              }
-
-              degats = dataMunitions.liste[actuel].degats;
-              violence = dataMunitions.liste[actuel].violence;
-            }
-
-            const moduleWpn = {
-              _id:i._id,
-              name:i.name,
-              type:'module',
-              system:{
-                noRack:true,
-                type:itemArme.type,
-                portee:itemArme.portee,
-                degats:degats,
-                violence:violence,
-                optionsmunitions:dataMunitions,
-                effets:moduleEffetsFinal,
-                niveau:niveau,
-              }
-            };
-
-            if(moduleArmeType === 'distance') {
-              moduleWpn.system.distance = itemArme.distance;
-            }
-
-            if(moduleArmeType === 'distance') { vehiculeWpn.push(moduleWpn); }
-          }
-        }
-      }
-
-      this.data.listWpnContact = {};
-      this.data.listWpnDistance = vehiculeWpn;
-      this.data.listWpnTourelle = {};
-      this.data.listGrenades = {};
-      this.data.listWpnImprovisee = {};
-      this.data.longbow = {};
-      this.data.listWpnMA = {};
-    }
-
-    this.data.attackSurprise = this.data?.attackSurprise ?? false;
-
-    return {
-      base: this.data.base,
-      autre: this.data.autre,
-      lock: this.data.lock,
-      difficulte: this.data.difficulte,
-      isWpn: this.data.isWpn,
-      idWpn: this.data.idWpn,
-      nameWpn: this.data.nameWpn,
-      typeWpn: this.data.typeWpn,
-      num: this.data.num,
-      barrage:this.data.barrage,
-      noOd:this.data.noOd,
-      bonusTemp:this.data.bonusTemp,
-      modificateur:this.data.modificateur,
-      succesBonus:this.data.succesBonus,
-      degatsBonus:this.data.degatsBonus,
-      violenceBonus:this.data.violenceBonus,
-      deploy:this.data.deploy,
-      vehicule:this.data.vehicule,
-      listWpnContact:this.data.listWpnContact,
-      listWpnDistance:this.data.listWpnDistance,
-      listWpnTourelle:this.data.listWpnTourelle,
-      listGrenades:this.data.listGrenades,
-      listWpnImprovisee:this.data.listWpnImprovisee,
-      listWpnSpecial:this.data.listWpnSpecial,
-      longbow:this.data.longbow,
-      listWpnMA:this.data.listWpnMA,
-      hasWraith:this.data.hasWraith,
-      ameliorations:this.data.ameliorations,
-      attackSurprise:this.data.attackSurprise,
-    };
-  }
-
-  //ON ACTUALISE LES INFORMATIONS
-  actualise(actor) {
-    //ACTUALISATION DE L'ACTEUR
-    const getActor = actor;
-
-    this.setAct(getActor);
-
-    //ON VERIFIE SI L'ARME SELECTIONNEE EXISTE TOUJOURS
-    const data = this.data;
-    const typeWpn = data?.typeWpn ?? ''
-    const idWpn = data?.idWpn ?? '';
-    const numWpn = data?.num ?? -1;
-
-    if(idWpn !== '') {
-      let wpn = {};
-
-      switch(typeWpn) {
-        case 'contact':
-          wpn = this.data.listWpnContact?.[numWpn] ?? false;
-          break;
-
-        case 'distance':
-          wpn = this.data.listWpnDistance?.[numWpn] ?? false;
-          break;
-
-        case 'tourelle':
-          wpn = this.data.listWpnTourelle?.[numWpn] ?? false;
-          break;
-
-        case 'longbow':
-          wpn = foundry.utils.isEmpty(this.data.longbow) ? false : {};
-          break;
-
-        case 'grenades':
-          wpn = foundry.utils.isEmpty(this.data.listGrenades) ? false : {};
-          break;
-      }
-
-      if(wpn === false) {
-        this.setR({isWpn:false, typeWpn:'', idWpn:'', nameWpn:'', num:-1});
-      } else this.setR();
-    } else this.setR();
-
-    this.render(true);
-  }
-
-  async setBonusTemp(has=false, modificateur=0, succesbonus) {
-    this.data.bonusTemp = {
-      has:has,
-      modificateur:modificateur,
-      succesbonus:succesbonus
-    };
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.bonusTemp
-        );
-      }, 0);
-    });
-  }
-
-  getActor() {
-    return this.data.actor;
-  }
-
-  isToken() {
-    return this.data.isToken;
-  }
-
-  async setIfOd(hasOd) {
-    this.data.noOd = hasOd;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.noOd
-        );
-      }, 0);
-    });
-  }
-
-  async setIfAtkSurprise(hasAtkSurprise) {
-    this.data.attackSurprise = hasAtkSurprise;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.attackSurprise
-        );
-      }, 0);
-    });
-  }
-
-  async setSuccesBonus(value) {
-    const actor = this.data.actor;
-
-    if(this.data.isToken) await actor.update({['system.combat.data.succesbonus']:value});
-    else await game.actors.get(actor.id).update({['system.combat.data.succesbonus']:value});
-
-    this.data.succesBonus = value;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.succesBonus
-        );
-      }, 0);
-    });
-  }
-
-  async setModificateur(value) {
-    const actor = this.data.actor;
-
-    if(this.data.isToken) await actor.update({['system.combat.data.modificateur']:value});
-    else await game.actors.get(actor.id).update({['system.combat.data.modificateur']:value});
-
-    this.data.modificateur = value;
-
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(
-          this.data.modificateur
-        );
-      }, 0);
-    });
-  }
-
-  hasBonusTemp() {
-    return this.data.bonusTemp.has;
-  }
-
-  getModificateur() {
-    return Number(this.data.modificateur);
-  }
-
-  getSuccesBonus() {
-    return Number(this.data.succesBonus);
-  }
-
-  getModificateurTemp() {
-    return Number(this.data.bonusTemp.modificateur);
-  }
-
-  getSuccesBonusTemp() {
-    return Number(this.data.bonusTemp.succesbonus);
-  }
-
-  extractWpn(act) {
-    const wear = act.system.wear;
-    const isPj = actorIsPj(act);
-    const isMA = actorIsMa(act);
-    const onArmor = wear === 'armure' || wear === 'ascension' || !isPj ? true : false;
-    const labelsEffects = Object.assign({},
-      CONFIG.KNIGHT.effets,
-      CONFIG.KNIGHT.AMELIORATIONS.distance,
-      CONFIG.KNIGHT.AMELIORATIONS.structurelles,
-      CONFIG.KNIGHT.AMELIORATIONS.ornementales
-    );
-    const nbreGrenade = act.system?.combat?.grenades?.quantity?.value ?? 0;
-    let grenades = {};
-    let longbow = {};
-    let armesContactEquipee = [];
-    let armesDistanceEquipee = [];
-    let armesTourelles = [];
-    let wpn = [];
-    let wpnSpecial = [];
-    let moduleBonusDgts = {
-      "contact":[],
-      "distance":[]
-    };
-    let moduleBonusDgtsVariable = {
-      "contact":[],
-      "distance":[]
-    };
-    let moduleBonusViolence = {
-      "contact":[],
-      "distance":[]
-    };
-    let moduleBonusViolenceVariable = {
-      "contact":[],
-      "distance":[]
-    };
-
-    if(nbreGrenade > 0) grenades = act.system?.combat?.grenades?.liste ?? {};
-
-    if(!isMA) {
-      const armorSpecial = getSpecial(act);
-      const armorSpecialRaw = armorSpecial?.raw || [];
-      const armorSpecialCustom = armorSpecial?.custom || [];
-      const capaciteultime = act.items.find(items => items.type === 'capaciteultime');
-
-      for (let i of act.items) {
-        const system = i.system;
-        // ARMURE.
-        if (i.type === 'armure') {
-          const armorCapacites = system.capacites.selected;
-
-          let passiveUltime = undefined;
-
-          if(capaciteultime !== undefined) {
-            const dataCapaciteUltime = capaciteultime.system;
-
-            if(dataCapaciteUltime.type == 'passive') passiveUltime = dataCapaciteUltime.passives;
-          }
-
-          for (let [key, capacite] of Object.entries(armorCapacites)) {
-            switch(key) {
-              case "longbow":
-                if(wear === 'armure') {
-                  const dataLongbow = capacite;
-
-                  longbow = dataLongbow;
-                  longbow['has'] = true;
-                  longbow.energie = 0;
-
-                  longbow.degats.cout = 0;
-                  longbow.degats.dice = dataLongbow.degats.min;
-
-                  longbow.violence.cout = 0;
-                  longbow.violence.dice = dataLongbow.violence.min;
-
-                  const rangeListe = ['contact', 'courte', 'moyenne', 'longue', 'lointaine'];
-                  let rangeToNumber = {};
-                  let peRange = longbow.portee.energie;
-                  let minRange = longbow.portee.min;
-                  let maxRange = longbow.portee.max;
-                  let isInRange = false;
-                  let multiplicateur = 0;
-
-                  for(let n = 0; n < rangeListe.length;n++) {
-                    if(rangeListe[n] === minRange) {
-                      isInRange = true;
-                      rangeToNumber[rangeListe[n]] = multiplicateur*peRange;
-                      multiplicateur += 1;
-                    } else if(rangeListe[n] === maxRange) {
-                      isInRange = false;
-                      rangeToNumber[rangeListe[n]] = multiplicateur*peRange;
-                    } else if(isInRange) {
-                      rangeToNumber[rangeListe[n]] = multiplicateur*peRange;
-                      multiplicateur += 1;
+export class KnightRollDialog extends Dialog {
+    static dialogRoll = 'systems/knight/templates/dialog/roll-sheet.html';
+
+    constructor(actor, data={}) {
+        const dialogData = {
+            whoActivate:data?.whoActivate ?? 'none',
+            roll:{
+                html:undefined,
+                id:actor,
+                label:data?.label ?? '',
+                base:data?.base ?? '',
+                whatRoll:data?.whatRoll ?? [],
+                difficulte:data?.difficulte ?? 0,
+                succesBonus:data?.succesbonus ?? 0,
+                modificateur:data?.modificateur ?? 0,
+                wpnSelected:data?.wpn ?? '',
+                typeWpn:{
+                    contact:[],
+                    distance:[],
+                    complexe:[],
+                    grenade:[],
+                    tourelle:[],
+                    aicontact:[],
+                    aidistance:[],
+                },
+                allWpn:[],
+                allVariableWpn:[],
+                allComplexeWpn:[],
+                btn:data?.btn ?? {},
+                scoredice:data?.scoredice ?? {},
+                style:{
+                    pilonnage:{
+                        type:'degats',
+                        value:0,
+                    },
+                    precis:{
+                        type:'',
+                    },
+                    puissant:{
+                        type:'degats',
+                        value:0,
+                    },
+                    suppression:{
+                        type:'degats',
+                        value:0,
                     }
-                  }
-
-                  longbow.portee.cout = 0;
-                  longbow.portee.value = dataLongbow.portee.min;
-                  longbow.portee.rangeToNumber = rangeToNumber;
-
-                  let raw = longbow.effets.raw ? [].concat(longbow.effets.raw) : [];
-                  let custom = longbow.effets.custom ? [].concat(longbow.effets.custom) : [];
-
-                  longbow.effets.raw = [...new Set(raw.concat(armorSpecialRaw))];
-                  longbow.effets.custom = [...new Set(custom.concat(armorSpecialCustom))];
-                  longbow.effets.liste = [];
-                  longbow.effets.liste1.cout = 0;
-                  longbow.effets.liste1.selected = 0;
-                  longbow.effets.liste2.cout = 0;
-                  longbow.effets.liste2.selected = 0;
-                  longbow.effets.liste3.cout = 0;
-                  longbow.effets.liste3.selected = 0;
-
-                  let effListe1 = [];
-                  let effListe2 = [];
-                  let effListe3 = [];
-
-                  for(let eff of longbow.effets.liste1.raw) {
-                    let split = eff.split(" ");
-                    let splitV = split[1] ? ` ${split[1]}` : ""
-
-                    effListe1.push({
-                      name:`${game.i18n.localize(labelsEffects[split[0]].label)}${splitV}`,
-                      description:`${game.i18n.localize(labelsEffects[split[0]].description)}`,
-                      raw:eff
-                    });
-                  }
-
-                  for(let eff of longbow.effets.liste2.raw) {
-                    let split = eff.split(" ");
-                    let splitV = split[1] ? ` ${split[1]}` : ""
-
-                    effListe2.push({
-                      name:`${game.i18n.localize(labelsEffects[split[0]].label)}${splitV}`,
-                      description:`${game.i18n.localize(labelsEffects[split[0]].description)}`,
-                      raw:eff
-                    });
-                  }
-
-                  for(let eff of longbow.effets.liste3.raw) {
-                    let split = eff.split(" ");
-                    let splitV = split[1] ? ` ${split[1]}` : ""
-
-                    effListe3.push({
-                      name:`${game.i18n.localize(labelsEffects[split[0]].label)}${splitV}`,
-                      description:`${game.i18n.localize(labelsEffects[split[0]].description)}`,
-                      raw:eff
-                    });
-                  }
-
-                  longbow.effets.liste1.liste = effListe1;
-                  longbow.effets.liste2.liste = effListe2;
-                  longbow.effets.liste3.liste = effListe3;
-                }
-                break;
-
-              case "cea":
-                if(passiveUltime !== undefined) {
-                  if(passiveUltime.capacites.actif && passiveUltime.capacites.cea.actif) {
-                    system.capacites.selected[key] = Object.assign(system.capacites.selected[key], {
-                      vague:{
-                        degats:{
-                          dice:passiveUltime.capacites.cea.update.vague.degats.dice,
-                          fixe:passiveUltime.capacites.cea.update.vague.degats.fixe,
-                        },
-                        violence:{
-                          dice:passiveUltime.capacites.cea.update.vague.violence.dice,
-                          fixe:passiveUltime.capacites.cea.update.vague.violence.fixe,
-                        },
-                        effets:{
-                          raw:passiveUltime.capacites.cea.update.vague.effets.raw,
-                          custom:passiveUltime.capacites.cea.update.vague.effets.custom,
-                        }
-                      },
-                      rayon:{
-                        degats:{
-                          dice:passiveUltime.capacites.cea.update.rayon.degats.dice,
-                          fixe:passiveUltime.capacites.cea.update.rayon.degats.fixe,
-                        },
-                        violence:{
-                          dice:passiveUltime.capacites.cea.update.rayon.violence.dice,
-                          fixe:passiveUltime.capacites.cea.update.rayon.violence.fixe,
-                        },
-                        effets:{
-                          raw:passiveUltime.capacites.cea.update.rayon.effets.raw,
-                          custom:passiveUltime.capacites.cea.update.rayon.effets.custom,
-                        }
-                      },
-                      salve:{
-                        degats:{
-                          dice:passiveUltime.capacites.cea.update.salve.degats.dice,
-                          fixe:passiveUltime.capacites.cea.update.salve.degats.fixe,
-                        },
-                        violence:{
-                          dice:passiveUltime.capacites.cea.update.salve.violence.dice,
-                          fixe:passiveUltime.capacites.cea.update.salve.violence.fixe,
-                        },
-                        effets:{
-                          raw:passiveUltime.capacites.cea.update.salve.effets.raw,
-                          custom:passiveUltime.capacites.cea.update.salve.effets.custom,
-                        }
-                      }
-                    });
-                  }
-                }
-
-                if(wear === 'armure') {
-                  const vagueEffets = capacite.vague.effets;
-                  const vagueEffetsRaw = vagueEffets.raw.concat(armorSpecialRaw);
-                  const vagueEffetsCustom = vagueEffets.custom.concat(armorSpecialCustom) || [];
-                  const vagueEffetsFinal = {
-                    raw:[...new Set(vagueEffetsRaw)],
-                    custom:vagueEffetsCustom,
-                    liste:[]
-                  };
-
-                  const salveEffets = capacite.salve.effets;
-                  const salveEffetsRaw = salveEffets.raw.concat(armorSpecialRaw);
-                  const salveEffetsCustom = salveEffets.custom.concat(armorSpecialCustom) || [];
-                  const salveEffetsFinal = {
-                    raw:[...new Set(salveEffetsRaw)],
-                    custom:salveEffetsCustom,
-                    liste:[]
-                  };
-
-                  const rayonEffets = capacite.rayon.effets;
-                  const rayonEffetsRaw = rayonEffets.raw.concat(armorSpecialRaw);
-                  const rayonEffetsCustom = rayonEffets.custom.concat(armorSpecialCustom) || [];
-                  const rayonEffetsFinal = {
-                    raw:[...new Set(rayonEffetsRaw)],
-                    custom:rayonEffetsCustom,
-                    liste:[]
-                  };
-
-                  const vagueWpnC = {
-                    _id:i._id,
-                    name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label'),
-                    system:{
-                      capaciteName:'cea',
-                      subCapaciteName:'vague',
-                      noRack:true,
-                      capacite:true,
-                      portee:capacite.vague.portee,
-                      energie:capacite.energie,
-                      espoir:capacite.espoir,
-                      degats:{
-                        dice:capacite.vague.degats.dice,
-                        fixe:0
-                      },
-                      violence:{
-                        dice:capacite.vague.violence.dice,
-                        fixe:0
-                      },
-                      type:'contact',
-                      effets:vagueEffetsFinal
-                    }
-                  };
-
-                  const salveWpnC = {
-                    _id:i._id,
-                    name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label'),
-                    system:{
-                      capaciteName:'cea',
-                      subCapaciteName:'salve',
-                      noRack:true,
-                      capacite:true,
-                      portee:capacite.salve.portee,
-                      energie:capacite.energie,
-                      espoir:capacite.espoir,
-                      degats:{
-                        dice:capacite.salve.degats.dice,
-                        fixe:0
-                      },
-                      violence:{
-                        dice:capacite.salve.violence.dice,
-                        fixe:0
-                      },
-                      type:'contact',
-                      effets:salveEffetsFinal
-                    }
-                  };
-
-                  const rayonWpnC = {
-                    _id:i._id,
-                    name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label'),
-                    system:{
-                      capaciteName:'cea',
-                      subCapaciteName:'rayon',
-                      noRack:true,
-                      capacite:true,
-                      portee:capacite.rayon.portee,
-                      energie:capacite.energie,
-                      espoir:capacite.espoir,
-                      degats:{
-                        dice:capacite.rayon.degats.dice,
-                        fixe:0
-                      },
-                      violence:{
-                        dice:capacite.rayon.violence.dice,
-                        fixe:0
-                      },
-                      type:'contact',
-                      effets:rayonEffetsFinal
-                    }
-                  };
-
-                  const vagueWpnD = {
-                    _id:i._id,
-                    name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label'),
-                    system:{
-                      capaciteName:'cea',
-                      subCapaciteName:'vague',
-                      noRack:true,
-                      capacite:true,
-                      portee:capacite.vague.portee,
-                      energie:capacite.energie,
-                      espoir:capacite.espoir,
-                      degats:{
-                        dice:capacite.vague.degats.dice,
-                        fixe:0
-                      },
-                      violence:{
-                        dice:capacite.vague.violence.dice,
-                        fixe:0
-                      },
-                      type:'distance',
-                      effets:vagueEffetsFinal
-                    }
-                  };
-
-                  const salveWpnD = {
-                    _id:i._id,
-                    name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label'),
-                    system:{
-                      capaciteName:'cea',
-                      subCapaciteName:'salve',
-                      noRack:true,
-                      capacite:true,
-                      portee:capacite.salve.portee,
-                      energie:capacite.energie,
-                      espoir:capacite.espoir,
-                      degats:{
-                        dice:capacite.salve.degats.dice,
-                        fixe:0
-                      },
-                      violence:{
-                        dice:capacite.salve.violence.dice,
-                        fixe:0
-                      },
-                      type:'distance',
-                      effets:salveEffetsFinal
-                    }
-                  };
-
-                  const rayonWpnD = {
-                    _id:i._id,
-                    name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label'),
-                    system:{
-                      capaciteName:'cea',
-                      subCapaciteName:'rayon',
-                      noRack:true,
-                      capacite:true,
-                      portee:capacite.rayon.portee,
-                      energie:capacite.energie,
-                      espoir:capacite.espoir,
-                      degats:{
-                        dice:capacite.rayon.degats.dice,
-                        fixe:0
-                      },
-                      violence:{
-                        dice:capacite.rayon.violence.dice,
-                        fixe:0
-                      },
-                      type:'distance',
-                      effets:rayonEffetsFinal
-                    }
-                  };
-
-                  armesContactEquipee.push(vagueWpnC);
-                  armesContactEquipee.push(salveWpnC);
-                  armesContactEquipee.push(rayonWpnC);
-
-                  armesDistanceEquipee.push(vagueWpnD);
-                  armesDistanceEquipee.push(salveWpnD);
-                  armesDistanceEquipee.push(rayonWpnD);
-                }
-              break;
-
-              case "borealis":
-              if(wear === 'armure') {
-                const borealisEffets = capacite.offensif.effets;
-                const borealisEffetsRaw = borealisEffets.raw.concat(armorSpecialRaw);
-                const borealisEffetsCustom = borealisEffets.custom.concat(armorSpecialCustom) || [];
-                const borealisEffetsFinal = {
-                  raw:[...new Set(borealisEffetsRaw)],
-                  custom:borealisEffetsCustom,
-                  liste:borealisEffets.liste
-                };
-
-                const borealisWpnC = {
-                  _id:i._id,
-                  name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label')}`,
-                  system:{
-                    capaciteName:'borealis',
-                    subCapaciteName:'offensif',
-                    noRack:true,
-                    capacite:true,
-                    portee:game.i18n.localize(`KNIGHT.PORTEE.${capacite.offensif.portee.charAt(0).toUpperCase()+capacite.offensif.portee.substr(1)}`),
-                    energie:capacite.offensif.energie,
-                    degats:{
-                      dice:capacite.offensif.degats.dice,
-                      fixe:0
-                    },
-                    violence:{
-                      dice:capacite.offensif.violence.dice,
-                      fixe:0
-                    },
-                    type:'contact',
-                    effets:borealisEffetsFinal
-                  }
-                };
-
-                const borealisWpnD = {
-                  _id:i._id,
-                  name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label')}`,
-                  system:{
-                    capaciteName:'borealis',
-                    subCapaciteName:'offensif',
-                    noRack:true,
-                    capacite:true,
-                    portee:game.i18n.localize(`KNIGHT.PORTEE.${capacite.offensif.portee.charAt(0).toUpperCase()+capacite.offensif.portee.substr(1)}`),
-                    energie:capacite.offensif.energie,
-                    degats:{
-                      dice:capacite.offensif.degats.dice,
-                      fixe:0
-                    },
-                    violence:{
-                      dice:capacite.offensif.violence.dice,
-                      fixe:0
-                    },
-                    type:'distance',
-                    effets:borealisEffetsFinal
-                  }
-                };
-
-                armesContactEquipee.push(borealisWpnC);
-
-                armesDistanceEquipee.push(borealisWpnD);
-              }
-              break;
-
-              case "morph":
-                if(passiveUltime !== undefined) {
-                  if(passiveUltime.capacites.actif && passiveUltime.capacites.morph.actif) {
-                    system.capacites.selected[key] = Object.assign(system.capacites.selected[key], {
-                      etirement:{
-                        portee:passiveUltime.capacites.morph.update.etirement.portee,
-                      },
-                      fluide:{
-                        bonus:{
-                          reaction:passiveUltime.capacites.morph.update.fluide.bonus.reaction,
-                          defense:passiveUltime.capacites.morph.update.fluide.bonus.defense
-                        }
-                      },
-                      metal:{
-                        bonus:{
-                          champDeForce:passiveUltime.capacites.morph.update.metal.bonus.champDeForce,
-                        }
-                      },
-                      polymorphie:{
-                        canon:{
-                          degats:{
-                            dice:passiveUltime.capacites.morph.update.polymorphie.canon.degats.dice,
-                            fixe:passiveUltime.capacites.morph.update.polymorphie.canon.degats.fixe,
-                          },
-                          violence:{
-                            dice:passiveUltime.capacites.morph.update.polymorphie.canon.violence.dice,
-                            fixe:passiveUltime.capacites.morph.update.polymorphie.canon.violence.fixe,
-                          },
-                          effets:{
-                            raw:capacite.polymorphie.canon.effets.raw.concat(passiveUltime.capacites.morph.update.polymorphie.canon.effets.raw),
-                            custom:capacite.polymorphie.canon.effets.custom.concat(passiveUltime.capacites.morph.update.polymorphie.canon.effets.custom),
-                          }
-                        },
-                        griffe:{
-                          degats:{
-                            dice:passiveUltime.capacites.morph.update.polymorphie.griffe.degats.dice,
-                            fixe:passiveUltime.capacites.morph.update.polymorphie.griffe.degats.fixe,
-                          },
-                          violence:{
-                            dice:passiveUltime.capacites.morph.update.polymorphie.griffe.violence.dice,
-                            fixe:passiveUltime.capacites.morph.update.polymorphie.griffe.violence.fixe,
-                          },
-                          effets:{
-                            raw:capacite.polymorphie.griffe.effets.raw.concat(passiveUltime.capacites.morph.update.polymorphie.griffe.effets.raw),
-                            custom:capacite.polymorphie.griffe.effets.custom.concat(passiveUltime.capacites.morph.update.polymorphie.griffe.effets.custom),
-                          }
-                        },
-                        lame:{
-                          degats:{
-                            dice:passiveUltime.capacites.morph.update.polymorphie.lame.degats.dice,
-                            fixe:passiveUltime.capacites.morph.update.polymorphie.lame.degats.fixe,
-                          },
-                          violence:{
-                            dice:passiveUltime.capacites.morph.update.polymorphie.lame.violence.dice,
-                            fixe:passiveUltime.capacites.morph.update.polymorphie.lame.violence.fixe,
-                          },
-                          effets:{
-                            raw:capacite.polymorphie.lame.effets.raw.concat(passiveUltime.capacites.morph.update.polymorphie.lame.effets.raw),
-                            custom:capacite.polymorphie.lame.effets.custom.concat(passiveUltime.capacites.morph.update.polymorphie.lame.effets.custom),
-                          }
-                        }
-                      },
-                      vol:{
-                        description:passiveUltime.capacites.morph.update.vol.description,
-                      }
-                    });
-                  }
-                }
-
-                const activeMorph = capacite?.active?.morph || false;
-
-                if(wear === 'armure' && activeMorph) {
-                  if(capacite.active.polymorphieLame) {
-                    const lameEffets = capacite.polymorphie.lame.effets;
-                    const lameEffetsRaw = lameEffets.raw.concat(armorSpecialRaw);
-                    const lameEffetsCustom = lameEffets.custom.concat(armorSpecialCustom) || [];
-                    const lameEffetsFinal = {
-                      raw:[...new Set(lameEffetsRaw)],
-                      custom:lameEffetsCustom,
-                      liste:lameEffets.liste
-                    };
-
-                    const lame = {
-                      _id:i._id,
-                      name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame')}`,
-                      system:{
-                        capaciteName:'morph',
-                        subCapaciteName:'polymorphie',
-                        subSubCapaciteName:'lame',
-                        noRack:true,
-                        capacite:true,
-                        portee:game.i18n.localize(`KNIGHT.PORTEE.${capacite.polymorphie.lame.portee.charAt(0).toUpperCase()+capacite.polymorphie.lame.portee.substr(1)}`),
-                        degats:{
-                          dice:capacite.polymorphie.lame.degats.dice,
-                          fixe:capacite.polymorphie.lame.degats.fixe
-                        },
-                        violence:{
-                          dice:capacite.polymorphie.lame.violence.dice,
-                          fixe:capacite.polymorphie.lame.violence.fixe
-                        },
-                        type:'contact',
-                        effets:lameEffetsFinal
-                      }
-                    };
-
-                    const bDefense = lameEffetsFinal.raw.find(str => { if(str.includes('defense')) return str; });
-                    const bReaction = lameEffetsFinal.raw.find(str => { if(str.includes('reaction')) return str; })
-
-                    if(bDefense !== undefined) defense.bonus += +bDefense.split(' ')[1];
-                    if(bReaction !== undefined) reaction.bonus += +bReaction.split(' ')[1];
-
-                    armesContactEquipee.push(lame);
-                  }
-
-                  if(capacite.active.polymorphieGriffe) {
-                    const griffeEffets = capacite.polymorphie.griffe.effets;
-                    const griffeEffetsRaw = griffeEffets.raw.concat(armorSpecialRaw);
-                    const griffeEffetsCustom = griffeEffets.custom.concat(armorSpecialCustom) || [];
-                    const griffeEffetsFinal = {
-                      raw:[...new Set(griffeEffetsRaw)],
-                      custom:griffeEffetsCustom,
-                      liste:griffeEffets.liste
-                    };
-
-                    const griffe = {
-                      _id:i._id,
-                      name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe')}`,
-                      system:{
-                        capaciteName:'morph',
-                        subCapaciteName:'polymorphie',
-                        subSubCapaciteName:'griffe',
-                        noRack:true,
-                        capacite:true,
-                        portee:game.i18n.localize(`KNIGHT.PORTEE.${capacite.polymorphie.griffe.portee.charAt(0).toUpperCase()+capacite.polymorphie.griffe.portee.substr(1)}`),
-                        degats:{
-                          dice:capacite.polymorphie.griffe.degats.dice,
-                          fixe:capacite.polymorphie.griffe.degats.fixe
-                        },
-                        violence:{
-                          dice:capacite.polymorphie.griffe.violence.dice,
-                          fixe:capacite.polymorphie.griffe.violence.fixe
-                        },
-                        type:'contact',
-                        effets:griffeEffetsFinal
-                      }
-                    };
-
-                    const bDefense = griffeEffetsFinal.raw.find(str => { if(str.includes('defense')) return str; });
-                    const bReaction = griffeEffetsFinal.raw.find(str => { if(str.includes('reaction')) return str; })
-
-                    if(bDefense !== undefined) defense.bonus += +bDefense.split(' ')[1];
-                    if(bReaction !== undefined) reaction.bonus += +bReaction.split(' ')[1];
-
-                    armesContactEquipee.push(griffe);
-                  };
-
-                  if(capacite.active.polymorphieCanon) {
-                    const canonEffets = capacite.polymorphie.canon.effets;
-                    const canonEffetsRaw = canonEffets.raw.concat(armorSpecialRaw);
-                    const canonEffetsCustom = canonEffets.custom.concat(armorSpecialCustom) || [];
-                    const canonEffetsFinal = {
-                      raw:[...new Set(canonEffetsRaw)],
-                      custom:canonEffetsCustom,
-                      liste:canonEffets.liste
-                    };
-
-                    const canon = {
-                      _id:i._id,
-                      name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon')}`,
-                      system:{
-                        capaciteName:'morph',
-                        subCapaciteName:'polymorphie',
-                        subSubCapaciteName:'canon',
-                        noRack:true,
-                        capacite:true,
-                        portee:game.i18n.localize(`KNIGHT.PORTEE.${capacite.polymorphie.canon.portee.charAt(0).toUpperCase()+capacite.polymorphie.canon.portee.substr(1)}`),
-                        energie:capacite.polymorphie.canon.energie,
-                        degats:{
-                          dice:capacite.polymorphie.canon.degats.dice,
-                          fixe:capacite.polymorphie.canon.degats.fixe
-                        },
-                        violence:{
-                          dice:capacite.polymorphie.canon.violence.dice,
-                          fixe:capacite.polymorphie.canon.violence.fixe
-                        },
-                        type:'distance',
-                        effets:canonEffetsFinal
-                      }
-                    };
-
-                    const bDefense = canonEffetsFinal.raw.find(str => { if(str.includes('defense')) return str; });
-                    const bReaction = canonEffetsFinal.raw.find(str => { if(str.includes('reaction')) return str; })
-
-                    if(bDefense !== undefined) defense.bonus += +bDefense.split(' ')[1];
-                    if(bReaction !== undefined) reaction.bonus += +bReaction.split(' ')[1];
-
-                    armesDistanceEquipee.push(canon);
-                  }
-                }
-                break;
-            }
-          }
+                },
+            },
+            buttons:{},
         }
 
-        // MODULE
-        if (i.type === 'module') {
-          const niveau = system.niveau.value;
-          const itemDataNiveau = system.niveau.details[`n${niveau}`];
-          const itemArme = itemDataNiveau?.arme || {has:false};
-          const itemBonus = itemDataNiveau?.bonus || {has:false};
-          const itemActive = system?.active?.base || false;
+        const options = {
+            baseApplication:'KnightRollDialog',
+            id:actor,
+            classes: ["dialog", "knight", "rollDialog"],
+            width: 900,
+            height:data?.height ?? 800,
+            resizable: true
+        };
 
-          if(itemArme === false && itemBonus === false) continue;
-
-          if(itemDataNiveau.permanent || itemActive) {
-            if(itemArme.has && onArmor) {
-              const moduleArmeType = itemArme.type;
-              const moduleEffets = itemArme.effets;
-              const moiduleEffetsRaw = moduleEffets.raw.concat(armorSpecialRaw);
-              const moduleEffetsCustom = moduleEffets.custom.concat(armorSpecialCustom) || [];
-              const moduleEffetsFinal = {
-                raw:[...new Set(moiduleEffetsRaw)],
-                custom:moduleEffetsCustom,
-                liste:moduleEffets.liste
-              };
-              const dataMunitions = itemArme?.optionsmunitions || {has:false};
-
-              let degats = itemArme.degats;
-              let violence = itemArme.violence;
-
-              if(dataMunitions.has) {
-                let actuel = dataMunitions.actuel;
-
-                if(actuel === undefined) {
-                  dataMunitions.actuel = "0";
-                  actuel = "1";
-                }
-
-                for (let i = 0; i <= actuel; i++) {
-
-                  const raw = dataMunitions.liste[i].raw.concat(armorSpecialRaw);
-                  const custom = dataMunitions.liste[i].custom.concat(armorSpecialCustom);
-
-                  itemArme.optionsmunitions.liste[i].raw = [...new Set(raw)];
-                  itemArme.optionsmunitions.liste[i].custom = custom;
-                }
-
-                degats = dataMunitions.liste[actuel].degats;
-                violence = dataMunitions.liste[actuel].violence;
-              }
-
-              const moduleWpn = {
-                _id:i._id,
-                name:i.name,
-                type:'module',
-                system:{
-                  noRack:true,
-                  type:itemArme.type,
-                  portee:itemArme.portee,
-                  degats:degats,
-                  violence:violence,
-                  optionsmunitions:dataMunitions,
-                  effets:moduleEffetsFinal,
-                  niveau:niveau,
-                }
-              };
-
-              if(moduleArmeType === 'contact') {
-                moduleWpn.system.structurelles = itemArme.structurelles;
-                moduleWpn.system.ornementales = itemArme.ornementales;
-              } else {
-                moduleWpn.system.distance = itemArme.distance;
-              }
-
-              if(moduleArmeType === 'contact') { armesContactEquipee.push(moduleWpn); }
-              else if(moduleArmeType === 'distance') { armesDistanceEquipee.push(moduleWpn); }
-            }
-
-            if(itemBonus.has && onArmor) {
-              const iBDgts = itemBonus.degats;
-              const iBDgtsVariable = iBDgts.variable;
-              const iBViolence = itemBonus.violence;
-              const iBViolenceVariable = iBViolence.variable;
-
-              if(iBDgts.has) {
-                if(iBDgtsVariable.has) {
-                  const dgtsDicePaliers = [0];
-                  const dgtsFixePaliers = [0];
-
-                  for(let i = iBDgtsVariable.min.dice;i <= iBDgtsVariable.max.dice;i++) {
-                    dgtsDicePaliers.push(i);
-                  }
-
-                  for(let i = iBDgtsVariable.min.fixe;i <= iBDgtsVariable.max.fixe;i++) {
-                    dgtsFixePaliers.push(i);
-                  }
-
-                  moduleBonusDgtsVariable[iBDgts.type].push({
-                    id:i._id,
-                    label:i.name,
-                    description:i.system.description,
-                    selected:{
-                      dice:iBDgtsVariable?.selected?.dice || 0,
-                      fixe:iBDgtsVariable?.selected?.fixe || 0,
-                      energie:{
-                        dice:iBDgtsVariable?.selected?.energie.dice || 0,
-                        fixe:iBDgtsVariable?.selected?.energie.fixe || 0,
-                        paliers:{
-                          dice:dgtsDicePaliers,
-                          fixe:dgtsFixePaliers
-                        }
-                      }
-                    },
-                    min:{
-                      dice:iBDgtsVariable.min.dice,
-                      fixe:iBDgtsVariable.min.fixe
-                    },
-                    max:{
-                      dice:iBDgtsVariable.max.dice,
-                      fixe:iBDgtsVariable.max.fixe
-                    },
-                    energie:iBDgtsVariable.cout
-                  });
-                } else {
-                  moduleBonusDgts[iBDgts.type].push({
-                    id:i._id,
-                    label:i.name,
-                    description:i.system.description,
-                    dice:iBDgts.dice,
-                    fixe:iBDgts.fixe
-                  });
-                }
-              }
-
-              if(iBViolence.has) {
-                if(iBViolenceVariable.has) {
-                  const violDicePaliers = [0];
-                  const violFixePaliers = [0];
-
-                  for(let i = iBViolenceVariable.min.dice;i <= iBViolenceVariable.max.dice;i++) {
-                    violDicePaliers.push(i);
-                  }
-
-                  for(let i = iBViolenceVariable.min.fixe;i <= iBViolenceVariable.max.fixe;i++) {
-                    violFixePaliers.push(i);
-                  }
-
-                  moduleBonusViolenceVariable[iBViolence.type].push({
-                    id:i._id,
-                    label:i.name,
-                    description:i.system.description,
-                    selected:{
-                      dice:iBViolenceVariable?.selected?.dice || 0,
-                      fixe:iBViolenceVariable?.selected?.fixe || 0,
-                      energie:{
-                        dice:iBViolenceVariable?.selected?.energie?.dice || 0,
-                        fixe:iBViolenceVariable?.selected?.energie?.fixe || 0,
-                        paliers:{
-                          dice:violDicePaliers,
-                          fixe:violFixePaliers
-                        }
-                      }
-                    },
-                    min:{
-                      dice:iBViolenceVariable.min.dice,
-                      fixe:iBViolenceVariable.min.fixe
-                    },
-                    max:{
-                      dice:iBViolenceVariable.max.dice,
-                      fixe:iBViolenceVariable.max.fixe
-                    },
-                    energie:iBViolenceVariable.cout
-                  });
-                } else {
-                  moduleBonusViolence[iBViolence.type].push({
-                    id:i._id,
-                    label:i.name,
-                    description:i.system.description,
-                    dice:iBViolence.dice,
-                    fixe:iBViolence.fixe
-                  });
-                }
-              }
-            }
-          }
-        }
-
-        // ARMES
-        if (i.type === 'arme') {
-          const type = system.type;
-          const tourelle = system.tourelle;
-
-          const armeRaw = system.effets.raw.concat(armorSpecialRaw);
-          const armeCustom = system.effets.custom.concat(armorSpecialCustom);
-
-          const armeE2Raw = system.effets2mains.raw.concat(armorSpecialRaw);
-          const armeE2Custom = system.effets2mains.custom.concat(armorSpecialCustom);
-
-          system.effets.raw = [...new Set(armeRaw)];
-          system.effets.custom = armeCustom;
-
-          system.effets2mains.raw = [...new Set(armeE2Raw)];
-          system.effets2mains.custom = armeE2Custom;
-
-          const dataMunitions = system.optionsmunitions,
-                hasDM = dataMunitions?.has || false,
-                actuelDM = Number(dataMunitions?.actuel || 0);
-
-          if(hasDM && actuelDM != 0) {
-            for (let i = 0; i <= dataMunitions.actuel; i++) {
-
-              const raw = dataMunitions.liste[i].raw.concat(armorSpecialRaw);
-              const custom = dataMunitions.liste[i].custom.concat(armorSpecialCustom);
-
-              system.optionsmunitions.liste[i].raw = [...new Set(raw)];
-              system.optionsmunitions.liste[i].custom = custom;
-            }
-          }
-
-          const optionsmunitions = system.optionsmunitions.has;
-          const munition = system.optionsmunitions.actuel;
-
-          if(type === 'distance' && optionsmunitions === true) {
-            system.degats.dice = system.optionsmunitions?.liste?.[munition]?.degats?.dice || 0;
-            system.degats.fixe = system.optionsmunitions?.liste?.[munition]?.degats?.fixe || 0
-
-            system.violence.dice = system.optionsmunitions?.liste?.[munition]?.violence?.dice || 0;
-            system.violence.fixe = system.optionsmunitions?.liste?.[munition]?.violence?.fixe || 0;
-          }
-
-          if(wear !== 'ascension' && !tourelle.has) {
-            let equipped = system?.equipped ?? false;
-            if(!isPj) equipped = true;
-
-            const options2mains = system.options2mains.has;
-            const main = system.options2mains.actuel;
-
-            if(type === 'contact' && options2mains === true) {
-              system.degats.dice = system?.options2mains?.[main]?.degats?.dice || 0;
-              system.degats.fixe = system?.options2mains?.[main]?.degats?.fixe || 0;
-
-              system.violence.dice = system?.options2mains?.[main]?.violence?.dice || 0;
-              system.violence.fixe = system?.options2mains?.[main]?.violence?.fixe || 0;
-            }
-
-            if (type === 'contact' && equipped === true) { armesContactEquipee.push(i); }
-            else if (type === 'distance' && equipped === true) { armesDistanceEquipee.push(i); }
-          }
-
-          if(tourelle.has && type === 'distance') {
-            armesTourelles.push(i);
-          }
-        }
-
-        // CAPACITES
-        if (i.type === 'capacite') {
-
-          if(!i.system.attaque.has) continue;
-          const dataCAttaque = i.system.attaque;
-
-          const capaciteWpn = {
-            _id:i._id,
-            name:i.name,
-            type:'capacite',
-            system:{
-              type:dataCAttaque.type,
-              portee:dataCAttaque.portee,
-              degats:dataCAttaque.degats,
-              violence:{
-                dice:0,
-                fixe:0,
-              },
-              effets:dataCAttaque.effets,
-            }
-          }
-
-          if(dataCAttaque.type === 'contact') armesContactEquipee.push(capaciteWpn);
-          else if(dataCAttaque.type === 'distance') armesDistanceEquipee.push(capaciteWpn);
-        }
-      }
-
-      for(let i = 0;i < armesContactEquipee.length;i++) {
-        armesContactEquipee[i].system.degats.module = {};
-        armesContactEquipee[i].system.degats.module.fixe = moduleBonusDgts.contact;
-        armesContactEquipee[i].system.degats.module.variable = moduleBonusDgtsVariable.contact;
-
-        armesContactEquipee[i].system.violence.module = {};
-        armesContactEquipee[i].system.violence.module.fixe = moduleBonusViolence.contact;
-        armesContactEquipee[i].system.violence.module.variable = moduleBonusViolenceVariable.contact;
-      };
-
-      for(let i = 0;i < armesDistanceEquipee.length;i++) {
-        armesDistanceEquipee[i].system.degats.module = {};
-        armesDistanceEquipee[i].system.degats.module.fixe = moduleBonusDgts.distance;
-        armesDistanceEquipee[i].system.degats.module.variable = moduleBonusDgtsVariable.distance;
-
-        armesDistanceEquipee[i].system.violence.module = {};
-        armesDistanceEquipee[i].system.violence.module.fixe = moduleBonusViolence.distance;
-        armesDistanceEquipee[i].system.violence.module.variable = moduleBonusViolenceVariable.distance;
-      };
-
-      for (let [key, grenade] of Object.entries(grenades)){
-        const effetsRaw = grenades[key].effets.raw.concat(armorSpecialRaw);
-        const effetsCustom = grenades[key].effets.custom.concat(armorSpecialCustom);
-
-        grenades[key].effets.raw = [...new Set(effetsRaw)];
-        grenades[key].effets.custom = [...new Set(effetsCustom)];
-      };
-    } else {
-      const modulesListe = Object.keys(act.system.modules.liste);
-      const modulesBase = Object.keys(act.system.configurations.liste.base.modules);
-      const modulesC1 = Object.keys(act.system.configurations.liste.c1.modules);
-      const modulesC2 = Object.keys(act.system.configurations.liste.c2.modules);
-      const listWpn = ['canonMetatron', 'canonMagma', 'mitrailleusesSurtur', 'souffleDemoniaque', 'poingsSoniques'];
-      const listWpnSpecial = ['lamesCinetiquesGeantes'];
-
-      for(let i = 0; i < modulesListe.length;i++) {
-        const name = modulesListe[i];
-        let type = '';
-
-        if(modulesBase.includes(name)) type = 'base';
-        if(modulesC1.includes(name)) type = 'c1';
-        if(modulesC2.includes(name)) type = 'c2';
-
-        if(type !== '') {
-          const data = act.system.configurations.liste[type].modules[name];
-
-          if(listWpn.includes(name)) {
-            let noyaux = 0;
-
-            switch(name) {
-              case 'canonMagma':
-                noyaux = +data.noyaux.simple;
-                break;
-
-              case 'souffleDemoniaque':
-              case 'mitrailleusesSurtur':
-              case 'canonMetatron':
-              case 'poingsSoniques':
-                noyaux = +data.noyaux;
-                break;
-            }
-
-            wpn.push({
-              type:type,
-              _id:name,
-              name:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${name.toUpperCase()}.Label`),
-              portee:data.portee,
-              energie:noyaux,
-              degats:data.degats,
-              violence:data.violence,
-              effets:data.effets
-            });
-          }
-
-          if(listWpnSpecial.includes(name)) {
-            let noyaux = 0;
-
-            wpnSpecial.push({
-              type:'special',
-              subType:type,
-              _id:name,
-              name:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${name.toUpperCase()}.Label`),
-              portee:data.portee,
-              energie:noyaux,
-              degats:data.degats,
-              violence:data.violence,
-              effets:data.effets,
-              eff1:data.eff1,
-              eff2:data.eff2
-            });
-          }
-        }
-      }
+        super(dialogData, options);
     }
 
-    return {
-      longbow:longbow,
-      contact:armesContactEquipee,
-      distance:armesDistanceEquipee,
-      tourelle:armesTourelles,
-      wpn:wpn,
-      wpnSpecial:wpnSpecial,
-      grenade:grenades,
-      armesimprovisees:foundry.utils.mergeObject(act.system.combat.armesimprovisees, {
-        bonuscontact:{
-          degatsfixe:moduleBonusDgts.contact, degatsvariable:moduleBonusDgtsVariable.contact,
-          violencefixe:moduleBonusViolence.contact, violencevariable:moduleBonusViolenceVariable.contact,
-        }
-      }),
+    get rollData() {
+        return this.data.roll;
     }
-  }
+
+    get actor() {
+        return canvas.tokens.get(this.rollData.id) ? canvas.tokens.get(this.rollData.id).actor : game.actors.get(this.rollData.id);
+    }
+
+    get who() {
+        const actor = this.actor;
+
+        return this.data.whoActivate !== 'none' ? game.actors.get(this.data.whoActivate) : actor;
+    }
+
+    get isPJ() {
+        const who = this.who.type;
+        let result = false;
+
+        if(who === 'knight') result = true;
+
+        return result;
+    }
+
+    get attrMods() {
+        const wear = this.actor.system.wear;
+        const armorIsWear = wear === 'armure' || wear === 'ascension' ? true : false;
+        const armureData = this.actor.items.find(itm => itm.type === 'armure');
+        let result = {
+            bonus:[],
+            interdits:[]
+        };
+
+        if(armureData && armorIsWear) {
+            const d = armureData?.system?.capacites?.selected?.rage;
+
+            if(d) {
+                const nc = d?.niveau?.colere;
+                const nr = d?.niveau?.rage;
+                const nf = d?.niveau?.fureur;
+                const c = d?.colere;
+                const r = d?.rage;
+                const f = d?.fureur;
+
+                if(nc) {
+                    if(c.combosBonus.has) {
+                        result.bonus = Object.values(c.combosBonus.liste);
+                    }
+
+                    if(c.combosInterdits.has) {
+                        result.interdits = Object.values(c.combosInterdits.liste);
+                    }
+                }
+
+                if(nr) {
+                    if(r.combosBonus.has) {
+                        result.bonus = Object.values(r.combosBonus.liste);
+                    }
+
+                    if(r.combosInterdits.has) {
+                        result.interdits = Object.values(r.combosInterdits.liste);
+                    }
+                }
+
+                if(nf) {
+                    if(f.combosBonus.has) {
+                        result.bonus = Object.values(f.combosBonus.liste);
+                    }
+
+                    if(f.combosInterdits.has) {
+                        result.interdits = Object.values(f.combosInterdits.liste);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    get armorIsWear() {
+        const wear = this.actor.system?.wear ?? '';
+        let result = false;
+
+        if(wear === 'armure' || wear === 'ascension' || !this.isPJ) result = true;
+
+        return result;
+    }
+
+    actualise() {
+        this.#renderInitialization(this.data.roll.html);
+
+        const wpns = this.#prepareWpn();
+
+        const allWpns = this.rollData.typeWpn.contact.concat(this.rollData.typeWpn.distance, this.rollData.typeWpn.tourelle, this.rollData.typeWpn.aicontact, this.rollData.typeWpn.aidistance, this.rollData.typeWpn.grenade, this.rollData.typeWpn.complexe);
+        const difference = foundry.utils.diffObject(this.data.roll.allWpn, allWpns);
+        if(!allWpns.find(itm => itm.id === this.rollData.wpnSelected)) this.data.roll.wpnSelected = '';
+
+        if(!foundry.utils.isEmpty(difference)) {
+            this.data.roll.allWpn = allWpns;
+            this.#cleanHtml();
+            this.#updateWpnContact(this.rollData.typeWpn.contact);
+            this.#updateWpnDistance(this.rollData.typeWpn.distance);
+            this.#updateWpnTourelle(this.rollData.typeWpn.tourelle);
+            this.#updateWpnAIContact(wpns.listaicontact);
+            this.#updateWpnAIDistance(wpns.listaidistance);
+            this.#updateWpnGrenade(this.rollData.typeWpn.grenade);
+            this.#updateWpnComplexe(this.rollData.typeWpn.complexe);
+            this.#renderWpn(this.data.roll.html);
+        }
+
+        this.#updateBonusInterdits(undefined, this.data.roll.html);
+    }
+
+    async open() {
+        this.#prepareTitle();
+        this.#prepareButtons();
+
+        this.data.content = await renderTemplate(KnightRollDialog.dialogRoll, this.#prepareOptions());
+
+        this.render(true);
+    }
+
+    /* -------------------------------------------- */
 
     /** @inheritdoc */
-  activateListeners(html) {
-    html.find(".aspect button").click(this._onSelectCaracteristique.bind(this));
-    html.find(".wpn button").click(this._onSelectWpn.bind(this));
-    html.find(".grenades button").click(this._onSelectGrenades.bind(this));
-    html.find(".longbow button").click(this._onSelectLongbow.bind(this));
-    html.find(".special button").click(this._onSelectWpn.bind(this));
-    html.find(".longbow div.effets div span").click(this._onSelectEffetsLongbow.bind(this));
-    html.find(".special div.effets div span").click(this._onSelectEffetsSpecial.bind(this));
-    html.find(".bonus .buttons button").click(this._onSelectCaracStyle.bind(this));
-    html.find(".button1").click(this._onClickButton.bind(this));
-    html.find(".button2").click(this._onClickEButton.bind(this));
-    html.find(".button3").click(this.close.bind(this));
-
-    html.find('.header .far').click(ev => {
-      const data = $(ev.currentTarget);
-      const deploy = data.data("deploy");
-      const value = data.data("value") ? false : true;
-
-      this.data.deploy[deploy] = value;
-      this.render(true);
-    });
-
-    html.find(".label").change(ev => {
-      this.data.label = $(ev.currentTarget).val();
-    });
-
-    html.find(".difficulte").change(ev => {
-      const value = +$(ev.currentTarget).val();
-
-      this.data.difficulte = value;
-    });
-
-    html.find(".succesBonus").change(ev => {
-      const value = +$(ev.currentTarget).val();
-
-      this.data.succesBonus = value;
-    });
-
-    html.find(".modificateur").change(ev => {
-      const value = +$(ev.currentTarget).val();
-
-      this.data.modificateur = value;
-    });
-
-    html.find(".degatsBonusDice").change(async ev => {
-      const actor = this.data.actor;
-      const value = +$(ev.currentTarget).val();
-
-      this.data.degatsBonus.dice = value;
-      if(this.data.isToken) await actor.update({[`system.combat.data.degatsbonus.dice`]:value});
-      else await game.actors.get(actor.id).update({[`system.combat.data.degatsbonus.dice`]:value});
-    });
-
-    html.find(".degatsBonusFixe").change(async ev => {
-      const actor = this.data.actor;
-      const value = +$(ev.currentTarget).val();
-
-      this.data.degatsBonus.fixe = value;
-      if(this.data.isToken) await actor.update({[`system.combat.data.degatsbonus.fixe`]:value});
-      else await game.actors.get(actor.id).update({[`system.combat.data.degatsbonus.fixe`]:value});
-    });
-
-    html.find(".violenceBonusDice").change(async ev => {
-      const actor = this.data.actor;
-      const value = +$(ev.currentTarget).val();
-
-      this.data.violenceBonus.dice = value;
-      if(this.data.isToken) await actor.update({[`system.combat.data.violencebonus.dice`]:value});
-      else await game.actors.get(actor.id).update({[`system.combat.data.violencebonus.dice`]:value});
-    });
-
-    html.find(".violenceBonusFixe").change(async ev => {
-      const actor = this.data.actor;
-      const value = +$(ev.currentTarget).val();
-
-      this.data.violenceBonus.fixe = value;
-      if(this.data.isToken) await actor.update({[`system.combat.data.violencebonus.fixe`]:value});
-      else await game.actors.get(actor.id).update({[`system.combat.data.violencebonus.fixe`]:value});
-    });
-
-    html.find("div.wpn span.selected").click(ev => {
-      const type = $(ev.currentTarget);
-      const effet = type.data("type");
-      const special = type?.data("special") || false;
-      const value = type.data("value");
-
-      if(special !== false) {
-        this.data[special][effet] = value;
-      } else {
-        this.data[effet] = value;
-      }
-
-      this.render(true)
-    });
-
-    html.find("div.wpn span.relanceDgts").click(ev => {
-      const cTarget = $(ev.currentTarget);
-      const id = cTarget.data("id");
-      const type = cTarget.data("type");
-      const name = cTarget.data("name");
-
-      this._doRoll(ev, false, false, true, false, id, type, name);
-    });
-
-    html.find("div.longbow span.selected").click(ev => {
-      const type = $(ev.currentTarget);
-      const effet = type.data("type");
-      const special = type?.data("special") || false;
-      const value = type.data("value");
-
-      if(special !== false) {
-        this.data[special][effet] = value;
-      } else {
-        this.data[effet] = value;
-      }
-
-      this.render(true)
-    });
-
-    html.find("div.special span.selected").click(ev => {
-      const type = $(ev.currentTarget);
-      const effet = type.data("type");
-      const value = type.data("value");
-      this.data[effet] = value;
-
-      this.render(true)
-    });
-
-    html.find("div.longbow span.relanceDgts").click(ev => {
-      const cTarget = $(ev.currentTarget);
-      const id = cTarget.data("id");
-      const type = cTarget.data("type");
-      const name = cTarget.data("name");
-
-      this._doRoll(ev, false, false, true, false, id, type, name);
-    });
-
-    html.find("div.grenades span.selected").click(ev => {
-      const type = $(ev.currentTarget);
-      const effet = type.data("type");
-      const value = type.data("value");
-      this.data[effet] = value;
-
-      this.render(true)
-    });
-
-    html.find("div.grenades span.relanceDgts").click(ev => {
-      const cTarget = $(ev.currentTarget);
-      const type = cTarget.data("type");
-      const name = cTarget.data("name");
-
-      this._doRoll(ev, false, false, true, false, '', type, name);
-    });
-
-    html.find('div.styleCombat > span.info').hover(ev => {
-      html.find('div.styleCombat > span.hideInfo').css("display", "block");
-    }, ev => {
-      html.find('div.styleCombat > span.hideInfo').css("display", "none");
-    });
-
-    html.find('div.styleCombat > span.info').click(ev => {
-      const actuel = this.data.style.deploy || false;
-
-      let result = false;
-
-      if(actuel) {
-        result = false;
-      } else {
-        result = true;
-      }
-
-      this.data.style.deploy = result;
-      this.render(true);
-    });
-
-    html.find('button.noOd').click(async ev => {
-      const target = $(ev.currentTarget);
-      const value = target.data("value");
-
-      if(!value) {
-        await this.setIfOd(true);
-      } else {
-        await this.setIfOd(false);
-      }
-
-      this.render(true);
-    });
-
-    html.find('button.attackSurprise').click(async ev => {
-      const target = $(ev.currentTarget);
-      const value = target.data("value");
-
-      if(!value) {
-        await this.setIfAtkSurprise(true);
-      } else {
-        await this.setIfAtkSurprise(false);
-      }
-
-      this.render(true);
-    });
-
-    html.find('div.bonus div.pilonnage input').change(ev => {
-      const value = +$(ev.currentTarget).val();
-
-      this.data.style.tourspasses = value;
-    });
-
-    html.find('div.bonus div.puissant input').change(ev => {
-      const value = +$(ev.currentTarget).val();
-
-      this.data.style.sacrifice = value;
-    });
-
-    html.find('div.bonus select').change(ev => {
-      const actor = this.data.actor;
-      const value = $(ev.currentTarget).val();
-
-      if(this.data.isToken) actor.update({['system.combat.data.type']:value});
-      else game.actors.get(actor.id).update({['system.combat.data.type']:value});
-
-      this.data.style.type = value;
-
-      switch(value) {
-        case 'degats':
-          this.data.style.maximum = 6;
-          break;
-
-        case 'violence':
-          this.data.style.maximum = 8;
-          break;
-      }
-    });
-
-    html.find('select.degatsSelected').change(async ev => {
-      const actor = this.data.actor;
-      const target = $(ev.currentTarget);
-      const value = +target.val();
-      const type = target.data("type");
-      const num = target.data("num");
-      let trueWpn = {};
-      let toupdate = "";
-      let wpn = {};
-
-      if(type === 'contact') wpn = this.data.listWpnContact[num];
-      else if(type === 'distance') wpn = this.data.listWpnDistance[num];
-
-      wpn.system.degats.dice = value;
-
-      if(this.data.isToken) trueWpn = actor.items.get(wpn._id);
-      else trueWpn = game.actors.get(actor.id).items.get(wpn._id);
-
-      if(wpn.type === 'module') {
-        const getNiveau = trueWpn.system.niveau.value;
-        toupdate = `system.niveau.details.n${getNiveau}.arme.degats.dice`;
-      }
-      else if(wpn.type === 'arme') toupdate = 'system.degats.dice';
-
-      if(toupdate !== "") {
-        if(this.data.isToken) await trueWpn.update({[toupdate]:value});
-        else await trueWpn.update({[toupdate]:value});
-      }
-    });
-
-    html.find('select.violenceSelected').change(async ev => {
-      const actor = this.data.actor;
-      const target = $(ev.currentTarget);
-      const value = target.val();
-      const type = target.data("type");
-      const num = target.data("num");
-      let trueWpn = {};
-      let toupdate = "";
-      let wpn = {};
-
-      if(type === 'contact') wpn = this.data.listWpnContact[num];
-      else if(type === 'distance') wpn = this.data.listWpnDistance[num];
-
-      if(type === 'contact') wpn.system.violence.dice = +value;
-      else if(type === 'distance') wpn.system.violence.dice = +value;
-
-      if(this.data.isToken) trueWpn = actor.items.get(wpn._id);
-      else trueWpn = game.actors.get(actor.id).items.get(wpn._id);
-
-      if(wpn.type === 'module') {
-        const getNiveau = trueWpn.system.niveau.value;
-        toupdate = `system.niveau.details.n${getNiveau}.arme.violence.dice`;
-      }
-      else if(wpn.type === 'arme') toupdate = 'system.violence.dice';
-
-      if(toupdate !== "") {
-        if(this.data.isToken) await trueWpn.update({[toupdate]:value});
-        else await trueWpn.update({[toupdate]:value});
-      }
-    });
-
-    html.find('select.bonusVariable').change(ev => {
-      const target = $(ev.currentTarget);
-      const value = +target.val();
-      const type = target.data("type");
-      const num = target.data("num");
-      const typeBonus = target.data("typebonus");
-      const fixeOrDice = target.data("fixeordice");
-      const variable = target.data("variable");
-      const energie = +target.data("energie");
-      const actor = this.data.actor;
-      const wpn = {'contact':'listWpnContact', 'distance':'listWpnDistance', 'improvisees':'listWpnImprovisees'}[type]
-      const dataWpn = type === 'improvisees' ? this.data[wpn][`bonus${this.data.idWpn}`][`${typeBonus}variable`][variable] : this.data[wpn][num].system[typeBonus].module.variable[variable];
-      const paliers = dataWpn.selected.energie.paliers[fixeOrDice].findIndex(element => element === value);
-      const module = this.data.isToken ? actor.token.actor.items.get(dataWpn.id) : game.actors.get(actor.id).items.get(dataWpn.id);
-      const depense = paliers*energie;
-      const update = {
-        [`system.niveau.details.n${module.system.niveau.value}.bonus.${typeBonus}.variable.selected.${fixeOrDice}`]:value,
-        [`system.niveau.details.n${module.system.niveau.value}.bonus.${typeBonus}.variable.selected.energie.${fixeOrDice}`]:depense,
-      };
-
-      dataWpn.selected[fixeOrDice] = value;
-      dataWpn.selected.energie[fixeOrDice] = depense;
-
-      module.update(update);
-    });
-
-    html.find('select.choixmain').change(ev => {
-      const target = $(ev.currentTarget);
-      const value = target.val();
-      const actor = this.data.actor;
-      const num = target.data("num");
-      const listWpnContact = this.data.listWpnContact[num];
-      const id = listWpnContact._id;
-
-      if(this.data.isToken) actor.token.actor.items.get(id).update({['system.options2mains.actuel']:value});
-      else game.actors.get(actor.id).items.get(id).update({['system.options2mains.actuel']:value});
-    });
-
-    html.find('select.choixmunition').change(ev => {
-      const target = $(ev.currentTarget);
-      const value = target.val();
-      const isVehicule = this.data?.vehicule || undefined;
-      const actor = isVehicule !== undefined ? this.data.vehicule : this.data.actor;
-      const num = target.data("num");
-      const niveau = target.data("niveau");
-      const isTourelle = target?.data("tourelle") ?? false;
-      const listWpnDistance = isTourelle ? this.data.listWpnTourelle[num] : this.data.listWpnDistance[num];
-      const id = listWpnDistance._id;
-      let item = {};
-
-      if(this.data.isToken) {
-        item = actor.token.actor.items.get(id);
-
-        if(item.type === 'module') {
-          item.update({[`system.niveau.details.n${niveau}.arme.optionsmunitions.actuel`]:value});
-        } else {
-          item.update({['system.optionsmunitions.actuel']:value});
-        }
-      }
-      else {
-        item = game.actors.get(actor.id).items.get(id);
-
-        if(item.type === 'module') {
-          item.update({[`system.niveau.details.n${niveau}.arme.optionsmunitions.actuel`]:value});
-        } else {
-          item.update({['system.optionsmunitions.actuel']:value});
-        }
-      }
-    });
-
-    html.find('div.longbow div.data div.effets div img.info').click(ev => {
-      const span = $(ev.currentTarget).siblings("span.hideInfo")
-      const width = $(ev.currentTarget).parents("div.data").width() / 2;
-      const hasListe3 = this.data.longbow.effets.liste3.acces;
-      const isListe2 = $(ev.currentTarget).parents("div.effets").hasClass('liste2');
-      const wListe2 = $(ev.currentTarget).parents("div.effets").width() / 2;
-      let position = "";
-      let borderRadius = "border-top-right-radius";
-
-      if(hasListe3) {
-        if(isListe2) {
-          if($(ev.currentTarget).parent("div").position().left > wListe2) {
-            position = "right";
-            borderRadius = "border-top-right-radius";
-          } else {
-            position = "left";
-            borderRadius = "border-top-left-radius";
-          }
-        } else {
-          if($(ev.currentTarget).parents("div.effets").position().left > width) {
-            position = "right";
-            borderRadius = "border-top-right-radius";
-          } else {
-            position = "left";
-            borderRadius = "border-top-left-radius";
-          }
-        }
-      } else {
-        if($(ev.currentTarget).parents("div.effets").position().left > width) {
-          position = "right";
-          borderRadius = "border-top-right-radius";
-        } else {
-          position = "left";
-          borderRadius = "border-top-left-radius";
-        }
-      }
-
-      span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
-      $(ev.currentTarget).toggleClass("clicked");
-    });
-
-    html.find('div.special div.data div.effets div img.info').click(ev => {
-      const span = $(ev.currentTarget).siblings("span.hideInfo")
-      const width = $(ev.currentTarget).parents("div.data").width() / 2;
-
-      let position = "";
-      let borderRadius = "border-top-right-radius";
-
-      if($(ev.currentTarget).parents("div.effets").position().left > width) {
-        position = "right";
-        borderRadius = "border-top-right-radius";
-      } else {
-        position = "left";
-        borderRadius = "border-top-left-radius";
-      }
-
-      span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
-      $(ev.currentTarget).toggleClass("clicked");
-    });
-
-    html.find('div.longbow div.data select').change(ev => {
-      const target = $(ev.currentTarget);
-      const type = target.data("type");
-      const cost = target.data("cost");
-      const value = target.val();
-
-      const data = this.data.longbow[type];
-      let min;
-      let cout = 0;
-
-      if(type === 'portee') {
-        const rangeToNumber = data.rangeToNumber;
-
-        cout = rangeToNumber[value];
-
-        data.value = value;
-      } else {
-        min = data.min+1;
-
-        for(let i = min;i <= value;i++) {
-          cout += cost;
-        }
-
-        data.dice = value;
-      }
-
-      data.cout = cout;
-      this.render(true);
-    });
-
-    html.find('div.styleCombat select.selectStyle').change(async ev => {
-      const style = $(ev.currentTarget).val();
-      const actor = this.data.actor;
-
-      await actor.update({['system.combat']:{
-        style:style,
-        data:{
-          tourspasses:1,
-          type:"degats"
-        }
-      }});
-
-      this.setAct(game.actors.get(actor._id));
-      this.render(true);
-    });
-  }
-
-  /**
-   * Handle a left-mouse click on one of the dialog choice buttons
-   * @param {MouseEvent} event    The left-mouse click event
-   * @private
-   */
-   _onClickButton(event) {
-    const id = event.currentTarget.dataset.button;
-    const button = this.data.buttons[id];
-
-    this._doRoll(event);
-  }
-
-  /**
-   * Handle a left-mouse click on one of the dialog choice buttons
-   * @param {MouseEvent} event    The left-mouse click event
-   * @private
-   */
-   _onClickEButton(event) {
-    const id = event.currentTarget.dataset.button;
-    const button = this.data.buttons[id];
-
-    this._doRoll(event, true);
-  }
-
-  async _doRoll(event, entraide=false, attackOnly=false, dgtsOnly=false, violenceOnly=false, wpnId='', wpnType='', wpnName='', bonusTemp=false) {
-
-    const data = this.data;
-    const isPNJ = data?.pnj || false;
-    const noOd = data?.noOd || false;
-    const actor = data.actor;
-
-    const idWpn = wpnId === '' ? data?.idWpn ?? '' : wpnId;
-    const nameWpn = wpnName === '' ? data.nameWpn : wpnId;
-    const typeWpn = wpnType === '' ? data.typeWpn : wpnType;
-    const numWpn = data.num;
-
-    const getCarac = this._getCarac(entraide);
-    const otherC = getCarac.otherC;
-    const carac = getCarac.carac;
-    const od = getCarac.od;
-
-    let totalDice = 0;
-    let totalBonus = 0;
-
-    if((idWpn != '' && idWpn != -1 && !entraide) || (typeWpn === 'grenades' && !entraide) || (typeWpn === 'longbow' && !entraide)) {
-      if(typeWpn !== 'tourelle') totalDice += carac || 0;
-      if(typeWpn !== 'tourelle' && !noOd && !isPNJ) totalBonus += od || 0;
-      else if(typeWpn !== 'tourelle' && isPNJ) totalBonus += od || 0;
-      totalDice += data.modificateur || 0;
-      totalBonus += data.succesBonus || 0;
-
-      const barrage = data?.barrage ?? false;
-      const systemerefroidissement = data?.systemerefroidissement ?? false;
-      const getWpn = this._getWpn(data, typeWpn, idWpn, nameWpn, numWpn);
-      const wpn = getWpn.wpn;
-
-      const energieSpecial = +wpn?.energie || 0;
-      const espoirSpecial = +wpn?.espoir || 0;
-      const otherWpnAttEffet = [];
-      const listAllE = await this._getAllEffets(actor, wpn, typeWpn, isPNJ);
-      const totalDepenseEnergie = listAllE.depenseEnergie+energieSpecial;
-
-      let nRoll = listAllE.nRoll;
-      let onlyDgts = dgtsOnly == false ? listAllE.onlyDgts : dgtsOnly;
-      let onlyViolence = violenceOnly == false ? listAllE.onlyViolence : violenceOnly;
-      let onlyAttack = attackOnly === false ? listAllE.onlyAttack : attackOnly;
-      let barrageValue = listAllE.barrageValue;
-
-      totalDice += getWpn.dice;
-      totalBonus += getWpn.fixe;
-
-      if(typeWpn !== 'tourelle' && !isPNJ) totalDice += getCaracValue(data.style.selected, actor, true);
-
-      if(totalDepenseEnergie > 0) {
-        const depense = await this._depensePE(actor, totalDepenseEnergie);
-
-        if(!depense.has) {
-          const msgEnergie = {
-            flavor:`${this.data.label} : ${game.i18n.localize('KNIGHT.AUTRE.Attaque')}`,
-            main:{
-              total:`${game.i18n.localize(`KNIGHT.JETS.Not${depense.type}`)}`
+    activateListeners(html) {
+        super.activateListeners(html);
+        this.#renderHTML(html);
+    }
+
+    async #roll(data) {
+        const actor = this.actor.type === 'vehicule' ? this.who : this.actor;
+        const armor = actor.items.find(itm => itm.type === 'armure');
+        const armorIsWear = this.armorIsWear;
+        const label = data.find('input.label').val();
+        const base = this.rollData.base;
+        const selected = this.rollData.whatRoll;
+        const weaponID = data.find('div.wpn .button .btnWpn.selected').parents('div.button').data('id');
+        const weaponData = data.find('div.wpn .button .data');
+        const weapon = weaponID ? this.rollData.allWpn.find(itm => itm.id === weaponID) : undefined
+        const difficulte = parseInt(data.find('label.score.difficulte input').val());
+        const succesBonus = parseInt(data.find('label.score.succesBonus input').val());
+        const modificateur = parseInt(data.find('label.score.modificateur input').val());
+        const isNoOd = this.rollData.btn?.nood ?? false;
+        const isAttaqueSurprise = this.rollData.btn?.attaquesurprise ?? false;
+        let carac = base ? [this.#getLabelRoll(base)] : [];
+        let dices = this.#getValueAspect(actor, base);
+        let bonus = [];
+        let tags = [];
+        let cout = 0;
+        let espoir = 0;
+        let doRoll = true;
+        let msg = '';
+        let classes = '';
+        let updates = {};
+        let dataStyle = {}
+        let dataMod = {
+            degats:{
+                dice:parseInt(data.find('div.scoredice.modificateurdegats input.dice').val()),
+                fixe:parseInt(data.find('div.scoredice.modificateurdegats input.value').val()),
+            },
+            violence:{
+                dice:parseInt(data.find('div.scoredice.modificateurviolence input.dice').val()),
+                fixe:parseInt(data.find('div.scoredice.modificateurviolence input.fixe').val()),
             }
-          };
-
-          const msgEnergieData = {
-            user: game.user.id,
-            speaker: {
-              actor: actor?.id || null,
-              token: actor?.token?.id || null,
-              alias: actor?.name || null,
-            },
-            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-            content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgEnergie),
-            sound: CONFIG.sounds.dice
-          };
-
-          ChatMessage.create(msgEnergieData);
-
-          return;
+        };
+        let maximize = {
+            degats:data.find('button.btn.maximizedegats').hasClass('selected'),
+            violence:data.find('button.btn.maximizeviolence').hasClass('selected'),
         }
-        otherWpnAttEffet.push(
-          {
-            name:`${game.i18n.localize(`KNIGHT.JETS.Depense${depense.type}`)} (${totalDepenseEnergie})`,
-            desc:''
-          }
-        );
-      }
+        let goliath = 0;
 
-      if(espoirSpecial > 0) {
-        const depenseEspoir = this._depenseEspoir(actor, espoirSpecial);
+        if((armorIsWear) && !isNoOd) bonus.push(this.#getODAspect(actor, base));
 
-        if(!depenseEspoir.has) {
-          const msgEspoir = {
-            flavor:`${this.data.label} : ${game.i18n.localize('KNIGHT.AUTRE.Attaque')}`,
-            main:{
-              total:`${game.i18n.localize(`KNIGHT.JETS.Notespoir`)}`
+        if(armorIsWear && armor) {
+            const dataCapacites = actor.system?.equipements?.armure?.capacites ?? {};
+            const dataGoliath = armor.system?.capacites?.selected?.goliath ?? {};
+            const isGoliathActive = armor.system?.capacites?.selected?.goliath?.active ?? false;
+
+            if(isGoliathActive && (base === 'endurance' || base === 'force')) {
+                const meter = parseInt(dataCapacites?.goliath?.metre ?? 0);
+                const bGoliath = parseInt(dataGoliath?.bonus?.[base]?.value ?? 0);
+
+                goliath += (meter*bGoliath);
             }
-          };
-
-          const msgEspoirData = {
-            user: game.user.id,
-            speaker: {
-              actor: actor?.id || null,
-              token: actor?.token?.id || null,
-              alias: actor?.name || null,
-            },
-            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-            content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgEspoir),
-            sound: CONFIG.sounds.dice
-          };
-
-          ChatMessage.create(msgEspoirData);
-
-          return;
-        }
-        otherWpnAttEffet.push(
-          {
-            name:`${game.i18n.localize(`KNIGHT.JETS.Depenseespoir`)} (${espoirSpecial})`,
-            desc:''
-          }
-        );
-      }
-
-      totalDice += listAllE.attack.totalDice;
-      totalBonus += listAllE.attack.totalBonus;
-
-      for(let i = 0; i < nRoll;i++) {
-        const addNum = nRoll > 1 ? ` n°${i+1}` : ``;
-        let regularite = 0;
-        let bonusViolence = 0;
-
-        if(nRoll > 1 && !onlyAttack && !onlyDgts && !onlyViolence) {
-          const rollMsgData = {
-            user: game.user.id,
-            speaker: {
-              actor: actor?.id || null,
-              token: actor?.token?.id || null,
-              alias: actor?.name || null,
-            },
-            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-            content: `<span style="display:block;width:100%;font-weight:bold;text-align:center;">--- ${game.i18n.localize('KNIGHT.AUTRE.Attaque')}${addNum} ---</span>`
-          };
-
-          const rMode = game.settings.get("core", "rollMode");
-          const msgData = ChatMessage.applyRollMode(rollMsgData, rMode);
-
-          await ChatMessage.create(msgData, {
-            rollMode:rMode
-          });
         }
 
-        if(!onlyDgts || !onlyViolence) {
-          if(totalDice <= 0) totalDice = 1;
-          let tgt = game.user?.targets?.ids?.[0] ?? undefined;
-          let contactOrDistance = undefined;
+        for(let s of selected) {
+            dices += this.#getValueAspect(actor, s);
+            carac.push(this.#getLabelRoll(s));
 
-          switch(typeWpn) {
-            case 'tourelle':
-            case 'longbow':
-            case 'grenades':
-            case 'distance':
-              contactOrDistance = 'distance';
-              break;
+            if(armorIsWear && !isNoOd) bonus.push(this.#getODAspect(actor, s));
 
-            case 'contact':
-              contactOrDistance = 'contact';
-              break;
+            if(armorIsWear && armor) {
+                const dataCapacites = actor.system?.equipements?.armure?.capacites ?? {};
+                const dataGoliath = armor.system?.capacites?.selected?.goliath ?? {};
+                const isGoliathActive = armor.system?.capacites?.selected?.goliath?.active ?? false;
 
-            case 'armesimprovisees':
-              if(idWpn === 'distance') contactOrDistance = 'distance';
-              else if(idWpn === 'contact') contactOrDistance = 'contact';
-              break;
-          }
+                if(isGoliathActive && (s === 'endurance' || s === 'force')) {
+                    const meter = parseInt(dataCapacites?.goliath?.metre ?? 0);
+                    const bGoliath = parseInt(dataGoliath?.bonus?.[s]?.value ?? 0);
 
-          let dataToAdd = {
-            localDataWpn:wpn,
-            otherC:otherC,
+                    goliath += (meter*bGoliath);
+                }
+            }
+        }
+
+        if(weapon) {
+            const style = actor.system.combat.style;
+            const modStyle = getModStyle(style);
+            let effets = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
+            let custom = weapon.effets.custom.concat(weapon?.distance?.custom ?? [], weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
+            dices += modStyle.bonus.attaque;
+            dices -= modStyle.malus.attaque;
+            cout += weapon?.cout ?? 0;
+            espoir += weapon?.espoir ?? 0;
+
+            if(weapon?.tourelle ?? undefined) {
+                carac = [];
+                bonus = [weapon.tourelle.fixe];
+                dices = weapon.tourelle.dice;
+            }
+
+            if(weapon.eff1) {
+                let toAddRaw = [];
+                let toAddCustom = [];
+
+                for(let r of weapon.eff1.raw) {
+                    if(weapon.options.find(itm => itm.value === r)) toAddRaw.push(r);
+                }
+
+                for(let r of weapon.eff1.custom) {
+                    if(weapon.options.find(itm => itm.value === r)) toAddCustom.push(r);
+                }
+
+                weapon.effets.raw = weapon.effets.raw.concat(toAddRaw);
+                weapon.effets.custom = weapon.effets.custom.concat(toAddCustom);
+                effets = effets.concat(toAddRaw);
+
+                cout += toAddRaw.length*weapon.eff1.value;
+                cout += toAddCustom.length*weapon.eff1.value;
+            }
+
+            if(weapon.eff2) {
+                let toAddRaw = [];
+                let toAddCustom = [];
+
+                for(let r of weapon.eff2.raw) {
+                    if(weapon.options.find(itm => itm.value === r)) toAddRaw.push(r);
+                }
+
+                for(let r of weapon.eff2.custom) {
+                    if(weapon.options.find(itm => itm.value === r)) toAddCustom.push(r);
+                }
+
+                weapon.effets.raw = weapon.effets.raw.concat(toAddRaw);
+                weapon.effets.custom = weapon.effets.custom.concat(toAddCustom);
+                effets = effets.concat(toAddRaw);
+
+                cout += toAddRaw.length*weapon.eff2.value;
+                cout += toAddCustom.length*weapon.eff2.value;
+            }
+
+            switch(style) {
+                case 'akimbo':
+                    if((this.#isEffetActive(effets, weapon.options, ['jumelle', 'jumeleakimbo', 'jumelageakimbo']) ||
+                        (weapon.type === 'distance' && this.#getODAspect(actor, 'tir') >= 3 && armorIsWear) ||
+                        (weapon.type === 'contact' && this.#getODAspect(actor, 'combat') >= 3 && armorIsWear))) {
+                        dices += 2;
+                    }
+                    break;
+
+                case 'ambidextre':
+                    if((this.#isEffetActive(effets, weapon.options, ['jumeleambidextrie', 'soeur', 'jumelageambidextrie']) ||
+                        (weapon.type === 'distance' && this.#getODAspect(actor, 'tir') >= 4 && armorIsWear) ||
+                        (weapon.type === 'contact' && this.#getODAspect(actor, 'combat') >= 4 && armorIsWear))) {
+                        dices += 2;
+                    }
+                    break;
+
+                case 'defensif':
+                    if(this.#isEffetActive(effets, weapon.options, ['protectrice'])) {
+                        dices += 2;
+                    }
+                    break;
+
+                case 'acouvert':
+                    if(this.#isEffetActive(effets, weapon.options, ['tirensecurite', 'interfaceguidage'])) {
+                        dices += 3;
+                    }
+                    break;
+
+                case 'pilonnage':
+                    dices -= 2;
+                    if(this.#isEffetActive(effets, weapon.options, ['deuxmains', 'munitionshypervelocite', 'systemerefroidissement']) && weapon.type === 'distance') {
+                        dataStyle = {
+                            type:data.find('.pilonnage select').val(),
+                            value:parseInt(data.find('.pilonnage input').val()),
+                        }
+                    }
+                    break;
+
+                case 'precis':
+                    if(this.#isEffetActive(effets, weapon.options, ['deuxmains', 'munitionshypervelocite', 'systemerefroidissement']) && weapon.type === 'contact') {
+                        if(data.find('.precis select').val()){
+                            dices += this.getValueAspect(actor, data.find('.precis select').val());
+                            carac.push(this.#getLabelRoll(data.find('.precis select').val()));
+                        }
+                    }
+                    break;
+
+                case 'puissant':
+                    if((this.#isEffetActive(effets, weapon.options, ['lourd']) || (this.#isEffetActive(effets, weapon.options, ['deuxmains']) && this.#isEffetActive(effets, weapon.options, ['munitionshypervelocite', 'systemerefroidissement']))) && weapon.type === 'contact') {
+                        if(data.find('.precis select').val()){
+                            dices -= Math.min(parseInt(data.find('.puissant input').val()), 6);
+
+                            dataStyle = {
+                                type:data.find('.puissant select').val(),
+                                value:Math.min(parseInt(data.find('.puissant input').val()), 6),
+                            }
+                        }
+                    }
+                    break;
+
+                case 'suppression':
+                    if((this.#isEffetActive(effets, weapon.options, ['lourd']) || (this.#isEffetActive(effets, weapon.options, ['deuxmains']) && this.#isEffetActive(effets, weapon.options, ['munitionshypervelocite', 'systemerefroidissement']))) && weapon.type === 'distance') {
+                        if(data.find('.suppression select').val()){
+                            dataStyle = {
+                                type:data.find('.suppression select').val(),
+                                value:parseInt(data.find('.suppression input').val()),
+                            }
+                        }
+                    }
+                    break;
+            }
+
+            for(let w of weapon.options) {
+                if(w.key !== 'btn' && w.special) continue;
+
+                w.active = weaponData.find(`button.${w.classes.split(' ')[0]}`).hasClass('selected');
+            }
+
+            const dgtsVariable = weapon.options.find(itm => itm.classes.includes('dgtsvariable') && itm.key === 'select');
+            const violenceVariable = weapon.options.find(itm => itm.classes.includes('violencevariable') && itm.key === 'select');
+            const dgtsBonusVariable = weapon.options.find(itm => itm.classes.includes('dgtsbonusvariable') && itm.key === 'select');
+            const violenceBonusVariable = weapon.options.find(itm => itm.classes.includes('violencebonusvariable') && itm.key === 'select');
+            const boostdegats = weapon.options.find(itm => itm.classes.includes('boostdegats') && itm.key === 'select');
+            const boostviolence = weapon.options.find(itm => itm.classes.includes('boostviolence') && itm.key === 'select');
+
+            if(dgtsVariable) {
+                const dgtsVariableSelected = parseInt($(weaponData.find(`label.dgtsvariable select`)).val());
+                let coutDgts = 0;
+
+                weapon.degats = {
+                    dice:dgtsVariableSelected,
+                    fixe:dgtsVariable.selectvalue,
+                }
+
+                let v = 0;
+
+                for(let l in dgtsVariable.list) {
+                    coutDgts = v*dgtsVariable.value;
+                    v++;
+                    if(l == dgtsVariableSelected) break;
+                }
+
+                cout += coutDgts;
+            }
+
+            if(violenceVariable) {
+                const violenceVariableSelected = parseInt($(weaponData.find(`label.violencevariable select`)).val());
+                let coutViolence = 0;
+
+                weapon.violence = {
+                    dice:parseInt(violenceVariableSelected),
+                    fixe:violenceVariable.selectvalue,
+                }
+                let v = 0;
+
+                for(let l in violenceVariable.list) {
+                    coutViolence = v*violenceVariable.value;
+                    v++;
+                    if(l == violenceVariableSelected) break;
+                }
+
+                cout += coutViolence;
+            }
+
+            if(dgtsBonusVariable) {
+                const dgtsVariableSelected = parseInt($(weaponData.find(`label.dgtsbonusvariable select`)).val());
+                const dgtsList = dgtsBonusVariable?.list ?? {};
+                let coutDgts = 0;
+
+                let v = 0;
+
+                for(let l in dgtsList) {
+                    coutDgts = v*dgtsBonusVariable.value;
+                    v++;
+                    if(l == dgtsVariableSelected) break;
+                }
+
+                cout += coutDgts;
+            }
+
+            if(violenceBonusVariable) {
+                const violenceVariableSelected = parseInt($(weaponData.find(`label.violencebonusvariable select`)).val());
+                let coutViolence = 0;
+
+                let v = 0;
+
+                for(let l in violenceBonusVariable.list) {
+                    coutViolence = v*violenceBonusVariable.value;
+                    v++;
+                    if(l == violenceVariableSelected) break;
+                }
+
+                cout += coutViolence;
+            }
+
+            if(boostdegats) {
+                const boostDegatsSelected = parseInt($(weaponData.find(`label.boostdegats select`)).val());
+
+                cout += boostDegatsSelected*boostdegats.value;
+
+                boostdegats.selected = boostDegatsSelected;
+            }
+
+            if(boostviolence) {
+                const boostViolenceSelected = parseInt($(weaponData.find(`label.boostviolence select`)).val());
+
+                cout += boostViolenceSelected*boostviolence.value;
+
+                boostviolence.selected = boostViolenceSelected;
+            }
+
+            for(let c of custom) {
+                const attaque = c.attaque;
+                let add = false;
+
+                if(attaque.jet) {
+                    add = true;
+                    dices += attaque.jet;
+                }
+
+                if(attaque.reussite) {
+                    add = true;
+                    bonus.push(attaque.reussite);
+                }
+
+                if(attaque.carac.jet) {
+                    add = true;
+                    dices += this.getValueAspect(actor, attaque.carac.jet);
+
+                    if(attaque.carac.odInclusJet && armorIsWear) dices += this.#getODAspect(actor, attaque.carac.jet);
+                }
+
+                if(attaque.carac.fixe) {
+                    add = true;
+                    bonus.push(this.getValueAspect(actor, attaque.carac.fixe));
+
+                    if(attaque.carac.odInclusFixe && armorIsWear) bonus.push(this.#getODAspect(actor, attaque.carac.fixe));
+                }
+
+                if(attaque.aspect.jet) {
+                    add = true;
+                    dices += this.getValueAspect(actor, attaque.aspect.jet);
+
+                    if(attaque.aspect.odInclusJet && armorIsWear) dices += this.#getODAspect(actor, attaque.aspect.jet);
+                }
+
+                if(attaque.aspect.fixe) {
+                    add = true;
+                    bonus.push(this.getValueAspect(actor, attaque.aspect.fixe));
+
+                    if(attaque.aspect.odInclusFixe && armorIsWear) bonus.push(this.#getODAspect(actor, attaque.aspect.fixe));
+                }
+            }
+        }
+
+        if(modificateur > 0) {
+            dices += modificateur;
+
+            tags.push({
+                key:'modificateur',
+                label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} : ${modificateur}`,
+            });
+        }
+
+        if(succesBonus > 0) {
+            bonus.push(succesBonus);
+
+            tags.push({
+                key:'succesbonus',
+                label:`${game.i18n.localize('KNIGHT.BONUS.Succes')} : ${succesBonus}`,
+            });
+        }
+
+        if(difficulte > 0) {
+            tags.push({
+                key:'difficulte',
+                label:`${game.i18n.localize('KNIGHT.AUTRE.Difficulte')} : ${difficulte}`,
+            });
+        }
+
+        this.data.roll.label = label;
+        this.data.roll.difficulte = difficulte;
+        this.data.roll.succesBonus = succesBonus;
+        this.data.roll.modificateur = modificateur;
+
+        if(dices < 1) dices = 1;
+
+        const depenseEnergie = this.#depenseEnergie(cout);
+
+        if(cout > 0) {
+            if(espoir > 0 && depenseEnergie.espoir) cout += espoir;
+
+            tags.push({
+                key:'energie',
+                label:depenseEnergie.espoir ? `${game.i18n.localize('KNIGHT.JETS.Depenseespoir')} : ${cout}` : `${game.i18n.localize('KNIGHT.JETS.Depenseenergie')} : ${cout}`,
+            });
+
+            if(depenseEnergie.substract < 0) {
+                doRoll = false
+                msg = depenseEnergie.msg;
+                classes = depenseEnergie.classes;
+            }
+            else updates = foundry.utils.mergeObject(updates, depenseEnergie.update);
+        }
+
+        if(espoir > 0 && doRoll) {
+            if(cout === 0 || (cout > 0 && !depenseEnergie.espoir)) {
+                const depenseEspoir = this.#depenseEnergie(cout, true);
+
+                tags.push({
+                    key:'espoir',
+                    label:`${game.i18n.localize('KNIGHT.JETS.Depenseespoir')} : ${espoir}`,
+                });
+
+                if(depenseEspoir.substract < 0) {
+                    doRoll = false
+                    msg = depenseEspoir.msg;
+                    classes = depenseEspoir.classes;
+                }
+                else updates = foundry.utils.mergeObject(updates, depenseEspoir.update);
+            }
+        }
+
+        if(goliath > 0) {
+            tags.push({
+                key:'goliath',
+                label:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.Label')} : +${goliath}`,
+            });
+
+            bonus.push(goliath);
+        }
+
+        if(isAttaqueSurprise) {
+            tags.push({
+                key:'attaquesurprise',
+                label:`${game.i18n.localize('KNIGHT.JETS.AttackSurprise')}`,
+            })
+        }
+
+        if(doRoll) {
+            const exec = new game.knight.RollKnight(actor,
+            {
+            name:label,
+            dices:`${dices}D6`,
             carac:carac,
-            od:od,
-            isCapacite:wpn?.capacite ?? false,
-            totalDice:totalDice,
-            totalBonus:totalBonus,
-            listAllE:listAllE,
-            addNum:addNum,
-            isBarrage:barrage,
-            barrageValue:barrageValue,
-            isSystemeRefroidissement:systemerefroidissement,
-            addOtherEffects:otherWpnAttEffet,
-            target:tgt,
-            contactOrDistance:contactOrDistance,
-          };
-
-          const oldRoll = game.settings.get("knight", "oldRoll");
-
-          if(!onlyAttack && !oldRoll) {
-            if(!onlyViolence) {
-              dataToAdd['btnDgts'] = JSON.stringify({
-                label:data.label,
-                dataWpn:wpn,
-                listAllE:listAllE,
-                addNum:addNum,
-                target:tgt,
-                style:data.style,
-                pnj:data?.pnj ?? false,
-                degatsBonus:data.degatsBonus,
-                tenebricide:data?.tenebricide ?? false,
-                actor:{
-                  type:actor.type,
-                  id:actor?.id ?? null,
-                  token:{id:actor?.token?.id ?? null},
-                  name: actor?.name ?? null,
-                }
-              });
-            }
-
-            if(!onlyDgts) {
-              dataToAdd['btnViolence'] = JSON.stringify({
-                label:data.label,
-                dataWpn:wpn,
-                listAllE:listAllE,
-                addNum:addNum,
-                bViolence:bonusViolence,
-                violenceBonus:data.violenceBonus,
-                target:tgt,
-                style:data.style,
-                pnj:data?.pnj ?? false,
-                tenebricide:data?.tenebricide ?? false,
-                actor:{
-                  type:actor.type,
-                  id:actor?.id ?? null,
-                  token:{id:actor?.token?.id ?? null},
-                  name: actor?.name ?? null,
-                }
-              });
-            }
-          }
-
-          let attack = await doAttack(foundry.utils.mergeObject(data, dataToAdd));
-
-          regularite += attack.regularite;
-
-          if(oldRoll) {
-            if(!onlyViolence) {
-              let dataToAddDgts = {
-                dataWpn:wpn,
-                listAllE:listAllE,
-                regularite:regularite,
-                addNum:addNum,
-                target:tgt,
-                actor:actor,
-              };
-
-              if(attack.assAtk !== undefined) dataToAddDgts.assAtk = attack.assAtk;
-              await doDgts(foundry.utils.mergeObject(data, dataToAddDgts));
-            }
-
-            if(!onlyDgts) {
-              let dataToAddViolence = {
-                dataWpn:wpn,
-                listAllE:listAllE,
-                addNum:addNum,
-                bViolence:bonusViolence,
-                target:tgt,
-                actor:actor,
-              };
-
-              if(attack.assAtk !== undefined) dataToAddViolence.assAtk = attack.assAtk;
-
-              await doViolence(foundry.utils.mergeObject(data, dataToAddViolence));
-            }
-          }
-        }
-      }
-    } else {
-      totalDice += carac || 0;
-
-      if(!noOd && !isPNJ) {
-        totalBonus += od || 0;
-      } else if(isPNJ) {
-        totalBonus += od || 0;
-      }
-
-      totalDice += data.modificateur || 0;
-      totalBonus += data.succesBonus || 0;
-
-      const capacite = isPNJ ? {roll:{fixe:0, string:''}} : await getCapacite(actor, '', data.base, data.autre, {raw:[], custom:[], liste:[]}, {raw:[], custom:[], liste:[]}, {raw:[], custom:[], liste:[]}, {raw:[], custom:[], liste:[]});
-
-      totalBonus += capacite.roll.fixe;
-
-      let sDetails;
-
-      if(isPNJ) {
-        sDetails = `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Aspects')}) + ${data.modificateur}d6 (${game.i18n.localize('KNIGHT.JETS.Modificateur')}) + ${od} (${game.i18n.localize('KNIGHT.ASPECTS.Exceptionnels')}) + ${data.succesBonus} (${game.i18n.localize('KNIGHT.BONUS.Succes')})`
-      } else if(noOd) {
-        sDetails = `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')}) + ${data.modificateur}d6 (${game.i18n.localize('KNIGHT.JETS.Modificateur')}) + ${data.succesBonus} (${game.i18n.localize('KNIGHT.BONUS.Succes')})`;
-      } else {
-        sDetails = `${carac}d6 (${game.i18n.localize('KNIGHT.ITEMS.Caracteristique')}) + ${data.modificateur}d6 (${game.i18n.localize('KNIGHT.JETS.Modificateur')}) + ${od} (${game.i18n.localize('KNIGHT.ITEMS.ARMURE.Overdrive')}) + ${data.succesBonus} (${game.i18n.localize('KNIGHT.BONUS.Succes')})`;
-      }
-
-      if(capacite.roll.string !== '') sDetails += ` +${capacite.roll.string}`;
-
-      const exec = new game.knight.RollKnight(`${totalDice}d6+${totalBonus}`, actor.system);
-      if(entraide) {
-        exec._canExploit = false;
-        exec._canEFail = false;
-      }
-      exec._success = true;
-      exec._flavor = this.data.label;
-      exec._base = isPNJ ? game.i18n.localize(CONFIG.KNIGHT.aspects[data.base]) : game.i18n.localize(CONFIG.KNIGHT.caracteristiques[data.base]);
-      exec._autre = otherC;
-      exec._difficulte = this.data.difficulte;
-      exec._details = sDetails;
-      await exec.toMessage({
-        speaker: {
-        actor: actor?.id || null,
-        token: actor?.token?.id || null,
-        alias: actor?.name || null,
-        }
-      });
-
-      const withTable = this.data.withTable;
-      const rTableLabel = this.data.rTableLabel;
-
-      if(withTable && this.data.difficulte != false && !exec._isRollSuccess) {
-        const rTable = new game.knight.RollKnight('2d6', actor.system);
-        rTable._flavor = rTableLabel;
-        rTable._success = false;
-        rTable._table = true;
-        rTable._tableau = this.data.tableau;
-
-        await rTable.toMessage({
-          speaker: {
-          actor: actor?.id || null,
-          token: actor?.token?.id || null,
-          alias: actor?.name || null,
-          }
-        });
-      }
-    }
-
-    if(this.hasBonusTemp) {
-      await this.setModificateur(this.getModificateur()-this.getModificateurTemp());
-      await this.setSuccesBonus(this.getSuccesBonus()-this.getSuccesBonusTemp());
-      await this.setBonusTemp(false, 0, 0);
-
-      this.render(true);
-    }
-  }
-
-  async _getAllEffets(actor, dataWpn, typeWpn, isPNJ = false) {
-    const idWpn = this.data?.idWpn || -1;
-    const data = this.data;
-    const style = isPNJ ? {raw:''} : this.data.style;
-    const getStyle = isPNJ ? {} : getModStyle(style.raw);
-    const options2mains = dataWpn?.options2mains || false;
-
-    let effetsWpn = typeWpn === 'longbow' ? {raw:dataWpn.effets.base.raw.concat(dataWpn.effets.raw), custom:dataWpn.effets.base.custom.concat(dataWpn.effets.custom)} : dataWpn?.effets ?? {raw:[], custom:[]};
-
-    if(typeWpn === 'contact' && options2mains !== false) {
-      if(options2mains.has && options2mains.actuel === '2main') {effetsWpn = dataWpn.effets2mains;}
-    }
-
-    const capaciteName = dataWpn?.capaciteName || "";
-    const distanceWpn = dataWpn?.distance || {raw:[], custom:[]};
-    const ornementalesWpn = dataWpn?.ornementales || {raw:[], custom:[]};
-    const structurellesWpn = dataWpn?.structurelles || {raw:[], custom:[]};
-
-    let energieDgts = 0;
-    let energieViolence = 0;
-    const hasVariableDgts = dataWpn?.degats?.variable?.has || false;
-    const hasVariableViolence = dataWpn?.violence?.variable?.has || false;
-    const hasAddChair = dataWpn?.degats?.addchair || false;
-
-    if(hasVariableDgts !== false) {
-      energieDgts = dataWpn.degats.dice > dataWpn.degats.variable.min.dice ? (dataWpn.degats.dice-dataWpn.degats.variable.min.dice)*dataWpn.degats.variable.cout : 0;
-    }
-
-    if(hasVariableViolence !== false) {
-      energieViolence = dataWpn.violence.dice > dataWpn.violence.variable.min.dice ? (dataWpn.violence.dice-dataWpn.violence.variable.min.dice)*dataWpn.violence.variable.cout : 0;
-    }
-
-    const bonusModule = getModuleBonus(actor, typeWpn, dataWpn, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ);
-
-    //ENERGIE DES MODULES
-    energieDgts += bonusModule?.degats?.energie || 0;
-    energieViolence += bonusModule?.violence?.energie || 0;
-
-    const listEffets = await getEffets(actor, typeWpn, style.raw, data, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, isPNJ, energieDgts+energieViolence);
-    const listDistance = await getDistance(actor, typeWpn, data, effetsWpn, distanceWpn, isPNJ);
-    const listStructurelles = await getStructurelle (actor, typeWpn, style.raw, data, effetsWpn, structurellesWpn, isPNJ);
-    const listOrnementale = await getOrnementale (actor, typeWpn, data, effetsWpn, ornementalesWpn, isPNJ);
-    const listCapacites = await getCapacite(actor, typeWpn, data.base, data.autre, effetsWpn, structurellesWpn, ornementalesWpn, distanceWpn, isPNJ, idWpn);
-
-    const lEffetAttack = listEffets.attack;
-    const lEffetDegats = listEffets.degats;
-    const lEffetViolence = listEffets.violence;
-    const lEffetOther = listEffets.other;
-
-    const lDistanceAttack = listDistance.attack;
-    const lDistanceDegats = listDistance.degats;
-    const lDistanceViolence = listDistance.violence;
-    const lDistanceOther = listDistance.other;
-
-    const lOrnementaleAttack = listOrnementale.attack;
-    const lOrnementaleDegats = listOrnementale.degats;
-    const lOrnementaleViolence = listOrnementale.violence;
-    const lOrnementaleOther = listOrnementale.other;
-
-    const lStructurellesAttack = listStructurelles.attack;
-    const lStructurellesDegats = listStructurelles.degats;
-    const lStructurellesViolence = listStructurelles.violence;
-    const lStructurellesOther = listStructurelles.other;
-
-    const lCapaciteAttack = listCapacites.attack;
-    const lCapaciteDegats = listCapacites.degats;
-    const lCapaciteViolence = listCapacites.violence;
-
-    const lAttOtherInclude = [];
-    const lDgtsOtherInclude = [];
-    const lDgtsOtherList = [];
-    const lViolenceOtherInclude = [];
-
-    const typeStyle = style.type;
-    const sacrificeStyle = +style.sacrifice;
-
-    let rollAtt = [].concat(listEffets.rollAtt, listDistance.rollAtt, listStructurelles.rollAtt, listOrnementale.rollAtt);
-    let rollDgts = [].concat(listEffets.rollDgts, listDistance.rollDgts, listStructurelles.rollDgts, listOrnementale.rollDgts);
-    let rollViol = [].concat(listEffets.rollViol, listDistance.rollViol, listStructurelles.rollViol, listOrnementale.rollViol);
-
-    let getAttackOtherDiceMod = isPNJ || (capaciteName === 'cea' && style.raw === 'ambidextre') || typeWpn === 'tourelle' ? 0 : getStyle.bonus.attaque-getStyle.malus.attaque;
-    let getAttackSpecialDiceMod = 0;
-    let getDgtsOtherDiceMod = 0;
-    let getDgtsOtherFixeMod = 0;
-    let getViolenceDiceMod = 0;
-    let maximizeDgts = false;
-
-    const baseForce = getCaracValue('force', actor, true);
-    const force = getODValue('force', actor, true);
-    const tir = getODValue('tir', actor, true);
-    const combat = getODValue('combat', actor, true);
-    const discretion = getCaracValue('discretion', actor, true);
-    const discretionOD = getODValue('discretion', actor, true);
-
-    const chair = +getAspectValue('chair', actor, true);
-    const bete = +getAspectValue('bete', actor, true);
-    const beteAE = getAEValue('bete', actor, true);
-
-    // Base de Force pour les armes de contact
-    if((typeWpn === 'contact' && baseForce > 0 && !isPNJ && capaciteName !== "cea") || (typeWpn === 'armesimprovisees' && this.data.idWpn === 'contact' && baseForce > 0 && !isPNJ && capaciteName !== "cea")) {
-      const bForce = baseForce;
-      getDgtsOtherFixeMod += bForce;
-
-      lDgtsOtherInclude.push({
-        name:`+${bForce} ${game.i18n.localize('KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.FORCE.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-        desc:``
-      });
-    }
-
-    // Si on doit ajouter chair divisé par 2... On ajoute chair divisé par 2.
-    if((typeWpn === 'contact' && isPNJ && hasAddChair && chair > 0) || (typeWpn === 'armesimprovisees' && this.data.idWpn === 'contact' && chair > 0 && isPNJ && hasAddChair)) {
-      getDgtsOtherFixeMod += Math.floor(chair/2);
-
-      lDgtsOtherInclude.push({
-        name:`+${chair/2} ${game.i18n.localize('KNIGHT.ASPECTS.CHAIR.Label')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-        desc:``
-      });
-    }
-
-    // STYLES
-    if(typeWpn !== 'tourelle' && typeWpn !== 'armesimprovisees' && !isPNJ) {
-      // AKIMBO
-      const eAkimbo = effetsWpn.raw.find(str => { if(str.includes('jumeleakimbo')) return true; }) !== undefined ? true : false;
-      const jumelageakimbo = typeWpn === 'distance' ? distanceWpn.raw.find(str => { if(str.includes('jumelageakimbo')) return true; }) : false;
-      const jumelle = typeWpn === 'contact' ? structurellesWpn.raw.find(str => { if(str.includes('jumelle')) return true; }) : false;
-      const eJAkimbo = searchTrueValue([eAkimbo, jumelageakimbo, jumelle]);
-
-      if(style.raw === 'akimbo') {
-        if(eJAkimbo) getAttackOtherDiceMod += 2;
-        else if(typeWpn === 'distance' && tir >= 3) {
-          getAttackOtherDiceMod += 2;
-          lAttOtherInclude.push({
-            name:`${game.i18n.localize('KNIGHT.JETS.ODTir3')}`,
-            desc:''
-          });
-        }
-        else if(typeWpn === 'contact' && combat >= 3) {
-          getAttackOtherDiceMod += 2;
-          lAttOtherInclude.push({
-            name:`${game.i18n.localize('KNIGHT.JETS.ODCombat3')}`,
-            desc:''
-          });
-        }
-      }
-
-      // AMBIDEXTRIE
-      const eAmbidextrie = effetsWpn.raw.find(str => { if(str.includes('jumeleambidextrie')) return true; });
-      const jumelageambidextrie = typeWpn === 'distance' ? distanceWpn.raw.find(str => { if(str.includes('jumelageambidextrie')) return true; }) : false;
-      const soeur = typeWpn === 'contact' ? structurellesWpn.raw.find(str => { if(str.includes('soeur')) return true; }) : false;
-
-      if(style.raw === 'ambidextre' && capaciteName !== 'cea') {
-        if((eAmbidextrie && data.jumeleambidextrie)) getAttackOtherDiceMod += 2;
-        else if(jumelageambidextrie && data.jumelageambidextrie) getAttackOtherDiceMod += 2;
-        else if(soeur && data.soeur) getAttackOtherDiceMod += 2;
-        else if(typeWpn === 'distance' && tir >= 4) {
-          getAttackOtherDiceMod += 2;
-          lAttOtherInclude.push({
-            name:`${game.i18n.localize('KNIGHT.JETS.ODTir4')}`,
-            desc:''
-          });
-        }
-        else if(typeWpn === 'contact' && combat >= 4) {
-          getAttackOtherDiceMod += 2;
-          lAttOtherInclude.push({
-            name:`${game.i18n.localize('KNIGHT.JETS.ODCombat4')}`,
-            desc:''
-          });
-        }
-      }
-
-      // DEFENSIF
-      const protectrice = typeWpn === 'contact' ? structurellesWpn.raw.find(str => { if(str.includes('protectrice')) return true; }) : false;
-
-      if(style.raw === 'defensif' && protectrice) getAttackOtherDiceMod += 2;
-
-      // A COUVERT
-      const eTirEnSecurite = effetsWpn.raw.find(str => { if(str.includes('tirensecurite')) return true; });
-      const interfaceGuidage = typeWpn === 'distance' ? distanceWpn.raw.find(str => { if(str.includes('interfaceguidage')) return true; }) : false;
-      const eTSecurite = searchTrueValue([eTirEnSecurite, interfaceGuidage]);
-
-      if(style.raw === 'acouvert' && eTSecurite) getAttackOtherDiceMod += 3;
-
-      // PILONNAGE
-      if(style.raw === 'pilonnage') {
-        const valuePilonnage = Math.min(6, +style.tourspasses-1);
-
-        switch(typeStyle) {
-          case 'degats':
-            lDgtsOtherInclude.push({
-              name:`+${valuePilonnage}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${style.fulllabel} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-              desc:''
-            });
-
-            getDgtsOtherDiceMod += valuePilonnage;
-            break;
-
-          case 'violence':
-            lViolenceOtherInclude.push({
-              name:`+${valuePilonnage}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${style.fulllabel} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-              desc:''
-            });
-
-            getViolenceDiceMod += valuePilonnage;
-            break;
-        }
-      }
-
-      // PUISSANT
-      if(style.raw === 'puissant') {
-        getAttackOtherDiceMod -= sacrificeStyle;
-
-        switch(typeStyle) {
-          case 'degats':
-            lDgtsOtherInclude.push({
-              name:`+${sacrificeStyle}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${style.fulllabel} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-              desc:''
-            });
-
-            getDgtsOtherDiceMod += sacrificeStyle;
-            break;
-
-          case 'violence':
-            lViolenceOtherInclude.push({
-              name:`+${sacrificeStyle}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${style.fulllabel} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-              desc:''
-            });
-
-            getViolenceDiceMod += sacrificeStyle;
-            break;
-        }
-      }
-
-      // SUPPRESSION
-      if(style.raw === 'suppression') {
-        switch(typeStyle) {
-          case 'degats':
-            lDgtsOtherInclude.push({
-              name:`-${sacrificeStyle}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${style.fulllabel} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-              desc:`${game.i18n.localize('KNIGHT.COMBAT.STYLES.SUPPRESSION.Info-short-degats')}`
-            });
-
-            getDgtsOtherDiceMod -= sacrificeStyle;
-            break;
-
-          case 'violence':
-            lViolenceOtherInclude.push({
-              name:`-${sacrificeStyle}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${style.fulllabel} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-              desc:`${game.i18n.localize('KNIGHT.COMBAT.STYLES.SUPPRESSION.Info-short-violence')}`
-            });
-
-            getViolenceDiceMod -= sacrificeStyle;
-            break;
-        }
-      }
-    }
-
-    // OD Force
-    if(typeWpn === 'contact' && force > 0 && !isPNJ && capaciteName !== "cea") {
-      const bVForce = force > 5 ? (5 * 3) + ((force - 5) * 1) : force * 3;
-      getDgtsOtherFixeMod += bVForce;
-
-      lDgtsOtherInclude.push({
-        name:`+${bVForce} ${game.i18n.localize('KNIGHT.JETS.ODForce')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-        desc:``
-      });
-    } else if(typeWpn === 'armesimprovisees' && this.data.idWpn === 'contact' && !isPNJ && !this.data.ma) {
-      const bVForce = force > 5 ? (5 * 3) + ((force - 5) * 1) : force * 3;
-      getDgtsOtherFixeMod += bVForce;
-
-      lDgtsOtherInclude.push({
-        name:`+${bVForce} ${game.i18n.localize('KNIGHT.JETS.ODForce')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-        desc:``
-      });
-    }
-
-    // OD Discrétion
-    if(typeWpn !== 'tourelle' && !isPNJ) {
-      if(discretionOD >= 2 && discretionOD < 5) {
-        lDgtsOtherList.push({
-          name:`+${game.i18n.localize('KNIGHT.JETS.ODDiscretion')}`,
-          total:`${discretion}`,
-          desc:`${game.i18n.localize('KNIGHT.JETS.AttaqueSurprise')}`
-        });
-      } else if(discretionOD >= 5) {
-        lDgtsOtherList.push({
-          name:`+${game.i18n.localize('KNIGHT.JETS.ODDiscretion')}`,
-          total:`${discretion+discretionOD}`,
-          desc:`${game.i18n.localize('KNIGHT.JETS.AttaqueSurprise')}`
-        });
-      }
-    }
-
-    // MECHAARMURE
-    if((typeWpn === 'base' && this.data.ma) || (typeWpn === 'c1' && this.data.ma) || (typeWpn === 'c2' && this.data.ma) || (typeWpn === 'armesimprovisees' && this.data.ma)) {
-      const actor = this.data.isToken ? this.data.actor : game.actors.get(this.data.actor.id);
-      const puissance = +actor.system.puissance.value;
-      getAttackSpecialDiceMod += puissance;
-
-      lAttOtherInclude.push({
-        name:`+${puissance}${game.i18n.localize('KNIGHT.JETS.Des-short')}6  ${game.i18n.localize('KNIGHT.MECHAARMURE.Puissance')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-        desc:``
-      });
-
-      const modulesBase = actor.system.configurations.liste.base.modules;
-      const modulesC1 = actor.system.configurations.liste.c1.modules;
-      const modulesC2 = actor.system.configurations.liste.c2.modules;
-
-      for (let [key, module] of Object.entries(modulesBase)) {
-        switch(key) {
-          case 'moduleWraith':
-            if(module.active) {
-              getAttackSpecialDiceMod += discretion+discretionOD;
-              getDgtsOtherFixeMod += discretion;
-
-              lAttOtherInclude.push({
-                name:`+${discretion+discretionOD}${game.i18n.localize('KNIGHT.JETS.Des-short')}6  ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.MODULEWRAITH.Label`)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-                desc:``
-              });
-
-              lDgtsOtherInclude.push({
-                name:`+${discretion}  ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.MODULEWRAITH.Label`)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-                desc:``
-              });
-
-              if(this.data.moduleWraith) {
-                maximizeDgts = true;
-              }
-            }
-            break;
-        }
-      };
-
-      for (let [key, module] of Object.entries(modulesC1)) {
-
-        switch(key) {
-          case 'moduleWraith':
-            if(module.active) {
-              getAttackSpecialDiceMod += discretion+discretionOD;
-              getDgtsOtherFixeMod += discretion;
-
-              lAttOtherInclude.push({
-                name:`+${discretion+discretionOD}${game.i18n.localize('KNIGHT.JETS.Des-short')}6  ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.MODULEWRAITH.Label`)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-                desc:``
-              });
-
-              lDgtsOtherInclude.push({
-                name:`+${discretion}  ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.MODULEWRAITH.Label`)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-                desc:``
-              });
-
-              if(this.data.moduleWraith) {
-                maximizeDgts = true;
-              }
-            }
-            break;
-        }
-      };
-
-      for (let [key, module] of Object.entries(modulesC2)) {
-        switch(key) {
-          case 'moduleWraith':
-            if(module.active) {
-              getAttackSpecialDiceMod += discretion+discretionOD;
-              getDgtsOtherFixeMod += discretion;
-
-              lAttOtherInclude.push({
-                name:`+${discretion+discretionOD}${game.i18n.localize('KNIGHT.JETS.Des-short')}6  ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.MODULEWRAITH.Label`)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-                desc:``
-              });
-
-              lDgtsOtherInclude.push({
-                name:`+${discretion}  ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.MODULEWRAITH.Label`)} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-                desc:``
-              });
-
-              if(this.data.moduleWraith) {
-                maximizeDgts = true;
-              }
-            }
-            break;
-        }
-      };
-    }
-
-    // Aspects Exceptionnels
-    if(typeWpn !== 'tourelle' && isPNJ && typeWpn === 'contact') {
-      const bAEMajeur = +beteAE.majeur;
-      const bAEMineur = +beteAE.mineur;
-
-      if(bAEMineur > 0 && bAEMajeur === 0) {
-        lDgtsOtherInclude.push({
-          name:`+${bAEMineur} ${game.i18n.localize('KNIGHT.JETS.BETE.Mineur')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-          desc:``
-        });
-
-        getDgtsOtherFixeMod += bAEMineur;
-      } else if(bAEMajeur > 0) {
-        lDgtsOtherInclude.push({
-          name:`+${bAEMineur+bAEMajeur+bete} ${game.i18n.localize('KNIGHT.JETS.BETE.Majeur')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-          desc:``
-        });
-
-        getDgtsOtherFixeMod += bAEMineur+bAEMajeur+bete;
-      }
-    }
-
-    // ATTAQUE
-    const attackDice = lEffetAttack.totalDice+lDistanceAttack.totalDice+lStructurellesAttack.totalDice+lOrnementaleAttack.totalDice+lCapaciteAttack.dice+bonusModule.attack.dice+getAttackOtherDiceMod+getAttackSpecialDiceMod;
-    const attackBonus = lEffetAttack.totalBonus+lDistanceAttack.totalBonus+lStructurellesAttack.totalBonus+lOrnementaleAttack.totalBonus+lCapaciteAttack.fixe+bonusModule.attack.fixe;
-    const attackInclude = lEffetAttack.include.concat(lDistanceAttack.include, lStructurellesAttack.include, lOrnementaleAttack.include, lAttOtherInclude, lCapaciteAttack.include, bonusModule.attack.include);
-    const attackList = lEffetAttack.list.concat(lDistanceAttack.list, lStructurellesAttack.list, lOrnementaleAttack.list, lCapaciteAttack.list);
-
-    // DEGATS
-    const degatsDice = lEffetDegats.totalDice+lDistanceDegats.totalDice+lStructurellesDegats.totalDice+lOrnementaleDegats.totalDice+lCapaciteDegats.dice+getDgtsOtherDiceMod;
-    const degatsBonus = lEffetDegats.totalBonus+lDistanceDegats.totalBonus+lStructurellesDegats.totalBonus+lOrnementaleDegats.totalBonus+lCapaciteDegats.fixe+getDgtsOtherFixeMod;
-    const degatsInclude = lEffetDegats.include.concat(lDistanceDegats.include, lStructurellesDegats.include, lOrnementaleDegats.include, lDgtsOtherInclude, lCapaciteDegats.include, bonusModule.degats.include);
-    const degatsList = lEffetDegats.list.concat(lDistanceDegats.list, lStructurellesDegats.list, lOrnementaleDegats.list, lDgtsOtherList, lCapaciteDegats.list);
-    const minMaxDgts = maximizeDgts ? {
-      minimize:false,
-      maximize:true,
-      async:true} : lEffetDegats.minMax;
-
-    // VIOLENCE
-    const violenceDice = lEffetViolence.totalDice+lDistanceViolence.totalDice+lStructurellesViolence.totalDice+lOrnementaleViolence.totalDice+lCapaciteViolence.dice+getViolenceDiceMod;
-    const violenceBonus = lEffetViolence.totalBonus+lDistanceViolence.totalBonus+lStructurellesViolence.totalBonus+lOrnementaleViolence.totalBonus+lCapaciteViolence.fixe;
-    const violenceInclude = lEffetViolence.include.concat(lDistanceViolence.include, lStructurellesViolence.include, lOrnementaleViolence.include, lViolenceOtherInclude, lCapaciteViolence.include, bonusModule.violence.include);
-    const violenceList = lEffetViolence.list.concat(lDistanceViolence.list, lStructurellesViolence.list, lOrnementaleViolence.list, lCapaciteViolence.list);
-    const minMaxViolence = lEffetViolence.minMax;
-
-    // AUTRE
-    const other = lEffetOther.concat(lDistanceOther, lStructurellesOther, lOrnementaleOther);
-
-    // STYLE
-    if(getAttackOtherDiceMod > 0) {
-      attackInclude.push({
-        name:`+${getAttackOtherDiceMod}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${style.fulllabel} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-        desc:''
-      });
-    } else if(getAttackOtherDiceMod < 0) {
-      attackInclude.push({
-        name:`${getAttackOtherDiceMod}${game.i18n.localize('KNIGHT.JETS.Des-short')}6 ${style.fulllabel} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
-        desc:''
-      });
-    }
-
-    attackInclude.sort(SortByName);
-    attackList.sort(SortByName);
-    degatsInclude.sort(SortByName);
-    degatsList.sort(SortByName);
-    violenceInclude.sort(SortByName);
-    violenceList.sort(SortByName);
-    other.sort(SortByName);
-
-    const merge = {
-      attack:{
-        totalDice:attackDice,
-        totalBonus:attackBonus,
-        include:attackInclude,
-        list:attackList
-      },
-      degats:{
-        totalDice:degatsDice,
-        totalBonus:degatsBonus,
-        include:degatsInclude,
-        list:degatsList,
-        minMax:minMaxDgts,
-      },
-      violence:{
-        totalDice:violenceDice,
-        totalBonus:violenceBonus,
-        include:violenceInclude,
-        list:violenceList,
-        minMax:minMaxViolence,
-      },
-      other:other
-    };
-
-    const nRoll = Math.max(listEffets.nRoll, listDistance.nRoll, listStructurelles.nRoll, listOrnementale.nRoll);
-
-    const result = {
-      guidage:listEffets.guidage,
-      regularite:listEffets.regularite,
-      bourreau:listEffets.bourreau,
-      bourreauValue:listEffets.bourreauValue,
-      devastation:listEffets.devastation,
-      devastationValue:listEffets.devastationValue,
-      barrageValue:listEffets.barrageValue,
-      depenseEnergie:listEffets.depenseEnergie,
-      onlyAttack:listEffets.onlyAttack,
-      onlyDgts:listEffets.onlyDgts,
-      onlyViolence:listEffets.onlyViolence,
-      nRoll:nRoll,
-      attack:merge.attack,
-      degats:merge.degats,
-      degatsModules:{
-        dice:bonusModule.degats.dice,
-        fixe:bonusModule.degats.fixe
-      },
-      violenceModules:{
-        dice:bonusModule.violence.dice,
-        fixe:bonusModule.violence.fixe
-      },
-      violence:merge.violence,
-      other:merge.other,
-      rollAtt:rollAtt,
-      rollDgts:rollDgts,
-      rollViol:rollViol,
-    };
-
-    return result;
-  }
-
-  _onSelectCaracteristique(event) {
-    const target = $(event.currentTarget);
-    const select = target.data("select");
-    const isPNJ = this.data.pnj;
-
-    if(isPNJ) {
-      if(target.hasClass('base')) {
-        this.data.base = '';
-      } else {
-        this.data.base = select;
-      }
-    } else {
-      const lock = this.data.lock;
-      const autre = Array.isArray(this.data.autre) ? this.data.autre : [];
-
-      if(!target.hasClass('lock')) {
-        if(target.hasClass('base')) {
-          if(autre.length > 0) {
-            const nAutre = [];
-            let nBase = '';
-
-            for(let i = 0;i < autre.length;i++) {
-              if(lock.includes(autre[i])) {
-                nAutre.push(autre[i]);
-              } else if(nBase === '') {
-                nBase = autre[i];
-              } else {
-                nAutre.push(autre[i]);
-              }
-            }
-
-            this.data.base = nBase;
-            this.data.autre = nAutre;
-          } else {
-            this.data.base = '';
-          }
-        } else if(target.hasClass('selected')) {
-          this.data.autre = autre.filter(carac => carac != select);
-        } else if(this.data.base === '' && !autre.includes(select)) {
-          this.data.base = select;
-        } else if(this.data.base !== '' && !autre.includes(select)) {
-          autre.push(select);
-          this.data.autre = autre;
-        }
-      }
-    }
-
-    this.render(true);
-  }
-
-  _onSelectCaracStyle(event) {
-    const target = $(event.currentTarget);
-    const select = target.data("select");
-
-    if(target.hasClass('selected')) {
-      this.data.style.selected = '';
-    } else {
-      this.data.style.selected = select;
-    }
-
-    this.render(true);
-  }
-
-  _onSelectWpn(event) {
-    const target = $(event.currentTarget);
-    const id = target.data("id");
-    const type = target.data("type");
-    const name = target.data("name");
-    const num = target.data("num");
-    const caracteristiques = target?.data("caracteristiques")?.split(',') || [];
-    const aspect = target?.data("aspect") || '';
-
-    const actId = this.data.idWpn;
-    const actName = this.data.nameWpn;
-    const actType = this.data.typeWpn;
-    const actNum = this.data.num;
-    const isPnj = this.data.pnj;
-
-    if(type === 'armesimprovisees') {
-      if(id === actId && type === actType && name === actName && num === actNum) {
-        this.data.idWpn = '';
-        this.data.nameWpn = '';
-        this.data.typeWpn = '';
-        this.data.num = -1;
-      } else {
-        this.data.label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[name][num]);
-        this.data.idWpn = id;
-        this.data.nameWpn = name;
-        this.data.typeWpn = type;
-        this.data.num = num;
-
-        if(caracteristiques.length > 0 && !isPnj) {
-          this.data.base = caracteristiques[0];
-          this.data.autre = [caracteristiques[1]];
-        }
-
-        if(aspect !== '' && isPnj) {
-          this.data.base = aspect;
-        }
-      }
-    } else if(id === actId && type === actType && name === actName) {
-      this.data.idWpn = '';
-      this.data.nameWpn = '';
-      this.data.typeWpn = '';
-      this.data.num = -1;
-    } else {
-      this.data.label = name;
-      this.data.idWpn = id;
-      this.data.nameWpn = name;
-      this.data.typeWpn = type;
-      this.data.num = num;
-    }
-
-    this.data.cadence = false;
-    this.data.chambredouble = false;
-    this.data.chromeligneslumineuses = false;
-    this.data.barrage = false;
-    this.data.systemerefroidissement = false;
-    this.data.guidage = false;
-    this.data.tenebricide = false;
-    this.data.obliteration = false;
-    this.data.cranerieur = false;
-    this.data.jumeleambidextrie = true;
-    this.data.soeur = true;
-    this.data.jumelageambidextrie = true;
-    this.data.noOd = false;
-
-    this.render(true);
-  }
-
-  _onSelectGrenades(event) {
-    const target = $(event.currentTarget);
-    const type = target.data("type");
-    const name = target.data("name");
-
-    const actName = this.data.nameWpn;
-    const actType = this.data.typeWpn;
-    const data = this.data?.listGrenades?.[name];
-
-    const effetsRaw = data?.effets?.raw || [];
-    const barrage = effetsRaw.find(str => { if(str.includes('barrage')) return true; });
-
-     if(type === actType && name === actName) {
-      this.data.idWpn = '';
-      this.data.nameWpn = '';
-      this.data.typeWpn = '';
-      this.data.num = -1;
-    } else {
-      this.data.label = data.custom ? `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${data.label}` : `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${name.charAt(0).toUpperCase()+name.substr(1)}`)}`;
-      this.data.idWpn = '';
-      this.data.nameWpn = name;
-      this.data.typeWpn = type;
-      this.data.num = '';
-    }
-
-    this.data.cadence = false;
-    this.data.chambredouble = false;
-    this.data.chromeligneslumineuses = false;
-    this.data.barrage = barrage;
-    this.data.systemerefroidissement = false;
-    this.data.guidage = false;
-    this.data.tenebricide = false;
-    this.data.obliteration = false;
-    this.data.cranerieur = false;
-    this.data.jumeleambidextrie = true;
-    this.data.soeur = true;
-    this.data.jumelageambidextrie = true;
-    this.data.noOd = false;
-
-    this.render(true);
-  }
-
-  _onSelectLongbow(event) {
-    const target = $(event.currentTarget);
-    const type = target.data("type");
-    const name = target.data("name");
-
-    const actName = this.data.nameWpn;
-    const actType = this.data.typeWpn;
-
-    if(type === actType && name === actName) {
-      this.data.idWpn = -1;
-      this.data.nameWpn = '';
-      this.data.typeWpn = '';
-      this.data.num = -1;
-      this.data.longbow.cout = 0;
-      this.data.longbow.degats.dice = this.data.longbow.degats.min;
-      this.data.longbow.violence.dice = this.data.longbow.violence.min;
-      this.data.longbow.portee.value = this.data.longbow.portee.min;
-      this.data.longbow.portee.raw = [];
-    } else {
-      this.data.label = `${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label`)}`;
-      this.data.idWpn = -1;
-      this.data.nameWpn = name;
-      this.data.typeWpn = type;
-      this.data.num = '';
-    }
-
-    this.data.cadence = false;
-    this.data.chambredouble = false;
-    this.data.chromeligneslumineuses = false;
-    this.data.barrage = false;
-    this.data.systemerefroidissement = false;
-    this.data.guidage = false;
-    this.data.tenebricide = false;
-    this.data.obliteration = false;
-    this.data.cranerieur = false;
-    this.data.jumeleambidextrie = true;
-    this.data.soeur = true;
-    this.data.jumelageambidextrie = true;
-    this.data.noOd = false;
-
-    this.render(true);
-  }
-
-  _onSelectEffetsLongbow(event) {
-    const target = $(event.currentTarget);
-    const raw = target.data("raw");
-    const cout = +target.data("cost");
-    const liste = target.data("liste");
-    const nbre = +target.data("selectedonlist") || 0;
-
-    const effetsRaw = this.data.longbow.effets.raw;
-    const hasEffet = effetsRaw.find(str => { if(str.includes(raw)) return true; });
-
-    const coutActuel = +this.data.longbow.effets[liste].cout;
-
-    if(hasEffet) {
-      for( let i = 0; i < effetsRaw.length; i++){
-
-        if (effetsRaw[i] === raw) {
-
-          effetsRaw.splice(i, 1);
-        }
-      }
-
-      this.data.longbow.effets[liste].cout = coutActuel - cout;
-      this.data.longbow.effets[liste].selected = nbre - 1;
-    } else if(nbre < 3) {
-      effetsRaw.push(raw);
-      this.data.longbow.effets[liste].cout = coutActuel + cout;
-      this.data.longbow.effets[liste].selected = nbre + 1;
-    }
-
-    this.data.noOd = false;
-
-    this.render(true);
-  }
-
-  _onSelectEffetsSpecial(event) {
-    const target = $(event.currentTarget);
-    const num = target.data("num");
-    const raw = target.data("raw");
-    const cout = +target.data("cost");
-    const liste = target.data("liste");
-
-    const effetsRaw = this.data.listWpnSpecial[num].effets.raw;
-    const hasEffet = effetsRaw.find(str => { if(str.includes(raw)) return true; });
-
-    const coutActuel = +this.data.listWpnSpecial[num].energie;
-
-    if(hasEffet) {
-      for( let i = 0; i < effetsRaw.length; i++){
-
-        if (effetsRaw[i] === raw) {
-
-          effetsRaw.splice(i, 1);
-        }
-      }
-
-
-      this.data.listWpnSpecial[num].energie = coutActuel - cout;
-    } else {
-      effetsRaw.push(raw);
-      this.data.listWpnSpecial[num].energie = coutActuel + cout;
-    }
-
-    this.data.noOd = false;
-
-    this.render(true);
-  }
-
-  /**
-   * Submit the Dialog by selecting one of its buttons
-   * @param {Object} button     The configuration of the chosen button
-   * @private
-   */
-   submit(button) {
-    try {
-      if (button.callback) button.callback(this.options.jQuery ? this.element : this.element[0]);
-      this.close();
-    } catch(err) {
-      ui.notifications.error(err);
-      throw new Error(err);
-    }
-  }
-
-  /** @inheritdoc */
-  async close(options) {
-    const isPNJ = this.data.pnj;
-    const isMA = this.data.ma;
-    const actor = this.data.actor;
-
-    const succesBonus = this.data.succesBonus || 0;
-    const modificateur = this.data.modificateur || 0;
-    const degatsDice = this.data.degatsBonus?.dice || 0;
-    const degatsFixe = this.data.degatsBonus?.fixe || 0;
-    const violenceDice = this.data.violenceBonus?.dice || 0;
-    const violenceFixe = this.data.violenceBonus?.fixe || 0;
-    const sacrifice = this.data?.style?.sacrifice || 0;
-    const tourspasses = this.data?.style?.tourspasses || 0;
-
-    const update = isPNJ ? {
-      system:{
-        combat:{
-          data:{
-            succesbonus:succesBonus,
-            modificateur:modificateur,
-            degatsbonus:{
-              dice:degatsDice,
-              fixe:degatsFixe
-            },
-            violencebonus:{
-              dice:violenceDice,
-              fixe:violenceFixe
-            }
-          }
-        },
-        knightRoll:{
-          id:false
-        }
-      }
-    } : {
-      system:{
-        combat:{
-          data:{
-            succesbonus:succesBonus,
-            modificateur:modificateur,
-            sacrifice:sacrifice,
-            tourspasses:tourspasses,
-            degatsbonus:{
-              dice:degatsDice,
-              fixe:degatsFixe
-            },
-            violencebonus:{
-              dice:violenceDice,
-              fixe:violenceFixe
-            }
-          }
-        },
-        knightRoll:{
-          id:false
-        }
-      }
-    }
-
-    if(this.data.isToken) await actor.update(update);
-    else await game.actors.get(actor.id).update(update);
-
-    if(!isMA) {
-      const listWpnContact = this.data.listWpnContact || [];
-      const listWpnDistance = this.data.listWpnDistance || [];
-
-      for(let i = 0;i < listWpnContact.length;i++) {
-        const data = listWpnContact[i];
-        const type = data.type;
-        const dgts = data.system.degats;
-        const violence = data.system.violence;
-
-        switch(type) {
-          case 'module':
-            const items = this.data.isToken ? actor.token.actor.items.get(data._id) : game.actors.get(actor.id).items.get(data._id);
-
-            if(dgts.variable.has) {
-              items.update({[`system.arme.degats.dice`]:dgts.dice});
-            }
-
-            if(violence.variable.has) {
-              items.update({[`system.arme.violence.dice`]:violence.dice});
-            }
-            break;
-        }
-      }
-
-      for(let i = 0;i < listWpnDistance.length;i++) {
-        const data = listWpnDistance[i];
-        const type = data.type;
-        const dgts = data.system.degats;
-        const violence = data.system.violence;
-
-        switch(type) {
-          case 'module':
-            const items = this.data.isToken ? actor.token.actor.items.get(data._id) : game.actors.get(actor.id).items.get(data._id);
-
-            if(dgts?.variable?.has || false) {
-              items.update({[`system.arme.degats.dice`]:dgts.dice});
-            }
-
-            if(violence?.variable?.has || false) {
-              items.update({[`system.arme.violence.dice`]:violence.dice});
-            }
-            break;
-        }
-      }
-    }
-
-    if ( this.data.close ) this.data.close(this.options.jQuery ? this.element : this.element[0]);
-    $(document).off('keydown.chooseDefault');
-    return super.close(options);
-  }
-
-  async _depensePE(actor, depense) {
-    const isMA = this.data?.ma || false;
-    const armure = await getArmor(actor);
-    const getArmure = actor.type === "knight" ? armure.system : actor.system;
-    const remplaceEnergie = isMA ? false : getArmure?.espoir?.remplaceEnergie ?? false;
-    const type = remplaceEnergie ? 'espoir' : 'energie';
-    const hasJauge = isMA || actor.type !== "knight" ? true : actor.system.jauges[type];
-
-    if(!hasJauge) return {
-      has:false,
-      type:type
-    };
-
-    const coutCalcule = (remplaceEnergie && getArmure.espoir.cout > 0 && type === 'module') ? Math.floor(depense / getArmure.espoir.cout) : depense;
-    const actuel = remplaceEnergie ? +actor.system.espoir.value : +actor.system.energie.value;
-    const substract = actuel-coutCalcule;
-
-    if(substract < 0) {
-      return {
-        has:false,
-        type:type
-      };
-    } else {
-      let update = {
-        system:{
-          [type]:{
-            value:substract
-          }
-        }
-      }
-
-      if(type === 'espoir' && actor.system.espoir.perte.saufAgonie) {
-        update.system.espoir.value = actuel;
-      }
-
-      actor.update(update);
-
-      return {
-        has:true,
-        type:type
-      };
-    }
-  }
-
-  _depenseEspoir(actor, depense) {
-    const type = 'espoir';
-    const hasJauge = actor.system.jauges[type];
-
-    if(!hasJauge) return {
-      has:false,
-      type:type
-    };
-
-    const actuel = +actor.system.espoir.value;
-    const substract = actuel-depense;
-
-    if(substract < 0) {
-      return {
-        has:false,
-        type:type
-      };
-    } else {
-      let update = {
-        system:{
-          [type]:{
-            value:substract
-          }
-        }
-      }
-
-      if(type === 'espoir' && actor.system.espoir.perte.saufAgonie) {
-        update.system.espoir.value = actuel;
-      }
-
-      actor.update(update);
-
-      return {
-        has:true,
-        type:type
-      };
-    }
-  }
-
-  _getCarac(entraide) {
-    const data = this.data;
-    const actor = data.actor;
-    const base = data.base;
-    const autre = data.autre;
-    const isPNJ = data?.pnj || false;
-    const isMA = data?.ma || false;
-    const noOd = data?.noOd || false;
-
-    let carac = 0;
-    let od = 0;
-    let otherC = [];
-
-    if(isPNJ) {
-      const PNJAE = getAEValue(base, actor, true);
-      carac = getAspectValue(base, actor, true);
-      od = Number(PNJAE.mineur)+Number(PNJAE.majeur);
-    }
-    else if(isMA) {
-      carac = getCaracPiloteValue(base, actor, true);
-      od = !noOd ? getODPiloteValue(base, actor, true) : 0;
-    }
-    else {
-      carac = getCaracValue(base, actor, true);
-      od = !noOd ? getODValue(base, actor, true) : 0;
-    }
-
-    if(!entraide && !isPNJ) {
-      for(let i = 0;i < autre.length;i++) {
-        if(isMA) {
-          carac += getCaracPiloteValue(autre[i], actor, true);
-          od += !noOd ? getODPiloteValue(autre[i], actor, true) : 0;
+            bonus:bonus,
+            weapon,
+            style:actor.type === 'vehicule' ? this.who.system.combat.style : actor.system.combat.style,
+            tags:tags,
+            surprise:isAttaqueSurprise,
+            dataStyle:dataStyle,
+            dataMod,
+            maximize,
+            difficulte,
+            }).doRoll(updates);
         } else {
-          carac += getCaracValue(autre[i], actor, true);
-          od += !noOd ? getODValue(autre[i], actor, true) : 0;
+            const exec = new game.knight.RollKnight(actor,
+            {
+            name:label,
+            }).sendMessage({
+                text:msg,
+                classes:classes,
+            });
+
         }
 
-        otherC.push(game.i18n.localize(CONFIG.KNIGHT.caracteristiques[autre[i]]));
-      }
+        this.render(true);
     }
 
-    return {od:od, carac:carac, otherC:otherC}
-  }
+    #entraide(data) {
+        const actor = this.actor;
+        const armorIsWear = actor.system.wear === 'armure' || actor.system.wear === 'ascension' ? true : false;
+        const label = data.find('input.label').val();
+        const base = this.rollData.base;
+        const succesBonus = parseInt(data.find('label.score.succesBonus input').val());
+        const modificateur = parseInt(data.find('label.score.modificateur input').val());
+        const isNoOd = this.rollData.btn?.nood ?? false;
+        let carac = base ? [this.#getLabelRoll(base)] : [];
+        let dices = this.#getValueAspect(actor, base);
+        let bonus = [];
+        let tags = [];
 
-  _getWpn(data, typeWpn, idWpn, nameWpn, numWpn) {
-    const allWpn = {
-      'base':data.listWpnMA,
-      'special':data.listWpnSpecial,
-      'contact':data.listWpnContact,
-      'distance':data.listWpnDistance,
-      'tourelle':data.listWpnTourelle,
-      'grenades':data.listGrenades,
-      'longbow':data.longbow,
-      'armesimprovisees':data.listWpnImprovisees,
-    };
+        if(armorIsWear && !isNoOd) bonus.push(this.#getODAspect(actor, base));
 
-    let nWpn = typeWpn === 'c1' || typeWpn === 'c2' ? 'base' : typeWpn;
-    let wpn = allWpn[nWpn];
-    let bonusDice = 0;
-    let bonusFixe = 0;
+        dices += modificateur;
 
-    switch(nWpn) {
-      case 'base':
-      case 'special':
-        wpn = wpn.find(itm => itm._id === idWpn);
-        break;
+        if(modificateur > 0) {
+            dices += modificateur;
 
-      case 'contact':
-      case 'distance':
-        wpn = wpn.find(itm => itm._id === idWpn && itm.name.includes(nameWpn)).system;
-        break;
+            tags.push({
+                key:'modificateur',
+                label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} : ${modificateur}`,
+            });
+        }
 
-      case 'tourelle':
-        wpn = wpn.find(itm => itm._id === idWpn).system;
-        bonusDice += Number(wpn.tourelle.attaque.dice);
-        bonusFixe += Number(wpn.tourelle.attaque.fixe);
-        break;
+        if(succesBonus > 0) {
+            bonus.push(succesBonus);
 
-      case 'grenades':
-        const nbreGrenade = data.actor.system.combat.grenades.quantity.value;
+            tags.push({
+                key:'succesbonus',
+                label:`${game.i18n.localize('KNIGHT.BONUS.Succes')} : ${succesBonus}`,
+            });
+        }
 
-        if(data.isToken) data.actor.update({['system.combat.grenades.quantity.value']:Math.max(nbreGrenade-1, 0)});
-        else game.actors.get(data.actor._id).update({['system.combat.grenades.quantity.value']:Math.max(nbreGrenade-1, 0)});
+        this.data.roll.label = label;
+        this.data.roll.succesBonus = succesBonus;
+        this.data.roll.modificateur = modificateur;
 
-        wpn = data.listGrenades[nameWpn];
-        break;
+        const exec = new game.knight.RollKnight(actor,
+        {
+        name:label,
+        dices:`${dices}D6`,
+        carac:carac,
+        bonus:bonus,
+        style:actor.system.combat.style,
+        tags:tags,
+        exploit:false,
+        }).doRoll();
 
-      case 'longbow':
-        wpn = data.longbow;
-        break;
+        this.render(true);
+    }
 
-      case 'armesimprovisees':
-        if(idWpn === 'contact') wpn = foundry.utils.mergeObject(data.listWpnImprovisees[idWpn][nameWpn].liste[numWpn], {
-          degats:{
-            module:{
-              fixe:data.listWpnImprovisees.bonuscontact.degatsfixe,
-              variable:data.listWpnImprovisees.bonuscontact.degatsvariable,
+    #prepareButtons() {
+        let results = {};
+
+        switch(this.actor.type) {
+            case 'knight':
+                results = {
+                    button1: {
+                      label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
+                      callback: async (data) => this.#roll(data),
+                      icon: `<i class="fas fa-dice"></i>`
+                    },
+                    button2: {
+                      label: game.i18n.localize("KNIGHT.JETS.JetEntraide"),
+                      callback: async (data) => this.#entraide(data),
+                      icon: `<i class="fas fa-dice-d6"></i>`
+                    },
+                    button3: {
+                      label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
+                      icon: `<i class="fas fa-times"></i>`
+                    }
+                }
+                break;
+
+            case 'creature':
+            case 'pnj':
+            case 'bande':
+            case 'vehicule':
+            case 'mechaarmure':
+                results = {
+                    button1: {
+                      label: game.i18n.localize("KNIGHT.JETS.JetNormal"),
+                      callback: async (data) => this.#roll(data),
+                      icon: `<i class="fas fa-dice"></i>`
+                    },
+                    button3: {
+                      label: game.i18n.localize("KNIGHT.AUTRE.Annuler"),
+                      icon: `<i class="fas fa-times"></i>`
+                    }
+                }
+                break;
+        }
+
+        this.data.buttons = results;
+    }
+
+    #prepareTitle() {
+        this.data.title = `${this.actor.name} : ${game.i18n.localize("KNIGHT.JETS.Label")}`;
+    }
+
+    #prepareOptions() {
+        const actor = this.who;
+        const system = actor.system;
+        const armorIsWear = this.armorIsWear ? true : false;
+        const aspects = system.aspects;
+        const isPJ = this.isPJ;
+
+        let data = {
+            label:this.rollData.label,
+            mods:[],
+        };
+
+        if(isPJ) {
+            data.aspects = {};
+
+            for(let a in aspects) {
+                data.aspects[a] = {
+                    label:game.i18n.localize(CONFIG.KNIGHT.aspects[a]),
+                    caracteristiques:{},
+                }
+
+                let n = 0;
+
+                for(let c in aspects[a].caracteristiques) {
+                    let classes = ['btnCaracteristique', 'wHover', c];
+
+                    data.aspects[a].caracteristiques[c] = {
+                        label:game.i18n.localize(CONFIG.KNIGHT.caracteristiques[c]),
+                        classes:classes.join(' '),
+                        data:c,
+                        value:armorIsWear ? `${aspects[a].caracteristiques[c].value} + ${aspects[a].caracteristiques[c].overdrive.value} ${game.i18n.localize('KNIGHT.ASPECTS.OD')}` : `${aspects[a].caracteristiques[c].value}`,
+                    }
+                }
             }
-          },
-          violence:{
-            module:{
-              fixe:data.listWpnImprovisees.bonuscontact.violencefixe,
-              variable:data.listWpnImprovisees.bonuscontact.violencevariable,
+        } else {
+            data.aspects = {};
+
+            for(let a in aspects) {
+                let classes = ['btnCaracteristique', 'wHover', a];
+
+                data.aspects[a] = {
+                    label:game.i18n.localize(CONFIG.KNIGHT.aspects[a]),
+                    classes:classes.join(' '),
+                    data:a,
+                    value:`${aspects[a].value} + ${aspects[a].ae.mineur.value+aspects[a].ae.majeur.value}`,
+                }
             }
-          }
+        }
+
+        //DIFFICULTE
+        data.mods.push({
+            key:'score',
+            classes:'score difficulte colOne',
+            label:game.i18n.localize('KNIGHT.AUTRE.Difficulte'),
+            value:this.rollData.difficulte,
+            min:0
         });
-        else wpn = data.listWpnImprovisees[idWpn][nameWpn].liste[numWpn];
-        break;
+
+        //SUCCES BONUS
+        data.mods.push({
+            key:'score',
+            classes:'score succesBonus colTwo',
+            label:game.i18n.localize('KNIGHT.BONUS.Succes'),
+            value:this.rollData.succesBonus,
+            min:0
+        });
+
+        //MODIFICATEUR
+        data.mods.push({
+            key:'score',
+            classes:'score modificateur colThree',
+            label:game.i18n.localize('KNIGHT.JETS.Modificateur'),
+            value:this.rollData.modificateur,
+        });
+
+        if(isPJ) {
+            //STYLES
+            data.mods.push({
+                key:'select',
+                classes:'style selectWithInfo rowFourTwo',
+                label:game.i18n.localize('KNIGHT.COMBAT.STYLES.Label'),
+                selected:system.combat.style,
+                info:game.i18n.localize(CONFIG.KNIGHT.styles[system.combat.style]),
+                list:CONFIG.KNIGHT.LIST.style,
+            });
+
+            data.mods.push({
+                key:'selectWithScore',
+                classes:'pilonnage rowFourTwo colTwoFive',
+                label:`${game.i18n.localize('KNIGHT.COMBAT.STYLES.PILONNAGE.FullLabel')}`,
+                select:{
+                    selected:system.combat.data.type,
+                    list:{
+                        'degats':'KNIGHT.AUTRE.Degats',
+                        'violence':'KNIGHT.AUTRE.Violence',
+                    }
+                },
+                score:{
+                    label:`${game.i18n.localize('KNIGHT.COMBAT.STYLES.PILONNAGE.Tourspasses')}`,
+                    value:system.combat.data.tourspasses,
+                    min:0,
+                }
+            });
+
+            this.rollData.style.pilonnage.type = system.combat.data.type;
+            this.rollData.style.pilonnage.value = system.combat.data.tourspasses;
+
+            data.mods.push({
+                key:'select',
+                classes:'precis rowFourTwo',
+                label:`${game.i18n.localize('KNIGHT.COMBAT.STYLES.PRECIS.FullLabel')}`,
+                selected:'',
+                hasBlank:true,
+                list:{
+                    'dexterite':CONFIG.KNIGHT.caracteristiques.dexterite,
+                    'savoir':CONFIG.KNIGHT.caracteristiques.savoir,
+                    'instinct':CONFIG.KNIGHT.caracteristiques.instinct,
+                    'sangFroid':CONFIG.KNIGHT.caracteristiques.sangFroid,
+                }
+            });
+
+            data.mods.push({
+                key:'selectWithScore',
+                classes:'puissant rowFourTwo colTwoFive',
+                label:`${game.i18n.localize('KNIGHT.COMBAT.STYLES.PUISSANT.FullLabel')}`,
+                select:{
+                    selected:'degats',
+                    list:{
+                        'degats':'KNIGHT.AUTRE.Degats',
+                        'violence':'KNIGHT.AUTRE.Violence',
+                    }
+                },
+                score:{
+                    label:`${game.i18n.localize('KNIGHT.COMBAT.STYLES.PUISSANT.Sacrifice')}`,
+                    value:0,
+                    min:0,
+                }
+            });
+
+            data.mods.push({
+                key:'selectWithScore',
+                classes:'suppression rowFourTwo colTwoFive',
+                label:`${game.i18n.localize('KNIGHT.COMBAT.STYLES.SUPPRESSION.FullLabel')}`,
+                select:{
+                    selected:'degats',
+                    list:{
+                        'degats':'KNIGHT.AUTRE.Degats',
+                        'violence':'KNIGHT.AUTRE.Violence',
+                    }
+                },
+                score:{
+                    label:`${game.i18n.localize('KNIGHT.COMBAT.STYLES.SUPPRESSION.Sacrifice')}`,
+                    value:0,
+                    min:0,
+                }
+            });
+        }
+
+        //MODIFICATEUR AUX DEGATS
+        data.mods.push({
+            key:'scoredice',
+            name:'moddegats',
+            classes:'scoredice modificateurdegats colOne',
+            label:game.i18n.localize('KNIGHT.JETS.ModificateurDegats'),
+            dice:0,
+            value:0,
+        });
+
+        //MODIFICATEUR A LA VIOLENCE
+        data.mods.push({
+            key:'scoredice',
+            name:'modviolence',
+            classes:'scoredice modificateurviolence colTwo',
+            label:game.i18n.localize('KNIGHT.JETS.ModificateurViolence'),
+            dice:0,
+            value:0,
+        });
+
+        if(isPJ) {
+            //BOUTON SANS OD
+            data.mods.push({
+                key:'btn',
+                name:'nood',
+                classes:'btn withoutod rowFour colFiveSeven',
+                btnclasses:'btn withoutod',
+                label:game.i18n.localize('KNIGHT.JETS.NoOd'),
+            });
+        }
+
+        //BOUTON ATTAQUE SURPRISE
+        data.mods.push({
+            key:'btn',
+            name:'attaquesurprise',
+            classes:isPJ ? 'btn attaquesurprise rowFive colFiveSeven' : 'btn attaquesurprise rowFour colFiveSeven',
+            btnclasses:'btn attaquesurprise',
+            label:game.i18n.localize('KNIGHT.JETS.AttackSurprise'),
+        });
+
+        //BOUTON MAXIMISER LES DEGATS
+        data.mods.push({
+            key:'btn',
+            name:'maximizedegats',
+            classes:'btn maximizedegats colFiveSeven',
+            btnclasses:'btn maximizedegats',
+            label:game.i18n.localize('KNIGHT.JETS.MaximizeDegats'),
+        });
+
+        //BOUTON MAXIMISER LA VIOLENCE
+        data.mods.push({
+            key:'btn',
+            name:'maximizeviolence',
+            classes:'btn maximizeviolence colFiveSeven',
+            btnclasses:'btn maximizeviolence',
+            label:game.i18n.localize('KNIGHT.JETS.MaximizeViolence'),
+        });
+
+        //ARMES
+        const wpns = this.#prepareWpn();
+        this.data.roll.allWpn = this.rollData.typeWpn.contact.concat(this.rollData.typeWpn.distance, this.rollData.typeWpn.tourelle, this.rollData.typeWpn.aicontact, this.rollData.typeWpn.aidistance, this.rollData.typeWpn.grenade, this.rollData.typeWpn.complexe);
+
+        data.mods.push({
+            key:'wpn',
+            classes:'wpn contact colOne wpncontact',
+            label:game.i18n.localize('KNIGHT.COMBAT.ARMES.CONTACT.Label'),
+            list:this.rollData.typeWpn.contact,
+        });
+
+        data.mods.push({
+            key:'wpn',
+            classes:'wpn distance colTwo wpndistance',
+            label:game.i18n.localize('KNIGHT.COMBAT.ARMES.DISTANCE.Label'),
+            list:this.rollData.typeWpn.distance,
+        });
+
+        data.mods.push({
+            key:'complexe',
+            classes:'wpn complexe allCol',
+            label:wpns.complexeLabel ? wpns.complexeLabel : game.i18n.localize('KNIGHT.ARMURE.Label'),
+            list:this.rollData.typeWpn.complexe,
+        });
+
+        data.mods.push({
+            key:'wpn',
+            classes:'wpn distance colDuo grenade',
+            label:game.i18n.localize('KNIGHT.COMBAT.GRENADES.Label'),
+            list:this.rollData.typeWpn.grenade,
+        });
+
+        data.mods.push({
+            key:'wpn',
+            classes:'wpn distance colDuo tourelle',
+            label:game.i18n.localize('KNIGHT.COMBAT.ARMES.TOURELLE.Label'),
+            list:this.rollData.typeWpn.tourelle,
+        });
+
+        if(this.actor.type === 'mechaarmure') {
+            data.mods.push({
+                key:'wpn',
+                classes:'wpn contact colOne aicontact',
+                label:game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.LabelContact'),
+                list:this.rollData.typeWpn.aicontact,
+            });
+
+            data.mods.push({
+                key:'wpn',
+                classes:'wpn distance colTwo aidistance',
+                label:game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.LabelDistance'),
+                list:this.rollData.typeWpn.aidistance,
+            });
+        }
+        else {
+            data.mods.push({
+                key:'wpn',
+                classes:'wpn contact colOne aicontact',
+                label:game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.LabelContact'),
+                list:wpns.listaicontact,
+            });
+
+            data.mods.push({
+                key:'wpn',
+                classes:'wpn distance colTwo aidistance',
+                label:game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.LabelDistance'),
+                list:wpns.listaidistance,
+            });
+
+        }
+
+
+        return data;
     }
 
-    return {wpn:wpn, dice:bonusDice, fixe:bonusFixe};
-  }
+    #prepareWpn() {
+        const actor = this.actor;
+        const type = actor.type;
+        const isPJ = this.isPJ;
+        const wearArmor = this.armorIsWear || type === 'vehicule' || !isPJ ? true : false;
+        const items = actor.items;
+        const armure = items.find(itm => itm.type === 'armure');
+        const weapons = items.filter(itm => itm.type == 'arme' && (itm.system.equipped || itm.system.tourelle.has || !isPJ || itm.system.whoActivate === this.data.whoActivate));
+        const modules = type === 'vehicule' ? items.filter(itm => itm.type == 'module' && (itm.system?.active?.base ?? false) && (itm.system?.niveau?.actuel?.arme?.has ?? false) && itm.system.niveau.actuel.whoActivate === this.data.whoActivate) : items.filter(itm => itm.type == 'module' && (itm.system?.active?.base ?? false) && (itm.system?.niveau?.actuel?.arme?.has ?? false));
+        const modulesContact = type === 'vehicule' ? actor.items.filter(itm => itm.type === 'module' &&
+            itm.system.niveau.actuel.whoActivate === this.data.whoActivate &&
+            ((itm.system?.active?.base ?? false) || itm.system.niveau.actuel.permanent) &&
+            (itm.system?.niveau?.actuel?.bonus?.has ?? false) &&
+            (((itm.system?.niveau?.actuel?.bonus?.degats?.has ?? false) &&
+            ((itm.system?.niveau?.actuel?.bonus?.degats?.type ?? 'contact') === 'contact')) ||
+            ((itm.system?.niveau?.actuel?.bonus?.violence?.has ?? false) &&
+            ((itm.system?.niveau?.actuel?.bonus?.violence?.type ?? 'contact') === 'contact')))) :
+            actor.items.filter(itm => itm.type === 'module' &&
+            ((itm.system?.active?.base ?? false) || itm.system.niveau.actuel.permanent) &&
+            (itm.system?.niveau?.actuel?.bonus?.has ?? false) &&
+            (((itm.system?.niveau?.actuel?.bonus?.degats?.has ?? false) &&
+            ((itm.system?.niveau?.actuel?.bonus?.degats?.type ?? 'contact') === 'contact')) ||
+            ((itm.system?.niveau?.actuel?.bonus?.violence?.has ?? false) &&
+            ((itm.system?.niveau?.actuel?.bonus?.violence?.type ?? 'contact') === 'contact'))));
+        const modulesDistance = type === 'vehicule' ? actor.items.filter(itm => itm.type === 'module' &&
+            itm.system.niveau.actuel.whoActivate === this.data.whoActivate &&
+            ((itm.system?.active?.base ?? false) || itm.system.niveau.actuel.permanent) &&
+            (itm.system?.niveau?.actuel?.bonus?.has ?? false) &&
+            (((itm.system?.niveau?.actuel?.bonus?.degats?.has ?? false) &&
+            ((itm.system?.niveau?.actuel?.bonus?.degats?.type ?? 'contact') === 'distance')) ||
+            ((itm.system?.niveau?.actuel?.bonus?.violence?.has ?? false) &&
+            ((itm.system?.niveau?.actuel?.bonus?.violence?.type ?? 'contact') === 'distance')))) :
+            actor.items.filter(itm => itm.type === 'module' &&
+            ((itm.system?.active?.base ?? false) || itm.system.niveau.actuel.permanent) &&
+            (itm.system?.niveau?.actuel?.bonus?.has ?? false) &&
+            (((itm.system?.niveau?.actuel?.bonus?.degats?.has ?? false) &&
+            ((itm.system?.niveau?.actuel?.bonus?.degats?.type ?? 'contact') === 'distance')) ||
+            ((itm.system?.niveau?.actuel?.bonus?.violence?.has ?? false) &&
+            ((itm.system?.niveau?.actuel?.bonus?.violence?.type ?? 'contact') === 'distance'))));
+        const armesImprovisees = actor.system?.combat?.armesimprovisees?.liste ?? {};
+        const grenades = actor.system?.combat?.grenades?.liste ?? {};
+        const capacites = armure ? armure.system?.capacites?.selected ?? {} : {};
+        const pnjCapacites = items.filter(itm => itm.type == 'capacite' && itm.system.attaque.has);
+        const configurationMechaArmure = actor.system?.configurations?.actuel ?? 'c1';
+        const modulesMechaArmure = actor.system?.configurations?.liste ?? {};
+        const listeModulesMechaArmure = configurationMechaArmure === 'c1' ? foundry.utils.mergeObject(foundry.utils.deepClone(modulesMechaArmure?.base?.modules ?? {}), modulesMechaArmure?.c1?.modules ?? {}) : foundry.utils.mergeObject(foundry.utils.deepClone(modulesMechaArmure?.base?.modules ?? {}), modulesMechaArmure?.c2?.modules ?? {});
+        const labels = getAllEffects();
+        let contact = [];
+        let distance = [];
+        let aicontact = [];
+        let aidistance = [];
+        let listaicontact = [];
+        let listaidistance = [];
+        let grenade = [];
+        let complexe = [];
+        let tourelle = [];
+
+        let bonusContact = {
+            degats:{
+                dice:0,
+                fixe:0,
+                titleDice:[],
+                titleFixe:[],
+            },
+            violence:{
+                dice:0,
+                fixe:0,
+                titleDice:[],
+                titleFixe:[],
+            },
+            options:[],
+        }
+        let bonusDistance = {
+            degats:{
+                dice:0,
+                fixe:0,
+                titleDice:[],
+                titleFixe:[],
+            },
+            violence:{
+                dice:0,
+                fixe:0,
+                titleDice:[],
+                titleFixe:[],
+            },
+            options:[],
+        }
+
+        if(wearArmor) {
+            for(let m of modulesContact) {
+                const dataM = m.system.niveau.actuel.bonus;
+
+                if(dataM.violence.has) {
+                    if(dataM.violence.variable.has) {
+                        const dataMVV = dataM.violence.variable;
+                        const list = {};
+                        let classes = [];
+
+                        for (let i = dataMVV.min.dice; i <= dataMVV.max.dice; i++) {
+                            list[i] = dataMVV?.min?.fixe ?? 0 ? `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6+${dataMVV.min.fixe}` : `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+                        }
+
+                        classes.push('selectDouble', 'violencebonusvariable');
+
+                        if(!dataM?.degats?.variable?.has ?? false) classes.push('full');
+
+                        bonusContact.options.push({
+                            key:'select',
+                            id:m.id,
+                            name:m.name,
+                            classes:classes.join(' '),
+                            label:`${m.name} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}`,
+                            list:list,
+                            selected:dataMVV.min.dice,
+                            value:dataMVV?.cout ?? 0,
+                            selectvalue:Math.max(dataMVV?.min?.fixe ?? 0, dataMVV?.max?.fixe ?? 0),
+                        });
+                    } else {
+                        bonusContact.violence.dice += dataM.violence.dice;
+                        bonusContact.violence.fixe += dataM.violence.fixe;
+                        if(dataM.violence.dice > 0) bonusContact.violence.titleDice.push(m.name);
+                        if(dataM.violence.fixe > 0) bonusContact.violence.titleFixe.push(m.name);
+                    }
+                }
+
+                if(dataM.degats.has) {
+                    if(dataM.degats.variable.has) {
+                        const dataMDV = dataM.degats.variable;
+                        const list = {};
+                        let classes = [];
+
+                        for (let i = dataMDV.min.dice; i <= dataMDV.max.dice; i++) {
+                            list[i] = dataMDV?.min?.fixe ?? 0 ? `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6+${dataMDV.min.fixe}` : `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+                        }
+
+                        classes.push('selectDouble', 'dgtsbonusvariable');
+
+                        if(!dataM?.violence?.variable?.has ?? false) classes.push('full');
+
+                        bonusContact.options.push({
+                            key:'select',
+                            id:m.id,
+                            classes:classes.join(' '),
+                            name:m.name,
+                            label:`${m.name} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
+                            list:list,
+                            selected:dataMDV.min.dice,
+                            value:dataMDV?.cout ?? 0,
+                            selectvalue:Math.max(dataMDV?.min?.fixe ?? 0, dataMDV?.max?.fixe ?? 0),
+                        });
+                    } else {
+                        bonusContact.degats.dice += dataM.degats.dice;
+                        bonusContact.degats.fixe += dataM.degats.fixe;
+                        if(dataM.degats.dice > 0) bonusContact.degats.titleDice.push(m.name);
+                        if(dataM.degats.fixe > 0) bonusContact.degats.titleFixe.push(m.name);
+                    }
+                }
+
+            }
+
+            for(let m of modulesDistance) {
+                const dataM = m.system.niveau.actuel.bonus;
+
+                if(dataM.violence.has) {
+                    if(dataM.violence.variable.has) {
+                        const dataMVV = dataM.violence.variable;
+                        const list = {};
+                        let classes = [];
+
+                        for (let i = dataMVV.min.dice; i <= dataMVV.max.dice; i++) {
+                            list[i] = dataMVV?.min?.fixe ?? 0 ? `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6+${dataMVV.min.fixe}` : `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+                        }
+
+                        classes.push('selectDouble', 'violencebonusvariable');
+
+                        if(!dataM?.degats?.variable?.has ?? false) classes.push('full');
+
+                        bonusDistance.options.push({
+                            key:'select',
+                            id:m.id,
+                            name:m.name,
+                            classes:classes.join(' '),
+                            label:`${m.name} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}`,
+                            list:list,
+                            selected:dataMVV.min.dice,
+                            value:dataMVV?.cout ?? 0,
+                            selectvalue:Math.max(dataMVV?.min?.fixe ?? 0, dataMVV?.max?.fixe ?? 0),
+                        });
+                    } else {
+                        bonusDistance.violence.dice += dataM.violence.dice;
+                        bonusDistance.violence.fixe += dataM.violence.fixe;
+                        if(dataM.violence.dice > 0) bonusDistance.violence.titleDice.push(m.name);
+                        if(dataM.violence.fixe > 0) bonusDistance.violence.titleFixe.push(m.name);
+                    }
+                }
+
+                if(dataM.degats.has) {
+                    if(dataM.degats.variable.has) {
+                        const dataMDV = dataM.degats.variable;
+                        const list = {};
+                        let classes = [];
+
+                        for (let i = dataMDV.min.dice; i <= dataMDV.max.dice; i++) {
+                            list[i] = dataMDV?.min?.fixe ?? 0 ? `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6+${dataMDV.min.fixe}` : `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+                        }
+
+                        classes.push('selectDouble', 'dgtsbonusvariable');
+
+                        if(!dataM?.violence?.variable?.has ?? false) classes.push('full');
+
+                        bonusDistance.options.push({
+                            key:'select',
+                            id:m.id,
+                            classes:classes.join(' '),
+                            name:m.name,
+                            label:`${m.name} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
+                            list:list,
+                            selected:dataMDV.min.dice,
+                            value:dataMDV?.cout ?? 0,
+                            selectvalue:Math.max(dataMDV?.min?.fixe ?? 0, dataMDV?.max?.fixe ?? 0),
+                        });
+                    } else {
+                        bonusDistance.degats.dice += dataM.degats.dice;
+                        bonusDistance.degats.fixe += dataM.degats.fixe;
+                        if(dataM.degats.dice > 0) bonusDistance.degats.titleDice.push(m.name);
+                        if(dataM.degats.fixe > 0) bonusDistance.degats.titleFixe.push(m.name);
+                    }
+                }
+            }
+        }
+
+        for(let wpn of weapons) {
+            const system = wpn.system;
+
+            if(system.type === 'contact') contact.push(this.#addWpnContact(wpn, bonusContact));
+            else if(system.type === 'distance' && (system?.tourelle?.has ?? false)) tourelle.push(this.#addWpnDistance(wpn, {}, false));
+            else if(system.type === 'distance') distance.push(this.#addWpnDistance(wpn, bonusDistance));
+        }
+
+        for(let ai in armesImprovisees) {
+            const system = armesImprovisees[ai];
+
+            if(actor.type === 'mechaarmure') {
+                for(let list in system.liste) {
+                    aicontact.push(this.#addWpnContact({
+                        name:game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[ai][list]),
+                        id:`${ai}${list}c`,
+                        system:{
+                            type:'contact',
+                            options:[],
+                            degats:{
+                                dice:system.liste[list].degats.dice,
+                                fixe:0
+                            },
+                            violence:{
+                                dice:system.liste[list].violence.dice,
+                                fixe:0
+                            },
+                            effets:{
+                                raw:[],
+                                custom:[],
+                            },
+                        }
+                    }, {}));
+
+                    aidistance.push(this.#addWpnDistance({
+                        name:game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[ai][list]),
+                        id:`${ai}${list}d`,
+                        system:{
+                            type:'distance',
+                            options:[],
+                            degats:{
+                                dice:system.liste[list].degats.dice,
+                                fixe:0
+                            },
+                            violence:{
+                                dice:system.liste[list].violence.dice,
+                                fixe:0
+                            },
+                            effets:{
+                                raw:[],
+                                custom:[],
+                            },
+                        }
+                    }, {}));
+                }
+
+            }
+            else {
+                let maindataC = {
+                    label:isPJ ? `${game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.ODForce')} ${system.force}` : `${game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.Chair')} ${system.chair.join(' / ')}`,
+                    id:ai,
+                    list:[],
+                }
+
+                let maindataD = {
+                    label:isPJ ? `${game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.ODForce')} ${system.force}` : `${game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.Chair')} ${system.chair.join(' / ')}`,
+                    id:ai,
+                    list:[],
+                }
+
+                for(let list in system.liste) {
+                    let dataC = {
+                        label:game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[ai][list]),
+                        classes:'btnWpn',
+                        type:'contact',
+                        id:`${ai}${list}c`,
+                        options:[],
+                        degats:{
+                            dice:system.liste[list].degats.dice,
+                            fixe:0
+                        },
+                        violence:{
+                            dice:system.liste[list].violence.dice,
+                            fixe:0
+                        },
+                        effets:{
+                            raw:[],
+                            custom:[],
+                        },
+                    };
+
+                    let dataD = {
+                        label:game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[ai][list]),
+                        classes:'btnWpn',
+                        type:'distance',
+                        id:`${ai}${list}d`,
+                        options:[],
+                        degats:{
+                            dice:system.liste[list].degats.dice,
+                            fixe:0
+                        },
+                        violence:{
+                            dice:system.liste[list].violence.dice,
+                            fixe:0
+                        },
+                        effets:{
+                            raw:[],
+                            custom:[],
+                        },
+                    }
+
+                    aicontact.push(dataC);
+                    aidistance.push(dataD);
+
+                    maindataC.list.push(dataC);
+                    maindataD.list.push(dataD);
+                }
+
+                listaicontact.push(maindataC);
+                listaidistance.push(maindataD);
+            }
+        }
+
+        for(let g in grenades) {
+            const system = grenades[g];
+            let wpn = {};
+
+            if(system.custom) wpn.name = system.label;
+            else wpn.name = game.i18n.localize(CONFIG.KNIGHT.grenades[g]);
+
+            wpn.system = system;
+            wpn.id = `grenade_${g}`;
+
+            grenade.push(this.#addWpnDistance(wpn, bonusDistance));
+        }
+
+        if(wearArmor) {
+            for(let m of modules) {
+                const system = m.system.niveau.actuel.arme;
+                let wpn = {
+                    name:m.name,
+                    system:system,
+                    id:`module_${m.id}`
+                };
+
+                if(system.type === 'contact') contact.push(this.#addWpnContact(wpn, bonusContact, false));
+                else if(system.type === 'distance') distance.push(this.#addWpnDistance(wpn, bonusDistance, false));
+            }
+
+            for(let c in capacites) {
+                const dataC = capacites[c];
+                let systemC = {}
+                let systemD = {}
+
+                switch(c) {
+                    case 'borealis':
+                        systemC = {
+                            degats:{
+                                dice:dataC.offensif.degats.dice,
+                                fixe:0
+                            },
+                            violence:{
+                                dice:dataC.offensif.violence.dice,
+                                fixe:0,
+                            },
+                            type:'contact',
+                            effets:{
+                                raw:dataC.offensif.effets.raw,
+                                custom:dataC.offensif.effets.custom,
+                            },
+                            cout:dataC.offensif.energie,
+                            portee:dataC.offensif.portee,
+                        }
+
+                        systemD = {
+                            degats:{
+                                dice:dataC.offensif.degats.dice,
+                                fixe:0
+                            },
+                            violence:{
+                                dice:dataC.offensif.violence.dice,
+                                fixe:0,
+                            },
+                            type:'distance',
+                            effets:{
+                                raw:dataC.offensif.effets.raw,
+                                custom:dataC.offensif.effets.custom,
+                            },
+                            cout:dataC.offensif.energie,
+                            portee:dataC.offensif.portee,
+                        }
+
+                        let wpnC = {
+                            name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label')}`,
+                            system:systemC,
+                            id:`capacite_${armure.id}_${c}C`
+                        };
+
+                        let wpnD = {
+                            name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label')}`,
+                            system:systemD,
+                            id:`capacite_${armure.id}_${c}D`
+                        };
+
+                        contact.push(this.#addWpnContact(wpnC, bonusContact));
+                        distance.push(this.#addWpnDistance(wpnD, bonusDistance));
+                        break;
+
+                    case 'cea':
+                        let systemVagueC = {
+                            degats:{
+                                dice:dataC.vague.degats.dice,
+                                fixe:0
+                            },
+                            violence:{
+                                dice:dataC.vague.violence.dice,
+                                fixe:0,
+                            },
+                            type:'contact',
+                            effets:{
+                                raw:dataC.vague.effets.raw,
+                                custom:dataC.vague.effets.custom,
+                            },
+                            cout:dataC.energie,
+                            espoir:dataC.espoir,
+                            portee:dataC.vague.portee,
+                        }
+
+                        let systemVagueD = {
+                            degats:{
+                                dice:dataC.vague.degats.dice,
+                                fixe:0
+                            },
+                            violence:{
+                                dice:dataC.vague.violence.dice,
+                                fixe:0,
+                            },
+                            type:'distance',
+                            effets:{
+                                raw:dataC.vague.effets.raw,
+                                custom:dataC.vague.effets.custom,
+                            },
+                            cout:dataC.energie,
+                            espoir:dataC.espoir,
+                            portee:dataC.vague.portee,
+                        }
+
+                        let systemSalveC = {
+                            degats:{
+                                dice:dataC.salve.degats.dice,
+                                fixe:0
+                            },
+                            violence:{
+                                dice:dataC.salve.violence.dice,
+                                fixe:0,
+                            },
+                            type:'contact',
+                            effets:{
+                                raw:dataC.salve.effets.raw,
+                                custom:dataC.salve.effets.custom,
+                            },
+                            cout:dataC.energie,
+                            espoir:dataC.espoir,
+                            portee:dataC.salve.portee,
+                        }
+
+                        let systemSalveD = {
+                            degats:{
+                                dice:dataC.salve.degats.dice,
+                                fixe:0
+                            },
+                            violence:{
+                                dice:dataC.salve.violence.dice,
+                                fixe:0,
+                            },
+                            type:'distance',
+                            effets:{
+                                raw:dataC.salve.effets.raw,
+                                custom:dataC.salve.effets.custom,
+                            },
+                            cout:dataC.energie,
+                            espoir:dataC.espoir,
+                            portee:dataC.salve.portee,
+                        }
+
+                        let systemRayonC = {
+                            degats:{
+                                dice:dataC.rayon.degats.dice,
+                                fixe:0
+                            },
+                            violence:{
+                                dice:dataC.rayon.violence.dice,
+                                fixe:0,
+                            },
+                            type:'contact',
+                            effets:{
+                                raw:dataC.rayon.effets.raw,
+                                custom:dataC.rayon.effets.custom,
+                            },
+                            cout:dataC.energie,
+                            espoir:dataC.espoir,
+                            portee:dataC.rayon.portee,
+                        }
+
+                        let systemRayonD = {
+                            degats:{
+                                dice:dataC.rayon.degats.dice,
+                                fixe:0
+                            },
+                            violence:{
+                                dice:dataC.rayon.violence.dice,
+                                fixe:0,
+                            },
+                            type:'distance',
+                            effets:{
+                                raw:dataC.rayon.effets.raw,
+                                custom:dataC.rayon.effets.custom,
+                            },
+                            cout:dataC.energie,
+                            espoir:dataC.espoir,
+                            portee:dataC.rayon.portee,
+                        }
+
+                        this.#updatePassiveUltime(items, 'vague', systemVagueC);
+                        this.#updatePassiveUltime(items, 'vague', systemVagueD);
+
+                        this.#updatePassiveUltime(items, 'salve', systemSalveC);
+                        this.#updatePassiveUltime(items, 'salve', systemSalveD);
+
+                        this.#updatePassiveUltime(items, 'rayon', systemRayonC);
+                        this.#updatePassiveUltime(items, 'rayon', systemRayonD);
+
+                        let wpnVagueC = {
+                            name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label'),
+                            system:systemVagueC,
+                            id:`capacite_${armure.id}_${c}VagueC`
+                        };
+
+                        let wpnVagueD = {
+                            name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label'),
+                            system:systemVagueD,
+                            id:`capacite_${armure.id}_${c}VagueD`
+                        };
+
+                        let wpnSalveC = {
+                            name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label'),
+                            system:systemSalveC,
+                            id:`capacite_${armure.id}_${c}SalveC`
+                        };
+
+                        let wpnSalveD = {
+                            name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label'),
+                            system:systemSalveD,
+                            id:`capacite_${armure.id}_${c}SalveD`
+                        };
+
+                        let wpnRayonC = {
+                            name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label'),
+                            system:systemRayonC,
+                            id:`capacite_${armure.id}_${c}RayonC`
+                        };
+
+                        let wpnRayonD = {
+                            name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label'),
+                            system:systemRayonD,
+                            id:`capacite_${armure.id}_${c}RayonD`
+                        };
+
+                        contact.push(this.#addWpnContact(wpnVagueC, bonusContact));
+                        distance.push(this.#addWpnDistance(wpnVagueD, bonusDistance));
+
+                        contact.push(this.#addWpnContact(wpnSalveC, bonusContact));
+                        distance.push(this.#addWpnDistance(wpnSalveD, bonusDistance));
+
+                        contact.push(this.#addWpnContact(wpnRayonC, bonusContact));
+                        distance.push(this.#addWpnDistance(wpnRayonD, bonusDistance));
+                        break;
+
+                    case 'morph':
+                        const systemLame = {
+                            degats:{
+                                dice:dataC.polymorphie.lame.degats.dice,
+                                fixe:dataC.polymorphie.lame.degats.fixe,
+                            },
+                            violence:{
+                                dice:dataC.polymorphie.lame.violence.dice,
+                                fixe:dataC.polymorphie.lame.violence.fixe,
+                            },
+                            type:'contact',
+                            effets:{
+                                raw:dataC.polymorphie.lame.effets.raw,
+                                custom:dataC.polymorphie.lame.effets.custom,
+                            },
+                            portee:dataC.polymorphie.lame.portee,
+                        }
+
+                        const systemGriffe = {
+                            degats:{
+                                dice:dataC.polymorphie.griffe.degats.dice,
+                                fixe:dataC.polymorphie.griffe.degats.fixe,
+                            },
+                            violence:{
+                                dice:dataC.polymorphie.griffe.violence.dice,
+                                fixe:dataC.polymorphie.griffe.violence.fixe,
+                            },
+                            type:'contact',
+                            effets:{
+                                raw:dataC.polymorphie.griffe.effets.raw,
+                                custom:dataC.polymorphie.griffe.effets.custom,
+                            },
+                            portee:dataC.polymorphie.griffe.portee,
+                        }
+
+                        const systemCanon = {
+                            degats:{
+                                dice:dataC.polymorphie.canon.degats.dice,
+                                fixe:dataC.polymorphie.canon.degats.fixe,
+                            },
+                            violence:{
+                                dice:dataC.polymorphie.canon.violence.dice,
+                                fixe:dataC.polymorphie.canon.violence.fixe,
+                            },
+                            type:'distance',
+                            effets:{
+                                raw:dataC.polymorphie.canon.effets.raw,
+                                custom:dataC.polymorphie.canon.effets.custom,
+                            },
+                            portee:dataC.polymorphie.canon.portee,
+                        }
+
+                        this.#updatePassiveUltime(items, 'lame', systemLame);
+                        this.#updatePassiveUltime(items, 'griffe', systemGriffe);
+                        this.#updatePassiveUltime(items, 'canon', systemCanon);
+
+                        let wpnLame = {
+                            name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame')}`,
+                            system:systemLame,
+                            id:`capacite_${armure.id}_${c}Lame`
+                        };
+
+                        let wpnGriffe = {
+                            name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe')}`,
+                            system:systemGriffe,
+                            id:`capacite_${armure.id}_${c}Griffe`
+                        };
+
+                        let wpnCanon = {
+                            name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon')}`,
+                            system:systemCanon,
+                            id:`capacite_${armure.id}_${c}Canon`
+                        };
+
+                        if(dataC?.active?.polymorphieLame ?? false) contact.push(this.#addWpnContact(wpnLame, bonusContact));
+                        if(dataC?.active?.polymorphieGriffe ?? false) contact.push(this.#addWpnContact(wpnGriffe, bonusContact));
+                        if(dataC?.active?.polymorphieCanon ?? false) distance.push(this.#addWpnDistance(wpnCanon, bonusContact));
+                        break;
+
+                    case 'longbow':
+                        const dgtsMin = dataC.degats.min;
+                        const dgtsMax = dataC.degats.max;
+                        const degatsList = Object.fromEntries(Array.from({length: dgtsMax - dgtsMin + 1}, (_, i) => [dgtsMin + i, `${dgtsMin + i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`]));
+                        const violenceMin = dataC.violence.min;
+                        const violenceMax = dataC.violence.max;
+                        const violenceList = Object.fromEntries(Array.from({length: violenceMax - violenceMin + 1}, (_, i) => [violenceMin + i, `${violenceMin + i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`]));
+                        const rangeList = {moyenne:game.i18n.localize('KNIGHT.PORTEE.Moyenne'), longue:game.i18n.localize('KNIGHT.PORTEE.Longue'), lointaine:game.i18n.localize('KNIGHT.PORTEE.Lointaine')};
+                        const getComplexeWpn = this.rollData?.allComplexeWpn?.find(itm => itm.id === `capacite_${armure.id}_${c}`) ?? {};
+                        const porteeMin = dataC.portee.min;
+                        const porteeMax = dataC.portee.max;
+                        let rangeToNumber = {};
+                        let register = false;
+                        let value = 0;
+
+                        for(let r in CONFIG.KNIGHT.LIST.portee) {
+                            if(r === porteeMin && !register) register = true;
+
+                            if(register) {
+                                rangeToNumber[r] = value;
+                                value++;
+                            }
+
+                            if(r === porteeMax && register) break;
+                        }
+
+                        const possibility = {
+                            possibility:{
+                                portee:{
+                                    list:rangeList,
+                                    energie:rangeToNumber,
+                                    min:porteeMin,
+                                },
+                                degats:{
+                                    list:degatsList,
+                                    energie:dataC.degats.energie,
+                                    min:dgtsMin,
+                                },
+                                violence:{
+                                    list:violenceList,
+                                    energie:dataC.violence.energie,
+                                    min:violenceMin,
+                                },
+                                classes:'twoCol',
+                                effets:{
+                                    bases:dataC.effets.base.raw,
+                                },
+                                liste1:{
+                                    energie:dataC.effets.liste1.energie,
+                                    raw:dataC.effets.liste1.raw,
+                                    custom:dataC.effets.liste1.custom,
+                                    liste:listEffects(dataC.effets.liste1.raw, dataC.effets.liste1.custom, labels),
+                                },
+                                liste2:{
+                                    energie:dataC.effets.liste2.energie,
+                                    raw:dataC.effets.liste2.raw,
+                                    custom:dataC.effets.liste2.custom,
+                                    liste:listEffects(dataC.effets.liste2.raw, dataC.effets.liste2.custom, labels),
+                                },
+                            }
+                        }
+
+                        if(dataC.effets.liste3.acces) {
+                            possibility.possibility.liste3 = {
+                                energie:dataC.effets.liste3.energie,
+                                raw:dataC.effets.liste3.raw,
+                                custom:dataC.effets.liste3.custom,
+                                liste:listEffects(dataC.effets.liste3.raw, dataC.effets.liste3.custom, labels),
+                            };
+
+                            possibility.possibility.classes = 'threeCol';
+                        }
+
+                        const wpnLongbow = {
+                            name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label'),
+                            id:`capacite_${armure.id}_${c}`,
+                            system:{
+                                cout:0,
+                                portee:dataC.portee.min,
+                                type:'distance',
+                                degats:{
+                                    dice:dgtsMin,
+                                    fixe:0,
+                                },
+                                violence:{
+                                    dice:violenceMin,
+                                    fixe:0,
+                                },
+                                effets:{
+                                    raw:dataC.effets.base.raw,
+                                    custom:dataC.effets.base.custom,
+                                },
+                                distance:{
+                                    raw:dataC.distance.raw,
+                                    custom:dataC.distance.custom,
+                                }
+                            }
+                        }
+
+                        let getWpnLongbow = this.#addWpnDistance(wpnLongbow, bonusDistance);
+                        foundry.utils.mergeObject(getWpnLongbow, possibility);
+                        foundry.utils.mergeObject(getWpnLongbow, getComplexeWpn);
+
+                        complexe.push(getWpnLongbow);
+                        break;
+                }
+            }
+        }
+
+        for(let c of pnjCapacites) {
+            const type = c.system.attaque.type;
+
+            let wpn = {
+                name:c.name,
+                system:c.system.attaque,
+                id:`pnjcapacite_${c.id}`
+            };
+
+            if(type === 'contact') contact.push(this.#addWpnContact(wpn, bonusContact));
+            else if(type === 'distance') distance.push(this.#addWpnDistance(wpn, bonusDistance));
+        }
+
+        for(let m in listeModulesMechaArmure) {
+            const data = listeModulesMechaArmure[m];
+            let wpn = {};
+
+            switch(m) {
+                case 'lamesCinetiquesGeantes':
+                    wpn = {
+                        id:`ma_${actor.id}_lamesCinetiquesGeantes`,
+                        name:game.i18n.localize('KNIGHT.MECHAARMURE.MODULES.LAMESCINETIQUESGEANTES.Label'),
+                        system:data,
+                    }
+
+                    wpn.system.cout = data?.noyaux ?? 0;
+
+                    contact.push(this.#addWpnContact(wpn, bonusContact));
+                    break;
+
+                case 'canonMetatron':
+                    wpn = {
+                        id:`ma_${actor.id}_canonMetatron`,
+                        name:game.i18n.localize('KNIGHT.MECHAARMURE.MODULES.CANONMETATRON.Label'),
+                        system:data,
+                    }
+
+                    wpn.system.cout = data?.noyaux ?? 0;
+
+                    distance.push(this.#addWpnDistance(wpn, bonusDistance));
+                    break;
+
+                case 'canonMagma':
+                    wpn = {
+                        id:`ma_${actor.id}_canonMagma`,
+                        name:game.i18n.localize('KNIGHT.MECHAARMURE.MODULES.CANONMAGMA.Label'),
+                        system:data,
+                    }
+
+                    wpn.system.cout = data?.noyaux?.simple ?? 0;
+
+                    distance.push(this.#addWpnDistance(wpn, bonusDistance));
+                    break;
+
+                case 'mitrailleusesSurtur':
+                    wpn = {
+                        id:`ma_${actor.id}_mitrailleusesSurtur`,
+                        name:game.i18n.localize('KNIGHT.MECHAARMURE.MODULES.MITRAILLEUSESSURTUR.Label'),
+                        system:data,
+                    }
+
+                    wpn.system.cout = data?.noyaux ?? 0;
+
+                    distance.push(this.#addWpnDistance(wpn, bonusDistance));
+                    break;
+
+                case 'souffleDemoniaque':
+                    wpn = {
+                        id:`ma_${actor.id}_souffleDemoniaque`,
+                        name:game.i18n.localize('KNIGHT.MECHAARMURE.MODULES.SOUFFLEDEMONIAQUE.Label'),
+                        system:data,
+                    }
+
+                    wpn.system.cout = data?.noyaux ?? 0;
+
+                    distance.push(this.#addWpnDistance(wpn, bonusDistance));
+                    break;
+
+                case 'poingsSoniques':
+                    wpn = {
+                        id:`ma_${actor.id}_poingsSoniques`,
+                        name:game.i18n.localize('KNIGHT.MECHAARMURE.MODULES.POINGSSONIQUES.Label'),
+                        system:data,
+                    }
+
+                    wpn.system.cout = data?.noyaux ?? 0;
+
+                    contact.push(this.#addWpnContact(wpn, bonusContact));
+                    break;
+            }
+        }
+
+        this.rollData.typeWpn.contact = contact;
+        this.rollData.typeWpn.distance = distance;
+        this.rollData.typeWpn.aicontact = aicontact;
+        this.rollData.typeWpn.aidistance = aidistance;
+        this.rollData.typeWpn.grenade = grenade;
+        this.rollData.typeWpn.tourelle = tourelle;
+        this.rollData.typeWpn.complexe = complexe;
+
+        return {
+            listaicontact,
+            listaidistance,
+            complexeLabel:armure?.name ?? '',
+        }
+    }
+
+    #addWpnContact(wpn, modules, addSpecial=true) {
+        const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const system = wpn.system;
+        let raw = [];
+        let specialRaw = [];
+        let specialCustom = [];
+        let data = {
+            label:wpn.name,
+            portee:system?.portee ?? '',
+            classes:'btnWpn',
+            options:[],
+            type:'contact',
+            cout:system?.cout ?? 0,
+            espoir:system?.espoir ?? 0,
+            bonus:{
+                degats:{
+                    dice:modules?.degats?.dice ?? 0,
+                    fixe:modules?.degats?.fixe ?? 0,
+                    titleDice:modules?.degats?.titleDice ?? '',
+                    titleFixe:modules?.degats?.titleFixe ?? '',
+                },
+                violence:{
+                    dice:modules?.violence?.dice ?? 0,
+                    fixe:modules?.violence?.fixe ?? 0,
+                    titleDice:modules?.violence?.titleDice ?? '',
+                    titleFixe:modules?.violence?.titleFixe ?? '',
+                }
+            }
+        };
+        let raw1 = system?.eff1?.effets?.raw ?? [];
+        let raw2 = system?.eff2?.effets?.raw ?? [];
+        let custom1 = system?.eff1?.effets?.custom ?? [];
+        let custom2 = system?.eff2?.effets?.custom ?? [];
+
+        data.id = wpn.id;
+
+        if(armure && addSpecial) {
+            if(armure.system.special.selected?.porteurlumiere ?? undefined) {
+                specialRaw = specialRaw.concat(armure.system.special.selected.porteurlumiere.bonus.effets.raw)
+                specialCustom = specialCustom.concat(armure.system.special.selected.porteurlumiere.bonus.effets.custom)
+            }
+        }
+
+        if(!system?.options2mains?.has ?? false) {
+            data.effets = {
+                raw:system?.effets?.raw ?? [],
+                custom:system?.effets?.custom ?? [],
+            };
+            data.structurelles = {
+                raw:system?.structurelles?.raw ?? [],
+                custom:system?.structurelles?.custom ?? [],
+            };
+            data.ornementales = {
+                raw:system?.ornementales?.raw ?? [],
+                custom:system?.ornementales?.custom ?? [],
+            };
+
+            data.effets.raw = data.effets.raw.concat(specialRaw);
+            data.effets.custom = data.effets.custom.concat(specialCustom);
+
+            raw = data.effets.raw.concat(system?.structurelles?.raw ?? [], system?.ornementales?.raw ?? []);
+
+            if(!system?.degats?.variable?.has ?? false) data.degats = {dice:system?.degats?.dice ?? 0, fixe:system?.degats?.fixe ?? 0};
+            else {
+                const list = {};
+                const min = system?.degats?.variable?.min?.dice ?? 0;
+                const max = system?.degats?.variable?.max?.dice ?? min;
+                let classes = [];
+
+                for (let i = min; i <= max; i++) {
+                    list[i] = system?.degats?.variable?.min?.fixe ?? 0 ? `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6+${min.fixe}` : `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+                }
+
+                classes.push('selectDouble', 'dgtsvariable');
+
+                if(!system?.violence?.variable?.has ?? false) classes.push('full');
+
+                data.options.push({
+                    key:'select',
+                    classes:classes.join(' '),
+                    label:game.i18n.localize('KNIGHT.AUTRE.Degats'),
+                    list:list,
+                    selected:min,
+                    value:system?.degats?.variable?.cout ?? 0,
+                    selectvalue:system?.degats?.variable?.min?.fixe ?? 0,
+                });
+
+                data.degats = {dice:min, fixe:system?.degats?.variable?.min?.fixe ?? 0};
+            }
+
+            if(!system?.violence?.variable?.has ?? false) data.violence = {dice:system?.violence?.dice ?? 0, fixe:system?.violence?.fixe ?? 0};
+            else {
+                const list = {};
+                const min = system?.violence?.variable?.min?.dice ?? 0;
+                const max = system?.violence?.variable?.max?.dice ?? min;
+                let classes = [];
+
+                for (let i = min; i <= max; i++) {
+                    list[i] = system?.violence?.variable?.min?.fixe ?? 0 ? `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6+${min.fixe}` : `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+                }
+
+                classes.push('selectDouble', 'violencevariable');
+
+                if(!system?.degats?.variable?.has ?? false) classes.push('full');
+
+                data.options.push({
+                    key:'select',
+                    classes:classes.join(' '),
+                    label:game.i18n.localize('KNIGHT.AUTRE.Violence'),
+                    list:list,
+                    selected:min,
+                    value:system?.violence?.variable?.cout ?? 0,
+                    selectvalue:system?.violence?.variable?.min?.fixe ?? 0,
+                });
+
+                data.violence = {dice:min, fixe:system?.violence?.variable?.min?.fixe ?? 0};
+            }
+
+        } else {
+            const list = {};
+
+            list['1main'] = game.i18n.localize('KNIGHT.ITEMS.ARME.DEUXMAINS.Unemain');
+            list['2main'] = game.i18n.localize('KNIGHT.ITEMS.ARME.DEUXMAINS.Deuxmains');
+
+            data.actuel = system.options2mains.actuel;
+
+            if(system.options2mains.actuel === '1main') {
+                data.degats = {dice:system?.options2mains?.['1main']?.degats?.dice ?? 0, fixe:system?.options2mains?.['1main']?.degats.fixe ?? 0};
+                data.violence = {dice:system?.options2mains?.['1main']?.violence?.dice ?? 0, fixe:system?.options2mains?.['1main']?.violence?.fixe ?? 0};
+
+                data.effets = {
+                    raw:system?.effets?.raw ?? [],
+                    custom:system?.effets?.custom ?? [],
+                };
+                data.structurelles = {
+                    raw:system?.structurelles?.raw ?? [],
+                    custom:system?.structurelles?.custom ?? [],
+                };
+                data.ornementales = {
+                    raw:system?.ornementales?.raw ?? [],
+                    custom:system?.ornementales?.custom ?? [],
+                };
+
+                data.effets.raw = data.effets.raw.concat(specialRaw);
+                data.effets.custom = data.effets.custom.concat(specialCustom);
+
+                raw = data.effets.raw.concat(system?.structurelles?.raw, system?.ornementales?.raw);
+            }
+            else {
+                data.degats = {dice:system?.options2mains?.['2main']?.degats?.dice ?? 0, fixe:system?.options2mains?.['2main']?.degats.fixe ?? 0};
+                data.violence = {dice:system?.options2mains?.['2main']?.violence?.dice ?? 0, fixe:system?.options2mains?.['2main']?.violence?.fixe ?? 0};
+
+                data.effets = {
+                    raw:system?.effets2mains?.raw ?? [],
+                    custom:system?.effets2mains?.custom ?? [],
+                };
+                data.structurelles = {
+                    raw:system?.structurelles?.raw ?? [],
+                    custom:system?.structurelles?.custom ?? [],
+                };
+                data.ornementales = {
+                    raw:system?.ornementales?.raw ?? [],
+                    custom:system?.ornementales?.custom ?? [],
+                };
+
+                data.effets.raw = data.effets.raw.concat(specialRaw);
+                data.effets.custom = data.effets.custom.concat(specialCustom);
+
+                raw = data.effets.raw.concat(system.structurelles.raw, system.ornementales.raw);
+            }
+
+            let classes = [];
+            classes.push('selectSimple mains full');
+
+            data.options.push({
+                key:'select',
+                classes:classes.join(' '),
+                list:list,
+                selected:data.actuel,
+            });
+        }
+
+        data.degats.addchair = system?.degats?.addchair ?? true;
+        data.options = modules.options ? modules.options.concat(data.options) : data.options;
+
+        if(this.#hasEffet(raw, 'boostviolence')) {
+            let classes = ['selectDouble', 'boostviolence'];
+            const boostViolenceEntry = raw.find(entry => entry.includes("boostviolence"));
+            const boostViolenceValue = parseInt(boostViolenceEntry.split(' ')[1]);
+            const list = Array.from({length: boostViolenceValue+1}, (_, index) => [index, `${index}D6`]).reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
+
+            if(!this.#hasEffet(raw, 'boostdegats')) classes.push('full');
+
+            data.options.push({
+                key:'select',
+                classes:classes.join(' '),
+                label:game.i18n.localize(CONFIG.KNIGHT.effetsfm4.boostviolence.label),
+                list,
+                selected:0,
+                value:1,
+                selectvalue:0,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'boostdegats')) {
+            let classes = ['selectDouble', 'boostdegats'];
+            const boostDegatsEntry = raw.find(entry => entry.includes("boostdegats"));
+            const boostDegatsValue = parseInt(boostDegatsEntry.split(' ')[1]);
+            const list = Array.from({length: boostDegatsValue+1}, (_, index) => [index, `${index}D6`]).reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
+
+            if(!this.#hasEffet(raw, 'boostviolence')) classes.push('full');
+
+            data.options.push({
+                key:'select',
+                classes:classes.join(' '),
+                label:game.i18n.localize(CONFIG.KNIGHT.effetsfm4.boostdegats.label),
+                list,
+                selected:0,
+                value:1,
+                selectvalue:0,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'soeur')) {
+            let classes = ['jumelageambidextrie', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.SOEUR.Label'),
+                value:'soeur',
+                active:true,
+            });
+        } else if(this.#hasEffet(raw, 'jumelageambidextrie')) {
+            let classes = ['jumelageambidextrie', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.JUMELAGEAMBIDEXTRIE.Label'),
+                value:'jumelageambidextrie',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'barrage')) {
+            let classes = ['barrage', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.BARRAGE.Label'),
+                value:'barrage',
+                active:false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'chromeligneslumineuses')) {
+            let classes = ['cadence', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.CHROMELIGNESLUMINEUSES.Label'),
+                value:'chromeligneslumineuses',
+                active:false,
+            });
+        } else if(this.#hasEffet(raw, 'cadence')) {
+            let classes = ['cadence', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.CADENCE.Label'),
+                value:'cadence',
+                active:false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'guidage')) {
+            let classes = ['guidage', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.GUIDAGE.Label'),
+                value:'guidage',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'cranerieurgrave')) {
+            let classes = ['obliteration', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.CRANERIEURGRAVE.Label'),
+                value:'cranerieurgrave',
+                active:false,
+            });
+        } else if(this.#hasEffet(raw, 'obliteration')) {
+            let classes = ['obliteration', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.OBLITERATION.Label'),
+                value:'obliteration',
+                active:false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'tenebricide')) {
+            let classes = ['tenebricide', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.TENEBRICIDE.Label'),
+                value:'tenebricide',
+                active:false,
+            });
+        }
+
+        const localize = getAllEffects();
+
+        if(raw1 || custom1) data.eff1 = {
+            value:system?.eff1?.value ?? 0,
+            raw:raw1,
+            custom:custom1
+        }
+
+        if(raw2 || custom2) data.eff2 = {
+            value:system?.eff2?.value ?? 0,
+            raw:raw2,
+            custom:custom2
+        }
+
+        for(let r of raw1) {
+            const loc = localize[r.split(' ')[0]];
+            let classes = [r.split(' ')[0], 'active', 'full', 'effets1'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${r.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                value:r,
+                active:false,
+            });
+        }
+
+        for(let r of raw2) {
+            const loc = localize[r.split(' ')[0]];
+            let classes = [r.split(' ')[0], 'active', 'full', 'effets2'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${r.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                value:r,
+                active:false,
+            });
+        }
+
+        for(let r in custom1) {
+            let dataCustom = custom1[r];
+            let classes = [`${dataCustom.label.split(' ')[0]}_${r}_e1`, 'active', 'full', 'effets1'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:`${dataCustom.label}`,
+                value:dataCustom.label,
+                active:false,
+            });
+        }
+
+        for(let r in custom2) {
+            let dataCustom = custom2[r];
+            let classes = [`${dataCustom.label.split(' ')[0]}_${r}_e2`, 'active', 'full', 'effets2'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:`${dataCustom.label}`,
+                value:dataCustom.label,
+                active:false,
+            });
+        }
+
+        data.options.sort((a, b) => {
+            if (a.classes.includes('violencevariable')) return -1;
+            if (b.classes.includes('violencevariable')) return 1;
+            if (a.classes.includes('dgtsvariable')) return -1;
+            if (b.classes.includes('dgtsvariable')) return 1;
+            if (a.key === 'select') return -1;
+            if (b.key === 'select') return 1;
+            if (a.classes.includes('roll')) return -1;
+            if (b.classes.includes('roll')) return 1;
+            if (a.key === 'btn' && b.key !== 'btn') return 1;
+            if (a.key !== 'btn' && b.key === 'btn') return -1;
+            return a.label.localeCompare(b.label);
+        });
+
+        return data;
+    }
+
+    #addWpnDistance(wpn, modules, addSpecial=true) {
+        const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const system = wpn.system;
+        let raw = [];
+        let specialRaw = [];
+        let specialCustom = [];
+
+        let data = {
+            id:wpn?.id ?? '',
+            label:wpn.name,
+            classes:'btnWpn',
+            options:[],
+            type:'distance',
+            cout:system?.cout ?? 0,
+            espoir:system?.espoir ?? 0,
+            bonus:{
+                degats:{
+                    dice:modules?.degats?.dice ?? 0,
+                    fixe:modules?.degats?.fixe ?? 0,
+                    titleDice:modules?.degats?.titleDice ?? '',
+                    titleFixe:modules?.degats?.titleFixe ?? '',
+                },
+                violence:{
+                    dice:modules?.violence?.dice ?? 0,
+                    fixe:modules?.violence?.fixe ?? 0,
+                    titleDice:modules?.violence?.titleDice ?? '',
+                    titleFixe:modules?.violence?.titleFixe ?? '',
+                }
+            }
+        };
+
+        if(system?.portee ?? undefined) data.portee = system.portee;
+        data.id = wpn.id;
+
+        if(armure && addSpecial) {
+            if(armure.system.special.selected?.porteurlumiere ?? undefined) {
+                specialRaw = specialRaw.concat(armure.system.special.selected.porteurlumiere.bonus.effets.raw)
+                specialCustom = specialCustom.concat(armure.system.special.selected.porteurlumiere.bonus.effets.custom)
+            }
+        }
+
+        if(wpn.id === this.rollData.wpnSelected) data.classes += ' selected';
+
+        if(!system?.optionsmunitions?.has ?? false) {
+            data.effets = {
+                raw:system?.effets?.raw ?? [],
+                custom:system?.effets?.custom ?? [],
+            };
+            data.distance = {
+                raw:system?.distance?.raw ?? [],
+                custom:system?.distance?.custom ?? [],
+            };
+
+            data.effets.raw = data.effets.raw.concat(specialRaw);
+            data.effets.custom = data.effets.custom.concat(specialCustom);
+
+            raw = system.effets.raw.concat(system?.distance?.raw ?? []);
+
+            if(!system?.degats?.variable?.has ?? false) data.degats = {dice:system?.degats?.dice ?? 0, fixe:system?.degats?.fixe ?? 0};
+            else {
+                const list = {};
+                const min = system.degats.variable.min;
+                const max = system.degats.variable.max;
+                let classes = [];
+
+                for (let i = min.dice; i <= max.dice; i++) {
+                    list[i] = min.fixe ? `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6+${min.fixe}` : `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+                }
+
+                classes.push('selectDouble', 'dgtsvariable');
+
+                if(!system.violence.variable.has) classes.push('full');
+
+                data.options.push({
+                    key:'select',
+                    classes:classes.join(' '),
+                    label:game.i18n.localize('KNIGHT.AUTRE.Degats'),
+                    list:list,
+                    selected:min.dice,
+                    value:system.degats.variable.cout,
+                    selectvalue:min.fixe,
+                });
+
+                data.degats = {dice:min.dice, fixe:min.fixe};
+            }
+
+            if(!system?.violence?.variable?.has ?? false) data.violence = {dice:system?.violence?.dice ?? 0, fixe:system?.violence?.fixe ?? 0};
+            else {
+                const list = {};
+                const min = system.violence.variable.min;
+                const max = system.violence.variable.max;
+                let classes = [];
+
+                for (let i = min.dice; i <= max.dice; i++) {
+                    list[i] = min.fixe ? `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6+${min.fixe}` : `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+                }
+
+                classes.push('selectDouble', 'violencevariable');
+
+                if(!system.degats.variable.has) classes.push('full');
+
+                data.options.push({
+                    key:'select',
+                    classes:classes.join(' '),
+                    label:game.i18n.localize('KNIGHT.AUTRE.Violence'),
+                    list:list,
+                    selected:min.dice,
+                    value:system.violence.variable.cout,
+                    selectvalue:min.fixe,
+                });
+
+                data.violence = {dice:min.dice, fixe:min.fixe};
+            }
+
+        } else {
+            const listMunitions = system.optionsmunitions.liste;
+            const list = {};
+
+            data.munitions = {};
+
+            for(let m in listMunitions) {
+                list[m] = `${game.i18n.localize('KNIGHT.ITEMS.ARME.MUNITIONS.Label')} : ${listMunitions[m].nom}`;
+                data.munitions[m] = listMunitions[m];
+            }
+
+            data.actuel = system.optionsmunitions.actuel;
+
+            data.degats = data.munitions[data.actuel].degats;
+            data.violence = data.munitions[data.actuel].violence;
+
+            raw = system.effets.raw.concat(data.munitions[data.actuel].raw)
+
+            data.effets = {
+                raw:raw,
+                custom:system.effets.custom.concat(data.munitions[data.actuel].custom),
+            };
+
+            data.distance = {
+                raw:system.distance.raw,
+                custom:system.distance.custom,
+            };
+
+            data.effets.raw = data.effets.raw.concat(specialRaw);
+            data.effets.custom = data.effets.custom.concat(specialCustom);
+
+            let classes = [];
+            classes.push('selectSimple munitions full');
+
+            data.options.push({
+                key:'select',
+                classes:classes.join(' '),
+                list:list,
+                selected:data.actuel,
+            });
+        }
+
+        if(system?.tourelle?.has ?? false) {
+            data.tourelle = {
+                dice:system.tourelle.attaque.dice,
+                fixe:system.tourelle.attaque.fixe,
+            }
+        }
+
+        data.options = modules.options ? modules.options.concat(data.options) : data.options;
+
+        if(this.#hasEffet(raw, 'boostviolence')) {
+            let classes = ['selectDouble', 'boostviolence'];
+            const boostViolenceEntry = raw.find(entry => entry.includes("boostviolence"));
+            const boostViolenceValue = parseInt(boostViolenceEntry.split(' ')[1]);
+            const list = Array.from({length: boostViolenceValue+1}, (_, index) => [index, `${index}D6`]).reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
+
+            if(!this.#hasEffet(raw, 'boostdegats')) classes.push('full');
+
+            data.options.push({
+                key:'select',
+                classes:classes.join(' '),
+                label:game.i18n.localize(CONFIG.KNIGHT.effetsfm4.boostviolence.label),
+                list,
+                selected:0,
+                value:1,
+                selectvalue:0,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'boostdegats')) {
+            let classes = ['selectDouble', 'boostdegats'];
+            const boostDegatsEntry = raw.find(entry => entry.includes("boostdegats"));
+            const boostDegatsValue = parseInt(boostDegatsEntry.split(' ')[1]);
+            const list = Array.from({length: boostDegatsValue+1}, (_, index) => [index, `${index}D6`]).reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
+
+            if(!this.#hasEffet(raw, 'boostviolence')) classes.push('full');
+
+            data.options.push({
+                key:'select',
+                classes:classes.join(' '),
+                label:game.i18n.localize(CONFIG.KNIGHT.effetsfm4.boostdegats.label),
+                list,
+                selected:0,
+                value:1,
+                selectvalue:0,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'tirenrafale')) {
+            let classes = ['tirenrafale', 'center', 'roll', 'full'];
+
+            data.options.push({
+                key:'btn',
+                special:'roll',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.TIRENRAFALE.Label'),
+                title:game.i18n.localize('KNIGHT.EFFETS.TIRENRAFALE.Relance'),
+            });
+        }
+
+        if(this.#hasEffet(raw, 'soeur')) {
+            let classes = ['jumelageambidextrie', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.SOEUR.Label'),
+                value:'soeur',
+                active:true,
+            });
+        } else if(this.#hasEffet(raw, 'jumelageambidextrie')) {
+            let classes = ['jumelageambidextrie', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.JUMELAGEAMBIDEXTRIE.Label'),
+                value:'jumelageambidextrie',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'barrage') && !this.#hasEffet(raw, 'aucundegatsviolence')) {
+            let classes = ['barrage', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.BARRAGE.Label'),
+                value:'barrage',
+                active:false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'chromeligneslumineuses')) {
+            let classes = ['cadence', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.CHROMELIGNESLUMINEUSES.Label'),
+                value:'chromeligneslumineuses',
+                active:false,
+            });
+        } else if(this.#hasEffet(raw, 'cadence')) {
+            let classes = ['cadence', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.CADENCE.Label'),
+                value:'cadence',
+                active:false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'guidage')) {
+            let classes = ['guidage', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.GUIDAGE.Label'),
+                value:'guidage',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'cranerieurgrave')) {
+            let classes = ['obliteration', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.CRANERIEURGRAVE.Label'),
+                value:'cranerieurgrave',
+                active:false,
+            });
+        } else if(this.#hasEffet(raw, 'obliteration')) {
+            let classes = ['obliteration', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.OBLITERATION.Label'),
+                value:'obliteration',
+                active:false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'tenebricide')) {
+            let classes = ['tenebricide', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.TENEBRICIDE.Label'),
+                value:'tenebricide',
+                active:false,
+            });
+        }
+
+        data.options.sort((a, b) => {
+            if (a.key === 'select') return -1;
+            if (b.key === 'select') return 1;
+            if (a.classes.includes('roll')) return -1;
+            if (b.classes.includes('roll')) return 1;
+            if (a.key === 'btn' && b.key !== 'btn') return 1;
+            if (a.key !== 'btn' && b.key === 'btn') return -1;
+            return a.label.localeCompare(b.label);
+        });
+
+        return data;
+    }
+
+    #renderHTML(html) {
+        this.data.roll.html = html;
+
+        toggler.init(this.id, html);
+        this.#renderSTD(html);
+        this.#renderWpn(html);
+
+        html.find('.aspect button.btnCaracteristique.selected i').addClass('fa-solid fa-check');
+        html.find('.aspect button.btnCaracteristique.base i').removeClass('fa-solid fa-check fa-check-double');
+        html.find('.aspect button.btnCaracteristique.base i').addClass('fa-solid fa-check-double');
+
+        html.find('.aspect button.btnCaracteristique').click(ev => {
+            const tgt = $(ev.currentTarget);
+            const isPJ = this.isPJ;
+            const carac = tgt.data("value");
+            const isSelected = tgt.hasClass('selected');
+            const parents = tgt.parents('div.aspects');
+            const hasAlreadyBase = $(parents.find('button.btnCaracteristique.base')).length > 0;
+
+            if(!tgt.hasClass('wHover')) return;
+
+
+            if(isPJ) {
+                const isBase = tgt.hasClass('base');
+
+                if(isSelected) {
+                    tgt.removeClass('selected');
+                    tgt.find('i').removeClass('fa-solid fa-check')
+
+                    this.data.roll.whatRoll = this.rollData.whatRoll.filter(roll => roll !== carac);
+                } else {
+                    tgt.addClass(`selected`);
+
+                    if(hasAlreadyBase) {
+                        this.data.roll.whatRoll.push(carac);
+                        tgt.find('i').removeClass('fa-solid fa-check fa-check-double')
+                        tgt.find('i').addClass('fa-solid fa-check')
+                    }
+                    else {
+                        this.data.roll.base = carac;
+                        tgt.addClass('base');
+                        tgt.find('i').addClass('fa-solid fa-check-double')
+                    }
+                }
+
+                if(isBase) {
+                    let whatRoll = this.rollData?.whatRoll ?? [];
+                    tgt.removeClass('base');
+
+                    if(whatRoll.length === 0) this.data.roll.base = "";
+                    else if(whatRoll) {
+                        for(let w of whatRoll) {
+                            if($(parents.find(`button.btnCaracteristique.${w}`)).hasClass('wHover')) {
+                                $(parents.find(`button.btnCaracteristique.${w}`)).addClass('base');
+                                $(parents.find(`button.btnCaracteristique.${w} i`)).removeClass('fa-solid fa-check fa-check-double');
+                                $(parents.find(`button.btnCaracteristique.${w} i`)).addClass('fa-solid fa-check-double');
+
+                                this.data.roll.base = w;
+                                this.data.roll.whatRoll = this.rollData.whatRoll.filter(roll => roll !== w);
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else {
+                if(isSelected) {
+                    tgt.removeClass('selected base');
+                    tgt.find('i').removeClass('fa-solid fa-check-double');
+                    this.data.roll.base = '';
+                } else {
+                    if(hasAlreadyBase) {
+                        $(parents.find('button.btnCaracteristique.base')).find('i').removeClass('fa-solid fa-check-double');
+                        $(parents.find('button.btnCaracteristique.base')).removeClass('selected base');
+                    }
+
+                    tgt.addClass('selected base');
+                    tgt.find('i').addClass('fa-solid fa-check-double');
+
+                    this.data.roll.base = carac;
+                }
+            }
+        });
+
+        this.#updateBonusInterdits(undefined, html);
+    }
+
+    #renderSTD(html) {
+        this.#renderInitialization(html);
+        const allBtn = html.find('label.btn');
+        const allScoredice = html.find('div.scoredice');
+
+        html.find('label.selectWithInfo span.info').mouseenter(ev => {
+            html.find('label.selectWithInfo span.hideInfo').css("display", "block");
+        });
+
+        html.find('label.selectWithInfo span.info').mouseleave(ev => {
+            html.find('label.selectWithInfo span.hideInfo').css("display", "none");
+        });
+
+        for(let b of allBtn) {
+            const name = $(b).data('name');
+            const btn = this.rollData?.btn?.[name] ?? false;
+
+            if(btn) {
+                $(b).find('button').addClass('selected');
+                $(b).find('button i').addClass('fa-solid fa-check');
+            }
+            else {
+                $(b).find('button').removeClass('selected');
+                $(b).find('button i').removeClass('fa-solid fa-check');
+            }
+
+            $(b).find('button').click(ev => {
+                const tgt = $(ev.currentTarget);
+                const name = $(tgt).parents('label.btn').data('name');
+                const btn = this.rollData?.btn?.[name] ?? false;
+
+                if(btn) {
+                    this.data.roll.btn[name] = false;
+                    tgt.removeClass('selected');
+                    tgt.find('i').removeClass('fa-solid fa-check');
+                }
+                else {
+                    this.data.roll.btn[name] = true;
+                    tgt.addClass('selected');
+                    tgt.find('i').addClass('fa-solid fa-check');
+                }
+            })
+        }
+
+        for(let b of allScoredice) {
+            const key = $(b).data('key');
+            const dice = this.rollData?.scoredice?.[key]?.dice ?? 0;
+            const value = this.rollData?.scoredice?.[key]?.value ?? 0;
+
+            $(b).find('input.dice').val(dice);
+            $(b).find('input.value').val(value);
+
+            $(b).find('input').change(ev => {
+                const tgt = $(ev.currentTarget);
+                const key = $(tgt).parents('div.scoredice').data('key');
+                const subkey = $(tgt).data('key');
+                const value = tgt.val();
+                const exist = this.rollData?.scoredice?.[key] ?? undefined;
+
+                if(!exist) this.data.roll.scoredice[key] = {dice:0, value:0};
+
+                this.data.roll.scoredice[key][subkey] = value;
+            })
+        }
+    }
+
+    #renderInitialization(html) {
+        const scores = ['difficulte', 'succesBonus', 'modificateur'];
+        const actor = this.actor.type === 'vehicule' ? this.who : this.actor;
+        const style = actor.system.combat.style;
+        const isPJ = this.isPJ;
+
+        html.find('input.label').val(this.rollData.label);
+        html.find('label.style select').val(style);
+        html.find('label.style span.hideInfo').remove();
+        html.find('label.style').append(`<span class="hideInfo" style="display:none;">${game.i18n.localize(CONFIG.KNIGHT.styles[style])}</span>`);
+
+        const aspects = html.find('.aspect button.btnCaracteristique');
+
+        for(let a of aspects) {
+            const value = $(a).data('value');
+            let setValue = `${this.#getValueAspect(actor, value)}`;
+
+            if(value === this.rollData.base) $(a).addClass('selected base');
+            else if(this.rollData.whatRoll.includes(value)) $(a).addClass('selected');
+
+            if((actor.system.wear === 'armure' || actor.system.wear === 'ascension') && isPJ) setValue += ` + ${this.#getODAspect(actor, value)} ${game.i18n.localize('KNIGHT.ASPECTS.OD')}`
+            else if(!isPJ) setValue += ` + ${this.#getODAspect(actor, value)} ${game.i18n.localize('KNIGHT.ASPECTS.Exceptionnel-short')}`
+
+            $(a).find('span.value').text(setValue)
+
+            this.#updateBonusInterdits(a, html);
+        }
+
+        for(let s of scores) {
+            html.find(`label.score.${s} input`).val(this.rollData[s]);
+        }
+
+        html.find('.pilonnage select').val(this.rollData.style.pilonnage.type);
+        html.find('.precis select').val(this.rollData.style.precis.type);
+        html.find('.puissant select').val(this.rollData.style.puissant.type);
+        html.find('.suppression select').val(this.rollData.style.suppression.type);
+
+        html.find('.pilonnage input').val(this.rollData.style.pilonnage.value);
+        html.find('.puissant input').val(this.rollData.style.puissant.value);
+        html.find('.suppression input').val(this.rollData.style.suppression.value);
+
+        this.#updateStyleShow(style, undefined);
+        this.#updateBtnShow(false, true);
+    }
+
+    #renderWpn(html) {
+        const parent = html.find('div.wpn');
+        const allWpn = parent.find('div.button');
+
+        html.find('div.wpn i.fa-minus-square').click(ev => {
+            const tgt = $(ev.currentTarget);
+
+            if(!tgt.hasClass('fa-plus-square')) {
+                const child = tgt.parents('.summary').siblings('.cat').find('div.button').not('.selected');
+
+                tgt.parents('.summary').siblings('.cat').find('h3.summary i').removeClass('fa-minus-square');
+                tgt.parents('.summary').siblings('.cat').find('h3.summary i').addClass('fa-plus-square');
+
+                child.hide({
+                    complete: () => {},
+                });
+
+            }
+        });
+
+        for(let w of allWpn) {
+            const id = $(w).data('id');
+
+            if(id === this.rollData.wpnSelected) this.#selectWpn($(w).find('button.btnWpn'), true);
+            else this.#unselectWpn($(w).find('button.btnWpn'));
+        }
+
+        parent.find('button.btnWpn').click(ev => {
+            const tgt = $(ev.currentTarget);
+            const isSelected = tgt.hasClass('selected');
+
+            if(isSelected) this.#unselectWpn(tgt);
+            else this.#selectWpn(tgt);
+
+            if(isSelected) this.#updateBtnShow(true);
+            else this.#updateBtnShow();
+        });
+
+        const mainsWpn = parent.find('div.data .selectSimple.mains');
+        const munitionsWpn = parent.find('div.data .selectSimple.munitions');
+        const initWpn = parent.find('div.data button.active');
+        const dgtsWpn = parent.find('div.data label.dgtsvariable');
+        const violenceWpn = parent.find('div.data label.violencevariable');
+        const dgtsBonusWpn = parent.find('div.data label.dgtsbonusvariable');
+        const violenceBonusWpn = parent.find('div.data label.violencebonusvariable');
+        const boostdegats = parent.find('div.data label.boostdegats');
+        const boostviolence = parent.find('div.data label.boostviolence');
+
+        for(let w of mainsWpn) {
+            const parent = $(w).parents('div.button');
+            const id = $(parent).data('id');
+            const select = $(w).find('select');
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+
+            select.val(wpn.actuel);
+
+            $(select).change(ev => {
+                const tgt = $(ev.currentTarget);
+                const value = tgt.val();
+
+                this.#updateWpn(id, {['options2mains.actuel']:value});
+            });
+        }
+
+        for(let w of munitionsWpn) {
+            const parent = $(w).parents('div.button');
+            const id = $(parent).data('id');
+            const select = $(w).find('select');
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+
+            select.val(wpn.actuel);
+
+            $(select).change(ev => {
+                const tgt = $(ev.currentTarget);
+                const value = tgt.val();
+
+                this.#updateWpn(id, {['optionsmunitions.actuel']:value});
+            });
+        }
+
+        for(let w of initWpn) {
+            const parent = $(w).parents('div.button');
+            const isSelected = $(w).hasClass('selected');
+            const id = $(parent).data('id');
+            const value = $(w).data('value');
+            const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+
+            let options = wpn.options.find(itm => itm.value === value);
+
+            if(isSelected || options.active) {
+                $(w).find('i').removeClass('fa-solid fa-xmark red');
+                $(w).find('i').addClass('fa-solid fa-check green');
+
+                if(!isSelected) $(w).addClass('selected');
+            } else {
+                $(w).find('i').removeClass('fa-solid fa-check green');
+                $(w).find('i').addClass('fa-solid fa-xmark red');
+            }
+
+            $(w).click(ev => {
+                const tgt = $(ev.currentTarget);
+                const isSelected = $(tgt).hasClass('selected');
+
+                if(isSelected) {
+                    $(tgt).removeClass('selected')
+                    $(tgt).find('i').removeClass('fa-solid fa-check green');
+                    $(tgt).find('i').addClass('fa-solid fa-xmark red');
+
+                    options.active = false;
+                } else {
+                    $(tgt).addClass('selected')
+                    $(w).find('i').removeClass('fa-solid fa-xmark red');
+                    $(w).find('i').addClass('fa-solid fa-check green');
+
+                    options.active = true;
+                }
+            });
+        }
+
+        for(let w of dgtsWpn) {
+            const parent = $(w).parents('div.button');
+            const select = $(w).find('select');
+            const id = $(parent).data('id');
+            const wpn = this.data.roll.allWpn.find(itm => itm.id === id);
+            const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
+            let options = wpn.options.find(itm => itm.classes.includes('dgtsvariable'));
+
+            if(allVariable && options.list.hasOwnProperty(allVariable?.degats ?? options.selected)) $(select).val(allVariable?.degats ?? options.selected);
+            else if(options.list.hasOwnProperty(wpn.degats.dice)) $(select).val(wpn.degats.dice);
+            else wpn.degats = {dice:options.selected, fixe:options.selectvalue};
+
+            $(select).change(ev => {
+                const tgt = $(ev.currentTarget);
+                const val = tgt.val();
+
+                wpn.degats.dice = parseInt(val);
+
+                if(!allVariable) {
+                    this.data.roll.allVariableWpn.push({
+                        id:id,
+                        degats:val,
+                    })
+                } else allVariable.degats = val;
+            });
+        }
+
+        for(let w of violenceWpn) {
+            const parent = $(w).parents('div.button');
+            const select = $(w).find('select');
+            const id = $(parent).data('id');
+            const wpn = this.data.roll.allWpn.find(itm => itm.id === id);
+            const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
+            let options = wpn.options.find(itm => itm.classes.includes('violencevariable'));
+
+            if(allVariable && options.list.hasOwnProperty(allVariable?.violence ?? options.selected)) $(select).val(allVariable?.violence ?? options.selected);
+            else if(options.list.hasOwnProperty(wpn.violence.dice)) $(select).val(wpn.violence.dice);
+            else wpn.violence = {dice:options.selected, fixe:options.selectvalue};
+
+            $(select).change(ev => {
+                const tgt = $(ev.currentTarget);
+                const val = tgt.val();
+
+                wpn.violence.dice = parseInt(val);
+
+                if(!allVariable) {
+                    this.data.roll.allVariableWpn.push({
+                        id:id,
+                        violence:val,
+                    })
+                } else allVariable.violence = val;
+            });
+        }
+
+        for(let w of dgtsBonusWpn) {
+            const parent = $(w).parents('div.button');
+            const select = $(w).find('select');
+            const idBonus = $(w).data('id');
+            const id = $(parent).data('id');
+            const wpn = this.data.roll.allWpn.find(itm => itm.id === id);
+            const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
+            const moduleVariable = allVariable?.modules?.find(itm => itm.id === idBonus) ?? undefined;
+            let options = wpn.options.find(itm => itm.classes.includes('dgtsbonusvariable') && itm.id === idBonus);
+
+            if(moduleVariable && options.list.hasOwnProperty(moduleVariable?.degats ?? options.selected)) $(select).val(moduleVariable?.degats ?? options.selected);
+            else if(options.list.hasOwnProperty(options.selected)) $(select).val(options.selected);
+            else options.selected = options.selected;
+
+            $(select).change(ev => {
+                const tgt = $(ev.currentTarget);
+                const val = tgt.val();
+
+                options.selected = parseInt(val);
+
+                if(!allVariable) {
+                    this.data.roll.allVariableWpn.push({
+                        id:id,
+                        modules:[{
+                            id:idBonus,
+                            degats:val,
+                        }]
+                    })
+                } else {
+                    if(!moduleVariable) {
+                        if(!allVariable.modules) {
+                            allVariable.modules = [{
+                                id:idBonus,
+                                degats:val,
+                            }]
+                        } else {
+                            allVariable.modules.push({
+                                id:idBonus,
+                                degats:val,
+                            });
+                        }
+                    } else {
+                        moduleVariable.degats = val;
+                    }
+                }
+            });
+        }
+
+        for(let w of violenceBonusWpn) {
+            const parent = $(w).parents('div.button');
+            const select = $(w).find('select');
+            const idBonus = $(w).data('id');
+            const id = $(parent).data('id');
+            const wpn = this.data.roll.allWpn.find(itm => itm.id === id);
+            const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
+            const moduleVariable = allVariable?.modules?.find(itm => itm.id === idBonus) ?? undefined;
+            let options = wpn.options.find(itm => itm.classes.includes('violencebonusvariable') && itm.id === idBonus);
+
+            if(moduleVariable && options.list.hasOwnProperty(moduleVariable?.violence ?? options.selected)) $(select).val(moduleVariable?.violence ?? options.selected);
+            else if(options.list.hasOwnProperty(options.selected)) $(select).val(options.selected);
+            else options.selected = options.selected;
+
+            $(select).change(ev => {
+                const tgt = $(ev.currentTarget);
+                const val = tgt.val();
+
+                options.selected = parseInt(val);
+
+                if(!allVariable) {
+                    this.data.roll.allVariableWpn.push({
+                        id:id,
+                        modules:[{
+                            id:idBonus,
+                            violence:val,
+                        }]
+                    })
+                } else {
+                    if(!moduleVariable) {
+                        if(!allVariable.modules) {
+                            allVariable.modules = [{
+                                id:idBonus,
+                                violence:val,
+                            }]
+                        } else {
+                            allVariable.modules.push({
+                                id:idBonus,
+                                violence:val,
+                            });
+                        }
+                    } else {
+                        moduleVariable.violence = val;
+                    }
+                }
+            });
+        }
+
+        for(let w of boostdegats) {
+            const parent = $(w).parents('div.button');
+            const select = $(w).find('select');
+            const id = $(parent).data('id');
+            const wpn = this.data.roll.allWpn.find(itm => itm.id === id);
+            const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
+            let options = wpn.options.find(itm => itm.classes.includes('boostdegats'));
+
+            if(allVariable && options.list.hasOwnProperty(allVariable?.degats ?? options.selected)) $(select).val(allVariable?.degats ?? options.selected);
+            else if(options.list.hasOwnProperty(wpn.degats.dice)) $(select).val(wpn.degats.dice);
+            else wpn.degats = {dice:options.selected, fixe:options.selectvalue};
+
+            $(select).change(ev => {
+                const tgt = $(ev.currentTarget);
+                const val = tgt.val();
+
+                wpn.degats.dice = parseInt(val);
+
+                if(!allVariable) {
+                    this.data.roll.allVariableWpn.push({
+                        id:id,
+                        degats:val,
+                    })
+                } else allVariable.degats = val;
+            });
+        }
+
+        for(let w of boostviolence) {
+            const parent = $(w).parents('div.button');
+            const select = $(w).find('select');
+            const id = $(parent).data('id');
+            const wpn = this.data.roll.allWpn.find(itm => itm.id === id);
+            const allVariable = this.rollData.allVariableWpn.find(itm => itm.id === id);
+            let options = wpn.options.find(itm => itm.classes.includes('boostviolence'));
+
+            if(allVariable && options.list.hasOwnProperty(allVariable?.violence ?? options.selected)) $(select).val(allVariable?.violence ?? options.selected);
+            else if(options.list.hasOwnProperty(wpn.violence.dice)) $(select).val(wpn.violence.dice);
+            else wpn.violence = {dice:options.selected, fixe:options.selectvalue};
+
+            $(select).change(ev => {
+                const tgt = $(ev.currentTarget);
+                const val = tgt.val();
+
+                wpn.violence.dice = parseInt(val);
+
+                if(!allVariable) {
+                    this.data.roll.allVariableWpn.push({
+                        id:id,
+                        violence:val,
+                    })
+                } else allVariable.violence = val;
+            });
+        }
+
+        this.#renderLongbow(html);
+
+        this.#sanitizeWpn(html.find('button.btnWpn'), html);
+    }
+
+    #renderLongbow(html) {
+        const parent = html.find('div.wpnComplexe.longbow');
+        const effets = parent.find('.liste a');
+        const id = parent.data('id');
+        const complexe = this.rollData.allComplexeWpn.find(itm => itm.id === id);
+
+        const updateSelect = (selector, property) => {
+            const select = parent.find(selector);
+            if(complexe && complexe[property]) {
+                if(property === 'portee') select.val(complexe[property]);
+                else select.val(complexe[property].dice);
+            }
+
+            select.change(ev => {
+                let value;
+                if(property === 'portee') value = $(ev.currentTarget).val();
+                else value = parseInt($(ev.currentTarget).val());
+
+                this.#updateComplexeWpn(id, property, value);
+                this.#calculateLongbow(id, parent);
+            });
+        };
+
+        updateSelect('.longbow_dgts select', 'degats');
+        updateSelect('.longbow_violence select', 'violence');
+        updateSelect('.longbow_portee select', 'portee');
+
+        if(complexe) {
+            if(complexe.effets) {
+                effets.each(function() {
+                    const t = $(this);
+                    const { raw, custom, liste, id } = t.data();
+
+                    const isChecked = custom
+                        ? complexe.effets.custom.some(itm => itm.id === id && itm.liste === liste)
+                        : complexe.effets.raw.includes(raw);
+
+                    if (isChecked) {
+                        t.addClass('checked')
+                            .find('i')
+                            .addClass('fa-solid fa-check-double');
+                    }
+                });
+            }
+        }
+
+        effets.click(ev => {
+            const tgt = $(ev.currentTarget);
+            const { raw, custom, liste, id: customID } = tgt.data();
+            const isChecked = tgt.hasClass('checked');
+
+            this.#toggleEffect(id, { raw, custom, liste, customID }, isChecked);
+
+            tgt.toggleClass('checked');
+            tgt.find('i').toggleClass('fa-solid fa-check-double');
+
+            this.#calculateLongbow(id, parent);
+        });
+    }
+
+    #updateComplexeWpn(id, property, value) {
+        const complexe = this.rollData.allComplexeWpn.find(itm => itm.id === id);
+        const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+
+        if (property === 'portee') {
+            wpn[property] = value;
+        } else {
+            wpn[property].dice = value;
+        }
+
+        if(!complexe) {
+            this.data.roll.allComplexeWpn.push({
+                id: id,
+                [property]: property === 'portee' ? value : { dice: value }
+            });
+        } else {
+            complexe[property] = property === 'portee' ? value : { dice: value };
+        }
+    }
+
+    #toggleEffect(wpnId, effectData, isAdding) {
+        const { raw, custom, liste, customID } = effectData;
+        const complexe = this.rollData.allComplexeWpn.find(itm => itm.id === wpnId);
+        const wpn = this.rollData.allWpn.find(itm => itm.id === wpnId);
+
+        if (!isAdding) {
+            if (custom) {
+                const tempCustom = { ...wpn.possibility[liste].custom[customID], liste, id: customID };
+                wpn.effets.custom.push(tempCustom);
+                if (complexe) {
+                    if (!complexe.effets) complexe.effets = { raw: [tempCustom], custom: [] };
+                }
+            } else {
+                wpn.effets.raw.push(raw);
+                if (complexe) {
+                    if (!complexe.effets) complexe.effets = { raw: [raw], custom: [] };
+                }
+            }
+        } else {
+            if (custom) {
+                wpn.effets.custom = wpn.effets.custom.filter(item => item.id !== customID || item.liste !== liste);
+                if (complexe && complexe.effets) {
+                    complexe.effets.custom = complexe.effets.custom.filter(item => item.id !== customID || item.liste !== liste);
+                }
+            } else {
+                wpn.effets.raw = wpn.effets.raw.filter(item => item !== raw);
+                if (complexe && complexe.effets) {
+                    complexe.effets.raw = complexe.effets.raw.filter(item => item !== raw);
+                }
+            }
+        }
+
+        if (!complexe) {
+            this.data.roll.allComplexeWpn.push({
+                id: wpnId,
+                effets: wpn.effets
+            });
+        }
+    }
+
+    #calculateLongbow(id, parent) {
+        const longbow = this.rollData.allWpn.find(itm => itm.id === id);
+        const complexe = this.rollData.allComplexeWpn.find(itm => itm.id === id);
+
+        const { degats, violence, portee, effets, possibility } = longbow;
+        const { energie: dgtsEnergie, min: dgtsMin } = possibility.degats;
+        const { energie: violenceEnergie, min: violenceMin } = possibility.violence;
+        const { energie: porteeEnergie } = possibility.portee;
+        const { energie: liste1Energie } = possibility.liste1;
+        const { energie: liste2Energie } = possibility.liste2;
+        const liste3Energie = possibility.liste3?.energie ?? 0;
+
+        let cout = 0;
+
+        cout += (degats.dice - dgtsMin) * dgtsEnergie;
+        cout += (violence.dice - violenceMin) * violenceEnergie;
+        cout += porteeEnergie[portee];
+
+        const calculateEffetsCost = (effetsList, possibilityList, energie) => {
+            return effetsList.reduce((acc, effet) => {
+                if (possibilityList.includes(effet)) {
+                    return acc + energie;
+                }
+                return acc;
+            }, 0);
+        };
+
+        cout += calculateEffetsCost(effets.raw, possibility.liste1.raw, liste1Energie);
+        cout += calculateEffetsCost(effets.raw, possibility.liste2.raw, liste2Energie);
+        if (possibility.liste3) {
+            cout += calculateEffetsCost(effets.raw, possibility.liste3.raw, liste3Energie);
+        }
+
+        cout += effets.custom.reduce((acc, e) => {
+            switch(e.liste) {
+                case 'liste1': return acc + liste1Energie;
+                case 'liste2': return acc + liste2Energie;
+                case 'liste3': return acc + liste3Energie;
+                default: return acc;
+            }
+        }, 0);
+
+        longbow.cout = cout;
+        $(parent.find('button.btnWpn span p')).text(cout);
+
+        if (!complexe) {
+            this.data.roll.allComplexeWpn.push({ id, cout });
+        } else {
+            complexe.cout = cout;
+        }
+    }
+
+    #selectWpn(tgt, init=false) {
+        const id = tgt.parents('div.button').data('id');
+        const parents = tgt.parents('div.dialog-content').find('div.wpn button.btnWpn.selected');
+        const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+
+        this.data.roll.wpnSelected = id;
+        tgt.addClass('selected');
+        $(tgt.find('i')).addClass('fa-solid fa-check');
+        if(!init) {
+            $(tgt).siblings('.data').show({
+                complete: () => {},
+            });
+
+            $(tgt).siblings('.bases').show({
+                complete: () => {},
+            });
+
+            $(tgt).siblings('.effets').show({
+                complete: () => {},
+            });
+        } else {
+            $(tgt).siblings('.data').show();
+            $(tgt).siblings('.bases').show();
+            $(tgt).siblings('.effets').show();
+        }
+
+        this.rollData.html.find('input.label').val(wpn.label);
+        this.data.roll.label = wpn.label;
+
+        for(let p of parents) {
+            if(id !== $(p).parents('div.button').data('id')) {
+                const w = this.rollData.allWpn.find(itm => itm.id === $(p).parents('div.button').data('id'));
+                if(w) w.classes.replaceAll(' selected', '');
+                $(p).removeClass('selected');
+                $(p).find('i').removeClass('fa-solid fa-check');
+                $(p).parents('div.button').removeClass('selected');
+                $(p).parents('div.cat').removeClass('selected');
+
+                $(p).siblings('.data').hide({
+                    complete: () => {},
+                });
+
+                $(p).siblings('.bases').hide({
+                    complete: () => {},
+                });
+
+                $(p).siblings('.effets').hide({
+                    complete: () => {},
+                });
+
+                if($(p).parents('div.button').siblings('h2.summary').find('i').hasClass('fa-plus-square')) {
+                    $(p).parents('div.button').hide({
+                        complete: () => {},
+                    });
+                }
+
+                if($(p).parents('div.button').siblings('h3.summary').find('i').hasClass('fa-plus-square')) {
+                    $(p).parents('div.button').hide({
+                        complete: () => {},
+                    });
+                }
+
+                if($(p).parents('div.cat').siblings('h2.summary').find('i').hasClass('fa-plus-square')) {
+                    $(p).parents('div.button').hide({
+                        complete: () => {},
+                    });
+
+                    $(p).parents('div.cat').hide({
+                        complete: () => {},
+                    });
+                }
+            } else {
+                $(p).parents('div.button').addClass('selected');
+                $(p).parents('div.cat').addClass('selected');
+
+                if($(p).parents('div.button').siblings('h2.summary').find('i').hasClass('fa-minus-square')) {
+                    $(p).parents('div.button').show({
+                        complete: () => {},
+                    });
+                }
+
+                if($(p).parents('div.button').siblings('h3.summary').find('i').hasClass('fa-minus-square')) {
+                    $(p).parents('div.button').show({
+                        complete: () => {},
+                    });
+                }
+
+                if($(p).parents('div.cat').siblings('h2.summary').find('i').hasClass('fa-minus-square')) {
+                    $(p).parents('div.button').show({
+                        complete: () => {},
+                    });
+
+                    $(p).parents('div.cat').show({
+                        complete: () => {},
+                    });
+                }
+            }
+        }
+
+        $(tgt).parents('div.button').addClass('selected');
+        $(tgt).parents('div.cat').addClass('selected');
+
+        this.#updateStyleShow(undefined, wpn);
+    }
+
+    #unselectWpn(tgt) {
+        const id = tgt.parents('div.button').data('id');
+
+        if(id === this.rollData.wpnSelected) this.rollData.wpnSelected = '';
+
+        tgt.removeClass('selected');
+
+        $(tgt.find('i')).removeClass('fa-solid fa-check');
+        $(tgt).parents('div.button').removeClass('selected');
+        $(tgt).parents('div.cat').removeClass('selected');
+
+        $(tgt).siblings('.data').hide({
+            complete: () => {},
+        });
+
+        $(tgt).siblings('.bases').hide({
+            complete: () => {},
+        });
+
+        $(tgt).siblings('.effets').hide({
+            complete: () => {},
+        });
+
+        if($(tgt).parents('div.button').siblings('h2.summary').find('i').hasClass('fa-plus-square')) {
+            $(tgt).parents('div.button').hide({
+                complete: () => {},
+            });
+        }
+
+        if($(tgt).parents('div.button').siblings('h3.summary').find('i').hasClass('fa-plus-square')) {
+            $(tgt).parents('div.button').hide({
+                complete: () => {},
+            });
+        }
+
+        if($(tgt).parents('div.cat').siblings('h2.summary').find('i').hasClass('fa-plus-square')) {
+            $(tgt).parents('div.button').hide({
+                complete: () => {},
+            });
+
+            $(tgt).parents('div.cat').hide({
+                complete: () => {},
+            });
+        }
+
+        this.#updateStyleShow(undefined, undefined, true);
+    }
+
+    #updateStyleShow(style=undefined, wpn=undefined, forceUnselect=false) {
+        const data = this.rollData;
+        const html = data.html;
+        const getStyle = style ? style : html.find('label.style select').val();
+        const getWpn = wpn ? wpn : data.allWpn.find(itm => itm.id === data.wpnSelected);
+
+        if(!getWpn || forceUnselect) {
+            html.find('.pilonnage').hide();
+            html.find('.precis').hide();
+            html.find('.puissant').hide();
+            html.find('.suppression').hide();
+
+            return;
+        }
+
+        const allEffects = [].concat(getWpn?.effets?.raw ?? [], getWpn?.distance?.raw ?? [], getWpn?.structurelles?.raw ?? [], getWpn?.ornementales?.raw ?? []);
+        const type = getWpn.type;
+
+        if(getStyle === 'pilonnage' && (type !== 'distance' || !this.#isEffetActive(allEffects, getWpn.options, ['deuxmains', 'systemerefroidissement', 'munitionshypervelocite']))) {
+            html.find('.pilonnage').hide();
+            html.find('.precis').hide();
+            html.find('.puissant').hide();
+            html.find('.suppression').hide();
+
+            return;
+        }
+
+        if(getStyle === 'precis' && (type !== 'contact' ||
+            !this.#isEffetActive(allEffects, getWpn.options, ['deuxmains', 'systemerefroidissement', 'munitionshypervelocite']))) {
+            html.find('.pilonnage').hide();
+            html.find('.precis').hide();
+            html.find('.puissant').hide();
+            html.find('.suppression').hide();
+
+            return;
+        }
+
+        if(getStyle === 'puissant' && (type !== 'contact' ||
+            !this.#isEffetActive(allEffects, getWpn.options, ['lourd'] ||
+            (!this.#isEffetActive(allEffects, getWpn.options, ['deuxmains'] &&
+            !this.#isEffetActive(allEffects, getWpn.options, ['systemerefroidissement', 'munitionshypervelocite'])))))) {
+            html.find('.pilonnage').hide();
+            html.find('.precis').hide();
+            html.find('.puissant').hide();
+            html.find('.suppression').hide();
+
+            return;
+        }
+
+        if(getStyle === 'suppression' && (type !== 'distance' ||
+            !this.#isEffetActive(allEffects, getWpn.options, ['lourd'] ||
+            (!this.#isEffetActive(allEffects, getWpn.options, ['deuxmains'] &&
+            !this.#isEffetActive(allEffects, getWpn.options, ['systemerefroidissement', 'munitionshypervelocite'])))))) {
+            html.find('.pilonnage').hide();
+            html.find('.precis').hide();
+            html.find('.puissant').hide();
+            html.find('.suppression').hide();
+
+            return;
+        }
+
+        switch(getStyle) {
+            case 'pilonnage':
+                html.find('.pilonnage').show();
+                html.find('.precis').hide();
+                html.find('.puissant').hide();
+                html.find('.suppression').hide();
+                break;
+
+            case 'precis':
+                html.find('.pilonnage').hide();
+                html.find('.precis').show();
+                html.find('.puissant').hide();
+                html.find('.suppression').hide();
+                break;
+
+            case 'puissant':
+                html.find('.pilonnage').hide();
+                html.find('.precis').hide();
+                html.find('.puissant').show();
+                html.find('.suppression').hide();
+                break;
+
+            case 'suppression':
+                html.find('.pilonnage').hide();
+                html.find('.precis').hide();
+                html.find('.puissant').hide();
+                html.find('.suppression').show();
+                break;
+
+            default:
+                html.find('.pilonnage').hide();
+                html.find('.precis').hide();
+                html.find('.puissant').hide();
+                html.find('.suppression').hide();
+                break;
+        }
+    }
+
+    #updateBtnShow(forceUnselect=false, init=false) {
+        const html = this.rollData.html;
+        const hasWpn = this.rollData.wpnSelected === '' ? false : true;
+        const isPJ = this.isPJ;
+
+        if(!hasWpn || forceUnselect) {
+            if(init) {
+                html.find('.modificateurdegats').hide();
+
+                html.find('.modificateurviolence').hide();
+
+                html.find('.maximizedegats').hide();
+
+                html.find('.maximizeviolence').hide();
+
+                html.find('.attaquesurprise').hide();
+
+                html.find('.score.difficulte').show();
+
+                html.find('.score.difficulte').show();
+
+                html.find('.score.succesBonus').addClass('colTwo');
+                html.find('.score.modificateur').addClass('colThree');
+                html.find('.score.succesBonus').removeClass('colOne');
+                html.find('.score.modificateur').removeClass('colTwo');
+
+                if(isPJ) {
+                    html.find('.btn.attaquesurprise').addClass('rowFive');
+                    html.find('.btn.withoutod').addClass('rowFour');
+                    html.find('.btn.withoutod').removeClass('rowThree');
+                    html.find('.btn.maximizedegats').removeClass('rowFive');
+                    html.find('.btn.maximizeviolence').removeClass('rowSix');
+                    html.find('.btn.attaquesurprise').removeClass('rowFour');
+                } else {
+                    html.find('.btn.attaquesurprise').removeClass('rowFour');
+                    html.find('.btn.attaquesurprise').addClass('rowThree');
+                }
+            } else {
+                html.find('.modificateurdegats').hide({
+                    complete: () => {},
+                });
+
+                html.find('.modificateurviolence').hide({
+                    complete: () => {},
+                });
+
+                html.find('.maximizedegats').hide({
+                    complete: () => {},
+                });
+
+                html.find('.maximizeviolence').hide({
+                    complete: () => {},
+                });
+
+                html.find('.attaquesurprise').hide({
+                    complete: () => {},
+                });
+
+                html.find('.score.difficulte').show({
+                    complete: () => {},
+                });
+
+                if(isPJ) {
+                    html.find('.btn.attaquesurprise').addClass('rowFive');
+                    html.find('.btn.withoutod').addClass('rowFour');
+                    html.find('.btn.withoutod').removeClass('rowThree');
+                    html.find('.btn.maximizedegats').removeClass('rowFive');
+                    html.find('.btn.maximizeviolence').removeClass('rowSix');
+                    html.find('.btn.attaquesurprise').removeClass('rowFour');
+                } else {
+                    html.find('.btn.attaquesurprise').removeClass('rowFour');
+                    html.find('.btn.attaquesurprise').addClass('rowThree');
+                }
+
+                html.find('.score.succesBonus').addClass('colTwo');
+                html.find('.score.modificateur').addClass('colThree');
+                html.find('.score.succesBonus').removeClass('colOne');
+                html.find('.score.modificateur').removeClass('colTwo');
+            }
+        } else {
+            if(init) {
+                html.find('.modificateurdegats').show();
+
+                html.find('.modificateurviolence').show();
+
+                html.find('.maximizedegats').show();
+
+                html.find('.maximizeviolence').show();
+
+                html.find('.attaquesurprise').show();
+
+                html.find('.score.difficulte').hide();
+
+                if(isPJ) {
+                    html.find('.btn.withoutod').removeClass('rowFour');
+                    html.find('.btn.attaquesurprise').removeClass('rowFive');
+                    html.find('.btn.withoutod').addClass('rowThree');
+                    html.find('.btn.attaquesurprise').addClass('rowFour');
+                    html.find('.btn.maximizedegats').addClass('rowFive');
+                    html.find('.btn.maximizeviolence').addClass('rowSix');
+                } else {
+                    html.find('.btn.attaquesurprise').removeClass('rowFour');
+                    html.find('.btn.attaquesurprise').addClass('rowThree');
+                }
+
+                html.find('.score.succesBonus').removeClass('colTwo');
+                html.find('.score.modificateur').removeClass('colThree');
+                html.find('.score.succesBonus').addClass('colOne');
+                html.find('.score.modificateur').addClass('colTwo');
+            } else {
+                html.find('.modificateurdegats').show({
+                    complete: () => {},
+                });
+
+                html.find('.modificateurviolence').show({
+                    complete: () => {},
+                });
+
+                html.find('.maximizedegats').show({
+                    complete: () => {},
+                });
+
+                html.find('.maximizeviolence').show({
+                    complete: () => {},
+                });
+
+                html.find('.attaquesurprise').show({
+                    complete: () => {},
+                });
+
+                html.find('.score.difficulte').hide({
+                    complete: () => {},
+                });
+
+                if(isPJ) {
+                    html.find('.btn.withoutod').removeClass('rowFour');
+                    html.find('.btn.attaquesurprise').removeClass('rowFive');
+                    html.find('.btn.withoutod').addClass('rowThree');
+
+                    html.find('.btn.maximizedegats').addClass('rowFive');
+                    html.find('.btn.maximizeviolence').addClass('rowSix');
+                    html.find('.btn.attaquesurprise').addClass('rowFour');
+                } else {
+                    html.find('.btn.attaquesurprise').removeClass('rowFour');
+                    html.find('.btn.attaquesurprise').addClass('rowThree');
+                }
+
+                html.find('.score.succesBonus').removeClass('colTwo');
+                html.find('.score.modificateur').removeClass('colThree');
+                html.find('.score.succesBonus').addClass('colOne');
+                html.find('.score.modificateur').addClass('colTwo');
+            }
+        }
+    }
+
+    #updateBonusInterdits(b, html) {
+        const attrMods = this.attrMods;
+        const bonus = attrMods.bonus
+        const interdits = attrMods.interdits;
+        const btns = html.find('button.btnCaracteristique');
+
+        if(!b) {
+            for(let b of btns) {
+                const value = $(b).data('value');
+
+                if(interdits.includes(value)) {
+                    const rData = this.rollData;
+                    $(b).css('opacity', '0.5');
+                    $(b).removeClass('wHover');
+                    $(b).removeClass('selected base');
+                    $(b).find('i').removeClass('fa-solid fa-check-double fa-check');
+
+                    if(rData.base === value) {
+                        if(rData.whatRoll.length !== 0) {
+                            html.find(`button.btnCaracteristique.${rData.whatRoll[0]}`).addClass('base');
+
+                            rData.base = rData.whatRoll[0];
+                            rData.whatRoll.shift();
+                        } else {
+                            rData.base = '';
+                        }
+                    }
+
+                    if(rData.whatRoll.includes(value)) {
+                        $(b).find('i').removeClass('fa-solid fa-check-double fa-check');
+
+                        rData.whatRoll = rData.whatRoll.filter(item => item !== value);
+                    }
+                } else if(!bonus.includes(value)) {
+                    $(b).css('opacity', '1');
+
+                    if(!$(b).hasClass('wHover')) $(b).addClass('wHover');
+                }
+
+                if(bonus.includes(value)) {
+                    const rData = this.rollData;
+                    $(b).css('opacity', '0.5');
+                    $(b).removeClass('wHover');
+
+                    if(rData.base === value) {
+                        $(b).removeClass('base');
+                        $(b).find('i').removeClass('fa-check-double');
+                        $(b).find('i').addClass('fa-check');
+
+                        if(rData.whatRoll.length !== 0) {
+                            if(!$(b).hasClass('selected')) $(b).addClass('selected');
+                            html.find(`button.btnCaracteristique.${rData.whatRoll[0]}`).addClass('base');
+
+                            rData.base = rData.whatRoll[0];
+                            rData.whatRoll.shift();
+                            rData.whatRoll.push(value);
+                        }
+                    }
+                } else if(!interdits.includes(value)) {
+                    $(b).css('opacity', '1');
+
+                    if(!$(b).hasClass('wHover')) $(b).addClass('wHover');
+                }
+            }
+        } else {
+            const value = $(b).data('value');
+
+            if(interdits.includes(value)) {
+                const rData = this.rollData;
+                $(b).css('opacity', '0.5');
+                $(b).removeClass('wHover');
+
+                if(rData.base === value) {
+                    $(b).removeClass('selected base');
+
+                    if(rData.whatRoll.length !== 0) {
+                        $(b).find('i').removeClass('fa-solid fa-check-double fa-check');
+                        html.find(`button.btnCaracteristique.${rData.whatRoll[0]}`).addClass('base');
+
+                        rData.base = rData.whatRoll[0];
+                        rData.whatRoll.shift();
+                    } else {
+                        rData.base = '';
+                    }
+                }
+
+                if(rData.whatRoll.includes(value)) {
+                    $(b).find('i').removeClass('fa-solid fa-check-double fa-check');
+
+                    rData.whatRoll = rData.whatRoll.filter(item => item !== value);
+                }
+            } else if(!bonus.includes(value)) {
+                $(b).css('opacity', '1');
+
+                if(!$(b).hasClass('wHover')) $(b).addClass('wHover');
+            }
+
+            if(bonus.includes(value)) {
+                const rData = this.rollData;
+
+                if(rData.base === value) {
+                    if(rData.whatRoll.length !== 0) {
+                        html.find(`button.btnCaracteristique.${rData.whatRoll[0]}`).addClass('base');
+
+                        rData.base = rData.whatRoll[0];
+                        rData.whatRoll.shift();
+                    }
+                }
+
+                $(b).css('opacity', '0.5');
+                $(b).removeClass('wHover');
+                $(b).removeClass('base');
+                $(b).find('i').removeClass('fa-solid fa-check-double');
+                $(b).find('i').addClass('fa-solid fa-check');
+
+                if(!$(b).hasClass('selected')) $(b).addClass('selected');
+
+                rData.whatRoll.push(value);
+            } else if(!interdits.includes(value)) {
+                $(b).css('opacity', '1');
+
+                if(!$(b).hasClass('wHover')) $(b).addClass('wHover');
+            }
+        }
+    }
+
+    #sanitizeWpn(tgt, html) {
+        const { distance, contact, grenade, complexe, aidistance, aicontact, tourelle } = {
+            distance: this.rollData.typeWpn.distance.length > 0,
+            contact: this.rollData.typeWpn.contact.length > 0,
+            grenade: this.rollData.typeWpn.grenade.length > 0,
+            complexe: this.rollData.typeWpn.complexe.length > 0,
+            tourelle: this.rollData.typeWpn.tourelle.length > 0,
+            aidistance: this.rollData.typeWpn.aidistance.length > 0,
+            aicontact: this.rollData.typeWpn.aicontact.length > 0,
+        };
+
+        $(tgt).each((_, t) => {
+            const $t = $(t);
+            const isSelected = $t.hasClass('selected');
+            const $button = $t.parents('div.button');
+            const $cat = $t.parents('div.cat');
+
+            $button.toggleClass('selected', isSelected);
+            $cat.toggleClass('selected', isSelected);
+
+            if (isSelected) {
+                $t.add($button).add($cat).show();
+                $button.siblings('div.button').show();
+                $cat.find('i').removeClass('fa-plus-square fa-minus-square').addClass('fa-minus-square');
+            } else {
+                $button.removeClass('selected');
+                if (!$t.siblings('.selected').length) $cat.removeClass('selected');
+            }
+
+            const $catIcon = $cat.find('h3 i');
+            if ($catIcon.hasClass('fa-minus-square')) {
+                $cat.find('h3').siblings().show();
+            }
+        });
+
+        html.find('div.wpn.wpndistance').toggle(distance);
+        html.find('div.wpn.wpncontact').toggle(contact);
+        html.find('div.wpn.grenade').toggle(grenade);
+        html.find('div.wpn.complexe').toggle(complexe);
+        html.find('div.wpn.tourelle').toggle(tourelle);
+        html.find('div.wpn.aicontact').toggle(aicontact);
+        html.find('div.wpn.aidistance').toggle(aidistance);
+
+        html.find('div.wpn.wpndistance')
+        .toggleClass('colTwo', contact)
+        .toggleClass('colOne', !contact);
+
+        html.find('div.wpn.grenade')
+        .toggleClass('colDuo', !tourelle && (complexe || (contact && distance)))
+        .toggleClass('colOne', tourelle && ((!distance && !contact) || (contact && distance) || complexe))
+        .toggleClass('colTwo', (!complexe && ((!distance && contact) || (distance && !contact))));
+
+        html.find('div.wpn.tourelle')
+        .toggleClass('colDuo', (!grenade || ((grenade && !distance && contact && !complexe) || (grenade && !contact && distance && !complexe))))
+        .toggleClass('colTwo', grenade && ((!distance && !contact) || (contact && distance) || complexe))
+
+        html.find('label.selectWithInfo select').change(async ev => {
+            const $tgt = $(ev.currentTarget);
+            const style = $tgt.val();
+
+            $tgt.siblings('span.hideInfo').remove();
+            $tgt.parents('label.style').append(`<span class="hideInfo" style="display:none;">${game.i18n.localize(CONFIG.KNIGHT.styles[style])}</span>`);
+
+            this.rollData.style.type = 'degats';
+            this.rollData.style.value = 0;
+
+            this.#updateStyleShow(style, undefined);
+
+            if(this.actor.type === 'mechaarmure') await this.actor.update({['system.combat.style']: style});
+            else await this.who.update({['system.combat.style']: style});
+        });
+
+        html.find('.precis select').change(ev => {
+            const tgt = $(ev.currentTarget);
+            const value = tgt.val();
+
+            this.rollData.style.precis.type = value;
+        });
+
+        html.find('.pilonnage select').change(ev => {
+            const tgt = $(ev.currentTarget);
+            const value = tgt.val();
+
+            this.rollData.style.pilonnage.type = value;
+            this.actor.update({['system.combat.data.type']:value});
+        });
+
+        html.find('.pilonnage input').change(ev => {
+            const tgt = $(ev.currentTarget);
+            const value = parseInt(tgt.val());
+
+            this.rollData.style.pilonnage.value = value;
+            this.actor.update({['system.combat.data.tourspasses']:value});
+        });
+
+        html.find('.puissant select').change(ev => {
+            const tgt = $(ev.currentTarget);
+            const value = tgt.val();
+
+            this.rollData.style.puissant.type = value;
+        });
+
+        html.find('.puissant input').change(ev => {
+            const tgt = $(ev.currentTarget);
+            const value = parseInt(tgt.val());
+
+            this.rollData.style.suppression.value = value;
+        });
+
+        html.find('.suppression select').change(ev => {
+            const tgt = $(ev.currentTarget);
+            const value = tgt.val();
+
+            this.rollData.style.suppression.type = value;
+        });
+
+        html.find('.suppression input').change(ev => {
+            const tgt = $(ev.currentTarget);
+            const value = parseInt(tgt.val());
+
+            this.rollData.style.suppression.value = value;
+        });
+
+        this.#updateStyleShow(undefined, undefined);
+    }
+
+    #getValueAspect(actor, name) {
+        let result = 0;
+
+        switch(name) {
+            case 'chair':
+            case 'bete':
+            case 'machine':
+            case 'dame':
+            case 'masque':
+                result = actor.system.aspects[name].value;
+                break;
+
+            case 'deplacement':
+            case 'force':
+            case 'endurance':
+                result = actor.system.aspects.chair.caracteristiques[name].value;
+                break;
+
+            case 'combat':
+            case 'hargne':
+            case 'instinct':
+                result = actor.system.aspects.bete.caracteristiques[name].value;
+                break;
+
+            case 'tir':
+            case 'savoir':
+            case 'technique':
+                result = actor.system.aspects.machine.caracteristiques[name].value;
+                break;
+
+            case 'parole':
+            case 'aura':
+            case 'sangFroid':
+                result = actor.system.aspects.dame.caracteristiques[name].value;
+                break;
+
+            case 'discretion':
+            case 'dexterite':
+            case 'perception':
+                result = actor.system.aspects.masque.caracteristiques[name].value;
+                break;
+
+            default:
+                result = 0;
+                break;
+        }
+
+        return result;
+    }
+
+    #getODAspect(actor, name) {
+        let result = 0;
+
+        switch(name) {
+            case 'chair':
+            case 'bete':
+            case 'machine':
+            case 'dame':
+            case 'masque':
+                result = actor.system.aspects[name].ae.majeur.value+actor.system.aspects[name].ae.mineur.value;
+                break;
+
+            case 'deplacement':
+            case 'force':
+            case 'endurance':
+                result = actor.system.aspects.chair.caracteristiques[name].overdrive.value;
+                break;
+
+            case 'combat':
+            case 'hargne':
+            case 'instinct':
+                result = actor.system.aspects.bete.caracteristiques[name].overdrive.value;
+                break;
+
+            case 'tir':
+            case 'savoir':
+            case 'technique':
+                result = actor.system.aspects.machine.caracteristiques[name].overdrive.value;
+                break;
+
+            case 'parole':
+            case 'aura':
+            case 'sangFroid':
+                result = actor.system.aspects.dame.caracteristiques[name].overdrive.value;
+                break;
+
+            case 'discretion':
+            case 'dexterite':
+            case 'perception':
+                result = actor.system.aspects.masque.caracteristiques[name].overdrive.value;
+                break;
+        }
+
+        return result;
+    }
+
+    #getLabelRoll(name) {
+        let result = '';
+
+        switch(name) {
+            case 'chair':
+            case 'bete':
+            case 'machine':
+            case 'dame':
+            case 'masque':
+                result = game.i18n.localize(CONFIG.KNIGHT.aspects[name]);
+                break;
+
+            default:
+                result = game.i18n.localize(CONFIG.KNIGHT.caracteristiques[name]);
+                break;
+        }
+
+        return result;
+    }
+
+    #searchOptions(list, searched) {
+        let result = list.find(itm => itm.value === searched);
+
+        return result;
+    }
+
+    #hasEffet(list, searched) {
+        let result = false;
+
+        if(list.some(effet => effet.includes(searched))) result = true;
+
+        return result;
+    }
+
+    #isEffetActive(effets, options, data=[]) {
+        let result = false;
+
+        for(let d of data) {
+            if(d === 'cadence' && this.#hasEffet(effets, 'chromeligneslumineuses')) continue;
+            if(d === 'silencieux' && this.#hasEffet(effets, 'assassine')) continue;
+            if(d === 'silencieux' && this.#hasEffet(effets, 'munitionssubsoniques')) continue;
+            if(d === 'choc' && this.#hasEffet(effets, 'electrifiee')) continue;
+            if(d === 'jumeleakimbo' && this.#hasEffet(effets, 'jumelle')) continue;
+            if(d === 'jumeleakimbo' && this.#hasEffet(effets, 'jumelageakimbo')) continue;
+            if(d === 'jumeleambidextrie' && this.#hasEffet(effets, 'soeur')) continue;
+            if(d === 'jumeleambidextrie' && this.#hasEffet(effets, 'jumelageambidextrie')) continue;
+            if(d === 'assistanceattaque' && this.#hasEffet(effets, 'connectee')) continue;
+            if(d === 'assistanceattaque' && this.#hasEffet(effets, 'munitionshypervelocite')) continue;
+            if(d === 'tirenrafale' && this.#hasEffet(effets, 'systemerefroidissement')) continue;
+            if(d === 'tirensecurite' && this.#hasEffet(effets, 'interfaceguidage')) continue;
+
+            if(this.#hasEffet(effets, d) && !this.#searchOptions(options, d)) result = true;
+            else if(this.#hasEffet(effets, d) && this.#searchOptions(options, d).active) result = true;
+        }
+
+        return result;
+    }
+
+    #getWpnHTML(data={}) {
+        const start = `
+        <div class="button" data-id="${data.id}">
+            <button type="action" class="${data.classes}">
+                <i></i>
+                ${data.label}
+            </button>
+            <div class="data" style="display:none;">`;
+        let mid = ``;
+        const end = `</div></div>`;
+
+        for(let o of data.options) {
+            switch(o.key) {
+                case 'select':
+                    const list = o.list;
+
+                    mid += `<label class="${o.classes}" data-value="${o.value}" data-id="${o.id}">`
+
+                    if(o.label) mid += `<span>${o.label}</span>`;
+
+                    mid += `<select data-value="${o.selectvalue}">`
+
+                    if(o.hasBlank) {
+                        if(o.selected === '') mid += `<option value ='' selected></option>`;
+                        else mid += `<option value =''></option>`;
+                    }
+
+                    for(let l in list) {
+                        if(list[l].selected) mid += `<option value='${l}' selected>${list[l]}</option>`;
+                        else  mid += `<option value='${l}'>${list[l]}</option>`;
+                    }
+
+                    mid += `</select></label>`;
+                    break;
+
+                case 'btn':
+                    mid += `<button type="action" class="${o.classes}" data-value="${o.value}" title="${o.title}">`
+
+                    if(o.special !== 'roll') mid += `<i></i>`;
+
+                    mid += `${o.label}</button>`;
+                    break;
+            }
+        }
+
+        return start+mid+end;
+    }
+
+    #getWpnComplexeHTML(data={}) {
+        const labels = getAllEffects();
+        const start = `<div class="wpn wpnComplexe longbow button" data-id="${data.id}">
+                <button type="action" class="${data.classes}">
+                    <i></i>
+                    ${data.label}
+                    <span>${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Cout')} : ${data.cout} ${game.i18n.localize('KNIGHT.AUTRE.PointEnergie-short')}</span>
+                </button>`;
+
+        const dgtsList = data.possibility.degats.list;
+        const violenceList = data.possibility.violence.list;
+        const porteeList = data.possibility.portee.list;
+        let bases = `<div class="bases" style="display:none;">
+        <label class="longbow_dgts">
+            <span>${game.i18n.localize('KNIGHT.AUTRE.Degats')}</span>
+            <select>`
+
+        for(let l in dgtsList) {
+            bases += parseInt(l) == data.degats.dice ? `<option value="${l}" selected>${dgtsList[l]}</option>` : `<option value="${l}">${dgtsList[l]}</option>`;
+        }
+
+        bases += `</select>
+                    </label>
+                    <label class="longbow_violence">
+                        <span>${game.i18n.localize('KNIGHT.AUTRE.Violence')}</span>
+                        <select>`;
+
+        for(let l in violenceList) {
+            bases += parseInt(l) == data.violence.dice ? `<option value="${l}" selected>${violenceList[l]}</option>` : `<option value="${l}">${violenceList[l]}</option>`;
+        }
+
+        bases += `</select>
+                    </label>
+                    <label class="longbow_portee">
+                        <span>${game.i18n.localize('KNIGHT.PORTEE.Label')}</span>
+                        <select>`;
+
+        for(let l in porteeList) {
+            bases += parseInt(l) == data.portee ? `<option value="${l}" selected>${porteeList[l]}</option>` : `<option value="${l}">${porteeList[l]}</option>`;
+        }
+
+        bases += `</select>
+                    </label>
+                </div>`;
+
+        let mid = `<div class="data" style="display:none;">`;
+
+        for(let o of data.options) {
+            switch(o.key) {
+                case 'select':
+                    const list = o.list;
+
+                    mid += `<label class="${o.classes}" data-value="${o.value}" data-id="${o.id}">`
+
+                    if(o.label) mid += `<span>${o.label}</span>`;
+
+                    mid += `<select data-value="${o.selectvalue}">`
+
+                    if(o.hasBlank) {
+                        if(o.selected === '') mid += `<option value ='' selected></option>`;
+                        else mid += `<option value =''></option>`;
+                    }
+
+                    for(let l in list) {
+                        if(list[l].selected) mid += `<option value='${l}' selected>${list[l]}</option>`;
+                        else  mid += `<option value='${l}'>${list[l]}</option>`;
+                    }
+
+                    mid += `</select></label>`;
+                    break;
+
+                case 'btn':
+                    mid += `<button type="action" class="${o.classes}" data-value="${o.value}" title="${o.title}">`
+
+                    if(o.special !== 'roll') mid += `<i></i>`;
+
+                    mid += `${o.label}</button>`;
+                    break;
+            }
+        }
+
+        mid += `</div>`;
+
+        let effets = `<div class="effets ${data.possibility.classes}" style="display:none;">`;
+
+        if(data.possibility.liste1) {
+            effets += `<div class="liste liste1">
+                        <header>
+                            <span></span>
+                            <span class="label">${game.i18n.localize('KNIGHT.EFFETS.Label')}</span>
+                            <span class="score">${data.possibility.liste1.energie} ${game.i18n.localize('KNIGHT.AUTRE.PointEnergie-short')}</span>
+                        </header>
+                        <div class="block">`;
+
+            const effetsList = listEffects(data.possibility.liste1.raw, data.possibility.liste1.custom, labels);
+
+            for(let l of effetsList) {
+                effets += `<a title="${l.description}" data-raw="${l.raw}">
+                                    <i></i>
+                                    ${l.name}
+                                </a>`;
+            }
+
+            effets += `</div></div>`;
+        }
+
+        if(data.possibility.liste2) {
+            effets += `<div class="liste liste2">
+                        <header>
+                            <span></span>
+                            <span class="label">${game.i18n.localize('KNIGHT.EFFETS.Label')}</span>
+                            <span class="score">${data.possibility.liste2.energie} ${game.i18n.localize('KNIGHT.AUTRE.PointEnergie-short')}</span>
+                        </header>
+                        <div class="block">`;
+
+            const effetsList = listEffects(data.possibility.liste2.raw, data.possibility.liste2.custom, labels);
+
+            for(let l of effetsList) {
+                effets += `<a title="${l.description}" data-raw="${l.raw}">
+                                    <i></i>
+                                    ${l.name}
+                                </a>`;
+            }
+
+            effets += `</div></div>`;
+        }
+
+        if(data.possibility.liste3) {
+            effets += `<div class="liste liste3">
+                        <header>
+                            <span></span>
+                            <span class="label">${game.i18n.localize('KNIGHT.EFFETS.Label')}</span>
+                            <span class="score">${data.possibility.liste3.energie} ${game.i18n.localize('KNIGHT.AUTRE.PointEnergie-short')}</span>
+                        </header>
+                        <div class="block">`;
+
+            const effetsList = listEffects(data.possibility.liste3.raw, data.possibility.liste3.custom, labels);
+
+            for(let l of effetsList) {
+                effets += `<a title="${l.description}" data-raw="${l.raw}">
+                                    <i></i>
+                                    ${l.name}
+                                </a>`;
+            }
+
+            effets += `</div></div>`;
+        }
+
+        let end = `</div></div>`;
+
+        return start+bases+mid+effets+end;
+    }
+
+    #cleanHtml() {
+        this.data.roll.html.find('div.wpn.wpncontact .button').remove();
+        this.data.roll.html.find('div.wpn.wpndistance .button').remove();
+        this.data.roll.html.find('div.wpn.tourelle .button').remove();
+        this.data.roll.html.find('div.wpn.aicontact .cat .button').remove();
+        this.data.roll.html.find('div.wpn.aidistance .cat .button').remove();
+        this.data.roll.html.find('div.wpn.grenade .button').remove();
+        this.data.roll.html.find('div.complexe .button').remove();
+    }
+
+    #updateWpnContact(contact) {
+        let htmlContact = ``;
+
+        for(let w of contact) {
+            htmlContact += this.#getWpnHTML(w);
+        }
+
+        this.data.roll.html.find('div.wpn.wpncontact').append(htmlContact);
+    }
+
+    #updateWpnDistance(distance) {
+        let htmlDistance = ``;
+
+        for(let w of distance) {
+            htmlDistance += this.#getWpnHTML(w);
+        }
+
+        this.data.roll.html.find('div.wpn.wpndistance').append(htmlDistance);
+    }
+
+    #updateWpnTourelle(distance) {
+        let htmlDistance = ``;
+
+        for(let w of distance) {
+            htmlDistance += this.#getWpnHTML(w);
+        }
+
+        this.data.roll.html.find('div.wpn.tourelle').append(htmlDistance);
+    }
+
+    #updateWpnAIContact(ai) {
+
+        for(let w of ai) {
+            let html = ``;
+
+            for(let l of w.list) {
+                html += this.#getWpnHTML(l);
+            }
+
+            this.data.roll.html.find(`div.wpn.aicontact div.cat.${w.id}`).append(html);
+        }
+    }
+
+    #updateWpnAIDistance(ai) {
+        for(let w of ai) {
+            let html = ``;
+
+            for(let l of w.list) {
+                html += this.#getWpnHTML(l);
+            }
+
+            this.data.roll.html.find(`div.wpn.aidistance div.cat.${w.id}`).append(html);
+        }
+    }
+
+    #updateWpnGrenade(grenade) {
+        let htmlGrenade = ``;
+
+        for(let w of grenade) {
+            htmlGrenade += this.#getWpnHTML(w);
+        }
+
+        this.data.roll.html.find('div.wpn.grenade').append(htmlGrenade);
+    }
+
+    #updateWpnComplexe(complexe) {
+        let htmlComplexe = ``;
+
+        for(let w of complexe) {
+            htmlComplexe += this.#getWpnComplexeHTML(w);
+        }
+
+        this.data.roll.html.find('div.complexe').append(htmlComplexe);
+    }
+
+    #updateWpn(id, update) {
+        const wpn = this.rollData.allWpn.find(itm => itm.id === id);
+
+        for(let upd in update) {
+            if(id.includes('module')) {
+                if(upd.includes('options2mains') && (wpn.type === 'contact' || wpn.type === 'distance')) {
+                    this.actor.items.get(id).update({[`system.niveau.actuel.arme.${upd}`]:update[upd]});
+                }
+
+                if(upd.includes('munitions') && (wpn.type === 'contact' || wpn.type === 'distance')) {
+                    this.actor.items.get(id).update({[`system.niveau.actuel.arme.${upd}`]:update[upd]});
+                }
+            } else {
+                if(upd.includes('options2mains') && (wpn.type === 'contact' || wpn.type === 'distance')) {
+                    this.actor.items.get(id).update({[`system.${upd}`]:update[upd]});
+                }
+
+                if(upd.includes('munitions') && (wpn.type === 'contact' || wpn.type === 'distance')) {
+                    this.actor.items.get(id).update({[`system.${upd}`]:update[upd]});
+                }
+            }
+        }
+    }
+
+    #depenseEnergie(amount, forceEspoir=false) {
+        const baseActor = this.actor;
+        const actor = baseActor.type === 'vehicule' ? this.who : this.actor;
+        const isPJ = this.isPJ;
+        const armure = actor.items.find(itm => itm.type === 'armure');
+        const remplaceEnergie = forceEspoir ? true : armure?.system?.espoir?.remplaceEnergie || false;
+        const actuel = remplaceEnergie ? Number(actor.system.espoir.value) : Number(actor.system.energie.value);
+        const type = remplaceEnergie ? 'espoir' : 'energie';
+        const substract = actuel-amount;
+        const hasJauge = isPJ && actor.type !== 'mechaarmure' ? actor.system.jauges[type] : true;
+        const lNot = remplaceEnergie ? game.i18n.localize('KNIGHT.JETS.Notespoir') : game.i18n.localize('KNIGHT.JETS.Notenergie');
+        let update = {};
+        let msg = '';
+        let classes = '';
+
+        if(substract < 0 || !hasJauge) {
+            msg = lNot;
+            classes = 'important'
+        } else {
+            if(remplaceEnergie && !actor.system.espoir.perte.saufAgonie) update[`system.espoir.value`] = substract;
+            else if(!remplaceEnergie && baseActor.type !== 'mechaarmure') update[`system.equipements.${actor.system.wear}.energie.value`] = substract;
+            else if(!remplaceEnergie && baseActor.type === 'mechaarmure') update[`system.energie.value`] = substract;
+        }
+
+        return {
+            msg:msg,
+            classes:classes,
+            update:update,
+            substract:substract,
+            espoir:remplaceEnergie,
+        };
+    }
+
+    #updatePassiveUltime(items, name, data) {
+        const capaciteultime = items.find(items => items.type === 'capaciteultime');
+
+        if(!capaciteultime) return;
+        const type = capaciteultime.system.type;
+
+        if(type !== 'passive') return;
+        const system = capaciteultime.system.passives;
+
+        if(!system.capacites.actif) return;
+
+        switch(name) {
+            case 'vague':
+            case 'rayon':
+            case 'salve':
+                if(!system.capacites.cea.actif) return;
+
+                Object.assign(data, {
+                    degats:{
+                        dice:system.capacites.cea.update[name].degats.dice,
+                        fixe:system.capacites.cea.update[name].degats.fixe,
+                    },
+                    violence:{
+                        dice:system.capacites.cea.update[name].violence.dice,
+                        fixe:system.capacites.cea.update[name].violence.fixe,
+                    },
+                    effets:{
+                        raw:[...data.effets.raw, ...system.capacites.cea.update[name].effets.raw],
+                        custom:[...data.effets.custom, ...system.capacites.cea.update[name].effets.custom],
+                    }
+                });
+                break;
+
+            case 'lame':
+            case 'canon':
+            case 'griffe':
+                if(!system.capacites.morph.actif) return;
+
+                Object.assign(data, {
+                    degats:{
+                        dice:system.capacites.morph.update.polymorphie[name].degats.dice,
+                        fixe:system.capacites.morph.update.polymorphie[name].degats.fixe,
+                    },
+                    violence:{
+                        dice:system.capacites.morph.update.polymorphie[name].violence.dice,
+                        fixe:system.capacites.morph.update.polymorphie[name].violence.fixe,
+                    },
+                    effets:{
+                        raw:[...data.effets.raw, ...system.capacites.morph.update.polymorphie[name].effets.raw],
+                        custom:[...data.effets.custom, ...system.capacites.morph.update.polymorphie[name].effets.custom],
+                    }
+                });
+                break;
+        }
+    }
 }

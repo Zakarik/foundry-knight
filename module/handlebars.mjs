@@ -562,7 +562,7 @@
     Handlebars.registerHelper('moduleCanBeActivate', function (data, type) {
         if(data === undefined) return false;
         let result = false;
-        const system = data.system;
+        const system = data.system?.niveau?.actuel ?? {};
         const isPermanent = system.permanent;
         const hasPNJ = system.pnj?.has ?? false;
         const energieTour = system.energie?.tour?.value ?? 0;
@@ -619,6 +619,10 @@
 
     Handlebars.registerHelper('listCarac', function () {
         return CONFIG.KNIGHT.listCaracteristiques;
+    });
+
+    Handlebars.registerHelper('listAspect', function () {
+        return CONFIG.KNIGHT.aspects;
     });
 
     Handlebars.registerHelper('isntInclude', function (array, key) {
@@ -806,5 +810,174 @@
         };
 
         return game.i18n.localize(list?.[str] ?? str);
+    });
+
+    Handlebars.registerHelper('getInputPath', function (wear, type) {
+        let result = '';
+
+        result = `system.equipements.${wear}.${type}.value`;
+
+        return result;
+    });
+
+    Handlebars.registerHelper('getInputData', function (data, type, name) {
+        const wear = data.wear;
+        const base = data.equipements[wear][type];
+        let result = base;
+
+        switch(name) {
+            case 'bonusUser':
+                result = base.bonus.user;
+                break;
+
+            case 'malusUser':
+                result = base.malus.user;
+                break;
+
+            case 'value':
+                result = base.value;
+                break;
+        }
+
+        return result;
+    });
+
+    Handlebars.registerHelper('getList', function (name, exclude=undefined) {
+        const list = CONFIG?.KNIGHT?.LIST?.[name] ?? {};
+        let result = {};
+
+        for(let l in list) {
+            if(exclude) {
+                if(exclude !== l) result[l] = list[l];
+            } else result[l] = list[l];
+        }
+
+        return result;
+    });
+
+    Handlebars.registerHelper('getAE', function (type) {
+        let result = {};
+
+        for(let i = 0;i <= 10;i++) {
+            result[i] = `${game.i18n.localize(`KNIGHT.AUTRE.${type}`)} (${i})`;
+        }
+
+        return result;
+    });
+
+    Handlebars.registerHelper('getProgression', function () {
+        let result = {
+            autre:game.i18n.localize('KNIGHT.AUTRE.Label'),
+            capaciteheroique:game.i18n.localize('KNIGHT.HEROISME.CAPACITE.Label'),
+        };
+
+        for(let a in CONFIG.KNIGHT.LIST.caracteristiques) {
+            result[a] = game.i18n.localize(CONFIG.KNIGHT.aspects[a]);
+
+            for(let c of CONFIG.KNIGHT.LIST.caracteristiques[a]) {
+                result[c] = game.i18n.localize(CONFIG.KNIGHT.caracteristiques[c]);
+            }
+        }
+
+        return result;
+    });
+
+    Handlebars.registerHelper('getPassagers', function (liste) {
+        let result = {};
+
+        for(let p in liste) {
+            result[liste[p].id] = `${game.i18n.localize('KNIGHT.VEHICULE.ArmeUtiliseePar')} ${liste[p].name}`;
+        }
+
+        return result;
+    });
+
+    Handlebars.registerHelper('getMunitions', function (liste) {
+        let result = {};
+
+        for(let p in liste) {
+            result[p] = `${liste[p].nom}`;
+        }
+
+        return result;
+    });
+
+    Handlebars.registerHelper('getEnergieCompanions', function (liste, remplaceEnergie=false) {
+        const str = remplaceEnergie ? game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEspoirP') : game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.ENERGIE.OctroyerEnergieP');
+
+        let result = {};
+
+        for(let p in liste) {
+            result[liste[p]] = `${liste[p]} ${str}`;
+        }
+
+        return result;
+    });
+
+    Handlebars.registerHelper('getTypeCompanions', function () {
+        let result = {};
+
+        for(let p in CONFIG.KNIGHT.LIST.typecompanions) {
+            result[p] = `${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label')} : ${game.i18n.localize(CONFIG.KNIGHT.LIST.typecompanions[p])}`;
+        }
+
+        return result;
+    });
+
+    Handlebars.registerHelper('getAECompanions', function () {
+        let result = {
+            '0':'-',
+            '1':`${game.i18n.localize('KNIGHT.AUTRE.Mineur')} (1)`,
+            '2':`${game.i18n.localize('KNIGHT.AUTRE.Mineur')} (2)`,
+            '3':`${game.i18n.localize('KNIGHT.AUTRE.Mineur')} (3)`,
+            '4':`${game.i18n.localize('KNIGHT.AUTRE.Mineur')} (4)`,
+            '5':`${game.i18n.localize('KNIGHT.AUTRE.Mineur')} (5)`,
+            '6':`${game.i18n.localize('KNIGHT.AUTRE.Majeur')} (6)`,
+            '7':`${game.i18n.localize('KNIGHT.AUTRE.Majeur')} (7)`,
+            '8':`${game.i18n.localize('KNIGHT.AUTRE.Majeur')} (8)`,
+            '9':`${game.i18n.localize('KNIGHT.AUTRE.Majeur')} (9)`,
+            '10':`${game.i18n.localize('KNIGHT.AUTRE.Majeur')} (10)`,
+        };
+
+        return result;
+    });
+
+    Handlebars.registerHelper('getNoyaux', function (min, max) {
+        let result = {};
+
+        for(let i = min;i <= max;i++) {
+            result[i] = `${i} ${i > 1 ? game.i18n.localize('KNIGHT.LATERAL.Noyaux') : game.i18n.localize('KNIGHT.LATERAL.Noyau')}`;
+        }
+
+        return result;
+    });
+
+    Handlebars.registerHelper('onlyCarac', function () {
+        return CONFIG.KNIGHT.caracteristiques;
+    });
+
+    Handlebars.registerHelper('onlyAspects', function () {
+        return CONFIG.KNIGHT.aspects;
+    });
+
+    Handlebars.registerHelper('getNiveau', function (list) {
+        let result = {};
+        let n = 1;
+
+        for(let p in list) {
+            result[n] = `${game.i18n.localize('KNIGHT.ITEMS.MODULE.Niveau')} ${n}`;
+
+            n++;
+        }
+
+        return result;
+    });
+
+    Handlebars.registerHelper('hasEditNods', function () {
+        return game.settings.get("knight", "canEditNods");
+    });
+
+    Handlebars.registerHelper('hasPJRestaure', function () {
+        return game.settings.get("knight", "canPJRestaure");
     });
  };

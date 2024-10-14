@@ -15,7 +15,7 @@ export default class HooksKnight {
         });
 
         if (game.user.isFirstGM && game.knight.migrations.needUpdate(game.knight.migrations.NEEDED_VERSION)) {
-            game.knight.migrations.migrateWorld({ force: false }).then();
+           game.knight.migrations.migrateWorld({ force: false }).then();
         }
     }
 }

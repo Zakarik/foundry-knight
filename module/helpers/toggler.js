@@ -1,6 +1,7 @@
 class Toggler {
   constructor() {
     this.toggles = this._load();
+    this.togglesSimple = this._loadSimple();
   }
 
   init(id, html) {
@@ -26,6 +27,22 @@ class Toggler {
         });
       });
     });
+
+    html[0].querySelectorAll('.js-simpletoggler').forEach((element, index) => {
+      const visible = this.togglesSimple.get(this._getKey(id, index));
+
+      if ('undefined' !== typeof visible) {
+        this._getSiblings(element).toggle(visible);
+      }
+
+      element.querySelector('span.option').addEventListener('click', e => {
+        e.preventDefault();
+
+        this._getSiblings(element).toggle({
+          complete: () => this._setElementSimpleVisibility(id, index, element),
+        });
+      });
+    });
   }
 
   clearForId(id) {
@@ -37,13 +54,22 @@ class Toggler {
       }
     });
 
+    this.togglesSimple.forEach((value, key) => {
+      if (key.startsWith(id)) {
+        this.togglesSimple.delete(key);
+      }
+    });
+
     this._save();
+    this._saveSimple();
   }
 
   clearAll() {
     this.toggles = new Map();
+    this.togglesSimple = new Map();
 
     this._save();
+    this._saveSimple();
   }
 
   _cleanId(id) {
@@ -51,7 +77,7 @@ class Toggler {
   }
 
   _getSiblings(element) {
-    return $(element).siblings();
+    return $(element).siblings().not('.selected');
   }
 
   _toggleClasses(element, forcedVisibility) {
@@ -79,6 +105,14 @@ class Toggler {
     this._save();
   }
 
+  _setElementSimpleVisibility(id, index, element) {
+    const target = this._getToggleTarget(element);
+
+    this.togglesSimple.set(this._getKey(id, index), 'none' !== target.style.display);
+
+    this._saveSimple();
+  }
+
   _getToggleTarget(element) {
     return element.nextElementSibling;
   }
@@ -97,8 +131,33 @@ class Toggler {
     localStorage.setItem('knight.togglers', JSON.stringify(dataset));
   }
 
+  _saveSimple() {
+    const dataset = {};
+
+    this.togglesSimple.forEach((value, key) => {
+      dataset[key] = value;
+    });
+
+    localStorage.setItem('knight.simpletogglers', JSON.stringify(dataset));
+  }
+
   _load() {
     const dataset = localStorage.getItem('knight.togglers');
+    if (null === dataset) {
+      return new Map();
+    }
+
+    const map = new Map();
+
+    for (const [key, value] of Object.entries(JSON.parse(dataset))) {
+      map.set(key, value);
+    }
+
+    return map;
+  }
+
+  _loadSimple() {
+    const dataset = localStorage.getItem('knight.simpletogglers');
     if (null === dataset) {
       return new Map();
     }

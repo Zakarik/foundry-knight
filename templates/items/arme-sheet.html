@@ -12,12 +12,7 @@
         <label class="oneLine">
             <span>{{localize "KNIGHT.ITEMS.MODULE.RARETE.Label"}}</span>
             <select name="system.rarete">
-                {{#select systemData.rarete}}
-                    <option value=""></option>
-                    {{#each systemData.listes.rarete  as | key rarete|}}
-                        <option value="{{rarete}}">{{key}}</option>
-                    {{/each}}
-                {{/select}}
+                {{selectOptions (getList 'rarete') selected=systemData.rarete localize=true blank=''}}
             </select>
         </label>
 
@@ -71,25 +66,14 @@
         <label>
             <span class="header">{{localize "KNIGHT.ITEMS.ARME.TypeArme"}}</span>
             <select name="system.type">
-                {{#select systemData.type}}
-                <option value="contact">{{localize "KNIGHT.COMBAT.ARMES.CONTACT.Label"}}</option>
-                    {{#unless systemData.restrictions.distance}}
-                        <option value="distance">{{localize "KNIGHT.COMBAT.ARMES.DISTANCE.Label"}}</option>
-                    {{/unless}}
-                {{/select}}
+                {{selectOptions (getList 'typearmes' (ifThen (eq systemData.restrictions.distance) 'distance' 'false')) selected=systemData.type localize=true}}
             </select>
         </label>
 
         <label>
             <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
             <select name="system.portee">
-                {{#select systemData.portee}}
-                <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                {{/select}}
+                {{selectOptions (getList 'portee') selected=systemData.portee localize=true}}
             </select>
         </label>
 

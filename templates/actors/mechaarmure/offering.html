@@ -28,17 +28,7 @@
             </button>
 
             <select name="system.configurations.liste.{{this.type}}.modules.{{this.key}}.noyaux.actuel">
-                {{#select this.noyaux.actuel}}
-                    {{#each (whileBetweenNumber this.noyaux.min this.noyaux.max) as | key number|}}
-                    <option value="{{key}}">
-                        {{#if (isHigherThan key 1)}}
-                        {{key}} {{localize "KNIGHT.LATERAL.Noyaux"}}
-                        {{else}}
-                        {{key}} {{localize "KNIGHT.LATERAL.Noyau"}}
-                        {{/if}}
-                    </option>
-                    {{/each}}
-                {{/select}}
+                {{selectOptions (getNoyaux this.noyaux.min this.noyaux.max) selected=this.noyaux.actuel}}
             </select>
 
             <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true" data-special="{{this.noyaux.actuel}}">

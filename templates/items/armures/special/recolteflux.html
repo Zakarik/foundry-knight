@@ -40,13 +40,7 @@
                 <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
                 <select name="system.special.selected.recolteflux.horsconflit.portee"
                     {{#if this.softlock}}disabled{{/if}} >
-                    {{#select this.horsconflit.portee}}
-                        <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                        <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                        <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                        <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                        <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'portee') selected=this.horsconflit.portee localize=true blank=''}}
                 </select>
             </label>
         </div>
@@ -92,13 +86,7 @@
                 <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
                 <select name="system.special.selected.recolteflux.conflit.portee"
                     {{#if this.softlock}}disabled{{/if}} >
-                    {{#select this.conflit.portee}}
-                        <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                        <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                        <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                        <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                        <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                    {{/select}}
+                    {{selectOptions (getList 'portee') selected=this.conflit.portee localize=true}}
                 </select>
             </label>
         </div>

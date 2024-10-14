@@ -1,0 +1,16 @@
+{{#if (eq key 'select')}}
+<label class="{{classes}}" data-value="{{value}}" data-id="{{id}}">
+    {{#if label}}<span>{{label}}</span>{{/if}}
+    <select data-value="{{selectvalue}}">
+        {{#if hasBlank}}{{selectOptions list selected=selected blank='0'}}
+        {{else}}{{selectOptions list selected=selected}}{{/if}}
+    </select>
+</label>
+{{/if}}
+
+{{#if (eq key 'btn')}}
+    <button type="action" class="{{classes}}" data-value="{{value}}" title="{{title}}">
+        {{#unless (eq special 'roll')}}<i></i>{{/unless}}
+        {{label}}
+    </button>
+{{/if}}

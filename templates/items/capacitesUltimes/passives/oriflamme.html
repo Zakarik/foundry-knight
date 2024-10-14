@@ -12,25 +12,14 @@
     <label class="select {{#unless systemData.passives.capacites.oriflamme.actif}}hidden{{/unless}}">
         <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
         <select name="system.passives.capacites.oriflamme.update.activation">
-            {{#select systemData.passives.capacites.oriflamme.update.activation}}
-                <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                <option value="tour">{{localize "KNIGHT.ACTIVATION.Tour"}}</option>
-            {{/select}}
+            {{selectOptions (getList 'activationsimple') selected=systemData.passives.capacites.oriflamme.update.activation localize=true}}
         </select>
     </label>
 
     <label class="select {{#unless systemData.passives.capacites.oriflamme.actif}}hidden{{/unless}}">
         <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
         <select name="system.passives.capacites.oriflamme.update.portee">
-            {{#select systemData.passives.capacites.oriflamme.update.portee}}
-                <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-            {{/select}}
+            {{selectOptions (getList 'portee') selected=systemData.passives.capacites.oriflamme.update.portee localize=true}}
         </select>
     </label>
 

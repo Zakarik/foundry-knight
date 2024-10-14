@@ -62,17 +62,7 @@
 
                 <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
                     data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.SubirDegats"}}" data-special="degats"
-                    data-cout="0" data-dgts="
-                        {{#if niveau.colere}}
-                            {{colere.subis}}D6
-                        {{/if}}
-                        {{#if niveau.rage}}
-                            {{rage.subis}}D6
-                        {{/if}}
-                        {{#if niveau.fureur}}
-                            {{fureur.subis}}D6
-                        {{/if}}
-                    ">
+                    data-cout="0" data-dgts="{{#if niveau.colere}}{{colere.subis}}D6{{/if}}{{#if niveau.rage}}{{rage.subis}}D6{{/if}}{{#if niveau.fureur}}{{fureur.subis}}D6{{/if}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.SubirDegats"}}
                 </button>
 

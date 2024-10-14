@@ -1,16 +1,12 @@
 import {
-  getEffets,
   listEffects,
-  SortByName,
-  getModStyle,
-  addOrUpdateEffect,
   confirmationDialog,
-  effectsGestion,
   getDefaultImg,
   diceHover,
   options,
   hideShowLimited,
   dragMacro,
+  getAllEffects
 } from "../../helpers/common.mjs";
 
 import {
@@ -20,35 +16,6 @@ import {
 
 import toggler from '../../helpers/toggler.js';
 
-const path = {
-  manoeuvrabilite:{
-    mod:'system.manoeuvrabilite.mod',
-  },
-  vitesse:{
-    mod:'system.vitesse.mod',
-  },
-  puissance:{
-    mod:'system.puissance.mod',
-  },
-  senseurs:{
-    mod:'system.senseurs.mod',
-  },
-  systemes:{
-    mod:'system.systemes.mod',
-  },
-  champDeForce:{
-    mod:'system.champDeForce.mod',
-  },
-  defense:{
-    mod:'system.defense.mod',
-  },
-  reaction:{
-    mod:'system.reaction.mod',
-  },
-  resilience:{
-    mod:'system.resilience.mod',
-  },
-};
 
 /**
  * @extends {ActorSheet}
@@ -171,7 +138,7 @@ export class MechaArmureSheet extends ActorSheet {
     html.find('.ajouterModule').click(ev => {
       const target = $(ev.currentTarget);
       const type = target.data("type");
-      const data = this.getData().data.system;
+      const data = this.actor.system;
       const value = data.modules.actuel[type];
       const modules = data.modules.liste[value];
 
@@ -193,90 +160,51 @@ export class MechaArmureSheet extends ActorSheet {
     html.find('div.combat .podmiracle').click(async ev => {
       const target = $(ev.currentTarget);
       const type = target.data("type");
-      const data = this.getData().data.system.modules.liste.podMiracle;
+      const data = this.actor.system.modules.liste.podMiracle;
       let msg;
+      let roll;
+      let total;
 
       switch(type) {
         case 'recuperationps':
-          const rPS = new game.knight.RollKnight(`${data.recuperation.sante}D6`, this.actor.system);
-          rPS._success = false;
-          await rPS.evaluate();
+          roll = new game.knight.RollKnight(this.actor, {
+            name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.RecuperationPS`)}`,
+            dices:`${data.recuperation.armure}D6`,
+          }, false);
 
-          msg = {
-            flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.RecuperationPS`)}`,
-            main:{
-              total:`${rPS._total} ${game.i18n.localize(`KNIGHT.AUTRE.PointSante-short`)}`,
-              tooltip:await rPS.getTooltip(),
-            }
-          };
+          total = await roll.doRoll();
           break;
 
         case 'recuperationpa':
-          const rPA = new game.knight.RollKnight(`${data.recuperation.armure}D6`, this.actor.system);
-          rPA._success = false;
-          await rPA.evaluate();
+          roll = new game.knight.RollKnight(this.actor, {
+            name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.RecuperationPA`)}`,
+            dices:`${data.recuperation.armure}D6`,
+          }, false);
 
-          msg = {
-            flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.RecuperationPA`)}`,
-            main:{
-              total:`${rPA._total} ${game.i18n.localize(`KNIGHT.AUTRE.PointArmure-short`)}`,
-              tooltip:await rPA.getTooltip(),
-            }
-          };
+          total = await roll.doRoll();
           break;
 
         case 'recuperationblindage':
-          const rBlindage = new game.knight.RollKnight(`${data.recuperation.blindage}D6`, this.actor.system);
-          rBlindage._success = false;
-          await rBlindage.evaluate();
+          roll = new game.knight.RollKnight(this.actor, {
+            name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.RecuperationBlindage`)}`,
+            dices:`${data.recuperation.blindage}D6`,
+          }, false);
 
-          msg = {
-            flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.RecuperationBlindage`)}`,
-            main:{
-              total:`${rBlindage._total} ${game.i18n.localize(`KNIGHT.LATERAL.Blindage`)}`,
-              tooltip:await rBlindage.getTooltip(),
-            }
-          };
+          total = await roll.doRoll();
           break;
 
         case 'recuperationresilience':
-          const rResilience = new game.knight.RollKnight(`${data.recuperation.resilience}`, this.actor.system);
-          rResilience._success = false;
-          await rResilience.evaluate();
+          roll = new game.knight.RollKnight(this.actor, {
+            name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.RecuperationResilience`)}`,
+            dices:`${data.recuperation.resilience}D6`,
+          }, false);
 
-          msg = {
-            flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.PODMIRACLE.RecuperationResilience`)}`,
-            main:{
-              total:`${rResilience._total} ${game.i18n.localize(`KNIGHT.LATERAL.Resilience`)}`,
-              tooltip:await rResilience.getTooltip(),
-            }
-          };
+          total = await roll.doRoll();
           break;
 
         case 'destruction':
           this.actor.delete();
           break;
-      }
-
-      if(type !== 'destruction') {
-        const msgData = {
-          user: game.user.id,
-          speaker: {
-            actor: this.actor?.id || null,
-            token: this.actor?.token?.id || null,
-            alias: this.actor?.name || null,
-          },
-          type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-          content: await renderTemplate('systems/knight/templates/dices/wpn.html', msg),
-          sound: CONFIG.sounds.dice
-        };
-
-        const rMode = game.settings.get("core", "rollMode");
-        const msgFData = ChatMessage.applyRollMode(msgData, rMode);
-
-        await ChatMessage.create(msgFData, {
-          rollMode:rMode
-        });
       }
     });
 
@@ -287,8 +215,15 @@ export class MechaArmureSheet extends ActorSheet {
       const getData = this.actor;
       const num = type === 'special' ? getData.wpnSpecial.findIndex(wpn => wpn._id === key) : getData.wpn.findIndex(wpn => wpn._id === key);
       const label = game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`);
+      const actor = this.actor.token ? this.actor.token.id : this.actor.id;
 
-      dialogRoll(label, this.actor, {isWpn:true, idWpn:key, nameWpn:label, typeWpn:type, num:num});
+      const dialog = new game.knight.applications.KnightRollDialog(actor, {
+        whoActivate:getData.system.pilote,
+        label:label,
+        wpn:`ma_${actor}_${key}`
+      });
+
+      dialog.open();
     });
 
     html.find('div.combat .activation').click(async ev => {
@@ -298,10 +233,12 @@ export class MechaArmureSheet extends ActorSheet {
       const simple = target.data("simple");
       const special = target.data("special");
       const special2 = target.data("special2");
-      const getData = this.getData().data.system;
+      const getData = this.actor.system;
       const data = getData.configurations.liste[type].modules[key];
       let newEnergie;
       let newActor;
+      let roll;
+      let total;
 
       if(!simple) this.actor.update({[`system.configurations.liste.${type}.modules.${key}.active`]:true});
 
@@ -318,37 +255,12 @@ export class MechaArmureSheet extends ActorSheet {
 
             if(!newEnergie) return
 
-            const rNoe = new game.knight.RollKnight(`${data.reparations.mechaarmure.resilience}D6`, this.actor.system);
-            rNoe._success = false;
-            await rNoe.evaluate();
+            roll = new game.knight.RollKnight(this.actor, {
+              name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.LATERAL.Resilience`)}`,
+              dices:`${data.reparations.mechaarmure.resilience}D6`,
+            }, false);
 
-            const msgNoe = {
-              flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.LATERAL.Resilience`)}`,
-              main:{
-                total:rNoe._total,
-                tooltip:await rNoe.getTooltip(),
-                formula: rNoe._formula
-              }
-            };
-
-            const msgNoeData = {
-              user: game.user.id,
-              speaker: {
-                actor: this.actor?.id || null,
-                token: this.actor?.token?.id || null,
-                alias: this.actor?.name || null,
-              },
-              type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-              content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgNoe),
-              sound: CONFIG.sounds.dice
-            };
-
-            const rMode = game.settings.get("core", "rollMode");
-            const msgFData = ChatMessage.applyRollMode(msgNoeData, rMode);
-
-            await ChatMessage.create(msgFData, {
-              rollMode:rMode
-            });
+            total = await roll.doRoll();
           } else {
             newEnergie = await this._depenseNE(+data.noyaux, `${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`);
 
@@ -360,50 +272,29 @@ export class MechaArmureSheet extends ActorSheet {
           newEnergie = await this._depenseNE(+data.noyaux.bande, `${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`);
 
           if(!newEnergie) return
+          roll = new game.knight.RollKnight(this.actor, {
+            name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
+          }, false);
+
+          roll.sendMessage({text:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} : ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.AneantirBande`)}`, classes:'important'});
           break;
 
         case 'chocSonique':
           newEnergie = await this._depenseNE(+data.noyaux, `${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`);
 
-          if(!newEnergie) return
+          if(!newEnergie) return;
 
-          const chocSoniqueE = [];
+          roll = new game.knight.RollKnight(this.actor, {
+            name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
+          }, false);
 
-          for (let [key, effet] of Object.entries(data.effets.liste)){
-            chocSoniqueE.push(effet.name);
-          }
-
-          const msgChocS = {
-            flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
-            main:{
-              total:chocSoniqueE.join(' / ')
-            }
-          };
-
-          const msgChocSData = {
-            user: game.user.id,
-            speaker: {
-              actor: this.actor?.id || null,
-              token: this.actor?.token?.id || null,
-              alias: this.actor?.name || null,
-            },
-            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-            content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgChocS),
-            sound: CONFIG.sounds.dice
-          };
-
-          const rMode = game.settings.get("core", "rollMode");
-          const msgFData = ChatMessage.applyRollMode(msgChocSData, rMode);
-
-          await ChatMessage.create(msgFData, {
-            rollMode:rMode
-          });
+          total = await roll.doRoll({}, data.effets);
           break;
 
         case 'bouclierAmrita':
           newEnergie = await this._depenseNE(+data.noyaux, `${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`);
 
-          if(!newEnergie) return
+          if(!newEnergie) return;
 
           this.actor.update({[`system.resilience.value`]:+getData.resilience.value + data.bonus.resilience});
           break;
@@ -419,100 +310,43 @@ export class MechaArmureSheet extends ActorSheet {
 
           if(!newEnergie) return
 
-          let msgCurse;
+          roll = new game.knight.RollKnight(this.actor, {
+            name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
+          }, false);
 
           switch(special2) {
             case "degats":
-              msgCurse = {
-                flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
-                main:{
-                  total:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.DiminueDegatsViolence`)} : ${data.special.degats}${game.i18n.localize(`KNIGHT.JETS.Des-short`)}6`
-                }
-              };
+              roll.sendMessage({text:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.DiminueDegatsViolence`)} : ${data.special.degats}${game.i18n.localize(`KNIGHT.JETS.Des-short`)}6`, classes:'important'});
               break;
 
             case "reussite":
-              msgCurse = {
-                flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
-                main:{
-                  total:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.RetireReussite`)} : ${data.special.reussite}`
-                }
-              };
+              roll.sendMessage({text:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.RetireReussite`)} : ${data.special.reussite}`, classes:'important'});
               break;
 
             case "baisserresilienceroll":
-              const rBRCurse = new game.knight.RollKnight(`${data.special.baisserresilience.roll}D6`, this.actor.system);
-              rBRCurse._success = false;
-              await rBRCurse.evaluate();
-
-              msgCurse = {
-                flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
-                main:{
-                  total:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.BaisseResilience`)} : ${rBRCurse._total}`
-                }
-              };
+              roll.setDices(`${data.special.baisserresilience.roll}D6`);
+              total = await roll.doRoll({}, {}, {text:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.BaisseResilience`)} : ${total}`, classes:'important'});
               break;
 
             case "baisserresiliencefixe":
-              msgCurse = {
-                flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
-                main:{
-                  total:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.BaisseResilience`)} : ${data.special.baisserresilience.fixe}`
-                }
-              };
+              roll.sendMessage({text:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.BaisseResilience`)} : ${data.special.baisserresilience.fixe}`, classes:'important'})
               break;
 
             case "champdeforce":
-              msgCurse = {
-                flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
-                main:{
-                  total:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.AnnuleChampDeForce`)} : ${data.special.champdeforce} ${game.i18n.localize(`KNIGHT.AUTRE.Tour`)}`
-                }
-              };
+              roll.sendMessage({text:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.AnnuleChampDeForce`)} : ${data.special.champdeforce}`, classes:'important'})
               break;
 
             case "annulerresilience":
-              msgCurse = {
-                flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
-                main:{
-                  total:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.AnnuleResilience`)} : ${data.special.annulerresilience} ${game.i18n.localize(`KNIGHT.AUTRE.Tour`)}`
-                }
-              };
+              roll.sendMessage({text:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.AnnuleResilience`)} : ${data.special.annulerresilience}`, classes:'important'})
               break;
 
             case "choc":
-              const rCCurse = new game.knight.RollKnight(`${data.special.choc}`, this.actor.system);
-              rCCurse._success = false;
-              await rCCurse.evaluate();
+              roll.setDices(`${data.special.choc}`);
+              total = await roll.doRoll();
 
-              msgCurse = {
-                flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
-                main:{
-                  total:`${game.i18n.localize(`KNIGHT.EFFETS.CHOC.Label`)} ${rCCurse._total}`,
-                  tooltip:await rCCurse.getTooltip(),
-                }
-              };
+              roll.sendMessage({text:`${game.i18n.localize(`KNIGHT.EFFETS.CHOC.Label`)} ${total}`, classes:'important'})
               break;
           }
-
-          const msgBRCurseData = {
-            user: game.user.id,
-            speaker: {
-              actor: this.actor?.id || null,
-              token: this.actor?.token?.id || null,
-              alias: this.actor?.name || null,
-            },
-            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-            content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCurse),
-            sound: CONFIG.sounds.dice
-          };
-
-          const rModeBRC = game.settings.get("core", "rollMode");
-          const msgFDataBRC = ChatMessage.applyRollMode(msgBRCurseData, rModeBRC);
-
-          await ChatMessage.create(msgFDataBRC, {
-            rollMode:rMode
-          });
           break;
 
         case 'podMiracle':
@@ -549,37 +383,14 @@ export class MechaArmureSheet extends ActorSheet {
             permission:this.actor.ownership
           });
 
-          const rPod = new game.knight.RollKnight(`${data.duree}D6`, this.actor.system);
-          rPod._success = false;
-          await rPod.evaluate();
 
-          const msgPod = {
-            flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.DUREE.Label`)}`,
-            main:{
-              total:`${rPod._total} ${game.i18n.localize(`KNIGHT.AUTRE.Tours`)}`,
-              tooltip:await rPod.getTooltip(),
-              formula: rPod._formula
-            }
-          };
+          roll = new game.knight.RollKnight(this.actor, {
+            name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
+            dices:`${data.duree}D6`,
+          }, false);
 
-          const msgPodData = {
-            user: game.user.id,
-            speaker: {
-              actor: this.actor?.id || null,
-              token: this.actor?.token?.id || null,
-              alias: this.actor?.name || null,
-            },
-            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-            content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgPod),
-            sound: CONFIG.sounds.dice
-          };
-
-          const rModePod = game.settings.get("core", "rollMode");
-          const msgFDataPod = ChatMessage.applyRollMode(msgPodData, rModePod);
-
-          await ChatMessage.create(msgFDataPod, {
-            rollMode:rMode
-          });
+          total = await roll.doRoll();
+          roll.sendMessage({text:`${total} ${game.i18n.localize(`KNIGHT.AUTRE.Tours`)}`, classes:'important'})
           break;
 
         case 'podInvulnerabilite':
@@ -587,37 +398,13 @@ export class MechaArmureSheet extends ActorSheet {
 
           if(!newEnergie) return
 
-          const rInv = new game.knight.RollKnight(`${data.duree}D6`, this.actor.system);
-          rInv._success = false;
-          await rInv.evaluate();
+          roll = new game.knight.RollKnight(this.actor, {
+            name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
+            dices:`${data.duree}D6`,
+          }, false);
 
-          const msgInv = {
-            flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.DUREE.Label`)}`,
-            main:{
-              total:`${rInv._total} ${game.i18n.localize(`KNIGHT.AUTRE.Tours`)}`,
-              tooltip:await rInv.getTooltip(),
-              formula: rInv._formula
-            }
-          };
-
-          const msgInvData = {
-            user: game.user.id,
-            speaker: {
-              actor: this.actor?.id || null,
-              token: this.actor?.token?.id || null,
-              alias: this.actor?.name || null,
-            },
-            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-            content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgInv),
-            sound: CONFIG.sounds.dice
-          };
-
-          const rModeInv = game.settings.get("core", "rollMode");
-          const msgFDataInv = ChatMessage.applyRollMode(msgInvData, rModeInv);
-
-          await ChatMessage.create(msgFDataInv, {
-            rollMode:rMode
-          });
+          total = await roll.doRoll({}, {}, {text:`@{rollTotal} ${game.i18n.localize(`KNIGHT.AUTRE.Tours`)}`, classes:'important'});
+          //roll.sendMessage()
           break;
 
         case 'dronesEvacuation':
@@ -812,8 +599,9 @@ export class MechaArmureSheet extends ActorSheet {
       const degatsD = target.data("degats");
       const degatsF = target?.data("degatsfixe") || 0;
       const cout = target?.data("cout") || false;
-      const getData = this.getData();
-
+      const getData = this.actor.system;
+      let roll;
+      let total;
 
       if(cout !== false) {
         const tCout = eval(cout);
@@ -823,65 +611,51 @@ export class MechaArmureSheet extends ActorSheet {
         if(!depense) return;
       }
 
-      const degats = {
-        dice:degatsD,
-        fixe:degatsF
-      };
-
       let dataWpn = {
-        effets:{
-          raw:[],
-          custom:[]
-        }
+        raw:[],
+        custom:[]
       }
 
       switch(key) {
         case 'tourellesLasersAutomatisees':
         case 'missilesJericho':
-          dataWpn.effets.raw = getData.systemData.configurations.liste[type].modules[key].effets.raw;
-          dataWpn.effets.custom = getData.systemData.configurations.liste[type].modules[key].effets.custom;
+          dataWpn.raw = getData.configurations.liste[type].modules[key].effets.raw;
+          dataWpn.custom = getData.configurations.liste[type].modules[key].effets.custom;
           break;
 
         case 'moduleInferno':
-          const rInf = new game.knight.RollKnight(`${getData.systemData.configurations.liste[type].modules[key].cdf}`, this.actor.system);
-          rInf._success = false;
-          await rInf.evaluate();
+          roll = new game.knight.RollKnight(this.actor, {
+            name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Cdf`)}`,
+            dices:`${getData.configurations.liste[type].modules[key].cdf}`,
+          }, false);
 
+          total = await roll.doRoll();
           const rInfTour = +rInf._total > 1 ? game.i18n.localize(`KNIGHT.AUTRE.Tours`) : game.i18n.localize(`KNIGHT.AUTRE.Tour`);
-
-          const msgInf = {
-            flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Cdf`)}`,
-            main:{
-              total:`${rInf._total} ${rInfTour}`,
-              tooltip:await rInf.getTooltip(),
-              formula: rInf._formula
-            }
-          };
-
-          const msgInfData = {
-            user: game.user.id,
-            speaker: {
-              actor: this.actor?.id || null,
-              token: this.actor?.token?.id || null,
-              alias: this.actor?.name || null,
-            },
-            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-            content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgInf),
-            sound: CONFIG.sounds.dice
-          };
-
-          const rModeInf = game.settings.get("core", "rollMode");
-          const msgFDataInf = ChatMessage.applyRollMode(msgInfData, rModeInf);
-
-          await ChatMessage.create(msgFDataInf, {
-            rollMode:rMode
-          });
+          roll.sendMessage({text:`${total} ${rInfTour}`, classes:'important'})
           break;
       }
 
-      const allEffets = await this._getAllEffets(dataWpn, false, false);
+      roll = new game.knight.RollKnight(this.actor, {
+        name:label,
+      }, false);
 
-      this._doDgts(label, degats, allEffets);
+      const weapon = roll.prepareWpnDistance({
+        name:label,
+        system:{
+          degats:{dice:degatsD, fixe:degatsF},
+          violence:{dice:0, fixe:0},
+          effets:dataWpn,
+        }
+      });
+      const options = weapon.options;
+
+      for(let o of options) {
+        o.active = true;
+      }
+
+      const flags = roll.getRollData(weapon)
+      roll.setWeapon(weapon);
+      await roll.doRollDamage(flags);
     });
 
     html.find('div.combat .violence').click(async ev => {
@@ -892,7 +666,9 @@ export class MechaArmureSheet extends ActorSheet {
       const violenceD = target.data("violence");
       const violenceF = target?.data("violencefixe") || 0;
       const cout = target?.data("cout") || false;
-      const getData = this.getData();
+      const getData = this.actor.system;
+      let roll;
+      let total;
 
       if(cout !== false) {
         const tCout = eval(cout);
@@ -901,69 +677,55 @@ export class MechaArmureSheet extends ActorSheet {
         if(!depense) return;
       }
 
-      const violence = {
-        dice:violenceD,
-        fixe:violenceF
-      };
-
       let dataWpn = {
-        effets:{
           raw:[],
           custom:[]
-        }
       }
 
       switch(key) {
         case 'tourellesLasersAutomatisees':
-          dataWpn.effets.raw = getData.systemData.configurations.liste[type].modules[key].effets.raw;
-          dataWpn.effets.custom = getData.systemData.configurations.liste[type].modules[key].effets.custom;
+          dataWpn.raw = getData.configurations.liste[type].modules[key].effets.raw;
+          dataWpn.custom = getData.configurations.liste[type].modules[key].effets.custom;
           break;
         case 'moduleInferno':
-          const rInf = new game.knight.RollKnight(`${getData.systemData.configurations.liste[type].modules[key].cdf}`, this.actor.system);
-          rInf._success = false;
-          await rInf.evaluate();
+          roll = new game.knight.RollKnight(this.actor, {
+            name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Cdf`)}`,
+            dices:`${getData.configurations.liste[type].modules[key].cdf}`,
+          }, false);
 
+          total = await roll.doRoll();
           const rInfTour = +rInf._total > 1 ? game.i18n.localize(`KNIGHT.AUTRE.Tours`) : game.i18n.localize(`KNIGHT.AUTRE.Tour`);
-
-          const msgInf = {
-            flavor:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Cdf`)}`,
-            main:{
-              total:`${rInf._total} ${rInfTour}`,
-              tooltip:await rInf.getTooltip(),
-              formula: rInf._formula
-            }
-          };
-
-          const msgInfData = {
-            user: game.user.id,
-            speaker: {
-              actor: this.actor?.id || null,
-              token: this.actor?.token?.id || null,
-              alias: this.actor?.name || null,
-            },
-            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-            content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgInf),
-            sound: CONFIG.sounds.dice
-          };
-
-          const rModeInf = game.settings.get("core", "rollMode");
-          const msgFDataInf = ChatMessage.applyRollMode(msgInfData, rModeInf);
-
-          await ChatMessage.create(msgFDataInf, {
-            rollMode:rMode
-          });
+          roll.sendMessage({text:`${total} ${rInfTour}`, classes:'important'})
           break;
       }
 
-      const allEffets = await this._getAllEffets(dataWpn, false, false);
+      roll = new game.knight.RollKnight(this.actor, {
+        name:label,
+      }, false);
 
-      this._doViolence(label, violence, allEffets);
+      const weapon = roll.prepareWpnDistance({
+        name:label,
+        system:{
+          degats:{dice:0, fixe:0},
+          violence:{dice:violenceD, fixe:violenceF},
+          effets:dataWpn,
+        }
+      });
+      const options = weapon.options;
+
+      for(let o of options) {
+        o.active = true;
+      }
+
+      const flags = roll.getRollData(weapon)
+      roll.setWeapon(weapon);
+      await roll.doRollViolence(flags);
     });
 
     html.find('div.combat button.configuration').click(ev => {
       const target = $(ev.currentTarget);
       const type = target.data("type");
-      const data = this.getData().data.system.configurations.actuel;
+      const data = this.actor.system.configurations.actuel;
       let result = type;
 
       if(data === type) result = "";
@@ -1000,37 +762,6 @@ export class MechaArmureSheet extends ActorSheet {
     });
 
     html.find('div.styleCombat > select').change(ev => {
-      const style = $(ev.currentTarget).val();
-      const mods = getModStyle(style);
-      const effects = [];
-
-      effects.push({
-        key: path.reaction.mod,
-        mode: 2,
-        priority: null,
-        value: mods.bonus.reaction
-      },
-      {
-        key: path.reaction.mod,
-        mode: 2,
-        priority: null,
-        value: -mods.malus.reaction
-      },
-      {
-        key: path.defense.mod,
-        mode: 2,
-        priority: null,
-        value: mods.bonus.defense
-      },
-      {
-        key: path.defense.mod,
-        mode: 2,
-        priority: null,
-        value: -mods.malus.defense
-      });
-
-      addOrUpdateEffect(this.actor, 'style', effects);
-
       const update = {
         system: {
           combat:{
@@ -1052,6 +783,8 @@ export class MechaArmureSheet extends ActorSheet {
       const caracteristique = target.data("caracteristique") || '';
       const getData = this.actor;
 
+      if(!getData.system.pilote || getData.system.pilote === '0') return;
+
       let bonus = 0;
 
       switch(type) {
@@ -1064,20 +797,48 @@ export class MechaArmureSheet extends ActorSheet {
           break;
       }
 
-      dialogRoll(label, this.actor, {base:caracteristique, modificateur:bonus});
+      const actor = this.actor.token ? this.actor.token.id : this.actor.id;
+
+      const dialog = new game.knight.applications.KnightRollDialog(actor, {
+        whoActivate:getData.system.pilote,
+        label:label,
+        base:caracteristique,
+        modificateur:bonus,
+      });
+
+      dialog.open();
     });
 
     html.find('.jetWpn').click(ev => {
       const target = $(ev.currentTarget);
       const name = target.data("name");
-      const id = target.data("id");
       const isDistance = target.data("isdistance");
       const num = target.data("num");
       const caracs = target?.data("caracteristiques")?.split(",") || [];
+      const parent = target.parents('div.wpn');
+      const other = parent.data("other");
+      const what = parent.data("what");
+      const actor = this.actor.token ? this.actor.token.id : this.actor.id;
+      let whatRoll = [];
+      let id = target.data("id");
+      let base;
+      id = id === 'distance' ? `${other}${what}d` : `${other}${what}c`;
+
+      whatRoll.push('force');
+
+      if(id === 'distance') base = 'tir';
+      else base = 'combat';
 
       let label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[name][num]);
+      const dialog = new game.knight.applications.KnightRollDialog(actor, {
+        whoActivate:this.actor.system.pilote,
+        label:label,
+        wpn:id,
+        base:base,
+        whatRoll:whatRoll,
+      });
 
-      dialogRoll(label, this.actor, {base:caracs, isWpn:true, idWpn:id, nameWpn:name, typeWpn:isDistance, num:num});
+      dialog.open();
     });
   }
 
@@ -1159,21 +920,27 @@ export class MechaArmureSheet extends ActorSheet {
   }
 
   async _prepareCharacterItems(sheetData) {
-    const version = game.version.split('.');
-
     const actorData = sheetData.actor;
     const system = sheetData.data.system;
     const piloteId = system.pilote;
-    const modulesListe = Object.keys(system.modules.liste);
-    const modulesBase = Object.keys(system.configurations.liste.base.modules);
-    const modulesC1 = Object.keys(system.configurations.liste.c1.modules);
-    const modulesC2 = Object.keys(system.configurations.liste.c2.modules);
-    const modules = [];
+    const configuration = system.configurations.actuel;
+    const base = system.configurations.liste.base.modules;
+    const c1 = system.configurations.liste.c1.modules;
+    const c2 = system.configurations.liste.c2.modules;
     const wpn = [];
     const wpnSpecial = [];
-    const effects = [];
+    let modules = base;
     let pilote = {};
     let moduleWraith = false;
+
+    const existingModules = new Set([...Object.keys(base), ...Object.keys(c1), ...Object.keys(c2)]);
+    let list = Object.keys(system.modules.liste)
+      .filter(m => !existingModules.has(m))
+      .map(m => ({key: m, label: game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${m.toUpperCase()}.Label`)}));
+
+    if(configuration === 'c1') modules = foundry.utils.mergeObject(foundry.utils.deepClone(base), c1);
+    else if(configuration === 'c2') modules = foundry.utils.mergeObject(foundry.utils.deepClone(base), c2);
+
 
     if(piloteId !== 0) {
       const piloteData = game.actors?.get(piloteId) || false;
@@ -1233,156 +1000,73 @@ export class MechaArmureSheet extends ActorSheet {
     const listWpn = ['canonMetatron', 'canonMagma', 'mitrailleusesSurtur', 'souffleDemoniaque', 'poingsSoniques'];
     const listWpnSpecial = ['lamesCinetiquesGeantes'];
 
-    for(let i = 0; i < modulesListe.length;i++) {
-      const name = modulesListe[i];
+    for(let m in modules) {
       let type = '';
 
-      if(!modulesBase.includes(name) && !modulesC1.includes(name) && !modulesC2.includes(name)) {
-        modules.push(name);
+      if(Object.keys(base).includes(m)) type = 'base';
+      else if(Object.keys(c1).includes(m)) type = 'c1';
+      else if(Object.keys(c2).includes(m)) type = 'c2';
+
+      const data = modules[m];
+
+      if(listWpn.includes(m)) {
+        let noyaux = 0;
+
+        switch(m) {
+          case 'canonMagma':
+            noyaux = parseInt(data.noyaux.simple);
+            break;
+
+          case 'souffleDemoniaque':
+          case 'mitrailleusesSurtur':
+          case 'canonMetatron':
+          case 'poingsSoniques':
+            noyaux = parseInt(data.noyaux);
+            break;
+        }
+
+        wpn.push({
+          type:type,
+          _id:name,
+          name:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${name.toUpperCase()}.Label`),
+          portee:data.portee,
+          energie:noyaux,
+          degats:data.degats,
+          violence:data.violence,
+          effets:data.effets
+        });
       }
 
-      if(modulesBase.includes(name)) type = 'base';
-      if(modulesC1.includes(name)) type = 'c1';
-      if(modulesC2.includes(name)) type = 'c2';
+      if(listWpnSpecial.includes(m)) {
+        let noyaux = 0;
 
-      if(type !== '') {
-        const data = system.configurations.liste[type].modules[name];
-
-        if(data.active) {
-          switch(name) {
-            case 'moduleWraith':
-              moduleWraith = true;
-              break;
-
-            case 'volMarkIV':
-              effects.push({
-                key: path.manoeuvrabilite.mod,
-                mode: 2,
-                priority: null,
-                value: data.bonus.manoeuvrabilite
-              });
-              break;
-
-            case 'bouclierAmrita':
-              effects.push({
-                key: path.champDeForce.mod,
-                mode: 2,
-                priority: null,
-                value: data.bonus.champDeForce
-              },
-              {
-                key: path.defense.mod,
-                mode: 2,
-                priority: null,
-                value: data.bonus.defense
-              },
-              {
-                key: path.reaction.mod,
-                mode: 2,
-                priority: null,
-                value: data.bonus.reaction
-              },
-              {
-                key: path.resilience.mod,
-                mode: 2,
-                priority: null,
-                value: data.bonus.resilience
-              });
-              break;
-
-            case 'modeSiegeTower':
-              effects.push({
-                key: path.resilience.mod,
-                mode: 2,
-                priority: null,
-                value: data.bonus.resilience
-              });
-              break;
-
-            case 'nanoBrume':
-              effects.push({
-                key: path.defense.mod,
-                mode: 2,
-                priority: null,
-                value: data.bonus.defense
-              },
-              {
-                key: path.reaction.mod,
-                mode: 2,
-                priority: null,
-                value: data.bonus.reaction
-              });
-              break;
-          }
-        }
-
-        if(listWpn.includes(name)) {
-          let noyaux = 0;
-
-          switch(name) {
-            case 'canonMagma':
-              noyaux = +data.noyaux.simple;
-              break;
-
-            case 'souffleDemoniaque':
-            case 'mitrailleusesSurtur':
-            case 'canonMetatron':
-            case 'poingsSoniques':
-              noyaux = +data.noyaux;
-              break;
-          }
-
-          wpn.push({
-            type:type,
-            _id:name,
-            name:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${name.toUpperCase()}.Label`),
-            portee:data.portee,
-            energie:noyaux,
-            degats:data.degats,
-            violence:data.violence,
-            effets:data.effets
-          });
-        }
-
-        if(listWpnSpecial.includes(name)) {
-          let noyaux = 0;
-
-          wpnSpecial.push({
-            type:'special',
-            subType:type,
-            _id:name,
-            name:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${name.toUpperCase()}.Label`),
-            portee:data.portee,
-            energie:noyaux,
-            degats:data.degats,
-            violence:data.violence,
-            effets:data.effets,
-            eff1:data.eff1,
-            eff2:data.eff2
-          });
-        }
+        wpnSpecial.push({
+          type:'special',
+          subType:type,
+          _id:name,
+          name:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${name.toUpperCase()}.Label`),
+          portee:data.portee,
+          energie:noyaux,
+          degats:data.degats,
+          violence:data.violence,
+          effets:data.effets,
+          eff1:data.eff1,
+          eff2:data.eff2
+        });
       }
     }
 
-    modules.sort();
-
-    actorData.modules = modules;
+    actorData.modules = list;
     actorData.wpn = wpn;
     actorData.wpnSpecial = wpnSpecial;
     actorData.pilote = pilote;
     actorData.moduleWraith = moduleWraith;
-
-    const listWithEffect = [
-      {label:'Modules', data:effects}
-    ];
-
-    if(sheetData.editable) effectsGestion(this.actor, listWithEffect);
   }
 
   _prepareEffetsModules(context) {
     const getData = context.data.system;
     const modules = ['canonMetatron', 'canonMagma', 'lamesCinetiquesGeantes', 'missilesJericho', 'souffleDemoniaque', 'poingsSoniques', 'chocSonique'];
-    const effetsLabels = CONFIG.KNIGHT.effets;
+    const effetsLabels = getAllEffects();
 
     for(let i = 0; i < modules.length;i++) {
       const base = getData.configurations.liste.base.modules?.[modules[i]] || false;
@@ -1403,7 +1087,7 @@ export class MechaArmureSheet extends ActorSheet {
 
           for(let n = 0;n < baseE1.raw.length;n++) {
             const split = baseE1.raw[n].split(" ");
-            const name = game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].label);
+            const name = game.i18n.localize(effetsLabels[split[0]].label);
             const sub = split[1];
             let complet = name;
 
@@ -1412,13 +1096,13 @@ export class MechaArmureSheet extends ActorSheet {
             effets1.push({
               raw:baseE1.raw[n],
               name:complet,
-              description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
+              description:game.i18n.localize(effetsLabels[split[0]].description)
             });
           }
 
           for(let n = 0;n < baseE2.raw.length;n++) {
             const split = baseE2.raw[n].split(" ");
-            const name = game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].label);
+            const name = game.i18n.localize(effetsLabels[split[0]].label);
             const sub = split[1];
             let complet = name;
 
@@ -1427,7 +1111,7 @@ export class MechaArmureSheet extends ActorSheet {
             effets2.push({
               raw:baseE2.raw[n],
               name:complet,
-              description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
+              description:game.i18n.localize(effetsLabels[split[0]].description)
             });
           }
 
@@ -1450,7 +1134,7 @@ export class MechaArmureSheet extends ActorSheet {
 
           for(let n = 0;n < baseE1.raw.length;n++) {
             const split = baseE1.raw[n].split(" ");
-            const name = game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].label);
+            const name = game.i18n.localize(effetsLabels[split[0]].label);
             const sub = split[1];
             let complet = name;
 
@@ -1459,13 +1143,13 @@ export class MechaArmureSheet extends ActorSheet {
             effets1.push({
               raw:baseE1.raw[n],
               name:complet,
-              description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
+              description:game.i18n.localize(effetsLabels[split[0]].description)
             });
           }
 
           for(let n = 0;n < baseE2.raw.length;n++) {
             const split = baseE2.raw[n].split(" ");
-            const name = game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].label);
+            const name = game.i18n.localize(effetsLabels[split[0]].label);
             const sub = split[1];
             let complet = name;
 
@@ -1474,7 +1158,7 @@ export class MechaArmureSheet extends ActorSheet {
             effets2.push({
               raw:baseE2.raw[n],
               name:complet,
-              description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
+              description:game.i18n.localize(effetsLabels[split[0]].description)
             });
           }
 
@@ -1497,7 +1181,7 @@ export class MechaArmureSheet extends ActorSheet {
 
           for(let n = 0;n < baseE1.raw.length;n++) {
             const split = baseE1.raw[n].split(" ");
-            const name = game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].label);
+            const name = game.i18n.localize(effetsLabels[split[0]].label);
             const sub = split[1];
             let complet = name;
 
@@ -1506,13 +1190,13 @@ export class MechaArmureSheet extends ActorSheet {
             effets1.push({
               raw:baseE1.raw[n],
               name:complet,
-              description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
+              description:game.i18n.localize(effetsLabels[split[0]].description)
             });
           }
 
           for(let n = 0;n < baseE2.raw.length;n++) {
             const split = baseE2.raw[n].split(" ");
-            const name = game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].label);
+            const name = game.i18n.localize(effetsLabels[split[0]].label);
             const sub = split[1];
             let complet = name;
 
@@ -1521,7 +1205,7 @@ export class MechaArmureSheet extends ActorSheet {
             effets2.push({
               raw:baseE2.raw[n],
               name:complet,
-              description:game.i18n.localize(CONFIG.KNIGHT.effets[split[0]].description)
+              description:game.i18n.localize(effetsLabels[split[0]].description)
             });
           }
 
@@ -1564,255 +1248,6 @@ export class MechaArmureSheet extends ActorSheet {
 
       if(c2 !== false) c2.portee = game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${modules[i].toUpperCase()}.Portee`);
     }
-  }
-
-  async _doDgts(label, dataWpn, listAllEffets, regularite=0, addNum='', tenebricide) {
-    const actor = this.actor;
-
-    //DEGATS
-    const bourreau = listAllEffets.bourreau;
-    const bourreauValue = listAllEffets.bourreauValue;
-
-    const dgtsDice = dataWpn?.dice || 0;
-    const dgtsFixe = dataWpn?.fixe || 0;
-
-    let diceDgts = dgtsDice+listAllEffets.degats.totalDice;
-    let bonusDgts = dgtsFixe+listAllEffets.degats.totalBonus;
-
-    bonusDgts += regularite;
-
-    const labelDgt = `${label} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}${addNum}`;
-    const totalDiceDgt = tenebricide === true ? Math.floor(diceDgts/2) : diceDgts;
-
-    const totalDgt = `${Math.max(totalDiceDgt, 0)}d6+${bonusDgts}`;
-
-    const execDgt = new game.knight.RollKnight(`${totalDgt}`, actor.system);
-    execDgt._success = false;
-    execDgt._hasMin = bourreau ? true : false;
-
-    if(bourreau) {
-      execDgt._seuil = bourreauValue;
-      execDgt._min = 4;
-    }
-
-    await execDgt.evaluate(listAllEffets.degats.minMax);
-
-    let effets = listAllEffets;
-
-    if(effets.regularite) {
-      const regulariteIndex = effets.degats.include.findIndex(str => { if(str.name.includes(game.i18n.localize(CONFIG.KNIGHT.effets['regularite'].label))) return true; });
-      effets.degats.include[regulariteIndex].name = `+${regularite} ${effets.degats.include[regulariteIndex].name}`;
-
-      effets.degats.include.sort(SortByName);
-    }
-
-    let sub = effets.degats.list;
-    let include = effets.degats.include;
-
-    if(sub.length > 0) { sub.sort(SortByName); }
-    if(include.length > 0) { include.sort(SortByName); }
-
-    const pDegats = {
-      flavor:labelDgt,
-      main:{
-        total:execDgt._total,
-        tooltip:await execDgt.getTooltip(),
-        formula: execDgt._formula
-      },
-      sub:sub,
-      include:include
-    };
-
-    const dgtsMsgData = {
-      user: game.user.id,
-      speaker: {
-        actor: actor?.id || null,
-        token: actor?.token?.id || null,
-        alias: actor?.name || null,
-      },
-      type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-      content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegats),
-      sound: CONFIG.sounds.dice
-    };
-
-    const rMode = game.settings.get("core", "rollMode");
-    const msgFData = ChatMessage.applyRollMode(dgtsMsgData, rMode);
-
-    await ChatMessage.create(msgFData, {
-      rollMode:rMode
-    });
-  }
-
-  async _doViolence(label, dataWpn, listAllEffets, bViolence=0, addNum='') {
-    const actor = this.actor;
-
-    //VIOLENCE
-    const tenebricide = false;
-    const devastation = listAllEffets.devastation;
-    const devastationValue = listAllEffets.devastationValue;
-
-    const violenceDice = dataWpn?.dice || 0;
-    const violenceFixe = dataWpn?.fixe || 0;
-
-    let diceViolence = violenceDice+listAllEffets.violence.totalDice;
-    let bonusViolence = violenceFixe+listAllEffets.violence.totalBonus;
-
-    bonusViolence += bViolence;
-
-    const labelViolence = `${label} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}${addNum}`;
-    const totalDiceViolence = tenebricide === true ? Math.floor(diceViolence/2) : diceViolence;
-
-    const totalViolence = `${Math.max(totalDiceViolence, 0)}d6+${bonusViolence}`;
-
-    const execViolence = new game.knight.RollKnight(`${totalViolence}`, actor.system);
-    execViolence._success = false;
-    execViolence._hasMin = devastation ? true : false;
-
-    if(devastation) {
-      execViolence._seuil = devastationValue;
-      execViolence._min = 5;
-    }
-
-    await execViolence.evaluate(listAllEffets.violence.minMax);
-
-    let sub = listAllEffets.violence.list;
-    let include = listAllEffets.violence.include;
-
-    if(sub.length > 0) { sub.sort(SortByName); }
-    if(include.length > 0) { include.sort(SortByName); }
-
-    const pViolence = {
-      flavor:labelViolence,
-      main:{
-        total:execViolence._total,
-        tooltip:await execViolence.getTooltip(),
-        formula: execViolence._formula
-      },
-      sub:sub,
-      include:include
-    };
-
-    const violenceMsgData = {
-      user: game.user.id,
-      speaker: {
-        actor: actor?.id || null,
-        token: actor?.token?.id || null,
-        alias: actor?.name || null,
-      },
-      type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-      content: await renderTemplate('systems/knight/templates/dices/wpn.html', pViolence),
-      sound: CONFIG.sounds.dice
-    };
-
-    const rMode = game.settings.get("core", "rollMode");
-    const msgFData = ChatMessage.applyRollMode(violenceMsgData, rMode);
-
-    await ChatMessage.create(msgFData, {
-      rollMode:rMode
-    });
-  }
-
-  async _getAllEffets(dataWpn, tenebricide, obliteration) {
-    const actor = this.actor;
-    const data = {
-      guidage:false,
-      barrage:false,
-      tenebricide:tenebricide,
-      obliteration:obliteration
-    };
-
-    const effetsWpn = dataWpn.effets;
-    const distanceWpn = {raw:[], custom:[]};
-    const ornementalesWpn = {raw:[], custom:[]};
-    const structurellesWpn = {raw:[], custom:[]};
-    const lDgtsOtherInclude = [];
-
-    const listEffets = await getEffets(actor, '', '', data, effetsWpn, distanceWpn, structurellesWpn, ornementalesWpn, true);
-
-    let getDgtsOtherFixeMod = 0;
-
-    const lEffetAttack = listEffets.attack;
-    const lEffetDegats = listEffets.degats;
-    const lEffetViolence = listEffets.violence;
-    const lEffetOther = listEffets.other;
-
-    // ATTAQUE
-    const attackDice = lEffetAttack.totalDice;
-    const attackBonus = lEffetAttack.totalBonus;
-    const attackInclude = lEffetAttack.include;
-    const attackList = lEffetAttack.list;
-
-    // DEGATS
-    const degatsDice = lEffetDegats.totalDice;
-    const degatsBonus = lEffetDegats.totalBonus+getDgtsOtherFixeMod;
-    const degatsInclude = lEffetDegats.include.concat(lDgtsOtherInclude);
-    const degatsList = lEffetDegats.list;
-    const minMaxDgts = lEffetDegats.minMax;
-
-    // VIOLENCE
-    const violenceDice = lEffetViolence.totalDice;
-    const violenceBonus = lEffetViolence.totalBonus;
-    const violenceInclude = lEffetViolence.include;
-    const violenceList = lEffetViolence.list;
-    const minMaxViolence = lEffetViolence.minMax;
-
-    // AUTRE
-    const other = lEffetOther;
-
-    attackInclude.sort(SortByName);
-    attackList.sort(SortByName);
-    degatsInclude.sort(SortByName);
-    degatsList.sort(SortByName);
-    violenceInclude.sort(SortByName);
-    violenceList.sort(SortByName);
-    other.sort(SortByName);
-
-    const merge = {
-      attack:{
-        totalDice:attackDice,
-        totalBonus:attackBonus,
-        include:attackInclude,
-        list:attackList
-      },
-      degats:{
-        totalDice:degatsDice,
-        totalBonus:degatsBonus,
-        include:degatsInclude,
-        list:degatsList,
-        minMax:minMaxDgts,
-      },
-      violence:{
-        totalDice:violenceDice,
-        totalBonus:violenceBonus,
-        include:violenceInclude,
-        list:violenceList,
-        minMax:minMaxViolence,
-      },
-      other:other
-    };
-
-    const nRoll = listEffets.nRoll;
-
-    const result = {
-      guidage:listEffets.guidage,
-      regularite:listEffets.regularite,
-      bourreau:listEffets.bourreau,
-      bourreauValue:listEffets.bourreauValue,
-      devastation:listEffets.devastation,
-      devastationValue:listEffets.devastationValue,
-      barrageValue:listEffets.barrageValue,
-      depenseEnergie:listEffets.depenseEnergie,
-      onlyAttack:listEffets.onlyAttack,
-      onlyDgts:listEffets.onlyDgts,
-      onlyViolence:listEffets.onlyViolence,
-      nRoll:nRoll,
-      attack:merge.attack,
-      degats:merge.degats,
-      violence:merge.violence,
-      other:merge.other
-    };
-
-    return result;
   }
 
   async _depenseNE(noyaux, label) {

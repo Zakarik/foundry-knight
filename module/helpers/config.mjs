@@ -5,6 +5,555 @@ export const KNIGHT = {};
  * @type {Object}
  */
 
+ KNIGHT.LIST = {
+    vehicules:['armure', 'energie', 'champDeForce'],
+    bandes:['sante', 'bouclier'],
+    creatures:['sante', 'armure', 'energie', 'bouclier'],
+    mechaarmures:['resilience', 'vitesse', 'manoeuvrabilite', 'puissance', 'systemes', 'senseurs', 'champDeForce'],
+    pnj:['sante', 'armure', 'energie', 'champDeForce', 'bouclier'],
+    aspectsCaracteristiques:{
+      "chair": "KNIGHT.ASPECTS.CHAIR.Label",
+      "deplacement": "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.DEPLACEMENT.Label",
+      "force": "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.FORCE.Label",
+      "endurance": "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.ENDURANCE.Label",
+      "bete": "KNIGHT.ASPECTS.BETE.Label",
+      "hargne": "KNIGHT.ASPECTS.BETE.CARACTERISTIQUES.HARGNE.Label",
+      "combat": "KNIGHT.ASPECTS.BETE.CARACTERISTIQUES.COMBAT.Label",
+      "instinct": "KNIGHT.ASPECTS.BETE.CARACTERISTIQUES.INSTINCT.Label",
+      "machine": "KNIGHT.ASPECTS.MACHINE.Label",
+      "tir": "KNIGHT.ASPECTS.MACHINE.CARACTERISTIQUES.TIR.Label",
+      "savoir": "KNIGHT.ASPECTS.MACHINE.CARACTERISTIQUES.SAVOIR.Label",
+      "technique": "KNIGHT.ASPECTS.MACHINE.CARACTERISTIQUES.TECHNIQUE.Label",
+      "dame": "KNIGHT.ASPECTS.DAME.Label",
+      "aura": "KNIGHT.ASPECTS.DAME.CARACTERISTIQUES.AURA.Label",
+      "parole": "KNIGHT.ASPECTS.DAME.CARACTERISTIQUES.PAROLE.Label",
+      "sangFroid": "KNIGHT.ASPECTS.DAME.CARACTERISTIQUES.SANGFROID.Label",
+      "masque": "KNIGHT.ASPECTS.MASQUE.Label",
+      "discretion": "KNIGHT.ASPECTS.MASQUE.CARACTERISTIQUES.DISCRETION.Label",
+      "dexterite": "KNIGHT.ASPECTS.MASQUE.CARACTERISTIQUES.DEXTERITE.Label",
+      "perception": "KNIGHT.ASPECTS.MASQUE.CARACTERISTIQUES.PERCEPTION.Label",
+    },
+    aspects:['chair', 'bete', 'machine', 'dame', 'masque'],
+    caracteristiques:{
+      bete:['combat', 'hargne', 'instinct'],
+      chair:['deplacement', 'force', 'endurance'],
+      dame:['aura', 'parole', 'sangFroid'],
+      machine:['tir', 'savoir', 'technique'],
+      masque:['discretion', 'dexterite', 'perception'],
+    },
+    armesimprovisees:{
+      ai1:{
+        chair:[1, 2],
+        force:1,
+        liste:{
+          1:{
+            utilisation:3,
+            degats:{
+              dice:4,
+            },
+            violence:{
+              dice:4,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+          2:{
+            utilisation:1,
+            degats:{
+              dice:2,
+            },
+            violence:{
+              dice:5,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+          3:{
+            utilisation:2,
+            degats:{
+              dice:4,
+            },
+            violence:{
+              dice:4,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+        }
+      },
+      ai2:{
+        chair:[3, 4],
+        force:2,
+        liste:{
+          1:{
+            utilisation:3,
+            degats:{
+              dice:6,
+            },
+            violence:{
+              dice:4,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+          2:{
+            utilisation:1,
+            degats:{
+              dice:4,
+            },
+            violence:{
+              dice:4,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+          3:{
+            utilisation:2,
+            degats:{
+              dice:5,
+            },
+            violence:{
+              dice:5,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+        }
+      },
+      ai3:{
+        chair:[5, 6],
+        force:3,
+        liste:{
+          1:{
+            utilisation:3,
+            degats:{
+              dice:7,
+            },
+            violence:{
+              dice:5,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+          2:{
+            utilisation:1,
+            degats:{
+              dice:5,
+            },
+            violence:{
+              dice:7,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+          3:{
+            utilisation:2,
+            degats:{
+              dice:6,
+            },
+            violence:{
+              dice:6,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+        },
+      },
+      ai4:{
+        chair:[7, 8],
+        force:4,
+        liste:{
+          1:{
+            utilisation:1,
+            degats:{
+              dice:7,
+            },
+            violence:{
+              dice:9,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+          2:{
+            utilisation:2,
+            degats:{
+              dice:8,
+            },
+            violence:{
+              dice:8,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+        },
+      },
+      ai5:{
+        chair:[9, 10],
+        force:5,
+        liste:{
+          1:{
+            utilisation:1,
+            degats:{
+              dice:10,
+            },
+            violence:{
+              dice:12,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+          2:{
+            utilisation:2,
+            degats:{
+              dice:11,
+            },
+            violence:{
+              dice:11,
+            },
+            effets:{
+              raw:[],
+              custom:[]
+            },
+          },
+        },
+      }
+    },
+    grenades:{
+      antiblindage:{
+        degats:{dice:3},
+        violence:{dice:3},
+        effets:{
+          raw:['destructeur', 'dispersion 6', 'penetrant 6', 'percearmure 20'],
+          custom:[],
+        }
+      },
+      explosive:{
+        degats:{dice:3},
+        violence:{dice:3},
+        effets:{
+          raw:['antivehicule', 'choc 1', 'dispersion 3'],
+          custom:[],
+        }
+      },
+      flashbang:{
+        degats:{dice:0},
+        violence:{dice:0},
+        effets:{
+          raw:['aucundegatsviolence', 'barrage 2', 'choc 1', 'dispersion 6'],
+          custom:[],
+        }
+      },
+      iem:{
+        degats:{dice:0},
+        violence:{dice:0},
+        effets:{
+          raw:['aucundegatsviolence', 'dispersion 6', 'parasitage 2'],
+          custom:[],
+        }
+      },
+      shrapnel:{
+        degats:{dice:3},
+        violence:{dice:3},
+        effets:{
+          raw:['dispersion 6', 'meurtrier', 'ultraviolence'],
+          custom:[],
+        }
+      },
+    },
+    hasMax:{
+      armure:true,
+      sante:true,
+      energie:true,
+      resilience:true,
+      champDeForce:false,
+      bouclier:false,
+      vitesse:false,
+      manoeuvrabilite:false,
+      puissance:false,
+      systemes:false,
+      senseurs:false,
+    },
+    derived:{
+      defense:'masque',
+      reaction:'machine',
+    },
+    style:{
+      'standard':"KNIGHT.COMBAT.STYLES.STANDARD.Label",
+      'acouvert':"KNIGHT.COMBAT.STYLES.ACOUVERT.Label",
+      'agressif':"KNIGHT.COMBAT.STYLES.AGRESSIF.Label",
+      'akimbo':"KNIGHT.COMBAT.STYLES.AKIMBO.Label",
+      'ambidextre':"KNIGHT.COMBAT.STYLES.AMBIDEXTRE.Label",
+      'defensif':"KNIGHT.COMBAT.STYLES.DEFENSIF.Label",
+      'pilonnage':"KNIGHT.COMBAT.STYLES.PILONNAGE.Label",
+      'precis':"KNIGHT.COMBAT.STYLES.PRECIS.Label",
+      'puissant':"KNIGHT.COMBAT.STYLES.PUISSANT.Label",
+      'suppression':"KNIGHT.COMBAT.STYLES.SUPPRESSION.Label",
+    },
+    typecompanions:{
+      labor:'KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.LABOR.Label',
+      medic:'KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.MEDIC.Label',
+      tech:'KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.TECH.Label',
+      recon:'KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.RECON.Label',
+      fighter:'KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.FIGHTER.Label',
+    },
+    options2mains:{
+      '1main':'KNIGHT.ITEMS.ARME.DEUXMAINS.Unemain',
+      '2main':'KNIGHT.ITEMS.ARME.DEUXMAINS.Deuxmains',
+    },
+    rarete:{
+      standard:"KNIGHT.ITEMS.MODULE.RARETE.Standard",
+      avance:"KNIGHT.ITEMS.MODULE.RARETE.Avance",
+      rare:"KNIGHT.ITEMS.MODULE.RARETE.Rare",
+      prestige:"KNIGHT.ITEMS.MODULE.RARETE.Prestige",
+      espoir:"KNIGHT.ITEMS.MODULE.RARETE.Espoir",
+    },
+    typearmes:{
+      contact:'KNIGHT.COMBAT.ARMES.CONTACT.Label',
+      distance:'KNIGHT.COMBAT.ARMES.DISTANCE.Label'
+    },
+    typearmesmodules:{
+      contact:'KNIGHT.ITEMS.MODULE.ARME.TYPE.Contact',
+      distance:'KNIGHT.ITEMS.MODULE.ARME.TYPE.Distance',
+      tourelle:'KNIGHT.ITEMS.MODULE.ARME.TYPE.Tourelle',
+    },
+    typebonus:{
+      contact:'KNIGHT.BONUS.Contact',
+      distance:'KNIGHT.BONUS.Distance'
+    },
+    porteerestreint:{
+      courte:'KNIGHT.PORTEE.Courte',
+      moyenne:'KNIGHT.PORTEE.Moyenne',
+      longue:'KNIGHT.PORTEE.Longue',
+      lointaine:'KNIGHT.PORTEE.Lointaine',
+    },
+    portee:{
+      contact:'KNIGHT.PORTEE.Contact',
+      courte:'KNIGHT.PORTEE.Courte',
+      moyenne:'KNIGHT.PORTEE.Moyenne',
+      longue:'KNIGHT.PORTEE.Longue',
+      lointaine:'KNIGHT.PORTEE.Lointaine',
+    },
+    porteecomplet:{
+      personnelle:'KNIGHT.PORTEE.Personnelle',
+      contact:'KNIGHT.PORTEE.Contact',
+      courte:'KNIGHT.PORTEE.Courte',
+      moyenne:'KNIGHT.PORTEE.Moyenne',
+      longue:'KNIGHT.PORTEE.Longue',
+      lointaine:'KNIGHT.PORTEE.Lointaine',
+    },
+    typeavantage:{
+      standard:'KNIGHT.AUTRE.Standard',
+      ia:'KNIGHT.IA.Label'
+    },
+    typeeffet:{
+      effets:'KNIGHT.EFFETS.Effet',
+      distance:'KNIGHT.AMELIORATIONS.LABEL.DistanceLong',
+      structurelles:'KNIGHT.AMELIORATIONS.LABEL.Structurelle',
+      ornementales:'KNIGHT.AMELIORATIONS.LABEL.Ornementale',
+    },
+    activationsimple:{
+      aucune:'KNIGHT.ACTIVATION.Aucune',
+      deplacement:'KNIGHT.ACTIVATION.Deplacement',
+      combat:'KNIGHT.ACTIVATION.Combat',
+      tour:'KNIGHT.ACTIVATION.Tour',
+    },
+    activation:{
+      aucune:'KNIGHT.ACTIVATION.Aucune',
+      deplacement:'KNIGHT.ACTIVATION.Deplacement',
+      combat:'KNIGHT.ACTIVATION.Combat',
+      tourComplet:'KNIGHT.ACTIVATION.TourComplet',
+    },
+    activationcapacites:{
+      aucune:'KNIGHT.ACTIVATION.Aucune',
+      toutes:'KNIGHT.ACTIVATION.Toutes',
+      deplacementcombat:'KNIGHT.ACTIVATION.DeplacementCombat',
+      combat:'KNIGHT.ACTIVATION.Combat',
+      deplacement:'KNIGHT.ACTIVATION.Deplacement',
+      tour:'KNIGHT.ACTIVATION.Tour',
+    },
+    activation6sec:{
+      aucune:'KNIGHT.ACTIVATION.Aucune',
+      Tour6Sec:'KNIGHT.ACTIVATION.Tour6Sec',
+      combat6Sec:'KNIGHT.ACTIVATION.Combat6Sec',
+      deplacement6Sec:'KNIGHT.ACTIVATION.Deplacement6Sec',
+    },
+    activation6secsimple:{
+      aucune:'KNIGHT.ACTIVATION.Aucune',
+      toutes:'KNIGHT.ACTIVATION.Toutes',
+      combat6Sec:'KNIGHT.ACTIVATION.Combat6Sec',
+      deplacement6Sec:'KNIGHT.ACTIVATION.Deplacement6Sec',
+    },
+    activation3sec:{
+      aucune:'KNIGHT.ACTIVATION.Aucune',
+      tour6Sec:'KNIGHT.ACTIVATION.Tour6Sec',
+      combat3Sec:'KNIGHT.ACTIVATION.Combat3Sec',
+      deplacement3Sec:'KNIGHT.ACTIVATION.Deplacement3Sec',
+    },
+    typepnj:{
+      pnj:'KNIGHT.TYPE.Pnj',
+      bande:'KNIGHT.TYPE.Bande',
+    },
+    EFFETS:{
+      attaque:[
+        'artillerie',
+        'barrage',
+        'cadence',
+        'chargeur',
+        'choc',
+        'defense',
+        'demoralisant',
+        'designation',
+        'deuxmains',
+        'dispersion',
+        'enchaine',
+        'esperance',
+        'jumeleakimbo',
+        'jumeleambidextrie',
+        'leste',
+        'lourd',
+        'lumiere',
+        'parasitage',
+        'reaction',
+        'soumission',
+        'tirensecurite',
+        'aucundegatsviolence',
+        'arabesqueiridescentes',
+        'armuregravee',
+        'blasonchevalier',
+        'boucliergrave',
+        'chromeligneslumineuses',
+        'codeknightgrave',
+        'assassine',
+        'connectee',
+        'electrifiee',
+        'indestructible',
+        'jumelle',
+        'lumineuse',
+        'massive',
+        'protectrice',
+        'soeur',
+        'canonlong',
+        'chambredouble',
+        'interfaceguidage',
+        'jumelageakimbo',
+        'jumelageambidextrie',
+        'lunetteintelligente',
+        'munitionsdrones',
+        'munitionshypervelocite',
+        'munitionsiem',
+        'munitionssubsoniques',
+        'pointeurlaser',
+        'protectionarme',
+        'revetementomega',
+        'structurealpha',
+        'systemerefroidissement',
+      ],
+      degats:[
+        'affecteanatheme',
+        'anatheme',
+        'antianatheme',
+        'antivehicule',
+        'assassin',
+        'assistanceattaque',
+        'briserlaresilience',
+        'degatscontinus',
+        'destructeur',
+        'dispersion',
+        'enchaine',
+        'ignorearmure',
+        'ignorechampdeforce',
+        'leste',
+        'meurtrier',
+        'obliteration',
+        'orfevrerie',
+        'percearmure',
+        'penetrant',
+        'silencieux',
+        'tenebricide',
+        'tirenrafale',
+        'armeazurine',
+        'armerougesang',
+        'chenesculpte',
+        'cranerieurgrave',
+        'faucheusegravee',
+        'fauconplumesluminescentes',
+        'griffuresgravees',
+        'masquebrisesculpte',
+        'rouagescassesgraves',
+        'agressive',
+        'allegee',
+        'assassine',
+        'barbelee',
+        'connectee',
+        'massive',
+        'sournoise',
+        'surmesure',
+        'chargeurballesgrappes',
+        'chargeurmunitionsexplosives',
+        'munitionshypervelocite',
+        'munitionsiem',
+        'munitionsnonletales',
+        'munitionssubsoniques',
+        'revetementomega',
+        'excellence',
+        'bourreau',
+        'regularite',
+        'sillonslignesfleches',
+        'boostdegats',
+      ],
+      violence:[
+        'affecteanatheme',
+        'briserlaresilience',
+        'assistanceattaque',
+        'antianatheme',
+        'percearmure',
+        'fureur',
+        'ultraviolence',
+        'tenebricide',
+        'devastation',
+        'chargeurballesgrappes',
+        'chargeurmunitionsexplosives',
+        'munitionsiem',
+        'munitionsnonletales',
+        'connectee',
+        'armeazurine',
+        'armerougesang',
+        'griffuresgravees',
+        'masquebrisesculpte',
+        'rouagescassesgraves',
+        'fauconplumesluminescentes',
+        'flammesstylisees',
+        'boostviolence',
+        'intimidanthum',
+        'intimidantana',
+      ],
+    }
+ }
+
  KNIGHT.listCaracteristiques = {
   "chair":['deplacement', 'force', 'endurance'],
   "bete":['hargne', 'combat', 'instinct'],
@@ -20,6 +569,14 @@ export const KNIGHT = {};
     "dame": "KNIGHT.ASPECTS.DAME.Label",
     "masque": "KNIGHT.ASPECTS.MASQUE.Label",
  };
+
+ KNIGHT.mechaarmure = {
+    'vitesse':'KNIGHT.VEHICULE.Vitesse',
+    'manoeuvrabilite':'KNIGHT.VEHICULE.Manoeuvrabilite',
+    'puissance':'KNIGHT.MECHAARMURE.Puissance',
+    'systemes':'KNIGHT.MECHAARMURE.Systèmes',
+    'senseurs':'KNIGHT.MECHAARMURE.Senseurs'
+ }
 
  KNIGHT.caracteristiques = {
     "deplacement": "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.DEPLACEMENT.Label",
@@ -75,7 +632,7 @@ export const KNIGHT = {};
    "shrapnel": "KNIGHT.COMBAT.GRENADES.Shrapnel",
    "flashbang": "KNIGHT.COMBAT.GRENADES.Flashbang",
    "antiblindage": "KNIGHT.COMBAT.GRENADES.Antiblindage",
-   "iem": "KNIGHT.COMBAT.GRENADES.IEM",
+   "iem": "KNIGHT.COMBAT.GRENADES.Iem",
    "explosive": "KNIGHT.COMBAT.GRENADES.Explosive",
  };
 
@@ -333,6 +890,49 @@ export const KNIGHT = {};
      "double":false
    }
  };
+
+ KNIGHT.effetsfm4 = {
+  "immobilisation": {
+    "label":"KNIGHT.EFFETS.IMMOBILISATION.Label",
+    "description":"KNIGHT.EFFETS.IMMOBILISATION.Description",
+    "double":true
+  },
+  "boostdegats": {
+    "label":"KNIGHT.EFFETS.BOOSTDEGATS.Label",
+    "description":"KNIGHT.EFFETS.BOOSTDEGATS.Description",
+    "double":true
+  },
+  "boostviolence": {
+    "label":"KNIGHT.EFFETS.BOOSTVIOLENCE.Label",
+    "description":"KNIGHT.EFFETS.BOOSTVIOLENCE.Description",
+    "double":true
+  },
+  "intimidanthum": {
+    "label":"KNIGHT.EFFETS.INTIMIDANTEHUMAINS.Label",
+    "description":"KNIGHT.EFFETS.INTIMIDANTEHUMAINS.Description",
+    "double":false
+  },
+  "intimidantana": {
+    "label":"KNIGHT.EFFETS.INTIMIDANTEANATHEME.Label",
+    "description":"KNIGHT.EFFETS.INTIMIDANTEANATHEME.Description",
+    "double":false
+  },
+  "cdf": {
+    "label":"KNIGHT.EFFETS.CDF.Label",
+    "description":"KNIGHT.EFFETS.CDF.Description",
+    "double":true
+  },
+  "retourflamme": {
+    "label":"KNIGHT.EFFETS.RETOURFLAMME.Label",
+    "description":"KNIGHT.EFFETS.RETOURFLAMME.Description",
+    "double":false
+  },
+  "sansarmure": {
+    "label":"KNIGHT.EFFETS.SANSARMURE.Label",
+    "description":"KNIGHT.EFFETS.SANSARMURE.Description",
+    "double":false
+  }
+ }
 
  KNIGHT.AMELIORATIONS = {
   distance:{
@@ -599,18 +1199,18 @@ export const KNIGHT = {};
   }
  }
 
- KNIGHT.styles = {
-   "standard": "KNIGHT.COMBAT.STYLES.STANDARD.Info",
-   "acouvert": "KNIGHT.COMBAT.STYLES.ACOUVERT.Info",
-   "agressif": "KNIGHT.COMBAT.STYLES.AGRESSIF.Info",
-   "akimbo": "KNIGHT.COMBAT.STYLES.AKIMBO.Info",
-   "ambidextre": "KNIGHT.COMBAT.STYLES.AMBIDEXTRE.Info",
-   "defensif": "KNIGHT.COMBAT.STYLES.DEFENSIF.Info",
-   "pilonnage": "KNIGHT.COMBAT.STYLES.PILONNAGE.Info",
-   "precis": "KNIGHT.COMBAT.STYLES.PRECIS.Info",
-   "puissant": "KNIGHT.COMBAT.STYLES.PUISSANT.Info",
-   "suppression": "KNIGHT.COMBAT.STYLES.SUPPRESSION.Info",
- };
+KNIGHT.styles = {
+  "standard": "KNIGHT.COMBAT.STYLES.STANDARD.Info",
+  "acouvert": "KNIGHT.COMBAT.STYLES.ACOUVERT.Info",
+  "agressif": "KNIGHT.COMBAT.STYLES.AGRESSIF.Info",
+  "akimbo": "KNIGHT.COMBAT.STYLES.AKIMBO.Info",
+  "ambidextre": "KNIGHT.COMBAT.STYLES.AMBIDEXTRE.Info",
+  "defensif": "KNIGHT.COMBAT.STYLES.DEFENSIF.Info",
+  "pilonnage": "KNIGHT.COMBAT.STYLES.PILONNAGE.Info",
+  "precis": "KNIGHT.COMBAT.STYLES.PRECIS.Info",
+  "puissant": "KNIGHT.COMBAT.STYLES.PUISSANT.Info",
+  "suppression": "KNIGHT.COMBAT.STYLES.SUPPRESSION.Info",
+};
 
  KNIGHT.blessures = {
   "chair": "KNIGHT.ITEMS.BLESSURETRAUMA.CHAIR.Label",

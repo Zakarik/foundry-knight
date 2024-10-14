@@ -1,412 +1,3343 @@
-export class RollKnight extends Roll {
-  constructor(formula, data = {}, options = {}) {
-    super(formula, data, options);
+import {
+    getAllEffects,
+} from "../helpers/common.mjs";
 
-     this.data = this._prepareData(data);
-     this.options = options;
-     this.terms = this.constructor.parse(formula, this.data);
-     this._dice = [];
-     this._formula = this.constructor.getFormula(this.terms);
-     this._evaluated = false;
-     this._total = undefined;
-     this._success = false;
-     this._table = false;
-     this._tableau = {};
-     this._base = '';
-     this._autre = [];
-     this._pSuccess = 0;
-     this._canExploit = true;
-     this._canEFail = true;
-     this._isExploit = false;
-     this._isEFail = false;
-     this._pRolls = [];
-     this._flavor = undefined;
-     this._difficulte = false;
-     this._isRollSuccess = false;
-     this._isRollFailed = false;
-     this._details = ``;
-     this._totalSuccess = 0;
-     this._pairOrImpair = 0;
-     this._hasMin = false;
-     this._seuil = 0;
-     this._min = 0;
-     this._style = undefined;
-  }
+// DATA
+// name : Nom du jet
+// dices : Formula du jet (uniquement les dés)
+// bonus : Array contenant la liste des bonus (uniquement des valeurs numériques)
+// carac : Array contenant la liste des caractéristiques / aspects utilisés
+// weapon : L'arme
+// style : Style de combat)
+export class RollKnight {
+    static template = 'systems/knight/templates/dices/roll.html';
+    static tooltip = 'systems/knight/templates/dices/tooltip.html';
+    static EPICFAIL = 2;
+    static EPICSUCCESS = 1;
+    static NORMAL = 0;
+
+    constructor(actor, data={}, isSuccess=true) {
+        this.actor = actor;
+        this.name = data?.name ?? '';
+        this.formula = data?.dices ?? '0D6';
+        this.bonus = data?.bonus ?? [];
+        this.carac = data?.carac ?? [];
+        this.weapon = data?.weapon ?? undefined;
+        this.isSuccess = isSuccess;
+        this.style = data?.style ?? 'standard';
+        this.dataStyle = data?.dataStyle ?? {};
+        this.dataMod = data?.dataMod ?? {degats:{dice:0, fixe:0}, violence:{dice:0, fixe:0}};
+        this.maximize = data?.maximize ?? {degats:false, violence:false}
+        this.tags = data?.tags ?? [];
+        this.isSurprise = data?.surprise ?? false;
+        this.exploit = data?.exploit ?? true;
+        this.difficulte = data?.difficulte ?? undefined;
+    }
+
+    get isVersion12() {
+        const version = game.version.split('.')[0];
+        const isVersion12 = version >= 12 ? true : false;
+
+        return isVersion12;
+    }
+
+    get isPJ() {
+        const actor = this.actor.type;
+        let result = false;
+
+        if(actor === 'knight') result = true;
+
+        return result;
+    }
+
+    async doRoll(updates={}, effets={}, addData={}) {
+        let total = 0;
+
+        if(!this.weapon) {
+            const roll = new Roll(this.formula);
+            await roll.evaluate();
+
+            const process = await this.#processRoll(roll);
+            total = await this.#sendRoll(process, effets, addData);
+        } else {
+            const weapon = this.weapon;
+            const localize = getAllEffects();
+            const allRaw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
+            let text = '';
+            let allContent = [];
+            let allFlag = []
+            let allRoll = [];
+            let listTargets = [];
+
+            if(this.#isEffetActive(allRaw, weapon.options, ['barrage']) || (this.#hasEffet(allRaw, 'barrage') && this.#hasEffet(allRaw, 'aucundegatsviolence'))) {
+                if(this.#getEffet(allRaw, 'barrage')) {
+                    const targets = game.user.targets;
+
+                    text = `${game.i18n.localize(localize['barrage'].label)} ${this.#getEffet(allRaw, 'barrage').split(' ')[1]}`;
+
+                    if(targets && targets.size > 0) {
+                        for(let t of targets) {
+                            const tActor = t.actor;
+
+                            if(tActor) {
+                                const chairAE = tActor?.system?.aspects?.chair?.ae.majeur?.value ?? 0;
+
+                                if(chairAE > 0) {
+                                    let target = {
+                                        id:t.id,
+                                        simple:true,
+                                        name:tActor.name,
+                                        aspects:tActor.system.aspects,
+                                        type:tActor.type,
+                                        effets:[],
+                                    };
+
+                                    target.effets.push({
+                                        key:'barrage',
+                                        label:game.i18n.localize(localize['barrage'].label),
+                                        subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
+                                    })
+
+                                    listTargets.push(target);
+                                }
+                            }
+                        }
+                    }
+                }
+            } else if(this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses'])) {
+                const targets = game.user.targets;
+                let n = 0;
+
+                if(targets && targets.size > 0) {
+                    for(let t of targets) {
+                        const roll = new Roll(this.formula);
+                        await roll.evaluate();
+
+                        const process = await this.#processRoll(roll);
+                        const prepareWeapon = await this.#prepareRollWeapon(foundry.utils.mergeObject(process, {
+                            target:t,
+                            index:n,
+                        }));
+
+                        allContent.push(prepareWeapon.content);
+                        allFlag.push(prepareWeapon.flags);
+                        allRoll = allRoll.concat(process.rolls)
+
+                        n++;
+                    }
+                } else {
+                    const roll = new Roll(this.formula);
+                    await roll.evaluate();
+
+                    const process = await this.#processRoll(roll);
+                    const prepareWeapon = await this.#prepareRollWeapon(process);
+
+                    allContent.push(prepareWeapon.content);
+                    allFlag.push(prepareWeapon.flags);
+                    allRoll = allRoll.concat(process.rolls)
+                }
+            } else {
+                const roll = new Roll(this.formula);
+                await roll.evaluate();
+
+                const process = await this.#processRoll(roll);
+                const prepareWeapon = await this.#prepareRollWeapon(process);
+
+                allContent.push(prepareWeapon.content);
+                allFlag.push(prepareWeapon.flags);
+                allRoll = allRoll.concat(process.rolls)
+            }
+
+            this.#sendRollWeapon({
+                rolls:allRoll,
+                content:allContent,
+                text,
+                targets:listTargets,
+                flags:allFlag,
+            })
+        }
+
+        if(!foundry.utils.isEmpty(updates)) {
+            for (const [key, value] of Object.entries(updates)) {
+                if (typeof value === 'string' && value.includes('@{rollTotal}')) {
+                    let updatedValue = value.replace(/@{rollTotal}/g, total);
+
+                    if (updatedValue.includes('@{max,')) {
+                        const maxMatch = updatedValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                        if (maxMatch) {
+                            const maxValue = parseFloat(maxMatch[1]);
+                            updatedValue = updatedValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                            updatedValue = `Math.max(${updatedValue}, ${maxValue})`;
+                        }
+                    }
+
+                    if (updatedValue.includes('@{min,')) {
+                        const minMatch = updatedValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                        if (minMatch) {
+                            const minValue = parseFloat(minMatch[1]);
+                            updatedValue = updatedValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                            updatedValue = `Math.min(${updatedValue}, ${minValue})`;
+                        }
+                    }
+
+                    try {
+                        updates[key] = eval(updatedValue);
+                    } catch (e) {
+                        // Garde la valeur remplacée si l'évaluation échoue
+                        updates[key] = updatedValue;
+                    }
+                } else if (typeof value === 'object' && value !== null) {
+                    for (const [subKey, subValue] of Object.entries(value)) {
+                        if (typeof subValue === 'string' && subValue.includes('@{rollTotal}')) {
+                            let updatedSubValue = subValue.replace(/@{rollTotal}/g, total);
+
+                            if (updatedSubValue.includes('@{max,')) {
+                                const maxMatch = updatedSubValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                                if (maxMatch) {
+                                    const maxValue = parseFloat(maxMatch[1]);
+                                    updatedSubValue = updatedSubValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                                    updatedSubValue = `Math.max(${updatedSubValue}, ${maxValue})`;
+                                }
+                            }
+
+                            if (updatedSubValue.includes('@{min,')) {
+                                const minMatch = updatedSubValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                                if (minMatch) {
+                                    const minValue = parseFloat(minMatch[1]);
+                                    updatedSubValue = updatedSubValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                                    updatedSubValue = `Math.min(${updatedSubValue}, ${minValue})`;
+                                }
+                            }
+
+                            try {
+                                value[subKey] = eval(updatedSubValue);
+                            } catch (e) {
+                                // Garde la valeur remplacée si l'évaluation échoue
+                                value[subKey] = updatedSubValue;
+                            }
+                        }
+                    }
+                }
+            }
+
+            await this.actor.update(updates);
+        }
+
+        return total;
+    }
+
+    async doRollDamage(data={}) {
+        const chatRollMode = game.settings.get("core", "rollMode");
+        const rollAttaque = data?.attaque ?? [];
+        const attaque = data?.total ?? 0;
+        const targets = data?.targets ?? [];
+        const weapon = this.weapon;
+        const label = data?.label ?? game.i18n.localize('KNIGHT.AUTRE.Degats');
+        const rolls = [];
+        const bonus = [];
+        const addContent = data?.content ?? undefined;
+        let total = 0;
+        let flags = data?.flags ?? {};
+        let main = {
+            flavor:`${this.name}`,
+            content:[],
+            tags:[],
+        }
+
+        let content = {
+            isSuccess:this.isSuccess,
+            label:label,
+        };
+
+        if(addContent) {
+            foundry.utils.mergeObject(content, addContent);
+        }
+
+        if(flags.dataMod.degats.dice > 0 || flags.dataMod.degats.fixe > 0) {
+            let degatsMod = ``;
+
+            if(flags.dataMod.degats.dice > 0) degatsMod = `${flags.dataMod.degats.dice}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+            if(flags.dataMod.degats.fixe > 0) degatsMod += `${flags.dataMod.degats.fixe}`;
+
+            main.tags.push({
+                key:'modificateurdegats',
+                label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} : +${degatsMod}`,
+            });
+        }
+
+        if(flags.maximize.degats) {
+            main.tags.push({
+                key:'maximize',
+                label:`${game.i18n.localize('KNIGHT.JETS.MaximizeDegatsTag')}`,
+            });
+        }
+
+        const handleDamage = await this.#handleDamageEffet(weapon, data, bonus, main, rolls);
+        const roll = handleDamage.roll;
+        let results = roll.dice.reduce((acc, dice) => {
+            dice.results.forEach(result => {
+                let r = result.result;
+
+                if(handleDamage.min) {
+                    total += parseInt(r) < handleDamage.min ? 4 : parseInt(r);
+
+                    if(parseInt(r) < handleDamage.min) r = 4;
+                }
+
+                acc.push({
+                    value:r,
+                    class:`d${dice._faces}`,
+                });
+            });
+            return acc;
+        }, []);
+
+        if(!handleDamage.min) total = roll.total;
+
+        rolls.push(roll);
+        content.total = total+Object.values(bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+        content.tooltip = await renderTemplate(RollKnight.tooltip, {parts:[{
+            base:`${handleDamage.dices}D6`,
+            bonus:bonus,
+            total:content.total,
+            title:handleDamage.title,
+            results:results,
+        }]});
+        if(handleDamage.targets) content.targets = handleDamage.targets;
+
+        main.content.push(content);
+
+        let chatData = {
+            user:game.user.id,
+            speaker: {
+                actor: this.actor?.id ?? null,
+                token: this.actor?.token ?? null,
+                alias: this.actor?.name ?? null,
+                scene: this.actor?.token?.parent?.id ?? null
+            },
+            content:await renderTemplate(RollKnight.template, main),
+            sound: CONFIG.sounds.dice,
+            rolls:rolls,
+            flags: flags,
+            rollMode:chatRollMode,
+        };
+
+        if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
+
+        await ChatMessage.create(chatData);
+    }
+
+    async doRollViolence(data={}) {
+        const chatRollMode = game.settings.get("core", "rollMode");
+        const rollAttaque = data?.attaque ?? [];
+        const attaque = data?.total ?? 0;
+        const targets = data?.targets ?? [];
+        const weapon = this.weapon;
+        const rolls = [];
+        const bonus = [];
+        let total = 0;
+        let flags = data?.flags ?? {};
+        let main = {
+            flavor:`${this.name}`,
+            content:[],
+            tags:[],
+        }
+
+        let content = {
+            isSuccess:this.isSuccess,
+            label:game.i18n.localize('KNIGHT.AUTRE.Violence'),
+        };
+
+        if(flags.dataMod.violence.dice > 0 || flags.dataMod.violence.fixe > 0) {
+            let violenceMod = ``;
+
+            if(flags.dataMod.violence.dice > 0) violenceMod = `${flags.dataMod.violence.dice}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+            if(flags.dataMod.violence.fixe > 0) violenceMod += `+${flags.dataMod.violence.fixe}`;
+
+            tags.push({
+                key:'modificateurviolence',
+                label:`${game.i18n.localize('KNIGHT.JETS.ModificateurViolence')} : ${violenceMod}`,
+            });
+        }
+
+        if(flags.maximize.violence) {
+            main.tags.push({
+                key:'maximize',
+                label:`${game.i18n.localize('KNIGHT.JETS.MaximizeViolenceTag')}`,
+            });
+        }
+
+        const handleDamage = await this.#handleViolenceEffet(weapon, data, bonus, main, rolls);
+        const roll = handleDamage.roll;
+        let results = roll.dice.reduce((acc, dice) => {
+            dice.results.forEach(result => {
+                let r = result.result;
+
+                if(handleDamage.min) {
+                    total += parseInt(r) < handleDamage.min ? 5 : parseInt(r);
+
+                    if(parseInt(r) < handleDamage.min) r = 5;
+                }
+
+                acc.push({
+                    value:r,
+                    class:`d${dice._faces}`,
+                });
+            });
+            return acc;
+        }, []);
+
+        if(!handleDamage.min) total = roll.total;
+
+        rolls.push(roll);
+        content.total = total+Object.values(bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+        content.tooltip = await renderTemplate(RollKnight.tooltip, {parts:[{
+            base:`${handleDamage.dices}D6`,
+            bonus:bonus,
+            total:content.total,
+            title:handleDamage.title,
+            results:results,
+        }]});
+        if(handleDamage.targets) content.targets = handleDamage.targets;
+
+        main.content.push(content);
+
+        let chatData = {
+            user:game.user.id,
+            speaker: {
+                actor: this.actor?.id ?? null,
+                token: this.actor?.token ?? null,
+                alias: this.actor?.name ?? null,
+                scene: this.actor?.token?.parent?.id ?? null
+            },
+            content:await renderTemplate(RollKnight.template, main),
+            sound: CONFIG.sounds.dice,
+            rolls:rolls,
+            flags: flags,
+            rollMode:chatRollMode,
+        };
+
+        if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
+
+        await ChatMessage.create(chatData);
+    }
+
+    async sendMessage(data={}) {
+        const chatRollMode = game.settings.get("core", "rollMode");
+        let main = {
+            flavor:`${this.name}`,
+            tags:data?.tags ?? [],
+            text:data?.text ?? '',
+            classes:data?.classes,
+        }
+        let flags = data?.flags ?? {};
+
+        let chatData = {
+            user:game.user.id,
+            speaker: {
+                actor: this.actor?.id ?? null,
+                token: this.actor?.token ?? null,
+                alias: this.actor?.name ?? null,
+                scene: this.actor?.token?.parent?.id ?? null
+            },
+            content:await renderTemplate(RollKnight.template, main),
+            sound: CONFIG.sounds.dice,
+            flags: flags,
+            rollMode:chatRollMode,
+        };
+
+        if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
+
+        await ChatMessage.create(chatData)
+
+    }
+
+    async #processRoll(roll) {
+        if(!roll) return;
+
+        const dices = roll.dice;
+        let rolls = [roll];
+        let rollState = RollKnight.NORMAL;
+        let numbers = 0;
+        let success = 0;
+
+        let results;
+
+        if(this.isSuccess) {
+            results = dices.reduce((acc, dice) => {
+                numbers += dice.number;
+
+                dice.results.forEach(result => {
+                    success += result.result%2 === 0 ? 1 : 0;
+
+                    acc.push({
+                        value:result.result,
+                        class:`d${dice._faces} ${result.result%2 === 0 ? 'success' : 'fail'}`,
+                    });
+                });
+                return acc;
+            }, []);
+        } else {
+            results = dices.reduce((acc, dice) => {
+                numbers += dice.number;
+
+                dice.results.forEach(result => {
+                    acc.push({
+                        value:result.result,
+                        class:`d${dice._faces}`,
+                    });
+                });
+                return acc;
+            }, []);
+
+            success = roll.total;
+        }
+
+        if(this.isSuccess) {
+            if(numbers === success && this.exploit) {
+                const rEpicSuccess = new Roll(this.formula);
+                await rEpicSuccess.evaluate();
+
+                let epicSuccess = rEpicSuccess.dice.reduce((acc, dice) => {
+                    dice.results.forEach(result => {
+                        success += result.result%2 === 0 ? 1 : 0;
+
+                        acc.push({
+                            value:result.result,
+                            class:`d${dice._faces} ${result.result%2 === 0 ? 'success' : 'fail'}`,
+                        });
+                    });
+                    return acc;
+                }, []);
+
+                results = results.concat(epicSuccess);
+                rollState = RollKnight.EPICSUCCESS;
+                rolls.push(rEpicSuccess);
+            } else if(success === 0 && this.exploit) rollState = RollKnight.EPICFAIL;
+        }
+
+        return {
+            rolls,
+            results,
+            success,
+            rollState,
+        }
+    }
+
+    async #sendRoll(data={}, effets={}, addData={}) {
+        const rolls = data.rolls;
+        const results = data.results;
+        const success = data.success;
+        const rollState = data.rollState;
+        const bonus = this.bonus.reduce((acc, bonus) => acc + bonus, 0);
+        const total = success + this.bonus.reduce((acc, bonus) => acc + bonus, 0);
+        const listEffets = [];
+
+        const chatRollMode = game.settings.get("core", "rollMode");
+        const formula = rollState === RollKnight.EPICSUCCESS ? `${this.formula} + ${this.formula}` : this.formula;
+        let isWon = false;
+        let main = {
+            flavor:`${this.name}`,
+            content:[],
+            tags:this.tags,
+        };
+
+        foundry.utils.mergeObject(main, addData);
+        if(main.text) {
+            if (typeof main.text === 'string' && main.text.includes('@{rollTotal}')) {
+                let updatedText = main.text.replace(/@{rollTotal}/g, total);
+
+                if (updatedText.includes('@{max,')) {
+                    const maxMatch = updatedText.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                    if (maxMatch) {
+                        const maxValue = parseFloat(maxMatch[1]);
+                        updatedText = updatedText.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                        updatedText = `Math.max(${updatedText}, ${maxValue})`;
+                    }
+                }
+
+                if (updatedText.includes('@{min,')) {
+                    const minMatch = updatedText.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                    if (minMatch) {
+                        const minValue = parseFloat(minMatch[1]);
+                        updatedText = updatedText.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                        updatedText = `Math.min(${updatedText}, ${minValue})`;
+                    }
+                }
+
+                try {
+                    main.text = eval(updatedText);
+                } catch (e) {
+                    // Garde la valeur remplacée si l'évaluation échoue
+                    main.text = updatedText;
+                }
+            }
+        }
+
+        let content = {
+            caracteristiques:`${this.carac.join(' / ')}`,
+            isSuccess:this.isSuccess,
+            total:total,
+            base:formula,
+            bonus:this.bonus,
+            tooltip:await renderTemplate(RollKnight.tooltip, {parts:[{
+                base:formula,
+                bonus:this.bonus,
+                totalBonus:bonus,
+                total:success,
+                results:results,
+            }]}),
+        };
+
+        if(!foundry.utils.isEmpty(effets)) {
+            const localize = getAllEffects();
+
+            for(let e of effets.raw) {
+                const loc = localize[e.split(' ')[0]];
+                const effet = this.#getEffet(effets.raw, e);
+
+                listEffets.push({
+                    simple:e,
+                    key:effet,
+                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                    description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                });
+            }
+
+            for(let c of effets.custom) {
+                listEffets.push({
+                    simple:c.label,
+                    key:c.label,
+                    label:`${c.label}`,
+                    description:this.#sanitizeTxt(c.description),
+                });
+            }
+
+            if(listEffets) main.effets = listEffets.map(effet => `<span title="${effet.description}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
+        }
+
+        if(!this.isSuccess) {
+            content.label = `${formula}`;
+            if(bonus > 0) content.label += ` + ${bonus}`;
+        }
+
+        if(this.difficulte && this.isSuccess) {
+            if(content.total > this.difficulte && rollState !== RollKnight.EPICFAIL) isWon = true;
+
+            if(isWon) {
+                main.text = game.i18n.localize('KNIGHT.JETS.JetReussi');
+                main.classes = 'success';
+            } else {
+                main.text = game.i18n.localize('KNIGHT.JETS.JetEchoue');
+                main.classes = 'fail';
+            }
+        }
+
+        if(rollState === RollKnight.EPICSUCCESS) content.rollState = {
+            label:game.i18n.localize('KNIGHT.JETS.Exploit'),
+            class:'explode',
+        }
+        else if(rollState === RollKnight.EPICFAIL) content.rollState = {
+            label:game.i18n.localize('KNIGHT.JETS.EchecCritique'),
+            class:'epicFail',
+        }
+
+        main.content.push(content);
+
+        let chatData = {
+            user:game.user.id,
+            speaker: {
+                actor: this.actor?.id ?? null,
+                token: this.actor?.token ?? null,
+                alias: this.actor?.name ?? null,
+                scene: this.actor?.token?.parent?.id ?? null
+            },
+            content:await renderTemplate(RollKnight.template, main),
+            sound: CONFIG.sounds.dice,
+            rolls:rolls,
+            rollMode:chatRollMode,
+        };
+
+        if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
+
+        await ChatMessage.create(chatData);
+
+        return total;
+    }
+
+    async #prepareRollWeapon(data={}) {
+        const results = data.results;
+        const success = data.success;
+        const rollState = data.rollState;
+        const tgt = data?.target ?? undefined;
+        const index = data?.index ?? 0;
+
+        const isSurprise = this.isSurprise;
+        const weapon = this.weapon;
+        const allRaw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
+        const targets = game.user.targets;
+        const formula = rollState === RollKnight.EPICSUCCESS ? `${this.formula} + ${this.formula}` : this.formula;
+        let flags = {};
+
+        let content = {
+            index:index,
+            caracteristiques:`${this.carac.join(' / ')}`,
+            isSuccess:this.isSuccess,
+            total:success + this.bonus.reduce((acc, bonus) => acc + bonus, 0),
+            base:formula,
+            bonus:this.bonus,
+            targets:[],
+            weapon:this.weapon,
+            tooltip:await renderTemplate(RollKnight.tooltip, {parts:[{
+                base:formula,
+                bonus:this.bonus,
+                totalBonus:this.bonus.reduce((acc, bonus) => acc + bonus, 0),
+                total:success,
+                results:results,
+            }]}),
+        };
+
+        if(rollState === RollKnight.EPICSUCCESS) content.rollState = {
+            label:game.i18n.localize('KNIGHT.JETS.Exploit'),
+            class:'explode',
+        }
+        else if(rollState === RollKnight.EPICFAIL) content.rollState = {
+            label:game.i18n.localize('KNIGHT.JETS.EchecCritique'),
+            class:'epicFail',
+        }
+
+        if(!this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses'])) {
+            for(let t of targets) {
+                const actor = t.actor;
+                const getODDexterite = this.getOD('masque', 'dexterite', actor);
+                const armorIsWear = this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension' ? true :false;
+                const pointsFaibles = actor.system?.pointsFaibles ?? '';
+
+                let difficulty = 0;
+                let target = {
+                    id:t.id,
+                    name:actor.name,
+                    aspects:actor.system.aspects,
+                    type:actor.type,
+                    effets:[],
+                };
+                let ptsFaible = false;
+                let resultDefense = ``;
+
+                if(!isSurprise) {
+                    let defValue = actor.system.defense.value;
+                    let reaValue = actor.system.reaction.value;
+
+                    if (this.carac.some(carac => pointsFaibles.includes(carac))) {
+                        defValue = Math.ceil(defValue / 2);
+                        reaValue = Math.ceil(reaValue / 2);
+                        ptsFaible = true;
+                    }
+
+                    if(weapon.type === 'distance' && armorIsWear && getODDexterite >= 5) {
+                        difficulty = Math.max(actor.system.defense.value, actor.system.reaction.value);
+
+                        if(defValue > reaValue) resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (${defValue})`;
+                        else resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (${reaValue})`;
+                    }
+                    else if(weapon.type === 'distance') {
+                        difficulty = reaValue;
+                        resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (${reaValue})`;
+                    }
+                    else if(weapon.type === 'contact') {
+                        difficulty = defValue;
+                        resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (${defValue})`;
+                    }
+                } else {
+                    if(weapon.type === 'distance') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (0)`;
+                    else if(weapon.type === 'contact') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (0)`;
+                }
+
+                target.ptsFaible = ptsFaible;
+
+                if(content.total > difficulty) {
+                    target.marge = content.total-difficulty;
+                    target.hit = true;
+                }
+
+                target.defense = resultDefense;
+
+                content.targets.push(target);
+            }
+        } else if(this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses']) && tgt) {
+            const actor = tgt.actor;
+            const getODDexterite = this.getOD('masque', 'dexterite', actor);
+            const armorIsWear = this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension' ? true :false;
+            const pointsFaibles = actor.system?.pointsFaibles ?? '';
+            let difficulty = 0;
+            let target = {
+                id:tgt.id,
+                name:actor.name,
+                aspects:actor.system.aspects,
+                type:actor.type,
+                effets:[],
+            };
+            let ptsFaible = false;
+            let resultDefense = ``;
 
 
-  static CHAT_TEMPLATE = "systems/knight/templates/dices/roll.html";
-  static TOOLTIP_TEMPLATE = "systems/knight/templates/dices/tooltip.html";
+            if(!isSurprise) {
+                const defValue = actor.system.defense.value;
+                const reaValue = actor.system.reaction.value;
 
-  async render({flavor, template=this.constructor.CHAT_TEMPLATE, isPrivate=false}={}) {
-    if ( !this._evaluated ) await this.evaluate();
-    const dices = this._table ? this.dice[0].results : 0;
-    const rTable = this._table ? this._tableau[`c${dices[0].result}`][`l${dices[1].result}`] : '';
-    const caracs = [this._base].concat(this._autre)[0] === '' ? [] : [this._base].concat(this._autre);
+                if(weapon.type === 'distance' && armorIsWear && getODDexterite >= 5) {
 
-    const chatData = {
-      formula: isPrivate ? "???" : this._formula,
-      flavor: isPrivate ? null : this._flavor,
-      style: isPrivate ? null : this._style,
-      user: game.user.id,
-      tooltip: isPrivate ? "" : await this.getTooltip(),
-      caracs: isPrivate ? null : caracs,
-      total: isPrivate ? "?" : Math.round(this.total * 100) / 100,
-      totalSuccess: isPrivate ? "?" : Math.round(this._totalSuccess * 100) / 100,
-      isExploit: isPrivate ? null : this._isExploit,
-      isSuccess: this._success,
-      isTable: this._table,
-      rTable: rTable,
-      isRollSuccess:isPrivate ? "" : this._isRollSuccess,
-      isRollFailed:isPrivate ? "" :  this._isRollFailed,
-      isRollEFailed:isPrivate ? "" :  this._isEFail,
-      details:this._details,
-    };
+                    difficulty = Math.max(defValue, reaValue);
 
-    return renderTemplate(template, chatData);
-  }
+                    if(defValue > reaValue) resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (${defValue})`;
+                    else resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (${reaValue})`;
+                }
+                else if(weapon.type === 'distance') {
+                    difficulty = actor.system.reaction.value;
+                    resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (${reaValue})`;
+                }
+                else if(weapon.type === 'contact') {
+                    difficulty = actor.system.defense.value;
+                    resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (${defValue})`;
+                }
 
-  /** @override */
-  async toMessage(messageData={}, {rollMode, create=true}={}) {
-    // Perform the roll, if it has not yet been rolled
-    if ( !this._evaluated ) await this.evaluate();
+                if (this.carac.some(carac => pointsFaibles.includes(carac))) {
+                    difficulty = Math.ceil(difficulty / 2);
+                    ptsFaible = true;
+                }
+            } else {
+                if(weapon.type === 'distance') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (0)`;
+                else if(weapon.type === 'contact') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (0)`;
+            }
 
-    let hasExploit = false;
-    let nSuccess = 0;
+            if(content.total > difficulty) {
+                target.marge = content.total-difficulty;
+                target.hit = true;
+                target.ptsFaible = ptsFaible;
+            }
+            target.defense = resultDefense;
 
-    if(this._success) {
-      const dices = this.dice[0].values;
-      const operator = this?.terms[1]?.operator || '+';
-      const mod = this?.terms[2]?.number || 0;
+            content.actorName = actor.name;
+        }
 
-      let result = 0;
-      for(let i = 0;i < dices.length;i++) {
-        const r = dices[i];
+        flags = {
+            targets:content.targets,
+            total:content.total,
+        };
 
-        result += r%2 === this._pairOrImpair ? 1 : 0;
-      }
+        return {
+            content,
+            flags,
+        }
+    }
 
-      nSuccess = result;
+    async #sendRollWeapon(data={}) {
+        const rolls = data?.rolls ?? [];
+        const content = data?.content ?? [];
+        const text = data?.text ?? '';
+        const weapon = this.weapon;
+        const flag = data?.flags ?? [];
+        const tags = this.tags;
+        const targets = data?.targets ?? [];
 
-      if(nSuccess === 0 && this._canEFail && !this._isExploit) {
-        this._isEFail = true;
-      }
+        if(this.weapon.portee) {
+            const traPortee = game.i18n.localize(`KNIGHT.PORTEE.${this.weapon.portee.charAt(0).toUpperCase() + this.weapon.portee.slice(1)}`);
 
-      if(this._canExploit && dices.length === nSuccess && !this._isEFail) {
-        hasExploit = true;
+            tags.unshift({
+                key:this.weapon.portee,
+                label:traPortee.includes('KNIGHT.PORTEE') ? `${this.weapon.portee}` : `${traPortee}`
+            },{
+                key:this.style,
+                label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${this.style.toUpperCase()}.FullLabel`)
+            });
+        } else if(this.isPJ) {
+            tags.unshift({
+                key:this.style,
+                label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${this.style.toUpperCase()}.FullLabel`)
+            });
+        }
 
-        const rolls = this.dice.map(function(d) {
-          const r = d.getTooltipData().rolls;
-          return r;
+        const chatRollMode = game.settings.get("core", "rollMode");
+        let main = {
+            flavor:`${this.name}`,
+            tags:tags,
+            content:content,
+            text:text,
+            targets
+        }
+
+        let flags = {
+            actor:this.actor,
+            flavor:main.flavor,
+            weapon:weapon,
+            content:flag,
+            surprise:this.isSurprise,
+            style:this.style,
+            dataStyle:this.dataStyle,
+            dataMod:this.dataMod,
+            maximize:this.maximize,
+        };
+
+        await this.#handleAttaqueEffet(weapon, main, rolls);
+
+        let chatData = {
+            user:game.user.id,
+            speaker: {
+                actor: this.actor?.id ?? null,
+                token: this.actor?.token ?? null,
+                alias: this.actor?.name ?? null,
+                scene: this.actor?.token?.parent?.id ?? null
+            },
+            content:await renderTemplate(RollKnight.template, main),
+            sound: CONFIG.sounds.dice,
+            rolls:rolls,
+            flags: flags,
+            rollMode:chatRollMode,
+        };
+
+        if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
+
+        await ChatMessage.create(chatData)
+    }
+
+    #isEffetActive(effets, options, data=[]) {
+        let result = false;
+
+        for(let d of data) {
+            if(d === 'cadence' && this.#hasEffet(effets, 'chromeligneslumineuses')) continue;
+            if(d === 'silencieux' && this.#hasEffet(effets, 'assassine')) continue;
+            if(d === 'silencieux' && this.#hasEffet(effets, 'munitionssubsoniques')) continue;
+            if(d === 'choc' && this.#hasEffet(effets, 'electrifiee')) continue;
+            if(d === 'jumeleakimbo' && this.#hasEffet(effets, 'jumelle')) continue;
+            if(d === 'jumeleakimbo' && this.#hasEffet(effets, 'jumelageakimbo')) continue;
+            if(d === 'jumeleambidextrie' && this.#hasEffet(effets, 'soeur')) continue;
+            if(d === 'jumeleambidextrie' && this.#hasEffet(effets, 'jumelageambidextrie')) continue;
+            if(d === 'assistanceattaque' && this.#hasEffet(effets, 'connectee')) continue;
+            if(d === 'assistanceattaque' && this.#hasEffet(effets, 'munitionshypervelocite')) continue;
+            if(d === 'tirenrafale' && this.#hasEffet(effets, 'systemerefroidissement')) continue;
+            if(d === 'tirensecurite' && this.#hasEffet(effets, 'interfaceguidage')) continue;
+            if(d === 'antianatheme' && this.#hasEffet(effets, 'fauconplumesluminescentes')) continue;
+            if(d === 'meurtrier' && this.#hasEffet(effets, 'barbelee')) continue;
+            if(d === 'leste' && this.#hasEffet(effets, 'massive')) continue;
+            if(d === 'orfevrerie' && this.#hasEffet(effets, 'sournoise')) continue;
+            if(d === 'assassin' && this.#hasEffet(effets, 'revetementomega')) continue;
+
+            if(this.#hasEffet(effets, d) && !this.#searchOptions(options, d)) result = true;
+            else if(this.#hasEffet(effets, d) && this.#searchOptions(options, d).active) result = true;
+        }
+
+        return result;
+    }
+
+    #hasEffet(list, searched) {
+        let result = false;
+
+        if(list.some(effet => effet.includes(searched))) result = true;
+
+        return result;
+    }
+
+    #getEffet(list, searched) {
+        return list.find(effet => effet.includes(searched));
+    }
+
+    #searchOptions(list, searched) {
+        let result = list.find(itm => itm.value === searched);
+
+        return result;
+    }
+
+    async #handleAttaqueEffet(weapon, content, rolls) {
+        const armorIsWear = this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension' ? true : false;
+        const localize = getAllEffects();
+        const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
+        const options = weapon.options;
+        const list = CONFIG.KNIGHT.LIST.EFFETS.attaque;
+        const custom = weapon.effets.custom.concat(weapon?.distance?.custom ?? [], weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
+        let detailledEffets = [];
+        let effets = [];
+
+        for(let l of list) {
+            const loc = localize[l.split(' ')[0]];
+            const effet = this.#getEffet(raw, l);
+
+            if(this.#isEffetActive(raw, options, [l])) {
+                switch(l) {
+                    case 'barrage':
+                        break;
+
+                    case 'choc':
+                    case 'electrifiee':
+                    case 'artillerie':
+                    case 'demoralisant':
+                    case 'esperance':
+                    case 'lunetteintelligente':
+                    case 'cadence':
+                    case 'chromeligneslumineuses':
+                        if(effet) detailledEffets.push({
+                            simple:l,
+                            key:effet,
+                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                            description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                        });
+                        break;
+
+                    case 'lumiere':
+                        if(effet && !this.#isEffetActive(raw, options, 'lumineuse')) {
+                            let value = parseInt(effet.split(' ')[1]);
+                            if(this.#isEffetActive(raw, options, 'arabesqueiridescentes')) value += 1;
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                label:`${game.i18n.localize(loc.label)} ${value}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                        } else if(effet && !this.#isEffetActive(raw, options, 'arabesqueiridescentes')) {
+                            if(effet) effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+                    case 'arabesqueiridescentes':
+                        if(effet && !this.#isEffetActive(raw, options, 'lumiere')) {
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                label:`${game.i18n.localize(loc.label)} 1`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                        } else if(effet && this.#isEffetActive(raw, options, 'lumineuse')) {
+                            let value = parseInt(this.#getEffet(raw, 'lumiere').split(' ')[1])+1;
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                label:`${game.i18n.localize(localize['lumiere'].label)} ${value}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${localize['lumiere'].description}-short`)),
+                            });
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        } else {
+                            if(effet) effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+                    case 'lumineuse':
+                        if(effet && !this.#isEffetActive(raw, options, 'arabesqueiridescentes')) {
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                label:`${game.i18n.localize(localize['lumiere'].label)} 2`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${localize['lumiere'].description}-short`)),
+                            });
+                        }
+
+                        effets.push({
+                            simple:l,
+                            key:effet,
+                            label:`${game.i18n.localize(loc.label)}`,
+                            description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                        });
+                        break;
+
+                    case 'jumelle':
+                    case 'jumelageakimbo':
+                    case 'jumeleakimbo':
+                        if(effet && this.style === 'akimbo') detailledEffets.push({
+                            simple:l,
+                            key:effet,
+                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                            description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                        });
+                        else if(effet) effets.push({
+                            simple:l,
+                            key:effet,
+                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                            description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                        });
+                        break;
+
+                    case 'jumeleambidextrie':
+                    case 'jumelageambidextrie':
+                    case 'soeur':
+                        if(effet && this.style === 'ambidextre') detailledEffets.push({
+                            simple:l,
+                            key:effet,
+                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                            description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                        });
+                        else if(effet) effets.push({
+                            simple:l,
+                            key:effet,
+                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                            description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                        });
+                        break;
+
+                    default:
+                        if(effet) effets.push({
+                            simple:l,
+                            key:effet,
+                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                            description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                        });
+                        break;
+                }
+            } else {
+                if(effet) effets.push({
+                    simple:l,
+                    key:effet,
+                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                    description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                });
+            }
+        }
+
+        for(let c of custom) {
+            const attaque = c.attaque;
+
+            if(!attaque.conditionnel.has) {
+                effets.push({
+                    simple:c.label,
+                    key:c.label,
+                    label:`${c.label}`,
+                    description:this.#sanitizeTxt(c.description),
+                });
+            } else {
+                let dices = 0;
+                let fixe = 0;
+
+                if(attaque.jet) dices += attaque.jet;
+
+                if(attaque.reussite) fixe += attaque.reussite;
+
+                if(attaque.carac.jet) {
+                    dices += this.getAspectOrCaracteristique(attaque.carac.jet);
+
+                    if(attaque.carac.odInclusJet && armorIsWear) dices += this.getAEAspectOrODCaracteristique(attaque.carac.jet);
+                }
+
+                if(attaque.carac.fixe) {
+                    fixe += this.getAspectOrCaracteristique(attaque.carac.fixe);
+
+                    if(attaque.carac.odInclusFixe && armorIsWear) fixe += this.getAEAspectOrODCaracteristique(attaque.carac.fixe);
+                }
+
+                if(attaque.aspect.jet) {
+                    dices += this.getAspectOrCaracteristique(attaque.aspect.jet);
+
+                    if(attaque.aspect.odInclusJet && armorIsWear) dices += this.getAEAspectOrODCaracteristique(attaque.aspect.jet);
+                }
+
+                if(attaque.aspect.fixe) {
+                    bonus.push(this.getAspectOrCaracteristique(attaque.aspect.fixe));
+
+                    if(attaque.aspect.odInclusFixe && armorIsWear) fixe += this.getAEAspectOrODCaracteristique(attaque.aspect.fixe);
+                }
+
+                if(dices) {
+                    const subroll = fixe ? await this.doSimpleRoll(`${dices}D6+${fixe}`, dices, [fixe]) : await this.doSimpleRoll(`${dices}D6`, dices, []);
+
+                    rolls.push(subroll.roll);
+
+                    detailledEffets.push({
+                        simple:c.label,
+                        key:c.label,
+                        value:`+${subroll.roll.total}`,
+                        label:`${c.label}`,
+                        description:this.#sanitizeTxt(c.description),
+                        tooltip:subroll.tooltip
+                    });
+                } else {
+                    detailledEffets.push({
+                        simple:c.label,
+                        key:c.label,
+                        value:`+${fixe}`,
+                        label:`${c.label}`,
+                        description:this.#sanitizeTxt(attaque.conditionnel.condition),
+                    });
+                }
+            }
+        }
+
+        detailledEffets.sort((a, b) => a.label.localeCompare(b.label));
+        effets.sort((a, b) => a.label.localeCompare(b.label));
+
+        for(let c of content.content) {
+            const total = c.total;
+
+            for(let t of c.targets) {
+                const tgt = game.user.targets.find(tgt => tgt.id === t.id);
+                const actor = tgt.actor;
+
+                if(actor) {
+                    const type = actor.type;
+                    const chair = actor.system.aspects.chair.value;
+
+                    for(let d of detailledEffets) {
+                        switch(d.simple) {
+                            case 'choc':
+                            case 'electrifiee':
+                                const comparaison = type === 'knight' ? chair : chair/2;
+                                const chairAE = t?.aspects?.chair?.ae.majeur?.value ?? 0;
+
+                                t.effets.push({
+                                    simple:d.simple,
+                                    key:d.key,
+                                    label:d.label,
+                                    hit:total > comparaison && t.hit && chairAE === 0  ? true : false,
+                                    subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
+                                })
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        content.detailledEffets = detailledEffets;
+        content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
+    }
+
+    async #handleDamageEffet(weapon, data={}, bonus=[], content={}, rolls=[]) {
+        const type = this.actor.type;
+        const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const capacites = armure?.system?.capacites?.selected ?? {};
+        const getGhost = capacites?.ghost ?? undefined;
+        const getGoliathMeter = this.actor.system?.equipements?.armure?.capacites?.goliath?.metre ?? 0;
+        const getGoliath = capacites?.goliath ?? undefined;
+        const getChangeling = capacites?.changeling ?? undefined;
+        const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
+        const custom = weapon.effets.custom.concat(weapon?.distance?.custom ?? [], weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
+        const options = weapon?.options ?? [];
+        const localize = getAllEffects();
+        const hasObliteration = this.#isEffetActive(raw, options, ['obliteration']);
+        const hasTenebricide = this.#isEffetActive(raw, options, ['tenebricide']);
+        const hasBourreau = this.#isEffetActive(raw, options, ['bourreau']);
+        const style = data?.flags?.style ?? 'standard';
+        const dataStyle = data?.flags?.dataStyle ?? {
+            type:'',
+            value:0
+        };
+        const rollAttaque = data?.attaque ?? [];
+        const attaque = data?.total ?? 0;
+        const targets = data?.targets ?? [];
+        const list = CONFIG.KNIGHT.LIST.EFFETS.degats;
+        const modulesDice = weapon?.bonus?.degats?.dice ?? 0;
+        const modulesFixe = weapon?.bonus?.degats?.fixe ?? 0;
+        const modulesDegatsVariable = weapon?.options?.filter(itm => itm.classes.includes('dgtsbonusvariable')) ?? [];
+        const armorIsWear = (this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension') || !this.isPJ ? true : false;
+        let detailledEffets = [];
+        let effets = [];
+        let rollOptions = {
+            maximize:hasObliteration || (data?.flags?.maximize?.degats ?? false) ? true : false,
+        };
+        let wpnDice = weapon.degats.dice;
+        let min = false;
+        let titleDice = '';
+        let title = '';
+        let isGhostActive = false;
+        let isChangelingActive = false;
+        let isGoliathActive = false;
+
+        if(getGhost && armorIsWear) {
+            isGhostActive = (getGhost?.active?.conflit ?? false) || (getGhost?.active?.horsconflit ?? false) ? true : false;
+        }
+
+        if(getChangeling && armorIsWear) {
+            isChangelingActive = (getChangeling?.active?.personnelle ?? false) ? true : false;
+        }
+
+        if(weapon.degats.fixe > 0) bonus.push(weapon.degats.fixe);
+        if(hasBourreau) min = parseInt(this.#getEffet(raw, 'bourreau').split(' ')[1]);
+
+        if(weapon.type === 'contact') {
+            let force = 0;
+            let traForce = '';
+
+            if(type === 'creature') {
+                if(weapon.degats.addchair) {
+                    force = Math.floor(this.getAspect('chair')/2);
+                    traForce = game.i18n.localize(CONFIG.KNIGHT.aspects.chair);
+
+                    bonus.push(force);
+                    title += ` + ${traForce}`;
+                }
+            } else if(type === 'knight') {
+                force = this.getCaracteristique('chair', 'force');
+                traForce = game.i18n.localize(CONFIG.KNIGHT.caracteristiques.force);
+
+                bonus.push(force);
+                title += ` + ${traForce}`;
+            } else {
+                force = Math.floor(this.getAspect('chair')/2);
+                traForce = game.i18n.localize(CONFIG.KNIGHT.aspects.chair);
+
+                bonus.push(force);
+                title += ` + ${traForce}`;
+            }
+
+            if(getGoliath && armorIsWear) {
+                isGoliathActive = getGoliath?.active ?? false;
+
+                if(isGoliathActive) {
+                    const bGoliath = parseInt(getGoliath?.bonus?.degats?.dice ?? 0);
+
+                    wpnDice += (getGoliathMeter*bGoliath);
+
+                    titleDice += ` + ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.Label')}`;
+                }
+            }
+        }
+
+        if(armorIsWear && this.actor.type === 'knight') {
+            const odForce = this.getOD('chair', 'force');
+            const bonusODFOrce = odForce > 5 ? (5*3)+(odForce-5) : odForce*3;
+
+            const discretion = this.getCaracteristique('masque', 'discretion');
+            const odDiscretion = this.getOD('masque', 'discretion');
+
+            if(odForce > 0) {
+                bonus.push(bonusODFOrce);
+                title += ` + ${game.i18n.localize('KNIGHT.JETS.ODForce')}`;
+            }
+
+            if(odDiscretion >= 5) {
+                if(this.isSurprise || isGhostActive || isChangelingActive) {
+                    bonus.push(discretion+odDiscretion);
+                    title += ` + ${game.i18n.localize('KNIGHT.JETS.ODDiscretion')}`
+                } else {
+                    detailledEffets.push({
+                        simple:'oddiscretion',
+                        key:'oddiscretion',
+                        value:`+${discretion+odDiscretion}`,
+                        label:`${game.i18n.localize('KNIGHT.JETS.ODDiscretion')}`,
+                        description:this.#sanitizeTxt(game.i18n.localize(`KNIGHT.JETS.AttaqueSurprise`)),
+                    });
+                }
+            }
+            else if(odDiscretion >= 2) {
+                if(this.isSurprise || isGhostActive || isChangelingActive) {
+                    bonus.push(discretion);
+                    title += ` + ${game.i18n.localize('KNIGHT.JETS.ODDiscretion')}`
+                } else {
+                    detailledEffets.push({
+                        simple:'oddiscretion',
+                        key:'oddiscretion',
+                        value:`+${discretion}`,
+                        label:`${game.i18n.localize('KNIGHT.JETS.ODDiscretion')}`,
+                        description:this.#sanitizeTxt(game.i18n.localize(`KNIGHT.JETS.AttaqueSurprise`)),
+                    });
+                }
+            }
+        }
+
+        if(style === 'pilonnage') {
+            if(dataStyle.type) {
+                if(dataStyle.type === 'degats') {
+                    wpnDice += Math.min(dataStyle.value, 6);
+                    titleDice += ` + ${game.i18n.localize(CONFIG.KNIGHT.LIST.style.pilonnage)}`;
+                }
+            }
+        } else if(style === 'puissant') {
+            if(dataStyle.type) {
+                if(dataStyle.type === 'degats') {
+                    wpnDice += Math.min(dataStyle.value, 6);
+                    titleDice += ` + ${game.i18n.localize(CONFIG.KNIGHT.LIST.style.puissant)}`;
+                }
+            }
+        } else if(style === 'suppression') {
+            if(dataStyle.type) {
+                if(dataStyle.type === 'degats') {
+                    wpnDice -= Math.floor(Math.min(dataStyle.value, 6) / 2);
+                    titleDice += ` - ${game.i18n.localize(CONFIG.KNIGHT.LIST.style.suppression)}`;
+                }
+            }
+        }
+
+        if(data.flags.dataMod.degats.dice > 0) {
+            wpnDice += data.flags.dataMod.degats.dice;
+            titleDice += ` + ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
+        }
+
+        if(data.flags.dataMod.degats.fixe > 0) {
+            bonus.push(data.flags.dataMod.degats.fixe);
+            title += ` + ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
+        }
+
+        if(modulesDice > 0) {
+            wpnDice += weapon.bonus.degats.dice;
+            titleDice += ` + ${weapon.bonus.degats.titleDice.join(' + ')}`
+        }
+
+        if(modulesFixe > 0) {
+            bonus.push(weapon.bonus.degats.fixe);
+            title += ` + ${weapon.bonus.degats.titleFixe.join(' + ')}`
+        }
+
+        for(let m of modulesDegatsVariable) {
+            if(m.selected > 0) {
+                wpnDice += m.selected;
+                titleDice += ` + ${m.name}`;
+            }
+
+            if(m.selectvalue > 0) {
+                bonus.push(m.selectvalue);
+                title += ` + ${m.name}`;
+            }
+        }
+
+        for(let l of list) {
+            const loc = localize[l.split(' ')[0]];
+            const effet = this.#getEffet(raw, l);
+
+            if(this.#isEffetActive(raw, options, [l])) {
+                switch(l) {
+                    case 'anatheme':
+                    case 'affecteanatheme':
+                    case 'antianatheme':
+                    case 'munitionshypervelocite':
+                    case 'assistanceattaque':
+                    case 'connectee':
+                    case 'dispersion':
+                    case 'enchaine':
+                    case 'penetrant':
+                    case 'tirenrafale':
+                    case 'excellence':
+                    case 'percearmure':
+                    case 'bourreau':
+                    case 'fauconplumesluminescentes':
+                        if(effet) detailledEffets.push({
+                            simple:l,
+                            key:effet,
+                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                            description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                        });
+                        break;
+
+                    case 'boostdegats':
+                        if(effet) {
+                            const boostDegatsDice = options.find(itm => itm.classes.includes('boostdegats') && itm.key === 'select');
+                            wpnDice += boostDegatsDice.selected;
+                            titleDice += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+                    case 'munitionsiem':
+                        if(effet) {
+                            wpnDice -= 1;
+                            titleDice += loc?.double ?? false ? ` - ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` - ${game.i18n.localize(loc.label)}`;
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                        }
+                        break;
+
+                    case 'regularite':
+                        if(effet) {
+                            let regularite = 0;
+
+                            for(let r of rollAttaque) {
+                                r.dice.forEach(dice => {
+                                    dice.results.forEach(result => {
+                                        if(parseInt(result.result) === 6) regularite += 3;
+                                    });
+                                }, []);
+                            }
+
+                            title += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
+
+                            bonus.push(regularite);
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+                    case 'briserlaresilience':
+                        if(effet) {
+                            const subdice = 1;
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau, min:min});
+
+                            rolls.push(subroll.roll);
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                value:`+${subroll.roll.total}`,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                tooltip:subroll.tooltip
+                            });
+                        }
+                        break;
+
+                    case 'armeazurine':
+                    case 'armerougesang':
+                    case 'griffuresgravees':
+                    case 'masquebrisesculpte':
+                    case 'rouagescassesgraves':
+                        if(effet) {
+                            const subdice = 1;
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau, min:min});
+
+                            rolls.push(subroll.roll);
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                value:`+${subroll.roll.total}`,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                tooltip:subroll.tooltip
+                            });
+                        }
+                        break;
+
+                    case 'chenesculpte':
+                        if(effet) {
+                            const subdice = 2;
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau, min:min});
+
+                            rolls.push(subroll.roll);
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                value:`+${subroll.roll.total}`,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                tooltip:subroll.tooltip
+                            });
+                        }
+                        break;
+
+                    case 'chargeurmunitionsexplosives':
+                        if(effet) {
+                            wpnDice += 1;
+                            titleDice += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+                    case 'chargeurballesgrappes':
+                        if(effet) {
+                            wpnDice -= 1;
+                            titleDice += loc?.double ?? false ? ` - ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` - ${game.i18n.localize(loc.label)}`;
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+                    case 'agressive':
+                        if(effet) {
+                            if(style === 'agressif') {
+                                wpnDice += 1;
+
+                                titleDice += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
+                            }
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+                    case 'sillonslignesfleches':
+                        if(effet) {
+                            bonus.push(3);
+
+                            title += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+                    case 'surmesure':
+                        if(effet) {
+                            const total = this.actor.type === 'knight' ? this.getCaracteristique('bete', 'combat') : this.getAspect('bete');
+                            let totalOD = 0;
+
+                            if(this.actor.type === 'knight') {
+                                totalOD = armorIsWear ? this.getOD('bete', 'combat') : 0;
+                            } else totalOD = this.getAE('bete');
+
+                            bonus.push(total+totalOD);
+
+                            title += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+                    case 'faucheusegravee':
+                        if(effet) {
+                            wpnDice += 1;
+
+                            titleDice += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+                    case 'cranerieurgrave':
+                    case 'obliteration':
+                        if(effet) detailledEffets.push({
+                            simple:l,
+                            key:effet,
+                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                            description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                        });
+                        break;
+
+                    case 'tenebricide':
+                        if(effet) detailledEffets.push({
+                            simple:l,
+                            key:effet,
+                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                            description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                        });
+                        break;
+
+                    case 'assassine':
+                    case 'munitionssubsoniques':
+                    case 'silencieux':
+                        if(effet) {
+                            const total = this.actor.type === 'knight' ? this.getCaracteristique('masque', 'discretion') : this.getAspect('masque');
+                            let totalOD = 0;
+
+                            if(this.actor.type === 'knight') {
+                                totalOD = armorIsWear ? this.getOD('masque', 'discretion') : 0;
+                            } else totalOD = this.getAE('masque');
+
+                            if(this.isSurprise || isChangelingActive || isGhostActive) {
+                                bonus.push(total+totalOD);
+                                title += `${loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`}`
+                            } else {
+                                detailledEffets.push({
+                                    simple:l,
+                                    key:effet,
+                                    value:`+${total+totalOD}`,
+                                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                });
+                            }
+                        }
+                        break;
+
+                    case 'sournoise':
+                    case 'orfevrerie':
+                        if(effet) {
+                            const total = this.actor.type === 'knight' ? this.getCaracteristique('masque', 'dexterite') : this.getAspect('masque')/2;
+                            let totalOD = 0;
+
+                            if(this.actor.type === 'knight') {
+                                totalOD = armorIsWear ? this.getOD('masque', 'dexterite') : 0;
+                            } else totalOD = this.getAE('masque');
+
+                            bonus.push(total+totalOD);
+
+                            title += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+                    case 'massive':
+                    case 'leste':
+                        if(effet) {
+                            const total = this.actor.type === 'knight' ? this.getCaracteristique('chair', 'force') : this.getAspect('chair')/2;
+
+                            bonus.push(total);
+
+                            title += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+                    case 'assassin':
+                        if(effet) {
+                            const subdice = hasTenebricide ? Math.floor(effet.split(' ')[1]/2) : effet.split(' ')[1];
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau, min:min});
+
+                            rolls.push(subroll.roll);
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                value:`+${subroll.roll.total}`,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                tooltip:subroll.tooltip
+                            });
+                        }
+                        break;
+
+                    case 'revetementomega':
+                        if(effet) {
+                            const subdice = hasTenebricide ? Math.floor(2/2) : 2;
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau, min:min});
+
+                            rolls.push(subroll.roll);
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                value:`+${subroll.roll.total}`,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                tooltip:subroll.tooltip
+                            });
+                        }
+                        break;
+
+                    case 'barbelee':
+                    case 'destructeur':
+                        if(effet) {
+                            const subdice = hasTenebricide ? 1 : 2;
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau, min:min});
+
+                            rolls.push(subroll.roll);
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                value:`+${subroll.roll.total}`,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                tooltip:subroll.tooltip
+                            });
+                        }
+                        break;
+
+                    case 'meurtrier':
+                        if(effet) {
+                            const subdice = hasTenebricide ? 1 : 2;
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau, min:min});
+
+                            rolls.push(subroll.roll);
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                value:`+${subroll.roll.total}`,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                tooltip:subroll.tooltip
+                            });
+                        }
+                        break;
+
+                    case 'degatscontinus':
+                        if(effet) {
+                            const subroll = await this.doSimpleRoll(`1D6`, 1);
+                            const tourLoc = subroll.roll.total > 1 ? 'KNIGHT.AUTRE.Tours' : 'KNIGHT.AUTRE.Tour';
+
+                            rolls.push(subroll.roll);
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]} (${subroll.roll.total} ${game.i18n.localize(tourLoc)})` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                tooltip:subroll.tooltip,
+                            });
+                        }
+                        break;
+
+                    default:
+                        if(effet) effets.push({
+                            simple:l,
+                            key:effet,
+                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                            description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                        });
+                        break;
+                }
+            } else {
+                if(effet) effets.push({
+                    simple:l,
+                    key:effet,
+                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                    description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                });
+            }
+        }
+
+        for(let c of custom) {
+            const degats = c.degats;
+            let dices = 0;
+            let fixe = 0;
+
+            if(degats.jet) dices += degats.jet;
+
+            if(degats.fixe) fixe += degats.fixe;
+
+            if(degats.carac.jet) {
+                dices += this.getAspectOrCaracteristique(degats.carac.jet);
+
+                if(degats.carac.odInclusJet && armorIsWear) dices += this.getAEAspectOrODCaracteristique(degats.carac.jet);
+            }
+
+            if(degats.carac.fixe) {
+                fixe += this.getAspectOrCaracteristique(degats.carac.fixe);
+
+                if(degats.carac.odInclusFixe && armorIsWear) fixe += this.getAEAspectOrODCaracteristique(degats.carac.fixe);
+            }
+
+            if(degats.aspect.jet) {
+                dices += this.getAspectOrCaracteristique(degats.aspect.jet);
+
+                if(degats.aspect.odInclusJet && armorIsWear) dices += this.getAEAspectOrODCaracteristique(degats.aspect.jet);
+            }
+
+            if(degats.aspect.fixe) {
+                bonus.push(this.getAspectOrCaracteristique(degats.aspect.fixe));
+
+                if(degats.aspect.odInclusFixe && armorIsWear) fixe += this.getAEAspectOrODCaracteristique(degats.aspect.fixe);
+            }
+
+            if(!degats.conditionnel.has) {
+                if(dices) {
+                    wpnDice += dices;
+
+                    titleDice += ` + ${c.label}`;
+                }
+
+                if(fixe) {
+                    bonus.push(fixe);
+
+                    title += ` + ${c.label}`;
+                }
+
+                effets.push({
+                    simple:c.label,
+                    key:c.label,
+                    label:`${c.label}`,
+                    description:this.#sanitizeTxt(c.description),
+                });
+            } else {
+                if(dices) {
+                    const subroll = fixe ? await this.doSimpleRoll(`${dices}D6+${fixe}`, dices, [fixe]) : await this.doSimpleRoll(`${dices}D6`, dices, []);
+
+                    rolls.push(subroll.roll);
+
+                    detailledEffets.push({
+                        simple:c.label,
+                        key:c.label,
+                        value:`+${subroll.roll.total}`,
+                        label:`${c.label}`,
+                        description:this.#sanitizeTxt(c.degats.conditionnel.condition),
+                        tooltip:subroll.tooltip
+                    });
+                } else {
+                    detailledEffets.push({
+                        simple:c.label,
+                        key:c.label,
+                        value:`+${fixe}`,
+                        label:`${c.label}`,
+                        description:this.#sanitizeTxt(degats.conditionnel.condition),
+                    });
+                }
+            }
+        }
+
+        wpnDice = style === 'akimbo' ? wpnDice*2 : wpnDice;
+        const dice = hasTenebricide ? Math.floor(wpnDice/2) : wpnDice;
+        let formula = `${dice}D6`;
+        title = weapon.degats.fixe > 0 ? `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6 + ${game.i18n.localize("KNIGHT.AUTRE.Base")}${title}` :
+        `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6${title}`;
+
+        detailledEffets.sort((a, b) => {
+            if (a.value && !b.value) return -1;
+            if (!a.value && b.value) return 1;
+            if (a.tooltip && !b.tooltip) return -1;
+            if (!a.tooltip && b.tooltip) return 1;
+            return a.label.localeCompare(b.label);
+        });
+        effets.sort((a, b) => a.label.localeCompare(b.label));
+        const roll = new Roll(formula);
+        await roll.evaluate(rollOptions);
+        let addTargets = false;
+
+        for(let t of targets) {
+            t.effets = [];
+            let total = roll.total+Object.values(bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
+            for(let d of detailledEffets) {
+                switch(d.simple) {
+                    case 'connectee':
+                    case 'munitionshypervelocite':
+                    case 'assistanceattaque':
+                        if(t.marge) {
+                            addTargets = true;
+                            total += t.marge,
+
+                            t.effets.push({
+                                simple:d.simple,
+                                key:d.key,
+                                label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
+                                empty:true,
+                            });
+                        }
+                        break;
+
+                    case 'excellence':
+                        if(t.marge) {
+                            addTargets = true;
+                            total += t.marge*2,
+
+                            t.effets.push({
+                                simple:d.simple,
+                                key:d.key,
+                                label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
+                                empty:true,
+                            });
+                        }
+                        break;
+
+                    case 'meurtrier':
+                        const chairAE = t?.aspects?.chair?.ae.majeur?.value ?? 0;
+
+                        if(chairAE > 0) {
+                            addTargets = true;
+
+                            t.effets.push({
+                                simple:d.simple,
+                                key:d.key,
+                                label:d.label,
+                                hit:false,
+                                subtitle:game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
+                            })
+                        }
+                        break;
+                }
+            }
+
+            t.isValue = true;
+            t.value = total;
+        }
+
+        let results = {};
+        results.dices = wpnDice;
+        results.roll = roll;
+        results.min = min;
+        results.title = title;
+        if(addTargets) results.targets = targets;
+
+        content.detailledEffets = detailledEffets;
+        content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
+
+        return results;
+    }
+
+    async #handleViolenceEffet(weapon, data={}, bonus=[], content={}, rolls=[]) {
+        const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const capacites = armure?.system?.capacites?.selected ?? {};
+        const getGoliathMeter = this.actor.system?.equipements?.armure?.capacites?.goliath?.metre ?? 0;
+        const getGoliath = capacites?.goliath ?? undefined;
+        const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
+        const custom = weapon.effets.custom.concat(weapon?.distance?.custom ?? [], weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
+        const options = weapon.options;
+        const localize = getAllEffects();
+        const hasObliteration = this.#isEffetActive(raw, options, ['obliteration']);
+        const hasTenebricide = this.#isEffetActive(raw, options, ['tenebricide']);
+        const hasDevastation = this.#isEffetActive(raw, options, ['devastation']);
+        const style = data?.flags?.style ?? 'standard';
+        const dataStyle = data?.flags?.dataStyle ?? {
+            type:'',
+            value:0
+        };
+        const rollAttaque = data?.attaque ?? [];
+        const attaque = data?.total ?? 0;
+        const targets = data?.targets ?? [];
+        const list = CONFIG.KNIGHT.LIST.EFFETS.violence;
+        const modulesDice = weapon?.bonus?.violence?.dice ?? 0;
+        const modulesFixe = weapon?.bonus?.violence?.fixe ?? 0;
+        const modulesViolenceVariable = weapon.options.filter(itm => itm.classes.includes('violencebonusvariable'));
+        const armorIsWear = (this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension') || !this.isPJ ? true : false;
+        let detailledEffets = [];
+        let effets = [];
+        let rollOptions = {
+            maximize:hasObliteration || (data?.flags?.maximize?.violence ?? false) ? true : false,
+        };
+        let isGoliathActive = false;
+        let wpnDice = weapon.violence.dice;
+        let min = false;
+        let titleDice = '';
+        let title = '';
+
+        if(weapon.violence.fixe > 0) bonus.push(weapon.violence.fixe);
+        if(hasDevastation) min = parseInt(this.#getEffet(raw, 'devastation').split(' ')[1]);
+
+        if(weapon.type === 'contact') {
+            if(getGoliath && armorIsWear) {
+                isGoliathActive = getGoliath?.active ?? false;
+
+                if(isGoliathActive) {
+                    const bGoliath = parseInt(getGoliath?.bonus?.violence?.dice ?? 0);
+
+                    wpnDice += (getGoliathMeter*bGoliath);
+
+                    titleDice += ` + ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GOLIATH.Label')}`;
+                }
+            }
+
+        }
+
+        let fureur = 0;
+        let ultraviolence = 0;
+
+        if(style === 'pilonnage') {
+            if(dataStyle.type) {
+                if(dataStyle.type === 'violence') {
+                    wpnDice += Math.min(dataStyle.value, 6);
+                    titleDice += ` + ${game.i18n.localize(CONFIG.KNIGHT.LIST.style.pilonnage)}`;
+                }
+            }
+        } else if(style === 'puissant') {
+            if(dataStyle.type) {
+                if(dataStyle.type === 'violence') {
+                    wpnDice += Math.min(dataStyle.value, 6);
+                    titleDice += ` + ${game.i18n.localize(CONFIG.KNIGHT.LIST.style.puissant)}`;
+                }
+            }
+        } else if(style === 'suppression') {
+            if(dataStyle.type) {
+                if(dataStyle.type === 'violence') {
+                    wpnDice -= Math.floor(Math.min(dataStyle.value, 8) / 2);
+                    titleDice += ` - ${game.i18n.localize(CONFIG.KNIGHT.LIST.style.suppression)}`;
+                }
+            }
+        }
+
+        if(data.flags.dataMod.violence.dice > 0) {
+            wpnDice += data.flags.dataMod.violence.dice;
+            titleDice += ` + ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
+        }
+
+        if(data.flags.dataMod.violence.fixe > 0) {
+            bonus.push(data.flags.dataMod.violence.fixe);
+            title += ` + ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
+        }
+
+        if(modulesDice > 0) {
+            wpnDice += weapon.bonus.violence.dice;
+            titleDice += ` + ${weapon.bonus.violence.titleDice.join(' + ')}`
+        }
+
+        if(modulesFixe > 0) {
+            bonus.push(weapon.bonus.violence.fixe);
+            title += ` + ${weapon.bonus.violence.titleFixe.join(' + ')}`
+        }
+
+        for(let m of modulesViolenceVariable) {
+            if(m.selected > 0) {
+                wpnDice += m.selected;
+                titleDice += ` + ${m.name}`;
+            }
+
+            if(m.selectvalue > 0) {
+                bonus.push(m.selectvalue);
+                title += ` + ${m.name}`;
+            }
+        }
+
+        for(let l of list) {
+            const loc = localize[l.split(' ')[0]];
+            const effet = this.#getEffet(raw, l);
+
+            if(this.#isEffetActive(raw, options, [l])) {
+                switch(l) {
+                    case 'affecteanatheme':
+                    case 'assistanceattaque':
+                    case 'antianatheme':
+                    case 'percearmure':
+                    case 'tenebricide':
+                    case 'devastation':
+                    case 'munitionsnonletales':
+                    case 'connectee':
+                    case 'fauconplumesluminescentes':
+                        if(effet) detailledEffets.push({
+                            simple:l,
+                            key:effet,
+                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                            description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                        });
+                        break;
+
+                    case 'flammesstylisees':
+                        if(effet) {
+                            wpnDice += 1;
+                            titleDice += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+                    case 'boostviolence':
+                        if(effet) {
+                            const boostViolenceDice = options.find(itm => itm.classes.includes('boostviolence') && itm.key === 'select');
+                            wpnDice += boostViolenceDice.selected;
+                            titleDice += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+
+                    case 'intimidanthum':
+                        if(effet) {
+                            const total = this.actor.type === 'knight' ? this.getCaracteristique('dame', 'aura') : this.getAspect('dame')/2;
+                            let totalOD = 0;
+
+                            if(this.actor.type === 'knight') {
+                                totalOD = armorIsWear ? this.getOD('dame', 'aura') : 0;
+                            } else totalOD = this.getAE('dame');
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                value:`+${total+totalOD}`,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                        }
+                        break;
+
+                    case 'intimidantana':
+                        if(effet) {
+                            const total = this.actor.type === 'knight' ? this.getCaracteristique('dame', 'aura') : this.getAspect('dame')/2;
+                            let totalOD = 0;
+
+                            if(this.actor.type === 'knight') {
+                                totalOD = armorIsWear ? this.getOD('dame', 'aura') : 0;
+                            } else totalOD = this.getAE('dame');
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                value:`+${total+totalOD}`,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                        }
+                        break;
+
+                    case 'ultraviolence':
+                        if(effet) {
+                            const subdice = 2;
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {devastation:hasDevastation, min:min});
+
+                            rolls.push(subroll.roll);
+                            ultraviolence = subroll.roll.total;
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                value:`+${subroll.roll.total}`,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]} (${subroll.roll.total} ${game.i18n.localize(tourLoc)})` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                tooltip:subroll.tooltip,
+                            });
+                        }
+                        break;
+
+
+                    case 'chargeurmunitionsexplosives':
+                        if(effet) {
+                            wpnDice -= 1;
+                            titleDice += loc?.double ?? false ? ` - ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` - ${game.i18n.localize(loc.label)}`;
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+                    case 'chargeurballesgrappes':
+                        if(effet) {
+                            wpnDice += 1;
+                            titleDice += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
+
+                    case 'armeazurine':
+                    case 'armerougesang':
+                    case 'griffuresgravees':
+                    case 'masquebrisesculpte':
+                    case 'rouagescassesgraves':
+                        if(effet) {
+                            const subdice = 1;
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau});
+
+                            rolls.push(subroll.roll);
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                value:`+${subroll.roll.total}`,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                tooltip:subroll.tooltip
+                            });
+                        }
+                        break;
+
+                    case 'fureur':
+                        if(effet) {
+                            const subdice = 4;
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {devastation:hasDevastation, min:min});
+
+                            rolls.push(subroll.roll);
+
+                            fureur = subroll.roll.total;
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                value:`+${subroll.roll.total}`,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]} (${subroll.roll.total} ${game.i18n.localize(tourLoc)})` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                tooltip:subroll.tooltip,
+                            });
+                        }
+                        break;
+
+                    case 'munitionsiem':
+                        if(effet) {
+                            wpnDice -= 1;
+                            titleDice += loc?.double ?? false ? ` - ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` - ${game.i18n.localize(loc.label)}`;
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                        }
+                        break;
+
+                    case 'briserlaresilience':
+                        if(effet) {
+                            const subdice = 1;
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {devastation:hasDevastation, min:min});
+
+                            rolls.push(subroll.roll);
+
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                value:`+${subroll.roll.total}`,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                tooltip:subroll.tooltip
+                            });
+                        }
+                        break;
+
+
+                    case 'tenebricide':
+                        if(effet) detailledEffets.push({
+                            simple:l,
+                            key:effet,
+                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                            description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                        });
+                        break;
+
+                    default:
+                        if(effet) effets.push({
+                            simple:l,
+                            key:effet,
+                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                            description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                        });
+                        break;
+                }
+            } else {
+                if(effet) effets.push({
+                    simple:l,
+                    key:effet,
+                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                    description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                });
+            }
+        }
+
+        for(let c of custom) {
+            const violence = c.violence;
+            let dices = 0;
+            let fixe = 0;
+
+            if(violence.jet) dices += violence.jet;
+
+            if(violence.fixe) fixe += violence.fixe;
+
+            if(violence.carac.jet) {
+                dices += this.getAspectOrCaracteristique(violence.carac.jet);
+
+                if(violence.carac.odInclusJet && (this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension')) dices += this.getAEAspectOrODCaracteristique(violence.carac.jet);
+            }
+
+            if(violence.carac.fixe) {
+                fixe += this.getAspectOrCaracteristique(violence.carac.fixe);
+
+                if(violence.carac.odInclusFixe && (this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension')) fixe += this.getAEAspectOrODCaracteristique(violence.carac.fixe);
+            }
+
+            if(violence.aspect.jet) {
+                dices += this.getAspectOrCaracteristique(violence.aspect.jet);
+
+                if(violence.aspect.odInclusJet && (this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension')) dices += this.getAEAspectOrODCaracteristique(violence.aspect.jet);
+            }
+
+            if(violence.aspect.fixe) {
+                bonus.push(this.getAspectOrCaracteristique(violence.aspect.fixe));
+
+                if(violence.aspect.odInclusFixe && (this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension')) fixe += this.getAEAspectOrODCaracteristique(degviolenceats.aspect.fixe);
+            }
+
+            if(!violence.conditionnel.has) {
+                if(dices) {
+                    wpnDice += dices;
+
+                    titleDice += ` + ${c.label}`;
+                }
+
+                if(fixe) {
+                    bonus.push(fixe);
+
+                    title += ` + ${c.label}`;
+                }
+
+                effets.push({
+                    simple:c.label,
+                    key:c.label,
+                    label:`${c.label}`,
+                    description:this.#sanitizeTxt(c.description),
+                });
+            } else {
+                if(dices) {
+                    const subroll = fixe ? await this.doSimpleRoll(`${dices}D6+${fixe}`, dices, [fixe]) : await this.doSimpleRoll(`${dices}D6`, dices, []);
+
+                    rolls.push(subroll.roll);
+
+                    detailledEffets.push({
+                        simple:c.label,
+                        key:c.label,
+                        value:`+${subroll.roll.total}`,
+                        label:`${c.label}`,
+                        description:this.#sanitizeTxt(c.violence.conditionnel.condition),
+                        tooltip:subroll.tooltip
+                    });
+                } else {
+                    detailledEffets.push({
+                        simple:c.label,
+                        key:c.label,
+                        value:`+${fixe}`,
+                        label:`${c.label}`,
+                        description:this.#sanitizeTxt(violence.conditionnel.condition),
+                    });
+                }
+            }
+        }
+
+        wpnDice = style === 'akimbo' ? wpnDice+Math.ceil(wpnDice/2) : wpnDice;
+        const dice = hasTenebricide ? Math.floor(wpnDice/2) : wpnDice;
+        let formula = `${dice}D6`;
+        title = weapon.degats.fixe > 0 ? `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6 + ${game.i18n.localize("KNIGHT.AUTRE.Base")}${title}` :
+        `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6${title}`;
+
+        detailledEffets.sort((a, b) => {
+            if (a.value && !b.value) return -1;
+            if (!a.value && b.value) return 1;
+            if (a.tooltip && !b.tooltip) return -1;
+            if (!a.tooltip && b.tooltip) return 1;
+            return a.label.localeCompare(b.label);
+        });
+        effets.sort((a, b) => a.label.localeCompare(b.label));
+
+        const roll = new Roll(formula);
+        await roll.evaluate(rollOptions);
+        let addTargets = false;
+
+        for(let t of targets) {
+            t.effets = [];
+            let total = roll.total+Object.values(bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
+            for(let d of detailledEffets) {
+                switch(d.simple) {
+                    case 'connectee':
+                    case 'munitionshypervelocite':
+                    case 'assistanceattaque':
+                        if(t.marge) {
+                            addTargets = true;
+                            total += t.marge,
+
+                            t.effets.push({
+                                simple:d.simple,
+                                key:d.key,
+                                label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
+                                empty:true,
+                            });
+                        }
+                        break;
+
+                    case 'fureur':
+                        if(t.type === 'bande' && fureur > 0) {
+                            if(t.aspects.chair.value > 10) {
+                                addTargets = true;
+                                total += fureur;
+
+                                t.effets.push({
+                                    simple:d.simple,
+                                    key:d.key,
+                                    label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
+                                    empty:true,
+                                });
+                            }
+                        }
+                        break;
+
+                    case 'ultraviolence':
+                        if(t.type === 'bande' && ultraviolence > 0) {
+                            if(t.aspects.chair.value < 10) {
+                                addTargets = true;
+                                total += ultraviolence;
+
+                                t.effets.push({
+                                    simple:d.simple,
+                                    key:d.key,
+                                    label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
+                                    empty:true,
+                                });
+                            }
+                        }
+                        break;
+                }
+            }
+
+            t.isValue = true;
+            t.value = total;
+        }
+
+        let results = {};
+        results.dices = wpnDice;
+        results.roll = roll;
+        results.min = min;
+        results.title = title;
+        if(addTargets) results.targets = targets;
+
+        content.detailledEffets = detailledEffets;
+        content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
+
+        return results;
+    }
+
+    setWeapon(wpn) {
+        this.weapon = wpn;
+    }
+
+    setName(name) {
+        this.name = name;
+    }
+
+    setDices(dices) {
+        this.formula = dices;
+    }
+
+    prepareWpnContact(wpn, modules=[], addSpecial=true) {
+        const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const system = wpn.system;
+        let raw = [];
+        let specialRaw = [];
+        let specialCustom = [];
+        let data = {
+            label:wpn.name,
+            portee:system.portee,
+            classes:'btnWpn',
+            options:[],
+            type:'contact',
+            cout:system?.cout ?? 0,
+            espoir:system?.espoir ?? 0,
+            bonus:{
+                degats:{
+                    dice:modules?.degats?.dice ?? 0,
+                    fixe:modules?.degats?.fixe ?? 0,
+                    titleDice:modules?.degats?.titleDice ?? '',
+                    titleFixe:modules?.degats?.titleFixe ?? '',
+                },
+                violence:{
+                    dice:modules?.violence?.dice ?? 0,
+                    fixe:modules?.violence?.fixe ?? 0,
+                    titleDice:modules?.violence?.titleDice ?? '',
+                    titleFixe:modules?.violence?.titleFixe ?? '',
+                }
+            }
+        };
+
+        data.id = wpn.id;
+
+        if(armure && addSpecial) {
+            if(armure.system.special.selected?.porteurlumiere ?? undefined) {
+                specialRaw = specialRaw.concat(armure.system.special.selected.porteurlumiere.bonus.effets.raw)
+                specialCustom = specialCustom.concat(armure.system.special.selected.porteurlumiere.bonus.effets.custom)
+            }
+        }
+
+        if(!system?.options2mains?.has ?? false) {
+            data.effets = {
+                raw:system?.effets?.raw ?? [],
+                custom:system?.effets?.custom ?? [],
+            };
+            data.structurelles = {
+                raw:system?.structurelles?.raw ?? [],
+                custom:system?.structurelles?.custom ?? [],
+            };
+            data.ornementales = {
+                raw:system?.ornementales?.raw ?? [],
+                custom:system?.ornementales?.custom ?? [],
+            };
+
+            data.effets.raw = data.effets.raw.concat(specialRaw);
+            data.effets.custom = data.effets.custom.concat(specialCustom);
+
+            raw = data.effets.raw.concat(system?.structurelles?.raw ?? [], system?.ornementales?.raw ?? []);
+
+            if(!system?.degats?.variable?.has ?? false) data.degats = {dice:system?.degats?.dice ?? 0, fixe:system?.degats?.fixe ?? 0};
+            else {
+                const list = {};
+                const min = system?.degats?.variable?.min?.dice ?? 0;
+                const max = system?.degats?.variable?.max?.dice ?? min;
+                let classes = [];
+
+                for (let i = min; i <= max; i++) {
+                    list[i] = system?.degats?.variable?.min?.fixe ?? 0 ? `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6+${min.fixe}` : `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+                }
+
+                classes.push('selectDouble', 'dgtsvariable');
+
+                if(!system?.violence?.variable?.has ?? false) classes.push('full');
+
+                data.options.push({
+                    key:'select',
+                    classes:classes.join(' '),
+                    label:game.i18n.localize('KNIGHT.AUTRE.Degats'),
+                    list:list,
+                    selected:min,
+                    value:system?.degats?.variable?.cout ?? 0,
+                    selectvalue:system?.degats?.variable?.min?.fixe ?? 0,
+                });
+
+                data.degats = {dice:min, fixe:system?.degats?.variable?.min?.fixe ?? 0};
+            }
+
+            if(!system?.violence?.variable?.has ?? false) data.violence = {dice:system?.violence?.dice ?? 0, fixe:system?.violence?.fixe ?? 0};
+            else {
+                const list = {};
+                const min = system?.violence?.variable?.min?.dice ?? 0;
+                const max = system?.violence?.variable?.max?.dice ?? min;
+                let classes = [];
+
+                for (let i = min; i <= max; i++) {
+                    list[i] = system?.violence?.variable?.min?.fixe ?? 0 ? `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6+${min.fixe}` : `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+                }
+
+                classes.push('selectDouble', 'violencevariable');
+
+                if(!system?.degats?.variable?.has ?? false) classes.push('full');
+
+                data.options.push({
+                    key:'select',
+                    classes:classes.join(' '),
+                    label:game.i18n.localize('KNIGHT.AUTRE.Violence'),
+                    list:list,
+                    selected:min,
+                    value:system?.violence?.variable?.cout ?? 0,
+                    selectvalue:system?.violence?.variable?.min?.fixe ?? 0,
+                });
+
+                data.violence = {dice:min, fixe:system?.violence?.variable?.min?.fixe ?? 0};
+            }
+
+        } else {
+            const list = {};
+
+            list['1main'] = game.i18n.localize('KNIGHT.ITEMS.ARME.DEUXMAINS.Unemain');
+            list['2main'] = game.i18n.localize('KNIGHT.ITEMS.ARME.DEUXMAINS.Deuxmains');
+
+            data.actuel = system.options2mains.actuel;
+
+            if(system.options2mains.actuel === '1main') {
+                data.degats = {dice:system?.options2mains?.['1main']?.degats?.dice ?? 0, fixe:system?.options2mains?.['1main']?.degats.fixe ?? 0};
+                data.violence = {dice:system?.options2mains?.['1main']?.violence?.dice ?? 0, fixe:system?.options2mains?.['1main']?.violence?.fixe ?? 0};
+
+                data.effets = {
+                    raw:system?.effets?.raw ?? [],
+                    custom:system?.effets?.custom ?? [],
+                };
+                data.structurelles = {
+                    raw:system?.structurelles?.raw ?? [],
+                    custom:system?.structurelles?.custom ?? [],
+                };
+                data.ornementales = {
+                    raw:system?.ornementales?.raw ?? [],
+                    custom:system?.ornementales?.custom ?? [],
+                };
+
+                data.effets.raw = data.effets.raw.concat(specialRaw);
+                data.effets.custom = data.effets.custom.concat(specialCustom);
+
+                raw = data.effets.raw.concat(system?.structurelles?.raw, system?.ornementales?.raw);
+            }
+            else {
+                data.degats = {dice:system?.options2mains?.['2main']?.degats?.dice ?? 0, fixe:system?.options2mains?.['2main']?.degats.fixe ?? 0};
+                data.violence = {dice:system?.options2mains?.['2main']?.violence?.dice ?? 0, fixe:system?.options2mains?.['2main']?.violence?.fixe ?? 0};
+
+                data.effets = {
+                    raw:system?.effets2mains?.raw ?? [],
+                    custom:system?.effets2mains?.custom ?? [],
+                };
+                data.structurelles = {
+                    raw:system?.structurelles?.raw ?? [],
+                    custom:system?.structurelles?.custom ?? [],
+                };
+                data.ornementales = {
+                    raw:system?.ornementales?.raw ?? [],
+                    custom:system?.ornementales?.custom ?? [],
+                };
+
+                data.effets.raw = data.effets.raw.concat(specialRaw);
+                data.effets.custom = data.effets.custom.concat(specialCustom);
+
+                raw = data.effets.raw.concat(system.structurelles.raw, system.ornementales.raw);
+            }
+
+            let classes = [];
+            classes.push('selectSimple mains full');
+
+            data.options.push({
+                key:'select',
+                classes:classes.join(' '),
+                list:list,
+                selected:data.actuel,
+            });
+        }
+
+        data.degats.addchair = system?.degats?.addchair ?? true;
+        data.options = modules.options ? modules.options.concat(data.options) : data.options;
+
+        if(this.#hasEffet(raw, 'soeur')) {
+            let classes = ['jumelageambidextrie', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.SOEUR.Label'),
+                value:'soeur',
+                active:true,
+            });
+        } else if(this.#hasEffet(raw, 'jumelageambidextrie')) {
+            let classes = ['jumelageambidextrie', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.JUMELAGEAMBIDEXTRIE.Label'),
+                value:'jumelageambidextrie',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'barrage')) {
+            let classes = ['barrage', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.BARRAGE.Label'),
+                value:'barrage',
+                active:false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'chromeligneslumineuses')) {
+            let classes = ['cadence', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.CHROMELIGNESLUMINEUSES.Label'),
+                value:'chromeligneslumineuses',
+                active:false,
+            });
+        } else if(this.#hasEffet(raw, 'cadence')) {
+            let classes = ['cadence', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.CADENCE.Label'),
+                value:'cadence',
+                active:false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'guidage')) {
+            let classes = ['guidage', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.GUIDAGE.Label'),
+                value:'guidage',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'cranerieurgrave')) {
+            let classes = ['obliteration', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.CRANERIEURGRAVE.Label'),
+                value:'cranerieurgrave',
+                active:false,
+            });
+        } else if(this.#hasEffet(raw, 'obliteration')) {
+            let classes = ['obliteration', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.OBLITERATION.Label'),
+                value:'obliteration',
+                active:false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'tenebricide')) {
+            let classes = ['tenebricide', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.TENEBRICIDE.Label'),
+                value:'tenebricide',
+                active:false,
+            });
+        }
+
+        data.options.sort((a, b) => {
+            if (a.key === 'select') return -1;
+            if (b.key === 'select') return 1;
+            if (a.classes.includes('roll')) return -1;
+            if (b.classes.includes('roll')) return 1;
+            if (a.key === 'btn' && b.key !== 'btn') return 1;
+            if (a.key !== 'btn' && b.key === 'btn') return -1;
+            return a.label.localeCompare(b.label);
         });
 
-        const c = new this.constructor(`${dices.length}d6${operator}${mod}`, this.data, this.options);
-        c._success = true;
-        c._flavor = this._flavor;
-        c._canExploit = false;
-        c._isExploit = true;
-        c._base = this._base;
-        c._autre = this._autre;
-        c._pSuccess = nSuccess;
-        c._pRolls = rolls;
-        c._difficulte = this._difficulte;
-        c._isRollSuccess = this._isRollSuccess;
-        c._canEFail = this._canEFail;
-        c._totalSuccess = nSuccess;
-        c._pairOrImpair = this._pairOrImpair;
-
-        c.toMessage(messageData);
-
-      } else {
-        switch(operator) {
-          case '+':
-            nSuccess += mod;
-            break;
-          case '-':
-            nSuccess -= mod;
-            break;
-        }
-      }
+        return data;
     }
 
-    if(!hasExploit) {
-      this._totalSuccess += nSuccess;
+    prepareWpnDistance(wpn, modules=[], addSpecial=true) {
+        const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const system = wpn.system;
+        let raw = [];
+        let specialRaw = [];
+        let specialCustom = [];
 
-      if((this._difficulte != false || this._difficulte != 0) && !this._isEFail) {
-        if(this._totalSuccess > this._difficulte) {
-          this._isRollSuccess = true;
+        let data = {
+            id:wpn?.id ?? '',
+            label:wpn.name,
+            classes:'btnWpn',
+            options:[],
+            type:'distance',
+            cout:system?.cout ?? 0,
+            espoir:system?.espoir ?? 0,
+            bonus:{
+                degats:{
+                    dice:modules?.degats?.dice ?? 0,
+                    fixe:modules?.degats?.fixe ?? 0,
+                    titleDice:modules?.degats?.titleDice ?? '',
+                    titleFixe:modules?.degats?.titleFixe ?? '',
+                },
+                violence:{
+                    dice:modules?.violence?.dice ?? 0,
+                    fixe:modules?.violence?.fixe ?? 0,
+                    titleDice:modules?.violence?.titleDice ?? '',
+                    titleFixe:modules?.violence?.titleFixe ?? '',
+                }
+            }
+        };
+
+        if(system.portee) data.portee = system.portee;
+        data.id = wpn.id;
+
+        if(armure && addSpecial) {
+            if(armure.system.special.selected?.porteurlumiere ?? undefined) {
+                specialRaw = specialRaw.concat(armure.system.special.selected.porteurlumiere.bonus.effets.raw)
+                specialCustom = specialCustom.concat(armure.system.special.selected.porteurlumiere.bonus.effets.custom)
+            }
+        }
+
+        if(!system?.optionsmunitions?.has ?? false) {
+            data.effets = {
+                raw:system?.effets?.raw ?? [],
+                custom:system?.effets?.custom ?? [],
+            };
+            data.distance = {
+                raw:system?.distance?.raw ?? [],
+                custom:system?.distance?.custom ?? [],
+            };
+
+            data.effets.raw = data.effets.raw.concat(specialRaw);
+            data.effets.custom = data.effets.custom.concat(specialCustom);
+
+            raw = system.effets.raw.concat(system?.distance?.raw ?? []);
+
+            if(!system?.degats?.variable?.has ?? false) data.degats = {dice:system?.degats?.dice ?? 0, fixe:system?.degats?.fixe ?? 0};
+            else {
+                const list = {};
+                const min = system.degats.variable.min;
+                const max = system.degats.variable.max;
+                let classes = [];
+
+                for (let i = min.dice; i <= max.dice; i++) {
+                    list[i] = min.fixe ? `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6+${min.fixe}` : `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+                }
+
+                classes.push('selectDouble', 'dgtsvariable');
+
+                if(!system.violence.variable.has) classes.push('full');
+
+                data.options.push({
+                    key:'select',
+                    classes:classes.join(' '),
+                    label:game.i18n.localize('KNIGHT.AUTRE.Degats'),
+                    list:list,
+                    selected:min.dice,
+                    value:system.degats.variable.cout,
+                    selectvalue:min.fixe,
+                });
+
+                data.degats = {dice:min.dice, fixe:min.fixe};
+            }
+
+            if(!system?.violence?.variable?.has ?? false) data.violence = {dice:system?.violence?.dice ?? 0, fixe:system?.violence?.fixe ?? 0};
+            else {
+                const list = {};
+                const min = system.violence.variable.min;
+                const max = system.violence.variable.max;
+                let classes = [];
+
+                for (let i = min.dice; i <= max.dice; i++) {
+                    list[i] = min.fixe ? `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6+${min.fixe}` : `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+                }
+
+                classes.push('selectDouble', 'violencevariable');
+
+                if(!system.degats.variable.has) classes.push('full');
+
+                data.options.push({
+                    key:'select',
+                    classes:classes.join(' '),
+                    label:game.i18n.localize('KNIGHT.AUTRE.Violence'),
+                    list:list,
+                    selected:min.dice,
+                    value:system.violence.variable.cout,
+                    selectvalue:min.fixe,
+                });
+
+                data.violence = {dice:min.dice, fixe:min.fixe};
+            }
+
         } else {
-          this._isRollFailed = true;
+            const listMunitions = system.optionsmunitions.liste;
+            const list = {};
+
+            data.munitions = {};
+
+            for(let m in listMunitions) {
+                list[m] = `${game.i18n.localize('KNIGHT.ITEMS.ARME.MUNITIONS.Label')} : ${listMunitions[m].nom}`;
+                data.munitions[m] = listMunitions[m];
+            }
+
+            data.actuel = system.optionsmunitions.actuel;
+
+            data.degats = data.munitions[data.actuel].degats;
+            data.violence = data.munitions[data.actuel].violence;
+
+            raw = system.effets.raw.concat(data.munitions[data.actuel].raw)
+
+            data.effets = {
+                raw:raw,
+                custom:system.effets.custom.concat(data.munitions[data.actuel].custom),
+            };
+
+            data.distance = {
+                raw:system.distance.raw,
+                custom:system.distance.custom,
+            };
+
+            data.effets.raw = data.effets.raw.concat(specialRaw);
+            data.effets.custom = data.effets.custom.concat(specialCustom);
+
+            let classes = [];
+            classes.push('selectSimple munitions full');
+
+            data.options.push({
+                key:'select',
+                classes:classes.join(' '),
+                list:list,
+                selected:data.actuel,
+            });
         }
-      }
 
-      // Prepare chat data
-      messageData = foundry.utils.mergeObject({
-        user: game.user.id,
-        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
-        content: this.total,
-        sound: CONFIG.sounds.dice,
-      }, messageData);
-      messageData.rolls = [this];
+        if(system?.tourelle?.has ?? false) {
+            data.tourelle = {
+                dice:system.tourelle.attaque.dice,
+                fixe:system.tourelle.attaque.fixe,
+            }
+        }
 
-      // Either create the message or just return the chat data
-      const cls = getDocumentClass("ChatMessage");
-      const msg = new cls(messageData);
+        data.options = modules.options ? modules.options.concat(data.options) : data.options;
 
-      // Either create or return the data
-      if ( create ) return cls.create(msg, { rollMode });
-      else {
-        if ( rollMode ) msg.applyRollMode(rollMode);
-        return msg.toObject();
-      }
+        if(this.#hasEffet(raw, 'tirenrafale')) {
+            let classes = ['tirenrafale', 'center', 'roll', 'full'];
+
+            data.options.push({
+                key:'btn',
+                special:'roll',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.TIRENRAFALE.Label'),
+                title:game.i18n.localize('KNIGHT.EFFETS.TIRENRAFALE.Relance'),
+            });
+        }
+
+        if(this.#hasEffet(raw, 'soeur')) {
+            let classes = ['jumelageambidextrie', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.SOEUR.Label'),
+                value:'soeur',
+                active:true,
+            });
+        } else if(this.#hasEffet(raw, 'jumelageambidextrie')) {
+            let classes = ['jumelageambidextrie', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.JUMELAGEAMBIDEXTRIE.Label'),
+                value:'jumelageambidextrie',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'barrage') && !this.#hasEffet(raw, 'aucundegatsviolence')) {
+            let classes = ['barrage', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.BARRAGE.Label'),
+                value:'barrage',
+                active:false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'chromeligneslumineuses')) {
+            let classes = ['cadence', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.CHROMELIGNESLUMINEUSES.Label'),
+                value:'chromeligneslumineuses',
+                active:false,
+            });
+        } else if(this.#hasEffet(raw, 'cadence')) {
+            let classes = ['cadence', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.CADENCE.Label'),
+                value:'cadence',
+                active:false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'guidage')) {
+            let classes = ['guidage', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.GUIDAGE.Label'),
+                value:'guidage',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'cranerieurgrave')) {
+            let classes = ['obliteration', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.CRANERIEURGRAVE.Label'),
+                value:'cranerieurgrave',
+                active:false,
+            });
+        } else if(this.#hasEffet(raw, 'obliteration')) {
+            let classes = ['obliteration', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.OBLITERATION.Label'),
+                value:'obliteration',
+                active:false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'tenebricide')) {
+            let classes = ['tenebricide', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.TENEBRICIDE.Label'),
+                value:'tenebricide',
+                active:false,
+            });
+        }
+
+        data.options.sort((a, b) => {
+            if (a.key === 'select') return -1;
+            if (b.key === 'select') return 1;
+            if (a.classes.includes('roll')) return -1;
+            if (b.classes.includes('roll')) return 1;
+            if (a.key === 'btn' && b.key !== 'btn') return 1;
+            if (a.key !== 'btn' && b.key === 'btn') return -1;
+            return a.label.localeCompare(b.label);
+        });
+
+        return data;
     }
-  }
 
-  async getTooltip() {
-    const isTable = this._table;
-    const pSuccess = this._pSuccess;
-    const pRolls = this._pRolls;
-    const isExploit = this._isExploit;
-    const formula = this._formula;
-    const operator = this?.terms[1]?.expression;
-    const mod = this?.terms[2]?.expression;
-    const details = this._details;
-    const pairOrImpair = this._pairOrImpair;
-    const hasMin = this._hasMin;
-    const seuil = this._seuil;
-    const min = this._min;
+    getRollData(weapon, flags={}) {
+      let addFlags = {
+        flavor:flags?.flavor ?? '',
+        total:flags?.total ?? 0,
+        targets:flags?.targets ?? [],
+        attaque:flags?.rolls ?? [],
+        weapon:weapon,
+        actor:this.actor,
+        surprise:flags?.surprise ?? false,
+        style:flags?.style ?? 'standard',
+        dataStyle:flags?.dataStyle ?? {},
+        dataMod:flags?.dataMod ?? {degats:{dice:0, fixe:0}, violence:{dice:0, fixe:0}},
+        maximize:flags?.maximize ?? false,
+      };
 
-    const parts = this._success ? this.dice.map(function(d) {
-      const r = d.getTooltipData();
+      let data = {
+        total:flags?.total ?? 0,
+        targets:flags?.targets ?? [],
+        attaque:flags?.rolls ?? [],
+        flags:addFlags
+      };
 
-      if(isExploit) {
-        r.rolls = r.rolls.concat(pRolls[0]);
-      }
+      return data;
+    }
 
-      let result = 0;
-
-      for(let i = 0;i < r.rolls.length;i++) {
-        const roll = +r.rolls[i].result;
-
-        result += roll%2 === pairOrImpair ? 1 : 0;
-        const reussite = pairOrImpair === 0 ? 0 : 1;
-        const echec = pairOrImpair === 1 ? 0 : 1;
-
-        r.rolls[i].classes = r.rolls[i].classes.replace(' min', '');
-        r.rolls[i].classes = r.rolls[i].classes.replace(' max', '');
-
-        if(roll%2 === reussite) {
-          r.rolls[i].classes += ' max';
-        } else if(roll%2 === echec) {
-          r.rolls[i].classes += ' min';
-        }
-      }
-
-      if(isExploit) {
-        r.formula = `${pSuccess}d6 + ${formula}`;
-      } else {
-        r.formula = formula;
-      }
-
-      r.operator = operator;
-      r.mod = mod;
-      r.total = result;
-      r.details = details;
-
-      return r;
-    }) : this.dice.map(function(d) {
-      const r = d.getTooltipData()
-      r.formula = formula;
-      r.details = details;
-      r.isTable = isTable;
-      r.operator = operator;
-      r.mod = mod;
-
-      if(hasMin) {
+    getCaracteristique(aspect, name) {
+        const data = this.actor.system.aspects[aspect].caracteristiques[name];
         let result = 0;
 
-        for(let i = 0;i < r.rolls.length;i++) {
-          const roll = +r.rolls[i].result;
+        result += data?.base ?? 0;
+        result += data?.bonus ?? 0;
+        result -= data?.malus ?? 0;
 
-          if(roll <= seuil) { r.rolls[i].result = min; }
+        return result;
+    }
 
-          result += +r.rolls[i].result;
+    getOD(aspect, name, actor=this.actor) {
+        const data = actor.system?.aspects?.[aspect]?.caracteristiques?.[name]?.overdrive ?? {bonus:[], malus:[]};
+        const bonus = Object.values(data.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+        const malus = Object.values(data.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+        let result = 0;
 
-          r.rolls[i].classes = r.rolls[i].classes.replace(' min', '');
+        result += data?.base ?? 0;
+        result += bonus;
+        result += malus;
+
+        return result;
+    }
+
+    getAspect(name) {
+        const data = this.actor.system.aspects[name];
+        const bonus = Object.values(data?.bonus ?? []).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+        const malus = Object.values(data?.malus ?? []).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+        const isPJ = this.isPJ;
+        let result = 0;
+
+        result += isPJ ? data?.base ?? 0 : data?.value;
+        result += bonus;
+        result += malus;
+
+        return result;
+    }
+
+    getAspectOrCaracteristique(name) {
+        let result = 0;
+
+        switch(name) {
+            case 'chair':
+            case 'bete':
+            case 'machine':
+            case 'dame':
+            case 'masque':
+                result = this.getAspect(name);
+                break;
+
+            case 'deplacement':
+            case 'force':
+            case 'endurance':
+                result = this.getCaracteristique('chair', name);
+                break;
+
+            case 'combat':
+            case 'hargne':
+            case 'instinct':
+                result = this.getCaracteristique('bete', name);
+                break;
+
+            case 'tir':
+            case 'savoir':
+            case 'technique':
+                result = this.getCaracteristique('machine', name);
+                break;
+
+            case 'parole':
+            case 'aura':
+            case 'sangFroid':
+                result = this.getCaracteristique('dame', name);
+                break;
+
+            case 'discretion':
+            case 'dexterite':
+            case 'perception':
+                result = this.getCaracteristique('masque', name);
+                break;
         }
 
-        r.total = result;
-      }
-
-      return r;
-    });
-
-    return renderTemplate(this.constructor.TOOLTIP_TEMPLATE, { parts });
-  }
-
-  static fromData(data) {
-
-    // Redirect to the proper Roll class definition
-    if ( data.class && (data.class !== this.name) ) {
-      const cls = CONFIG.Dice.rolls.find(cls => cls.name === data.class);
-      if ( !cls ) throw new Error(`Unable to recreate ${data.class} instance from provided data`);
-      return cls.fromData(data);
+        return result;
     }
 
-    // Create the Roll instance
-    const roll = new this(data.formula, data.data, data.options);
+    getAEAspectOrODCaracteristique(name) {
+        let result = 0;
 
-    // Expand terms
-    roll.terms = data.terms.map(t => {
-      if ( t.class ) {
-        if ( t.class === "DicePool" ) t.class = "PoolTerm"; // backwards compatibility
-        return RollTerm.fromData(t);
-      }
-      return t;
-    });
+        switch(name) {
+            case 'chair':
+            case 'bete':
+            case 'machine':
+            case 'dame':
+            case 'masque':
+                result = this.getAE(name);
+                break;
 
-    // Repopulate evaluated state
-    if ( data.evaluated ?? true ) {
-      roll._total = data.total;
-      roll._dice = (data.dice || []).map(t => DiceTerm.fromData(t));
-      roll._evaluated = true;
+            case 'deplacement':
+            case 'force':
+            case 'endurance':
+                result = this.getOD('chair', name);
+                break;
+
+            case 'combat':
+            case 'hargne':
+            case 'instinct':
+                result = this.getOD('bete', name);
+                break;
+
+            case 'tir':
+            case 'savoir':
+            case 'technique':
+                result = this.getOD('machine', name);
+                break;
+
+            case 'parole':
+            case 'aura':
+            case 'sangFroid':
+                result = this.getOD('dame', name);
+                break;
+
+            case 'discretion':
+            case 'dexterite':
+            case 'perception':
+                result = this.getOD('masque', name);
+                break;
+        }
+
+        return result;
     }
 
-    roll._flavor = data.flavor;
-    roll._style = data.style;
-    roll._canExploit = data.canExploit;
-    roll._isExploit = data.isExploit;
-    roll._isEFail = data.isEFail;
-    roll._success = data.success;
-    roll._table = data.table;
-    roll._tableau = data.tableau;
-    roll._pSuccess = data.pSuccess;
-    roll._pRolls = data.pRolls;
-    roll._base = data.base;
-    roll._autre = data.autre;
-    roll._difficulte = data.difficulte;
-    roll._isRollSuccess = data.isRollSuccess;
-    roll._isRollFailed = data.isRollFailed;
-    roll._details = data.details;
-    roll._totalSuccess = data.totalSuccess;
-    roll._pairOrImpair = data.pairOrImpair;
-    roll._hasMin = data.hasMin;
-    roll._seuil = data.seuil;
-    roll._min = data.min;
-    return roll;
-  }
+    getAE(name) {
+        const data = this.actor.system.aspects[name].ae;
+        let result = 0;
 
-  async evaluateSuccess() {
-    if ( !this._evaluated ) await this.evaluate();
+        result += data.mineur.value;
+        result += data.majeur.value;
 
-    let hasExploit = false;
-    let nSuccess = 0;
-
-    const dices = this.dice[0].values;
-    const operator = this?.terms[1]?.operator || '+';
-    const mod = this?.terms[2]?.number || 0;
-
-    let result = 0;
-    for(let i = 0;i < dices.length;i++) {
-      const r = dices[i];
-
-      result += r%2 === this._pairOrImpair ? 1 : 0;
+        return result;
     }
 
-    nSuccess = result;
+    #sanitizeTxt(txt) {
+        const result = txt.replaceAll('_', '');
 
-    if(nSuccess === 0 && this._canEFail && !this._isExploit) {
-      this._isEFail = true;
+        return result;
     }
 
-    if(this._canExploit && dices.length === nSuccess && !this._isEFail) {
-      hasExploit = true;
-      this._isExploit = true;
+    async doSimpleRoll(formula, dices, bonus=[], evaluateOptions={}, data={}) {
+        const hasBourreau = data?.bourreau ?? false;
+        const hasDevastation = data?.devastation ?? false;
+        const min = data?.min ?? 0;
+        const roll = new Roll(formula);
+        await roll.evaluate(evaluateOptions);
+        let total = 0;
+        let results = roll.dice.reduce((acc, dice) => {
+            dice.results.forEach(result => {
+                let r = result.result;
 
-      const c = new this.constructor(`${dices.length}d6`, this.data, this.options);
-      c._canExploit = false;
-      c._isExploit = true;
-      c._success = this._success;
+                if(hasBourreau) {
+                    total += r < min ? 4 : r;
 
-      await c.evaluateSuccess();
+                    if(r < min) r = 4;
+                }
 
-      const rolls = c.dice.map(function(d) {
-        const r = d.getTooltipData().rolls;
-        return r;
-      });
+                if(hasDevastation) {
+                    total += r < min ? 5 : r;
 
-      this._pSuccess = nSuccess;
-      nSuccess += c.totalSuccess;
-      this._pRolls = rolls;
+                    if(r < min) r = 5;
+                }
+
+                acc.push({
+                    value:r,
+                    class:`d${dice._faces}`,
+                });
+            });
+            return acc;
+        }, []);
+
+        if(!hasBourreau && !hasDevastation) total = roll.total;
+
+        let tooltip = await renderTemplate(RollKnight.tooltip, {parts:[{
+            base:`${dices}D6`,
+            bonus:bonus,
+            total:total,
+            results:results,
+        }]});
+
+        return {
+            roll:roll,
+            tooltip:tooltip,
+        }
     }
-
-    switch(operator) {
-      case '+':
-        this._totalSuccess += mod;
-        break;
-      case '-':
-        this._totalSuccess -= mod;
-        break;
-    }
-
-    if(this._difficulte != false && !this._isEFail) {
-      if(result > this._difficulte) {
-        this._isRollSuccess = true;
-      } else {
-        this._isRollFailed = true;
-      }
-    }
-
-    this._totalSuccess += nSuccess;
-
-    return this;
-  }
-
-  getSix() {
-    const terms = this.terms[0].results;
-    let result = 0;
-
-    for(let i = 0;i < terms.length;i++) {
-      const roll = +terms[i].result;
-
-      if(roll === 6) { result += 1; }
-    }
-
-    return result;
-  }
-
-  toJSON() {
-    return {
-      class: this.constructor.name,
-      options: this.options,
-      dice: this._dice,
-      formula: this._formula,
-      terms: this.terms,
-      isExploit: this._isExploit,
-      isEFail: this._isEFail,
-      base: this._base,
-      autre: this._autre,
-      success:this._success,
-      table:this._table,
-      tableau:this._tableau,
-      pSuccess:this._pSuccess,
-      pRolls:this._pRolls,
-      total: this._total,
-      totalSuccess: this._totalSuccess,
-      difficulte: this._difficulte,
-      isRollSuccess: this._isRollSuccess,
-      isRollFailed: this._isRollFailed,
-      details: this._details,
-      flavor: this._flavor,
-      style: this._style,
-      evaluated: this._evaluated,
-      pairOrImpair:this._pairOrImpair,
-      hasMin:this._hasMin,
-      seuil:this._seuil,
-      min:this._min,
-    }
-  }
-
-  get totalSuccess() {
-    return this._totalSuccess;
-  }
 }

@@ -5,11 +5,7 @@
         </h1>
 
         <select name="system.niveau.value" {{#if systemData.noEditLvl}}disabled{{/if}}>
-        {{#select systemData.niveau.value}}
-            {{#each systemData.niveau.liste}}
-            <option value="{{this}}">{{localize "KNIGHT.ITEMS.MODULE.Niveau"}} {{this}}</option>
-            {{/each}}
-        {{/select}}
+            {{selectOptions (getNiveau systemData.niveau.details) selected=systemData.niveau.value}}
         </select>
     </header>
 
@@ -72,12 +68,7 @@
             <label class="oneLine">
                 <span>{{localize "KNIGHT.ITEMS.MODULE.CATEGORIE.Label"}}</span>
                 <select name="system.categorie">
-                    {{#select systemData.categorie}}
-                        <option value=""></option>
-                        {{#each systemData.listes.categorie  as | key categorie|}}
-                            <option value="{{categorie}}">{{key}}</option>
-                        {{/each}}
-                    {{/select}}
+                    {{selectOptions systemData.listes.categorie selected=systemData.categorie blank='' localize=true}}
                 </select>
             </label>
         </div>
@@ -101,12 +92,7 @@
                     <label class="twoLine">
                         <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
                         <select name="system.niveau.details.{{nv}}.activation">
-                            {{#select key.activation}}
-                                <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                                <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                                <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                                <option value="tourComplet">{{localize "KNIGHT.ACTIVATION.TourComplet"}}</option>
-                            {{/select}}
+                            {{selectOptions (getList 'activation') selected=key.activation localize=true}}
                         </select>
                     </label>
 
@@ -120,12 +106,7 @@
                         " data-type="secondmode" data-subtype="has" data-value="{{key.secondmode.has}}">{{key.labels.secondmode}}</button>
                         {{#if key.secondmode.has}}
                             <select name="system.niveau.details.{{nv}}.secondmode.activation">
-                            {{#select key.secondmode.activation}}
-                                <option value="aucune">{{localize "KNIGHT.ACTIVATION.Aucune"}}</option>
-                                <option value="deplacement">{{localize "KNIGHT.ACTIVATION.Deplacement"}}</option>
-                                <option value="combat">{{localize "KNIGHT.ACTIVATION.Combat"}}</option>
-                                <option value="tourComplet">{{localize "KNIGHT.ACTIVATION.TourComplet"}}</option>
-                            {{/select}}
+                            {{selectOptions (getList 'activation') selected=key.secondmode.activation localize=true}}
                         </select>
                         {{/if}}
                     </div>
@@ -147,12 +128,7 @@
                     <label class="oneLine">
                         <span>{{localize "KNIGHT.ITEMS.MODULE.RARETE.Label"}}</span>
                         <select name="system.niveau.details.{{nv}}.rarete">
-                            {{#select key.rarete}}
-                                <option value=""></option>
-                                {{#each key.listes.rarete  as | kr rarete|}}
-                                    <option value="{{rarete}}">{{kr}}</option>
-                                {{/each}}
-                            {{/select}}
+                            {{selectOptions key.listes.rarete selected=key.rarete localize=true}}
                         </select>
                     </label>
 
@@ -182,14 +158,7 @@
                     <label class="oneLine">
                         <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
                         <select name="system.niveau.details.{{nv}}.portee">
-                            {{#select key.portee}}
-                                <option value="personnelle">{{localize "KNIGHT.PORTEE.Personnelle"}}</option>
-                                <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                                <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                                <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                                <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                                <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                            {{/select}}
+                            {{selectOptions (getList 'porteecomplet') selected=key.portee localize=true}}
                         </select>
                     </label>
                 </div>
@@ -383,10 +352,7 @@
                         {{/if}}
                         " data-type="bonus" data-subtype="degats" data-name="has" data-value="{{key.bonus.degats.has}}">{{key.labels.degatsBonus}}</button>
                         <select name="system.niveau.details.{{nv}}.bonus.degats.type" class="{{#unless key.bonus.degats.has}}hidden{{/unless}}">
-                            {{#select key.bonus.degats.type}}
-                            <option value="contact">{{localize "KNIGHT.BONUS.Contact"}}</option>
-                            <option value="distance">{{localize "KNIGHT.BONUS.Distance"}}</option>
-                            {{/select}}
+                            {{selectOptions (getList 'typebonus') selected=key.bonus.degats.type localize=true}}
                         </select>
                         <button type="action" class="button borderTop noBorderBottom
                         {{#if key.bonus.degats.variable.has}}
@@ -441,10 +407,7 @@
                         {{/if}}
                         " data-type="bonus" data-subtype="violence" data-name="has" data-value="{{key.bonus.violence.has}}">{{key.labels.violenceBonus}}</button>
                         <select name="system.niveau.details.{{nv}}.bonus.violence.type" class="{{#unless key.bonus.violence.has}}hidden{{/unless}}">
-                            {{#select key.bonus.violence.type}}
-                            <option value="contact">{{localize "KNIGHT.BONUS.Contact"}}</option>
-                            <option value="distance">{{localize "KNIGHT.BONUS.Distance"}}</option>
-                            {{/select}}
+                            {{selectOptions (getList 'typebonus') selected=key.bonus.violence.type localize=true}}
                         </select>
                         <button type="action" class="button borderTop noBorderBottom
                         {{#if key.bonus.violence.variable.has}}
@@ -551,23 +514,14 @@
                     <label class="oneLine">
                         <span>{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Label"}}</span>
                         <select name="system.niveau.details.{{nv}}.arme.type">
-                            {{#select key.arme.type}}
-                            <option value="contact">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Contact"}}</option>
-                            <option value="distance">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Distance"}}</option>
-                            {{/select}}
+                            {{selectOptions (getList 'typearmes') selected=key.arme.type localize=true}}
                         </select>
                     </label>
 
                     <label class="oneLine">
                         <span>{{localize "KNIGHT.PORTEE.Label"}}</span>
                         <select name="system.niveau.details.{{nv}}.arme.portee">
-                            {{#select key.arme.portee}}
-                            <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                            <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                            <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                            <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                            <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                            {{/select}}
+                            {{selectOptions (getList 'portee') selected=key.arme.portee localize=true}}
                         </select>
                     </label>
 
@@ -824,10 +778,7 @@
                     <div class="creature baseW">
                         <div class="line header">
                             <select name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.type" class="typePNJ" data-id="{{pnj}}">
-                                {{#select kpnj.type}}
-                                <option value="pnj">{{localize "KNIGHT.TYPE.Pnj"}}</option>
-                                <option value="bande">{{localize "KNIGHT.TYPE.Bande"}}</option>
-                                {{/select}}
+                                {{selectOptions (getList 'typepnj') selected=kpnj.type localize=true}}
                             </select>
                             <input type="text" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.nom" value="{{kpnj.nom}}" />
                             <a class="delete" data-type="pnj" data-id="{{pnj}}" title="Delete Item">
@@ -971,11 +922,7 @@
 
                                             <div class="type">
                                                 <select name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.armes.liste.{{arme}}.type">
-                                                    {{#select aKey.type}}
-                                                    <option value="contact">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Contact"}}</option>
-                                                    <option value="distance">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Distance"}}</option>
-                                                    <option value="tourelle">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Tourelle"}}</option>
-                                                    {{/select}}
+                                                    {{selectOptions (getList 'typearmesmodules') selected=aKey.type localize=true}}
                                                 </select>
                                             </div>
                                         </div>
@@ -987,13 +934,7 @@
                                         <div class="line">
                                             <div class="portee">
                                                 <select name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.armes.liste.{{arme}}.portee">
-                                                    {{#select aKey.portee}}
-                                                    <option value="contact">{{localize "KNIGHT.PORTEE.Contact"}}</option>
-                                                    <option value="courte">{{localize "KNIGHT.PORTEE.Courte"}}</option>
-                                                    <option value="moyenne">{{localize "KNIGHT.PORTEE.Moyenne"}}</option>
-                                                    <option value="longue">{{localize "KNIGHT.PORTEE.Longue"}}</option>
-                                                    <option value="lointaine">{{localize "KNIGHT.PORTEE.Lointaine"}}</option>
-                                                    {{/select}}
+                                                    {{selectOptions (getList 'portee') selected=aKey.portee localize=true}}
                                                 </select>
                                             </div>
 
@@ -1115,16 +1056,7 @@
                     <label class="oneLine">
                         <span>{{localize "KNIGHT.BONUS.Attaque"}}</span>
                         <select name="system.niveau.details.{{nv}}.ersatz.rogue.attaque">
-                            {{#select key.ersatz.rogue.attaque}}
-                                <option value=""></option>
-                                {{#each key.aspects as | kAsp aspect|}}
-                                    <optgroup label="{{getAspect aspect}}">
-                                        {{#each kAsp.liste as | keyCarac caracteristique|}}
-                                            <option value="{{caracteristique}}">{{getCarac caracteristique}}</option>
-                                        {{/each}}
-                                    </optgroup>
-                                {{/each}}
-                            {{/select}}
+                            {{selectOptions (onlyCarac) selected=key.ersatz.rogue.attaque localize=true}}
                         </select>
                     </label>
                 </div>
@@ -1135,16 +1067,7 @@
                         <label class="oneLine borderBottom noBorderTop">
                             <span>{{localize "KNIGHT.ITEMS.Caracteristique"}}</span>
                             <select name="system.niveau.details.{{nv}}.ersatz.rogue.degats.caracteristique">
-                                {{#select key.ersatz.rogue.degats.caracteristique}}
-                                    <option value=""></option>
-                                    {{#each key.aspects as | kAsp aspect|}}
-                                        <optgroup label="{{getAspect aspect}}">
-                                            {{#each kAsp.liste as | keyCarac caracteristique|}}
-                                                <option value="{{caracteristique}}">{{getCarac caracteristique}}</option>
-                                            {{/each}}
-                                        </optgroup>
-                                    {{/each}}
-                                {{/select}}
+                                {{selectOptions (onlyCarac) selected=key.ersatz.rogue.degats.caracteristique localize=true}}
                             </select>
                         </label>
 
