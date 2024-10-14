@@ -50,15 +50,7 @@ export class BlessureSheet extends ItemSheet {
 
       if(!actuel) { result = true; }
 
-      const update = {
-        data: {
-          soigne: {
-            [type]:result
-          }
-        }
-      };
-
-      this.item.update(update);
+      this.item.update({[`system.soigne.${type}`]:result});
     });
   }
 }

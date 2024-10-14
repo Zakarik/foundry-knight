@@ -2188,6 +2188,8 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 espoir += 3;
             }
 
+            if(system.soigne.implant || system.reconstruction) continue;
+
             for(let a in system.aspects) {
                 if(system.aspects[a].value > 0) {
                     aspects.push({
@@ -2206,6 +2208,13 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 }
             }
         }
+
+        Object.defineProperty(this.espoir.malus, 'blessures', {
+            value: espoir,
+            writable:true,
+            enumerable:true,
+            configurable:true
+        });
 
         for(let a of aspects) {
             Object.defineProperty(this.aspects[a.key].malus, 'blessures', {
