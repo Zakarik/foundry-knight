@@ -2217,7 +2217,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         }
 
         for(let c of caracteristiques) {
-            Object.defineProperty(this._getAspectPath(c).malus, 'blessures', {
+            Object.defineProperty(this._getAspectPath(c.key).malus, 'blessures', {
                 value: c.value,
                 writable:true,
                 enumerable:true,
