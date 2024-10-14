@@ -1,3 +1,8 @@
+## v3.30.4
+### Bugfix
+- Correction d'un bug avec l'Anti anatème qui apparaissait comme Anathème dans les jets.
+- Correction d'un bug dans la gestion des blessures.
+
 ## v3.30.3
 ### Bugfix
 - Le Masque Exceptionnel ne s'ajoutait pas à la défense pour les PNJ/Bande/Créatures, c'est à présent corrigé.
