@@ -934,15 +934,15 @@ export class RollKnight {
     #hasEffet(list, searched) {
         let result = false;
         let split = searched.split(' ')[0];
-
-        if(list.some(effet => effet === split)) result = true;
+        const found = list.find(effet => effet.split(' ')[0] === split);
+        if(found) result = true;
 
         return result;
     }
 
     #getEffet(list, searched) {
         const split = searched.split(' ')[0];
-        return list.find(effet => effet === split);
+        return list.find(effet => effet.split(' ')[0] === split);
     }
 
     #searchOptions(list, searched) {
@@ -1252,6 +1252,7 @@ export class RollKnight {
             maximize:hasObliteration || (data?.flags?.maximize?.degats ?? false) ? true : false,
         };
         let wpnDice = weapon.degats.dice;
+        let wpnBonusDice = 0;
         let min = false;
         let titleDice = '';
         let title = '';
@@ -1398,7 +1399,7 @@ export class RollKnight {
 
         for(let m of modulesDegatsVariable) {
             if(m.selected > 0) {
-                wpnDice += m.selected;
+                wpnBonusDice += m.selected;
                 titleDice += ` + ${m.name}`;
             }
 
@@ -1439,7 +1440,7 @@ export class RollKnight {
                     case 'boostdegats':
                         if(effet) {
                             const boostDegatsDice = options.find(itm => itm.classes.includes('boostdegats') && itm.key === 'select');
-                            wpnDice += boostDegatsDice.selected;
+                            wpnBonusDice += boostDegatsDice.selected;
                             titleDice += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
 
                             effets.push({
@@ -1919,6 +1920,7 @@ export class RollKnight {
         }
 
         wpnDice = style === 'akimbo' ? wpnDice*2 : wpnDice;
+        wpnDice += wpnBonusDice;
         const dice = hasTenebricide ? Math.floor(wpnDice/2) : wpnDice;
         let formula = `${dice}D6`;
         title = weapon.degats.fixe > 0 ? `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6 + ${game.i18n.localize("KNIGHT.AUTRE.Base")}${title}` :
@@ -2040,6 +2042,7 @@ export class RollKnight {
         };
         let isGoliathActive = false;
         let wpnDice = weapon.violence.dice;
+        let wpnBonusDice = 0;
         let min = false;
         let titleDice = '';
         let title = '';
@@ -2110,7 +2113,7 @@ export class RollKnight {
 
         for(let m of modulesViolenceVariable) {
             if(m.selected > 0) {
-                wpnDice += m.selected;
+                wpnBonusDice += m.selected;
                 titleDice += ` + ${m.name}`;
             }
 
@@ -2160,7 +2163,7 @@ export class RollKnight {
                     case 'boostviolence':
                         if(effet) {
                             const boostViolenceDice = options.find(itm => itm.classes.includes('boostviolence') && itm.key === 'select');
-                            wpnDice += boostViolenceDice.selected;
+                            wpnBonusDice += boostViolenceDice.selected;
                             titleDice += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
 
                             effets.push({
@@ -2442,6 +2445,7 @@ export class RollKnight {
         }
 
         wpnDice = style === 'akimbo' ? wpnDice+Math.ceil(wpnDice/2) : wpnDice;
+        wpnDice += wpnBonusDice;
         const dice = hasTenebricide ? Math.floor(wpnDice/2) : wpnDice;
         let formula = `${dice}D6`;
         title = weapon.degats.fixe > 0 ? `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6 + ${game.i18n.localize("KNIGHT.AUTRE.Base")}${title}` :

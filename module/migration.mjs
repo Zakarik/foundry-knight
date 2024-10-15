@@ -10,7 +10,6 @@ Applique les modifications par la mise à jour au Monde.
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
-        console.warn(version, currentVersion)
         return !currentVersion || foundry.utils.isNewerVersion(version, currentVersion);
     }
 

@@ -4524,8 +4524,13 @@ export class KnightSheet extends ActorSheet {
             });
           }
         }
-
+        const hasLongbow = data?.capacites?.selected?.longbow ?? {}
         const specials = data.special.selected;
+
+        if(Object.keys(hasLongbow).length > 0 && wear === 'armure') {
+          longbow = hasLongbow;
+          longbow.has = true;
+        }
 
         for (let [key, special] of Object.entries(specials)) {
           switch(key) {
