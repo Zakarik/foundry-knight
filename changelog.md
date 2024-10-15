@@ -1,3 +1,7 @@
+## v3.30.6
+### Bugfix
+- Correction du nombre de dé lancer en Akimbo, lorsqu'un module donne un bonus.
+
 ## v3.30.5
 ### Bugfix
 - Correction d'un bug dans le calcul des PS.
