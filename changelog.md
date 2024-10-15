@@ -1,3 +1,8 @@
+## v3.30.7
+### Bugfix
+- Correction d'un bug dans certains cas avec les modules accordant des bonus.
+- Correction d'un bug n'affichant pas les données des modules sur la fiche.
+
 ## v3.30.6
 ### Bugfix
 - Correction du nombre de dé lancer en Akimbo, lorsqu'un module donne un bonus.

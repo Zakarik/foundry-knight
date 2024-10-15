@@ -331,6 +331,7 @@
     });
 
     Handlebars.registerHelper('getRarete', function (value) {
+        console.warn(value)
         if(value === undefined) return '';
         let name = value;
         if(Array.isArray(name)) name = value[0];
