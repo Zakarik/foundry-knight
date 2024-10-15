@@ -1388,7 +1388,7 @@ export class RollKnight {
         }
 
         if(modulesDice > 0) {
-            wpnDice += weapon.bonus.degats.dice;
+            wpnBonusDice += weapon.bonus.degats.dice;
             titleDice += ` + ${weapon.bonus.degats.titleDice.join(' + ')}`
         }
 
