@@ -1,4 +1,8 @@
-## v3.30.9
+## v3.30.11
+### Bugfix
+- Correction d'un bug concernant le bonus aux grenades dûs aux modules.
+
+## v3.30.10
 ### Bugfix
 - Correction d'un bug concernant le style puissant qui était mal pris en compte.
 
