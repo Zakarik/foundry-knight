@@ -1,3 +1,8 @@
+## v3.30.8
+### Bugfix
+- Correction d'un bug dans la gestion des modules et capacités.
+- Nouveau coup de nettoyage, vu que des résidus de l'ancien système semblait perdurer... J'espère que ce sera bon cette fois-ci.
+
 ## v3.30.7
 ### Bugfix
 - Correction d'un bug dans certains cas avec les modules accordant des bonus.
