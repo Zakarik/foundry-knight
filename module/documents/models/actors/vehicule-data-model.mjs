@@ -9,6 +9,10 @@ export class VehiculeDataModel extends foundry.abstract.TypeDataModel {
         manoeuvrabilite:new NumberField({ initial: 0, integer: true, nullable: false }),
         vitesse:new NumberField({ initial: 0, integer: true, nullable: false }),
         passagers:new NumberField({ initial: 0, integer: true, nullable: false }),
+        limited:new SchemaField({
+          showDescriptionFull:new BooleanField({initial:false}),
+          showDescriptionLimited:new BooleanField({initial:false}),
+        }),
         champDeForce: new SchemaField({
             value:new NumberField({ initial: 0, integer: true, nullable: false }),
             base:new NumberField({ initial: 0, integer: true, nullable: false }),

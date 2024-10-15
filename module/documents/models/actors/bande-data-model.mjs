@@ -14,6 +14,11 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
             descriptionLimitee:new HTMLField({initial:""}),
             pointsFaibles:new HTMLField({initial:""}),
             aspects:new EmbeddedDataField(AspectsNPCDataModel),
+            limited:new SchemaField({
+                showPointsFaibles:new BooleanField({initial:false}),
+                showDescriptionFull:new BooleanField({initial:false}),
+                showDescriptionLimited:new BooleanField({initial:false}),
+            }),
             combat:new SchemaField({
                 data:new SchemaField({
                     degatsbonus:new SchemaField({
