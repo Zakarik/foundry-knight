@@ -3168,6 +3168,9 @@ export class RollKnight {
         result += Object.values(data?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
         result -= Object.values(data?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
+        console.warn(name);
+        console.warn(this.actor);
+
         return result;
     }
 

@@ -888,6 +888,9 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 break;
         }
 
+        console.warn(cdf);
+        console.warn(wear);
+
         Object.defineProperty(this.armure, 'base', {
             value: armure,
         });
@@ -898,6 +901,9 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
         Object.defineProperty(this.champDeForce, 'base', {
             value: cdf,
+            writable:true,
+            enumerable:true,
+            configurable:true
         });
 
         if(espoir > 0) {
@@ -1366,113 +1372,89 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 }
             }
 
-            if(santeBonus > 0) {
-                Object.defineProperty(this.sante.bonus, 'modules', {
-                    value: santeBonus,
-                    writable:true,
-                    enumerable:true,
-                    configurable:true
-                });
-            }
+            Object.defineProperty(this.sante.bonus, 'modules', {
+                value: santeBonus,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
 
-            if(santeMalus > 0) {
-                Object.defineProperty(this.sante.malus, 'modules', {
-                    value: santeMalus,
-                    writable:true,
-                    enumerable:true,
-                    configurable:true
-                });
-            }
+            Object.defineProperty(this.sante.malus, 'modules', {
+                value: santeMalus,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
 
-            if(armureBonus > 0) {
-                Object.defineProperty(this.equipements[this.wear].armure.bonus, 'modules', {
-                    value: armureBonus,
-                    writable:true,
-                    enumerable:true,
-                    configurable:true
-                });
-            }
+            Object.defineProperty(this.equipements[this.wear].armure.bonus, 'modules', {
+                value: armureBonus,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
 
-            if(armureMalus > 0) {
-                Object.defineProperty(this.equipements[this.wear].armure.malus, 'modules', {
-                    value: armureMalus,
-                    writable:true,
-                    enumerable:true,
-                    configurable:true
-                });
-            }
+            Object.defineProperty(this.equipements[this.wear].armure.malus, 'modules', {
+                value: armureMalus,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
 
-            if(champDeForceBonus > 0) {
-                Object.defineProperty(this.equipements[this.wear].champDeForce.bonus, 'modules', {
-                    value: champDeForceBonus,
-                    writable:true,
-                    enumerable:true,
-                    configurable:true
-                });
-            }
+            Object.defineProperty(this.equipements[this.wear].champDeForce.bonus, 'modules', {
+                value: champDeForceBonus,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
 
-            if(champDeForceMalus > 0) {
-                Object.defineProperty(this.equipements[this.wear].champDeForce.malus, 'modules', {
-                    value: champDeForceMalus,
-                    writable:true,
-                    enumerable:true,
-                    configurable:true
-                });
-            }
+            Object.defineProperty(this.equipements[this.wear].champDeForce.malus, 'modules', {
+                value: champDeForceMalus,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
 
-            if(energieBonus > 0) {
-                Object.defineProperty(this.equipements[this.wear].energie.bonus, 'modules', {
-                    value: energieBonus,
-                    writable:true,
-                    enumerable:true,
-                    configurable:true
-                });
-            }
+            Object.defineProperty(this.equipements[this.wear].energie.bonus, 'modules', {
+                value: energieBonus,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
 
-            if(energieMalus > 0) {
-                Object.defineProperty(this.equipements[this.wear].energie.malus, 'modules', {
-                    value: energieMalus,
-                    writable:true,
-                    enumerable:true,
-                    configurable:true
-                });
-            }
+            Object.defineProperty(this.equipements[this.wear].energie.malus, 'modules', {
+                value: energieMalus,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
 
-            if(defenseBonus > 0) {
-                Object.defineProperty(this.defense.bonus, 'modules', {
-                    value: defenseBonus,
-                    writable:true,
-                    enumerable:true,
-                    configurable:true
-                });
-            }
+            Object.defineProperty(this.defense.bonus, 'modules', {
+                value: defenseBonus,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
 
-            if(defenseMalus > 0) {
-                Object.defineProperty(this.defense.malus, 'modules', {
-                    value: defenseMalus,
-                    writable:true,
-                    enumerable:true,
-                    configurable:true
-                });
-            }
+            Object.defineProperty(this.defense.malus, 'modules', {
+                value: defenseMalus,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
 
-            if(reactionBonus > 0) {
-                Object.defineProperty(this.reaction.bonus, 'modules', {
-                    value: reactionBonus,
-                    writable:true,
-                    enumerable:true,
-                    configurable:true
-                });
-            }
+            Object.defineProperty(this.reaction.bonus, 'modules', {
+                value: reactionBonus,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
 
-            if(reactionMalus > 0) {
-                Object.defineProperty(this.reaction.malus, 'modules', {
-                    value: reactionMalus,
-                    writable:true,
-                    enumerable:true,
-                    configurable:true
-                });
-            }
+            Object.defineProperty(this.reaction.malus, 'modules', {
+                value: reactionMalus,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
 
             for(let o in baseOverdrives) {
                 for(let c in baseOverdrives[o]) {
@@ -1834,6 +1816,27 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
                             Object.defineProperty(this.defense.malus, c, {
                                 value: this.equipements.armure.capacites.goliath.metre*data.malus.defense.value,
+                                writable:true,
+                                enumerable:true,
+                                configurable:true
+                            });
+                        } else {
+                            Object.defineProperty(this.equipements[this.wear].champDeForce.bonus, c, {
+                                value: 0,
+                                writable:true,
+                                enumerable:true,
+                                configurable:true
+                            });
+
+                            Object.defineProperty(this.reaction.malus, c, {
+                                value: 0,
+                                writable:true,
+                                enumerable:true,
+                                configurable:true
+                            });
+
+                            Object.defineProperty(this.defense.malus, c, {
+                                value: 0,
                                 writable:true,
                                 enumerable:true,
                                 configurable:true

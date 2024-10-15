@@ -451,8 +451,9 @@ Hooks.once('init', async function() {
       const flags = message.flags;
       const weapon = flags.weapon;
       const raw = weapon.effets.raw.concat(weapon?.distance?.raw ?? [], weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
+      const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
 
-      const roll = new game.knight.RollKnight(flags.actor, {
+      const roll = new game.knight.RollKnight(actor, {
         name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
         weapon:weapon,
         surprise:flags.surprise,
@@ -464,7 +465,7 @@ Hooks.once('init', async function() {
         targets:flags.content[0].targets,
         attaque:message.rolls,
         weapon:weapon,
-        actor:flags.actor,
+        actor:actor,
         surprise:flags.surprise,
         style:flags.style,
         dataStyle:flags.dataStyle,
@@ -505,8 +506,9 @@ Hooks.once('init', async function() {
       const tgt = $(ev.currentTarget);
       const flags = message.flags;
       const weapon = flags.weapon;
+      const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
 
-      const roll = new game.knight.RollKnight(flags.actor, {
+      const roll = new game.knight.RollKnight(actor, {
         name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.EFFETS.TIRENRAFALE.Label')}`,
         weapon:weapon,
         surprise:flags.surprise,
@@ -518,7 +520,7 @@ Hooks.once('init', async function() {
         targets:flags.targets,
         attaque:message.rolls,
         weapon:weapon,
-        actor:flags.actor,
+        actor:actor,
         surprise:flags.surprise,
         style:flags.style,
         dataStyle:flags.dataStyle,
@@ -540,6 +542,7 @@ Hooks.once('init', async function() {
       const tgt = $(ev.currentTarget);
       const flags = message.flags;
       const weapon = flags.weapon;
+      const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
 
       let addFlags = {
         flavor:flags.flavor,
@@ -547,7 +550,7 @@ Hooks.once('init', async function() {
         targets:flags.content[0].targets,
         attaque:message.rolls,
         weapon:weapon,
-        actor:flags.actor,
+        actor:actor,
         surprise:flags.surprise,
         style:flags.style,
         dataStyle:flags.dataStyle,
@@ -555,7 +558,7 @@ Hooks.once('init', async function() {
         maximize:flags.maximize,
       };
 
-      const roll = new game.knight.RollKnight(flags.actor, {
+      const roll = new game.knight.RollKnight(actor, {
         name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
         weapon:flags.weapon,
         surprise:flags.surprise,

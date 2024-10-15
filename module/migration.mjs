@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.30.0";
+    static NEEDED_VERSION = "3.30.8";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -1399,7 +1399,15 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if(options?.force || MigrationKnight.needUpdate("3.30.0")) {
-            let collection = actor.getEmbeddedCollection('ActiveEffect').map(eff => eff._id);
+            let collection = actor.getEmbeddedCollection('ActiveEffect').filter(eff => eff.statuses.size === 0).map(eff => eff._id);
+
+            collection.forEach(async eff => {
+                if(eff) await actor.deleteEmbeddedDocuments('ActiveEffect', [eff]);
+            });
+        }
+
+        if(options?.force || MigrationKnight.needUpdate("3.30.8")) {
+            let collection = actor.getEmbeddedCollection('ActiveEffect').filter(eff => eff.statuses.size === 0).map(eff => eff._id);
 
             collection.forEach(async eff => {
                 if(eff) await actor.deleteEmbeddedDocuments('ActiveEffect', [eff]);
