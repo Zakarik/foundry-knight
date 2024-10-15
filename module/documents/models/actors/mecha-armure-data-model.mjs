@@ -19,6 +19,10 @@ export class MechaArmureDataModel extends foundry.abstract.TypeDataModel {
             aspects:new EmbeddedDataField(AspectsPCDataModel),
             defense:new EmbeddedDataField(DefensesDataModel),
             reaction:new EmbeddedDataField(DefensesDataModel),
+            limited:new SchemaField({
+              showDescriptionFull:new BooleanField({initial:false}),
+              showDescriptionLimited:new BooleanField({initial:false}),
+            }),
             champDeForce:new SchemaField({
               base:new NumberField({ initial: 0, integer: true, nullable: false }),
               value:new NumberField({ initial: 0, integer: true, nullable: false }),

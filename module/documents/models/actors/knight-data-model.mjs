@@ -31,6 +31,10 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             reaction:new EmbeddedDataField(DefensesDataModel),
             egide:new EmbeddedDataField(DefensesDataModel),
             initiative:new EmbeddedDataField(InitiativeDataModel),
+            limited:new SchemaField({
+              showDescriptionFull:new BooleanField({initial:false}),
+              showDescriptionLimited:new BooleanField({initial:false}),
+            }),
             GM:new SchemaField({
                 dontshow:new BooleanField({initial:false}),
             }),

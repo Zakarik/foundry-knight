@@ -1,3 +1,7 @@
+## v3.30.12
+### Bugfix
+- Correction d'un bug empêchant de montrer / masquer les descriptions complètes / limitées / points faibles.
+
 ## v3.30.11
 ### Bugfix
 - Correction d'un bug concernant le bonus aux grenades dûs aux modules.
