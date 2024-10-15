@@ -493,10 +493,12 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 if(!source[m]) continue;
 
                 for(let b in source[m].bonus) {
+                    if(b === 'user') continue;
                     source[m].bonus[b] = 0;
                 }
 
                 for(let b in source[m].malus) {
+                    if(b === 'user') continue;
                     source[m].malus[b] = 0;
                 }
             }
@@ -527,7 +529,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
             for(let e of equipements) {
                 for(let d of eMods) {
-                    if(!source.equipements?.[e]?.bonus?.[d] ?? undefined) continue;
+                    if((!source.equipements?.[e]?.bonus?.[d] ?? undefined) || d === 'user') continue;
 
                     for(let v in source.equipements[e].bonus[d]) {
                         source.equipements[e].bonus[d][v] = 0;
@@ -925,6 +927,10 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 const valeurTotale = this.armorISwear ? curr.value + curr.overdrive.value : curr.value;
                 return valeurTotale > acc ? valeurTotale : acc;
             }, 0);
+            let maxCaracWOD = Object.values(this.aspects[aspect].caracteristiques).reduce((acc, curr) => {
+                const valeurTotale = curr.value;
+                return valeurTotale > acc ? valeurTotale : acc;
+            }, 0);
 
             let bonus;
             let malus;
@@ -942,7 +948,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                     else base = 6;
 
                     Object.defineProperty(this.sante, 'base', {
-                        value: (base*maxCarac)+10,
+                        value: (base*maxCaracWOD)+10,
                     });
 
                     mod += bonus-malus;
@@ -1361,7 +1367,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             }
 
             if(santeBonus > 0) {
-                Object.defineProperty(this.sante.bonus, 'module', {
+                Object.defineProperty(this.sante.bonus, 'modules', {
                     value: santeBonus,
                     writable:true,
                     enumerable:true,
@@ -1370,7 +1376,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             }
 
             if(santeMalus > 0) {
-                Object.defineProperty(this.sante.malus, 'module', {
+                Object.defineProperty(this.sante.malus, 'modules', {
                     value: santeMalus,
                     writable:true,
                     enumerable:true,
@@ -1379,7 +1385,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             }
 
             if(armureBonus > 0) {
-                Object.defineProperty(this.equipements[this.wear].armure.bonus, 'module', {
+                Object.defineProperty(this.equipements[this.wear].armure.bonus, 'modules', {
                     value: armureBonus,
                     writable:true,
                     enumerable:true,
@@ -1388,7 +1394,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             }
 
             if(armureMalus > 0) {
-                Object.defineProperty(this.equipements[this.wear].armure.malus, 'module', {
+                Object.defineProperty(this.equipements[this.wear].armure.malus, 'modules', {
                     value: armureMalus,
                     writable:true,
                     enumerable:true,
@@ -1397,7 +1403,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             }
 
             if(champDeForceBonus > 0) {
-                Object.defineProperty(this.equipements[this.wear].champDeForce.bonus, 'module', {
+                Object.defineProperty(this.equipements[this.wear].champDeForce.bonus, 'modules', {
                     value: champDeForceBonus,
                     writable:true,
                     enumerable:true,
@@ -1406,7 +1412,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             }
 
             if(champDeForceMalus > 0) {
-                Object.defineProperty(this.equipements[this.wear].champDeForce.malus, 'module', {
+                Object.defineProperty(this.equipements[this.wear].champDeForce.malus, 'modules', {
                     value: champDeForceMalus,
                     writable:true,
                     enumerable:true,
@@ -1415,7 +1421,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             }
 
             if(energieBonus > 0) {
-                Object.defineProperty(this.equipements[this.wear].energie.bonus, 'module', {
+                Object.defineProperty(this.equipements[this.wear].energie.bonus, 'modules', {
                     value: energieBonus,
                     writable:true,
                     enumerable:true,
@@ -1424,7 +1430,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             }
 
             if(energieMalus > 0) {
-                Object.defineProperty(this.equipements[this.wear].energie.malus, 'module', {
+                Object.defineProperty(this.equipements[this.wear].energie.malus, 'modules', {
                     value: energieMalus,
                     writable:true,
                     enumerable:true,
@@ -1433,7 +1439,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             }
 
             if(defenseBonus > 0) {
-                Object.defineProperty(this.defense.bonus, 'module', {
+                Object.defineProperty(this.defense.bonus, 'modules', {
                     value: defenseBonus,
                     writable:true,
                     enumerable:true,
@@ -1442,7 +1448,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             }
 
             if(defenseMalus > 0) {
-                Object.defineProperty(this.defense.malus, 'module', {
+                Object.defineProperty(this.defense.malus, 'modules', {
                     value: defenseMalus,
                     writable:true,
                     enumerable:true,
@@ -1451,7 +1457,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             }
 
             if(reactionBonus > 0) {
-                Object.defineProperty(this.reaction.bonus, 'module', {
+                Object.defineProperty(this.reaction.bonus, 'modules', {
                     value: reactionBonus,
                     writable:true,
                     enumerable:true,
@@ -1460,7 +1466,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             }
 
             if(reactionMalus > 0) {
-                Object.defineProperty(this.reaction.malus, 'module', {
+                Object.defineProperty(this.reaction.malus, 'modules', {
                     value: reactionMalus,
                     writable:true,
                     enumerable:true,

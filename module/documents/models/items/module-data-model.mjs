@@ -459,5 +459,5 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
 
 	prepareDerivedData() {
 
-    }
+  }
 }

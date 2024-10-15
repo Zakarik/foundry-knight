@@ -1,3 +1,9 @@
+## v3.30.5
+### Bugfix
+- Correction d'un bug dans le calcul des PS.
+- Correction d'un bug avec le Longbow.
+- Correction d'un bug avec le boost de dégâts / violence.
+
 ## v3.30.4
 ### Bugfix
 - Correction d'un bug avec l'Anti anatème qui apparaissait comme Anathème dans les jets.
