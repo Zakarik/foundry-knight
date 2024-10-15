@@ -1927,10 +1927,22 @@ export class KnightRollDialog extends Dialog {
 
         for(let g in grenades) {
             const system = grenades[g];
+            const bonusGrenade = actor.items.filter(itm => itm.type === 'module' &&
+                (itm?.system?.niveau?.actuel?.bonus?.has ?? false) &&
+                (itm?.system?.niveau?.actuel?.bonus?.grenades?.has ?? false) &&
+                (itm?.system?.niveau?.actuel?.bonus?.grenades?.liste?.[g] ?? undefined));
             let wpn = {};
 
             if(system.custom) wpn.name = system.label;
             else wpn.name = game.i18n.localize(CONFIG.KNIGHT.grenades[g]);
+
+            for(let b of bonusGrenade) {
+                const d = b?.system?.niveau?.actuel?.bonus?.grenades?.liste?.[g]?.degats?.dice ?? 0
+                const v = b?.system?.niveau?.actuel?.bonus?.grenades?.liste?.[g]?.violence?.dice ?? 0
+
+                system.degats.dice += parseInt(d);
+                system.violence.dice += parseInt(v);
+            }
 
             wpn.system = system;
             wpn.id = `grenade_${g}`;
