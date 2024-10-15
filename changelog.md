@@ -1,3 +1,7 @@
+## v3.30.9
+### Bugfix
+- Correction d'un bug concernant le style puissant qui était mal pris en compte.
+
 ## v3.30.8
 ### Bugfix
 - Correction d'un bug dans la gestion des modules et capacités.

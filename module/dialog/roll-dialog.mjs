@@ -286,6 +286,7 @@ export class KnightRollDialog extends Dialog {
         this.#renderInitialization(html);
         const allBtn = html.find('label.btn');
         const allScoredice = html.find('div.scoredice');
+        console.warn(this.rollData);
 
         html.find('label.selectWithInfo span.info').mouseenter(ev => {
             html.find('label.selectWithInfo span.hideInfo').css("display", "block");
@@ -901,7 +902,7 @@ export class KnightRollDialog extends Dialog {
 
                 case 'puissant':
                     if((this.#isEffetActive(effets, weapon.options, ['lourd']) || (this.#isEffetActive(effets, weapon.options, ['deuxmains']) && this.#isEffetActive(effets, weapon.options, ['munitionshypervelocite', 'systemerefroidissement']))) && weapon.type === 'contact') {
-                        if(data.find('.precis select').val()){
+                        if(data.find('.puissant select').val()){
                             dices -= Math.min(parseInt(data.find('.puissant input').val()), 6);
 
                             dataStyle = {
@@ -3987,7 +3988,7 @@ export class KnightRollDialog extends Dialog {
             const tgt = $(ev.currentTarget);
             const value = parseInt(tgt.val());
 
-            this.rollData.style.suppression.value = value;
+            this.rollData.style.puissant.value = value;
         });
 
         html.find('.suppression select').change(ev => {
