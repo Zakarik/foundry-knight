@@ -13,7 +13,7 @@ export class AspectsPCDataModel extends foundry.abstract.DataModel {
         }
 
         data[a] = new SchemaField({
-          base:new NumberField({ initial: 0, integer: true, nullable: false }),
+          base:new NumberField({ initial: 2, integer: true, nullable: false }),
           mod:new NumberField({ initial: 0, integer: true, nullable: false }),
           bonus:new ObjectField(),
           malus:new ObjectField(),

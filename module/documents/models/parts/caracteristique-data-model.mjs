@@ -4,7 +4,7 @@ export class CaracteristiqueDataModel extends foundry.abstract.DataModel {
         const {NumberField, SchemaField, ObjectField} = foundry.data.fields;
 
       return {
-        base:new NumberField({ initial: 0, integer: true, nullable: false }),
+        base:new NumberField({ initial: 1, integer: true, nullable: false }),
         bonus:new ObjectField(),
         malus:new ObjectField(),
         value:new NumberField({ initial: 0, integer: true, nullable: false }),
