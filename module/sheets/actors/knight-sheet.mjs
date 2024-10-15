@@ -4758,7 +4758,6 @@ export class KnightSheet extends ActorSheet {
               const iBDgtsVariable = iBDgts.variable;
               const iBViolence = itemBonus.violence;
               const iBViolenceVariable = iBViolence.variable;
-              const iBGrenades = itemBonus.grenades;
 
               if(iBDgts.has && onArmor) {
                 if(iBDgtsVariable.has) {
@@ -4857,16 +4856,6 @@ export class KnightSheet extends ActorSheet {
                     fixe:iBViolence.fixe
                   });
                 }
-              }
-              if(iBGrenades.has && onArmor) {
-                for (let [key, grenade] of Object.entries(grenades)) {
-                  if(key === 'antiblindage' || key === 'explosive' || key === 'shrapnel') {
-                    const data = iBGrenades.liste[key];
-
-                    grenade.degats.dice += data.degats.dice;
-                    grenade.violence.dice += data.violence.dice;
-                  }
-                };
               }
             }
 

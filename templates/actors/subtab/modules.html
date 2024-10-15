@@ -247,37 +247,37 @@
                 </div>
                 <div class="middlespan">
                     <span class="header">{{localize "KNIGHT.ITEMS.MODULE.RARETE.Label"}}</span>
-                    <span class="score">{{getRarete key.system.rarete}}</span>
+                    <span class="score">{{getRarete key.system.niveau.actuel.rarete}}</span>
                 </div>
                 <div class="middlespan">
                     <span class="header">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
-                    <span class="score">{{getActivation key.system.activation}}</span>
+                    <span class="score">{{getActivation key.system.niveau.actuel.activation}}</span>
                 </div>
-                {{#if (isHigherThan key.system.energie.tour.value 0)}}
+                {{#if (isHigherThan key.system.niveau.actuel.energie.tour.value 0)}}
                 <div class="middlespan">
                     <span class="header">
                         {{#unless @root/actor/armureData/system/espoir/remplaceEnergie}}
                         {{localize "KNIGHT.LATERAL.Energie"}}
                         {{else}}
                         {{localize "KNIGHT.LATERAL.Espoir"}}
-                        {{/unless}} / {{key.system.energie.tour.label}}
+                        {{/unless}} / {{key.system.niveau.actuel.energie.tour.label}}
                     </span>
-                    <span class="score">{{key.system.energie.tour.value}}</span>
+                    <span class="score">{{key.system.niveau.actuel.energie.tour.value}}</span>
                 </div>
                 {{/if}}
-                {{#if (isHigherThan key.system.energie.minute.value 0)}}
+                {{#if (isHigherThan key.system.niveau.actuel.energie.minute.value 0)}}
                 <div class="middlespan">
                     <span class="header">
                         {{#unless @root/actor/armureData/system/espoir/remplaceEnergie}}
                         {{localize "KNIGHT.LATERAL.Energie"}}
                         {{else}}
                         {{localize "KNIGHT.LATERAL.Espoir"}}
-                        {{/unless}} / {{key.system.energie.minute.label}}
+                        {{/unless}} / {{key.system.niveau.actuel.energie.minute.label}}
                     </span>
-                    <span class="score">{{key.system.energie.minute.value}}</span>
+                    <span class="score">{{key.system.niveau.actuel.energie.minute.value}}</span>
                 </div>
                 {{/if}}
-                {{#if (isHigherThan key.system.energie.supplementaire 0)}}
+                {{#if (isHigherThan key.system.niveau.actuel.energie.supplementaire 0)}}
                 <div class="middlespan">
                     <span class="header">
                         {{#unless @root/actor/armureData/system/espoir/remplaceEnergie}}
@@ -286,99 +286,99 @@
                         {{localize "KNIGHT.LATERAL.EspoirSupplementaireComplet"}}
                         {{/unless}}
                     </span>
-                    <span class="score">{{key.system.energie.supplementaire}}</span>
+                    <span class="score">{{key.system.niveau.actuel.energie.supplementaire}}</span>
                 </div>
                 {{/if}}
                 <div class="middlespan">
                     <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
-                    <span class="score">{{getPortee key.system.portee}}</span>
+                    <span class="score">{{getPortee key.system.niveau.actuel.portee}}</span>
                 </div>
                 <span class="oneLine lightBlack">{{localize "KNIGHT.DUREE.Label"}}</span>
-                {{#if key.system.permanent}}
+                {{#if key.system.niveau.actuel.permanent}}
                 <span class="button">{{localize "KNIGHT.DUREE.Permanent"}}</span>
                 {{else}}
-                <span class="textarea">{{{capaciteDescription key.system.duree}}}</span>
+                <span class="textarea">{{{capaciteDescription key.system.niveau.actuel.duree}}}</span>
                 {{/if}}
             </div>
 
             {{#if key.system.bonus.has}}
             <div class="data">
                 <h4 class="title">{{localize "KNIGHT.BONUS.Label"}}</h4>
-                {{#if key.system.bonus.armure.has}}
+                {{#if key.system.niveau.actuel.bonus.armure.has}}
                     <div class="middlespan">
                         <span class="header">{{localize "KNIGHT.LATERAL.Armure"}}</span>
-                        <span class="score">{{key.system.bonus.armure.value}}</span>
+                        <span class="score">{{key.system.niveau.actuel.bonus.armure.value}}</span>
                     </div>
                 {{/if}}
 
-                {{#if key.system.bonus.champDeForce.has}}
+                {{#if key.system.niveau.actuel.bonus.champDeForce.has}}
                     <div class="middlespan">
                         <span class="header">{{localize "KNIGHT.LATERAL.ChampDeForce"}}</span>
-                        <span class="score">{{key.system.bonus.champDeForce.value}}</span>
+                        <span class="score">{{key.system.niveau.actuel.bonus.champDeForce.value}}</span>
                     </div>
                 {{/if}}
 
-                {{#if key.system.bonus.energie.has}}
+                {{#if key.system.niveau.actuel.bonus.energie.has}}
                     <div class="middlespan">
                         <span class="header">{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                        <span class="score">{{key.system.bonus.energie.value}}</span>
+                        <span class="score">{{key.system.niveau.actuel.bonus.energie.value}}</span>
                     </div>
                 {{/if}}
 
-                {{#if key.system.bonus.energie.has}}
+                {{#if key.system.niveau.actuel.bonus.energie.has}}
                     <div class="middlespan">
                         <span class="header">{{localize "KNIGHT.LATERAL.Energie"}}</span>
-                        <span class="score">{{key.system.bonus.energie.value}}</span>
+                        <span class="score">{{key.system.niveau.actuel.bonus.energie.value}}</span>
                     </div>
                 {{/if}}
 
-                {{#if key.system.bonus.degats.has}}
+                {{#if key.system.niveau.actuel.bonus.degats.has}}
                     <h4 class="separation">{{localize "KNIGHT.BONUS.Degats"}}</h4>
-                    <span class="oneLine borderBottom">{{getWpnType key.system.bonus.degats.type}}</span>
-                    {{#unless key.system.bonus.degats.variable.has}}
+                    <span class="oneLine borderBottom">{{getWpnType key.system.niveau.actuel.bonus.degats.type}}</span>
+                    {{#unless key.system.niveau.actuel.bonus.degats.variable.has}}
                     <div class="middlespan noSeparation">
                         <span class="header">{{localize "KNIGHT.AUTRE.Total"}}</span>
-                        <span class="score">{{key.system.bonus.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.bonus.degats.fixe}}</span>
+                        <span class="score">{{key.system.niveau.actuel.bonus.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.niveau.actuel.bonus.degats.fixe}}</span>
                     </div>
                     {{else}}
                     <div class="middlespan noSeparation">
                         <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
-                        <span class="score">{{key.system.bonus.degats.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.bonus.degats.variable.min.fixe}}</span>
+                        <span class="score">{{key.system.niveau.actuel.bonus.degats.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.niveau.actuel.bonus.degats.variable.min.fixe}}</span>
                     </div>
                     <div class="middlespan">
                         <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
-                        <span class="score">{{key.system.bonus.degats.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.bonus.degats.variable.max.fixe}}</span>
+                        <span class="score">{{key.system.niveau.actuel.bonus.degats.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.niveau.actuel.bonus.degats.variable.max.fixe}}</span>
                     </div>
                     {{/unless}}
                 {{/if}}
 
                 {{#if key.system.bonus.violence.has}}
                     <h4 class="separation">{{localize "KNIGHT.BONUS.Violence"}}</h4>
-                    <span class="oneLine borderBottom">{{getWpnType key.system.bonus.violence.type}}</span>
-                    {{#unless key.system.bonus.violence.variable.has}}
+                    <span class="oneLine borderBottom">{{getWpnType key.system.niveau.actuel.bonus.violence.type}}</span>
+                    {{#unless key.system.niveau.actuel.bonus.violence.variable.has}}
                     <div class="middlespan noSeparation">
                         <span class="header">{{localize "KNIGHT.AUTRE.Total"}}</span>
-                        <span class="score">{{key.system.bonus.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.bonus.violence.fixe}}</span>
+                        <span class="score">{{key.system.niveau.actuel.bonus.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.niveau.actuel.bonus.violence.fixe}}</span>
                     </div>
                     {{else}}
                     <div class="middlespan noSeparation">
                         <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
-                        <span class="score">{{key.system.bonus.violence.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.bonus.violence.variable.min.fixe}}</span>
+                        <span class="score">{{key.system.niveau.actuel.bonus.violence.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.niveau.actuel.bonus.violence.variable.min.fixe}}</span>
                     </div>
                     <div class="middlespan">
                         <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
-                        <span class="score">{{key.system.bonus.violence.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.bonus.violence.variable.max.fixe}}</span>
+                        <span class="score">{{key.system.niveau.actuel.bonus.violence.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.niveau.actuel.bonus.violence.variable.max.fixe}}</span>
                     </div>
                     {{/unless}}
                 {{/if}}
             </div>
             {{/if}}
 
-            {{#if key.system.effets.has}}
+            {{#if key.system.niveau.actuel.effets.has}}
             <div class="data">
                 <h4 class="title">{{localize "KNIGHT.EFFETS.Label"}}</h4>
                 <div class="effets">
-                    {{#each key.system.effets.liste as | keff effet|}}
+                    {{#each key.system.niveau.actuel.effets.liste as | keff effet|}}
                         <div>
                             <span class="label">{{keff.name}}</span>
                             <img class="info" src="systems/knight/assets/icons/info.svg" />
@@ -389,20 +389,20 @@
             </div>
             {{/if}}
 
-            {{#if key.system.arme.has}}
+            {{#if key.system.niveau.actuel.arme.has}}
             <div class="data">
                 <h4 class="title">{{localize "KNIGHT.ITEMS.MODULE.ARME.Label"}}</h4>
                 <div class="middlespan">
                     <span class="header">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Label"}}</span>
-                    <span class="score">{{getWpnType key.system.arme.type}}</span>
+                    <span class="score">{{getWpnType key.system.niveau.actuel.arme.type}}</span>
                 </div>
                 <div class="middlespan">
                     <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
-                    <span class="score">{{getPortee key.system.arme.portee}}</span>
+                    <span class="score">{{getPortee key.system.niveau.actuel.arme.portee}}</span>
                 </div>
-                {{#if key.system.arme.optionsmunitions.has}}
+                {{#if key.system.niveau.actuel.arme.optionsmunitions.has}}
                     <div class="effets">
-                        {{#each key.system.arme.effets.liste as | key effet|}}
+                        {{#each key.system.niveau.actuel.arme.effets.liste as | key effet|}}
                             <div>
                                 <span class="label">{{key.name}}</span>
                                 <img class="info" src="systems/knight/assets/icons/info.svg" />
@@ -412,50 +412,50 @@
                     </div>
                 {{/if}}
 
-                {{#unless key.system.arme.optionsmunitions.has}}
+                {{#unless key.system.niveau.actuel.arme.optionsmunitions.has}}
                     <h4 class="separation">{{localize "KNIGHT.AUTRE.Degats"}}</h4>
-                    {{#unless key.system.arme.degats.variable.has}}
+                    {{#unless key.system.niveau.actuel.arme.degats.variable.has}}
                     <div class="middlespan noSeparation">
                         <span class="header">{{localize "KNIGHT.AUTRE.Total"}}</span>
-                        <span class="score">{{key.system.arme.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.degats.fixe}}</span>
+                        <span class="score">{{key.system.niveau.actuel.arme.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.niveau.actuel.arme.degats.fixe}}</span>
                     </div>
                     {{else}}
                     <div class="middlespan noSeparation">
                         <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
-                        <span class="score">{{key.system.arme.degats.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.degats.variable.min.fixe}}</span>
+                        <span class="score">{{key.system.niveau.actuel.arme.degats.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.niveau.actuel.arme.degats.variable.min.fixe}}</span>
                     </div>
                     <div class="middlespan">
                         <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
-                        <span class="score">{{key.system.arme.degats.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.degats.variable.max.fixe}}</span>
+                        <span class="score">{{key.system.niveau.actuel.arme.degats.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.niveau.actuel.arme.degats.variable.max.fixe}}</span>
                     </div>
                     <div class="middlespan">
                         <span class="header">{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
-                        <span class="score">{{key.system.arme.degats.variable.cout}}</span>
+                        <span class="score">{{key.system.niveau.actuel.arme.degats.variable.cout}}</span>
                     </div>
                     {{/unless}}
 
                     <h4 class="separation">{{localize "KNIGHT.AUTRE.Violence"}}</h4>
-                    {{#unless key.system.arme.violence.variable.has}}
+                    {{#unless key.system.niveau.actuel.arme.violence.variable.has}}
                     <div class="middlespan noSeparation">
                         <span class="header">{{localize "KNIGHT.AUTRE.Total"}}</span>
-                        <span class="score">{{key.system.arme.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.violence.fixe}}</span>
+                        <span class="score">{{key.system.niveau.actuel.arme.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.niveau.actuel.arme.violence.fixe}}</span>
                     </div>
                     {{else}}
                     <div class="middlespan noSeparation">
                         <span class="header">{{localize "KNIGHT.AUTRE.Minimum"}}</span>
-                        <span class="score">{{key.system.arme.violence.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.violence.variable.min.fixe}}</span>
+                        <span class="score">{{key.system.niveau.actuel.arme.violence.variable.min.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.niveau.actuel.arme.violence.variable.min.fixe}}</span>
                     </div>
                     <div class="middlespan">
                         <span class="header">{{localize "KNIGHT.AUTRE.Maximum"}}</span>
-                        <span class="score">{{key.system.arme.violence.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.arme.violence.variable.max.fixe}}</span>
+                        <span class="score">{{key.system.niveau.actuel.arme.violence.variable.max.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{key.system.niveau.actuel.arme.violence.variable.max.fixe}}</span>
                     </div>
                     <div class="middlespan">
                         <span class="header">{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
-                        <span class="score">{{key.system.arme.violence.variable.cout}}</span>
+                        <span class="score">{{key.system.niveau.actuel.arme.violence.variable.cout}}</span>
                     </div>
                     {{/unless}}
                     <div class="effets">
-                        {{#each key.system.arme.effets.liste as | key effet|}}
+                        {{#each key.system.niveau.actuel.arme.effets.liste as | key effet|}}
                             <div>
                                 <span class="label">{{key.name}}</span>
                                 <img class="info" src="systems/knight/assets/icons/info.svg" />
@@ -464,7 +464,7 @@
                         {{/each}}
                     </div>
                 {{else}}
-                    {{#each key.system.arme.optionsmunitions.liste as | kM munition|}}
+                    {{#each key.system.niveau.actuel.arme.optionsmunitions.liste as | kM munition|}}
                         <h4 class="separation">{{localize "KNIGHT.ITEMS.ARME.MUNITIONS.Label"}} : {{kM.nom}}</h4>
                         <div class="middlespan noSeparation">
                             <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
@@ -485,9 +485,9 @@
                         </div>
                     {{/each}}
                 {{/unless}}
-                {{#if (isWpnDistance key.system.arme.type)}}
+                {{#if (isWpnDistance key.system.niveau.actuel.arme.type)}}
                 <div class="effets">
-                    {{#each key.system.arme.distance.liste as | key effet|}}
+                    {{#each key.system.niveau.actuel.arme.distance.liste as | key effet|}}
                         <div>
                             <span class="label">{{key.name}}</span>
                             <img class="info" src="systems/knight/assets/icons/info.svg" />
@@ -497,7 +497,7 @@
                 </div>
                 {{else}}
                 <div class="effets">
-                    {{#each key.system.arme.structurelles.liste as | key effet|}}
+                    {{#each key.system.niveau.actuel.arme.structurelles.liste as | key effet|}}
                         <div>
                             <span class="label">{{key.name}}</span>
                             <img class="info" src="systems/knight/assets/icons/info.svg" />
@@ -506,7 +506,7 @@
                     {{/each}}
                 </div>
                 <div class="effets">
-                    {{#each key.system.arme.ornementales.liste as | key effet|}}
+                    {{#each key.system.niveau.actuel.arme.ornementales.liste as | key effet|}}
                         <div>
                             <span class="label">{{key.name}}</span>
                             <img class="info" src="systems/knight/assets/icons/info.svg" />
@@ -518,10 +518,10 @@
             </div>
             {{/if}}
 
-            {{#if key.system.pnj.has}}
+            {{#if key.system.niveau.actuel.pnj.has}}
             <div class="data fullWidth pnj">
                 <h4 class="title">{{localize "KNIGHT.ITEMS.MODULE.PNJ.LabelP"}}</h4>
-                {{#each key.system.pnj.liste as | kPnj pnj|}}
+                {{#each key.system.niveau.actuel.pnj.liste as | kPnj pnj|}}
                     <div class="mainBlock">
                         <span class="pnjName">{{kPnj.nom}} ({{getPnjType kPnj.type}})</span>
                         {{#if kPnj.aspects.has}}
@@ -624,7 +624,7 @@
             </div>
             {{/if}}
 
-            {{#if key.system.jetsimple.has}}
+            {{#if key.system.niveau.actuel.jetsimple.has}}
             <div class="data">
                 <h4>{{localize "KNIGHT.ITEMS.MODULE.JETSIMPLE.Label"}}</h4>
                 <div class="shortspan">
@@ -637,7 +637,7 @@
                 </div>
 
                 <div class="effets">
-                    {{#each key.system.jetsimple.effets.liste as | key effet|}}
+                    {{#each key.system.niveau.actuel.jetsimple.effets.liste as | key effet|}}
                         <div>
                             <span class="label">{{key.name}}</span>
                             <img class="info" src="systems/knight/assets/icons/info.svg" />
