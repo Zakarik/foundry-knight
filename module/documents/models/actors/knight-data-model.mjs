@@ -888,8 +888,9 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 break;
         }
 
-        console.warn(cdf);
-        console.warn(wear);
+        Object.defineProperty(this.heroisme, 'max', {
+            value: 6,
+        });
 
         Object.defineProperty(this.armure, 'base', {
             value: armure,
