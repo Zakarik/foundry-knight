@@ -1,3 +1,7 @@
+## v3.31.2
+### Bugfix
+- Correction d'un bug dans le calcul des overdrives.
+
 ## v3.31.1
 ### Bugfix
 - Correction d'un bug avec le Lion du druid.

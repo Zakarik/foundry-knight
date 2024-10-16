@@ -1196,6 +1196,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
     }
 
     #modules() {
+        const armure = this.dataArmor;
         const data = this.modules;
         const tete = data.reduce((acc, curr) => acc + (Number(curr.system.slots.tete) || 0), 0);
         const torse = data.reduce((acc, curr) => acc + (Number(curr.system.slots.torse) || 0), 0);
@@ -1220,29 +1221,29 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
         let baseOverdrives = {
             bete:{
-                combat:0,
-                hargne:0,
-                instinct:0,
+                combat:[armure?.system?.overdrives?.bete?.liste?.combat?.value ?? 0],
+                hargne:[armure?.system?.overdrives?.bete?.liste?.hargne?.value ?? 0],
+                instinct:[armure?.system?.overdrives?.bete?.liste?.instinct?.value ?? 0],
             },
             chair:{
-                deplacement:0,
-                force:0,
-                endurance:0,
+                deplacement:[armure?.system?.overdrives?.chair?.liste?.deplacement?.value ?? 0],
+                force:[armure?.system?.overdrives?.chair?.liste?.force?.value ?? 0],
+                endurance:[armure?.system?.overdrives?.chair?.liste?.endurance?.value ?? 0],
             },
             dame:{
-                aura:0,
-                parole:0,
-                sangFroid:0,
+                aura:[armure?.system?.overdrives?.dame?.liste?.aura?.value ?? 0],
+                parole:[armure?.system?.overdrives?.dame?.liste?.parole?.value ?? 0],
+                sangFroid:[armure?.system?.overdrives?.dame?.liste?.sangFroid?.value ?? 0],
             },
             machine:{
-                tir:0,
-                savoir:0,
-                technique:0,
+                tir:[armure?.system?.overdrives?.machine?.liste?.tir?.value ?? 0],
+                savoir:[armure?.system?.overdrives?.machine?.liste?.savoir?.value ?? 0],
+                technique:[armure?.system?.overdrives?.machine?.liste?.technique?.value ?? 0],
             },
             masque:{
-                discretion:0,
-                dexterite:0,
-                perception:0,
+                discretion:[armure?.system?.overdrives?.masque?.liste?.discretion?.value ?? 0],
+                dexterite:[armure?.system?.overdrives?.masque?.liste?.dexterite?.value ?? 0],
+                perception:[armure?.system?.overdrives?.masque?.liste?.perception?.value ?? 0],
             },
         }
 
@@ -1369,7 +1370,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 if(overdrives.has) {
                     for(let o in overdrives.aspects) {
                         for(let c in overdrives.aspects[o]) {
-                            baseOverdrives[o][c] += overdrives.aspects[o][c];
+                            baseOverdrives[o][c].push(overdrives.aspects[o][c]);
                         }
                     }
                 }
@@ -1461,11 +1462,9 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
             for(let o in baseOverdrives) {
                 for(let c in baseOverdrives[o]) {
-                    if(baseOverdrives[o][c] > 0) {
-                        Object.defineProperty(this.aspects[o].caracteristiques[c].overdrive, 'base', {
-                            value: baseOverdrives[o][c],
-                        });
-                    }
+                    Object.defineProperty(this.aspects[o].caracteristiques[c].overdrive, 'base', {
+                        value: Math.max(...baseOverdrives[o][c]),
+                    });
                 }
             }
 
