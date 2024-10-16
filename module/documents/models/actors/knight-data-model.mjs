@@ -911,23 +911,19 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             configurable:true
         });
 
-        if(espoir > 0) {
-            Object.defineProperty(this.espoir.bonus, 'armure', {
-                value: espoir,
-                writable:true,
-                enumerable:true,
-                configurable:true
-            });
-        }
+        Object.defineProperty(this.espoir.bonus, 'armure', {
+            value: espoir,
+            writable:true,
+            enumerable:true,
+            configurable:true
+        });
 
-        if(egide > 0) {
-            Object.defineProperty(this.egide.bonus, 'armure', {
-                value: egide,
-                writable:true,
-                enumerable:true,
-                configurable:true
-            });
-        }
+        Object.defineProperty(this.egide.bonus, 'armure', {
+            value: egide,
+            writable:true,
+            enumerable:true,
+            configurable:true
+        });
     }
 
     #derived() {
