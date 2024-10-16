@@ -1460,14 +1460,6 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 configurable:true
             });
 
-            for(let o in baseOverdrives) {
-                for(let c in baseOverdrives[o]) {
-                    Object.defineProperty(this.aspects[o].caracteristiques[c].overdrive, 'base', {
-                        value: Math.max(...baseOverdrives[o][c]),
-                    });
-                }
-            }
-
             for(let o in bonusOverdrives) {
                 for(let c in bonusOverdrives[o]) {
                     if(bonusOverdrives[o][c] > 0) {
@@ -1479,6 +1471,15 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                         });
                     }
                 }
+            }
+        }
+
+
+        for(let o in baseOverdrives) {
+            for(let c in baseOverdrives[o]) {
+                Object.defineProperty(this.aspects[o].caracteristiques[c].overdrive, 'base', {
+                    value: this.armorISwear ? Math.max(...baseOverdrives[o][c]) : 0,
+                });
             }
         }
     }

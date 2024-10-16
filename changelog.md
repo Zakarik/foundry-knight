@@ -1,3 +1,7 @@
+## v3.31.4
+### Bugfix
+- Correction d'un bug d'affichage du nombre d'OD lorsqu'aucune armure n'est portée.
+
 ## v3.31.3
 ### Bugfix
 - Correction d'un bug d'affichage des grenades lorsqu'aucune arme n'est équipée.
