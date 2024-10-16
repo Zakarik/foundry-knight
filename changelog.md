@@ -1,6 +1,6 @@
 ## v3.30.13
 ### Bugfix
-- Bonus egide and espoir in armor sheet can now be negative. https://github.com/Zakarik/foundry-knight/pull/175
+- Bonus d'egide et d'espoir dans la fiche d'armure peuvent à présent être négatif. https://github.com/Zakarik/foundry-knight/pull/175
 
 ## v3.30.12
 ### Bugfix
