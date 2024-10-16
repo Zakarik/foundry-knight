@@ -1,3 +1,7 @@
+## v3.31.3
+### Bugfix
+- Correction d'un bug d'affichage des grenades lorsqu'aucune arme n'est équipée.
+
 ## v3.31.2
 ### Bugfix
 - Correction d'un bug dans le calcul des overdrives.
