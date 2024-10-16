@@ -1,8 +1,8 @@
-## v3.30.14
+## v3.31.1
 ### Bugfix
 - Correction d'un bug avec le Lion du druid.
 
-## v3.30.13
+## v3.31.0
 ### Amélioration
 - Bonus d'egide et d'espoir dans la fiche d'armure peuvent à présent être négatif. https://github.com/Zakarik/foundry-knight/pull/175
 
