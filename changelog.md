@@ -1,3 +1,7 @@
+## v3.31.5
+### Bugfix
+- Correction de la disparition des hauts faits lors de la transition à la v3.30.
+
 ## v3.31.4
 ### Bugfix
 - Correction d'un bug d'affichage du nombre d'OD lorsqu'aucune armure n'est portée.
