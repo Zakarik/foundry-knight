@@ -772,6 +772,8 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                     value:gratuit ? 0 : dataProgression.prix,
                 })
             } else if(g.type === 'module') {
+                if(g.system.isLion) continue;
+
                 for(let n = 1;n <= g.system.niveau.value;n++) {
                     const dataProgression = g.system.niveau.details[`n${n}`];
 
