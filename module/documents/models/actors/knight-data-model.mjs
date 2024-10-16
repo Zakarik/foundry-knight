@@ -22,7 +22,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 			blason:new StringField({ initial: ""}),
             surnom:new StringField({initial:""}),
             section:new StringField({initial:""}),
-            hautfait:new StringField({initial:""}),
+            hautFait:new StringField({initial:""}),
             histoire:new HTMLField({initial:""}),
             description:new HTMLField({initial:""}),
             descriptionLimitee:new HTMLField({initial:""}),
