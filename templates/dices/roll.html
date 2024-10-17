@@ -74,12 +74,17 @@
                     {{/unless}}
                 </div>
             {{/each}}
+            {{#if isValue}}
+            <div class="btn">
+                <button type="action" class="setDegats" data-id="{{id}}" data-dmg="{{value}}">Set damages</button>
+            </div>
+            {{/if}}
         </div>
         {{/each}}
 
         {{#if weapon}}
         <div class="btn">
-            <button type="action" class="degats">{{localize 'KNIGHT.AUTRE.Degats'}}</button>
+            <button type="action" class="degats" >{{localize 'KNIGHT.AUTRE.Degats'}}</button>
             <button type="action" class="violence">{{localize 'KNIGHT.AUTRE.Violence'}}</button>
         </div>
         {{/if}}
