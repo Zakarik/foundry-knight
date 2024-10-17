@@ -3941,11 +3941,6 @@ export class KnightRollDialog extends Dialog {
         .toggleClass('colTwo', contact)
         .toggleClass('colOne', !contact);
 
-        console.warn(distance);
-        console.warn(contact);
-        console.warn(complexe);
-        console.warn(tourelle);
-
         html.find('div.wpn.grenade')
         .toggleClass('colDuo', (!tourelle && (complexe || (contact && distance))) || (!tourelle && (!complexe && (!contact && !distance))))
         .toggleClass('colOne', tourelle && ((!distance && !contact) || (contact && distance) || complexe))
