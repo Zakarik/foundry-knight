@@ -798,6 +798,18 @@ Hooks.on('renderActorDirectory', async function () {
   });
 });
 
+Hooks.on('preUpdateActor', async function (actor, update, id)  {
+  if(actor.type !== 'knight') return;
+  const whatWear = actor.system.whatWear;
+  const flatUpdate = foundry.utils.flattenObject(update);
+  const firstEntryKey = Object.keys(flatUpdate)[0]; // Récupère la première clé
+  const firstEntryValue = flatUpdate[firstEntryKey]; // Récupère la valeur associée à la première clé
+  if(firstEntryKey !== 'system.armure.value' && firstEntryKey !== 'system.energie.value') return;
+  if(whatWear === 'tenueCivile') return;
+
+  actor.update({[firstEntryKey.replace('armure', `equipements.${whatWear}.armure`).replace('energie', `equipements.${whatWear}.energie`)]:firstEntryValue});
+});
+
 /*Hooks.on("renderPause", function () {
   $("#pause.paused figcaption").text('');
 });*/
