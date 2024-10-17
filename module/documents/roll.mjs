@@ -1198,7 +1198,7 @@ export class RollKnight {
                             case 'choc':
                             case 'electrifiee':
                                 const comparaison = type === 'knight' ? chair : chair/2;
-                                const chairAE = t?.aspects?.chair?.ae.majeur?.value ?? 0;
+                                const chairAE = t?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
                                 t.effets.push({
                                     simple:d.simple,
