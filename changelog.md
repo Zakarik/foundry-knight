@@ -1,3 +1,7 @@
+## v3.31.6
+### Bugfix
+- Correction d'un bug empêchant de modifier les valeurs d'armure et d'énergie des PJ.
+
 ## v3.31.5
 ### Bugfix
 - Correction de la disparition des hauts faits lors de la transition à la v3.30.
