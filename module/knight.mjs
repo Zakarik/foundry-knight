@@ -486,6 +486,8 @@ Hooks.once('init', async function() {
         }
       }
 
+      console.log("AAAAA");
+      console.log('data', data);
       await roll.doRollDamage(data);
     });
 
@@ -495,6 +497,7 @@ Hooks.once('init', async function() {
       const {
         token,
         dmg,
+        dmgBonus = 0,
         igncdf = false,
         ignarm = false,
         antiAnatheme = false,
@@ -550,13 +553,16 @@ Hooks.once('init', async function() {
         false;
 
       // Other
-      let damagesLeft = dmg;
+      let damagesLeft = parseInt(dmg, 10) + parseInt(dmgBonus, 10);
       let chatMessage = '';
 
       // console.log('--------------');
       // console.log('--------------');
       // console.log('name', actor.name);
       // console.log('dmg', dmg);
+      // console.log('dmg', typeof dmg);
+      // console.log('dmgBonus', dmgBonus);
+      // console.log('dmgBonus', typeof dmgBonus);
       // console.log('igncdf', igncdf);
       // console.log('ignarm', ignarm);
       // console.log('antiAnatheme', antiAnatheme);
@@ -564,6 +570,8 @@ Hooks.once('init', async function() {
       // console.log('isVehicule', isVehicule);
       // console.log('armor', armor)
       // console.log('sante', sante)
+      // console.log('damagesLeft', damagesLeft);
+      // console.log('damagesLeft', typeof damagesLeft);
 
       // Check if the target is still alive
       if (sante === 0 && armor === 0) {
@@ -711,6 +719,7 @@ Hooks.once('init', async function() {
       const {
         token,
         dmg,
+        dmgBonus = 0,
         igncdf = false,
         ignarm = false,
         ignegi = false,
@@ -760,7 +769,7 @@ Hooks.once('init', async function() {
       let espoirRest = espoir;
 
       // Other
-      let damagesLeft = dmg;
+      let damagesLeft = parseInt(dmg, 10) + parseInt(dmgBonus, 10);
       let chatMessage = '';
 
       // console.log('--------------');
@@ -1112,13 +1121,19 @@ Hooks.once('init', async function() {
           content: `
           <div style="display: flex; flex-direction: column; padding-bottom: 8px;">
             <div style="display: flex; padding-bottom: 4px;">
-              <div style="display: flex; flex-direction: row; align-items: center; width: 40%;">
+              <div style="display: flex; flex-direction: row; align-items: center; width: 32%;">
                 <label for="dmg">
                   Dégâts bruts reçus :
                 </label>
-                <input type="number" name="damage" id="dmg" min="0" step="1" style="max-width: 60px; margin-left: 8px;" value="${dmg}"/>
+                <input type="number" name="damage" id="dmg" min="0" step="1" style="max-width: 40px; margin-left: 3px;" value="${dmg}"/>
               </div>
-              <div style="display: flex; flex-direction: row; align-items: center; width: 60%;">
+              <div style="display: flex; flex-direction: row; align-items: center; width: 27%;">
+                <label for="dmgBonus">
+                  Dégâts bonus :
+                </label>
+                <input type="number" name="damageBonus" id="dmgBonus" min="0" step="1" style="max-width: 40px; margin-left: 3px;" value="0"/>
+              </div>
+              <div style="display: flex; flex-direction: row; align-items: center; width: 41%;">
                 <div>
                   Dégâts sur :
                 </div>
@@ -1198,6 +1213,7 @@ Hooks.once('init', async function() {
                 displayDamageOnPJ({
                   token: token,
                   dmg: html.find('#dmg')[0].value,
+                  dmgBonus: html.find('#dmgBonus')[0].value,
                   igncdf: html.find('#igncdf')[0].checked,
                   ignarm: html.find('#ignarm')[0].checked,
                   ignegi: html.find('#ignegi')[0].checked,
@@ -1246,13 +1262,19 @@ Hooks.once('init', async function() {
           content: `
           <div style="display: flex; flex-direction: column; padding-bottom: 8px;">
             <div style="display: flex; padding-bottom: 4px;">
-              <div style="display: flex; flex-direction: row; align-items: center; width: 40%;">
+              <div style="display: flex; flex-direction: row; align-items: center; width: 32%;">
                 <label for="dmg">
                   Dégâts bruts reçus :
                 </label>
-                <input type="number" name="damage" id="dmg" min="0" step="1" style="max-width: 60px; margin-left: 8px;" value="${dmg}"/>
+                <input type="number" name="damage" id="dmg" min="0" step="1" style="max-width: 40px; margin-left: 3px;" value="${dmg}"/>
               </div>
-              <div style="display: flex; flex-direction: row; align-items: center; width: 60%;">
+              <div style="display: flex; flex-direction: row; align-items: center; width: 27%;">
+                <label for="dmgBonus">
+                  Dégâts bonus :
+                </label>
+                <input type="number" name="damageBonus" id="dmgBonus" min="0" step="1" style="max-width: 40px; margin-left: 3px;" value="0"/>
+              </div>
+              <div style="display: flex; flex-direction: row; align-items: center; width: 31%;">
                 <div style="display: flex; align-items: center; width: 100%;">
                   <input type="checkbox" name="antiVehicule" id="antiVehicule" ${antiVehicule ? "checked" : ""} />
                   <label for="antiVehicule">
@@ -1307,6 +1329,7 @@ Hooks.once('init', async function() {
                 displayDamageOnPNJ({
                   token: token,
                   dmg: html.find('#dmg')[0].value,
+                  dmgBonus: html.find('#dmgBonus')[0].value,
                   igncdf: html.find('#igncdf')[0].checked,
                   antiAnatheme: html.find('#antiAnatheme')[0].checked,
                   ignarm: html.find('#ignarm')[0].checked,

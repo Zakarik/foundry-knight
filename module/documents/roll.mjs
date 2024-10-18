@@ -80,7 +80,7 @@ export class RollKnight {
                             const tActor = t.actor;
 
                             if(tActor) {
-                                const chairAE = tActor?.system?.aspects?.chair?.ae.majeur?.value ?? 0;
+                                const chairAE = tActor?.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
                                 if(chairAE > 0) {
                                     let target = {
@@ -227,6 +227,7 @@ export class RollKnight {
     }
 
     async doRollDamage(data={}) {
+        console.log('doRollDamage')
         const chatRollMode = game.settings.get("core", "rollMode");
         const rollAttaque = data?.attaque ?? [];
         const attaque = data?.total ?? 0;
@@ -1976,7 +1977,7 @@ export class RollKnight {
                         break;
 
                     case 'meurtrier':
-                        const chairAE = t?.aspects?.chair?.ae.majeur?.value ?? 0;
+                        const chairAE = t?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
                         if(chairAE > 0) {
                             addTargets = true;
@@ -2002,7 +2003,8 @@ export class RollKnight {
         results.roll = roll;
         results.min = min;
         results.title = title;
-        if(addTargets) results.targets = targets;
+        // if(addTargets) results.targets = targets;
+        results.targets = targets;
 
         content.detailledEffets = detailledEffets;
         content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
