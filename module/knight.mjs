@@ -700,9 +700,10 @@ Hooks.once('init', async function() {
       // Damages on sante
       // ################
       if (sante > 0 && damagesLeft > 0) {
+        let santeLessMeurtrier = sante;
+
         // Do meurtrier damages
         const meurtrier = effects.find(e => e.key === 'meurtrier')?.value || 0;
-        let santeLessMeurtrier = sante;
         if (meurtrier > 0 && !hasChairMaj) {
           if (sante > meurtrier) {
             santeLessMeurtrier -= meurtrier;
@@ -710,6 +711,57 @@ Hooks.once('init', async function() {
           } else {
             santeLessMeurtrier = 0
             santeDmg += sante;
+          }
+        }
+
+        // PNJ is a bande
+        if (actor.type === "bande") {
+          // Do fureur damages
+          const fureur = effects.find(e => e.key === 'fureur')?.value || 0;
+          if (fureur > 0 && actor?.system?.aspects?.chair?.value >= 10) {
+            if (sante > fureur) {
+              santeLessMeurtrier -= fureur;
+              santeDmg += fureur;
+            } else {
+              santeLessMeurtrier = 0
+              santeDmg += sante;
+            }
+          }
+
+          // Do ultraviolence damages
+          const ultraviolence = effects.find(e => e.key === 'ultraviolence')?.value || 0;
+          if (ultraviolence > 0 && actor?.system?.aspects?.chair?.value < 10) {
+            if (sante > ultraviolence) {
+              santeLessMeurtrier -= ultraviolence;
+              santeDmg += ultraviolence;
+            } else {
+              santeLessMeurtrier = 0
+              santeDmg += sante;
+            }
+          }
+
+          // Do intimidantana damages
+          const intimidantana = effects.find(e => e.key === 'intimidantana')?.value || 0;
+          if (intimidantana > 0) {
+            if (sante > intimidantana) {
+              santeLessMeurtrier -= intimidantana;
+              santeDmg += intimidantana;
+            } else {
+              santeLessMeurtrier = 0
+              santeDmg += sante;
+            }
+          }
+
+          // Do intimidanthum damages
+          const intimidanthum = effects.find(e => e.key === 'intimidanthum')?.value || 0;
+          if (intimidanthum > 0) {
+            if (sante > intimidanthum) {
+              santeLessMeurtrier -= intimidanthum;
+              santeDmg += intimidanthum;
+            } else {
+              santeLessMeurtrier = 0
+              santeDmg += sante;
+            }
           }
         }
 
@@ -1154,15 +1206,15 @@ Hooks.once('init', async function() {
     const dialogOptions = {
       default: {
         // height: 100,
-        width: 554,
+        width: 580,
       },
       player: {
         // height: 200,
-        width: 554,
+        width: 580,
       },
       other: {
         // height: 174,
-        width: 554,
+        width: 580,
       },
     };
 
@@ -1173,30 +1225,26 @@ Hooks.once('init', async function() {
         token,
         dmg,
         effects = [],
-        igncdf = false,
-        ignarm = false,
-        ignegi = false,
-        esquive = false,
-        pierceArmor = 0,
-        penetrating = 0,
         dmgZone = {
           armure: true,
           sante: true,
           energie: false,
           espoir: false,
         },
+        esquive = false
       } = data;
 
       // If Anatheme effect
       if (effects.find(e => ['anatheme'].includes(e.key))) {
         dmgZone.armure = false;
         dmgZone.sante = false;
+        dmgZone.energie = false;
         dmgZone.espoir = true;
       }
 
       return new Dialog(
         {
-          title: 'Knight • Damage Joueurs',
+          title: 'Knight • Damage Joueurs : ' + token.actor.name,
           content: `
           <div style="display: flex; flex-direction: column; padding-bottom: 8px;">
             <div style="display: flex; padding-bottom: 4px;">
@@ -1248,25 +1296,25 @@ Hooks.once('init', async function() {
             </div>
             <div style="display: flex; padding-bottom: 4px;">
               <div style="display: flex; align-items: center; width: 33%;">
-                <input type="checkbox" name="igncdf" id="igncdf" ${igncdf || effects.find(e => e.key === 'ignorechampdeforce') ? "checked" : ""}/>
+                <input type="checkbox" name="igncdf" id="igncdf" ${effects.find(e => ['ignorechampdeforce'].includes(e.key)) ? "checked" : ""}/>
                 <label for="igncdf">
                   Ignore champ de force
                 </label>
               </div>
             <div style="display: flex; align-items: center; width: 33%;">
-                <input type="checkbox" name="ignegi" id="ignegi" ${ignegi ? "checked" : ""}/>
+                <input type="checkbox" name="ignegi" id="ignegi" ${effects.find(e => ['ignoreegide'].includes(e.key)) ? "checked" : ""}/>
                 <label for="ignegi">
                   Ignore l'égide
                 </label>
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
                 <label for="penetrating">Pénétrant :</label>
-                <input type="number" name="penetrating" id="penetrating" min="0" value="${penetrating >= (effects.find(e => e.key === 'penetrant')?.value || 0) ? penetrating : effects.find(e => e.key === 'penetrant').value}" style="max-width: 50px; margin-left: 3px;"/>
+                <input type="number" name="penetrating" id="penetrating" min="0" value="${effects.find(e => e.key === 'penetrant')?.value || 0}" style="max-width: 50px; margin-left: 3px;"/>
               </div>
             </div>
             <div style="display: flex;">
               <div style="display: flex; align-items: center; width: 33%;">
-                <input type="checkbox" name="ignarm" id="ignarm" ${ignarm || effects.find(e => e.key === 'ignorearmure') ? "checked" : ""}/>
+                <input type="checkbox" name="ignarm" id="ignarm" ${effects.find(e => ['ignorearmure'].includes(e.key)) ? "checked" : ""}/>
                 <label for="ignarm">
                   Ignore l'armure
                 </label>
@@ -1279,7 +1327,7 @@ Hooks.once('init', async function() {
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
                 <label for="pierceArmor">Perce armure :</label>
-                <input type="number" name="pierceArmor" id="pierceArmor" min="0" value="${pierceArmor >= (effects.find(e => e.key === 'percearmure')?.value || 0) ? pierceArmor : effects.find(e => e.key === 'percearmure').value}" style="max-width: 50px; margin-left: 8px;"/>
+                <input type="number" name="pierceArmor" id="pierceArmor" min="0" value="${effects.find(e => e.key === 'percearmure')?.value || 0}" style="max-width: 50px; margin-left: 8px;"/>
               </div>
             </div>
             ${effects.find(e => ['meurtrier', 'assassin', 'briserlaresilience', 'destructeur'].includes(e.key)) ? `
@@ -1287,22 +1335,22 @@ Hooks.once('init', async function() {
               ${effects.find(e => ['meurtrier'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
                 <label for="meurtrier">Meurtrier :</label>
-                <input type="number" name="meurtrier" id="meurtrier" min="0" value="${effects.find(e => e.key === 'meurtrier')?.value}" style="max-width: 30px; margin-left: 3px;"/>
+                <input type="number" name="meurtrier" id="meurtrier" min="0" value="${effects.find(e => e.key === 'meurtrier')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['destructeur'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
                 <label for="destructeur">Destructeur :</label>
-                <input type="number" name="destructeur" id="destructeur" min="0" value="${effects.find(e => e.key === 'destructeur')?.value}" style="max-width: 30px; margin-left: 3px;"/>
+                <input type="number" name="destructeur" id="destructeur" min="0" value="${effects.find(e => e.key === 'destructeur')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['briserlaresilience'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
                 <label for="briserlaresilience">Briser la resilience :</label>
-                <input type="number" name="briserlaresilience" id="briserlaresilience" min="0" value="${effects.find(e => e.key === 'briserlaresilience')?.value}" style="max-width: 30px; margin-left: 3px;"/>
+                <input type="number" name="briserlaresilience" id="briserlaresilience" min="0" value="${effects.find(e => e.key === 'briserlaresilience')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['assassin'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
                 <label for="assassin">Assassin :</label>
-                <input type="number" name="assassin" id="assassin" min="0" value="${effects.find(e => e.key === 'assassin')?.value}" style="max-width: 30px; margin-left: 3px;"/>
+                <input type="number" name="assassin" id="assassin" min="0" value="${effects.find(e => e.key === 'assassin')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
             </div>
             ` : ""}
@@ -1359,18 +1407,12 @@ Hooks.once('init', async function() {
         token,
         dmg,
         effects = [],
-        igncdf = false,
-        ignarm = false,
-        antiAnatheme = false,
-        antiVehicule = false,
-        pierceArmor = 0,
-        penetrating = 0,
         esquive = false
       } = data;
 
       return new Dialog(
         {
-          title: 'Knight • Damage Non-Joueurs',
+          title: 'Knight • Damage Non-Joueurs :' + token.actor.name,
           content: `
           <div style="display: flex; flex-direction: column; padding-bottom: 8px;">
             <div style="display: flex; padding-bottom: 4px;">
@@ -1388,7 +1430,7 @@ Hooks.once('init', async function() {
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 31%;">
                 <div style="display: flex; align-items: center; width: 100%;">
-                  <input type="checkbox" name="antiVehicule" id="antiVehicule" ${antiVehicule || effects.find(e => e.key === 'antivehicule') ? "checked" : ""} />
+                  <input type="checkbox" name="antiVehicule" id="antiVehicule" ${effects.find(e => ['antivehicule'].includes(e.key)) ? "checked" : ""} />
                   <label for="antiVehicule">
                     Anti-Véhicule
                   </label>
@@ -1397,25 +1439,25 @@ Hooks.once('init', async function() {
             </div>
             <div style="display: flex; padding-bottom: 4px;">
               <div style="display: flex; align-items: center; width: 33%;">
-                <input type="checkbox" name="igncdf" id="igncdf" ${igncdf || effects.find(e => e.key === 'ignorechampdeforce') ? "checked" : ""} />
+                <input type="checkbox" name="igncdf" id="igncdf" ${effects.find(e => ['ignorechampdeforce'].includes(e.key)) ? "checked" : ""} />
                 <label for="igncdf">
                   Ignore champ de force
                 </label>
               </div>
               <div style="display: flex; align-items: center; width: 33%;">
-                <input type="checkbox" name="antiAnatheme" id="antiAnatheme" ${antiAnatheme || effects.find(e => ['antianatheme', 'fauconplumesluminescentes'].includes(e.key)) ? "checked" : ""} />
+                <input type="checkbox" name="antiAnatheme" id="antiAnatheme" ${effects.find(e => ['antianatheme', 'fauconplumesluminescentes'].includes(e.key)) ? "checked" : ""} />
                 <label for="antiAnatheme">
                   Anti-Anathème
                 </label>
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
                 <label for="penetrating">Pénétrant :</label>
-                <input type="number" name="penetrating" id="penetrating" min="0" value="${penetrating >= (effects.find(e => e.key === 'penetrant')?.value || 0) ? penetrating : effects.find(e => e.key === 'penetrant').value}" style="max-width: 50px; margin-left: 3px;"/>
+                <input type="number" name="penetrating" id="penetrating" min="0" value="${effects.find(e => e.key === 'penetrant')?.value || 0}" style="max-width: 50px; margin-left: 3px;"/>
               </div>
             </div>
             <div style="display: flex; padding-bottom: 4px;">
               <div style="display: flex; align-items: center; width: 33%;">
-                <input type="checkbox" name="ignarm" id="ignarm" ${ignarm || effects.find(e => e.key === 'ignorearmure') ? "checked" : ""} />
+                <input type="checkbox" name="ignarm" id="ignarm" ${effects.find(e => ['ignorearmure'].includes(e.key)) ? "checked" : ""} />
                 <label for="ignarm">
                   Ignore l'armure
                 </label>
@@ -1428,30 +1470,54 @@ Hooks.once('init', async function() {
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
                 <label for="pierceArmor">Perce armure :</label>
-                <input type="number" name="pierceArmor" id="pierceArmor" min="0" value="${pierceArmor >= (effects.find(e => e.key === 'percearmure')?.value || 0) ? pierceArmor : effects.find(e => e.key === 'percearmure').value}" style="max-width: 50px; margin-left: 3px;"/>
+                <input type="number" name="pierceArmor" id="pierceArmor" min="0" value="${effects.find(e => e.key === 'percearmure')?.value || 0}" style="max-width: 50px; margin-left: 3px;"/>
               </div>
             </div>
-            ${effects.find(e => ['meurtrier', 'assassin', 'briserlaresilience', 'destructeur'].includes(e.key)) ? `
+            ${token.actor.type !== "bande" && effects.find(e => ['meurtrier', 'assassin', 'briserlaresilience', 'destructeur'].includes(e.key)) ? `
             <div style="display: flex; padding-bottom: 4px;">
               ${effects.find(e => ['meurtrier'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
                 <label for="meurtrier">Meurtrier :</label>
-                <input type="number" name="meurtrier" id="meurtrier" min="0" value="${effects.find(e => e.key === 'meurtrier')?.value}" style="max-width: 30px; margin-left: 3px;"/>
+                <input type="number" name="meurtrier" id="meurtrier" min="0" value="${effects.find(e => e.key === 'meurtrier')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['destructeur'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
                 <label for="destructeur">Destructeur :</label>
-                <input type="number" name="destructeur" id="destructeur" min="0" value="${effects.find(e => e.key === 'destructeur')?.value}" style="max-width: 30px; margin-left: 3px;"/>
+                <input type="number" name="destructeur" id="destructeur" min="0" value="${effects.find(e => e.key === 'destructeur')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['briserlaresilience'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
                 <label for="briserlaresilience">Briser la resilience :</label>
-                <input type="number" name="briserlaresilience" id="briserlaresilience" min="0" value="${effects.find(e => e.key === 'briserlaresilience')?.value}" style="max-width: 30px; margin-left: 3px;"/>
+                <input type="number" name="briserlaresilience" id="briserlaresilience" min="0" value="${effects.find(e => e.key === 'briserlaresilience')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['assassin'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
                 <label for="assassin">Assassin :</label>
-                <input type="number" name="assassin" id="assassin" min="0" value="${effects.find(e => e.key === 'assassin')?.value}" style="max-width: 30px; margin-left: 3px;"/>
+                <input type="number" name="assassin" id="assassin" min="0" value="${effects.find(e => e.key === 'assassin')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
+              </div>` : ""}
+            </div>
+            ` : ""}
+            ${token.actor.type === "bande" && effects.find(e => ['fureur', 'ultraviolence', 'intimidantana', 'intimidanthum'].includes(e.key)) ? `
+            <div style="display: flex; padding-bottom: 4px;">
+              ${effects.find(e => ['fureur'].includes(e.key)) ? `
+              <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
+                <label for="fureur">Fureur :</label>
+                <input type="number" name="fureur" id="fureur" min="0" value="${effects.find(e => e.key === 'fureur')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
+              </div>` : ""}
+              ${effects.find(e => ['ultraviolence'].includes(e.key)) ? `
+              <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
+                <label for="ultraviolence">Ultraviolence :</label>
+                <input type="number" name="ultraviolence" id="ultraviolence" min="0" value="${effects.find(e => e.key === 'ultraviolence')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
+              </div>` : ""}
+              ${effects.find(e => ['intimidantana'].includes(e.key)) ? `
+              <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
+                <label for="intimidantana">Intimidant (Ana) :</label>
+                <input type="number" name="intimidantana" id="intimidantana" min="0" value="${effects.find(e => e.key === 'intimidantana')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
+              </div>` : ""}
+              ${effects.find(e => ['intimidanthum'].includes(e.key)) ? `
+              <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
+                <label for="intimidanthum">Intimidant (Hum) :</label>
+                <input type="number" name="intimidanthum" id="intimidanthum" min="0" value="${effects.find(e => e.key === 'intimidanthum')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
             </div>
             ` : ""}
@@ -1463,7 +1529,7 @@ Hooks.once('init', async function() {
               label: 'Calculer',
               callback: async (html) =>
               {
-                ['meurtrier', 'destructeur', 'briserlaresilience', 'assassin'].forEach(effectName => {
+                ['meurtrier', 'destructeur', 'briserlaresilience', 'assassin', 'fureur', 'ultraviolence', 'intimidantana', 'intimidanthum'].forEach(effectName => {
                   if (html.find('#'+effectName)[0]?.value) {
                     effects.find(e => [effectName].includes(e.key)).value = parseInt(html.find('#'+effectName)[0].value, 10);
                   }
