@@ -519,6 +519,7 @@ Hooks.once('init', async function() {
       const actor = token.actor;
 
       // Chair exceptionnelle
+      const hasChairMaj = !!actor.system.aspects?.chair?.ae?.majeur
       const chairEx =
         parseInt(actor.system.aspects?.chair?.ae?.mineur?.value || 0) +
         parseInt(actor.system.aspects?.chair?.ae?.majeur?.value || 0);
@@ -552,7 +553,9 @@ Hooks.once('init', async function() {
         false;
 
       // Other
-      let damageTotal = parseInt(dmg, 10) + parseInt(dmgBonus, 10);
+      const assassin = effects.find(e => e.key === 'assassin')?.value || 0;
+      console.log('assassin', assassin)
+      let damageTotal = parseInt(dmg, 10) + parseInt(dmgBonus, 10) + assassin;
       let damagesLeft = damageTotal;
       let chatMessage = '';
 
@@ -650,7 +653,6 @@ Hooks.once('init', async function() {
         armor >= pierceArmor
       ) {
         // Do destructeur damages
-        console.log('effects', effects)
         const destructeur = effects.find(e => e.key === 'destructeur')?.value || 0;
         let armorLessDestructeur = armor;
         if (destructeur > 0) {
@@ -688,7 +690,7 @@ Hooks.once('init', async function() {
         // Do meurtrier damages
         const meurtrier = effects.find(e => e.key === 'meurtrier')?.value || 0;
         let santeLessMeurtrier = sante;
-        if (meurtrier > 0) {
+        if (meurtrier > 0 && !hasChairMaj) {
           if (sante > meurtrier) {
             santeLessMeurtrier -= meurtrier;
             santeDmg += meurtrier;
@@ -797,7 +799,8 @@ Hooks.once('init', async function() {
       let espoirRest = espoir;
 
       // Other
-      const damageTotal = parseInt(dmg, 10) + parseInt(dmgBonus, 10);
+      const assassin = effects.find(e => e.key === 'assassin')?.value || 0;
+      let damageTotal = parseInt(dmg, 10) + parseInt(dmgBonus, 10) + assassin;
       let damagesLeft = damageTotal;
       let chatMessage = '';
 
@@ -852,9 +855,9 @@ Hooks.once('init', async function() {
       if (
         armor > 0 &&
         damagesLeft > 0 &&
-        (!ignarm || sante === 0) &&
         armor >= pierceArmor &&
-        dmgZone.armure
+        dmgZone.armure &&
+        (!ignarm || sante === 0 || (!dmgZone.sante && ignarm))
       ) {
         // Do destructeur damages
         const destructeur = effects.find(e => e.key === 'destructeur')?.value || 0;
@@ -1245,7 +1248,7 @@ Hooks.once('init', async function() {
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
                 <label for="penetrating">Pénétrant :</label>
-                <input type="number" name="penetrating" id="penetrating" min="0" value="${penetrating >= (effects.find(e => e.key === 'penetrant')?.value || 0) ? penetrating : effects.find(e => e.key === 'penetrant').value}" style="max-width: 50px; margin-left: 8px;"/>
+                <input type="number" name="penetrating" id="penetrating" min="0" value="${penetrating >= (effects.find(e => e.key === 'penetrant')?.value || 0) ? penetrating : effects.find(e => e.key === 'penetrant').value}" style="max-width: 50px; margin-left: 3px;"/>
               </div>
             </div>
             <div style="display: flex;">
@@ -1269,24 +1272,24 @@ Hooks.once('init', async function() {
             ${effects.find(e => ['meurtrier', 'assassin', 'briserlaresilience', 'destructeur'].includes(e.key)) ? `
             <div style="display: flex;">
               ${effects.find(e => ['meurtrier'].includes(e.key)) ? `
-              <div style="display: flex; flex-direction: row; align-items: center; width: 25%;">
+              <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
                 <label for="meurtrier">Meurtrier :</label>
-                <input type="number" name="meurtrier" id="meurtrier" min="0" value="${effects.find(e => e.key === 'meurtrier')?.value}" style="max-width: 30px; margin-left: 8px;"/>
+                <input type="number" name="meurtrier" id="meurtrier" min="0" value="${effects.find(e => e.key === 'meurtrier')?.value}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['destructeur'].includes(e.key)) ? `
-              <div style="display: flex; flex-direction: row; align-items: center; width: 25%;">
+              <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
                 <label for="destructeur">Destructeur :</label>
-                <input type="number" name="destructeur" id="destructeur" min="0" value="${effects.find(e => e.key === 'destructeur')?.value}" style="max-width: 30px; margin-left: 8px;"/>
+                <input type="number" name="destructeur" id="destructeur" min="0" value="${effects.find(e => e.key === 'destructeur')?.value}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['briserlaresilience'].includes(e.key)) ? `
-              <div style="display: flex; flex-direction: row; align-items: center; width: 25%;">
+              <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
                 <label for="briserlaresilience">Briser la resilience :</label>
-                <input type="number" name="briserlaresilience" id="briserlaresilience" min="0" value="${effects.find(e => e.key === 'briserlaresilience')?.value}" style="max-width: 30px; margin-left: 8px;"/>
+                <input type="number" name="briserlaresilience" id="briserlaresilience" min="0" value="${effects.find(e => e.key === 'briserlaresilience')?.value}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['assassin'].includes(e.key)) ? `
-              <div style="display: flex; flex-direction: row; align-items: center; width: 25%;">
+              <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
                 <label for="assassin">Assassin :</label>
-                <input type="number" name="assassin" id="assassin" min="0" value="${effects.find(e => e.key === 'assassin')?.value}" style="max-width: 30px; margin-left: 8px;"/>
+                <input type="number" name="assassin" id="assassin" min="0" value="${effects.find(e => e.key === 'assassin')?.value}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
             </div>
             ` : ""}
@@ -1394,7 +1397,7 @@ Hooks.once('init', async function() {
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
                 <label for="penetrating">Pénétrant :</label>
-                <input type="number" name="penetrating" id="penetrating" min="0" value="${penetrating >= (effects.find(e => e.key === 'penetrant')?.value || 0) ? penetrating : effects.find(e => e.key === 'penetrant').value}" style="max-width: 50px; margin-left: 8px;"/>
+                <input type="number" name="penetrating" id="penetrating" min="0" value="${penetrating >= (effects.find(e => e.key === 'penetrant')?.value || 0) ? penetrating : effects.find(e => e.key === 'penetrant').value}" style="max-width: 50px; margin-left: 3px;"/>
               </div>
             </div>
             <div style="display: flex; padding-bottom: 4px;">
@@ -1412,30 +1415,30 @@ Hooks.once('init', async function() {
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
                 <label for="pierceArmor">Perce armure :</label>
-                <input type="number" name="pierceArmor" id="pierceArmor" min="0" value="${pierceArmor >= (effects.find(e => e.key === 'percearmure')?.value || 0) ? pierceArmor : effects.find(e => e.key === 'percearmure').value}" style="max-width: 50px; margin-left: 8px;"/>
+                <input type="number" name="pierceArmor" id="pierceArmor" min="0" value="${pierceArmor >= (effects.find(e => e.key === 'percearmure')?.value || 0) ? pierceArmor : effects.find(e => e.key === 'percearmure').value}" style="max-width: 50px; margin-left: 3px;"/>
               </div>
             </div>
             ${effects.find(e => ['meurtrier', 'assassin', 'briserlaresilience', 'destructeur'].includes(e.key)) ? `
-            <div style="display: flex; padding-bottom: 4px; justify-content: space-between;">
+            <div style="display: flex; padding-bottom: 4px;">
               ${effects.find(e => ['meurtrier'].includes(e.key)) ? `
-              <div style="display: flex; flex-direction: row; align-items: center;">
+              <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
                 <label for="meurtrier">Meurtrier :</label>
-                <input type="number" name="meurtrier" id="meurtrier" min="0" value="${effects.find(e => e.key === 'meurtrier')?.value}" style="max-width: 30px; margin-left: 8px;"/>
+                <input type="number" name="meurtrier" id="meurtrier" min="0" value="${effects.find(e => e.key === 'meurtrier')?.value}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['destructeur'].includes(e.key)) ? `
-              <div style="display: flex; flex-direction: row; align-items: center;">
+              <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
                 <label for="destructeur">Destructeur :</label>
-                <input type="number" name="destructeur" id="destructeur" min="0" value="${effects.find(e => e.key === 'destructeur')?.value}" style="max-width: 30px; margin-left: 8px;"/>
+                <input type="number" name="destructeur" id="destructeur" min="0" value="${effects.find(e => e.key === 'destructeur')?.value}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['briserlaresilience'].includes(e.key)) ? `
-              <div style="display: flex; flex-direction: row; align-items: center;">
+              <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
                 <label for="briserlaresilience">Briser la resilience :</label>
-                <input type="number" name="briserlaresilience" id="briserlaresilience" min="0" value="${effects.find(e => e.key === 'briserlaresilience')?.value}" style="max-width: 30px; margin-left: 8px;"/>
+                <input type="number" name="briserlaresilience" id="briserlaresilience" min="0" value="${effects.find(e => e.key === 'briserlaresilience')?.value}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['assassin'].includes(e.key)) ? `
-              <div style="display: flex; flex-direction: row; align-items: center;">
+              <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
                 <label for="assassin">Assassin :</label>
-                <input type="number" name="assassin" id="assassin" min="0" value="${effects.find(e => e.key === 'assassin')?.value}" style="max-width: 30px; margin-left: 8px;"/>
+                <input type="number" name="assassin" id="assassin" min="0" value="${effects.find(e => e.key === 'assassin')?.value}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
             </div>
             ` : ""}
@@ -1487,7 +1490,7 @@ Hooks.once('init', async function() {
       const dmg = tgt.data('dmg');
       // console.log('dmg', dmg);
       // console.log('tgt.data(\'effects\')', tgt.data('effects'));
-      const effects = tgt.data('effects')?.split(',')?.map(e => { return { key: e.split(' ')[0], value: e.split(' ')[1] ? parseInt(e.split(' ')[1]) : null } });
+      const effects = tgt.data('effects')?.split(',')?.map(e => { return { key: e.split(' ')[0], value: e.split(' ')[e.split(' ').length - 1] ? parseInt(e.split(' ')[e.split(' ').length - 1]) : null } });
       // console.log('effects', effects);
 
       const token = canvas?.tokens?.get(tokenId) ?? {isVisible:false};
@@ -1519,7 +1522,7 @@ Hooks.once('init', async function() {
       const alltargets = tgt.data('alltargets');
       // console.log('alltargets', alltargets);
       // console.log('tgt.data(\'effects\')', tgt.data('effects'));
-      const effects = tgt.data('effects')?.split(',')?.map(e => { return { key: e.split(' ')[0], value: e.split(' ')[1] ? parseInt(e.split(' ')[1]) : null } });
+      const effects = tgt.data('effects')?.split(',')?.map(e => { return { key: e.split(' ')[0], value: e.split(' ')[e.split(' ').length - 1] ? parseInt(e.split(' ')[e.split(' ').length - 1]) : null } });
       // console.log('effects', effects);
 
       const targetsIdsDmgs = alltargets.split(',');
