@@ -1412,7 +1412,7 @@ Hooks.once('init', async function() {
 
       return new Dialog(
         {
-          title: 'Knight • Damage Non-Joueurs :' + token.actor.name,
+          title: 'Knight • Damage Non-Joueurs : ' + token.actor.name,
           content: `
           <div style="display: flex; flex-direction: column; padding-bottom: 8px;">
             <div style="display: flex; padding-bottom: 4px;">
