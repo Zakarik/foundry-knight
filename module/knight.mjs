@@ -417,7 +417,7 @@ Hooks.once('init', async function() {
     const isVersion12 = version >= 12 ? true : false;
 
     if(!game.user.isGM) {
-      html.find('.knight-roll div.listTargets').remove();
+      html.find('.knight-roll div.listTargets,div.onlyGm').remove();
     }
 
     if(isVersion12) {
@@ -486,8 +486,6 @@ Hooks.once('init', async function() {
         }
       }
 
-      console.log("AAAAA");
-      console.log('data', data);
       await roll.doRollDamage(data);
     });
 
@@ -498,6 +496,7 @@ Hooks.once('init', async function() {
         token,
         dmg,
         dmgBonus = 0,
+        effects = [],
         igncdf = false,
         ignarm = false,
         antiAnatheme = false,
@@ -553,7 +552,8 @@ Hooks.once('init', async function() {
         false;
 
       // Other
-      let damagesLeft = parseInt(dmg, 10) + parseInt(dmgBonus, 10);
+      let damageTotal = parseInt(dmg, 10) + parseInt(dmgBonus, 10);
+      let damagesLeft = damageTotal;
       let chatMessage = '';
 
       // console.log('--------------');
@@ -720,6 +720,7 @@ Hooks.once('init', async function() {
         token,
         dmg,
         dmgBonus = 0,
+        effects = [],
         igncdf = false,
         ignarm = false,
         ignegi = false,
@@ -769,7 +770,8 @@ Hooks.once('init', async function() {
       let espoirRest = espoir;
 
       // Other
-      let damagesLeft = parseInt(dmg, 10) + parseInt(dmgBonus, 10);
+      const damageTotal = parseInt(dmg, 10) + parseInt(dmgBonus, 10);
+      let damagesLeft = damageTotal;
       let chatMessage = '';
 
       // console.log('--------------');
@@ -827,15 +829,28 @@ Hooks.once('init', async function() {
         armor >= pierceArmor &&
         dmgZone.armure
       ) {
+        // Do destructeur damages
+        const destructeur = effects.find(e => e.key === 'destructeur')?.value || 0;
+        let armorLessDestructeur = armor;
+        if (destructeur > 0) {
+          if (armor > destructeur) {
+            armorLessDestructeur -= destructeur;
+            armorDmg += destructeur;
+          } else {
+            armorLessDestructeur = 0
+            armorDmg += armor;
+          }
+        }
+
         // Check if the damages are upper than the armor
-        if (damagesLeft > armor) {
-          armorDmg = armor;
+        if (damagesLeft > armorLessDestructeur) {
+          armorDmg += armorLessDestructeur;
         } else {
-          armorDmg = damagesLeft > 0 ? damagesLeft : 0;
+          armorDmg += damagesLeft > 0 ? damagesLeft : 0;
         }
 
         // Set the damages left
-        damagesLeft -= armor;
+        damagesLeft -= armorLessDestructeur;
 
         // Update the actor and the chat message
         armorRest = armor - armorDmg < 0 ? 0 : armor - armorDmg;
@@ -944,7 +959,7 @@ Hooks.once('init', async function() {
           }
         </h3>
         <p>
-          Sur <b>${dmg}</b> dégâts, <u>${actor.name}</u> perd
+          Sur <b>${damageTotal}</b> dégâts, <u>${actor.name}</u> perd
           ${
             dmgZone.armure
               ? `<b>${armorDmg} PA</b>${stringLiaison(dmgZone, ['armure'])}`
@@ -1082,15 +1097,15 @@ Hooks.once('init', async function() {
     // Windows parameters
     const dialogOptions = {
       default: {
-        height: 100,
+        // height: 100,
         width: 554,
       },
       player: {
-        height: 200,
+        // height: 200,
         width: 554,
       },
       other: {
-        height: 174,
+        // height: 174,
         width: 554,
       },
     };
@@ -1101,6 +1116,7 @@ Hooks.once('init', async function() {
       const {
         token,
         dmg,
+        effects = [],
         igncdf = false,
         ignarm = false,
         ignegi = false,
@@ -1114,6 +1130,13 @@ Hooks.once('init', async function() {
           espoir: false,
         },
       } = data;
+
+      // If Anatheme effect
+      if (effects.find(e => ['anatheme'].includes(e.key))) {
+        dmgZone.armure = false;
+        dmgZone.sante = false;
+        dmgZone.espoir = true;
+      }
 
       return new Dialog(
         {
@@ -1169,7 +1192,7 @@ Hooks.once('init', async function() {
             </div>
             <div style="display: flex; padding-bottom: 4px;">
               <div style="display: flex; align-items: center; width: 33%;">
-                <input type="checkbox" name="igncdf" id="igncdf" ${igncdf ? "checked" : ""}/>
+                <input type="checkbox" name="igncdf" id="igncdf" ${igncdf || effects.find(e => e.key === 'ignorechampdeforce') ? "checked" : ""}/>
                 <label for="igncdf">
                   Ignore champ de force
                 </label>
@@ -1182,12 +1205,12 @@ Hooks.once('init', async function() {
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
                 <label for="penetrating">Pénétrant :</label>
-                <input type="number" name="penetrating" id="penetrating" min="0" value="${penetrating}" style="max-width: 50px; margin-left: 8px;"/>
+                <input type="number" name="penetrating" id="penetrating" min="0" value="${penetrating >= (effects.find(e => e.key === 'penetrant')?.value || 0) ? penetrating : effects.find(e => e.key === 'penetrant').value}" style="max-width: 50px; margin-left: 8px;"/>
               </div>
             </div>
             <div style="display: flex;">
               <div style="display: flex; align-items: center; width: 33%;">
-                <input type="checkbox" name="ignarm" id="ignarm" ${ignarm ? "checked" : ""}/>
+                <input type="checkbox" name="ignarm" id="ignarm" ${ignarm || effects.find(e => e.key === 'ignorearmure') ? "checked" : ""}/>
                 <label for="ignarm">
                   Ignore l'armure
                 </label>
@@ -1200,9 +1223,33 @@ Hooks.once('init', async function() {
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
                 <label for="pierceArmor">Perce armure :</label>
-                <input type="number" name="pierceArmor" id="pierceArmor" min="0" value="${pierceArmor}" style="max-width: 50px; margin-left: 8px;"/>
+                <input type="number" name="pierceArmor" id="pierceArmor" min="0" value="${pierceArmor >= (effects.find(e => e.key === 'percearmure')?.value || 0) ? pierceArmor : effects.find(e => e.key === 'percearmure').value}" style="max-width: 50px; margin-left: 8px;"/>
               </div>
             </div>
+            ${effects.find(e => ['meurtrier', 'assassin', 'briserlaresilience', 'destructeur'].includes(e.key)) ? `
+            <div style="display: flex;">
+              ${effects.find(e => ['meurtrier'].includes(e.key)) ? `
+              <div style="display: flex; flex-direction: row; align-items: center; width: 25%;">
+                <label for="meurtrier">Meurtrier :</label>
+                <input type="number" name="meurtrier" id="meurtrier" min="0" value="${effects.find(e => e.key === 'meurtrier')?.value}" style="max-width: 30px; margin-left: 8px;"/>
+              </div>` : ""}
+              ${effects.find(e => ['destructeur'].includes(e.key)) ? `
+              <div style="display: flex; flex-direction: row; align-items: center; width: 25%;">
+                <label for="destructeur">Destructeur :</label>
+                <input type="number" name="destructeur" id="destructeur" min="0" value="${effects.find(e => e.key === 'destructeur')?.value}" style="max-width: 30px; margin-left: 8px;"/>
+              </div>` : ""}
+              ${effects.find(e => ['briserlaresilience'].includes(e.key)) ? `
+              <div style="display: flex; flex-direction: row; align-items: center; width: 25%;">
+                <label for="briserlaresilience">Briser la resilience :</label>
+                <input type="number" name="briserlaresilience" id="briserlaresilience" min="0" value="${effects.find(e => e.key === 'briserlaresilience')?.value}" style="max-width: 30px; margin-left: 8px;"/>
+              </div>` : ""}
+              ${effects.find(e => ['assassin'].includes(e.key)) ? `
+              <div style="display: flex; flex-direction: row; align-items: center; width: 25%;">
+                <label for="assassin">Assassin :</label>
+                <input type="number" name="assassin" id="assassin" min="0" value="${effects.find(e => e.key === 'assassin')?.value}" style="max-width: 30px; margin-left: 8px;"/>
+              </div>` : ""}
+            </div>
+            ` : ""}
           </div>`,
 
           buttons: {
@@ -1210,23 +1257,31 @@ Hooks.once('init', async function() {
               icon: '<i class="fas fa-check"></i>',
               label: 'Calculer',
               callback: async (html) =>
-                displayDamageOnPJ({
-                  token: token,
-                  dmg: html.find('#dmg')[0].value,
-                  dmgBonus: html.find('#dmgBonus')[0].value,
-                  igncdf: html.find('#igncdf')[0].checked,
-                  ignarm: html.find('#ignarm')[0].checked,
-                  ignegi: html.find('#ignegi')[0].checked,
-                  esquive: html.find('#esquive')[0].checked,
-                  pierceArmor: html.find('#pierceArmor')[0].value,
-                  penetrating: html.find('#penetrating')[0].value,
-                  dmgZone: {
-                    armure: html.find('#armureDmg')[0].checked,
-                    sante: html.find('#santeDmg')[0].checked,
-                    energie: html.find('#energieDmg')[0].checked,
-                    espoir: html.find('#espoirDmg')[0].checked,
-                  },
-                }),
+                {
+                  ['meurtrier', 'destructeur', 'briserlaresilience', 'assassin'].forEach(effectName => {
+                    if (html.find('#'+effectName)[0]?.value) {
+                      effects.find(e => [effectName].includes(e.key)).value = parseInt(html.find('#'+effectName)[0].value, 10);
+                    }
+                  });
+                  return displayDamageOnPJ({
+                    token: token,
+                    dmg: html.find('#dmg')[0].value,
+                    effects: effects,
+                    dmgBonus: html.find('#dmgBonus')[0].value,
+                    igncdf: html.find('#igncdf')[0].checked,
+                    ignarm: html.find('#ignarm')[0].checked,
+                    ignegi: html.find('#ignegi')[0].checked,
+                    esquive: html.find('#esquive')[0].checked,
+                    pierceArmor: html.find('#pierceArmor')[0].value,
+                    penetrating: html.find('#penetrating')[0].value,
+                    dmgZone: {
+                      armure: html.find('#armureDmg')[0].checked,
+                      sante: html.find('#santeDmg')[0].checked,
+                      energie: html.find('#energieDmg')[0].checked,
+                      espoir: html.find('#espoirDmg')[0].checked,
+                    },
+                  })
+                },
             },
 
             Annuler: {
@@ -1247,6 +1302,7 @@ Hooks.once('init', async function() {
       const {
         token,
         dmg,
+        effects = [],
         igncdf = false,
         ignarm = false,
         antiAnatheme = false,
@@ -1276,7 +1332,7 @@ Hooks.once('init', async function() {
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 31%;">
                 <div style="display: flex; align-items: center; width: 100%;">
-                  <input type="checkbox" name="antiVehicule" id="antiVehicule" ${antiVehicule ? "checked" : ""} />
+                  <input type="checkbox" name="antiVehicule" id="antiVehicule" ${antiVehicule || effects.find(e => e.key === 'antivehicule') ? "checked" : ""} />
                   <label for="antiVehicule">
                     Anti-Véhicule
                   </label>
@@ -1285,25 +1341,25 @@ Hooks.once('init', async function() {
             </div>
             <div style="display: flex; padding-bottom: 4px;">
               <div style="display: flex; align-items: center; width: 33%;">
-                <input type="checkbox" name="igncdf" id="igncdf" ${igncdf ? "checked" : ""} />
+                <input type="checkbox" name="igncdf" id="igncdf" ${igncdf || effects.find(e => e.key === 'ignorechampdeforce') ? "checked" : ""} />
                 <label for="igncdf">
                   Ignore champ de force
                 </label>
               </div>
               <div style="display: flex; align-items: center; width: 33%;">
-                <input type="checkbox" name="antiAnatheme" id="antiAnatheme" ${antiAnatheme ? "checked" : ""} />
+                <input type="checkbox" name="antiAnatheme" id="antiAnatheme" ${antiAnatheme || effects.find(e => ['antianatheme', 'fauconplumesluminescentes'].includes(e.key)) ? "checked" : ""} />
                 <label for="antiAnatheme">
                   Anti-Anathème
                 </label>
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
                 <label for="penetrating">Pénétrant :</label>
-                <input type="number" name="penetrating" id="penetrating" min="0" value="${penetrating}" style="max-width: 50px; margin-left: 8px;"/>
+                <input type="number" name="penetrating" id="penetrating" min="0" value="${penetrating >= (effects.find(e => e.key === 'penetrant')?.value || 0) ? penetrating : effects.find(e => e.key === 'penetrant').value}" style="max-width: 50px; margin-left: 8px;"/>
               </div>
             </div>
-            <div style="display: flex;">
+            <div style="display: flex; padding-bottom: 4px;">
               <div style="display: flex; align-items: center; width: 33%;">
-                <input type="checkbox" name="ignarm" id="ignarm" ${ignarm ? "checked" : ""} />
+                <input type="checkbox" name="ignarm" id="ignarm" ${ignarm || effects.find(e => e.key === 'ignorearmure') ? "checked" : ""} />
                 <label for="ignarm">
                   Ignore l'armure
                 </label>
@@ -1316,9 +1372,33 @@ Hooks.once('init', async function() {
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
                 <label for="pierceArmor">Perce armure :</label>
-                <input type="number" name="pierceArmor" id="pierceArmor" min="0" value="${pierceArmor}" style="max-width: 50px; margin-left: 8px;"/>
+                <input type="number" name="pierceArmor" id="pierceArmor" min="0" value="${pierceArmor >= (effects.find(e => e.key === 'percearmure')?.value || 0) ? pierceArmor : effects.find(e => e.key === 'percearmure').value}" style="max-width: 50px; margin-left: 8px;"/>
               </div>
             </div>
+            ${effects.find(e => ['meurtrier', 'assassin', 'briserlaresilience', 'destructeur'].includes(e.key)) ? `
+            <div style="display: flex; padding-bottom: 4px; justify-content: space-between;">
+              ${effects.find(e => ['meurtrier'].includes(e.key)) ? `
+              <div style="display: flex; flex-direction: row; align-items: center;">
+                <label for="meurtrier">Meurtrier :</label>
+                <input type="number" name="meurtrier" id="meurtrier" min="0" value="${effects.find(e => e.key === 'meurtrier')?.value}" style="max-width: 30px; margin-left: 8px;"/>
+              </div>` : ""}
+              ${effects.find(e => ['destructeur'].includes(e.key)) ? `
+              <div style="display: flex; flex-direction: row; align-items: center;">
+                <label for="destructeur">Destructeur :</label>
+                <input type="number" name="destructeur" id="destructeur" min="0" value="${effects.find(e => e.key === 'destructeur')?.value}" style="max-width: 30px; margin-left: 8px;"/>
+              </div>` : ""}
+              ${effects.find(e => ['briserlaresilience'].includes(e.key)) ? `
+              <div style="display: flex; flex-direction: row; align-items: center;">
+                <label for="briserlaresilience">Briser la resilience :</label>
+                <input type="number" name="briserlaresilience" id="briserlaresilience" min="0" value="${effects.find(e => e.key === 'briserlaresilience')?.value}" style="max-width: 30px; margin-left: 8px;"/>
+              </div>` : ""}
+              ${effects.find(e => ['assassin'].includes(e.key)) ? `
+              <div style="display: flex; flex-direction: row; align-items: center;">
+                <label for="assassin">Assassin :</label>
+                <input type="number" name="assassin" id="assassin" min="0" value="${effects.find(e => e.key === 'assassin')?.value}" style="max-width: 30px; margin-left: 8px;"/>
+              </div>` : ""}
+            </div>
+            ` : ""}
           </div>`,
 
           buttons: {
@@ -1326,9 +1406,22 @@ Hooks.once('init', async function() {
               icon: '<i class="fas fa-check"></i>',
               label: 'Calculer',
               callback: async (html) =>
-                displayDamageOnPNJ({
+              {
+                ['meurtrier', 'destructeur', 'briserlaresilience', 'assassin'].forEach(effectName => {
+                  if (html.find('#'+effectName)[0]?.value) {
+                    effects.find(e => [effectName].includes(e.key)).value = parseInt(html.find('#'+effectName)[0].value, 10);
+                  }
+                });
+                return displayDamageOnPNJ({
                   token: token,
                   dmg: html.find('#dmg')[0].value,
+                  effects: {
+                    ...effects,
+                    meurtrier: html.find('#dmgBonus')[0]?.value || effects.meurtrier,
+                    destructeur: html.find('#destructeur')[0]?.value || effects.destructeur,
+                    briserlaresilience: html.find('#briserlaresilience')[0]?.value || effects.briserlaresilience,
+                    assassin: html.find('#assassin')[0]?.value || effects.assassin,
+                  },
                   dmgBonus: html.find('#dmgBonus')[0].value,
                   igncdf: html.find('#igncdf')[0].checked,
                   antiAnatheme: html.find('#antiAnatheme')[0].checked,
@@ -1337,7 +1430,8 @@ Hooks.once('init', async function() {
                   pierceArmor: html.find('#pierceArmor')[0].value,
                   penetrating: html.find('#penetrating')[0].value,
                   esquive: html.find('#esquive')[0].checked,
-                }),
+                });
+              }
             },
 
             Annuler: {
@@ -1358,6 +1452,9 @@ Hooks.once('init', async function() {
       // console.log('tokenId', tokenId);
       const dmg = tgt.data('dmg');
       // console.log('dmg', dmg);
+      // console.log('tgt.data(\'effects\')', tgt.data('effects'));
+      const effects = tgt.data('effects')?.split(',')?.map(e => { return { key: e.split(' ')[0], value: e.split(' ')[1] ? parseInt(e.split(' ')[1]) : null } });
+      // console.log('effects', effects);
 
       const token = canvas?.tokens?.get(tokenId) ?? {isVisible:false};
       // console.log('token', token);
@@ -1366,10 +1463,10 @@ Hooks.once('init', async function() {
       // console.log('type', type);
 
       if (['pnj', 'creature', 'bande', 'vehicule'].includes(type)) {
-        await otherDialog({token: token, dmg: dmg});
+        await otherDialog({token: token, dmg: dmg, effects: effects});
       }
       else if (['knight'].includes(type)) {
-        await playerDialog({token: token, dmg: dmg});
+        await playerDialog({token: token, dmg: dmg, effects: effects});
       }
       else {
         ChatMessage.create({
@@ -1378,6 +1475,48 @@ Hooks.once('init', async function() {
           content: `<p><b>Ce type de cible n'est pas encore pris en compte.</b></p>`,
           whisper: [game.user._id],
         });
+      }
+
+      return;
+    });
+
+    html.find('.knight-roll button.setDegatsAllTargets').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const alltargets = tgt.data('alltargets');
+      // console.log('alltargets', alltargets);
+      // console.log('tgt.data(\'effects\')', tgt.data('effects'));
+      const effects = tgt.data('effects')?.split(',')?.map(e => { return { key: e.split(' ')[0], value: e.split(' ')[1] ? parseInt(e.split(' ')[1]) : null } });
+      // console.log('effects', effects);
+
+      const targetsIdsDmgs = alltargets.split(',');
+      // console.log('targetsIdsDmgs', targetsIdsDmgs);
+
+      for (let i = 0; i < targetsIdsDmgs.length; i++) {
+        const tokenId = targetsIdsDmgs[i].split('-')[0];
+        // console.log('tokenId', tokenId)
+        const dmg = targetsIdsDmgs[i].split('-')[1];
+        // console.log('dmg', dmg)
+
+        const token = canvas?.tokens?.get(tokenId) ?? {isVisible:false};
+        // console.log('token', token);
+
+        const type = token.actor.type;
+        // console.log('type', type);
+
+        if (['pnj', 'creature', 'bande', 'vehicule'].includes(type)) {
+          await otherDialog({token: token, dmg: dmg, effects: effects});
+        }
+        else if (['knight'].includes(type)) {
+          await playerDialog({token: token, dmg: dmg, effects: effects});
+        }
+        else {
+          ChatMessage.create({
+            user: game.user._id,
+            speaker: ChatMessage.getSpeaker({ actor: token.actor }),
+            content: `<p><b>Ce type de cible n'est pas encore pris en compte.</b></p>`,
+            whisper: [game.user._id],
+          });
+        }
       }
 
       return;
