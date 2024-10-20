@@ -685,15 +685,28 @@ Hooks.once('init', async function() {
       // Damages on sante
       // ################
       if (sante > 0 && damagesLeft > 0) {
-        // Check if the damages are upper than the health
-        if (damagesLeft > sante) {
-          santeDmg = sante;
+        // Do meurtrier damages
+        const meurtrier = effects.find(e => e.key === 'meurtrier')?.value || 0;
+        let santeLessMeurtrier = sante;
+        if (meurtrier > 0) {
+          if (sante > meurtrier) {
+            santeLessMeurtrier -= meurtrier;
+            santeDmg += meurtrier;
+          } else {
+            santeLessMeurtrier = 0
+            santeDmg += sante;
+          }
+        }
+
+        // Check if the damages are upper than the armor
+        if (damagesLeft > santeLessMeurtrier) {
+          santeDmg += santeLessMeurtrier;
         } else {
-          santeDmg = damagesLeft > 0 ? damagesLeft : 0;
+          santeDmg += damagesLeft > 0 ? damagesLeft : 0;
         }
 
         // Set the damages left
-        damagesLeft -= sante;
+        damagesLeft -= santeLessMeurtrier;
 
         // Update the actor and the chat message
         const santeRest = sante - santeDmg < 0 ? 0 : sante - santeDmg;
@@ -895,15 +908,28 @@ Hooks.once('init', async function() {
       // Damages on sante
       // ################
       if (sante > 0 && damagesLeft > 0 && dmgZone.sante) {
-        // Check if the damages are upper than the health
-        if (damagesLeft > sante) {
-          santeDmg += sante;
+        // Do meurtrier damages
+        const meurtrier = effects.find(e => e.key === 'meurtrier')?.value || 0;
+        let santeLessMeurtrier = sante;
+        if (meurtrier > 0) {
+          if (sante > meurtrier) {
+            santeLessMeurtrier -= meurtrier;
+            santeDmg += meurtrier;
+          } else {
+            santeLessMeurtrier = 0
+            santeDmg += sante;
+          }
+        }
+
+        // Check if the damages are upper than the armor
+        if (damagesLeft > santeLessMeurtrier) {
+          santeDmg += santeLessMeurtrier;
         } else {
           santeDmg += damagesLeft > 0 ? damagesLeft : 0;
         }
 
         // Set the damages left
-        damagesLeft -= sante;
+        damagesLeft -= santeLessMeurtrier;
 
         // Update the actor and the chat message
         santeRest = sante - santeDmg < 0 ? 0 : sante - santeDmg;
