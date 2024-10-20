@@ -438,7 +438,7 @@ export class BandeSheet extends ActorSheet {
 
     let data = {
       total:0,
-      targets:[],
+      targets: game.user.targets.size > 0 ? game.user.targets : [],
       attaque:[],
       flags:addFlags,
       content:{
