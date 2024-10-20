@@ -76,11 +76,19 @@
             {{/each}}
             {{#if isValue}}
             <div class="btn">
-                <button type="action" class="setDegats" data-id="{{id}}" data-dmg="{{value}}">Set damages</button>
+                <button type="action" class="setDegats" data-id="{{id}}" data-dmg="{{value}}" data-effects="{{#each ../../detailledEffets}}{{key}}{{#if value}} {{value}}{{/if}}{{#unless @last}},{{/unless}}{{/each}}{{#each ../../effets}},{{key}}{{#if value}} {{value}}{{/if}}{{/each}}">Set damages</button>
             </div>
             {{/if}}
         </div>
         {{/each}}
+
+        {{#if targets}}
+        {{#unless weapon}}
+        <div class="onlyGm btn" style="width: 200%;">
+            <button type="action" class="setDegatsAllTargets" data-alltargets="{{#each targets}}{{id}}-{{value}}{{#unless @last}},{{/unless}}{{/each}}" data-effects="{{#each ../detailledEffets}}{{key}}{{#if value}} {{value}}{{/if}}{{#unless @last}},{{/unless}}{{/each}}{{#each ../effets}},{{key}}{{#if value}} {{value}}{{/if}}{{/each}}">Set damages for all targets</button>
+        </div>
+        {{/unless}}
+        {{/if}}
 
         {{#if weapon}}
         <div class="btn">
@@ -163,7 +171,12 @@
 
     {{#if effets}}
     <div class="effets">
-        {{{effets}}}
+        {{#each effets}}
+        <span title="{{ description }}" data-key="{{ key }}">{{ label }}</span>
+        {{#unless @last}}
+        /
+        {{/unless}}
+        {{/each}}
     </div>
     {{/if}}
 </div>
