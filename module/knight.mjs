@@ -650,6 +650,7 @@ Hooks.once('init', async function() {
         armor >= pierceArmor
       ) {
         // Do destructeur damages
+        console.log('effects', effects)
         const destructeur = effects.find(e => e.key === 'destructeur')?.value || 0;
         let armorLessDestructeur = armor;
         if (destructeur > 0) {
@@ -1428,13 +1429,7 @@ Hooks.once('init', async function() {
                 return displayDamageOnPNJ({
                   token: token,
                   dmg: html.find('#dmg')[0].value,
-                  effects: {
-                    ...effects,
-                    meurtrier: html.find('#dmgBonus')[0]?.value || effects.meurtrier,
-                    destructeur: html.find('#destructeur')[0]?.value || effects.destructeur,
-                    briserlaresilience: html.find('#briserlaresilience')[0]?.value || effects.briserlaresilience,
-                    assassin: html.find('#assassin')[0]?.value || effects.assassin,
-                  },
+                  effects: effects,
                   dmgBonus: html.find('#dmgBonus')[0].value,
                   igncdf: html.find('#igncdf')[0].checked,
                   antiAnatheme: html.find('#antiAnatheme')[0].checked,
