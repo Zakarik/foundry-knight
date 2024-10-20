@@ -649,15 +649,28 @@ Hooks.once('init', async function() {
         (!ignarm || sante === 0) &&
         armor >= pierceArmor
       ) {
+        // Do destructeur damages
+        const destructeur = effects.find(e => e.key === 'destructeur')?.value || 0;
+        let armorLessDestructeur = armor;
+        if (destructeur > 0) {
+          if (armor > destructeur) {
+            armorLessDestructeur -= destructeur;
+            armorDmg += destructeur;
+          } else {
+            armorLessDestructeur = 0
+            armorDmg += armor;
+          }
+        }
+
         // Check if the damages are upper than the armor
-        if (damagesLeft > armor) {
-          armorDmg = armor;
+        if (damagesLeft > armorLessDestructeur) {
+          armorDmg += armorLessDestructeur;
         } else {
-          armorDmg = damagesLeft > 0 ? damagesLeft : 0;
+          armorDmg += damagesLeft > 0 ? damagesLeft : 0;
         }
 
         // Set the damages left
-        damagesLeft -= armor;
+        damagesLeft -= armorLessDestructeur;
 
         // Update the actor and the chat message
         const armorRest = armor - armorDmg < 0 ? 0 : armor - armorDmg;
