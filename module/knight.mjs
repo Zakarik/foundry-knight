@@ -554,7 +554,6 @@ Hooks.once('init', async function() {
 
       // Other
       const assassin = effects.find(e => e.key === 'assassin')?.value || 0;
-      console.log('assassin', assassin)
       let damageTotal = parseInt(dmg, 10) + parseInt(dmgBonus, 10) + assassin;
       let damagesLeft = damageTotal;
       let chatMessage = '';
@@ -564,6 +563,7 @@ Hooks.once('init', async function() {
       // console.log('name', actor.name);
       // console.log('dmg', dmg);
       // console.log('dmg', typeof dmg);
+      // console.log('effects', effects);
       // console.log('dmgBonus', dmgBonus);
       // console.log('dmgBonus', typeof dmgBonus);
       // console.log('igncdf', igncdf);
@@ -611,27 +611,40 @@ Hooks.once('init', async function() {
 
       // If the damages are not anti véhicules, the damages are divide by 10
       if ((isVehicule || resilience > 0) && !antiVehicule) {
-        damagesLeft = (damagesLeft / 10) << 0;
+        damagesLeft = Math.ceil(damagesLeft / 10);
       }
 
       // Check if the esquive is used
       if (esquive) {
-        damagesLeft = (damagesLeft / 2) << 0;
+        damagesLeft = Math.ceil(damagesLeft / 2);
       }
 
       // #####################
       // Damages on resilience
       // #####################
-      if (resilience > 0 && damagesLeft > 0) {
+      const briserResi = effects.find(e => e.key === 'briserlaresilience')?.value || 0;
+      if (resilience > 0 && (damagesLeft > 0 || briserResi > 0)) {
+        // Do briser la resilience damages
+        let resilienceLessBriserResi = resilience;
+        if (briserResi > 0) {
+          if (resilience > briserResi) {
+            resilienceLessBriserResi -= briserResi;
+            resilienceDmg += briserResi;
+          } else {
+            resilienceLessBriserResi = 0
+            resilienceDmg += resilience;
+          }
+        }
+
         // Check if the damages are upper than the resilience
-        if (damagesLeft > resilience) {
-          resilienceDmg = resilience;
+        if (damagesLeft > resilienceLessBriserResi) {
+          resilienceDmg += resilienceLessBriserResi;
         } else {
-          resilienceDmg = damagesLeft > 0 ? damagesLeft : 0;
+          resilienceDmg += damagesLeft > 0 ? damagesLeft : 0;
         }
 
         // Set the damages left
-        damagesLeft -= resilience;
+        damagesLeft -= resilienceLessBriserResi;
 
         // Update the actor and the chat message
         const resilienceRest =
@@ -846,7 +859,7 @@ Hooks.once('init', async function() {
 
       // Check if the esquive is used
       if (esquive) {
-        damagesLeft = (damagesLeft / 2) << 0;
+        damagesLeft = Math.ceil(damagesLeft / 2);
       }
 
       // ################
