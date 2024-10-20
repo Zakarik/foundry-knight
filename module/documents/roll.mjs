@@ -227,7 +227,6 @@ export class RollKnight {
     }
 
     async doRollDamage(data={}) {
-        console.log('doRollDamage')
         const chatRollMode = game.settings.get("core", "rollMode");
         const rollAttaque = data?.attaque ?? [];
         const attaque = data?.total ?? 0;
@@ -1294,6 +1293,8 @@ export class RollKnight {
 
                 bonus.push(force);
                 title += ` + ${traForce}`;
+            } else if(type === 'bande') {
+                // Bande debordement doesn't add bonuses
             } else {
                 force = Math.floor(this.getAspect('chair')/2);
                 traForce = game.i18n.localize(CONFIG.KNIGHT.aspects.chair);
