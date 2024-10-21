@@ -1057,11 +1057,6 @@ Hooks.once('init', async function() {
         return result;
       };
 
-      // "KNIGHT.AUTRE.PointEnergie-short": "PE",
-      // "KNIGHT.AUTRE.PointSante-short":"PS",
-      // "KNIGHT.AUTRE.PointArmure-short":"PA",
-      // "KNIGHT.AUTRE.PointEspoir-short": "PEs",
-
       // Set the message
       chatMessage = `
         <h3>
