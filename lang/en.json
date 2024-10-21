@@ -2268,7 +2268,7 @@
         "IgnoreAegis": "Ignore aegis",
         "Calculate": "Calculate",
         "Cancel": "Cancel",
-        "TargetNotYetvalid: "This type of target is not yet valid",
+        "TargetNotYetvalid": "This type of target is not yet valid",
         "DamageForAllTargets": "Damage to all targets",
         "SetDamages": "Set damages"
       }
