@@ -580,7 +580,7 @@ Hooks.once('init', async function() {
       if (sante === 0 && armor === 0) {
         // console.log('actor.statuses', actor.statuses);
         if (!actor.statuses.find((e) => e === 'dead')) {
-          chatMessage += `<p><b>La cible est déjà morte.</b></p>`;
+          chatMessage += `<p><b>${game.i18n.localize('KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead')}.</b></p>`;
           actor.toggleStatusEffect('dead', { active: true, overlay: true });
 
           ChatMessage.create({
@@ -652,7 +652,7 @@ Hooks.once('init', async function() {
         actor.update({
           'system.resilience.value': resilienceRest,
         });
-        chatMessage += `<p>La cible subit <b>${resilienceDmg}</b> dégâts sur la <u>Resilience</u> et il reste <b>${resilienceRest}</b>.</p>`;
+        chatMessage += game.i18n.format("KNIGHT.JETS.DEGATSAUTO.DamageOnAndRest", {dmg: resilienceDmg, valueName: game.i18n.format("KNIGHT.LATERAL.Resilience"), dmgRest: resilienceRest});
       }
 
       // ################
@@ -693,7 +693,7 @@ Hooks.once('init', async function() {
         actor.update({
           'system.armure.value': armorRest,
         });
-        chatMessage += `<p>La cible subit <b>${armorDmg}</b> dégâts sur la <u>Armure</u> et il reste <b>${armorRest}</b>.</p>`;
+        chatMessage += game.i18n.format("KNIGHT.JETS.DEGATSAUTO.DamageOnAndRest", {dmg: armorDmg, valueName: game.i18n.format("KNIGHT.LATERAL.Armure"), dmgRest: armorRest});
       }
 
       // ################
@@ -780,12 +780,12 @@ Hooks.once('init', async function() {
         actor.update({
           'system.sante.value': santeRest,
         });
-        chatMessage += `<p>La cible subit <b>${santeDmg}</b> dégâts sur la <u>Santé</u> et il reste <b>${santeRest}</b>.</p>`;
+        chatMessage += game.i18n.format("KNIGHT.JETS.DEGATSAUTO.DamageOnAndRest", {dmg: santeDmg, valueName: game.i18n.format("KNIGHT.LATERAL.Sante"), dmgRest: santeRest});
       }
 
       // Set the creature dead
       if (damagesLeft >= 0) {
-        chatMessage += `<p><b>La cible est morte.</b></p>`;
+        chatMessage += `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetDead")}.</b></p>`;
         actor.toggleStatusEffect('dead', { active: true, overlay: true });
       }
 
@@ -885,7 +885,7 @@ Hooks.once('init', async function() {
       if (sante === 0 && armor === 0) {
         // console.log('actor.statuses', actor.statuses);
         if (!actor.statuses.find((e) => e === 'dead')) {
-          chatMessage += `<p><b>La cible est déjà morte.</b></p>`;
+          chatMessage += `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead")}.</b></p>`;
           actor.toggleStatusEffect('dead', { active: true, overlay: true });
 
           ChatMessage.create({
@@ -1052,39 +1052,44 @@ Hooks.once('init', async function() {
         let zones = Object.keys(dmgZone)
           .filter((e) => !values.includes(e))
           .filter((e) => dmgZone[e] === true).length;
-        const result = zones > 1 ? ', ' : zones === 1 ? ' et ' : '.';
+        const result = zones > 1 ? ', ' : zones === 1 ? ` ${game.i18n.localize("KNIGHT.AUTRE.And")} ` : '.';
 
         return result;
       };
+
+      // "KNIGHT.AUTRE.PointEnergie-short": "PE",
+      // "KNIGHT.AUTRE.PointSante-short":"PS",
+      // "KNIGHT.AUTRE.PointArmure-short":"PA",
+      // "KNIGHT.AUTRE.PointEspoir-short": "PEs",
 
       // Set the message
       chatMessage = `
         <h3>
           ${
             [armorDmg, santeDmg, energieDmg, espoirDmg].find((e) => e > 0)
-              ? 'Dégâts reçus !'
-              : 'Dégâts mitigés !'
+              ? game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.DamageReceived") + ' !'
+              : game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.DamageMixed") + ' !'
           }
         </h3>
         <p>
-          Sur <b>${damageTotal}</b> dégâts, <u>${actor.name}</u> perd
+          ${game.i18n.format("KNIGHT.JETS.DEGATSAUTO.PjDamageMessageStart", {damageTotal: damageTotal, actorName: actor.name})}
           ${
             dmgZone.armure
-              ? `<b>${armorDmg} PA</b>${stringLiaison(dmgZone, ['armure'])}`
+              ? `<b>${armorDmg} ${game.i18n.localize("KNIGHT.AUTRE.PointArmure-short")}</b>${stringLiaison(dmgZone, ['armure'])}`
               : ''
           }
           ${
             dmgZone.sante
-              ? `<b>${santeDmg} PS</b>${
+              ? `<b>${santeDmg} ${game.i18n.localize("KNIGHT.AUTRE.PointSante-short")}</b>${
                   santeDamagesFromArmor > 0
-                    ? ` (dont ${santeDamagesFromArmor} lié au choc de l'armure)`
+                    ? ` (${game.i18n.format("KNIGHT.JETS.DEGATSAUTO.PjDamageMessageArmorChocHealth", {dmg: santeDamagesFromArmor})})`
                     : ''
                 }${stringLiaison(dmgZone, ['armure', 'sante'])}`
               : ''
           }
           ${
             dmgZone.energie
-              ? `<b>${energieDmg} PE</b>${stringLiaison(dmgZone, [
+              ? `<b>${energieDmg} ${game.i18n.localize("KNIGHT.AUTRE.PointEnergie-short")}</b>${stringLiaison(dmgZone, [
                   'armure',
                   'sante',
                   'energie',
@@ -1093,7 +1098,7 @@ Hooks.once('init', async function() {
           }
           ${
             dmgZone.espoir
-              ? `<b>${espoirDmg} PEs</b>${stringLiaison(dmgZone, [
+              ? `<b>${espoirDmg} ${game.i18n.localize("KNIGHT.AUTRE.PointEspoir-short")}</b>${stringLiaison(dmgZone, [
                   'armure',
                   'sante',
                   'energie',
@@ -1103,20 +1108,20 @@ Hooks.once('init', async function() {
           }
         </p>
         <p>
-          Il avait
+          ${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.HeHad")}
           ${
             dmgZone.armure
-              ? `<b>${armor} PA</b>${stringLiaison(dmgZone, ['armure'])}`
+              ? `<b>${armor} ${game.i18n.localize("KNIGHT.AUTRE.PointArmure-short")}</b>${stringLiaison(dmgZone, ['armure'])}`
               : ''
           }
           ${
             dmgZone.sante
-              ? `<b>${sante} PS</b>${stringLiaison(dmgZone, ['armure', 'sante'])}`
+              ? `<b>${sante} ${game.i18n.localize("KNIGHT.AUTRE.PointSante-short")}</b>${stringLiaison(dmgZone, ['armure', 'sante'])}`
               : ''
           }
           ${
             dmgZone.energie
-              ? `<b>${energie} PE</b>${stringLiaison(dmgZone, [
+              ? `<b>${energie} ${game.i18n.localize("KNIGHT.AUTRE.PointEnergie-short")}</b>${stringLiaison(dmgZone, [
                   'armure',
                   'sante',
                   'energie',
@@ -1125,7 +1130,7 @@ Hooks.once('init', async function() {
           }
           ${
             dmgZone.espoir
-              ? `<b>${espoir} PEs</b>${stringLiaison(dmgZone, [
+              ? `<b>${espoir} ${game.i18n.localize("KNIGHT.AUTRE.PointEspoir-short")}</b>${stringLiaison(dmgZone, [
                   'armure',
                   'sante',
                   'energie',
@@ -1135,15 +1140,15 @@ Hooks.once('init', async function() {
           }
         </p>
         <p>
-          Il lui reste
+          ${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.HeHasLeft")}
           ${
             dmgZone.armure
-              ? `<b>${armorRest} PA</b>${stringLiaison(dmgZone, ['armure'])}`
+              ? `<b>${armorRest} ${game.i18n.localize("KNIGHT.AUTRE.PointArmure-short")}</b>${stringLiaison(dmgZone, ['armure'])}`
               : ''
           }
           ${
             dmgZone.sante
-              ? `<b>${santeRest} PS</b>${stringLiaison(dmgZone, [
+              ? `<b>${santeRest} ${game.i18n.localize("KNIGHT.AUTRE.PointSante-short")}</b>${stringLiaison(dmgZone, [
                   'armure',
                   'sante',
                 ])}`
@@ -1151,7 +1156,7 @@ Hooks.once('init', async function() {
           }
           ${
             dmgZone.energie
-              ? `<b>${energieRest} PE</b>${stringLiaison(dmgZone, [
+              ? `<b>${energieRest} ${game.i18n.localize("KNIGHT.AUTRE.PointEnergie-short")}</b>${stringLiaison(dmgZone, [
                   'armure',
                   'sante',
                   'energie',
@@ -1160,7 +1165,7 @@ Hooks.once('init', async function() {
           }
           ${
             dmgZone.espoir
-              ? `<b>${espoirRest} PEs</b>${stringLiaison(dmgZone, [
+              ? `<b>${espoirRest} ${game.i18n.localize("KNIGHT.AUTRE.PointEspoir-short")}</b>${stringLiaison(dmgZone, [
                   'armure',
                   'sante',
                   'energie',
@@ -1174,22 +1179,22 @@ Hooks.once('init', async function() {
       // Check if the armor need to fold
       if (armorRest <= 0 && hasSante) {
         if (actor.system.wear !== 'guardian') {
-          chatMessage += `<p>L'armure se fold.</p>`;
+          chatMessage += `<p>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.ArmorFolds")}.</p>`;
           // actor.update({ 'system.wear': 'guardian' }); //TODO Bug, it set the armor at 13 and the guardian armor value at 0
         } else {
-          chatMessage += `<p>La tenue guardian ne le protège plus</p>`;
+          chatMessage += `<p>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.GuardianDontProtect")}</p>`;
         }
       }
 
       // Check if the player is dead
       if ((hasSante && santeRest <= 0) || (!hasSante && armorRest <= 0)) {
-        chatMessage += `<p><u>${actor.name}</u> est <b>grièvement blessé et tombe à terre</b>.</p>`;
+        chatMessage += `<p>${game.i18n.format("KNIGHT.JETS.DEGATSAUTO.PjDead", {name: actor.name})}.</p>`;
         token.toggleEffect('icons/svg/skull.svg');
       }
 
       // Check if the player sinks into despair
       if (espoirRest <= 0) {
-        chatMessage += `<p><u>${actor.name}</u> <b>succombe au DÉSESPOIR !</b></p>`;
+        chatMessage += `<p>${game.i18n.format("KNIGHT.JETS.DEGATSAUTO.PjHopeless", {name: actor.name})}</p>`;
         token.toggleEffect('icons/svg/skull.svg');
       }
 
@@ -1244,37 +1249,37 @@ Hooks.once('init', async function() {
 
       return new Dialog(
         {
-          title: 'Knight • Damage Joueurs : ' + token.actor.name,
+          title: game.i18n.localize("ACTOR.TypeKnight") + ' • ' + game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.DamagePj") + ' : ' + token.actor.name,
           content: `
           <div style="display: flex; flex-direction: column; padding-bottom: 8px;">
             <div style="display: flex; padding-bottom: 4px;">
               <div style="display: flex; flex-direction: row; align-items: center; width: 32%;">
                 <label for="dmg">
-                  Dégâts bruts reçus :
+                  ${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TrueDamageReceived")} :
                 </label>
                 <input type="number" name="damage" id="dmg" min="0" step="1" style="max-width: 40px; margin-left: 3px;" value="${dmg}"/>
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 27%;">
                 <label for="dmgBonus">
-                  Dégâts bonus :
+                  ${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.DamageBonus")} :
                 </label>
                 <input type="number" name="damageBonus" id="dmgBonus" min="0" step="1" style="max-width: 40px; margin-left: 3px;" value="0"/>
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 41%;">
                 <div>
-                  Dégâts sur :
+                  ${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.DamageOn")} :
                 </div>
                 <div>
                   <div style="display: flex; align-items: center; width: 50%;">
                     <input type="checkbox" name="armureDmg" id="armureDmg" ${dmgZone.armure ? "checked" : ""}/>
                     <label for="armureDmg">
-                      Armure
+                      ${game.i18n.localize("KNIGHT.LATERAL.Armure")}
                     </label>
                   </div>
                   <div style="display: flex; align-items: center; width: 50%;">
                     <input type="checkbox" name="santeDmg" id="santeDmg" ${dmgZone.sante ? "checked" : ""}/>
                     <label for="santeDmg">
-                      Santé
+                      ${game.i18n.localize("KNIGHT.LATERAL.Sante")}
                     </label>
                   </div>
                 </div>
@@ -1282,13 +1287,13 @@ Hooks.once('init', async function() {
                   <div style="display: flex; align-items: center; width: 50%;">
                     <input type="checkbox" name="energieDmg" id="energieDmg" ${dmgZone.energie ? "checked" : ""}/>
                     <label for="energieDmg">
-                      Énergie
+                      ${game.i18n.localize("KNIGHT.LATERAL.Energie")}
                     </label>
                   </div>
                   <div style="display: flex; align-items: center; width: 50%;">
                     <input type="checkbox" name="espoirDmg" id="espoirDmg" ${dmgZone.espoir ? "checked" : ""}/>
                     <label for="espoirDmg">
-                      Espoir
+                      ${game.i18n.localize("KNIGHT.LATERAL.Espoir")}
                     </label>
                   </div>
                 </div>
@@ -1298,17 +1303,17 @@ Hooks.once('init', async function() {
               <div style="display: flex; align-items: center; width: 33%;">
                 <input type="checkbox" name="igncdf" id="igncdf" ${effects.find(e => ['ignorechampdeforce'].includes(e.key)) ? "checked" : ""}/>
                 <label for="igncdf">
-                  Ignore champ de force
+                  ${game.i18n.localize("KNIGHT.EFFETS.IGNORECHAMPDEFORCE.Label")}
                 </label>
               </div>
             <div style="display: flex; align-items: center; width: 33%;">
                 <input type="checkbox" name="ignegi" id="ignegi" ${effects.find(e => ['ignoreegide'].includes(e.key)) ? "checked" : ""}/>
                 <label for="ignegi">
-                  Ignore l'égide
+                  ${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.IgnoreAegis")}
                 </label>
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
-                <label for="penetrating">Pénétrant :</label>
+                <label for="penetrating">${game.i18n.localize("KNIGHT.EFFETS.PENETRANT.Label")} :</label>
                 <input type="number" name="penetrating" id="penetrating" min="0" value="${effects.find(e => e.key === 'penetrant')?.value || 0}" style="max-width: 50px; margin-left: 3px;"/>
               </div>
             </div>
@@ -1316,17 +1321,17 @@ Hooks.once('init', async function() {
               <div style="display: flex; align-items: center; width: 33%;">
                 <input type="checkbox" name="ignarm" id="ignarm" ${effects.find(e => ['ignorearmure'].includes(e.key)) ? "checked" : ""}/>
                 <label for="ignarm">
-                  Ignore l'armure
+                  ${game.i18n.localize("KNIGHT.EFFETS.IGNOREARMURE.Label")}
                 </label>
               </div>
               <div style="display: flex; align-items: center; width: 33%;">
                 <input type="checkbox" name="esquive" id="esquive" ${esquive ? "checked" : ""}/>
                 <label for="esquive">
-                  Dégâts / 2
+                  ${game.i18n.localize("KNIGHT.AUTRE.Degats")} / 2
                 </label>
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
-                <label for="pierceArmor">Perce armure :</label>
+                <label for="pierceArmor">${game.i18n.localize("KNIGHT.EFFETS.PERCEARMURE.Label")} :</label>
                 <input type="number" name="pierceArmor" id="pierceArmor" min="0" value="${effects.find(e => e.key === 'percearmure')?.value || 0}" style="max-width: 50px; margin-left: 8px;"/>
               </div>
             </div>
@@ -1334,22 +1339,22 @@ Hooks.once('init', async function() {
             <div style="display: flex;">
               ${effects.find(e => ['meurtrier'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
-                <label for="meurtrier">Meurtrier :</label>
+                <label for="meurtrier">${game.i18n.localize("KNIGHT.EFFETS.MEURTRIER.Label")} :</label>
                 <input type="number" name="meurtrier" id="meurtrier" min="0" value="${effects.find(e => e.key === 'meurtrier')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['destructeur'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
-                <label for="destructeur">Destructeur :</label>
+                <label for="destructeur">${game.i18n.localize("KNIGHT.EFFETS.DESTRUCTEUR.Label")} :</label>
                 <input type="number" name="destructeur" id="destructeur" min="0" value="${effects.find(e => e.key === 'destructeur')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['briserlaresilience'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
-                <label for="briserlaresilience">Briser la resilience :</label>
+                <label for="briserlaresilience">${game.i18n.localize("KNIGHT.EFFETS.BRISERLARESILIENCE.Label")} :</label>
                 <input type="number" name="briserlaresilience" id="briserlaresilience" min="0" value="${effects.find(e => e.key === 'briserlaresilience')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['assassin'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
-                <label for="assassin">Assassin :</label>
+                <label for="assassin">${game.i18n.localize("KNIGHT.EFFETS.ASSASSIN.Label")} :</label>
                 <input type="number" name="assassin" id="assassin" min="0" value="${effects.find(e => e.key === 'assassin')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
             </div>
@@ -1359,7 +1364,7 @@ Hooks.once('init', async function() {
           buttons: {
             Calculer: {
               icon: '<i class="fas fa-check"></i>',
-              label: 'Calculer',
+              label: game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.Calculate"),
               callback: async (html) =>
                 {
                   ['meurtrier', 'destructeur', 'briserlaresilience', 'assassin'].forEach(effectName => {
@@ -1390,7 +1395,7 @@ Hooks.once('init', async function() {
 
             Annuler: {
               icon: '<i class="fas fa-close"></i>',
-              label: 'Cancel',
+              label: game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.Cancel"),
             },
           },
           default: 'close',
@@ -1412,19 +1417,19 @@ Hooks.once('init', async function() {
 
       return new Dialog(
         {
-          title: 'Knight • Damage Non-Joueurs : ' + token.actor.name,
+          title: game.i18n.localize("ACTOR.TypeKnight") + ' • ' + game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.DamagePnj") + ' : ' + token.actor.name,
           content: `
           <div style="display: flex; flex-direction: column; padding-bottom: 8px;">
             <div style="display: flex; padding-bottom: 4px;">
               <div style="display: flex; flex-direction: row; align-items: center; width: 32%;">
                 <label for="dmg">
-                  Dégâts bruts reçus :
+                  ${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TrueDamageReceived")} :
                 </label>
                 <input type="number" name="damage" id="dmg" min="0" step="1" style="max-width: 40px; margin-left: 3px;" value="${dmg}"/>
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 27%;">
                 <label for="dmgBonus">
-                  Dégâts bonus :
+                   ${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.DamageBonus")} :
                 </label>
                 <input type="number" name="damageBonus" id="dmgBonus" min="0" step="1" style="max-width: 40px; margin-left: 3px;" value="0"/>
               </div>
@@ -1432,7 +1437,7 @@ Hooks.once('init', async function() {
                 <div style="display: flex; align-items: center; width: 100%;">
                   <input type="checkbox" name="antiVehicule" id="antiVehicule" ${effects.find(e => ['antivehicule'].includes(e.key)) ? "checked" : ""} />
                   <label for="antiVehicule">
-                    Anti-Véhicule
+                    ${game.i18n.localize("KNIGHT.EFFETS.ANTIVEHICULE.Label")}
                   </label>
                 </div>
               </div>
@@ -1441,17 +1446,17 @@ Hooks.once('init', async function() {
               <div style="display: flex; align-items: center; width: 33%;">
                 <input type="checkbox" name="igncdf" id="igncdf" ${effects.find(e => ['ignorechampdeforce'].includes(e.key)) ? "checked" : ""} />
                 <label for="igncdf">
-                  Ignore champ de force
+                  ${game.i18n.localize("KNIGHT.EFFETS.IGNORECHAMPDEFORCE.Label")}
                 </label>
               </div>
               <div style="display: flex; align-items: center; width: 33%;">
                 <input type="checkbox" name="antiAnatheme" id="antiAnatheme" ${effects.find(e => ['antianatheme', 'fauconplumesluminescentes'].includes(e.key)) ? "checked" : ""} />
                 <label for="antiAnatheme">
-                  Anti-Anathème
+                  ${game.i18n.localize("KNIGHT.EFFETS.ANTIANATHEME.Label")}
                 </label>
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
-                <label for="penetrating">Pénétrant :</label>
+                <label for="penetrating">${game.i18n.localize("KNIGHT.EFFETS.PENETRANT.Label")} :</label>
                 <input type="number" name="penetrating" id="penetrating" min="0" value="${effects.find(e => e.key === 'penetrant')?.value || 0}" style="max-width: 50px; margin-left: 3px;"/>
               </div>
             </div>
@@ -1459,17 +1464,17 @@ Hooks.once('init', async function() {
               <div style="display: flex; align-items: center; width: 33%;">
                 <input type="checkbox" name="ignarm" id="ignarm" ${effects.find(e => ['ignorearmure'].includes(e.key)) ? "checked" : ""} />
                 <label for="ignarm">
-                  Ignore l'armure
+                  ${game.i18n.localize("KNIGHT.EFFETS.IGNOREARMURE.Label")}
                 </label>
               </div>
               <div style="display: flex; align-items: center; width: 33%;">
                 <input type="checkbox" name="esquive" id="esquive" ${esquive ? "checked" : ""} />
                 <label for="esquive">
-                  Dégâts / 2
+                  ${game.i18n.localize("KNIGHT.AUTRE.Degats")} / 2
                 </label>
               </div>
               <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
-                <label for="pierceArmor">Perce armure :</label>
+                <label for="pierceArmor">${game.i18n.localize("KNIGHT.EFFETS.PERCEARMURE.Label")} :</label>
                 <input type="number" name="pierceArmor" id="pierceArmor" min="0" value="${effects.find(e => e.key === 'percearmure')?.value || 0}" style="max-width: 50px; margin-left: 3px;"/>
               </div>
             </div>
@@ -1477,22 +1482,22 @@ Hooks.once('init', async function() {
             <div style="display: flex; padding-bottom: 4px;">
               ${effects.find(e => ['meurtrier'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
-                <label for="meurtrier">Meurtrier :</label>
+                <label for="meurtrier">${game.i18n.localize("KNIGHT.EFFETS.MEURTRIER.Label")} :</label>
                 <input type="number" name="meurtrier" id="meurtrier" min="0" value="${effects.find(e => e.key === 'meurtrier')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['destructeur'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
-                <label for="destructeur">Destructeur :</label>
+                <label for="destructeur">${game.i18n.localize("KNIGHT.EFFETS.DESTRUCTEUR.Label")} :</label>
                 <input type="number" name="destructeur" id="destructeur" min="0" value="${effects.find(e => e.key === 'destructeur')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['briserlaresilience'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
-                <label for="briserlaresilience">Briser la resilience :</label>
+                <label for="briserlaresilience">${game.i18n.localize("KNIGHT.EFFETS.BRISERLARESILIENCE.Label")} :</label>
                 <input type="number" name="briserlaresilience" id="briserlaresilience" min="0" value="${effects.find(e => e.key === 'briserlaresilience')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['assassin'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
-                <label for="assassin">Assassin :</label>
+                <label for="assassin">${game.i18n.localize("KNIGHT.EFFETS.ASSASSIN.Label")} :</label>
                 <input type="number" name="assassin" id="assassin" min="0" value="${effects.find(e => e.key === 'assassin')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
             </div>
@@ -1501,22 +1506,22 @@ Hooks.once('init', async function() {
             <div style="display: flex; padding-bottom: 4px;">
               ${effects.find(e => ['fureur'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
-                <label for="fureur">Fureur :</label>
+                <label for="fureur">${game.i18n.localize("KNIGHT.EFFETS.FUREUR.Label")} :</label>
                 <input type="number" name="fureur" id="fureur" min="0" value="${effects.find(e => e.key === 'fureur')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['ultraviolence'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
-                <label for="ultraviolence">Ultraviolence :</label>
+                <label for="ultraviolence">${game.i18n.localize("KNIGHT.EFFETS.ULTRAVIOLENCE.Label")} :</label>
                 <input type="number" name="ultraviolence" id="ultraviolence" min="0" value="${effects.find(e => e.key === 'ultraviolence')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['intimidantana'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
-                <label for="intimidantana">Intimidant (Ana) :</label>
+                <label for="intimidantana">${game.i18n.localize("KNIGHT.EFFETS.INTIMIDANTEANATHEME.Label")} :</label>
                 <input type="number" name="intimidantana" id="intimidantana" min="0" value="${effects.find(e => e.key === 'intimidantana')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
               ${effects.find(e => ['intimidanthum'].includes(e.key)) ? `
               <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
-                <label for="intimidanthum">Intimidant (Hum) :</label>
+                <label for="intimidanthum">${game.i18n.localize("KNIGHT.EFFETS.INTIMIDANTEHUMAINS.Label")} :</label>
                 <input type="number" name="intimidanthum" id="intimidanthum" min="0" value="${effects.find(e => e.key === 'intimidanthum')?.value || 0}" style="max-width: 30px; margin-left: 3px;"/>
               </div>` : ""}
             </div>
@@ -1526,7 +1531,7 @@ Hooks.once('init', async function() {
           buttons: {
             Calculer: {
               icon: '<i class="fas fa-check"></i>',
-              label: 'Calculer',
+              label: game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.Calculate"),
               callback: async (html) =>
               {
                 ['meurtrier', 'destructeur', 'briserlaresilience', 'assassin', 'fureur', 'ultraviolence', 'intimidantana', 'intimidanthum'].forEach(effectName => {
@@ -1552,7 +1557,7 @@ Hooks.once('init', async function() {
 
             Annuler: {
               icon: '<i class="fas fa-close"></i>',
-              label: 'Cancel',
+              label: game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.Cancel"),
             },
           },
           default: 'close',
@@ -1588,7 +1593,7 @@ Hooks.once('init', async function() {
         ChatMessage.create({
           user: game.user._id,
           speaker: ChatMessage.getSpeaker({ actor: token.actor }),
-          content: `<p><b>Ce type de cible n'est pas encore pris en compte.</b></p>`,
+          content: `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetNotYetvalid")}.</b></p>`,
           whisper: [game.user._id],
         });
       }
@@ -1629,7 +1634,7 @@ Hooks.once('init', async function() {
           ChatMessage.create({
             user: game.user._id,
             speaker: ChatMessage.getSpeaker({ actor: token.actor }),
-            content: `<p><b>Ce type de cible n'est pas encore pris en compte.</b></p>`,
+            content: `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetNotYetvalid")}.</b></p>`,
             whisper: [game.user._id],
           });
         }
