@@ -76,7 +76,7 @@
             {{/each}}
             {{#if isValue}}
             <div class="btn">
-                <button type="action" class="setDegats" data-id="{{id}}" data-dmg="{{value}}" data-effects="{{#each ../../detailledEffets}}{{key}}{{#if value}} {{value}}{{/if}}{{#unless @last}},{{/unless}}{{/each}}{{#each ../../effets}},{{key}}{{#if value}} {{value}}{{/if}}{{/each}}">Set damages</button>
+                <button type="action" class="setDegats" data-id="{{id}}" data-dmg="{{value}}" data-effects="{{#each ../../detailledEffets}}{{key}}{{#if value}} {{value}}{{/if}}{{#unless @last}},{{/unless}}{{/each}}{{#each ../../effets}},{{key}}{{#if value}} {{value}}{{/if}}{{/each}}">{{localize 'KNIGHT.JETS.DEGATSAUTO.SetDamages'}}</button>
             </div>
             {{/if}}
         </div>
@@ -85,7 +85,7 @@
         {{#if targets}}
         {{#unless weapon}}
         <div class="onlyGm btn" style="width: 200%;">
-            <button type="action" class="setDegatsAllTargets" data-alltargets="{{#each targets}}{{id}}-{{value}}{{#unless @last}},{{/unless}}{{/each}}" data-effects="{{#each ../detailledEffets}}{{key}}{{#if value}} {{value}}{{/if}}{{#unless @last}},{{/unless}}{{/each}}{{#each ../effets}},{{key}}{{#if value}} {{value}}{{/if}}{{/each}}">Set damages for all targets</button>
+            <button type="action" class="setDegatsAllTargets" data-alltargets="{{#each targets}}{{id}}-{{value}}{{#unless @last}},{{/unless}}{{/each}}" data-effects="{{#each ../detailledEffets}}{{key}}{{#if value}} {{value}}{{/if}}{{#unless @last}},{{/unless}}{{/each}}{{#each ../effets}},{{key}}{{#if value}} {{value}}{{/if}}{{/each}}">{{localize 'KNIGHT.JETS.DEGATSAUTO.DamageForAllTargets'}}</button>
         </div>
         {{/unless}}
         {{/if}}
