@@ -100,6 +100,9 @@
                         </span>
                         <input type="number" name="system.bonus.recuperation.espoir" value="{{systemData.bonus.recuperation.espoir}}" />
                     </label>
+                    <div class="btn">
+                        <button type="action" class="button {{#if systemData.bonus.noDmgSante}} buttonChecked {{else}} buttonUnchecked {{/if}} noDmgSante" data-type="noDmgSante" title="{{localize "KNIGHT.ITEMS.AVANTAGE.NoDmgSante"}}">{{localize "KNIGHT.ITEMS.AVANTAGE.Infatigable"}}</button>
+                    </div>
                 </div>
             </div>
             {{/if}}

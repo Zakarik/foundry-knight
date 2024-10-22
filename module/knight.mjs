@@ -956,7 +956,7 @@ Hooks.once('init', async function() {
         // Check if the actor got the 'Infatigable' advantage
         if (
           !actor.items.find(
-            (e) => e.name === 'Infatigable' && e.type === 'avantage'
+            (e) => e.system.bonus.noDmgSante && e.type === 'avantage'
           ) &&
           sante > 0 &&
           dmgZone.sante

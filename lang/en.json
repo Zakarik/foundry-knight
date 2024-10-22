@@ -1296,7 +1296,9 @@
         "RecuperationEspoir": "Hope recovery bonus",
         "DiminutionCout": "Lower XP costs",
         "Diviser": "Divided by",
-        "Diminuer": "Reduced by"
+        "Diminuer": "Reduced by",
+        "Infatigable": "Tireless",
+        "NoDmgSante":"Does not lose health points due to armour damage (usually 1 HP / 5 AP)"
       },
       "DESAVANTAGE":{
         "MalusSante": "Health penalty",

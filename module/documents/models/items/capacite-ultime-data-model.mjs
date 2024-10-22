@@ -347,7 +347,7 @@ export class CapaciteUltimeDataModel extends foundry.abstract.TypeDataModel {
                         })
                     }),
                     contrecoups:new SchemaField({
-                        actif:new BooleanField({initial:true}),
+                        actif:new BooleanField({initial:false}),
                     }),
                 }),
             }),

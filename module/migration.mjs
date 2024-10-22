@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.30.8";
+    static NEEDED_VERSION = "3.32.0";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -1412,6 +1412,16 @@ Applique les modifications par la mise à jour au Monde.
             collection.forEach(async eff => {
                 if(eff) await actor.deleteEmbeddedDocuments('ActiveEffect', [eff]);
             });
+        }
+
+        if(options?.force || MigrationKnight.needUpdate("3.32.0")) {
+            const itms = actor.items.filter(itm => itm.type === 'avantage' && itm.system.type === 'standard');
+
+            for (let item of itms) {
+                if(item.name === 'Infatigable') {
+                    item.update({['system.bonus.noDmgSante']:true});
+                }
+            }
         }
 
         return update;

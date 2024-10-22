@@ -303,6 +303,33 @@
         display:none;
       }
     }
+
+    div.btn {
+      border: 1px solid $lightBlue;
+      width: 250px;
+      padding-right: 2px;
+    }
+
+    button.noDmgSante {
+      width:100%;
+      text-align: center;
+      border-left:0px;
+      border-right:0px;
+      line-height: 26px;
+      font-weight:bold;
+      font-variant: small-caps;
+      color:$white;
+      border-radius:0px;
+      cursor:pointer;
+
+      &.buttonChecked {
+        background:$lightBlack;
+      }
+
+      &.buttonUnchecked {
+        background:$black;
+      }
+    }
   }
 
   div.description {
