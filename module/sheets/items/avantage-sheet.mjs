@@ -39,50 +39,41 @@ export class AvantageSheet extends ItemSheet {
 
     html.find('div.initiative button').click(ev => {
       ev.preventDefault();
-      const actuel = this.getData().data.system.bonus.initiative.ifEmbuscade.has || false;
-      
+      const actuel = this.item.system.bonus.initiative.ifEmbuscade.has || false;
+
       let result = false;
 
       if(!actuel)  {
         result = true;
       }
 
-      const update = {
-        data: {
-          bonus: {
-            initiative: {
-              ifEmbuscade: {
-                has:result
-              }
-            }
-          }
-        }
-      };
-
-      this.item.update(update);
+      this.item.update({[`system.bonus.initiative.ifEmbuscade.has`]:result});
     });
 
     html.find('div.diminutionCout button').click(ev => {
       ev.preventDefault();
-      const actuel = this.getData().data.system.bonus.coutsReduits.has || false;
-      
+      const actuel = this.item.system.bonus.coutsReduits.has || false;
+
       let result = false;
 
       if(!actuel)  {
         result = true;
       }
 
-      const update = {
-        data: {
-          bonus: {
-            coutsReduits: {
-                has:result
-            }
-          }
-        }
-      };
+      this.item.update({[`system.bonus.coutsReduits.has`]:result});
+    });
 
-      this.item.update(update);
+    html.find('button.noDmgSante').click(ev => {
+      ev.preventDefault();
+      const actuel = this.item.system.bonus.noDmgSante || false;
+
+      let result = false;
+
+      if(!actuel)  {
+        result = true;
+      }
+
+      this.item.update({[`system.bonus.noDmgSante`]:result});
     });
   }
 }

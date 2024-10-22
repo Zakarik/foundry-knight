@@ -3386,6 +3386,29 @@
 .avantage div.main div.diminutionCout div.hiddenBlock {
   display: none;
 }
+.avantage div.main div.btn {
+  border: 1px solid RGB(87 110 178);
+  width: 250px;
+  padding-right: 2px;
+}
+.avantage div.main button.noDmgSante {
+  width: 100%;
+  text-align: center;
+  border-left: 0px;
+  border-right: 0px;
+  line-height: 26px;
+  font-weight: bold;
+  font-variant: small-caps;
+  color: white;
+  border-radius: 0px;
+  cursor: pointer;
+}
+.avantage div.main button.noDmgSante.buttonChecked {
+  background: RGB(76 74 90);
+}
+.avantage div.main button.noDmgSante.buttonUnchecked {
+  background: RGB(43 42 51);
+}
 .avantage div.description {
   margin-top: 10px;
 }

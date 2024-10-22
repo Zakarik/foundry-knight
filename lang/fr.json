@@ -1296,7 +1296,9 @@
         "RecuperationEspoir": "Bonus de récupération d'Espoir",
         "DiminutionCout": "Diminution des coûts en XP",
         "Diviser": "Divisé par",
-        "Diminuer": "Diminué de"
+        "Diminuer": "Diminué de",
+        "Infatigable": "Infatigable",
+        "NoDmgSante":"Ne perd pas de points de santés dus aux dégâts causés à son armure (1 PS / 5 PA habituellement)"
       },
       "DESAVANTAGE":{
         "MalusSante": "Malus à la santé",
