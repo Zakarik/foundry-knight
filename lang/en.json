@@ -2261,7 +2261,7 @@
         "ArmorFolds": "The armor folds",
         "GuardianDontProtect": "The Guardian outfit no longer protects him",
         "PjDead": "<u>{name}</u> is <b>seriously injured and falls to the ground</b>",
-        "PjHopeless": "<u>${name}</u> <b>succumbs to DESPAIR!</b>",
+        "PjHopeless": "<u>{name}</u> <b>succumbs to DESPAIR!</b>",
         "DamagePj": "Damage to Player",
         "DamagePnj": "Damage to NPC",
         "TrueDamageReceived": "Raw damage received",
