@@ -74,12 +74,25 @@
                     {{/unless}}
                 </div>
             {{/each}}
+            {{#if isValue}}
+            <div class="btn">
+                <button type="action" class="setDegats" data-id="{{id}}" data-dmg="{{value}}" data-effects="{{#each ../../detailledEffets}}{{key}}{{#if value}} {{value}}{{/if}}{{#unless @last}},{{/unless}}{{/each}}{{#each ../../effets}},{{key}}{{#if value}} {{value}}{{/if}}{{/each}}">{{localize 'KNIGHT.JETS.DEGATSAUTO.SetDamages'}}</button>
+            </div>
+            {{/if}}
         </div>
         {{/each}}
 
+        {{#if targets}}
+        {{#unless weapon}}
+        <div class="onlyGm btn" style="width: 200%;">
+            <button type="action" class="setDegatsAllTargets" data-alltargets="{{#each targets}}{{id}}-{{value}}{{#unless @last}},{{/unless}}{{/each}}" data-effects="{{#each ../detailledEffets}}{{key}}{{#if value}} {{value}}{{/if}}{{#unless @last}},{{/unless}}{{/each}}{{#each ../effets}},{{key}}{{#if value}} {{value}}{{/if}}{{/each}}">{{localize 'KNIGHT.JETS.DEGATSAUTO.DamageForAllTargets'}}</button>
+        </div>
+        {{/unless}}
+        {{/if}}
+
         {{#if weapon}}
         <div class="btn">
-            <button type="action" class="degats">{{localize 'KNIGHT.AUTRE.Degats'}}</button>
+            <button type="action" class="degats" >{{localize 'KNIGHT.AUTRE.Degats'}}</button>
             <button type="action" class="violence">{{localize 'KNIGHT.AUTRE.Violence'}}</button>
         </div>
         {{/if}}
@@ -158,7 +171,12 @@
 
     {{#if effets}}
     <div class="effets">
-        {{{effets}}}
+        {{#each effets}}
+        <span title="{{ description }}" data-key="{{ key }}">{{ label }}</span>
+        {{#unless @last}}
+        /
+        {{/unless}}
+        {{/each}}
     </div>
     {{/if}}
 </div>

@@ -80,7 +80,7 @@ export class RollKnight {
                             const tActor = t.actor;
 
                             if(tActor) {
-                                const chairAE = tActor?.system?.aspects?.chair?.ae.majeur?.value ?? 0;
+                                const chairAE = tActor?.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
                                 if(chairAE > 0) {
                                     let target = {
@@ -615,7 +615,8 @@ export class RollKnight {
                 });
             }
 
-            if(listEffets) main.effets = listEffets.map(effet => `<span title="${effet.description}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
+            // if(listEffets) main.effets = listEffets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
+            if(listEffets) main.effets = listEffets.map(effet => { return { description : effet.description.replace(/<.*?>/g, ''), key: effet.key, label: effet.label } });
         }
 
         if(!this.isSuccess) {
@@ -1198,7 +1199,7 @@ export class RollKnight {
                             case 'choc':
                             case 'electrifiee':
                                 const comparaison = type === 'knight' ? chair : chair/2;
-                                const chairAE = t?.aspects?.chair?.ae.majeur?.value ?? 0;
+                                const chairAE = t?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
                                 t.effets.push({
                                     simple:d.simple,
@@ -1215,7 +1216,8 @@ export class RollKnight {
         }
 
         content.detailledEffets = detailledEffets;
-        content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
+        // content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
+        content.effets = effets.map(effet => { return { description : effet.description.replace(/<.*?>/g, ''), key: effet.key, label: effet.label } });
     }
 
     async #handleDamageEffet(weapon, data={}, bonus=[], content={}, rolls=[]) {
@@ -1291,6 +1293,8 @@ export class RollKnight {
 
                 bonus.push(force);
                 title += ` + ${traForce}`;
+            } else if(type === 'bande') {
+                // Bande debordement doesn't add bonuses
             } else {
                 force = Math.floor(this.getAspect('chair')/2);
                 traForce = game.i18n.localize(CONFIG.KNIGHT.aspects.chair);
@@ -1976,7 +1980,7 @@ export class RollKnight {
                         break;
 
                     case 'meurtrier':
-                        const chairAE = t?.aspects?.chair?.ae.majeur?.value ?? 0;
+                        const chairAE = t?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
                         if(chairAE > 0) {
                             addTargets = true;
@@ -2002,10 +2006,12 @@ export class RollKnight {
         results.roll = roll;
         results.min = min;
         results.title = title;
-        if(addTargets) results.targets = targets;
+        // if(addTargets) results.targets = targets;
+        results.targets = targets;
 
         content.detailledEffets = detailledEffets;
-        content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
+        // content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
+        content.effets = effets.map(effet => { return { description : effet.description.replace(/<.*?>/g, ''), key: effet.key, label: effet.label } });
 
         return results;
     }
@@ -2532,7 +2538,8 @@ export class RollKnight {
         if(addTargets) results.targets = targets;
 
         content.detailledEffets = detailledEffets;
-        content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
+        // content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
+        content.effets = effets.map(effet => { return { description : effet.description.replace(/<.*?>/g, ''), key: effet.key, label: effet.label } });
 
         return results;
     }
