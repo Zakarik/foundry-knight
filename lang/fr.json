@@ -2261,7 +2261,7 @@
         "ArmorFolds": "L'armure se fold",
         "GuardianDontProtect": "La tenue guardian ne le protège plus",
         "PjDead": "<u>{name}</u> est <b>grièvement blessé et tombe à terre</b>",
-        "PjHopeless": "<u>${name}</u> <b>succombe au DÉSESPOIR !</b>",
+        "PjHopeless": "<u>{name}</u> <b>succombe au DÉSESPOIR !</b>",
         "DamagePj": "Dégâts au Joueur",
         "DamagePnj": "Dégâts au PNJ",
         "TrueDamageReceived": "Dégâts bruts reçus",
