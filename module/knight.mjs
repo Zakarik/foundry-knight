@@ -885,16 +885,15 @@ Hooks.once('init', async function() {
       if (sante === 0 && armor === 0) {
         // console.log('actor.statuses', actor.statuses);
         if (!actor.statuses.find((e) => e === 'dead')) {
-          chatMessage += `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead")}.</b></p>`;
           actor.toggleStatusEffect('dead', { active: true, overlay: true });
-
-          ChatMessage.create({
-            user: game.user._id,
-            speaker: ChatMessage.getSpeaker({ actor: actor }),
-            content: chatMessage,
-            whisper: [game.user._id],
-          });
         }
+        chatMessage += `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead")}.</b></p>`;
+        ChatMessage.create({
+          user: game.user._id,
+          speaker: ChatMessage.getSpeaker({ actor: actor }),
+          content: chatMessage,
+          whisper: [game.user._id],
+        });
         return;
       }
 
@@ -1184,13 +1183,13 @@ Hooks.once('init', async function() {
       // Check if the player is dead
       if ((hasSante && santeRest <= 0) || (!hasSante && armorRest <= 0)) {
         chatMessage += `<p>${game.i18n.format("KNIGHT.JETS.DEGATSAUTO.PjDead", {name: actor.name})}.</p>`;
-        token.toggleEffect('icons/svg/skull.svg');
+        actor.toggleStatusEffect('dead', { active: true, overlay: true });
       }
 
       // Check if the player sinks into despair
       if (espoirRest <= 0) {
         chatMessage += `<p>${game.i18n.format("KNIGHT.JETS.DEGATSAUTO.PjHopeless", {name: actor.name})}</p>`;
-        token.toggleEffect('icons/svg/skull.svg');
+        actor.toggleStatusEffect('dead', { active: true, overlay: true });
       }
 
       // Send message
