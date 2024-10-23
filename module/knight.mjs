@@ -553,24 +553,6 @@ Hooks.once('init', async function() {
       let damagesLeft = damageTotal;
       let chatMessage = '';
 
-      // console.log('--------------');
-      // console.log('--------------');
-      // console.log('name', actor.name);
-      // console.log('dmg', dmg);
-      // console.log('dmg', typeof dmg);
-      // console.log('effects', effects);
-      // console.log('dmgBonus', dmgBonus);
-      // console.log('dmgBonus', typeof dmgBonus);
-      // console.log('igncdf', igncdf);
-      // console.log('ignarm', ignarm);
-      // console.log('antiAnatheme', antiAnatheme);
-      // console.log('antiVehicule', antiVehicule);
-      // console.log('isVehicule', isVehicule);
-      // console.log('armor', armor)
-      // console.log('sante', sante)
-      // console.log('damagesLeft', damagesLeft);
-      // console.log('damagesLeft', typeof damagesLeft);
-
       // Check if the target is still alive
       if (sante === 0 && armor === 0) {
         actor.toggleStatusEffect('dead', { active: true, overlay: true });
@@ -781,16 +763,6 @@ Hooks.once('init', async function() {
         actor.toggleStatusEffect('dead', { active: true, overlay: true });
       }
 
-      // console.log('bouclier', bouclier);
-      // console.log('champDeForce', champDeForce);
-      // console.log('armor', armor);
-      // console.log('armorDmg', armorDmg);
-      // console.log('sante', sante);
-      // console.log('santeDmg', santeDmg);
-      // console.log('resilience', resilience);
-      // console.log('resilienceDmg', resilienceDmg);
-      // console.log('damagesLeft', damagesLeft);
-
       ChatMessage.create({
         user: game.user._id,
         speaker: ChatMessage.getSpeaker({ actor: actor }),
@@ -861,18 +833,6 @@ Hooks.once('init', async function() {
       let damageTotal = parseInt(dmg, 10) + parseInt(dmgBonus, 10) + assassin;
       let damagesLeft = damageTotal;
       let chatMessage = '';
-
-      // console.log('--------------');
-      // console.log('--------------');
-      // console.log('actor.name', actor.name);
-      // console.log('dmg', dmg);
-      // console.log('igncdf', igncdf);
-      // console.log('ignarm', ignarm);
-      // console.log('ignegi', ignegi);
-      // console.log('esquive', esquive);
-      // console.log('pierceArmor', pierceArmor);
-      // console.log('penetrating', penetrating);
-      // console.log('dmgZone', dmgZone);
 
       // Check if the target is still alive
       if ((hasSante && sante === 0) && armor === 0) {
@@ -1198,7 +1158,6 @@ Hooks.once('init', async function() {
 
       // Get token
       const token = canvas?.tokens?.get(tokenId) ?? {isVisible:false};
-      // console.log('token', token);
 
       // Set damage zone for PJs
       const dmgZone = {
@@ -1345,10 +1304,7 @@ Hooks.once('init', async function() {
     html.find('.knight-roll button.setDegats').click(async ev => {
       const tgt = $(ev.currentTarget);
       const tokenId = tgt.data('id');
-      // console.log('tokenId', tokenId);
       const dmg = tgt.data('dmg');
-      // console.log('dmg', dmg);
-      // console.log('tgt.data(\'effects\')', tgt.data('effects'));
       const dmgType = tgt.data('dmgtype');
       const effects = {};
       tgt
@@ -1361,7 +1317,6 @@ Hooks.once('init', async function() {
               ? parseInt(e.split(' ')[e.split(' ').length - 1])
               : true;
         });
-      // console.log('effects', effects);
 
       // Do damages
       await doDamages({tokenId, dmg, effects, dmgType});
@@ -1370,8 +1325,6 @@ Hooks.once('init', async function() {
     html.find('.knight-roll button.setDegatsAllTargets').click(async ev => {
       const tgt = $(ev.currentTarget);
       const alltargets = tgt.data('alltargets');
-      // console.log('alltargets', alltargets);
-      // console.log('tgt.data(\'effects\')', tgt.data('effects'));
       const dmgType = tgt.data('dmgtype');
       const effects = {};
       tgt
@@ -1384,15 +1337,12 @@ Hooks.once('init', async function() {
               ? parseInt(e.split(' ')[e.split(' ').length - 1])
               : true;
         });
-      // console.log('effects', effects);
 
       const targetsIdsDmgs = alltargets.split(',');
-      // console.log('targetsIdsDmgs', targetsIdsDmgs);
 
       for (let i = 0; i < targetsIdsDmgs.length; i++) {
         // Get token id
         const tokenId = targetsIdsDmgs[i].split('-')[0];
-        // console.log('tokenId', tokenId)
 
         // Get dmg
         const dmg = targetsIdsDmgs[i].split('-')[1];
