@@ -286,7 +286,6 @@ export class KnightRollDialog extends Dialog {
         this.#renderInitialization(html);
         const allBtn = html.find('label.btn');
         const allScoredice = html.find('div.scoredice');
-        console.warn(this.rollData);
 
         html.find('label.selectWithInfo span.info').mouseenter(ev => {
             html.find('label.selectWithInfo span.hideInfo').css("display", "block");

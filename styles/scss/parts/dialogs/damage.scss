@@ -4,7 +4,19 @@
             &.main {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
+                grid-gap: 10px;
+            }
+
+            &.block {
+                grid-column: 1 / 4;
+
+                display: flex;
+                justify-content: space-between;
                 grid-gap: 2px;
+
+                div.num {
+                    width: auto;
+                }
             }
 
             &.sub {

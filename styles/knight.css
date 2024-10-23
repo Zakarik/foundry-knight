@@ -26202,6 +26202,14 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj header.sheet-header div.headerData button.setbtn.selected i {
   color: #59d13e;
 }
+.pnj header.sheet-header div.lastBlock {
+  display: grid;
+  grid-template-columns: 1fr 100px 100px;
+  grid-gap: 2px;
+}
+.pnj header.sheet-header div.lastBlock button.setbtn {
+  grid-column: auto;
+}
 .pnj section.menu {
   padding-bottom: 1px;
 }
@@ -41090,7 +41098,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .damageDialog section.window-content div.main {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+.damageDialog section.window-content div.block {
+  grid-column: 1/4;
+  display: flex;
+  justify-content: space-between;
   grid-gap: 2px;
+}
+.damageDialog section.window-content div.block div.num {
+  width: auto;
 }
 .damageDialog section.window-content div.sub {
   display: flex;
