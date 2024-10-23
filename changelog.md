@@ -1,3 +1,11 @@
+## v3.32.0
+### Améliorations
+- Ajout d'une fenêtre s'ouvrant à partir de boutons dans le tchat pour appliquer automatiquement les dégâts, en prenant en compte autant de paramètres que possible. (Merci à Florleseige pour tout ça !)
+
+### Bugfix
+- Correction d'un problème avec le mode Ascension de la Shaman qui ne prenait pas les bonnes valeures.
+- Correction d'un problème avec la capacité ultime de la Shaman qui ne fonctionnait pas.
+
 ## v3.31.6
 ### Bugfix
 - Correction d'un bug empêchant de modifier les valeurs d'armure et d'énergie des PJ.
