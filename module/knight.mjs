@@ -505,15 +505,6 @@ Hooks.once('init', async function() {
         penetrating = 0,
         esquive = false
       } = data;
-      // console.log('token', token);
-      // console.log('dmg', dmg);
-      // console.log('igncdf', igncdf);
-      // console.log('ignarm', ignarm);
-      // console.log('antiAnatheme', antiAnatheme);
-      // console.log('antiVehicule', antiVehicule);
-      // console.log('pierceArmor', pierceArmor);
-      // console.log('penetrating', penetrating);
-      // console.log('esquive', esquive);
 
       // Get actor
       const actor = token.actor;
@@ -524,33 +515,36 @@ Hooks.once('init', async function() {
         parseInt(actor.system.aspects?.chair?.ae?.mineur?.value || 0) +
         parseInt(actor.system.aspects?.chair?.ae?.majeur?.value || 0);
 
+      const findValue = (name) =>
+        ((typeof actor.system.options[name] !== 'undefined'
+          ? actor.system.options[name] === false
+          : true)
+          && actor.system[name]?.value)
+          ? actor.system[name]?.value
+          : 0;
+
       // Bouclier
-      const bouclier = actor.system.bouclier?.value || 0;
+      const bouclier = findValue('bouclier');
 
       // Champ de Force
-      const champDeForce = actor.system.champDeForce?.value || 0;
+      const champDeForce = findValue('champDeForce');
 
       // Armor
-      const armor = actor.system.armure?.value || 0;
+      const armor = findValue('armure');
       let armorDmg = 0;
 
       // Sante
-      const sante = actor.system.sante?.value || 0;
+      const sante = findValue('sante');
       let santeDmg = 0;
 
       // Resilience
-      const resilience = actor.system.resilience?.value || 0;
+      const resilience = findValue('resilience');
       let resilienceDmg = 0;
 
       // isVehicule
-      const isVehicule =
-        actor.system.colosse ||
-        actor.type === 'vehicule' ||
-        (actor.system.archetype &&
-          actor.system.archetype.toLowerCase().includes('colosse')) ||
-        (actor.system.type &&
-          actor.system.type.toLowerCase().includes('colosse')) ||
-        false;
+      const isVehicule = actor.system.colosse
+        || actor.type === 'vehicule'
+        || false;
 
       // Other
       const assassin = effects.assassin || 0;
@@ -618,6 +612,7 @@ Hooks.once('init', async function() {
       if (esquive) {
         damagesLeft = Math.ceil(damagesLeft / 2);
       }
+
 
       // #####################
       // Damages on resilience
@@ -831,35 +826,36 @@ Hooks.once('init', async function() {
       // Get actor
       const actor = token.actor;
 
+      const findValue = (name) =>
+        (actor.system.jauges[name] && actor.system[name]?.value)
+          ? actor.system[name]?.value
+          : 0;
+
       // Champ de Force
-      const champDeForce = actor.system.champDeForce?.value || 0;
+      const champDeForce = findValue('champDeForce');
 
       // Egide
-      const egide = actor.system.egide?.value || 0;
+      const egide = findValue('egide');
 
       // Armor
-      const armor = actor.system.armure?.value || 0;
+      const armor = findValue('armure');
       let armorDmg = 0;
       let armorRest = armor;
 
       // Sante
-      const sante = actor.system.sante?.value || 0;
-      const hasSante =
-        actor.system.sante?.max === 0 ||
-        actor.items.find((e) => e.type === 'armure').system.generation === 4
-          ? false
-          : true;
+      const sante = findValue('sante');
+      const hasSante = actor.system.jauges.sante === true;
       let santeDmg = 0;
       let santeRest = sante;
       let santeDamagesFromArmor = 0;
 
       // Energie
-      const energie = actor.system.energie?.value || 0;
+      const energie = findValue('energie');
       let energieDmg = 0;
       let energieRest = energie;
 
       // Espoir
-      const espoir = actor.system.espoir?.value || 0;
+      const espoir = findValue('espoir');
       let espoirDmg = 0;
       let espoirRest = espoir;
 
@@ -882,7 +878,7 @@ Hooks.once('init', async function() {
       // console.log('dmgZone', dmgZone);
 
       // Check if the target is still alive
-      if (sante === 0 && armor === 0) {
+      if ((hasSante && sante === 0) && armor === 0) {
         // console.log('actor.statuses', actor.statuses);
         if (!actor.statuses.find((e) => e === 'dead')) {
           actor.toggleStatusEffect('dead', { active: true, overlay: true });
@@ -1243,13 +1239,24 @@ Hooks.once('init', async function() {
         return;
       }
 
+      // Get damages less bonuses like fureur and ultraviolence
+      let damages = dmg;
+      if (token.actor.type === "bande") {
+        if (effects.fureur && token.actor?.system?.aspects?.chair?.value >= 10) {
+          damages -= effects.fureur
+        }
+        if (effects.ultraviolence && token.actor?.system?.aspects?.chair?.value < 10) {
+          damages -= effects.ultraviolence
+        }
+      }
+
       // Get the template
       const content = await renderTemplate('systems/knight/templates/dialog/damage-sheet.html', {
         pj : ['knight'].includes(token.actor.type),
         pnj : ['pnj', 'creature', 'bande', 'vehicule'].includes(token.actor.type),
         bande : ['bande'].includes(token.actor.type),
         token,
-        dmg,
+        dmg: damages,
         effects,
         dmgZone
       });
