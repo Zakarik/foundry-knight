@@ -44,10 +44,22 @@
                     <input type="text" name="system.hautFait" value="{{systemData.hautFait}}" />
                 </label>
 
-                <label>
-                    <span>{{localize "KNIGHT.TYPE.Label"}} : </span>
-                    <input type="text" name="system.type" value="{{systemData.type}}" />
-                </label>
+                <div class="lastBlock">
+                    <label>
+                        <span>{{localize "KNIGHT.TYPE.Label"}} : </span>
+                        <input type="text" name="system.type" value="{{systemData.type}}" />
+                    </label>
+
+                    <button type="action" class="setbtn {{ifThen systemData.colosse 'selected' 'unselected'}}" data-type="colosse">
+                        <i class="{{ifThen systemData.colosse 'fa-solid fa-check' 'fa-solid fa-xmark'}}"></i>
+                        {{localize 'KNIGHT.Colosse'}}
+                    </button>
+
+                    <button type="action" class="setbtn {{ifThen systemData.patron 'selected' 'unselected'}}" data-type="patron">
+                        <i class="{{ifThen systemData.patron 'fa-solid fa-check' 'fa-solid fa-xmark'}}"></i>
+                        {{localize 'KNIGHT.Patron'}}
+                    </button>
+                </div>
             </div>
         </div>
     </header>

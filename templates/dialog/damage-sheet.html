@@ -104,6 +104,7 @@
 
     {{#unless bande}}
     {{#if (or effects.meurtrier effects.assassin effects.briserlaresilience effects.destructeur)}}
+    <div class="block">
     {{#if effects.meurtrier}}
     <div class="sub num">
         <label for="meurtrier">{{localize "KNIGHT.EFFETS.MEURTRIER.Label"}} :</label>
@@ -128,11 +129,13 @@
         <input type="number" name="assassin" id="assassin" min="0" value="{{#if effects.assassin}}{{ effects.assassin }}{{else}}0{{/if}}" />
     </div>
     {{/if}}
+    </div>
     {{/if}}
     {{/unless}}
 
     {{#if bande}}
     {{#if (or effects.fureur effects.ultraviolence effects.intimidantana effects.intimidanthum)}}
+    <div class="block">
     {{#if effects.fureur}}
     <div class="sub num">
         <label for="fureur">{{localize "KNIGHT.EFFETS.FUREUR.Label"}} :</label>
@@ -157,6 +160,7 @@
         <input type="number" name="intimidanthum" id="intimidanthum" min="0" value="{{#if effects.intimidanthum}}{{ effects.intimidanthum }}{{else}}0{{/if}}"/>
     </div>
     {{/if}}
+    </div>
     {{/if}}
     {{/if}}
 </div>
