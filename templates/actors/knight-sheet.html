@@ -77,10 +77,22 @@
                     {{/if}}
                 {{/unless}}
 
-                {{#if systemData.jauges.sante}}
-                <button type="action" class="armure {{#if (guardian systemData.wear)}} selected {{else}} unselected {{/if}}" data-type="guardian">{{localize "KNIGHT.ARMURE.Guardian"}}</button>
-                <button type="action" class="armure {{#if (civil systemData.wear)}} selected {{else}} unselected {{/if}}" data-type="tenueCivile">{{localize "KNIGHT.ARMURE.TenueCivile"}}</button>
+                {{#if (ascension systemData.wear)}}
+                    <div class="blockArmure {{#if (ascension systemData.wear)}} selected {{else}} unselected {{/if}} summary" data-item-id="{{actor.armureData._id}}">
+                        <a class="item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                        <button type="action" class="armure" data-type="armure">
+                        {{actor.armureData.name}}
+                        </button>
+                        <a class="item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                    </div>
                 {{/if}}
+
+                {{#unless (ascension systemData.wear)}}
+                    {{#if systemData.jauges.sante}}
+                    <button type="action" class="armure {{#if (guardian systemData.wear)}} selected {{else}} unselected {{/if}}" data-type="guardian">{{localize "KNIGHT.ARMURE.Guardian"}}</button>
+                    <button type="action" class="armure {{#if (civil systemData.wear)}} selected {{else}} unselected {{/if}}" data-type="tenueCivile">{{localize "KNIGHT.ARMURE.TenueCivile"}}</button>
+                    {{/if}}
+                {{/unless}}
             </div>
         </div>
     </header>

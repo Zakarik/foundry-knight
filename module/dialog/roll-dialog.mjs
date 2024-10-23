@@ -146,7 +146,7 @@ export class KnightRollDialog extends Dialog {
     }
 
     get armorIsWear() {
-        const wear = this.actor.system?.wear ?? '';
+        const wear = this.who.system?.wear ?? '';
         let result = false;
 
         if(wear === 'armure' || wear === 'ascension' || !this.isPJ) result = true;
@@ -720,7 +720,7 @@ export class KnightRollDialog extends Dialog {
     }
 
     async #roll(data) {
-        const actor = this.actor.type === 'vehicule' ? this.who : this.actor;
+        const actor = this.who;
         const armor = actor.items.find(itm => itm.type === 'armure');
         const armorIsWear = this.armorIsWear;
         const label = data.find('input.label').val();

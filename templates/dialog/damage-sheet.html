@@ -1,171 +1,162 @@
-<div style="display: flex; flex-direction: column; padding-bottom: 8px;">
-    <div style="display: flex; padding-bottom: 4px;">
-        <div style="display: flex; flex-direction: row; align-items: center; width: 32%;">
-            <label for="dmg">
-                {{localize "KNIGHT.JETS.DEGATSAUTO.TrueDamageReceived"}} :
-            </label>
-            <input type="number" name="damage" id="dmg" min="0" step="1" style="max-width: 40px; margin-left: 3px;" value="{{dmg}}" />
-        </div>
-        <div style="display: flex; flex-direction: row; align-items: center; width: 27%;">
-            <label for="dmgBonus">
-                {{localize "KNIGHT.JETS.DEGATSAUTO.DamageBonus"}} :
-            </label>
-            <input type="number" name="damageBonus" id="dmgBonus" min="0" step="1" style="max-width: 40px; margin-left: 3px;" value="0" />
-        </div>
+<div class="main">
+    <div class="sub num">
+        <label for="dmg">
+            {{localize "KNIGHT.JETS.DEGATSAUTO.TrueDamageReceived"}} :
+        </label>
+        <input type="number" name="damage" id="dmg" min="0" step="1" value="{{dmg}}" />
+    </div>
+    <div class="sub num">
+        <label for="dmgBonus">
+            {{localize "KNIGHT.JETS.DEGATSAUTO.DamageBonus"}} :
+        </label>
+        <input type="number" name="damageBonus" id="dmgBonus" min="0" step="1" value="0" />
+    </div>
 
-        {{#if pj}}
-        <div style="display: flex; flex-direction: row; align-items: center; width: 41%;">
-            <div>
-                {{localize "KNIGHT.JETS.DEGATSAUTO.DamageOn"}} :
-            </div>
-            <div>
-                <div style="display: flex; align-items: center; width: 50%;">
-                    <input type="checkbox" name="armureDmg" id="armureDmg" {{#if dmgZone.armure}}checked{{/if}}/>
-                    <label for="armureDmg">
+    {{#if pj}}
+    <div class="sub dmg">
+        <div class="label">
+            {{localize "KNIGHT.JETS.DEGATSAUTO.DamageOn"}} :
+        </div>
+        <div>
+            <div style="display: flex; align-items: center; width: 50%;">
+                <input type="checkbox" name="armureDmg" id="armureDmg" {{#if dmgZone.armure}}checked{{/if}}/>
+                <label for="armureDmg">
                     {{localize "KNIGHT.LATERAL.Armure"}}
                 </label>
-                </div>
-                <div style="display: flex; align-items: center; width: 50%;">
-                    <input type="checkbox" name="santeDmg" id="santeDmg" {{#if dmgZone.sante}}checked{{/if}}/>
-                    <label for="santeDmg">
+            </div>
+            <div style="display: flex; align-items: center; width: 50%;">
+                <input type="checkbox" name="santeDmg" id="santeDmg" {{#if dmgZone.sante}}checked{{/if}}/>
+                <label for="santeDmg">
                     {{localize "KNIGHT.LATERAL.Sante"}}
                 </label>
-                </div>
-            </div>
-            <div>
-                <div style="display: flex; align-items: center; width: 50%;">
-                    <input type="checkbox" name="energieDmg" id="energieDmg" {{#if dmgZone.energie}}checked{{/if}}/>
-                    <label for="energieDmg">
-                        {{localize "KNIGHT.LATERAL.Energie"}}
-                    </label>
-                </div>
-                <div style="display: flex; align-items: center; width: 50%;">
-                    <input type="checkbox" name="espoirDmg" id="espoirDmg" {{#if dmgZone.espoir}}checked{{/if}}/>
-                    <label for="espoirDmg">
-                    {{localize "KNIGHT.LATERAL.Espoir"}}
-                </label>
-                </div>
             </div>
         </div>
-        {{/if}}
+        <div>
+            <div style="display: flex; align-items: center; width: 50%;">
+                <input type="checkbox" name="energieDmg" id="energieDmg" {{#if dmgZone.energie}}checked{{/if}}/>
+                <label for="energieDmg">
+                    {{localize "KNIGHT.LATERAL.Energie"}}
+                </label>
+            </div>
+            <div style="display: flex; align-items: center; width: 50%;">
+                <input type="checkbox" name="espoirDmg" id="espoirDmg" {{#if dmgZone.espoir}}checked{{/if}}/>
+                <label for="espoirDmg">
+                {{localize "KNIGHT.LATERAL.Espoir"}}
+            </label>
+            </div>
+        </div>
+    </div>
+    {{/if}}
 
-        {{#if pnj}}
-        <div style="display: flex; flex-direction: row; align-items: center; width: 41%;">
-            <div style="display: flex; align-items: center; width: 100%;">
-                <input type="checkbox" name="antiVehicule" id="antiVehicule" {{#if effects.antivehicule}}checked{{/if}}/>
-                <label for="antiVehicule">
-                    {{localize "KNIGHT.EFFETS.ANTIVEHICULE.Label"}}
-                </label>
-            </div>
-        </div>
-        {{/if}}
-    </div>
-    <div style="display: flex; padding-bottom: 4px;">
-        <div style="display: flex; align-items: center; width: 33%;">
-            <input type="checkbox" name="igncdf" id="igncdf" {{#if effects.ignorechampdeforce}}checked{{/if}}/>
-            <label for="igncdf">
-                {{localize "KNIGHT.EFFETS.IGNORECHAMPDEFORCE.Label"}}
+    {{#if pnj}}
+    <div class="sub">
+        <div style="display: flex; align-items: center; width: 100%;">
+            <input type="checkbox" name="antiVehicule" id="antiVehicule" {{#if effects.antivehicule}}checked{{/if}}/>
+            <label for="antiVehicule">
+                {{localize "KNIGHT.EFFETS.ANTIVEHICULE.Label"}}
             </label>
-        </div>
-        {{#if pj}}
-        <div style="display: flex; align-items: center; width: 33%;">
-            <input type="checkbox" name="ignegi" id="ignegi" {{#if effects.ignoreegide}}checked{{/if}}/>
-            <label for="ignegi">
-                {{localize "KNIGHT.JETS.DEGATSAUTO.IgnoreAegis"}}
-            </label>
-        </div>
-        {{/if}}
-        {{#if pnj}}
-        <div style="display: flex; align-items: center; width: 33%;">
-            <input type="checkbox" name="antiAnatheme" id="antiAnatheme" {{#if (or effects.antianatheme effects.fauconplumesluminescentes)}}checked{{/if}}/>
-            <label for="antiAnatheme">
-                {{localize "KNIGHT.EFFETS.ANTIANATHEME.Label"}}
-            </label>
-        </div>
-        {{/if}}
-        <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
-            <label for="penetrating">{{localize "KNIGHT.EFFETS.PENETRANT.Label"}} :</label>
-            <input type="number" name="penetrating" id="penetrating" min="0" value="{{#if effects.penetrant}}{{ effects.penetrant }}{{else}}0{{/if}}" style="max-width: 50px; margin-left: 3px;" />
         </div>
     </div>
-    <div style="display: flex; padding-bottom: 4px;">
-        <div style="display: flex; align-items: center; width: 33%;">
-            <input type="checkbox" name="ignarm" id="ignarm" {{#if effects.ignorearmure}}checked{{/if}}/>
-            <label for="ignarm">
-          {{localize "KNIGHT.EFFETS.IGNOREARMURE.Label"}}
+    {{/if}}
+    <div class="sub">
+        <input type="checkbox" name="igncdf" id="igncdf" {{#if effects.ignorechampdeforce}}checked{{/if}}/>
+        <label for="igncdf">
+            {{localize "KNIGHT.EFFETS.IGNORECHAMPDEFORCE.Label"}}
         </label>
-        </div>
-        <div style="display: flex; align-items: center; width: 33%;">
-            <input type="checkbox" name="esquive" id="esquive" {{#if esquive}}checked{{/if}}/>
-            <label for="esquive">
-          {{localize "KNIGHT.AUTRE.Degats"}} / 2
+    </div>
+    {{#if pj}}
+    <div class="sub">
+        <input type="checkbox" name="ignegi" id="ignegi" {{#if effects.ignoreegide}}checked{{/if}}/>
+        <label for="ignegi">
+            {{localize "KNIGHT.JETS.DEGATSAUTO.IgnoreAegis"}}
         </label>
-        </div>
-        <div style="display: flex; flex-direction: row; align-items: center; width: 33%;">
-            <label for="pierceArmor">{{localize "KNIGHT.EFFETS.PERCEARMURE.Label"}} :</label>
-            <input type="number" name="pierceArmor" id="pierceArmor" min="0" value="{{#if effects.percearmure}}{{ effects.percearmure }}{{else}}0{{/if}}" style="max-width: 50px; margin-left: 8px;" />
-        </div>
+    </div>
+    {{/if}}
+    {{#if pnj}}
+    <div class="sub">
+        <input type="checkbox" name="antiAnatheme" id="antiAnatheme" {{#if (or effects.antianatheme effects.fauconplumesluminescentes)}}checked{{/if}}/>
+        <label for="antiAnatheme">
+            {{localize "KNIGHT.EFFETS.ANTIANATHEME.Label"}}
+        </label>
+    </div>
+    {{/if}}
+    <div class="sub num">
+        <label for="penetrating">{{localize "KNIGHT.EFFETS.PENETRANT.Label"}} :</label>
+        <input type="number" name="penetrating" id="penetrating" min="0" value="{{#if effects.penetrant}}{{ effects.penetrant }}{{else}}0{{/if}}"/>
+    </div>
+
+    <div  class="sub">
+        <input type="checkbox" name="ignarm" id="ignarm" {{#if effects.ignorearmure}}checked{{/if}}/>
+        <label for="ignarm">
+        {{localize "KNIGHT.EFFETS.IGNOREARMURE.Label"}}
+    </label>
+    </div>
+    <div  class="sub">
+        <input type="checkbox" name="esquive" id="esquive" {{#if esquive}}checked{{/if}}/>
+        <label for="esquive">
+        {{localize "KNIGHT.AUTRE.Degats"}} / 2
+    </label>
+    </div>
+    <div class="sub num">
+        <label for="pierceArmor">{{localize "KNIGHT.EFFETS.PERCEARMURE.Label"}} :</label>
+        <input type="number" name="pierceArmor" id="pierceArmor" min="0" value="{{#if effects.percearmure}}{{ effects.percearmure }}{{else}}0{{/if}}"/>
     </div>
 
     {{#unless bande}}
     {{#if (or effects.meurtrier effects.assassin effects.briserlaresilience effects.destructeur)}}
-    <div style="display: flex; padding-bottom: 4px;">
         {{#if effects.meurtrier}}
-        <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
+        <div class="sub num">
             <label for="meurtrier">{{localize "KNIGHT.EFFETS.MEURTRIER.Label"}} :</label>
-            <input type="number" name="meurtrier" id="meurtrier" min="0" value="{{#if effects.meurtrier}}{{ effects.meurtrier }}{{else}}0{{/if}}" style="max-width: 30px; margin-left: 3px;" />
+            <input type="number" name="meurtrier" id="meurtrier" min="0" value="{{#if effects.meurtrier}}{{ effects.meurtrier }}{{else}}0{{/if}}" />
         </div>
         {{/if}}
         {{#if effects.destructeur}}
-        <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
+        <div class="sub num">
             <label for="destructeur">{{localize "KNIGHT.EFFETS.DESTRUCTEUR.Label"}} :</label>
-            <input type="number" name="destructeur" id="destructeur" min="0" value="{{#if effects.destructeur}}{{ effects.destructeur }}{{else}}0{{/if}}" style="max-width: 30px; margin-left: 3px;" />
+            <input type="number" name="destructeur" id="destructeur" min="0" value="{{#if effects.destructeur}}{{ effects.destructeur }}{{else}}0{{/if}}" />
         </div>
         {{/if}}
         {{#if effects.briserlaresilience}}
-        <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
+        <div class="sub num">
             <label for="briserlaresilience">{{localize "KNIGHT.EFFETS.BRISERLARESILIENCE.Label"}} :</label>
-            <input type="number" name="briserlaresilience" id="briserlaresilience" min="0" value="{{#if effects.briserlaresilience}}{{ effects.briserlaresilience }}{{else}}0{{/if}}" style="max-width: 30px; margin-left: 3px;" />
+            <input type="number" name="briserlaresilience" id="briserlaresilience" min="0" value="{{#if effects.briserlaresilience}}{{ effects.briserlaresilience }}{{else}}0{{/if}}" />
         </div>
         {{/if}}
         {{#if effects.assassin}}
-        <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
+        <div class="sub num">
             <label for="assassin">{{localize "KNIGHT.EFFETS.ASSASSIN.Label"}} :</label>
-            <input type="number" name="assassin" id="assassin" min="0" value="{{#if effects.assassin}}{{ effects.assassin }}{{else}}0{{/if}}" style="max-width: 30px; margin-left: 3px;" />
+            <input type="number" name="assassin" id="assassin" min="0" value="{{#if effects.assassin}}{{ effects.assassin }}{{else}}0{{/if}}" />
         </div>
         {{/if}}
-    </div>
     {{/if}}
     {{/unless}}
 
     {{#if bande}}
     {{#if (or effects.fureur effects.ultraviolence effects.intimidantana effects.intimidanthum)}}
-    <div style="display: flex; padding-bottom: 4px;">
         {{#if effects.fureur}}
-        <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
+        <div class="sub num">
             <label for="fureur">{{localize "KNIGHT.EFFETS.FUREUR.Label"}} :</label>
-            <input type="number" name="fureur" id="fureur" min="0" value="{{#if effects.fureur}}{{ effects.fureur }}{{else}}0{{/if}}" style="max-width: 30px; margin-left: 3px;"/>
+            <input type="number" name="fureur" id="fureur" min="0" value="{{#if effects.fureur}}{{ effects.fureur }}{{else}}0{{/if}}"/>
         </div>
         {{/if}}
         {{#if effects.ultraviolence}}
-        <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
+        <div class="sub num">
             <label for="ultraviolence">{{localize "KNIGHT.EFFETS.ULTRAVIOLENCE.Label"}} :</label>
-            <input type="number" name="ultraviolence" id="ultraviolence" min="0" value="{{#if effects.ultraviolence}}{{ effects.ultraviolence }}{{else}}0{{/if}}" style="max-width: 30px; margin-left: 3px;"/>
+            <input type="number" name="ultraviolence" id="ultraviolence" min="0" value="{{#if effects.ultraviolence}}{{ effects.ultraviolence }}{{else}}0{{/if}}"/>
         </div>
         {{/if}}
         {{#if effects.intimidantana}}
-        <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
+        <div class="sub num">
             <label for="intimidantana">{{localize "KNIGHT.EFFETS.INTIMIDANTEANATHEME.Label"}} :</label>
-            <input type="number" name="intimidantana" id="intimidantana" min="0" value="{{#if effects.intimidantana}}{{ effects.intimidantana }}{{else}}0{{/if}}" style="max-width: 30px; margin-left: 3px;"/>
+            <input type="number" name="intimidantana" id="intimidantana" min="0" value="{{#if effects.intimidantana}}{{ effects.intimidantana }}{{else}}0{{/if}}"/>
         </div>
         {{/if}}
         {{#if effects.intimidanthum}}
-        <div style="display: flex; flex-direction: row; align-items: center; margin-right: 16px;">
+        <div class="sub num">
             <label for="intimidanthum">{{localize "KNIGHT.EFFETS.INTIMIDANTEHUMAINS.Label"}} :</label>
-            <input type="number" name="intimidanthum" id="intimidanthum" min="0" value="{{#if effects.intimidanthum}}{{ effects.intimidanthum }}{{else}}0{{/if}}" style="max-width: 30px; margin-left: 3px;"/>
+            <input type="number" name="intimidanthum" id="intimidanthum" min="0" value="{{#if effects.intimidanthum}}{{ effects.intimidanthum }}{{else}}0{{/if}}"/>
         </div>
         {{/if}}
-    </div>
     {{/if}}
     {{/if}}
 </div>

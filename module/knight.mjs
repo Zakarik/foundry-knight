@@ -1313,7 +1313,7 @@ Hooks.once('init', async function() {
                   } else {
                     return displayDamageOnPNJ(data);
                   }
-                },
+              },
             },
 
             Annuler: {
@@ -1325,7 +1325,8 @@ Hooks.once('init', async function() {
           close: () => {},
         },
         {
-          width: 580
+          classes: ["dialog", "knight", "damageDialog"],
+          width: 650
         }
       ).render(true);
     }

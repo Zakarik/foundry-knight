@@ -126,6 +126,10 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       });
     }
 
+    Object.defineProperty(this.jauges, 'egide', {
+      value: game.settings.get("knight", "acces-egide"),
+    });
+
     this.capacites.prepareData();
   }
 }

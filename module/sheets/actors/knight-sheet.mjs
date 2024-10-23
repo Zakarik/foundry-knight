@@ -47,9 +47,6 @@ export class KnightSheet extends ActorSheet {
 
     const { actor, data, items } = context
     const system = data.system;
-    //EGIDE
-    system.jauges.egide = game.settings.get("knight", "acces-egide");
-
     this._prepareCharacterItems(actor, system, items);
     this._prepareTranslation(actor, system);
     this._prepareOverdrives(actor, system);
@@ -282,13 +279,21 @@ export class KnightSheet extends ActorSheet {
                 item.delete();
               }
 
+              for(let item of newActor.items.filter(items => items.type === 'armure')) {
+                let itmUpdate = {};
+                itmUpdate['system.jauges.sante'] = false;
+                itmUpdate['system.jauges.espoir'] = false;
+                itmUpdate['system.jauges.heroisme'] = false;
+
+                item.update(itmUpdate)
+              }
+
               let update = {};
               update['name'] = `${name} : ${this.title}`;
               update['img'] = armure.img;
               update['system.energie.value'] = cout;
               update['system.wear'] = "ascension";
-              update['system.armure.bonus'] = 0;
-              update['system.champDeForce.base'] = 0;
+              update['system.equipements.ascension'] = this.actor.system.equipements.armure;
 
               newActor.update(update);
               newActor.items.find(item => item.type === 'armure').update({[`system.energie.base`]:cout});
@@ -2070,6 +2075,7 @@ export class KnightSheet extends ActorSheet {
       const permanent = target.data("permanent");
       const prestige = target.data("prestige");
       const context = this.actor;
+      const name = game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.ASCENSION.Label');
 
       const armure = context.items.find(items => items.type === 'armure');
       const exist = Array.from(game.actors).find(actors => actors.id === armure.system.capacites.selected.ascension.ascensionId);
@@ -2083,14 +2089,15 @@ export class KnightSheet extends ActorSheet {
         let newActor = await Actor.create(clone);
 
         let update = {};
-        update['name'] = `${this.actor.name} : ${this.title}`;
+        update['name'] = `${name} : ${this.title}`;
         update['img'] = armure.img;
         update['system.wear'] = "ascension";
-        update['system.armure.bonus'] = 0;
-        update['system.champDeForce.base'] = 0;
+        update['system.equipements.ascension'] = this.actor.system.equipements.armure;
 
-        for(let item of newActor.items.filter(items => items.system.rarete === 'prestige')) {
-          item.delete();
+        if(!prestige) {
+          for(let item of newActor.items.filter(items => items.system.rarete === 'prestige')) {
+            item.delete();
+          }
         }
 
         newActor.update(update);
@@ -2098,49 +2105,39 @@ export class KnightSheet extends ActorSheet {
           ascensionId:newActor.id
         }});
 
-        let items = context.items;
-        /*let ascension = items.find(items => items.type === 'armure');
-        ascension.system.permanent = true;
-        ascension.system.jauges.sante = false;
-        ascension.system.jauges.espoir = false;
-        ascension.system.jauges.heroisme = false;*/
-
-        //const newItems = prestige ? items : items.filter(items => items.system.rarete !== 'prestige');
-
-        //console.warn(newItems);
-        //console.warn(newItems);
-
-        /*await Actor.create({
-          name: `${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.ASCENSION.Label')} : ${this.actor.name}`,
-          type: "knight",
-          img:armure.img,
-          system:data,
-          permission:this.actor.ownership
-        });*/
-
-
       } else if(permanent) {
-        let data = context.system;
-        data.wear = "armure";
-        data.isAscension = true;
-        data.proprietaire = context._id;
+        let clone = foundry.utils.deepClone(this.actor);
 
-        let items = context.items;
-        let ascension = items.find(items => items.type === 'armure');
-        ascension.system.permanent = true;
-        ascension.system.jauges.sante = false;
-        ascension.system.jauges.espoir = false;
-        ascension.system.jauges.heroisme = false;
-
-        const newItems = prestige ? items : items.filter(items => items.system.rarete !== 'prestige');
-
-        const update = {
-          ['img']:armure.img,
-          ['items']:newItems,
-          ['system']:data
-        };
+        const update = {};
+        update['name'] = `${name} : ${this.title}`;
+        update['system'] = clone.system;
+        update['img'] = armure.img;
+        update['system.wear'] = "ascension";
+        update['system.equipements.ascension'] = this.actor.system.equipements.armure;
 
         exist.update(update);
+
+        let ascension = exist.items.find(items => items.type === 'armure');
+
+        for(let item of exist.items) {
+          await item.delete();
+        }
+
+        for(let item of this.actor.items) {
+          if(item.system.rarete === 'prestige' && !prestige) continue;
+
+          await Item.create(foundry.utils.deepClone(item), {parent: exist});
+        }
+
+        for(let item of exist.items.filter(items => items.type === 'armure')) {
+          let itmUpdate = {};
+          itmUpdate['system'] = ascension.system;
+          itmUpdate['system.jauges.sante'] = false;
+          itmUpdate['system.jauges.espoir'] = false;
+          itmUpdate['system.jauges.heroisme'] = false;
+
+          item.update(itmUpdate)
+        }
       }
     });
 
