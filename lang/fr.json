@@ -2262,8 +2262,9 @@
         "GuardianDontProtect": "La tenue guardian ne le protège plus",
         "PjDead": "<u>{name}</u> est <b>grièvement blessé et tombe à terre</b>",
         "PjHopeless": "<u>{name}</u> <b>succombe au DÉSESPOIR !</b>",
-        "DamagePj": "Dégâts au Joueur",
-        "DamagePnj": "Dégâts au PNJ",
+        "ToPj": "au Joueur",
+        "ToPnj": "au PNJ",
+        "ViolencePnj": "Violence au PNJ",
         "TrueDamageReceived": "Dégâts bruts reçus",
         "DamageBonus": "Dégâts bonus",
         "DamageOn": "Dégâts sur",
@@ -2272,7 +2273,11 @@
         "Cancel": "Annuler",
         "TargetNotYetvalid": "Ce type de cible n'est pas encore pris en compte",
         "DamageForAllTargets": "Dégâts pour toutes les cibles",
-        "SetDamages": "Faires les dégâts"
+        "ViolenceForAllTargets": "Violence pour toutes les cibles",
+        "DebordementForAllTargets": "Debordement pour toutes les cibles",
+        "SetDamages": "Faire les dégâts",
+        "SetViolence": "Faire la violence",
+        "SetDebordement": "Faire le débordement"
       }
     },
     "AUTRE": {

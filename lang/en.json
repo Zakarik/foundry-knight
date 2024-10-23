@@ -2262,8 +2262,9 @@
         "GuardianDontProtect": "The Guardian outfit no longer protects him",
         "PjDead": "<u>{name}</u> is <b>seriously injured and falls to the ground</b>",
         "PjHopeless": "<u>{name}</u> <b>succumbs to DESPAIR!</b>",
-        "DamagePj": "Damage to Player",
-        "DamagePnj": "Damage to NPC",
+        "ToPj": "to Player",
+        "ToPnj": "to NPC",
+        "ViolencePnj": "Violence to NPC",
         "TrueDamageReceived": "Raw damage received",
         "DamageBonus": "Bonus damage",
         "DamageOn": "Damage on",
@@ -2272,7 +2273,11 @@
         "Cancel": "Cancel",
         "TargetNotYetvalid": "This type of target is not yet valid",
         "DamageForAllTargets": "Damage to all targets",
-        "SetDamages": "Set damages"
+        "ViolenceForAllTargets": "Violence to all targets",
+        "DebordementForAllTargets": "Overrun to all targets",
+        "SetDamages": "Set damages",
+        "SetViolence": "Set violence",
+        "SetDebordement": "Set overrun"
       }
     },
     "AUTRE": {
