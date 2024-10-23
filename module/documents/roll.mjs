@@ -262,6 +262,8 @@ export class RollKnight {
         let content = {
             isSuccess:this.isSuccess,
             label:label,
+            damage: this.actor.type !== "bande" ? true : undefined,
+            debordement: this.actor.type === "bande" ? true : undefined,
         };
 
         if(addContent) {
@@ -361,6 +363,7 @@ export class RollKnight {
         let content = {
             isSuccess:this.isSuccess,
             label:game.i18n.localize('KNIGHT.AUTRE.Violence'),
+            violence: true
         };
 
         if(flags.dataMod.violence.dice > 0 || flags.dataMod.violence.fixe > 0) {

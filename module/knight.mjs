@@ -81,6 +81,7 @@ import {
 import {
   dialogRollWId,
   directRoll,
+  doViolence,
 } from "./helpers/dialogRoll.mjs";
 
 import {RollKnight} from "./documents/roll.mjs";
@@ -517,7 +518,7 @@ Hooks.once('init', async function() {
 
       const findValue = (name) =>
         ((typeof actor.system.options[name] !== 'undefined'
-          ? actor.system.options[name] === false
+          ? actor.system.options[name]
           : true)
           && actor.system[name]?.value)
           ? actor.system[name]?.value
@@ -572,18 +573,14 @@ Hooks.once('init', async function() {
 
       // Check if the target is still alive
       if (sante === 0 && armor === 0) {
-        // console.log('actor.statuses', actor.statuses);
-        if (!actor.statuses.find((e) => e === 'dead')) {
-          chatMessage += `<p><b>${game.i18n.localize('KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead')}.</b></p>`;
-          actor.toggleStatusEffect('dead', { active: true, overlay: true });
-
-          ChatMessage.create({
-            user: game.user._id,
-            speaker: ChatMessage.getSpeaker({ actor: actor }),
-            content: chatMessage,
-            whisper: [game.user._id],
-          });
-        }
+        actor.toggleStatusEffect('dead', { active: true, overlay: true });
+        chatMessage += `<p><b>${game.i18n.localize('KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead')}.</b></p>`;
+        ChatMessage.create({
+          user: game.user._id,
+          speaker: ChatMessage.getSpeaker({ actor: actor }),
+          content: chatMessage,
+          whisper: [game.user._id],
+        });
         return;
       }
 
@@ -879,10 +876,7 @@ Hooks.once('init', async function() {
 
       // Check if the target is still alive
       if ((hasSante && sante === 0) && armor === 0) {
-        // console.log('actor.statuses', actor.statuses);
-        if (!actor.statuses.find((e) => e === 'dead')) {
-          actor.toggleStatusEffect('dead', { active: true, overlay: true });
-        }
+        actor.toggleStatusEffect('dead', { active: true, overlay: true });
         chatMessage += `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead")}.</b></p>`;
         ChatMessage.create({
           user: game.user._id,
@@ -1200,7 +1194,7 @@ Hooks.once('init', async function() {
     // Create dialog for damages
     const doDamages = async (data) => {
       // Get data
-      const {tokenId, dmg, effects} = data;
+      const {tokenId, dmg, effects, dmgType} = data;
 
       // Get token
       const token = canvas?.tokens?.get(tokenId) ?? {isVisible:false};
@@ -1261,16 +1255,33 @@ Hooks.once('init', async function() {
         dmgZone
       });
 
+      const dialogTitle = () => {
+        let result = game.i18n.localize("ACTOR.TypeKnight") + ' • ';
+
+        if (dmgType === "damage") {
+          result += game.i18n.localize("KNIGHT.AUTRE.Degats");
+        } else if (dmgType === "violence") {
+          result += game.i18n.localize("KNIGHT.AUTRE.Violence");
+        } else if (dmgType === "debordement") {
+          result += game.i18n.localize("KNIGHT.AUTRE.Debordement");
+        } else {
+          // Set an error
+        }
+        result += ' ';
+        if (['knight'].includes(token.actor.type)) {
+          result += game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.ToPj");
+        } else {
+          result += game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.ToPnj");
+        }
+        result += ' : ' + token.actor.name
+
+        return result;
+      }
+
       // Send the dialog
       return new Dialog(
         {
-          title: game.i18n.localize("ACTOR.TypeKnight")
-            + ' • '
-            + game.i18n.localize(['knight'].includes(token.actor.type)
-              ? "KNIGHT.JETS.DEGATSAUTO.DamagePj"
-              : "KNIGHT.JETS.DEGATSAUTO.DamagePnj")
-            + ' : '
-            + token.actor.name,
+          title: dialogTitle(),
           content: content,
           buttons: {
             Calculer: {
@@ -1313,7 +1324,7 @@ Hooks.once('init', async function() {
                   } else {
                     return displayDamageOnPNJ(data);
                   }
-              },
+                },
             },
 
             Annuler: {
@@ -1338,6 +1349,7 @@ Hooks.once('init', async function() {
       const dmg = tgt.data('dmg');
       // console.log('dmg', dmg);
       // console.log('tgt.data(\'effects\')', tgt.data('effects'));
+      const dmgType = tgt.data('dmgtype');
       const effects = {};
       tgt
         .data('effects')
@@ -1352,7 +1364,7 @@ Hooks.once('init', async function() {
       // console.log('effects', effects);
 
       // Do damages
-      await doDamages({tokenId, dmg, effects});
+      await doDamages({tokenId, dmg, effects, dmgType});
     });
 
     html.find('.knight-roll button.setDegatsAllTargets').click(async ev => {
@@ -1360,6 +1372,7 @@ Hooks.once('init', async function() {
       const alltargets = tgt.data('alltargets');
       // console.log('alltargets', alltargets);
       // console.log('tgt.data(\'effects\')', tgt.data('effects'));
+      const dmgType = tgt.data('dmgtype');
       const effects = {};
       tgt
         .data('effects')
@@ -1385,7 +1398,7 @@ Hooks.once('init', async function() {
         const dmg = targetsIdsDmgs[i].split('-')[1];
 
         // Do damages
-        await doDamages({tokenId, dmg, effects});
+        await doDamages({tokenId, dmg, effects, dmgType});
       }
     });
 
@@ -1459,7 +1472,7 @@ Hooks.once('init', async function() {
       };
 
       const roll = new game.knight.RollKnight(actor, {
-        name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
+        name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}`,
         weapon:flags.weapon,
         surprise:flags.surprise,
       }, false);
