@@ -76,7 +76,7 @@
             {{/each}}
             {{#if isValue}}
             <div class="btn">
-                <button type="action" class="setDegats" data-id="{{id}}" data-dmg="{{value}}" data-effects="{{#each ../../detailledEffets}}{{key}}{{#if value}} {{value}}{{/if}}{{#unless @last}},{{/unless}}{{/each}}{{#each ../../effets}},{{key}}{{#if value}} {{value}}{{/if}}{{/each}}">{{localize 'KNIGHT.JETS.DEGATSAUTO.SetDamages'}}</button>
+                <button type="action" class="setDegats" data-id="{{id}}" data-dmg="{{value}}" data-dmgType="{{#if ../damage}}damage{{/if}}{{#if ../violence}}violence{{/if}}{{#if ../debordement}}debordement{{/if}}" data-effects="{{#each ../../detailledEffets}}{{key}}{{#if value}} {{value}}{{/if}}{{#unless @last}},{{/unless}}{{/each}}{{#each ../../effets}},{{key}}{{#if value}} {{value}}{{/if}}{{/each}}">{{#if ../damage}}{{localize 'KNIGHT.JETS.DEGATSAUTO.SetDamages'}}{{/if}}{{#if ../violence}}{{localize 'KNIGHT.JETS.DEGATSAUTO.SetViolence'}}{{/if}}{{#if ../debordement}}{{localize 'KNIGHT.JETS.DEGATSAUTO.SetDebordement'}}{{/if}}</button>
             </div>
             {{/if}}
         </div>
@@ -85,7 +85,7 @@
         {{#if targets}}
         {{#unless weapon}}
         <div class="onlyGm btn" style="width: 200%;">
-            <button type="action" class="setDegatsAllTargets" data-alltargets="{{#each targets}}{{id}}-{{value}}{{#unless @last}},{{/unless}}{{/each}}" data-effects="{{#each ../detailledEffets}}{{key}}{{#if value}} {{value}}{{/if}}{{#unless @last}},{{/unless}}{{/each}}{{#each ../effets}},{{key}}{{#if value}} {{value}}{{/if}}{{/each}}">{{localize 'KNIGHT.JETS.DEGATSAUTO.DamageForAllTargets'}}</button>
+            <button type="action" class="setDegatsAllTargets" data-alltargets="{{#each targets}}{{id}}-{{value}}{{#unless @last}},{{/unless}}{{/each}}" data-dmgType="{{#if damage}}damage{{/if}}{{#if violence}}violence{{/if}}{{#if debordement}}debordement{{/if}}" data-effects="{{#each ../detailledEffets}}{{key}}{{#if value}} {{value}}{{/if}}{{#unless @last}},{{/unless}}{{/each}}{{#each ../effets}},{{key}}{{#if value}} {{value}}{{/if}}{{/each}}">{{#if damage}}{{localize 'KNIGHT.JETS.DEGATSAUTO.DamageForAllTargets'}}{{/if}}{{#if violence}}{{localize 'KNIGHT.JETS.DEGATSAUTO.ViolenceForAllTargets'}}{{/if}}{{#if debordement}}{{localize 'KNIGHT.JETS.DEGATSAUTO.DebordementForAllTargets'}}{{/if}}</button>
         </div>
         {{/unless}}
         {{/if}}
