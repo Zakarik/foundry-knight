@@ -1941,7 +1941,6 @@ export class RollKnight {
         effets.sort((a, b) => a.label.localeCompare(b.label));
         const roll = new Roll(formula);
         await roll.evaluate(rollOptions);
-        let addTargets = false;
 
         for(let t of targets) {
             t.effets = [];
@@ -1953,7 +1952,6 @@ export class RollKnight {
                     case 'munitionshypervelocite':
                     case 'assistanceattaque':
                         if(t.marge) {
-                            addTargets = true;
                             total += t.marge,
 
                             t.effets.push({
@@ -1967,7 +1965,6 @@ export class RollKnight {
 
                     case 'excellence':
                         if(t.marge) {
-                            addTargets = true;
                             total += t.marge*2,
 
                             t.effets.push({
@@ -1983,7 +1980,6 @@ export class RollKnight {
                         const chairAE = t?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
                         if(chairAE > 0) {
-                            addTargets = true;
 
                             t.effets.push({
                                 simple:d.simple,
@@ -2006,11 +2002,9 @@ export class RollKnight {
         results.roll = roll;
         results.min = min;
         results.title = title;
-        // if(addTargets) results.targets = targets;
         results.targets = targets;
 
         content.detailledEffets = detailledEffets;
-        // content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
         content.effets = effets.map(effet => { return { description : effet.description.replace(/<.*?>/g, ''), key: effet.key, label: effet.label } });
 
         return results;
@@ -2468,7 +2462,6 @@ export class RollKnight {
 
         const roll = new Roll(formula);
         await roll.evaluate(rollOptions);
-        let addTargets = false;
 
         for(let t of targets) {
             t.effets = [];
@@ -2480,7 +2473,6 @@ export class RollKnight {
                     case 'munitionshypervelocite':
                     case 'assistanceattaque':
                         if(t.marge) {
-                            addTargets = true;
                             total += t.marge,
 
                             t.effets.push({
@@ -2495,7 +2487,6 @@ export class RollKnight {
                     case 'fureur':
                         if(t.type === 'bande' && fureur > 0) {
                             if(t.aspects.chair.value > 10) {
-                                addTargets = true;
                                 total += fureur;
 
                                 t.effets.push({
@@ -2511,7 +2502,6 @@ export class RollKnight {
                     case 'ultraviolence':
                         if(t.type === 'bande' && ultraviolence > 0) {
                             if(t.aspects.chair.value < 10) {
-                                addTargets = true;
                                 total += ultraviolence;
 
                                 t.effets.push({
@@ -2535,10 +2525,9 @@ export class RollKnight {
         results.roll = roll;
         results.min = min;
         results.title = title;
-        if(addTargets) results.targets = targets;
+        results.targets = targets;
 
         content.detailledEffets = detailledEffets;
-        // content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
         content.effets = effets.map(effet => { return { description : effet.description.replace(/<.*?>/g, ''), key: effet.key, label: effet.label } });
 
         return results;
