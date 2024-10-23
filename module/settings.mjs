@@ -23,7 +23,9 @@ export const RegisterSettings = function () {
         config: true,
         default: false,
         type: Boolean,
-
+        onChange: value => {
+            foundry.utils.debouncedReload();
+        }
     });
 
     game.settings.register("knight", "include-capacite2038", {

@@ -25,17 +25,6 @@ export class ArmureSheet extends ItemSheet {
   /** @inheritdoc */
   getData() {
     const context = super.getData();
-
-    //EGIDE
-    const dataJauges = context.data.system.jauges;
-    const hasEgide = game.settings.get("knight", "acces-egide");
-
-    if(hasEgide) {
-        dataJauges.egide = true;
-    } else {
-        dataJauges.egide = false;
-    }
-
     const evolutions = context.data.system.evolutions.liste;
 
     const lAspect = context.data.system.overdrives;

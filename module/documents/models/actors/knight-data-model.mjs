@@ -149,6 +149,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                     }),
                     energie:new SchemaField({
                         base:new NumberField({initial:0, min:0, nullable:false, integer:true}),
+                        value:new NumberField({initial:0, min:0, nullable:false, integer:true}),
                         bonus:new ObjectField({
                             initial:{
                               user:0,
@@ -597,7 +598,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         const wear = this.whatWear;
         let armure = this.jauges.armure || false;
         let champDeForce = this.jauges.champDeForce || false;
-        let egide = this.jauges.egide || false;
+        let egide = game.settings.get("knight", "acces-egide") || false;
         let energie = this.jauges.energie || false;
         let espoir = this.jauges.espoir || false;
         let heroisme = this.jauges.heroisme || false;
@@ -612,7 +613,6 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
                 armure = jauges?.armure ?? false;
                 champDeForce = jauges?.champDeForce ?? false;
-                egide = jauges?.egide ?? false;
                 energie = jauges?.energie ?? false;
                 espoir = jauges?.espoir ?? false;
                 heroisme = jauges?.heroisme ?? false;
@@ -630,7 +630,6 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
                 armure = jauges?.armure ?? false;
                 champDeForce = jauges?.champDeForce ?? false;
-                egide = jauges?.egide ?? false;
                 energie = jauges?.energie ?? false;
                 espoir = jauges?.espoir ?? false;
                 heroisme = jauges?.heroisme ?? false;

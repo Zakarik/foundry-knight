@@ -249,6 +249,7 @@ $imgs:
 @import "parts/roll";
 @import "parts/dialogs/companions";
 @import "parts/dialogs/compendium";
+@import "parts/dialogs/damage";
 
 @each $logo in $logos {
   div#interface.version#{$logo} #logo {

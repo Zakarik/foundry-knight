@@ -42,10 +42,25 @@ export class RollKnight {
     }
 
     get isPJ() {
-        const actor = this.actor.type;
+        const actor = this.attaquant.type;
         let result = false;
 
         if(actor === 'knight') result = true;
+
+        return result;
+    }
+
+    get attaquant() {
+        const attaquant = this.actor.type === 'vehicule' ? this.actor.pilot : this.actor;
+
+        return attaquant;
+    }
+
+    get armorIsWear() {
+        const wear = this.attaquant.system?.wear ?? '';
+        let result = false;
+
+        if((wear === 'armure' || wear === 'ascension') || !this.isPJ) result = true;
 
         return result;
     }
@@ -293,8 +308,6 @@ export class RollKnight {
         }, []);
 
         if(!handleDamage.min) total = roll.total;
-
-        console.warn(total);
 
         rolls.push(roll);
         content.total = total+Object.values(bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
@@ -713,7 +726,7 @@ export class RollKnight {
             for(let t of targets) {
                 const actor = t.actor;
                 const getODDexterite = this.getOD('masque', 'dexterite', actor);
-                const armorIsWear = this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension' ? true :false;
+                const armorIsWear = this.armorIsWear;
                 const pointsFaibles = actor.system?.pointsFaibles ?? '';
 
                 let difficulty = 0;
@@ -770,7 +783,7 @@ export class RollKnight {
         } else if(this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses']) && tgt) {
             const actor = tgt.actor;
             const getODDexterite = this.getOD('masque', 'dexterite', actor);
-            const armorIsWear = this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension' ? true :false;
+            const armorIsWear = this.armorIsWear;
             const pointsFaibles = actor.system?.pointsFaibles ?? '';
             let difficulty = 0;
             let target = {
@@ -953,7 +966,7 @@ export class RollKnight {
     }
 
     async #handleAttaqueEffet(weapon, content, rolls) {
-        const armorIsWear = this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension' ? true : false;
+        const armorIsWear = this.armorIsWear;
         const localize = getAllEffects();
         const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
         const options = weapon.options;
@@ -1192,14 +1205,15 @@ export class RollKnight {
 
                 if(actor) {
                     const type = actor.type;
-                    const chair = actor.system.aspects.chair.value;
+                    const target = type === 'vehicule' ? actor.system.pilote : actor;
+                    const chair = target.system?.aspects?.chair?.value ?? 0;
 
                     for(let d of detailledEffets) {
                         switch(d.simple) {
                             case 'choc':
                             case 'electrifiee':
-                                const comparaison = type === 'knight' ? chair : chair/2;
-                                const chairAE = t?.aspects?.chair?.ae?.majeur?.value ?? 0;
+                                const comparaison = target.type === 'knight' ? chair : chair/2;
+                                const chairAE = target.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
                                 t.effets.push({
                                     simple:d.simple,
@@ -1221,11 +1235,11 @@ export class RollKnight {
     }
 
     async #handleDamageEffet(weapon, data={}, bonus=[], content={}, rolls=[]) {
-        const type = this.actor.type;
-        const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const type = this.attaquant.type;
+        const armure = this.attaquant.items.find(itm => itm.type === 'armure');
         const capacites = armure?.system?.capacites?.selected ?? {};
         const getGhost = capacites?.ghost ?? undefined;
-        const getGoliathMeter = this.actor.system?.equipements?.armure?.capacites?.goliath?.metre ?? 0;
+        const getGoliathMeter = this.attaquant.system?.equipements?.armure?.capacites?.goliath?.metre ?? 0;
         const getGoliath = capacites?.goliath ?? undefined;
         const getChangeling = capacites?.changeling ?? undefined;
         const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
@@ -1247,7 +1261,7 @@ export class RollKnight {
         const modulesDice = weapon?.bonus?.degats?.dice ?? 0;
         const modulesFixe = weapon?.bonus?.degats?.fixe ?? 0;
         const modulesDegatsVariable = weapon?.options?.filter(itm => itm.classes.includes('dgtsbonusvariable')) ?? [];
-        const armorIsWear = (this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension') || !this.isPJ ? true : false;
+        const armorIsWear = this.armorIsWear;
         let detailledEffets = [];
         let effets = [];
         let rollOptions = {
@@ -1289,8 +1303,6 @@ export class RollKnight {
                 force = this.getCaracteristique('chair', 'force');
                 traForce = game.i18n.localize(CONFIG.KNIGHT.caracteristiques.force);
 
-                console.warn(force)
-
                 bonus.push(force);
                 title += ` + ${traForce}`;
             } else if(type === 'bande') {
@@ -1316,7 +1328,7 @@ export class RollKnight {
             }
         }
 
-        if(armorIsWear && this.actor.type === 'knight') {
+        if(armorIsWear && this.attaquant.type === 'knight') {
             const odForce = this.getOD('chair', 'force');
             const bonusODFOrce = odForce > 5 ? (5*3)+(odForce-5) : odForce*3;
 
@@ -1615,10 +1627,10 @@ export class RollKnight {
 
                     case 'surmesure':
                         if(effet) {
-                            const total = this.actor.type === 'knight' ? this.getCaracteristique('bete', 'combat') : this.getAspect('bete');
+                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('bete', 'combat') : this.getAspect('bete');
                             let totalOD = 0;
 
-                            if(this.actor.type === 'knight') {
+                            if(this.attaquant.type === 'knight') {
                                 totalOD = armorIsWear ? this.getOD('bete', 'combat') : 0;
                             } else totalOD = this.getAE('bete');
 
@@ -1673,10 +1685,10 @@ export class RollKnight {
                     case 'munitionssubsoniques':
                     case 'silencieux':
                         if(effet) {
-                            const total = this.actor.type === 'knight' ? this.getCaracteristique('masque', 'discretion') : this.getAspect('masque');
+                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('masque', 'discretion') : this.getAspect('masque');
                             let totalOD = 0;
 
-                            if(this.actor.type === 'knight') {
+                            if(this.attaquant.type === 'knight') {
                                 totalOD = armorIsWear ? this.getOD('masque', 'discretion') : 0;
                             } else totalOD = this.getAE('masque');
 
@@ -1698,10 +1710,10 @@ export class RollKnight {
                     case 'sournoise':
                     case 'orfevrerie':
                         if(effet) {
-                            const total = this.actor.type === 'knight' ? this.getCaracteristique('masque', 'dexterite') : this.getAspect('masque')/2;
+                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('masque', 'dexterite') : this.getAspect('masque')/2;
                             let totalOD = 0;
 
-                            if(this.actor.type === 'knight') {
+                            if(this.attaquant.type === 'knight') {
                                 totalOD = armorIsWear ? this.getOD('masque', 'dexterite') : 0;
                             } else totalOD = this.getAE('masque');
 
@@ -1721,7 +1733,7 @@ export class RollKnight {
                     case 'massive':
                     case 'leste':
                         if(effet) {
-                            const total = this.actor.type === 'knight' ? this.getCaracteristique('chair', 'force') : this.getAspect('chair')/2;
+                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('chair', 'force') : this.getAspect('chair')/2;
 
                             bonus.push(total);
 
@@ -1945,6 +1957,10 @@ export class RollKnight {
         for(let t of targets) {
             t.effets = [];
             let total = roll.total+Object.values(bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+            const tgt = game.user.targets.find(tgt => tgt.id === t.id);
+            const actor = tgt.actor;
+            const type = actor.type;
+            const target = type === 'vehicule' ? actor.system.pilote : actor;
 
             for(let d of detailledEffets) {
                 switch(d.simple) {
@@ -1977,7 +1993,7 @@ export class RollKnight {
                         break;
 
                     case 'meurtrier':
-                        const chairAE = t?.aspects?.chair?.ae?.majeur?.value ?? 0;
+                        const chairAE = target.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
                         if(chairAE > 0) {
 
@@ -2011,9 +2027,9 @@ export class RollKnight {
     }
 
     async #handleViolenceEffet(weapon, data={}, bonus=[], content={}, rolls=[]) {
-        const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const armure = this.attaquant.items.find(itm => itm.type === 'armure');
         const capacites = armure?.system?.capacites?.selected ?? {};
-        const getGoliathMeter = this.actor.system?.equipements?.armure?.capacites?.goliath?.metre ?? 0;
+        const getGoliathMeter = this.attaquant.system?.equipements?.armure?.capacites?.goliath?.metre ?? 0;
         const getGoliath = capacites?.goliath ?? undefined;
         const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
         const custom = weapon.effets.custom.concat(weapon?.distance?.custom ?? [], weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
@@ -2034,7 +2050,7 @@ export class RollKnight {
         const modulesDice = weapon?.bonus?.violence?.dice ?? 0;
         const modulesFixe = weapon?.bonus?.violence?.fixe ?? 0;
         const modulesViolenceVariable = weapon.options.filter(itm => itm.classes.includes('violencebonusvariable'));
-        const armorIsWear = (this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension') || !this.isPJ ? true : false;
+        const armorIsWear = this.armorIsWear;
         let detailledEffets = [];
         let effets = [];
         let rollOptions = {
@@ -2178,7 +2194,7 @@ export class RollKnight {
 
                     case 'intimidanthum':
                         if(effet) {
-                            const total = this.actor.type === 'knight' ? this.getCaracteristique('dame', 'aura') : this.getAspect('dame')/2;
+                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('dame', 'aura') : this.getAspect('dame')/2;
                             let totalOD = 0;
 
                             if(this.actor.type === 'knight') {
@@ -2197,10 +2213,10 @@ export class RollKnight {
 
                     case 'intimidantana':
                         if(effet) {
-                            const total = this.actor.type === 'knight' ? this.getCaracteristique('dame', 'aura') : this.getAspect('dame')/2;
+                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('dame', 'aura') : this.getAspect('dame')/2;
                             let totalOD = 0;
 
-                            if(this.actor.type === 'knight') {
+                            if(this.attaquant.type === 'knight') {
                                 totalOD = armorIsWear ? this.getOD('dame', 'aura') : 0;
                             } else totalOD = this.getAE('dame');
 
@@ -2378,25 +2394,25 @@ export class RollKnight {
             if(violence.carac.jet) {
                 dices += this.getAspectOrCaracteristique(violence.carac.jet);
 
-                if(violence.carac.odInclusJet && (this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension')) dices += this.getAEAspectOrODCaracteristique(violence.carac.jet);
+                if(violence.carac.odInclusJet && this.armorIsWear) dices += this.getAEAspectOrODCaracteristique(violence.carac.jet);
             }
 
             if(violence.carac.fixe) {
                 fixe += this.getAspectOrCaracteristique(violence.carac.fixe);
 
-                if(violence.carac.odInclusFixe && (this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension')) fixe += this.getAEAspectOrODCaracteristique(violence.carac.fixe);
+                if(violence.carac.odInclusFixe && this.armorIsWear) fixe += this.getAEAspectOrODCaracteristique(violence.carac.fixe);
             }
 
             if(violence.aspect.jet) {
                 dices += this.getAspectOrCaracteristique(violence.aspect.jet);
 
-                if(violence.aspect.odInclusJet && (this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension')) dices += this.getAEAspectOrODCaracteristique(violence.aspect.jet);
+                if(violence.aspect.odInclusJet && this.armorIsWear) dices += this.getAEAspectOrODCaracteristique(violence.aspect.jet);
             }
 
             if(violence.aspect.fixe) {
                 bonus.push(this.getAspectOrCaracteristique(violence.aspect.fixe));
 
-                if(violence.aspect.odInclusFixe && (this.actor.system.wear === 'armure' || this.actor.system.wear === 'ascension')) fixe += this.getAEAspectOrODCaracteristique(degviolenceats.aspect.fixe);
+                if(violence.aspect.odInclusFixe && this.armorIsWear) fixe += this.getAEAspectOrODCaracteristique(degviolenceats.aspect.fixe);
             }
 
             if(!violence.conditionnel.has) {
@@ -2464,6 +2480,10 @@ export class RollKnight {
         await roll.evaluate(rollOptions);
 
         for(let t of targets) {
+            const tgt = game.user.targets.find(tgt => tgt.id === t.id);
+            const actor = tgt.actor;
+            const type = actor.type;
+            const target = type === 'vehicule' ? actor.system.pilote : actor;
             t.effets = [];
             let total = roll.total+Object.values(bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
@@ -2485,8 +2505,8 @@ export class RollKnight {
                         break;
 
                     case 'fureur':
-                        if(t.type === 'bande' && fureur > 0) {
-                            if(t.aspects.chair.value > 10) {
+                        if(target.type === 'bande' && fureur > 0) {
+                            if(target.system?.aspects?.chair?.value ?? 0 > 10) {
                                 total += fureur;
 
                                 t.effets.push({
@@ -2500,8 +2520,8 @@ export class RollKnight {
                         break;
 
                     case 'ultraviolence':
-                        if(t.type === 'bande' && ultraviolence > 0) {
-                            if(t.aspects.chair.value < 10) {
+                        if(target.type === 'bande' && ultraviolence > 0) {
+                            if(target.system?.aspects?.chair?.value ?? 0 < 10) {
                                 total += ultraviolence;
 
                                 t.effets.push({
@@ -2546,7 +2566,7 @@ export class RollKnight {
     }
 
     prepareWpnContact(wpn, modules=[], addSpecial=true) {
-        const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const armure = this.attaquant.items.find(itm => itm.type === 'armure');
         const system = wpn.system;
         let raw = [];
         let specialRaw = [];
@@ -2842,7 +2862,7 @@ export class RollKnight {
     }
 
     prepareWpnDistance(wpn, modules=[], addSpecial=true) {
-        const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const armure = this.attaquant.items.find(itm => itm.type === 'armure');
         const system = wpn.system;
         let raw = [];
         let specialRaw = [];
@@ -3157,20 +3177,17 @@ export class RollKnight {
     }
 
     getCaracteristique(aspect, name) {
-        const data = this.actor.system.aspects[aspect].caracteristiques[name];
+        const data = this.attaquant.system.aspects[aspect].caracteristiques[name];
         let result = 0;
 
         result += data?.base ?? 0;
         result += Object.values(data?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
         result -= Object.values(data?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
-        console.warn(name);
-        console.warn(this.actor);
-
         return result;
     }
 
-    getOD(aspect, name, actor=this.actor) {
+    getOD(aspect, name, actor=this.attaquant) {
         const data = actor.system?.aspects?.[aspect]?.caracteristiques?.[name]?.overdrive ?? {bonus:[], malus:[]};
         const bonus = Object.values(data.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
         const malus = Object.values(data.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
@@ -3184,7 +3201,7 @@ export class RollKnight {
     }
 
     getAspect(name) {
-        const data = this.actor.system.aspects[name];
+        const data = this.attaquant.system.aspects[name];
         const bonus = Object.values(data?.bonus ?? []).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
         const malus = Object.values(data?.malus ?? []).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
         const isPJ = this.isPJ;
@@ -3290,7 +3307,7 @@ export class RollKnight {
     }
 
     getAE(name) {
-        const data = this.actor.system.aspects[name].ae;
+        const data = this.attaquant.system.aspects[name].ae;
         let result = 0;
 
         result += data.mineur.value;
