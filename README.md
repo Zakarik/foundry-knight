@@ -25,4 +25,4 @@ Knight est un jeu d'Antre-Monde Editions.
 
 Toute la propriété intellectuelle leur appartient, ce système est une adpatation destinée à fonctionner sous FoundryVTT.
 
-L'ensemble du code est sous licence Creative Commons.
+L'ensemble du code est sous licence MIT.
