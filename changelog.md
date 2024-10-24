@@ -1,3 +1,7 @@
+## v3.32.1
+### Bugfix
+- Correction de la traduction du compendium via Babele... Oui, quelque chose interférait dans le système.
+
 ## v3.32.0
 ### Améliorations
 - Ajout d'une fenêtre s'ouvrant à partir de boutons dans le tchat pour appliquer automatiquement les dégâts, en prenant en compte autant de paramètres que possible. (Merci à Florleseige pour tout ça !)

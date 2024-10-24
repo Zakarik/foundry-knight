@@ -1540,6 +1540,18 @@ Hooks.once("ready", async function() {
   $("div#interface").addClass(whatLogo);
 
   Hooks.on("hotbarDrop", (bar, data, slot) => createMacro(data, slot));
+
+  if (game.modules.get("babele")?.active && game.i18n.lang !== "fr") {
+    Hooks.once("babele.ready", async function () {
+      Hooks.on('updateCompendium', async function () {
+        await generateNavigator();
+      });
+    });
+  } else {
+    Hooks.on('updateCompendium', async function () {
+      await generateNavigator();
+    });
+  }
 });
 
 Hooks.once("setup", async function() {
@@ -1640,20 +1652,34 @@ async function createMacro(data, slot) {
 }
 
 Hooks.on('renderItemDirectory', async function () {
-  await generateNavigator();
+  if (game.modules.get("babele")?.active && game.i18n.lang !== "fr") {
+    Hooks.once("babele.ready", async function () {
+      console.warn('test');
+      await generateNavigator();
 
-  $("section#items footer.action-buttons button.compendium").remove();
-  $("section#items footer.action-buttons").append(`<button class='compendium'>${game.i18n.localize('KNIGHT.COMPENDIUM.Label')}</button>`);
+      $("section#items footer.action-buttons button.compendium").remove();
+      $("section#items footer.action-buttons").append(`<button class='compendium'>${game.i18n.localize('KNIGHT.COMPENDIUM.Label')}</button>`);
 
-  $("section#items footer.action-buttons button.compendium").on( "click", async function() {
-    const dial = new game.knight.applications.KnightCompendiumDialog();
-    dial.render(true);
-  });
+      $("section#items footer.action-buttons button.compendium").on( "click", async function() {
+        const dial = new game.knight.applications.KnightCompendiumDialog();
+        dial.render(true);
+      });
+    });
+  } else {
+    await generateNavigator();
+
+    $("section#items footer.action-buttons button.compendium").remove();
+    $("section#items footer.action-buttons").append(`<button class='compendium'>${game.i18n.localize('KNIGHT.COMPENDIUM.Label')}</button>`);
+
+    $("section#items footer.action-buttons button.compendium").on( "click", async function() {
+      const dial = new game.knight.applications.KnightCompendiumDialog();
+      dial.render(true);
+    });
+  }
+
+
 });
 
-Hooks.on('updateCompendium', async function () {
-  await generateNavigator();
-});
 
 Hooks.on('renderActorDirectory', async function () {
   if(!game.user.isGM) return;
