@@ -2500,7 +2500,7 @@ export class KnightRollDialog extends Dialog {
     }
 
     #addWpnContact(wpn, modules, addSpecial=true) {
-        const getWpn = this.rollData.allWpn.find(itm => itm.id === wpn.id)
+        const getWpn = this.rollData.allWpn.find(itm => itm.id === wpn.id);
         const armure = this.actor.items.find(itm => itm.type === 'armure');
         const system = wpn.system;
         let raw = [];
@@ -2912,6 +2912,7 @@ export class KnightRollDialog extends Dialog {
     }
 
     #addWpnDistance(wpn, modules, addSpecial=true) {
+        const getWpn = this.rollData.allWpn.find(itm => itm.id === wpn.id);
         const armure = this.actor.items.find(itm => itm.type === 'armure');
         const system = wpn.system;
         let raw = [];
