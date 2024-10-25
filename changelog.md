@@ -7,6 +7,7 @@
 - Correction de l'absence du décompte des grenades.
 - Correction d'un bug empêchant de s'équiepr de méta-armures de légendes.
 - Correction de la capacité ultime "Foudre de Guerre".
+- Correction de l'absence de la possibilité de mettre des malus en succès et en dés.
 
 ## v3.32.1
 ### Bugfix
