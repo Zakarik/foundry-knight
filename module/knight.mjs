@@ -1630,6 +1630,7 @@ Hooks.on('renderItemDirectory', async function () {
 
 });
 
+
 Hooks.on('renderActorDirectory', async function () {
   if(!game.user.isGM) return;
 
