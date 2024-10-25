@@ -551,6 +551,7 @@ Hooks.once('init', async function() {
       const assassin = effects.assassin || 0;
       let damageTotal = parseInt(dmg, 10) + parseInt(dmgBonus, 10) + assassin;
       let damagesLeft = damageTotal;
+      console.log('damagesLeft 1', damagesLeft)
       let chatMessage = '';
 
       // Check if the target is still alive
@@ -570,26 +571,42 @@ Hooks.once('init', async function() {
       if (chairEx > 0 && !antiAnatheme) {
         damagesLeft -= chairEx;
       }
+      console.log('damagesLeft 2', damagesLeft)
 
       // Reduce the bouclier
       if (bouclier > 0 && !antiAnatheme) {
         damagesLeft -= bouclier;
       }
+      console.log('damagesLeft 3', damagesLeft)
 
       // Reduce the Champ de Force
       if (champDeForce > 0 && !igncdf) {
         damagesLeft -=
           champDeForce - penetrating > 0 ? champDeForce - penetrating : 0;
       }
+      console.log('damagesLeft 4', damagesLeft)
 
       // If the damages are not anti véhicules, the damages are divide by 10
       if ((isVehicule || resilience > 0) && !antiVehicule) {
         damagesLeft = Math.ceil(damagesLeft / 10);
       }
+      console.log('damagesLeft 5', damagesLeft)
 
       // Check if the esquive is used
       if (esquive) {
         damagesLeft = Math.ceil(damagesLeft / 2);
+      }
+      console.log('damagesLeft 6', damagesLeft);
+
+      if (damagesLeft < 1) {
+        chatMessage += `<p><b>${game.i18n.localize('KNIGHT.JETS.DEGATSAUTO.NoDamageOnTarget')}.</b></p>`;
+        ChatMessage.create({
+          user: game.user._id,
+          speaker: ChatMessage.getSpeaker({ actor: actor }),
+          content: chatMessage,
+          whisper: [game.user._id],
+        });
+        return;
       }
 
 
