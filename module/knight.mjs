@@ -592,6 +592,7 @@ Hooks.once('init', async function() {
         damagesLeft = Math.ceil(damagesLeft / 2);
       }
 
+      // Check if the damages are enough to do at least 1 damage
       if (damagesLeft < 1) {
         chatMessage += `<p><b>${game.i18n.localize('KNIGHT.JETS.DEGATSAUTO.NoDamageOnTarget')}.</b></p>`;
         ChatMessage.create({
