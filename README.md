@@ -15,7 +15,7 @@ C'est un prérequis pour le bon fonctionnement du mode Ascension (Armure Shaman)
 - [Knight Compendium](https://foundryvtt.com/packages/knight-compendium) par #DjLeChuck
 L'ensemble du compendium de Knight en français et en anglais (nécessite Babele, voir ci-dessous).
 
-- [Translation: Spanish [Knight]](https://foundryvtt.com/packages/knight-es) par #NarumiRM
+- [Translation: Spanish [Knight]](https://foundryvtt.com/packages/knight-es) par [NarumiRM](https://github.com/NarumiRM)
 Traduction espagnole du système (et bientôt du compendium).
 
 # Modules compatibles
@@ -60,10 +60,10 @@ This is a prerequisite for Ascension mode (Shaman armor) and Companions mode (Dr
 
 # System add-on modules
 
-- Knight Compendium](https://foundryvtt.com/packages/knight-compendium) by #DjLeChuck
+- Knight Compendium](https://foundryvtt.com/packages/knight-compendium) by [DjLeChuck](https://github.com/DjLeChuck)
 The complete Knight Compendium in English and French (requires Babele, see below).
 
-- Translation: Spanish [Knight]](https://foundryvtt.com/packages/knight-es) by #NarumiRM
+- Translation: Spanish [Knight]](https://foundryvtt.com/packages/knight-es) by [NarumiRM](https://github.com/NarumiRM)
 Spanish translation of the system (and soon of the compendium).
 
 # Compatible modules
@@ -112,10 +112,10 @@ Este es un prerrequisito para que el modo Ascensión (armadura Chamán) y el mod
 
 # Complementos del sistema
 
-- Compendio del Caballero](https://foundryvtt.com/packages/knight-compendium) por #DjLeChuck
+- Compendio del Caballero](https://foundryvtt.com/packages/knight-compendium) por [DjLeChuck](https://github.com/DjLeChuck)
 El Compendio de Caballeros completo en francés e inglés (requiere Babele, ver más abajo).
 
-- Traducción: Español [Knight]](https://foundryvtt.com/packages/knight-es) por #NarumiRM
+- Traducción: Español [Knight]](https://foundryvtt.com/packages/knight-es) por [NarumiRM](https://github.com/NarumiRM)
 Traducción al español del sistema (y pronto del compendio).
 
 # Módulos compatibles
