@@ -2277,7 +2277,8 @@
         "DebordementForAllTargets": "Overrun to all targets",
         "SetDamages": "Set damages",
         "SetViolence": "Set violence",
-        "SetDebordement": "Set overrun"
+        "SetDebordement": "Set overrun",
+        "NoDamageOnTarget": "No damage done to target"
       }
     },
     "AUTRE": {
