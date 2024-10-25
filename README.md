@@ -30,7 +30,9 @@ Merci à Simon Gabillaud et toute l'équipe d'Antre-Monde Editions pour avoir do
 
 Merci à Darkhan du discord Antre-Monde qui m'a donné l'autorisation d'utiliser ses logos pour agrémenter le système de Knight.
 
-Merci à #Florleseige pour son aide dans le codage du système !
+Merci à [Florleseige](https://github.com/Florleseige) pour son aide dans le codage du système !
+
+Merci à [DjLeChuck](https://github.com/DjLeChuck) pour la création du compendium, qui m'aurait pris un temps fou !
 
 Et enfin, remerciement à toute la communauté de Knight, quel que soit la langue, pour son soutien et son aide pour débug le système !
 
