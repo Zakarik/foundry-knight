@@ -2605,8 +2605,28 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
     };
   }
 
+  get actor() {
+    return this?.parent?.parent?.actor ?? undefined;
+  }
+
   get morph() {
     return this.selected.morph;
+  }
+
+  get type() {
+    return this.selected.type;
+  }
+
+  get capaciteUltime() {
+    let result = undefined;
+
+    if(this.actor) {
+      const ultime = this.actor.items.find(itm => itm.type === 'capaciteultime');
+
+      if(ultime) result = ultime;
+    }
+
+    return result;
   }
 
   prepareData() {
@@ -2631,7 +2651,21 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           enumerable:true,
           configurable:true
         });
+      }
+    }
 
+    if(this.type && this.actor && this.capaciteUltime) {
+      const ultime = this.capaciteUltime;
+      const hasPassive = ultime.system?.passives?.capacites?.actif ?? false;
+      const hasUltimeType = hasPassive ? ultime.system?.passives?.capacites?.type?.actif ?? false : false;
+
+      if(hasUltimeType) {
+        Object.defineProperty(this.selected.type, 'legend', {
+          value: true,
+          writable:true,
+          enumerable:true,
+          configurable:true
+        });
       }
     }
   }

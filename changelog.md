@@ -1,3 +1,13 @@
+## v3.32.2
+### Bugfix
+- Correction d'un bug du calcul de l'inititive sur les PNJ.
+- Correction de l'absence des munitions dans les options des armes lors des jets.
+- Correction d'un bug empêchant le retour en arrière des évolutions d'armures.
+- Correction de l'absence du jet d'attaque des armes ne faisant aucun dégâts / violence, ou l'effet barrage, mais également l'effet Choc (pour déterminer si ça affecte ou pas l'ennemi).
+- Correction de l'absence du décompte des grenades.
+- Correction d'un bug empêchant de s'équiepr de méta-armures de légendes.
+- Correction de la capacité ultime "Foudre de Guerre".
+
 ## v3.32.1
 ### Bugfix
 - Correction de la traduction du compendium via Babele... Oui, quelque chose interférait dans le système.

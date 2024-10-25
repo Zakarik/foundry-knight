@@ -92,8 +92,8 @@
 
         {{#if weapon}}
         <div class="btn">
-            <button type="action" class="degats" >{{localize 'KNIGHT.AUTRE.Degats'}}</button>
-            <button type="action" class="violence">{{localize 'KNIGHT.AUTRE.Violence'}}</button>
+            {{#unless noDmg}} <button type="action" class="degats" >{{localize 'KNIGHT.AUTRE.Degats'}}</button> {{/unless}}
+            {{#unless noViolence}} <button type="action" class="violence">{{localize 'KNIGHT.AUTRE.Violence'}}</button> {{/unless}}
         </div>
         {{/if}}
 

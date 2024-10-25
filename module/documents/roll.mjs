@@ -84,7 +84,7 @@ export class RollKnight {
             let allRoll = [];
             let listTargets = [];
 
-            if(this.#isEffetActive(allRaw, weapon.options, ['barrage']) || (this.#hasEffet(allRaw, 'barrage') && this.#hasEffet(allRaw, 'aucundegatsviolence'))) {
+            if((this.#isEffetActive(allRaw, weapon.options, ['barrage']) && !this.#isEffetActive(allRaw, weapon.options, ['choc'])) || (this.#hasEffet(allRaw, 'barrage') && this.#hasEffet(allRaw, 'aucundegatsviolence') && !this.#isEffetActive(allRaw, weapon.options, ['choc']))) {
                 if(this.#getEffet(allRaw, 'barrage')) {
                     const targets = game.user.targets;
 
@@ -977,6 +977,8 @@ export class RollKnight {
         const custom = weapon.effets.custom.concat(weapon?.distance?.custom ?? [], weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
         let detailledEffets = [];
         let effets = [];
+        let noDmg = false;
+        let noViolence = false;
 
         for(let l of list) {
             const loc = localize[l.split(' ')[0]];
@@ -985,6 +987,20 @@ export class RollKnight {
             if(this.#isEffetActive(raw, options, [l])) {
                 switch(l) {
                     case 'barrage':
+                        break;
+
+                    case 'aucundegatsviolence':
+                        if(effet) {
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}`)),
+                            });
+
+                            noDmg = true;
+                            noViolence = true;
+                        }
                         break;
 
                     case 'choc':
@@ -1230,6 +1246,9 @@ export class RollKnight {
                     }
                 }
             }
+
+            c.noDmg = noDmg;
+            c.noViolence = noViolence;
         }
 
         content.detailledEffets = detailledEffets;
@@ -1290,6 +1309,7 @@ export class RollKnight {
         if(weapon.degats.fixe > 0) bonus.push(weapon.degats.fixe);
         if(hasBourreau) min = parseInt(this.#getEffet(raw, 'bourreau').split(' ')[1]);
 
+        console.warn(weapon.type);
         if(weapon.type === 'contact') {
             let force = 0;
             let traForce = '';
@@ -1332,15 +1352,17 @@ export class RollKnight {
         }
 
         if(armorIsWear && this.attaquant.type === 'knight') {
-            const odForce = this.getOD('chair', 'force');
-            const bonusODFOrce = odForce > 5 ? (5*3)+(odForce-5) : odForce*3;
-
             const discretion = this.getCaracteristique('masque', 'discretion');
             const odDiscretion = this.getOD('masque', 'discretion');
 
-            if(odForce > 0) {
-                bonus.push(bonusODFOrce);
-                title += ` + ${game.i18n.localize('KNIGHT.JETS.ODForce')}`;
+            if(weapon.type === 'contact') {
+                const odForce = this.getOD('chair', 'force');
+                const bonusODFOrce = odForce > 5 ? (5*3)+(odForce-5) : odForce*3;
+
+                if(odForce > 0) {
+                    bonus.push(bonusODFOrce);
+                    title += ` + ${game.i18n.localize('KNIGHT.JETS.ODForce')}`;
+                }
             }
 
             if(odDiscretion >= 5) {

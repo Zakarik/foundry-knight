@@ -57,6 +57,8 @@ export class KnightSheet extends ActorSheet {
 
     actualiseRoll(this.actor);
 
+    console.warn(context);
+
     return context;
   }
 
@@ -189,7 +191,7 @@ export class KnightSheet extends ActorSheet {
       if(item.type === 'armure') {
         const legende = this._getArmorLegende();
 
-        if(legende) legende.delete();
+        if(legende.length > 0) legende[0].delete();
 
         const update = {};
         update['system.equipements.armure.hasArmorLegende'] = false;
@@ -4206,7 +4208,7 @@ export class KnightSheet extends ActorSheet {
       if (itemType === 'armurelegende') {
         const oldArmorLegende = this._getArmorLegende();
 
-        if(oldArmorLegende) oldArmorLegende.delete();
+        if(oldArmorLegende.length > 1) oldArmorLegende[0].delete();
 
         const update = {};
         update['system.equipements.armure.hasArmorLegende'] = true;
@@ -5886,7 +5888,7 @@ export class KnightSheet extends ActorSheet {
 
   _getArmorLegende() {
     const data = this.actor;
-    const armor = data.items.find((a) => a.type === 'armurelegende');
+    const armor = data.items.filter((a) => a.type === 'armurelegende');
 
     return armor;
   }

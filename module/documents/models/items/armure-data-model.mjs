@@ -114,7 +114,8 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
         paliers: new NumberField({initial: 0}),
         liste: new ObjectField(),
         special: new ObjectField()
-      })
+      }),
+      archivage: new ObjectField()
     };
   }
 

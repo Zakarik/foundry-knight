@@ -667,7 +667,7 @@
         const scholar = data.type.scholar.conflit || data.type.scholar.horsconflit ? true : false;
         const hunter = data.type.hunter.conflit || data.type.hunter.horsconflit ? true : false;
 
-        const limite = data.double && !legende ? 2 : 1;
+        const limite = legende ? 2 : 1;
 
         let result = true;
         let array = []

@@ -817,7 +817,7 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
             Object.defineProperty(system, update, {
                 value: Math.max(base+this[d].mod, 0),
             });
-            }
+        }
 
         // INITIATIVE
         if(this.aspect.masque.majeur > 0) {
@@ -841,27 +841,27 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
             const hasEmbuscadePris = this.options.embuscadePris;
 
             if(hasEmbuscadeSubis) {
-                const bonusDice = this.bonusSiEmbuscade.bonusInitiative.dice;
-                const bonusFixe = this.bonusSiEmbuscade.bonusInitiative.fixe;
+            const bonusDice = this.bonusSiEmbuscade.bonusInitiative.dice;
+            const bonusFixe = this.bonusSiEmbuscade.bonusInitiative.fixe;
 
-                initiativeDice += bonusDice;
-                initiativeBonus += bonusFixe;
+            initiativeDice += bonusDice;
+            initiativeBonus += bonusFixe;
             }
 
             if(hasEmbuscadePris) {
-                initiativeBonus += 10;
+            initiativeBonus += 10;
             }
 
             Object.defineProperty(this.initiative, 'base', {
-                value: 0,
+                value: this.initiative.diceBase,
             });
 
-            Object.defineProperty(this.initiative, 'diceMod', {
-                value: 0,
+            Object.defineProperty(this.initiative, 'dice', {
+                value: Math.max(initiativeDice, 1),
             });
 
-            Object.defineProperty(this.initiative, 'mod', {
-                value: initiativeBonus-initiativeMalus,
+            Object.defineProperty(this.initiative, 'value', {
+                value: Math.max(initiativeBonus-initiativeMalus, 0),
             });
         }
 

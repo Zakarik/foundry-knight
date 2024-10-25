@@ -160,10 +160,11 @@ export class KnightRollDialog extends Dialog {
         const wpns = this.#prepareWpn();
 
         const allWpns = this.rollData.typeWpn.contact.concat(this.rollData.typeWpn.distance, this.rollData.typeWpn.tourelle, this.rollData.typeWpn.aicontact, this.rollData.typeWpn.aidistance, this.rollData.typeWpn.grenade, this.rollData.typeWpn.complexe);
-        const difference = foundry.utils.diffObject(this.data.roll.allWpn, allWpns);
+        const difference = foundry.utils.diffObject(allWpns, this.data.roll.allWpn);
+        const difference2 = foundry.utils.diffObject(this.data.roll.allWpn, allWpns);
         if(!allWpns.find(itm => itm.id === this.rollData.wpnSelected)) this.data.roll.wpnSelected = '';
 
-        if(!foundry.utils.isEmpty(difference)) {
+        if(!foundry.utils.isEmpty(difference) || !foundry.utils.isEmpty(difference2)) {
             this.data.roll.allWpn = allWpns;
             this.#cleanHtml();
             this.#updateWpnContact(this.rollData.typeWpn.contact);
@@ -174,6 +175,7 @@ export class KnightRollDialog extends Dialog {
             this.#updateWpnGrenade(this.rollData.typeWpn.grenade);
             this.#updateWpnComplexe(this.rollData.typeWpn.complexe);
             this.#renderWpn(this.data.roll.html);
+            this.#updateBtnShow();
         }
 
         this.#updateBonusInterdits(undefined, this.data.roll.html);
@@ -349,6 +351,7 @@ export class KnightRollDialog extends Dialog {
     }
 
     #renderWpn(html) {
+        const actGrenades = this.who.system.combat.grenades.quantity.value;
         const parent = html.find('div.wpn');
         const allWpn = parent.find('div.button');
 
@@ -796,6 +799,7 @@ export class KnightRollDialog extends Dialog {
         }
 
         if(weapon) {
+            const isGrenade = weapon.id.includes('grenade') ? true : false;
             const style = actor.system.combat.style;
             const modStyle = getModStyle(style);
             let effets = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
@@ -804,6 +808,12 @@ export class KnightRollDialog extends Dialog {
             dices -= modStyle.malus.attaque;
             cout += weapon?.cout ?? 0;
             espoir += weapon?.espoir ?? 0;
+
+            if(isGrenade) {
+                const actGrenade = actor.system?.combat?.grenades?.quantity?.value ?? 0;
+
+                updates['system.combat.grenades.quantity.value'] = actGrenade-1;
+            }
 
             if(weapon?.tourelle ?? undefined) {
                 carac = [];
@@ -1063,7 +1073,7 @@ export class KnightRollDialog extends Dialog {
             }
         }
 
-        if(modificateur > 0) {
+        if(modificateur !== 0) {
             dices += modificateur;
 
             tags.push({
@@ -1072,12 +1082,12 @@ export class KnightRollDialog extends Dialog {
             });
         }
 
-        if(succesBonus > 0) {
+        if(succesBonus !== 0) {
             bonus.push(succesBonus);
 
             tags.push({
                 key:'succesbonus',
-                label:`${game.i18n.localize('KNIGHT.BONUS.Succes')} : ${succesBonus}`,
+                label:`${game.i18n.localize('KNIGHT.JETS.Succes')} : ${succesBonus}`,
             });
         }
 
@@ -1341,16 +1351,15 @@ export class KnightRollDialog extends Dialog {
         data.mods.push({
             key:'score',
             classes:'score succesBonus colTwo',
-            label:game.i18n.localize('KNIGHT.BONUS.Succes'),
-            value:this.rollData.succesBonus,
-            min:0
+            label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} (${game.i18n.localize('KNIGHT.JETS.Succes')})`,
+            value:this.rollData.succesBonus
         });
 
         //MODIFICATEUR
         data.mods.push({
             key:'score',
             classes:'score modificateur colThree',
-            label:game.i18n.localize('KNIGHT.JETS.Modificateur'),
+            label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} (${game.i18n.localize('KNIGHT.JETS.Des')})`,
             value:this.rollData.modificateur,
         });
 
@@ -1617,6 +1626,7 @@ export class KnightRollDialog extends Dialog {
         const modulesMechaArmure = actor.system?.configurations?.liste ?? {};
         const listeModulesMechaArmure = configurationMechaArmure === 'c1' ? foundry.utils.mergeObject(foundry.utils.deepClone(modulesMechaArmure?.base?.modules ?? {}), modulesMechaArmure?.c1?.modules ?? {}) : foundry.utils.mergeObject(foundry.utils.deepClone(modulesMechaArmure?.base?.modules ?? {}), modulesMechaArmure?.c2?.modules ?? {});
         const labels = getAllEffects();
+        const actGrenade = actor.system?.combat?.grenades?.quantity?.value ?? 0;
         let contact = [];
         let distance = [];
         let aicontact = [];
@@ -1924,30 +1934,33 @@ export class KnightRollDialog extends Dialog {
             }
         }
 
-        for(let g in grenades) {
-            const system = grenades[g];
-            const bonusGrenade = actor.items.filter(itm => itm.type === 'module' &&
-                (itm?.system?.niveau?.actuel?.bonus?.has ?? false) &&
-                (itm?.system?.niveau?.actuel?.bonus?.grenades?.has ?? false) &&
-                (itm?.system?.niveau?.actuel?.bonus?.grenades?.liste?.[g] ?? undefined));
-            let wpn = {};
+        if(actGrenade > 0) {
+            for(let g in grenades) {
+                const system = grenades[g];
+                const bonusGrenade = actor.items.filter(itm => itm.type === 'module' &&
+                    (itm?.system?.niveau?.actuel?.bonus?.has ?? false) &&
+                    (itm?.system?.niveau?.actuel?.bonus?.grenades?.has ?? false) &&
+                    (itm?.system?.niveau?.actuel?.bonus?.grenades?.liste?.[g] ?? undefined));
+                let wpn = {};
 
-            if(system.custom) wpn.name = system.label;
-            else wpn.name = game.i18n.localize(CONFIG.KNIGHT.grenades[g]);
+                if(system.custom) wpn.name = system.label;
+                else wpn.name = game.i18n.localize(CONFIG.KNIGHT.grenades[g]);
 
-            for(let b of bonusGrenade) {
-                const d = b?.system?.niveau?.actuel?.bonus?.grenades?.liste?.[g]?.degats?.dice ?? 0
-                const v = b?.system?.niveau?.actuel?.bonus?.grenades?.liste?.[g]?.violence?.dice ?? 0
+                for(let b of bonusGrenade) {
+                    const d = b?.system?.niveau?.actuel?.bonus?.grenades?.liste?.[g]?.degats?.dice ?? 0
+                    const v = b?.system?.niveau?.actuel?.bonus?.grenades?.liste?.[g]?.violence?.dice ?? 0
 
-                system.degats.dice += parseInt(d);
-                system.violence.dice += parseInt(v);
+                    system.degats.dice += parseInt(d);
+                    system.violence.dice += parseInt(v);
+                }
+
+                wpn.system = system;
+                wpn.id = `grenade_${g}`;
+
+                grenade.push(this.#addWpnDistance(wpn, bonusDistance));
             }
-
-            wpn.system = system;
-            wpn.id = `grenade_${g}`;
-
-            grenade.push(this.#addWpnDistance(wpn, bonusDistance));
         }
+
 
         if(wearArmor) {
             for(let m of modules) {
@@ -3146,6 +3159,54 @@ export class KnightRollDialog extends Dialog {
                 label:game.i18n.localize('KNIGHT.EFFETS.BARRAGE.Label'),
                 value:'barrage',
                 active:false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'chargeurballesgrappes')) {
+            let classes = ['chargeurballesgrappes', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.CHARGEURBALLESGRAPPES.Label'),
+                value:'chargeurballesgrappes',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'chargeurmunitionsexplosives')) {
+            let classes = ['chargeurmunitionsexplosives', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.CHARGEURMUNITIONSEXPLOSIVES.Label'),
+                value:'chargeurmunitionsexplosives',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'munitionsiem')) {
+            let classes = ['munitionsiem', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSIEM.Label'),
+                value:'munitionsiem',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'munitionsnonletales')) {
+            let classes = ['munitionsnonletales', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSNONLETALES.Label'),
+                value:'munitionsnonletales',
+                active:true,
             });
         }
 
