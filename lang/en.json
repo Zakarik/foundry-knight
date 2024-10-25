@@ -2278,7 +2278,7 @@
         "SetDamages": "Set damages",
         "SetViolence": "Set violence",
         "SetDebordement": "Set overrun",
-        "NoDamageOnTarget": "No damage done to target"
+        "NoDamageOnTarget": "Not enough damage/violence done to the target"
       }
     },
     "AUTRE": {

@@ -2278,7 +2278,7 @@
         "SetDamages": "Faire les dégâts",
         "SetViolence": "Faire la violence",
         "SetDebordement": "Faire le débordement",
-        "NoDamageOnTarget": "Pas de dégâts fait à la cible"
+        "NoDamageOnTarget": "Pas assez de dégâts/violence fait à la cible"
       }
     },
     "AUTRE": {
