@@ -1,7 +1,5 @@
-# Foundry system for Knight
-Knight  is a french RPG
-
-If you want to help, contact me on Discord Foundry : Zakarik
+# Système Foundry pour Knight
+Knight est un JDR Français
 
 Si vous voulez aider, contactez moi sur le Discord-FR de Foundry : https://discord.gg/pPSDNJk
 
@@ -49,8 +47,6 @@ L'ensemble du code est sous licence MIT.
 Knight is a french RPG
 
 If you want to help, contact me on Discord Foundry : Zakarik
-
-If you want to help, contact me on Foundry Discord : https://discord.gg/pPSDNJk
 
 Nickname : Zakarik
 
