@@ -56,18 +56,18 @@ This is a prerequisite for Ascension mode (Shaman armor) and Companions mode (Dr
 
 # System add-on modules
 
-- Knight Compendium](https://foundryvtt.com/packages/knight-compendium) by [DjLeChuck](https://github.com/DjLeChuck)
+- [Knight Compendium](https://foundryvtt.com/packages/knight-compendium) by [DjLeChuck](https://github.com/DjLeChuck)
 The complete Knight Compendium in English and French (requires Babele, see below).
 
-- Translation: Spanish [Knight]](https://foundryvtt.com/packages/knight-es) by [NarumiRM](https://github.com/NarumiRM)
+- [Translation: Spanish [Knight]](https://foundryvtt.com/packages/knight-es) by [NarumiRM](https://github.com/NarumiRM)
 Spanish translation of the system (and soon of the compendium).
 
 # Compatible modules
 
-- Status Icon Counter](https://foundryvtt.com/packages/statuscounter) is compatible with the system.
+- [Status Icon Counter](https://foundryvtt.com/packages/statuscounter) is compatible with the system.
 For the moment, light effects and barrages take the module into account, applying the malus correctly.
 
-- Babele](https://foundryvtt.com/packages/babele)
+- [Babele](https://foundryvtt.com/packages/babele)
 Necessary to have the compendium in English.
 
 # Acknowledgements
@@ -108,18 +108,18 @@ Este es un prerrequisito para que el modo Ascensión (armadura Chamán) y el mod
 
 # Complementos del sistema
 
-- Compendio del Caballero](https://foundryvtt.com/packages/knight-compendium) por [DjLeChuck](https://github.com/DjLeChuck)
+- [Compendio del Caballero](https://foundryvtt.com/packages/knight-compendium) por [DjLeChuck](https://github.com/DjLeChuck)
 El Compendio de Caballeros completo en francés e inglés (requiere Babele, ver más abajo).
 
-- Traducción: Español [Knight]](https://foundryvtt.com/packages/knight-es) por [NarumiRM](https://github.com/NarumiRM)
+- [Traducción: Español [Knight]](https://foundryvtt.com/packages/knight-es) por [NarumiRM](https://github.com/NarumiRM)
 Traducción al español del sistema (y pronto del compendio).
 
 # Módulos compatibles
 
-- Status Icon Counter](https://foundryvtt.com/packages/statuscounter) es compatible con el sistema.
+- [Status Icon Counter](https://foundryvtt.com/packages/statuscounter) es compatible con el sistema.
 De momento, los efectos de luz y las andanadas tienen en cuenta el módulo, aplicando el malus correctamente.
 
-- Babele](https://foundryvtt.com/packages/babele)
+- [Babele](https://foundryvtt.com/packages/babele)
 Necesario tener el compendio en inglés.
 
 # Agradecimientos
