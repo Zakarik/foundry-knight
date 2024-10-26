@@ -1,3 +1,7 @@
+## v3.33.2
+### Bugfix
+- Correction d'une clé de traduction.
+
 ## v3.33.1
 ### Bugfix
 - Oubli d'un spécial pour le renommage...
