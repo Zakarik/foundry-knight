@@ -2,7 +2,8 @@
 <div class="vision">
     <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
-        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.VISION.Label"}}
+        <input type="text" name="system.capacites.selected.vision.label" value="{{this.label}}"
+                {{#if this.softlock}}disabled{{/if}}/>
         <div>
             <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
                 {{#if this.softlock}}

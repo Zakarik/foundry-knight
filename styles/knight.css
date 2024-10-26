@@ -5830,7 +5830,9 @@
   background: RGB(43 42 51);
 }
 .armure form.armureWindows div.capacites h3 {
-  display: block;
+  display: grid;
+  grid-template-columns: min-content 1fr 205px;
+  grid-gap: 5px;
   position: relative;
   width: 100%;
   text-transform: uppercase;
@@ -5842,7 +5844,6 @@
   border-right: 0px;
   border-bottom: 1px solid RGB(43 42 51);
   line-height: 21px;
-  padding-top: 2px;
   font-size: 20px;
   padding-left: 20px;
   font-weight: bold;
@@ -5850,6 +5851,7 @@
 }
 .armure form.armureWindows div.capacites h3 .far {
   cursor: pointer;
+  margin-top: 2px;
 }
 .armure form.armureWindows div.capacites h3 div {
   position: absolute;
@@ -5879,6 +5881,17 @@
 }
 .armure form.armureWindows div.capacites h3 div a.delete:hover {
   text-shadow: 0 0 10px white;
+}
+.armure form.armureWindows div.capacites h3 input {
+  height: 23px;
+  background: RGB(43 42 51);
+  border-radius: 0px;
+  border: 0px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.armure form.armureWindows div.capacites h3 input[disabled] {
+  background: RGB(76 74 90);
 }
 .armure form.armureWindows div.capacites div.editor {
   width: 100%;
@@ -9620,7 +9633,9 @@
   background: RGB(43 42 51);
 }
 .armure form.armureWindows div.special h3 {
-  display: block;
+  display: grid;
+  grid-template-columns: min-content 1fr 205px;
+  grid-gap: 5px;
   position: relative;
   width: 100%;
   text-transform: uppercase;
@@ -9639,6 +9654,7 @@
   letter-spacing: 1px;
 }
 .armure form.armureWindows div.special h3 .far {
+  margin-top: 2px;
   cursor: pointer;
 }
 .armure form.armureWindows div.special h3 div {
@@ -9669,6 +9685,17 @@
 }
 .armure form.armureWindows div.special h3 div a.delete:hover {
   text-shadow: 0 0 10px white;
+}
+.armure form.armureWindows div.special h3 input {
+  height: 23px;
+  background: RGB(43 42 51);
+  border-radius: 0px;
+  border: 0px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.armure form.armureWindows div.special h3 input[disabled] {
+  background: RGB(76 74 90);
 }
 .armure form.armureWindows div.special div.editor {
   width: 100%;

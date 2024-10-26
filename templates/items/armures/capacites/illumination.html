@@ -2,7 +2,9 @@
 <div class="illumination">
     <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
-        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.Label"}}
+        <input type="text" name="system.capacites.selected.illumination.label" value="{{this.label}}"
+                {{#if this.softlock}}disabled{{/if}}/>
+
         <div>
             <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
                 {{#if this.softlock}}
@@ -18,7 +20,7 @@
         </div>
     </h3>
 
-    {{editor this.description target="system.capacites.selected.apeiron.description" button=true owner="../owner" editable="../editable"}}
+    {{editor this.description target="system.capacites.selected.illumination.description" button=true owner="../owner" editable="../editable"}}
 
     <div class="mainData">
         <div class="col">

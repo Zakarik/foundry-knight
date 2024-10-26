@@ -1,7 +1,8 @@
 <div class="watchtower">
     <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
-        {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WATCHTOWER.Label"}}
+        <input type="text" name="system.capacites.selected.watchtower.label" value="{{this.label}}"
+                {{#if this.softlock}}disabled{{/if}}/>
         <div>
             <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
                 {{#if this.softlock}}

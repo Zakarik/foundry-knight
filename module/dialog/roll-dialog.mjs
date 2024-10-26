@@ -351,7 +351,6 @@ export class KnightRollDialog extends Dialog {
     }
 
     #renderWpn(html) {
-        const actGrenades = this.who.system.combat.grenades.quantity.value;
         const parent = html.find('div.wpn');
         const allWpn = parent.find('div.button');
 

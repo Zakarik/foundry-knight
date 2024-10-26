@@ -1,7 +1,8 @@
 <div class="personnalise">
     <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
-        {{localize "KNIGHT.ITEMS.ARMURE.SPECIAL.PERSONNALISE.Label"}}
+        <input type="text" name="system.special.selected.personnalise.label" value="{{this.label}}"
+                {{#if this.softlock}}disabled{{/if}}/>
         <div>
             <a class="delete" data-type="{{this.key}}">
                 {{localize "KNIGHT.AUTRE.Supprimer"}}

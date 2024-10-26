@@ -1,3 +1,14 @@
+## v3.33.0
+### Améliorations
+- Ajout d'une automatisation pour les nods utilisé sur autrui.
+- Ajout de la possibilité de renommer les capacités et spéciaux des armures.
+
+### Bugfix
+- Correction de quelques bugs avec la nouvelle fonction de dégâts / violence de la fiche.
+- Correction de la capacité ultime "Deux fois vivant".
+- Correction de munitions activable / désactivable oubliées lors du jet.
+- Correction d'un bug impactant les jets des PNJ / Créatures.
+
 ## v3.32.2
 ### Bugfix
 - Correction d'un bug du calcul de l'inititive sur les PNJ.
