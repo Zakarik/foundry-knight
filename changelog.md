@@ -1,3 +1,7 @@
+## v3.33.1
+### Bugfix
+- Oubli d'un spécial pour le renommage...
+
 ## v3.33.0
 ### Améliorations
 - Ajout d'une automatisation pour les nods utilisé sur autrui.
