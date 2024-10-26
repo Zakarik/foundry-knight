@@ -1,3 +1,7 @@
+## v3.33.3
+### Bugfix
+- Correction du non-ajout de la bête aux dégâts pour les PNJ / Créatures
+
 ## v3.33.2
 ### Bugfix
 - Correction d'une clé de traduction.

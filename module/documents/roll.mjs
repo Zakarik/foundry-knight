@@ -1355,7 +1355,7 @@ export class RollKnight {
                 title += ` + ${traForce}`;
             } else if(type === 'bande') {
                 // Bande debordement doesn't add bonuses
-            } else {
+            } else if(type === 'pnj') {
                 const beteMineur = this.attaquant.system.aspects.bete.ae.mineur.value;
                 const beteMajeur = this.attaquant.system.aspects.bete.ae.majeur.value;
 
