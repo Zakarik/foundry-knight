@@ -2277,7 +2277,8 @@
         "DebordementForAllTargets": "Debordement pour toutes les cibles",
         "SetDamages": "Faire les dégâts",
         "SetViolence": "Faire la violence",
-        "SetDebordement": "Faire le débordement"
+        "SetDebordement": "Faire le débordement",
+        "NoDamageOnTarget": "Pas assez de dégâts/violence fait à la cible"
       }
     },
     "AUTRE": {
