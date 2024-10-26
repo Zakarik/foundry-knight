@@ -2228,7 +2228,7 @@
       "AppliquerNods": "Apply the Node",
       "PluralRecupereArmure": "Recovers {value} points of armour",
       "PluralRecupereEnergie": "Recovers {value} points of energy",
-      "PluralRecupereSante": "Recovers {value} points of health",
+      "PluralRecupereSoin": "Recovers {value} points of health",
       "SingularRecupereArmure": "Recovers {value} point of armour",
       "SingularRecupereEnergie": "Recovers {value} point of energy",
       "SingularRecupereSante": "Recovers {value} point of health",
