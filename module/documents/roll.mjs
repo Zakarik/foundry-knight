@@ -1324,12 +1324,28 @@ export class RollKnight {
             let traForce = '';
 
             if(type === 'creature') {
+                const beteMineur = this.attaquant.system.aspects.bete.ae.mineur.value;
+                const beteMajeur = this.attaquant.system.aspects.bete.ae.majeur.value;
+
                 if(weapon.degats.addchair) {
                     force = Math.floor(this.getAspect('chair')/2);
                     traForce = game.i18n.localize(CONFIG.KNIGHT.aspects.chair);
 
                     bonus.push(force);
                     title += ` + ${traForce}`;
+                }
+
+                if(beteMajeur > 0) {
+                    bonus.push(this.getAspect('bete'));
+                    bonus.push(beteMajeur);
+                    bonus.push(beteMineur);
+
+                    title += ` + ${game.i18n.localize(CONFIG.KNIGHT.aspects.bete)} + ${game.i18n.localize('KNIGHT.JETS.BETE.Majeur')} + ${game.i18n.localize('KNIGHT.JETS.BETE.Mineur')}`;
+                } else if(beteMineur > 0) {
+                    bonus.push(beteMajeur);
+                    bonus.push(beteMineur);
+
+                    title += ` + ${game.i18n.localize('KNIGHT.JETS.BETE.Majeur')} + ${game.i18n.localize('KNIGHT.JETS.BETE.Mineur')}`;
                 }
             } else if(type === 'knight') {
                 force = this.getCaracteristique('chair', 'force');
@@ -1340,11 +1356,29 @@ export class RollKnight {
             } else if(type === 'bande') {
                 // Bande debordement doesn't add bonuses
             } else {
-                force = Math.floor(this.getAspect('chair')/2);
-                traForce = game.i18n.localize(CONFIG.KNIGHT.aspects.chair);
+                const beteMineur = this.attaquant.system.aspects.bete.ae.mineur.value;
+                const beteMajeur = this.attaquant.system.aspects.bete.ae.majeur.value;
 
-                bonus.push(force);
-                title += ` + ${traForce}`;
+                if(weapon.degats.addchair) {
+                    force = Math.floor(this.getAspect('chair')/2);
+                    traForce = game.i18n.localize(CONFIG.KNIGHT.aspects.chair);
+
+                    bonus.push(force);
+                    title += ` + ${traForce}`;
+                }
+
+                if(beteMajeur > 0) {
+                    bonus.push(this.getAspect('bete'));
+                    bonus.push(beteMajeur);
+                    bonus.push(beteMineur);
+
+                    title += ` + ${game.i18n.localize(CONFIG.KNIGHT.aspects.bete)} + ${game.i18n.localize('KNIGHT.JETS.BETE.Majeur')} + ${game.i18n.localize('KNIGHT.JETS.BETE.Mineur')}`;
+                } else if(beteMineur > 0) {
+                    bonus.push(beteMajeur);
+                    bonus.push(beteMineur);
+
+                    title += ` + ${game.i18n.localize('KNIGHT.JETS.BETE.Majeur')} + ${game.i18n.localize('KNIGHT.JETS.BETE.Mineur')}`;
+                }
             }
 
             if(getGoliath && armorIsWear) {
