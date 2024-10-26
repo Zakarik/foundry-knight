@@ -3084,7 +3084,6 @@ export class KnightSheet extends ActorSheet {
               {
                 classes:'applyNods full',
                 label:game.i18n.localize('KNIGHT.JETS.AppliquerNods'),
-                limited:true,
                 id:targetTo.id,
                 tgt:true,
               }
