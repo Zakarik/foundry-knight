@@ -2225,6 +2225,13 @@
       "JetEchoue":"Jet échoué",
       "AugmenterDebordement":"Augmenter le débordement",
       "DebordementAugmente":"Le débordement augmente...",
+      "AppliquerNods":"Appliquer le Nod",
+      "PluralRecupereArmure":"Récupère {value} points d'armures",
+      "PluralRecupereEnergie":"Récupère {value} points d'énergies",
+      "PluralRecupereSante":"Récupère {value} points de santés",
+      "SingularRecupereArmure":"Récupère {value} point d'armure",
+      "SingularRecupereEnergie":"Récupère {value} point d'énergie",
+      "SingularRecupereSante":"Récupère {value} point de santé",
       "RESULTATS":{
         "Affecte":"Affecté",
         "PasAffecte":"Pas affecté",

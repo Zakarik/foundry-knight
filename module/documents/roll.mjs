@@ -32,6 +32,8 @@ export class RollKnight {
         this.isSurprise = data?.surprise ?? false;
         this.exploit = data?.exploit ?? true;
         this.difficulte = data?.difficulte ?? undefined;
+        this.addContent = data?.addContent ?? {};
+        this.addFlags = data?.addFlags ?? {};
     }
 
     get isVersion12() {
@@ -561,6 +563,7 @@ export class RollKnight {
         };
 
         foundry.utils.mergeObject(main, addData);
+
         if(main.text) {
             if (typeof main.text === 'string' && main.text.includes('@{rollTotal}')) {
                 let updatedText = main.text.replace(/@{rollTotal}/g, total);
@@ -606,6 +609,8 @@ export class RollKnight {
                 results:results,
             }]}),
         };
+
+        foundry.utils.mergeObject(content, this.addContent);
 
         if(!foundry.utils.isEmpty(effets)) {
             const localize = getAllEffects();
@@ -679,7 +684,11 @@ export class RollKnight {
 
         if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
 
-        await ChatMessage.create(chatData);
+        const msg = await ChatMessage.create(chatData);
+
+        for(let f in this.addFlags) {
+            msg.setFlag('knight', f, this.addFlags[f]);
+        }
 
         return total;
     }
@@ -1217,6 +1226,7 @@ export class RollKnight {
 
         for(let c of content.content) {
             const total = c.total;
+            c.bonus.push(5);
 
             for(let t of c.targets) {
                 const tgt = game.user.targets.find(tgt => tgt.id === t.id);
@@ -1309,7 +1319,6 @@ export class RollKnight {
         if(weapon.degats.fixe > 0) bonus.push(weapon.degats.fixe);
         if(hasBourreau) min = parseInt(this.#getEffet(raw, 'bourreau').split(' ')[1]);
 
-        console.warn(weapon.type);
         if(weapon.type === 'contact') {
             let force = 0;
             let traForce = '';

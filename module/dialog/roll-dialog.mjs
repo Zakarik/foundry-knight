@@ -940,6 +940,10 @@ export class KnightRollDialog extends Dialog {
                 w.active = weaponData.find(`button.${w.classes.split(' ')[0]}`).hasClass('selected');
             }
 
+            if((this.#isEffetActive(effets, weapon.options, ['munitionsdrones']))) {
+                bonus.push(3);
+            }
+
             const dgtsVariable = weapon.options.find(itm => itm.classes.includes('dgtsvariable') && itm.key === 'select');
             const violenceVariable = weapon.options.find(itm => itm.classes.includes('violencevariable') && itm.key === 'select');
             const dgtsBonusVariable = weapon.options.find(itm => itm.classes.includes('dgtsbonusvariable') && itm.key === 'select');
@@ -3207,6 +3211,42 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSNONLETALES.Label'),
                 value:'munitionsnonletales',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'munitionshypervelocite')) {
+            let classes = ['munitionshypervelocite', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label'),
+                value:'munitionshypervelocite',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'munitionsdrones')) {
+            let classes = ['munitionsdrones', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSDRONES.Label'),
+                value:'munitionsdrones',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'munitionssubsoniques')) {
+            let classes = ['munitionssubsoniques', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSSUBSONIQUES.Label'),
+                value:'munitionssubsoniques',
                 active:true,
             });
         }

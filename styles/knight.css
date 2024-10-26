@@ -40459,12 +40459,12 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-size: 14px;
   line-height: 14px;
 }
-.knight-roll div.btn {
+.knight-roll div.btn, .knight-roll div.tgtBtn {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 5px;
 }
-.knight-roll div.btn button {
+.knight-roll div.btn button, .knight-roll div.tgtBtn button {
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
@@ -40479,11 +40479,11 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding: 0px;
   font-variant: small-caps;
 }
-.knight-roll div.btn button:hover {
+.knight-roll div.btn button:hover, .knight-roll div.tgtBtn button:hover {
   background: white;
   color: RGB(43 42 51);
 }
-.knight-roll div.btn.full {
+.knight-roll div.btn.full, .knight-roll div.tgtBtn.full {
   grid-template-columns: 1fr;
 }
 .knight-roll div.effets {

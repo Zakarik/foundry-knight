@@ -104,7 +104,7 @@
         {{/if}}
 
         {{#each otherBtn}}
-            <div class="btn {{classes}}">
+            <div class="{{ifThen tgt 'tgtBtn' 'btn'}} {{classes}}" data-limited="{{limited}}" data-id="{{id}}">
                 <button type="action" title="{{title}}">{{label}}</button>
             </div>
         {{/each}}
