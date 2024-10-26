@@ -3045,17 +3045,39 @@ export class KnightSheet extends ActorSheet {
 
     html.find('div.nods img.diceTarget').click(async ev => {
       const data = this.actor;
-      const target = $(ev.currentTarget);
-      const nbre = +target.data("number");
-      const nods = target.data("nods");
+      const targetFrom = $(ev.currentTarget);
+      const nbre = +targetFrom.data("number");
+      const nods = targetFrom.data("nods");
+      const dices = targetFrom.data("dices");
+      const wear = data.system.wear;
 
-      if(nbre > 0) {
+      const targetTo = game.user?.targets?.find((token) => token.actor.type === 'knight');
+
+      if(nbre > 0 && targetTo) {
+        const recuperation = targetTo.actor.system.combat.nods[nods].recuperationBonus;
         let update = {}
-        update[`system.combat.nods.${nods}.value`] = nbre - 1;
 
-        const rNods = new game.knight.RollKnight(this.actor, {
+        switch(nods) {
+          case 'soin':
+            update['system.sante.value'] = `@{rollTotal}+${targetTo.actor.system.sante.value}`;
+            break;
+
+          case 'energie':
+            update[`system.equipements.${wear}.energie.value`] = `@{rollTotal}+${targetTo.actor.system.energie.value}`;
+            break;
+
+          case 'armure':
+            update[`system.equipements.${wear}.armure.value`] = `@{rollTotal}+${targetTo.actor.system.armure.value}`;
+            break;
+        }
+        const updateNods = {};
+        updateNods[`system.combat.nods.${nods}.value`] = nbre - 1;
+        await this.actor.update(updateNods);
+
+        const rNods = new game.knight.RollKnight(targetTo.actor, {
           name:game.i18n.localize(`KNIGHT.JETS.Nods${nods}`),
-          dices:`3D6`,
+          dices: dices,
+          bonus:[recuperation]
         }, false);
 
         await rNods.doRoll(update);
