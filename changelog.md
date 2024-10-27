@@ -1,3 +1,11 @@
+## v3.33.4
+### Bugfix
+- Correction d'un bug empêchant d'appliquer correctement les dégâts en V11.
+- Correction d'un bug empêchant les PNJ/Créatures de faire des jets d'armes improvisées.
+- Correction d'un bug avec les modules créant des armes sur les PNJ.
+- Correction d'un bug d'arrondi sur les PNJ / Créatures.
+- Correction d'un bug empêchant l'accès aux boutons de restauration lorsque l'option était décochée, même aux MJ.
+
 ## v3.33.3
 ### Bugfix
 - Correction du non-ajout de la bête aux dégâts pour les PNJ / Créatures

@@ -978,6 +978,6 @@
     });
 
     Handlebars.registerHelper('hasPJRestaure', function () {
-        return game.settings.get("knight", "canPJRestaure");
+        return game.settings.get("knight", "canPJRestaure") || game.user.isGM;
     });
  };
