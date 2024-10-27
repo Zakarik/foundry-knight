@@ -1,3 +1,7 @@
+## v3.33.5
+### Bugfix
+- Correction d'un problème avec la capacité ultime de la Shaman qui ne fonctionnait pas correctement.
+
 ## v3.33.4
 ### Bugfix
 - Correction d'un bug empêchant d'appliquer correctement les dégâts en V11.

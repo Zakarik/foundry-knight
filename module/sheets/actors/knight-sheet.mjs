@@ -2095,8 +2095,11 @@ export class KnightSheet extends ActorSheet {
         update['system.equipements.ascension'] = this.actor.system.equipements.armure;
 
         if(!prestige) {
-          for(let item of newActor.items.filter(items => items.system.rarete === 'prestige')) {
-            item.delete();
+          for(let item of newActor.items) {
+            const rareteWpn = item.system?.rarete ?? '';
+            const rareteMdl = item.system?.niveau?.actuel?.rarete ?? '';
+
+            if(((rareteWpn === 'prestige' || rareteMdl === 'prestige') && !prestige) || item.type === 'capaciteultime') item.delete();
           }
         }
 
