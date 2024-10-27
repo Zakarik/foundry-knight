@@ -1241,7 +1241,7 @@ export class RollKnight {
                         switch(d.simple) {
                             case 'choc':
                             case 'electrifiee':
-                                const comparaison = target.type === 'knight' ? chair : chair/2;
+                                const comparaison = target.type === 'knight' ? chair : Math.ceil(chair/2);
                                 const chairAE = target.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
                                 t.effets.push({
@@ -1328,7 +1328,7 @@ export class RollKnight {
                 const beteMajeur = this.attaquant.system.aspects.bete.ae.majeur.value;
 
                 if(weapon.degats.addchair) {
-                    force = Math.floor(this.getAspect('chair')/2);
+                    force = Math.ceil(this.getAspect('chair')/2);
                     traForce = game.i18n.localize(CONFIG.KNIGHT.aspects.chair);
 
                     bonus.push(force);
@@ -1360,7 +1360,7 @@ export class RollKnight {
                 const beteMajeur = this.attaquant.system.aspects.bete.ae.majeur.value;
 
                 if(weapon.degats.addchair) {
-                    force = Math.floor(this.getAspect('chair')/2);
+                    force = Math.ceil(this.getAspect('chair')/2);
                     traForce = game.i18n.localize(CONFIG.KNIGHT.aspects.chair);
 
                     bonus.push(force);
@@ -1778,7 +1778,7 @@ export class RollKnight {
                     case 'sournoise':
                     case 'orfevrerie':
                         if(effet) {
-                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('masque', 'dexterite') : this.getAspect('masque')/2;
+                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('masque', 'dexterite') : Math.ceil(this.getAspect('masque')/2);
                             let totalOD = 0;
 
                             if(this.attaquant.type === 'knight') {
@@ -1801,7 +1801,7 @@ export class RollKnight {
                     case 'massive':
                     case 'leste':
                         if(effet) {
-                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('chair', 'force') : this.getAspect('chair')/2;
+                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('chair', 'force') : Math.ceil(this.getAspect('chair')/2);
 
                             bonus.push(total);
 
@@ -2262,7 +2262,7 @@ export class RollKnight {
 
                     case 'intimidanthum':
                         if(effet) {
-                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('dame', 'aura') : this.getAspect('dame')/2;
+                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('dame', 'aura') : Math.ceil(this.getAspect('dame')/2);
                             let totalOD = 0;
 
                             if(this.actor.type === 'knight') {

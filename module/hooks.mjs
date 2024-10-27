@@ -227,8 +227,6 @@ export default class HooksKnight {
             await roll.doRollDamage(data);
             });
 
-            console.warn(tgtBtn);
-
             tgtBtn.click(async ev => {
                 const type = message.getFlag('knight', 'type');
                 const target = message.getFlag('knight', 'target');
@@ -343,7 +341,9 @@ export default class HooksKnight {
 
                 // Check if the target is still alive
                 if (sante === 0 && armor === 0) {
-                    actor.toggleStatusEffect('dead', { active: true, overlay: true });
+                    if(isVersion12) actor.toggleStatusEffect('dead', { active: true, overlay: true });
+                    else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
+
                     chatMessage += `<p><b>${game.i18n.localize('KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead')}.</b></p>`;
                     ChatMessage.create({
                     user: game.user._id,
@@ -560,7 +560,8 @@ export default class HooksKnight {
                 // Set the creature dead
                 if (damagesLeft >= 0) {
                     chatMessage += `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetDead")}.</b></p>`;
-                    actor.toggleStatusEffect('dead', { active: true, overlay: true });
+                    if(isVersion12) actor.toggleStatusEffect('dead', { active: true, overlay: true });
+                    else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
                 }
 
                 ChatMessage.create({
@@ -636,7 +637,9 @@ export default class HooksKnight {
 
                 // Check if the target is still alive
                 if ((hasSante && sante === 0) && armor === 0) {
-                    actor.toggleStatusEffect('dead', { active: true, overlay: true });
+                    if(isVersion12) actor.toggleStatusEffect('dead', { active: true, overlay: true });
+                    else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
+
                     chatMessage += `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead")}.</b></p>`;
                     ChatMessage.create({
                     user: game.user._id,
@@ -933,13 +936,15 @@ export default class HooksKnight {
                 // Check if the player is dead
                 if ((hasSante && santeRest <= 0) || (!hasSante && armorRest <= 0)) {
                     chatMessage += `<p>${game.i18n.format("KNIGHT.JETS.DEGATSAUTO.PjDead", {name: actor.name})}.</p>`;
-                    actor.toggleStatusEffect('dead', { active: true, overlay: true });
+                    if(isVersion12) actor.toggleStatusEffect('dead', { active: true, overlay: true });
+                    else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
                 }
 
                 // Check if the player sinks into despair
                 if (espoirRest <= 0) {
                     chatMessage += `<p>${game.i18n.format("KNIGHT.JETS.DEGATSAUTO.PjHopeless", {name: actor.name})}</p>`;
-                    actor.toggleStatusEffect('dead', { active: true, overlay: true });
+                    if(isVersion12) actor.toggleStatusEffect('dead', { active: true, overlay: true });
+                    else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
                 }
 
                 // Send message
@@ -949,6 +954,42 @@ export default class HooksKnight {
                     content: chatMessage,
                 });
                 return;
+            }
+
+            async function V11toggleStatusEffect(actor, statusId, {active, overlay=false}={}) {
+                const status = CONFIG.statusEffects.find(e => e.id === statusId);
+                if ( !status ) throw new Error(`Invalid status ID "${statusId}" provided to Actor#toggleStatusEffect`);
+                const existing = [];
+
+                // Find the effect with the static _id of the status effect
+                if ( status._id ) {
+                  const effect = actor.effects.get(status._id);
+                  if ( effect ) existing.push(effect.id);
+                }
+                // If no static _id, find all single-status effects that have this status
+                else {
+                  for ( const effect of actor.effects ) {
+                    const statuses = effect.statuses;
+                    if ( (statuses.size === 1) && statuses.has(status.id) ) existing.push(effect.id);
+                  }
+                }
+                // Remove the existing effects unless the status effect is forced active
+                if ( existing.length ) {
+                  if ( active ) return true;
+                  await actor.deleteEmbeddedDocuments("ActiveEffect", existing);
+                  return false;
+                }
+
+                let cEffect = {
+                    icon:status.icon,
+                    id:status.id,
+                    statuses:[statusId],
+                    label:game.i18n.localize(status.label)
+                }
+
+                let nEffect = await actor.createEmbeddedDocuments('ActiveEffect', [cEffect]);
+
+                nEffect[0].setFlag('core', 'overlay', overlay);
             }
 
             // Create dialog for damages

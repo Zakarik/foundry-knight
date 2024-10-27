@@ -285,13 +285,9 @@ export class CreatureSheet extends ActorSheet {
           label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[name][num]);
           id = id === 'distance' ? `${other}${what}d` : `${other}${what}c`;
 
-          whatRoll.push('force');
+          base = 'chair';
 
-          if(id === 'distance') {
-            base = 'tir';
-            if(hasFumigene && !notFumigene) modificateur -= 3;
-          }
-          else base = 'combat';
+          if(id === 'distance' && hasFumigene && !notFumigene) modificateur -= 3;
           break;
 
         case 'longbow':

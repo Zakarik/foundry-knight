@@ -4589,7 +4589,7 @@ export function compareArrays(arr1, arr2) {
 };
 
 export function getFlatEffectBonus(wpn, forceEquipped=false) {
-  const data = wpn.system;
+  const data = wpn?.system ? wpn.system : wpn;
   const type = data.type;
   const equipped = forceEquipped ? true : data?.equipped || false;
   const effets = data.effets.custom;
