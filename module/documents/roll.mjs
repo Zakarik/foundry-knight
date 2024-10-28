@@ -2077,6 +2077,22 @@ export class RollKnight {
                 }
             }
 
+            if(this.#isEffetActive(raw, options, ['modeheroique'])) {
+                if(t.marge) {
+                    const subroll = await this.doSimpleRoll(`${t.marge}D6`, t.marge, [], rollOptions, {bourreau:hasBourreau, min:min});
+                    total += subroll.roll.total;
+                    rolls.push(subroll.roll);
+
+                    t.effets.push({
+                        simple:true,
+                        key:'modeheroique',
+                        label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize('KNIGHT.JETS.ModeHeroique')}`})}`,
+                        empty:true,
+                        tooltip:subroll.tooltip
+                    });
+                }
+            }
+
             t.isValue = true;
             t.value = total;
         }
@@ -2566,7 +2582,7 @@ export class RollKnight {
                             t.effets.push({
                                 simple:d.simple,
                                 key:d.key,
-                                label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
+                                label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.ViolenceAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
                                 empty:true,
                             });
                         }
@@ -2580,7 +2596,7 @@ export class RollKnight {
                                 t.effets.push({
                                     simple:d.simple,
                                     key:d.key,
-                                    label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
+                                    label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.ViolenceAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
                                     empty:true,
                                 });
                             }
@@ -2595,12 +2611,28 @@ export class RollKnight {
                                 t.effets.push({
                                     simple:d.simple,
                                     key:d.key,
-                                    label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
+                                    label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.ViolenceAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
                                     empty:true,
                                 });
                             }
                         }
                         break;
+                }
+            }
+
+            if(this.#isEffetActive(raw, options, ['modeheroique'])) {
+                if(t.marge) {
+                    const subroll = await this.doSimpleRoll(`${t.marge}D6`, t.marge, [], rollOptions, {devastation:hasDevastation, min:min});
+                    total += subroll.roll.total;
+                    rolls.push(subroll.roll);
+
+                    t.effets.push({
+                        simple:true,
+                        key:'modeheroique',
+                        label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.ViolenceAvec", {avec:`${game.i18n.localize('KNIGHT.JETS.ModeHeroique')}`})}`,
+                        empty:true,
+                        tooltip:subroll.tooltip
+                    });
                 }
             }
 

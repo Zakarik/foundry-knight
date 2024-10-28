@@ -1,3 +1,8 @@
+## v3.34.0
+### Améliorations
+- Ajout d'un bouton "Mode Héroique" permettant de compter tous les succès excédentaires comme des D6 supplémentaires en dégâts / violence.
+- Changement du "Dégâts avec" en "Violence avec" lorsqu'il s'agit d'un jet de violence et non de dégâts.
+
 ## v3.33.5
 ### Bugfix
 - Correction d'un problème avec la capacité ultime de la Shaman qui ne fonctionnait pas correctement.

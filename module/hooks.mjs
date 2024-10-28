@@ -177,11 +177,11 @@ export default class HooksKnight {
             });
 
             html.find('.knight-roll div.details.withTooltip').click(ev => {
-            const tgt = $(ev.currentTarget);
+                const tgt = $(ev.currentTarget);
 
-            tgt.find('div.dice-tooltip').toggle({
-                complete: () => {},
-            });
+                tgt.find('div.dice-tooltip').toggle({
+                    complete: () => {},
+                });
             });
 
             html.find('.knight-roll button.degats').click(async ev => {
@@ -1299,6 +1299,15 @@ export default class HooksKnight {
             }
 
             this._hoveredToken = null;
+            });
+
+            html.find('.knight-roll div.listTargets div.target.withTooltip').click(ev => {
+                ev.preventDefault();
+                const tgt = $(ev.currentTarget);
+
+                html.find('.knight-roll div.listTargets div.dice-tooltip').toggle({
+                    complete: () => {},
+                });
             });
         });
         //FIN GESTION MESSAGE

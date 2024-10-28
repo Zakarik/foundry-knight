@@ -2232,6 +2232,7 @@
       "SingularRecupereArmure":"Récupère {value} point d'armure",
       "SingularRecupereEnergie":"Récupère {value} point d'énergie",
       "SingularRecupereSante":"Récupère {value} point de santé",
+      "ModeHeroique":"Mode Héroique",
       "RESULTATS":{
         "Affecte":"Affecté",
         "PasAffecte":"Pas affecté",
@@ -2241,6 +2242,7 @@
         "VsDefense":"vs Défense",
         "PFTarget":"Point faible ciblé !",
         "DegatsAvec":"Dégâts avec {avec}",
+        "ViolenceAvec":"Violence avec {avec}",
         "ProtegePar":"Protégé par {aspect}"
       },
       "CHAIRD2": {

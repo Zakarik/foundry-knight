@@ -40463,6 +40463,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-size: 14px;
   line-height: 14px;
 }
+.knight-roll div.listTargets div.target.withTooltip {
+  cursor: pointer;
+}
+.knight-roll div.listTargets div.dice-tooltip {
+  padding-left: 5px;
+  border-top: 1px solid var(--color-text-light-6);
+  border-bottom: 1px solid var(--color-text-light-6);
+}
+.knight-roll div.listTargets div.dice-tooltip span.part-formula {
+  font-size: var(--font-size-14);
+}
+.knight-roll div.listTargets div.dice-tooltip span.part-total {
+  font-size: var(--font-size-16);
+}
+.knight-roll div.listTargets div.dice-tooltip .roll.d6 {
+  filter: brightness(1.25);
+}
 .knight-roll div.listTargets span.label {
   font-weight: bold;
 }

@@ -59,7 +59,7 @@
                 {{/if}}
             </div>
             {{#each effets}}
-                <div class="target sub" data-key="{{key}}" data-id="{{../id}}">
+                <div class="target sub {{#if tooltip}}withTooltip{{/if}}" data-key="{{key}}" data-id="{{../id}}">
                     <span class="label">{{label}}</span>
                     {{#unless empty}}
                         {{#if value}}
@@ -73,6 +73,7 @@
                         {{/if}}
                     {{/unless}}
                 </div>
+                {{#if tooltip}}{{{tooltip}}}{{/if}}
             {{/each}}
             {{#if isValue}}
             <div class="btn">
@@ -138,7 +139,7 @@
             {{/if}}
         </div>
         {{#each effets}}
-            <div class="target sub" data-key="{{key}}" data-id="{{../id}}">
+            <div class="target sub {{#if tooltip}}withTooltip{{/if}}" data-key="{{key}}" data-id="{{../id}}">
                 <span class="label">{{label}}</span>
                 {{#unless empty}}
                     {{#if value}}
@@ -152,6 +153,7 @@
                     {{/if}}
                 {{/unless}}
             </div>
+            {{#if tooltip}}{{{tooltip}}}{{/if}}
         {{/each}}
     </div>
     {{/each}}

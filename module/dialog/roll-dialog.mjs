@@ -733,6 +733,7 @@ export class KnightRollDialog extends Dialog {
         const difficulte = parseInt(data.find('label.score.difficulte input').val());
         const succesBonus = parseInt(data.find('label.score.succesBonus input').val());
         const modificateur = parseInt(data.find('label.score.modificateur input').val());
+        const isModeHeroique = data.find('button.btn.modeheroique').hasClass('selected');
         const isNoOd = this.rollData.btn?.nood ?? false;
         const isAttaqueSurprise = this.rollData.btn?.attaquesurprise ?? false;
         let carac = base ? [this.#getLabelRoll(base)] : [];
@@ -937,6 +938,20 @@ export class KnightRollDialog extends Dialog {
                 if(w.key !== 'btn' && w.special) continue;
 
                 w.active = weaponData.find(`button.${w.classes.split(' ')[0]}`).hasClass('selected');
+            }
+
+            if(isModeHeroique) {
+                weapon.effets.raw.push('modeheroique');
+
+                weapon.options.push({
+                    classes:'modeheroique',
+                    active:true,
+                });
+
+                tags.push({
+                    key:'modeheroique',
+                    label:`${game.i18n.localize('KNIGHT.JETS.ModeHeroique')}`,
+                });
             }
 
             if((this.#isEffetActive(effets, weapon.options, ['munitionsdrones']))) {
@@ -1159,6 +1174,8 @@ export class KnightRollDialog extends Dialog {
                 label:`${game.i18n.localize('KNIGHT.JETS.AttackSurprise')}`,
             })
         }
+
+        console.warn(weapon);
 
         if(doRoll) {
             const exec = new game.knight.RollKnight(actor,
@@ -1505,6 +1522,15 @@ export class KnightRollDialog extends Dialog {
             classes:'btn maximizeviolence colFiveSeven',
             btnclasses:'btn maximizeviolence',
             label:game.i18n.localize('KNIGHT.JETS.MaximizeViolence'),
+        });
+
+        //BOUTON MODE HEROIQUE
+        data.mods.push({
+            key:'btn',
+            name:'modeheroique',
+            classes:'btn modeheroique colFiveSeven',
+            btnclasses:'btn modeheroique',
+            label:game.i18n.localize('KNIGHT.JETS.ModeHeroique'),
         });
 
         //ARMES
@@ -3728,6 +3754,8 @@ export class KnightRollDialog extends Dialog {
 
                 html.find('.maximizeviolence').hide();
 
+                html.find('.modeheroique').hide();
+
                 html.find('.attaquesurprise').hide();
 
                 html.find('.score.difficulte').show();
@@ -3767,6 +3795,10 @@ export class KnightRollDialog extends Dialog {
                     complete: () => {},
                 });
 
+                html.find('.modeheroique').hide({
+                    complete: () => {},
+                });
+
                 html.find('.attaquesurprise').hide({
                     complete: () => {},
                 });
@@ -3801,6 +3833,12 @@ export class KnightRollDialog extends Dialog {
                 html.find('.maximizedegats').show();
 
                 html.find('.maximizeviolence').show();
+
+                if(isPJ) {
+                    html.find('.modeheroique').show();
+                } else {
+                    html.find('.modeheroique').hide();
+                }
 
                 html.find('.attaquesurprise').show();
 
@@ -3838,6 +3876,16 @@ export class KnightRollDialog extends Dialog {
                 html.find('.maximizeviolence').show({
                     complete: () => {},
                 });
+
+                if(isPJ) {
+                    html.find('.modeheroique').show({
+                        complete: () => {},
+                    });
+                } else {
+                    html.find('.modeheroique').hide({
+                        complete: () => {},
+                    });
+                }
 
                 html.find('.attaquesurprise').show({
                     complete: () => {},

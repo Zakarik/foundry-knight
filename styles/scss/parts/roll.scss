@@ -80,6 +80,30 @@
             font-size: 14px;
             line-height: 14px;
           }
+
+          &.withTooltip {
+            cursor: pointer;
+          }
+        }
+
+        &.dice-tooltip {
+          padding-left: 5px;
+          border-top: 1px solid var(--color-text-light-6);
+          border-bottom: 1px solid var(--color-text-light-6);
+
+          span {
+            &.part-formula {
+              font-size: var(--font-size-14);
+            }
+
+            &.part-total {
+              font-size: var(--font-size-16);
+            }
+          }
+
+          .roll.d6 {
+            filter:brightness(1.25);
+          }
         }
       }
 

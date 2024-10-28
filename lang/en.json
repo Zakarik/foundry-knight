@@ -2232,6 +2232,7 @@
       "SingularRecupereArmure": "Recovers {value} point of armour",
       "SingularRecupereEnergie": "Recovers {value} point of energy",
       "SingularRecupereSante": "Recovers {value} point of health",
+      "ModeHeroique":"Heroic Mode",
       "RESULTATS":{
         "Affecte":"Affected",
         "PasAffecte":"Not affected",
@@ -2241,6 +2242,7 @@
         "VsDefense":"vs Defence",
         "PFTarget":"Targeted weak point !",
         "DegatsAvec":"Damage with {avec}",
+        "ViolenceAvec":"Violence with {avec}",
         "ProtegePar":"Protected by {aspect}"
       },
       "CHAIRD2": {
