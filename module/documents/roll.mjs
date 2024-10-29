@@ -1408,30 +1408,36 @@ export class RollKnight {
                 }
             }
 
-            if(odDiscretion >= 5) {
-                if(this.isSurprise || isGhostActive || isChangelingActive) {
-                    bonus.push(discretion+odDiscretion);
-                    title += ` + ${game.i18n.localize('KNIGHT.JETS.ODDiscretion')}`
-                } else {
-                    detailledEffets.push({
-                        simple:'oddiscretion',
-                        key:'oddiscretion',
-                        value:`+${discretion+odDiscretion}`,
-                        label:`${game.i18n.localize('KNIGHT.JETS.ODDiscretion')}`,
-                        description:this.#sanitizeTxt(game.i18n.localize(`KNIGHT.JETS.AttaqueSurprise`)),
-                    });
-                }
+            if (isGhostActive) {
+                bonus.push(discretion + odDiscretion);
+                title += ` + ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label')}`;
             }
-            else if(odDiscretion >= 2) {
+
+            if(odDiscretion >= 2) {
                 if(this.isSurprise || isGhostActive || isChangelingActive) {
                     bonus.push(discretion);
-                    title += ` + ${game.i18n.localize('KNIGHT.JETS.ODDiscretion')}`
+                    title += ` + ${game.i18n.localize('KNIGHT.JETS.ODDiscretion')} 2`
                 } else {
                     detailledEffets.push({
                         simple:'oddiscretion',
                         key:'oddiscretion',
                         value:`+${discretion}`,
-                        label:`${game.i18n.localize('KNIGHT.JETS.ODDiscretion')}`,
+                        label:`${game.i18n.localize('KNIGHT.JETS.ODDiscretion')} 2`,
+                        description:this.#sanitizeTxt(game.i18n.localize(`KNIGHT.JETS.AttaqueSurprise`)),
+                    });
+                }
+            }
+
+            if(odDiscretion >= 5) {
+                if(this.isSurprise || isGhostActive || isChangelingActive) {
+                    bonus.push(discretion+odDiscretion);
+                    title += ` + ${game.i18n.localize('KNIGHT.JETS.ODDiscretion')} 5`
+                } else {
+                    detailledEffets.push({
+                        simple:'oddiscretion',
+                        key:'oddiscretion',
+                        value:`+${discretion+odDiscretion}`,
+                        label:`${game.i18n.localize('KNIGHT.JETS.ODDiscretion')} 5`,
                         description:this.#sanitizeTxt(game.i18n.localize(`KNIGHT.JETS.AttaqueSurprise`)),
                     });
                 }
@@ -1762,7 +1768,7 @@ export class RollKnight {
 
                             if(this.isSurprise || isChangelingActive || isGhostActive) {
                                 bonus.push(total+totalOD);
-                                title += `${loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`}`
+                                title += `${loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`}`
                             } else {
                                 detailledEffets.push({
                                     simple:l,
