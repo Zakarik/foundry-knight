@@ -1413,30 +1413,31 @@ export class RollKnight {
                 title += ` + ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label')}`;
             }
 
-            if(odDiscretion >= 5) {
-                if(this.isSurprise || isGhostActive || isChangelingActive) {
-                    bonus.push(discretion+odDiscretion);
-                    title += ` + ${game.i18n.localize('KNIGHT.JETS.ODDiscretion')}`
-                } else {
-                    detailledEffets.push({
-                        simple:'oddiscretion',
-                        key:'oddiscretion',
-                        value:`+${discretion+odDiscretion}`,
-                        label:`${game.i18n.localize('KNIGHT.JETS.ODDiscretion')}`,
-                        description:this.#sanitizeTxt(game.i18n.localize(`KNIGHT.JETS.AttaqueSurprise`)),
-                    });
-                }
-            }
-            else if(odDiscretion >= 2) {
+            if(odDiscretion >= 2) {
                 if(this.isSurprise || isGhostActive || isChangelingActive) {
                     bonus.push(discretion);
-                    title += ` + ${game.i18n.localize('KNIGHT.JETS.ODDiscretion')}`
+                    title += ` + ${game.i18n.localize('KNIGHT.JETS.ODDiscretion')} 2`
                 } else {
                     detailledEffets.push({
                         simple:'oddiscretion',
                         key:'oddiscretion',
                         value:`+${discretion}`,
-                        label:`${game.i18n.localize('KNIGHT.JETS.ODDiscretion')}`,
+                        label:`${game.i18n.localize('KNIGHT.JETS.ODDiscretion')} 2`,
+                        description:this.#sanitizeTxt(game.i18n.localize(`KNIGHT.JETS.AttaqueSurprise`)),
+                    });
+                }
+            }
+
+            if(odDiscretion >= 5) {
+                if(this.isSurprise || isGhostActive || isChangelingActive) {
+                    bonus.push(discretion+odDiscretion);
+                    title += ` + ${game.i18n.localize('KNIGHT.JETS.ODDiscretion')} 5`
+                } else {
+                    detailledEffets.push({
+                        simple:'oddiscretion',
+                        key:'oddiscretion',
+                        value:`+${discretion+odDiscretion}`,
+                        label:`${game.i18n.localize('KNIGHT.JETS.ODDiscretion')} 5`,
                         description:this.#sanitizeTxt(game.i18n.localize(`KNIGHT.JETS.AttaqueSurprise`)),
                     });
                 }
