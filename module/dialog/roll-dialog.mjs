@@ -1201,8 +1201,6 @@ export class KnightRollDialog extends Dialog {
             })
         }
 
-        console.warn(weapon);
-
         if(doRoll) {
             const exec = new game.knight.RollKnight(actor,
             {

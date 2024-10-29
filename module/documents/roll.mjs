@@ -1414,7 +1414,7 @@ export class RollKnight {
             }
 
             if(odDiscretion >= 2) {
-                if(this.isSurprise || isGhostActive || isChangelingActive) {
+                if(this.isSurprise) {
                     bonus.push(discretion);
                     title += ` + ${game.i18n.localize('KNIGHT.JETS.ODDiscretion')} 2`
                 } else {
@@ -1429,7 +1429,7 @@ export class RollKnight {
             }
 
             if(odDiscretion >= 5) {
-                if(this.isSurprise || isGhostActive || isChangelingActive) {
+                if(this.isSurprise) {
                     bonus.push(discretion+odDiscretion);
                     title += ` + ${game.i18n.localize('KNIGHT.JETS.ODDiscretion')} 5`
                 } else {
