@@ -762,19 +762,28 @@ export class KnightRollDialog extends Dialog {
             violence:data.find('button.btn.maximizeviolence').hasClass('selected'),
         }
         let goliath = 0;
+        let ghost = 0;
 
         if((armorIsWear) && !isNoOd) bonus.push(this.#getODAspect(actor, base));
 
         if(armorIsWear && armor) {
             const dataCapacites = actor.system?.equipements?.armure?.capacites ?? {};
-            const dataGoliath = armor.system?.capacites?.selected?.goliath ?? {};
-            const isGoliathActive = armor.system?.capacites?.selected?.goliath?.active ?? false;
+            const capacitiesSelected = armor.system?.capacites?.selected;
+            const dataGoliath = capacitiesSelected?.goliath ?? {};
+            const isGoliathActive = capacitiesSelected?.goliath?.active ?? false;
+            const isGhostActive = (capacitiesSelected?.ghost?.active?.conflit
+                || capacitiesSelected?.ghost?.active?.horsconflit)
+                ?? false;
 
             if(isGoliathActive && (base === 'endurance' || base === 'force')) {
                 const meter = parseInt(dataCapacites?.goliath?.metre ?? 0);
                 const bGoliath = parseInt(dataGoliath?.bonus?.[base]?.value ?? 0);
 
                 goliath += (meter*bGoliath);
+            }
+
+            if (isGhostActive) {
+                ghost = this.#getValueAspect(actor, 'discretion') + this.#getODAspect(actor, 'discretion');
             }
         }
 
@@ -786,14 +795,22 @@ export class KnightRollDialog extends Dialog {
 
             if(armorIsWear && armor) {
                 const dataCapacites = actor.system?.equipements?.armure?.capacites ?? {};
-                const dataGoliath = armor.system?.capacites?.selected?.goliath ?? {};
-                const isGoliathActive = armor.system?.capacites?.selected?.goliath?.active ?? false;
+                const capacitiesSelected = armor.system?.capacites?.selected;
+                const dataGoliath = capacitiesSelected?.goliath ?? {};
+                const isGoliathActive = capacitiesSelected?.goliath?.active ?? false;
+                const isGhostActive = (capacitiesSelected?.ghost?.active?.conflit
+                    || capacitiesSelected?.ghost?.active?.horsconflit)
+                    ?? false;
 
                 if(isGoliathActive && (s === 'endurance' || s === 'force')) {
                     const meter = parseInt(dataCapacites?.goliath?.metre ?? 0);
                     const bGoliath = parseInt(dataGoliath?.bonus?.[s]?.value ?? 0);
 
                     goliath += (meter*bGoliath);
+                }
+
+                if (isGhostActive) {
+                    ghost = this.#getValueAspect(actor, 'discretion') + this.#getODAspect(actor, 'discretion');
                 }
             }
         }
@@ -1166,6 +1183,15 @@ export class KnightRollDialog extends Dialog {
             });
 
             bonus.push(goliath);
+        }
+
+        if(ghost > 0) {
+            tags.push({
+                key:'ghost',
+                label:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label')} : +${ghost}D6`,
+            });
+
+            dices += ghost;
         }
 
         if(isAttaqueSurprise) {

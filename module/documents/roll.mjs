@@ -1408,6 +1408,11 @@ export class RollKnight {
                 }
             }
 
+            if (isGhostActive) {
+                bonus.push(discretion + odDiscretion);
+                title += ` + ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label')}`;
+            }
+
             if(odDiscretion >= 5) {
                 if(this.isSurprise || isGhostActive || isChangelingActive) {
                     bonus.push(discretion+odDiscretion);
@@ -1762,7 +1767,7 @@ export class RollKnight {
 
                             if(this.isSurprise || isChangelingActive || isGhostActive) {
                                 bonus.push(total+totalOD);
-                                title += `${loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`}`
+                                title += `${loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`}`
                             } else {
                                 detailledEffets.push({
                                     simple:l,
