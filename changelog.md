@@ -1,3 +1,8 @@
+## v3.34.1
+### Bugfix
+- Correction des bonus de Ghost non pris en compte.
+- Correction des OD de Discrétion 2 et 5 mis par défaut si attaque en mode Ghost / Changeling (en attendant éventuel éclaircissement / information contraire)
+
 ## v3.34.0
 ### Améliorations
 - Ajout d'un bouton "Mode Héroique" permettant de compter tous les succès excédentaires comme des D6 supplémentaires en dégâts / violence.
