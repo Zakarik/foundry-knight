@@ -406,7 +406,7 @@ export default class HooksKnight {
                 // Damages on resilience
                 // #####################
                 const briserResi = effects.briserlaresilience || 0;
-                if (resilience > 0 && dmgZone.resilience && !antiVehicule && (damagesLeft > 0 || briserResi > 0)) {
+                if (resilience > 0 && dmgZone.resilience && (damagesLeft > 0 || briserResi > 0)) {
                     // if damages are not already divided by 10
                     if (!damagesLeftDivideBy10) {
                         damagesLeft = Math.ceil(damagesLeft / 10);
