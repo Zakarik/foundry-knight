@@ -1,3 +1,7 @@
+## v3.34.2
+### Bugfix
+- Correction d'un bug empêchant de rentrer une tactique pour les bandes.
+
 ## v3.34.1
 ### Bugfix
 - Correction des bonus de Ghost non pris en compte.
