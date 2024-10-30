@@ -275,6 +275,17 @@
   color: white;
   line-height: 20px;
 }
+.effetsDialog div.dialog-content div.effets div span.label input,
+.effetsDialog div.dialog-content div.effetsAdd div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .effetsDialog div.dialog-content div.effets div img.info,
 .effetsDialog div.dialog-content div.effetsAdd div img.info {
   display: inline-block;
@@ -5060,6 +5071,16 @@
   color: white;
   line-height: 20px;
 }
+.armure form.armureWindows div.evolutions div.mainData div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .armure form.armureWindows div.evolutions div.mainData div.data div.effets div img.info {
   display: inline-block;
   position: absolute;
@@ -7116,6 +7137,16 @@
   color: white;
   line-height: 20px;
 }
+.armure form.armureWindows div.capacites div.changeling div.explosion > div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .armure form.armureWindows div.capacites div.changeling div.explosion > div.effets div img.info {
   display: inline-block;
   position: absolute;
@@ -7306,6 +7337,17 @@
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.armure form.armureWindows div.capacites div.longbow div.effets div span.label input,
+.armure form.armureWindows div.capacites div.longbow div.distance div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .armure form.armureWindows div.capacites div.longbow div.effets div img.info,
 .armure form.armureWindows div.capacites div.longbow div.distance div img.info {
@@ -7681,6 +7723,16 @@
   color: white;
   line-height: 20px;
 }
+.armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets div img.info {
   display: inline-block;
   position: absolute;
@@ -7795,6 +7847,16 @@
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div img.info {
   display: inline-block;
@@ -7932,6 +7994,16 @@
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets div img.info {
   display: inline-block;
@@ -8223,6 +8295,16 @@
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets div img.info {
   display: inline-block;
@@ -8693,6 +8775,18 @@
   color: white;
   line-height: 20px;
 }
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div span.label input,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div span.label input,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div img.info,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div img.info,
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div img.info {
@@ -9076,6 +9170,18 @@
   color: white;
   line-height: 20px;
 }
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div span.label input,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div span.label input,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div img.info,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div img.info,
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div img.info {
@@ -9329,6 +9435,16 @@
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets div img.info {
   display: inline-block;
@@ -10205,6 +10321,16 @@
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets div img.info {
   display: inline-block;
@@ -11360,6 +11486,16 @@
   color: white;
   line-height: 20px;
 }
+.armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets div img.info {
   display: inline-block;
   position: absolute;
@@ -11796,6 +11932,16 @@
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div img.info {
   display: inline-block;
@@ -12254,6 +12400,18 @@
   color: white;
   line-height: 20px;
 }
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div span.label input,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div span.label input,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div img.info,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div img.info,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div img.info {
@@ -12636,6 +12794,18 @@
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div span.label input,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div span.label input,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div img.info,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div img.info,
@@ -13598,6 +13768,16 @@
   color: white;
   line-height: 20px;
 }
+.module div.main div.blockEffets div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .module div.main div.blockEffets div.effets div img.info {
   display: inline-block;
   position: absolute;
@@ -14250,6 +14430,16 @@
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.module div.main div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .module div.main div.effets div img.info {
   display: inline-block;
@@ -15311,6 +15501,19 @@
   color: white;
   line-height: 20px;
 }
+.arme form.armeWindows div.blockEffets div.effets div span.label input,
+.arme form.armeWindows div.blockEffets div.distance div span.label input,
+.arme form.armeWindows div.blockEffets div.structurelles div span.label input,
+.arme form.armeWindows div.blockEffets div.ornementales div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .arme form.armeWindows div.blockEffets div.effets div img.info,
 .arme form.armeWindows div.blockEffets div.distance div img.info,
 .arme form.armeWindows div.blockEffets div.structurelles div img.info,
@@ -15614,6 +15817,16 @@ form.capacite div.main div.effets div span.label {
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+form.capacite div.main div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 form.capacite div.main div.effets div img.info {
   display: inline-block;
@@ -17007,6 +17220,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.capaciteUltime div.passive div.data div.effets div span.label input, .capaciteUltime div.active div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .capaciteUltime div.passive div.data div.effets div img.info, .capaciteUltime div.active div.data div.effets div img.info {
   display: inline-block;
@@ -20228,6 +20451,17 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   line-height: 20px;
 }
+.knight section.body div.armure div.capacites div.mainData div.data div.effets div span.label input,
+.knight section.body div.armure div.special div.mainData div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .knight section.body div.armure div.capacites div.mainData div.data div.effets div img.info,
 .knight section.body div.armure div.special div.mainData div.data div.effets div img.info {
   display: inline-block;
@@ -20751,6 +20985,21 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.armes div.effets div span.label input,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.armes div.effets div span.label input,
+.knight section.body div.armure div.capacites div.mainData div.crow div.armes div.effets div span.label input,
+.knight section.body div.armure div.special div.mainData div.lion div.armes div.effets div span.label input,
+.knight section.body div.armure div.special div.mainData div.wolf div.armes div.effets div span.label input,
+.knight section.body div.armure div.special div.mainData div.crow div.armes div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.armes div.effets div img.info,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.armes div.effets div img.info,
@@ -21981,6 +22230,21 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   line-height: 20px;
 }
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div span.label input,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div span.label input,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div span.label input,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div span.label input,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div span.label input,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div img.info,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div img.info,
 .knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div img.info,
@@ -22496,6 +22760,21 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   line-height: 20px;
 }
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div span.label input,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div span.label input,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div span.label input,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div span.label input,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div span.label input,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div img.info,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div img.info,
 .knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div img.info,
@@ -22886,6 +23165,21 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.configurations div.configuration div.effets div span.label input,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.configurations div.configuration div.effets div span.label input,
+.knight section.body div.armure div.capacites div.mainData div.crow div.configurations div.configuration div.effets div span.label input,
+.knight section.body div.armure div.special div.mainData div.lion div.configurations div.configuration div.effets div span.label input,
+.knight section.body div.armure div.special div.mainData div.wolf div.configurations div.configuration div.effets div span.label input,
+.knight section.body div.armure div.special div.mainData div.crow div.configurations div.configuration div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.configurations div.configuration div.effets div img.info,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.configurations div.configuration div.effets div img.info,
@@ -23794,6 +24088,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   line-height: 20px;
 }
+.knight section.body div.armure div.modules div.mainBlock div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .knight section.body div.armure div.modules div.mainBlock div.data div.effets div img.info {
   display: inline-block;
   position: absolute;
@@ -24063,6 +24367,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div img.info {
   display: inline-block;
@@ -24598,6 +24912,17 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.knight section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div span.label input,
+.knight section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .knight section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div img.info,
 .knight section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div img.info {
@@ -27551,6 +27876,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   line-height: 20px;
 }
+.pnj section.body div.capacites div.wolf div.configuration div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .pnj section.body div.capacites div.wolf div.configuration div.effets div img.info {
   display: inline-block;
   position: absolute;
@@ -28214,6 +28549,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   line-height: 20px;
 }
+.pnj section.body div.capacites div.modules div.mainBlock div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .pnj section.body div.capacites div.modules div.mainBlock div.data div.effets div img.info {
   display: inline-block;
   position: absolute;
@@ -28483,6 +28828,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div img.info {
   display: inline-block;
@@ -29253,6 +29608,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   line-height: 20px;
 }
+.pnj section.body div.capacites div.capacite div.mainData div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .pnj section.body div.capacites div.capacite div.mainData div.data div.effets div img.info {
   display: inline-block;
   position: absolute;
@@ -29643,6 +30008,18 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets div span.label input,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets div span.label input,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.armes div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets div img.info,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets div img.info,
@@ -30443,6 +30820,18 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   line-height: 20px;
 }
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div span.label input,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div span.label input,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div img.info,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div img.info,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div img.info {
@@ -30811,6 +31200,18 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   line-height: 20px;
 }
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div span.label input,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div span.label input,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div img.info,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div img.info,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div img.info {
@@ -31093,6 +31494,18 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets div span.label input,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets div span.label input,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.configurations div.configuration div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets div img.info,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets div img.info,
@@ -31470,6 +31883,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets div img.info {
   display: inline-block;
@@ -31881,6 +32304,17 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div span.label input,
+.pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div img.info,
 .pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div img.info {
@@ -33750,6 +34184,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   line-height: 20px;
 }
+.creature section.body div.capacites div.capacite div.mainBlock div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .creature section.body div.capacites div.capacite div.mainBlock div.data div.effets div img.info {
   display: inline-block;
   position: absolute;
@@ -34160,6 +34604,17 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.creature section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div span.label input,
+.creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .creature section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div img.info,
 .creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div img.info {
@@ -35836,6 +36291,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   line-height: 20px;
 }
+.bande section.body div.capacites div.capacite div.mainBlock div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .bande section.body div.capacites div.capacite div.mainBlock div.data div.effets div img.info {
   display: inline-block;
   position: absolute;
@@ -36246,6 +36711,17 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.bande section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div span.label input,
+.bande section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .bande section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div img.info,
 .bande section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div img.info {
@@ -37949,6 +38425,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   line-height: 20px;
 }
+.vehicule section.body div.modules div.mainBlock div.data div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .vehicule section.body div.modules div.mainBlock div.data div.effets div img.info {
   display: inline-block;
   position: absolute;
@@ -38219,6 +38705,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   line-height: 20px;
 }
+.vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
 .vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div img.info {
   display: inline-block;
   position: absolute;
@@ -38486,6 +38982,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div img.info {
   display: inline-block;
@@ -40045,6 +40551,16 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-variant: small-caps;
   color: white;
   line-height: 20px;
+}
+.mechaarmure section.body div.combat div.main div.modules div.liste div.effets div span.label input, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
 }
 .mechaarmure section.body div.combat div.main div.modules div.liste div.effets div img.info, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets div img.info {
   display: inline-block;

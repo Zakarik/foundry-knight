@@ -87,12 +87,14 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
       effets: new SchemaField({
         liste: new ArrayField(new StringField()),
         raw: new ArrayField(new StringField()),
-        custom: new ArrayField(new ObjectField())
+        custom: new ArrayField(new ObjectField()),
+        chargeur: new NumberField({initial: null})
       }),
       effets2mains: new SchemaField({
         liste: new ArrayField(new StringField()),
         raw: new ArrayField(new StringField()),
-        custom: new ArrayField(new ObjectField())
+        custom: new ArrayField(new ObjectField()),
+        chargeur: new NumberField({initial: null})
       }),
       distance: new SchemaField({
         liste: new ArrayField(new StringField()),
@@ -110,6 +112,10 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
         custom: new ArrayField(new ObjectField())
       })
     }
+  }
+
+  useMunition() {
+    console.warn('test');
   }
 
   prepareBaseData() {

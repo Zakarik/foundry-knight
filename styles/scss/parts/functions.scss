@@ -108,6 +108,17 @@ $lightGrey:RGB(193, 193, 193);
             font-variant: small-caps;
             color: $white;
             line-height: 20px;
+
+            input {
+              width: 15px;
+              min-width: 0px;
+              padding: 0px;
+              line-height: 15px;
+              text-align: right;
+              border: 0px;
+              background: transparent;
+              height: 15px;
+            }
         }
 
         img.info {

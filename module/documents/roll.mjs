@@ -1012,6 +1012,19 @@ export class RollKnight {
                         }
                         break;
 
+                    case 'chargeur':
+                        if(effet) {
+                            console.warn(this.actor.items.get(weapon.id));
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                        }
+                        break;
+
                     case 'choc':
                     case 'electrifiee':
                     case 'artillerie':
