@@ -1,6 +1,7 @@
 import {
     listLogo,
     generateNavigator,
+    getODValue
   } from "./helpers/common.mjs";
 
 export default class HooksKnight {
@@ -395,16 +396,19 @@ export default class HooksKnight {
                 // #####################
                 // Set effects
                 // #####################
-                [
-                    'barrage',
-                    'choc',
-                    'degatscontinus',
-                    'designation',
-                    'immobilisation',
-                    'lumiere',
-                    'parasitage',
-                    'soumission'
-                ].map(iconName => {
+                const effectList = actor.type === 'bande'
+                    ? ['lumiere']
+                    : [
+                        // 'barrage',
+                        'choc',
+                        'degatscontinus',
+                        'designation',
+                        'immobilisation',
+                        'lumiere',
+                        'parasitage',
+                        'soumission'
+                    ];
+                effectList.map(iconName => {
                     const isBoolean = ['designation', 'soumission'].includes(iconName);
                     if (effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) {
                         // Check if "Status Icon Counters" module is set
@@ -419,17 +423,43 @@ export default class HooksKnight {
                             let effect = counters.find(e => e.path === iconPath);
 
                             if (!effect) {
+                                let counterNumber = isBoolean ? 1 : effects[iconName];
+                                switch (iconName) {
+                                    case 'barrage':
+                                    case 'choc':
+                                        // Check if the target got Chair Except
+                                        if (hasChairMaj) {
+                                            counterNumber = 0;
+                                            break;
+                                        }
+                                    case 'degatscontinus':
+                                    case 'immobilisation':
+                                    case 'lumiere':
+                                    case 'parasitage':
+                                    case 'designation':
+                                    case 'soumission':
+                                        break;
+                                }
                                 // Create the counter
-                                const counter = new ActiveEffectCounter(isBoolean ? 1 : effects[iconName], iconPath, actor);
-                                console.log('counter', counter)
-                                counter.update();
+                                if (counterNumber) {
+                                    const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
+                                    counter.update();
+                                }
                             } else {
                                 switch (iconName) {
                                     case 'barrage':
+                                        // Check if the target got Chair Except
+                                        if (hasChairMaj) {
+                                            break;
+                                        }
                                         // Update the counter
                                         effect.setValue(effect.value + effects[iconName]);
                                         break;
                                     case 'choc':
+                                        // Check if the target got Chair Except
+                                        if (hasChairMaj) {
+                                            break;
+                                        }
                                     case 'degatscontinus':
                                     case 'immobilisation':
                                     case 'lumiere':
@@ -453,7 +483,7 @@ export default class HooksKnight {
                             }
                         }
                     }
-                })
+                });
 
                 // #####################
                 // Damages on resilience
@@ -727,6 +757,110 @@ export default class HooksKnight {
                 if (esquive) {
                     damagesLeft = Math.ceil(damagesLeft / 2);
                 }
+
+                // Check if the damages are enough to do at least 1 damage
+                if (damagesLeft < 1) {
+                    chatMessage += `<p><b>${game.i18n.localize('KNIGHT.JETS.DEGATSAUTO.NoDamageOnTarget')}.</b></p>`;
+                    ChatMessage.create({
+                        user: game.user._id,
+                        speaker: ChatMessage.getSpeaker({ actor: actor }),
+                        content: chatMessage,
+                        whisper: [game.user._id],
+                    });
+                    return;
+                }
+
+                // #####################
+                // Set effects
+                // #####################
+                const effectList = [
+                        // 'barrage',
+                        'choc',
+                        'degatscontinus',
+                        'designation',
+                        'immobilisation',
+                        'lumiere',
+                        'parasitage',
+                        'soumission'
+                    ];
+                effectList.map(iconName => {
+                    const isBoolean = ['designation', 'soumission'].includes(iconName);
+                    if (effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) {
+                        // Check if "Status Icon Counters" module is set
+                        if (window.EffectCounter) {
+                            // Set the icon path in the system
+                            const iconPath = `systems/knight/assets/icons/effects/${iconName}.svg`;
+
+                            // Get the counters
+                            let counters = EffectCounter.getAllCounters(actor);
+
+                            // Get the effect
+                            let effect = counters.find(e => e.path === iconPath);
+
+                            // Get the endOD
+                            const endOD = getODValue('endurance', actor, true);
+
+                            if (!effect) {
+                                let counterNumber = isBoolean ? 1 : effects[iconName];
+                                switch (iconName) {
+                                    case 'barrage':
+                                    case 'choc':
+                                        if (endOD >= 4) {
+                                            counterNumber -= 2;
+                                        } else if (endOD >= 2) {
+                                            counterNumber--;
+                                        }
+                                    case 'degatscontinus':
+                                    case 'immobilisation':
+                                    case 'lumiere':
+                                    case 'parasitage':
+                                    case 'designation':
+                                    case 'soumission':
+                                        break;
+                                }
+                                // Create the counter
+                                if (counterNumber) {
+                                    const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
+                                    counter.update();
+                                }
+                            } else {
+                                const endOD = getODValue('endurance', actor, true);
+                                let counterMalus = 0;
+                                switch (iconName) {
+                                    case 'barrage':
+                                        // Update the counter
+                                        effect.setValue(effect.value + effects[iconName]);
+                                        break;
+                                    case 'choc':
+                                        if (endOD >= 4) {
+                                            counterMalus = 2;
+                                        } else if (endOD >= 2) {
+                                            counterMalus = 1;
+                                        }
+                                    case 'degatscontinus':
+                                    case 'immobilisation':
+                                    case 'lumiere':
+                                    case 'parasitage':
+                                        if (effect.value < (effects[iconName] - counterMalus)) {
+                                            // Update the counter
+                                            effect.setValue(effects[iconName] - counterMalus);
+                                        }
+                                        break;
+                                    case 'designation':
+                                    case 'soumission':
+                                        break;
+                                }
+                            }
+                         } else {
+                            // No "Status Icon Counters" module
+                            if(isVersion12) {
+                                actor.toggleStatusEffect(iconName, { active: true, overlay: false });
+                            } else {
+                                V11toggleStatusEffect(actor, iconName, { active: true, overlay: false });
+                            }
+                        }
+                    }
+                });
 
                 // ################
                 // Damages on armor
