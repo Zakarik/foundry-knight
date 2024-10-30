@@ -12,7 +12,6 @@
         <input type="number" name="damageBonus" id="dmgBonus" min="0" step="1" value="0" />
     </div>
 
-    {{#if pj}}
     <div class="sub dmg">
         <div class="label">
             {{localize "KNIGHT.JETS.DEGATSAUTO.DamageOn"}} :
@@ -38,26 +37,25 @@
                     {{localize "KNIGHT.LATERAL.Energie"}}
                 </label>
             </div>
+            {{#if pj}}
             <div style="display: flex; align-items: center; width: 50%;">
                 <input type="checkbox" name="espoirDmg" id="espoirDmg" {{#if dmgZone.espoir}}checked{{/if}}/>
                 <label for="espoirDmg">
-                {{localize "KNIGHT.LATERAL.Espoir"}}
-            </label>
+                    {{localize "KNIGHT.LATERAL.Espoir"}}
+                </label>
             </div>
+            {{/if}}
+            {{#if pnj}}
+            <div style="display: flex; align-items: center; width: 50%;">
+                <input type="checkbox" name="resilienceDmg" id="resilienceDmg" {{#if dmgZone.resilience}}checked{{/if}}/>
+                <label for="resilienceDmg">
+                    {{localize "KNIGHT.LATERAL.Resilience"}}
+                </label>
+            </div>
+            {{/if}}
         </div>
     </div>
-    {{/if}}
 
-    {{#if pnj}}
-    <div class="sub">
-        <div style="display: flex; align-items: center; width: 100%;">
-            <input type="checkbox" name="antiVehicule" id="antiVehicule" {{#if effects.antivehicule}}checked{{/if}}/>
-            <label for="antiVehicule">
-                {{localize "KNIGHT.EFFETS.ANTIVEHICULE.Label"}}
-            </label>
-        </div>
-    </div>
-    {{/if}}
     <div class="sub">
         <input type="checkbox" name="igncdf" id="igncdf" {{#if effects.ignorechampdeforce}}checked{{/if}}/>
         <label for="igncdf">
@@ -101,6 +99,17 @@
         <label for="pierceArmor">{{localize "KNIGHT.EFFETS.PERCEARMURE.Label"}} :</label>
         <input type="number" name="pierceArmor" id="pierceArmor" min="0" value="{{#if effects.percearmure}}{{ effects.percearmure }}{{else}}0{{/if}}"/>
     </div>
+
+    {{#if pnj}}
+    <div class="sub">
+        <div style="display: flex; align-items: center; width: 100%;">
+            <input type="checkbox" name="antiVehicule" id="antiVehicule" {{#if effects.antivehicule}}checked{{/if}}/>
+            <label for="antiVehicule">
+                {{localize "KNIGHT.EFFETS.ANTIVEHICULE.Label"}}
+            </label>
+        </div>
+    </div>
+    {{/if}}
 
     {{#unless bande}}
     {{#if (or effects.meurtrier effects.assassin effects.briserlaresilience effects.destructeur)}}

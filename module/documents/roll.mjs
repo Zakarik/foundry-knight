@@ -1235,7 +1235,7 @@ export class RollKnight {
                 if(actor) {
                     const type = actor.type;
                     const target = type === 'vehicule' ? actor.system.pilote : actor;
-                    const chair = target.system?.aspects?.chair?.value ?? 0;
+                    const chair = target?.system?.aspects?.chair?.value ?? 0;
 
                     for(let d of detailledEffets) {
                         switch(d.simple) {
