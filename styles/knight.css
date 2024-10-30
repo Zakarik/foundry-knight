@@ -37186,9 +37186,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule header.sheet-header .headerData .data div.pilote {
   height: 54px;
 }
-.vehicule header.sheet-header .headerData .data div.passagers {
-  max-height: calc(100% - 48px - 10px);
-}
 .vehicule header.sheet-header .headerData .data div.passagers > .values {
   width: 100%;
   height: calc(100% - 26px);

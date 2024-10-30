@@ -200,17 +200,25 @@ export class VehiculeSheet extends ActorSheet {
       const target = $(ev.currentTarget).parents(".value");
       const id = target.data("id");
       const data = this.actor.system;
+      const pilote = data.equipage.pilote;
       const oldPassager = data.equipage.passagers;
-
+      const passager = oldPassager[id];
 
       let update = {};
 
       update[`system.equipage.pilote`] = {
-        id:oldPassager[id].id,
-        name:oldPassager[id].name
+        id:passager.id,
+        name:passager.name
       };
-      oldPassager.splice(id,1);
-      update[`system.equipage.passagers`] = oldPassager;
+
+      if(pilote.id) {
+        oldPassager.push({
+          name:pilote.name,
+          id:pilote.id
+        });
+      }
+
+      update[`system.equipage.passagers`] = oldPassager.filter(itm => itm.id !== passager.id);
 
       this.actor.update(update);
     });
@@ -408,21 +416,16 @@ export class VehiculeSheet extends ActorSheet {
     const type = document.type;
 
     if(type === 'knight' || type === 'pnj') {
+      const passagers = this.actor.system.equipage.passagers;
 
-      const update = {
-        system:{
-          equipage:{
-            passagers:this.getData().data.system.equipage.passagers
-          }
-        }
-      };
+      if(passagers.find(itm => itm.id === document.id)) return;
 
-      update.system.equipage.passagers.push({
+      passagers.push({
         name:document.name,
         id:document.id
       });
 
-      this.actor.update(update);
+      this.actor.update({['system.equipage.passagers']:passagers});
     }
   }
 

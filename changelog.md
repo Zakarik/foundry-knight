@@ -1,8 +1,11 @@
+## v3.34.4
+### Bugfix
+- Correction de quelques bugs sur les véhicules.
+
 ## v3.34.3
 ### Bugfix
 - Correction d'un bug sur les dégâts infligés à la résilience.
 - Correction de quelques bugs sur le véhicules.
-
 
 ## v3.34.2
 ### Bugfix
