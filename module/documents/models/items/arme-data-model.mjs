@@ -114,10 +114,42 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
     }
   }
 
+  get item() {
+    return this.parent;
+  }
+
   useMunition() {
     const type = this.type;
 
-    if(type === 'contact') {}
+    if(type === 'contact') {
+      if(this.options2mains.has) {
+        const effets = this.options2mains.actuel === '1main' ? this.effets : this.effets2mains;
+        const findChargeur = effets.raw.find(itm => itm.includes('chargeur'));
+
+        if(!findChargeur) return;
+
+        const chargeurMax = parseInt(findChargeur.split(' ')[1]);
+
+        let chargeur = effets.chargeur ? parseInt(effets.chargeur) : chargeurMax;
+
+        if(chargeur === 0) return;
+
+
+      } else {
+        const effets = this.effets;
+        const findChargeur = effets.raw.find(itm => itm.includes('chargeur'));
+
+        if(!findChargeur) return;
+
+        const chargeurMax = parseInt(findChargeur.split(' ')[1]);
+
+        let chargeur = effets.chargeur ? parseInt(effets.chargeur) : chargeurMax;
+
+        if(chargeur === 0) return;
+
+        this.item.update({['system.effets.chargeur']:chargeur-1})
+      }
+    }
     else if(type === 'distance') {}
   }
 

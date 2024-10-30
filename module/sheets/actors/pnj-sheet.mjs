@@ -2714,7 +2714,7 @@ export class PNJSheet extends ActorSheet {
 
         if(dataMunitions.has) {
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            itemArme.optionsmunitions.liste[key].liste = listEffects(value.raw, value.custom, labels);
+            itemArme.optionsmunitions.liste[key].liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
           }
         }
 
@@ -3491,7 +3491,7 @@ export class PNJSheet extends ActorSheet {
           const dataMunitions = data[n].system.optionsmunitions;
 
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            value.liste = listEffects(value.raw, value.custom, labels);
+            value.liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
           }
         }
       }
@@ -3503,7 +3503,7 @@ export class PNJSheet extends ActorSheet {
       const data = path.split('.').reduce((obj, key) => obj?.[key], capacite);
       if (!data) return;
       const effets = simple ? data : data.effets;
-      effets.liste = listEffects(effets.raw, effets.custom, labels);
+      effets.liste = listEffects(effets.raw, effets.custom, labels, effets?.chargeur);
     };
 
     if (!items) {

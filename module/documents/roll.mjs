@@ -1014,7 +1014,7 @@ export class RollKnight {
 
                     case 'chargeur':
                         if(effet) {
-                            console.warn(this.actor.items.get(weapon.id));
+                            this.actor.items.get(weapon.id).system.useMunition();
 
                             effets.push({
                                 simple:l,

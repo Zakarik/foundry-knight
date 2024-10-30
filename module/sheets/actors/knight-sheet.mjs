@@ -5446,7 +5446,7 @@ export class KnightSheet extends ActorSheet {
           const dataMunitions = data[n].system.optionsmunitions;
 
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            value.liste = listEffects(value.raw, value.custom, labels);
+            value.liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
           }
         }
       }
@@ -5460,7 +5460,7 @@ export class KnightSheet extends ActorSheet {
       if (!data) return;
       const effets = simple ? data : data.effets;
 
-      if(effets !== undefined) effets.liste = listEffects(effets.raw, effets.custom, labels);
+      if(effets !== undefined) effets.liste = listEffects(effets.raw, effets.custom, labels, effets?.chargeur);
     };
 
     if (!items) {

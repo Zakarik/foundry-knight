@@ -43,8 +43,7 @@ export function sum(total, num) {
   return total + num;
 }
 
-export function listEffects(raw, custom, labels) {
-    const l = getAllEffects();
+export function listEffects(raw, custom, labels, chargeur=null) {
     const liste = [];
 
     if(raw === undefined) return;
@@ -56,19 +55,37 @@ export function listEffects(raw, custom, labels) {
       const sub = split[1];
       const other = Object.values(secondSplit);
       let complet = name;
+      let toComplete = '';
+      let munition = chargeur;
+      let chargeurMax = 0;
 
       if(other.length > 1) {
         other.splice(0, 1);
         complet += ` ${other.join(" ").replace("<space>", " ")}`;
       }
 
-      if(sub != undefined) { complet += " "+sub; }
+      if(secondSplit[0] === 'chargeur') {
+        if(munition === null || munition === undefined) munition = sub;
+        toComplete += ` / ${sub}`;
+        chargeurMax = sub;
+      }
+      else if(sub != undefined) { complet += " "+sub; }
 
-      liste.push({
+      let toPush = secondSplit[0] === 'chargeur' ? {
+        name:complet,
+        toComplete:toComplete,
+        description:game.i18n.localize(labels[secondSplit[0]].description),
+        raw:raw[n],
+        chargeur:munition,
+        chargeurMax,
+        isChargeur:true,
+      } : {
         name:complet,
         description:game.i18n.localize(labels[secondSplit[0]].description),
         raw:raw[n]
-      });
+      }
+
+      liste.push(toPush);
     }
 
     for(let n = 0;n < custom.length;n++) {

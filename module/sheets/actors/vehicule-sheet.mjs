@@ -477,7 +477,7 @@ export class VehiculeSheet extends ActorSheet {
         const raw = data.effets.raw;
         const custom = data.effets.custom;
 
-        data.effets.liste = listEffects(raw, custom, labels);
+        data.effets.liste = listEffects(raw, custom, labels, data.effets?.chargeur);
 
         const rawDistance = data.distance.raw;
         const customDistance = data.distance.custom;
@@ -498,7 +498,7 @@ export class VehiculeSheet extends ActorSheet {
             const bRaw2 = munition.raw || [];
             const bCustom2 = munition.custom || [];
 
-            munition.liste = listEffects(bRaw2, bCustom2, labels);
+            munition.liste = listEffects(bRaw2, bCustom2, labels, munition?.chargeur);
           }
         }
 
@@ -519,7 +519,7 @@ export class VehiculeSheet extends ActorSheet {
 
         if(dataMunitions.has) {
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            itemArme.optionsmunitions.liste[key].liste = listEffects(value.raw, value.custom, labels);
+            itemArme.optionsmunitions.liste[key].liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
           }
         }
 
@@ -741,7 +741,7 @@ export class VehiculeSheet extends ActorSheet {
           const dataMunitions = data[n].system.optionsmunitions;
 
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            value.liste = listEffects(value.raw, value.custom, labels);
+            value.liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
           }
         }
       }
@@ -753,7 +753,7 @@ export class VehiculeSheet extends ActorSheet {
       const data = path.split('.').reduce((obj, key) => obj?.[key], capacite);
       if (!data) return;
       const effets = simple ? data : data.effets;
-      effets.liste = listEffects(effets.raw, effets.custom, labels);
+      effets.liste = listEffects(effets.raw, effets.custom, labels, effets?.chargeur);
     };
 
     if (!items) {
