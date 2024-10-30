@@ -115,7 +115,10 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
   }
 
   useMunition() {
-    console.warn('test');
+    const type = this.type;
+
+    if(type === 'contact') {}
+    else if(type === 'distance') {}
   }
 
   prepareBaseData() {
