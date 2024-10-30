@@ -384,14 +384,76 @@ export default class HooksKnight {
                 if (damagesLeft < 1) {
                     chatMessage += `<p><b>${game.i18n.localize('KNIGHT.JETS.DEGATSAUTO.NoDamageOnTarget')}.</b></p>`;
                     ChatMessage.create({
-                    user: game.user._id,
-                    speaker: ChatMessage.getSpeaker({ actor: actor }),
-                    content: chatMessage,
-                    whisper: [game.user._id],
+                        user: game.user._id,
+                        speaker: ChatMessage.getSpeaker({ actor: actor }),
+                        content: chatMessage,
+                        whisper: [game.user._id],
                     });
                     return;
                 }
 
+                // #####################
+                // Set effects
+                // #####################
+                [
+                    'barrage',
+                    'choc',
+                    'degatscontinus',
+                    'designation',
+                    'immobilisation',
+                    'lumiere',
+                    'parasitage',
+                    'soumission'
+                ].map(iconName => {
+                    const isBoolean = ['designation', 'soumission'].includes(iconName);
+                    if (effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) {
+                        // Check if "Status Icon Counters" module is set
+                        if (window.EffectCounter) {
+                            // Set the icon path in the system
+                            const iconPath = `systems/knight/assets/icons/effects/${iconName}.svg`;
+
+                            // Get the counters
+                            let counters = EffectCounter.getAllCounters(actor);
+
+                            // Get the effect
+                            let effect = counters.find(e => e.path === iconPath);
+
+                            if (!effect) {
+                                // Create the counter
+                                const counter = new ActiveEffectCounter(isBoolean ? 1 : effects[iconName], iconPath, actor);
+                                console.log('counter', counter)
+                                counter.update();
+                            } else {
+                                switch (iconName) {
+                                    case 'barrage':
+                                        // Update the counter
+                                        effect.setValue(effect.value + effects[iconName]);
+                                        break;
+                                    case 'choc':
+                                    case 'degatscontinus':
+                                    case 'immobilisation':
+                                    case 'lumiere':
+                                    case 'parasitage':
+                                        if (effect.value < effects[iconName]) {
+                                            // Update the counter
+                                            effect.setValue(effects[iconName]);
+                                        }
+                                        break;
+                                    case 'designation':
+                                    case 'soumission':
+                                        break;
+                                }
+                            }
+                         } else {
+                            // No "Status Icon Counters" module
+                            if(isVersion12) {
+                                actor.toggleStatusEffect(iconName, { active: true, overlay: false });
+                            } else {
+                                V11toggleStatusEffect(actor, iconName, { active: true, overlay: false });
+                            }
+                        }
+                    }
+                })
 
                 // #####################
                 // Damages on resilience
