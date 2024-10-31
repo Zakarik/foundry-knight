@@ -1,3 +1,8 @@
+## v3.34.8
+### Bugfix
+- Correction d'un bug dans les capacités ayant "Ajoute un aspect aux capacités liées à un aspect".
+- Correction d'un problème d'affichage lorsque les capacités avaient un bonus lié à un aspect.
+
 ## v3.34.7
 ### Bugfix
 - Correction d'un bug dans le maximum des aspects et aspects exceptionnels.

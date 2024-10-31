@@ -238,8 +238,12 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
         return this.items.filter(items => items.type === 'module');
     }
 
-    get capacites() {
+    get capacitesNonLie() {
         return this.items.filter(items => items.type === 'capacite');
+    }
+
+    get capacitesBonusLie() {
+        return this.items.filter(items => items.type === 'capacite' && (items.system?.bonus?.aspectsLieSupplementaire?.has ?? false));
     }
 
     get dataArmor() {
@@ -536,33 +540,59 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
     }
 
     #capacites() {
-        const capacites = this.capacites;
+        const capaciteLie = this.capacitesBonusLie;
+        const capacitesNonLie = this.capacitesNonLie;
         let sante = 0;
         let armure = 0;
         let aspectsMax = [];
+        let aspectsLieBonus = [];
 
-        for(let c of capacites) {
-        const system = c.system;
+        for(let c of capaciteLie) {
+          aspectsLieBonus.push(c.system.bonus.aspectsLieSupplementaire.value);
+        }
 
-        if(!system.isPhase2 || (system.isPhase2 && this.phase2Activate)) {
+        for(let c of capacitesNonLie) {
+          const system = c.system;
+
+          if(!system.isPhase2 || (system.isPhase2 && this.phase2Activate)) {
             if(system.bonus.sante.has) {
-            if(system.bonus.sante.aspect.lie) sante += (this.aspects[system.bonus.sante.aspect.value].value*system.bonus.sante.aspect.multiplie);
-            else sante += system.bonus.sante.value;
+              if(system.bonus.sante.aspect.lie) {
+                let base = this.aspects[system.bonus.sante.aspect.value].value;
+
+                if(aspectsLieBonus.length > 0) {
+                  for(let a of aspectsLieBonus) {
+                    base += this.aspects[a].value;
+                  }
+                }
+
+                sante += (base*system.bonus.sante.aspect.multiplie);
+              }
+              else sante += system.bonus.sante.value;
             }
 
             if(system.bonus.armure.has) {
-            if(system.bonus.armure.aspect.lie) armure += (this.aspects[system.bonus.armure.aspect.value].value*system.bonus.armure.aspect.multiplie);
-            else armure += system.bonus.armure.value;
+              if(system.bonus.armure.aspect.lie) {
+                let base = this.aspects[system.bonus.armure.aspect.value].value;
+
+                if(aspectsLieBonus.length > 0) {
+                  for(let a of aspectsLieBonus) {
+                    base += this.aspects[a].value;
+                  }
+                }
+
+                armure += (base*system.bonus.armure.aspect.multiplie);
+              }
+              else armure += system.bonus.armure.value;
             }
 
             if(system.bonus.aspectMax.has) {
-            aspectsMax.push({
+              aspectsMax.push({
                 key:system.bonus.aspectMax.aspect,
                 aspect:system.bonus.aspectMax.maximum.aspect,
                 ae:system.bonus.aspectMax.maximum.ae,
-            });
+              });
             }
-        }
+          }
         }
 
         Object.defineProperty(this.sante.bonus, 'capacites', {
