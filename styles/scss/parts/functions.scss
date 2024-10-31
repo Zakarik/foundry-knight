@@ -537,6 +537,27 @@ $lightGrey:RGB(193, 193, 193);
           width:70px !important;
         }
       }
+
+      button.btnRestaureChargeur {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100%;
+        background: $lightBlack;
+        color: $white;
+        cursor: pointer;
+        text-align: center;
+        align-items: center;
+        height: 20px;
+        line-height: 20px;
+        padding: 0px;
+        font-variant: small-caps;
+        border: 0px;
+
+        &:hover {
+          background: $white;
+          color: $lightBlack;
+        }
+      }
     }
 
     select {

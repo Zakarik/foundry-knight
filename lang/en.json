@@ -2233,6 +2233,8 @@
       "SingularRecupereEnergie": "Recovers {value} point of energy",
       "SingularRecupereSante": "Recovers {value} point of health",
       "ModeHeroique":"Heroic Mode",
+      "ChargeurVide":"Clip empty",
+      "RemplirChargeur":"Fills clips",
       "RESULTATS":{
         "Affecte":"Affected",
         "PasAffecte":"Not affected",

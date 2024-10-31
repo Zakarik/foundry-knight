@@ -1106,6 +1106,19 @@ export class KnightRollDialog extends Dialog {
                     if(attaque.aspect.odInclusFixe && armorIsWear) bonus.push(this.#getODAspect(actor, attaque.aspect.fixe));
                 }
             }
+
+            if(this.#isEffetActive(effets, weapon.options, ['chargeur'])) {
+                const getWpn = this.actor.items.get(weapon.id.replaceAll('module_', ''));
+
+                if(getWpn) {
+                    if(!getWpn.system.hasMunition) {
+                        doRoll = false;
+                        msg = game.i18n.localize('KNIGHT.JETS.ChargeurVide');
+                        classes = 'important';
+                    }
+                }
+
+            }
         }
 
         if(modificateur !== 0) {

@@ -3856,6 +3856,13 @@ export class KnightSheet extends ActorSheet {
 
       await new game.knight.applications.KnightEffetsDialog({actor:this.actor._id, item:null, isToken:this?.document?.isToken || false, token:this?.token || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
     });
+
+    html.find('button.btnRestaureChargeur').click(async ev => {
+      const header = $(ev.currentTarget).parents(".summary");
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.resetMunition();
+    });
   }
 
   /* -------------------------------------------- */
@@ -4934,7 +4941,8 @@ export class KnightSheet extends ActorSheet {
               const moduleEffetsFinal = {
                 raw:[...new Set(moiduleEffetsRaw)],
                 custom:moduleEffetsCustom,
-                liste:moduleEffets.liste
+                liste:moduleEffets.liste,
+                chargeur:moduleEffets?.chargeur,
               };
 
               const dataMunitions = itemArme?.optionsmunitions || {has:false};
@@ -4955,8 +4963,8 @@ export class KnightSheet extends ActorSheet {
                   const raw = dataMunitions.liste[i].raw.concat(armorSpecialRaw);
                   const custom = dataMunitions.liste[i].custom.concat(armorSpecialCustom);
 
-                  data.niveau.details[`n${niveau}`].arme.optionsmunitions.liste[i].raw = [...new Set(raw)];
-                  data.niveau.details[`n${niveau}`].arme.optionsmunitions.liste[i].custom = custom;
+                  data.niveau.actuel.arme.optionsmunitions.liste[i].raw = [...new Set(raw)];
+                  data.niveau.actuel.arme.optionsmunitions.liste[i].custom = custom;
                 }
 
                 degats = dataMunitions.liste[actuel].degats;
@@ -4978,6 +4986,9 @@ export class KnightSheet extends ActorSheet {
                   niveau:niveau,
                 }
               };
+
+              console.warn(i);
+              console.warn(moduleEffetsFinal);
 
               if(moduleArmeType === 'contact') {
                 moduleWpn.system.structurelles = itemArme.structurelles;
@@ -5433,7 +5444,7 @@ export class KnightSheet extends ActorSheet {
       if(!data) continue;
 
       const listData = {
-        modules:[{path:['system.effets', 'system.arme.effets', 'system.arme.distance', 'system.arme.structurelles', 'system.arme.ornementales', 'system.jetsimple.effets'], simple:true}],
+        modules:[{path:['system.niveau.actuel.effets', 'system.niveau.actuel.arme.effets', 'system.niveau.actuel.arme.distance', 'system.niveau.actuel.arme.structurelles', 'system.niveau.actuel.arme.ornementales', 'system.niveau.actuel.jetsimple.effets'], simple:true}],
         armes:[{path:['system.effets', 'system.effets2mains', 'system.distance', 'system.structurelles', 'system.ornementales'], simple:true}],
         grenades:[{path:['effets'], simple:true}]
       }[base.key];

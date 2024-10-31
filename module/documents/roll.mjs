@@ -1014,7 +1014,11 @@ export class RollKnight {
 
                     case 'chargeur':
                         if(effet) {
-                            this.actor.items.get(weapon.id).system.useMunition();
+                            const wpn = this.actor.items.get(weapon.id.replaceAll('module_', ''));
+
+                            if(wpn) {
+                                wpn.system.useMunition();
+                            }
 
                             effets.push({
                                 simple:l,

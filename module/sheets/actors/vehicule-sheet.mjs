@@ -364,6 +364,13 @@ export class VehiculeSheet extends ActorSheet {
 
       item.update({[`system`]:data});
     });
+
+    html.find('button.btnRestaureChargeur').click(async ev => {
+      const header = $(ev.currentTarget).parents(".summary");
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.resetMunition();
+    });
   }
 
   /* -------------------------------------------- */
@@ -610,7 +617,8 @@ export class VehiculeSheet extends ActorSheet {
                 optionsmunitions:dataMunitions,
                 effets:{
                   raw:moduleEffets.raw,
-                  custom:moduleEffets.custom
+                  custom:moduleEffets.custom,
+                  chargeur:moduleEffets?.chargeur,
                 },
                 niveau:niveau,
                 whoActivate:itemWhoActivate,
@@ -727,7 +735,7 @@ export class VehiculeSheet extends ActorSheet {
       if(!data) continue;
 
       const listData = {
-        modules:[{path:['system.effets', 'system.arme.effets', 'system.arme.distance', 'system.arme.structurelles', 'system.arme.ornementales', 'system.jetsimple.effets'], simple:true}],
+        modules:[{path:['system.niveau.actuel.effets', 'system.niveau.actuel.arme.effets', 'system.niveau.actuel.arme.distance', 'system.niveau.actuel.arme.structurelles', 'system.niveau.actuel.arme.ornementales', 'system.niveau.actuel.jetsimple.effets'], simple:true}],
         armes:[{path:['system.effets', 'system.effets2mains', 'system.distance', 'system.structurelles', 'system.ornementales'], simple:true}],
         grenades:[{path:['effets'], simple:true}]
       }[base.key];

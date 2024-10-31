@@ -24826,6 +24826,27 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.combat div.main div.armesDistance div.wpn header div.gestionButton.large {
   width: 70px !important;
 }
+.knight section.body div.combat div.main div.armesContact div.wpn header button.btnRestaureChargeur,
+.knight section.body div.combat div.main div.armesDistance div.wpn header button.btnRestaureChargeur {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  background: RGB(76 74 90);
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  align-items: center;
+  height: 20px;
+  line-height: 20px;
+  padding: 0px;
+  font-variant: small-caps;
+  border: 0px;
+}
+.knight section.body div.combat div.main div.armesContact div.wpn header button.btnRestaureChargeur:hover,
+.knight section.body div.combat div.main div.armesDistance div.wpn header button.btnRestaureChargeur:hover {
+  background: white;
+  color: RGB(76 74 90);
+}
 .knight section.body div.combat div.main div.armesContact div.wpn select,
 .knight section.body div.combat div.main div.armesDistance div.wpn select {
   border: 0px;
@@ -32218,6 +32239,27 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.combat div.main div.armesDistance div.wpn header div.gestionButton.large {
   width: 70px !important;
 }
+.pnj section.body div.combat div.main div.armesContact div.wpn header button.btnRestaureChargeur,
+.pnj section.body div.combat div.main div.armesDistance div.wpn header button.btnRestaureChargeur {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  background: RGB(76 74 90);
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  align-items: center;
+  height: 20px;
+  line-height: 20px;
+  padding: 0px;
+  font-variant: small-caps;
+  border: 0px;
+}
+.pnj section.body div.combat div.main div.armesContact div.wpn header button.btnRestaureChargeur:hover,
+.pnj section.body div.combat div.main div.armesDistance div.wpn header button.btnRestaureChargeur:hover {
+  background: white;
+  color: RGB(76 74 90);
+}
 .pnj section.body div.combat div.main div.armesContact div.wpn select,
 .pnj section.body div.combat div.main div.armesDistance div.wpn select {
   border: 0px;
@@ -34518,6 +34560,27 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.body div.combat div.main div.armesDistance div.wpn header div.gestionButton.large {
   width: 70px !important;
 }
+.creature section.body div.combat div.main div.armesContact div.wpn header button.btnRestaureChargeur,
+.creature section.body div.combat div.main div.armesDistance div.wpn header button.btnRestaureChargeur {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  background: RGB(76 74 90);
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  align-items: center;
+  height: 20px;
+  line-height: 20px;
+  padding: 0px;
+  font-variant: small-caps;
+  border: 0px;
+}
+.creature section.body div.combat div.main div.armesContact div.wpn header button.btnRestaureChargeur:hover,
+.creature section.body div.combat div.main div.armesDistance div.wpn header button.btnRestaureChargeur:hover {
+  background: white;
+  color: RGB(76 74 90);
+}
 .creature section.body div.combat div.main div.armesContact div.wpn select,
 .creature section.body div.combat div.main div.armesDistance div.wpn select {
   border: 0px;
@@ -36624,6 +36687,27 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.body div.combat div.main div.armesContact div.wpn header div.gestionButton.large,
 .bande section.body div.combat div.main div.armesDistance div.wpn header div.gestionButton.large {
   width: 70px !important;
+}
+.bande section.body div.combat div.main div.armesContact div.wpn header button.btnRestaureChargeur,
+.bande section.body div.combat div.main div.armesDistance div.wpn header button.btnRestaureChargeur {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  background: RGB(76 74 90);
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  align-items: center;
+  height: 20px;
+  line-height: 20px;
+  padding: 0px;
+  font-variant: small-caps;
+  border: 0px;
+}
+.bande section.body div.combat div.main div.armesContact div.wpn header button.btnRestaureChargeur:hover,
+.bande section.body div.combat div.main div.armesDistance div.wpn header button.btnRestaureChargeur:hover {
+  background: white;
+  color: RGB(76 74 90);
 }
 .bande section.body div.combat div.main div.armesContact div.wpn select,
 .bande section.body div.combat div.main div.armesDistance div.wpn select {
@@ -38908,6 +38992,25 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn header div.gestionButton.large {
   width: 70px !important;
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn header button.btnRestaureChargeur {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  background: RGB(76 74 90);
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  align-items: center;
+  height: 20px;
+  line-height: 20px;
+  padding: 0px;
+  font-variant: small-caps;
+  border: 0px;
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn header button.btnRestaureChargeur:hover {
+  background: white;
+  color: RGB(76 74 90);
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn select {
   border: 0px;

@@ -95,6 +95,10 @@ data-other="{{this.system.type}}"
             </button>
             {{/unless}}
         {{/if}}
+
+        {{#if (hasChargeur this)}}
+            <button type="action" class="btnRestaureChargeur">Restaurer les chargeurs</button>
+        {{/if}}
     </header>
 
     <div class="effets" style="display:none;">
