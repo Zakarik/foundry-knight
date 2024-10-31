@@ -562,6 +562,9 @@ export const KNIGHT = {};
           'parasitage',
           'soumission',
         ],
+        degats:[
+          'degatscontinus',
+        ],
         conditionnel:[
           'choc',
           'barrage'

@@ -1,3 +1,8 @@
+## v3.35.1
+### Bugfix
+- Correction d'un bug empêchant les jets de dégâts / violence.
+- L'effet 'dégâts continus' avait sauté dans ce qui était prévu comme application automatique.
+
 ## v3.35.0
 ### Améliorations
 - Ajout d'une automatisation de l'application d'une partie des effets.
