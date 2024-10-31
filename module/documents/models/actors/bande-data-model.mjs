@@ -137,6 +137,7 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
 
     prepareBaseData() {
         this.#phase2();
+        this.aspects.prepareData();
 	}
 
 	prepareDerivedData() {

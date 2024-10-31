@@ -1,3 +1,7 @@
+## v3.34.7
+### Bugfix
+- Correction d'un bug dans le maximum des aspects et aspects exceptionnels.
+
 ## v3.34.6
 ### Bugfix
 - Correction d'un bug dans la gestion de la phase 2 qui ne fonctionnait pas.

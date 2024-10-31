@@ -297,6 +297,7 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
         this.#modules();
         this.#capacites();
         this.#phase2();
+        this.aspects.prepareData();
     }
 
     prepareDerivedData() {

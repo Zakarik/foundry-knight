@@ -12,114 +12,114 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
 
     return {
       version:new NumberField({initial:0, nullable:false, integer:true}),
-        type:new StringField({initial:""}),
-        histoire:new HTMLField({initial:""}),
-        description:new HTMLField({initial:""}),
-        descriptionLimitee:new HTMLField({initial:""}),
-        tactique:new HTMLField({initial:""}),
-        pointsFaibles:new HTMLField({initial:""}),
-        colosse:new BooleanField({initial:false}),
-        patron:new BooleanField({initial:false}),
-        limited:new SchemaField({
-          showPointsFaibles:new BooleanField({initial:false}),
-          showDescriptionFull:new BooleanField({initial:false}),
-          showDescriptionLimited:new BooleanField({initial:false}),
-        }),
-        armure: new SchemaField({
-            base:new NumberField({initial:0, min:0, nullable:false, integer:true}),
-            mod:new NumberField({initial:0, nullable:false, integer:true}),
-            value:new NumberField({initial:0, nullable:false, integer:true}),
-            max:new NumberField({initial:0, nullable:false, integer:true}),
-            bonus:new ObjectField({
+      type:new StringField({initial:""}),
+      histoire:new HTMLField({initial:""}),
+      description:new HTMLField({initial:""}),
+      descriptionLimitee:new HTMLField({initial:""}),
+      tactique:new HTMLField({initial:""}),
+      pointsFaibles:new HTMLField({initial:""}),
+      colosse:new BooleanField({initial:false}),
+      patron:new BooleanField({initial:false}),
+      limited:new SchemaField({
+        showPointsFaibles:new BooleanField({initial:false}),
+        showDescriptionFull:new BooleanField({initial:false}),
+        showDescriptionLimited:new BooleanField({initial:false}),
+      }),
+      armure: new SchemaField({
+          base:new NumberField({initial:0, min:0, nullable:false, integer:true}),
+          mod:new NumberField({initial:0, nullable:false, integer:true}),
+          value:new NumberField({initial:0, nullable:false, integer:true}),
+          max:new NumberField({initial:0, nullable:false, integer:true}),
+          bonus:new ObjectField({
+            initial:{
+              user:0,
+            }
+          }),
+          malus:new ObjectField({
+            initial:{
+              user:0,
+            }
+          }),
+      }),
+      aspects:new EmbeddedDataField(AspectsNPCDataModel),
+      combat:new SchemaField({
+          armesimprovisees:new EmbeddedDataField(ArmesImproviseesDataModel),
+          data:new SchemaField({
+              degatsbonus:new SchemaField({
+                  dice:new NumberField({ initial: 0, integer: true, nullable: false }),
+                  fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
+              }),
+              violencebonus:new SchemaField({
+                  dice:new NumberField({ initial: 0, integer: true, nullable: false }),
+                  fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
+              }),
+              modificateur:new NumberField({ initial: 0, integer: true, nullable: false }),
+              sacrifice:new NumberField({ initial: 0, integer: true, nullable: false }),
+              succesbonus:new NumberField({ initial: 0, integer: true, nullable: false }),
+              tourspasses:new NumberField({ initial: 1, integer: true, nullable: false }),
+              type:new StringField({ initial: "degats"}),
+          }),
+      }),
+      bouclier:new EmbeddedDataField(DefensesDataModel),
+      defense:new EmbeddedDataField(DefensesDataModel),
+      reaction:new EmbeddedDataField(DefensesDataModel),
+      sante:new SchemaField({
+          base:new NumberField({initial:0, nullable:false, integer:true}),
+          mod:new NumberField({initial:0, nullable:false, integer:true}),
+          value:new NumberField({initial:0, nullable:false, integer:true}),
+          max:new NumberField({initial:16, nullable:false, integer:true}),
+          bonus:new ObjectField({
               initial:{
                 user:0,
               }
-            }),
+          }),
             malus:new ObjectField({
               initial:{
                 user:0,
               }
-            }),
-        }),
-        aspects:new EmbeddedDataField(AspectsNPCDataModel),
-        combat:new SchemaField({
-            armesimprovisees:new EmbeddedDataField(ArmesImproviseesDataModel),
-            data:new SchemaField({
-                degatsbonus:new SchemaField({
-                    dice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
-                }),
-                violencebonus:new SchemaField({
-                    dice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
-                }),
-                modificateur:new NumberField({ initial: 0, integer: true, nullable: false }),
-                sacrifice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                succesbonus:new NumberField({ initial: 0, integer: true, nullable: false }),
-                tourspasses:new NumberField({ initial: 1, integer: true, nullable: false }),
-                type:new StringField({ initial: "degats"}),
-            }),
-        }),
-        bouclier:new EmbeddedDataField(DefensesDataModel),
-        defense:new EmbeddedDataField(DefensesDataModel),
-        reaction:new EmbeddedDataField(DefensesDataModel),
-        sante:new SchemaField({
-            base:new NumberField({initial:0, nullable:false, integer:true}),
-            mod:new NumberField({initial:0, nullable:false, integer:true}),
-            value:new NumberField({initial:0, nullable:false, integer:true}),
-            max:new NumberField({initial:16, nullable:false, integer:true}),
-            bonus:new ObjectField({
-                initial:{
-                  user:0,
-                }
-            }),
-              malus:new ObjectField({
-                initial:{
-                  user:0,
-                }
-            }),
-        }),
-        resilience:new SchemaField({
-            value:new NumberField({initial:0, nullable:false, integer:true}),
-            max:new NumberField({initial:50, nullable:false, integer:true}),
-        }),
-        energie:new SchemaField({
-            base:new NumberField({initial:0, nullable:false, integer:true}),
-            mod:new NumberField({initial:0, nullable:false, integer:true}),
-            value:new NumberField({initial:0, nullable:false, integer:true}),
-            max:new NumberField({initial:16, nullable:false, integer:true}),
-            bonus:new ObjectField({
-                initial:{
-                  user:0,
-                }
-            }),
-              malus:new ObjectField({
-                initial:{
-                  user:0,
-                }
-            }),
-        }),
-        phase2:new EmbeddedDataField(Phase2DataModel),
-        phase2Activate:new BooleanField({initial:false}),
-        initiative:new EmbeddedDataField(InitiativeDataModel),
-        bonusSiEmbuscade:new SchemaField({
-          bonusInitiative:new SchemaField({
-            dice:new NumberField({ initial: 0, integer: true, nullable: false }),
-            fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
           }),
+      }),
+      resilience:new SchemaField({
+          value:new NumberField({initial:0, nullable:false, integer:true}),
+          max:new NumberField({initial:50, nullable:false, integer:true}),
+      }),
+      energie:new SchemaField({
+          base:new NumberField({initial:0, nullable:false, integer:true}),
+          mod:new NumberField({initial:0, nullable:false, integer:true}),
+          value:new NumberField({initial:0, nullable:false, integer:true}),
+          max:new NumberField({initial:16, nullable:false, integer:true}),
+          bonus:new ObjectField({
+              initial:{
+                user:0,
+              }
+          }),
+            malus:new ObjectField({
+              initial:{
+                user:0,
+              }
+          }),
+      }),
+      phase2:new EmbeddedDataField(Phase2DataModel),
+      phase2Activate:new BooleanField({initial:false}),
+      initiative:new EmbeddedDataField(InitiativeDataModel),
+      bonusSiEmbuscade:new SchemaField({
+        bonusInitiative:new SchemaField({
+          dice:new NumberField({ initial: 0, integer: true, nullable: false }),
+          fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
         }),
-        options:new SchemaField({
-            armure:new BooleanField({initial:true, nullable:false}),
-            bouclier:new BooleanField({initial:true, nullable:false}),
-            energie:new BooleanField({initial:true, nullable:false}),
-            notFirstMenu:new BooleanField({initial:false, nullable:false}),
-            noSecondMenu:new BooleanField({initial:false, nullable:false}),
-            phase2:new BooleanField({initial:true, nullable:false}),
-            resilience:new BooleanField({initial:true, nullable:false}),
-            sante:new BooleanField({initial:true, nullable:false}),
-            embuscadeSubis:new BooleanField({initial:false, nullable:false}),
-            embuscadePris:new BooleanField({initial:false, nullable:false}),
-        }),
+      }),
+      options:new SchemaField({
+          armure:new BooleanField({initial:true, nullable:false}),
+          bouclier:new BooleanField({initial:true, nullable:false}),
+          energie:new BooleanField({initial:true, nullable:false}),
+          notFirstMenu:new BooleanField({initial:false, nullable:false}),
+          noSecondMenu:new BooleanField({initial:false, nullable:false}),
+          phase2:new BooleanField({initial:true, nullable:false}),
+          resilience:new BooleanField({initial:true, nullable:false}),
+          sante:new BooleanField({initial:true, nullable:false}),
+          embuscadeSubis:new BooleanField({initial:false, nullable:false}),
+          embuscadePris:new BooleanField({initial:false, nullable:false}),
+      }),
     }
   }
 
@@ -199,6 +199,7 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
     this.#armes();
     this.#capacites();
     this.#phase2();
+    this.aspects.prepareData();
 	}
 
 	prepareDerivedData() {
@@ -317,14 +318,23 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
     for(let a of aspectsMax) {
       Object.defineProperty(this.aspects[a.key], 'max', {
         value: a.aspect,
+        writable:true,
+        enumerable:true,
+        configurable:true
       });
 
       Object.defineProperty(this.aspects[a.key].ae.mineur, 'max', {
         value: a.ae,
+        writable:true,
+        enumerable:true,
+        configurable:true
       });
 
       Object.defineProperty(this.aspects[a.key].ae.majeur, 'max', {
         value: a.ae,
+        writable:true,
+        enumerable:true,
+        configurable:true
       });
     }
   }
