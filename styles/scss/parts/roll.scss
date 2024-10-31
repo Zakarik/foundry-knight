@@ -160,6 +160,10 @@
         padding: 0px;
         font-variant: small-caps;
 
+        &.full {
+          grid-column: 1 / 3;
+        }
+
         &:hover {
           background: $white;
           color: $black;

@@ -474,14 +474,6 @@ export const KNIGHT = {};
         'systemerefroidissement',
       ],
       degats:[
-        'barrage',
-        'choc',
-        'designation',
-        'immobilisation',
-        'lumiere',
-        'parasitage',
-        'soumission',
-
         'affecteanatheme',
         'anatheme',
         'antianatheme',
@@ -535,8 +527,6 @@ export const KNIGHT = {};
         'boostdegats',
       ],
       violence:[
-        'lumiere',
-
         'affecteanatheme',
         'briserlaresilience',
         'assistanceattaque',
@@ -562,6 +552,21 @@ export const KNIGHT = {};
         'intimidanthum',
         'intimidantana',
       ],
+      status:{
+        attaque:[
+          'barrage',
+          'choc',
+          'designation',
+          'immobilisation',
+          'lumiere',
+          'parasitage',
+          'soumission',
+        ],
+        conditionnel:[
+          'choc',
+          'barrage'
+        ],
+      }
     }
  }
 

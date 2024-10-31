@@ -115,7 +115,37 @@ export class RollKnight {
                                         subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
                                     })
 
+                                    target.btn = [{
+                                        label:game.i18n.localize('KNIGHT.JETS.AppliquerEffets'),
+                                        classes:'btn full applyAttaqueEffects',
+                                        id:t.id
+                                    }]
+
                                     listTargets.push(target);
+                                } else {
+                                    let target = {
+                                        id:t.id,
+                                        simple:true,
+                                        name:tActor.name,
+                                        aspects:tActor.system.aspects,
+                                        type:tActor.type,
+                                        effets:[],
+                                    };
+
+                                    target.effets.push({
+                                        key:'barrage',
+                                        hit:true,
+                                        label:game.i18n.localize(localize['barrage'].label),
+                                    });
+
+                                    target.btn = [{
+                                        label:'Appliquer les effets',
+                                        classes:'btn full applyAttaqueEffects',
+                                        id:t.id
+                                    }]
+
+                                    listTargets.push(target);
+
                                 }
                             }
                         }
@@ -995,9 +1025,6 @@ export class RollKnight {
 
             if(this.#isEffetActive(raw, options, [l])) {
                 switch(l) {
-                    case 'barrage':
-                        break;
-
                     case 'aucundegatsviolence':
                         if(effet) {
                             detailledEffets.push({
@@ -1012,6 +1039,7 @@ export class RollKnight {
                         }
                         break;
 
+                    case 'barrage':
                     case 'choc':
                     case 'electrifiee':
                     case 'artillerie':
@@ -1040,7 +1068,7 @@ export class RollKnight {
                                 description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
                             });
                         } else if(effet && !this.#isEffetActive(raw, options, 'arabesqueiridescentes')) {
-                            if(effet) effets.push({
+                            detailledEffets.push({
                                 simple:l,
                                 key:effet,
                                 label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
@@ -1241,6 +1269,7 @@ export class RollKnight {
                         switch(d.simple) {
                             case 'choc':
                             case 'electrifiee':
+                            case 'barrage':
                                 const comparaison = target.type === 'knight' ? chair : Math.ceil(chair/2);
                                 const chairAE = target.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
@@ -1253,6 +1282,14 @@ export class RollKnight {
                                 })
                                 break;
                         }
+                    }
+
+                    if(this.#isEffetActive(raw, options, CONFIG.KNIGHT.LIST.EFFETS.status.attaque)) {
+                        t.btn = [{
+                            label:game.i18n.localize('KNIGHT.JETS.AppliquerEffets'),
+                            classes:'btn full applyAttaqueEffects',
+                            id:t.id
+                        }]
                     }
                 }
             }

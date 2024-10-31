@@ -2233,6 +2233,7 @@
       "SingularRecupereEnergie": "Recovers {value} point of energy",
       "SingularRecupereSante": "Recovers {value} point of health",
       "ModeHeroique":"Heroic Mode",
+      "AppliquerEffets":"Apply all effects",
       "RESULTATS":{
         "Affecte":"Affected",
         "PasAffecte":"Not affected",

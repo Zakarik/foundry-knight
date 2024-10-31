@@ -1,3 +1,11 @@
+## v3.35.0
+### Améliorations
+- Ajout d'une automatisation de l'application d'une partie des effets.
+
+### Bugfix
+- Correction d'un bug qui rendait vide les listes déroulantes des aspects exceptionnels de la Phase 2.
+- Correction du check sur l'effet barrage pour savoir s'il pouvait être appliqué ou non.
+
 ## v3.34.8
 ### Bugfix
 - Correction d'un bug dans les capacités ayant "Ajoute un aspect aux capacités liées à un aspect".
