@@ -1,3 +1,7 @@
+## v3.34.6
+### Bugfix
+- Correction d'un bug dans la gestion de la phase 2 qui ne fonctionnait pas.
+
 ## v3.34.5
 ### Bugfix
 - Correction de l'absence des capacités d'armure de type "arme" dans l'onglet combat.
