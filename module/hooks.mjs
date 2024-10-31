@@ -297,6 +297,7 @@ export default class HooksKnight {
                         energie: false,
                         espoir: false,
                         resilience: false,
+                        blindage: false
                     },
                 } = data;
 
@@ -481,80 +482,80 @@ export default class HooksKnight {
                 // Damages on sante
                 // ################
                 if (sante > 0 && damagesLeft > 0 && dmgZone.sante) {
-                    let santeLessMeurtrier = sante;
+                    let santeLessBonuses = sante;
 
                     // Do meurtrier damages
                     const meurtrier = effects.meurtrier || 0;
                     if (meurtrier > 0 && !hasChairMaj) {
                     if (sante > meurtrier) {
-                        santeLessMeurtrier -= meurtrier;
+                        santeLessBonuses -= meurtrier;
                         santeDmg += meurtrier;
                     } else {
-                        santeLessMeurtrier = 0
+                        santeLessBonuses = 0
                         santeDmg += sante;
                     }
                     }
 
                     // PNJ is a bande
                     if (actor.type === "bande") {
-                    // Do fureur damages
-                    const fureur = effects.fureur || 0;
-                    if (fureur > 0 && actor?.system?.aspects?.chair?.value >= 10) {
-                        if (sante > fureur) {
-                            santeLessMeurtrier -= fureur;
-                            santeDmg += fureur;
-                        } else {
-                            santeLessMeurtrier = 0
-                            santeDmg += sante;
+                        // Do fureur damages
+                        const fureur = effects.fureur || 0;
+                        if (fureur > 0 && actor?.system?.aspects?.chair?.value >= 10) {
+                            if (sante > fureur) {
+                                santeLessBonuses -= fureur;
+                                santeDmg += fureur;
+                            } else {
+                                santeLessBonuses = 0
+                                santeDmg += sante;
+                            }
                         }
-                    }
 
-                    // Do ultraviolence damages
-                    const ultraviolence = effects.ultraviolence || 0;
-                    if (ultraviolence > 0 && actor?.system?.aspects?.chair?.value < 10) {
-                        if (sante > ultraviolence) {
-                            santeLessMeurtrier -= ultraviolence;
-                            santeDmg += ultraviolence;
-                        } else {
-                            santeLessMeurtrier = 0
-                            santeDmg += sante;
+                        // Do ultraviolence damages
+                        const ultraviolence = effects.ultraviolence || 0;
+                        if (ultraviolence > 0 && actor?.system?.aspects?.chair?.value < 10) {
+                            if (sante > ultraviolence) {
+                                santeLessBonuses -= ultraviolence;
+                                santeDmg += ultraviolence;
+                            } else {
+                                santeLessBonuses = 0
+                                santeDmg += sante;
+                            }
                         }
-                    }
 
-                    // Do intimidantana damages
-                    const intimidantana = effects.intimidantana || 0;
-                    if (intimidantana > 0) {
-                        if (sante > intimidantana) {
-                            santeLessMeurtrier -= intimidantana;
-                            santeDmg += intimidantana;
-                        } else {
-                            santeLessMeurtrier = 0
-                            santeDmg += sante;
+                        // Do intimidantana damages
+                        const intimidantana = effects.intimidantana || 0;
+                        if (intimidantana > 0) {
+                            if (sante > intimidantana) {
+                                santeLessBonuses -= intimidantana;
+                                santeDmg += intimidantana;
+                            } else {
+                                santeLessBonuses = 0
+                                santeDmg += sante;
+                            }
                         }
-                    }
 
-                    // Do intimidanthum damages
-                    const intimidanthum = effects.intimidanthum || 0;
-                    if (intimidanthum > 0) {
-                        if (sante > intimidanthum) {
-                            santeLessMeurtrier -= intimidanthum;
-                            santeDmg += intimidanthum;
-                        } else {
-                            santeLessMeurtrier = 0
-                            santeDmg += sante;
+                        // Do intimidanthum damages
+                        const intimidanthum = effects.intimidanthum || 0;
+                        if (intimidanthum > 0) {
+                            if (sante > intimidanthum) {
+                                santeLessBonuses -= intimidanthum;
+                                santeDmg += intimidanthum;
+                            } else {
+                                santeLessBonuses = 0
+                                santeDmg += sante;
+                            }
                         }
-                    }
                     }
 
                     // Check if the damages are upper than the armor
-                    if (damagesLeft > santeLessMeurtrier) {
-                        santeDmg += santeLessMeurtrier;
+                    if (damagesLeft > santeLessBonuses) {
+                        santeDmg += santeLessBonuses;
                     } else {
                         santeDmg += damagesLeft > 0 ? damagesLeft : 0;
                     }
 
                     // Set the damages left
-                    damagesLeft -= santeLessMeurtrier;
+                    damagesLeft -= santeLessBonuses;
 
                     // Update the actor and the chat message
                     const santeRest = sante - santeDmg < 0 ? 0 : sante - santeDmg;
@@ -599,6 +600,7 @@ export default class HooksKnight {
                         energie: false,
                         espoir: false,
                         resilience: false,
+                        blindage: false
                     },
                 } = data;
                 // Get actor
@@ -619,6 +621,7 @@ export default class HooksKnight {
 
                 // Armor
                 const armor = findValue('armure');
+                const hasArmor = actor.system.jauges.armure === true;
                 let armorDmg = 0;
                 let armorRest = armor;
 
@@ -628,6 +631,12 @@ export default class HooksKnight {
                 let santeDmg = 0;
                 let santeRest = sante;
                 let santeDamagesFromArmor = 0;
+
+                // Blindage
+                const blindage = findValue('blindage');
+                const hasBlindage = actor.system.jauges.blindage === true;
+                let blindageDmg = 0;
+                let blindageRest = blindage;
 
                 // Energie
                 const energie = findValue('energie');
@@ -646,7 +655,7 @@ export default class HooksKnight {
                 let chatMessage = '';
 
                 // Check if the target is still alive
-                if ((hasSante && sante === 0) && armor === 0) {
+                if ((hasSante && sante === 0) && (hasArmor && armor === 0) && (hasBlindage && blindageDmg === 0)) {
                     if(isVersion12) actor.toggleStatusEffect('dead', { active: true, overlay: true });
                     else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
 
@@ -740,26 +749,26 @@ export default class HooksKnight {
                 if (sante > 0 && damagesLeft > 0 && dmgZone.sante) {
                     // Do meurtrier damages
                     const meurtrier = effects.meurtrier || 0;
-                    let santeLessMeurtrier = sante;
+                    let santeLessBonuses = sante;
                     if (meurtrier > 0) {
                     if (sante > meurtrier) {
-                        santeLessMeurtrier -= meurtrier;
+                        santeLessBonuses -= meurtrier;
                         santeDmg += meurtrier;
                     } else {
-                        santeLessMeurtrier = 0
+                        santeLessBonuses = 0
                         santeDmg += sante;
                     }
                     }
 
                     // Check if the damages are upper than the armor
-                    if (damagesLeft > santeLessMeurtrier) {
-                    santeDmg += santeLessMeurtrier;
+                    if (damagesLeft > santeLessBonuses) {
+                    santeDmg += santeLessBonuses;
                     } else {
                     santeDmg += damagesLeft > 0 ? damagesLeft : 0;
                     }
 
                     // Set the damages left
-                    damagesLeft -= santeLessMeurtrier;
+                    damagesLeft -= santeLessBonuses;
 
                     // Update the actor and the chat message
                     santeRest = sante - santeDmg < 0 ? 0 : sante - santeDmg;
@@ -767,6 +776,30 @@ export default class HooksKnight {
                     'system.sante.value': santeRest,
                     });
                 }
+
+                // ###################
+                // Damages on blindage
+                // ###################
+                if (hasBlindage && blindage > 0 && damagesLeft > 0 && dmgZone.blindage) {
+                    let blindageLessBonuses = sante;
+
+                    // Check if the damages are upper than the armor
+                    if (damagesLeft > blindageLessBonuses) {
+                        santeDmg += blindageLessBonuses;
+                    } else {
+                        santeDmg += damagesLeft > 0 ? damagesLeft : 0;
+                    }
+
+                    // Set the damages left
+                    damagesLeft -= blindageLessBonuses;
+
+                    // Update the actor and the chat message
+                    blindageRest = blindage - blindageDmg < 0 ? 0 : blindage - blindageDmg;
+                    actor.update({
+                        'system.blindage.value': blindageRest,
+                    });
+                }
+
 
                 // ##################
                 // Damages on energie
@@ -845,10 +878,20 @@ export default class HooksKnight {
                         : ''
                     }
                     ${
+                        dmgZone.blindage
+                        ? `<b>${blindageDmg} ${game.i18n.localize("KNIGHT.LATERAL.Blindage")}</b>${stringLiaison(dmgZone, [
+                            'armure',
+                            'sante',
+                            'blindage',
+                            ])}`
+                        : ''
+                    }
+                    ${
                         dmgZone.energie
                         ? `<b>${energieDmg} ${game.i18n.localize("KNIGHT.AUTRE.PointEnergie-short")}</b>${stringLiaison(dmgZone, [
                             'armure',
                             'sante',
+                            'blindage',
                             'energie',
                             ])}`
                         : ''
@@ -858,6 +901,7 @@ export default class HooksKnight {
                         ? `<b>${espoirDmg} ${game.i18n.localize("KNIGHT.AUTRE.PointEspoir-short")}</b>${stringLiaison(dmgZone, [
                             'armure',
                             'sante',
+                            'blindage',
                             'energie',
                             'espoir',
                             ])}`
@@ -877,10 +921,20 @@ export default class HooksKnight {
                         : ''
                     }
                     ${
+                        dmgZone.blindage
+                        ? `<b>${blindage} ${game.i18n.localize("KNIGHT.LATERAL.Blindage")}</b>${stringLiaison(dmgZone, [
+                            'armure',
+                            'sante',
+                            'blindage',
+                            ])}`
+                        : ''
+                    }
+                    ${
                         dmgZone.energie
                         ? `<b>${energie} ${game.i18n.localize("KNIGHT.AUTRE.PointEnergie-short")}</b>${stringLiaison(dmgZone, [
                             'armure',
                             'sante',
+                            'blindage',
                             'energie',
                             ])}`
                         : ''
@@ -890,6 +944,7 @@ export default class HooksKnight {
                         ? `<b>${espoir} ${game.i18n.localize("KNIGHT.AUTRE.PointEspoir-short")}</b>${stringLiaison(dmgZone, [
                             'armure',
                             'sante',
+                            'blindage',
                             'energie',
                             'espoir',
                             ])}`
@@ -908,6 +963,15 @@ export default class HooksKnight {
                         ? `<b>${santeRest} ${game.i18n.localize("KNIGHT.AUTRE.PointSante-short")}</b>${stringLiaison(dmgZone, [
                             'armure',
                             'sante',
+                            ])}`
+                        : ''
+                    }
+                    ${
+                        dmgZone.blindage
+                        ? `<b>${blindageRest} ${game.i18n.localize("KNIGHT.LATERAL.Blindage")}</b>${stringLiaison(dmgZone, [
+                            'armure',
+                            'sante',
+                            'blindage',
                             ])}`
                         : ''
                     }
@@ -944,7 +1008,7 @@ export default class HooksKnight {
                 }
 
                 // Check if the player is dead
-                if ((hasSante && santeRest <= 0) || (!hasSante && armorRest <= 0)) {
+                if ((hasSante && santeRest <= 0) || (!hasSante && hasArmor && armorRest <= 0) || (!hasSante && !hasArmor && hasBlindage && blindageRest <= 0)) {
                     chatMessage += `<p>${game.i18n.format("KNIGHT.JETS.DEGATSAUTO.PjDead", {name: actor.name})}.</p>`;
                     if(isVersion12) actor.toggleStatusEffect('dead', { active: true, overlay: true });
                     else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
@@ -1026,13 +1090,22 @@ export default class HooksKnight {
                     sante: !!findValue('sante'),
                     energie: false,
                     espoir: false,
-                    resilience: false
+                    resilience: false,
+                    blindage: false
                 };
-
+                console.log('token.actor.type', token.actor.type)
                 if (['pnj', 'creature', 'bande', 'vehicule'].includes(token.actor.type)) {
                     // Updates for PNJs
                 }
-                else if (['knight'].includes(token.actor.type)) {
+                else if (['mechaarmure'].includes(token.actor.type)) {
+                    // Updates for Mecha Armors
+                    dmgZone.armure = false;
+                    dmgZone.sante = false;
+                    dmgZone.energie = false;
+                    dmgZone.espoir = false;
+                    dmgZone.resilience = true;
+                    dmgZone.blindage = true;
+                } else if (['knight'].includes(token.actor.type)) {
                     // Updates for PJs
 
                     // If Anatheme effect
@@ -1042,6 +1115,7 @@ export default class HooksKnight {
                         dmgZone.energie = false;
                         dmgZone.espoir = true;
                         dmgZone.resilience = false;
+                        dmgZone.blindage = false;
                     }
                 }
                 else {
@@ -1069,6 +1143,7 @@ export default class HooksKnight {
                 // Get the template
                 const content = await renderTemplate('systems/knight/templates/dialog/damage-sheet.html', {
                     pj : ['knight'].includes(token.actor.type),
+                    mechaarmor : ['mechaarmure'].includes(token.actor.type),
                     pnj : ['pnj', 'creature', 'bande', 'vehicule'].includes(token.actor.type),
                     bande : ['bande'].includes(token.actor.type),
                     token,
@@ -1142,7 +1217,7 @@ export default class HooksKnight {
                             }
 
                             // Select the good damages
-                            if (['knight'].includes(token.actor.type)) {
+                            if (['knight', 'mechaarmure'].includes(token.actor.type)) {
                                 return displayDamageOnPJ(data);
                             } else {
                                 return displayDamageOnPNJ(data);
