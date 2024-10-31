@@ -431,6 +431,7 @@ export const KNIGHT = {};
         'dispersion',
         'enchaine',
         'esperance',
+        'immobilisation',
         'jumeleakimbo',
         'jumeleambidextrie',
         'leste',
@@ -473,6 +474,14 @@ export const KNIGHT = {};
         'systemerefroidissement',
       ],
       degats:[
+        'barrage',
+        'choc',
+        'designation',
+        'immobilisation',
+        'lumiere',
+        'parasitage',
+        'soumission',
+
         'affecteanatheme',
         'anatheme',
         'antianatheme',

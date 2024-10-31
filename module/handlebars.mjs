@@ -855,10 +855,10 @@
         return result;
     });
 
-    Handlebars.registerHelper('getAE', function (type) {
+    Handlebars.registerHelper('getAE', function (type, max=10) {
         let result = {};
 
-        for(let i = 0;i <= 10;i++) {
+        for(let i = 0;i <= max;i++) {
             result[i] = `${game.i18n.localize(`KNIGHT.AUTRE.${type}`)} (${i})`;
         }
 

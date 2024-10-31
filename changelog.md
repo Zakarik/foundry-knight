@@ -1,3 +1,21 @@
+## v3.34.8
+### Bugfix
+- Correction d'un bug dans les capacités ayant "Ajoute un aspect aux capacités liées à un aspect".
+- Correction d'un problème d'affichage lorsque les capacités avaient un bonus lié à un aspect.
+
+## v3.34.7
+### Bugfix
+- Correction d'un bug dans le maximum des aspects et aspects exceptionnels.
+
+## v3.34.6
+### Bugfix
+- Correction d'un bug dans la gestion de la phase 2 qui ne fonctionnait pas.
+
+## v3.34.5
+### Bugfix
+- Correction de l'absence des capacités d'armure de type "arme" dans l'onglet combat.
+- Correction de bugs sur les dégâts infligés à la résilience.
+
 ## v3.34.4
 ### Bugfix
 - Correction de quelques bugs sur les véhicules.
