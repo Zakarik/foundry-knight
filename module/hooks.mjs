@@ -378,8 +378,10 @@ export default class HooksKnight {
                 }
 
                 // If the damages are not anti véhicules, the damages are divide by 10
-                if ((dmgZone.resilience && resilience > 0) || (!dmgZone.resilience && (isVehicule || resilience > 0) && !antiVehicule)) {
+                let damagesLeftDivideBy10 = false;
+                if (isVehicule && !antiVehicule) {
                     damagesLeft = Math.ceil(damagesLeft / 10);
+                    damagesLeftDivideBy10 = true;
                 }
 
                 // Check if the esquive is used
@@ -404,7 +406,12 @@ export default class HooksKnight {
                 // Damages on resilience
                 // #####################
                 const briserResi = effects.briserlaresilience || 0;
-                if ((dmgZone.resilience && !antiVehicule) && resilience > 0 && (damagesLeft > 0 || briserResi > 0)) {
+                if (resilience > 0 && dmgZone.resilience && (damagesLeft > 0 || briserResi > 0)) {
+                    // if damages are not already divided by 10
+                    if (!damagesLeftDivideBy10) {
+                        damagesLeft = Math.ceil(damagesLeft / 10);
+                    }
+
                     // Do briser la resilience damages
                     let resilienceLessBriserResi = resilience;
                     if (briserResi > 0) {
