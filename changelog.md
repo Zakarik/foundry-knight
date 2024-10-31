@@ -1,3 +1,7 @@
+## v3.34.5
+### Bugfix
+- Correction de l'absence des capacités d'armure de type "arme" dans l'onglet combat.
+
 ## v3.34.4
 ### Bugfix
 - Correction de quelques bugs sur les véhicules.
