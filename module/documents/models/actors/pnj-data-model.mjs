@@ -296,6 +296,7 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
         this.#armes();
         this.#modules();
         this.#capacites();
+        this.#phase2();
     }
 
     prepareDerivedData() {
@@ -798,6 +799,33 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
                 }
             }
         }
+    }
+
+    #phase2() {
+      const phase2 = this.phase2;
+
+      if(!this.phase2Activate) return;
+
+      Object.defineProperty(this.sante.bonus, 'phase2', {
+        value: phase2.sante,
+        writable:true,
+        enumerable:true,
+        configurable:true
+      });
+
+      Object.defineProperty(this.armure.bonus, 'phase2', {
+        value: phase2.armure,
+        writable:true,
+        enumerable:true,
+        configurable:true
+      });
+
+      Object.defineProperty(this.energie.bonus, 'phase2', {
+        value: phase2.energie,
+        writable:true,
+        enumerable:true,
+        configurable:true
+      });
     }
 
     #derived() {

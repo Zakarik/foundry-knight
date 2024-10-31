@@ -198,6 +198,7 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
   prepareBaseData() {
     this.#armes();
     this.#capacites();
+    this.#phase2();
 	}
 
 	prepareDerivedData() {
@@ -328,14 +329,41 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
     }
   }
 
+  #phase2() {
+    const phase2 = this.phase2;
+
+    if(!this.phase2Activate) return;
+
+    Object.defineProperty(this.sante.bonus, 'phase2', {
+      value: phase2.sante,
+      writable:true,
+      enumerable:true,
+      configurable:true
+    });
+
+    Object.defineProperty(this.armure.bonus, 'phase2', {
+      value: phase2.armure,
+      writable:true,
+      enumerable:true,
+      configurable:true
+    });
+
+    Object.defineProperty(this.energie.bonus, 'phase2', {
+      value: phase2.energie,
+      writable:true,
+      enumerable:true,
+      configurable:true
+    });
+  }
+
   #derived() {
     const list = CONFIG.KNIGHT.LIST.creatures;
 
     for(let d of list) {
       const system = this[d];
       const base = system.base;
-      const bonus = system?.bonus?.user ?? 0;
-      const malus = system?.malus?.user ?? 0;
+      const bonus = Object.values(system.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+      const malus = Object.values(system.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
       const update = CONFIG.KNIGHT.LIST.hasMax[d] ? 'max' : 'value';
 
       Object.defineProperty(system, 'mod', {
@@ -362,8 +390,8 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
       });
     } else {
       let initiativeDice = this.initiative.diceBase;
-      let initiativeBonus = this?.initiative?.bonus?.user ?? 0;
-      let initiativeMalus = this?.initiative?.malus?.user ?? 0;
+      let initiativeBonus = Object.values(this?.initiative?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+      let initiativeMalus = Object.values(this?.initiative?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
       const hasEmbuscadeSubis = this.options.embuscadeSubis;
       const hasEmbuscadePris = this.options.embuscadePris;
