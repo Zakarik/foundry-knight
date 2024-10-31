@@ -1,6 +1,7 @@
 ## v3.35.0
 ### Améliorations
 - Ajout d'une automatisation de l'application d'une partie des effets.
+- Ajout de la gestion des dégâts automatiques sur les mécha-armures.
 
 ### Bugfix
 - Correction d'un bug qui rendait vide les listes déroulantes des aspects exceptionnels de la Phase 2.
