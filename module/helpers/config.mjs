@@ -535,6 +535,8 @@ export const KNIGHT = {};
         'boostdegats',
       ],
       violence:[
+        'lumiere',
+
         'affecteanatheme',
         'briserlaresilience',
         'assistanceattaque',
