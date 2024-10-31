@@ -111,6 +111,7 @@ export class RollKnight {
 
                                     target.effets.push({
                                         key:'barrage',
+                                        simple:'barrage',
                                         label:game.i18n.localize(localize['barrage'].label),
                                         subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
                                     })
@@ -134,6 +135,7 @@ export class RollKnight {
 
                                     target.effets.push({
                                         key:'barrage',
+                                        simple:'barrage',
                                         hit:true,
                                         label:game.i18n.localize(localize['barrage'].label),
                                     });
@@ -145,11 +147,14 @@ export class RollKnight {
                                     }]
 
                                     listTargets.push(target);
-
                                 }
                             }
                         }
                     }
+
+                    allFlag.push({
+                        targets:listTargets
+                    });
                 }
             } else if(this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses'])) {
                 const targets = game.user.targets;
@@ -1266,18 +1271,28 @@ export class RollKnight {
                     const chair = target?.system?.aspects?.chair?.value ?? 0;
 
                     for(let d of detailledEffets) {
+                        const comparaison = target.type === 'knight' ? chair : Math.ceil(chair/2);
+                        const chairAE = target.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
+
                         switch(d.simple) {
                             case 'choc':
                             case 'electrifiee':
-                            case 'barrage':
-                                const comparaison = target.type === 'knight' ? chair : Math.ceil(chair/2);
-                                const chairAE = target.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
                                 t.effets.push({
                                     simple:d.simple,
                                     key:d.key,
                                     label:d.label,
                                     hit:total > comparaison && t.hit && chairAE === 0  ? true : false,
+                                    subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
+                                })
+                                break;
+
+                            case 'barrage':
+                                t.effets.push({
+                                    simple:d.simple,
+                                    key:d.key,
+                                    label:d.label,
+                                    hit:true,
                                     subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
                                 })
                                 break;

@@ -427,6 +427,28 @@ Hooks.once("ready", HooksKnight.ready);
 Hooks.on('deleteItem', doc => toggler.clearForId(doc.id));
 Hooks.on('deleteActor', doc => toggler.clearForId(doc.id));
 
+Hooks.on("createActiveEffect", function(effect, data) {
+  const status = effect.statuses;
+  let effectCounter = foundry.utils.getProperty(effect, "flags.statuscounter.counter");
+
+  if (effectCounter && (status.has("barrage") || status.has("lumiere"))) {
+    let update = []
+    for(let e of effect.changes) {
+      update.push({
+        key:e.key,
+        mode:e.mode,
+        priority:e.priority,
+        value:`${effectCounter.value}`
+      });
+    }
+
+    effect.parent.updateEmbeddedDocuments('ActiveEffect', [{
+      "_id":effect._id,
+      changes:update,
+    }])
+  }
+});
+
 Hooks.on("updateActiveEffect", function(effect, effectData, diffData, options, userId) {
   const status = effect.statuses;
   let effectCounter = foundry.utils.getProperty(effectData, "flags.statuscounter.counter");

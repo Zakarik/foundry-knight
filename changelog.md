@@ -1,3 +1,8 @@
+## v3.35.3
+### Bugfix
+- Correction d'un bug sur l'application automatique des états, qui ne prenait pas correctement en compte la valeur de l'état avec Status Icon Counter.
+- Correction d'un bug sur l'état barrage qui ne fonctionnait pas comme attendu.
+
 ## v3.35.2
 ### Bugfix
 - Correction du navigateur de compendium qui était un peu cassé pour les modules.

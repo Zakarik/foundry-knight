@@ -245,7 +245,7 @@ export default class HooksKnight {
 
                 const actor = token.actor;
                 weapon.effets.raw.forEach(effectName => {
-                    const status = CONFIG.KNIGHT.LIST.EFFETS.status.attaque;
+                    const status = CONFIG.KNIGHT.LIST.EFFETS.attaque;
                     const conditionnel = CONFIG.KNIGHT.LIST.EFFETS.status.conditionnel;
                     const split = effectName.split(' ');
                     const name = split[0];
@@ -257,8 +257,10 @@ export default class HooksKnight {
 
                             for (const content of flags.content) {
                                 const target = content.targets.find(itm => itm.id === tokenId);
+
                                 if (target && target.effets) {
-                                    const effect = target.effets.find(itm => itm.simple === 'choc');
+                                    const effect = target.effets.find(itm => itm.simple === name && conditionnel.includes(itm.simple));
+
                                     if (effect) {
                                         isHit = effect.hit;
                                         break;
@@ -276,7 +278,7 @@ export default class HooksKnight {
                 // #####################
                 const effectList = actor.type === 'bande'
                     ? ['lumiere']
-                    : CONFIG.KNIGHT.LIST.EFFETS.status.attaque;
+                    : CONFIG.KNIGHT.LIST.EFFETS.attaque;
                 effectList.map(iconName => {
                     const isBoolean = ['designation', 'soumission'].includes(iconName);
                     if (effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) {
@@ -505,7 +507,7 @@ export default class HooksKnight {
                 // #####################
                 const effectList = actor.type === 'bande'
                     ? []
-                    : CONFIG.KNIGHT.LIST.EFFETS.status.degats;
+                    : CONFIG.KNIGHT.LIST.EFFETS.degats;
                 effectList.map(iconName => {
                     const isBoolean = ['designation', 'soumission'].includes(iconName);
                     if (effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) {
