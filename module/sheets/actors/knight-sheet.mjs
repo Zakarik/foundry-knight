@@ -4436,14 +4436,6 @@ export class KnightSheet extends ActorSheet {
     let armureLegendeData = {};
     let longbow = {};
     let art = {};
-    let reaction = {
-      bonus:0,
-      malus:0
-    };
-    let defense = {
-      bonus:0,
-      malus:0
-    };
     let lion = {
       armure:{
         bonus:[0],
@@ -4591,13 +4583,9 @@ export class KnightSheet extends ActorSheet {
             });
           }
         }
-        const hasLongbow = data?.capacites?.selected?.longbow ?? {}
-        const specials = data.special.selected;
 
-        if(Object.keys(hasLongbow).length > 0 && wear === 'armure') {
-          longbow = hasLongbow;
-          longbow.has = true;
-        }
+        const capacites = data?.capacites?.selected;
+        const specials = data.special.selected;
 
         for (let [key, special] of Object.entries(specials)) {
           switch(key) {
@@ -4635,6 +4623,256 @@ export class KnightSheet extends ActorSheet {
                       }
                     }
                   }
+                }
+                break;
+            }
+          }
+
+          for (let c in capacites) {
+            const dCapacite = capacites[c];
+
+            switch(c) {
+              case 'longbow':
+                longbow = dCapacite;
+                longbow.has = true;
+                break;
+
+              case 'borealis':
+                armesDistanceEquipee.push({
+                  _id:i._id,
+                  name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label')}`,
+                  type:'armure',
+                  system:{
+                    subCapaciteName:'borealis',
+                    capacite:true,
+                    noRack:true,
+                    type:'distance',
+                    portee:dCapacite.offensif.portee,
+                    degats:dCapacite.offensif.degats,
+                    violence:dCapacite.offensif.violence,
+                    effets:{
+                      raw:dCapacite.offensif.effets.raw,
+                      custom:dCapacite.offensif.effets.custom,
+                      liste:dCapacite.offensif.effets.liste,
+                      chargeur:dCapacite.offensif.effets?.chargeur ?? null
+                    }
+                  }
+                });
+
+                armesContactEquipee.push({
+                  _id:i._id,
+                  name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label')}`,
+                  type:'armure',
+                  system:{
+                    subCapaciteName:'borealis',
+                    capacite:true,
+                    noRack:true,
+                    type:'contact',
+                    portee:dCapacite.offensif.portee,
+                    degats:dCapacite.offensif.degats,
+                    violence:dCapacite.offensif.violence,
+                    effets:{
+                      raw:dCapacite.offensif.effets.raw,
+                      custom:dCapacite.offensif.effets.custom,
+                      liste:dCapacite.offensif.effets.liste,
+                      chargeur:dCapacite.offensif.effets?.chargeur ?? null
+                    }
+                  }
+                });
+                break;
+
+              case 'cea':
+                armesDistanceEquipee.push({
+                  _id:i._id,
+                  name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label'),
+                  type:'armure',
+                  system:{
+                    subCapaciteName:'vague',
+                    capacite:true,
+                    noRack:true,
+                    type:'distance',
+                    portee:dCapacite.vague.portee,
+                    degats:dCapacite.vague.degats,
+                    violence:dCapacite.vague.violence,
+                    effets:{
+                      raw:dCapacite.vague.effets.raw,
+                      custom:dCapacite.vague.effets.custom,
+                      liste:dCapacite.vague.effets.liste,
+                      chargeur:dCapacite.vague.effets?.chargeur ?? null
+                    }
+                  }
+                },
+                {
+                  _id:i._id,
+                  name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label'),
+                  type:'armure',
+                  system:{
+                    subCapaciteName:'salve',
+                    capacite:true,
+                    noRack:true,
+                    type:'distance',
+                    portee:dCapacite.salve.portee,
+                    degats:dCapacite.salve.degats,
+                    violence:dCapacite.salve.violence,
+                    effets:{
+                      raw:dCapacite.salve.effets.raw,
+                      custom:dCapacite.salve.effets.custom,
+                      liste:dCapacite.salve.effets.liste,
+                      chargeur:dCapacite.salve.effets?.chargeur ?? null
+                    }
+                  }
+                },
+                {
+                  _id:i._id,
+                  name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label'),
+                  type:'armure',
+                  system:{
+                    subCapaciteName:'rayon',
+                    capacite:true,
+                    noRack:true,
+                    type:'distance',
+                    portee:dCapacite.rayon.portee,
+                    degats:dCapacite.rayon.degats,
+                    violence:dCapacite.rayon.violence,
+                    effets:{
+                      raw:dCapacite.rayon.effets.raw,
+                      custom:dCapacite.rayon.effets.custom,
+                      liste:dCapacite.rayon.effets.liste,
+                      chargeur:dCapacite.rayon.effets?.chargeur ?? null
+                    }
+                  }
+                });
+
+                armesContactEquipee.push({
+                  _id:i._id,
+                  name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label'),
+                  type:'armure',
+                  system:{
+                    subCapaciteName:'vague',
+                    capacite:true,
+                    noRack:true,
+                    type:'contact',
+                    portee:dCapacite.vague.portee,
+                    degats:dCapacite.vague.degats,
+                    violence:dCapacite.vague.violence,
+                    effets:{
+                      raw:dCapacite.vague.effets.raw,
+                      custom:dCapacite.vague.effets.custom,
+                      liste:dCapacite.vague.effets.liste,
+                      chargeur:dCapacite.vague.effets?.chargeur ?? null
+                    }
+                  }
+                },
+                {
+                  _id:i._id,
+                  name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label'),
+                  type:'armure',
+                  system:{
+                    subCapaciteName:'salve',
+                    capacite:true,
+                    noRack:true,
+                    type:'contact',
+                    portee:dCapacite.salve.portee,
+                    degats:dCapacite.salve.degats,
+                    violence:dCapacite.salve.violence,
+                    effets:{
+                      raw:dCapacite.salve.effets.raw,
+                      custom:dCapacite.salve.effets.custom,
+                      liste:dCapacite.salve.effets.liste,
+                      chargeur:dCapacite.salve.effets?.chargeur ?? null
+                    }
+                  }
+                },
+                {
+                  _id:i._id,
+                  name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label'),
+                  type:'armure',
+                  system:{
+                    subCapaciteName:'rayon',
+                    capacite:true,
+                    noRack:true,
+                    type:'contact',
+                    portee:dCapacite.rayon.portee,
+                    degats:dCapacite.rayon.degats,
+                    violence:dCapacite.rayon.violence,
+                    effets:{
+                      raw:dCapacite.rayon.effets.raw,
+                      custom:dCapacite.rayon.effets.custom,
+                      liste:dCapacite.rayon.effets.liste,
+                      chargeur:dCapacite.rayon.effets?.chargeur ?? null
+                    }
+                  }
+                });
+                break;
+
+              case 'morph':
+                if(dCapacite?.active?.polymorphieLame ?? false) {
+                  armesContactEquipee.push({
+                    _id:i._id,
+                    name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame')}`,
+                    type:'armure',
+                    system:{
+                      subCapaciteName:'lame',
+                      capacite:true,
+                      noRack:true,
+                      type:'contact',
+                      portee:dCapacite.polymorphie.lame.portee,
+                      degats:dCapacite.polymorphie.lame.degats,
+                      violence:dCapacite.polymorphie.lame.violence,
+                      effets:{
+                        raw:dCapacite.polymorphie.lame.effets.raw,
+                        custom:dCapacite.polymorphie.lame.effets.custom,
+                        liste:dCapacite.polymorphie.lame.effets.liste,
+                        chargeur:dCapacite.polymorphie.lame.effets?.chargeur ?? null
+                      }
+                    }
+                  });
+                }
+
+                if(dCapacite?.active?.polymorphieGriffe ?? false) {
+                  armesContactEquipee.push({
+                    _id:i._id,
+                    name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe')}`,
+                    type:'armure',
+                    system:{
+                      subCapaciteName:'griffe',
+                      capacite:true,
+                      noRack:true,
+                      type:'contact',
+                      portee:dCapacite.polymorphie.griffe.portee,
+                      degats:dCapacite.polymorphie.griffe.degats,
+                      violence:dCapacite.polymorphie.griffe.violence,
+                      effets:{
+                        raw:dCapacite.polymorphie.griffe.effets.raw,
+                        custom:dCapacite.polymorphie.griffe.effets.custom,
+                        liste:dCapacite.polymorphie.griffe.effets.liste,
+                        chargeur:dCapacite.polymorphie.griffe.effets?.chargeur ?? null
+                      }
+                    }
+                  });
+                }
+
+                if(dCapacite?.active?.polymorphieCanon ?? false) {
+                  armesDistanceEquipee.push({
+                    _id:i._id,
+                    name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon')}`,
+                    type:'armure',
+                    system:{
+                      subCapaciteName:'canon',
+                      capacite:true,
+                      noRack:true,
+                      type:'distance',
+                      portee:dCapacite.polymorphie.canon.portee,
+                      degats:dCapacite.polymorphie.canon.degats,
+                      violence:dCapacite.polymorphie.canon.violence,
+                      effets:{
+                        raw:dCapacite.polymorphie.canon.effets.raw,
+                        custom:dCapacite.polymorphie.canon.effets.custom,
+                        liste:dCapacite.polymorphie.canon.effets.liste,
+                        chargeur:dCapacite.polymorphie.canon.effets?.chargeur ?? null
+                      }
+                    }
+                  });
                 }
                 break;
             }
