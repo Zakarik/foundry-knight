@@ -137,6 +137,15 @@
           line-height: 14px;
         }
       }
+
+      &.outer {
+        margin-top: 3px;
+        margin-bottom: 3px;
+      }
+
+      &.notFirst {
+        margin-top: 0px;
+      }
     }
 
     &.btn,

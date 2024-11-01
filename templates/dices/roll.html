@@ -90,6 +90,12 @@
         </div>
         {{/each}}
 
+        {{#each allTgtBtn}}
+        <div class="btn {{mainClasses}}">
+            <button type="action" class="{{classes}}">{{label}}</button>
+        </div>
+        {{/each}}
+
         {{#if targets}}
         {{#unless weapon}}
         <div class="onlyGm btn" style="width: 200%;">
@@ -126,7 +132,7 @@
     {{/if}}
 
     {{#each targets}}
-    <div class="listTargets dice-formula">
+    <div class="listTargets dice-formula outer {{#if (ne @index 0)}}notFirst{{/if}}">
         <div class="target" data-id="{{id}}">
             <span class="label">{{name}}</span>
             {{#if simple}}
@@ -169,6 +175,12 @@
                 {{/each}}
             </div>
         {{/if}}
+    </div>
+    {{/each}}
+
+    {{#each allTgtBtn}}
+    <div class="btn {{mainClasses}}">
+        <button type="action" class="{{classes}}">{{label}}</button>
     </div>
     {{/each}}
 

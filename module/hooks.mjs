@@ -327,6 +327,104 @@ export default class HooksKnight {
                 });
             });
 
+            html.find('.knight-roll button.applyAllAttaqueEffects').click(async ev => {
+                const tgt = $(ev.currentTarget);
+                const flags = message.flags;
+                const weapon = flags.weapon;
+
+                for(const content of flags.content) {
+                    for(const target of content.targets) {
+
+                        const token = canvas?.tokens?.get(target.id);
+                        let effects = {};
+
+                        if(!token) return;
+
+                        const actor = token.actor;
+
+                        weapon.effets.raw.forEach(effectName => {
+                            const status = CONFIG.KNIGHT.LIST.EFFETS.attaque;
+                            const conditionnel = CONFIG.KNIGHT.LIST.EFFETS.status.conditionnel;
+                            const split = effectName.split(' ');
+                            const name = split[0];
+                            const value = split[1];
+
+                            if(status.includes(name) && ((weapon.options.find(itm => itm.value === name)?.active ?? false) || !weapon.options.find(itm => itm.value === name))) {
+                                if(conditionnel.includes(name)) {
+                                    let isHit = false;
+
+                                    if (target && target.effets) {
+                                        const effect = target.effets.find(itm => itm.simple === name && conditionnel.includes(itm.simple));
+
+                                        if (effect) {
+                                            isHit = effect.hit;
+                                        }
+                                    }
+
+                                    if(isHit) effects[name] = value ? parseInt(value) : true;
+                                } else effects[name] = value ? parseInt(value) : true;
+                            }
+                        });
+
+                        /**/
+
+                        // #####################
+                        // Set effects
+                        // #####################
+                        const effectList = actor.type === 'bande'
+                        ? ['lumiere']
+                        : CONFIG.KNIGHT.LIST.EFFETS.attaque;
+                        effectList.map(iconName => {
+                            const isBoolean = ['designation', 'soumission'].includes(iconName);
+                            if (effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) {
+                                // Check if "Status Icon Counters" module is set
+                                if (window.EffectCounter) {
+                                    // Set the icon path in the system
+                                    const iconPath = `systems/knight/assets/icons/effects/${iconName}.svg`;
+
+                                    // Get the counters
+                                    let counters = EffectCounter.getAllCounters(actor);
+
+                                    // Get the effect
+                                    let effect = counters.find(e => e.path === iconPath);
+
+                                    if (!effect) {
+                                        let counterNumber = isBoolean ? 1 : effects[iconName];
+                                        // Create the counter
+                                        if (counterNumber) {
+                                            const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
+                                            counter.update();
+                                        }
+                                    } else {
+                                        switch (iconName) {
+                                            case 'barrage':
+                                            case 'choc':
+                                            case 'degatscontinus':
+                                            case 'immobilisation':
+                                            case 'lumiere':
+                                            case 'parasitage':
+                                                if (effect.value < effects[iconName]) {
+                                                    // Update the counter
+                                                    effect.setValue(effects[iconName]);
+                                                }
+                                                break;
+                                        }
+                                    }
+                                } else {
+                                    // No "Status Icon Counters" module
+                                    if(isVersion12) {
+                                        actor.toggleStatusEffect(iconName, { active: true, overlay: false });
+                                    } else {
+                                        V11toggleStatusEffect(actor, iconName, { active: true, overlay: false });
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+                }
+            });
+
             tgtBtn.click(async ev => {
                 const type = message.getFlag('knight', 'type');
                 const target = message.getFlag('knight', 'target');

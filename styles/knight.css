@@ -40500,6 +40500,13 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-size: 14px;
   line-height: 14px;
 }
+.knight-roll div.listTargets.outer {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+.knight-roll div.listTargets.notFirst {
+  margin-top: 0px;
+}
 .knight-roll div.btn, .knight-roll div.tgtBtn {
   display: grid;
   grid-template-columns: 1fr 1fr;

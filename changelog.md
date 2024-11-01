@@ -1,4 +1,7 @@
-## v3.35.3
+## v3.36.0
+### Améliorations
+- Ajout d'un bouton pour appliquer les effets à toutes les cibles d'un coup.
+
 ### Bugfix
 - Correction d'un bug sur l'application automatique des états, qui ne prenait pas correctement en compte la valeur de l'état avec Status Icon Counter.
 - Correction d'un bug sur l'état barrage qui ne fonctionnait pas comme attendu.

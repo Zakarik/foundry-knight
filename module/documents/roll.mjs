@@ -85,6 +85,7 @@ export class RollKnight {
             let allFlag = []
             let allRoll = [];
             let listTargets = [];
+            let finalDataToAdd = {};
 
             if((this.#isEffetActive(allRaw, weapon.options, ['barrage']) && !this.#isEffetActive(allRaw, weapon.options, ['choc'])) || (this.#hasEffet(allRaw, 'barrage') && this.#hasEffet(allRaw, 'aucundegatsviolence') && !this.#isEffetActive(allRaw, weapon.options, ['choc']))) {
                 if(this.#getEffet(allRaw, 'barrage')) {
@@ -155,6 +156,12 @@ export class RollKnight {
                     allFlag.push({
                         targets:listTargets
                     });
+
+                    finalDataToAdd['allTgtBtn'] = [{
+                        mainClasses:'btn gmOnly full',
+                        classes:'applyAllAttaqueEffects',
+                        label:game.i18n.localize('KNIGHT.JETS.AppliquerEffetsAll'),
+                    }]
                 }
             } else if(this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses'])) {
                 const targets = game.user.targets;
@@ -206,6 +213,7 @@ export class RollKnight {
                 text,
                 targets:listTargets,
                 flags:allFlag,
+                finalDataToAdd
             })
         }
 
@@ -902,6 +910,7 @@ export class RollKnight {
         const flag = data?.flags ?? [];
         const tags = this.tags;
         const targets = data?.targets ?? [];
+        const finalDataToAdd = data?.finalDataToAdd ?? {};
 
         if(this.weapon.portee) {
             const traPortee = game.i18n.localize(`KNIGHT.PORTEE.${this.weapon.portee.charAt(0).toUpperCase() + this.weapon.portee.slice(1)}`);
@@ -942,6 +951,8 @@ export class RollKnight {
         };
 
         await this.#handleAttaqueEffet(weapon, main, rolls);
+
+        foundry.utils.mergeObject(main, finalDataToAdd);
 
         let chatData = {
             user:game.user.id,
@@ -1261,6 +1272,8 @@ export class RollKnight {
             const total = c.total;
             c.bonus.push(5);
 
+            let hasBtnApply = false;
+
             for(let t of c.targets) {
                 const tgt = game.user.targets.find(tgt => tgt.id === t.id);
                 const actor = tgt.actor;
@@ -1300,6 +1313,7 @@ export class RollKnight {
                     }
 
                     if(this.#isEffetActive(raw, options, CONFIG.KNIGHT.LIST.EFFETS.status.attaque)) {
+                        hasBtnApply = true;
                         t.btn = [{
                             label:game.i18n.localize('KNIGHT.JETS.AppliquerEffets'),
                             classes:'btn full applyAttaqueEffects',
@@ -1307,6 +1321,14 @@ export class RollKnight {
                         }]
                     }
                 }
+            }
+
+            if(c.targets.length > 1 && hasBtnApply) {
+                c.allTgtBtn = [{
+                    mainClasses:'btn gmOnly full',
+                    classes:'applyAllAttaqueEffects',
+                    label:game.i18n.localize('KNIGHT.JETS.AppliquerEffetsAll'),
+                }]
             }
 
             c.noDmg = noDmg;

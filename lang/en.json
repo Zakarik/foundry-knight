@@ -2234,6 +2234,7 @@
       "SingularRecupereSante": "Recovers {value} point of health",
       "ModeHeroique":"Heroic Mode",
       "AppliquerEffets":"Apply all effects",
+      "AppliquerEffetsAll":"Apply effects to all targets",
       "RESULTATS":{
         "Affecte":"Affected",
         "PasAffecte":"Not affected",
