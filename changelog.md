@@ -1,3 +1,7 @@
+## v3.36.2
+### Bugfix
+- Correction d'un problème d'affichage dans le lanceur de dé des mécha armures.
+
 ## v3.36.1
 ### Bugfix
 - Le bouton ajouté par la 3.36.0 n'apparaitra dorénavant que s'il y a plus d'une cible, comme c'était prévu à l'origine...
