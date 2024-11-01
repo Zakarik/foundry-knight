@@ -157,11 +157,14 @@ export class RollKnight {
                         targets:listTargets
                     });
 
-                    finalDataToAdd['allTgtBtn'] = [{
-                        mainClasses:'btn gmOnly full',
-                        classes:'applyAllAttaqueEffects',
-                        label:game.i18n.localize('KNIGHT.JETS.AppliquerEffetsAll'),
-                    }]
+                    if(targets.size > 1) {
+                        finalDataToAdd['allTgtBtn'] = [{
+                            mainClasses:'btn gmOnly full',
+                            classes:'applyAllAttaqueEffects',
+                            label:game.i18n.localize('KNIGHT.JETS.AppliquerEffetsAll'),
+                        }]
+                    }
+
                 }
             } else if(this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses'])) {
                 const targets = game.user.targets;

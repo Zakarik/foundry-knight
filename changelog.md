@@ -1,3 +1,7 @@
+## v3.36.1
+### Bugfix
+- Le bouton ajouté par la 3.36.0 n'apparaitra dorénavant que s'il y a plus d'une cible, comme c'était prévu à l'origine...
+
 ## v3.36.0
 ### Améliorations
 - Ajout d'un bouton pour appliquer les effets à toutes les cibles d'un coup.
