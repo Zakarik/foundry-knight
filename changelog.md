@@ -1,3 +1,7 @@
+## v3.36.3
+### Bugfix
+- Correction d'un bug pouvant faire apparaitre un status inconnu.
+
 ## v3.36.2
 ### Bugfix
 - Correction d'un problème d'affichage dans le lanceur de dé des mécha armures.
