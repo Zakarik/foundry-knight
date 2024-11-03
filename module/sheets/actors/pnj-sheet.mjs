@@ -2441,6 +2441,13 @@ export class PNJSheet extends ActorSheet {
 
       await new game.knight.applications.KnightEffetsDialog({actor:this.actor._id, item:null, isToken:this?.document?.isToken || false, token:this?.token || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
     });
+
+    html.find('button.btnRestaureChargeur').click(async ev => {
+      const header = $(ev.currentTarget).parents(".summary");
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.resetMunition();
+    });
   }
 
   /* -------------------------------------------- */
@@ -2736,7 +2743,7 @@ export class PNJSheet extends ActorSheet {
 
         if(dataMunitions.has) {
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            itemArme.optionsmunitions.liste[key].liste = listEffects(value.raw, value.custom, labels);
+            itemArme.optionsmunitions.liste[key].liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
           }
         }
 
@@ -2834,7 +2841,8 @@ export class PNJSheet extends ActorSheet {
                 optionsmunitions:dataMunitions,
                 effets:{
                   raw:moduleEffets.raw,
-                  custom:moduleEffets.custom
+                  custom:moduleEffets.custom,
+                  chargeur:moduleEffets?.chargeur,
                 },
                 niveau:niveau,
               }
@@ -3499,7 +3507,7 @@ export class PNJSheet extends ActorSheet {
       if(!data) continue;
 
       const listData = {
-        modules:[{path:['system.effets', 'system.arme.effets', 'system.arme.distance', 'system.arme.structurelles', 'system.arme.ornementales', 'system.jetsimple.effets'], simple:true}],
+        modules:[{path:['system.niveau.actuel.effets', 'system.niveau.actuel.arme.effets', 'system.niveau.actuel.arme.distance', 'system.niveau.actuel.arme.structurelles', 'system.niveau.actuel.arme.ornementales', 'system.niveau.actuel.jetsimple.effets'], simple:true}],
         armes:[{path:['system.effets', 'system.effets2mains', 'system.distance', 'system.structurelles', 'system.ornementales'], simple:true}],
         grenades:[{path:['effets'], simple:true}]
       }[base.key];
@@ -3513,7 +3521,7 @@ export class PNJSheet extends ActorSheet {
           const dataMunitions = data[n].system.optionsmunitions;
 
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            value.liste = listEffects(value.raw, value.custom, labels);
+            value.liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
           }
         }
       }
@@ -3525,7 +3533,7 @@ export class PNJSheet extends ActorSheet {
       const data = path.split('.').reduce((obj, key) => obj?.[key], capacite);
       if (!data) return;
       const effets = simple ? data : data.effets;
-      effets.liste = listEffects(effets.raw, effets.custom, labels);
+      effets.liste = listEffects(effets.raw, effets.custom, labels, effets?.chargeur);
     };
 
     if (!items) {

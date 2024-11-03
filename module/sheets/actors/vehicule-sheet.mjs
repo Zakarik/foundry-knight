@@ -372,6 +372,13 @@ export class VehiculeSheet extends ActorSheet {
 
       item.update({[`system`]:data});
     });
+
+    html.find('button.btnRestaureChargeur').click(async ev => {
+      const header = $(ev.currentTarget).parents(".summary");
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.resetMunition();
+    });
   }
 
   /* -------------------------------------------- */
@@ -480,7 +487,7 @@ export class VehiculeSheet extends ActorSheet {
         const raw = data.effets.raw;
         const custom = data.effets.custom;
 
-        data.effets.liste = listEffects(raw, custom, labels);
+        data.effets.liste = listEffects(raw, custom, labels, data.effets?.chargeur);
 
         const rawDistance = data.distance.raw;
         const customDistance = data.distance.custom;
@@ -501,7 +508,7 @@ export class VehiculeSheet extends ActorSheet {
             const bRaw2 = munition.raw || [];
             const bCustom2 = munition.custom || [];
 
-            munition.liste = listEffects(bRaw2, bCustom2, labels);
+            munition.liste = listEffects(bRaw2, bCustom2, labels, munition?.chargeur);
           }
         }
 
@@ -522,7 +529,7 @@ export class VehiculeSheet extends ActorSheet {
 
         if(dataMunitions.has) {
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            itemArme.optionsmunitions.liste[key].liste = listEffects(value.raw, value.custom, labels);
+            itemArme.optionsmunitions.liste[key].liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
           }
         }
 
@@ -613,7 +620,8 @@ export class VehiculeSheet extends ActorSheet {
                 optionsmunitions:dataMunitions,
                 effets:{
                   raw:moduleEffets.raw,
-                  custom:moduleEffets.custom
+                  custom:moduleEffets.custom,
+                  chargeur:moduleEffets?.chargeur,
                 },
                 niveau:niveau,
                 whoActivate:itemWhoActivate,
@@ -730,7 +738,7 @@ export class VehiculeSheet extends ActorSheet {
       if(!data) continue;
 
       const listData = {
-        modules:[{path:['system.effets', 'system.arme.effets', 'system.arme.distance', 'system.arme.structurelles', 'system.arme.ornementales', 'system.jetsimple.effets'], simple:true}],
+        modules:[{path:['system.niveau.actuel.effets', 'system.niveau.actuel.arme.effets', 'system.niveau.actuel.arme.distance', 'system.niveau.actuel.arme.structurelles', 'system.niveau.actuel.arme.ornementales', 'system.niveau.actuel.jetsimple.effets'], simple:true}],
         armes:[{path:['system.effets', 'system.effets2mains', 'system.distance', 'system.structurelles', 'system.ornementales'], simple:true}],
         grenades:[{path:['effets'], simple:true}]
       }[base.key];
@@ -744,7 +752,7 @@ export class VehiculeSheet extends ActorSheet {
           const dataMunitions = data[n].system.optionsmunitions;
 
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            value.liste = listEffects(value.raw, value.custom, labels);
+            value.liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
           }
         }
       }
@@ -756,7 +764,7 @@ export class VehiculeSheet extends ActorSheet {
       const data = path.split('.').reduce((obj, key) => obj?.[key], capacite);
       if (!data) return;
       const effets = simple ? data : data.effets;
-      effets.liste = listEffects(effets.raw, effets.custom, labels);
+      effets.liste = listEffects(effets.raw, effets.custom, labels, effets?.chargeur);
     };
 
     if (!items) {

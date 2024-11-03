@@ -2235,6 +2235,8 @@
       "ModeHeroique":"Mode Héroique",
       "AppliquerEffets":"Appliquer tous les effets",
       "AppliquerEffetsAll":"Appliquer les effets à toutes les cibles",
+      "ChargeurVide":"Chargeur vide",
+      "RemplirChargeur":"Rempli les chargeurs",
       "RESULTATS":{
         "Affecte":"Affecté",
         "PasAffecte":"Pas affecté",

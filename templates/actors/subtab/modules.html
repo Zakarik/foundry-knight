@@ -380,7 +380,7 @@
                 <div class="effets">
                     {{#each key.system.niveau.actuel.effets.liste as | keff effet|}}
                         <div>
-                            <span class="label">{{keff.name}}</span>
+                            <span class="label">{{keff.name}}{{#if keff.isChargeur}} {{keff.chargeur}} {{/if}}{{ifThen keff.toComplete keff.toComplete ''}}</span>
                             <img class="info" src="systems/knight/assets/icons/info.svg" />
                             <span class="hideInfo">{{{getEffetsDescription keff.description}}}</span>
                         </div>
@@ -404,7 +404,7 @@
                     <div class="effets">
                         {{#each key.system.niveau.actuel.arme.effets.liste as | key effet|}}
                             <div>
-                                <span class="label">{{key.name}}</span>
+                                <span class="label">{{key.name}}{{#if key.isChargeur}} {{key.chargeur}} {{/if}}{{ifThen key.toComplete key.toComplete ''}}</span>
                                 <img class="info" src="systems/knight/assets/icons/info.svg" />
                                 <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
                             </div>
@@ -457,7 +457,7 @@
                     <div class="effets">
                         {{#each key.system.niveau.actuel.arme.effets.liste as | key effet|}}
                             <div>
-                                <span class="label">{{key.name}}</span>
+                                <span class="label">{{key.name}}{{#if key.isChargeur}} {{key.chargeur}} {{/if}}{{ifThen key.toComplete key.toComplete ''}}</span>
                                 <img class="info" src="systems/knight/assets/icons/info.svg" />
                                 <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
                             </div>
@@ -477,7 +477,7 @@
                         <div class="effets">
                             {{#each kM.liste as | key effet|}}
                                 <div>
-                                    <span class="label">{{key.name}}</span>
+                                    <span class="label">{{key.name}}{{#if key.isChargeur}} {{key.chargeur}} {{/if}}{{ifThen key.toComplete key.toComplete ''}}</span>
                                     <img class="info" src="systems/knight/assets/icons/info.svg" />
                                     <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
                                 </div>
@@ -609,7 +609,7 @@
                                 <div class="effets">
                                     {{#each kArme.effets.liste as | kEffet effet|}}
                                         <div>
-                                            <span class="label">{{kEffet.name}}</span>
+                                            <span class="label">{{kEffet.name}}{{#if kEffet.isChargeur}} {{kEffet.chargeur}} {{/if}}{{ifThen kEffet.toComplete kEffet.toComplete ''}}</span>
                                             <img class="info" src="systems/knight/assets/icons/info.svg" />
                                             <span class="hideInfo">{{{getEffetsDescription kEffet.description}}}</span>
                                         </div>
@@ -639,7 +639,7 @@
                 <div class="effets">
                     {{#each key.system.niveau.actuel.jetsimple.effets.liste as | key effet|}}
                         <div>
-                            <span class="label">{{key.name}}</span>
+                            <span class="label">{{key.name}}{{#if key.isChargeur}} {{key.chargeur}} {{/if}}{{ifThen key.toComplete key.toComplete ''}}</span>
                             <img class="info" src="systems/knight/assets/icons/info.svg" />
                             <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
                         </div>

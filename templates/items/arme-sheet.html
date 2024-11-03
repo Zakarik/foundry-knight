@@ -292,7 +292,7 @@
         <div class="effets">
             {{#each systemData.effets.liste as | key effet|}}
                 <div>
-                    <span class="label">{{key.name}}</span>
+                    <span class="label">{{key.name}}{{#if key.isChargeur}}<input type=number name='system.effets.chargeur' value="{{key.chargeur}}" min="0" max="{{chargeurMax}}" />{{/if}}{{ifThen key.toComplete key.toComplete ''}}</span>
                     <img class="info" src="systems/knight/assets/icons/info.svg" />
                     <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
                 </div>
@@ -314,7 +314,7 @@
         <div class="effets">
             {{#each systemData.effets2mains.liste as | key effet|}}
                 <div>
-                    <span class="label">{{key.name}}</span>
+                    <span class="label">{{key.name}}{{#if key.isChargeur}}<input type=number name='system.effets2mains.chargeur' value="{{key.chargeur}}" min="0" max="{{chargeurMax}}" />{{/if}}{{ifThen key.toComplete key.toComplete ''}}</span>
                     <img class="info" src="systems/knight/assets/icons/info.svg" />
                     <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
                 </div>
@@ -339,7 +339,7 @@
         <div class="effets">
             {{#each key.liste as | kE effet|}}
                 <div>
-                    <span class="label">{{kE.name}}</span>
+                    <span class="label">{{kE.name}}{{#if kE.isChargeur}}<input type=number name='system.optionsmunitions.liste.{{munition}}.chargeur' value="{{kE.chargeur}}" min="0" max="{{chargeurMax}}" />{{/if}}{{ifThen kE.toComplete kE.toComplete ''}}</span>
                     <img class="info" src="systems/knight/assets/icons/info.svg" />
                     <span class="hideInfo">{{{getEffetsDescription kE.description}}}</span>
                 </div>

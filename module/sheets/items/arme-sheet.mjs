@@ -57,6 +57,8 @@ export class ArmeSheet extends ItemSheet {
 
     context.systemData = context.data.system;
 
+    console.warn(context);
+
     return context;
   }
 
@@ -460,7 +462,7 @@ export class ArmeSheet extends ItemSheet {
     const bCustom = bEffets.custom;
     const labels = getAllEffects();
 
-    bEffets.liste = listEffects(bRaw, bCustom, labels);
+    bEffets.liste = listEffects(bRaw, bCustom, labels, bEffets?.chargeur);
   }
 
   _prepareEffets2Mains(context) {
@@ -470,7 +472,7 @@ export class ArmeSheet extends ItemSheet {
     const bCustom = bEffets.custom;
     const labels = getAllEffects();
 
-    bEffets.liste = listEffects(bRaw, bCustom, labels);
+    bEffets.liste = listEffects(bRaw, bCustom, labels, bEffets?.chargeur);
   }
 
   _prepareEffetsMunition(context) {
@@ -484,7 +486,7 @@ export class ArmeSheet extends ItemSheet {
       const bCustom = bEffets.custom;
       const labels = getAllEffects();
 
-      bEffets.liste = listEffects(bRaw, bCustom, labels);
+      bEffets.liste = listEffects(bRaw, bCustom, labels, bEffets?.chargeur);
     }
   }
 

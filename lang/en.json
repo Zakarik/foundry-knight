@@ -2235,6 +2235,8 @@
       "ModeHeroique":"Heroic Mode",
       "AppliquerEffets":"Apply all effects",
       "AppliquerEffetsAll":"Apply effects to all targets",
+      "ChargeurVide":"Clip empty",
+      "RemplirChargeur":"Fills clips",
       "RESULTATS":{
         "Affecte":"Affected",
         "PasAffecte":"Not affected",

@@ -561,7 +561,7 @@ export class CreatureSheet extends ActorSheet {
         const custom = data.effets.custom;
         const labels = localize;
 
-        data.effets.liste = listEffects(raw, custom, labels);
+        data.effets.liste = listEffects(raw, custom, labels, data.effets?.chargeur);
 
         const main = data?.options2mains?.actuel || "";
         const munition = data?.options2mains?.actuel || "";
@@ -594,7 +594,7 @@ export class CreatureSheet extends ActorSheet {
               const bRaw2 = munition.raw || [];
               const bCustom2 = munition.custom || [];
 
-              munition.liste = listEffects(bRaw2, bCustom2, labels);
+              munition.liste = listEffects(bRaw2, bCustom2, labels, munition?.chargeur);
             }
           }
 
@@ -690,7 +690,7 @@ export class CreatureSheet extends ActorSheet {
         if(data.degats.has) {
           const labels = localize;
 
-          data.degats.system.effets.liste = listEffects(data.degats.system.effets.raw, data.degats.system.effets.custom, labels);
+          data.degats.system.effets.liste = listEffects(data.degats.system.effets.raw, data.degats.system.effets.custom, labels, data.degats.system.effets?.chargeur);
         }
       }
     }
