@@ -1,3 +1,7 @@
+## v3.36.5
+### Bugfix
+- Correction d'un bug n'appliquant pas le malus correct en attaque avec le style pilonnage.
+
 ## v3.36.4
 ### Bugfix
 - Correction d'un bug n'appliquant pas les dégâts continus lors d'un jet.

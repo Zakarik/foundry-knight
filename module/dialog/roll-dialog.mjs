@@ -908,7 +908,6 @@ export class KnightRollDialog extends Dialog {
                     break;
 
                 case 'pilonnage':
-                    dices -= 2;
                     if(this.#isEffetActive(effets, weapon.options, ['deuxmains', 'munitionshypervelocite', 'systemerefroidissement']) && weapon.type === 'distance') {
                         dataStyle = {
                             type:data.find('.pilonnage select').val(),
@@ -950,6 +949,8 @@ export class KnightRollDialog extends Dialog {
                     }
                     break;
             }
+
+            console.warn(dices);
 
             for(let w of weapon.options) {
                 if(w.key !== 'btn' && w.special) continue;
