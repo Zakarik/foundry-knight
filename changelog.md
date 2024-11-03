@@ -1,3 +1,7 @@
+## v3.36.4
+### Bugfix
+- Correction d'un bug n'appliquant pas les dégâts continus lors d'un jet.
+
 ## v3.36.3
 ### Bugfix
 - Correction d'un bug pouvant faire apparaitre un status inconnu.

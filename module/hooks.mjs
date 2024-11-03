@@ -1065,6 +1065,60 @@ export default class HooksKnight {
                     });
                 }
 
+
+                // #####################
+                // Set effects
+                // #####################
+                const effectList = actor.type === 'bande'
+                    ? []
+                    : CONFIG.KNIGHT.LIST.EFFETS.status.degats;
+                effectList.map(iconName => {
+                    const isBoolean = ['designation', 'soumission'].includes(iconName);
+                    if (effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) {
+                        // Check if "Status Icon Counters" module is set
+                        if (window.EffectCounter) {
+                            // Set the icon path in the system
+                            const iconPath = `systems/knight/assets/icons/effects/${iconName}.svg`;
+
+                            // Get the counters
+                            let counters = EffectCounter.getAllCounters(actor);
+
+                            // Get the effect
+                            let effect = counters.find(e => e.path === iconPath);
+
+                            if (!effect) {
+                                let counterNumber = isBoolean ? 1 : effects[iconName];
+                                // Create the counter
+                                if (counterNumber) {
+                                    const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
+                                    counter.update();
+                                }
+                            } else {
+                                switch (iconName) {
+                                    case 'barrage':
+                                    case 'choc':
+                                    case 'degatscontinus':
+                                    case 'immobilisation':
+                                    case 'lumiere':
+                                    case 'parasitage':
+                                        if (effect.value < effects[iconName]) {
+                                            // Update the counter
+                                            effect.setValue(effects[iconName]);
+                                        }
+                                        break;
+                                }
+                            }
+                         } else {
+                            // No "Status Icon Counters" module
+                            if(isVersion12) {
+                                actor.toggleStatusEffect(iconName, { active: true, overlay: false });
+                            } else {
+                                V11toggleStatusEffect(actor, iconName, { active: true, overlay: false });
+                            }
+                        }
+                    }
+                });
+
                 // #####################
                 // Damages on resilience
                 // #####################
