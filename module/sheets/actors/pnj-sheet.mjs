@@ -2290,11 +2290,33 @@ export class PNJSheet extends ActorSheet {
     });
 
     html.find('.activatePhase2').click(ev => {
-      this.actor.update({['system.phase2Activate']:true});
+      const aspects = this.actor.system.aspects;
+      const phase2 = this.actor.system.phase2;
+      let update = {};
+      update['system.phase2Activate'] = true;
+
+      for(let a in phase2.aspects) {
+        update[`system.aspects.${a}.value`] = aspects[a].value + phase2.aspects[a].value;
+        update[`system.aspects.${a}.ae.mineur.value`] = aspects[a].ae.mineur.value + phase2.aspects[a].ae.mineur;
+        update[`system.aspects.${a}.ae.majeur.value`] = aspects[a].ae.majeur.value + phase2.aspects[a].ae.majeur;
+      }
+
+      this.actor.update(update);
     });
 
     html.find('.desactivatePhase2').click(ev => {
-      this.actor.update({['system.phase2Activate']:false});
+      const aspects = this.actor.system.aspects;
+      const phase2 = this.actor.system.phase2;
+      let update = {};
+      update['system.phase2Activate'] = false;
+
+      for(let a in phase2.aspects) {
+        update[`system.aspects.${a}.value`] = aspects[a].value - phase2.aspects[a].value;
+        update[`system.aspects.${a}.ae.mineur.value`] = aspects[a].ae.mineur.value - phase2.aspects[a].ae.mineur;
+        update[`system.aspects.${a}.ae.majeur.value`] = aspects[a].ae.majeur.value - phase2.aspects[a].ae.majeur;
+      }
+
+      this.actor.update(update);
     });
 
     html.find('i.moduleArrowUp').click(ev => {

@@ -37746,9 +37746,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule header.sheet-header .headerData .data div.pilote {
   height: 54px;
 }
-.vehicule header.sheet-header .headerData .data div.passagers {
-  max-height: calc(100% - 48px - 10px);
-}
 .vehicule header.sheet-header .headerData .data div.passagers > .values {
   width: 100%;
   height: calc(100% - 26px);
@@ -41122,6 +41119,13 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-size: 14px;
   line-height: 14px;
 }
+.knight-roll div.listTargets.outer {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+.knight-roll div.listTargets.notFirst {
+  margin-top: 0px;
+}
 .knight-roll div.btn, .knight-roll div.tgtBtn {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -41141,6 +41145,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   line-height: 20px;
   padding: 0px;
   font-variant: small-caps;
+}
+.knight-roll div.btn button.full, .knight-roll div.tgtBtn button.full {
+  grid-column: 1/3;
 }
 .knight-roll div.btn button:hover, .knight-roll div.tgtBtn button:hover {
   background: white;
@@ -41762,6 +41769,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
+  padding-bottom: 10px;
 }
 .damageDialog section.window-content div.block {
   grid-column: 1/4;
@@ -41788,6 +41796,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .damageDialog section.window-content div.dmg {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-gap: 3px;
 }
 .damageDialog section.window-content div.dmg div.label {
   display: grid;

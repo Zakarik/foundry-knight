@@ -1,3 +1,72 @@
+## v3.36.4
+### Bugfix
+- Correction d'un bug n'appliquant pas les dégâts continus lors d'un jet.
+
+## v3.36.3
+### Bugfix
+- Correction d'un bug pouvant faire apparaitre un status inconnu.
+
+## v3.36.2
+### Bugfix
+- Correction d'un problème d'affichage dans le lanceur de dé des mécha armures.
+
+## v3.36.1
+### Bugfix
+- Le bouton ajouté par la 3.36.0 n'apparaitra dorénavant que s'il y a plus d'une cible, comme c'était prévu à l'origine...
+
+## v3.36.0
+### Améliorations
+- Ajout d'un bouton pour appliquer les effets à toutes les cibles d'un coup.
+
+### Bugfix
+- Correction d'un bug sur l'application automatique des états, qui ne prenait pas correctement en compte la valeur de l'état avec Status Icon Counter.
+- Correction d'un bug sur l'état barrage qui ne fonctionnait pas comme attendu.
+
+## v3.35.2
+### Bugfix
+- Correction du navigateur de compendium qui était un peu cassé pour les modules.
+
+## v3.35.1
+### Bugfix
+- Correction d'un bug empêchant les jets de dégâts / violence.
+- L'effet 'dégâts continus' avait sauté dans ce qui était prévu comme application automatique.
+
+## v3.35.0
+### Améliorations
+- Ajout d'une automatisation de l'application d'une partie des effets.
+- Ajout de la gestion des dégâts automatiques sur les mécha-armures.
+
+### Bugfix
+- Correction d'un bug qui rendait vide les listes déroulantes des aspects exceptionnels de la Phase 2.
+- Correction du check sur l'effet barrage pour savoir s'il pouvait être appliqué ou non.
+
+## v3.34.8
+### Bugfix
+- Correction d'un bug dans les capacités ayant "Ajoute un aspect aux capacités liées à un aspect".
+- Correction d'un problème d'affichage lorsque les capacités avaient un bonus lié à un aspect.
+
+## v3.34.7
+### Bugfix
+- Correction d'un bug dans le maximum des aspects et aspects exceptionnels.
+
+## v3.34.6
+### Bugfix
+- Correction d'un bug dans la gestion de la phase 2 qui ne fonctionnait pas.
+
+## v3.34.5
+### Bugfix
+- Correction de l'absence des capacités d'armure de type "arme" dans l'onglet combat.
+- Correction de bugs sur les dégâts infligés à la résilience.
+
+## v3.34.4
+### Bugfix
+- Correction de quelques bugs sur les véhicules.
+
+## v3.34.3
+### Bugfix
+- Correction d'un bug sur les dégâts infligés à la résilience.
+- Correction de quelques bugs sur le véhicules.
+
 ## v3.34.2
 ### Bugfix
 - Correction d'un bug empêchant de rentrer une tactique pour les bandes.

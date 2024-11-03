@@ -5,6 +5,7 @@
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
                 grid-gap: 10px;
+                padding-bottom: 10px;
             }
 
             &.block {
@@ -38,6 +39,7 @@
             &.dmg {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
+                grid-gap: 3px;
 
                 div {
                     &.label {

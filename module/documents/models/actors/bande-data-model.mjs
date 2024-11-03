@@ -136,12 +136,26 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
     }
 
     prepareBaseData() {
-
+        this.#phase2();
+        this.aspects.prepareData();
 	}
 
 	prepareDerivedData() {
         this.#defenses();
         this.#derived();
+    }
+
+    #phase2() {
+      const phase2 = this.phase2;
+
+      if(!this.phase2Activate) return;
+
+      Object.defineProperty(this.sante.bonus, 'phase2', {
+        value: phase2.sante,
+        writable:true,
+        enumerable:true,
+        configurable:true
+      });
     }
 
     #defenses() {
@@ -186,8 +200,8 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
         for(let d of list) {
             const update = CONFIG.KNIGHT.LIST.hasMax[d] ? 'max' : 'value';
             const base = this[d].base;
-            const bonus = this[d]?.bonus?.user ?? 0;
-            const malus = this[d]?.malus?.user ?? 0;
+            const bonus = Object.values(this[d]?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+            const malus = Object.values(this[d]?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
             Object.defineProperty(this[d], 'mod', {
                 value: bonus-malus,

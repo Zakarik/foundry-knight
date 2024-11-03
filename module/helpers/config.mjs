@@ -431,6 +431,7 @@ export const KNIGHT = {};
         'dispersion',
         'enchaine',
         'esperance',
+        'immobilisation',
         'jumeleakimbo',
         'jumeleambidextrie',
         'leste',
@@ -551,6 +552,24 @@ export const KNIGHT = {};
         'intimidanthum',
         'intimidantana',
       ],
+      status:{
+        attaque:[
+          'barrage',
+          'choc',
+          'designation',
+          'immobilisation',
+          'lumiere',
+          'parasitage',
+          'soumission',
+        ],
+        degats:[
+          'degatscontinus',
+        ],
+        conditionnel:[
+          'choc',
+          'barrage'
+        ],
+      }
     }
  }
 

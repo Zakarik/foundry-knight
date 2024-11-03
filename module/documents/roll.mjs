@@ -85,6 +85,7 @@ export class RollKnight {
             let allFlag = []
             let allRoll = [];
             let listTargets = [];
+            let finalDataToAdd = {};
 
             if((this.#isEffetActive(allRaw, weapon.options, ['barrage']) && !this.#isEffetActive(allRaw, weapon.options, ['choc'])) || (this.#hasEffet(allRaw, 'barrage') && this.#hasEffet(allRaw, 'aucundegatsviolence') && !this.#isEffetActive(allRaw, weapon.options, ['choc']))) {
                 if(this.#getEffet(allRaw, 'barrage')) {
@@ -111,15 +112,59 @@ export class RollKnight {
 
                                     target.effets.push({
                                         key:'barrage',
+                                        simple:'barrage',
                                         label:game.i18n.localize(localize['barrage'].label),
                                         subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
                                     })
+
+                                    target.btn = [{
+                                        label:game.i18n.localize('KNIGHT.JETS.AppliquerEffets'),
+                                        classes:'btn full applyAttaqueEffects',
+                                        id:t.id
+                                    }]
+
+                                    listTargets.push(target);
+                                } else {
+                                    let target = {
+                                        id:t.id,
+                                        simple:true,
+                                        name:tActor.name,
+                                        aspects:tActor.system.aspects,
+                                        type:tActor.type,
+                                        effets:[],
+                                    };
+
+                                    target.effets.push({
+                                        key:'barrage',
+                                        simple:'barrage',
+                                        hit:true,
+                                        label:game.i18n.localize(localize['barrage'].label),
+                                    });
+
+                                    target.btn = [{
+                                        label:'Appliquer les effets',
+                                        classes:'btn full applyAttaqueEffects',
+                                        id:t.id
+                                    }]
 
                                     listTargets.push(target);
                                 }
                             }
                         }
                     }
+
+                    allFlag.push({
+                        targets:listTargets
+                    });
+
+                    if(targets.size > 1) {
+                        finalDataToAdd['allTgtBtn'] = [{
+                            mainClasses:'btn gmOnly full',
+                            classes:'applyAllAttaqueEffects',
+                            label:game.i18n.localize('KNIGHT.JETS.AppliquerEffetsAll'),
+                        }]
+                    }
+
                 }
             } else if(this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses'])) {
                 const targets = game.user.targets;
@@ -171,6 +216,7 @@ export class RollKnight {
                 text,
                 targets:listTargets,
                 flags:allFlag,
+                finalDataToAdd
             })
         }
 
@@ -867,6 +913,7 @@ export class RollKnight {
         const flag = data?.flags ?? [];
         const tags = this.tags;
         const targets = data?.targets ?? [];
+        const finalDataToAdd = data?.finalDataToAdd ?? {};
 
         if(this.weapon.portee) {
             const traPortee = game.i18n.localize(`KNIGHT.PORTEE.${this.weapon.portee.charAt(0).toUpperCase() + this.weapon.portee.slice(1)}`);
@@ -907,6 +954,8 @@ export class RollKnight {
         };
 
         await this.#handleAttaqueEffet(weapon, main, rolls);
+
+        foundry.utils.mergeObject(main, finalDataToAdd);
 
         let chatData = {
             user:game.user.id,
@@ -995,9 +1044,6 @@ export class RollKnight {
 
             if(this.#isEffetActive(raw, options, [l])) {
                 switch(l) {
-                    case 'barrage':
-                        break;
-
                     case 'aucundegatsviolence':
                         if(effet) {
                             detailledEffets.push({
@@ -1011,7 +1057,7 @@ export class RollKnight {
                             noViolence = true;
                         }
                         break;
-
+                    
                     case 'chargeur':
                         if(effet) {
                             const wpn = this.actor.items.get(weapon.id.replaceAll('module_', ''));
@@ -1028,7 +1074,8 @@ export class RollKnight {
                             });
                         }
                         break;
-
+  
+                    case 'barrage':
                     case 'choc':
                     case 'electrifiee':
                     case 'artillerie':
@@ -1057,7 +1104,7 @@ export class RollKnight {
                                 description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
                             });
                         } else if(effet && !this.#isEffetActive(raw, options, 'arabesqueiridescentes')) {
-                            if(effet) effets.push({
+                            detailledEffets.push({
                                 simple:l,
                                 key:effet,
                                 label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
@@ -1245,6 +1292,8 @@ export class RollKnight {
             const total = c.total;
             c.bonus.push(5);
 
+            let hasBtnApply = false;
+
             for(let t of c.targets) {
                 const tgt = game.user.targets.find(tgt => tgt.id === t.id);
                 const actor = tgt.actor;
@@ -1252,14 +1301,15 @@ export class RollKnight {
                 if(actor) {
                     const type = actor.type;
                     const target = type === 'vehicule' ? actor.system.pilote : actor;
-                    const chair = target.system?.aspects?.chair?.value ?? 0;
+                    const chair = target?.system?.aspects?.chair?.value ?? 0;
 
                     for(let d of detailledEffets) {
+                        const comparaison = target.type === 'knight' ? chair : Math.ceil(chair/2);
+                        const chairAE = target.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
+
                         switch(d.simple) {
                             case 'choc':
                             case 'electrifiee':
-                                const comparaison = target.type === 'knight' ? chair : Math.ceil(chair/2);
-                                const chairAE = target.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
                                 t.effets.push({
                                     simple:d.simple,
@@ -1269,9 +1319,36 @@ export class RollKnight {
                                     subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
                                 })
                                 break;
+
+                            case 'barrage':
+                                t.effets.push({
+                                    simple:d.simple,
+                                    key:d.key,
+                                    label:d.label,
+                                    hit:true,
+                                    subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
+                                })
+                                break;
                         }
                     }
+
+                    if(this.#isEffetActive(raw, options, CONFIG.KNIGHT.LIST.EFFETS.status.attaque)) {
+                        hasBtnApply = true;
+                        t.btn = [{
+                            label:game.i18n.localize('KNIGHT.JETS.AppliquerEffets'),
+                            classes:'btn full applyAttaqueEffects',
+                            id:t.id
+                        }]
+                    }
                 }
+            }
+
+            if(c.targets.length > 1 && hasBtnApply) {
+                c.allTgtBtn = [{
+                    mainClasses:'btn gmOnly full',
+                    classes:'applyAllAttaqueEffects',
+                    label:game.i18n.localize('KNIGHT.JETS.AppliquerEffetsAll'),
+                }]
             }
 
             c.noDmg = noDmg;

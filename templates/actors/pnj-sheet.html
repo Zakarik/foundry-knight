@@ -795,7 +795,7 @@
                                     </div>
                                     <div class="longspan">
                                         <span class="label">{{localize "KNIGHT.ITEMS.CAPACITES.Multiplie"}}</span>
-                                        <span class="value">{{key.system.bonus.armure.value}}</span>
+                                        <span class="value">{{key.system.bonus.armure.multiplie}}</span>
                                     </div>
                                 {{else}}
                                 <div class="longspan noBorderTop">
@@ -1225,10 +1225,10 @@
                             <input type="number" name="system.phase2.aspects.{{aspect}}.value" value="{{key.value}}" min="0" max="20" />
                         </h3>
                         <select name="system.phase2.aspects.{{aspect}}.ae.mineur">
-                            {{selectOptions (getAE 'Mineur') selected=key.ae.mineur}}
+                            {{selectOptions (getAE 'Mineur' '10') selected=key.ae.mineur}}
                         </select>
                         <select name="system.phase2.aspects.{{aspect}}.ae.majeur">
-                            {{selectOptions (getAE 'Majeur') selected=key.ae.majeur}}
+                            {{selectOptions (getAE 'Majeur' '10') selected=key.ae.majeur}}
                         </select>
                     </div>
                     {{/each}}

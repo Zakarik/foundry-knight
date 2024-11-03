@@ -2233,6 +2233,8 @@
       "SingularRecupereEnergie":"Récupère {value} point d'énergie",
       "SingularRecupereSante":"Récupère {value} point de santé",
       "ModeHeroique":"Mode Héroique",
+      "AppliquerEffets":"Appliquer tous les effets",
+      "AppliquerEffetsAll":"Appliquer les effets à toutes les cibles",
       "ChargeurVide":"Chargeur vide",
       "RemplirChargeur":"Rempli les chargeurs",
       "RESULTATS":{

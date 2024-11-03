@@ -1358,6 +1358,7 @@ export class KnightRollDialog extends Dialog {
             mods:[],
         };
 
+
         if(isPJ) {
             data.aspects = {};
 
@@ -1640,7 +1641,6 @@ export class KnightRollDialog extends Dialog {
             });
 
         }
-
 
         return data;
     }
@@ -3396,7 +3396,7 @@ export class KnightRollDialog extends Dialog {
 
     #renderInitialization(html) {
         const scores = ['difficulte', 'succesBonus', 'modificateur'];
-        const actor = this.actor.type === 'vehicule' ? this.who : this.actor;
+        const actor = this.who;
         const style = actor.system.combat.style;
         const isPJ = this.isPJ;
 

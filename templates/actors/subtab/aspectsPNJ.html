@@ -12,10 +12,10 @@
             <div class="aspectsExceptionnels">
                 <span class="label">{{localize "KNIGHT.ASPECTS.Exceptionnels"}}</span>
                 <select name="system.aspects.{{aspect}}.ae.mineur.value">
-                    {{selectOptions (getAE 'Mineur') selected=key.ae.mineur.value}}
+                    {{selectOptions (getAE 'Mineur' key.ae.mineur.max) selected=key.ae.mineur.value}}
                 </select>
                 <select name="system.aspects.{{aspect}}.ae.majeur.value">
-                    {{selectOptions (getAE 'Majeur') selected=key.ae.majeur.value}}
+                    {{selectOptions (getAE 'Majeur' key.ae.mineur.max) selected=key.ae.majeur.value}}
                 </select>
             </div>
         </div>

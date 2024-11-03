@@ -1,6 +1,7 @@
 import {
     listLogo,
     generateNavigator,
+    getODValue
   } from "./helpers/common.mjs";
 
 export default class HooksKnight {
@@ -185,46 +186,243 @@ export default class HooksKnight {
             });
 
             html.find('.knight-roll button.degats').click(async ev => {
-            const tgt = $(ev.currentTarget);
-            const flags = message.flags;
-            const weapon = flags.weapon;
-            const raw = weapon.effets.raw.concat(weapon?.distance?.raw ?? [], weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
-            const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
+                const tgt = $(ev.currentTarget);
+                const flags = message.flags;
+                const weapon = flags.weapon;
+                const raw = weapon.effets.raw.concat(weapon?.distance?.raw ?? [], weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
+                const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
 
-            const roll = new game.knight.RollKnight(actor, {
-                name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
-                weapon:weapon,
-                surprise:flags.surprise,
-            }, false);
+                const roll = new game.knight.RollKnight(actor, {
+                    name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
+                    weapon:weapon,
+                    surprise:flags.surprise,
+                }, false);
 
-            let addFlags = {
-                flavor:flags.flavor,
-                total:flags.content[0].total,
-                targets:flags.content[0].targets,
-                attaque:message.rolls,
-                weapon:weapon,
-                actor:actor,
-                surprise:flags.surprise,
-                style:flags.style,
-                dataStyle:flags.dataStyle,
-                dataMod:flags.dataMod,
-                maximize:flags.maximize,
-            };
+                let addFlags = {
+                    flavor:flags.flavor,
+                    total:flags.content[0].total,
+                    targets:flags.content[0].targets,
+                    attaque:message.rolls,
+                    weapon:weapon,
+                    actor:actor,
+                    surprise:flags.surprise,
+                    style:flags.style,
+                    dataStyle:flags.dataStyle,
+                    dataMod:flags.dataMod,
+                    maximize:flags.maximize,
+                };
 
-            let data = {
-                total:flags.content[0].total,
-                targets:flags.content[0].targets,
-                attaque:message.rolls,
-                flags:addFlags,
-            };
+                let data = {
+                    total:flags.content[0].total,
+                    targets:flags.content[0].targets.map(target => {
+                        if(target?.btn) target.btn = target.btn.filter(itm => !itm.classes.includes('applyAttaqueEffects'))
+                        return target;
+                    }),
+                    attaque:message.rolls,
+                    flags:addFlags,
+                };
 
-            if(raw.includes('tirenrafale')) {
-                data.content = {
-                tirenrafale:true,
+                console.warn(data)
+
+                if(raw.includes('tirenrafale')) {
+                    data.content = {
+                    tirenrafale:true,
+                    }
                 }
-            }
 
-            await roll.doRollDamage(data);
+                await roll.doRollDamage(data);
+            });
+
+            html.find('.knight-roll button.applyAttaqueEffects').click(async ev => {
+                const tgt = $(ev.currentTarget);
+                const flags = message.flags;
+                const weapon = flags.weapon;
+                const tokenId = tgt.data('id');
+                const token = canvas?.tokens?.get(tokenId);
+                let effects = {};
+
+                if(!token) return;
+
+                const actor = token.actor;
+                weapon.effets.raw.forEach(effectName => {
+                    const status = CONFIG.KNIGHT.LIST.EFFETS.attaque;
+                    const conditionnel = CONFIG.KNIGHT.LIST.EFFETS.status.conditionnel;
+                    const split = effectName.split(' ');
+                    const name = split[0];
+                    const value = split[1];
+
+                    if(status.includes(name) && ((weapon.options.find(itm => itm.value === name)?.active ?? false) || !weapon.options.find(itm => itm.value === name))) {
+                        if(conditionnel.includes(name)) {
+                            let isHit = false;
+
+                            for (const content of flags.content) {
+                                const target = content.targets.find(itm => itm.id === tokenId);
+
+                                if (target && target.effets) {
+                                    const effect = target.effets.find(itm => itm.simple === name && conditionnel.includes(itm.simple));
+
+                                    if (effect) {
+                                        isHit = effect.hit;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if(isHit) effects[name] = value ? parseInt(value) : true;
+                        } else effects[name] = value ? parseInt(value) : true;
+                    }
+                });
+
+                // #####################
+                // Set effects
+                // #####################
+                const effectList = actor.type === 'bande'
+                    ? ['lumiere']
+                    : CONFIG.KNIGHT.LIST.EFFETS.status.attaque;
+                effectList.map(iconName => {
+                    const isBoolean = ['designation', 'soumission'].includes(iconName);
+                    if (effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) {
+                        // Check if "Status Icon Counters" module is set
+                        if (window.EffectCounter) {
+                            // Set the icon path in the system
+                            const iconPath = `systems/knight/assets/icons/effects/${iconName}.svg`;
+
+                            // Get the counters
+                            let counters = EffectCounter.getAllCounters(actor);
+
+                            // Get the effect
+                            let effect = counters.find(e => e.path === iconPath);
+
+                            if (!effect) {
+                                let counterNumber = isBoolean ? 1 : effects[iconName];
+                                // Create the counter
+                                if (counterNumber) {
+                                    const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
+                                    counter.update();
+                                }
+                            } else {
+                                switch (iconName) {
+                                    case 'barrage':
+                                    case 'choc':
+                                    case 'degatscontinus':
+                                    case 'immobilisation':
+                                    case 'lumiere':
+                                    case 'parasitage':
+                                        if (effect.value < effects[iconName]) {
+                                            // Update the counter
+                                            effect.setValue(effects[iconName]);
+                                        }
+                                        break;
+                                }
+                            }
+                         } else {
+                            // No "Status Icon Counters" module
+                            if(isVersion12) {
+                                actor.toggleStatusEffect(iconName, { active: true, overlay: false });
+                            } else {
+                                V11toggleStatusEffect(actor, iconName, { active: true, overlay: false });
+                            }
+                        }
+                    }
+                });
+            });
+
+            html.find('.knight-roll button.applyAllAttaqueEffects').click(async ev => {
+                const tgt = $(ev.currentTarget);
+                const flags = message.flags;
+                const weapon = flags.weapon;
+
+                for(const content of flags.content) {
+                    for(const target of content.targets) {
+
+                        const token = canvas?.tokens?.get(target.id);
+                        let effects = {};
+
+                        if(!token) return;
+
+                        const actor = token.actor;
+
+                        weapon.effets.raw.forEach(effectName => {
+                            const status = CONFIG.KNIGHT.LIST.EFFETS.status.attaque;
+                            const conditionnel = CONFIG.KNIGHT.LIST.EFFETS.status.conditionnel;
+                            const split = effectName.split(' ');
+                            const name = split[0];
+                            const value = split[1];
+
+                            if(status.includes(name) && ((weapon.options.find(itm => itm.value === name)?.active ?? false) || !weapon.options.find(itm => itm.value === name))) {
+                                if(conditionnel.includes(name)) {
+                                    let isHit = false;
+
+                                    if (target && target.effets) {
+                                        const effect = target.effets.find(itm => itm.simple === name && conditionnel.includes(itm.simple));
+
+                                        if (effect) {
+                                            isHit = effect.hit;
+                                        }
+                                    }
+
+                                    if(isHit) effects[name] = value ? parseInt(value) : true;
+                                } else effects[name] = value ? parseInt(value) : true;
+                            }
+                        });
+
+                        /**/
+
+                        // #####################
+                        // Set effects
+                        // #####################
+                        const effectList = actor.type === 'bande'
+                        ? ['lumiere']
+                        : CONFIG.KNIGHT.LIST.EFFETS.status.attaque;
+                        effectList.map(iconName => {
+                            const isBoolean = ['designation', 'soumission'].includes(iconName);
+                            if (effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) {
+                                // Check if "Status Icon Counters" module is set
+                                if (window.EffectCounter) {
+                                    // Set the icon path in the system
+                                    const iconPath = `systems/knight/assets/icons/effects/${iconName}.svg`;
+
+                                    // Get the counters
+                                    let counters = EffectCounter.getAllCounters(actor);
+
+                                    // Get the effect
+                                    let effect = counters.find(e => e.path === iconPath);
+
+                                    if (!effect) {
+                                        let counterNumber = isBoolean ? 1 : effects[iconName];
+                                        // Create the counter
+                                        if (counterNumber) {
+                                            const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
+                                            counter.update();
+                                        }
+                                    } else {
+                                        switch (iconName) {
+                                            case 'barrage':
+                                            case 'choc':
+                                            case 'degatscontinus':
+                                            case 'immobilisation':
+                                            case 'lumiere':
+                                            case 'parasitage':
+                                                if (effect.value < effects[iconName]) {
+                                                    // Update the counter
+                                                    effect.setValue(effects[iconName]);
+                                                }
+                                                break;
+                                        }
+                                    }
+                                } else {
+                                    // No "Status Icon Counters" module
+                                    if(isVersion12) {
+                                        actor.toggleStatusEffect(iconName, { active: true, overlay: false });
+                                    } else {
+                                        V11toggleStatusEffect(actor, iconName, { active: true, overlay: false });
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+                }
             });
 
             tgtBtn.click(async ev => {
@@ -290,7 +488,15 @@ export default class HooksKnight {
                     antiVehicule = false,
                     pierceArmor = 0,
                     penetrating = 0,
-                    esquive = false
+                    esquive = false,
+                    dmgZone = {
+                        armure: true,
+                        sante: true,
+                        energie: false,
+                        espoir: false,
+                        resilience: false,
+                        blindage: false
+                    },
                 } = data;
 
                 // Get actor
@@ -303,11 +509,11 @@ export default class HooksKnight {
                     parseInt(actor.system.aspects?.chair?.ae?.majeur?.value || 0);
 
                 const findValue = (name) =>
-                    ((typeof actor.system.options[name] !== 'undefined'
-                    ? actor.system.options[name]
+                    ((actor?.system?.options && typeof actor?.system?.options[name] !== 'undefined'
+                    ? actor?.system?.options[name]
                     : true)
-                    && actor.system[name]?.value)
-                    ? actor.system[name]?.value
+                    && actor?.system[name]?.value)
+                    ? actor?.system[name]?.value
                     : 0;
 
                 // Bouclier
@@ -346,10 +552,10 @@ export default class HooksKnight {
 
                     chatMessage += `<p><b>${game.i18n.localize('KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead')}.</b></p>`;
                     ChatMessage.create({
-                    user: game.user._id,
-                    speaker: ChatMessage.getSpeaker({ actor: actor }),
-                    content: chatMessage,
-                    whisper: [game.user._id],
+                        user: game.user._id,
+                        speaker: ChatMessage.getSpeaker({ actor: actor }),
+                        content: chatMessage,
+                        whisper: [game.user._id],
                     });
                     return;
                 }
@@ -367,12 +573,14 @@ export default class HooksKnight {
                 // Reduce the Champ de Force
                 if (champDeForce > 0 && !igncdf) {
                     damagesLeft -=
-                    champDeForce - penetrating > 0 ? champDeForce - penetrating : 0;
+                        champDeForce - penetrating > 0 ? champDeForce - penetrating : 0;
                 }
 
                 // If the damages are not anti véhicules, the damages are divide by 10
-                if ((isVehicule || resilience > 0) && !antiVehicule) {
+                let damagesLeftDivideBy10 = false;
+                if (isVehicule && !antiVehicule) {
                     damagesLeft = Math.ceil(damagesLeft / 10);
+                    damagesLeftDivideBy10 = true;
                 }
 
                 // Check if the esquive is used
@@ -384,37 +592,94 @@ export default class HooksKnight {
                 if (damagesLeft < 1) {
                     chatMessage += `<p><b>${game.i18n.localize('KNIGHT.JETS.DEGATSAUTO.NoDamageOnTarget')}.</b></p>`;
                     ChatMessage.create({
-                    user: game.user._id,
-                    speaker: ChatMessage.getSpeaker({ actor: actor }),
-                    content: chatMessage,
-                    whisper: [game.user._id],
+                        user: game.user._id,
+                        speaker: ChatMessage.getSpeaker({ actor: actor }),
+                        content: chatMessage,
+                        whisper: [game.user._id],
                     });
                     return;
                 }
 
+                // #####################
+                // Set effects
+                // #####################
+                const effectList = actor.type === 'bande'
+                    ? []
+                    : CONFIG.KNIGHT.LIST.EFFETS.status.degats;
+                effectList.map(iconName => {
+                    const isBoolean = ['designation', 'soumission'].includes(iconName);
+                    if (effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) {
+                        // Check if "Status Icon Counters" module is set
+                        if (window.EffectCounter) {
+                            // Set the icon path in the system
+                            const iconPath = `systems/knight/assets/icons/effects/${iconName}.svg`;
+
+                            // Get the counters
+                            let counters = EffectCounter.getAllCounters(actor);
+
+                            // Get the effect
+                            let effect = counters.find(e => e.path === iconPath);
+
+                            if (!effect) {
+                                let counterNumber = isBoolean ? 1 : effects[iconName];
+                                // Create the counter
+                                if (counterNumber) {
+                                    const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
+                                    counter.update();
+                                }
+                            } else {
+                                switch (iconName) {
+                                    case 'barrage':
+                                    case 'choc':
+                                    case 'degatscontinus':
+                                    case 'immobilisation':
+                                    case 'lumiere':
+                                    case 'parasitage':
+                                        if (effect.value < effects[iconName]) {
+                                            // Update the counter
+                                            effect.setValue(effects[iconName]);
+                                        }
+                                        break;
+                                }
+                            }
+                         } else {
+                            // No "Status Icon Counters" module
+                            if(isVersion12) {
+                                actor.toggleStatusEffect(iconName, { active: true, overlay: false });
+                            } else {
+                                V11toggleStatusEffect(actor, iconName, { active: true, overlay: false });
+                            }
+                        }
+                    }
+                });
 
                 // #####################
                 // Damages on resilience
                 // #####################
                 const briserResi = effects.briserlaresilience || 0;
-                if (resilience > 0 && (damagesLeft > 0 || briserResi > 0)) {
+                if (resilience > 0 && dmgZone.resilience && (damagesLeft > 0 || briserResi > 0)) {
+                    // if damages are not already divided by 10
+                    if (!damagesLeftDivideBy10) {
+                        damagesLeft = Math.ceil(damagesLeft / 10);
+                    }
+
                     // Do briser la resilience damages
                     let resilienceLessBriserResi = resilience;
                     if (briserResi > 0) {
-                    if (resilience > briserResi) {
-                        resilienceLessBriserResi -= briserResi;
-                        resilienceDmg += briserResi;
-                    } else {
-                        resilienceLessBriserResi = 0
-                        resilienceDmg += resilience;
-                    }
+                        if (resilience > briserResi) {
+                            resilienceLessBriserResi -= briserResi;
+                            resilienceDmg += briserResi;
+                        } else {
+                            resilienceLessBriserResi = 0
+                            resilienceDmg += resilience;
+                        }
                     }
 
                     // Check if the damages are upper than the resilience
                     if (damagesLeft > resilienceLessBriserResi) {
-                    resilienceDmg += resilienceLessBriserResi;
+                        resilienceDmg += resilienceLessBriserResi;
                     } else {
-                    resilienceDmg += damagesLeft > 0 ? damagesLeft : 0;
+                        resilienceDmg += damagesLeft > 0 ? damagesLeft : 0;
                     }
 
                     // Set the damages left
@@ -422,9 +687,9 @@ export default class HooksKnight {
 
                     // Update the actor and the chat message
                     const resilienceRest =
-                    resilience - resilienceDmg < 0 ? 0 : resilience - resilienceDmg;
+                        resilience - resilienceDmg < 0 ? 0 : resilience - resilienceDmg;
                     actor.update({
-                    'system.resilience.value': resilienceRest,
+                        'system.resilience.value': resilienceRest,
                     });
                     chatMessage += game.i18n.format("KNIGHT.JETS.DEGATSAUTO.DamageOnAndRest", {dmg: resilienceDmg, valueName: game.i18n.format("KNIGHT.LATERAL.Resilience"), dmgRest: resilienceRest});
                 }
@@ -434,29 +699,29 @@ export default class HooksKnight {
                 // ################
                 if (
                     armor > 0 &&
-                    armor !== 999 &&
                     damagesLeft > 0 &&
-                    (!ignarm || sante === 0) &&
-                    armor >= pierceArmor
+                    armor >= pierceArmor &&
+                    dmgZone.armure &&
+                    (!ignarm || sante === 0 || (!dmgZone.sante && ignarm))
                 ) {
                     // Do destructeur damages
                     const destructeur = effects.destructeur || 0;
                     let armorLessDestructeur = armor;
                     if (destructeur > 0) {
-                    if (armor > destructeur) {
-                        armorLessDestructeur -= destructeur;
-                        armorDmg += destructeur;
-                    } else {
-                        armorLessDestructeur = 0
-                        armorDmg += armor;
-                    }
+                        if (armor > destructeur) {
+                            armorLessDestructeur -= destructeur;
+                            armorDmg += destructeur;
+                        } else {
+                            armorLessDestructeur = 0
+                            armorDmg += armor;
+                        }
                     }
 
                     // Check if the damages are upper than the armor
                     if (damagesLeft > armorLessDestructeur) {
-                    armorDmg += armorLessDestructeur;
+                        armorDmg += armorLessDestructeur;
                     } else {
-                    armorDmg += damagesLeft > 0 ? damagesLeft : 0;
+                        armorDmg += damagesLeft > 0 ? damagesLeft : 0;
                     }
 
                     // Set the damages left
@@ -465,7 +730,7 @@ export default class HooksKnight {
                     // Update the actor and the chat message
                     const armorRest = armor - armorDmg < 0 ? 0 : armor - armorDmg;
                     actor.update({
-                    'system.armure.value': armorRest,
+                        'system.armure.value': armorRest,
                     });
                     chatMessage += game.i18n.format("KNIGHT.JETS.DEGATSAUTO.DamageOnAndRest", {dmg: armorDmg, valueName: game.i18n.format("KNIGHT.LATERAL.Armure"), dmgRest: armorRest});
                 }
@@ -473,86 +738,86 @@ export default class HooksKnight {
                 // ################
                 // Damages on sante
                 // ################
-                if (sante > 0 && damagesLeft > 0) {
-                    let santeLessMeurtrier = sante;
+                if (sante > 0 && damagesLeft > 0 && dmgZone.sante) {
+                    let santeLessBonuses = sante;
 
                     // Do meurtrier damages
                     const meurtrier = effects.meurtrier || 0;
                     if (meurtrier > 0 && !hasChairMaj) {
                     if (sante > meurtrier) {
-                        santeLessMeurtrier -= meurtrier;
+                        santeLessBonuses -= meurtrier;
                         santeDmg += meurtrier;
                     } else {
-                        santeLessMeurtrier = 0
+                        santeLessBonuses = 0
                         santeDmg += sante;
                     }
                     }
 
                     // PNJ is a bande
                     if (actor.type === "bande") {
-                    // Do fureur damages
-                    const fureur = effects.fureur || 0;
-                    if (fureur > 0 && actor?.system?.aspects?.chair?.value >= 10) {
-                        if (sante > fureur) {
-                        santeLessMeurtrier -= fureur;
-                        santeDmg += fureur;
-                        } else {
-                        santeLessMeurtrier = 0
-                        santeDmg += sante;
+                        // Do fureur damages
+                        const fureur = effects.fureur || 0;
+                        if (fureur > 0 && actor?.system?.aspects?.chair?.value >= 10) {
+                            if (sante > fureur) {
+                                santeLessBonuses -= fureur;
+                                santeDmg += fureur;
+                            } else {
+                                santeLessBonuses = 0
+                                santeDmg += sante;
+                            }
                         }
-                    }
 
-                    // Do ultraviolence damages
-                    const ultraviolence = effects.ultraviolence || 0;
-                    if (ultraviolence > 0 && actor?.system?.aspects?.chair?.value < 10) {
-                        if (sante > ultraviolence) {
-                        santeLessMeurtrier -= ultraviolence;
-                        santeDmg += ultraviolence;
-                        } else {
-                        santeLessMeurtrier = 0
-                        santeDmg += sante;
+                        // Do ultraviolence damages
+                        const ultraviolence = effects.ultraviolence || 0;
+                        if (ultraviolence > 0 && actor?.system?.aspects?.chair?.value < 10) {
+                            if (sante > ultraviolence) {
+                                santeLessBonuses -= ultraviolence;
+                                santeDmg += ultraviolence;
+                            } else {
+                                santeLessBonuses = 0
+                                santeDmg += sante;
+                            }
                         }
-                    }
 
-                    // Do intimidantana damages
-                    const intimidantana = effects.intimidantana || 0;
-                    if (intimidantana > 0) {
-                        if (sante > intimidantana) {
-                        santeLessMeurtrier -= intimidantana;
-                        santeDmg += intimidantana;
-                        } else {
-                        santeLessMeurtrier = 0
-                        santeDmg += sante;
+                        // Do intimidantana damages
+                        const intimidantana = effects.intimidantana || 0;
+                        if (intimidantana > 0) {
+                            if (sante > intimidantana) {
+                                santeLessBonuses -= intimidantana;
+                                santeDmg += intimidantana;
+                            } else {
+                                santeLessBonuses = 0
+                                santeDmg += sante;
+                            }
                         }
-                    }
 
-                    // Do intimidanthum damages
-                    const intimidanthum = effects.intimidanthum || 0;
-                    if (intimidanthum > 0) {
-                        if (sante > intimidanthum) {
-                        santeLessMeurtrier -= intimidanthum;
-                        santeDmg += intimidanthum;
-                        } else {
-                        santeLessMeurtrier = 0
-                        santeDmg += sante;
+                        // Do intimidanthum damages
+                        const intimidanthum = effects.intimidanthum || 0;
+                        if (intimidanthum > 0) {
+                            if (sante > intimidanthum) {
+                                santeLessBonuses -= intimidanthum;
+                                santeDmg += intimidanthum;
+                            } else {
+                                santeLessBonuses = 0
+                                santeDmg += sante;
+                            }
                         }
-                    }
                     }
 
                     // Check if the damages are upper than the armor
-                    if (damagesLeft > santeLessMeurtrier) {
-                    santeDmg += santeLessMeurtrier;
+                    if (damagesLeft > santeLessBonuses) {
+                        santeDmg += santeLessBonuses;
                     } else {
-                    santeDmg += damagesLeft > 0 ? damagesLeft : 0;
+                        santeDmg += damagesLeft > 0 ? damagesLeft : 0;
                     }
 
                     // Set the damages left
-                    damagesLeft -= santeLessMeurtrier;
+                    damagesLeft -= santeLessBonuses;
 
                     // Update the actor and the chat message
                     const santeRest = sante - santeDmg < 0 ? 0 : sante - santeDmg;
                     actor.update({
-                    'system.sante.value': santeRest,
+                        'system.sante.value': santeRest,
                     });
                     chatMessage += game.i18n.format("KNIGHT.JETS.DEGATSAUTO.DamageOnAndRest", {dmg: santeDmg, valueName: game.i18n.format("KNIGHT.LATERAL.Sante"), dmgRest: santeRest});
                 }
@@ -587,19 +852,33 @@ export default class HooksKnight {
                     pierceArmor = 0,
                     penetrating = 0,
                     dmgZone = {
-                    armure: true,
-                    sante: true,
-                    energie: false,
-                    espoir: false,
+                        armure: true,
+                        sante: true,
+                        energie: false,
+                        espoir: false,
+                        resilience: false,
+                        blindage: false
                     },
                 } = data;
                 // Get actor
                 const actor = token.actor;
+                const actorIsKnight = actor.type === "knight";
+                const actorIsMechaArmor = actor.type === "mechaarmure";
 
-                const findValue = (name) =>
-                    (actor.system.jauges[name] && actor.system[name]?.value)
-                    ? actor.system[name]?.value
-                    : 0;
+                const findValue = (name) => {
+                    if (actorIsKnight) {
+                        return (actor?.system?.jauges
+                            && actor?.system?.jauges[name]
+                            && actor?.system[name]?.value)
+                            ? actor?.system[name]?.value
+                            : 0;
+                    } else if (actorIsMechaArmor) {
+                        return (actor?.system[name]?.value)
+                            ? actor?.system[name]?.value
+                            : 0;
+                    }
+                    return 0;
+                }
 
                 // Champ de Force
                 const champDeForce = findValue('champDeForce');
@@ -609,23 +888,38 @@ export default class HooksKnight {
 
                 // Armor
                 const armor = findValue('armure');
+                const hasArmor = actorIsKnight ? actor.system?.jauges?.armure === true : false;
                 let armorDmg = 0;
                 let armorRest = armor;
 
                 // Sante
                 const sante = findValue('sante');
-                const hasSante = actor.system.jauges.sante === true;
+                const hasSante = actorIsKnight ? actor.system?.jauges?.sante === true : false;
                 let santeDmg = 0;
                 let santeRest = sante;
                 let santeDamagesFromArmor = 0;
 
+                // Resilience
+                const resilience = findValue('resilience');
+                const hasResilience = actorIsMechaArmor ? true : false;
+                let resilienceDmg = 0;
+                let resilienceRest = resilience;
+
+                // Blindage
+                const blindage = findValue('blindage');
+                const hasBlindage = actorIsMechaArmor ? true : false;
+                let blindageDmg = 0;
+                let blindageRest = blindage;
+
                 // Energie
                 const energie = findValue('energie');
+                const hasEnergie = true;
                 let energieDmg = 0;
                 let energieRest = energie;
 
                 // Espoir
                 const espoir = findValue('espoir');
+                const hasEspoir = actorIsKnight ? true : false;
                 let espoirDmg = 0;
                 let espoirRest = espoir;
 
@@ -636,22 +930,22 @@ export default class HooksKnight {
                 let chatMessage = '';
 
                 // Check if the target is still alive
-                if ((hasSante && sante === 0) && armor === 0) {
+                if ((actorIsKnight && ((hasSante && sante === 0) || (!hasSante && armor === 0))) || (actorIsMechaArmor && blindage === 0)) {
                     if(isVersion12) actor.toggleStatusEffect('dead', { active: true, overlay: true });
                     else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
 
                     chatMessage += `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead")}.</b></p>`;
                     ChatMessage.create({
-                    user: game.user._id,
-                    speaker: ChatMessage.getSpeaker({ actor: actor }),
-                    content: chatMessage,
-                    whisper: [game.user._id],
+                        user: game.user._id,
+                        speaker: ChatMessage.getSpeaker({ actor: actor }),
+                        content: chatMessage,
+                        whisper: [game.user._id],
                     });
                     return;
                 }
 
                 // Reduce the egide
-                if (egide > 0 && !ignegi) {
+                if (actorIsKnight && egide > 0 && !ignegi) {
                     damagesLeft -= egide;
                 }
 
@@ -666,10 +960,23 @@ export default class HooksKnight {
                     damagesLeft = Math.ceil(damagesLeft / 2);
                 }
 
+                // Check if the damages are enough to do at least 1 damage
+                if (damagesLeft < 1) {
+                    chatMessage += `<p><b>${game.i18n.localize('KNIGHT.JETS.DEGATSAUTO.NoDamageOnTarget')}.</b></p>`;
+                    ChatMessage.create({
+                        user: game.user._id,
+                        speaker: ChatMessage.getSpeaker({ actor: actor }),
+                        content: chatMessage,
+                        whisper: [game.user._id],
+                    });
+                    return;
+                }
+
                 // ################
                 // Damages on armor
                 // ################
                 if (
+                    hasArmor &&
                     armor > 0 &&
                     damagesLeft > 0 &&
                     armor >= pierceArmor &&
@@ -702,66 +1009,182 @@ export default class HooksKnight {
                     // Update the actor and the chat message
                     armorRest = armor - armorDmg < 0 ? 0 : armor - armorDmg;
                     actor.update({
-                    'system.armure.value': armorRest,
+                        'system.armure.value': armorRest,
                     });
 
                     // Check if the actor got the 'Infatigable' advantage
                     if (
-                    !actor.items.find(
-                        (e) => e.system?.bonus?.noDmgSante && e.type === 'avantage'
-                    ) &&
-                    sante > 0 &&
-                    dmgZone.sante
+                        !actor.items.find(
+                            (e) => e.system?.bonus?.noDmgSante && e.type === 'avantage'
+                        ) &&
+                        sante > 0 &&
+                        dmgZone.sante
                     ) {
-                    // Update the actor and the chat message
-                    santeDamagesFromArmor = (armorDmg / 5) << 0;
-                    santeRest =
-                        sante - santeDamagesFromArmor < 0 ? 0 : sante - santeDamagesFromArmor;
-                    actor.update({
-                        'system.sante.value': santeRest,
-                    });
-                    santeDmg = santeDamagesFromArmor;
+                        // Update the actor and the chat message
+                        santeDamagesFromArmor = (armorDmg / 5) << 0;
+                        santeRest =
+                            sante - santeDamagesFromArmor < 0 ? 0 : sante - santeDamagesFromArmor;
+                        actor.update({
+                            'system.sante.value': santeRest,
+                        });
+                        santeDmg = santeDamagesFromArmor;
                     }
                 }
 
                 // ################
                 // Damages on sante
                 // ################
-                if (sante > 0 && damagesLeft > 0 && dmgZone.sante) {
+                if (hasSante && actorIsKnight && sante > 0 && damagesLeft > 0 && dmgZone.sante) {
                     // Do meurtrier damages
                     const meurtrier = effects.meurtrier || 0;
-                    let santeLessMeurtrier = sante;
+                    let santeLessBonuses = sante;
                     if (meurtrier > 0) {
-                    if (sante > meurtrier) {
-                        santeLessMeurtrier -= meurtrier;
-                        santeDmg += meurtrier;
-                    } else {
-                        santeLessMeurtrier = 0
-                        santeDmg += sante;
-                    }
+                        if (sante > meurtrier) {
+                            santeLessBonuses -= meurtrier;
+                            santeDmg += meurtrier;
+                        } else {
+                            santeLessBonuses = 0
+                            santeDmg += sante;
+                        }
                     }
 
                     // Check if the damages are upper than the armor
-                    if (damagesLeft > santeLessMeurtrier) {
-                    santeDmg += santeLessMeurtrier;
+                    if (damagesLeft > santeLessBonuses) {
+                        santeDmg += santeLessBonuses;
                     } else {
-                    santeDmg += damagesLeft > 0 ? damagesLeft : 0;
+                        santeDmg += damagesLeft > 0 ? damagesLeft : 0;
                     }
 
                     // Set the damages left
-                    damagesLeft -= santeLessMeurtrier;
+                    damagesLeft -= santeLessBonuses;
 
                     // Update the actor and the chat message
                     santeRest = sante - santeDmg < 0 ? 0 : sante - santeDmg;
                     actor.update({
-                    'system.sante.value': santeRest,
+                        'system.sante.value': santeRest,
+                    });
+                }
+
+
+                // #####################
+                // Set effects
+                // #####################
+                const effectList = actor.type === 'bande'
+                    ? []
+                    : CONFIG.KNIGHT.LIST.EFFETS.status.degats;
+                effectList.map(iconName => {
+                    const isBoolean = ['designation', 'soumission'].includes(iconName);
+                    if (effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) {
+                        // Check if "Status Icon Counters" module is set
+                        if (window.EffectCounter) {
+                            // Set the icon path in the system
+                            const iconPath = `systems/knight/assets/icons/effects/${iconName}.svg`;
+
+                            // Get the counters
+                            let counters = EffectCounter.getAllCounters(actor);
+
+                            // Get the effect
+                            let effect = counters.find(e => e.path === iconPath);
+
+                            if (!effect) {
+                                let counterNumber = isBoolean ? 1 : effects[iconName];
+                                // Create the counter
+                                if (counterNumber) {
+                                    const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
+                                    counter.update();
+                                }
+                            } else {
+                                switch (iconName) {
+                                    case 'barrage':
+                                    case 'choc':
+                                    case 'degatscontinus':
+                                    case 'immobilisation':
+                                    case 'lumiere':
+                                    case 'parasitage':
+                                        if (effect.value < effects[iconName]) {
+                                            // Update the counter
+                                            effect.setValue(effects[iconName]);
+                                        }
+                                        break;
+                                }
+                            }
+                         } else {
+                            // No "Status Icon Counters" module
+                            if(isVersion12) {
+                                actor.toggleStatusEffect(iconName, { active: true, overlay: false });
+                            } else {
+                                V11toggleStatusEffect(actor, iconName, { active: true, overlay: false });
+                            }
+                        }
+                    }
+                });
+
+                // #####################
+                // Damages on resilience
+                // #####################
+                const briserResi = effects.briserlaresilience || 0;
+                if (hasResilience && resilience > 0 && dmgZone.resilience && (damagesLeft > 0 || briserResi > 0)) {
+                    // Divide damages by 10
+                    damagesLeft = Math.ceil(damagesLeft / 10);
+
+                    // Do briser la resilience damages
+                    let resilienceLessBriserResi = resilience;
+                    if (briserResi > 0) {
+                        if (resilience > briserResi) {
+                            resilienceLessBriserResi -= briserResi;
+                            resilienceDmg += briserResi;
+                        } else {
+                            resilienceLessBriserResi = 0
+                            resilienceDmg += resilience;
+                        }
+                    }
+
+                    // Check if the damages are upper than the resilience
+                    if (damagesLeft > resilienceLessBriserResi) {
+                        resilienceDmg += resilienceLessBriserResi;
+                    } else {
+                        resilienceDmg += damagesLeft > 0 ? damagesLeft : 0;
+                    }
+
+                    // Set the damages left
+                    damagesLeft -= resilienceLessBriserResi;
+
+                    // Update the actor and the chat message
+                    resilienceRest =
+                        resilience - resilienceDmg < 0 ? 0 : resilience - resilienceDmg;
+                    actor.update({
+                        'system.resilience.value': resilienceRest,
+                    });
+                    chatMessage += game.i18n.format("KNIGHT.JETS.DEGATSAUTO.DamageOnAndRest", {dmg: resilienceDmg, valueName: game.i18n.format("KNIGHT.LATERAL.Resilience"), dmgRest: resilienceRest});
+                }
+
+                // ###################
+                // Damages on blindage
+                // ###################
+                if (hasBlindage && blindage > 0 && damagesLeft > 0 && dmgZone.blindage) {
+                    let blindageLessBonuses = blindage;
+
+                    // Check if the damages are upper than the armor
+                    if (damagesLeft > blindageLessBonuses) {
+                        blindageDmg += blindageLessBonuses;
+                    } else {
+                        blindageDmg += damagesLeft > 0 ? damagesLeft : 0;
+                    }
+
+                    // Set the damages left
+                    damagesLeft -= blindageLessBonuses;
+
+                    // Update the actor and the chat message
+                    blindageRest = blindage - blindageDmg < 0 ? 0 : blindage - blindageDmg;
+                    actor.update({
+                        'system.blindage.value': blindageRest,
                     });
                 }
 
                 // ##################
                 // Damages on energie
                 // ##################
-                if (energie > 0 && damagesLeft > 0 && dmgZone.energie) {
+                if (hasEnergie && energie > 0 && damagesLeft > 0 && dmgZone.energie) {
                     // Check if the damages are upper than the health
                     if (damagesLeft > energie) {
                     energieDmg += energie;
@@ -775,14 +1198,14 @@ export default class HooksKnight {
                     // Update the actor and the chat message
                     energieRest = energie - energieDmg < 0 ? 0 : energie - energieDmg;
                     actor.update({
-                    'system.energie.value': energieRest,
+                        'system.energie.value': energieRest,
                     });
                 }
 
                 // #################
                 // Damages on espoir
                 // #################
-                if (espoir > 0 && damagesLeft > 0 && dmgZone.espoir) {
+                if (hasEspoir && espoir > 0 && damagesLeft > 0 && dmgZone.espoir) {
                     // Check if the damages are upper than the health
                     if (damagesLeft > espoir) {
                     espoirDmg += espoir;
@@ -796,7 +1219,7 @@ export default class HooksKnight {
                     // Update the actor and the chat message
                     espoirRest = espoir - espoirDmg < 0 ? 0 : espoir - espoirDmg;
                     actor.update({
-                    'system.espoir.value': espoirRest,
+                        'system.espoir.value': espoirRest,
                     });
                 }
 
@@ -835,10 +1258,31 @@ export default class HooksKnight {
                         : ''
                     }
                     ${
+                        dmgZone.resilience
+                        ? `<b>${resilienceDmg} ${game.i18n.localize("KNIGHT.LATERAL.Resilience")}</b>${stringLiaison(dmgZone, [
+                            'armure',
+                            'sante',
+                            'resilience',
+                            ])}`
+                        : ''
+                    }
+                    ${
+                        dmgZone.blindage
+                        ? `<b>${blindageDmg} ${game.i18n.localize("KNIGHT.LATERAL.Blindage")}</b>${stringLiaison(dmgZone, [
+                            'armure',
+                            'sante',
+                            'resilience',
+                            'blindage',
+                            ])}`
+                        : ''
+                    }
+                    ${
                         dmgZone.energie
                         ? `<b>${energieDmg} ${game.i18n.localize("KNIGHT.AUTRE.PointEnergie-short")}</b>${stringLiaison(dmgZone, [
                             'armure',
                             'sante',
+                            'resilience',
+                            'blindage',
                             'energie',
                             ])}`
                         : ''
@@ -848,6 +1292,8 @@ export default class HooksKnight {
                         ? `<b>${espoirDmg} ${game.i18n.localize("KNIGHT.AUTRE.PointEspoir-short")}</b>${stringLiaison(dmgZone, [
                             'armure',
                             'sante',
+                            'resilience',
+                            'blindage',
                             'energie',
                             'espoir',
                             ])}`
@@ -867,10 +1313,31 @@ export default class HooksKnight {
                         : ''
                     }
                     ${
+                        dmgZone.resilience
+                        ? `<b>${resilience} ${game.i18n.localize("KNIGHT.LATERAL.Resilience")}</b>${stringLiaison(dmgZone, [
+                            'armure',
+                            'sante',
+                            'resilience',
+                            ])}`
+                        : ''
+                    }
+                    ${
+                        dmgZone.blindage
+                        ? `<b>${blindage} ${game.i18n.localize("KNIGHT.LATERAL.Blindage")}</b>${stringLiaison(dmgZone, [
+                            'armure',
+                            'sante',
+                            'resilience',
+                            'blindage',
+                            ])}`
+                        : ''
+                    }
+                    ${
                         dmgZone.energie
                         ? `<b>${energie} ${game.i18n.localize("KNIGHT.AUTRE.PointEnergie-short")}</b>${stringLiaison(dmgZone, [
                             'armure',
                             'sante',
+                            'resilience',
+                            'blindage',
                             'energie',
                             ])}`
                         : ''
@@ -880,6 +1347,8 @@ export default class HooksKnight {
                         ? `<b>${espoir} ${game.i18n.localize("KNIGHT.AUTRE.PointEspoir-short")}</b>${stringLiaison(dmgZone, [
                             'armure',
                             'sante',
+                            'resilience',
+                            'blindage',
                             'energie',
                             'espoir',
                             ])}`
@@ -902,10 +1371,30 @@ export default class HooksKnight {
                         : ''
                     }
                     ${
+                        dmgZone.resilience
+                        ? `<b>${resilienceRest} ${game.i18n.localize("KNIGHT.LATERAL.Resilience")}</b>${stringLiaison(dmgZone, [
+                            'armure',
+                            'sante',
+                            'resilience',
+                            ])}`
+                        : ''
+                    }
+                    ${
+                        dmgZone.blindage
+                        ? `<b>${blindageRest} ${game.i18n.localize("KNIGHT.LATERAL.Blindage")}</b>${stringLiaison(dmgZone, [
+                            'armure',
+                            'sante',
+                            'resilience',
+                            'blindage',
+                            ])}`
+                        : ''
+                    }
+                    ${
                         dmgZone.energie
                         ? `<b>${energieRest} ${game.i18n.localize("KNIGHT.AUTRE.PointEnergie-short")}</b>${stringLiaison(dmgZone, [
                             'armure',
                             'sante',
+                            'resilience',
                             'energie',
                             ])}`
                         : ''
@@ -915,6 +1404,7 @@ export default class HooksKnight {
                         ? `<b>${espoirRest} ${game.i18n.localize("KNIGHT.AUTRE.PointEspoir-short")}</b>${stringLiaison(dmgZone, [
                             'armure',
                             'sante',
+                            'resilience',
                             'energie',
                             'espoir',
                             ])}`
@@ -934,14 +1424,14 @@ export default class HooksKnight {
                 }
 
                 // Check if the player is dead
-                if ((hasSante && santeRest <= 0) || (!hasSante && armorRest <= 0)) {
+                if ((actorIsKnight && ((hasSante && santeRest <= 0) || (!hasSante && armorRest <= 0))) || (actorIsMechaArmor && blindageRest <= 0)) {
                     chatMessage += `<p>${game.i18n.format("KNIGHT.JETS.DEGATSAUTO.PjDead", {name: actor.name})}.</p>`;
                     if(isVersion12) actor.toggleStatusEffect('dead', { active: true, overlay: true });
                     else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
                 }
 
                 // Check if the player sinks into despair
-                if (espoirRest <= 0) {
+                if (hasEspoir && espoirRest <= 0) {
                     chatMessage += `<p>${game.i18n.format("KNIGHT.JETS.DEGATSAUTO.PjHopeless", {name: actor.name})}</p>`;
                     if(isVersion12) actor.toggleStatusEffect('dead', { active: true, overlay: true });
                     else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
@@ -1000,35 +1490,57 @@ export default class HooksKnight {
                 // Get token
                 const token = canvas?.tokens?.get(tokenId) ?? {isVisible:false};
 
+                // Function to get sheet values
+                const findValue = (name) =>
+                    (((token?.actor?.system?.options
+                        && typeof token?.actor?.system?.options[name] !== 'undefined')
+                        ? token?.actor?.system?.options[name]
+                        : true)
+                        && token?.actor?.system[name]?.value)
+                        ? token?.actor?.system[name]?.value
+                        : 0;
+
                 // Set damage zone for PJs
                 const dmgZone = {
-                    armure: true,
-                    sante: true,
+                    armure: !!findValue('armure'),
+                    sante: !!findValue('sante'),
                     energie: false,
                     espoir: false,
+                    resilience: false,
+                    blindage: false
                 };
 
                 if (['pnj', 'creature', 'bande', 'vehicule'].includes(token.actor.type)) {
                     // Updates for PNJs
                 }
-                else if (['knight'].includes(token.actor.type)) {
+                else if (['mechaarmure'].includes(token.actor.type)) {
+                    // Updates for Mecha Armors
+                    dmgZone.armure = false;
+                    dmgZone.sante = false;
+                    dmgZone.energie = false;
+                    dmgZone.espoir = false;
+                    dmgZone.resilience = true;
+                    dmgZone.blindage = true;
+                } else if (['knight'].includes(token.actor.type)) {
                     // Updates for PJs
 
                     // If Anatheme effect
                     if (effects.anatheme) {
-                    dmgZone.armure = false;
-                    dmgZone.sante = false;
-                    dmgZone.energie = false;
-                    dmgZone.espoir = true;
+                        dmgZone.armure = false;
+                        dmgZone.sante = false;
+                        dmgZone.energie = false;
+                        dmgZone.espoir = true;
+                        dmgZone.resilience = false;
+                        dmgZone.blindage = false;
                     }
                 }
                 else {
                     // The target is not accepted yet
                     ChatMessage.create({
-                    user: game.user._id,
-                    speaker: ChatMessage.getSpeaker({ actor: token.actor }),
-                    content: `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetNotYetvalid")}.</b></p>`,
-                    whisper: [game.user._id],
+                        user: game.user._id,
+                        speaker: ChatMessage.getSpeaker({ actor: token.actor }),
+                        content: `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetNotYetvalid")}.</b></p>`,
+                        whisper: [game.user._id],
                     });
                     return;
                 }
@@ -1037,16 +1549,17 @@ export default class HooksKnight {
                 let damages = dmg;
                 if (token.actor.type === "bande") {
                     if (effects.fureur && token.actor?.system?.aspects?.chair?.value >= 10) {
-                    damages -= effects.fureur
+                        damages -= effects.fureur
                     }
                     if (effects.ultraviolence && token.actor?.system?.aspects?.chair?.value < 10) {
-                    damages -= effects.ultraviolence
+                        damages -= effects.ultraviolence
                     }
                 }
 
                 // Get the template
                 const content = await renderTemplate('systems/knight/templates/dialog/damage-sheet.html', {
                     pj : ['knight'].includes(token.actor.type),
+                    mechaarmor : ['mechaarmure'].includes(token.actor.type),
                     pnj : ['pnj', 'creature', 'bande', 'vehicule'].includes(token.actor.type),
                     bande : ['bande'].includes(token.actor.type),
                     token,
@@ -1059,19 +1572,19 @@ export default class HooksKnight {
                     let result = game.i18n.localize("ACTOR.TypeKnight") + ' • ';
 
                     if (dmgType === "damage") {
-                    result += game.i18n.localize("KNIGHT.AUTRE.Degats");
+                        result += game.i18n.localize("KNIGHT.AUTRE.Degats");
                     } else if (dmgType === "violence") {
-                    result += game.i18n.localize("KNIGHT.AUTRE.Violence");
+                        result += game.i18n.localize("KNIGHT.AUTRE.Violence");
                     } else if (dmgType === "debordement") {
-                    result += game.i18n.localize("KNIGHT.AUTRE.Debordement");
+                        result += game.i18n.localize("KNIGHT.AUTRE.Debordement");
                     } else {
-                    // Set an error
+                        // Set an error
                     }
                     result += ' ';
-                    if (['knight'].includes(token.actor.type)) {
-                    result += game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.ToPj");
+                    if (['knight', 'mechaarmure'].includes(token.actor.type)) {
+                        result += game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.ToPj");
                     } else {
-                    result += game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.ToPnj");
+                        result += game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.ToPnj");
                     }
                     result += ' : ' + token.actor.name
 
@@ -1109,17 +1622,19 @@ export default class HooksKnight {
                                 pierceArmor: html.find('#pierceArmor')[0]?.value,
                                 penetrating: html.find('#penetrating')[0]?.value,
                                 dmgZone: {
-                                armure: html.find('#armureDmg')[0]?.checked,
-                                sante: html.find('#santeDmg')[0]?.checked,
-                                energie: html.find('#energieDmg')[0]?.checked,
-                                espoir: html.find('#espoirDmg')[0]?.checked,
+                                    armure: html.find('#armureDmg')[0]?.checked,
+                                    sante: html.find('#santeDmg')[0]?.checked,
+                                    energie: html.find('#energieDmg')[0]?.checked,
+                                    espoir: html.find('#espoirDmg')[0]?.checked,
+                                    resilience: html.find('#resilienceDmg')[0]?.checked,
+                                    blindage: html.find('#blindageDmg')[0]?.checked,
                                 },
                                 antiAnatheme: html.find('#antiAnatheme')[0]?.checked,
                                 antiVehicule: html.find('#antiVehicule')[0]?.checked,
                             }
 
                             // Select the good damages
-                            if (['knight'].includes(token.actor.type)) {
+                            if (['knight', 'mechaarmure'].includes(token.actor.type)) {
                                 return displayDamageOnPJ(data);
                             } else {
                                 return displayDamageOnPNJ(data);
