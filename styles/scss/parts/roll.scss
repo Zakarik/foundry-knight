@@ -137,6 +137,15 @@
           line-height: 14px;
         }
       }
+
+      &.outer {
+        margin-top: 3px;
+        margin-bottom: 3px;
+      }
+
+      &.notFirst {
+        margin-top: 0px;
+      }
     }
 
     &.btn,
@@ -159,6 +168,10 @@
         line-height: 20px;
         padding: 0px;
         font-variant: small-caps;
+
+        &.full {
+          grid-column: 1 / 3;
+        }
 
         &:hover {
           background: $white;

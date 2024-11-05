@@ -85,6 +85,7 @@ export class RollKnight {
             let allFlag = []
             let allRoll = [];
             let listTargets = [];
+            let finalDataToAdd = {};
 
             if((this.#isEffetActive(allRaw, weapon.options, ['barrage']) && !this.#isEffetActive(allRaw, weapon.options, ['choc'])) || (this.#hasEffet(allRaw, 'barrage') && this.#hasEffet(allRaw, 'aucundegatsviolence') && !this.#isEffetActive(allRaw, weapon.options, ['choc']))) {
                 if(this.#getEffet(allRaw, 'barrage')) {
@@ -111,15 +112,59 @@ export class RollKnight {
 
                                     target.effets.push({
                                         key:'barrage',
+                                        simple:'barrage',
                                         label:game.i18n.localize(localize['barrage'].label),
                                         subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
                                     })
+
+                                    target.btn = [{
+                                        label:game.i18n.localize('KNIGHT.JETS.AppliquerEffets'),
+                                        classes:'btn full applyAttaqueEffects',
+                                        id:t.id
+                                    }]
+
+                                    listTargets.push(target);
+                                } else {
+                                    let target = {
+                                        id:t.id,
+                                        simple:true,
+                                        name:tActor.name,
+                                        aspects:tActor.system.aspects,
+                                        type:tActor.type,
+                                        effets:[],
+                                    };
+
+                                    target.effets.push({
+                                        key:'barrage',
+                                        simple:'barrage',
+                                        hit:true,
+                                        label:game.i18n.localize(localize['barrage'].label),
+                                    });
+
+                                    target.btn = [{
+                                        label:'Appliquer les effets',
+                                        classes:'btn full applyAttaqueEffects',
+                                        id:t.id
+                                    }]
 
                                     listTargets.push(target);
                                 }
                             }
                         }
                     }
+
+                    allFlag.push({
+                        targets:listTargets
+                    });
+
+                    if(targets.size > 1) {
+                        finalDataToAdd['allTgtBtn'] = [{
+                            mainClasses:'btn gmOnly full',
+                            classes:'applyAllAttaqueEffects',
+                            label:game.i18n.localize('KNIGHT.JETS.AppliquerEffetsAll'),
+                        }]
+                    }
+
                 }
             } else if(this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses'])) {
                 const targets = game.user.targets;
@@ -171,11 +216,26 @@ export class RollKnight {
                 text,
                 targets:listTargets,
                 flags:allFlag,
+                finalDataToAdd
             })
         }
 
         if(!foundry.utils.isEmpty(updates)) {
-            for (const [key, value] of Object.entries(updates)) {
+            let forArmor = false;
+
+            for (let [key, value] of Object.entries(updates)) {
+                const keySplit = key.split('.');
+                const first = keySplit[0];
+
+                if(first === 'armure') {
+                    let oldKey = key;
+                    forArmor = true;
+                    key = keySplit.slice(1).join('.');
+                    updates[key] = value;
+
+                    delete updates[oldKey];
+                }
+
                 if (typeof value === 'string' && value.includes('@{rollTotal}')) {
                     let updatedValue = value.replace(/@{rollTotal}/g, total);
 
@@ -237,7 +297,11 @@ export class RollKnight {
                 }
             }
 
-            await this.actor.update(updates);
+            if(forArmor && this.actor.type === 'knight') {
+                if(this.actor.system.dataArmor) await this.actor.system.dataArmor.update(updates);
+                else await this.actor.update(updates);
+            }
+            else await this.actor.update(updates);
         }
 
         return total;
@@ -867,6 +931,7 @@ export class RollKnight {
         const flag = data?.flags ?? [];
         const tags = this.tags;
         const targets = data?.targets ?? [];
+        const finalDataToAdd = data?.finalDataToAdd ?? {};
 
         if(this.weapon.portee) {
             const traPortee = game.i18n.localize(`KNIGHT.PORTEE.${this.weapon.portee.charAt(0).toUpperCase() + this.weapon.portee.slice(1)}`);
@@ -907,6 +972,8 @@ export class RollKnight {
         };
 
         await this.#handleAttaqueEffet(weapon, main, rolls);
+
+        foundry.utils.mergeObject(main, finalDataToAdd);
 
         let chatData = {
             user:game.user.id,
@@ -995,9 +1062,6 @@ export class RollKnight {
 
             if(this.#isEffetActive(raw, options, [l])) {
                 switch(l) {
-                    case 'barrage':
-                        break;
-
                     case 'aucundegatsviolence':
                         if(effet) {
                             detailledEffets.push({
@@ -1012,6 +1076,7 @@ export class RollKnight {
                         }
                         break;
 
+                    case 'barrage':
                     case 'choc':
                     case 'electrifiee':
                     case 'artillerie':
@@ -1040,7 +1105,7 @@ export class RollKnight {
                                 description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
                             });
                         } else if(effet && !this.#isEffetActive(raw, options, 'arabesqueiridescentes')) {
-                            if(effet) effets.push({
+                            detailledEffets.push({
                                 simple:l,
                                 key:effet,
                                 label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
@@ -1228,6 +1293,8 @@ export class RollKnight {
             const total = c.total;
             c.bonus.push(5);
 
+            let hasBtnApply = false;
+
             for(let t of c.targets) {
                 const tgt = game.user.targets.find(tgt => tgt.id === t.id);
                 const actor = tgt.actor;
@@ -1238,11 +1305,12 @@ export class RollKnight {
                     const chair = target?.system?.aspects?.chair?.value ?? 0;
 
                     for(let d of detailledEffets) {
+                        const comparaison = target.type === 'knight' ? chair : Math.ceil(chair/2);
+                        const chairAE = target.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
+
                         switch(d.simple) {
                             case 'choc':
                             case 'electrifiee':
-                                const comparaison = target.type === 'knight' ? chair : Math.ceil(chair/2);
-                                const chairAE = target.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
                                 t.effets.push({
                                     simple:d.simple,
@@ -1252,9 +1320,36 @@ export class RollKnight {
                                     subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
                                 })
                                 break;
+
+                            case 'barrage':
+                                t.effets.push({
+                                    simple:d.simple,
+                                    key:d.key,
+                                    label:d.label,
+                                    hit:true,
+                                    subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
+                                })
+                                break;
                         }
                     }
+
+                    if(this.#isEffetActive(raw, options, CONFIG.KNIGHT.LIST.EFFETS.status.attaque)) {
+                        hasBtnApply = true;
+                        t.btn = [{
+                            label:game.i18n.localize('KNIGHT.JETS.AppliquerEffets'),
+                            classes:'btn full applyAttaqueEffects',
+                            id:t.id
+                        }]
+                    }
                 }
+            }
+
+            if(c.targets.length > 1 && hasBtnApply) {
+                c.allTgtBtn = [{
+                    mainClasses:'btn gmOnly full',
+                    classes:'applyAllAttaqueEffects',
+                    label:game.i18n.localize('KNIGHT.JETS.AppliquerEffetsAll'),
+                }]
             }
 
             c.noDmg = noDmg;
@@ -1299,6 +1394,7 @@ export class RollKnight {
         let rollOptions = {
             maximize:hasObliteration || (data?.flags?.maximize?.degats ?? false) ? true : false,
         };
+        let baseDice = weapon.degats.dice;
         let wpnDice = weapon.degats.dice;
         let wpnBonusDice = 0;
         let min = false;
@@ -1308,7 +1404,7 @@ export class RollKnight {
         let isChangelingActive = false;
         let isGoliathActive = false;
 
-        if(getGhost && armorIsWear) {
+        if(getGhost && armorIsWear && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && this.#isEffetActive(raw, options, ['silencieux']))))) {
             isGhostActive = (getGhost?.active?.conflit ?? false) || (getGhost?.active?.horsconflit ?? false) ? true : false;
         }
 
@@ -2009,7 +2105,7 @@ export class RollKnight {
             }
         }
 
-        wpnDice = style === 'akimbo' ? wpnDice*2 : wpnDice;
+        wpnDice = style === 'akimbo' ? wpnDice+baseDice : wpnDice;
         wpnDice += wpnBonusDice;
         const dice = hasTenebricide ? Math.floor(wpnDice/2) : wpnDice;
         let formula = `${dice}D6`;
@@ -2147,6 +2243,7 @@ export class RollKnight {
             maximize:hasObliteration || (data?.flags?.maximize?.violence ?? false) ? true : false,
         };
         let isGoliathActive = false;
+        let baseDice = weapon.violence.dice
         let wpnDice = weapon.violence.dice;
         let wpnBonusDice = 0;
         let min = false;
@@ -2550,7 +2647,7 @@ export class RollKnight {
             }
         }
 
-        wpnDice = style === 'akimbo' ? wpnDice+Math.ceil(wpnDice/2) : wpnDice;
+        wpnDice = style === 'akimbo' ? wpnDice+Math.ceil(baseDice/2) : wpnDice;
         wpnDice += wpnBonusDice;
         const dice = hasTenebricide ? Math.floor(wpnDice/2) : wpnDice;
         let formula = `${dice}D6`;

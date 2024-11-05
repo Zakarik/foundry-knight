@@ -23,4 +23,26 @@ export class AspectsNPCDataModel extends foundry.abstract.DataModel {
 
     return data;
   }
+
+  prepareData() {
+    for(let a in this) {
+      if(this[a].value > this[a].max) {
+        Object.defineProperty(this[a], 'value', {
+            value: this[a].max,
+        });
+      }
+
+      if(this[a].ae.mineur.value > this[a].ae.mineur.max) {
+        Object.defineProperty(this[a].ae.mineur, 'value', {
+            value: this[a].ae.mineur.max,
+        });
+      }
+
+      if(this[a].ae.majeur.value > this[a].ae.majeur.max) {
+        Object.defineProperty(this[a].ae.majeur, 'value', {
+            value: this[a].ae.majeur.max,
+        });
+      }
+    }
+  }
 }
