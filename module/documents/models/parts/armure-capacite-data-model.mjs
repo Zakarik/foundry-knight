@@ -2668,5 +2668,26 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
         });
       }
     }
+
+    this.prepareLabels();
+  }
+
+  prepareLabels() {
+    const selected = this.selected;
+    const ghost = selected?.ghost ?? undefined;
+
+    if(ghost) {
+      let interruption = '';
+
+      if(ghost.interruption.actif) interruption = game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Interruption');
+      else interruption = game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.NoInterruption');
+
+      Object.defineProperty(ghost.interruption, 'label', {
+        value: interruption,
+        writable:true,
+        enumerable:true,
+        configurable:true
+      });
+    }
   }
 }

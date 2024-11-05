@@ -1,3 +1,7 @@
+## v3.36.6
+### Bugfix
+- Correction de divers bugs affectant le mode Ghost.
+
 ## v3.36.5
 ### Bugfix
 - Correction d'un bug n'appliquant pas le malus correct en attaque avec le style pilonnage.

@@ -221,7 +221,21 @@ export class RollKnight {
         }
 
         if(!foundry.utils.isEmpty(updates)) {
-            for (const [key, value] of Object.entries(updates)) {
+            let forArmor = false;
+
+            for (let [key, value] of Object.entries(updates)) {
+                const keySplit = key.split('.');
+                const first = keySplit[0];
+
+                if(first === 'armure') {
+                    let oldKey = key;
+                    forArmor = true;
+                    key = keySplit.slice(1).join('.');
+                    updates[key] = value;
+
+                    delete updates[oldKey];
+                }
+
                 if (typeof value === 'string' && value.includes('@{rollTotal}')) {
                     let updatedValue = value.replace(/@{rollTotal}/g, total);
 
@@ -283,7 +297,11 @@ export class RollKnight {
                 }
             }
 
-            await this.actor.update(updates);
+            if(forArmor && this.actor.type === 'knight') {
+                if(this.actor.system.dataArmor) await this.actor.system.dataArmor.update(updates);
+                else await this.actor.update(updates);
+            }
+            else await this.actor.update(updates);
         }
 
         return total;
@@ -1385,7 +1403,7 @@ export class RollKnight {
         let isChangelingActive = false;
         let isGoliathActive = false;
 
-        if(getGhost && armorIsWear) {
+        if(getGhost && armorIsWear && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && this.#isEffetActive(raw, options, ['silencieux']))))) {
             isGhostActive = (getGhost?.active?.conflit ?? false) || (getGhost?.active?.horsconflit ?? false) ? true : false;
         }
 

@@ -771,19 +771,12 @@ export class KnightRollDialog extends Dialog {
             const capacitiesSelected = armor.system?.capacites?.selected;
             const dataGoliath = capacitiesSelected?.goliath ?? {};
             const isGoliathActive = capacitiesSelected?.goliath?.active ?? false;
-            const isGhostActive = (capacitiesSelected?.ghost?.active?.conflit
-                || capacitiesSelected?.ghost?.active?.horsconflit)
-                ?? false;
 
             if(isGoliathActive && (base === 'endurance' || base === 'force')) {
                 const meter = parseInt(dataCapacites?.goliath?.metre ?? 0);
                 const bGoliath = parseInt(dataGoliath?.bonus?.[base]?.value ?? 0);
 
                 goliath += (meter*bGoliath);
-            }
-
-            if (isGhostActive) {
-                ghost = this.#getValueAspect(actor, 'discretion') + this.#getODAspect(actor, 'discretion');
             }
         }
 
@@ -819,12 +812,17 @@ export class KnightRollDialog extends Dialog {
             const isGrenade = weapon.id.includes('grenade') ? true : false;
             const style = actor.system.combat.style;
             const modStyle = getModStyle(style);
+            const capacitiesSelected = armor.system?.capacites?.selected;
             let effets = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
             let custom = weapon.effets.custom.concat(weapon?.distance?.custom ?? [], weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
             dices += modStyle.bonus.attaque;
             dices -= modStyle.malus.attaque;
             cout += weapon?.cout ?? 0;
             espoir += weapon?.espoir ?? 0;
+            const isGhostActive = (capacitiesSelected?.ghost?.active?.conflit
+                || capacitiesSelected?.ghost?.active?.horsconflit)
+                ?? false;
+
 
             if(isGrenade) {
                 const actGrenade = actor.system?.combat?.grenades?.quantity?.value ?? 0;
@@ -950,8 +948,6 @@ export class KnightRollDialog extends Dialog {
                     break;
             }
 
-            console.warn(dices);
-
             for(let w of weapon.options) {
                 if(w.key !== 'btn' && w.special) continue;
 
@@ -970,6 +966,15 @@ export class KnightRollDialog extends Dialog {
                     key:'modeheroique',
                     label:`${game.i18n.localize('KNIGHT.JETS.ModeHeroique')}`,
                 });
+            }
+
+            if (armorIsWear && armor && isGhostActive && ((weapon.type === 'contact' && !this.#isEffetActive(effets, weapon.options, ['lumiere'])) || (weapon.type === 'distance' && this.#isEffetActive(effets, weapon.options, ['silencieux'])))) {
+                ghost = this.#getValueAspect(actor, 'discretion') + this.#getODAspect(actor, 'discretion');
+            }
+
+            if(isGhostActive && (capacitiesSelected?.ghost?.interruption?.actif ?? true)) {
+                updates['armure.system.capacites.selected.ghost.active.conflit'] = false;
+                updates['armure.system.capacites.selected.ghost.active.horsconflit'] = false;
             }
 
             if((this.#isEffetActive(effets, weapon.options, ['munitionsdrones']))) {
