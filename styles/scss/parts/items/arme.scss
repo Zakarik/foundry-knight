@@ -636,6 +636,7 @@
                 padding-left: 5px;
                 border: 1px solid $lightBlue;
                 flex:none;
+                align-items: flex-start;
 
                 @include effets();
 

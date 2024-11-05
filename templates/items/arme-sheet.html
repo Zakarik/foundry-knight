@@ -291,11 +291,7 @@
 
         <div class="effets">
             {{#each systemData.effets.liste as | key effet|}}
-                <div>
-                    <span class="label">{{key.name}}{{#if key.isChargeur}}<input type=number name='system.effets.chargeur' value="{{key.chargeur}}" min="0" max="{{chargeurMax}}" />{{/if}}{{ifThen key.toComplete key.toComplete ''}}</span>
-                    <img class="info" src="systems/knight/assets/icons/info.svg" />
-                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                </div>
+                {{~> systems/knight/templates/parts/effets.html type='base'}}
             {{/each}}
             <a class="edit" data-path="system.effets">
                 <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
@@ -313,11 +309,7 @@
 
         <div class="effets">
             {{#each systemData.effets2mains.liste as | key effet|}}
-                <div>
-                    <span class="label">{{key.name}}{{#if key.isChargeur}}<input type=number name='system.effets2mains.chargeur' value="{{key.chargeur}}" min="0" max="{{chargeurMax}}" />{{/if}}{{ifThen key.toComplete key.toComplete ''}}</span>
-                    <img class="info" src="systems/knight/assets/icons/info.svg" />
-                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                </div>
+                {{~> systems/knight/templates/parts/effets.html type='2mains'}}
             {{/each}}
             <a class="edit" data-path="system.effets2mains">
                 <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
@@ -338,11 +330,7 @@
 
         <div class="effets">
             {{#each key.liste as | kE effet|}}
-                <div>
-                    <span class="label">{{kE.name}}{{#if kE.isChargeur}}<input type=number name='system.optionsmunitions.liste.{{munition}}.chargeur' value="{{kE.chargeur}}" min="0" max="{{chargeurMax}}" />{{/if}}{{ifThen kE.toComplete kE.toComplete ''}}</span>
-                    <img class="info" src="systems/knight/assets/icons/info.svg" />
-                    <span class="hideInfo">{{{getEffetsDescription kE.description}}}</span>
-                </div>
+                {{~> systems/knight/templates/parts/effets.html type='munition' munition=munition}}
             {{/each}}
             <a class="edit" data-path="system.optionsmunitions.liste.{{munition}}">
                 <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
@@ -362,11 +350,7 @@
 
         <div class="structurelles">
             {{#each systemData.structurelles.liste as | key effet|}}
-                <div>
-                    <span class="label">{{key.name}}</span>
-                    <img class="info" src="systems/knight/assets/icons/info.svg" />
-                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                </div>
+                {{~> systems/knight/templates/parts/effets.html type='structurelle'}}
             {{/each}}
             <a class="edit" data-path="system.structurelles">
                 <span>{{localize "KNIGHT.AMELIORATIONS.EDIT.Structurelles"}}</span>
@@ -382,11 +366,7 @@
 
         <div class="ornementales">
             {{#each systemData.ornementales.liste as | key effet|}}
-                <div>
-                    <span class="label">{{key.name}}</span>
-                    <img class="info" src="systems/knight/assets/icons/info.svg" />
-                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                </div>
+                {{~> systems/knight/templates/parts/effets.html type='ornementale'}}
             {{/each}}
             <a class="edit" data-path="system.ornementales">
                 <span>{{localize "KNIGHT.AMELIORATIONS.EDIT.Ornementales"}}</span>
@@ -404,11 +384,7 @@
 
         <div class="distance">
             {{#each systemData.distance.liste as | key effet|}}
-                <div>
-                    <span class="label">{{key.name}}</span>
-                    <img class="info" src="systems/knight/assets/icons/info.svg" />
-                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                </div>
+                {{~> systems/knight/templates/parts/effets.html type='distance'}}
             {{/each}}
             <a class="edit" data-path="system.distance">
                 <span>{{localize "KNIGHT.AMELIORATIONS.EDIT.Distance"}}</span>

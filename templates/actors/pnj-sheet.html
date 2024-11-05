@@ -969,7 +969,7 @@
                                     </div>
                                     <div class="effets">
                                         <div>
-                                            <span class="label">{{key.utilisations}} {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Utilisations"}}</span>
+                                            <span class="label">{{utilisation}} {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Utilisations"}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1017,7 +1017,7 @@
                                     </div>
                                     <div class="effets">
                                         <div>
-                                            <span class="label">{{key.utilisations}} {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Utilisations"}}</span>
+                                            <span class="label">{{utilisation}} {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Utilisations"}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1109,6 +1109,8 @@
 
         <div class="tab options" data-group="primary" data-tab="options">
             <div class="main">
+                <button type="action" class="recover unselected" data-type="chargeur">{{localize "KNIGHT.EFFETS.CHARGEUR.Restaurer"}}</button>
+
                 <button type="action" data-value="{{systemData.options.art}}" data-option="art" class="{{#if systemData.options.art}}selected{{else}}unselected{{/if}}">
                     {{#if systemData.options.art}}
                         {{localize "KNIGHT.OPTIONS.ART.Has"}}

@@ -379,6 +379,34 @@ export class VehiculeSheet extends ActorSheet {
 
       item.system.resetMunition();
     });
+
+    html.find('a.btnChargeurPlus').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item").length > 0 ? tgt.parents(".item") : tgt.parents(".headerData");
+      const index = tgt.parents(".btnChargeur").data('index');
+      const raw = header.data('raw');
+      const type = raw ? raw : tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.addMunition(index, type, munition, pnj, wpn);
+    });
+
+    html.find('a.btnChargeurMoins').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item").length > 0 ? tgt.parents(".item") : tgt.parents(".headerData");
+      const index = tgt.parents(".btnChargeur").data('index');
+      const raw = header.data('raw');
+      const type = raw ? raw : tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.removeMunition(index, type, munition, pnj, wpn);
+    });
   }
 
   /* -------------------------------------------- */
@@ -753,6 +781,18 @@ export class VehiculeSheet extends ActorSheet {
 
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
             value.liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
+          }
+        }
+
+        if(base.key === 'modules') {
+          const dataPnj = data[n].system.niveau.actuel.pnj.liste;
+
+          for(let pnj in dataPnj) {
+            for(let wpnPnj in dataPnj[pnj].armes.liste) {
+              const dataWpnPnj = dataPnj[pnj].armes.liste[wpnPnj];
+
+              dataWpnPnj.effets.liste = listEffects(dataWpnPnj.effets.raw, dataWpnPnj.effets.custom, labels, dataWpnPnj.effets?.chargeur);
+            }
           }
         }
       }

@@ -381,7 +381,8 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
                       effets:{
                         liste:[],
                         custom:[],
-                        raw:[]
+                        raw:[],
+                        chargeur:null
                       }
                     },
                     liste:[]
@@ -498,71 +499,187 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     return result;
   }
 
-  resetMunition() {
+  addMunition(index, type, munition, pnj, wpn) {
     const niveau = this.niveau.value;
-    const actuel = this.niveau?.details?.[`n${niveau}`];
+    let data = undefined;
+    let path = '';
+    let chargeur = undefined;
+    let actuel = undefined;
     let update = {};
 
-    if(!actuel) return;
-    const arme = actuel.arme;
-    const type = arme.type;
+    switch(type) {
+      case 'base':
+        path = `system.niveau.details.n${niveau}.arme.effets.chargeur`;
+        data = this.niveau.details[`n${niveau}`].arme.effets;
+        break;
 
-    if(type === 'contact') {
-      const effets = arme.effets;
-      const findChargeur = effets.raw.find(itm => itm.includes('chargeur'));
+      case 'munition':
+        path = `system.niveau.details.n${niveau}.arme.optionsmunitions.liste.${munition}.chargeur`;
+        data = this.niveau.details[`n${niveau}`].arme.optionsmunitions?.liste?.[munition] ?? undefined;
+        break;
 
-      if(!findChargeur) return;
+      case 'module':
+        path = `system.niveau.details.n${niveau}.effets.chargeur`;
+        data = this.niveau.details[`n${niveau}`].effets;
+        break;
 
-      const chargeurMax = parseInt(findChargeur.split(' ')[1]);
+      case 'pnjwpn':
+        path = `system.niveau.details.n${niveau}.pnj.liste.${pnj}.armes.liste.${wpn}.effets.chargeur`;
+        data = this.niveau.details[`n${niveau}`].pnj.liste?.[pnj]?.armes?.liste?.[wpn]?.effets ?? undefined;
+        break;
 
-      update[`system.niveau.details.n${niveau}.arme.effets.chargeur`] = chargeurMax;
+      case 'jetsimple':
+        path = `system.niveau.details.n${niveau}.jetsimple.effets.chargeur`;
+        data = this.niveau.details[`n${niveau}`].jetsimple.effets;
+        break;
     }
-    else if(type === 'distance') {
-      const effets = arme.effets;
-      const findChargeurBase = effets.raw.find(itm => itm.includes('chargeur'));
 
-      if(findChargeurBase) {
-        const chargeurMax = parseInt(findChargeurBase.split(' ')[1]);
+    if(!data) return;
 
-        update[`system.niveau.details.n${niveau}.arme.effets.chargeur`] = chargeurMax;
-      };
+    chargeur = data?.raw?.[index] ?? undefined;
 
-      if(arme.optionsmunitions.has) {
-        const actuel = arme.optionsmunitions.actuel;
-        const munition = arme.optionsmunitions?.liste ?? {};
+    if(!chargeur.includes('chargeur')) return;
 
-        for (const effet in munition) {
-          const findChargeurMunition = munition[effet].raw.find(itm => itm.includes('chargeur'));
+    actuel = data?.chargeur === null || data?.chargeur === undefined ? parseInt(chargeur.split(' ')[1]) : data.chargeur;
 
-          if(!findChargeurMunition) continue;
-
-          const chargeurMunitionMax = parseInt(findChargeurMunition.split(' ')[1]);
-
-          update[`system.niveau.details.n${niveau}.arme.optionsmunitions.liste.${actuel}.chargeur`] = chargeurMunitionMax;
-        }
-      }
-    }
+    update[path] = Math.min(actuel+1, parseInt(chargeur.split(' ')[1]));
 
     this.item.update(update);
-
-    if(!this.actor) return;
 
     const exec = new game.knight.RollKnight(this.actor,
     {
     name:this.item.name,
     }).sendMessage({
-        text:game.i18n.localize('KNIGHT.JETS.RemplirChargeur'),
+        text:game.i18n.localize('KNIGHT.JETS.Remet1Charge'),
         classes:'important',
     });
   }
 
-  useMunition() {
+  removeMunition(index, type, munition, pnj, wpn) {
+    const niveau = this.niveau.value;
+    let data = undefined;
+    let path = '';
+    let chargeur = undefined;
+    let actuel = undefined;
+    let update = {};
+
+    switch(type) {
+      case 'base':
+        path = `system.niveau.details.n${niveau}.arme.effets.chargeur`;
+        data = this.niveau.details[`n${niveau}`].arme.effets;
+        break;
+
+      case 'munition':
+        path = `system.niveau.details.n${niveau}.arme.optionsmunitions.liste.${munition}.chargeur`;
+        data = this.niveau.details[`n${niveau}`].arme.optionsmunitions?.liste?.[munition] ?? undefined;
+        break;
+
+      case 'module':
+        path = `system.niveau.details.n${niveau}.effets.chargeur`;
+        data = this.niveau.details[`n${niveau}`].effets;
+        break;
+
+      case 'pnjwpn':
+        path = `system.niveau.details.n${niveau}.pnj.liste.${pnj}.armes.liste.${wpn}.effets.chargeur`;
+        data = this.niveau.details[`n${niveau}`].pnj.liste?.[pnj]?.armes?.liste?.[wpn]?.effets ?? undefined;
+        break;
+
+      case 'jetsimple':
+        path = `system.niveau.details.n${niveau}.jetsimple.effets.chargeur`;
+        data = this.niveau.details[`n${niveau}`].jetsimple.effets;
+        break;
+    }
+
+    if(!data) return;
+    chargeur = data?.raw?.[index] ?? undefined;
+
+    if(!chargeur.includes('chargeur')) return;
+
+    actuel = data?.chargeur === null || data?.chargeur === undefined ? parseInt(chargeur.split(' ')[1]) : data.chargeur;
+    update[path] = Math.max(actuel-1, 0);
+
+    this.item.update(update);
+
+    const exec = new game.knight.RollKnight(this.actor,
+    {
+    name:this.item.name,
+    }).sendMessage({
+        text:game.i18n.localize('KNIGHT.JETS.Retire1Charge'),
+        classes:'important',
+    });
+  }
+
+  resetMunition() {
+    const niveau = this.niveau.value;
+    const actuel = this.niveau?.details?.[`n${niveau}`];
+    const basePath = `system.niveau.details.n${niveau}`;
+    let update = {};
+
+    if(!actuel) return;
+    const arme = actuel.arme;
+    const effets = arme.effets;
+    const findChargeur = effets.raw.find(itm => itm.includes('chargeur'));
+    const munition = arme.optionsmunitions?.liste ?? {};
+
+    if(findChargeur) {
+      const chargeurMax = parseInt(findChargeur.split(' ')[1]);
+
+      update[`${basePath}.arme.effets.chargeur`] = chargeurMax;
+    }
+
+    for (const effet in munition) {
+      const findChargeurMunition = munition[effet].raw.find(itm => itm.includes('chargeur'));
+
+      if(!findChargeurMunition) continue;
+
+      const chargeurMunitionMax = parseInt(findChargeurMunition.split(' ')[1]);
+
+      update[`${basePath}.arme.optionsmunitions.liste.${effet}.chargeur`] = chargeurMunitionMax;
+    }
+
+    const findChargeurModule = actuel.effets.raw.find(itm => itm.includes('chargeur'));
+
+    if(findChargeurModule) {
+      const chargeurModuleMax = parseInt(findChargeurModule.split(' ')[1]);
+
+      update[`${basePath}.effets.chargeur`] = chargeurModuleMax;
+    }
+
+    const findChargeurSimple = actuel.effets.raw.find(itm => itm.includes('chargeur'));
+
+    if(findChargeurSimple) {
+      const chargeurSimpleMax = parseInt(findChargeurSimple.split(' ')[1]);
+
+      update[`${basePath}.jetsimple.effets.chargeur`] = chargeurSimpleMax;
+    }
+
+    const listPNJ = actuel.pnj.liste;
+
+    for(let pnj in listPNJ) {
+      const wpns = listPNJ[pnj].armes.liste;
+
+      for(let wpn in wpns) {
+        const findChargeurWpn = wpns[wpn].effets.raw.find(itm => itm.includes('chargeur'));
+
+        if(!findChargeurWpn) continue;
+
+        const chargerWpnMax = parseInt(findChargeurWpn.split(' ')[1]);
+
+        update[`${basePath}.pnj.liste.${pnj}.armes.liste.${wpn}.effets.chargeur`] = chargerWpnMax;
+      }
+    }
+
+    if(!foundry.utils.isEmpty(update)) this.item.update(update);
+  }
+
+  useMunition(data, weapon, updates={}) {
     const niveau = this.niveau.value;
     const actuel = this.niveau?.details?.[`n${niveau}`];
 
     if(!actuel) return;
     const arme = actuel.arme;
     const type = arme.type;
+    const basePath = `item.${this.item._id}.system.niveau.details.n${niveau}`;
 
     if(type === 'contact') {
       const effets = arme.effets;
@@ -574,9 +691,7 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
 
       let chargeur = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
 
-      if(chargeur === 0) return;
-
-      this.item.update({[`system.niveau.details.n${niveau}.arme.effets.chargeur`]:chargeur-1})
+      updates[`${basePath}.arme.effets.chargeur`] = Math.max(chargeur-1, 0);
     }
     else if(type === 'distance') {
       const effets = arme.effets;
@@ -586,7 +701,7 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
         const chargeurMax = parseInt(findChargeurBase.split(' ')[1]);
         const chargeurActuel = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
 
-        if(chargeurActuel !== 0) this.item.update({[`system.niveau.details.n${niveau}.arme.effets.chargeur`]:chargeurActuel-1});
+        updates[`${basePath}.arme.effets.chargeur`] = Math.max(chargeurActuel-1, 0);
       };
 
       if(arme.optionsmunitions.has) {
@@ -602,7 +717,7 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
 
             let chargeurMunition = effetsMunition?.chargeur !== null && effetsMunition?.chargeur !== undefined ? parseInt(effetsMunition.chargeur) : chargeurMunitionMax;
 
-            if(chargeurMunition !== 0) this.item.update({[`system.niveau.details.n${niveau}.arme.optionsmunitions.liste.${actuel}.chargeur`]:chargeurMunition-1});
+            updates[`${basePath}.arme.optionsmunitions.liste.chargeur`] = Math.max(chargeurMunition-1, 0);
           }
         }
       }
@@ -617,7 +732,6 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     const itemArme = itemDataNiveau?.arme || {};
     const itemOD = itemDataNiveau?.overdrives || {};
     const itemErsatz = itemDataNiveau?.ersatz || {};
-
 
     this.niveau.actuel.bonus = itemBonus;
     this.niveau.actuel.arme = itemArme;

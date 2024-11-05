@@ -188,6 +188,94 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
     return result;
   }
 
+  addMunition(index, type, munition) {
+    let data = undefined;
+    let chargeur = undefined;
+    let actuel = undefined;
+    let path = '';
+    let update = {};
+
+    switch(type) {
+      case 'base':
+        data = this.effets;
+        path = 'system.effets.chargeur';
+        break;
+
+      case '2mains':
+        data = this.effets2mains;
+        path = 'system.effets2mains.chargeur';
+        break;
+
+      case 'munition':
+        data = this.optionsmunitions?.liste?.[munition] ?? undefined;
+        path = `system.optionsmunitions.liste.${munition}.chargeur`;
+        break;
+    }
+
+    chargeur = data?.raw?.[index] ?? undefined;
+    actuel = data?.chargeur === null || data?.chargeur === undefined ? parseInt(chargeur.split(' ')[1]) : data.chargeur;
+
+    if(!data || !chargeur) return;
+    if(!chargeur.includes('chargeur')) return;
+
+    update[path] = Math.min(actuel+1, parseInt(chargeur.split(' ')[1]));
+
+    this.item.update(update);
+
+    const exec = new game.knight.RollKnight(this.actor,
+    {
+    name:this.item.name,
+    }).sendMessage({
+        text:game.i18n.localize('KNIGHT.JETS.Remet1Charge'),
+        classes:'important',
+    });
+  }
+
+  removeMunition(index, type, munition) {
+    let data = undefined;
+    let chargeur = undefined;
+    let actuel = undefined;
+    let path = '';
+    let update = {};
+
+    switch(type) {
+      case 'base':
+        data = this.effets;
+        path = 'system.effets.chargeur';
+        break;
+
+      case '2mains':
+        data = this.effets2mains;
+        path = 'system.effets2mains.chargeur';
+        break;
+
+      case 'munition':
+        data = this.optionsmunitions?.liste?.[munition] ?? undefined;
+        path = `system.optionsmunitions.liste.${munition}.chargeur`;
+        break;
+    }
+
+    if(!data) return;
+
+    chargeur = data?.raw?.[index] ?? undefined;
+
+    if(!chargeur.includes('chargeur')) return;
+
+    actuel = data?.chargeur === null || data?.chargeur === undefined ? parseInt(chargeur.split(' ')[1]) : data.chargeur;
+
+    update[path] = Math.max(actuel-1, 0);
+
+    this.item.update(update);
+
+    const exec = new game.knight.RollKnight(this.actor,
+    {
+    name:this.item.name,
+    }).sendMessage({
+        text:game.i18n.localize('KNIGHT.JETS.Retire1Charge'),
+        classes:'important',
+    });
+  }
+
   useMunition() {
     const type = this.type;
 
@@ -203,11 +291,21 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
 
         let chargeur = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
 
-        if(chargeur === 0) return;
-
-        if(actuel === '1main') this.item.update({['system.effets.chargeur']:chargeur-1})
-        else this.item.update({['system.effets2mains.chargeur']:chargeur-1})
-
+        if(actuel === '1main') {
+          Object.defineProperty(this.effets, 'chargeur', {
+            value: Math.max(chargeur-1, 0),
+            writable:true,
+            enumerable:true,
+            configurable:true
+          });
+        } else {
+          Object.defineProperty(this.effets2mains, 'chargeur', {
+            value: Math.max(chargeur-1, 0),
+            writable:true,
+            enumerable:true,
+            configurable:true
+          });
+        }
       } else {
         const effets = this.effets;
         const findChargeur = effets.raw.find(itm => itm.includes('chargeur'));
@@ -218,9 +316,12 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
 
         let chargeur = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
 
-        if(chargeur === 0) return;
-
-        this.item.update({['system.effets.chargeur']:chargeur-1})
+        Object.defineProperty(this.effets, 'chargeur', {
+          value: Math.max(chargeur-1, 0),
+          writable:true,
+          enumerable:true,
+          configurable:true
+        });
       }
     }
     else if(type === 'distance') {
@@ -231,7 +332,12 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
         const chargeurMax = parseInt(findChargeurBase.split(' ')[1]);
         const chargeurActuel = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
 
-        if(chargeurActuel !== 0) this.item.update({['system.effets.chargeur']:chargeurActuel-1});
+        Object.defineProperty(this.effets, 'chargeur', {
+          value: Math.max(chargeurActuel-1, 0),
+          writable:true,
+          enumerable:true,
+          configurable:true
+        });
       };
 
       if(this.optionsmunitions.has) {
@@ -247,79 +353,53 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
 
             let chargeurMunition = effetsMunition?.chargeur !== null && effetsMunition?.chargeur !== undefined ? parseInt(effetsMunition.chargeur) : chargeurMunitionMax;
 
-            if(chargeurMunition !== 0) this.item.update({[`system.optionsmunitions.liste.${actuel}.chargeur`]:chargeurMunition-1});
+            Object.defineProperty(this.optionsmunitions.liste[actuel], 'chargeur', {
+              value: Math.max(chargeurMunition-1, 0),
+              writable:true,
+              enumerable:true,
+              configurable:true
+            });
           }
         }
       }
     }
-  }
-
-  resetMunition() {
-    const type = this.type;
-    let update = {};
-
-    if(type === 'contact') {
-      if(this.options2mains.has) {
-        const findChargeurBase = this.effets.raw.find(itm => itm.includes('chargeur'));
-        const findChargeur2Mains = this.effets2mains.raw.find(itm => itm.includes('chargeur'));
-
-        if(findChargeurBase) {
-          const chargeurMaxBase = parseInt(findChargeurBase.split(' ')[1]);
-          update['system.effets.chargeur'] = chargeurMaxBase;
-        }
-
-        if(!findChargeur2Mains) {
-          const chargeurMax2Mains = parseInt(findChargeur2Mains.split(' ')[1]);
-          update['system.effets2mains.chargeur'] = chargeurMax2Mains;
-        }
-      } else {
-        const effets = this.effets;
-        const findChargeur = effets.raw.find(itm => itm.includes('chargeur'));
-
-        if(!findChargeur) return;
-
-        const chargeurMax = parseInt(findChargeur.split(' ')[1]);
-
-        update['system.effets.chargeur'] = chargeurMax;
-      }
-    }
-    else if(type === 'distance') {
-      const effets = this.effets;
-      const findChargeurBase = effets.raw.find(itm => itm.includes('chargeur'));
-
-      if(findChargeurBase) {
-        const chargeurMax = parseInt(findChargeurBase.split(' ')[1]);
-
-        update['system.effets.chargeur'] = chargeurMax;
-      };
-
-      if(this.optionsmunitions.has) {
-        const munition = this.optionsmunitions?.liste ?? {};
-
-        for (const effet in munition) {
-          const findChargeurMunition = munition[effet].raw.find(itm => itm.includes('chargeur'));
-
-          if(!findChargeurMunition) continue;
-
-          const chargeurMunitionMax = parseInt(findChargeurMunition.split(' ')[1]);
-
-          update[`system.optionsmunitions.liste.${effet}.chargeur`] = chargeurMunitionMax;
-        }
-      }
-    }
-
-    this.item.update(update);
-
 
     if(!this.actor) return;
 
-    const exec = new game.knight.RollKnight(this.actor,
-    {
-    name:this.item.name,
-    }).sendMessage({
-        text:game.i18n.localize('KNIGHT.JETS.RemplirChargeur'),
-        classes:'important',
-    });
+    this.actor.render();
+  }
+
+  resetMunition() {
+    let update = {};
+
+    const findChargeurBase = this.effets.raw.find(itm => itm.includes('chargeur'));
+    const findChargeur2Mains = this.effets2mains.raw.find(itm => itm.includes('chargeur'));
+
+    if(findChargeurBase) {
+      const chargeurMaxBase = parseInt(findChargeurBase.split(' ')[1]);
+
+      update[`system.effets.chargeur`] = chargeurMaxBase;
+    }
+
+    if(findChargeur2Mains) {
+      const chargeurMax2Mains = parseInt(findChargeur2Mains.split(' ')[1]);
+
+      update[`system.effets2mains.chargeur`] = chargeurMax2Mains;
+    }
+
+    const munition = this.optionsmunitions?.liste ?? {};
+
+    for (const effet in munition) {
+      const findChargeurMunition = munition[effet].raw.find(itm => itm.includes('chargeur'));
+
+      if(!findChargeurMunition) continue;
+
+      const chargeurMunitionMax = parseInt(findChargeurMunition.split(' ')[1]);
+
+      update[`system.optionsmunitions.liste.${effet}.chargeur`] = chargeurMunitionMax;
+    }
+
+    this.item.update(update);
   }
 
   prepareBaseData() {

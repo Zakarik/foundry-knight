@@ -216,12 +216,36 @@ export class RollKnight {
                 text,
                 targets:listTargets,
                 flags:allFlag,
-                finalDataToAdd
+                finalDataToAdd,
+                updates,
             })
         }
 
         if(!foundry.utils.isEmpty(updates)) {
-            for (const [key, value] of Object.entries(updates)) {
+            let updateArmure = {};
+            let updateItems = {};
+
+            for (let [key, value] of Object.entries(updates)) {
+                const keySplit = key.split('.');
+                const first = keySplit[0];
+
+                if(first === 'armure') {
+                    let oldKey = key;
+                    key = keySplit.slice(1).join('.');
+                    updateArmure[key] = value;
+
+                    delete updates[oldKey];
+                }
+
+                if(first === 'item') {
+                    let oldKey = key;
+                    key = keySplit.slice(2).join('.');
+                    updateItems[keySplit[1]] = {};
+                    updateItems[keySplit[1]][key] = value;
+
+                    delete updates[oldKey];
+                }
+
                 if (typeof value === 'string' && value.includes('@{rollTotal}')) {
                     let updatedValue = value.replace(/@{rollTotal}/g, total);
 
@@ -283,7 +307,144 @@ export class RollKnight {
                 }
             }
 
-            await this.actor.update(updates);
+
+            for (let [key, value] of Object.entries(updateArmure)) {
+                if (typeof value === 'string' && value.includes('@{rollTotal}')) {
+                    let updatedValue = value.replace(/@{rollTotal}/g, total);
+
+                    if (updatedValue.includes('@{max,')) {
+                        const maxMatch = updatedValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                        if (maxMatch) {
+                            const maxValue = parseFloat(maxMatch[1]);
+                            updatedValue = updatedValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                            updatedValue = `Math.max(${updatedValue}, ${maxValue})`;
+                        }
+                    }
+
+                    if (updatedValue.includes('@{min,')) {
+                        const minMatch = updatedValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                        if (minMatch) {
+                            const minValue = parseFloat(minMatch[1]);
+                            updatedValue = updatedValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                            updatedValue = `Math.min(${updatedValue}, ${minValue})`;
+                        }
+                    }
+
+                    try {
+                        updates[key] = eval(updatedValue);
+                    } catch (e) {
+                        // Garde la valeur remplacée si l'évaluation échoue
+                        updates[key] = updatedValue;
+                    }
+                } else if (typeof value === 'object' && value !== null) {
+                    for (const [subKey, subValue] of Object.entries(value)) {
+                        if (typeof subValue === 'string' && subValue.includes('@{rollTotal}')) {
+                            let updatedSubValue = subValue.replace(/@{rollTotal}/g, total);
+
+                            if (updatedSubValue.includes('@{max,')) {
+                                const maxMatch = updatedSubValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                                if (maxMatch) {
+                                    const maxValue = parseFloat(maxMatch[1]);
+                                    updatedSubValue = updatedSubValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                                    updatedSubValue = `Math.max(${updatedSubValue}, ${maxValue})`;
+                                }
+                            }
+
+                            if (updatedSubValue.includes('@{min,')) {
+                                const minMatch = updatedSubValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                                if (minMatch) {
+                                    const minValue = parseFloat(minMatch[1]);
+                                    updatedSubValue = updatedSubValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                                    updatedSubValue = `Math.min(${updatedSubValue}, ${minValue})`;
+                                }
+                            }
+
+                            try {
+                                value[subKey] = eval(updatedSubValue);
+                            } catch (e) {
+                                // Garde la valeur remplacée si l'évaluation échoue
+                                value[subKey] = updatedSubValue;
+                            }
+                        }
+                    }
+                }
+            }
+
+            for(let i in updateItems) {
+                for (let [key, value] of Object.entries(updateItems[i])) {
+                    if (typeof value === 'string' && value.includes('@{rollTotal}')) {
+                        let updatedValue = value.replace(/@{rollTotal}/g, total);
+
+                        if (updatedValue.includes('@{max,')) {
+                            const maxMatch = updatedValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                            if (maxMatch) {
+                                const maxValue = parseFloat(maxMatch[1]);
+                                updatedValue = updatedValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                                updatedValue = `Math.max(${updatedValue}, ${maxValue})`;
+                            }
+                        }
+
+                        if (updatedValue.includes('@{min,')) {
+                            const minMatch = updatedValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                            if (minMatch) {
+                                const minValue = parseFloat(minMatch[1]);
+                                updatedValue = updatedValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                                updatedValue = `Math.min(${updatedValue}, ${minValue})`;
+                            }
+                        }
+
+                        try {
+                            updates[key] = eval(updatedValue);
+                        } catch (e) {
+                            // Garde la valeur remplacée si l'évaluation échoue
+                            updates[key] = updatedValue;
+                        }
+                    } else if (typeof value === 'object' && value !== null) {
+                        for (const [subKey, subValue] of Object.entries(value)) {
+                            if (typeof subValue === 'string' && subValue.includes('@{rollTotal}')) {
+                                let updatedSubValue = subValue.replace(/@{rollTotal}/g, total);
+
+                                if (updatedSubValue.includes('@{max,')) {
+                                    const maxMatch = updatedSubValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                                    if (maxMatch) {
+                                        const maxValue = parseFloat(maxMatch[1]);
+                                        updatedSubValue = updatedSubValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                                        updatedSubValue = `Math.max(${updatedSubValue}, ${maxValue})`;
+                                    }
+                                }
+
+                                if (updatedSubValue.includes('@{min,')) {
+                                    const minMatch = updatedSubValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                                    if (minMatch) {
+                                        const minValue = parseFloat(minMatch[1]);
+                                        updatedSubValue = updatedSubValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                                        updatedSubValue = `Math.min(${updatedSubValue}, ${minValue})`;
+                                    }
+                                }
+
+                                try {
+                                    value[subKey] = eval(updatedSubValue);
+                                } catch (e) {
+                                    // Garde la valeur remplacée si l'évaluation échoue
+                                    value[subKey] = updatedSubValue;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(!foundry.utils.isEmpty(updateArmure) && this.actor.system.dataArmor && this.actor.type === 'knight') {
+                await this.actor.system.dataArmor.update(updateArmure);
+            }
+
+            if(!foundry.utils.isEmpty(updateItems)) {
+                for(let i in updateItems) {
+                    this.actor.items.get(i).update(updateItems[i]);
+                }
+            }
+
+            if(!foundry.utils.isEmpty(updates)) await this.actor.update(updates);
         }
 
         return total;
@@ -915,6 +1076,7 @@ export class RollKnight {
         const targets = data?.targets ?? [];
         const finalDataToAdd = data?.finalDataToAdd ?? {};
 
+
         if(this.weapon.portee) {
             const traPortee = game.i18n.localize(`KNIGHT.PORTEE.${this.weapon.portee.charAt(0).toUpperCase() + this.weapon.portee.slice(1)}`);
 
@@ -953,7 +1115,7 @@ export class RollKnight {
             maximize:this.maximize,
         };
 
-        await this.#handleAttaqueEffet(weapon, main, rolls);
+        await this.#handleAttaqueEffet(weapon, main, rolls, data?.updates ?? {});
 
         foundry.utils.mergeObject(main, finalDataToAdd);
 
@@ -1026,7 +1188,7 @@ export class RollKnight {
         return result;
     }
 
-    async #handleAttaqueEffet(weapon, content, rolls) {
+    async #handleAttaqueEffet(weapon, content, rolls, updates={}) {
         const armorIsWear = this.armorIsWear;
         const localize = getAllEffects();
         const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
@@ -1057,14 +1219,20 @@ export class RollKnight {
                             noViolence = true;
                         }
                         break;
-                    
+
                     case 'chargeur':
                         if(effet) {
-                            const wpn = this.actor.items.get(weapon.id.replaceAll('module_', ''));
+                            const isComposed = /module_|capacite_/.test(weapon.id) ? true : false;
+                            const wpnId = isComposed ? weapon.id.split('_')[1] : weapon.id;
 
+                            const wpn = this.actor.items.get(wpnId);
+                            console.warn(updates);
                             if(wpn) {
-                                wpn.system.useMunition();
+                                if(isComposed) wpn.system.useMunition(weapon.id.split('_')[2], weapon, updates);
+                                else wpn.system.useMunition();
                             }
+
+                            console.warn(updates);
 
                             effets.push({
                                 simple:l,
@@ -1074,7 +1242,7 @@ export class RollKnight {
                             });
                         }
                         break;
-  
+
                     case 'barrage':
                     case 'choc':
                     case 'electrifiee':

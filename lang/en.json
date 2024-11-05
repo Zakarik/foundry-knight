@@ -747,7 +747,10 @@
       "CHARGEUR": {
         "Label":"Clip",
         "Description":"This weapon or module has a limited number of uses per mission, as indicated by X. Once this number of uses has been depleted, the weapon or module can no longer fire or be activated. It must be reloaded (for free) in Camelot in between missions.",
-        "Description-short":"This weapon or module has a limited number of uses per mission, as indicated by X."
+        "Description-short":"This weapon or module has a limited number of uses per mission, as indicated by X.",
+        "Restaurer":"Restore all clips",
+        "RemplirChargeur":"Refill 1 Clip use",
+        "ViderChargeur":"Remove 1 use from Clip"
       },
       "CHOC": {
         "Label":"Stun",
@@ -2236,7 +2239,9 @@
       "AppliquerEffets":"Apply all effects",
       "AppliquerEffetsAll":"Apply effects to all targets",
       "ChargeurVide":"Clip empty",
-      "RemplirChargeur":"Fills clips",
+      "RemplirChargeur":"Fills all clips",
+      "Remet1Charge":"Add 1 clip",
+      "Retire1Charge":"Remove 1 clip",
       "RESULTATS":{
         "Affecte":"Affected",
         "PasAffecte":"Not affected",
@@ -2361,6 +2366,7 @@
       "ConfirmationArmure":"Are you sure you want to recover all your armour?",
       "ConfirmationSante":"Are you sure you want to recover all your health?",
       "ConfirmationEspoir":"Are you sure you want to recover all your hope?",
+      "ConfirmationChargeur":"Are you sure you want to charge all your clips?",
       "Reset":"Reset",
       "Difficulte":"Difficulty",
       "MJOnly":"MJ Only",

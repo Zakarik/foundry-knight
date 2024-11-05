@@ -258,6 +258,7 @@
 }
 .effetsDialog div.dialog-content div.effets div,
 .effetsDialog div.dialog-content div.effetsAdd div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -320,6 +321,25 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.effetsDialog div.dialog-content div.effets div section.btnChargeur,
+.effetsDialog div.dialog-content div.effetsAdd div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.effetsDialog div.dialog-content div.effets div section.btnChargeur a.btnEffChange,
+.effetsDialog div.dialog-content div.effetsAdd div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .effetsDialog div.dialog-content div.effets a.edit,
 .effetsDialog div.dialog-content div.effetsAdd a.edit {
@@ -5053,8 +5073,10 @@
   padding-bottom: 19px;
   padding-left: 5px;
   border-top: 1px solid black;
+  align-items: flex-start;
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -5111,6 +5133,23 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .armure form.armureWindows div.evolutions div.mainData div.data div.effets a.edit {
   position: absolute;
@@ -7119,8 +7158,10 @@
   padding-bottom: 19px;
   padding-left: 5px;
   border-top: 1px solid black;
+  align-items: flex-start;
 }
 .armure form.armureWindows div.capacites div.changeling div.explosion > div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -7177,6 +7218,23 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.armure form.armureWindows div.capacites div.changeling div.explosion > div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.armure form.armureWindows div.capacites div.changeling div.explosion > div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .armure form.armureWindows div.capacites div.changeling div.explosion > div.effets a.edit {
   position: absolute;
@@ -7318,9 +7376,11 @@
   padding-bottom: 19px;
   padding-left: 5px;
   border-top: 1px solid black;
+  align-items: flex-start;
 }
 .armure form.armureWindows div.capacites div.longbow div.effets div,
 .armure form.armureWindows div.capacites div.longbow div.distance div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -7383,6 +7443,25 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.armure form.armureWindows div.capacites div.longbow div.effets div section.btnChargeur,
+.armure form.armureWindows div.capacites div.longbow div.distance div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.armure form.armureWindows div.capacites div.longbow div.effets div section.btnChargeur a.btnEffChange,
+.armure form.armureWindows div.capacites div.longbow div.distance div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .armure form.armureWindows div.capacites div.longbow div.effets a.edit,
 .armure form.armureWindows div.capacites div.longbow div.distance a.edit {
@@ -7705,8 +7784,10 @@
   padding-bottom: 19px;
   padding-left: 5px;
   border-top: 1px solid black;
+  align-items: flex-start;
 }
 .armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -7763,6 +7844,23 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets a.edit {
   position: absolute;
@@ -7830,8 +7928,10 @@
   padding-bottom: 19px;
   padding-left: 5px;
   border-top: 1px solid black;
+  align-items: flex-start;
 }
 .armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -7888,6 +7988,23 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets a.edit {
   position: absolute;
@@ -7977,8 +8094,10 @@
   padding-bottom: 19px;
   padding-left: 5px;
   border-top: 1px solid black;
+  align-items: flex-start;
 }
 .armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -8035,6 +8154,23 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets a.edit {
   position: absolute;
@@ -8278,8 +8414,10 @@
   padding-bottom: 19px;
   padding-left: 5px;
   border-top: 1px solid black;
+  align-items: flex-start;
 }
 .armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -8336,6 +8474,23 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets a.edit {
   position: absolute;
@@ -8753,10 +8908,12 @@
   padding-bottom: 19px;
   padding-left: 5px;
   border-top: 1px solid black;
+  align-items: flex-start;
 }
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div,
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -8825,6 +8982,27 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div section.btnChargeur,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div section.btnChargeur,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div section.btnChargeur a.btnEffChange,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div section.btnChargeur a.btnEffChange,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets a.edit,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets a.edit,
@@ -9148,10 +9326,12 @@
   padding-bottom: 19px;
   padding-left: 5px;
   border-top: 1px solid black;
+  align-items: flex-start;
 }
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div,
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -9220,6 +9400,27 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div section.btnChargeur,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div section.btnChargeur,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div section.btnChargeur a.btnEffChange,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div section.btnChargeur a.btnEffChange,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets a.edit,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets a.edit,
@@ -9418,8 +9619,10 @@
   padding-bottom: 19px;
   padding-left: 5px;
   border-top: 1px solid black;
+  align-items: flex-start;
 }
 .armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -9476,6 +9679,23 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets a.edit {
   position: absolute;
@@ -10304,8 +10524,10 @@
   padding-bottom: 19px;
   padding-left: 5px;
   border-top: 1px solid black;
+  align-items: flex-start;
 }
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -10362,6 +10584,23 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets a.edit {
   position: absolute;
@@ -11470,6 +11709,7 @@
   border-top: 1px solid black;
 }
 .armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -11526,6 +11766,23 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets a.edit {
   position: absolute;
@@ -11917,6 +12174,7 @@
   border-top: 1px solid black;
 }
 .armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -11973,6 +12231,23 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets a.edit {
   position: absolute;
@@ -12382,6 +12657,7 @@
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -12450,6 +12726,27 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div section.btnChargeur,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div section.btnChargeur,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div section.btnChargeur a.btnEffChange,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div section.btnChargeur a.btnEffChange,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets a.edit,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets a.edit,
@@ -12777,6 +13074,7 @@
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -12845,6 +13143,27 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div section.btnChargeur,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div section.btnChargeur,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div section.btnChargeur a.btnEffChange,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div section.btnChargeur a.btnEffChange,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets a.edit,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets a.edit,
@@ -13752,6 +14071,7 @@
   border-left: 0px !important;
 }
 .module div.main div.blockEffets div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -13808,6 +14128,23 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.module div.main div.blockEffets div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.module div.main div.blockEffets div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .module div.main div.blockEffets div.effets a.edit {
   position: absolute;
@@ -14415,6 +14752,7 @@
   margin-top: 5px;
 }
 .module div.main div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -14471,6 +14809,23 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.module div.main div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.module div.main div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .module div.main div.effets a.edit {
   position: absolute;
@@ -15477,11 +15832,13 @@
   padding-left: 5px;
   border: 1px solid RGB(87 110 178);
   flex: none;
+  align-items: flex-start;
 }
 .arme form.armeWindows div.blockEffets div.effets div,
 .arme form.armeWindows div.blockEffets div.distance div,
 .arme form.armeWindows div.blockEffets div.structurelles div,
 .arme form.armeWindows div.blockEffets div.ornementales div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -15556,6 +15913,29 @@
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.arme form.armeWindows div.blockEffets div.effets div section.btnChargeur,
+.arme form.armeWindows div.blockEffets div.distance div section.btnChargeur,
+.arme form.armeWindows div.blockEffets div.structurelles div section.btnChargeur,
+.arme form.armeWindows div.blockEffets div.ornementales div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.arme form.armeWindows div.blockEffets div.effets div section.btnChargeur a.btnEffChange,
+.arme form.armeWindows div.blockEffets div.distance div section.btnChargeur a.btnEffChange,
+.arme form.armeWindows div.blockEffets div.structurelles div section.btnChargeur a.btnEffChange,
+.arme form.armeWindows div.blockEffets div.ornementales div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .arme form.armeWindows div.blockEffets div.effets a.edit,
 .arme form.armeWindows div.blockEffets div.distance a.edit,
@@ -15802,6 +16182,7 @@ form.capacite div.main div.effets {
   flex: none;
 }
 form.capacite div.main div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -15858,6 +16239,23 @@ form.capacite div.main div.effets div span.hideInfo {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+form.capacite div.main div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+form.capacite div.main div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 form.capacite div.main div.effets a.edit {
   position: absolute;
@@ -17205,6 +17603,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-top: 1px solid black;
 }
 .capaciteUltime div.passive div.data div.effets div, .capaciteUltime div.active div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -17261,6 +17660,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.capaciteUltime div.passive div.data div.effets div section.btnChargeur, .capaciteUltime div.active div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.capaciteUltime div.passive div.data div.effets div section.btnChargeur a.btnEffChange, .capaciteUltime div.active div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .capaciteUltime div.passive div.data div.effets a.edit, .capaciteUltime div.active div.data div.effets a.edit {
   position: absolute;
@@ -20431,9 +20847,11 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding-bottom: 5px;
   padding-left: 5px;
   border-top: 1px solid black;
+  align-items: flex-start;
 }
 .knight section.body div.armure div.capacites div.mainData div.data div.effets div,
 .knight section.body div.armure div.special div.mainData div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -20496,6 +20914,25 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.knight section.body div.armure div.capacites div.mainData div.data div.effets div section.btnChargeur,
+.knight section.body div.armure div.special div.mainData div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.knight section.body div.armure div.capacites div.mainData div.data div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.special div.mainData div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .knight section.body div.armure div.capacites div.mainData div.data div.effets a.edit,
 .knight section.body div.armure div.special div.mainData div.data div.effets a.edit {
@@ -20958,6 +21395,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding-bottom: 5px;
   padding-left: 5px;
   border-top: 1px solid black;
+  align-items: flex-start;
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.armes div.effets div,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.armes div.effets div,
@@ -20965,6 +21403,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.lion div.armes div.effets div,
 .knight section.body div.armure div.special div.mainData div.wolf div.armes div.effets div,
 .knight section.body div.armure div.special div.mainData div.crow div.armes div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -21051,6 +21490,33 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.armes div.effets div section.btnChargeur,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.armes div.effets div section.btnChargeur,
+.knight section.body div.armure div.capacites div.mainData div.crow div.armes div.effets div section.btnChargeur,
+.knight section.body div.armure div.special div.mainData div.lion div.armes div.effets div section.btnChargeur,
+.knight section.body div.armure div.special div.mainData div.wolf div.armes div.effets div section.btnChargeur,
+.knight section.body div.armure div.special div.mainData div.crow div.armes div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.armes div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.armes div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.capacites div.mainData div.crow div.armes div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.special div.mainData div.lion div.armes div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.special div.mainData div.wolf div.armes div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.special div.mainData div.crow div.armes div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.armes div.effets a.edit,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.armes div.effets a.edit,
@@ -22202,6 +22668,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding-bottom: 5px;
   padding-left: 5px;
   border-top: 1px solid black;
+  align-items: flex-start;
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div,
@@ -22209,6 +22676,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div,
 .knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div,
 .knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -22295,6 +22763,33 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets a.edit,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets a.edit,
@@ -22732,6 +23227,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-top: 1px solid RGB(76 74 90);
   border-right: 0px !important;
   border-left: 0px !important;
+  align-items: flex-start;
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div,
@@ -22739,6 +23235,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div,
 .knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div,
 .knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -22825,6 +23322,33 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets a.edit,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets a.edit,
@@ -23138,6 +23662,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding-bottom: 5px;
   padding-left: 5px;
   border-top: 1px solid black;
+  align-items: flex-start;
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.configurations div.configuration div.effets div,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.configurations div.configuration div.effets div,
@@ -23145,6 +23670,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.lion div.configurations div.configuration div.effets div,
 .knight section.body div.armure div.special div.mainData div.wolf div.configurations div.configuration div.effets div,
 .knight section.body div.armure div.special div.mainData div.crow div.configurations div.configuration div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -23231,6 +23757,33 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.configurations div.configuration div.effets div section.btnChargeur,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.configurations div.configuration div.effets div section.btnChargeur,
+.knight section.body div.armure div.capacites div.mainData div.crow div.configurations div.configuration div.effets div section.btnChargeur,
+.knight section.body div.armure div.special div.mainData div.lion div.configurations div.configuration div.effets div section.btnChargeur,
+.knight section.body div.armure div.special div.mainData div.wolf div.configurations div.configuration div.effets div section.btnChargeur,
+.knight section.body div.armure div.special div.mainData div.crow div.configurations div.configuration div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.configurations div.configuration div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.configurations div.configuration div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.capacites div.mainData div.crow div.configurations div.configuration div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.special div.mainData div.lion div.configurations div.configuration div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.special div.mainData div.wolf div.configurations div.configuration div.effets div section.btnChargeur a.btnEffChange,
+.knight section.body div.armure div.special div.mainData div.crow div.configurations div.configuration div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.configurations div.configuration div.effets a.edit,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.configurations div.configuration div.effets a.edit,
@@ -24070,8 +24623,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   padding-bottom: 5px;
   padding-left: 5px;
   border-top: 1px solid black;
+  align-items: flex-start;
 }
 .knight section.body div.armure div.modules div.mainBlock div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -24128,6 +24683,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.knight section.body div.armure div.modules div.mainBlock div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.knight section.body div.armure div.modules div.mainBlock div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .knight section.body div.armure div.modules div.mainBlock div.data div.effets a.edit {
   position: absolute;
@@ -24350,8 +24922,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-top: 1px solid RGB(76 74 90);
   border-right: 0px !important;
   border-left: 0px !important;
+  align-items: flex-start;
 }
 .knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -24408,6 +24982,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets a.edit {
   position: absolute;
@@ -24910,6 +25501,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 100%;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  align-items: flex-start;
   padding-right: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
@@ -24917,6 +25509,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div,
 .knight section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -24979,6 +25572,25 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.knight section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div section.btnChargeur,
+.knight section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.knight section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div section.btnChargeur a.btnEffChange,
+.knight section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .knight section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets a.edit,
 .knight section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets a.edit {
@@ -27881,6 +28493,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-top: 1px solid black;
 }
 .pnj section.body div.capacites div.wolf div.configuration div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -27937,6 +28550,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.pnj section.body div.capacites div.wolf div.configuration div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.pnj section.body div.capacites div.wolf div.configuration div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .pnj section.body div.capacites div.wolf div.configuration div.effets a.edit {
   position: absolute;
@@ -28554,6 +29184,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-top: 1px solid black;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -28610,6 +29241,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.pnj section.body div.capacites div.modules div.mainBlock div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.pnj section.body div.capacites div.modules div.mainBlock div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data div.effets a.edit {
   position: absolute;
@@ -28834,6 +29482,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-left: 0px !important;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -28890,6 +29539,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets a.edit {
   position: absolute;
@@ -29613,6 +30279,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-top: 1px solid black;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -29669,6 +30336,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.data div.effets a.edit {
   position: absolute;
@@ -30012,6 +30696,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets div,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets div,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.armes div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -30080,6 +30765,27 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets div section.btnChargeur,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets div section.btnChargeur,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.armes div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets div section.btnChargeur a.btnEffChange,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets div section.btnChargeur a.btnEffChange,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.armes div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets a.edit,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets a.edit,
@@ -30823,6 +31529,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -30891,6 +31598,27 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur a.btnEffChange,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur a.btnEffChange,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets a.edit,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets a.edit,
@@ -31203,6 +31931,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -31271,6 +32000,27 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur a.btnEffChange,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur a.btnEffChange,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets a.edit,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets a.edit,
@@ -31498,6 +32248,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets div,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets div,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.configurations div.configuration div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -31566,6 +32317,27 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets div section.btnChargeur,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets div section.btnChargeur,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.configurations div.configuration div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets div section.btnChargeur a.btnEffChange,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets div section.btnChargeur a.btnEffChange,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.configurations div.configuration div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets a.edit,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets a.edit,
@@ -31889,6 +32661,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-top: 1px solid black;
 }
 .pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -31945,6 +32718,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets a.edit {
   position: absolute;
@@ -32323,6 +33113,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 100%;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  align-items: flex-start;
   padding-right: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
@@ -32330,6 +33121,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div,
 .pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -32392,6 +33184,25 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div section.btnChargeur,
+.pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div section.btnChargeur a.btnEffChange,
+.pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets a.edit,
 .pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets a.edit {
@@ -34210,6 +35021,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-top: 1px solid black;
 }
 .creature section.body div.capacites div.capacite div.mainBlock div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -34266,6 +35078,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.creature section.body div.capacites div.capacite div.mainBlock div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.creature section.body div.capacites div.capacite div.mainBlock div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .creature section.body div.capacites div.capacite div.mainBlock div.data div.effets a.edit {
   position: absolute;
@@ -34644,6 +35473,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 100%;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  align-items: flex-start;
   padding-right: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
@@ -34651,6 +35481,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .creature section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div,
 .creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -34713,6 +35544,25 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.creature section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div section.btnChargeur,
+.creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.creature section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div section.btnChargeur a.btnEffChange,
+.creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .creature section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets a.edit,
 .creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets a.edit {
@@ -36338,6 +37188,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-top: 1px solid black;
 }
 .bande section.body div.capacites div.capacite div.mainBlock div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -36394,6 +37245,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.bande section.body div.capacites div.capacite div.mainBlock div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.bande section.body div.capacites div.capacite div.mainBlock div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .bande section.body div.capacites div.capacite div.mainBlock div.data div.effets a.edit {
   position: absolute;
@@ -36772,6 +37640,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 100%;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  align-items: flex-start;
   padding-right: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
@@ -36779,6 +37648,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .bande section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div,
 .bande section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -36841,6 +37711,25 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.bande section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div section.btnChargeur,
+.bande section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.bande section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div section.btnChargeur a.btnEffChange,
+.bande section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .bande section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets a.edit,
 .bande section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets a.edit {
@@ -38490,6 +39379,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-top: 1px solid black;
 }
 .vehicule section.body div.modules div.mainBlock div.data div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -38546,6 +39436,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.vehicule section.body div.modules div.mainBlock div.data div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.vehicule section.body div.modules div.mainBlock div.data div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .vehicule section.body div.modules div.mainBlock div.data div.effets a.edit {
   position: absolute;
@@ -38770,6 +39677,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-left: 0px !important;
 }
 .vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -38826,6 +39734,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets a.edit {
   position: absolute;
@@ -39061,12 +39986,14 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 100%;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  align-items: flex-start;
   padding-right: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
   flex: none;
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -39123,6 +40050,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets a.edit {
   position: absolute;
@@ -40636,6 +41580,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border-top: 1px solid black;
 }
 .mechaarmure section.body div.combat div.main div.modules div.liste div.effets div, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets div {
+  display: block;
   position: relative;
   width: max-content;
   padding-left: 15px;
@@ -40692,6 +41637,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   top: 100%;
   text-align: justify;
   word-break: break-word;
+}
+.mechaarmure section.body div.combat div.main div.modules div.liste div.effets div section.btnChargeur, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.mechaarmure section.body div.combat div.main div.modules div.liste div.effets div section.btnChargeur a.btnEffChange, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
 }
 .mechaarmure section.body div.combat div.main div.modules div.liste div.effets a.edit, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets a.edit {
   position: absolute;

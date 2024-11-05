@@ -301,11 +301,7 @@
                 </div>
                 <div class="effets">
                     {{#each this.lantern.effets.liste as | key effet|}}
-                        <div>
-                            <span class="label">{{key.name}}</span>
-                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                        </div>
+                        {{~> systems/knight/templates/parts/effets.html type='illumination_lantern'}}
                     {{/each}}
                 </div>
             </div>

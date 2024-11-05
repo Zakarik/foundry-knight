@@ -61,11 +61,7 @@
                 <h4>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.EFFETS.Base"}}</h4>
                 <div class="effets">
                     {{#each this.effets.base.liste as | key effet|}}
-                    <div>
-                        <span class="label">{{key.name}}</span>
-                        <img class="info" src="systems/knight/assets/icons/info.svg" />
-                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                    </div>
+                        {{~> systems/knight/templates/parts/effets.html type='longbow_base'}}
                     {{/each}}
                 </div>
             </div>
@@ -80,11 +76,7 @@
                 </div>
                 <div class="effets">
                     {{#each this.effets.liste1.liste as | key effet|}}
-                    <div>
-                        <span class="label">{{key.name}}</span>
-                        <img class="info" src="systems/knight/assets/icons/info.svg" />
-                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                    </div>
+                        {{~> systems/knight/templates/parts/effets.html type='longbow_liste1'}}
                     {{/each}}
                 </div>
             </div>
@@ -97,11 +89,7 @@
                 </div>
                 <div class="effets">
                     {{#each this.effets.liste2.liste as | key effet|}}
-                    <div>
-                        <span class="label">{{key.name}}</span>
-                        <img class="info" src="systems/knight/assets/icons/info.svg" />
-                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                    </div>
+                        {{~> systems/knight/templates/parts/effets.html type='longbow_liste2'}}
                     {{/each}}
                 </div>
             </div>
@@ -121,11 +109,7 @@
                 </div>
                 <div class="effets {{#unless this.effets.liste3.acces}}hidden{{/unless}}">
                     {{#each this.effets.liste3.liste as | key effet|}}
-                    <div>
-                        <span class="label">{{key.name}}</span>
-                        <img class="info" src="systems/knight/assets/icons/info.svg" />
-                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                    </div>
+                        {{~> systems/knight/templates/parts/effets.html type='longbow_liste3'}}
                     {{/each}}
                 </div>
             </div>
@@ -135,11 +119,7 @@
             <h4 class="title">{{localize "KNIGHT.AMELIORATIONS.LABEL.Distance"}}</h4>
             <div class="effets">
                 {{#each this.distance.liste as | key effet|}}
-                    <div>
-                        <span class="label">{{key.name}}</span>
-                        <img class="info" src="systems/knight/assets/icons/info.svg" />
-                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                    </div>
+                    {{~> systems/knight/templates/parts/effets.html type='longbow_distance'}}
                 {{/each}}
             </div>
         </div>

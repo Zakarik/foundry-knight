@@ -2375,6 +2375,22 @@ export class PNJSheet extends ActorSheet {
             html.find(`div.${type} input.${name}Value`).val(max);
           }
           break;
+
+        case 'chargeur':
+          const items = this.actor.items.filter(itm => itm.type === 'arme' || itm.type === 'module' || itm.type === 'armure');
+
+          items.forEach(itm => {
+            itm.system.resetMunition();
+          })
+
+          const exec = new game.knight.RollKnight(this.actor,
+          {
+          name:this.actor.name,
+          }).sendMessage({
+              text:game.i18n.localize('KNIGHT.JETS.RemplirChargeur'),
+              classes:'important',
+          });
+          break;
       }
     });
 
@@ -2442,11 +2458,30 @@ export class PNJSheet extends ActorSheet {
       await new game.knight.applications.KnightEffetsDialog({actor:this.actor._id, item:null, isToken:this?.document?.isToken || false, token:this?.token || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
     });
 
-    html.find('button.btnRestaureChargeur').click(async ev => {
-      const header = $(ev.currentTarget).parents(".summary");
+    html.find('a.btnChargeurPlus').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item");
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
       const item = this.actor.items.get(header.data("item-id"));
 
-      item.system.resetMunition();
+      item.system.addMunition(index, type, munition, pnj, wpn);
+    });
+
+    html.find('a.btnChargeurMoins').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item");
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.removeMunition(index, type, munition, pnj, wpn);
     });
   }
 
@@ -3524,7 +3559,20 @@ export class PNJSheet extends ActorSheet {
             value.liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
           }
         }
+
+        if(base.key === 'modules') {
+          const dataPnj = data[n].system.niveau.actuel.pnj.liste;
+
+          for(let pnj in dataPnj) {
+            for(let wpnPnj in dataPnj[pnj].armes.liste) {
+              const dataWpnPnj = dataPnj[pnj].armes.liste[wpnPnj];
+
+              dataWpnPnj.effets.liste = listEffects(dataWpnPnj.effets.raw, dataWpnPnj.effets.custom, labels, dataWpnPnj.effets?.chargeur);
+            }
+          }
+        }
       }
+
     }
   }
 

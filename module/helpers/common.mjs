@@ -54,6 +54,7 @@ export function listEffects(raw, custom, labels, chargeur=null) {
       const name = game.i18n.localize(labels[secondSplit[0]].label);
       const sub = split[1];
       const other = Object.values(secondSplit);
+      let base = name;
       let complet = name;
       let toComplete = '';
       let munition = chargeur;
@@ -61,18 +62,21 @@ export function listEffects(raw, custom, labels, chargeur=null) {
 
       if(other.length > 1) {
         other.splice(0, 1);
-        complet += ` ${other.join(" ").replace("<space>", " ")}`;
+        base += ` ${other.join(" ").replace("<space>", " ")}`;
       }
 
       if(secondSplit[0] === 'chargeur') {
         if(munition === null || munition === undefined) munition = sub;
         toComplete += ` / ${sub}`;
         chargeurMax = sub;
+        complet += ` ${sub}`;
       }
-      else if(sub != undefined) { complet += " "+sub; }
+      else if(sub != undefined) { base += " "+sub; }
 
       let toPush = secondSplit[0] === 'chargeur' ? {
-        name:complet,
+        index:n,
+        name:base,
+        complet:complet,
         toComplete:toComplete,
         description:game.i18n.localize(labels[secondSplit[0]].description),
         raw:raw[n],
@@ -80,7 +84,9 @@ export function listEffects(raw, custom, labels, chargeur=null) {
         chargeurMax,
         isChargeur:true,
       } : {
-        name:complet,
+        index:n,
+        name:base,
+        complet:complet,
         description:game.i18n.localize(labels[secondSplit[0]].description),
         raw:raw[n]
       }
