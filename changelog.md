@@ -1,3 +1,9 @@
+## v3.36.7
+### Bugfix
+- Correction d'un bug avec les jets d'armes des PNJ.
+- Correction de bugs avec le Mode Ghost.
+- Correction du calcul de l'Akimbo (en théorie).
+
 ## v3.36.6
 ### Bugfix
 - Correction de divers bugs affectant le mode Ghost.

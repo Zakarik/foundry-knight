@@ -1394,6 +1394,7 @@ export class RollKnight {
         let rollOptions = {
             maximize:hasObliteration || (data?.flags?.maximize?.degats ?? false) ? true : false,
         };
+        let baseDice = weapon.degats.dice;
         let wpnDice = weapon.degats.dice;
         let wpnBonusDice = 0;
         let min = false;
@@ -2104,7 +2105,7 @@ export class RollKnight {
             }
         }
 
-        wpnDice = style === 'akimbo' ? wpnDice*2 : wpnDice;
+        wpnDice = style === 'akimbo' ? wpnDice+baseDice : wpnDice;
         wpnDice += wpnBonusDice;
         const dice = hasTenebricide ? Math.floor(wpnDice/2) : wpnDice;
         let formula = `${dice}D6`;
@@ -2242,6 +2243,7 @@ export class RollKnight {
             maximize:hasObliteration || (data?.flags?.maximize?.violence ?? false) ? true : false,
         };
         let isGoliathActive = false;
+        let baseDice = weapon.violence.dice
         let wpnDice = weapon.violence.dice;
         let wpnBonusDice = 0;
         let min = false;
@@ -2645,7 +2647,7 @@ export class RollKnight {
             }
         }
 
-        wpnDice = style === 'akimbo' ? wpnDice+Math.ceil(wpnDice/2) : wpnDice;
+        wpnDice = style === 'akimbo' ? wpnDice+Math.ceil(baseDice/2) : wpnDice;
         wpnDice += wpnBonusDice;
         const dice = hasTenebricide ? Math.floor(wpnDice/2) : wpnDice;
         let formula = `${dice}D6`;
