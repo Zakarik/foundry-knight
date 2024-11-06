@@ -1,3 +1,17 @@
+## v3.36.7
+### Bugfix
+- Correction d'un bug avec les jets d'armes des PNJ.
+- Correction de bugs avec le Mode Ghost.
+- Correction du calcul de l'Akimbo (en théorie).
+
+## v3.36.6
+### Bugfix
+- Correction de divers bugs affectant le mode Ghost.
+
+## v3.36.5
+### Bugfix
+- Correction d'un bug n'appliquant pas le malus correct en attaque avec le style pilonnage.
+
 ## v3.36.4
 ### Bugfix
 - Correction d'un bug n'appliquant pas les dégâts continus lors d'un jet.
