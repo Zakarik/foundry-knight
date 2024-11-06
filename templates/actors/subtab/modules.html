@@ -62,6 +62,7 @@
                         </button>
                     {{/if}}
                 {{/if}}
+                {{#if key.system.niveau.actuel.pnj.has}}
                 {{#unless key.system.active.pnj}}
                     {{#each key.system.niveau.actuel.pnj.liste as | keyPnj pnj|}}                        {{#if (moduleCanBeActivate @../this 'pnj')}}
                             <button class="activation" data-name="{{../name}}" data-type="modulePnj" data-module="{{../_id}}"
@@ -91,6 +92,7 @@
                         {{/if}}
                     {{/each}}
                 {{/unless}}
+                {{/if}}
                 {{#if key.system.active.pnj}}
                     <button class="activation" data-type="modulePnj" data-module="{{key._id}}"
                         data-cout="0"

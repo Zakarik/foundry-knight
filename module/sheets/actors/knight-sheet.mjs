@@ -57,8 +57,6 @@ export class KnightSheet extends ActorSheet {
 
     actualiseRoll(this.actor);
 
-    console.warn(context);
-
     return context;
   }
 
@@ -1024,16 +1022,46 @@ export class KnightSheet extends ActorSheet {
               data = dataModule.system,
               dataNiveau = data.niveau.actuel;
 
-        dataModule.update({[`system.active.base`]:value});
+        let moduleUpdate = {[`system.active.base`]:value};
+        let abort = false;
 
         if(dataNiveau.jetsimple.has && value) {
           const roll = new game.knight.RollKnight(this.actor, {
             name:`${dataNiveau.jetsimple.label}`,
             dices:`${dataNiveau.jetsimple.jet}`,
+            item:dataModule,
+            effectspath:'jetsimple.effets',
           }, false);
 
-          await roll.doRoll({}, dataNiveau.jetsimple.effets);
+          if(data.hasOtherMunition('jetsimple')) {
+            await roll.doRoll({}, dataNiveau.jetsimple.effets);
+          } else {
+            await roll.sendMessage({
+                text:game.i18n.localize('KNIGHT.JETS.ChargeurVide'),
+                classes:'important',
+            });
+          }
         }
+
+        if(!data.hasOtherMunition('module') && value && dataNiveau.effets.has) {
+          abort = true;
+          const roll = new game.knight.RollKnight(this.actor, {
+            name:`${dataModule.name}`,
+          }, false);
+
+          await roll.sendMessage({
+            text:game.i18n.localize('KNIGHT.JETS.ChargeurVide'),
+            classes:'important',
+          });
+        } else if(dataNiveau.effets.raw.find(itm => itm.includes('chargeur')) && value) {
+          const findModuleChargeur = dataNiveau.effets.raw.find(itm => itm.includes('chargeur'));
+          const chargeur = dataNiveau.effets?.chargeur ?? null;
+
+          if(chargeur === null) moduleUpdate[`system.niveau.details.n${data.getNiveau}.effets.chargeur`] = Math.max(parseInt(findModuleChargeur.split(' ')[1])-1, 0);
+          else moduleUpdate[`system.niveau.details.n${data.getNiveau}.effets.chargeur`] = Math.max(parseInt(chargeur)-1, 0);
+        }
+
+        if(!abort) dataModule.update(moduleUpdate);
       }
 
       if(type === 'modulePnj') {
@@ -5273,9 +5301,6 @@ export class KnightSheet extends ActorSheet {
                   niveau:niveau,
                 }
               };
-
-              console.warn(i);
-              console.warn(moduleEffetsFinal);
 
               if(moduleArmeType === 'contact') {
                 moduleWpn.system.structurelles = itemArme.structurelles;

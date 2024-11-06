@@ -840,6 +840,22 @@ export class MechaArmureSheet extends ActorSheet {
 
       dialog.open();
     });
+
+    html.find('a.btnChargeurPlus').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+
+      this.actor.system.addMunition(index, type);
+    });
+
+    html.find('a.btnChargeurMoins').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+
+      this.actor.system.removeMunition(index, type);
+    });
   }
 
   /* -------------------------------------------- */
@@ -1027,7 +1043,7 @@ export class MechaArmureSheet extends ActorSheet {
 
         wpn.push({
           type:type,
-          _id:name,
+          _id:m,
           name:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${name.toUpperCase()}.Label`),
           portee:data.portee,
           energie:noyaux,

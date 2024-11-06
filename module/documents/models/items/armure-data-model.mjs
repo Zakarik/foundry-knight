@@ -127,6 +127,239 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     return this.parent;
   }
 
+  get hasMunition() {
+    const type = this.type;
+    let result = true;
+
+    if(type === 'contact') {
+      if(this.options2mains.has) {
+        const actuel = this.options2mains?.actuel ?? '1main';
+        const effets = actuel === '1main' ? this.effets : this.effets2mains;
+        const findChargeur = effets.raw.find(itm => itm.includes('chargeur'));
+
+        if(!findChargeur) return;
+
+        const chargeurMax = parseInt(findChargeur.split(' ')[1]);
+
+        let chargeur = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
+
+        if(chargeur === 0) result = false;
+
+      } else {
+        const effets = this.effets;
+        const findChargeur = effets.raw.find(itm => itm.includes('chargeur'));
+
+        if(!findChargeur) return;
+
+        const chargeurMax = parseInt(findChargeur.split(' ')[1]);
+
+        let chargeur = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
+
+        if(chargeur === 0) result = false;
+      }
+    }
+    else if(type === 'distance') {
+      const effets = this.effets;
+      const findChargeurBase = effets.raw.find(itm => itm.includes('chargeur'));
+
+      if(findChargeurBase) {
+        const chargeurMax = parseInt(findChargeurBase.split(' ')[1]);
+        const chargeurActuel = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
+
+        if(chargeurActuel !== 0 && result) result = true;
+        else result = false;
+      };
+
+      if(this.optionsmunitions.has) {
+        const actuel = this.optionsmunitions.actuel;
+        const munition = this.optionsmunitions?.liste?.[actuel];
+
+        if(munition) {
+          const effetsMunition = munition;
+          const findChargeurMunition = munition.raw.find(itm => itm.includes('chargeur'));
+
+          if(findChargeurMunition) {
+            const chargeurMunitionMax = parseInt(findChargeurMunition.split(' ')[1]);
+
+            let chargeurMunition = effetsMunition?.chargeur !== null && effetsMunition?.chargeur !== undefined ? parseInt(effetsMunition.chargeur) : chargeurMunitionMax;
+
+            if(chargeurMunition !== 0 && result) result = true;
+            else result = false;
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
+  qtyMunition(type, weapon) {
+    const capacite = type
+    .replaceAll(/borealis[DC]/g, 'borealis')
+    .replaceAll(/cea(Vague|Salve|Rayon)(C|D)/g, '$1')
+    .replaceAll(/morph(Griffe|Lame|Canon)/g, '$1')
+    .toLowerCase();
+
+    let result = 0;
+
+    switch(capacite) {
+      case 'borealis':
+        const mainStd = this.#getDataCapacite(capacite);
+        const dataStd = mainStd.data;
+        const findChargeurStd = dataStd.raw.find(itm => itm.includes('chargeur'));
+
+        if(!findChargeurStd) return;
+
+        const chargeurStdMax = parseInt(findChargeurStd.split(' ')[1]);
+
+        let chargeurStd = dataStd?.chargeur !== null && dataStd?.chargeur !== undefined ? parseInt(dataStd.chargeur) : chargeurStdMax;
+
+        result = chargeurStd;
+        break;
+
+      case 'salve':
+      case 'vague':
+      case 'rayon':
+        const mainCea = this.#getDataCapacite('cea', capacite);
+        const dataCea = mainCea.data;
+        const findChargeurCea = dataCea.raw.find(itm => itm.includes('chargeur'));
+
+        if(!findChargeurCea) return;
+
+        const chargeurCeaMax = parseInt(findChargeurCea.split(' ')[1]);
+
+        let chargeurCea = dataCea?.chargeur !== null && dataCea?.chargeur !== undefined ? parseInt(dataCea.chargeur) : chargeurCeaMax;
+
+        result = chargeurCea;
+        break;
+
+      case 'griffe':
+      case 'lame':
+      case 'canon':
+        const mainMorph = this.#getDataCapacite('morph', capacite);
+        const dataMorph = mainMorph.data;
+        const findChargeurMorph = dataMorph.raw.find(itm => itm.includes('chargeur'));
+
+        if(!findChargeurMorph) return;
+
+        const chargeurMorphMax = parseInt(findChargeurMorph.split(' ')[1]);
+
+        let chargeurMorph = dataMorph?.chargeur !== null && dataMorph?.chargeur !== undefined ? parseInt(dataMorph.chargeur) : chargeurMorphMax;
+
+        result = chargeurMorph;
+        break;
+    }
+
+    return result;
+  }
+
+  hasMunition(type, weapon) {
+    const capacite = type
+    .replaceAll(/borealis[DC]/g, 'borealis')
+    .replaceAll(/cea(Vague|Salve|Rayon)(C|D)/g, '$1')
+    .replaceAll(/morph(Griffe|Lame|Canon)/g, '$1')
+    .toLowerCase();
+    let result = true;
+
+    switch(capacite) {
+      case 'borealis':
+        const mainStd = this.#getDataCapacite(capacite);
+        const dataStd = mainStd.data;
+        const findChargeurStd = dataStd.raw.find(itm => itm.includes('chargeur'));
+
+        if(!findChargeurStd) return;
+
+        const chargeurStdMax = parseInt(findChargeurStd.split(' ')[1]);
+
+        let chargeurStd = dataStd?.chargeur !== null && dataStd?.chargeur !== undefined ? parseInt(dataStd.chargeur) : chargeurStdMax;
+
+        if(chargeurStd === 0) result = false;
+        break;
+
+      case 'salve':
+      case 'vague':
+      case 'rayon':
+        const mainCea = this.#getDataCapacite('cea', capacite);
+        const dataCea = mainCea.data;
+        const findChargeurCea = dataCea.raw.find(itm => itm.includes('chargeur'));
+
+        if(!findChargeurCea) return;
+
+        const chargeurCeaMax = parseInt(findChargeurCea.split(' ')[1]);
+
+        let chargeurCea = dataCea?.chargeur !== null && dataCea?.chargeur !== undefined ? parseInt(dataCea.chargeur) : chargeurCeaMax;
+
+        if(chargeurCea === 0) result = false;
+        break;
+
+      case 'griffe':
+      case 'lame':
+      case 'canon':
+        const mainMorph = this.#getDataCapacite('morph', capacite);
+        const dataMorph = mainMorph.data;
+        const findChargeurMorph = dataMorph.raw.find(itm => itm.includes('chargeur'));
+
+        if(!findChargeurMorph) return;
+
+        const chargeurMorphMax = parseInt(findChargeurMorph.split(' ')[1]);
+
+        let chargeurMorph = dataMorph?.chargeur !== null && dataMorph?.chargeur !== undefined ? parseInt(dataMorph.chargeur) : chargeurMorphMax;
+
+        if(chargeurMorph === 0) result = false;
+        break;
+
+      case 'longbow':
+        const mainLBBase = this.#getDataCapacite('longbow', 'base');
+        const mainLBListe1 = this.#getDataCapacite('longbow', 'liste1');
+        const mainLBListe2 = this.#getDataCapacite('longbow', 'liste2');
+        const mainLBListe3 = this.#getDataCapacite('longbow', 'liste3');
+        const dataLongbowBase = mainLBBase.data;
+        const dataLongbowListe1 = mainLBListe1.data;
+        const dataLongbowListe2 = mainLBListe2.data;
+        const dataLongbowListe3 = mainLBListe3.data;
+        const findChargeurLongbowBase = dataLongbowBase.raw.find(itm => itm.includes('chargeur'));
+        const findChargeurLongbowListe1 = weapon?.possibility?.liste1?.selected?.find(itm => itm.includes('chargeur')) ?? undefined;
+        const findChargeurLongbowListe2 = weapon?.possibility?.liste2?.selected?.find(itm => itm.includes('chargeur')) ?? undefined;
+        const findChargeurLongbowListe3 = weapon?.possibility?.liste3?.selected?.find(itm => itm.includes('chargeur')) ?? undefined;
+
+        if(findChargeurLongbowBase) {
+          const chargeurLBMax = parseInt(findChargeurLongbowBase.split(' ')[1]);
+
+          let chargeurLb = dataLongbowBase?.chargeur !== null && dataLongbowBase?.chargeur !== undefined ? parseInt(dataLongbowBase.chargeur) : chargeurLBMax;
+
+          if(chargeurLb === 0) result = false;
+        }
+
+        if(findChargeurLongbowListe1) {
+          const chargeurL1Max = parseInt(findChargeurLongbowListe1.split(' ')[1]);
+
+          let chargeurL1 = dataLongbowListe1?.chargeur !== null && dataLongbowListe1?.chargeur !== undefined ? parseInt(dataLongbowListe1.chargeur) : chargeurL1Max;
+
+          if(chargeurL1 === 0) result = false;
+        }
+
+        if(findChargeurLongbowListe2) {
+          const chargeurL2Max = parseInt(findChargeurLongbowListe2.split(' ')[1]);
+
+          let chargeurL2 = dataLongbowListe2?.chargeur !== null && dataLongbowListe2?.chargeur !== undefined ? parseInt(dataLongbowListe2.chargeur) : chargeurL2Max;
+
+          if(chargeurL2 === 0) result = false;
+        }
+
+        if(findChargeurLongbowListe3) {
+          const chargeurL3Max = parseInt(findChargeurLongbowListe3.split(' ')[1]);
+
+          let chargeurL3 = dataLongbowListe3?.chargeur !== null && dataLongbowListe3?.chargeur !== undefined ? parseInt(dataLongbowListe3.chargeur) : chargeurL3Max;
+
+          if(chargeurL3 === 0) result = false;
+        }
+
+        break;
+    }
+
+    return result;
+  }
+
   addMunition(index, type) {
     const split = type.split('_');
     const capacite = split[0];

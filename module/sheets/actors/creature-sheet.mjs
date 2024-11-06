@@ -468,6 +468,32 @@ export class CreatureSheet extends ActorSheet {
 
       this.actor.update({[`system.options.${option}`]:result});
     });
+
+    html.find('a.btnChargeurPlus').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item");
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.addMunition(index, type, munition, pnj, wpn);
+    });
+
+    html.find('a.btnChargeurMoins').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item");
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.removeMunition(index, type, munition, pnj, wpn);
+    });
   }
 
   /* -------------------------------------------- */

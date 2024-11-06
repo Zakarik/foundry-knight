@@ -443,6 +443,19 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     return this.parent;
   }
 
+  get getNiveau() {
+    return this.niveau.value;
+  }
+
+  get getMunition() {
+    const jetsSimpleFindChargeur = this.niveau.details[`n${this.getNiveau}`].jetsimple.effets.raw.find(itm => itm.includes('chargeur'));
+    const jetsSimpleChargeur = this.niveau.details[`n${this.getNiveau}`].jetsimple.effets?.chargeur;
+
+    return {
+      jetsimple:jetsSimpleChargeur === null || jetsSimpleChargeur === undefined ? parseInt(jetsSimpleFindChargeur.split(' ')[1]) : parseInt(jetsSimpleChargeur),
+    }
+  }
+
   get hasMunition() {
     const niveau = this.niveau.value;
     const actuel = this.niveau?.details?.[`n${niveau}`];
@@ -494,6 +507,100 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
           }
         }
       }
+    }
+
+    return result;
+  }
+
+  qtyMunition() {
+    const niveau = this.niveau.value;
+    const actuel = this.niveau?.details?.[`n${niveau}`];
+
+    if(!actuel) return;
+    const arme = actuel.arme;
+    const type = arme.type;
+    let result = 0;
+
+    if(type === 'contact') {
+      const effets = arme.effets;
+      const findChargeur = effets.raw.find(itm => itm.includes('chargeur'));
+
+      if(!findChargeur) return;
+
+      const chargeurMax = parseInt(findChargeur.split(' ')[1]);
+
+      let chargeur = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
+
+      result = chargeur;
+    }
+    else if(type === 'distance') {
+      const effets = arme.effets;
+      const findChargeurBase = effets.raw.find(itm => itm.includes('chargeur'));
+
+      if(findChargeurBase) {
+        const chargeurMax = parseInt(findChargeurBase.split(' ')[1]);
+        const chargeurActuel = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
+
+        result = chargeurActuel;
+      };
+
+      if(arme.optionsmunitions.has) {
+        const actuel = arme.optionsmunitions.actuel;
+        const munition = arme.optionsmunitions?.liste?.[actuel];
+
+        if(munition) {
+          const effetsMunition = munition;
+          const findChargeurMunition = munition.raw.find(itm => itm.includes('chargeur'));
+
+          if(findChargeurMunition) {
+            const chargeurMunitionMax = parseInt(findChargeurMunition.split(' ')[1]);
+
+            let chargeurMunition = effetsMunition?.chargeur !== null && effetsMunition?.chargeur !== undefined ? parseInt(effetsMunition.chargeur) : chargeurMunitionMax;
+
+            result = chargeurMunition;
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
+  hasOtherMunition(type) {
+    const actuel = this.niveau?.details?.[`n${this.getNiveau}`];
+    let result = true;
+    let effets = undefined;
+    let findChargeur = undefined;
+    let chargeur = null;
+
+    switch(type) {
+      case 'jetsimple':
+        effets = actuel.jetsimple.effets;
+        findChargeur = effets.raw.find(itm => itm.includes('chargeur'));
+        chargeur = effets?.chargeur ?? null;
+
+        if(findChargeur) {
+          if(chargeur !== null) {
+            if(chargeur === 0) {
+              result = false;
+            }
+          }
+        }
+        break;
+
+      case 'module':
+        effets = actuel.effets;
+        findChargeur = effets.raw.find(itm => itm.includes('chargeur'));
+        chargeur = effets?.chargeur ?? null;
+
+        if(findChargeur) {
+          if(chargeur !== null) {
+            if(chargeur === 0) {
+              result = false;
+            }
+          }
+        }
+        break;
     }
 
     return result;
@@ -555,7 +662,7 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     });
   }
 
-  removeMunition(index, type, munition, pnj, wpn) {
+  removeMunition(index, type, munition=undefined, pnj=undefined, wpn=undefined) {
     const niveau = this.niveau.value;
     let data = undefined;
     let path = '';

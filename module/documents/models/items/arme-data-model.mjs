@@ -188,7 +188,71 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
     return result;
   }
 
-  addMunition(index, type, munition) {
+  get qtyMunition() {
+    const type = this.type;
+    let result = 0;
+
+    if(type === 'contact') {
+      if(this.options2mains.has) {
+        const actuel = this.options2mains?.actuel ?? '1main';
+        const effets = actuel === '1main' ? this.effets : this.effets2mains;
+        const findChargeur = effets.raw.find(itm => itm.includes('chargeur'));
+
+        if(!findChargeur) return;
+
+        const chargeurMax = parseInt(findChargeur.split(' ')[1]);
+
+        let chargeur = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
+
+        result = chargeur;
+
+      } else {
+        const effets = this.effets;
+        const findChargeur = effets.raw.find(itm => itm.includes('chargeur'));
+
+        if(!findChargeur) return;
+
+        const chargeurMax = parseInt(findChargeur.split(' ')[1]);
+
+        let chargeur = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
+
+        result = chargeur;
+      }
+    }
+    else if(type === 'distance') {
+      const effets = this.effets;
+      const findChargeurBase = effets.raw.find(itm => itm.includes('chargeur'));
+
+      if(findChargeurBase) {
+        const chargeurMax = parseInt(findChargeurBase.split(' ')[1]);
+        const chargeurActuel = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
+
+        result = chargeurActuel;
+      };
+
+      if(this.optionsmunitions.has) {
+        const actuel = this.optionsmunitions.actuel;
+        const munition = this.optionsmunitions?.liste?.[actuel];
+
+        if(munition) {
+          const effetsMunition = munition;
+          const findChargeurMunition = munition.raw.find(itm => itm.includes('chargeur'));
+
+          if(findChargeurMunition) {
+            const chargeurMunitionMax = parseInt(findChargeurMunition.split(' ')[1]);
+
+            let chargeurMunition = effetsMunition?.chargeur !== null && effetsMunition?.chargeur !== undefined ? parseInt(effetsMunition.chargeur) : chargeurMunitionMax;
+
+            result = chargeurMunition;
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
+  addMunition(index, type) {
     let data = undefined;
     let chargeur = undefined;
     let actuel = undefined;
@@ -276,7 +340,7 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
     });
   }
 
-  useMunition() {
+  useMunition(updates={}) {
     const type = this.type;
 
     if(type === 'contact') {
@@ -292,19 +356,9 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
         let chargeur = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
 
         if(actuel === '1main') {
-          Object.defineProperty(this.effets, 'chargeur', {
-            value: Math.max(chargeur-1, 0),
-            writable:true,
-            enumerable:true,
-            configurable:true
-          });
+          updates[`item.${this.item._id}.system.effets.chargeur`] = Math.max(chargeur-1, 0);
         } else {
-          Object.defineProperty(this.effets2mains, 'chargeur', {
-            value: Math.max(chargeur-1, 0),
-            writable:true,
-            enumerable:true,
-            configurable:true
-          });
+          updates[`item.${this.item._id}.system.effets2mains.chargeur`] = Math.max(chargeur-1, 0);
         }
       } else {
         const effets = this.effets;
@@ -316,12 +370,7 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
 
         let chargeur = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
 
-        Object.defineProperty(this.effets, 'chargeur', {
-          value: Math.max(chargeur-1, 0),
-          writable:true,
-          enumerable:true,
-          configurable:true
-        });
+        updates[`item.${this.item._id}.system.effets.chargeur`] = Math.max(chargeur-1, 0);
       }
     }
     else if(type === 'distance') {
@@ -332,12 +381,7 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
         const chargeurMax = parseInt(findChargeurBase.split(' ')[1]);
         const chargeurActuel = effets?.chargeur !== null && effets?.chargeur !== undefined ? parseInt(effets.chargeur) : chargeurMax;
 
-        Object.defineProperty(this.effets, 'chargeur', {
-          value: Math.max(chargeurActuel-1, 0),
-          writable:true,
-          enumerable:true,
-          configurable:true
-        });
+        updates[`item.${this.item._id}.system.effets.chargeur`] = Math.max(chargeurActuel-1, 0);
       };
 
       if(this.optionsmunitions.has) {
@@ -353,12 +397,7 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
 
             let chargeurMunition = effetsMunition?.chargeur !== null && effetsMunition?.chargeur !== undefined ? parseInt(effetsMunition.chargeur) : chargeurMunitionMax;
 
-            Object.defineProperty(this.optionsmunitions.liste[actuel], 'chargeur', {
-              value: Math.max(chargeurMunition-1, 0),
-              writable:true,
-              enumerable:true,
-              configurable:true
-            });
+            updates[`item.${this.item._id}.system.optionsmunitions.liste.${actuel}.chargeur`] = Math.max(chargeurMunition-1, 0);
           }
         }
       }

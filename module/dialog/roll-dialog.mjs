@@ -1108,16 +1108,23 @@ export class KnightRollDialog extends Dialog {
             }
 
             if(this.#isEffetActive(effets, weapon.options, ['chargeur'])) {
-                const isComposed = /module_|capacite_/.test(weapon.id) ? true : false;
-                const getWpn = isComposed ? this.actor.items.get(weapon.id.split('_')[1]) : this.actor.items.get(weapon.id);
+                const isCapacite = /capacite_/.test(weapon.id) ? true : false;
+                const isModule = /module_/.test(weapon.id) ? true : false;
+                const getWpn = isCapacite || isModule ? this.actor.items.get(weapon.id.split('_')[1]) : this.actor.items.get(weapon.id);
 
                 if(getWpn) {
-                    if(isComposed) {
-                        /*if(!getWpn.system.hasMunition[weapon.id.split('_')[1]]) {
+                    if(isCapacite) {
+                        if(!getWpn.system.hasMunition(weapon.id.split('_')[2], weapon)) {
                             doRoll = false;
                             msg = game.i18n.localize('KNIGHT.JETS.ChargeurVide');
                             classes = 'important';
-                        }*/
+                        }
+                    } else if(isModule) {
+                        if(!getWpn.system.hasMunition) {
+                            doRoll = false;
+                            msg = game.i18n.localize('KNIGHT.JETS.ChargeurVide');
+                            classes = 'important';
+                        }
                     } else if(!getWpn.system.hasMunition) {
                         doRoll = false;
                         msg = game.i18n.localize('KNIGHT.JETS.ChargeurVide');
@@ -1265,8 +1272,6 @@ export class KnightRollDialog extends Dialog {
         let tags = [];
 
         if(armorIsWear && !isNoOd) bonus.push(this.#getODAspect(actor, base));
-
-        dices += modificateur;
 
         if(modificateur > 0) {
             dices += modificateur;
