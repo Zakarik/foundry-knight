@@ -44,7 +44,7 @@ export class BlessureSheet extends ItemSheet {
 
     html.find('.button').click(ev => {
       const type = $(ev.currentTarget).data("type");
-      const actuel = this.getData().data.system.soigne[type] || false;
+      const actuel = this.item.system.soigne[type] || false;
 
       let result = false;
 

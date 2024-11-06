@@ -1,3 +1,7 @@
+## v3.37.1
+### Bugfix
+- Correction d'un bug ne prenant pas en compte les soins des blessures par reconstruction corporelle.
+
 ## v3.37.0
 ### Améliorations
 - Ajout de la gestion pleine et entière de l'effet "Chargeur", avec décompte des munitions, possibilité de les modifier et équipement impossible à utiliser lorsque ça arrive à 0.

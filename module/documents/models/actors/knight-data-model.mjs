@@ -2199,7 +2199,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 espoir += 3;
             }
 
-            if(system.soigne.implant || system.reconstruction) continue;
+            if(system.soigne.implant || system.soigne.reconstruction) continue;
 
             for(let a in system.aspects) {
                 if(system.aspects[a].value > 0) {
