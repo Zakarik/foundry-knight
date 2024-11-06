@@ -1,3 +1,7 @@
+## v3.37.0
+### Améliorations
+- Ajout de la gestion pleine et entière de l'effet "Chargeur", avec décompte des munitions, possibilité de les modifier et équipement impossible à utiliser lorsque ça arrive à 0.
+
 ## v3.36.7
 ### Bugfix
 - Correction d'un bug avec les jets d'armes des PNJ.
