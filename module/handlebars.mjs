@@ -980,4 +980,39 @@
     Handlebars.registerHelper('hasPJRestaure', function () {
         return game.settings.get("knight", "canPJRestaure") || game.user.isGM;
     });
+
+    Handlebars.registerHelper('hasChargeur', function (wpn) {
+        let result = false;
+        const type = wpn?.system?.type ?? undefined;
+
+        if(!type || (wpn.type !== 'module' && wpn.type !== 'arme')) return result;
+        const effets = wpn.system?.effets?.raw ?? [];
+
+        if(effets.find(itm => itm.includes('chargeur'))) result = true;
+
+        if(type === 'contact') {
+            const has2mains = wpn.system?.options2mains?.has ?? false;
+
+            if(has2mains) {
+                const effets2mains = wpn.system?.effets2mains?.raw ?? [];
+
+                if(effets2mains.find(itm => itm.includes('chargeur'))) result = true;
+            }
+        } else if(type === 'distance') {
+            const hasmunitions = wpn.system?.optionsmunitions?.has ?? false;
+
+            if(hasmunitions) {
+                const effetsmunitions = wpn.system?.optionsmunitions?.liste ?? {};
+                let concat = [];
+
+                for (const effet in effetsmunitions) {
+                    concat.push(...effetsmunitions[effet].raw);
+                }
+
+                if(concat.find(itm => itm.includes('chargeur'))) result = true;
+            }
+        }
+
+        return result;
+    });
  };

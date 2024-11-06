@@ -1,0 +1,17 @@
+<div>
+    <span class="label">
+        {{#if (eq type 'std')}}
+            {{complet}}
+        {{else}}
+            {{name}}{{#if isChargeur}} {{chargeur}} {{/if}}{{ifThen toComplete toComplete ''}}
+        {{/if}}
+    </span>
+    <img class="info" src="systems/knight/assets/icons/info.svg" />
+    {{#if (and isChargeur (ne type 'std'))}}
+    <section class="btnChargeur" data-index="{{index}}" data-type="{{type}}" data-munition="{{munition}}" data-pnj="{{pnj}}" data-wpn="{{wpn}}">
+        <a class="btnEffChange btnChargeurMoins" title="{{localize 'KNIGHT.EFFETS.CHARGEUR.ViderChargeur'}}">-</a>
+        <a class="btnEffChange btnChargeurPlus" title="{{localize 'KNIGHT.EFFETS.CHARGEUR.RemplirChargeur'}}">+</a>
+    </section>
+    {{/if}}
+    <span class="hideInfo">{{{getEffetsDescription description}}}</span>
+</div>

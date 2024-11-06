@@ -840,6 +840,22 @@ export class MechaArmureSheet extends ActorSheet {
 
       dialog.open();
     });
+
+    html.find('a.btnChargeurPlus').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+
+      this.actor.system.addMunition(index, type);
+    });
+
+    html.find('a.btnChargeurMoins').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+
+      this.actor.system.removeMunition(index, type);
+    });
   }
 
   /* -------------------------------------------- */
@@ -1027,7 +1043,7 @@ export class MechaArmureSheet extends ActorSheet {
 
         wpn.push({
           type:type,
-          _id:name,
+          _id:m,
           name:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${name.toUpperCase()}.Label`),
           portee:data.portee,
           energie:noyaux,
@@ -1076,7 +1092,7 @@ export class MechaArmureSheet extends ActorSheet {
       if(base !== false) {
         const baseE = base.effets;
 
-        baseE.liste = listEffects(baseE.raw, baseE.custom, effetsLabels);
+        baseE.liste = listEffects(baseE.raw, baseE.custom, effetsLabels, baseE?.chargeur);
 
         if(modules[i] === 'lamesCinetiquesGeantes') {
           const baseE1 = base.eff1.effets;
@@ -1123,7 +1139,7 @@ export class MechaArmureSheet extends ActorSheet {
       if(c1 !== false) {
         const c1E = c1.effets;
 
-        c1E.liste = listEffects(c1E.raw, c1E.custom, effetsLabels);
+        c1E.liste = listEffects(c1E.raw, c1E.custom, effetsLabels, c1E?.chargeur);
 
         if(modules[i] === 'lamesCinetiquesGeantes') {
           const c1E1 = c1E.eff1.effets;
@@ -1170,7 +1186,7 @@ export class MechaArmureSheet extends ActorSheet {
       if(c2 !== false) {
         const c2E = c2.effets;
 
-        c2E.liste = listEffects(c2E.raw, c2E.custom, effetsLabels);
+        c2E.liste = listEffects(c2E.raw, c2E.custom, effetsLabels, c2E?.chargeur);
 
         if(modules[i] === 'lamesCinetiquesGeantes') {
           const c2E1 = c2E.eff1.effets;

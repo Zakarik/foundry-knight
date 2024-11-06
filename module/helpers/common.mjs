@@ -43,8 +43,7 @@ export function sum(total, num) {
   return total + num;
 }
 
-export function listEffects(raw, custom, labels) {
-    const l = getAllEffects();
+export function listEffects(raw, custom, labels, chargeur=null) {
     const liste = [];
 
     if(raw === undefined) return;
@@ -55,20 +54,44 @@ export function listEffects(raw, custom, labels) {
       const name = game.i18n.localize(labels[secondSplit[0]].label);
       const sub = split[1];
       const other = Object.values(secondSplit);
+      let base = name;
       let complet = name;
+      let toComplete = '';
+      let munition = chargeur;
+      let chargeurMax = 0;
 
       if(other.length > 1) {
         other.splice(0, 1);
-        complet += ` ${other.join(" ").replace("<space>", " ")}`;
+        base += ` ${other.join(" ").replace("<space>", " ")}`;
       }
 
-      if(sub != undefined) { complet += " "+sub; }
+      if(secondSplit[0] === 'chargeur') {
+        if(munition === null || munition === undefined) munition = sub;
+        toComplete += ` / ${sub}`;
+        chargeurMax = sub;
+        complet += ` ${sub}`;
+      }
+      else if(sub != undefined) { base += " "+sub; }
 
-      liste.push({
-        name:complet,
+      let toPush = secondSplit[0] === 'chargeur' ? {
+        index:n,
+        name:base,
+        complet:complet,
+        toComplete:toComplete,
+        description:game.i18n.localize(labels[secondSplit[0]].description),
+        raw:raw[n],
+        chargeur:munition,
+        chargeurMax,
+        isChargeur:true,
+      } : {
+        index:n,
+        name:base,
+        complet:complet,
         description:game.i18n.localize(labels[secondSplit[0]].description),
         raw:raw[n]
-      });
+      }
+
+      liste.push(toPush);
     }
 
     for(let n = 0;n < custom.length;n++) {

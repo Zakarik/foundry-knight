@@ -679,7 +679,7 @@
                     <a data-tab="modules" class="item">{{localize "KNIGHT.ITEMS.MODULE.Label"}}</a>
                     <a data-tab="ia" class="item">{{localize "KNIGHT.IA.Label"}}</a>
                 </nav>
-                <div class="tab-armure MAarmure" data-group="secondary" data-tab="capacites">
+                <div class="tab-armure MAarmure headerData" data-group="secondary" data-tab="capacites" data-item-id="{{actor.armureData._id}}">
                     <div class="capacites">
                         <h2 class="header js-toggler">
                             <i class="far fa-minus-square"></i>
@@ -1241,7 +1241,7 @@
                                     </div>
                                     <div class="effets">
                                         <div>
-                                            <span class="label">{{key.utilisation}} {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Utilisations"}}</span>
+                                            <span class="label">{{utilisation}} {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Utilisations"}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1582,22 +1582,24 @@
         <div class="tab options" data-group="primary" data-tab="options">
             <div class="main">
                 {{#if (hasPJRestaure)}}
-                {{#if systemData.jauges.sante}}
-                <button type="action" class="recover unselected" data-type="sante" data-max="{{systemData.sante.max}}">{{localize "KNIGHT.RECUPERER.Sante"}}</button>
+                    {{#if systemData.jauges.sante}}
+                    <button type="action" class="recover unselected" data-type="sante" data-max="{{systemData.sante.max}}">{{localize "KNIGHT.RECUPERER.Sante"}}</button>
+                    {{/if}}
+
+                    {{#if systemData.jauges.armure}}
+                    <button type="action" class="recover unselected" data-type="armure" data-max="{{systemData.armure.max}}">{{localize "KNIGHT.RECUPERER.Armure"}}</button>
+                    {{/if}}
+
+                    {{#if systemData.jauges.energie}}
+                    <button type="action" class="recover unselected" data-type="energie" data-max="{{systemData.energie.max}}">{{localize "KNIGHT.RECUPERER.Energie"}}</button>
+                    {{/if}}
+
+                    {{#if systemData.jauges.espoir}}
+                    <button type="action" class="recover unselected" data-type="espoir" data-max="{{systemData.espoir.max}}">{{localize "KNIGHT.RECUPERER.Espoir"}}</button>
+                    {{/if}}
                 {{/if}}
 
-                {{#if systemData.jauges.armure}}
-                <button type="action" class="recover unselected" data-type="armure" data-max="{{systemData.armure.max}}">{{localize "KNIGHT.RECUPERER.Armure"}}</button>
-                {{/if}}
-
-                {{#if systemData.jauges.energie}}
-                <button type="action" class="recover unselected" data-type="energie" data-max="{{systemData.energie.max}}">{{localize "KNIGHT.RECUPERER.Energie"}}</button>
-                {{/if}}
-
-                {{#if systemData.jauges.espoir}}
-                <button type="action" class="recover unselected" data-type="espoir" data-max="{{systemData.espoir.max}}">{{localize "KNIGHT.RECUPERER.Espoir"}}</button>
-                {{/if}}
-                {{/if}}
+                <button type="action" class="recover unselected" data-type="chargeur">{{localize "KNIGHT.EFFETS.CHARGEUR.Restaurer"}}</button>
 
                 <button type="action" data-value="{{systemData.options.kraken}}" data-option="kraken" class="{{#if systemData.options.kraken}}selected{{else}}unselected{{/if}}">
                     {{#if systemData.options.kraken}}

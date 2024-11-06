@@ -30,7 +30,7 @@
     <div class="block" style="display:none;">
         <div class="longspan">
             <span class="label">{{localize "KNIGHT.LATERAL.Noyaux"}}</span>
-            <span class="value">{{this.noyaux}}</span>
+            <span class="value">{{localize 'KNIGHT.AUTRE.Attaque'}} : {{noyaux.simple}} / {{localize "KNIGHT.TYPE.Bande"}} : {{noyaux.bande}}</span>
         </div>
         <div class="longspan">
             <span class="label">{{localize "KNIGHT.AUTRE.Degats"}}</span>
@@ -50,11 +50,7 @@
         </div>
         <div class="effets">
             {{#each this.effets.liste as | key effet|}}
-            <div class="effetNormal">
-                <span class="label">{{key.name}}</span>
-                <img class="info" src="systems/knight/assets/icons/info.svg" />
-                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-            </div>
+                {{~> systems/knight/templates/parts/effets.html type='magma'}}
             {{/each}}
         </div>
     </div>

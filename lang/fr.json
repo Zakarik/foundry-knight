@@ -747,7 +747,10 @@
       "CHARGEUR": {
         "Label":"Chargeur",
         "Description":"L’arme ou le module dispose d’un nombre d’utilisations indiqué par X. Une fois utilisé autant de fois que X, on estime qu’il n’a plus de munitions et ne peut donc plus faire feu. L’arme ou le module doit être rechargé (gratuitement) à Camelot entre deux missions.",
-        "Description-short":"L’arme ou le module dispose d’un nombre d’utilisations indiqué par X."
+        "Description-short":"L’arme ou le module dispose d’un nombre d’utilisations indiqué par X.",
+        "Restaurer":"Restaurer tous les chargeurs",
+        "RemplirChargeur":"Remettre 1 charge de Chargeur",
+        "ViderChargeur":"Retirer 1 charge de Chargeur"
       },
       "CHOC": {
         "Label":"Choc",
@@ -2235,6 +2238,10 @@
       "ModeHeroique":"Mode Héroique",
       "AppliquerEffets":"Appliquer tous les effets",
       "AppliquerEffetsAll":"Appliquer les effets à toutes les cibles",
+      "ChargeurVide":"Chargeur vide",
+      "RemplirChargeur":"Rempli tous les chargeurs",
+      "Remet1Charge":"Remet 1 charge",
+      "Retire1Charge":"Retire 1 charge",
       "RESULTATS":{
         "Affecte":"Affecté",
         "PasAffecte":"Pas affecté",
@@ -2359,6 +2366,7 @@
       "ConfirmationArmure":"Êtes vous sûre de vouloir récupérer toute votre armure ?",
       "ConfirmationSante":"Êtes vous sûre de vouloir récupérer toute votre santé ?",
       "ConfirmationEspoir":"Êtes vous sûre de vouloir récupérer toute votre espoir ?",
+      "ConfirmationChargeur":"Êtes vous sûre de vouloir restaurer tous vos chargeurs ?",
       "Reset":"Reset",
       "Difficulte":"Difficulté",
       "MJOnly":"MJ Uniquement",

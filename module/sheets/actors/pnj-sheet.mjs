@@ -1025,225 +1025,6 @@ export class PNJSheet extends ActorSheet {
             break;
         }
       }
-
-      if(type === 'module') {
-        const dataModule = this.actor.items.get(module),
-              data = dataModule.system,
-              niveau = data.niveau.value,
-              dataNiveau = data.niveau.details[`n${niveau}`];
-
-        dataModule.update({[`system.active.base`]:value});
-
-        if(dataNiveau.jetsimple.has && value) {
-          const roll = new game.knight.RollKnight(this.actor, {
-            name:`${dataNiveau.jetsimple.label}`,
-            dices:`${dataNiveau.jetsimple.jet}`,
-          }, false);
-
-          await roll.doRoll({}, dataNiveau.jetsimple.effets);
-        }
-      }
-
-      if(type === 'modulePnj') {
-        const index = target.data("index");
-
-        const dataModule = this.actor.items.get(module),
-              data = dataModule.system,
-              niveau = data.niveau.value,
-              dataNiveau = data.niveau.details[`n${niveau}`],
-              dataPnj = dataNiveau.pnj.liste[index];
-
-        if(value) {
-          const listeAspects = dataPnj.aspects.liste;
-
-          const system = {
-            aspects:dataPnj.aspects.has ? {
-              'chair':{
-                'value':listeAspects.chair.value,
-                'ae':{
-                  'mineur':{
-                    'value':listeAspects.chair.ae.mineur
-                  },
-                  'majeur':{
-                    'value':listeAspects.chair.ae.majeur
-                  }
-                }
-              },
-              'bete':{
-                'value':listeAspects.bete.value,
-                'ae':{
-                  'mineur':{
-                    'value':listeAspects.bete.ae.mineur
-                  },
-                  'majeur':{
-                    'value':listeAspects.bete.ae.majeur
-                  }
-                }
-              },
-              'machine':{
-                'value':listeAspects.machine.value,
-                'ae':{
-                  'mineur':{
-                    'value':listeAspects.machine.ae.mineur
-                  },
-                  'majeur':{
-                    'value':listeAspects.machine.ae.majeur
-                  }
-                }
-              },
-              'dame':{
-                'value':listeAspects.dame.value,
-                'ae':{
-                  'mineur':{
-                    'value':listeAspects.dame.ae.mineur
-                  },
-                  'majeur':{
-                    'value':listeAspects.dame.ae.majeur
-                  }
-                }
-              },
-              'masque':{
-                'value':listeAspects.masque.value,
-                'ae':{
-                  'mineur':{
-                    'value':listeAspects.masque.ae.mineur
-                  },
-                  'majeur':{
-                    'value':listeAspects.masque.ae.majeur
-                  }
-                }
-              }
-            } : {},
-            initiative:{
-              diceBase:dataPnj.initiative.dice,
-              bonus:{user:dataPnj.initiative.fixe}
-            },
-            sante:{
-              base:dataPnj.sante,
-              value:dataPnj.sante
-            },
-            armure:{
-              base:dataPnj.armure,
-              value:dataPnj.armure
-            },
-            champDeForce:{
-              base:dataPnj.champDeForce
-            },
-            reaction:{
-              base:dataPnj.reaction
-            },
-            defense:{
-              base:dataPnj.defense
-            },
-            options:{
-              noAspects:dataPnj.aspects.has ? false : true,
-              noArmesImprovisees:dataPnj.aspects.has ? false : true,
-              noCapacites:true,
-              noGrenades:true,
-              noNods:true,
-              espoir:false,
-              bouclier:false,
-              sante:false,
-              energie:false,
-              resilience:false
-            }
-          };
-
-          if(dataPnj.jetSpecial.has) {
-            const jetsSpeciaux = [];
-
-            system.options.jetsSpeciaux = true;
-
-            for (let [key, jet] of Object.entries(dataPnj.jetSpecial.liste)) {
-              jetsSpeciaux.push({
-                name:jet.nom,
-                value:`${jet.dice}D6+${jet.overdrive}`
-              });
-            }
-
-            system.jetsSpeciaux = jetsSpeciaux;
-          }
-
-          if(dataPnj.type === 'bande') {
-            system.debordement = {};
-            system.debordement.value = dataPnj.debordement;
-          }
-
-          newActor = await Actor.create({
-            name: `${this.title} : ${dataPnj.nom}`,
-            type: dataPnj.type,
-            img:dataModule.img,
-            system:system,
-            permission:this.actor.ownership
-          });
-
-          if(dataPnj.armes.has && dataPnj.type !== 'bande') {
-            const items = [];
-
-            for (let [key, arme] of Object.entries(dataPnj.armes.liste)) {
-              const wpnType = arme.type === 'tourelle' ? 'distance' : arme.type;
-
-              let wpn = {
-                type:wpnType,
-                portee:arme.portee,
-                degats:{
-                  dice:arme.degats.dice,
-                  fixe:arme.degats.fixe
-                },
-                violence:{
-                  dice:arme.violence.dice,
-                  fixe:arme.violence.fixe
-                },
-                effets:{
-                  raw:arme.effets.raw,
-                  custom:arme.effets.custom
-                }
-              };
-
-              if(arme.type === 'tourelle') {
-                wpn['tourelle'] = {
-                  has:true,
-                  attaque:{
-                    dice:arme.attaque.dice,
-                    fixe:arme.attaque.fixe
-                  }
-                }
-              }
-
-              const nItem = {
-                name:arme.nom,
-                type:'arme',
-                system:wpn,
-                };
-
-                items.push(nItem);
-            }
-
-            await newActor.createEmbeddedDocuments("Item", items);
-          }
-
-          this.actor.items.get(module).update({[`system`]:{
-            'active':{
-              'pnj':true,
-              'pnjName':dataPnj.nom
-            },
-            'id':newActor.id
-          }});
-
-        } else if(!value) {
-          const actor = game.actors.get(dataModule.system.id);
-
-          if(actor !== undefined) await actor.delete();
-
-          dataModule.update({[`system`]:{
-            'active':{
-              'pnj':false,
-              'pnjName':''
-            },
-            'id':''
-          }});
-        }
-      }
     });
 
     html.find('.armure .aChoisir').click(async ev => {
@@ -1655,19 +1436,48 @@ export class PNJSheet extends ActorSheet {
       if(type === 'module') {
         const dataModule = this.actor.items.get(module),
               data = dataModule.system,
-              niveau = data.niveau.value,
-              dataNiveau = data.niveau.details[`n${niveau}`];
+              dataNiveau = data.niveau.actuel;
 
-        dataModule.update({[`system.active.base`]:value});
+        let moduleUpdate = {[`system.active.base`]:value};
+        let abort = false;
 
         if(dataNiveau.jetsimple.has && value) {
           const roll = new game.knight.RollKnight(this.actor, {
             name:`${dataNiveau.jetsimple.label}`,
             dices:`${dataNiveau.jetsimple.jet}`,
+            item:dataModule,
+            effectspath:'jetsimple.effets',
           }, false);
 
-          await roll.doRoll({}, dataNiveau.jetsimple.effets);
+          if(data.hasOtherMunition('jetsimple')) {
+            await roll.doRoll({}, dataNiveau.jetsimple.effets);
+          } else {
+            await roll.sendMessage({
+                text:game.i18n.localize('KNIGHT.JETS.ChargeurVide'),
+                classes:'important',
+            });
+          }
         }
+
+        if(!data.hasOtherMunition('module') && value && dataNiveau.effets.has) {
+          abort = true;
+          const roll = new game.knight.RollKnight(this.actor, {
+            name:`${dataModule.name}`,
+          }, false);
+
+          await roll.sendMessage({
+            text:game.i18n.localize('KNIGHT.JETS.ChargeurVide'),
+            classes:'important',
+          });
+        } else if(dataNiveau.effets.raw.find(itm => itm.includes('chargeur')) && value) {
+          const findModuleChargeur = dataNiveau.effets.raw.find(itm => itm.includes('chargeur'));
+          const chargeur = dataNiveau.effets?.chargeur ?? null;
+
+          if(chargeur === null) moduleUpdate[`system.niveau.details.n${data.getNiveau}.effets.chargeur`] = Math.max(parseInt(findModuleChargeur.split(' ')[1])-1, 0);
+          else moduleUpdate[`system.niveau.details.n${data.getNiveau}.effets.chargeur`] = Math.max(parseInt(chargeur)-1, 0);
+        }
+
+        if(!abort) dataModule.update(moduleUpdate);
       }
 
       if(type === 'modulePnj') {
@@ -2375,6 +2185,22 @@ export class PNJSheet extends ActorSheet {
             html.find(`div.${type} input.${name}Value`).val(max);
           }
           break;
+
+        case 'chargeur':
+          const items = this.actor.items.filter(itm => itm.type === 'arme' || itm.type === 'module' || itm.type === 'armure');
+
+          items.forEach(itm => {
+            itm.system.resetMunition();
+          })
+
+          const exec = new game.knight.RollKnight(this.actor,
+          {
+          name:this.actor.name,
+          }).sendMessage({
+              text:game.i18n.localize('KNIGHT.JETS.RemplirChargeur'),
+              classes:'important',
+          });
+          break;
       }
     });
 
@@ -2440,6 +2266,32 @@ export class PNJSheet extends ActorSheet {
       });
 
       await new game.knight.applications.KnightEffetsDialog({actor:this.actor._id, item:null, isToken:this?.document?.isToken || false, token:this?.token || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
+    });
+
+    html.find('a.btnChargeurPlus').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item");
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.addMunition(index, type, munition, pnj, wpn);
+    });
+
+    html.find('a.btnChargeurMoins').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item");
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.removeMunition(index, type, munition, pnj, wpn);
     });
   }
 
@@ -2736,7 +2588,7 @@ export class PNJSheet extends ActorSheet {
 
         if(dataMunitions.has) {
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            itemArme.optionsmunitions.liste[key].liste = listEffects(value.raw, value.custom, labels);
+            itemArme.optionsmunitions.liste[key].liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
           }
         }
 
@@ -2834,7 +2686,8 @@ export class PNJSheet extends ActorSheet {
                 optionsmunitions:dataMunitions,
                 effets:{
                   raw:moduleEffets.raw,
-                  custom:moduleEffets.custom
+                  custom:moduleEffets.custom,
+                  chargeur:moduleEffets?.chargeur,
                 },
                 niveau:niveau,
               }
@@ -3499,7 +3352,7 @@ export class PNJSheet extends ActorSheet {
       if(!data) continue;
 
       const listData = {
-        modules:[{path:['system.effets', 'system.arme.effets', 'system.arme.distance', 'system.arme.structurelles', 'system.arme.ornementales', 'system.jetsimple.effets'], simple:true}],
+        modules:[{path:['system.niveau.actuel.effets', 'system.niveau.actuel.arme.effets', 'system.niveau.actuel.arme.distance', 'system.niveau.actuel.arme.structurelles', 'system.niveau.actuel.arme.ornementales', 'system.niveau.actuel.jetsimple.effets'], simple:true}],
         armes:[{path:['system.effets', 'system.effets2mains', 'system.distance', 'system.structurelles', 'system.ornementales'], simple:true}],
         grenades:[{path:['effets'], simple:true}]
       }[base.key];
@@ -3513,10 +3366,23 @@ export class PNJSheet extends ActorSheet {
           const dataMunitions = data[n].system.optionsmunitions;
 
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            value.liste = listEffects(value.raw, value.custom, labels);
+            value.liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
+          }
+        }
+
+        if(base.key === 'modules') {
+          const dataPnj = data[n].system.niveau.actuel.pnj.liste;
+
+          for(let pnj in dataPnj) {
+            for(let wpnPnj in dataPnj[pnj].armes.liste) {
+              const dataWpnPnj = dataPnj[pnj].armes.liste[wpnPnj];
+
+              dataWpnPnj.effets.liste = listEffects(dataWpnPnj.effets.raw, dataWpnPnj.effets.custom, labels, dataWpnPnj.effets?.chargeur);
+            }
           }
         }
       }
+
     }
   }
 
@@ -3525,7 +3391,7 @@ export class PNJSheet extends ActorSheet {
       const data = path.split('.').reduce((obj, key) => obj?.[key], capacite);
       if (!data) return;
       const effets = simple ? data : data.effets;
-      effets.liste = listEffects(effets.raw, effets.custom, labels);
+      effets.liste = listEffects(effets.raw, effets.custom, labels, effets?.chargeur);
     };
 
     if (!items) {

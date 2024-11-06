@@ -57,8 +57,6 @@ export class KnightSheet extends ActorSheet {
 
     actualiseRoll(this.actor);
 
-    console.warn(context);
-
     return context;
   }
 
@@ -1024,16 +1022,46 @@ export class KnightSheet extends ActorSheet {
               data = dataModule.system,
               dataNiveau = data.niveau.actuel;
 
-        dataModule.update({[`system.active.base`]:value});
+        let moduleUpdate = {[`system.active.base`]:value};
+        let abort = false;
 
         if(dataNiveau.jetsimple.has && value) {
           const roll = new game.knight.RollKnight(this.actor, {
             name:`${dataNiveau.jetsimple.label}`,
             dices:`${dataNiveau.jetsimple.jet}`,
+            item:dataModule,
+            effectspath:'jetsimple.effets',
           }, false);
 
-          await roll.doRoll({}, dataNiveau.jetsimple.effets);
+          if(data.hasOtherMunition('jetsimple')) {
+            await roll.doRoll({}, dataNiveau.jetsimple.effets);
+          } else {
+            await roll.sendMessage({
+                text:game.i18n.localize('KNIGHT.JETS.ChargeurVide'),
+                classes:'important',
+            });
+          }
         }
+
+        if(!data.hasOtherMunition('module') && value && dataNiveau.effets.has) {
+          abort = true;
+          const roll = new game.knight.RollKnight(this.actor, {
+            name:`${dataModule.name}`,
+          }, false);
+
+          await roll.sendMessage({
+            text:game.i18n.localize('KNIGHT.JETS.ChargeurVide'),
+            classes:'important',
+          });
+        } else if(dataNiveau.effets.raw.find(itm => itm.includes('chargeur')) && value) {
+          const findModuleChargeur = dataNiveau.effets.raw.find(itm => itm.includes('chargeur'));
+          const chargeur = dataNiveau.effets?.chargeur ?? null;
+
+          if(chargeur === null) moduleUpdate[`system.niveau.details.n${data.getNiveau}.effets.chargeur`] = Math.max(parseInt(findModuleChargeur.split(' ')[1])-1, 0);
+          else moduleUpdate[`system.niveau.details.n${data.getNiveau}.effets.chargeur`] = Math.max(parseInt(chargeur)-1, 0);
+        }
+
+        if(!abort) dataModule.update(moduleUpdate);
       }
 
       if(type === 'modulePnj') {
@@ -1203,7 +1231,7 @@ export class KnightSheet extends ActorSheet {
               }
 
               const nItem = {
-                name:arme.nom,
+                name:arme?.nom ?? game.i18n.localize('TYPES.Item.arme'),
                 type:'arme',
                 system:wpn,
                 };
@@ -3790,6 +3818,23 @@ export class KnightSheet extends ActorSheet {
             html.find(`div.${type} input.${name}Value`).val(max);
           }
           break;
+
+        case 'chargeur':
+          if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
+          const items = this.actor.items.filter(itm => itm.type === 'arme' || itm.type === 'module' || itm.type === 'armure');
+
+          items.forEach(itm => {
+            itm.system.resetMunition();
+          })
+
+          const exec = new game.knight.RollKnight(this.actor,
+          {
+          name:this.actor.name,
+          }).sendMessage({
+              text:game.i18n.localize('KNIGHT.JETS.RemplirChargeur'),
+              classes:'important',
+          });
+          break;
       }
     });
 
@@ -3855,6 +3900,34 @@ export class KnightSheet extends ActorSheet {
       });
 
       await new game.knight.applications.KnightEffetsDialog({actor:this.actor._id, item:null, isToken:this?.document?.isToken || false, token:this?.token || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
+    });
+
+    html.find('a.btnChargeurPlus').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item").length > 0 ? tgt.parents(".item") : tgt.parents(".headerData");
+      const index = tgt.parents(".btnChargeur").data('index');
+      const raw = header.data('raw');
+      const type = raw ? raw : tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.addMunition(index, type, munition, pnj, wpn);
+    });
+
+    html.find('a.btnChargeurMoins').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item").length > 0 ? tgt.parents(".item") : tgt.parents(".headerData");
+      const index = tgt.parents(".btnChargeur").data('index');
+      const raw = header.data('raw');
+      const type = raw ? raw : tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.removeMunition(index, type, munition, pnj, wpn);
     });
   }
 
@@ -4642,6 +4715,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label')}`,
                   type:'armure',
+                  raw:'borealis',
                   system:{
                     subCapaciteName:'borealis',
                     capacite:true,
@@ -4663,6 +4737,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label')}`,
                   type:'armure',
+                  raw:'borealis',
                   system:{
                     subCapaciteName:'borealis',
                     capacite:true,
@@ -4686,6 +4761,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label'),
                   type:'armure',
+                  raw:'cea_vague',
                   system:{
                     subCapaciteName:'vague',
                     capacite:true,
@@ -4706,6 +4782,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label'),
                   type:'armure',
+                  raw:'cea_salve',
                   system:{
                     subCapaciteName:'salve',
                     capacite:true,
@@ -4726,6 +4803,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label'),
                   type:'armure',
+                  raw:'cea_rayon',
                   system:{
                     subCapaciteName:'rayon',
                     capacite:true,
@@ -4747,6 +4825,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label'),
                   type:'armure',
+                  raw:'cea_vague',
                   system:{
                     subCapaciteName:'vague',
                     capacite:true,
@@ -4767,6 +4846,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label'),
                   type:'armure',
+                  raw:'cea_salve',
                   system:{
                     subCapaciteName:'salve',
                     capacite:true,
@@ -4787,6 +4867,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label'),
                   type:'armure',
+                  raw:'cea_rayon',
                   system:{
                     subCapaciteName:'rayon',
                     capacite:true,
@@ -4811,6 +4892,7 @@ export class KnightSheet extends ActorSheet {
                     _id:i._id,
                     name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame')}`,
                     type:'armure',
+                    raw:'morph_lame',
                     system:{
                       subCapaciteName:'lame',
                       capacite:true,
@@ -4834,6 +4916,7 @@ export class KnightSheet extends ActorSheet {
                     _id:i._id,
                     name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe')}`,
                     type:'armure',
+                    raw:'morph_griffe',
                     system:{
                       subCapaciteName:'griffe',
                       capacite:true,
@@ -4857,6 +4940,7 @@ export class KnightSheet extends ActorSheet {
                     _id:i._id,
                     name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon')}`,
                     type:'armure',
+                    raw:'morph_canon',
                     system:{
                       subCapaciteName:'canon',
                       capacite:true,
@@ -5172,7 +5256,8 @@ export class KnightSheet extends ActorSheet {
               const moduleEffetsFinal = {
                 raw:[...new Set(moiduleEffetsRaw)],
                 custom:moduleEffetsCustom,
-                liste:moduleEffets.liste
+                liste:moduleEffets.liste,
+                chargeur:moduleEffets?.chargeur,
               };
 
               const dataMunitions = itemArme?.optionsmunitions || {has:false};
@@ -5193,8 +5278,8 @@ export class KnightSheet extends ActorSheet {
                   const raw = dataMunitions.liste[i].raw.concat(armorSpecialRaw);
                   const custom = dataMunitions.liste[i].custom.concat(armorSpecialCustom);
 
-                  data.niveau.details[`n${niveau}`].arme.optionsmunitions.liste[i].raw = [...new Set(raw)];
-                  data.niveau.details[`n${niveau}`].arme.optionsmunitions.liste[i].custom = custom;
+                  data.niveau.actuel.arme.optionsmunitions.liste[i].raw = [...new Set(raw)];
+                  data.niveau.actuel.arme.optionsmunitions.liste[i].custom = custom;
                 }
 
                 degats = dataMunitions.liste[actuel].degats;
@@ -5671,7 +5756,7 @@ export class KnightSheet extends ActorSheet {
       if(!data) continue;
 
       const listData = {
-        modules:[{path:['system.effets', 'system.arme.effets', 'system.arme.distance', 'system.arme.structurelles', 'system.arme.ornementales', 'system.jetsimple.effets'], simple:true}],
+        modules:[{path:['system.niveau.actuel.effets', 'system.niveau.actuel.arme.effets', 'system.niveau.actuel.arme.distance', 'system.niveau.actuel.arme.structurelles', 'system.niveau.actuel.arme.ornementales', 'system.niveau.actuel.jetsimple.effets'], simple:true}],
         armes:[{path:['system.effets', 'system.effets2mains', 'system.distance', 'system.structurelles', 'system.ornementales'], simple:true}],
         grenades:[{path:['effets'], simple:true}]
       }[base.key];
@@ -5684,7 +5769,19 @@ export class KnightSheet extends ActorSheet {
           const dataMunitions = data[n].system.optionsmunitions;
 
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            value.liste = listEffects(value.raw, value.custom, labels);
+            value.liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
+          }
+        }
+
+        if(base.key === 'modules') {
+          const dataPnj = data[n].system.niveau.actuel.pnj.liste;
+
+          for(let pnj in dataPnj) {
+            for(let wpnPnj in dataPnj[pnj].armes.liste) {
+              const dataWpnPnj = dataPnj[pnj].armes.liste[wpnPnj];
+
+              dataWpnPnj.effets.liste = listEffects(dataWpnPnj.effets.raw, dataWpnPnj.effets.custom, labels, dataWpnPnj.effets?.chargeur);
+            }
           }
         }
       }
@@ -5698,7 +5795,7 @@ export class KnightSheet extends ActorSheet {
       if (!data) return;
       const effets = simple ? data : data.effets;
 
-      if(effets !== undefined) effets.liste = listEffects(effets.raw, effets.custom, labels);
+      if(effets !== undefined) effets.liste = listEffects(effets.raw, effets.custom, labels, effets?.chargeur);
     };
 
     if (!items) {

@@ -215,6 +215,7 @@ export const PreloadTemplates = async function() {
     `${path}/items/capacitesUltimes/passives/vision.html`,
     `${path}/items/capacitesUltimes/passives/warlord.html`,
     `${path}/items/capacitesUltimes/actives/base.html`,
+    `${path}/parts/effets.html`,
   ];
 
   // Load the template parts

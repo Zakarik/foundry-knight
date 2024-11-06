@@ -156,11 +156,7 @@
                 </div>
                 <div class="effets">
                     {{#each this.lion.armes.contact.coups.effets.liste as | key effet|}}
-                        <div>
-                            <span class="label">{{key.name}}</span>
-                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                        </div>
+                        {{~> systems/knight/templates/parts/effets.html type='std'}}
                     {{/each}}
                 </div>
             </div>
@@ -360,40 +356,24 @@
                                 {{/unless}}
                                 <div class="effets">
                                     {{#each kLion.system.arme.effets.liste as | key effet|}}
-                                        <div>
-                                            <span class="label">{{kLion.name}}</span>
-                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                            <span class="hideInfo">{{{getEffetsDescription kLion.description}}}</span>
-                                        </div>
+                                        {{~> systems/knight/templates/parts/effets.html type='std'}}
                                     {{/each}}
                                 </div>
                                 {{#if (isWpnDistance kLion.system.arme.type)}}
                                 <div class="effets">
                                     {{#each kLion.system.arme.distance.liste as | key effet|}}
-                                        <div>
-                                            <span class="label">{{kLion.name}}</span>
-                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                            <span class="hideInfo">{{{getEffetsDescription kLion.description}}}</span>
-                                        </div>
+                                        {{~> systems/knight/templates/parts/effets.html type='std'}}
                                     {{/each}}
                                 </div>
                                 {{else}}
                                 <div class="effets">
                                     {{#each kLion.system.arme.structurelles.liste as | key effet|}}
-                                        <div>
-                                            <span class="label">{{kLion.name}}</span>
-                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                            <span class="hideInfo">{{{getEffetsDescription kLion.description}}}</span>
-                                        </div>
+                                        {{~> systems/knight/templates/parts/effets.html type='std'}}
                                     {{/each}}
                                 </div>
                                 <div class="effets">
                                     {{#each kLion.system.arme.ornementales.liste as | key effet|}}
-                                        <div>
-                                            <span class="label">{{kLion.name}}</span>
-                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                            <span class="hideInfo">{{{getEffetsDescription kLion.description}}}</span>
-                                        </div>
+                                        {{~> systems/knight/templates/parts/effets.html type='std'}}
                                     {{/each}}
                                 </div>
                                 {{/if}}
@@ -490,11 +470,7 @@
                                                 </div>
                                                 <div class="effets">
                                                     {{#each kArme.effets.liste as | kEffet effet|}}
-                                                        <div>
-                                                            <span class="label">{{kEffet.name}}</span>
-                                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                                            <span class="hideInfo">{{{getEffetsDescription kEffet.description}}}</span>
-                                                        </div>
+                                                        {{~> systems/knight/templates/parts/effets.html type='std'}}
                                                     {{/each}}
                                                 </div>
                                             </div>
@@ -571,11 +547,7 @@
                     </div>
                     <div class="effets">
                         {{#each key.effets.liste as | key effet|}}
-                            <div>
-                                <span class="label">{{key.name}}</span>
-                                <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                            </div>
+                            {{~> systems/knight/templates/parts/effets.html type='std'}}
                         {{/each}}
                     </div>
                 {{/each}}
@@ -664,11 +636,7 @@
                     <span class="title">{{localize "KNIGHT.EFFETS.Label"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
                     <div class="effets">
                         {{#each this.wolf.configurations.fighter.bonus.effets.liste as | key effet|}}
-                            <div>
-                                <span class="label">{{key.name}}</span>
-                                <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                            </div>
+                            {{~> systems/knight/templates/parts/effets.html type='std'}}
                         {{/each}}
                     </div>
                 </div>

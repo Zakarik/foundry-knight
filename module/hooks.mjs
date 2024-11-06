@@ -222,8 +222,6 @@ export default class HooksKnight {
                     flags:addFlags,
                 };
 
-                console.warn(data)
-
                 if(raw.includes('tirenrafale')) {
                     data.content = {
                     tirenrafale:true,

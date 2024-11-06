@@ -117,13 +117,9 @@
             </label>
             <div class="{{#unless this.desactivationexplosive.acces}}hidden {{else}} effets {{/unless}}">
                 {{#each this.desactivationexplosive.effets.liste as | key effet|}}
-                <div>
-                    <span class="label">{{key.name}}</span>
-                    <img class="info" src="systems/knight/assets/icons/info.svg" />
-                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                </div>
+                {{~> systems/knight/templates/parts/effets.html type='changeling'}}
                 {{/each}}
-                <a class="edit" data-path="data.capacites.selected.changeling.desactivationexplosive.effets">
+                <a class="edit" data-path="system.capacites.selected.changeling.desactivationexplosive.effets">
                     <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
                 </a>
             </div>

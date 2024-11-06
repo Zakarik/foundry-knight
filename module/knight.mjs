@@ -474,7 +474,6 @@ Hooks.on("updateActiveEffect", function(effect, effectData, diffData, options, u
 Hooks.on('renderItemDirectory', async function () {
   if (game.modules.get("babele")?.active && game.i18n.lang !== "fr") {
     Hooks.once("babele.ready", async function () {
-      console.warn('test');
       await generateNavigator();
 
       $("section#items footer.action-buttons button.compendium").remove();

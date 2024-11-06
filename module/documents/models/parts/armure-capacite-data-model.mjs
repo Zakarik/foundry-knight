@@ -1,4 +1,9 @@
 
+import {
+  listEffects,
+  getAllEffects,
+} from "../../../helpers/common.mjs";
+
 export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
   static defineSchema() {
     const {StringField, NumberField, BooleanField, SchemaField, ArrayField, ObjectField} = foundry.data.fields;
@@ -37,7 +42,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             effets: new SchemaField({
               liste: new ArrayField(new StringField()),
               raw: new ArrayField(new StringField(), {initial: ["antianatheme", "degatscontinus 3"]}),
-              custom: new ArrayField(new ObjectField())
+              custom: new ArrayField(new ObjectField()),
+              chargeur: new NumberField({initial: null})
             })
           }),
           utilitaire: new SchemaField({
@@ -73,7 +79,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
               effets: new SchemaField({
                 liste: new ArrayField(new StringField()),
                 raw: new ArrayField(new StringField(), {initial: ["antianatheme", "degatscontinus 3"]}),
-                custom: new ArrayField(new ObjectField())
+                custom: new ArrayField(new ObjectField()),
+                chargeur: new NumberField({initial: null})
               })
             }),
             utilitaire: new SchemaField({
@@ -135,7 +142,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             effets: new SchemaField({
               liste: new ArrayField(new StringField()),
               raw: new ArrayField(new StringField(), {initial: ["ignorearmure", "ignorechampdeforce", "dispersion 6", "choc 1"]}),
-              custom: new ArrayField(new ObjectField())
+              custom: new ArrayField(new ObjectField()),
+              chargeur: new NumberField({initial: null})
             })
           }),
           evolutions: new SchemaField({
@@ -370,19 +378,22 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             base: new SchemaField({
               liste: new ArrayField(new StringField()),
               raw: new ArrayField(new StringField(), {initial: ["assistanceattaque", "deuxmains", "lourd"]}),
-              custom: new ArrayField(new ObjectField())
+              custom: new ArrayField(new ObjectField()),
+              chargeur: new NumberField({initial: null})
             }),
             liste1: new SchemaField({
               energie: new NumberField({initial: 2}),
               liste: new ArrayField(new StringField()),
               raw: new ArrayField(new StringField(), {initial: ["choc 1", "degatscontinus 3", "designation", "percearmure 40", "silencieux", "ultraviolence"]}),
-              custom: new ArrayField(new ObjectField())
+              custom: new ArrayField(new ObjectField()),
+              chargeur: new NumberField({initial: null})
             }),
             liste2: new SchemaField({
               energie: new NumberField({initial: 3}),
               liste: new ArrayField(new StringField()),
               raw: new ArrayField(new StringField(), {initial: ["antivehicule", "artillerie", "dispersion 3", "lumiere 4", "penetrant 6", "percearmure 60"]}),
-              custom: new ArrayField(new ObjectField())
+              custom: new ArrayField(new ObjectField()),
+              chargeur: new NumberField({initial: null})
             }),
             liste3: new SchemaField({
               label: new StringField(),
@@ -390,7 +401,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
               energie: new NumberField({initial: 6}),
               liste: new ArrayField(new StringField()),
               raw: new ArrayField(new StringField(), {initial: ["antianatheme", "demoralisant", "enchaine", "fureur", "ignorearmure", "penetrant 10"]}),
-              custom: new ArrayField(new ObjectField())
+              custom: new ArrayField(new ObjectField()),
+              chargeur: new NumberField({initial: null})
             })
           }),
           distance: new SchemaField({
@@ -560,7 +572,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           effets: new SchemaField({
             liste: new ArrayField(new StringField()),
             raw: new ArrayField(new StringField(), {initial: ["antianatheme", "lumiere 2"]}),
-            custom: new ArrayField(new ObjectField())
+            custom: new ArrayField(new ObjectField()),
+            chargeur: new NumberField({initial: null})
           }),
           textarea: new SchemaField({
             duree: new NumberField({initial: 50})
@@ -1020,7 +1033,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             effets: new SchemaField({
               liste: new ArrayField(new StringField()),
               raw: new ArrayField(new StringField(), {initial: ["parasitage 2", "dispersion 3", "destructeur", "choc 2"]}),
-              custom: new ArrayField(new ObjectField())
+              custom: new ArrayField(new ObjectField()),
+              chargeur: new NumberField({initial: null})
             })
           }),
           salve: new SchemaField({
@@ -1036,7 +1050,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             effets: new SchemaField({
               liste: new ArrayField(new StringField()),
               raw: new ArrayField(new StringField(), {initial: ["ultraviolence", "meurtrier 3", "dispersion 3", "parasitage 1"]}),
-              custom: new ArrayField(new ObjectField())
+              custom: new ArrayField(new ObjectField()),
+              chargeur: new NumberField({initial: null})
             })
           }),
           rayon: new SchemaField({
@@ -1052,7 +1067,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             effets: new SchemaField({
               liste: new ArrayField(new StringField()),
               raw: new ArrayField(new StringField(), {initial: ["parasitage 1", "percearmure 40"]}),
-              custom: new ArrayField(new ObjectField())
+              custom: new ArrayField(new ObjectField()),
+              chargeur: new NumberField({initial: null})
             })
           }),
           textarea: new SchemaField({
@@ -1514,7 +1530,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
               effets: new SchemaField({
                 liste: new ArrayField(new StringField()),
                 raw: new ArrayField(new StringField()),
-                custom: new ArrayField(new ObjectField())
+                custom: new ArrayField(new ObjectField()),
+                chargeur: new NumberField({initial: null})
               })
             }),
             lame: new SchemaField({
@@ -1531,7 +1548,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
               effets: new SchemaField({
                 liste: new ArrayField(new StringField()),
                 raw: new ArrayField(new StringField()),
-                custom: new ArrayField(new ObjectField())
+                custom: new ArrayField(new ObjectField()),
+                chargeur: new NumberField({initial: null})
               })
             }),
             canon: new SchemaField({
@@ -1549,7 +1567,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
               effets: new SchemaField({
                 liste: new ArrayField(new StringField()),
                 raw: new ArrayField(new StringField(), {initial: ["destructeur", "meurtrier", "ultraviolence"]}),
-                custom: new ArrayField(new ObjectField())
+                custom: new ArrayField(new ObjectField()),
+                chargeur: new NumberField({initial: null})
               })
             })
           }),
@@ -2183,7 +2202,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
             effets: new SchemaField({
               raw: new ArrayField(new StringField(), {initial: ["esperance"]}),
               liste: new ArrayField(new StringField()),
-              custom: new ArrayField(new ObjectField())
+              custom: new ArrayField(new ObjectField()),
+              chargeur: new NumberField({initial: null})
             }),
             espoir: new SchemaField({
               base: new NumberField({initial: 4}),
@@ -2627,6 +2647,23 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
     }
 
     return result;
+  }
+
+  prepareLabels() {
+    const capacites = this.selected;
+    const allLabels = getAllEffects();
+
+    if(capacites.companions) {
+      const lionWpn = capacites.companions.lion.armes.contact.coups;
+
+      Object.defineProperty(lionWpn.effets, 'liste', {
+        value: listEffects(lionWpn.effets.raw, lionWpn.effets.custom, allLabels),
+        writable:true,
+        enumerable:true,
+        configurable:true
+      });
+
+    }
   }
 
   prepareData() {

@@ -1105,6 +1105,33 @@ export class KnightRollDialog extends Dialog {
                     if(attaque.aspect.odInclusFixe && armorIsWear) bonus.push(this.#getODAspect(actor, attaque.aspect.fixe));
                 }
             }
+
+            if(this.#isEffetActive(effets, weapon.options, ['chargeur'])) {
+                const isCapacite = /capacite_/.test(weapon.id) ? true : false;
+                const isModule = /module_/.test(weapon.id) ? true : false;
+                const getWpn = isCapacite || isModule ? this.actor.items.get(weapon.id.split('_')[1]) : this.actor.items.get(weapon.id);
+
+                if(getWpn) {
+                    if(isCapacite) {
+                        if(!getWpn.system.hasMunition(weapon.id.split('_')[2], weapon)) {
+                            doRoll = false;
+                            msg = game.i18n.localize('KNIGHT.JETS.ChargeurVide');
+                            classes = 'important';
+                        }
+                    } else if(isModule) {
+                        if(!getWpn.system.hasMunition) {
+                            doRoll = false;
+                            msg = game.i18n.localize('KNIGHT.JETS.ChargeurVide');
+                            classes = 'important';
+                        }
+                    } else if(!getWpn.system.hasMunition) {
+                        doRoll = false;
+                        msg = game.i18n.localize('KNIGHT.JETS.ChargeurVide');
+                        classes = 'important';
+                    }
+                }
+
+            }
         }
 
         if(modificateur !== 0) {
@@ -1244,8 +1271,6 @@ export class KnightRollDialog extends Dialog {
         let tags = [];
 
         if(armorIsWear && !isNoOd) bonus.push(this.#getODAspect(actor, base));
-
-        dices += modificateur;
 
         if(modificateur > 0) {
             dices += modificateur;
@@ -2387,12 +2412,14 @@ export class KnightRollDialog extends Dialog {
                                     raw:dataC.effets.liste1.raw,
                                     custom:dataC.effets.liste1.custom,
                                     liste:listEffects(dataC.effets.liste1.raw, dataC.effets.liste1.custom, labels),
+                                    selected:[]
                                 },
                                 liste2:{
                                     energie:dataC.effets.liste2.energie,
                                     raw:dataC.effets.liste2.raw,
                                     custom:dataC.effets.liste2.custom,
                                     liste:listEffects(dataC.effets.liste2.raw, dataC.effets.liste2.custom, labels),
+                                    selected:[]
                                 },
                             }
                         }
@@ -2403,6 +2430,7 @@ export class KnightRollDialog extends Dialog {
                                 raw:dataC.effets.liste3.raw,
                                 custom:dataC.effets.liste3.custom,
                                 liste:listEffects(dataC.effets.liste3.raw, dataC.effets.liste3.custom, labels),
+                                selected:[]
                             };
 
                             possibility.possibility.classes = 'threeCol';
@@ -3448,15 +3476,19 @@ export class KnightRollDialog extends Dialog {
             if (custom) {
                 const tempCustom = { ...wpn.possibility[liste].custom[customID], liste, id: customID };
                 wpn.effets.custom.push(tempCustom);
+                wpn.possibility[liste].selected.push(tempCustom);
 
             } else {
                 wpn.effets.raw.push(raw);
+                wpn.possibility[liste].selected.push(raw);
             }
         } else {
             if (custom) {
                 wpn.effets.custom = wpn.effets.custom.filter(item => item.id !== customID || item.liste !== liste);
+                wpn.possibility[liste].selected = wpn.possibility[liste].selected.filter(item => item !== raw);
             } else {
                 wpn.effets.raw = wpn.effets.raw.filter(item => item !== raw);
+                wpn.possibility[liste].selected = wpn.possibility[liste].selected.filter(item => item !== raw);
             }
         }
     }

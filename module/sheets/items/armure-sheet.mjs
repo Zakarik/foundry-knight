@@ -1008,6 +1008,24 @@ export class ArmureSheet extends ItemSheet {
         this.item.update({[`system.capacites.selected.${capacite}.textarea.${type}`]:Math.max(height, min)});
       }
     });
+
+    html.find('a.btnChargeurPlus').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+
+      this.item.system.addMunition(index, type);
+      this.item.render();
+    });
+
+    html.find('a.btnChargeurMoins').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+
+      this.item.system.removeMunition(index, type);
+      this.item.render();
+    });
   }
 
   //GESTION DES JAUGES
@@ -1835,9 +1853,10 @@ export class ArmureSheet extends ItemSheet {
 
     const bRaw = bEffets.raw;
     const bCustom = bEffets.custom;
+    const bChargeur = bEffets.chargeur;
     const bLabels = getAllEffects();
 
-    bEffets.liste = listEffects(bRaw, bCustom, bLabels);
+    bEffets.liste = listEffects(bRaw, bCustom, bLabels, bChargeur);
   }
 
   _prepareEffetsSelectedChangeling(context) {
@@ -1847,9 +1866,10 @@ export class ArmureSheet extends ItemSheet {
     const cLEffets = cEffets.desactivationexplosive.effets;
     const raw = cLEffets.raw;
     const custom = cLEffets.custom;
+    const chargeur = cLEffets.chargeur;
     const labels = getAllEffects();
 
-    cLEffets.liste = listEffects(raw, custom, labels);
+    cLEffets.liste = listEffects(raw, custom, labels, chargeur);
   }
 
   _prepareEffetsSelectedMorph(context) {
@@ -1859,19 +1879,22 @@ export class ArmureSheet extends ItemSheet {
     const effetsG = capacite.polymorphie.griffe.effets;
     const rawG = effetsG.raw;
     const customG = effetsG.custom;
+    const chargeurG = effetsG.chargeur;
     const labels = getAllEffects();
 
     const effetsL = capacite.polymorphie.lame.effets;
     const rawL = effetsL.raw;
     const customL = effetsL.custom;
+    const chargeurL = effetsL.chargeur;
 
     const effetsC = capacite.polymorphie.canon.effets;
     const rawC = effetsC.raw;
     const customC = effetsC.custom;
+    const chargeurC = effetsC.chargeur;
 
-    effetsG.liste = listEffects(rawG, customG, labels);
-    effetsL.liste = listEffects(rawL, customL, labels);
-    effetsC.liste = listEffects(rawC, customC, labels);
+    effetsG.liste = listEffects(rawG, customG, labels, chargeurG);
+    effetsL.liste = listEffects(rawL, customL, labels, chargeurL);
+    effetsC.liste = listEffects(rawC, customC, labels, chargeurC);
   }
 
   _prepareEffetsSelectedLongbow(context) {
@@ -1882,32 +1905,37 @@ export class ArmureSheet extends ItemSheet {
     const lEB = lEffets.base;
     const lRB = lEB.raw;
     const lCB = lEB.custom;
+    const lChargeurB = lEB.chargeur;
 
     const lE1 = lEffets.liste1;
     const lR1 = lE1.raw;
     const lC1 = lE1.custom;
+    const lChargeur1 = lE1.chargeur;
 
     const lE2 = lEffets.liste2;
     const lR2 = lE2.raw;
     const lC2 = lE2.custom;
+    const lChargeur2 = lE2.chargeur;
 
     const lE3 = lEffets.liste3;
     const lR3 = lE3.raw;
     const lC3 = lE3.custom;
+    const lChargeur3 = lE3.chargeur;
 
     const lA = lAmelioration?.distance || {raw:[], custom:[]};
     const lRA = lA.raw;
     const lCA = lA.custom;
+    const lChargeurA = lA.chargeur;
 
     const labels = getAllEffects();
 
     const lEffets3 = lE3.acces;
 
-    lEB.liste = listEffects(lRB, lCB, labels);
-    lE1.liste = listEffects(lR1, lC1, labels);
-    lE2.liste = listEffects(lR2, lC2, labels);
-    lE3.liste = listEffects(lR3, lC3, labels);
-    lA.liste = listEffects(lRA, lCA, labels);
+    lEB.liste = listEffects(lRB, lCB, labels, lChargeurB);
+    lE1.liste = listEffects(lR1, lC1, labels, lChargeur1);
+    lE2.liste = listEffects(lR2, lC2, labels, lChargeur2);
+    lE3.liste = listEffects(lR3, lC3, labels, lChargeur3);
+    lA.liste = listEffects(lRA, lCA, labels, lChargeurA);
 
     if(lEffets3) {
       lE3.label = game.i18n.localize(CONFIG.KNIGHT.longbow["effets3"]);
@@ -1922,9 +1950,10 @@ export class ArmureSheet extends ItemSheet {
 
     const bRaw = bEffets.raw;
     const bCustom = bEffets.custom;
+    const bChargeur = bEffets.chargeur;
     const bLabels = getAllEffects();
 
-    bEffets.liste = listEffects(bRaw, bCustom, bLabels);
+    bEffets.liste = listEffects(bRaw, bCustom, bLabels, bChargeur);
   }
 
   _prepareEffetsSelectedCea(context) {
@@ -1938,16 +1967,19 @@ export class ArmureSheet extends ItemSheet {
 
     const bVRaw = bVEffets.raw;
     const bVCustom = bVEffets.custom;
+    const bVChargeur = bVEffets.chargeur;
     const bSRaw = bSEffets.raw;
     const bSCustom = bSEffets.custom;
+    const bSChargeur = bSEffets.chargeur;
     const bRRaw = bREffets.raw;
     const bRCustom = bREffets.custom;
+    const bRChargeur = bREffets.chargeur;
 
     const bLabels = getAllEffects();
 
-    bVEffets.liste = listEffects(bVRaw, bVCustom, bLabels);
-    bSEffets.liste = listEffects(bSRaw, bSCustom, bLabels);
-    bREffets.liste = listEffects(bRRaw, bRCustom, bLabels);
+    bVEffets.liste = listEffects(bVRaw, bVCustom, bLabels, bVChargeur);
+    bSEffets.liste = listEffects(bSRaw, bSCustom, bLabels, bSChargeur);
+    bREffets.liste = listEffects(bRRaw, bRCustom, bLabels, bRChargeur);
   }
 
   _prepareEffetsSelectedCompanions(context) {
@@ -2003,9 +2035,10 @@ export class ArmureSheet extends ItemSheet {
 
     const raw = iEffets.raw;
     const custom = iEffets.custom;
+    const chargeur = iEffets.chargeur;
     const labels = getAllEffects();
 
-    iEffets.liste = listEffects(raw, custom, labels);
+    iEffets.liste = listEffects(raw, custom, labels, chargeur);
   }
 
   //GESTION DES TRADUCTIONS DES SPECIAUX
