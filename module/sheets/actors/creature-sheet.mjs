@@ -51,8 +51,6 @@ export class CreatureSheet extends ActorSheet {
 
     context.systemData = context.data.system;
 
-    console.warn(context);
-
     actualiseRoll(this.actor);
 
     return context;

@@ -2283,7 +2283,7 @@ export class KnightSheet extends ActorSheet {
       const value = $(ev.currentTarget).data("value");
 
       const armure = await getArmor(this.actor);
-      const armureLegende = this._getArmorLegende();
+      const armureLegende = this._getArmorLegende()[0];
 
       let result = true;
       if(value === true) { result = false; }

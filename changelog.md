@@ -1,3 +1,7 @@
+## v3.37.2
+### Bugfix
+- Correction d'un bug empêchant le fonctionnement de certaines armures de légendes.
+
 ## v3.37.1
 ### Bugfix
 - Correction d'un bug ne prenant pas en compte les soins des blessures par reconstruction corporelle.
