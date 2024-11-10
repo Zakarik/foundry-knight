@@ -1,3 +1,8 @@
+## v3.38.0
+### Améliorations
+- En attendant que ce soit FAQ éventuellement, j'ai modifié le fonctionnement de barrage pour être totalement by the book.
+Dorénavant, barrage désactive tous les autres effets de l'arme et est le seul effet qui s'applique (lorsqu'il est activé).
+
 ## v3.37.3
 ### Bugfix
 - L'effet précision avait été oublié. C'est à présent corrigé.

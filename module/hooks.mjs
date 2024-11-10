@@ -248,8 +248,13 @@ export default class HooksKnight {
                     const split = effectName.split(' ');
                     const name = split[0];
                     const value = split[1];
+                    let skip = false;
 
-                    if(status.includes(name) && ((weapon.options.find(itm => itm.value === name)?.active ?? false) || !weapon.options.find(itm => itm.value === name))) {
+                    if((weapon.options.find(itm => itm.value === 'barrage')?.active ?? false) && name !== 'barrage') {
+                        skip = true;
+                    }
+
+                    if(status.includes(name) && !skip && ((weapon.options.find(itm => itm.value === name)?.active ?? false) || !weapon.options.find(itm => itm.value === name))) {
                         if(conditionnel.includes(name)) {
                             let isHit = false;
 
@@ -346,8 +351,13 @@ export default class HooksKnight {
                             const split = effectName.split(' ');
                             const name = split[0];
                             const value = split[1];
+                            let skip = false;
 
-                            if(status.includes(name) && ((weapon.options.find(itm => itm.value === name)?.active ?? false) || !weapon.options.find(itm => itm.value === name))) {
+                            if((weapon.options.find(itm => itm.value === 'barrage')?.active ?? false) && name !== 'barrage') {
+                                skip = true;
+                            }
+
+                            if(status.includes(name) && !skip && ((weapon.options.find(itm => itm.value === name)?.active ?? false) || !weapon.options.find(itm => itm.value === name))) {
                                 if(conditionnel.includes(name)) {
                                     let isHit = false;
 

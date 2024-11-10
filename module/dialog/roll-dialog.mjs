@@ -942,7 +942,7 @@ export class KnightRollDialog extends Dialog {
             }
 
             for(let w of weapon.options) {
-                if(w.key !== 'btn' && w.special) continue;
+                if((w.key !== 'btn' && w.special)) continue;
 
                 w.active = weaponData.find(`button.${w.classes.split(' ')[0]}`).hasClass('selected');
             }
@@ -2038,7 +2038,6 @@ export class KnightRollDialog extends Dialog {
             }
         }
 
-
         if(wearArmor) {
             for(let m of modules) {
                 const system = m.system.niveau.actuel.arme;
@@ -2814,7 +2813,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.SOEUR.Label'),
                 value:'soeur',
-                active:true,
+                active:getWpn?.options?.find(itm => itm.value === 'soeur')?.active ?? false,
             });
         } else if(this.#hasEffet(raw, 'jumelageambidextrie')) {
             let classes = ['jumelageambidextrie', 'active', 'full'];
@@ -2824,7 +2823,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.JUMELAGEAMBIDEXTRIE.Label'),
                 value:'jumelageambidextrie',
-                active:true,
+                active:getWpn?.options?.find(itm => itm.value === 'jumelageambidextrie')?.active ?? true,
             });
         }
 
@@ -2836,7 +2835,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.BARRAGE.Label'),
                 value:'barrage',
-                active:false,
+                active:getWpn?.options?.find(itm => itm.value === 'barrage')?.active ?? false,
             });
         }
 
@@ -2848,7 +2847,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.CHROMELIGNESLUMINEUSES.Label'),
                 value:'chromeligneslumineuses',
-                active:false,
+                active:getWpn?.options?.find(itm => itm.value === 'chromeligneslumineuses')?.active ?? false,
             });
         } else if(this.#hasEffet(raw, 'cadence')) {
             let classes = ['cadence', 'active', 'full'];
@@ -2858,7 +2857,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.CADENCE.Label'),
                 value:'cadence',
-                active:false,
+                active:getWpn?.options?.find(itm => itm.value === 'cadence')?.active ?? false,
             });
         }
 
@@ -2870,7 +2869,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.GUIDAGE.Label'),
                 value:'guidage',
-                active:true,
+                active:getWpn?.options?.find(itm => itm.value === 'guidage')?.active ?? true,
             });
         }
 
@@ -2882,7 +2881,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.CRANERIEURGRAVE.Label'),
                 value:'cranerieurgrave',
-                active:false,
+                active:getWpn?.options?.find(itm => itm.value === 'cranerieurgrave')?.active ?? false,
             });
         } else if(this.#hasEffet(raw, 'obliteration')) {
             let classes = ['obliteration', 'active', 'full'];
@@ -2892,7 +2891,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.OBLITERATION.Label'),
                 value:'obliteration',
-                active:false,
+                active:getWpn?.options?.find(itm => itm.value === 'obliteration')?.active ?? false,
             });
         }
 
@@ -2904,7 +2903,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.TENEBRICIDE.Label'),
                 value:'tenebricide',
-                active:false,
+                active:getWpn?.options?.find(itm => itm.value === 'tenebricide')?.active ?? false,
             });
         }
 
@@ -3217,7 +3216,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.SOEUR.Label'),
                 value:'soeur',
-                active:true,
+                active:getWpn?.options?.find(itm => itm.value === 'soeur')?.active ?? true,
             });
         } else if(this.#hasEffet(raw, 'jumelageambidextrie')) {
             let classes = ['jumelageambidextrie', 'active', 'full'];
@@ -3227,11 +3226,11 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.JUMELAGEAMBIDEXTRIE.Label'),
                 value:'jumelageambidextrie',
-                active:true,
+                active:getWpn?.options?.find(itm => itm.value === 'jumelageambidextrie')?.active ?? true,
             });
         }
 
-        if(this.#hasEffet(raw, 'barrage') && !this.#hasEffet(raw, 'aucundegatsviolence')) {
+        if(this.#hasEffet(raw, 'barrage')) {
             let classes = ['barrage', 'active', 'full'];
 
             data.options.push({
@@ -3239,7 +3238,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.BARRAGE.Label'),
                 value:'barrage',
-                active:false,
+                active:getWpn?.options?.find(itm => itm.value === 'barrage')?.active ?? false,
             });
         }
 
@@ -3251,7 +3250,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.CHARGEURBALLESGRAPPES.Label'),
                 value:'chargeurballesgrappes',
-                active:true,
+                active:getWpn?.options?.find(itm => itm.value === 'chargeurballesgrappes')?.active ?? true,
             });
         }
 
@@ -3263,7 +3262,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.CHARGEURMUNITIONSEXPLOSIVES.Label'),
                 value:'chargeurmunitionsexplosives',
-                active:true,
+                active:getWpn?.options?.find(itm => itm.value === 'chargeurmunitionsexplosives')?.active ?? true,
             });
         }
 
@@ -3275,7 +3274,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSIEM.Label'),
                 value:'munitionsiem',
-                active:true,
+                active:getWpn?.options?.find(itm => itm.value === 'munitionsiem')?.active ?? true,
             });
         }
 
@@ -3287,7 +3286,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSNONLETALES.Label'),
                 value:'munitionsnonletales',
-                active:true,
+                active:getWpn?.options?.find(itm => itm.value === 'munitionsnonletales')?.active ?? true,
             });
         }
 
@@ -3299,7 +3298,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label'),
                 value:'munitionshypervelocite',
-                active:true,
+                active:getWpn?.options?.find(itm => itm.value === 'munitionshypervelocite')?.active ?? true,
             });
         }
 
@@ -3311,7 +3310,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSDRONES.Label'),
                 value:'munitionsdrones',
-                active:true,
+                active:getWpn?.options?.find(itm => itm.value === 'munitionsdrones')?.active ?? true,
             });
         }
 
@@ -3323,7 +3322,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSSUBSONIQUES.Label'),
                 value:'munitionssubsoniques',
-                active:true,
+                active:getWpn?.options?.find(itm => itm.value === 'munitionssubsoniques')?.active ?? true,
             });
         }
 
@@ -3335,7 +3334,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.CHROMELIGNESLUMINEUSES.Label'),
                 value:'chromeligneslumineuses',
-                active:false,
+                active:getWpn?.options?.find(itm => itm.value === 'chromeligneslumineuses')?.active ?? false,
             });
         } else if(this.#hasEffet(raw, 'cadence')) {
             let classes = ['cadence', 'active', 'full'];
@@ -3345,7 +3344,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.CADENCE.Label'),
                 value:'cadence',
-                active:false,
+                active:getWpn?.options?.find(itm => itm.value === 'cadence')?.active ?? false,
             });
         }
 
@@ -3357,7 +3356,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.GUIDAGE.Label'),
                 value:'guidage',
-                active:true,
+                active:getWpn?.options?.find(itm => itm.value === 'guidage')?.active ?? true,
             });
         }
 
@@ -3369,7 +3368,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.CRANERIEURGRAVE.Label'),
                 value:'cranerieurgrave',
-                active:false,
+                active:getWpn?.options?.find(itm => itm.value === 'cranerieurgrave')?.active ?? false,
             });
         } else if(this.#hasEffet(raw, 'obliteration')) {
             let classes = ['obliteration', 'active', 'full'];
@@ -3379,7 +3378,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.OBLITERATION.Label'),
                 value:'obliteration',
-                active:false,
+                active:getWpn?.options?.find(itm => itm.value === 'obliteration')?.active ?? false,
             });
         }
 
@@ -3391,7 +3390,7 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.TENEBRICIDE.Label'),
                 value:'tenebricide',
-                active:false,
+                active:getWpn?.options?.find(itm => itm.value === 'tenebricide')?.active ?? false,
             });
         }
 

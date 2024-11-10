@@ -80,7 +80,6 @@ export class RollKnight {
             total = await this.#sendRoll(process, effets, addData, updates);
         } else {
             const weapon = this.weapon;
-            const localize = getAllEffects();
             const allRaw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
             let text = '';
             let allContent = [];
@@ -89,86 +88,7 @@ export class RollKnight {
             let listTargets = [];
             let finalDataToAdd = {};
 
-            if((this.#isEffetActive(allRaw, weapon.options, ['barrage']) && !this.#isEffetActive(allRaw, weapon.options, ['choc'])) || (this.#hasEffet(allRaw, 'barrage') && this.#hasEffet(allRaw, 'aucundegatsviolence') && !this.#isEffetActive(allRaw, weapon.options, ['choc']))) {
-                if(this.#getEffet(allRaw, 'barrage')) {
-                    const targets = game.user.targets;
-
-                    text = `${game.i18n.localize(localize['barrage'].label)} ${this.#getEffet(allRaw, 'barrage').split(' ')[1]}`;
-
-                    if(targets && targets.size > 0) {
-                        for(let t of targets) {
-                            const tActor = t.actor;
-
-                            if(tActor) {
-                                const chairAE = tActor?.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
-
-                                if(chairAE > 0) {
-                                    let target = {
-                                        id:t.id,
-                                        simple:true,
-                                        name:tActor.name,
-                                        aspects:tActor.system.aspects,
-                                        type:tActor.type,
-                                        effets:[],
-                                    };
-
-                                    target.effets.push({
-                                        key:'barrage',
-                                        simple:'barrage',
-                                        label:game.i18n.localize(localize['barrage'].label),
-                                        subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
-                                    })
-
-                                    target.btn = [{
-                                        label:game.i18n.localize('KNIGHT.JETS.AppliquerEffets'),
-                                        classes:'btn full applyAttaqueEffects',
-                                        id:t.id
-                                    }]
-
-                                    listTargets.push(target);
-                                } else {
-                                    let target = {
-                                        id:t.id,
-                                        simple:true,
-                                        name:tActor.name,
-                                        aspects:tActor.system.aspects,
-                                        type:tActor.type,
-                                        effets:[],
-                                    };
-
-                                    target.effets.push({
-                                        key:'barrage',
-                                        simple:'barrage',
-                                        hit:true,
-                                        label:game.i18n.localize(localize['barrage'].label),
-                                    });
-
-                                    target.btn = [{
-                                        label:'Appliquer les effets',
-                                        classes:'btn full applyAttaqueEffects',
-                                        id:t.id
-                                    }]
-
-                                    listTargets.push(target);
-                                }
-                            }
-                        }
-                    }
-
-                    allFlag.push({
-                        targets:listTargets
-                    });
-
-                    if(targets.size > 1) {
-                        finalDataToAdd['allTgtBtn'] = [{
-                            mainClasses:'btn gmOnly full',
-                            classes:'applyAllAttaqueEffects',
-                            label:game.i18n.localize('KNIGHT.JETS.AppliquerEffetsAll'),
-                        }]
-                    }
-
-                }
-            } else if(this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses'])) {
+            if(this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses'])) {
                 const targets = game.user.targets;
                 let n = 0;
 
@@ -201,15 +121,23 @@ export class RollKnight {
                     allRoll = allRoll.concat(process.rolls)
                 }
             } else {
-                const roll = new Roll(this.formula);
-                await roll.evaluate();
+                if((this.#isEffetActive(allRaw, weapon.options, ['barrage']))) {
+                    const prepareWeapon = await this.#prepareSendWeaponWithoutRoll({});
 
-                const process = await this.#processRoll(roll);
-                const prepareWeapon = await this.#prepareRollWeapon(process);
+                    allContent.push(prepareWeapon.content);
+                    allFlag.push(prepareWeapon.flags);
 
-                allContent.push(prepareWeapon.content);
-                allFlag.push(prepareWeapon.flags);
-                allRoll = allRoll.concat(process.rolls)
+                } else {
+                    const roll = new Roll(this.formula);
+                    await roll.evaluate();
+
+                    const process = await this.#processRoll(roll);
+                    const prepareWeapon = await this.#prepareRollWeapon(process);
+
+                    allContent.push(prepareWeapon.content);
+                    allFlag.push(prepareWeapon.flags);
+                    allRoll = allRoll.concat(process.rolls)
+                }
             }
 
             this.#sendRollWeapon({
@@ -1084,6 +1012,46 @@ export class RollKnight {
         }
     }
 
+    async #prepareSendWeaponWithoutRoll(data={}) {
+        const index = data?.index ?? 0;
+        const targets = game.user.targets;
+        let flags = {};
+
+        let content = {
+            index:index,
+            caracteristiques:`${this.carac.join(' / ')}`,
+            bonus:this.bonus,
+            targets:[],
+            weapon:this.weapon,
+            noAtk:true,
+        };
+
+        for(let t of targets) {
+            const actor = t.actor;
+
+            let target = {
+                id:t.id,
+                name:actor.name,
+                aspects:actor.system.aspects,
+                type:actor.type,
+                effets:[],
+                isEmpty:true,
+            };
+
+            content.targets.push(target);
+        }
+
+        flags = {
+            targets:content.targets,
+            total:content.total,
+        };
+
+        return {
+            content,
+            flags,
+        }
+    }
+
     async #sendRollWeapon(data={}) {
         const rolls = data?.rolls ?? [];
         const content = data?.content ?? [];
@@ -1183,6 +1151,7 @@ export class RollKnight {
             else if(this.#hasEffet(effets, d) && this.#searchOptions(options, d).active) result = true;
         }
 
+
         return result;
     }
 
@@ -1223,183 +1192,204 @@ export class RollKnight {
             const effet = this.#getEffet(raw, l);
 
             if(this.#isEffetActive(raw, options, [l])) {
-                switch(l) {
-                    case 'aucundegatsviolence':
-                        if(effet) {
-                            detailledEffets.push({
-                                simple:l,
-                                key:effet,
-                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}`)),
-                            });
-
-                            noDmg = true;
-                            noViolence = true;
-                        }
-                        break;
-
-                    case 'chargeur':
-                        if(effet) {
-                            const isComposed = /module_|capacite_/.test(weapon.id) ? true : false;
-                            const wpnId = isComposed ? weapon.id.split('_')[1] : weapon.id;
-                            const wpn = this.actor.items.get(wpnId);
-                            let qty = 0;
-
-                            if(wpn) {
-                                if(isComposed) {
-                                    wpn.system.useMunition(weapon.id.split('_')[2], weapon, updates);
-                                    qty = wpn.system.qtyMunition(weapon.id.split('_')[2], weapon)-1;
-                                }
-                                else {
-                                    wpn.system.useMunition(updates);
-                                    qty = wpn.system.qtyMunition-1;
-                                }
-                            }
-                            let label = loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${qty} / ${effet.split(' ')[1]}` : `${qty} / ${game.i18n.localize(loc.label)}`;
-                            if(weapon.id.includes('longbow')) label = loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`;
-
-                            effets.push({
-                                simple:l,
-                                key:effet,
-                                label:label,
-                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
-                            });
-                        }
-                        break;
-
-                    case 'barrage':
-                    case 'choc':
-                    case 'electrifiee':
-                    case 'artillerie':
-                    case 'demoralisant':
-                    case 'esperance':
-                    case 'lunetteintelligente':
-                    case 'cadence':
-                    case 'chromeligneslumineuses':
-                        if(effet) detailledEffets.push({
+                if(this.#isEffetActive(raw, options, ['barrage'])) {
+                    if(l === 'barrage') {
+                        detailledEffets.push({
                             simple:l,
                             key:effet,
                             label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
                             description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
                         });
-                        break;
 
-                    case 'lumiere':
-                        if(effet && !this.#isEffetActive(raw, options, 'lumineuse')) {
-                            let value = parseInt(effet.split(' ')[1]);
-                            if(this.#isEffetActive(raw, options, 'arabesqueiridescentes')) value += 1;
-
-                            detailledEffets.push({
-                                simple:l,
-                                key:effet,
-                                label:`${game.i18n.localize(loc.label)} ${value}`,
-                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
-                            });
-                        } else if(effet && !this.#isEffetActive(raw, options, 'arabesqueiridescentes')) {
-                            detailledEffets.push({
-                                simple:l,
-                                key:effet,
-                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
-                            });
-                        }
-                        break;
-
-                    case 'arabesqueiridescentes':
-                        if(effet && !this.#isEffetActive(raw, options, 'lumiere')) {
-                            detailledEffets.push({
-                                simple:l,
-                                key:effet,
-                                label:`${game.i18n.localize(loc.label)} 1`,
-                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
-                            });
-                        } else if(effet && this.#isEffetActive(raw, options, 'lumineuse')) {
-                            let value = parseInt(this.#getEffet(raw, 'lumiere').split(' ')[1])+1;
-
-                            detailledEffets.push({
-                                simple:l,
-                                key:effet,
-                                label:`${game.i18n.localize(localize['lumiere'].label)} ${value}`,
-                                description:this.#sanitizeTxt(game.i18n.localize(`${localize['lumiere'].description}-short`)),
-                            });
-
-                            effets.push({
-                                simple:l,
-                                key:effet,
-                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
-                            });
-                        } else {
-                            if(effet) effets.push({
-                                simple:l,
-                                key:effet,
-                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
-                            });
-                        }
-                        break;
-
-                    case 'lumineuse':
-                        if(effet && !this.#isEffetActive(raw, options, 'arabesqueiridescentes')) {
-                            detailledEffets.push({
-                                simple:l,
-                                key:effet,
-                                label:`${game.i18n.localize(localize['lumiere'].label)} 2`,
-                                description:this.#sanitizeTxt(game.i18n.localize(`${localize['lumiere'].description}-short`)),
-                            });
-                        }
-
-                        effets.push({
-                            simple:l,
-                            key:effet,
-                            label:`${game.i18n.localize(loc.label)}`,
-                            description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
-                        });
-                        break;
-
-                    case 'jumelle':
-                    case 'jumelageakimbo':
-                    case 'jumeleakimbo':
-                        if(effet && this.style === 'akimbo') detailledEffets.push({
-                            simple:l,
-                            key:effet,
-                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                            description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
-                        });
-                        else if(effet) effets.push({
-                            simple:l,
-                            key:effet,
-                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                            description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
-                        });
-                        break;
-
-                    case 'jumeleambidextrie':
-                    case 'jumelageambidextrie':
-                    case 'soeur':
-                        if(effet && this.style === 'ambidextre') detailledEffets.push({
-                            simple:l,
-                            key:effet,
-                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                            description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
-                        });
-                        else if(effet) effets.push({
-                            simple:l,
-                            key:effet,
-                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                            description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
-                        });
-                        break;
-
-                    default:
+                        noDmg = true;
+                        noViolence = true;
+                    } else {
                         if(effet) effets.push({
                             simple:l,
                             key:effet,
                             label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
                             description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
                         });
-                        break;
+                    }
+                } else {
+                    switch(l) {
+                        case 'aucundegatsviolence':
+                            if(effet) {
+                                detailledEffets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}`)),
+                                });
+
+                                noDmg = true;
+                                noViolence = true;
+                            }
+                            break;
+
+                        case 'chargeur':
+                            if(effet) {
+                                const isComposed = /module_|capacite_/.test(weapon.id) ? true : false;
+                                const wpnId = isComposed ? weapon.id.split('_')[1] : weapon.id;
+                                const wpn = this.actor.items.get(wpnId);
+                                let qty = 0;
+
+                                if(wpn) {
+                                    if(isComposed) {
+                                        wpn.system.useMunition(weapon.id.split('_')[2], weapon, updates);
+                                        qty = wpn.system.qtyMunition(weapon.id.split('_')[2], weapon)-1;
+                                    }
+                                    else {
+                                        wpn.system.useMunition(updates);
+                                        qty = wpn.system.qtyMunition-1;
+                                    }
+                                }
+                                let label = loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${qty} / ${effet.split(' ')[1]}` : `${qty} / ${game.i18n.localize(loc.label)}`;
+                                if(weapon.id.includes('longbow')) label = loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`;
+
+                                effets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:label,
+                                    description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                                });
+                            }
+                            break;
+
+                        case 'choc':
+                        case 'electrifiee':
+                        case 'artillerie':
+                        case 'demoralisant':
+                        case 'esperance':
+                        case 'lunetteintelligente':
+                        case 'cadence':
+                        case 'chromeligneslumineuses':
+                            if(effet) detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                            break;
+
+                        case 'lumiere':
+                            if(effet && !this.#isEffetActive(raw, options, 'lumineuse')) {
+                                let value = parseInt(effet.split(' ')[1]);
+                                if(this.#isEffetActive(raw, options, 'arabesqueiridescentes')) value += 1;
+
+                                detailledEffets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:`${game.i18n.localize(loc.label)} ${value}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                });
+                            } else if(effet && !this.#isEffetActive(raw, options, 'arabesqueiridescentes')) {
+                                detailledEffets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                                });
+                            }
+                            break;
+
+                        case 'arabesqueiridescentes':
+                            if(effet && !this.#isEffetActive(raw, options, 'lumiere')) {
+                                detailledEffets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:`${game.i18n.localize(loc.label)} 1`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                });
+                            } else if(effet && this.#isEffetActive(raw, options, 'lumineuse')) {
+                                let value = parseInt(this.#getEffet(raw, 'lumiere').split(' ')[1])+1;
+
+                                detailledEffets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:`${game.i18n.localize(localize['lumiere'].label)} ${value}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(`${localize['lumiere'].description}-short`)),
+                                });
+
+                                effets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                                });
+                            } else {
+                                if(effet) effets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                                });
+                            }
+                            break;
+
+                        case 'lumineuse':
+                            if(effet && !this.#isEffetActive(raw, options, 'arabesqueiridescentes')) {
+                                detailledEffets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:`${game.i18n.localize(localize['lumiere'].label)} 2`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(`${localize['lumiere'].description}-short`)),
+                                });
+                            }
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:`${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                            break;
+
+                        case 'jumelle':
+                        case 'jumelageakimbo':
+                        case 'jumeleakimbo':
+                            if(effet && this.style === 'akimbo') detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                            else if(effet) effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                            break;
+
+                        case 'jumeleambidextrie':
+                        case 'jumelageambidextrie':
+                        case 'soeur':
+                            if(effet && this.style === 'ambidextre') detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                            else if(effet) effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                            break;
+
+                        default:
+                            if(effet) effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                            break;
+                    }
                 }
+
             } else {
                 if(effet) effets.push({
                     simple:l,
