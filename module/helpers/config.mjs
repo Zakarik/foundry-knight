@@ -525,6 +525,7 @@ export const KNIGHT = {};
         'regularite',
         'sillonslignesfleches',
         'boostdegats',
+        'precision'
       ],
       violence:[
         'affecteanatheme',

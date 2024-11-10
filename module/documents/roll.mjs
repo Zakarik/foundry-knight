@@ -1843,6 +1843,20 @@ export class RollKnight {
                         }
                         break;
 
+                    case 'precision':
+                        if(effet) {
+                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('machine', 'tir') : Math.ceil(this.getAspect('machine')/2);
+                            let totalOD = 0;
+
+                            if(this.attaquant.type === 'knight') {
+                                totalOD = armorIsWear ? this.getOD('machine', 'tir') : 0;
+                            }
+
+                            bonus.push(total+totalOD);
+                            title += `${loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`}`
+                        }
+                        break;
+
                     case 'regularite':
                         if(effet) {
                             let regularite = 0;
@@ -2046,7 +2060,7 @@ export class RollKnight {
                     case 'munitionssubsoniques':
                     case 'silencieux':
                         if(effet) {
-                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('masque', 'discretion') : this.getAspect('masque');
+                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('masque', 'discretion') : Math.ceil(this.getAspect('masque')/2);
                             let totalOD = 0;
 
                             if(this.attaquant.type === 'knight') {

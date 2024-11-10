@@ -1,3 +1,7 @@
+## v3.37.6
+### Bugfix
+- L'effet précision avait été oublié. C'est à présent corrigé.
+
 ## v3.37.2
 ### Bugfix
 - Correction d'un bug empêchant le fonctionnement de certaines armures de légendes.
