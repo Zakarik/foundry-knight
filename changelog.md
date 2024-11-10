@@ -1,4 +1,4 @@
-## v3.37.6
+## v3.37.3
 ### Bugfix
 - L'effet précision avait été oublié. C'est à présent corrigé.
 
