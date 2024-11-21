@@ -431,7 +431,7 @@ Hooks.on("createActiveEffect", function(effect, data) {
   const status = effect.statuses;
   let effectCounter = foundry.utils.getProperty(effect, "flags.statuscounter.counter");
 
-  if (effectCounter && (status.has("barrage") || status.has("lumiere"))) {
+  if (effectCounter && (status.has("barrage") || status.has("lumiere")) && effect.parent.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
     let update = []
     for(let e of effect.changes) {
       update.push({
@@ -453,7 +453,7 @@ Hooks.on("updateActiveEffect", function(effect, effectData, diffData, options, u
   const status = effect.statuses;
   let effectCounter = foundry.utils.getProperty(effectData, "flags.statuscounter.counter");
 
-  if (effectCounter && (status.has("barrage") || status.has("lumiere"))) {
+  if (effectCounter && (status.has("barrage") || status.has("lumiere")) && effect.parent.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
     let update = []
     for(let e of effect.changes) {
       update.push({

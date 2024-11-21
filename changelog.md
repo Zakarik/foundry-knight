@@ -1,3 +1,7 @@
+## v3.38.2
+### Bugfix
+- Correction d'un bug causant l'apparition de messages d'erreurs avec certains effets et status icon counter.
+
 ## v3.38.1
 ### Bugfix
 - Correction d'un bug dans l'application des dégâts, qui ne prenait pas correctement en compte la Chair Exceptionnelle.
