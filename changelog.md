@@ -1,3 +1,7 @@
+## v3.38.1
+### Bugfix
+- Correction d'un bug dans l'application des dégâts, qui ne prenait pas correctement en compte la Chair Exceptionnelle.
+
 ## v3.38.0
 ### Améliorations
 - En attendant que ce soit FAQ éventuellement, j'ai modifié le fonctionnement de barrage pour être totalement by the book.

@@ -511,11 +511,10 @@ export default class HooksKnight {
                 const actor = token.actor;
 
                 // Chair exceptionnelle
-                const hasChairMaj = !!actor.system.aspects?.chair?.ae?.majeur
+                const hasChairMaj = !!actor.system.aspects?.chair?.ae?.majeur?.value
                 const chairEx =
                     parseInt(actor.system.aspects?.chair?.ae?.mineur?.value || 0) +
                     parseInt(actor.system.aspects?.chair?.ae?.majeur?.value || 0);
-
                 const findValue = (name) =>
                     ((actor?.system?.options && typeof actor?.system?.options[name] !== 'undefined'
                     ? actor?.system?.options[name]
