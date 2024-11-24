@@ -1,3 +1,7 @@
+## v3.38.3
+### Bugfix
+- Correction du message lors de l'application des dégâts, pour que ça ne parle d'armure qui se fold uniquement si le PJ est en armure
+
 ## v3.38.2
 ### Bugfix
 - Correction d'un bug causant l'apparition de messages d'erreurs avec certains effets et status icon counter.

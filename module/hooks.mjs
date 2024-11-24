@@ -1422,10 +1422,10 @@ export default class HooksKnight {
 
                 // Check if the armor need to fold
                 if (armorRest <= 0 && hasSante) {
-                    if (actor.system.wear !== 'guardian') {
+                    if (actor.system.wear === 'armure') {
                     chatMessage += `<p>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.ArmorFolds")}.</p>`;
                     // actor.update({ 'system.wear': 'guardian' }); //TODO Bug, it set the armor at 13 and the guardian armor value at 0
-                    } else {
+                    } else if(actor.system.wear === 'guardian') {
                     chatMessage += `<p>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.GuardianDontProtect")}</p>`;
                     }
                 }
