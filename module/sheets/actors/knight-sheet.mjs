@@ -482,8 +482,10 @@ export class KnightSheet extends ActorSheet {
                     },
                     dataLion.modules,
                     dataLion.img,
-                    dataLion.img
+                    dataLion.img,
+                    1
                   );
+
                   await newActor.update({['system.initiative.bonus.user']:dataLion.initiative.fixe});
 
                   const nLItems = [];
@@ -554,10 +556,7 @@ export class KnightSheet extends ActorSheet {
                       "base":dataWolf.armure.base
                     },
                     "initiative":{
-                      "diceBase":dataWolf.initiative.value,
-                      "bonus":{
-                        "user":dataWolf.initiative.fixe,
-                      }
+                      "diceBase":dataWolf.initiative.value
                     },
                     "defense":{
                       "base":dataWolf.defense.base
@@ -586,8 +585,11 @@ export class KnightSheet extends ActorSheet {
                       dataActor,
                       {},
                       dataWolf.img,
-                      dataWolf.img
+                      dataWolf.img,
+                      1
                     );
+
+                    await newActor.update({['system.initiative.bonus.user']:dataWolf.initiative.fixe});
                     const nWItems = [];
                     const nWItem = {
                       name:dataWolf.armes.contact.coups.label,
@@ -660,10 +662,7 @@ export class KnightSheet extends ActorSheet {
                         "base":dataCrow.cohesion.base
                       },
                       "initiative":{
-                        "diceBase":dataCrow.initiative.value,
-                        "bonus":{
-                          "user":dataCrow.initiative.fixe,
-                        }
+                        "diceBase":dataCrow.initiative.value
                       },
                       "defense":{
                         "base":dataCrow.defense.value
@@ -686,8 +685,10 @@ export class KnightSheet extends ActorSheet {
                     },
                     {},
                     dataCrow.img,
-                    dataCrow.img
+                    dataCrow.img,
+                    1
                   );
+                  await newActor.update({['system.initiative.bonus.user']:dataCrow.initiative.fixe});
 
                   update[`system.capacites.selected.companions.crow.id`] = newActor.id;
                   break;
@@ -1398,10 +1399,7 @@ export class KnightSheet extends ActorSheet {
                       "base":dataLion.armure.base
                     },
                     "initiative":{
-                      "diceBase":dataLion.initiative.value,
-                      "bonus":{
-                        "user":dataLion.initiative.fixe,
-                      }
+                      "diceBase":dataLion.initiative.value
                     },
                     "defense":{
                       "base":dataLion.defense.value
@@ -1420,8 +1418,10 @@ export class KnightSheet extends ActorSheet {
                   },
                   dataLion.modules,
                   dataLion.img,
-                  dataLion.img
+                  dataLion.img,
+                  1
                 );
+                await newActor.update({['system.initiative.bonus.user']:dataLion.initiative.fixe});
 
                 const nLItems = [];
 
@@ -1494,10 +1494,7 @@ export class KnightSheet extends ActorSheet {
                     "base":dataWolf.armure.base
                   },
                   "initiative":{
-                    "diceBase":dataWolf.initiative.value,
-                    "bonus":{
-                      "user":dataWolf.initiative.fixe,
-                    }
+                    "diceBase":dataWolf.initiative.value
                   },
                   "defense":{
                     "base":dataWolf.defense.base
@@ -1526,8 +1523,12 @@ export class KnightSheet extends ActorSheet {
                     dataActor,
                     {},
                     dataWolf.img,
-                    dataWolf.img
+                    dataWolf.img,
+                    1
                   );
+
+                  await newActor.update({['system.initiative.bonus.user']:dataWolf.initiative.fixe});
+
                   const nWItems = [];
                   const nWItem = {
                     name:dataWolf.armes.contact.coups.label,
@@ -1600,10 +1601,7 @@ export class KnightSheet extends ActorSheet {
                       "base":dataCrow.cohesion.base
                     },
                     "initiative":{
-                      "diceBase":dataCrow.initiative.value,
-                      "bonus":{
-                        "user":dataCrow.initiative.fixe,
-                      }
+                      "diceBase":dataCrow.initiative.value
                     },
                     "defense":{
                       "base":dataCrow.defense.value
@@ -1623,8 +1621,10 @@ export class KnightSheet extends ActorSheet {
                   },
                   {},
                   dataCrow.img,
-                  dataCrow.img
+                  dataCrow.img,
+                  1
                 );
+                await newActor.update({['system.initiative.bonus.user']:dataCrow.initiative.fixe});
 
                 update[`system.capacites.selected.companions.crow.id`] = newActor.id;
                 break;

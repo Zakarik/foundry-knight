@@ -1,3 +1,8 @@
+## v3.38.5
+### Bugfix
+- Correction d'un bug de disposition du token des companions invoqués, qui n'étaient pas allié.
+- Correction de quelques erreurs de valeurs pour l'initiative des autres companions.
+
 ## v3.38.4
 ### Bugfix
 - Correction d'un bug ne mettant pas les valeurs corrects pour l'initiative du Lion.

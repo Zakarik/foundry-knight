@@ -5148,7 +5148,7 @@ export function getNestedPropertyValue(obj, propertyPath) {
   return value;
 }
 
-export async function createSheet(actor, type, name, data, item, imgAvatar, imgToken) {
+export async function createSheet(actor, type, name, data, item, imgAvatar, imgToken, disposition=-1) {
   let newActor = await Actor.create({
     name: name,
     type: type,
@@ -5156,7 +5156,8 @@ export async function createSheet(actor, type, name, data, item, imgAvatar, imgT
     prototypeToken:{
       texture:{
         src:imgToken,
-      }
+      },
+      disposition:disposition,
     },
     system:data,
     items:item,
