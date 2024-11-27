@@ -1,3 +1,8 @@
+## v3.38.4
+### Bugfix
+- Correction d'un bug ne mettant pas les valeurs corrects pour l'initiative du Lion.
+- Correction d'un bug pour la gestion de l'Ultraviolence et de la Fureur, qui mettait des valeurs incorrect dans le tchat - et provoquait un bug dans les dégâts automatique par la suite.
+
 ## v3.38.3
 ### Bugfix
 - Correction du message lors de l'application des dégâts, pour que ça ne parle d'armure qui se fold uniquement si le PJ est en armure

@@ -462,10 +462,7 @@ export class KnightSheet extends ActorSheet {
                         "base":dataLion.armure.base
                       },
                       "initiative":{
-                        "diceBase":dataLion.initiative.value,
-                        "bonus":{
-                          "user":dataLion.initiative.fixe,
-                        }
+                        "diceBase":dataLion.initiative.value
                       },
                       "defense":{
                         "base":dataLion.defense.value
@@ -487,6 +484,7 @@ export class KnightSheet extends ActorSheet {
                     dataLion.img,
                     dataLion.img
                   );
+                  await newActor.update({['system.initiative.bonus.user']:dataLion.initiative.fixe});
 
                   const nLItems = [];
 

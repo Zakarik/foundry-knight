@@ -2888,7 +2888,7 @@ export class RollKnight {
 
                     case 'fureur':
                         if(target.type === 'bande' && fureur > 0) {
-                            if(target.system?.aspects?.chair?.value ?? 0 > 10) {
+                            if((target.system?.aspects?.chair?.value ?? 0) > 10) {
                                 total += fureur;
 
                                 t.effets.push({
@@ -2903,7 +2903,7 @@ export class RollKnight {
 
                     case 'ultraviolence':
                         if(target.type === 'bande' && ultraviolence > 0) {
-                            if(target.system?.aspects?.chair?.value ?? 0 < 10) {
+                            if((target.system?.aspects?.chair?.value ?? 0) < 10) {
                                 total += ultraviolence;
 
                                 t.effets.push({
