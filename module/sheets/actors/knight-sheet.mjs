@@ -3797,6 +3797,7 @@ export class KnightSheet extends ActorSheet {
         case 'sante':
         case 'armure':
         case 'energie':
+        case 'contacts':
           if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
           html.find(`div.${type} input.value`).val(max);
           break;

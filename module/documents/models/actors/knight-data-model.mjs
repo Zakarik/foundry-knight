@@ -361,8 +361,15 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 }),
             }),
             contacts:new SchemaField({
+                actuel:new NumberField({ initial: 1, min:1, integer: true, nullable: false }),
                 value:new NumberField({ initial: 1, min:1, integer: true, nullable: false }),
                 mod:new NumberField({ initial: 0, integer: true, nullable: false }),
+                bonus:new ObjectField({
+                    initial:{
+                      user:0,
+                      system:0,
+                    }
+                }),
             }),
             heroisme:new SchemaField({
                 value:new NumberField({initial:0, nullable:false, integer:true}),
@@ -381,6 +388,12 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             langues:new SchemaField({
                 value:new NumberField({initial:1, nullable:false, integer:true}),
                 mod:new NumberField({initial:0, nullable:false, integer:true}),
+                bonus:new ObjectField({
+                    initial:{
+                      user:0,
+                      system:0,
+                    }
+                }),
             }),
             motivations:new SchemaField({
                 majeure:new StringField({initial:"", nullable:false}),
@@ -1024,6 +1037,8 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
                 case 'dame':
                     // CONTACTS
+                    const contactBonus = Object.values(this.contacts.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
                     base = maxCarac;
                     bonus = this.contacts.mod;
 
@@ -1031,9 +1046,8 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                         if(this.capaciteUltime.system.passives.contact.active && this.capaciteUltime.system.type === 'passive') bonus += this.capaciteUltime.contact.value;
                     }
 
-
                     Object.defineProperty(this.contacts, 'value', {
-                        value: base+bonus,
+                        value: Math.max(base+bonus+contactBonus, 0),
                     });
                     break;
 
@@ -1071,8 +1085,10 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         }
 
         // LANGUES
+        const langueBonus = Object.values(this.langues.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
         Object.defineProperty(this.langues, 'value', {
-            value: Math.max(this.aspects.machine.caracteristiques.savoir.value-1, 1)+this.langues.mod,
+            value: Math.max(Math.max(this.aspects.machine.caracteristiques.savoir.value-1, 1)+this.langues.mod+langueBonus, 0),
         });
 
         // ARMURE
@@ -2415,6 +2431,12 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                     value: max,
                 });
             }
+        }
+
+        if(this.contacts.actuel > this.contacts.value) {
+            Object.defineProperty(this.contacts, 'actuel', {
+                value: this.contacts.value,
+            });
         }
 
         if((this.wear === 'armure' || this.wear === 'ascension') && !this.dataArmor) this.wear = 'tenueCivile';

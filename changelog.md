@@ -1,3 +1,8 @@
+## v3.39.0
+### Améliorations
+- Ajout de la possibilité de rentrer à la main un modificateur pour le nombre de langues et les points de contacts.
+- Ajout d'une valeure actuelle pour les points de contacts, en plus de la valeur max.
+
 ## v3.38.5
 ### Bugfix
 - Correction d'un bug de disposition du token des companions invoqués, qui n'étaient pas allié.

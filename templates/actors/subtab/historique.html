@@ -1,0 +1,117 @@
+<div class="tab historique" data-group="primary" data-tab="historique">
+    <div class="main">
+        <div class="langues item-list">
+
+            <div class="mainOptions">
+                <h2 class="header js-simpletoggler">
+                    <span class="option"><img src="systems/knight/assets/icons/optionWhite.svg" class="option" data-option="langue"></span>
+                    {{localize "KNIGHT.HISTORIQUE.Langues"}}
+                    <a class="item-control item-create" title="Create Item" data-type="langues"><i class="fas fa-plus"></i></a>
+                    <span class="headerScore">{{systemData.langues.value}}</span>
+                </h2>
+                <div class="subLine" style="display:none;">
+                    <span>{{localize 'KNIGHT.JETS.Modificateur'}}</span>
+                    <input type="number" name="system.langues.bonus.user" value="{{systemData.langues.bonus.user}}" />
+                </div>
+            </div>
+            {{#each actor.langue as | key langue|}}
+            <div class="block item" data-item-id="{{key._id}}">
+                <header class="summary" data-item-id="{{key._id}}">
+                    <div class="gestionButton">
+                        <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                    </div>
+                    <span>{{key.name}}</span>
+                </header>
+            </div>
+            {{/each}}
+        </div>
+
+        <div class="contacts item-list">
+            <div class="mainOptions">
+                <h2 class="header js-simpletoggler">
+                <span class="option"><img src="systems/knight/assets/icons/optionWhite.svg" class="option" data-option="contacts"></span>
+                    {{localize "KNIGHT.HISTORIQUE.Contacts"}}
+                    <a class="item-control item-create" title="Create Item" data-type="contacts"><i class="fas fa-plus"></i></a>
+                    <div class="data">
+                        <input type="number" name="system.contacts.actuel" class="value" value="{{systemData.contacts.actuel}}" min="0" max="{{systemData.contacts.value}}" />
+                        <span>/</span>
+                        <span class="headerScore">{{systemData.contacts.value}}</span>
+                    </div>
+                </h2>
+                <div class="subLine" style="display:none;">
+                    <span>{{localize 'KNIGHT.JETS.Modificateur'}}</span>
+                    <input type="number" name="system.contacts.bonus.user" value="{{systemData.contacts.bonus.user}}" />
+                </div>
+            </div>
+            {{#each actor.contact as | key contact|}}
+            <div class="block item" data-item-id="{{key._id}}">
+                <header class="summary js-toggler" data-item-id="{{key._id}}">
+                    <i class="far fa-plus-square extendButton"></i>
+                    <div class="gestionButton">
+                        <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                    </div>
+                    <span>{{key.name}}</span>
+                </header>
+                <span class="description">
+                    {{{key.system.description}}}
+                </span>
+            </div>
+            {{/each}}
+        </div>
+
+        <div class="blessures item-list">
+            <h2 class="header">
+                {{localize "KNIGHT.HISTORIQUE.Blessures"}}
+                <a class="item-control item-create" title="Create Item" data-type="blessure"><i class="fas fa-plus"></i></a>
+            </h2>
+            {{#each actor.blessure as | key blessure|}}
+            <div class="block item" data-item-id="{{key._id}}">
+                <header class="summary js-toggler" data-item-id="{{key._id}}">
+                    <i class="far fa-plus-square extendButton"></i>
+                    <div class="gestionButton">
+                        <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                    </div>
+                    <span>{{key.name}}</span>
+                </header>
+                <span class="description">
+                    {{{key.system.description}}}
+                </span>
+            </div>
+            {{/each}}
+        </div>
+
+        <div class="traumas item-list">
+            <h2 class="header">
+                {{localize "KNIGHT.HISTORIQUE.Traumas"}}
+                <a class="item-control item-create" title="Create Item" data-type="trauma"><i class="fas fa-plus"></i></a>
+            </h2>
+            {{#each actor.trauma as | key trauma|}}
+            <div class="block item" data-item-id="{{key._id}}">
+                <header class="summary js-toggler" data-item-id="{{key._id}}">
+                    <i class="far fa-plus-square extendDescriptionButton"></i>
+                    <div class="gestionButton">
+                        <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                        <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                    </div>
+                    <span>{{key.name}}</span>
+                </header>
+                {{#unless key.system.gainEspoir.applique}}
+                <button type="action" class="gainEspoirItem" data-id="{{key._id}}">{{localize "KNIGHT.ITEMS.BLESSURETRAUMA.AppliquerGain"}}</button>
+                {{/unless}}
+                <span class="description">
+                    {{{key.system.description}}}
+                </span>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="histoire">
+        <h2 class="header">{{localize "KNIGHT.HISTORIQUE.Histoire"}}</h2>
+
+        {{editor systemData.histoire target="system.histoire" button=true owner=owner editable=editable}}
+    </div>
+</div>

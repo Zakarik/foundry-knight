@@ -2367,6 +2367,7 @@
       "ConfirmationSante":"Are you sure you want to recover all your health?",
       "ConfirmationEspoir":"Are you sure you want to recover all your hope?",
       "ConfirmationChargeur":"Are you sure you want to charge all your clips?",
+      "ConfirmationContacts":"Are you sure you want to restore all your contact points?",
       "Reset":"Reset",
       "Difficulte":"Difficulty",
       "MJOnly":"MJ Only",
@@ -2804,7 +2805,8 @@
       "Armure":"Restoring armour",
       "Energie":"Restoring energy",
       "Grenades":"Restoring grenades",
-      "Nods":"Restoring nodes"
+      "Nods":"Restoring nodes",
+      "Contacts":"Restore contact points"
     },
     "HIDESHOW":{
       "Hide":"Click to hide this insert when the sheet is limited.",

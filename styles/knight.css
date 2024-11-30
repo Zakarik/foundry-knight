@@ -26132,6 +26132,75 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.historique h2.header .far {
   cursor: pointer;
 }
+.knight section.body div.historique h2.header {
+  padding-left: 26px;
+}
+.knight section.body div.historique h2.header span.option {
+  height: 22px;
+  border: 0px;
+  position: absolute;
+  left: 2px;
+  top: 0px;
+}
+.knight section.body div.historique h2.header span.option img {
+  height: 22px;
+  border: 0px;
+  cursor: pointer;
+}
+.knight section.body div.historique h2.header span.option img:hover {
+  filter: drop-shadow(0px 0px 5px RGB(43 42 51));
+}
+.knight section.body div.historique h2.header div.data {
+  position: absolute;
+  width: 85px;
+  display: grid;
+  grid-template-columns: 40px 5px 40px;
+  justify-content: space-between;
+  align-items: center;
+  top: 1px;
+  right: 1px;
+  background: RGB(76 74 90);
+  height: 21px;
+  line-height: 21px;
+}
+.knight section.body div.historique h2.header div.data input {
+  position: relative;
+  font-size: 14px;
+  font-weight: normal;
+  height: 21px;
+  line-height: 21px;
+  border: 0px;
+  text-align: center;
+}
+.knight section.body div.historique h2.header div.data span {
+  font-size: 14px;
+  font-weight: normal;
+  height: 20px;
+  line-height: 21px;
+}
+.knight section.body div.historique div.mainOptions {
+  width: 100%;
+}
+.knight section.body div.historique div.subLine {
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  background: RGB(76 74 90);
+  grid-gap: 2px;
+  align-items: center;
+  justify-content: left;
+  width: 100%;
+  border: 1px solid RGB(76 74 90);
+}
+.knight section.body div.historique div.subLine input {
+  width: 100%;
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  background: RGB(43 42 51);
+}
+.knight section.body div.historique div.subLine span {
+  margin-left: auto;
+}
 .knight section.body div.historique div.main {
   display: flex;
   width: 100%;

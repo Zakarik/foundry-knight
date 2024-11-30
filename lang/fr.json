@@ -2367,6 +2367,7 @@
       "ConfirmationSante":"Êtes vous sûre de vouloir récupérer toute votre santé ?",
       "ConfirmationEspoir":"Êtes vous sûre de vouloir récupérer toute votre espoir ?",
       "ConfirmationChargeur":"Êtes vous sûre de vouloir restaurer tous vos chargeurs ?",
+      "ConfirmationContacts":"Êtes vous sûre de vouloir restaurer tous vos points de contacts ?",
       "Reset":"Reset",
       "Difficulte":"Difficulté",
       "MJOnly":"MJ Uniquement",
@@ -2804,7 +2805,8 @@
       "Armure":"Restaurer l'armure",
       "Energie":"Restaurer l'énergie",
       "Grenades":"Restaurer les grenades",
-      "Nods":"Restaurer les nods"
+      "Nods":"Restaurer les nods",
+      "Contacts":"Restaurer les points de contacts"
     },
     "HIDESHOW":{
       "Hide":"Cliquez pour cacher cet encart lorsque la fiche est limitée.",

@@ -5984,6 +5984,87 @@
       div.historique {
         @include header();
 
+        h2.header {
+          span.option {
+            height: 22px;
+            border: 0px;
+            position: absolute;
+            left: 2px;
+            top: 0px;
+
+            img {
+              height: 22px;
+              border: 0px;
+              cursor:pointer;
+
+              &:hover {
+                filter: drop-shadow(0px 0px 5px $black);
+              }
+            }
+          }
+
+
+          div.data {
+            position: absolute;
+            width: 85px;
+            display: grid;
+            grid-template-columns: 40px 5px 40px;
+            justify-content: space-between;
+            align-items: center;
+            top: 1px;
+            right: 1px;
+            background: $lightBlack;
+            height: 21px;
+            line-height: 21px;
+
+            input {
+              position: relative;
+              font-size: 14px;
+              font-weight: normal;
+              height: 21px;
+              line-height: 21px;
+              border: 0px;
+              text-align: center;
+            }
+
+            span {
+              font-size: 14px;
+              font-weight: normal;
+              height: 20px;
+              line-height: 21px;
+            }
+          }
+
+          padding-left: 26px;
+        }
+
+        div.mainOptions {
+          width: 100%;
+        }
+
+        div.subLine {
+          display: grid;
+          grid-template-columns: 1fr 40px;
+          background: $lightBlack;
+          grid-gap: 2px;
+          align-items: center;
+          justify-content: left;
+          width: 100%;
+          border: 1px solid $lightBlack;
+
+          input {
+            width: 100%;
+            text-align: center;
+            border: 0px;
+            border-radius: 0px;
+            background: $black;
+          }
+
+          span {
+            margin-left: auto;
+          }
+        }
+
         div.main {
           display:flex;
           width:100%;
