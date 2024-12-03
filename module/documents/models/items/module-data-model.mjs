@@ -26,6 +26,7 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
           max:new NumberField({initial:1, nullable:false, integer:true}),
           details:new ObjectField({initial:{
             n1:{
+              whoActivate:"",
               addOrder:0,
               permanent:false,
               rarete:"standard",
@@ -854,9 +855,8 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     this.niveau.actuel.pnj = itemDataNiveau.pnj;
     this.niveau.actuel.jetsimple = itemDataNiveau.jetsimple;
     this.niveau.actuel.effets = itemDataNiveau.effets
+    this.niveau.actuel.whoActivate = itemDataNiveau.whoActivate
 	}
 
-	prepareDerivedData() {
-
-  }
+	prepareDerivedData() {}
 }

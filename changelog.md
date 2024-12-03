@@ -1,3 +1,7 @@
+## v3.39.1
+### Bugfix
+- Correction d'un bug rendant impossible de faire des jets de modules d'armes sur les véhicules.
+
 ## v3.39.0
 ### Améliorations
 - Ajout de la possibilité de rentrer à la main un modificateur pour le nombre de langues et les points de contacts.
