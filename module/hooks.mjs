@@ -210,6 +210,7 @@ export default class HooksKnight {
                     dataStyle:flags.dataStyle,
                     dataMod:flags.dataMod,
                     maximize:flags.maximize,
+                    ghost:flags.ghost,
                 };
 
                 let data = {
@@ -224,7 +225,7 @@ export default class HooksKnight {
 
                 if(raw.includes('tirenrafale')) {
                     data.content = {
-                    tirenrafale:true,
+                        tirenrafale:true,
                     }
                 }
 

@@ -763,6 +763,7 @@ export class KnightRollDialog extends Dialog {
         }
         let goliath = 0;
         let ghost = 0;
+        let flags = {};
 
         if((armorIsWear) && !isNoOd) bonus.push(this.#getODAspect(actor, base));
 
@@ -962,12 +963,18 @@ export class KnightRollDialog extends Dialog {
             }
 
             if (armorIsWear && armor && isGhostActive && ((weapon.type === 'contact' && !this.#isEffetActive(effets, weapon.options, ['lumiere'])) || (weapon.type === 'distance' && this.#isEffetActive(effets, weapon.options, ['silencieux'])))) {
-                ghost = this.#getValueAspect(actor, 'discretion') + this.#getODAspect(actor, 'discretion');
+                ghost += this.#getValueAspect(actor, 'discretion');
+
+                if(!this.isPJ) ghost = Math.ceil(ghost/2);
+
+                ghost += this.#getODAspect(actor, 'discretion');
 
                 if(isGhostActive && (capacitiesSelected?.ghost?.interruption?.actif ?? true)) {
                     updates['armure.system.capacites.selected.ghost.active.conflit'] = false;
                     updates['armure.system.capacites.selected.ghost.active.horsconflit'] = false;
                 }
+
+                flags['ghost'] = true;
             }
 
             if((this.#isEffetActive(effets, weapon.options, ['munitionsdrones']))) {
@@ -1242,6 +1249,7 @@ export class KnightRollDialog extends Dialog {
             dataMod,
             maximize,
             difficulte,
+            addFlags:flags,
             }).doRoll(updates);
         } else {
             const exec = new game.knight.RollKnight(actor,
@@ -4223,45 +4231,46 @@ export class KnightRollDialog extends Dialog {
     }
 
     #getValueAspect(actor, name) {
+        let whatName = this.isPJ ? name : this.#convertCaracToAspect(name);
         let result = 0;
 
-        switch(name) {
+        switch(whatName) {
             case 'chair':
             case 'bete':
             case 'machine':
             case 'dame':
             case 'masque':
-                result = actor.system.aspects[name].value;
+                result = actor.system.aspects[whatName].value;
                 break;
 
             case 'deplacement':
             case 'force':
             case 'endurance':
-                result = actor.system.aspects.chair.caracteristiques[name].value;
+                result = actor.system.aspects.chair.caracteristiques[whatName].value;
                 break;
 
             case 'combat':
             case 'hargne':
             case 'instinct':
-                result = actor.system.aspects.bete.caracteristiques[name].value;
+                result = actor.system.aspects.bete.caracteristiques[whatName].value;
                 break;
 
             case 'tir':
             case 'savoir':
             case 'technique':
-                result = actor.system.aspects.machine.caracteristiques[name].value;
+                result = actor.system.aspects.machine.caracteristiques[whatName].value;
                 break;
 
             case 'parole':
             case 'aura':
             case 'sangFroid':
-                result = actor.system.aspects.dame.caracteristiques[name].value;
+                result = actor.system.aspects.dame.caracteristiques[whatName].value;
                 break;
 
             case 'discretion':
             case 'dexterite':
             case 'perception':
-                result = actor.system.aspects.masque.caracteristiques[name].value;
+                result = actor.system.aspects.masque.caracteristiques[whatName].value;
                 break;
 
             default:
@@ -4273,49 +4282,77 @@ export class KnightRollDialog extends Dialog {
     }
 
     #getODAspect(actor, name) {
+        let whatName = this.isPJ ? name : this.#convertCaracToAspect(name);
         let result = 0;
 
-        switch(name) {
+        switch(whatName) {
             case 'chair':
             case 'bete':
             case 'machine':
             case 'dame':
             case 'masque':
-                result = actor.system.aspects[name].ae.majeur.value+actor.system.aspects[name].ae.mineur.value;
+                result = actor.system.aspects[whatName].ae.majeur.value+actor.system.aspects[whatName].ae.mineur.value;
                 break;
 
             case 'deplacement':
             case 'force':
             case 'endurance':
-                result = actor.system.aspects.chair.caracteristiques[name].overdrive.value;
+                result = actor.system.aspects.chair.caracteristiques[whatName].overdrive.value;
                 break;
 
             case 'combat':
             case 'hargne':
             case 'instinct':
-                result = actor.system.aspects.bete.caracteristiques[name].overdrive.value;
+                result = actor.system.aspects.bete.caracteristiques[whatName].overdrive.value;
                 break;
 
             case 'tir':
             case 'savoir':
             case 'technique':
-                result = actor.system.aspects.machine.caracteristiques[name].overdrive.value;
+                result = actor.system.aspects.machine.caracteristiques[whatName].overdrive.value;
                 break;
 
             case 'parole':
             case 'aura':
             case 'sangFroid':
-                result = actor.system.aspects.dame.caracteristiques[name].overdrive.value;
+                result = actor.system.aspects.dame.caracteristiques[whatName].overdrive.value;
                 break;
 
             case 'discretion':
             case 'dexterite':
             case 'perception':
-                result = actor.system.aspects.masque.caracteristiques[name].overdrive.value;
+                result = actor.system.aspects.masque.caracteristiques[whatName].overdrive.value;
                 break;
         }
 
         return result;
+    }
+
+    #convertCaracToAspect(name) {
+        const aspect = {
+            'chair':'chair',
+            'bete':'bete',
+            'machine':'machine',
+            'dame':'dame',
+            'masque':'masque',
+            'deplacement':'chair',
+            'force':'chair',
+            'endurance':'chair',
+            'combat':'bete',
+            'hargne':'bete',
+            'instinct':'bete',
+            'tir':'machine',
+            'savoir':'machine',
+            'technique':'machine',
+            'parole':'dame',
+            'aura':'dame',
+            'sangFroid':'dame',
+            'discretion':'masque',
+            'dexterite':'masque',
+            'perception':'masque',
+        }[name];
+
+        return aspect;
     }
 
     #getLabelRoll(name) {

@@ -1,3 +1,7 @@
+## v3.39.2
+### Bugfix
+- Correction d'un bug permettant aux PNJ d'utiliser le mode Ghost.
+
 ## v3.39.1
 ### Bugfix
 - Correction d'un bug rendant impossible de faire des jets de modules d'armes sur les véhicules.

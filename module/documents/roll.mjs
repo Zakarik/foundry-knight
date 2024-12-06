@@ -1102,8 +1102,8 @@ export class RollKnight {
         };
 
         await this.#handleAttaqueEffet(weapon, main, rolls, data?.updates ?? {});
-
         foundry.utils.mergeObject(main, finalDataToAdd);
+        flags = foundry.utils.mergeObject(this.addFlags, flags)
 
         let chatData = {
             user:game.user.id,
@@ -1586,7 +1586,7 @@ export class RollKnight {
         let isGoliathActive = false;
 
         if(getGhost && armorIsWear && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && this.#isEffetActive(raw, options, ['silencieux']))))) {
-            isGhostActive = (getGhost?.active?.conflit ?? false) || (getGhost?.active?.horsconflit ?? false) ? true : false;
+            isGhostActive = data?.flags?.ghost;
         }
 
         if(getChangeling && armorIsWear) {
@@ -1686,8 +1686,6 @@ export class RollKnight {
             }
 
             if (isGhostActive) {
-                bonus.push(discretion + odDiscretion);
-                title += ` + ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label')}`;
             }
 
             if(odDiscretion >= 2) {
@@ -1719,6 +1717,14 @@ export class RollKnight {
                     });
                 }
             }
+        }
+
+        if(armorIsWear && isGhostActive) {
+            const discretion = this.isPJ ? this.getCaracteristique('masque', 'discretion') : Math.ceil(this.getAspect('masque')/2);
+            const odDiscretion = this.isPJ ? this.getOD('masque', 'discretion') : this.getAE('masque');
+
+            bonus.push(discretion + odDiscretion);
+            title += ` + ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label')}`;
         }
 
         if(style === 'pilonnage') {
