@@ -1,3 +1,8 @@
+## v3.39.3
+### Bugfix
+- Correction de l'impossibilité d'ajouter des langues.
+- Correction de la position du bouton pour ajouter des contacts, qui était passé derrière la valeur actuel / max des contacts.
+
 ## v3.39.2
 ### Bugfix
 - Correction d'un bug permettant aux PNJ d'utiliser le mode Ghost.
