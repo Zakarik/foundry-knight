@@ -521,6 +521,11 @@
                         </select>
                     </label>
 
+                    <label class="oneLine">
+                        <span>{{localize "KNIGHT.ITEMS.MODULE.CoutAttaque"}}</span>
+                        <input type="number" name="system.niveau.details.{{nv}}.arme.energie" value="{{ifThen key.arme.energie key.arme.energie 0}}" min="0" />
+                    </label>
+
                     {{#if (isWpnDistance key.arme.type)}}
                         <button type="action" class="optionsMunitions button {{#if key.arme.optionsmunitions.has}}selected{{else}}unselected{{/if}}"
                         data-key="{{nv}}" data-type="arme" data-subtype="optionsmunitions" data-name="has" data-value="{{key.arme.optionsmunitions.has}}">
@@ -581,7 +586,7 @@
                             </div>
                             <label class="oneLine {{#unless key.arme.degats.variable.has}}hidden{{/unless}}">
                                 <span>{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
-                                <input type="number" name="system.niveau.details.{{nv}}.arme.degats.variable.cout" value="{{key.arme.degats.variable.cout}}" />
+                                <input type="number" name="system.niveau.details.{{nv}}.arme.degats.variable.cout" value="{{key.arme.degats.variable.cout}}" min="0" />
                             </label>
                         </div>
 
@@ -619,7 +624,7 @@
                             </div>
                             <label class="oneLine {{#unless key.arme.violence.variable.has}}hidden{{/unless}}">
                                 <span>{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
-                                <input type="number" name="system.niveau.details.{{nv}}.arme.violence.variable.cout" value="{{key.arme.violence.variable.cout}}" />
+                                <input type="number" name="system.niveau.details.{{nv}}.arme.violence.variable.cout" value="{{key.arme.violence.variable.cout}}" min="0" />
                             </label>
                         </div>
                     {{/unless}}

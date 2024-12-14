@@ -206,6 +206,7 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
                 has:false,
                 type:"contact",
                 portee:"contact",
+                cout:0,
                 optionsmunitions:{
                   has:false,
                   actuel:"0",
@@ -753,7 +754,7 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
       update[`${basePath}.effets.chargeur`] = chargeurModuleMax;
     }
 
-    const findChargeurSimple = actuel.effets.raw.find(itm => itm.includes('chargeur'));
+    const findChargeurSimple = actuel.jetsimple.effets.raw.find(itm => itm.includes('chargeur'));
 
     if(findChargeurSimple) {
       const chargeurSimpleMax = parseInt(findChargeurSimple.split(' ')[1]);

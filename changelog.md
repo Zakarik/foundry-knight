@@ -1,3 +1,13 @@
+## v3.40.0
+### Améliorations
+- Ajout d'un champ "Energie par attaque" sur les modules d'armes, afin d'automatiser la dépense d'énergie à chaque attaque de certains modules.
+Il s'agit des modules "Pod Missile" et "Pod Roquette" (et peut-être d'autres), pensez à mettre à jour manuellement les modules sur les personnages.
+
+### Bugfix
+- Correction d'un bug ne remettant pas à zéro les chargeurs pour certains modules.
+- Correction d'un bug rare n'affichant pas des modules dans la fenêtre de jet.
+- Correction d'un bug d'affichage mineur dans le lanceur de jet.
+
 ## v3.39.3
 ### Bugfix
 - Correction de l'impossibilité d'ajouter des langues.

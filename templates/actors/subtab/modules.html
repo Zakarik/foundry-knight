@@ -398,6 +398,10 @@
                     <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
                     <span class="score">{{getPortee key.system.niveau.actuel.arme.portee}}</span>
                 </div>
+                <div class="middlespan">
+                    <span class="header">{{localize "KNIGHT.ITEMS.MODULE.CoutAttaque"}}</span>
+                    <span class="score">{{ifThen key.system.niveau.actuel.arme.energie key.system.niveau.actuel.arme.energie 0}}</span>
+                </div>
                 {{#if key.system.niveau.actuel.arme.optionsmunitions.has}}
                     <div class="effets">
                         {{#each key.system.niveau.actuel.arme.effets.liste as | key effet|}}

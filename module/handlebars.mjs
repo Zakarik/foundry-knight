@@ -1017,8 +1017,6 @@
     });
 
     Handlebars.registerHelper('isNaN', function (value, defaut) {
-        console.warn(value);
-
         return defaut;
     });
  };

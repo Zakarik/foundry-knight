@@ -2108,7 +2108,8 @@
           "Has":"Applique/Possède des effets",
           "Hasnt":"N'applique pas/Ne possède pas d'effets"
         },
-        "CoutAugmentation":"Energie par augmentation"
+        "CoutAugmentation":"Energie par augmentation",
+        "CoutAttaque":"Energie par attaque"
       },
       "ARME":{
         "Nom":"Nom de l'arme",

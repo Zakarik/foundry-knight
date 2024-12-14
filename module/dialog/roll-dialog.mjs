@@ -1672,7 +1672,7 @@ export class KnightRollDialog extends Dialog {
         const items = actor.items;
         const armure = items.find(itm => itm.type === 'armure');
         const weapons = items.filter(itm => itm.type == 'arme' && (itm.system.equipped || itm.system.tourelle.has || !isPJ || itm.system.whoActivate === this.data.whoActivate));
-        const modules = type === 'vehicule' ? items.filter(itm => itm.type == 'module' && (itm.system?.active?.base ?? false) && (itm.system?.niveau?.actuel?.arme?.has ?? false) && itm.system.niveau.actuel.whoActivate === this.data.whoActivate) : items.filter(itm => itm.type == 'module' && (itm.system?.active?.base ?? false) && (itm.system?.niveau?.actuel?.arme?.has ?? false));
+        const modules = type === 'vehicule' ? items.filter(itm => itm.type == 'module' && (itm.system?.active?.base ?? false) && (itm.system?.niveau?.actuel?.arme?.has ?? false) && itm.system.niveau.actuel.whoActivate === this.data.whoActivate) : items.filter(itm => itm.type == 'module' && ((itm.system?.active?.base ?? false) || (itm.system?.niveau?.actuel?.permanent ?? false)) && (itm.system?.niveau?.actuel?.arme?.has ?? false));
         const modulesContact = type === 'vehicule' ? actor.items.filter(itm => itm.type === 'module' &&
             itm.system.niveau.actuel.whoActivate === this.data.whoActivate &&
             ((itm.system?.active?.base ?? false) || itm.system.niveau.actuel.permanent) &&
@@ -4414,8 +4414,11 @@ export class KnightRollDialog extends Dialog {
     }
 
     #getWpnHTML(data={}) {
+        let addStartStyle = "";
+        if(data.noShow) addStartStyle += "style='display:none;'";
+
         const start = `
-        <div class="button" data-id="${data.id}">
+        <div class="button" data-id="${data.id}" ${addStartStyle}>
             <button type="action" class="${data.classes}">
                 <i></i>
                 ${data.label}
@@ -4683,6 +4686,8 @@ export class KnightRollDialog extends Dialog {
         let htmlGrenade = ``;
 
         for(let w of grenade) {
+            if(this.data.roll.html.find('div.wpn.grenade h2 i.fa-plus-square').length > 0) w.noShow = true;
+
             htmlGrenade += this.#getWpnHTML(w);
         }
 
