@@ -206,7 +206,7 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
                 has:false,
                 type:"contact",
                 portee:"contact",
-                cout:0,
+                energie:0,
                 optionsmunitions:{
                   has:false,
                   actuel:"0",
