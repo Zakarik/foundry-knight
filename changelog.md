@@ -1,3 +1,7 @@
+## v3.40.1
+### Bugfix
+- Correction d'un oubli de traduction pour "Le débordement augmente..."
+
 ## v3.40.0
 ### Améliorations
 - Ajout d'un champ "Energie par attaque" sur les modules d'armes, afin d'automatiser la dépense d'énergie à chaque attaque de certains modules.

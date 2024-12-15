@@ -1726,7 +1726,7 @@ export default class HooksKnight {
                 name:`${actor.name}`,
             }, false);
 
-            roll.sendMessage({text:'Le débordement augmente...', classes:'important'});
+            roll.sendMessage({text:game.i18n.localize('KNIGHT.JETS.DebordementAugmente'), classes:'important'});
             });
 
             html.find('.knight-roll button.relancedegats').click(async ev => {
