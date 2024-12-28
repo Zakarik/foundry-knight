@@ -5395,7 +5395,6 @@ export async function generateNavigator() {
 
 export async function importActor(json, type) {
   const localize = getAllEffects();
-  const listTemplate = game.template.Actor;
   const traAspects = {'chair':'chair', 'bête':'bete', 'machine':'machine', 'dame':'dame', 'masque':'masque'};
   const aspects = json.aspects;
   const resilience = json.resilience;
@@ -5407,220 +5406,204 @@ export async function importActor(json, type) {
   const capacities = json.capacities;
   const weapons = json.weapons;
 
-  let system = type === 'pnj' || type === 'creature' ? Object.assign({}, listTemplate[type], listTemplate.templates.creature, listTemplate.templates.generique) : Object.assign({}, listTemplate[type], listTemplate.generique);
-  delete system.templates;
+  const create = await createSheet(
+    "",
+    type,
+    json.name === '' ? game.i18n.localize(`TYPES.Actor.${type}`) : json.name,
+  );
+
+  let update = {};
 
   for(let a of aspects) {
     const nA = a.name;
     const tra = traAspects[nA];
 
-    system.aspects[tra] = {
-      value:a.score,
-      ae:{
-        mineur:{},
-        majeur:{}
-      }
-    }
+    update[`system.aspects.${tra}.value`] = a.score;
 
-    if(a.major) system.aspects[tra].ae.majeur.value = a.exceptional;
-    else system.aspects[tra].ae.mineur.value = a.exceptional;
+    if(a.major) update[`system.aspects.${tra}.ae.majeur.value`] = a.exceptional;
+    else update[`system.aspects.${tra}.ae.mineur.value`] = a.exceptional;
   }
 
-  system.defense.base = json.defense;
-  system.reaction.base = json.reaction;
-  system.type = `${json.type.charAt(0).toUpperCase() + json.type.slice(1)} (${json.level.charAt(0).toUpperCase() + json.level.slice(1)})`;
+  update['system.defense.base'] = json.defense;
+  update['system.reaction.base'] = json.reaction;
+  update['system.type'] = `${json.type.charAt(0).toUpperCase() + json.type.slice(1)} (${json.level.charAt(0).toUpperCase() + json.level.slice(1)})`;
 
   if(type === 'creature') {
-    system.resilience.max = resilience;
-    system.resilience.value = resilience;
-    system.bouclier.base = shield;
-    system.energie.max = energy;
-    system.energie.value = energy;
-    system.sante.base = health;
-    system.sante.value = health;
-    system.armure.base = armor;
-    system.armure.value = armor;
+    update['system.resilience.max'] = resilience;
+    update['system.resilience.value'] = resilience;
+    update['system.bouclier.base'] = shield;
+    update['system.energie.max'] = energy;
+    update['system.energie.value'] = energy;
+    update['system.sante.base'] = health;
+    update['system.sante.value'] = health;
+    update['system.armure.base'] = armor;
+    update['system.armure.value'] = armor;
 
-    if(resilience > 0) system.options.resilience = true;
-    else system.options.resilience = false;
+    if(resilience > 0) update['system.options.resilience'] = true;
 
-    if(shield > 0 ) system.options.bouclier = true;
-    else system.options.bouclier = false;
+    if(shield > 0 ) update['system.options.bouclier'] = true;
 
-    if(energy > 0 ) system.options.energie = true;
-    else system.options.energie = false;
+    if(energy > 0 ) update['system.options.energie'] = true;
 
-    if(health > 0 ) system.options.sante = true;
-    else system.options.sante = false;
+    if(health > 0 ) update['system.options.sante'] = true;
 
-    if(armor > 0 ) system.options.armure = true;
-    else system.options.armure = false;
+    if(armor > 0 ) update['system.options.armure'] = true;
 
   } else if(type === 'pnj') {
-    system.resilience.max = resilience;
-    system.resilience.value = resilience;
-    system.bouclier.base = shield;
-    system.energie.max = energy;
-    system.energie.value = energy;
-    system.sante.base = health;
-    system.sante.value = health;
-    system.champDeForce.base = forcefield;
-    system.armure.base = armor;
-    system.armure.value = armor;
+    update['system.resilience.max'] = resilience;
+    update['system.resilience.value'] = resilience;
+    update['system.bouclier.base'] = shield;
+    update['system.energie.max'] = energy;
+    update['system.energie.value'] = energy;
+    update['system.sante.base'] = health;
+    update['system.sante.value'] = health;
+    update['system.armure.base'] = armor;
+    update['system.armure.value'] = armor;
+    update['system.champDeForce.base'] = forcefield;
 
-    if(resilience > 0) system.options.resilience = true;
-    else system.options.resilience = false;
+    if(resilience > 0) update['system.options.resilience'] = true;
 
-    if(shield > 0 ) system.options.bouclier = true;
-    else system.options.bouclier = false;
+    if(shield > 0 ) update['system.options.bouclier'] = true;
 
-    if(energy > 0 ) system.options.energie = true;
-    else system.options.energie = false;
+    if(energy > 0 ) update['system.options.energie'] = true;
 
-    if(health > 0 ) system.options.sante = true;
-    else system.options.sante = false;
+    if(health > 0 ) update['system.options.sante'] = true;
 
-    if(forcefield > 0 ) system.options.champDeForce = true;
-    else system.options.champDeForce = false;
+    if(armor > 0 ) update['system.options.armure'] = true;
 
-    if(armor > 0 ) system.options.armure = true;
-    else system.options.armure = false;
+    if(forcefield > 0 ) update['system.options.champDeForce'] = true;
 
   } else if(type === 'bande') {
-    system.sante.base = health;
-    system.sante.value = health;
-    system.bouclier.base = shield;
+    update['system.sante.base'] = health;
+    update['system.sante.value'] = health;
+    update['system.bouclier.base'] = shield;
 
-    if(shield > 0 ) system.options.bouclier = true;
-    else system.options.bouclier = false;
+    if(shield > 0 ) update['system.options.bouclier'] = true;
   }
-
-  const create = await createSheet(
-    "",
-    type,
-    json.name,
-    system,
-  );
 
   let allItm = [];
 
-  for(let c of capacities) {
-    let itm = {};
-    itm.img = getDefaultImg('capacite');
-    itm.type = 'capacite';
-    itm.name = c.name;
-    itm.system = {
-      description:c.description,
-    };
+  if(capacities) {
+    for(let c of capacities) {
+      let itm = {};
+      itm.img = getDefaultImg('capacite');
+      itm.type = 'capacite';
+      itm.name = c.name;
+      itm.system = {
+        description:c.description,
+      };
 
-    allItm.push(itm);
+      allItm.push(itm);
+    }
   }
 
-  for(let w of weapons) {
-    let tWpn = w.contact ? 'contact' : 'distance';
+  if(weapons) {
+    for(let w of weapons) {
+      let tWpn = w.contact ? 'contact' : 'distance';
 
-    let itm = {};
-    itm.img = getDefaultImg('capacite');
-    itm.type = 'arme';
-    itm.name = w.name;
-    itm.system = {
-      type:tWpn,
-      portee:w.range,
-      degats:{
-        dice:w.dices,
-        fixe:w.raw,
-      },
-      violence:{
-        dice:w.violenceDices,
-        fixe:w.violenceRaw,
-      },
-      effets:{
-        raw:[],
-        custom:[]
-      }
-    }
-
-    for(let e of w.effects) {
-      let tra = e.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-      tra = tra.replace('-', '');
-      tra = tra.toLowerCase();
-      tra = tra.replaceAll('ignore armure', 'ignorearmure')
-      .replaceAll('ignore cdf', 'ignorechampdeforce')
-      .replaceAll('degats continus', 'degatscontinus')
-      .replaceAll('perce armure', 'percearmure');
-      const isExist = localize?.[tra.split(' ')[0]] ?? '';
-
-      if(isExist !== '') itm.system.effets.raw.push(tra);
-      else itm.system.effets.custom.push({
-        label:e.name,
-        description:"",
-        other:{
-          cdf:0
-        },
-        attaque:{
-          aspect:{
-            fixe:"",
-            jet:"",
-            odInclusFixe:false,
-            odInclusJet:false
-          },
-          carac:{
-            fixe:"",
-            jet:"",
-            odInclusFixe:false,
-            odInclusJet:false
-          },
-          conditionnel:{
-            condition:"",
-            has:false
-          },
-          jet:0,
-          reussite:0,
-        },
+      let itm = {};
+      itm.img = getDefaultImg('capacite');
+      itm.type = 'arme';
+      itm.name = w.name;
+      itm.system = {
+        type:tWpn,
+        portee:w.range,
         degats:{
-          aspect:{
-            fixe:"",
-            jet:"",
-            odInclusFixe:false,
-            odInclusJet:false
-          },
-          carac:{
-            fixe:"",
-            jet:"",
-            odInclusFixe:false,
-            odInclusJet:false
-          },
-          conditionnel:{
-            condition:"",
-            has:false
-          },
-          jet:0,
-          reussite:0,
+          dice:w.dices,
+          fixe:w.raw,
         },
         violence:{
-          aspect:{
-            fixe:"",
-            jet:"",
-            odInclusFixe:false,
-            odInclusJet:false
-          },
-          carac:{
-            fixe:"",
-            jet:"",
-            odInclusFixe:false,
-            odInclusJet:false
-          },
-          conditionnel:{
-            condition:"",
-            has:false
-          },
-          jet:0,
-          reussite:0,
+          dice:w.violenceDices,
+          fixe:w.violenceRaw,
+        },
+        effets:{
+          raw:[],
+          custom:[]
         }
-      });
-    }
+      }
 
-    allItm.push(itm);
+      for(let e of w.effects) {
+        let tra = e.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        tra = tra.replace('-', '');
+        tra = tra.toLowerCase();
+        tra = tra.replaceAll('ignore armure', 'ignorearmure')
+        .replaceAll('ignore cdf', 'ignorechampdeforce')
+        .replaceAll('degats continus', 'degatscontinus')
+        .replaceAll('perce armure', 'percearmure');
+        const isExist = localize?.[tra.split(' ')[0]] ?? '';
+
+        if(isExist !== '') itm.system.effets.raw.push(tra);
+        else itm.system.effets.custom.push({
+          label:e.name,
+          description:"",
+          other:{
+            cdf:0
+          },
+          attaque:{
+            aspect:{
+              fixe:"",
+              jet:"",
+              odInclusFixe:false,
+              odInclusJet:false
+            },
+            carac:{
+              fixe:"",
+              jet:"",
+              odInclusFixe:false,
+              odInclusJet:false
+            },
+            conditionnel:{
+              condition:"",
+              has:false
+            },
+            jet:0,
+            reussite:0,
+          },
+          degats:{
+            aspect:{
+              fixe:"",
+              jet:"",
+              odInclusFixe:false,
+              odInclusJet:false
+            },
+            carac:{
+              fixe:"",
+              jet:"",
+              odInclusFixe:false,
+              odInclusJet:false
+            },
+            conditionnel:{
+              condition:"",
+              has:false
+            },
+            jet:0,
+            reussite:0,
+          },
+          violence:{
+            aspect:{
+              fixe:"",
+              jet:"",
+              odInclusFixe:false,
+              odInclusJet:false
+            },
+            carac:{
+              fixe:"",
+              jet:"",
+              odInclusFixe:false,
+              odInclusJet:false
+            },
+            conditionnel:{
+              condition:"",
+              has:false
+            },
+            jet:0,
+            reussite:0,
+          }
+        });
+      }
+
+      allItm.push(itm);
+    }
   }
 
   await create.createEmbeddedDocuments("Item", allItm);

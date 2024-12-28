@@ -785,7 +785,8 @@
       "DESIGNATION": {
         "Label":"Holo-targeting",
         "Description":"This weapon can holo-target one enemy (and only one, not a band) once per turn. Its wielder and their allies gain 1 automatic success on any skill check made to hit the marked target and ignore any critical failure results on their attack checks. Holo-targeting an enemy this way does not require an action. No skill check is required to mark a target and the _holo-targeting_ range is that of the weapon used. The target remains marked for the entire scene or conflict phase. A marked target is automatically tracked by the user’s armour. It uses the target’s movement and sound made to give a precise indication of its position, allowing the Knight to fire at it with weapons with the _artillery_ effect or use any alternate mode of sight effects on it automatically. Combined with predator vision, for instance, it would allow the user to see a target through walls as a silhouette on their meta-armour’s Augmented Reality HUD. Targets remain marked so long as the meta-armour can realistically keep track of them.\r\n**Caution**: This effect cannot stack multiple times on a single target.",
-        "Description-short":"This weapon can holo-target one enemy (and only one, not a band) once per turn. Its wielder and their allies gain 1 automatic success on any skill check made to hit the marked target and ignore any critical failure results on their attack checks."
+        "Description-short":"This weapon can holo-target one enemy (and only one, not a band) once per turn. Its wielder and their allies gain 1 automatic success on any skill check made to hit the marked target and ignore any critical failure results on their attack checks.",
+        "IgnoreEpicFail":"Ignores critical failures"
       },
       "DESTRUCTEUR": {
         "Label":"Destructive",

@@ -1,3 +1,8 @@
+## v3.40.2
+### Bugfix
+- Correction de la non-prise en charge de l'effet Désignation.
+- Correction d'un bug d'importation des PNJ / Créature / Bande qui plantait tout.
+
 ## v3.40.1
 ### Bugfix
 - Correction d'un oubli de traduction pour "Le débordement augmente..."

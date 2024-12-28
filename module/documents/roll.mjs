@@ -646,7 +646,6 @@ export class RollKnight {
                 });
                 return acc;
             }, []);
-
             success = roll.total;
         }
 
@@ -935,6 +934,7 @@ export class RollKnight {
                 }
 
                 target.ptsFaible = ptsFaible;
+                target.difficulty = difficulty;
 
                 if(content.total > difficulty) {
                     target.marge = content.total-difficulty;
@@ -990,6 +990,8 @@ export class RollKnight {
                 if(weapon.type === 'distance') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (0)`;
                 else if(weapon.type === 'contact') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (0)`;
             }
+
+            target.difficulty = difficulty;
 
             if(content.total > difficulty) {
                 target.marge = content.total-difficulty;
@@ -1472,7 +1474,6 @@ export class RollKnight {
 
         for(let c of content.content) {
             const total = c.total;
-            c.bonus.push(5);
 
             let hasBtnApply = false;
 
@@ -1484,6 +1485,24 @@ export class RollKnight {
                     const type = actor.type;
                     const target = type === 'vehicule' ? actor.system.pilote : actor;
                     const chair = target?.system?.aspects?.chair?.value ?? 0;
+
+                    if(actor.statuses.has('designation') && weapon.type === 'distance') {
+                        const newTotal = total + 1;
+
+                        if(t.hit) {
+                            t.marge += 1;
+                        } else if(newTotal > t.difficulty) {
+                            t.hit = true;
+                            t.marge = newTotal - t.difficulty;
+                        }
+
+                        t.effets.push({
+                            value:`+1 ${game.i18n.localize('KNIGHT.JETS.Succes')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+                            key:'tgtWithDesignation',
+                            label:game.i18n.localize('KNIGHT.EFFETS.DESIGNATION.Label'),
+                            subtitle:`${newTotal} ${game.i18n.localize('KNIGHT.JETS.Succes')} / ${game.i18n.localize('KNIGHT.EFFETS.DESIGNATION.IgnoreEpicFail')}`,
+                        })
+                    }
 
                     for(let d of detailledEffets) {
                         const comparaison = target.type === 'knight' ? chair : Math.ceil(chair/2);
@@ -1513,6 +1532,7 @@ export class RollKnight {
                                 break;
                         }
                     }
+
 
                     if(this.#isEffetActive(raw, options, CONFIG.KNIGHT.LIST.EFFETS.status.attaque)) {
                         hasBtnApply = true;
