@@ -5440,14 +5440,19 @@ export async function importActor(json, type) {
     update['system.armure.value'] = armor;
 
     if(resilience > 0) update['system.options.resilience'] = true;
+    else update['system.options.resilience'] = false;
 
     if(shield > 0 ) update['system.options.bouclier'] = true;
+    else update['system.options.bouclier'] = false;
 
     if(energy > 0 ) update['system.options.energie'] = true;
+    else update['system.options.energie'] = false;
 
     if(health > 0 ) update['system.options.sante'] = true;
+    else update['system.options.sante'] = false;
 
     if(armor > 0 ) update['system.options.armure'] = true;
+    else update['system.options.armure'] = false;
 
   } else if(type === 'pnj') {
     update['system.resilience.max'] = resilience;
@@ -5607,6 +5612,8 @@ export async function importActor(json, type) {
   }
 
   await create.createEmbeddedDocuments("Item", allItm);
+
+  create.update(update);
 
   create.sheet.render(true);
 }

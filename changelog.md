@@ -1,3 +1,7 @@
+## v3.40.3
+### Bugfix
+- Correction d'un bug d'importation des PNJ / Créature / Bande qui n'importait pas tout.
+
 ## v3.40.2
 ### Bugfix
 - Correction de la non-prise en charge de l'effet Désignation.
