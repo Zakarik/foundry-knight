@@ -1212,7 +1212,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         // BONUS D'OD INSTINCT 3
         if(this.armorISwear && this.aspects.bete.caracteristiques.instinct.overdrive.value >= 3) {
             Object.defineProperty(this.initiative.bonus, 'od', {
-                value: 3,
+                value: 3*this.aspects.bete.caracteristiques.instinct.overdrive.value,
                 writable:true,
                 enumerable:true,
                 configurable:true
