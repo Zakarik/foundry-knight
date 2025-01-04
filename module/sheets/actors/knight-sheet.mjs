@@ -57,6 +57,8 @@ export class KnightSheet extends ActorSheet {
 
     actualiseRoll(this.actor);
 
+    console.warn(context);
+
     return context;
   }
 

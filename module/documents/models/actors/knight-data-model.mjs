@@ -1208,6 +1208,16 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         Object.defineProperty(this.progression.experience, 'actuel', {
             value: this.progression.experience.total-this.progression.experience.depense.total,
         });
+
+        // BONUS D'OD INSTINCT 3
+        if(this.armorISwear && this.aspects.bete.caracteristiques.instinct.overdrive.value >= 3) {
+            Object.defineProperty(this.initiative.bonus, 'od', {
+                value: 3,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
+        }
     }
 
     #modules() {

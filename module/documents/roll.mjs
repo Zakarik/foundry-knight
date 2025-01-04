@@ -1602,11 +1602,18 @@ export class RollKnight {
         let titleDice = '';
         let title = '';
         let isGhostActive = false;
+        let idErsatzGhost = undefined;
+        let isErsatzGhostActive = false;
         let isChangelingActive = false;
         let isGoliathActive = false;
 
         if(getGhost && armorIsWear && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && this.#isEffetActive(raw, options, ['silencieux']))))) {
             isGhostActive = data?.flags?.ghost;
+        }
+
+        if(armorIsWear && data?.flags?.ersatzghost?.value && data?.flags?.ersatzghost?.id  && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && this.#isEffetActive(raw, options, ['silencieux']))))) {
+            isErsatzGhostActive = data?.flags?.ersatzghost?.value;
+            idErsatzGhost = data?.flags?.ersatzghost?.id;
         }
 
         if(getChangeling && armorIsWear) {
@@ -1705,9 +1712,6 @@ export class RollKnight {
                 }
             }
 
-            if (isGhostActive) {
-            }
-
             if(odDiscretion >= 2) {
                 if(this.isSurprise) {
                     bonus.push(discretion);
@@ -1745,6 +1749,93 @@ export class RollKnight {
 
             bonus.push(discretion + odDiscretion);
             title += ` + ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label')}`;
+        }
+
+        console.warn(data.flags);
+        console.warn(isErsatzGhostActive);
+
+        if(armorIsWear && isErsatzGhostActive) {
+            const ersatzghost = this.attaquant.items.find(itm => itm._id === idErsatzGhost).system.niveau.actuel.ersatz.rogue;
+            let ersatzbonus = 0;
+
+            if(this.isPJ) {
+                ersatzbonus = this.getAspectOrCaracteristique(ersatzghost.degats.caracteristique);
+
+                if(ersatzghost.degats.od) {
+                    ersatzbonus += this.getAEAspectOrODCaracteristique(ersatzghost.degats.caracteristique);
+                }
+            } else {
+                switch(ersatzghost.degats.caracteristique) {
+                    case 'deplacement':
+                    case 'force':
+                    case 'endurance':
+                        ersatzbonus = Math.ceil(this.getAspect('chair')/2);
+
+                        if(ersatzghost.degats.od) {
+                            ersatzbonus += this.getAE('chair');
+                        }
+                        break;
+
+                    case 'combat':
+                    case 'hargne':
+                    case 'instinct':
+                        ersatzbonus = Math.ceil(this.getAspect('bete')/2);
+
+                        if(ersatzghost.degats.od) {
+                            ersatzbonus += this.getAE('bete');
+                        }
+                        break;
+
+                    case 'tir':
+                    case 'savoir':
+                    case 'technique':
+                        ersatzbonus = Math.ceil(this.getAspect('machine')/2);
+
+                        if(ersatzghost.degats.od) {
+                            ersatzbonus += this.getAE('machine');
+                        }
+                        break;
+
+                    case 'parole':
+                    case 'aura':
+                    case 'sangFroid':
+                        ersatzbonus = Math.ceil(this.getAspect('dame')/2);
+
+                        if(ersatzghost.degats.od) {
+                            ersatzbonus += this.getAE('dame');
+                        }
+                        break;
+
+                    case 'discretion':
+                    case 'dexterite':
+                    case 'perception':
+                        ersatzbonus = Math.ceil(this.getAspect('masque')/2);
+
+                        if(ersatzghost.degats.od) {
+                            ersatzbonus += this.getAE('masque');
+                        }
+                        break;
+
+                    default:
+                        ersatzbonus = Math.ceil(this.getAspect(ersatzghost.degats.caracteristique)/2);
+
+                        if(ersatzghost.degats.od) {
+                            ersatzbonus += this.getAE(ersatzghost.degats.caracteristique);
+                        }
+                        break;
+                }
+            }
+
+            if(ersatzbonus > 0) {
+                bonus.push(ersatzbonus);
+                title += ` + ${game.i18n.localize('KNIGHT.ITEMS.MODULE.ERSATZ.ROGUE.Label')}`;
+
+                if(ersatzghost.degats.dice) {
+                    wpnDice += ersatzbonus;
+                    titleDice += ` + ${game.i18n.localize('KNIGHT.ITEMS.MODULE.ERSATZ.ROGUE.Label')}`;
+                }
+            }
+
         }
 
         if(style === 'pilonnage') {

@@ -1,3 +1,8 @@
+## v3.40.4
+### Bugfix
+- Correction de la non-prise en compte de l'OD 3 d'Instinct (+3 à l'Initiative).
+- Correction du non-fonctionnement de l'Ersatz Rogue.
+
 ## v3.40.3
 ### Bugfix
 - Correction d'un bug d'importation des PNJ / Créature / Bande qui n'importait pas tout.

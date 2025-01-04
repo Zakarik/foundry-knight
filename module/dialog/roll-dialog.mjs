@@ -763,6 +763,7 @@ export class KnightRollDialog extends Dialog {
         }
         let goliath = 0;
         let ghost = 0;
+        let ersatzghost = 0;
         let flags = {};
 
         if((armorIsWear) && !isNoOd) bonus.push(this.#getODAspect(actor, base));
@@ -813,6 +814,7 @@ export class KnightRollDialog extends Dialog {
             dices -= modStyle.malus.attaque;
             cout += weapon?.cout ?? 0;
             espoir += weapon?.espoir ?? 0;
+            const isErsatzRogueActive = actor?.moduleErsatz?.rogue?.has ?? false
             const isGhostActive = armor ? (capacitiesSelected?.ghost?.active?.conflit
                 || capacitiesSelected?.ghost?.active?.horsconflit)
                 ?? false : false;
@@ -962,20 +964,43 @@ export class KnightRollDialog extends Dialog {
                 });
             }
 
-            if (armorIsWear && armor && isGhostActive && ((weapon.type === 'contact' && !this.#isEffetActive(effets, weapon.options, ['lumiere'])) || (weapon.type === 'distance' && this.#isEffetActive(effets, weapon.options, ['silencieux'])))) {
-                ghost += this.#getValueAspect(actor, 'discretion');
+            if(armorIsWear && armor && isGhostActive) {
+                if (((weapon.type === 'contact' && !this.#isEffetActive(effets, weapon.options, ['lumiere'])) || (weapon.type === 'distance' && this.#isEffetActive(effets, weapon.options, ['silencieux'])))) {
+                    ghost += this.#getValueAspect(actor, 'discretion');
 
-                if(!this.isPJ) ghost = Math.ceil(ghost/2);
+                    if(!this.isPJ) ghost = Math.ceil(ghost/2);
 
-                ghost += this.#getODAspect(actor, 'discretion');
+                    ghost += this.#getODAspect(actor, 'discretion');
+
+                    flags['ghost'] = true;
+                }
 
                 if(isGhostActive && (capacitiesSelected?.ghost?.interruption?.actif ?? true)) {
                     updates['armure.system.capacites.selected.ghost.active.conflit'] = false;
                     updates['armure.system.capacites.selected.ghost.active.horsconflit'] = false;
                 }
-
-                flags['ghost'] = true;
             }
+
+            if(armorIsWear && isErsatzRogueActive) {
+                if((weapon.type === 'contact' && !this.#isEffetActive(effets, weapon.options, ['lumiere'])) || (weapon.type === 'distance' && this.#isEffetActive(effets, weapon.options, ['silencieux']))) {
+                    ersatzghost += this.#getValueAspect(actor, actor.moduleErsatz.rogue.attaque);
+
+                    if(!this.isPJ) ersatzghost = Math.ceil(ersatzghost/2);
+
+                    ersatzghost += this.#getODAspect(actor, actor.moduleErsatz.rogue.attaque);
+
+
+                    flags['ersatzghost'] = {
+                        id:actor.moduleErsatz.rogue._id,
+                        value:true,
+                    };
+                }
+
+                if(actor.moduleErsatz.rogue.interruption.actif) {
+                    updates[`item.${actor.moduleErsatz.rogue._id}.system.active.base`] = false;
+                }
+            }
+
 
             if((this.#isEffetActive(effets, weapon.options, ['munitionsdrones']))) {
                 bonus.push(3);
@@ -1225,6 +1250,15 @@ export class KnightRollDialog extends Dialog {
             });
 
             dices += ghost;
+        }
+
+        if(ersatzghost > 0) {
+            tags.push({
+                key:'ersatzghost',
+                label:`${game.i18n.localize('KNIGHT.ITEMS.MODULE.ERSATZ.ROGUE.Label')} : +${ersatzghost}D6`,
+            });
+
+            dices += ersatzghost;
         }
 
         if(isAttaqueSurprise) {

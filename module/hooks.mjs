@@ -211,6 +211,7 @@ export default class HooksKnight {
                     dataMod:flags.dataMod,
                     maximize:flags.maximize,
                     ghost:flags.ghost,
+                    ersatzghost:flags.ersatzghost,
                 };
 
                 let data = {
