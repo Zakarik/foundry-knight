@@ -429,7 +429,7 @@ Hooks.on('deleteActor', doc => toggler.clearForId(doc.id));
 
 Hooks.on("createActiveEffect", function(effect, data) {
   const status = effect.statuses;
-  let effectCounter = foundry.utils.getProperty(effect, "flags.statuscounter.counter");
+  let effectCounter = 1;
 
   if (effectCounter && (status.has("barrage") || status.has("lumiere")) && effect.parent.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
     let update = []
@@ -438,7 +438,7 @@ Hooks.on("createActiveEffect", function(effect, data) {
         key:e.key,
         mode:e.mode,
         priority:e.priority,
-        value:`${effectCounter.value}`
+        value:`${effectCounter}`
       });
     }
 
@@ -451,7 +451,7 @@ Hooks.on("createActiveEffect", function(effect, data) {
 
 Hooks.on("updateActiveEffect", function(effect, effectData, diffData, options, userId) {
   const status = effect.statuses;
-  let effectCounter = foundry.utils.getProperty(effectData, "flags.statuscounter.counter");
+  let effectCounter = foundry.utils.getProperty(effectData, "flags.statuscounter.counter") || foundry.utils.getProperty(effectData, "flags.statuscounter.config") || foundry.utils.getProperty(effectData, "flags.statuscounter.value");
 
   if (effectCounter && (status.has("barrage") || status.has("lumiere")) && effect.parent.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
     let update = []
@@ -460,7 +460,7 @@ Hooks.on("updateActiveEffect", function(effect, effectData, diffData, options, u
         key:e.key,
         mode:e.mode,
         priority:e.priority,
-        value:`${effectCounter.value}`
+        value:`${effectCounter}`
       });
     }
 

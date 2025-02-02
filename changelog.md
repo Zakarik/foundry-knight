@@ -1,3 +1,7 @@
+## v3.40.7
+### Bugfix
+- Correction d'un bug avec Status Icon Counter, qui ne fonctionnait plus correctement, suite à une mise à jour.
+
 ## v3.40.6
 ### Bugfix
 - Correction d'un bug pouvant bloquer une fiche dans certains cas rares.
