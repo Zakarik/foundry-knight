@@ -58,4 +58,26 @@ export class InitiativeDataModel extends foundry.abstract.DataModel {
           value: `${this.dice}D6+${this.value}`,
       });
     }
+
+    prepareBandeData() {
+      Object.defineProperty(this, 'diceMod', {
+          value: 0,
+      });
+
+      Object.defineProperty(this, 'mod', {
+          value: 0,
+      });
+
+      Object.defineProperty(this, 'dice', {
+          value: 0,
+      });
+
+      Object.defineProperty(this, 'value', {
+          value: 1,
+      });
+
+      Object.defineProperty(this, 'complet', {
+        value: `1`,
+      });
+    }
 }

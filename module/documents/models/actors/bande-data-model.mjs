@@ -212,16 +212,6 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
             });
         }
 
-        Object.defineProperty(this.initiative, 'dice', {
-            value: 0,
-        });
-
-        Object.defineProperty(this.initiative, 'base', {
-            value: 0,
-        });
-
-        Object.defineProperty(this.initiative, 'value', {
-            value: 1,
-        });
+        this.initiative.prepareBandeData();
     }
 }

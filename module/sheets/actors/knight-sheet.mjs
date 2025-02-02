@@ -2476,6 +2476,22 @@ export class KnightSheet extends ActorSheet {
       const violenceD = target.data("violence");
       const violenceF = target?.data("violencefixe") || 0;
       const cout = target?.data("cout") || false;
+      const listtargets = game.user.targets;
+      const allTargets = [];
+
+      if(listtargets && listtargets.size > 0) {
+        for(let t of listtargets) {
+          const actor = t.actor;
+
+          allTargets.push({
+              id:t.id,
+              name:actor.name,
+              aspects:actor.system.aspects,
+              type:actor.type,
+              effets:[],
+          });
+        }
+      }
 
       if(cout !== false) {
         const tCout = eval(cout);
@@ -2495,7 +2511,7 @@ export class KnightSheet extends ActorSheet {
       const roll = new game.knight.RollKnight(this.actor, {
         name:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Degats")}`,
       }, false);
-      const weapon = roll.prepareWpnContact({
+      const weapon = roll.prepareWpnDistance({
         name:`${label}`,
         system:{
           degats:{dice:degatsD, fixe:degatsF},
@@ -2509,7 +2525,7 @@ export class KnightSheet extends ActorSheet {
         o.active = true;
       }
 
-      const flags = roll.getRollData(weapon)
+      const flags = roll.getRollData(weapon, {targets:allTargets})
       roll.setWeapon(weapon);
       await roll.doRollDamage(flags);
 
@@ -2525,6 +2541,22 @@ export class KnightSheet extends ActorSheet {
       const degatsD = target.data("degats");
       const degatsF = target?.data("degatsfixe") || 0;
       const cout = target?.data("cout") || false;
+      const listtargets = game.user.targets;
+      const allTargets = [];
+
+      if(listtargets && listtargets.size > 0) {
+        for(let t of listtargets) {
+          const actor = t.actor;
+
+          allTargets.push({
+              id:t.id,
+              name:actor.name,
+              aspects:actor.system.aspects,
+              type:actor.type,
+              effets:[],
+          });
+        }
+     }
 
       if(cout !== false) {
         const tCout = eval(cout);
@@ -2544,7 +2576,7 @@ export class KnightSheet extends ActorSheet {
       const roll = new game.knight.RollKnight(this.actor, {
         name:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Degats")}`,
       }, false);
-      const weapon = roll.prepareWpnContact({
+      const weapon = roll.prepareWpnDistance({
         name:`${label}`,
         system:{
           degats:{dice:degatsD, fixe:degatsF},
@@ -2558,7 +2590,7 @@ export class KnightSheet extends ActorSheet {
         o.active = true;
       }
 
-      const flags = roll.getRollData(weapon)
+      const flags = roll.getRollData(weapon, {targets:allTargets});
       roll.setWeapon(weapon);
       await roll.doRollDamage(flags);
     });
@@ -2571,6 +2603,22 @@ export class KnightSheet extends ActorSheet {
       const violenceD = target.data("violence");
       const violenceF = target?.data("violencefixe") || 0;
       const cout = target?.data("cout") || false;
+      const listtargets = game.user.targets;
+      const allTargets = [];
+
+      if(listtargets && listtargets.size > 0) {
+        for(let t of listtargets) {
+          const actor = t.actor;
+
+          allTargets.push({
+              id:t.id,
+              name:actor.name,
+              aspects:actor.system.aspects,
+              type:actor.type,
+              effets:[],
+          });
+        }
+      }
 
       if(cout !== false) {
         const tCout = eval(cout);
@@ -2590,7 +2638,7 @@ export class KnightSheet extends ActorSheet {
       const roll = new game.knight.RollKnight(this.actor, {
         name:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Violence")}`,
       }, false);
-      const weapon = roll.prepareWpnContact({
+      const weapon = roll.prepareWpnDistance({
         name:`${label}`,
         system:{
           degats:{dice:0, fixe:0},
@@ -2604,7 +2652,7 @@ export class KnightSheet extends ActorSheet {
         o.active = true;
       }
 
-      const flags = roll.getRollData(weapon)
+      const flags = roll.getRollData(weapon, {targets:allTargets})
       roll.setWeapon(weapon);
       await roll.doRollViolence(flags);
     });
@@ -5775,7 +5823,7 @@ export class KnightSheet extends ActorSheet {
         }
 
         if(base.key === 'modules') {
-          const dataPnj = data[n].system.niveau.actuel.pnj.liste;
+          const dataPnj = data[n].system?.niveau?.actuel?.pnj?.liste ?? {};
 
           for(let pnj in dataPnj) {
             for(let wpnPnj in dataPnj[pnj].armes.liste) {

@@ -846,6 +846,7 @@ export class RollKnight {
     }
 
     async #prepareRollWeapon(data={}) {
+        console.warn(data);
         const results = data.results;
         const success = data.success;
         const rollState = data.rollState;

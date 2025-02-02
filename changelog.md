@@ -1,3 +1,10 @@
+## v3.40.6
+### Bugfix
+- Correction d'un bug pouvant bloquer une fiche dans certains cas rares.
+- Correction d'un bug dans le jet d'initiative des bandes, qui lançait incorrectement 3D6 au lieu de faire 1.
+- Correction d'un bug dans le décompte des slots pour la Druid, qui comptait même les modules sur le Lion, alors que ça n'aurait pas du être le cas.
+- Correction d'un bug sur l'Oriflamme de la Wizard, qui ne permettait pas d'appliquer les dégâts et/ou la violence, alors que toutes les autres armes le permettent.
+
 ## v3.40.5
 ### Bugfix
 - Correction du calcul de l'OD 3 d'Instinct.

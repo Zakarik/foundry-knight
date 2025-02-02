@@ -1223,12 +1223,13 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
     #modules() {
         const armure = this.dataArmor;
         const data = this.modules;
-        const tete = data.reduce((acc, curr) => acc + (Number(curr.system.slots.tete) || 0), 0);
-        const torse = data.reduce((acc, curr) => acc + (Number(curr.system.slots.torse) || 0), 0);
-        const brasDroit = data.reduce((acc, curr) => acc + (Number(curr.system.slots.brasDroit) || 0), 0);
-        const brasGauche = data.reduce((acc, curr) => acc + (Number(curr.system.slots.brasGauche) || 0), 0);
-        const jambeDroite = data.reduce((acc, curr) => acc + (Number(curr.system.slots.jambeDroite) || 0), 0);
-        const jambeGauche = data.reduce((acc, curr) => acc + (Number(curr.system.slots.jambeGauche) || 0), 0);
+        console.warn(data);
+        const tete = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.tete) || 0), 0);
+        const torse = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.torse) || 0), 0);
+        const brasDroit = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.brasDroit) || 0), 0);
+        const brasGauche = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.brasGauche) || 0), 0);
+        const jambeDroite = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.jambeDroite) || 0), 0);
+        const jambeGauche = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.jambeGauche) || 0), 0);
 
         let santeBonus = 0;
         let armureBonus = 0;
