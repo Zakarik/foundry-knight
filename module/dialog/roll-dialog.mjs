@@ -964,8 +964,12 @@ export class KnightRollDialog extends Dialog {
                 });
             }
 
+            console.warn(armorIsWear);
+            console.warn(armor);
+            console.warn(isGhostActive);
+
             if(armorIsWear && armor && isGhostActive) {
-                if (((weapon.type === 'contact' && !this.#isEffetActive(effets, weapon.options, ['lumiere'])) || (weapon.type === 'distance' && this.#isEffetActive(effets, weapon.options, ['silencieux'])))) {
+                if (((weapon.type === 'contact' && !this.#isEffetActive(effets, weapon.options, ['lumiere'])) || (weapon.type === 'distance' && (this.#isEffetActive(effets, weapon.options, ['silencieux']) || this.#isEffetActive(effets, weapon.options, ['munitionssubsoniques']) || this.#isEffetActive(effets, weapon.options, ['assassine']))))) {
                     ghost += this.#getValueAspect(actor, 'discretion');
 
                     if(!this.isPJ) ghost = Math.ceil(ghost/2);
@@ -982,7 +986,7 @@ export class KnightRollDialog extends Dialog {
             }
 
             if(armorIsWear && isErsatzRogueActive) {
-                if((weapon.type === 'contact' && !this.#isEffetActive(effets, weapon.options, ['lumiere'])) || (weapon.type === 'distance' && this.#isEffetActive(effets, weapon.options, ['silencieux']))) {
+                if((weapon.type === 'contact' && !this.#isEffetActive(effets, weapon.options, ['lumiere'])) || (weapon.type === 'distance' && (this.#isEffetActive(effets, weapon.options, ['silencieux']) || this.#isEffetActive(effets, weapon.options, ['munitionssubsoniques']) || this.#isEffetActive(effets, weapon.options, ['assassine'])))) {
                     ersatzghost += this.#getValueAspect(actor, actor.moduleErsatz.rogue.attaque);
 
                     if(!this.isPJ) ersatzghost = Math.ceil(ersatzghost/2);
@@ -1242,6 +1246,8 @@ export class KnightRollDialog extends Dialog {
 
             bonus.push(goliath);
         }
+
+        console.warn(ghost);
 
         if(ghost > 0) {
             tags.push({

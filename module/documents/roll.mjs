@@ -1608,11 +1608,13 @@ export class RollKnight {
         let isChangelingActive = false;
         let isGoliathActive = false;
 
-        if(getGhost && armorIsWear && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && this.#isEffetActive(raw, options, ['silencieux']))))) {
+        if(getGhost && armorIsWear && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && (this.#isEffetActive(raw, weapon.options, ['silencieux']) || this.#isEffetActive(raw, weapon.options, ['munitionssubsoniques']) || this.#isEffetActive(raw, weapon.options, ['assassine'])))))) {
             isGhostActive = data?.flags?.ghost;
         }
 
-        if(armorIsWear && data?.flags?.ersatzghost?.value && data?.flags?.ersatzghost?.id  && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && this.#isEffetActive(raw, options, ['silencieux']))))) {
+        console.warn(isGhostActive)
+
+        if(armorIsWear && data?.flags?.ersatzghost?.value && data?.flags?.ersatzghost?.id  && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && (this.#isEffetActive(effets, weapon.options, ['silencieux']) || this.#isEffetActive(effets, weapon.options, ['munitionssubsoniques']) || this.#isEffetActive(effets, weapon.options, ['assassine'])))))) {
             isErsatzGhostActive = data?.flags?.ersatzghost?.value;
             idErsatzGhost = data?.flags?.ersatzghost?.id;
         }

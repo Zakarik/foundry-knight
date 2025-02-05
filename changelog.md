@@ -1,3 +1,7 @@
+## v3.40.9
+### Bugfix
+- Correction d'un bug ne prenant pas en compte le mode Ghost sous certaines conditions.
+
 ## v3.40.8
 ### Bugfix
 - Correction d'un bug comptant les OD comme bonus en points de contact.
