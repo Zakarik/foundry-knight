@@ -1039,7 +1039,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                     // CONTACTS
                     const contactBonus = Object.values(this.contacts.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
-                    base = maxCarac;
+                    base = maxCaracWOD;
                     bonus = this.contacts.mod;
 
                     if(this.wear === 'armure' && this.capaciteUltime) {
@@ -1223,7 +1223,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
     #modules() {
         const armure = this.dataArmor;
         const data = this.modules;
-        console.warn(data);
+
         const tete = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.tete) || 0), 0);
         const torse = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.torse) || 0), 0);
         const brasDroit = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.brasDroit) || 0), 0);

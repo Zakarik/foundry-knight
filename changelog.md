@@ -1,3 +1,7 @@
+## v3.40.8
+### Bugfix
+- Correction d'un bug comptant les OD comme bonus en points de contact.
+
 ## v3.40.7
 ### Bugfix
 - Correction d'un bug avec Status Icon Counter, qui ne fonctionnait plus correctement, suite à une mise à jour.
