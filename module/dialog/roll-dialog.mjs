@@ -964,10 +964,6 @@ export class KnightRollDialog extends Dialog {
                 });
             }
 
-            console.warn(armorIsWear);
-            console.warn(armor);
-            console.warn(isGhostActive);
-
             if(armorIsWear && armor && isGhostActive) {
                 if (((weapon.type === 'contact' && !this.#isEffetActive(effets, weapon.options, ['lumiere'])) || (weapon.type === 'distance' && (this.#isEffetActive(effets, weapon.options, ['silencieux']) || this.#isEffetActive(effets, weapon.options, ['munitionssubsoniques']) || this.#isEffetActive(effets, weapon.options, ['assassine']))))) {
                     ghost += this.#getValueAspect(actor, 'discretion');
@@ -1307,18 +1303,14 @@ export class KnightRollDialog extends Dialog {
 
     #entraide(data) {
         const actor = this.actor;
-        const armorIsWear = actor.system.wear === 'armure' || actor.system.wear === 'ascension' ? true : false;
         const label = data.find('input.label').val();
         const base = this.rollData.base;
         const succesBonus = parseInt(data.find('label.score.succesBonus input').val());
         const modificateur = parseInt(data.find('label.score.modificateur input').val());
-        const isNoOd = this.rollData.btn?.nood ?? false;
         let carac = base ? [this.#getLabelRoll(base)] : [];
         let dices = this.#getValueAspect(actor, base);
         let bonus = [];
         let tags = [];
-
-        if(armorIsWear && !isNoOd) bonus.push(this.#getODAspect(actor, base));
 
         if(modificateur > 0) {
             dices += modificateur;

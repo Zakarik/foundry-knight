@@ -1,3 +1,7 @@
+## v3.40.10
+### Bugfix
+- Les jets d'entraides ne compteront plus les OD.
+
 ## v3.40.9
 ### Bugfix
 - Correction d'un bug ne prenant pas en compte le mode Ghost sous certaines conditions.
