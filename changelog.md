@@ -1,3 +1,7 @@
+## v3.40.11
+### Bugfix
+- Correction d'un bug empêchant le jet de dé dans le cas d'un nods sur autrui sans ciblage.
+
 ## v3.40.10
 ### Bugfix
 - Les jets d'entraides ne compteront plus les OD.

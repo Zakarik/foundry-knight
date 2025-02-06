@@ -3170,14 +3170,14 @@ export class KnightSheet extends ActorSheet {
           }
         }
 
-        const rNods = new game.knight.RollKnight(targetTo.actor, {
+        const rNods = new game.knight.RollKnight(targetTo?.actor, {
           name:game.i18n.localize(`KNIGHT.JETS.Nods${nods}`),
           dices: dices,
           bonus:[recuperation],
           addContent:btn,
           addFlags:{
             type:'nods',
-            target:targetTo.id,
+            target:targetTo?.id,
             nod:nods,
           }
         }, false);
