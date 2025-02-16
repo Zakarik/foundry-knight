@@ -978,12 +978,6 @@ export class ArmureSheet extends ItemSheet {
       await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:this.getData().data.system.overdrives, typeEffets:'distance', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Distance")}`}).render(true);
     });
 
-    html.find('div.evolutions h4 .far').click(ev => {
-      $(ev.currentTarget).toggleClass("fa-plus-square");
-      $(ev.currentTarget).toggleClass("fa-minus-square");
-      $(ev.currentTarget).parents("h4").siblings().toggle();
-    });
-
     html.find('textarea').blur(async ev => {
       const textarea = $(ev.currentTarget);
       const capacite = textarea.data("capacite");

@@ -1445,6 +1445,10 @@
             "AspectsExceptionnelsRepartir":"Points d'aspects exceptionnels à répartir",
             "AspectsExceptionnelsRestantRepartir":"Points d'aspects exceptionnels restant à répartir",
             "NiveauConfigurationRestant":"Niveau restant à répartir",
+            "Invocation":"Invocation : {type}",
+            "Revocation":"Révocation : {type}",
+            "Change":"Changement de configuration",
+            "Use":"Utilisation de configuration",
             "ENERGIE":{
               "Base":"Générer un compagnon",
               "Prolonger":"Prolonger un compagnon",
@@ -1471,6 +1475,8 @@
               "CONFIGURATIONS":{
                 "Label":"Configurations",
                 "Active":"Configuration active",
+                "Utiliser":"Utiliser la configuration",
+                "Utiliser-hint":"Dépense les PE de l'utilisation de la configuration actuelle sur tous les wolf.",
                 "Disponible":"Configurations disponibles",
                 "LABOR":{
                   "Label":"Labor",

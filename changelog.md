@@ -1,3 +1,12 @@
+## v3.41.0
+### Amélioration
+- Ajout d'un bouton pour "utiliser" une configuration avec les Wolf (et déduire automatiquement les PE de tous les Wolfs).
+- Ajout de messages signalant les changements sur les compagnons du Druid (invocation, révocation, changement de configuration)
+
+### Bugfix
+- Correction de divers bugs avec les compagnons Wolf du Druid.
+- Correction d'un bug avec les modules pour le compagnon Lion du Druid.
+
 ## v3.40.11
 ### Bugfix
 - Correction d'un bug empêchant le jet de dé dans le cas d'un nods sur autrui sans ciblage.

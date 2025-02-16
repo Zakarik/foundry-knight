@@ -1426,7 +1426,7 @@ export class PNJSheet extends ActorSheet {
       const module = target.data("module");
       const value = target.data("value") ? false : true;
       const cout = eval(target.data("cout"));
-      const depense = this._depensePE(cout, true);
+      const depense = value ? this._depensePE(cout, true) : true;
 
       if(!depense) return;
 

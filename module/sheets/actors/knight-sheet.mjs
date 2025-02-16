@@ -695,6 +695,27 @@ export class KnightSheet extends ActorSheet {
                   update[`system.capacites.selected.companions.crow.id`] = newActor.id;
                   break;
               }
+
+              const msgCompanions = {
+                flavor:`${name}`,
+                main:{
+                  total:`${game.i18n.format("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Invocation", {type:game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.${special.toUpperCase()}.Label`)})}`
+                }
+              };
+
+              const msgActiveCompanions = {
+                user: game.user.id,
+                speaker: {
+                  actor: getData?.id || null,
+                  token: getData?.token?.id || null,
+                  alias: getData?.name || null,
+                },
+                type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+                content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
+                sound: CONFIG.sounds.dice
+              };
+
+              await ChatMessage.create(msgActiveCompanions);
             } else {
               let recupValue = 0;
 
@@ -737,6 +758,27 @@ export class KnightSheet extends ActorSheet {
                   if(Object.keys(actorCrow).length != 0) await actorCrow.delete();
                   break;
               }
+
+              const msgCompanions = {
+                flavor:`${name}`,
+                main:{
+                  total:`${game.i18n.format("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Revocation", {type:game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.${special.toUpperCase()}.Label`)})}`
+                }
+              };
+
+              const msgActiveCompanions = {
+                user: game.user.id,
+                speaker: {
+                  actor: getData?.id || null,
+                  token: getData?.token?.id || null,
+                  alias: getData?.name || null,
+                },
+                type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+                content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
+                sound: CONFIG.sounds.dice
+              };
+
+              await ChatMessage.create(msgActiveCompanions);
             }
 
             armure.update(update);
@@ -2214,6 +2256,76 @@ export class KnightSheet extends ActorSheet {
       const configuration = target.data("configuration");
       const armure = await getArmor(this.actor);
       const armorCapacites = armure.system.capacites.selected.companions;
+      const idWolf = armorCapacites.wolf.id;
+
+      const actor1Wolf = game.actors.get(idWolf.id1);
+      const actor2Wolf = game.actors.get(idWolf.id2);
+      const actor3Wolf = game.actors.get(idWolf.id3);
+
+      const wolf1Energie = +actor1Wolf.system.energie.value;
+      const wolf2Energie = +actor2Wolf.system.energie.value;
+      const wolf3Energie = +actor3Wolf.system.energie.value;
+      let fonctionne = false;
+
+      if(wolf1Energie-4 >= 0) {
+        actor1Wolf.update({[`system`]:{
+          'energie':{
+            'value':wolf1Energie-4
+          },
+          'configurationActive':configuration
+        }});
+        fonctionne = true;
+      }
+
+      if(wolf2Energie-4 >= 0) {
+        actor2Wolf.update({[`system`]:{
+          'energie':{
+            'value':wolf2Energie-4
+          },
+          'configurationActive':configuration
+        }});
+        fonctionne = true;
+      }
+
+      if(wolf3Energie-4 >= 0) {
+        actor3Wolf.update({[`system`]:{
+          'energie':{
+            'value':wolf3Energie-4
+          },
+          'configurationActive':configuration
+        }});
+        fonctionne = true
+      }
+
+      if(fonctionne) {
+        const msgCompanions = {
+          flavor:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Change")}`,
+          main:{
+            total:`${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.${configuration.toUpperCase()}.Label`)}`
+          }
+        };
+
+        const msgActiveCompanions = {
+          user: game.user.id,
+          speaker: {
+            actor: this.actor?.id || null,
+            token: this.actor?.token?.id || null,
+            alias: this.actor?.name || null,
+          },
+          type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+          content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
+          sound: CONFIG.sounds.dice
+        };
+
+        await ChatMessage.create(msgActiveCompanions);
+      }
+    });
+
+    html.find('.armure .useConfigurationWolf').click(async ev => {
+      const target = $(ev.currentTarget);
+      const configuration = target.data("configuration");
+      const armure = await getArmor(this.actor);
+      const armorCapacites = armure.system.capacites.selected.companions;
       const detailsConfigurations = armorCapacites.wolf.configurations;
       const idWolf = armorCapacites.wolf.id;
 
@@ -2225,7 +2337,7 @@ export class KnightSheet extends ActorSheet {
       const wolf2Energie = +actor2Wolf.system.energie.value;
       const wolf3Energie = +actor3Wolf.system.energie.value;
       const depenseEnergie = +detailsConfigurations[configuration].energie;
-
+      let fonctionne = false;
 
       if(wolf1Energie-depenseEnergie >= 0) {
         actor1Wolf.update({[`system`]:{
@@ -2234,6 +2346,7 @@ export class KnightSheet extends ActorSheet {
           },
           'configurationActive':configuration
         }});
+        fonctionne = true
       }
 
       if(wolf2Energie-depenseEnergie >= 0) {
@@ -2243,6 +2356,7 @@ export class KnightSheet extends ActorSheet {
           },
           'configurationActive':configuration
         }});
+        fonctionne = true
       }
 
       if(wolf3Energie-depenseEnergie >= 0) {
@@ -2252,6 +2366,29 @@ export class KnightSheet extends ActorSheet {
           },
           'configurationActive':configuration
         }});
+        fonctionne = true
+      }
+      if(fonctionne) {
+        const msgCompanions = {
+          flavor:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Use")}`,
+          main:{
+            total:`${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.${configuration.toUpperCase()}.Label`)}`
+          }
+        };
+
+        const msgActiveCompanions = {
+          user: game.user.id,
+          speaker: {
+            actor: this.actor?.id || null,
+            token: this.actor?.token?.id || null,
+            alias: this.actor?.name || null,
+          },
+          type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+          content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
+          sound: CONFIG.sounds.dice
+        };
+
+        await ChatMessage.create(msgActiveCompanions);
       }
     });
 

@@ -1445,6 +1445,10 @@
             "AspectsExceptionnelsRepartir":"Exceptional aspect points to be distributed",
             "AspectsExceptionnelsRestantRepartir":"Exceptional aspect points still to be distributed",
             "NiveauConfigurationRestant":"Level still to be distributed",
+            "Invocation":"Summon : {type}",
+            "Revocation":"Revoke : {type}",
+            "Change":"Change configuration",
+            "Use":"Using configuration",
             "ENERGIE":{
               "Base":"Generate a companion",
               "Prolonger":"Extending a companion",
@@ -1471,6 +1475,8 @@
               "CONFIGURATIONS":{
                 "Label":"Configurations",
                 "Active":"Active configuration",
+                "Utiliser":"Use the configuration",
+                "Utiliser-hint":"Spends the EP from using the current configuration on all wolfs.",
                 "Disponible":"Available configurations",
                 "LABOR":{
                   "Label":"Labor",
