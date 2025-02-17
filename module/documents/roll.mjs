@@ -846,7 +846,6 @@ export class RollKnight {
     }
 
     async #prepareRollWeapon(data={}) {
-        console.warn(data);
         const results = data.results;
         const success = data.success;
         const rollState = data.rollState;
@@ -1107,7 +1106,6 @@ export class RollKnight {
         await this.#handleAttaqueEffet(weapon, main, rolls, data?.updates ?? {});
         foundry.utils.mergeObject(main, finalDataToAdd);
         flags = foundry.utils.mergeObject(this.addFlags, flags)
-
         let chatData = {
             user:game.user.id,
             speaker: {
@@ -1487,7 +1485,7 @@ export class RollKnight {
                     const target = type === 'vehicule' ? actor.system.pilote : actor;
                     const chair = target?.system?.aspects?.chair?.value ?? 0;
 
-                    if(actor.statuses.has('designation') && weapon.type === 'distance') {
+                    if(actor.statuses.has('designation') && weapon.type === 'distance' && total) {
                         const newTotal = total + 1;
 
                         if(t.hit) {
@@ -1504,8 +1502,9 @@ export class RollKnight {
                             subtitle:`${newTotal} ${game.i18n.localize('KNIGHT.JETS.Succes')} / ${game.i18n.localize('KNIGHT.EFFETS.DESIGNATION.IgnoreEpicFail')}`,
                         })
                     }
-
                     for(let d of detailledEffets) {
+                        if(!target) continue;
+
                         const comparaison = target.type === 'knight' ? chair : Math.ceil(chair/2);
                         const chairAE = target.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
@@ -1611,8 +1610,6 @@ export class RollKnight {
         if(getGhost && armorIsWear && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && (this.#isEffetActive(raw, weapon.options, ['silencieux']) || this.#isEffetActive(raw, weapon.options, ['munitionssubsoniques']) || this.#isEffetActive(raw, weapon.options, ['assassine'])))))) {
             isGhostActive = data?.flags?.ghost;
         }
-
-        console.warn(isGhostActive)
 
         if(armorIsWear && data?.flags?.ersatzghost?.value && data?.flags?.ersatzghost?.id  && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && (this.#isEffetActive(effets, weapon.options, ['silencieux']) || this.#isEffetActive(effets, weapon.options, ['munitionssubsoniques']) || this.#isEffetActive(effets, weapon.options, ['assassine'])))))) {
             isErsatzGhostActive = data?.flags?.ersatzghost?.value;
@@ -1753,9 +1750,6 @@ export class RollKnight {
             bonus.push(discretion + odDiscretion);
             title += ` + ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label')}`;
         }
-
-        console.warn(data.flags);
-        console.warn(isErsatzGhostActive);
 
         if(armorIsWear && isErsatzGhostActive) {
             const ersatzghost = this.attaquant.items.find(itm => itm._id === idErsatzGhost).system.niveau.actuel.ersatz.rogue;

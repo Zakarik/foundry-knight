@@ -1422,11 +1422,12 @@ export class PNJSheet extends ActorSheet {
 
     html.find('.capacites div.modules .activation').click(async ev => {
       const target = $(ev.currentTarget);
+      const name = target.data("name");
       const type = target.data("type");
       const module = target.data("module");
       const value = target.data("value") ? false : true;
       const cout = eval(target.data("cout"));
-      const depense = value ? this._depensePE(cout, true) : true;
+      const depense = value ? this._depensePE(name, cout, true) : true;
 
       if(!depense) return;
 

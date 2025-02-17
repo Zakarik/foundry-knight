@@ -1,3 +1,8 @@
+## v3.41.1
+### Bugfix
+- Corrections de bugs de compatibilité avec Status Icon Counter.
+- Correction d'un bug avec les modules pour le compagnon Lion du Druid (encore).
+
 ## v3.41.0
 ### Amélioration
 - Ajout d'un bouton pour "utiliser" une configuration avec les Wolf (et déduire automatiquement les PE de tous les Wolfs).
