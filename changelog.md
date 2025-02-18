@@ -1,3 +1,7 @@
+## v3.41.2
+### Bugfix
+- Correction d'un bug empêchant d'écrire la description limitée des chevaliers du Knight.
+
 ## v3.41.1
 ### Bugfix
 - Corrections de bugs de compatibilité avec Status Icon Counter.
