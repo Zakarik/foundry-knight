@@ -1,3 +1,7 @@
+## v3.41.3
+### Bugfix
+- Correction d'un bug empêchant le style précis de fonctionner.
+
 ## v3.41.2
 ### Bugfix
 - Correction d'un bug empêchant d'écrire la description limitée des chevaliers du Knight.

@@ -913,7 +913,7 @@ export class KnightRollDialog extends Dialog {
                 case 'precis':
                     if(this.#isEffetActive(effets, weapon.options, ['deuxmains', 'munitionshypervelocite', 'systemerefroidissement']) && weapon.type === 'contact') {
                         if(data.find('.precis select').val()){
-                            dices += this.getValueAspect(actor, data.find('.precis select').val());
+                            dices += this.#getValueAspect(actor, data.find('.precis select').val());
                             carac.push(this.#getLabelRoll(data.find('.precis select').val()));
                         }
                     }
@@ -1111,28 +1111,28 @@ export class KnightRollDialog extends Dialog {
 
                 if(attaque.carac.jet) {
                     add = true;
-                    dices += this.getValueAspect(actor, attaque.carac.jet);
+                    dices += this.#getValueAspect(actor, attaque.carac.jet);
 
                     if(attaque.carac.odInclusJet && armorIsWear) dices += this.#getODAspect(actor, attaque.carac.jet);
                 }
 
                 if(attaque.carac.fixe) {
                     add = true;
-                    bonus.push(this.getValueAspect(actor, attaque.carac.fixe));
+                    bonus.push(this.#getValueAspect(actor, attaque.carac.fixe));
 
                     if(attaque.carac.odInclusFixe && armorIsWear) bonus.push(this.#getODAspect(actor, attaque.carac.fixe));
                 }
 
                 if(attaque.aspect.jet) {
                     add = true;
-                    dices += this.getValueAspect(actor, attaque.aspect.jet);
+                    dices += this.#getValueAspect(actor, attaque.aspect.jet);
 
                     if(attaque.aspect.odInclusJet && armorIsWear) dices += this.#getODAspect(actor, attaque.aspect.jet);
                 }
 
                 if(attaque.aspect.fixe) {
                     add = true;
-                    bonus.push(this.getValueAspect(actor, attaque.aspect.fixe));
+                    bonus.push(this.#getValueAspect(actor, attaque.aspect.fixe));
 
                     if(attaque.aspect.odInclusFixe && armorIsWear) bonus.push(this.#getODAspect(actor, attaque.aspect.fixe));
                 }
