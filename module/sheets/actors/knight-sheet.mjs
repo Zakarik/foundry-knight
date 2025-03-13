@@ -3665,6 +3665,8 @@ export class KnightSheet extends ActorSheet {
     });
 
     html.find('.appliquer-evolution-companions').click(ev => {
+      const target = $(ev.currentTarget);
+      const id = target.data("num");
       const dataCompanions = this.actor.armureData.system.capacites.selected.companions;
       const dataWolfConfig = dataCompanions.wolf.configurations;
       let data = this.actor.armureData.system.evolutions.special.companions.evolutions;
@@ -3803,6 +3805,7 @@ export class KnightSheet extends ActorSheet {
       data['wolf'].bonusRestant = data.wolf.bonus;
 
       data['crow']['aspects'].restant = data.crow.aspects.value;
+      data['evo'] = id;
 
       const companions = new game.knight.applications.KnightCompanionsDialog({
         title: this.actor.name+" : "+game.i18n.localize("KNIGHT.ITEMS.ARMURE.EVOLUTIONS.EvolutionCompanion"),
@@ -4769,7 +4772,6 @@ export class KnightSheet extends ActorSheet {
 
           if(!AlreadyEvo && PGEvo <= totalPG) {
             evolutionsAchetables.push({
-              id:key,
               value:PGEvo
             });
           }
@@ -4785,6 +4787,7 @@ export class KnightSheet extends ActorSheet {
           if(nbreEvo > nbreEvoApplied) {
             for(let n = nbreEvoApplied+1; n <= nbreEvo;n++) {
               evolutionsCompanions.push({
+                id:n,
                 value:valueEvo*n
               });
             }

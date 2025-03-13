@@ -1,3 +1,7 @@
+## v3.41.4
+### Bugfix
+- Correction de nombreux bug affectant l'armure Druid.
+
 ## v3.41.3
 ### Bugfix
 - Correction d'un bug empêchant le style précis de fonctionner.

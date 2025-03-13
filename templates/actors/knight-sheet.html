@@ -13,7 +13,7 @@
     {{#unless (isEmpty actor.evolutionsCompanions)}}
     <div class="evolutionsAchetables">
         {{#each actor.evolutionsCompanions as | key evolution|}}
-            <button class="appliquer-evolution-companions">
+            <button class="appliquer-evolution-companions" data-num="{{key.value}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.EVOLUTIONS.EvolutionCompanionDisponible"}} ({{key.value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}) - {{localize "KNIGHT.AUTRE.CliquezIci"}}
             </button>
         {{/each}}
