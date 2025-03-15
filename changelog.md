@@ -1,3 +1,7 @@
+## v3.41.5
+### Bugfix
+- Correction d'un problème avec l'activation des méta-armures de légende.
+
 ## v3.41.4
 ### Bugfix
 - Correction de nombreux bug affectant l'armure Druid.

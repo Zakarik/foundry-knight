@@ -6460,7 +6460,7 @@ export class KnightSheet extends ActorSheet {
 
   _getArmorLegende() {
     const data = this.actor;
-    const armor = data.items.filter((a) => a.type === 'armurelegende');
+    const armor = data.items.find((a) => a.type === 'armurelegende');
 
     return armor;
   }
