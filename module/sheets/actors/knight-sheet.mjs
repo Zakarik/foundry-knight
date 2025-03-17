@@ -3610,9 +3610,10 @@ export class KnightSheet extends ActorSheet {
       const id = target.data("num");
       const dataArmor = await getArmor(this.actor);
       const listEvolutions = dataArmor.system.evolutions.liste;
-      const dataEArmor = listEvolutions[id].data;
-      const capacites = listEvolutions[id].capacites;
-      let special = listEvolutions[id].special;
+      console.warn(dataArmor);
+      const dataEArmor = listEvolutions[id]?.data ?? {};
+      const capacites = listEvolutions[id]?.capacites ?? {};
+      let special = listEvolutions[id]?.special ?? {};
       const gloireListe = this.actor.system.progression.gloire.depense.liste;
       const isEmpty = gloireListe[0]?.isEmpty ?? false;
       const addOrder =  Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
@@ -4772,7 +4773,8 @@ export class KnightSheet extends ActorSheet {
 
           if(!AlreadyEvo && PGEvo <= totalPG) {
             evolutionsAchetables.push({
-              value:PGEvo
+              value:PGEvo,
+              id:key
             });
           }
         }

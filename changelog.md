@@ -1,3 +1,7 @@
+## v3.41.6
+### Bugfix
+- Correction d'un problème avec les évolutions d'armures.
+
 ## v3.41.5
 ### Bugfix
 - Correction d'un problème avec l'activation des méta-armures de légende.
