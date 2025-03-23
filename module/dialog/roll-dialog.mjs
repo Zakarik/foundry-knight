@@ -1001,9 +1001,12 @@ export class KnightRollDialog extends Dialog {
                 }
             }
 
-
             if((this.#isEffetActive(effets, weapon.options, ['munitionsdrones']))) {
                 bonus.push(3);
+            }
+
+            if((this.#isEffetActive(effets, weapon.options, ['cadence', 'chromeligneslumineuses']))) {
+                dices -= 3;
             }
 
             const dgtsVariable = weapon.options.find(itm => itm.classes.includes('dgtsvariable') && itm.key === 'select');
@@ -1242,8 +1245,6 @@ export class KnightRollDialog extends Dialog {
 
             bonus.push(goliath);
         }
-
-        console.warn(ghost);
 
         if(ghost > 0) {
             tags.push({

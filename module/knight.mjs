@@ -174,12 +174,16 @@ Hooks.once('init', async function() {
   let statusEffects = [
     {
       id:'dead',
+      name:'EFFECT.StatusDead',
       label:'EFFECT.StatusDead',
-      icon:'icons/svg/skull.svg'
+      icon:'icons/svg/skull.svg',
+      img:'icons/svg/skull.svg'
     },
     {
       id:'lumiere',
+      name:"KNIGHT.EFFETS.LUMIERE.Label",
       label:"KNIGHT.EFFETS.LUMIERE.Label",
+      img:'systems/knight/assets/icons/effects/lumiere.svg',
       icon:'systems/knight/assets/icons/effects/lumiere.svg',
       changes:[{
         key: `system.defense.malus.lumiere`,
@@ -199,6 +203,8 @@ Hooks.once('init', async function() {
     {
       id:'barrage',
       label:"KNIGHT.EFFETS.BARRAGE.Label",
+      name:"KNIGHT.EFFETS.BARRAGE.Label",
+      img:'systems/knight/assets/icons/effects/barrage.svg',
       icon:'systems/knight/assets/icons/effects/barrage.svg',
       changes:[{
         key: `system.defense.malus.barrage`,
@@ -218,31 +224,43 @@ Hooks.once('init', async function() {
     {
       id:'designation',
       label:"KNIGHT.EFFETS.DESIGNATION.Label",
+      name:"KNIGHT.EFFETS.DESIGNATION.Label",
+      img:'systems/knight/assets/icons/effects/designation.svg',
       icon:'systems/knight/assets/icons/effects/designation.svg'
     },
     {
       id:'choc',
       label:"KNIGHT.EFFETS.CHOC.Label",
+      name:"KNIGHT.EFFETS.CHOC.Label",
+      img:'systems/knight/assets/icons/effects/choc.svg',
       icon:'systems/knight/assets/icons/effects/choc.svg'
     },
     {
       id:'parasitage',
       label:"KNIGHT.EFFETS.PARASITAGE.Label",
+      name:"KNIGHT.EFFETS.PARASITAGE.Label",
+      img:'systems/knight/assets/icons/effects/parasitage.svg',
       icon:'systems/knight/assets/icons/effects/parasitage.svg'
     },
     {
       id:'degatscontinus',
       label:"KNIGHT.EFFETS.DEGATSCONTINUS.Label",
+      name:"KNIGHT.EFFETS.DEGATSCONTINUS.Label",
+      img:'systems/knight/assets/icons/effects/degatscontinus.svg',
       icon:'systems/knight/assets/icons/effects/degatscontinus.svg'
     },
     {
       id:'soumission',
       label:"KNIGHT.EFFETS.SOUMISSION.Label",
+      name:"KNIGHT.EFFETS.SOUMISSION.Label",
+      img:'systems/knight/assets/icons/effects/soumission.svg',
       icon:'systems/knight/assets/icons/effects/soumission.svg'
     },
     {
       id:'fumigene',
       label:"KNIGHT.EFFETS.FUMIGENE.Label",
+      name:"KNIGHT.EFFETS.FUMIGENE.Label",
+      img:'systems/knight/assets/icons/effects/fumigene.svg',
       icon:'systems/knight/assets/icons/effects/fumigene.svg',
       changes:[{
         key: `system.defense.bonus.fumigene`,
@@ -409,7 +427,9 @@ Hooks.once('init', async function() {
     CONFIG.statusEffects.push({
       id:'immobilisation',
       label:"KNIGHT.EFFETS.IMMOBILISATION.Label",
-      icon:'systems/knight/assets/icons/effects/immobilisation.svg'
+      name:"KNIGHT.EFFETS.IMMOBILISATION.Label",
+      icon:'systems/knight/assets/icons/effects/immobilisation.svg',
+      img:'systems/knight/assets/icons/effects/immobilisation.svg'
     });
   }
 });

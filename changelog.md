@@ -1,3 +1,8 @@
+## v3.41.7
+### Bugfix
+- Correction d'un bug avec l'effet Cadence, qui ne retirait pas 3 dés à l'attaque.
+- Correction d'un problème de compatibilité de Monk's Little Details.
+
 ## v3.41.6
 ### Bugfix
 - Correction d'un problème avec les évolutions d'armures.
