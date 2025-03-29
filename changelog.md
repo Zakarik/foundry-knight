@@ -1,3 +1,7 @@
+## v3.41.8
+### Bugfix
+- Correction d'un bug empêchant de choisir des impulsions pour la Warmaster.
+
 ## v3.41.7
 ### Bugfix
 - Correction d'un bug avec l'effet Cadence, qui ne retirait pas 3 dés à l'attaque.
