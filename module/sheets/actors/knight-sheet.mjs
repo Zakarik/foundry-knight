@@ -261,8 +261,6 @@ export class KnightSheet extends ActorSheet {
         if(remplaceEnergie && type === 'module' && coutCalcule > 0) {
           coutCalcule = armure.system.espoir.cout > 0 ? Math.max(Math.floor(cout / armure.system.espoir.cout), 1) : coutCalcule;
 
-          if(getData?.system?.options?.kraken ?? false) coutCalcule -= 1;
-
           if(coutCalcule < 1) coutCalcule = 1;
         }
 

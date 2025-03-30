@@ -4783,7 +4783,6 @@ export class KnightRollDialog extends Dialog {
 
         if(remplaceEnergie && coutCalcule > 0) {
             coutCalcule = armure.system.espoir.cout > 0 ? Math.max(Math.floor(coutCalcule / armure.system.espoir.cout), 1) : coutCalcule;
-            if(actor?.system?.options?.kraken ?? false) coutCalcule -= 1;
             if(coutCalcule < 1) coutCalcule = 1;
         }
 
