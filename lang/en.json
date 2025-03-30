@@ -278,7 +278,8 @@
       "Resilience":"Résilience",
       "Bouclier":"Shielding",
       "Noyaux":"Energy cores",
-      "Noyau":"Energy core"
+      "Noyau":"Energy core",
+      "ReductionPEs":"Reducing loss of hope"
     },
     "PERSONNAGE":{
       "Label":"Character",

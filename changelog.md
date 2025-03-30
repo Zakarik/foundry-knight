@@ -1,3 +1,7 @@
+## v3.42.1
+### Bugfix
+- Ajout d'une traduction anglaise oubliée.
+
 ## v3.42.0
 ### Amélioration
 - Ajout d'un champ pour noter les réductions de pertes d'espoirs éventuels, soit comme aide mémoire, soit pour être pris en compte par les armures comme la Berserk.
