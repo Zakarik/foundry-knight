@@ -1189,7 +1189,7 @@ export default class HooksKnight {
                 // Damages on resilience
                 // #####################
                 const briserResi = effects.briserlaresilience || 0;
-                if (hasResilience && resilience > 0 && dmgZone.resilience && (damagesLeft > 0 || briserResi > 0) && !antiVehicule) {
+                if (hasResilience && resilience > 0 && dmgZone.resilience && (damagesLeft > 0 || briserResi > 0) && (!antiVehicule || actorIsMechaArmor)) {
                     // Divide damages by 10
                     damagesLeft = Math.ceil(damagesLeft / 10);
 
@@ -1272,6 +1272,15 @@ export default class HooksKnight {
                 // Damages on espoir
                 // #################
                 if (hasEspoir && espoir > 0 && damagesLeft > 0 && dmgZone.espoir) {
+
+                    if(actor.system.armorISwear && actor.system.dataArmor) {
+                        const reduction = actor?.system?.dataArmor?.system?.special?.selected?.apeiron?.espoir?.reduction?.value ?? 0;
+
+                        damagesLeft -= reduction;
+                    }
+
+                    if(actor.system?.options?.kraken ?? false) damagesLeft -= 1;
+
                     // Check if the damages are upper than the health
                     if (damagesLeft > espoir) {
                     espoirDmg += espoir;
@@ -1552,7 +1561,6 @@ export default class HooksKnight {
             const doDamages = async (data) => {
                 // Get data
                 const {tokenId, dmg, effects, dmgType} = data;
-
                 // Get token
                 const token = canvas?.tokens?.get(tokenId) ?? {isVisible:false};
 

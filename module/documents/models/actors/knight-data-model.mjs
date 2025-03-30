@@ -76,6 +76,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                     bonus:new NumberField({initial:0, nullable:false, integer:true}),
                     malus:new NumberField({initial:0, nullable:false, integer:true}),
                 }),
+                reduction:new NumberField({initial:0, nullable:false, integer:true}),
             }),
             energie:new SchemaField({
                 base:new NumberField({ initial: 0, integer: true, nullable: false }),

@@ -1401,6 +1401,8 @@ export class RollKnight {
             }
         }
 
+        console.warn(this);
+
         for(let c of custom) {
             const attaque = c.attaque;
 
@@ -1477,8 +1479,7 @@ export class RollKnight {
             let hasBtnApply = false;
 
             for(let t of c.targets) {
-                const tgt = game.user.targets.find(tgt => tgt.id === t.id);
-                const actor = tgt.actor;
+                const actor = canvas.tokens.get(t.id).actor;
 
                 if(actor) {
                     const type = actor.type;
@@ -2436,8 +2437,7 @@ export class RollKnight {
         for(let t of targets) {
             t.effets = [];
             let total = roll.total+Object.values(bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-            const tgt = game.user.targets.find(tgt => tgt.id === t.id);
-            const actor = tgt.actor;
+            const actor = canvas.tokens.get(t.id).actor;
             const type = actor.type;
             const target = type === 'vehicule' ? actor.system.pilote : actor;
 
@@ -2976,8 +2976,7 @@ export class RollKnight {
         await roll.evaluate(rollOptions);
 
         for(let t of targets) {
-            const tgt = game.user.targets.find(tgt => tgt.id === t.id);
-            const actor = tgt.actor;
+            const actor = canvas.tokens.get(t.id).actor;
             const type = actor.type;
             const target = type === 'vehicule' ? actor.system.pilote : actor;
             t.effets = [];

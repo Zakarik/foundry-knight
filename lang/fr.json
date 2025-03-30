@@ -278,7 +278,8 @@
       "Resilience":"Résilience",
       "Bouclier":"Bouclier",
       "Noyaux":"Noyaux d'énergie",
-      "Noyau":"Noyau d'énergie"
+      "Noyau":"Noyau d'énergie",
+      "ReductionPEs":"Réductions des pertes d'espoir"
     },
     "PERSONNAGE":{
       "Label":"Personnage",

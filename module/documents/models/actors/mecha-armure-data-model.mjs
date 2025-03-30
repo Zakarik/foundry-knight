@@ -526,6 +526,11 @@ export class MechaArmureDataModel extends foundry.abstract.TypeDataModel {
       return super.migrateData(source);
   }
 
+  get piloteId() {
+    console.warn(this.parent.system);
+    return this.pilote;
+  }
+
   prepareBaseData() {
     this.#modules();
 	}
@@ -555,6 +560,55 @@ export class MechaArmureDataModel extends foundry.abstract.TypeDataModel {
       Object.defineProperty(system, update, {
         value: Math.max(base+bonus-malus, 0),
       });
+    }
+
+    let pilote = {};
+
+    if(this.piloteId !== 0) {
+      const piloteData = game.actors?.get(this.piloteId) || false;
+
+      if(piloteData !== false) {
+        const piloteSystem = piloteData.system;
+
+        pilote.name = piloteData.name;
+        pilote.surnom = piloteSystem.surnom;
+        pilote.aspects = piloteSystem.aspects;
+
+        const dataRD = ['reaction', 'defense'];
+
+        for(let i = 0;i < dataRD.length;i++) {
+            const isKraken = piloteSystem.options.kraken;
+            const dataBonus = piloteSystem[dataRD[i]].bonus;
+            const dataMalus = piloteSystem[dataRD[i]].malus;
+            const dataMABonus = Object.values(this[dataRD[i]].bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+            const dataMAMalus = Object.values(this[dataRD[i]].malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+            const base = piloteSystem[dataRD[i]].base;
+
+            let bonus = isKraken ? 1 : 0;
+            let malus = 0;
+
+            for(const bonusList in dataBonus) {
+              if(bonusList === 'user') bonus += dataBonus[bonusList];
+            }
+
+            for(const malusList in dataMalus) {
+              if(malusList === 'user') malus += dataMalus[malusList];
+            }
+
+            bonus += dataMABonus;
+            malus += dataMAMalus;
+
+            if(dataRD[i] === 'defense') {
+              const ODAura = +piloteSystem.aspects.aspects?.dame?.caracteristiques?.aura?.overdrive?.value || 0;
+
+              if(ODAura >= 5) bonus += +piloteSystem.aspects.dame.caracteristiques.aura.value;
+            }
+
+            Object.defineProperty(this[dataRD[i]], 'value', {
+              value: Math.max(base+bonus-malus, 0),
+            });
+        }
+      }
     }
   }
 

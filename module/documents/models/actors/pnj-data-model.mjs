@@ -165,6 +165,7 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
             espoir:new SchemaField({
                 value:new NumberField({initial:0, nullable:false, integer:true}),
                 max:new NumberField({initial:50, nullable:false, integer:true}),
+                reduction:new NumberField({initial:0, nullable:false, integer:true}),
             }),
             resilience:new SchemaField({
                 value:new NumberField({initial:0, nullable:false, integer:true}),

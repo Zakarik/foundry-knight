@@ -220,7 +220,7 @@ export class MechaArmureSheet extends ActorSheet {
       const dialog = new game.knight.applications.KnightRollDialog(actor, {
         whoActivate:getData.system.pilote,
         label:label,
-        wpn:`ma_${actor}_${key}`
+        wpn:`ma_${this.actor.id}_${key}`
       });
 
       dialog.open();
@@ -435,7 +435,7 @@ export class MechaArmureSheet extends ActorSheet {
           newEnergie = await this._depenseNE(+data.noyaux, `${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`);
 
           if(!newEnergie) return;
-
+          console.warn(this.actor);
           newActor = await Actor.create({
             name: `${this.title} : ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
             type: "bande",
@@ -472,7 +472,7 @@ export class MechaArmureSheet extends ActorSheet {
                 "noType":true
               }
             },
-            permission:this.actor.ownership
+            ownership:this.actor.ownership
           });
           break;
 
@@ -967,50 +967,7 @@ export class MechaArmureSheet extends ActorSheet {
         pilote.name = piloteData.name;
         pilote.surnom = piloteSystem.surnom;
         pilote.aspects = piloteSystem.aspects;
-
-        const dataRD = ['reaction', 'defense'];
-
-        for(let i = 0;i < dataRD.length;i++) {
-            const isKraken = piloteSystem.options.kraken;
-            const dataBonus = piloteSystem[dataRD[i]].bonus;
-            const dataMalus = piloteSystem[dataRD[i]].malus;
-            const dataMABonus = system[dataRD[i]].bonus;
-            const dataMAMalus = system[dataRD[i]].malus;
-            const base = piloteSystem[dataRD[i]].base;
-
-            let bonus = isKraken ? 1 : 0;
-            let malus = 0;
-
-            for(const bonusList in dataBonus) {
-              if(bonusList === 'user') bonus += dataBonus[bonusList];
-            }
-
-            for(const malusList in dataMalus) {
-              if(malusList === 'user') malus += dataMalus[malusList];
-            }
-
-            for(const bonusList in dataMABonus) {
-              bonus += dataMABonus[bonusList];
-            }
-
-            for(const malusList in dataMAMalus) {
-              malus += dataMAMalus[malusList];
-            }
-
-            if(dataRD[i] === 'defense') {
-              const ODAura = +piloteSystem.aspects.aspectscts?.dame?.caracteristiques?.aura?.overdrive?.value || 0;
-
-              if(ODAura >= 5) bonus += +piloteSystem.aspects.dame.caracteristiques.aura.value;
-            }
-
-            system[dataRD[i]].value = base+bonus-malus;
-        }
-
-        system.initiative.dice = piloteSystem.initiative.dice;
-        system.initiative.value = piloteSystem.initiative.value;
       }
-
-
     }
 
     const listWpn = ['canonMetatron', 'canonMagma', 'mitrailleusesSurtur', 'souffleDemoniaque', 'poingsSoniques'];

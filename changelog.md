@@ -1,3 +1,12 @@
+## v3.42.0
+### Amélioration
+- Ajout d'un champ pour noter les réductions de pertes d'espoirs éventuels, soit comme aide mémoire, soit pour être pris en compte par les armures comme la Berserk.
+
+### Bugfix
+- Correction de divers bug sur le ciblage des tokens et le calcul des dégâts.
+- Correction de divers bug concernant la Berserk et la dépense d'espoir.
+- Correction de divers bug concernant les Mecha-armures
+
 ## v3.41.8
 ### Bugfix
 - Correction d'un bug empêchant de choisir des impulsions pour la Warmaster.

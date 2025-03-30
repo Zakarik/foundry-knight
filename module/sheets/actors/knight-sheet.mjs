@@ -241,7 +241,6 @@ export class KnightSheet extends ActorSheet {
       const value = target.data("value") ? false : true;
       const hasFlux = target.data("flux") || false;
       const flux = hasFlux != false ? eval(hasFlux) : false;
-      const cout = eval(target.data("cout"));
       const isAllie = target.data("isallie");
       const capacite = target.data("capacite");
       const variant = target.data("variant");
@@ -249,6 +248,7 @@ export class KnightSheet extends ActorSheet {
       const dEspoir = target.data("despoir");
       const espoir = target.data("espoir");
       const caracteristiques = target.data("caracteristiques")?.split('.')?.filter((a) => a) || false;
+      let cout = eval(target.data("cout"));
 
       const getData = this.actor;
       const armure = await getArmor(this.actor);
@@ -256,7 +256,19 @@ export class KnightSheet extends ActorSheet {
       const armorCapacites = getData.armureData.system.capacites.selected;
 
       if(value && type !== 'modulePnj') {
-        const coutCalcule = remplaceEnergie && armure.system.espoir.cout > 0 && type === 'module' ? Math.max(Math.floor(cout / armure.system.espoir.cout), 1) : cout;
+        let coutCalcule = cout;
+
+        if(remplaceEnergie && type === 'module' && coutCalcule > 0) {
+          coutCalcule = armure.system.espoir.cout > 0 ? Math.max(Math.floor(cout / armure.system.espoir.cout), 1) : coutCalcule;
+          coutCalcule -= armure?.system?.special?.selected?.apeiron?.espoir?.reduction?.value ?? 0;
+
+          if(getData?.system?.options?.kraken ?? false) coutCalcule -= 1;
+
+          coutCalcule -= getData?.system?.espoir?.reduction ?? 0;
+
+          if(coutCalcule < 1) coutCalcule = 1;
+        }
+
         const depense = await this._depensePE(name, coutCalcule, true, false, flux, true);
 
         if(!depense) return;

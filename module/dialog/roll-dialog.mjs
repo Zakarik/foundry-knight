@@ -1009,6 +1009,12 @@ export class KnightRollDialog extends Dialog {
                 dices -= 3;
             }
 
+            if(this.actor.type === 'mechaarmure') {
+                if(!this.#isEffetActive(effets, weapon.options, ['antivehicule'])) weapon.effets.raw.push('antivehicule');
+
+                dices += this.actor.system.puissance.value;
+            }
+
             const dgtsVariable = weapon.options.find(itm => itm.classes.includes('dgtsvariable') && itm.key === 'select');
             const violenceVariable = weapon.options.find(itm => itm.classes.includes('violencevariable') && itm.key === 'select');
             const dgtsBonusVariable = weapon.options.find(itm => itm.classes.includes('dgtsbonusvariable') && itm.key === 'select');
@@ -1060,8 +1066,7 @@ export class KnightRollDialog extends Dialog {
                 const dgtsList = dgtsBonusVariable?.list ?? {};
                 let coutDgts = 0;
 
-                let v = 0;
-
+                let v = 1;
                 for(let l in dgtsList) {
                     coutDgts = v*dgtsBonusVariable.value;
                     v++;
@@ -1075,7 +1080,7 @@ export class KnightRollDialog extends Dialog {
                 const violenceVariableSelected = parseInt($(weaponData.find(`label.violencebonusvariable select`)).val());
                 let coutViolence = 0;
 
-                let v = 0;
+                let v = 1;
 
                 for(let l in violenceBonusVariable.list) {
                     coutViolence = v*violenceBonusVariable.value;
@@ -1208,7 +1213,7 @@ export class KnightRollDialog extends Dialog {
 
             tags.push({
                 key:'energie',
-                label:depenseEnergie.espoir ? `${game.i18n.localize('KNIGHT.JETS.Depenseespoir')} : ${cout}` : `${game.i18n.localize('KNIGHT.JETS.Depenseenergie')} : ${cout}`,
+                label:depenseEnergie.espoir ? `${game.i18n.localize('KNIGHT.JETS.Depenseespoir')} : ${depenseEnergie.depense}` : `${game.i18n.localize('KNIGHT.JETS.Depenseenergie')} : ${depenseEnergie.depense}`,
             });
 
             if(depenseEnergie.substract < 0) {
@@ -1222,10 +1227,9 @@ export class KnightRollDialog extends Dialog {
         if(espoir > 0 && doRoll) {
             if(cout === 0 || (cout > 0 && !depenseEnergie.espoir)) {
                 const depenseEspoir = this.#depenseEnergie(cout, true);
-
                 tags.push({
                     key:'espoir',
-                    label:`${game.i18n.localize('KNIGHT.JETS.Depenseespoir')} : ${espoir}`,
+                    label:`${game.i18n.localize('KNIGHT.JETS.Depenseespoir')} : ${depenseEspoir.depense}`,
                 });
 
                 if(depenseEspoir.substract < 0) {
@@ -4769,12 +4773,23 @@ export class KnightRollDialog extends Dialog {
         const remplaceEnergie = forceEspoir ? true : armure?.system?.espoir?.remplaceEnergie || false;
         const actuel = remplaceEnergie ? Number(actor.system.espoir.value) : Number(actor.system.energie.value);
         const type = remplaceEnergie ? 'espoir' : 'energie';
-        const substract = actuel-amount;
         const hasJauge = isPJ && actor.type !== 'mechaarmure' ? actor.system.jauges[type] : true;
         const lNot = remplaceEnergie ? game.i18n.localize('KNIGHT.JETS.Notespoir') : game.i18n.localize('KNIGHT.JETS.Notenergie');
         let update = {};
         let msg = '';
         let classes = '';
+        let coutCalcule = amount;
+        let substract = 0;
+
+        if(remplaceEnergie && coutCalcule > 0) {
+            coutCalcule = armure.system.espoir.cout > 0 ? Math.max(Math.floor(coutCalcule / armure.system.espoir.cout), 1) : coutCalcule;
+            coutCalcule -= armure?.system?.special?.selected?.apeiron?.espoir?.reduction?.value ?? 0;
+            if(actor?.system?.options?.kraken ?? false) coutCalcule -= 1;
+            coutCalcule -= actor?.system?.espoir?.reduction ?? 0;
+            if(coutCalcule < 1) coutCalcule = 1;
+        }
+
+        substract = actuel-coutCalcule;
 
         if(substract < 0 || !hasJauge) {
             msg = lNot;
@@ -4791,6 +4806,7 @@ export class KnightRollDialog extends Dialog {
             update:update,
             substract:substract,
             espoir:remplaceEnergie,
+            depense:coutCalcule,
         };
     }
 
