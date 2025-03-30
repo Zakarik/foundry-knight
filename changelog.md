@@ -1,3 +1,7 @@
+## v3.42.3
+### Bugfix
+- Dernière (je l'espère) correction pour les pertes d'espoirs.
+
 ## v3.42.2
 ### Bugfix
 - Correction de quelques mécomprehension sur les réductions de coût en espoir et les pertes (en attendant d'un éventuel éclaircissement) d'espoir de la Berserk.

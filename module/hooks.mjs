@@ -1272,7 +1272,15 @@ export default class HooksKnight {
                 // Damages on espoir
                 // #################
                 if (hasEspoir && espoir > 0 && damagesLeft > 0 && dmgZone.espoir) {
+
+                    if(actor.system.armorISwear && actor.system.dataArmor) {
+                        const reduction = actor?.system?.dataArmor?.system?.special?.selected?.apeiron?.espoir?.reduction?.value ?? 0;
+
+                        damagesLeft -= reduction;
+                    }
+
                     if(actor.system?.options?.kraken ?? false) damagesLeft -= 1;
+                    if(actor.system?.espoir?.reduction ?? 0) damagesLeft -= actor.system?.espoir?.reduction;
 
                     // Check if the damages are upper than the health
                     if (damagesLeft > espoir) {
