@@ -1,3 +1,9 @@
+## v3.42.2
+### Bugfix
+- Correction de quelques mécomprehension sur les réductions de coût en espoir et les pertes (en attendant d'un éventuel éclaircissement) d'espoir de la Berserk.
+Actuellement, les coûts seront interprêté comme étant ce qui est dépensé par les modules, et les pertes seront les jets d'espoir ratés.
+Pour être clair : Le Noyaux Apeiron ne diminue pas les coûts en espoir, de même, le nouveau champ rajouté sur la fiche ne diminue pas non plus les coûts en espoir de la Berserk, et sert surtout d'aide mémoire.
+
 ## v3.42.1
 ### Bugfix
 - Ajout d'une traduction anglaise oubliée.
