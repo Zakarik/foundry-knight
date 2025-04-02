@@ -139,11 +139,12 @@ export default class HooksKnight {
 
     static async init() {
         //DEBUT GESTION MESSAGES
-        Hooks.on("renderChatMessage", (message, html, messageData) => {
+        Hooks.on("renderChatMessage", async (message, html, messageData) => {
             const version = game.version.split('.')[0];
             const isVersion12 = version >= 12 ? true : false;
             const tgtBtn = html.find('.knight-roll div.tgtBtn');
             const tgtBtnId = $(tgtBtn).data('id');
+            const allInOne = message?.flags?.rollAll ?? false;
 
             if(!game.user.isGM) {
             html.find('.knight-roll div.listTargets,div.onlyGm').remove();
@@ -169,6 +170,11 @@ export default class HooksKnight {
                 }
             }
 
+            if(allInOne) {
+                html.find('.knight-roll div.btn button.degats').remove();
+                html.find('.knight-roll div.btn button.violence').remove();
+            }
+
             html.find('.knight-roll div.dice-result').click(ev => {
             const tgt = $(ev.currentTarget);
 
@@ -185,52 +191,17 @@ export default class HooksKnight {
                 });
             });
 
-            html.find('.knight-roll button.degats').click(async ev => {
-                const tgt = $(ev.currentTarget);
-                const flags = message.flags;
-                const weapon = flags.weapon;
-                const raw = weapon.effets.raw.concat(weapon?.distance?.raw ?? [], weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
-                const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
+            if(allInOne) {
+                await rollDamage(message);
+                await rollViolence(message);
+            }
 
-                const roll = new game.knight.RollKnight(actor, {
-                    name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
-                    weapon:weapon,
-                    surprise:flags.surprise,
-                }, false);
+            html.find('.knight-roll button.degats').click(async function(ev) {
+                await rollDamage(message);
+            });
 
-                let addFlags = {
-                    flavor:flags.flavor,
-                    total:flags.content[0].total,
-                    targets:flags.content[0].targets,
-                    attaque:message.rolls,
-                    weapon:weapon,
-                    actor:actor,
-                    surprise:flags.surprise,
-                    style:flags.style,
-                    dataStyle:flags.dataStyle,
-                    dataMod:flags.dataMod,
-                    maximize:flags.maximize,
-                    ghost:flags.ghost,
-                    ersatzghost:flags.ersatzghost,
-                };
-
-                let data = {
-                    total:flags.content[0].total,
-                    targets:flags.content[0].targets.map(target => {
-                        if(target?.btn) target.btn = target.btn.filter(itm => !itm.classes.includes('applyAttaqueEffects'))
-                        return target;
-                    }),
-                    attaque:message.rolls,
-                    flags:addFlags,
-                };
-
-                if(raw.includes('tirenrafale')) {
-                    data.content = {
-                        tirenrafale:true,
-                    }
-                }
-
-                await roll.doRollDamage(data);
+            html.find('.knight-roll button.violence').click(async ev => {
+                await rollViolence(message);
             });
 
             html.find('.knight-roll button.applyAttaqueEffects').click(async ev => {
@@ -511,6 +482,86 @@ export default class HooksKnight {
                     })
                 }
             });
+
+            async function rollDamage(message) {
+                const flags = message.flags;
+                const weapon = flags.weapon;
+                const raw = weapon.effets.raw.concat(weapon?.distance?.raw ?? [], weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
+                const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
+
+                const roll = new game.knight.RollKnight(actor, {
+                    name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
+                    weapon:weapon,
+                    surprise:flags.surprise,
+                }, false);
+
+                let addFlags = {
+                    flavor:flags.flavor,
+                    total:flags.content[0].total,
+                    targets:flags.content[0].targets,
+                    attaque:message.rolls,
+                    weapon:weapon,
+                    actor:actor,
+                    surprise:flags.surprise,
+                    style:flags.style,
+                    dataStyle:flags.dataStyle,
+                    dataMod:flags.dataMod,
+                    maximize:flags.maximize,
+                    ghost:flags.ghost,
+                    ersatzghost:flags.ersatzghost,
+                };
+
+                let data = {
+                    total:flags.content[0].total,
+                    targets:flags.content[0].targets.map(target => {
+                        if(target?.btn) target.btn = target.btn.filter(itm => !itm.classes.includes('applyAttaqueEffects'))
+                        return target;
+                    }),
+                    attaque:message.rolls,
+                    flags:addFlags,
+                };
+
+                if(raw.includes('tirenrafale')) {
+                    data.content = {
+                        tirenrafale:true,
+                    }
+                }
+
+                await roll.doRollDamage(data);
+            }
+
+            async function rollViolence(message) {
+                const flags = message.flags;
+                const weapon = flags.weapon;
+                const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
+
+                let addFlags = {
+                    flavor:flags.flavor,
+                    total:flags.content[0].total,
+                    targets:flags.content[0].targets,
+                    attaque:message.rolls,
+                    weapon:weapon,
+                    actor:actor,
+                    surprise:flags.surprise,
+                    style:flags.style,
+                    dataStyle:flags.dataStyle,
+                    dataMod:flags.dataMod,
+                    maximize:flags.maximize,
+                };
+
+                const roll = new game.knight.RollKnight(actor, {
+                    name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}`,
+                    weapon:flags.weapon,
+                    surprise:flags.surprise,
+                }, false);
+
+                await roll.doRollViolence({
+                    total:flags.content[0].total,
+                    targets:flags.content[0].targets,
+                    attaque:message.rolls,
+                    flags:addFlags,
+                });
+            }
 
             // Display damages on PNJs
             async function displayDamageOnPNJ(data) {
@@ -1838,40 +1889,6 @@ export default class HooksKnight {
             await roll.doRollDamage(data);
             });
 
-            html.find('.knight-roll button.violence').click(async ev => {
-            const tgt = $(ev.currentTarget);
-            const flags = message.flags;
-            const weapon = flags.weapon;
-            const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
-
-            let addFlags = {
-                flavor:flags.flavor,
-                total:flags.content[0].total,
-                targets:flags.content[0].targets,
-                attaque:message.rolls,
-                weapon:weapon,
-                actor:actor,
-                surprise:flags.surprise,
-                style:flags.style,
-                dataStyle:flags.dataStyle,
-                dataMod:flags.dataMod,
-                maximize:flags.maximize,
-            };
-
-            const roll = new game.knight.RollKnight(actor, {
-                name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}`,
-                weapon:flags.weapon,
-                surprise:flags.surprise,
-            }, false);
-
-            await roll.doRollViolence({
-                total:flags.content[0].total,
-                targets:flags.content[0].targets,
-                attaque:message.rolls,
-                flags:addFlags,
-            });
-            });
-
             html.find('.knight-roll div.listTargets div.target').mouseenter(ev => {
             ev.preventDefault();
             if (!canvas.ready) return;
@@ -1908,4 +1925,5 @@ export default class HooksKnight {
         });
         //FIN GESTION MESSAGE
     }
+
 }

@@ -1,3 +1,7 @@
+## v3.42.4
+### Bugfix
+- Correction de l'option "Jeter les dégâts et la violence en même temps que l'attaque", qui ne fonctionnait plus.
+
 ## v3.42.3
 ### Bugfix
 - Dernière (je l'espère) correction pour les pertes d'espoirs.

@@ -804,6 +804,7 @@ export class KnightRollDialog extends Dialog {
         }
 
         if(weapon) {
+            const rollAllInOne = game.settings.get("knight", "oldRoll");
             const isGrenade = weapon.id.includes('grenade') ? true : false;
             const style = actor.system.combat.style;
             const modStyle = getModStyle(style);
@@ -819,6 +820,7 @@ export class KnightRollDialog extends Dialog {
                 || capacitiesSelected?.ghost?.active?.horsconflit)
                 ?? false : false;
 
+            if(rollAllInOne) flags.rollAll = true;
 
             if(isGrenade) {
                 const actGrenade = actor.system?.combat?.grenades?.quantity?.value ?? 0;
