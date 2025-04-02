@@ -1,7 +1,9 @@
 import {
     listLogo,
     generateNavigator,
-    getODValue
+    getODValue,
+    rollDamage,
+    rollViolence
   } from "./helpers/common.mjs";
 
 export default class HooksKnight {
@@ -190,11 +192,6 @@ export default class HooksKnight {
                     complete: () => {},
                 });
             });
-
-            if(allInOne) {
-                await rollDamage(message);
-                await rollViolence(message);
-            }
 
             html.find('.knight-roll button.degats').click(async function(ev) {
                 await rollDamage(message);
@@ -482,86 +479,6 @@ export default class HooksKnight {
                     })
                 }
             });
-
-            async function rollDamage(message) {
-                const flags = message.flags;
-                const weapon = flags.weapon;
-                const raw = weapon.effets.raw.concat(weapon?.distance?.raw ?? [], weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
-                const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
-
-                const roll = new game.knight.RollKnight(actor, {
-                    name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
-                    weapon:weapon,
-                    surprise:flags.surprise,
-                }, false);
-
-                let addFlags = {
-                    flavor:flags.flavor,
-                    total:flags.content[0].total,
-                    targets:flags.content[0].targets,
-                    attaque:message.rolls,
-                    weapon:weapon,
-                    actor:actor,
-                    surprise:flags.surprise,
-                    style:flags.style,
-                    dataStyle:flags.dataStyle,
-                    dataMod:flags.dataMod,
-                    maximize:flags.maximize,
-                    ghost:flags.ghost,
-                    ersatzghost:flags.ersatzghost,
-                };
-
-                let data = {
-                    total:flags.content[0].total,
-                    targets:flags.content[0].targets.map(target => {
-                        if(target?.btn) target.btn = target.btn.filter(itm => !itm.classes.includes('applyAttaqueEffects'))
-                        return target;
-                    }),
-                    attaque:message.rolls,
-                    flags:addFlags,
-                };
-
-                if(raw.includes('tirenrafale')) {
-                    data.content = {
-                        tirenrafale:true,
-                    }
-                }
-
-                await roll.doRollDamage(data);
-            }
-
-            async function rollViolence(message) {
-                const flags = message.flags;
-                const weapon = flags.weapon;
-                const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
-
-                let addFlags = {
-                    flavor:flags.flavor,
-                    total:flags.content[0].total,
-                    targets:flags.content[0].targets,
-                    attaque:message.rolls,
-                    weapon:weapon,
-                    actor:actor,
-                    surprise:flags.surprise,
-                    style:flags.style,
-                    dataStyle:flags.dataStyle,
-                    dataMod:flags.dataMod,
-                    maximize:flags.maximize,
-                };
-
-                const roll = new game.knight.RollKnight(actor, {
-                    name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}`,
-                    weapon:flags.weapon,
-                    surprise:flags.surprise,
-                }, false);
-
-                await roll.doRollViolence({
-                    total:flags.content[0].total,
-                    targets:flags.content[0].targets,
-                    attaque:message.rolls,
-                    flags:addFlags,
-                });
-            }
 
             // Display damages on PNJs
             async function displayDamageOnPNJ(data) {

@@ -1,6 +1,14 @@
 import {
     getAllEffects,
+    rollDamage,
+    rollViolence,
 } from "../helpers/common.mjs";
+
+function decodeHtmlEntities(str) {
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = str;
+    return textarea.value;
+}
 
 // DATA
 // name : Nom du jet
@@ -1123,7 +1131,13 @@ export class RollKnight {
 
         if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
 
-        await ChatMessage.create(chatData)
+        const msg = await ChatMessage.create(chatData)
+        const allInOne = msg?.flags?.rollAll ?? false;
+
+        if(allInOne) {
+            await rollDamage(msg);
+            await rollViolence(msg);
+        }
     }
 
     #isEffetActive(effets, options, data=[]) {
@@ -1560,7 +1574,9 @@ export class RollKnight {
 
         content.detailledEffets = detailledEffets;
         // content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
-        content.effets = effets.map(effet => { return { description : effet.description.replace(/<.*?>/g, ''), key: effet.key, label: effet.label } });
+        console.warn(effets);
+        content.effets = effets.map(effet => { return { description : decodeHtmlEntities(effet.description.replace(/<.*?>/g, '')), key: effet.key, label: effet.label } });
+        console.warn(content);
     }
 
     async #handleDamageEffet(weapon, data={}, bonus=[], content={}, rolls=[]) {

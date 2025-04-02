@@ -1,3 +1,8 @@
+## v3.42.5
+### Bugfix
+- Correction suite à la dernière mise à jour, causant des démultiplications de jets lors du rechargement de la page / de la partie.
+- Correction d'un bug d'encodage des caractères pour les effets personnalisés.
+
 ## v3.42.4
 ### Bugfix
 - Correction de l'option "Jeter les dégâts et la violence en même temps que l'attaque", qui ne fonctionnait plus.
