@@ -22,7 +22,7 @@ export class VehiculeSheet extends ActorSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["vehicule", "sheet", "actor"],
       template: "systems/knight/templates/actors/vehicule-sheet.html",
-      width: 900,
+      width: 920,
       height: 600,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".body", initial: "vehicule"}],
       dragDrop: [{dragSelector: [".draggable", ".item-list .item"], dropSelector: null}],

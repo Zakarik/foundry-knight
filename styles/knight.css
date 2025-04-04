@@ -18022,7 +18022,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande header.sheet-header .profile-img,
 .vehicule header.sheet-header .profile-img,
 .mechaarmure header.sheet-header .profile-img {
-  width: 160px;
+  width: 180px;
+  min-width: 180px;
   height: 200px;
   border-color: white;
   background: RGB(76 74 90);
@@ -18040,7 +18041,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   flex-wrap: wrap;
   justify-content: space-between;
   height: 200px;
-  width: calc(100% - 160px);
+  width: calc(100% - 180px);
   flex: none;
 }
 .knight header.sheet-header .headerData .data,
@@ -18265,7 +18266,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.menu,
 .mechaarmure section.menu {
   display: flex;
-  width: 160px;
+  width: 180px;
   border: 1px solid white;
   flex-flow: column;
   height: calc(100% - 200px);
@@ -18329,7 +18330,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 30px 1fr 26px 8px 26px;
+  grid-template-columns: 30px 1fr 36px 8px 36px;
 }
 .knight section.menu div.espoir div.line span.option,
 .knight section.menu div.sante div.line span.option,
@@ -18424,7 +18425,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 30px;
-  grid-template-columns: 1fr 60px;
+  grid-template-columns: 1fr 80px;
 }
 .knight section.menu div.espoir div.subLine span.label,
 .knight section.menu div.sante div.subLine span.label,
@@ -18475,7 +18476,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 30px 1fr 60px;
+  grid-template-columns: 30px 1fr 80px;
 }
 .knight section.menu div.champDeForce div.line span.option,
 .knight section.menu div.egide div.line span.option {
@@ -18520,10 +18521,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.menu div.champDeForce div.subLine,
 .knight section.menu div.egide div.subLine {
   display: grid;
-  grid-template-columns: 1fr 60px;
+  grid-template-columns: 1fr 80px;
   width: 100%;
   line-height: 30px;
-  grid-template-columns: 1fr 60px;
 }
 .knight section.menu div.champDeForce div.subLine span.label,
 .knight section.menu div.egide div.subLine span.label {
@@ -18556,7 +18556,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 1fr 60px;
+  grid-template-columns: 1fr 80px;
 }
 .knight section.menu div.flux div.line span.label,
 .knight section.menu div.contrecoups div.line span.label,
@@ -18591,7 +18591,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 1fr 26px 8px 26px;
+  grid-template-columns: 1fr 36px 8px 36px;
 }
 .knight section.menu div.heroisme div.line span.label {
   display: inline-block;
@@ -18943,7 +18943,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: none;
 }
 .knight section.body {
-  width: calc(100% - 160px);
+  width: calc(100% - 180px);
   padding-left: 10px;
   padding-top: 40px;
   padding-right: 0px;
@@ -27315,7 +27315,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.menu div.resilience div.line span.label,
 .pnj section.menu div.espoir div.line span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: calc(100% - 80px);
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
@@ -27325,7 +27325,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .pnj section.menu div.resilience div.line input,
 .pnj section.menu div.espoir div.line input {
   display: inline-block;
-  width: 26px;
+  width: 36px;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -27352,7 +27352,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 30px 1fr 26px 8px 26px;
+  grid-template-columns: 30px 1fr 36px 8px 36px;
 }
 .pnj section.menu div.sante div.line span.option,
 .pnj section.menu div.armure div.line span.option,
@@ -27438,7 +27438,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 30px;
-  grid-template-columns: 1fr 60px;
+  grid-template-columns: 1fr 80px;
 }
 .pnj section.menu div.sante div.subLine span.label,
 .pnj section.menu div.armure div.subLine span.label,
@@ -27847,7 +27847,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: none;
 }
 .pnj section.body {
-  width: calc(100% - 160px);
+  width: calc(100% - 180px);
   padding-left: 10px;
   padding-top: 40px;
   padding-right: 0px;
@@ -34179,7 +34179,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .creature section.menu div.resilience div.line span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: calc(100% - 80px);
   height: 30px;
   font-variant: small-caps;
   font-size: 14px;
@@ -34188,7 +34188,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .creature section.menu div.resilience div.line input {
   display: inline-block;
-  width: 26px;
+  width: 36px;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -34214,7 +34214,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 30px 1fr 26px 8px 26px;
+  grid-template-columns: 30px 1fr 36px 8px 36px;
 }
 .creature section.menu div.sante div.line span.option,
 .creature section.menu div.armure div.line span.option,
@@ -34288,7 +34288,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .creature section.menu div.armure div.subLine,
 .creature section.menu div.energie div.subLine {
   display: grid;
-  grid-template-columns: 1fr 60px;
+  grid-template-columns: 1fr 80px;
   width: 100%;
   line-height: 30px;
 }
@@ -34635,7 +34635,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: none;
 }
 .creature section.body {
-  width: calc(100% - 160px);
+  width: calc(100% - 180px);
   padding-left: 10px;
   padding-top: 40px;
   padding-right: 0px;
@@ -36308,7 +36308,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 30px 1fr 26px 8px 26px;
+  grid-template-columns: 30px 1fr 36px 8px 36px;
 }
 .bande section.menu div.sante div.line span.option {
   display: inline-block;
@@ -36373,7 +36373,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 30px;
-  grid-template-columns: 1fr 60px;
+  grid-template-columns: 1fr 80px;
 }
 .bande section.menu div.sante div.subLine span.label {
   display: inline-block;
@@ -36410,7 +36410,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.menu div.resilience div.line span.label,
 .bande section.menu div.blindage div.line span.label {
   display: inline-block;
-  width: calc(100% - 60px);
+  width: calc(100% - 80px);
   height: 30px;
   font-variant: small-caps;
   font-size: 13px;
@@ -36457,7 +36457,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 1fr 60px;
+  grid-template-columns: 1fr 80px;
 }
 .bande section.menu div.debordement div.line span.label {
   display: inline-block;
@@ -36488,7 +36488,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 30px;
-  grid-template-columns: 1fr 60px;
+  grid-template-columns: 1fr 80px;
 }
 .bande section.menu div.debordement div.tour span.label {
   display: inline-block;
@@ -36501,7 +36501,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .bande section.menu div.debordement div.tour input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -36530,7 +36530,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 30px 1fr 60px;
+  grid-template-columns: 30px 1fr 80px;
 }
 .bande section.menu div.bouclier div.line span.option {
   display: inline-block;
@@ -36569,7 +36569,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 100%;
   line-height: 30px;
   justify-content: space-between;
-  grid-template-columns: 1fr 60px;
+  grid-template-columns: 1fr 80px;
 }
 .bande section.menu div.bouclier div.subLine span.label {
   display: inline-block;
@@ -36598,7 +36598,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 1fr 60px;
+  grid-template-columns: 1fr 80px;
 }
 .bande section.menu div.champDeForce div.line span.label {
   display: inline-block;
@@ -36764,7 +36764,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: none;
 }
 .bande section.body {
-  width: calc(100% - 160px);
+  width: calc(100% - 180px);
   padding-left: 10px;
   padding-top: 40px;
   padding-right: 0px;
@@ -38420,7 +38420,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 30px 1fr 26px 8px 26px;
+  grid-template-columns: 30px 1fr 36px 8px 36px;
 }
 .vehicule section.menu div.energie div.line span.option,
 .vehicule section.menu div.armure div.line span.option {
@@ -38493,7 +38493,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 30px;
-  grid-template-columns: 1fr 60px;
+  grid-template-columns: 1fr 80px;
 }
 .vehicule section.menu div.energie div.subLine span.label,
 .vehicule section.menu div.armure div.subLine span.label {
@@ -38509,7 +38509,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .vehicule section.menu div.energie div.subLine input,
 .vehicule section.menu div.armure div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -38524,7 +38524,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 30px 1fr 60px;
+  grid-template-columns: 30px 1fr 80px;
 }
 .vehicule section.menu div.champDeForce div.line span.option {
   display: inline-block;
@@ -38582,7 +38582,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .vehicule section.menu div.champDeForce div.subLine input {
   display: inline-block;
-  width: 60px;
+  width: 100%;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -40423,7 +40423,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 30px 1fr 26px 8px 26px;
+  grid-template-columns: 30px 1fr 36px 8px 36px;
 }
 .mechaarmure section.menu div.resilience div.line span.option {
   display: inline-block;
@@ -40516,7 +40516,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 1fr 26px 8px 26px;
+  grid-template-columns: 1fr 36px 8px 36px;
 }
 .mechaarmure section.menu div.energie div.line span.label {
   display: inline-block;
@@ -40553,7 +40553,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 1fr 26px 8px 26px;
+  grid-template-columns: 1fr 36px 8px 36px;
 }
 .mechaarmure section.menu div.blindage div.line span.label {
   display: inline-block;
@@ -40602,7 +40602,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 30px 1fr 60px;
+  grid-template-columns: 30px 1fr 80px;
 }
 .mechaarmure section.menu div.champDeForce div.line span.option {
   display: inline-block;
@@ -40765,7 +40765,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: none;
 }
 .mechaarmure section.body {
-  width: calc(100% - 160px);
+  width: calc(100% - 180px);
   padding-left: 10px;
   padding-top: 40px;
   padding-right: 0px;

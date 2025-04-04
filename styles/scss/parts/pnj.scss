@@ -59,7 +59,7 @@
 
           span.label {
             display:inline-block;
-            width:calc(100% - 60px);
+            width:calc(100% - 80px);
             height:30px;
             font-variant: small-caps;
             font-size:14px;
@@ -69,7 +69,7 @@
 
           input {
             display: inline-block;
-            width:26px;
+            width:36px;
             height:30px;
             background:$black;
             text-align:center;
@@ -100,7 +100,7 @@
           display:grid;
           width:100%;
           line-height:29px;
-          grid-template-columns: 30px 1fr 26px 8px 26px;
+          grid-template-columns: 30px 1fr 36px 8px 36px;
 
           span.option {
             display: inline-block;
@@ -179,7 +179,7 @@
           display: grid;
           width:100%;
           line-height:30px;
-          grid-template-columns: 1fr 60px;
+          grid-template-columns: 1fr 80px;
 
           span.label {
             display:inline-block;
@@ -674,7 +674,7 @@
     }
 
     section.body {
-      width:calc(100% - 160px);
+      width:calc(100% - 180px);
       padding-left:10px;
       padding-top:40px;
       padding-right:0px;

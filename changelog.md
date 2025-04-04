@@ -1,3 +1,7 @@
+## v3.42.6
+### Bugfix
+- Correction de la mise en page, agrandissant le menu pour pouvoir supporter jusqu'à 4 nombres.
+
 ## v3.42.5
 ### Bugfix
 - Correction suite à la dernière mise à jour, causant des démultiplications de jets lors du rechargement de la page / de la partie.

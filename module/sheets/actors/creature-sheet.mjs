@@ -27,7 +27,7 @@ export class CreatureSheet extends ActorSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["creature", "sheet", "actor"],
       template: "systems/knight/templates/actors/creature-sheet.html",
-      width: 900,
+      width: 920,
       height: 790,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".body", initial: "description"}],
       dragDrop: [{dragSelector: [".draggable", ".item-list .item"], dropSelector: null}],

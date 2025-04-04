@@ -29,7 +29,7 @@ export class KnightSheet extends ActorSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["knight", "sheet", "actor"],
       template: "systems/knight/templates/actors/knight-sheet.html",
-      width: 920,
+      width: 940,
       height: 720,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".body", initial: "personnage"},
