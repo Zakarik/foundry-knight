@@ -38781,7 +38781,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   text-align: center;
 }
 .vehicule section.body {
-  width: calc(100% - 160px);
+  width: calc(100% - 180px);
   padding-left: 10px;
   padding-top: 40px;
   padding-right: 0px;

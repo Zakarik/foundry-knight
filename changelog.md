@@ -1,3 +1,7 @@
+## v3.42.7
+### Bugfix
+- Correction de la mise en page des véhicules suite à la dernière mise à jour.
+
 ## v3.42.6
 ### Bugfix
 - Correction de la mise en page, agrandissant le menu pour pouvoir supporter jusqu'à 4 nombres.
