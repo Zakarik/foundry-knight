@@ -1,3 +1,7 @@
+## v3.42.8
+### Bugfix
+- Correction d'un problème de calcul dans l'attaque du mode Ghost.
+
 ## v3.42.7
 ### Bugfix
 - Correction de la mise en page des véhicules suite à la dernière mise à jour.

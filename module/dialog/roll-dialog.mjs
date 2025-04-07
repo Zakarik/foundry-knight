@@ -763,7 +763,9 @@ export class KnightRollDialog extends Dialog {
         }
         let goliath = 0;
         let ghost = 0;
+        let odGhost = 0;
         let ersatzghost = 0;
+        let odErsatzghost = 0;
         let flags = {};
 
         if((armorIsWear) && !isNoOd) bonus.push(this.#getODAspect(actor, base));
@@ -972,7 +974,7 @@ export class KnightRollDialog extends Dialog {
 
                     if(!this.isPJ) ghost = Math.ceil(ghost/2);
 
-                    ghost += this.#getODAspect(actor, 'discretion');
+                    odGhost += this.#getODAspect(actor, 'discretion');
 
                     flags['ghost'] = true;
                 }
@@ -989,7 +991,7 @@ export class KnightRollDialog extends Dialog {
 
                     if(!this.isPJ) ersatzghost = Math.ceil(ersatzghost/2);
 
-                    ersatzghost += this.#getODAspect(actor, actor.moduleErsatz.rogue.attaque);
+                    odErsatzghost += this.#getODAspect(actor, actor.moduleErsatz.rogue.attaque);
 
 
                     flags['ersatzghost'] = {
@@ -1255,19 +1257,21 @@ export class KnightRollDialog extends Dialog {
         if(ghost > 0) {
             tags.push({
                 key:'ghost',
-                label:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label')} : +${ghost}D6`,
+                label:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label')} : +${ghost}D6+${odGhost}`,
             });
 
             dices += ghost;
+            bonus.push(odGhost);
         }
 
         if(ersatzghost > 0) {
             tags.push({
                 key:'ersatzghost',
-                label:`${game.i18n.localize('KNIGHT.ITEMS.MODULE.ERSATZ.ROGUE.Label')} : +${ersatzghost}D6`,
+                label:`${game.i18n.localize('KNIGHT.ITEMS.MODULE.ERSATZ.ROGUE.Label')} : +${ersatzghost}D6+${odErsatzghost}`,
             });
 
             dices += ersatzghost;
+            bonus.push(odErsatzghost);
         }
 
         if(isAttaqueSurprise) {
