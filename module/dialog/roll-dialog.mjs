@@ -1009,6 +1009,10 @@ export class KnightRollDialog extends Dialog {
                 bonus.push(3);
             }
 
+            if((this.#isEffetActive(effets, weapon.options, ['pointeurlaser']))) {
+                dices += 3;
+            }
+
             if((this.#isEffetActive(effets, weapon.options, ['cadence', 'chromeligneslumineuses']))) {
                 dices -= 3;
             }
@@ -3350,6 +3354,18 @@ export class KnightRollDialog extends Dialog {
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label'),
                 value:'munitionshypervelocite',
                 active:getWpn?.options?.find(itm => itm.value === 'munitionshypervelocite')?.active ?? true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'pointeurlaser')) {
+            let classes = ['pointeurlaser', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.POINTEURLASER.Label'),
+                value:'pointeurlaser',
+                active:getWpn?.options?.find(itm => itm.value === 'pointeurlaser')?.active ?? true,
             });
         }
 

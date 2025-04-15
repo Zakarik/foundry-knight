@@ -1239,13 +1239,16 @@ export class KnightSheet extends ActorSheet {
             system.debordement.value = dataPnj.debordement;
           }
 
-          newActor = await Actor.create({
-            name: `${this.title} : ${dataPnj.nom}`,
-            type: dataPnj.type,
-            img:dataModule.img,
-            system:system,
-            permission:this.actor.ownership
-          });
+          newActor = await createSheet(
+            this.actor,
+            dataPnj.type,
+            `${this.title} : ${dataPnj.nom}`,
+            system,
+            {},
+            dataModule.img,
+            dataModule.img,
+            1
+          );
 
           if(dataPnj.armes.has && dataPnj.type !== 'bande') {
             const items = [];
@@ -2427,7 +2430,7 @@ export class KnightSheet extends ActorSheet {
       const value = $(ev.currentTarget).data("value");
 
       const armure = await getArmor(this.actor);
-      const armureLegende = this._getArmorLegende()[0];
+      const armureLegende = this._getArmorLegende();
 
       let result = true;
       if(value === true) { result = false; }
@@ -2526,6 +2529,7 @@ export class KnightSheet extends ActorSheet {
           armure.update(itemUpdate);
           break;
         case "typeLegende":
+          console.warn(armureLegende)
           const typeLegende = armureLegende.system.capacites.selected['type'];
           const typeLegendeSelectionne = typeLegende.selectionne || 0;
           calcul = typeLegendeSelectionne;

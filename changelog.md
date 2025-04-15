@@ -1,3 +1,12 @@
+## v3.43.0
+### Améliorations
+- Amélioration de la gestion des modules qui crée des PNJ, afin qu'ils soient, comme tous les autres cas de figure, mis dans le même dossier que le personnage parent.
+
+### Bugfix
+- Correction d'un problème empêchant le fonctionnement de l'armure de légende Warrior.
+- Correction d'un problème empêchant le fonctionnement du "modificateur de violence" dans la fenêtre de jet.
+- Correction d'un bug avec l'amélioration "Pointeur laser" qui ne fonctionnait pas.
+
 ## v3.42.8
 ### Bugfix
 - Correction d'un problème de calcul dans l'attaque du mode Ghost.

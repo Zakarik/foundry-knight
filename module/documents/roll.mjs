@@ -519,7 +519,7 @@ export class RollKnight {
             if(flags.dataMod.violence.dice > 0) violenceMod = `${flags.dataMod.violence.dice}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
             if(flags.dataMod.violence.fixe > 0) violenceMod += `+${flags.dataMod.violence.fixe}`;
 
-            tags.push({
+            main.tags.push({
                 key:'modificateurviolence',
                 label:`${game.i18n.localize('KNIGHT.JETS.ModificateurViolence')} : ${violenceMod}`,
             });
