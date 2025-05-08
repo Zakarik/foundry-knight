@@ -194,11 +194,11 @@ export default class HooksKnight {
             });
 
             html.find('.knight-roll button.degats').click(async function(ev) {
-                await rollDamage(message);
+                await rollDamage(message, ev);
             });
 
             html.find('.knight-roll button.violence').click(async ev => {
-                await rollViolence(message);
+                await rollViolence(message, ev);
             });
 
             html.find('.knight-roll button.applyAttaqueEffects').click(async ev => {

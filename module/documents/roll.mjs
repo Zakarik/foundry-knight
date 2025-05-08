@@ -417,7 +417,7 @@ export class RollKnight {
             foundry.utils.mergeObject(content, addContent);
         }
 
-        if(flags.dataMod.degats.dice > 0 || flags.dataMod.degats.fixe > 0) {
+        if(flags.dataMod.degats.dice > 0) {
             let degatsMod = ``;
 
             if(flags.dataMod.degats.dice > 0) degatsMod = `${flags.dataMod.degats.dice}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
@@ -427,7 +427,32 @@ export class RollKnight {
                 key:'modificateurdegats',
                 label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} : +${degatsMod}`,
             });
+        } else if(flags.dataMod.degats.dice === 0 && flags.dataMod.degats.fixe > 0) {
+            let degatsMod = `+${flags.dataMod.degats.fixe}`;
+
+            main.tags.push({
+                key:'modificateurdegats',
+                label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} : ${degatsMod}`,
+            });
+        } else if(flags.dataMod.degats.dice < 0) {
+            let degatsMod = ``;
+
+            if(flags.dataMod.degats.dice < 0) degatsMod = `${flags.dataMod.degats.dice}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+            if(flags.dataMod.degats.fixe > 0) degatsMod += `${flags.dataMod.degats.fixe}`;
+
+            main.tags.push({
+                key:'modificateurdegats',
+                label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} : ${degatsMod}`,
+            });
+        } else if(flags.dataMod.degats.fixe < 0) {
+            let degatsMod = `${flags.dataMod.degats.fixe}`;
+
+            main.tags.push({
+                key:'modificateurdegats',
+                label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} : ${degatsMod}`,
+            });
         }
+
 
         if(flags.maximize.degats) {
             main.tags.push({
@@ -999,16 +1024,15 @@ export class RollKnight {
                 else if(weapon.type === 'contact') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (0)`;
             }
 
+            target.ptsFaible = ptsFaible;
             target.difficulty = difficulty;
 
             if(content.total > difficulty) {
                 target.marge = content.total-difficulty;
                 target.hit = true;
-                target.ptsFaible = ptsFaible;
             }
             target.defense = resultDefense;
-
-            content.actorName = actor.name;
+            content.targets.push(target);
         }
 
         flags = {
@@ -1878,11 +1902,20 @@ export class RollKnight {
         if(data.flags.dataMod.degats.dice > 0) {
             wpnDice += data.flags.dataMod.degats.dice;
             titleDice += ` + ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
+        } else if(data.flags.dataMod.degats.dice < 0) {
+            wpnDice += data.flags.dataMod.degats.dice;
+            titleDice += ` - ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
         }
 
-        if(data.flags.dataMod.degats.fixe > 0) {
+        if(data.flags.dataMod.degats.fixe > 0 && (data.flags.dataMod.degats.dice > 0 || data.flags.dataMod.degats.dice === 0)) {
             bonus.push(data.flags.dataMod.degats.fixe);
             title += ` + ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
+        } else if(data.flags.dataMod.degats.fixe > 0 && data.flags.dataMod.degats.dice < 0) {
+            bonus.push(-data.flags.dataMod.degats.fixe);
+            title += ` - ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
+        } else if(data.flags.dataMod.degats.fixe < 0 && (data.flags.dataMod.degats.dice > 0 || data.flags.dataMod.degats.dice === 0)) {
+            bonus.push(data.flags.dataMod.degats.fixe);
+            title += ` - ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
         }
 
         if(modulesDice > 0) {
@@ -2434,7 +2467,7 @@ export class RollKnight {
         wpnDice = style === 'akimbo' ? wpnDice+baseDice : wpnDice;
         wpnDice += wpnBonusDice;
         const dice = hasTenebricide ? Math.floor(wpnDice/2) : wpnDice;
-        let formula = `${dice}D6`;
+        let formula = `${Math.max(dice, 0)}D6`;
         title = weapon.degats.fixe > 0 ? `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6 + ${game.i18n.localize("KNIGHT.AUTRE.Base")}${title}` :
         `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6${title}`;
 
@@ -2622,11 +2655,20 @@ export class RollKnight {
         if(data.flags.dataMod.violence.dice > 0) {
             wpnDice += data.flags.dataMod.violence.dice;
             titleDice += ` + ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
+        } else if(data.flags.dataMod.violence.dice < 0) {
+            wpnDice += data.flags.dataMod.violence.dice;
+            titleDice += ` - ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
         }
 
-        if(data.flags.dataMod.violence.fixe > 0) {
+        if(data.flags.dataMod.violence.fixe > 0 && (data.flags.dataMod.violence.dice > 0 || data.flags.dataMod.violence.dice === 0)) {
             bonus.push(data.flags.dataMod.violence.fixe);
             title += ` + ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
+        } else if(data.flags.dataMod.violence.fixe > 0 && data.flags.dataMod.violence.dice < 0) {
+            bonus.push(-data.flags.dataMod.violence.fixe);
+            title += ` - ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
+        } else if(data.flags.dataMod.violence.fixe < 0 && (data.flags.dataMod.violence.dice > 0 || data.flags.dataMod.violence.dice === 0)) {
+            bonus.push(data.flags.dataMod.violence.fixe);
+            title += ` - ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
         }
 
         if(modulesDice > 0) {
@@ -2975,7 +3017,7 @@ export class RollKnight {
         wpnDice = style === 'akimbo' ? wpnDice+Math.ceil(baseDice/2) : wpnDice;
         wpnDice += wpnBonusDice;
         const dice = hasTenebricide ? Math.floor(wpnDice/2) : wpnDice;
-        let formula = `${dice}D6`;
+        let formula = `${Math.max(dice, 0)}D6`;
         title = weapon.degats.fixe > 0 ? `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6 + ${game.i18n.localize("KNIGHT.AUTRE.Base")}${title}` :
         `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6${title}`;
 

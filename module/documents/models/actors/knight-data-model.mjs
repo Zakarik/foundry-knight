@@ -1015,8 +1015,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 case 'machine':
                     // REACTION
                     let isWatchtower = false;
-
-                    if(this.dataArmor) this.dataArmor?.system?.capacites?.selected?.watchtower?.active ?? false;
+                    if(this.dataArmor) isWatchtower = this.dataArmor?.system?.capacites?.selected?.watchtower?.active ?? false;
 
                     base = maxCarac;
                     base += this.options.kraken ? 1 : 0;

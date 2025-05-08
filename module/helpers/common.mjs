@@ -5624,7 +5624,10 @@ export async function actualiseRoll(actor) {
   if(roll) roll.actualise();
 }
 
-export async function rollDamage(message) {
+export async function rollDamage(message, event) {
+  const tgt = $(event.currentTarget);
+  const header = tgt.parents('section.content');
+  const index = header.data('index');
   const flags = message.flags;
   const weapon = flags.weapon;
   const raw = weapon.effets.raw.concat(weapon?.distance?.raw ?? [], weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
@@ -5638,8 +5641,8 @@ export async function rollDamage(message) {
 
   let addFlags = {
       flavor:flags.flavor,
-      total:flags.content[0].total,
-      targets:flags.content[0].targets,
+      total:flags.content[index].total,
+      targets:flags.content[index].targets,
       attaque:message.rolls,
       weapon:weapon,
       actor:actor,
@@ -5653,8 +5656,8 @@ export async function rollDamage(message) {
   };
 
   let data = {
-      total:flags.content[0].total,
-      targets:flags.content[0].targets.map(target => {
+      total:flags.content[index].total,
+      targets:flags.content[index].targets.map(target => {
           if(target?.btn) target.btn = target.btn.filter(itm => !itm.classes.includes('applyAttaqueEffects'))
           return target;
       }),
@@ -5671,16 +5674,18 @@ export async function rollDamage(message) {
   await roll.doRollDamage(data);
 }
 
-export async function rollViolence(message) {
-  console.warn(message);
+export async function rollViolence(message, event) {
+  const tgt = $(event.currentTarget);
+  const header = tgt.parents('section.content');
+  const index = header.data('index');
   const flags = message.flags;
   const weapon = flags.weapon;
   const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
 
   let addFlags = {
       flavor:flags.flavor,
-      total:flags.content[0].total,
-      targets:flags.content[0].targets,
+      total:flags.content[index].total,
+      targets:flags.content[index].targets,
       attaque:message.rolls,
       weapon:weapon,
       actor:actor,
@@ -5698,8 +5703,8 @@ export async function rollViolence(message) {
   }, false);
 
   await roll.doRollViolence({
-      total:flags.content[0].total,
-      targets:flags.content[0].targets,
+      total:flags.content[index].total,
+      targets:flags.content[index].targets,
       attaque:message.rolls,
       flags:addFlags,
   });

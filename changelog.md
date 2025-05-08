@@ -1,3 +1,9 @@
+## v3.43.1
+### Bugfix
+- Correction d'un bug avec le watchtower qui ne réduisait pas la réaction.
+- Correction d'un bug avec le Cadence qui ne fonctionnait pas correctement avec les dégâts automatiques.
+- Correction d'un bug qui ne permettait pas de mettre des valeurs négatives pour les modificateurs de dégâts / violence.
+
 ## v3.43.0
 ### Améliorations
 - Amélioration de la gestion des modules qui crée des PNJ, afin qu'ils soient, comme tous les autres cas de figure, mis dans le même dossier que le personnage parent.
