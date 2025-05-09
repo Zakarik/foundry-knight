@@ -1,3 +1,7 @@
+## v3.43.2
+### Bugfix
+- Correction d'un problème de calcul des PG pouvant survenir si le coût en PG d'une arme ou d'un module était absent.
+
 ## v3.43.1
 ### Bugfix
 - Correction d'un bug avec le watchtower qui ne réduisait pas la réaction.

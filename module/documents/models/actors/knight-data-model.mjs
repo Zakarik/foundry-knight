@@ -782,7 +782,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                     id:g._id,
                     name:g.name,
                     gratuit:gratuit || false,
-                    value:gratuit ? 0 : dataProgression.prix,
+                    value:gratuit ? 0 : dataProgression?.prix ?? 0,
                 })
             } else if(g.type === 'module') {
                 if(g.system.isLion) continue;
@@ -799,7 +799,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                             name:name,
                             id:g._id,
                             gratuit:gratuit || false,
-                            value:gratuit ? 0 : dataProgression.prix,
+                            value:gratuit ? 0 : dataProgression?.prix ?? 0,
                             niveau:n,
                             isModule:true
                         });
@@ -811,7 +811,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                     name:g[1].nom,
                     id:g[0],
                     gratuit:g[1].gratuit,
-                    value:g[1].cout,
+                    value:g[1]?.cout ?? 0,
                     isAutre:true
                 });
             }
