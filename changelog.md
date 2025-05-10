@@ -1,3 +1,7 @@
+## v3.44.1
+### Bugfix
+- Correction d'un bug n'enregistrant pas le haut fait des PNJ.
+
 ## v3.44.0
 ### Améliorations
 - Compatibilité V13.
