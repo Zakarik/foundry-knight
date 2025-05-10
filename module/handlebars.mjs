@@ -24,15 +24,27 @@
     });
 
     Handlebars.registerHelper('capacite', function (capacite) {
-        return `systems/knight/templates/items/armures/capacites/${capacite.key}.html`;
+        let tgt = capacite?.main ?? false;
+
+        if(!tgt) tgt = capacite.key;
+
+        return `systems/knight/templates/items/armures/capacites/${tgt}.html`;
     });
 
     Handlebars.registerHelper('capaciteLegende', function (capacite) {
-        return `systems/knight/templates/items/armuresLegende/capacites/${capacite.key}.html`;
+        let tgt = capacite?.main ?? false;
+
+        if(!tgt) tgt = capacite.key;
+
+        return `systems/knight/templates/items/armuresLegende/capacites/${tgt}.html`;
     });
 
     Handlebars.registerHelper('special', function (special) {
-        return `systems/knight/templates/items/armures/special/${special.data.key}.html`;
+        let tgt = special?.main ?? false;
+
+        if(!tgt) tgt = special.key;
+
+        return `systems/knight/templates/items/armures/special/${tgt}.html`;
     });
     Handlebars.registerHelper('specialLegende', function (special) {
         return `systems/knight/templates/items/armuresLegende/special/${special.data.key}.html`;

@@ -5,6 +5,11 @@ export const listLogo = [
   "version3"
 ];
 
+export function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+
 export function getAllEffects() {
   const merge0 = foundry.utils.mergeObject({}, CONFIG.KNIGHT.effets);
   const merge1 = foundry.utils.mergeObject(merge0, CONFIG.KNIGHT.effetsfm4);
@@ -5628,7 +5633,8 @@ export async function rollDamage(message, event) {
   const tgt = $(event.currentTarget);
   const header = tgt.parents('section.content');
   const index = header.data('index');
-  const flags = message.flags;
+  console.warn(message);
+  const flags = message.flags.knight;
   const weapon = flags.weapon;
   const raw = weapon.effets.raw.concat(weapon?.distance?.raw ?? [], weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
   const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
@@ -5678,7 +5684,7 @@ export async function rollViolence(message, event) {
   const tgt = $(event.currentTarget);
   const header = tgt.parents('section.content');
   const index = header.data('index');
-  const flags = message.flags;
+  const flags = message.flags.knight;
   const weapon = flags.weapon;
   const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
 
@@ -5708,4 +5714,19 @@ export async function rollViolence(message, event) {
       attaque:message.rolls,
       flags:addFlags,
   });
+}
+
+export function addFlags(origin, flags, name='') {
+  if (typeof flags === 'object') {
+    let list = [];
+    for(let f in flags) {
+        origin.setFlag('knight', f, flags[f]);
+        list.push(f);
+    }
+
+    origin.setFlag('knight', 'list', list);
+  } else {
+    origin.setFlag('knight', name, flags);
+    origin.setFlag('knight', 'list', [name]);
+  }
 }

@@ -40,6 +40,10 @@
     nav.tabs {
       justify-content: space-between;
     }
+
+    nav.tabs [data-tab] {
+      color: $white;
+    }
   }
 }
 

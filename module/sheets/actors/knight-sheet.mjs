@@ -15,6 +15,7 @@ import {
   createSheet,
   actualiseRoll,
   getAllEffects,
+  capitalizeFirstLetter,
 } from "../../helpers/common.mjs";
 
 import toggler from '../../helpers/toggler.js';
@@ -1317,6 +1318,13 @@ export class KnightSheet extends ActorSheet {
           }});
         }
       }
+
+      const exec = new game.knight.RollKnight(this.actor,
+        {
+        name:value ? game.i18n.localize(`KNIGHT.ACTIVATION.Label`) : game.i18n.localize(`KNIGHT.ACTIVATION.Desactivation`),
+        }).sendMessage({
+            text:name ? name : getData.items.get(module).name,
+        });
     });
 
     html.find('.armure .activationLegende').click(async ev => {
@@ -4001,11 +4009,11 @@ export class KnightSheet extends ActorSheet {
         case 'energie':
         case 'contacts':
           if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
-          html.find(`div.${type} input.value`).val(max);
+          this.actor.update({[`system.${type}.value`]:max});
           break;
 
         case 'grenades':
-          html.find(`div.${type} input.value`).val(max);
+          this.actor.update({[`system.combat.${type}.quantity.value`]:max});          html.find(`div.${type} input.value`).val(max);
           break;
 
         case 'nods':
@@ -4016,8 +4024,10 @@ export class KnightSheet extends ActorSheet {
             const name = split[0];
             const max = split[1];
 
-            html.find(`div.${type} input.${name}Value`).val(max);
+            update[`system.combat.${type}.${name}.value`] = max;
           }
+
+          this.actor.update(update);
           break;
 
         case 'chargeur':
@@ -4037,6 +4047,13 @@ export class KnightSheet extends ActorSheet {
           });
           break;
       }
+
+      const exec = new game.knight.RollKnight(this.actor,
+        {
+        name:'',
+        }).sendMessage({
+            text:game.i18n.localize(`KNIGHT.RECUPERER.MSG.${capitalizeFirstLetter(type)}`),
+        });
     });
 
     html.find('a.add').click(ev => {

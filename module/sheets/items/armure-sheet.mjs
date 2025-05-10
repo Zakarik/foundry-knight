@@ -555,8 +555,15 @@ export class ArmureSheet extends ItemSheet {
       let rSpecial = result?.special || false;
       const hasSpecial = result?.specialEvolutions || false;
       const alreadySpecial = evolutionSpecial?.[value] || false;
+      const selected = Object.values(data.data.system.capacites.selected).filter(element => element.key == value).length;
+      let val = value;
 
-      result.key = value;
+      if(val === 'personnalise' && selected > 0) {
+        val += selected;
+      }
+
+      result.key = val;
+      result.main = value;
       result.softlock = true;
 
       let update = {
@@ -565,7 +572,7 @@ export class ArmureSheet extends ItemSheet {
           capacites:{
             actuel:"",
             selected:{
-              [value]:result
+              [val]:result
             }
           },
           special:{
@@ -793,13 +800,21 @@ export class ArmureSheet extends ItemSheet {
       const value = $(ev.currentTarget).data("value");
 
       if(value === "") return;
-
-      const type = this.getData().data.system.special.liste[value].type;
-      const special = this.getData().data.system.special[type];
-      const evolutions = this.getData().data.system.evolutions.liste;
+      const data = this.getData();
+      const type = data.data.system.special.liste[value].type;
+      const special = data.data.system.special[type];
+      const evolutions = data.data.system.evolutions.liste;
+      const selected = Object.values(data.data.system.special.selected).filter(element => element.key == value).length;
       let result = special[value];
+      let val = value;
 
-      result.key = value;
+      if(val === 'personnalise' && selected > 0) {
+        val += selected;
+      }
+
+
+      result.key = val;
+      result.main = value;
       result.softlock = true;
 
       let update = {
@@ -807,7 +822,7 @@ export class ArmureSheet extends ItemSheet {
           jauges:{},
           special:{
             selected:{
-              [value]:result
+              [val]:result
             }
           },
           evolutions:{
@@ -1158,13 +1173,11 @@ export class ArmureSheet extends ItemSheet {
 
     cArray.sort(SortByLabel);
 
-    if(Object.values(capacitesSelected).findIndex(element => element.key == "personnalise") == -1) {
-      cArray.unshift({
-        key:"personnalise",
-        label:capacitesBase["personnalise"].label,
-        type:"base"
-      });
-    }
+    cArray.unshift({
+      key:"personnalise",
+      label:capacitesBase["personnalise"].label,
+      type:"base"
+    });
 
     for (let i = 0;i < cArray.length;i++) {
       cObject[cArray[i].key] = {};
@@ -1280,13 +1293,11 @@ export class ArmureSheet extends ItemSheet {
 
     cArray.sort(SortByLabel);
 
-    if(Object.values(specialSelected).findIndex(element => element.key == "personnalise") == -1) {
-      cArray.unshift({
-        key:"personnalise",
-        label:specialBase["personnalise"].label,
-        type:"base"
-      });
-    }
+    cArray.unshift({
+      key:"personnalise",
+      label:specialBase["personnalise"].label,
+      type:"base"
+    });
 
     for (let i = 0;i < cArray.length;i++) {
       cObject[cArray[i].key] = {};

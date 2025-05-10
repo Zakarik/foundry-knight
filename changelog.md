@@ -1,3 +1,12 @@
+## v3.44.0
+### Améliorations
+- Compatibilité V13.
+- Ajout de la possibilité de mettre plusieurs personnalisés sur les armures.
+- Ajout de messages lors de l'activation / désactivation des capacités et modules des PJ, et lorsqu'ils cliquent sur restaurer santé / énergie / etc.
+
+### Bugfix
+- Correction de l'oubli du bouton dévérouillé pour les capacités / spéciaux personnalisés.
+
 ## v3.43.2
 ### Bugfix
 - Correction d'un problème de calcul des PG pouvant survenir si le coût en PG d'une arme ou d'un module était absent.

@@ -2,6 +2,7 @@ import {
     getAllEffects,
     rollDamage,
     rollViolence,
+    addFlags,
 } from "../helpers/common.mjs";
 
 function decodeHtmlEntities(str) {
@@ -460,7 +461,6 @@ export class RollKnight {
                 label:`${game.i18n.localize('KNIGHT.JETS.MaximizeDegatsTag')}`,
             });
         }
-
         const handleDamage = await this.#handleDamageEffet(weapon, data, bonus, main, rolls);
         const roll = handleDamage.roll;
         let results = roll.dice.reduce((acc, dice) => {
@@ -507,13 +507,12 @@ export class RollKnight {
             content:await renderTemplate(RollKnight.template, main),
             sound: CONFIG.sounds.dice,
             rolls:rolls,
-            flags: flags,
             rollMode:chatRollMode,
         };
 
-        if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
+        const msg = await ChatMessage.create(chatData);
 
-        await ChatMessage.create(chatData);
+        addFlags(msg, flags);
     }
 
     async doRollViolence(data={}) {
@@ -603,13 +602,12 @@ export class RollKnight {
             content:await renderTemplate(RollKnight.template, main),
             sound: CONFIG.sounds.dice,
             rolls:rolls,
-            flags: flags,
             rollMode:chatRollMode,
         };
 
-        if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
+        const msg = await ChatMessage.create(chatData);
 
-        await ChatMessage.create(chatData);
+        addFlags(msg, flags);
     }
 
     async sendMessage(data={}) {
@@ -632,13 +630,12 @@ export class RollKnight {
             },
             content:await renderTemplate(RollKnight.template, main),
             sound: CONFIG.sounds.dice,
-            flags: flags,
             rollMode:chatRollMode,
         };
 
-        if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
+        const msg = await ChatMessage.create(chatData);
 
-        await ChatMessage.create(chatData)
+        addFlags(msg, flags);
 
     }
 
@@ -1095,7 +1092,7 @@ export class RollKnight {
         const tags = this.tags;
         const targets = data?.targets ?? [];
         const finalDataToAdd = data?.finalDataToAdd ?? {};
-
+        console.warn(data);
 
         if(this.weapon.portee) {
             const traPortee = game.i18n.localize(`KNIGHT.PORTEE.${this.weapon.portee.charAt(0).toUpperCase() + this.weapon.portee.slice(1)}`);
@@ -1138,6 +1135,8 @@ export class RollKnight {
         await this.#handleAttaqueEffet(weapon, main, rolls, data?.updates ?? {});
         foundry.utils.mergeObject(main, finalDataToAdd);
         flags = foundry.utils.mergeObject(this.addFlags, flags)
+        console.warn(main);
+        console.warn(flags);
         let chatData = {
             user:game.user.id,
             speaker: {
@@ -1149,14 +1148,13 @@ export class RollKnight {
             content:await renderTemplate(RollKnight.template, main),
             sound: CONFIG.sounds.dice,
             rolls:rolls,
-            flags: flags,
             rollMode:chatRollMode,
         };
 
-        if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
-
         const msg = await ChatMessage.create(chatData)
-        const allInOne = msg?.flags?.rollAll ?? false;
+        const allInOne = msg?.flags?.knight?.rollAll ?? false;
+
+        addFlags(msg, flags);
 
         if(allInOne) {
             await rollDamage(msg);

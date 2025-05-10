@@ -2,6 +2,7 @@
 import {
   listEffects,
   getAllEffects,
+  SortByLabel,
 } from "../../../helpers/common.mjs";
 
 export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {

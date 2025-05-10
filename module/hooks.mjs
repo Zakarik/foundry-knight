@@ -146,7 +146,7 @@ export default class HooksKnight {
             const isVersion12 = version >= 12 ? true : false;
             const tgtBtn = html.find('.knight-roll div.tgtBtn');
             const tgtBtnId = $(tgtBtn).data('id');
-            const allInOne = message?.flags?.rollAll ?? false;
+            const allInOne = message?.flags?.knight?.rollAll ?? false;
 
             if(!game.user.isGM) {
             html.find('.knight-roll div.listTargets,div.onlyGm').remove();
@@ -203,7 +203,7 @@ export default class HooksKnight {
 
             html.find('.knight-roll button.applyAttaqueEffects').click(async ev => {
                 const tgt = $(ev.currentTarget);
-                const flags = message.flags;
+                const flags = message.flags.knight;
                 const weapon = flags.weapon;
                 const tokenId = tgt.data('id');
                 const token = canvas?.tokens?.get(tokenId);
@@ -316,7 +316,7 @@ export default class HooksKnight {
 
             html.find('.knight-roll button.applyAllAttaqueEffects').click(async ev => {
                 const tgt = $(ev.currentTarget);
-                const flags = message.flags;
+                const flags = message.flags.knight;
                 const weapon = flags.weapon;
 
                 for(const content of flags.content) {
@@ -1772,7 +1772,7 @@ export default class HooksKnight {
 
             html.find('.knight-roll button.relancedegats').click(async ev => {
             const tgt = $(ev.currentTarget);
-            const flags = message.flags;
+            const flags = message.flags.knight;
             const weapon = flags.weapon;
             const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
 

@@ -2815,7 +2815,16 @@
       "Energie":"Restoring energy",
       "Grenades":"Restoring grenades",
       "Nods":"Restoring nodes",
-      "Contacts":"Restore contact points"
+      "Contacts":"Restore contact points",
+      "MSG":{
+        "Espoir":"Restores hope",
+        "Sante":"Restores health",
+        "Armure":"Restores armor",
+        "Energie":"Restores energy",
+        "Grenades":"Restores grenades",
+        "Nods":"Restores nods",
+        "Contacts":"Restores contact points"
+      }
     },
     "HIDESHOW":{
       "Hide":"Click to hide this insert when the sheet is limited.",

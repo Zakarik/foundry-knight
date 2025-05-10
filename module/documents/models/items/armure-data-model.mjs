@@ -788,4 +788,6 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
     this.capacites.prepareData();
   }
+
+
 }

@@ -79,7 +79,9 @@
             }
 
             h3 {
-                display: block;
+                display: grid;
+                grid-template-columns: min-content 1fr 205px;
+                grid-gap: 5px;
                 position:relative;
                 width: 100%;
                 text-transform: uppercase;
@@ -91,7 +93,6 @@
                 border-right: 0px;
                 border-bottom: 1px solid $black;
                 line-height: 21px;
-                padding-top: 2px;
                 font-size: 20px;
                 padding-left: 20px;
                 font-weight: bold;
@@ -137,6 +138,19 @@
                 }
 
 
+
+                input {
+                    height: 23px;
+                    background: $black;
+                    border-radius: 0px;
+                    border: 0px;
+                    text-transform: uppercase;
+                    font-weight: bold;
+
+                    &[disabled] {
+                        background:$lightBlack;
+                    }
+                }
             }
 
             div.editor {
@@ -2073,7 +2087,6 @@
                         }
                     }
                 }
-
 
             }
 

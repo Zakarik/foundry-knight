@@ -89,6 +89,20 @@
 .compendium .window-content nav.tabs {
   justify-content: space-between;
 }
+.knight .window-content nav.tabs [data-tab],
+.ia .window-content nav.tabs [data-tab],
+.pnj .window-content nav.tabs [data-tab],
+.creature .window-content nav.tabs [data-tab],
+.bande .window-content nav.tabs [data-tab],
+.vehicule .window-content nav.tabs [data-tab],
+.mechaarmure .window-content nav.tabs [data-tab],
+.avantage .window-content nav.tabs [data-tab],
+.desavantage .window-content nav.tabs [data-tab],
+.motivationMineure .window-content nav.tabs [data-tab],
+.module .window-content nav.tabs [data-tab],
+.compendium .window-content nav.tabs [data-tab] {
+  color: white;
+}
 
 .editDialog div.dialog-content {
   display: flex;
@@ -10793,7 +10807,9 @@
   background: RGB(43 42 51);
 }
 .armurelegende form.armureWindows div.capacites h3 {
-  display: block;
+  display: grid;
+  grid-template-columns: min-content 1fr 205px;
+  grid-gap: 5px;
   position: relative;
   width: 100%;
   text-transform: uppercase;
@@ -10805,7 +10821,6 @@
   border-right: 0px;
   border-bottom: 1px solid RGB(43 42 51);
   line-height: 21px;
-  padding-top: 2px;
   font-size: 20px;
   padding-left: 20px;
   font-weight: bold;
@@ -10842,6 +10857,17 @@
 }
 .armurelegende form.armureWindows div.capacites h3 div a.delete:hover {
   text-shadow: 0 0 10px white;
+}
+.armurelegende form.armureWindows div.capacites h3 input {
+  height: 23px;
+  background: RGB(43 42 51);
+  border-radius: 0px;
+  border: 0px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.armurelegende form.armureWindows div.capacites h3 input[disabled] {
+  background: RGB(76 74 90);
 }
 .armurelegende form.armureWindows div.capacites div.editor {
   width: 100%;
@@ -19202,12 +19228,14 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   grid-column: 1/3;
 }
 .knight section.body div.personnage div.distinction div.block {
-  display: flex;
+  display: grid;
+  grid-template-columns: 100px 1fr;
   width: 100%;
   flex-wrap: wrap;
   border: 1px solid RGB(87 110 178);
 }
 .knight section.body div.personnage div.distinction div.block header {
+  grid-column: 1/3;
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -19246,6 +19274,10 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   text-align: justify;
   word-break: break-all;
   background: RGB(76 74 90);
+}
+.knight section.body div.personnage div.distinction div.block img {
+  border: 0px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.body div.personnage div.heroisme {
   display: flex;
@@ -42241,6 +42273,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   text-align: center;
   align-items: center;
   height: 20px;
+  min-height: 20px;
   line-height: 20px;
   padding: 0px;
   font-variant: small-caps;
@@ -43064,4 +43097,5 @@ button.compendium, button.import-all {
   background-color: RGB(193, 193, 193);
   font-size: 18px;
   font-weight: bold;
+  color: RGB(43 42 51);
 }

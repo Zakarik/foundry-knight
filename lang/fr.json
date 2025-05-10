@@ -2443,6 +2443,7 @@
     },
     "ACTIVATION": {
       "Label": "Activation",
+      "Desactivation":"Désactivation",
       "Aucune": "Aucune",
       "Instantanee": "Instantanée",
       "Deplacement": "Action de déplacement",
@@ -2815,7 +2816,16 @@
       "Energie":"Restaurer l'énergie",
       "Grenades":"Restaurer les grenades",
       "Nods":"Restaurer les nods",
-      "Contacts":"Restaurer les points de contacts"
+      "Contacts":"Restaurer les points de contacts",
+      "MSG":{
+        "Espoir":"Restaure son espoir",
+        "Sante":"Restaure sa santé",
+        "Armure":"Restaure son armure",
+        "Energie":"Restaure son énergie",
+        "Grenades":"Restaure ses grenades",
+        "Nods":"Restaure ses nods",
+        "Contacts":"Restaure ses points de contacts"
+      }
     },
     "HIDESHOW":{
       "Hide":"Cliquez pour cacher cet encart lorsque la fiche est limitée.",
