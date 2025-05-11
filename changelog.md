@@ -1,3 +1,7 @@
+## v3.44.2
+### Bugfix
+- Correction supplémentaire sur le problème des hauts faits des PNJ.
+
 ## v3.44.1
 ### Bugfix
 - Correction d'un bug n'enregistrant pas le haut fait des PNJ.
