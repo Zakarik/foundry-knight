@@ -1,3 +1,7 @@
+## v3.44.3
+### Bugfix
+- Correction d'un bug d'affichage avec l'image des distinctions.
+
 ## v3.44.2
 ### Bugfix
 - Correction supplémentaire sur le problème des hauts faits des PNJ.

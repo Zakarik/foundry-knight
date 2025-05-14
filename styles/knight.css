@@ -19276,6 +19276,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(76 74 90);
 }
 .knight section.body div.personnage div.distinction div.block img {
+  display: none;
   border: 0px;
   border-top: 1px solid RGB(76 74 90);
 }
