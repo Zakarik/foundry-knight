@@ -1,3 +1,7 @@
+## v3.44.4
+### Bugfix
+- Correction d'un bug ne sauvegardant pas le type des bandes.
+
 ## v3.44.3
 ### Bugfix
 - Correction d'un bug d'affichage avec l'image des distinctions.

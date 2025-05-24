@@ -9,6 +9,7 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
 
         return {
             version:new NumberField({initial:0, nullable:false, integer:true}),
+            type:new StringField({initial:''}),
             histoire:new HTMLField({initial:""}),
             tactique:new HTMLField({initial:""}),
             description:new HTMLField({initial:""}),
