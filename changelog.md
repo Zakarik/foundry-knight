@@ -1,3 +1,8 @@
+## v3.44.5
+### Bugfix
+- Correction d'un bug d'affichage du coût d'activation dans le mode mechanic de la Priest.
+Vérifiez les armures portées par le joueur, que l'activation à distance / au contact soit bien "Déplacement", y compris pour les évolutions de l'armure.
+
 ## v3.44.4
 ### Bugfix
 - Correction d'un bug ne sauvegardant pas le type des bandes.
