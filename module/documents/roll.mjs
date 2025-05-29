@@ -510,6 +510,8 @@ export class RollKnight {
             rollMode:chatRollMode,
         };
 
+        ChatMessage.applyRollMode(chatData, chatRollMode);
+
         const msg = await ChatMessage.create(chatData);
 
         addFlags(msg, flags);
@@ -605,6 +607,7 @@ export class RollKnight {
             rollMode:chatRollMode,
         };
 
+        ChatMessage.applyRollMode(chatData, chatRollMode);
         const msg = await ChatMessage.create(chatData);
 
         addFlags(msg, flags);
@@ -633,6 +636,7 @@ export class RollKnight {
             rollMode:chatRollMode,
         };
 
+        ChatMessage.applyRollMode(chatData, chatRollMode);
         const msg = await ChatMessage.create(chatData);
 
         addFlags(msg, flags);
@@ -866,6 +870,7 @@ export class RollKnight {
 
         if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
 
+        ChatMessage.applyRollMode(chatData, chatRollMode);
         const msg = await ChatMessage.create(chatData);
 
         for(let f in this.addFlags) {
@@ -1151,6 +1156,7 @@ export class RollKnight {
             rollMode:chatRollMode,
         };
 
+        ChatMessage.applyRollMode(chatData, chatRollMode);
         const msg = await ChatMessage.create(chatData)
         const allInOne = msg?.flags?.knight?.rollAll ?? false;
 

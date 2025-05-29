@@ -1,3 +1,7 @@
+## v3.44.6
+### Bugfix
+- Correction d'un bug faisant que les jets devant être privés ne l'étaient pas.
+
 ## v3.44.5
 ### Bugfix
 - Correction d'un bug d'affichage du coût d'activation dans le mode mechanic de la Priest.

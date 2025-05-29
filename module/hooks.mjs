@@ -556,6 +556,7 @@ export default class HooksKnight {
                     else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
 
                     chatMessage += `<p><b>${game.i18n.localize('KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead')}.</b></p>`;
+
                     ChatMessage.create({
                         user: game.user._id,
                         speaker: ChatMessage.getSpeaker({ actor: actor }),
