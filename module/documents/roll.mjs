@@ -632,7 +632,7 @@ export class RollKnight {
                 scene: this.actor?.token?.parent?.id ?? null
             },
             content:await renderTemplate(RollKnight.template, main),
-            sound: CONFIG.sounds.dice,
+            sound: data.sounds ? data.sounds : CONFIG.sounds.dice,
             rollMode:chatRollMode,
         };
 

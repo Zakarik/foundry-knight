@@ -194,6 +194,7 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
             }),
             }),
             options:new SchemaField({
+                art:new BooleanField({initial:false, nullable:false}),
                 armure:new BooleanField({initial:true, nullable:false}),
                 bouclier:new BooleanField({initial:true, nullable:false}),
                 champDeForce:new BooleanField({initial:true, nullable:false}),

@@ -28137,7 +28137,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   right: 40px;
   width: 415px;
   justify-content: right;
-  top: 5px;
+  top: 0px;
 }
 .pnj section.body div.art h2.header div.multiButton button[type=action] {
   width: 205px;
@@ -28151,7 +28151,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-variant: small-caps;
   color: white;
   cursor: pointer;
-  top: 5px;
+  top: 0px;
+  min-height: 22px;
 }
 .pnj section.body div.art h2.header div.gestionButton {
   display: flex;

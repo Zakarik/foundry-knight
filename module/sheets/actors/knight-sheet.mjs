@@ -1324,6 +1324,7 @@ export class KnightSheet extends ActorSheet {
         name:value ? game.i18n.localize(`KNIGHT.ACTIVATION.Label`) : game.i18n.localize(`KNIGHT.ACTIVATION.Desactivation`),
         }).sendMessage({
             text:name ? name : getData.items.get(module).name,
+            sounds:CONFIG.sounds.notification,
         });
     });
 
@@ -4044,6 +4045,7 @@ export class KnightSheet extends ActorSheet {
           }).sendMessage({
               text:game.i18n.localize('KNIGHT.JETS.RemplirChargeur'),
               classes:'important',
+              sounds:CONFIG.sounds.notification,
           });
           break;
       }
@@ -4053,6 +4055,7 @@ export class KnightSheet extends ActorSheet {
         name:'',
         }).sendMessage({
             text:game.i18n.localize(`KNIGHT.RECUPERER.MSG.${capitalizeFirstLetter(type)}`),
+            sounds:CONFIG.sounds.notification,
         });
     });
 

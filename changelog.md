@@ -1,3 +1,11 @@
+## v3.45.0
+### Améliorations
+- Changement de la notification d'activation par le son de notification de Foundry, plutôt que par le son de dés.
+
+### Bugfix
+- Correction de l'impossibilité de mettre de l'art sur les PNJ.
+- Correction de la mise en page de l'art sur les PNJ.
+
 ## v3.44.6
 ### Bugfix
 - Correction d'un bug faisant que les jets devant être privés ne l'étaient pas.

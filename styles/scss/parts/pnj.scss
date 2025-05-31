@@ -810,7 +810,7 @@
             right:40px;
             width:415px;
             justify-content: right;
-            top:5px;
+            top: 0px;
 
             button[type="action"] {
               width: 205px;
@@ -824,7 +824,8 @@
               font-variant: small-caps;
               color: white;
               cursor: pointer;
-              top: 5px;
+              top: 0px;
+              min-height: 22px;
             };
           }
 
