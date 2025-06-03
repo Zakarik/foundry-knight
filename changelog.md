@@ -6,6 +6,7 @@
 - Correction d'un bug de gestion des grenades personnalisées.
 - Correction d'un oubli de l'effet lumière 2 sur les grenades flashbang.
 - Correction d'un bug de gestion des effets, pour les armures rajoutant des effets aux armes.
+- Correction du non-affichage des variations de couleurs pour les messages privés.
 
 ## v3.45.0
 ### Améliorations
