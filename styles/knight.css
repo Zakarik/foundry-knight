@@ -1613,6 +1613,16 @@
   border-color: RGB(43 42 51);
 }
 
+li.chat-message.whisper {
+  background: linear-gradient(rgba(232, 232, 239, 0.8), rgba(232, 232, 239, 0.8)), url("../../../ui/parchment.jpg") repeat;
+}
+li.chat-message.blind {
+  background: linear-gradient(rgba(245, 234, 245, 0.8), rgba(245, 234, 245, 0.8)), url("../../../ui/parchment.jpg") repeat;
+}
+li.chat-message.emote {
+  background: linear-gradient(rgba(243, 237, 222, 0.8), rgba(243, 237, 222, 0.8)), url("../../../ui/parchment.jpg") repeat;
+}
+
 #pause img {
   content: url("../assets/icons/logoCircle.webp");
   min-height: 200px;
@@ -25914,12 +25924,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin-left: auto;
   position: relative;
 }
-.knight section.body div.combat div.main div.grenades div.line div.effets.paddingBottom {
-  padding-bottom: 20px;
-}
-.knight section.body div.combat div.main div.grenades div.line div.effets.paddingLeft {
-  padding-left: 20px;
-}
 .knight section.body div.combat div.main div.grenades div.line div.effets div {
   position: relative;
   width: max-content;
@@ -26001,6 +26005,15 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border: 0px;
   background: white;
   cursor: pointer;
+}
+.knight section.body div.combat div.main div.grenades div.line.custom {
+  grid-template-columns: 100px max-content 1fr 30px;
+}
+.knight section.body div.combat div.main div.grenades div.line.unlocked {
+  grid-template-columns: 100px max-content max-content 1fr 30px;
+}
+.knight section.body div.combat div.main div.grenades div.line.unlocked div.effets {
+  padding-bottom: 20px;
 }
 .knight section.body div.combat div.main div.grenades div.line:not(:first-of-type) {
   border-top: 1px solid RGB(43 42 51);
@@ -33626,12 +33639,6 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin-left: auto;
   position: relative;
 }
-.pnj section.body div.combat div.main div.grenades div.line div.effets.paddingBottom {
-  padding-bottom: 20px;
-}
-.pnj section.body div.combat div.main div.grenades div.line div.effets.paddingLeft {
-  padding-left: 20px;
-}
 .pnj section.body div.combat div.main div.grenades div.line div.effets div {
   position: relative;
   width: max-content;
@@ -33713,6 +33720,15 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border: 0px;
   background: white;
   cursor: pointer;
+}
+.pnj section.body div.combat div.main div.grenades div.line.custom {
+  grid-template-columns: 100px max-content 1fr 30px;
+}
+.pnj section.body div.combat div.main div.grenades div.line.unlocked {
+  grid-template-columns: 100px max-content max-content 1fr 30px;
+}
+.pnj section.body div.combat div.main div.grenades div.line.unlocked div.effets {
+  padding-bottom: 20px;
 }
 .pnj section.body div.combat div.main div.grenades div.line:not(:first-of-type) {
   border-top: 1px solid RGB(43 42 51);

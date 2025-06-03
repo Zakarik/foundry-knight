@@ -293,6 +293,13 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
             }
 
             source.version = 1;
+        } else if(source.version < 2) {
+            const grenades = source.combat.grenades;
+            const flashbang = grenades.liste.flashbang;
+
+            if(!flashbang.effets.raw.includes('lumiere 2')) flashbang.effets.raw.push('lumiere 2');
+
+            source.version = 2;
         }
 
         return super.migrateData(source);

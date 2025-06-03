@@ -4125,7 +4125,7 @@ export async function getCapacite(actor, typeWpn, baseC, otherC, effetsWpn, stru
 
 export function getSpecial(actor) {
     const wear = actor.system.wear;
-    const armor = actor?.armureData || undefined;
+    const armor = actor?.system?.dataArmor || undefined;
     const getArmorData = armor !== undefined &&  wear === 'armure' ? armor?.system || false : false;
 
     let result = {

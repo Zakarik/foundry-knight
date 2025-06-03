@@ -1,3 +1,12 @@
+## v3.46.0
+### Améliorations
+- Amélioration de la mise en page pour les grenades personnalisées.
+
+### Bugfix
+- Correction d'un bug de gestion des grenades personnalisées.
+- Correction d'un oubli de l'effet lumière 2 sur les grenades flashbang.
+- Correction d'un bug de gestion des effets, pour les armures rajoutant des effets aux armes.
+
 ## v3.45.0
 ### Améliorations
 - Changement de la notification d'activation par le son de notification de Foundry, plutôt que par le son de dés.

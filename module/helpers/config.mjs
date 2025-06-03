@@ -263,7 +263,7 @@ export const KNIGHT = {};
         degats:{dice:0},
         violence:{dice:0},
         effets:{
-          raw:['aucundegatsviolence', 'barrage 2', 'choc 1', 'dispersion 6'],
+          raw:['aucundegatsviolence', 'barrage 2', 'choc 1', 'dispersion 6', 'lumiere 2'],
           custom:[],
         }
       },

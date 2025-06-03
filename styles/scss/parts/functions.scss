@@ -316,14 +316,6 @@ $news:#00ffcc44;
             margin-left:auto;
             position:relative;
 
-            &.paddingBottom {
-              padding-bottom: 20px;
-            }
-
-            &.paddingLeft {
-              padding-left: 20px;
-            }
-
             div {
               position: relative;
               width: max-content;
@@ -419,6 +411,18 @@ $news:#00ffcc44;
               border: 0px;
               background: white;
               cursor: pointer;
+            }
+          }
+
+          &.custom {
+            grid-template-columns: 100px max-content 1fr 30px;
+          }
+
+          &.unlocked {
+            grid-template-columns: 100px max-content max-content 1fr 30px;
+
+            div.effets {
+              padding-bottom: 20px;
             }
           }
 

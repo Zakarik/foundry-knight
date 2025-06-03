@@ -4068,10 +4068,20 @@ export class KnightSheet extends ActorSheet {
       switch(type) {
         case 'grenade':
           const getGrenades = this.actor.system.combat.grenades.liste;
-          const getLength = Object.keys(getGrenades).length;
+          let maxGrenadeNumber = 5; // commence à 5 car on veut au moins 6
+
+          Object.keys(getGrenades).forEach(key => {
+            const match = key.match(/^grenade_(\d+)$/);
+            if (match) {
+              const num = parseInt(match[1], 10);
+              if (num > maxGrenadeNumber) {
+                maxGrenadeNumber = num;
+              }
+            }
+          });
 
           update[`system.combat.grenades.liste`] = {
-            [`grenade_${getLength}`]: {
+            [`grenade_${maxGrenadeNumber + 1}`]: {
               "custom":true,
               "label":"",
               "degats": {
@@ -4105,6 +4115,18 @@ export class KnightSheet extends ActorSheet {
           update[`system.combat.grenades.liste.-=${id}`] = null;
           break;
       }
+
+      this.actor.update(update);
+    });
+
+    html.find('div.grenades a.unlocked').click(ev => {
+      const target = $(ev.currentTarget);
+      const id = target.data("id");
+      const grenades = this.actor.system.combat.grenades.liste[id];
+      const unlocked = grenades?.unlocked ?? false;
+
+      let update = {};
+      update[`system.combat.grenades.liste.${id}.unlocked`] = !unlocked;
 
       this.actor.update(update);
     });
