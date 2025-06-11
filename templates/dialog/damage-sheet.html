@@ -192,4 +192,11 @@
     </div>
     {{/if}}
     {{/if}}
+    {{log this}}
+    <div  class="sub">
+        <input type="checkbox" name="surprise" id="surprise" {{#if surprise}}checked{{/if}}/>
+        <label for="surprise">
+            {{localize "KNIGHT.JETS.AttackSurprise"}}
+        </label>
+    </div>
 </div>

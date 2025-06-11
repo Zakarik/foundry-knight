@@ -4050,6 +4050,8 @@ export class KnightSheet extends ActorSheet {
           break;
       }
 
+      if(type === 'chargeur') return;
+
       const exec = new game.knight.RollKnight(this.actor,
         {
         name:'',

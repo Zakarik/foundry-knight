@@ -1,3 +1,12 @@
+## v3.47.0
+### Améliorations
+- Ajout d'un bouton "Attaque surprise" à la fenêtre d'application des dégâts, qui permet de recalculer tout comme s'il s'agissait d'une attaque surprise, si ça avait été oublié dans le jet.
+
+### Bugfix
+- Correction d'un problème de calcul dans l'assistance à l'attaque (1 dégâts de trop était infligé).
+- Correction d'un problème de gestion du perce armure dans l'application des dégâts.
+- Correction d'un message en doublon lors de "Remplir tous les chargeurs".
+
 ## v3.46.0
 ### Améliorations
 - Amélioration de la mise en page pour les grenades personnalisées.

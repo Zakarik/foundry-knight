@@ -1097,7 +1097,6 @@ export class RollKnight {
         const tags = this.tags;
         const targets = data?.targets ?? [];
         const finalDataToAdd = data?.finalDataToAdd ?? {};
-        console.warn(data);
 
         if(this.weapon.portee) {
             const traPortee = game.i18n.localize(`KNIGHT.PORTEE.${this.weapon.portee.charAt(0).toUpperCase() + this.weapon.portee.slice(1)}`);
@@ -1140,8 +1139,6 @@ export class RollKnight {
         await this.#handleAttaqueEffet(weapon, main, rolls, data?.updates ?? {});
         foundry.utils.mergeObject(main, finalDataToAdd);
         flags = foundry.utils.mergeObject(this.addFlags, flags)
-        console.warn(main);
-        console.warn(flags);
         let chatData = {
             user:game.user.id,
             speaker: {
@@ -1443,8 +1440,6 @@ export class RollKnight {
             }
         }
 
-        console.warn(this);
-
         for(let c of custom) {
             const attaque = c.attaque;
 
@@ -1602,9 +1597,8 @@ export class RollKnight {
 
         content.detailledEffets = detailledEffets;
         // content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
-        console.warn(effets);
+
         content.effets = effets.map(effet => { return { description : decodeHtmlEntities(effet.description.replace(/<.*?>/g, '')), key: effet.key, label: effet.label } });
-        console.warn(content);
     }
 
     async #handleDamageEffet(weapon, data={}, bonus=[], content={}, rolls=[]) {
@@ -2496,11 +2490,24 @@ export class RollKnight {
 
             for(let d of detailledEffets) {
                 switch(d.simple) {
+                    case 'revetementomega':
+                        if(t.marge && this.isSurprise) {
+                            total += parseInt(d.value);
+
+                            t.effets.push({
+                                simple:d.simple,
+                                key:d.key,
+                                label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
+                                empty:true,
+                            });
+                        }
+                        break;
+
                     case 'connectee':
                     case 'munitionshypervelocite':
                     case 'assistanceattaque':
                         if(t.marge) {
-                            total += t.marge,
+                            total += (t.marge-1),
 
                             t.effets.push({
                                 simple:d.simple,

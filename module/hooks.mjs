@@ -485,7 +485,7 @@ export default class HooksKnight {
                 // Get params
                 const {
                     token,
-                    dmg,
+                    dmgTaken,
                     dmgBonus = 0,
                     effects = [],
                     igncdf = false,
@@ -503,7 +503,13 @@ export default class HooksKnight {
                         resilience: false,
                         blindage: false
                     },
+                    surprise,
+                    msg,
+                    target,
                 } = data;
+                const alreadySurprise = msg.getFlag('knight', 'surprise');
+
+                let dmg = dmgTaken;
 
                 // Get actor
                 const actor = token.actor;
@@ -543,6 +549,14 @@ export default class HooksKnight {
                 const isVehicule = actor.system.colosse
                     || actor.type === 'vehicule'
                     || false;
+
+                if(surprise && !alreadySurprise) {
+                    if(effects?.revetementomega) dmg += parseInt(effects.revetementomega);
+
+                    if(effects?.assistanceattaque) {
+                        dmg += Math.max(target.difficulty-1, 0);
+                    }
+                }
 
                 // Other
                 const assassin = effects.assassin || 0;
@@ -720,7 +734,7 @@ export default class HooksKnight {
                 if (
                     armor > 0 &&
                     damagesLeft > 0 &&
-                    armor >= pierceArmor &&
+                    armor > pierceArmor &&
                     dmgZone.armure &&
                     (!ignarm || sante === 0 || (!dmgZone.sante && ignarm))
                 ) {
@@ -744,11 +758,21 @@ export default class HooksKnight {
                         armorDmg += damagesLeft > 0 ? damagesLeft : 0;
                     }
 
+                    // Calculate rest armor
+                    let dmgTakeByArmor = armor - armorDmg;
+
+                    if(dmgTakeByArmor < pierceArmor) {
+                        dmgTakeByArmor = pierceArmor;
+                        armorDmg = armor - pierceArmor;
+
+                        if(armorLessDestructeur > armorDmg) armorLessDestructeur = armorDmg;
+                    }
+
                     // Set the damages left
                     damagesLeft -= armorLessDestructeur;
 
                     // Update the actor and the chat message
-                    const armorRest = armor - armorDmg < 0 ? 0 : armor - armorDmg;
+                    const armorRest = dmgTakeByArmor < 0 ? 0 : dmgTakeByArmor;
                     actor.update({
                         'system.armure.value': armorRest,
                     });
@@ -862,7 +886,7 @@ export default class HooksKnight {
                 // Get params
                 const {
                     token,
-                    dmg,
+                    dmgTaken,
                     dmgBonus = 0,
                     effects = [],
                     igncdf = false,
@@ -880,7 +904,14 @@ export default class HooksKnight {
                         resilience: false,
                         blindage: false
                     },
+                    surprise,
+                    msg,
+                    target,
                 } = data;
+                const alreadySurprise = msg.getFlag('knight', 'surprise');
+
+                let dmg = parseInt(dmgTaken);
+
                 // Get actor
                 const actor = token.actor;
                 const actorIsKnight = actor.type === "knight";
@@ -944,6 +975,14 @@ export default class HooksKnight {
                 let espoirDmg = 0;
                 let espoirRest = espoir;
 
+                if(surprise && !alreadySurprise) {
+                    if(effects?.revetementomega) dmg += parseInt(effects.revetementomega);
+
+                    if(effects?.assistanceattaque) {
+                        dmg += Math.max(target.difficulty-1, 0);
+                    }
+                }
+
                 // Other
                 const assassin = effects.assassin || 0;
                 let damageTotal = parseInt(dmg, 10) + parseInt(dmgBonus, 10) + assassin;
@@ -1000,7 +1039,7 @@ export default class HooksKnight {
                     hasArmor &&
                     armor > 0 &&
                     damagesLeft > 0 &&
-                    armor >= pierceArmor &&
+                    armor > pierceArmor &&
                     dmgZone.armure &&
                     (!ignarm || sante === 0 || (!dmgZone.sante && ignarm))
                 ) {
@@ -1024,11 +1063,21 @@ export default class HooksKnight {
                     armorDmg += damagesLeft > 0 ? damagesLeft : 0;
                     }
 
+                    // Calculate rest armor
+                    let dmgTakeByArmor = armor - armorDmg;
+
+                    if(dmgTakeByArmor < pierceArmor) {
+                        dmgTakeByArmor = pierceArmor;
+                        armorDmg = armor - pierceArmor;
+
+                        if(armorLessDestructeur > armorDmg) armorLessDestructeur = armorDmg;
+                    }
+
                     // Set the damages left
                     damagesLeft -= armorLessDestructeur;
 
                     // Update the actor and the chat message
-                    armorRest = armor - armorDmg < 0 ? 0 : armor - armorDmg;
+                    armorRest = dmgTakeByArmor < 0 ? 0 : dmgTakeByArmor;
                     actor.update({
                         'system.armure.value': armorRest,
                     });
@@ -1530,7 +1579,7 @@ export default class HooksKnight {
             // Create dialog for damages
             const doDamages = async (data) => {
                 // Get data
-                const {tokenId, dmg, effects, dmgType} = data;
+                const {tokenId, dmg, effects, dmgType, message} = data;
                 // Get token
                 const token = canvas?.tokens?.get(tokenId) ?? {isVisible:false};
 
@@ -1615,7 +1664,8 @@ export default class HooksKnight {
                     token,
                     dmg: damages,
                     effects,
-                    dmgZone
+                    dmgZone,
+                    surprise: message.getFlag('knight', 'surprise'),
                 });
 
                 const dialogTitle = () => {
@@ -1662,7 +1712,7 @@ export default class HooksKnight {
                             // Get the datas
                             const data = {
                                 token: token,
-                                dmg: html.find('#dmg')[0]?.value,
+                                dmgTaken: html.find('#dmg')[0]?.value,
                                 effects: effects,
                                 dmgBonus: html.find('#dmgBonus')[0]?.value,
                                 igncdf: html.find('#igncdf')[0]?.checked,
@@ -1681,6 +1731,9 @@ export default class HooksKnight {
                                 },
                                 antiAnatheme: html.find('#antiAnatheme')[0]?.checked,
                                 antiVehicule: html.find('#antiVehicule')[0]?.checked,
+                                surprise: html.find('#surprise')[0]?.checked,
+                                msg:message,
+                                target:message.getFlag('knight', 'targets')?.find(tgt => tgt.id === tokenId) ?? undefined,
                             }
 
                             // Select the good damages
@@ -1725,7 +1778,7 @@ export default class HooksKnight {
                 });
 
             // Do damages
-            await doDamages({tokenId, dmg, effects, dmgType});
+            await doDamages({tokenId, dmg, effects, dmgType, message});
             });
 
             html.find('.knight-roll button.setDegatsAllTargets').click(async ev => {

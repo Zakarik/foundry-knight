@@ -813,12 +813,13 @@ export class KnightRollDialog extends Dialog {
             const capacitiesSelected = armor?.system?.capacites?.selected;
             let effets = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
             let custom = weapon.effets.custom.concat(weapon?.distance?.custom ?? [], weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
+            const isTourelle = weapon?.tourelle ?? false;
             dices += modStyle.bonus.attaque;
             dices -= modStyle.malus.attaque;
             cout += weapon?.cout ?? 0;
             espoir += weapon?.espoir ?? 0;
-            const isErsatzRogueActive = actor?.moduleErsatz?.rogue?.has ?? false
-            const isGhostActive = armor ? (capacitiesSelected?.ghost?.active?.conflit
+            const isErsatzRogueActive = actor?.moduleErsatz?.rogue?.has ?? false;
+            const isGhostActive = armor && !isTourelle ? (capacitiesSelected?.ghost?.active?.conflit
                 || capacitiesSelected?.ghost?.active?.horsconflit)
                 ?? false : false;
 
@@ -830,7 +831,7 @@ export class KnightRollDialog extends Dialog {
                 updates['system.combat.grenades.quantity.value'] = actGrenade-1;
             }
 
-            if(weapon?.tourelle ?? undefined) {
+            if(isTourelle) {
                 carac = [];
                 bonus = [weapon.tourelle.fixe];
                 dices = weapon.tourelle.dice;
@@ -985,7 +986,7 @@ export class KnightRollDialog extends Dialog {
                 }
             }
 
-            if(armorIsWear && isErsatzRogueActive) {
+            if(armorIsWear && isErsatzRogueActive && !isTourelle) {
                 if((weapon.type === 'contact' && !this.#isEffetActive(effets, weapon.options, ['lumiere'])) || (weapon.type === 'distance' && (this.#isEffetActive(effets, weapon.options, ['silencieux']) || this.#isEffetActive(effets, weapon.options, ['munitionssubsoniques']) || this.#isEffetActive(effets, weapon.options, ['assassine'])))) {
                     ersatzghost += this.#getValueAspect(actor, actor.moduleErsatz.rogue.attaque);
 
@@ -3710,6 +3711,16 @@ export class KnightRollDialog extends Dialog {
         $(tgt).parents('div.button').addClass('selected');
         $(tgt).parents('div.cat').addClass('selected');
 
+        if(wpn?.tourelle) {
+            $(tgt).parents('div.wpn.tourelle').siblings('div.aspects').hide({
+                complete: () => {},
+            });
+        } else {
+            $(tgt).parents('div.wpn').siblings('div.aspects').show({
+                complete: () => {},
+            });
+        }
+
         this.#updateStyleShow(undefined, wpn);
     }
 
@@ -3757,6 +3768,9 @@ export class KnightRollDialog extends Dialog {
                 complete: () => {},
             });
         }
+        $(tgt).parents('div.wpn').siblings('div.aspects').show({
+            complete: () => {},
+        });
 
         this.#updateStyleShow(undefined, undefined, true);
     }
