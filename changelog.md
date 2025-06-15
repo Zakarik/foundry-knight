@@ -1,3 +1,7 @@
+## v3.48.1
+### Bugfix
+- Correction de la dépense d'énergie et d'espoir des personnages non-knight.
+
 ## v3.48.0
 ### Améliorations
 - Amélioration de la prise en charge des armures sur les PNJ (certaines capacités ne fonctionnaient pas correctement).

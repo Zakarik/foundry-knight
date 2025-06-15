@@ -1225,6 +1225,8 @@ export class KnightRollDialog extends Dialog {
                 label:depenseEnergie.espoir ? `${game.i18n.localize('KNIGHT.JETS.Depenseespoir')} : ${depenseEnergie.depense}` : `${game.i18n.localize('KNIGHT.JETS.Depenseenergie')} : ${depenseEnergie.depense}`,
             });
 
+            console.warn(depenseEnergie)
+
             if(depenseEnergie.substract < 0) {
                 doRoll = false
                 msg = depenseEnergie.msg;
@@ -1232,6 +1234,8 @@ export class KnightRollDialog extends Dialog {
             }
             else updates = foundry.utils.mergeObject(updates, depenseEnergie.update);
         }
+
+        console.warn(tags);
 
         if(espoir > 0 && doRoll) {
             if(cout === 0 || (cout > 0 && !depenseEnergie.espoir)) {
@@ -4842,9 +4846,9 @@ export class KnightRollDialog extends Dialog {
             msg = lNot;
             classes = 'important'
         } else {
-            if(remplaceEnergie && !actor.system.espoir.perte.saufAgonie) update[`system.espoir.value`] = substract;
-            else if(!remplaceEnergie && baseActor.type !== 'mechaarmure') update[`system.equipements.${actor.system.wear}.energie.value`] = substract;
-            else if(!remplaceEnergie && baseActor.type === 'mechaarmure') update[`system.energie.value`] = substract;
+            if(remplaceEnergie && !actor?.system?.espoir?.perte?.saufAgonie) update[`system.espoir.value`] = substract;
+            else if(!remplaceEnergie && baseActor.type === 'knight') update[`system.equipements.${actor.system.wear}.energie.value`] = substract;
+            else if(!remplaceEnergie && baseActor.type !== 'knight') update[`system.energie.value`] = substract;
         }
 
         return {
