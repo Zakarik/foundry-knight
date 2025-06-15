@@ -3713,11 +3713,25 @@ export class KnightRollDialog extends Dialog {
 
         if(wpn?.tourelle) {
             $(tgt).parents('div.wpn.tourelle').siblings('div.aspects').hide({
-                complete: () => {},
+                complete: () => {
+                    $(tgt).parents('div.wpn').siblings('label.style').addClass('rowThreeFive');
+                    $(tgt).parents('div.wpn').siblings('label.btn.withoutod').addClass('rowTwo');
+                    $(tgt).parents('div.wpn').siblings('label.btn.attaquesurprise').addClass('rowThree');
+                    $(tgt).parents('div.wpn').siblings('label.btn.maximizedegats').addClass('rowFour');
+                    $(tgt).parents('div.wpn').siblings('label.btn.maximizeviolence').addClass('rowFive');
+                },
             });
+
         } else {
+            $(tgt).parents('div.wpn').siblings('label.style').removeClass('rowThreeFive');
+            $(tgt).parents('div.wpn').siblings('label.btn.withoutod').removeClass('rowTwo');
+            $(tgt).parents('div.wpn').siblings('label.btn.attaquesurprise').removeClass('rowThree');
+            $(tgt).parents('div.wpn').siblings('label.btn.maximizedegats').removeClass('rowFour');
+            $(tgt).parents('div.wpn').siblings('label.btn.maximizeviolence').removeClass('rowFive');
+
             $(tgt).parents('div.wpn').siblings('div.aspects').show({
-                complete: () => {},
+                complete: () => {
+                },
             });
         }
 

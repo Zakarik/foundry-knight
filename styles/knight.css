@@ -2830,17 +2830,23 @@ li.chat-message.emote {
 .rollDialog div.dialog-content label.rowFourTwo {
   grid-row: 4/6;
 }
-.rollDialog div.dialog-content label.rowThree {
-  grid-row: 3;
+.rollDialog div.dialog-content label.rowThreeFive {
+  grid-row: 3/5;
 }
-.rollDialog div.dialog-content label.rowFour {
-  grid-row: 4;
+.rollDialog div.dialog-content label.rowSix {
+  grid-row: 6;
 }
 .rollDialog div.dialog-content label.rowFive {
   grid-row: 5;
 }
-.rollDialog div.dialog-content label.rowSix {
-  grid-row: 6;
+.rollDialog div.dialog-content label.rowFour {
+  grid-row: 4;
+}
+.rollDialog div.dialog-content label.rowThree {
+  grid-row: 3;
+}
+.rollDialog div.dialog-content label.rowTwo {
+  grid-row: 2;
 }
 .rollDialog div.dialog-content label.score {
   display: grid;

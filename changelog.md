@@ -1,3 +1,12 @@
+## v3.48.0
+### Améliorations
+- Amélioration de la prise en charge des armures sur les PNJ (certaines capacités ne fonctionnaient pas correctement).
+- Retrait d'anciens fichiers devenus inutiles.
+
+### Bugfix
+- Correction de quelques bugs visuels suite à la nouvelle façon d'afficher la fenêtre de jets pour les armes sur tourelle.
+
+
 ## v3.47.0
 ### Améliorations
 - Ajout d'un bouton "Attaque surprise" à la fenêtre d'application des dégâts, qui permet de recalculer tout comme s'il s'agissait d'une attaque surprise, si ça avait été oublié dans le jet.

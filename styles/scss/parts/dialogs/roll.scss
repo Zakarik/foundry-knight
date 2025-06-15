@@ -1432,21 +1432,30 @@
           grid-row: 4 / 6;
         }
 
-        &.rowThree {
-          grid-row: 3;
+        &.rowThreeFive {
+          grid-row: 3 / 5;
         }
 
-        &.rowFour {
-          grid-row: 4;
+        &.rowSix {
+          grid-row: 6;
         }
 
         &.rowFive {
           grid-row: 5;
         }
 
-        &.rowSix {
-          grid-row: 6;
+        &.rowFour {
+          grid-row: 4;
         }
+
+        &.rowThree {
+          grid-row: 3;
+        }
+
+        &.rowTwo {
+          grid-row: 2;
+        }
+
 
         &.score {
           display: grid;
