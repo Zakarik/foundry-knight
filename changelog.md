@@ -1,3 +1,7 @@
+## v3.48.2
+### Bugfix
+- Correction d'un bug empêchant de drag & drop une arme sur une fiche du Knight.
+
 ## v3.48.1
 ### Bugfix
 - Correction de la dépense d'énergie et d'espoir des personnages non-knight.

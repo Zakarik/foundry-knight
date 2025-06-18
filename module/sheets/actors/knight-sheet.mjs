@@ -4528,7 +4528,6 @@ export class KnightSheet extends ActorSheet {
       }
 
     } else if(itemBaseType === 'arme') {
-    } else if(itemBaseType === 'arme') {
       const isRangedWpn = itemData[0].system.type;
 
       if(isRangedWpn === 'distance') {
