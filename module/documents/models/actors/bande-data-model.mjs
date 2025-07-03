@@ -159,20 +159,28 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
       });
     }
 
+    #moitieStrict(entier) {
+        return (entier - (entier % 2)) / 2
+    }
+
     #defenses() {
         const defenses = ['defense', 'reaction'];
+        const bete = this.aspect.masque.base;
+        const machine = this.aspect.machine.base;
         const machineAE = this.aspect.machine.mineur+this.aspect.machine.majeur;
         const masqueAE = this.aspect.masque.mineur+this.aspect.masque.majeur;
+        const defenseBase = this.#moitieStrict(bete) + masqueAE;
+        const reactionBase = this.#moitieStrict(machine) + machineAE;
 
         Object.defineProperty(this.reaction.bonus, 'machine', {
-          value: machineAE,
+          value: reactionBase,
           writable:true,
           enumerable:true,
           configurable:true
         });
 
         Object.defineProperty(this.defense.bonus, 'masque', {
-          value: masqueAE,
+          value: defenseBase,
           writable:true,
           enumerable:true,
           configurable:true
