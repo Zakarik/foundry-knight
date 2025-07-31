@@ -1,3 +1,7 @@
+## v3.48.3
+### Bugfix
+- Désactivation de l'option "Jeter les dégâts et la violence en même temps que le jet d'attaque", car cette option semble provoquer un bug et sera réparée dans une prochaine mise à jour.
+
 ## v3.48.2
 ### Bugfix
 - Correction d'un bug empêchant de drag & drop une arme sur une fiche du Knight.
