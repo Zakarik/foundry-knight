@@ -823,7 +823,7 @@ export class KnightRollDialog extends Dialog {
                 || capacitiesSelected?.ghost?.active?.horsconflit)
                 ?? false : false;
 
-            if(rollAllInOne) flags.knight.rollAll = true;
+            //if(rollAllInOne) flags['rollAll'] = true;
 
             if(isGrenade) {
                 const actGrenade = actor.system?.combat?.grenades?.quantity?.value ?? 0;
