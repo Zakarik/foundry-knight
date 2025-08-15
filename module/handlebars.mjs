@@ -47,7 +47,11 @@
         return `systems/knight/templates/items/armures/special/${tgt}.html`;
     });
     Handlebars.registerHelper('specialLegende', function (special) {
-        return `systems/knight/templates/items/armuresLegende/special/${special.data.key}.html`;
+        let key = special?.data?.key ? special.data.key : special.key;
+
+        if(!key) return '';
+
+        return `systems/knight/templates/items/armuresLegende/special/${key}.html`;
     });
 
     Handlebars.registerHelper('mechaarmure', function (mecha) {

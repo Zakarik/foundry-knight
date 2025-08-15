@@ -431,6 +431,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
               }),
             }),
             restrictions:new ObjectField(),
+            otherMods:new ObjectField(),
         }
     }
 

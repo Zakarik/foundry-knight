@@ -3,6 +3,7 @@ import {
     rollDamage,
     rollViolence,
     addFlags,
+    getFinalWeaponData,
 } from "../helpers/common.mjs";
 
 function decodeHtmlEntities(str) {
@@ -1155,13 +1156,15 @@ export class RollKnight {
 
         ChatMessage.applyRollMode(chatData, chatRollMode);
         const msg = await ChatMessage.create(chatData)
+
+        await addFlags(msg, flags);
         const allInOne = msg?.flags?.knight?.rollAll ?? false;
-
-        addFlags(msg, flags);
-
         if(allInOne) {
-            await rollDamage(msg);
-            await rollViolence(msg);
+            const hasNotDmg = msg?.flags?.knight?.noDmg ?? false;
+            const hasNotViolence = msg?.flags?.knight?.noViolence ?? false;
+
+            if(!hasNotDmg) await rollDamage(msg, {});
+            if(!hasNotViolence) await rollViolence(msg, {});
         }
     }
 
@@ -1593,6 +1596,10 @@ export class RollKnight {
 
             c.noDmg = noDmg;
             c.noViolence = noViolence;
+
+            this.addFlags.btnApply = hasBtnApply;
+            this.addFlags.noDmg = noDmg;
+            this.addFlags.noViolence = noViolence;
         }
 
         content.detailledEffets = detailledEffets;
@@ -1646,11 +1653,17 @@ export class RollKnight {
         let isChangelingActive = false;
         let isGoliathActive = false;
 
-        if(getGhost && armorIsWear && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && (this.#isEffetActive(raw, weapon.options, ['silencieux']) || this.#isEffetActive(raw, weapon.options, ['munitionssubsoniques']) || this.#isEffetActive(raw, weapon.options, ['assassine'])))))) {
+
+        if(getGhost && armorIsWear && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && (this.#isEffetActive(raw, options, ['silencieux']) || this.#isEffetActive(raw, options, ['munitionssubsoniques']) || this.#isEffetActive(raw, options, ['assassine'])))))) {
             isGhostActive = data?.flags?.ghost;
         }
 
-        if(armorIsWear && data?.flags?.ersatzghost?.value && data?.flags?.ersatzghost?.id  && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && (this.#isEffetActive(effets, weapon.options, ['silencieux']) || this.#isEffetActive(effets, weapon.options, ['munitionssubsoniques']) || this.#isEffetActive(effets, weapon.options, ['assassine'])))))) {
+        if(armorIsWear && data?.flags?.ersatzghost?.value && data?.flags?.ersatzghost?.id  && (
+            (weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) ||
+            (weapon.type === 'distance' && (this.#isEffetActive(raw, options, ['silencieux']) ||
+            this.#isEffetActive(raw, options, ['munitionssubsoniques']) ||
+            this.#isEffetActive(raw, options, ['assassine'])))))) {
+
             isErsatzGhostActive = data?.flags?.ersatzghost?.value;
             idErsatzGhost = data?.flags?.ersatzghost?.id;
         }
@@ -2462,8 +2475,14 @@ export class RollKnight {
             }
         }
 
-        wpnDice = style === 'akimbo' ? wpnDice+baseDice : wpnDice;
+        wpnDice = wpnDice;
         wpnDice += wpnBonusDice;
+
+        if(style === 'akimbo') {
+            const secondWpn = getFinalWeaponData(style, data.flags.secondWpn);
+            wpnDice += secondWpn.degats.dice;
+        }
+
         const dice = hasTenebricide ? Math.floor(wpnDice/2) : wpnDice;
         let formula = `${Math.max(dice, 0)}D6`;
         title = weapon.degats.fixe > 0 ? `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6 + ${game.i18n.localize("KNIGHT.AUTRE.Base")}${title}` :
@@ -3025,8 +3044,14 @@ export class RollKnight {
             }
         }
 
-        wpnDice = style === 'akimbo' ? wpnDice+Math.ceil(baseDice/2) : wpnDice;
+        wpnDice = wpnDice;
         wpnDice += wpnBonusDice;
+
+        if(style === 'akimbo') {
+            const secondWpn = getFinalWeaponData(style, data.flags.secondWpn);
+            wpnDice += Math.ceil(secondWpn.violence.dice/2);
+        }
+
         const dice = hasTenebricide ? Math.floor(wpnDice/2) : wpnDice;
         let formula = `${Math.max(dice, 0)}D6`;
         title = weapon.degats.fixe > 0 ? `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6 + ${game.i18n.localize("KNIGHT.AUTRE.Base")}${title}` :

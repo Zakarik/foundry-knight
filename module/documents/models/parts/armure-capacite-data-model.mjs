@@ -1709,6 +1709,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           }),
           lion: new SchemaField({
             img: new StringField({initial: "systems/knight/assets/lion.jpg"}),
+            token: new StringField({initial: "systems/knight/assets/lion.jpg"}),
             PG: new NumberField({initial: 60}),
             aspects: new SchemaField({
               chair: new SchemaField({
@@ -1782,10 +1783,31 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 })
               }),
               distance: new ArrayField(new ObjectField())
+            }),
+            slots: new SchemaField({
+              tete:new SchemaField({
+                value:new NumberField({initial:8}),
+              }),
+              torse:new SchemaField({
+                value:new NumberField({initial:10}),
+              }),
+              brasGauche:new SchemaField({
+                value:new NumberField({initial:8}),
+              }),
+              brasDroit:new SchemaField({
+                value:new NumberField({initial:8}),
+              }),
+              jambeGauche:new SchemaField({
+                value:new NumberField({initial:8}),
+              }),
+              jambeDroite:new SchemaField({
+                value:new NumberField({initial:8}),
+              })
             })
           }),
           wolf: new SchemaField({
             img: new StringField({initial: "systems/knight/assets/wolf.jpg"}),
+            token: new StringField({initial: "systems/knight/assets/wolf.jpg"}),
             aspects: new SchemaField({
               chair: new SchemaField({
                 value: new NumberField({initial: 2}),
@@ -1902,6 +1924,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           }),
           crow: new SchemaField({
             img: new StringField({initial: "systems/knight/assets/crow.jpg"}),
+            token: new StringField({initial: "systems/knight/assets/crow.jpg"}),
             capacites: new StringField(),
             aspects: new SchemaField({
               chair: new SchemaField({

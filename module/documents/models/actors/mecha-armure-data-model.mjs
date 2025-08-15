@@ -476,7 +476,8 @@ export class MechaArmureDataModel extends foundry.abstract.TypeDataModel {
                   tourspasses:new NumberField({ initial: 1, integer: true, nullable: false }),
                   type:new StringField({ initial: "degats"}),
               }),
-          }),
+            }),
+            otherMods:new ObjectField(),
         }
   }
 
@@ -527,8 +528,13 @@ export class MechaArmureDataModel extends foundry.abstract.TypeDataModel {
   }
 
   get piloteId() {
-    console.warn(this.parent.system);
     return this.pilote;
+  }
+
+  get getPilote() {
+    const piloteData = game.actors?.get(this.piloteId) || false;
+
+    return piloteData;
   }
 
   prepareBaseData() {
@@ -536,10 +542,21 @@ export class MechaArmureDataModel extends foundry.abstract.TypeDataModel {
 	}
 
 	prepareDerivedData() {
+    this.#handlePilote();
     this.#derived();
 
     Object.defineProperty(this.initiative, 'complet', {
       value: `${this.initiative.dice}D6+${this.initiative.value}`,
+    });
+  }
+
+  #handlePilote() {
+    const data = this.getPilote;
+
+    if(!data) return;
+
+    Object.defineProperty(this, 'aspects', {
+      value: data.system.aspects,
     });
   }
 

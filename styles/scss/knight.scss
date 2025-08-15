@@ -334,3 +334,16 @@ button {
     color: $black;
   }
 }
+
+div.dialog-content {
+  label.knightNumber {
+    display: grid;
+    grid-template-columns: 1fr 50px;
+    align-items: center;
+
+    input {
+      text-align: center;
+      padding: 0px;
+    }
+  }
+}

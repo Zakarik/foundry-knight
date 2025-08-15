@@ -1801,6 +1801,10 @@ li.chat-message.emote {
   background: RGB(37 85 228);
   letter-spacing: 1px;
 }
+.rollDialog div.dialog-content div.wpn div.button > button.doubleSelected {
+  background: RGB(87 110 178);
+  letter-spacing: 1px;
+}
 .rollDialog div.dialog-content div.wpn div.button > button:hover {
   background: white;
   color: RGB(43 42 51);
@@ -2876,7 +2880,7 @@ li.chat-message.emote {
   border-radius: 0px;
   height: 100%;
 }
-.rollDialog div.dialog-content label.selectWithInfo, .rollDialog div.dialog-content label.precis {
+.rollDialog div.dialog-content label.selectWithInfo, .rollDialog div.dialog-content label.precis, .rollDialog div.dialog-content label.akimbo {
   position: relative;
   display: grid;
   grid-template-columns: 1fr;
@@ -2886,7 +2890,7 @@ li.chat-message.emote {
   align-items: center;
   height: 66px;
 }
-.rollDialog div.dialog-content label.selectWithInfo span.label, .rollDialog div.dialog-content label.precis span.label {
+.rollDialog div.dialog-content label.selectWithInfo span.label, .rollDialog div.dialog-content label.precis span.label, .rollDialog div.dialog-content label.akimbo span.label {
   display: inline-block;
   width: 100%;
   text-align: center;
@@ -2897,7 +2901,7 @@ li.chat-message.emote {
   letter-spacing: 1px;
   line-height: 31px;
 }
-.rollDialog div.dialog-content label.selectWithInfo span.info, .rollDialog div.dialog-content label.precis span.info {
+.rollDialog div.dialog-content label.selectWithInfo span.info, .rollDialog div.dialog-content label.precis span.info, .rollDialog div.dialog-content label.akimbo span.info {
   display: inline-block;
   position: absolute;
   width: 21px;
@@ -2912,10 +2916,10 @@ li.chat-message.emote {
   left: 5px;
   cursor: pointer;
 }
-.rollDialog div.dialog-content label.selectWithInfo span.info:hover, .rollDialog div.dialog-content label.precis span.info:hover {
+.rollDialog div.dialog-content label.selectWithInfo span.info:hover, .rollDialog div.dialog-content label.precis span.info:hover, .rollDialog div.dialog-content label.akimbo span.info:hover {
   filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
-.rollDialog div.dialog-content label.selectWithInfo span.hideInfo, .rollDialog div.dialog-content label.precis span.hideInfo {
+.rollDialog div.dialog-content label.selectWithInfo span.hideInfo, .rollDialog div.dialog-content label.precis span.hideInfo, .rollDialog div.dialog-content label.akimbo span.hideInfo {
   position: absolute;
   width: 400px;
   height: max-content;
@@ -2928,7 +2932,7 @@ li.chat-message.emote {
   color: white;
   padding: 2px;
 }
-.rollDialog div.dialog-content label.selectWithInfo select, .rollDialog div.dialog-content label.precis select {
+.rollDialog div.dialog-content label.selectWithInfo select, .rollDialog div.dialog-content label.precis select, .rollDialog div.dialog-content label.akimbo select {
   width: 100%;
   height: 31px;
   padding-left: 13px;
@@ -2942,7 +2946,7 @@ li.chat-message.emote {
   color: white;
   font-variant: small-caps;
 }
-.rollDialog div.dialog-content label.selectWithInfo select option, .rollDialog div.dialog-content label.precis select option {
+.rollDialog div.dialog-content label.selectWithInfo select option, .rollDialog div.dialog-content label.precis select option, .rollDialog div.dialog-content label.akimbo select option {
   background-color: RGB(43 42 51);
 }
 .rollDialog div.dialog-content label.btn {
@@ -2970,6 +2974,10 @@ li.chat-message.emote {
   background: RGB(37 85 228);
   letter-spacing: 1px;
 }
+.rollDialog div.dialog-content label.btn button.doubleSelected {
+  background: RGB(87 110 178);
+  letter-spacing: 1px;
+}
 .rollDialog div.dialog-content label.btn button:hover {
   background: white;
   color: RGB(43 42 51);
@@ -2988,6 +2996,26 @@ li.chat-message.emote {
 }
 .rollDialog div.dialog-content .show {
   display: flex !important;
+}
+.rollDialog div.dialog-content span.specialInfo {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2px;
+  width: 100%;
+  color: white;
+  background: RGB(76 74 90);
+  border-radius: 0px;
+  margin: 0px;
+  text-align: left;
+  align-items: center;
+  padding: 5px;
+  border: 1px solid RGB(87 110 178);
+}
+.rollDialog div.dialog-content span.colTwoFive {
+  grid-column: 2/5;
+}
+.rollDialog div.dialog-content span.rowFour {
+  grid-row: 4;
 }
 .rollDialog div.dialog-buttons {
   flex: 0;
@@ -9461,6 +9489,73 @@ li.chat-message.emote {
   color: white;
   font-variant: small-caps;
 }
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.lionSlots,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.lionSlots,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.lionSlots {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-top: 1px solid black;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.lionSlots h5,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.lionSlots h5,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.lionSlots h5 {
+  width: 100%;
+  margin: 0px;
+  line-height: 25px;
+  font-size: 14px;
+  padding-left: 5px;
+  font-weight: normal;
+  text-transform: uppercase;
+  background: RGB(76 74 90);
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.lionSlots div.line,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.lionSlots div.line,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.lionSlots div.line {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  border-top: 1px solid RGB(43 42 51);
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.lionSlots div.line label,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.lionSlots div.line label,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.lionSlots div.line label {
+  display: grid;
+  grid-template-columns: 1fr;
+  flex-wrap: wrap;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.lionSlots div.line label span,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.lionSlots div.line label span,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.lionSlots div.line label span {
+  display: inline-block;
+  width: 100%;
+  font-variant: small-caps;
+  text-align: center;
+  background: RGB(76 74 90);
+  padding-top: 5px;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.lionSlots div.line label input,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.lionSlots div.line label input,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.lionSlots div.line label input {
+  width: 100%;
+  border-radius: 0px;
+  border-top: 1px solid RGB(76 74 90);
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+  text-align: center;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.lionSlots div.line label:not(:last-of-type) span,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.lionSlots div.line label:not(:last-of-type) span,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.lionSlots div.line label:not(:last-of-type) span {
+  border-right: 1px solid RGB(43 42 51);
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.lionSlots div.line label:not(:last-of-type) input,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.lionSlots div.line label:not(:last-of-type) input,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.lionSlots div.line label:not(:last-of-type) input {
+  border-right: 1px solid RGB(76 74 90);
+}
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.debordement {
   display: flex;
   width: 100%;
@@ -13215,6 +13310,73 @@ li.chat-message.emote {
   right: 5px;
   color: white;
   font-variant: small-caps;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.lionSlots,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.lionSlots,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.lionSlots {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-top: 1px solid black;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.lionSlots h5,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.lionSlots h5,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.lionSlots h5 {
+  width: 100%;
+  margin: 0px;
+  line-height: 25px;
+  font-size: 14px;
+  padding-left: 5px;
+  font-weight: normal;
+  text-transform: uppercase;
+  background: RGB(76 74 90);
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.lionSlots div.line,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.lionSlots div.line,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.lionSlots div.line {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  border-top: 1px solid RGB(43 42 51);
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.lionSlots div.line label,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.lionSlots div.line label,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.lionSlots div.line label {
+  display: grid;
+  grid-template-columns: 1fr;
+  flex-wrap: wrap;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.lionSlots div.line label span,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.lionSlots div.line label span,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.lionSlots div.line label span {
+  display: inline-block;
+  width: 100%;
+  font-variant: small-caps;
+  text-align: center;
+  background: RGB(76 74 90);
+  padding-top: 5px;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.lionSlots div.line label input,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.lionSlots div.line label input,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.lionSlots div.line label input {
+  width: 100%;
+  border-radius: 0px;
+  border-top: 1px solid RGB(76 74 90);
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+  text-align: center;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.lionSlots div.line label:not(:last-of-type) span,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.lionSlots div.line label:not(:last-of-type) span,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.lionSlots div.line label:not(:last-of-type) span {
+  border-right: 1px solid RGB(43 42 51);
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.lionSlots div.line label:not(:last-of-type) input,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.lionSlots div.line label:not(:last-of-type) input,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.lionSlots div.line label:not(:last-of-type) input {
+  border-right: 1px solid RGB(76 74 90);
 }
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.debordement {
   display: flex;
@@ -21617,6 +21779,103 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   font-variant: small-caps;
 }
+.knight section.body div.armure div.capacites div.mainData div.lion div.lionSlots,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.lionSlots,
+.knight section.body div.armure div.capacites div.mainData div.crow div.lionSlots,
+.knight section.body div.armure div.special div.mainData div.lion div.lionSlots,
+.knight section.body div.armure div.special div.mainData div.wolf div.lionSlots,
+.knight section.body div.armure div.special div.mainData div.crow div.lionSlots {
+  width: 100%;
+  border-top: 1px solid RGB(43 42 51);
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.lionSlots h5,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.lionSlots h5,
+.knight section.body div.armure div.capacites div.mainData div.crow div.lionSlots h5,
+.knight section.body div.armure div.special div.mainData div.lion div.lionSlots h5,
+.knight section.body div.armure div.special div.mainData div.wolf div.lionSlots h5,
+.knight section.body div.armure div.special div.mainData div.crow div.lionSlots h5 {
+  width: 100%;
+  margin: 0px;
+  line-height: 25px;
+  font-size: 14px;
+  padding-left: 5px;
+  font-weight: normal;
+  text-transform: uppercase;
+  background: RGB(76 74 90);
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.lionSlots div.line,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.lionSlots div.line,
+.knight section.body div.armure div.capacites div.mainData div.crow div.lionSlots div.line,
+.knight section.body div.armure div.special div.mainData div.lion div.lionSlots div.line,
+.knight section.body div.armure div.special div.mainData div.wolf div.lionSlots div.line,
+.knight section.body div.armure div.special div.mainData div.crow div.lionSlots div.line {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  border-top: 1px solid black;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.lionSlots div.line div.block,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.lionSlots div.line div.block,
+.knight section.body div.armure div.capacites div.mainData div.crow div.lionSlots div.line div.block,
+.knight section.body div.armure div.special div.mainData div.lion div.lionSlots div.line div.block,
+.knight section.body div.armure div.special div.mainData div.wolf div.lionSlots div.line div.block,
+.knight section.body div.armure div.special div.mainData div.crow div.lionSlots div.line div.block {
+  display: grid;
+  grid-template-columns: 1fr;
+  flex-wrap: wrap;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.lionSlots div.line div.block span,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.lionSlots div.line div.block span,
+.knight section.body div.armure div.capacites div.mainData div.crow div.lionSlots div.line div.block span,
+.knight section.body div.armure div.special div.mainData div.lion div.lionSlots div.line div.block span,
+.knight section.body div.armure div.special div.mainData div.wolf div.lionSlots div.line div.block span,
+.knight section.body div.armure div.special div.mainData div.crow div.lionSlots div.line div.block span {
+  display: inline-block;
+  width: 100%;
+  font-variant: small-caps;
+  text-align: center;
+  line-height: 26px;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.lionSlots div.line div.block span.title,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.lionSlots div.line div.block span.title,
+.knight section.body div.armure div.capacites div.mainData div.crow div.lionSlots div.line div.block span.title,
+.knight section.body div.armure div.special div.mainData div.lion div.lionSlots div.line div.block span.title,
+.knight section.body div.armure div.special div.mainData div.wolf div.lionSlots div.line div.block span.title,
+.knight section.body div.armure div.special div.mainData div.crow div.lionSlots div.line div.block span.title {
+  background: RGB(76 74 90);
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.lionSlots div.line div.block span.score,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.lionSlots div.line div.block span.score,
+.knight section.body div.armure div.capacites div.mainData div.crow div.lionSlots div.line div.block span.score,
+.knight section.body div.armure div.special div.mainData div.lion div.lionSlots div.line div.block span.score,
+.knight section.body div.armure div.special div.mainData div.wolf div.lionSlots div.line div.block span.score,
+.knight section.body div.armure div.special div.mainData div.crow div.lionSlots div.line div.block span.score {
+  background: RGB(43 42 51);
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.lionSlots div.line div.block.red span,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.lionSlots div.line div.block.red span,
+.knight section.body div.armure div.capacites div.mainData div.crow div.lionSlots div.line div.block.red span,
+.knight section.body div.armure div.special div.mainData div.lion div.lionSlots div.line div.block.red span,
+.knight section.body div.armure div.special div.mainData div.wolf div.lionSlots div.line div.block.red span,
+.knight section.body div.armure div.special div.mainData div.crow div.lionSlots div.line div.block.red span {
+  color: red;
+  font-weight: bold;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.lionSlots div.line div.block:not(:last-of-type) span.title,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.lionSlots div.line div.block:not(:last-of-type) span.title,
+.knight section.body div.armure div.capacites div.mainData div.crow div.lionSlots div.line div.block:not(:last-of-type) span.title,
+.knight section.body div.armure div.special div.mainData div.lion div.lionSlots div.line div.block:not(:last-of-type) span.title,
+.knight section.body div.armure div.special div.mainData div.wolf div.lionSlots div.line div.block:not(:last-of-type) span.title,
+.knight section.body div.armure div.special div.mainData div.crow div.lionSlots div.line div.block:not(:last-of-type) span.title {
+  border-right: 1px solid black;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.lionSlots div.line div.block:not(:last-of-type) span.score,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.lionSlots div.line div.block:not(:last-of-type) span.score,
+.knight section.body div.armure div.capacites div.mainData div.crow div.lionSlots div.line div.block:not(:last-of-type) span.score,
+.knight section.body div.armure div.special div.mainData div.lion div.lionSlots div.line div.block:not(:last-of-type) span.score,
+.knight section.body div.armure div.special div.mainData div.wolf div.lionSlots div.line div.block:not(:last-of-type) span.score,
+.knight section.body div.armure div.special div.mainData div.crow div.lionSlots div.line div.block:not(:last-of-type) span.score {
+  border-right: 1px solid black;
+}
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion,
 .knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion,
@@ -21624,8 +21883,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight section.body div.armure div.special div.mainData div.wolf div.modulesLion,
 .knight section.body div.armure div.special div.mainData div.crow div.modulesLion {
   width: 100%;
-  border-top: 1px solid black;
-  margin-top: 5px;
+  border-top: 1px solid RGB(43 42 51);
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion h5,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion h5,
@@ -21641,6 +21899,17 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-weight: normal;
   text-transform: uppercase;
   background: RGB(76 74 90);
+  position: relative;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion h5 i,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion h5 i,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion h5 i,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion h5 i,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion h5 i,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion h5 i {
+  position: absolute;
+  right: 5px;
+  line-height: 22px;
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule,
@@ -43122,4 +43391,14 @@ button.compendium, button.import-all {
   font-size: 18px;
   font-weight: bold;
   color: RGB(43 42 51);
+}
+
+div.dialog-content label.knightNumber {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  align-items: center;
+}
+div.dialog-content label.knightNumber input {
+  text-align: center;
+  padding: 0px;
 }

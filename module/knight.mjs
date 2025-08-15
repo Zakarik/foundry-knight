@@ -180,6 +180,13 @@ Hooks.once('init', async function() {
       img:'icons/svg/skull.svg'
     },
     {
+      id:'peur',
+      label:'KNIGHT.EFFETS.PEUR.Label',
+      label:'KNIGHT.EFFETS.PEUR.Label',
+      icon:'systems/knight/assets/icons/effects/peur.svg',
+      img:'systems/knight/assets/icons/effects/peur.svg'
+    },
+    {
       id:'lumiere',
       name:"KNIGHT.EFFETS.LUMIERE.Label",
       label:"KNIGHT.EFFETS.LUMIERE.Label",
@@ -447,7 +454,7 @@ Hooks.once("ready", HooksKnight.ready);
 Hooks.on('deleteItem', doc => toggler.clearForId(doc.id));
 Hooks.on('deleteActor', doc => toggler.clearForId(doc.id));
 
-Hooks.on("createActiveEffect", function(effect, data) {
+Hooks.on("createActiveEffect", async function(effect, data) {
   const status = effect.statuses;
   let effectCounter = 1;
 
@@ -466,6 +473,189 @@ Hooks.on("createActiveEffect", function(effect, data) {
       "_id":effect._id,
       changes:update,
     }])
+  } else if(effectCounter && status.has("peur") && effect.parent.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
+    let content = '';
+    content += '<select name="peur">';
+    content += `<option value="success">${game.i18n.localize("KNIGHT.JETS.Succes")}</option>`;
+    content += `<option value="fail">${game.i18n.localize("KNIGHT.JETS.Echec")}</option>`;
+    content += `<option value="epicfail">${game.i18n.localize("KNIGHT.JETS.EchecCritique")}</option>`;
+    content += '</select>';
+    content += '<label class="knightNumber">'
+    content += '<span>Valeur de la peur ?</span>'
+    content += `<input type="number" name="value" min="1" value="1" />`
+    content += '</label>'
+    let update = [];
+
+    await foundry.applications.api.DialogV2.prompt({
+      window: {
+        title: game.i18n.localize("KNIGHT.JETS.JetPeur")
+      },
+      modal: true,
+      content: content,
+      ok: {
+        label: game.i18n.localize("KNIGHT.AUTRE.Valider"),
+        callback: async (event, button, dialog) => {
+          const result = $(button.form.elements.peur).val();
+          const value = $(button.form.elements.value).val();
+
+          switch(result) {
+            case 'success':
+              update.push({
+                key:'system.otherMods.peur.type',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: 'rollDice'
+              },{
+                key:'system.otherMods.peur.value',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: -1
+              });
+              break;
+            case 'fail':
+              update.push({
+                key:'system.otherMods.peur.type',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: 'rollDice'
+              },{
+                key:'system.otherMods.peur.value',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: -value
+              },{
+                key:'system.defense.malus.peur',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: value
+              },{
+                key:'system.reaction.malus.peur',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: value
+              });
+              break;
+            case 'epicfail':
+              const rPeur = new game.knight.RollKnight(this.actor, {
+                name:game.i18n.localize(`KNIGHT.JETS.DureePeur`),
+                dices:`${value}D6`,
+              }, false);
+
+              await rPeur.doRoll();
+              break;
+          }
+
+          effect.parent.updateEmbeddedDocuments('ActiveEffect', [{
+            "_id":effect._id,
+            flags:{
+              knight:{
+                roll:result,
+              }
+            },
+            changes:update,
+          }]);
+
+          effect.statusCounter.setValue(value)
+        }
+      }
+    });
+  } else if(status.has("peur") && effect.parent.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
+    let content = '';
+    content += '<select name="peur">';
+    content += `<option value="success">${game.i18n.localize("KNIGHT.JETS.Succes")}</option>`;
+    content += `<option value="fail">${game.i18n.localize("KNIGHT.JETS.Echec")}</option>`;
+    content += `<option value="epicfail">${game.i18n.localize("KNIGHT.JETS.EchecCritique")}</option>`;
+    content += '</select>';
+    content += '<label class="knightNumber">'
+    content += '<span>Valeur de la peur ?</span>'
+    content += `<input type="number" name="value" min="1" value="1" />`
+    content += '</label>'
+    let update = [];
+
+    await foundry.applications.api.DialogV2.prompt({
+      window: {
+        title: game.i18n.localize("KNIGHT.JETS.JetPeur")
+      },
+      modal: true,
+      content: content,
+      ok: {
+        label: game.i18n.localize("KNIGHT.AUTRE.Valider"),
+        callback: async (event, button, dialog) => {
+          const result = $(button.form.elements.peur).val()
+          const value = $(button.form.elements.value).val()
+          switch(result) {
+            case 'success':
+              update.push({
+                key:'system.otherMods.peur.type',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: 'rollDice'
+              },{
+                key:'system.otherMods.peur.value',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: -1
+              });
+              break;
+            case 'fail':
+              update.push({
+                key:'system.otherMods.peur.type',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: 'rollDice'
+              },{
+                key:'system.otherMods.peur.value',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: `-${value}`
+              },{
+                key:'system.defense.malus.peur',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: value
+              },{
+                key:'system.reaction.malus.peur',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: value
+              });
+              break;
+            case 'epicfail':
+              const rPeur = new game.knight.RollKnight(this.actor, {
+                name:game.i18n.localize(`KNIGHT.JETS.DureePeur`),
+                dices:`${value}D6`,
+              }, false);
+
+              await rPeur.doRoll();
+              break;
+          }
+
+          console.warn(update);
+
+          effect.parent.updateEmbeddedDocuments('ActiveEffect', [{
+            "_id":effect._id,
+            flags:{
+              knight:{
+                roll:result,
+              }
+            },
+            changes:update,
+          }]);
+        }
+      }
+    });
   }
 });
 
@@ -482,6 +672,40 @@ Hooks.on("updateActiveEffect", function(effect, effectData, diffData, options, u
         priority:e.priority,
         value:`${effectCounter}`
       });
+    }
+
+    effect.parent.updateEmbeddedDocuments('ActiveEffect', [{
+      "_id":effect._id,
+      changes:update,
+    }])
+  } else if (effectCounter && status.has("peur") && effect.parent.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
+    if(effect.flags.knight.roll !== 'fail') return;
+
+    let update = []
+    for(let e of effect.changes) {
+      if(e.key.includes('peur.type')) {
+        update.push({
+          key:e.key,
+          mode:e.mode,
+          priority:e.priority,
+          value: e.value
+        });
+      } else if(e.key.includes('peur.value')) {
+        update.push({
+          key:e.key,
+          mode:e.mode,
+          priority:e.priority,
+          value: -effectCounter
+        });
+      } else if(e.key.includes('malus')) {
+        update.push({
+          key:e.key,
+          mode:e.mode,
+          priority:e.priority,
+          value:`${effectCounter}`
+        });
+
+      }
     }
 
     effect.parent.updateEmbeddedDocuments('ActiveEffect', [{

@@ -491,6 +491,7 @@
         },
         "AKIMBO": {
           "FullLabel":"Style Akimbo",
+          "SecondWpn":"Faites un clique droit sur l'arme secondaire que vous voulez utiliser.",
           "Label": "Akimbo",
           "Info": "<b>Bonus :</b> Peut effectuer une attaque avec deux armes simultanéments. Cumule les dés de Dégâts de ses deux armes. Additionne la moitié des dés de Violence de la seconde arme avec ceux de la première. <br/><br/><b>Malus :</b> -3D Attaque."
         },
@@ -902,6 +903,9 @@
         "Label":"Perce Armure",
         "Description":"L'arme ignore une certaine valeur d'armure, X représentant cette valeur. Si la valeur est égale ou supérieure aux points d'armure de l'ennemi, le total de PA est simplement ignoré et la santé est directement touchée.",
         "Description-short":"L'arme ignore une certaine valeur d'armure, X représentant cette valeur.."
+      },
+      "PEUR":{
+        "Label":"Peur"
       },
       "PRECISION": {
         "Label":"Precision",
@@ -1461,6 +1465,7 @@
             "LION":{
               "Label":"Lion",
               "Img":"Image du Lion",
+              "Token":"Token du Lion",
               "CEvolutions":"Chaque évolution du Lion",
               "Pointgloiredepart":"Points de gloires de départ",
               "BonusPointgloire":"Points de gloire bonus pour des modules",
@@ -1470,6 +1475,7 @@
             "WOLF":{
               "Label":"Wolf",
               "Img":"Image des Wolf",
+              "Token":"Token des Wolf",
               "CEvolutions":"Chaque évolution du Wolf",
               "BonusRepartir":"Nombre de configurations à augmenter",
               "EvolutionConfigurations":"Evolution des configurations",
@@ -1504,6 +1510,7 @@
             "CROW":{
               "Label":"Crow",
               "Img":"Image des Crow",
+              "Token":"Token des Crow",
               "CEvolutions":"Chaque évolution du Crow",
               "Cohesion":"Bonus de cohésion",
               "Debordement":"Bonus de débordement",
@@ -2209,6 +2216,8 @@
       "ModificateurViolence":"Modificateur de violence",
       "JetEspoir":"Jet d'espoir",
       "JetEgide":"Jet d'egide",
+      "JetPeur":"Résultat du jet pour résister à la peur ?",
+      "DureePeur":"Durée de la peur",
       "OtherEffects":"Autres effets",
       "Notheroisme":"Pas assez d'héroisme",
       "Notenergie":"Pas assez d'énergie",

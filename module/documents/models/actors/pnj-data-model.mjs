@@ -211,6 +211,7 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
                 wolfConfiguration:new BooleanField({initial:false, nullable:false}),
                 jetsSpeciaux:new BooleanField({initial:false, nullable:false}),
             }),
+            otherMods:new ObjectField(),
         }
     }
 

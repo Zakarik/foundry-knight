@@ -1,3 +1,17 @@
+## v3.49.0
+### Améliorations
+- Ajout de la possibilité de définir la seconde arme lors d'un tir en akimbo, en utilisant le clique droit.
+- Ajout de l'état "Peur", qui demandera quel a été le résultat du jet pour y résister lors de l'application... Et appliquera les modificateurs correct le cas échéant !
+- Ajout de la création automatique du token lors de l'invocation d'une créature (armure Druid ou Shaman, ou certains modules invoquant une autre créature), s'il y a un token lié à l'acteur sur la scène. Les tokens créés sont supprimés lors de la révocation.
+- Ajout de la possibilité de définir le style du token dans la fiche de l'armure Druid pour les compagnons.
+- Ajout de l'affichage des slots (restant et totaux) pour le compagnon Lion de la Druid.
+
+### Bugfix
+- Réactivation de l'option "Jeter les dégâts et la violence en même temps que le jet d'attaque", qui devrait être corrigée !
+- Correction du Camouflage Optique (Ersatz Rogue).
+- Le bouton "Appliquer tous les dégâts" ne fonctionnait pas correctement, c'est corrigé.
+- Correction de certains bugs des Mecha-Armures.
+
 ## v3.48.3
 ### Bugfix
 - Désactivation de l'option "Jeter les dégâts et la violence en même temps que le jet d'attaque", car cette option semble provoquer un bug et sera réparée dans une prochaine mise à jour.

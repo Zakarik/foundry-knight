@@ -82,6 +82,7 @@ export class VehiculeDataModel extends foundry.abstract.TypeDataModel {
             }),
             passagers:new ArrayField(new ObjectField()),
         }),
+        otherMods:new ObjectField(),
     }
   }
 

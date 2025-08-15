@@ -491,6 +491,7 @@
         },
         "AKIMBO": {
           "FullLabel":"Akimbo Style",
+          "SecondWpn":"Right-click on the secondary weapon you want to use.",
           "Label": "Akimbo",
           "Info": "<b>Bonus :</b> Can perform an attack with two weapons simultaneously. Cumulates the damage dice of both weapons. Adds half the Violence dice of the second weapon to those of the first. <br/><br/><b>Malus :</b> -3D Attack."
         },
@@ -902,6 +903,9 @@
         "Label":"Armour-piercing",
         "Description":"This weapon ignores X armour points. If this value is higher than the enemy’s armour points, damage is immediately inflicted on the target’s health points.",
         "Description-short":"This weapon ignores X armour points"
+      },
+      "PEUR":{
+        "Label":"Fear"
       },
       "PRECISION": {
         "Label":"Precise",
@@ -1461,6 +1465,7 @@
             "LION":{
               "Label":"Lion",
               "Img":"Lion's image",
+              "Token":"Lion's token",
               "CEvolutions":"Every evolution of the Lion",
               "Pointgloiredepart":"Starting points of glory",
               "BonusPointgloire":"Bonus glory points for modules",
@@ -1470,6 +1475,7 @@
             "WOLF":{
               "Label":"Wolf",
               "Img":"Wolf's image",
+              "Token":"Wolf's token",
               "CEvolutions":"Every evolution of the Wolf",
               "BonusRepartir":"Number of configurations to increase",
               "EvolutionConfigurations":"Configuration evolution",
@@ -1504,6 +1510,7 @@
             "CROW":{
               "Label":"Crow",
               "Img":"Crow's image",
+              "Token":"Crow's token",
               "CEvolutions":"Every evolution of the Crow",
               "Cohesion":"Cohesion bonus",
               "Debordement":"Overrun bonus",
@@ -2209,6 +2216,8 @@
       "ModificateurViolence":"Violence modifier",
       "JetEspoir":"Hope roll",
       "JetEgide":"Aegis roll",
+      "JetPeur":"Result of the roll to resist fear?",
+      "DureePeur":"Duration of fear",
       "OtherEffects":"Other effects",
       "Notheroisme":"Not enough heroism",
       "Notenergie":"Not enough energy",
@@ -2443,6 +2452,7 @@
     },
     "ACTIVATION": {
       "Label": "Activation",
+      "Desactivation":"Deactivation",
       "Aucune": "None",
       "Instantanee": "Instantaneous",
       "Deplacement": "Move action",
@@ -2453,8 +2463,8 @@
       "Combat6Sec": "Combat action / 6 seconds",
       "Tour": "1 turn",
       "Tour6Sec": "1 turn / 6 seconds",
-      "Toutes": "Move action, Combat action or 1 Turn",
       "DeplacementCombat": "Move action or Combat action",
+      "Toutes": "Move action, Combat action or 1 Turn",
       "TourComplet": "Full turn"
     },
     "BONUS":{

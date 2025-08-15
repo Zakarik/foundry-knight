@@ -351,8 +351,6 @@ DATA :
   - (array) addOtherEffects : Liste des effets à ajouter.
 */
 export async function doAttack(data) {
-  const version = game.version.split('.')[0];
-
   const actor = data.actor;
   const listAllE = data.listAllE;
   const isPNJ = data?.pnj ?? false;
@@ -395,15 +393,7 @@ export async function doAttack(data) {
   let effLumiere = undefined;
   let effBarrage = undefined;
 
-  if(version < 11 && targetToken !== undefined) {
-    effLumiere = targetToken.effects.find(effects => foundry.utils.getProperty(effects, "flags.core.statusId") === 'lumiere');
-    effBarrage = targetToken.effects.find(effects => foundry.utils.getProperty(effects, "flags.core.statusId") === 'barrage');
-    designation = targetToken.effects.find(effects => foundry.utils.getProperty(effects, "flags.core.statusId") === 'designation') ? 1 : 0;
-
-    if(effLumiere !== undefined) lumiere = 1*(foundry.utils.getProperty(effLumiere, "flags.statuscounter.counter")?.value ?? 1);
-    if(effBarrage !== undefined) barrage = 1*(foundry.utils.getProperty(effBarrage, "flags.statuscounter.counter")?.value ?? 1);
-
-  } else if(targetToken !== undefined) {
+  if(targetToken !== undefined) {
     designation = targetToken.statuses.has('designation') ? 1 : 0;
     effLumiere = targetToken.effects.find(effects => effects.statuses.has('lumiere'));
     effBarrage = targetToken.effects.find(effects => effects.statuses.has('barrage'));

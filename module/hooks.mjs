@@ -178,11 +178,11 @@ export default class HooksKnight {
             }
 
             html.find('.knight-roll div.dice-result').click(ev => {
-            const tgt = $(ev.currentTarget);
+                const tgt = $(ev.currentTarget);
 
-            tgt.find('div.dice-tooltip').toggle({
-                complete: () => {},
-            });
+                tgt.find('div.dice-tooltip').toggle({
+                    complete: () => {},
+                });
             });
 
             html.find('.knight-roll div.details.withTooltip').click(ev => {
@@ -1807,7 +1807,7 @@ export default class HooksKnight {
                 const dmg = targetsIdsDmgs[i].split('-')[1];
 
                 // Do damages
-                await doDamages({tokenId, dmg, effects, dmgType});
+                await doDamages({tokenId, dmg, effects, dmgType, message});
             }
             });
 

@@ -2914,10 +2914,9 @@
                     }
                 }
 
-                div.modulesLion {
+                div.lionSlots {
                   width:100%;
-                  border-top:1px solid black;
-                  margin-top:5px;
+                  border-top:1px solid $black;
 
                   h5 {
                       width: 100%;
@@ -2928,6 +2927,76 @@
                       font-weight: normal;
                       text-transform: uppercase;
                       background:$lightBlack;
+                  }
+
+                  div.line {
+                      display: grid;
+                      grid-template-columns: repeat(6, 1fr);
+                      border-top: 1px solid black;
+
+                      div.block {
+                          display: grid;
+                          grid-template-columns: 1fr;
+                          flex-wrap: wrap;
+
+                          span {
+                              display:inline-block;
+                              width:100%;
+                              font-variant: small-caps;
+                              text-align: center;
+                              line-height: 26px;
+
+                              &.title {
+                                background:$lightBlack;
+                              }
+
+                              &.score {
+                                background:$black;
+                              }
+                          }
+
+                          &.red {
+                            span {
+                              color:red;
+                              font-weight:bold;
+                            }
+                          }
+
+                          &:not(:last-of-type) {
+                              span {
+                                &.title {
+                                  border-right:1px solid black;
+                                }
+
+                                &.score {
+                                  border-right:1px solid black;
+                                }
+                              }
+                          }
+                      }
+                  }
+                }
+
+                div.modulesLion {
+                  width:100%;
+                  border-top:1px solid $black;
+
+                  h5 {
+                      width: 100%;
+                      margin: 0px;
+                      line-height: 25px;
+                      font-size: 14px;
+                      padding-left: 5px;
+                      font-weight: normal;
+                      text-transform: uppercase;
+                      background:$lightBlack;
+                      position:relative;
+
+                      i {
+                        position: absolute;
+                        right: 5px;
+                        line-height: 22px;
+                      }
                   }
 
                   div.bModule {

@@ -5173,6 +5173,106 @@ export async function createSheet(actor, type, name, data, item, imgAvatar, imgT
   return newActor;
 }
 
+/**
+ * Trouve un token de référence pour un Actor sur la scène active.
+ * - Priorise un token contrôlé correspondant à l'acteur.
+ * - Sinon, prend le premier token sur la scène active avec actorId = refActor.id.
+ * @param {Actor|string} refActor - Actor ou actorId.
+ * @returns {Token|null} - Le token placeable (scène active) ou null si introuvable.
+ */
+function findRefTokenForActor(refActor) {
+  const refActorId = typeof refActor === "string" ? refActor : refActor?.id;
+  if (!refActorId) return null;
+
+  // 1) Un token contrôlé de cet acteur ?
+  const controlled = canvas.tokens.controlled.find(t => t.document.actorId === refActorId);
+  if (controlled) return controlled;
+
+  // 2) Sinon, n'importe quel token sur la scène active pour cet acteur
+  const any = canvas.tokens.placeables.find(t => t.document.actorId === refActorId);
+  return any ?? null;
+}
+
+/**
+ * Crée un token pour un Actor à droite d'un token de référence (trouvé à partir d'un autre Actor).
+ * Gère snap, tokens non 1x1, lien à la fiche, etc.
+ *
+ * @param {object} params
+ * @param {Actor}  params.actor          - L'Actor à “poser”.
+ * @param {Actor|string} params.refActor - L'Actor (ou son id) dont on utilisera le token comme référence (sur la scène active).
+ * @param {number} [params.index=0]      - Rang dans la série (0 pour le 1er, 1 pour le 2e, etc.).
+ * @param {number} [params.gapCells=1]   - Cases vides entre chaque nouveau token.
+ * @param {number} [params.offsetCells=0]- Décalage initial (en cases) après le bord droit du token de ref.
+ * @param {boolean}[params.link=true]    - Token lié à la fiche (actorLink).
+ * @param {string[]} [params.copy=["disposition","elevation","rotation","hidden"]]
+ * @returns {Promise<TokenDocument>}     - Le TokenDocument créé.
+ */
+export async function spawnTokenRightOfActor({
+  actor,
+  refActor,
+  index = 0,
+  gapCells = 0,
+  offsetCells = 0,
+  link = true,
+  copy = ["disposition", "elevation", "rotation", "hidden"]
+}) {
+  console.warn(refActor)
+  if (!actor) throw new Error("spawnTokenRightOfActor: actor manquant.");
+  const refToken = findRefTokenForActor(refActor);
+  if (!refToken) {
+    ui.notifications?.warn("Aucun token de référence trouvé pour l'acteur sur la scène active.");
+    throw new Error("spawnTokenRightOfActor: token de référence introuvable.");
+  }
+
+  const scene = refToken.document.parent;                    // scène du token de ref
+  const isActiveScene = scene === canvas.scene;
+  const gridSize = (isActiveScene ? canvas.grid.size : scene.grid.size) || 1;
+  const snapper  = isActiveScene ? canvas.grid : scene.grid;
+  const isGridless = scene.grid?.type === CONST.GRID_TYPES.GRIDLESS;
+
+  // Prépare un TokenDocument temporaire pour connaître la largeur en cases
+  const tmp = await actor.getTokenDocument({ actorLink: link });
+  const widthCells = tmp.width ?? 1;
+  const tokenPx    = widthCells * gridSize;
+
+  // Bord droit du token de référence -> offset initial -> progression par index
+  const startX = refToken.document.x + refToken.w + offsetCells * gridSize;
+  const rawX   = startX + index * (tokenPx + gapCells * gridSize);
+  const rawY   = refToken.document.y;
+
+  const { x, y } = isGridless ? { x: rawX, y: rawY } : snapper.getSnappedPosition(rawX, rawY, 1);
+
+  // Données finales
+  const data = Object.assign(tmp.toObject(), { x, y });
+  for (const k of copy) if (k in refToken.document) data[k] = refToken.document[k];
+
+  const created = await scene.createEmbeddedDocuments("Token", [data]);
+  return created?.[0];
+}
+
+/**
+ * Crée une série de tokens à droite du token lié à refActor.
+ * @param {Actor[]} actors - Les acteurs à poser.
+ * @param {Actor|string} refActor - L'acteur dont on utilisera le token comme référence.
+ * @param {object} opts - mêmes options que spawnTokenRightOfActor (gapCells, offsetCells, link, copy)
+ * @returns {Promise<TokenDocument[]>}
+ */
+export async function spawnTokensRightOfActor(actors, refActor, opts = {}) {
+  const out = [];
+  for (let i = 0; i < actors.length; i++) {
+    const doc = await spawnTokenRightOfActor({ actor: actors[i], refActor, index: i, ...opts });
+    out.push(doc);
+  }
+  return out;
+}
+
+export async function deleteTokens(ids=[]) {
+  const findids = canvas.scene.tokens
+    .filter(t => ids.includes(t.actorId))
+    .map(t => t.id);
+  if (findids.length) await canvas.scene.deleteEmbeddedDocuments("Token", findids);
+}
+
 export function setValueByPath(obj, path, value) {
   var a = path.split('.')
   var o = obj
@@ -5629,11 +5729,20 @@ export async function actualiseRoll(actor) {
   if(roll) roll.actualise();
 }
 
-export async function rollDamage(message, event) {
-  const tgt = $(event.currentTarget);
-  const header = tgt.parents('section.content');
-  const index = header.data('index');
-  console.warn(message);
+export async function rollDamage(message, eventOrOptions) {
+  let index = 0;
+
+  // Cas 1: on t’a passé un Event (click)
+  if (eventOrOptions?.currentTarget) {
+    const tgt = $(eventOrOptions.currentTarget);
+    const header = tgt.parents('section.content');
+    index = header.data('index');
+  }
+  // Cas 2: on t’a passé des options (ex: { index, extraFlags, overrideTargets })
+  else if (typeof eventOrOptions === "object") {
+    index = eventOrOptions?.index ?? 0;
+  }
+
   const flags = message.flags.knight;
   const weapon = flags.weapon;
   const raw = weapon.effets.raw.concat(weapon?.distance?.raw ?? [], weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
@@ -5659,6 +5768,7 @@ export async function rollDamage(message, event) {
       maximize:flags.maximize,
       ghost:flags.ghost,
       ersatzghost:flags.ersatzghost,
+      secondWpn:flags.secondWpn,
   };
 
   let data = {
@@ -5680,10 +5790,20 @@ export async function rollDamage(message, event) {
   await roll.doRollDamage(data);
 }
 
-export async function rollViolence(message, event) {
-  const tgt = $(event.currentTarget);
-  const header = tgt.parents('section.content');
-  const index = header.data('index');
+export async function rollViolence(message, eventOrOptions) {
+  let index = 0;
+
+  // Cas 1: on t’a passé un Event (click)
+  if (eventOrOptions?.currentTarget) {
+    const tgt = $(eventOrOptions.currentTarget);
+    const header = tgt.parents('section.content');
+    index = header.data('index');
+  }
+  // Cas 2: on t’a passé des options (ex: { index, extraFlags, overrideTargets })
+  else if (typeof eventOrOptions === "object") {
+    index = eventOrOptions?.index ?? 0;
+  }
+
   const flags = message.flags.knight;
   const weapon = flags.weapon;
   const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
@@ -5700,6 +5820,7 @@ export async function rollViolence(message, event) {
       dataStyle:flags.dataStyle,
       dataMod:flags.dataMod,
       maximize:flags.maximize,
+      secondWpn:flags.secondWpn,
   };
 
   const roll = new game.knight.RollKnight(actor, {
@@ -5715,18 +5836,103 @@ export async function rollViolence(message, event) {
       flags:addFlags,
   });
 }
-
-export function addFlags(origin, flags, name='') {
-  if (typeof flags === 'object') {
-    let list = [];
-    for(let f in flags) {
-        origin.setFlag('knight', f, flags[f]);
-        list.push(f);
-    }
-
-    origin.setFlag('knight', 'list', list);
-  } else {
-    origin.setFlag('knight', name, flags);
-    origin.setFlag('knight', 'list', [name]);
+/**
+ * Ajoute des flags sous le scope "knight" puis renvoie le document mis à jour.
+ * - Si `flags` est un objet: ajoute/merge toutes les paires clé/valeur.
+ * - Sinon, utilise `name` comme clé pour la valeur `flags`.
+ *
+ * @param {Document} origin - ex: un ChatMessage, Item, Actor, etc.
+ * @param {object|any} flags - soit un objet clé/valeur, soit une valeur simple.
+ * @param {string} [name=''] - clé utilisée si `flags` n'est pas un objet.
+ * @returns {Promise<{document: Document, keys: string[]}>}
+ */
+export async function addFlags(origin, flags, name = '') {
+  if (!origin?.update) {
+    throw new Error('addFlags: origin ne possède pas de méthode update().');
   }
+
+  // Prépare la structure d’update
+  const update = {};
+  const scope = 'flags.knight';
+
+  // Récupère la liste existante
+  const existingList = origin.getFlag?.('knight', 'list') ?? [];
+
+  let newKeys = [];
+  if (flags && typeof flags === 'object' && !Array.isArray(flags)) {
+    newKeys = Object.keys(flags);
+
+    for (const k of newKeys) {
+      update[`${scope}.${k}`] = flags[k];
+    }
+  } else {
+    const key = name || 'value';
+    newKeys = [key];
+    update[`${scope}.${key}`] = flags;
+  }
+
+  // Merge unique avec l’ancienne liste
+  const mergedList = Array.from(new Set([...existingList, ...newKeys]));
+  update[`${scope}.list`] = mergedList;
+
+  // Une seule opération asynchrone et atomique
+  const updated = await origin.update(update);
+
+  // Selon Foundry, update renvoie le même objet ou une nouvelle instance (selon version).
+  // On renvoie ce que fournit update, sinon on retombe sur origin.
+  return { document: updated ?? origin, keys: mergedList };
+}
+
+
+export function getFinalWeaponData(style, wpn) {
+  let result = wpn;
+  const options = result?.options ?? [];
+  const structurelles = result?.structurelles?.raw ?? [];
+  const ornementales = result?.ornementales?.raw ?? [];
+  const distance = result?.distance?.raw ?? [];
+
+  for(let p of structurelles) {
+    const findOption = options?.find(itm => itm.value === p)?.active ?? true;
+
+    if(!findOption) continue;
+
+    switch(p) {
+      case 'agressive':
+        if(style !== 'agressif') continue;
+        result.degats.dice += 1;
+        break;
+
+      case 'allegee':
+        result.degats.dice -= 1;
+        break;
+    }
+  }
+
+  for(let p of distance) {
+    const findOption = options?.find(itm => itm.value === p)?.active ?? true;
+
+    if(!findOption) continue;
+
+    switch(p) {
+      case 'chargeurballesgrappes':
+        result.degats.dice -= 1;
+        result.violence.dice += 1;
+        break;
+
+      case 'chargeurminutionsexplosives':
+        result.degats.dice += 1;
+        result.violence.dice -= 1;
+        break;
+
+      case 'munitionsiem':
+        result.degats.dice -= 1;
+        result.violence.dice -= 1;
+        break;
+    }
+  }
+
+  result.degats.dice = Math.max(0, result.degats.dice);
+  result.violence.dice = Math.max(0, result.violence.dice);
+
+  return result;
 }

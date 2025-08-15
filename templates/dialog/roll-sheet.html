@@ -26,6 +26,10 @@
 {{/if}}
 
 {{#each mods}}
+    {{#if (eq key 'info')}}
+    <span class="{{classes}}" style="display:none;"></span>
+    {{/if}}
+
     {{#if (eq key 'score')}}
         <label class="{{classes}}" data-key="{{name}}">
             <span>{{label}}</span>

@@ -74,6 +74,7 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
                 bouclier:new BooleanField({initial:true, nullable:false}),
                 phase2:new BooleanField({initial:false, nullable:false}),
             }),
+            otherMods:new ObjectField(),
         }
     }
 

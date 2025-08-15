@@ -47,6 +47,8 @@ export class MechaArmureSheet extends ActorSheet {
 
     actualiseRoll(this.actor);
 
+    console.warn(context);
+
     return context;
   }
 
@@ -215,12 +217,11 @@ export class MechaArmureSheet extends ActorSheet {
       const getData = this.actor;
       const num = type === 'special' ? getData.wpnSpecial.findIndex(wpn => wpn._id === key) : getData.wpn.findIndex(wpn => wpn._id === key);
       const label = game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`);
-      const actor = this.actor.token ? this.actor.token.id : this.actor.id;
+      const actor = getData.token ? getData.token.id : getData.id;
 
       const dialog = new game.knight.applications.KnightRollDialog(actor, {
-        whoActivate:getData.system.pilote,
         label:label,
-        wpn:`ma_${this.actor.id}_${key}`
+        wpn:`ma_${getData.id}_${key}`
       });
 
       dialog.open();
@@ -240,7 +241,9 @@ export class MechaArmureSheet extends ActorSheet {
       let roll;
       let total;
 
-      if(!simple) this.actor.update({[`system.configurations.liste.${type}.modules.${key}.active`]:true});
+      if(!simple) {
+        this.actor.update({[`system.configurations.liste.${type}.modules.${key}.active`]:true});
+      }
 
       switch(key) {
         case 'vagueSoin':
@@ -489,6 +492,13 @@ export class MechaArmureSheet extends ActorSheet {
           break;
       }
 
+      const exec = new game.knight.RollKnight(this.actor,
+        {
+        name:game.i18n.localize(`KNIGHT.ACTIVATION.Label`),
+        }).sendMessage({
+            text:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`),
+            sounds:CONFIG.sounds.notification,
+      });
     });
 
     html.find('div.combat .desactivation').click(ev => {
@@ -508,6 +518,14 @@ export class MechaArmureSheet extends ActorSheet {
 
         if(resilienceActuel > modResilience) this.actor.update({[`system.resilience.value`]:modResilience});
       }
+
+      const exec = new game.knight.RollKnight(this.actor,
+        {
+        name:game.i18n.localize(`KNIGHT.ACTIVATION.Desactivation`),
+        }).sendMessage({
+            text:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`),
+            sounds:CONFIG.sounds.notification,
+      });
     });
 
     html.find('div.combat .prolonger').click(async ev => {
@@ -800,7 +818,6 @@ export class MechaArmureSheet extends ActorSheet {
       const actor = this.actor.token ? this.actor.token.id : this.actor.id;
 
       const dialog = new game.knight.applications.KnightRollDialog(actor, {
-        whoActivate:getData.system.pilote,
         label:label,
         base:caracteristique,
         modificateur:bonus,

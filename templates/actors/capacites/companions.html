@@ -164,9 +164,59 @@
                     {{/each}}
                 </div>
             </div>
+            <div class="lionSlots" style="display:none;">
+                <h5>
+                    {{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Label"}}
+                </h5>
+
+                <div class="line">
+                    <div class="block {{#if (isNegative lion.slots.tete.value lion.slots.tete.used)}}red{{/if}}">
+                        <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Tete"}}</span>
+                        <span class="score">
+                            {{lion.slots.tete.used}} / {{lion.slots.tete.value}}
+                        </span>
+                    </div>
+
+                    <div class="block {{#if (isNegative lion.slots.brasGauche.value lion.slots.brasGauche.used)}}red{{/if}}">
+                        <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.BrasGauche"}}</span>
+                        <span class="score">
+                            {{lion.slots.brasGauche.used}} / {{lion.slots.brasGauche.value}}
+                        </span>
+                    </div>
+
+                    <div class="block {{#if (isNegative lion.slots.brasDroit.value lion.slots.brasDroit.used)}}red{{/if}}">
+                        <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.BrasDroit"}}</span>
+                        <span class="score">
+                            {{lion.slots.brasDroit.used}} / {{lion.slots.brasDroit.value}}
+                        </span>
+                    </div>
+
+                    <div class="block {{#if (isNegative lion.slots.torse.value lion.slots.torse.used)}}red{{/if}}">
+                        <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Torse"}}</span>
+                        <span class="score">
+                            {{lion.slots.torse.used}} / {{lion.slots.torse.value}}
+                        </span>
+                    </div>
+
+                    <div class="block {{#if (isNegative lion.slots.jambeGauche.value lion.slots.jambeGauche.used)}}red{{/if}}">
+                        <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.JambeGauche"}}</span>
+                        <span class="score">
+                            {{lion.slots.jambeGauche.used}} / {{lion.slots.jambeGauche.value}}
+                        </span>
+                    </div>
+
+                    <div class="block {{#if (isNegative lion.slots.jambeDroite.value lion.slots.jambeDroite.used)}}red{{/if}}">
+                        <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.JambeDroite"}}</span>
+                        <span class="score">
+                            {{lion.slots.jambeDroite.used}} / {{lion.slots.jambeDroite.value}}
+                        </span>
+                    </div>
+                </div>
+            </div>
             <div class="modulesLion" style="display:none;">
                 <h5>
                     {{localize "KNIGHT.ITEMS.MODULE.Label"}}
+                    <a class="item-control item-create" title="Create Item" data-type="module" data-special="lion"><i class="fas fa-plus"></i></a>
                 </h5>
                 {{#each this.lion.modules as | kLion module|}}
                 <div class="bModule">
