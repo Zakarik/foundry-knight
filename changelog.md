@@ -1,3 +1,7 @@
+## v3.49.2
+### Bugfix
+- Correction d'un bug empêchant de jeter les dégâts / la violence si aucune seconde arme n'était sélectionnée.
+
 ## v3.49.1
 ### Bugfix
 - Correction d'un problème empêchant d'attaquer avec une arme à distance.

@@ -2478,7 +2478,7 @@ export class RollKnight {
         wpnDice = wpnDice;
         wpnDice += wpnBonusDice;
 
-        if(style === 'akimbo') {
+        if(style === 'akimbo' && data.flags.secondWpn) {
             const secondWpn = getFinalWeaponData(style, data.flags.secondWpn);
             wpnDice += secondWpn.degats.dice;
         }
@@ -3047,7 +3047,7 @@ export class RollKnight {
         wpnDice = wpnDice;
         wpnDice += wpnBonusDice;
 
-        if(style === 'akimbo') {
+        if(style === 'akimbo' && data.flags.secondWpn) {
             const secondWpn = getFinalWeaponData(style, data.flags.secondWpn);
             wpnDice += Math.ceil(secondWpn.violence.dice/2);
         }
