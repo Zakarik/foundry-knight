@@ -2670,6 +2670,7 @@ export class KnightSheet extends ActorSheet {
       const cout = target?.data("cout") || false;
       const listtargets = game.user.targets;
       const allTargets = [];
+      let activeTenebricide = true;
 
       if(listtargets && listtargets.size > 0) {
         for(let t of listtargets) {
@@ -2711,10 +2712,13 @@ export class KnightSheet extends ActorSheet {
           effets:{raw:raw, custom:custom},
         }
       });
+      if(weapon.effets.raw.includes('tenebricide') && !await confirmationDialog("active", "Activation", {effect:game.i18n.localize("KNIGHT.EFFETS.TENEBRICIDE.Label")})) activeTenebricide = false;
       const options = weapon.options;
 
       for(let o of options) {
-        o.active = true;
+
+        if(o.value === 'tenebricide') o.active = activeTenebricide;
+        else o.active = true;
       }
 
       const flags = roll.getRollData(weapon, {targets:allTargets})
@@ -2735,6 +2739,7 @@ export class KnightSheet extends ActorSheet {
       const cout = target?.data("cout") || false;
       const listtargets = game.user.targets;
       const allTargets = [];
+      let activeTenebricide = true;
 
       if(listtargets && listtargets.size > 0) {
         for(let t of listtargets) {
@@ -2776,10 +2781,14 @@ export class KnightSheet extends ActorSheet {
           effets:{raw:raw, custom:custom},
         }
       });
+
+      if(weapon.effets.raw.includes('tenebricide') && !await confirmationDialog("active", "Activation", {effect:game.i18n.localize("KNIGHT.EFFETS.TENEBRICIDE.Label")})) activeTenebricide = false;
       const options = weapon.options;
 
       for(let o of options) {
-        o.active = true;
+
+        if(o.value === 'tenebricide') o.active = activeTenebricide;
+        else o.active = true;
       }
 
       const flags = roll.getRollData(weapon, {targets:allTargets});
@@ -2797,6 +2806,7 @@ export class KnightSheet extends ActorSheet {
       const cout = target?.data("cout") || false;
       const listtargets = game.user.targets;
       const allTargets = [];
+      let activeTenebricide = true;
 
       if(listtargets && listtargets.size > 0) {
         for(let t of listtargets) {
@@ -2838,10 +2848,14 @@ export class KnightSheet extends ActorSheet {
           effets:{raw:raw, custom:custom},
         }
       });
+
+      if(weapon.effets.raw.includes('tenebricide') && !await confirmationDialog("active", "Activation", {effect:game.i18n.localize("KNIGHT.EFFETS.TENEBRICIDE.Label")})) activeTenebricide = false;
       const options = weapon.options;
 
       for(let o of options) {
-        o.active = true;
+
+        if(o.value === 'tenebricide') o.active = activeTenebricide;
+        else o.active = true;
       }
 
       const flags = roll.getRollData(weapon, {targets:allTargets})

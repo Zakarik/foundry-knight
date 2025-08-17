@@ -3122,6 +3122,14 @@ export class KnightRollDialog extends Dialog {
             type:'distance',
             cout:system?.energie ?? 0,
             espoir:system?.espoir ?? 0,
+            effets:{
+                raw:system?.effets?.raw ?? [],
+                custom:system?.effets?.custom ?? [],
+            },
+            distance:{
+                raw:system?.distance?.raw ?? [],
+                custom:system?.distance?.custom ?? [],
+            },
             bonus:{
                 degats:{
                     dice:modules?.degats?.dice ?? 0,
@@ -3148,22 +3156,13 @@ export class KnightRollDialog extends Dialog {
             }
         }
 
+        data.effets.raw = data.effets.raw.concat(specialRaw, system?.distance?.raw ?? []);
+        data.effets.custom = data.effets.custom.concat(specialCustom, system?.distance?.custom ?? []);
+        raw = data.effets.raw;
+
         if(wpn.id === this.rollData.wpnSelected) data.classes += ' selected';
 
         if(!system?.optionsmunitions?.has ?? false) {
-            data.effets = {
-                raw:system?.effets?.raw ?? [],
-                custom:system?.effets?.custom ?? [],
-            };
-            data.distance = {
-                raw:system?.distance?.raw ?? [],
-                custom:system?.distance?.custom ?? [],
-            };
-
-            data.effets.raw = data.effets.raw.concat(specialRaw);
-            data.effets.custom = data.effets.custom.concat(specialCustom);
-
-            raw = data.effets.raw.concat(system?.distance?.raw ?? []);
 
             if(!system?.degats?.variable?.has ?? false) data.degats = {dice:system?.degats?.dice ?? 0, fixe:system?.degats?.fixe ?? 0};
             else {
@@ -3236,21 +3235,12 @@ export class KnightRollDialog extends Dialog {
 
             data.degats = data.munitions[data.actuel].degats;
             data.violence = data.munitions[data.actuel].violence;
-
-            raw = data.effets.raw.concat(data.munitions[data.actuel].raw)
+            raw = raw.concat(data.munitions[data.actuel].raw);
 
             data.effets = {
                 raw:raw,
                 custom:system.effets.custom.concat(data.munitions[data.actuel].custom),
             };
-
-            data.distance = {
-                raw:system.distance.raw,
-                custom:system.distance.custom,
-            };
-
-            data.effets.raw = data.effets.raw.concat(specialRaw);
-            data.effets.custom = data.effets.custom.concat(specialCustom);
 
             let classes = [];
             classes.push('selectSimple munitions full');
@@ -3867,10 +3857,6 @@ export class KnightRollDialog extends Dialog {
                 complete: () => {},
             });
         }
-
-        $(tgt).parents('div.wpn').siblings('div.aspects').show({
-            complete: () => {},
-        });
 
         this.#updateStyleShow(undefined, undefined, true);
     }

@@ -4539,7 +4539,7 @@ export function getModStyle(style) {
   return result;
 }
 
-export async function confirmationDialog(type='delete', label='') {
+export async function confirmationDialog(type='delete', label='', format={}) {
   let content = '';
 
   switch(type) {
@@ -4549,6 +4549,10 @@ export async function confirmationDialog(type='delete', label='') {
 
     case 'restoration':
       content = game.i18n.localize(`KNIGHT.AUTRE.${label}`);
+      break;
+
+    case 'active':
+      content = game.i18n.format(`KNIGHT.AUTRE.${label}`, format);
       break;
   }
 
@@ -5216,7 +5220,6 @@ export async function spawnTokenRightOfActor({
   link = true,
   copy = ["disposition", "elevation", "rotation", "hidden"]
 }) {
-  console.warn(refActor)
   if (!actor) throw new Error("spawnTokenRightOfActor: actor manquant.");
   const refToken = findRefTokenForActor(refActor);
   if (!refToken) {

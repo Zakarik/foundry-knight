@@ -2389,7 +2389,8 @@
       "Reset":"Reset",
       "Difficulte":"Difficulty",
       "MJOnly":"MJ Only",
-      "NoGrenades":"You're out of grenades."
+      "NoGrenades":"You're out of grenades.",
+      "Activation":"Do you want to activate {effect}?"
     },
     "PHASE2":{
       "Label":"Phase 2",

@@ -3481,6 +3481,14 @@ export class RollKnight {
             type:'distance',
             cout:system?.cout ?? 0,
             espoir:system?.espoir ?? 0,
+            effets:{
+                raw:system?.effets?.raw ?? [],
+                custom:system?.effets?.custom ?? [],
+            },
+            distance:{
+                raw:system?.distance?.raw ?? [],
+                custom:system?.distance?.custom ?? [],
+            },
             bonus:{
                 degats:{
                     dice:modules?.degats?.dice ?? 0,
@@ -3507,21 +3515,11 @@ export class RollKnight {
             }
         }
 
+        data.effets.raw = data.effets.raw.concat(specialRaw, system?.distance?.raw ?? []);
+        data.effets.custom = data.effets.custom.concat(specialCustom, system?.distance?.custom ?? []);
+        raw = data.effets.raw;
+
         if(!system?.optionsmunitions?.has ?? false) {
-            data.effets = {
-                raw:system?.effets?.raw ?? [],
-                custom:system?.effets?.custom ?? [],
-            };
-            data.distance = {
-                raw:system?.distance?.raw ?? [],
-                custom:system?.distance?.custom ?? [],
-            };
-
-            data.effets.raw = data.effets.raw.concat(specialRaw);
-            data.effets.custom = data.effets.custom.concat(specialCustom);
-
-            raw = system.effets.raw.concat(system?.distance?.raw ?? []);
-
             if(!system?.degats?.variable?.has ?? false) data.degats = {dice:system?.degats?.dice ?? 0, fixe:system?.degats?.fixe ?? 0};
             else {
                 const list = {};
@@ -3596,19 +3594,6 @@ export class RollKnight {
 
             raw = system.effets.raw.concat(data.munitions[data.actuel].raw)
 
-            data.effets = {
-                raw:raw,
-                custom:system.effets.custom.concat(data.munitions[data.actuel].custom),
-            };
-
-            data.distance = {
-                raw:system.distance.raw,
-                custom:system.distance.custom,
-            };
-
-            data.effets.raw = data.effets.raw.concat(specialRaw);
-            data.effets.custom = data.effets.custom.concat(specialCustom);
-
             let classes = [];
             classes.push('selectSimple munitions full');
 
@@ -3628,6 +3613,46 @@ export class RollKnight {
         }
 
         data.options = modules.options ? modules.options.concat(data.options) : data.options;
+
+        if(this.#hasEffet(raw, 'boostviolence')) {
+            let classes = ['selectDouble', 'boostviolence'];
+            const getOption = getWpn ? getWpn.options.find(itm => itm.classes.includes('boostviolence')) : undefined;
+            const boostViolenceEntry = raw.find(entry => entry.includes("boostviolence"));
+            const boostViolenceValue = parseInt(boostViolenceEntry.split(' ')[1]);
+            const list = Array.from({length: boostViolenceValue+1}, (_, index) => [index, `${index}D6`]).reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
+
+            if(!this.#hasEffet(raw, 'boostdegats')) classes.push('full');
+
+            data.options.push({
+                key:'select',
+                classes:classes.join(' '),
+                label:game.i18n.localize(CONFIG.KNIGHT.effetsfm4.boostviolence.label),
+                list,
+                selected:getOption ? getOption.selected : 0,
+                value:1,
+                selectvalue:0,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'boostdegats')) {
+            let classes = ['selectDouble', 'boostdegats'];
+            const getOption = getWpn ? getWpn.options.find(itm => itm.classes.includes('boostdegats')) : undefined;
+            const boostDegatsEntry = raw.find(entry => entry.includes("boostdegats"));
+            const boostDegatsValue = parseInt(boostDegatsEntry.split(' ')[1]);
+            const list = Array.from({length: boostDegatsValue+1}, (_, index) => [index, `${index}D6`]).reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
+
+            if(!this.#hasEffet(raw, 'boostviolence')) classes.push('full');
+
+            data.options.push({
+                key:'select',
+                classes:classes.join(' '),
+                label:game.i18n.localize(CONFIG.KNIGHT.effetsfm4.boostdegats.label),
+                list,
+                selected:getOption ? getOption.selected : 0,
+                value:1,
+                selectvalue:0,
+            });
+        }
 
         if(this.#hasEffet(raw, 'tirenrafale')) {
             let classes = ['tirenrafale', 'center', 'roll', 'full'];
@@ -3663,7 +3688,7 @@ export class RollKnight {
             });
         }
 
-        if(this.#hasEffet(raw, 'barrage') && !this.#hasEffet(raw, 'aucundegatsviolence')) {
+        if(this.#hasEffet(raw, 'barrage')) {
             let classes = ['barrage', 'active', 'full'];
 
             data.options.push({
@@ -3671,7 +3696,103 @@ export class RollKnight {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.BARRAGE.Label'),
                 value:'barrage',
-                active:false,
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'chargeurballesgrappes')) {
+            let classes = ['chargeurballesgrappes', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.CHARGEURBALLESGRAPPES.Label'),
+                value:'chargeurballesgrappes',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'chargeurmunitionsexplosives')) {
+            let classes = ['chargeurmunitionsexplosives', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.CHARGEURMUNITIONSEXPLOSIVES.Label'),
+                value:'chargeurmunitionsexplosives',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'munitionsiem')) {
+            let classes = ['munitionsiem', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSIEM.Label'),
+                value:'munitionsiem',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'munitionsnonletales')) {
+            let classes = ['munitionsnonletales', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSNONLETALES.Label'),
+                value:'munitionsnonletales',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'munitionshypervelocite')) {
+            let classes = ['munitionshypervelocite', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label'),
+                value:'munitionshypervelocite',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'pointeurlaser')) {
+            let classes = ['pointeurlaser', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.POINTEURLASER.Label'),
+                value:'pointeurlaser',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'munitionsdrones')) {
+            let classes = ['munitionsdrones', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSDRONES.Label'),
+                value:'munitionsdrones',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'munitionssubsoniques')) {
+            let classes = ['munitionssubsoniques', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSSUBSONIQUES.Label'),
+                value:'munitionssubsoniques',
+                active:true,
             });
         }
 
@@ -3683,7 +3804,7 @@ export class RollKnight {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.CHROMELIGNESLUMINEUSES.Label'),
                 value:'chromeligneslumineuses',
-                active:false,
+                active:true,
             });
         } else if(this.#hasEffet(raw, 'cadence')) {
             let classes = ['cadence', 'active', 'full'];
@@ -3693,7 +3814,7 @@ export class RollKnight {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.CADENCE.Label'),
                 value:'cadence',
-                active:false,
+                active:true,
             });
         }
 
@@ -3717,7 +3838,7 @@ export class RollKnight {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.CRANERIEURGRAVE.Label'),
                 value:'cranerieurgrave',
-                active:false,
+                active:true,
             });
         } else if(this.#hasEffet(raw, 'obliteration')) {
             let classes = ['obliteration', 'active', 'full'];
@@ -3727,7 +3848,7 @@ export class RollKnight {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.OBLITERATION.Label'),
                 value:'obliteration',
-                active:false,
+                active:true,
             });
         }
 
@@ -3739,7 +3860,7 @@ export class RollKnight {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.TENEBRICIDE.Label'),
                 value:'tenebricide',
-                active:false,
+                active:true,
             });
         }
 

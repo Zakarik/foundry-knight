@@ -11,6 +11,7 @@ export const KNIGHT = {};
     creatures:['sante', 'armure', 'energie', 'bouclier'],
     mechaarmures:['resilience', 'vitesse', 'manoeuvrabilite', 'puissance', 'systemes', 'senseurs', 'champDeForce'],
     pnj:['sante', 'armure', 'energie', 'champDeForce', 'bouclier'],
+    knight:['sante', 'armure', 'energie', 'champDeForce', 'espoir', 'heroisme'],
     aspectsCaracteristiques:{
       "chair": "KNIGHT.ASPECTS.CHAIR.Label",
       "deplacement": "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.DEPLACEMENT.Label",

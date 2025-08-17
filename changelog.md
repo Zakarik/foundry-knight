@@ -1,3 +1,9 @@
+## v3.49.1
+### Bugfix
+- Correction d'un problème empêchant d'attaquer avec une arme à distance.
+- Correction d'un problème activant tout le temps le ténèbricide sur les modules ne nécessitant pas de jet d'attaque (corrigé via une fenêtre de confirmation).
+- Correction d'un problème d'affichage lors de l'ouverture de la fenêtre de jet via une arme sur tourelle.
+
 ## v3.49.0
 ### Améliorations
 - Ajout de la possibilité de définir la seconde arme lors d'un tir en akimbo, en utilisant le clique droit.
