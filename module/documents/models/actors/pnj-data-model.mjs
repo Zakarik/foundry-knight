@@ -21,7 +21,7 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
             blason:new StringField({ initial: ""}),
             surnom:new StringField({initial:""}),
             section:new StringField({initial:""}),
-            hautfait:new StringField({initial:""}),
+            hautFait:new StringField({initial:""}),
             type:new StringField({initial:""}),
             histoire:new HTMLField({initial:""}),
             description:new HTMLField({initial:""}),
@@ -165,6 +165,7 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
             espoir:new SchemaField({
                 value:new NumberField({initial:0, nullable:false, integer:true}),
                 max:new NumberField({initial:50, nullable:false, integer:true}),
+                reduction:new NumberField({initial:0, nullable:false, integer:true}),
             }),
             resilience:new SchemaField({
                 value:new NumberField({initial:0, nullable:false, integer:true}),
@@ -193,6 +194,7 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
             }),
             }),
             options:new SchemaField({
+                art:new BooleanField({initial:false, nullable:false}),
                 armure:new BooleanField({initial:true, nullable:false}),
                 bouclier:new BooleanField({initial:true, nullable:false}),
                 champDeForce:new BooleanField({initial:true, nullable:false}),
@@ -209,6 +211,7 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
                 wolfConfiguration:new BooleanField({initial:false, nullable:false}),
                 jetsSpeciaux:new BooleanField({initial:false, nullable:false}),
             }),
+            otherMods:new ObjectField(),
         }
     }
 
@@ -291,6 +294,13 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
             }
 
             source.version = 1;
+        } else if(source.version < 2) {
+            const grenades = source.combat.grenades;
+            const flashbang = grenades.liste.flashbang;
+
+            if(!flashbang.effets.raw.includes('lumiere 2')) flashbang.effets.raw.push('lumiere 2');
+
+            source.version = 2;
         }
 
         return super.migrateData(source);
@@ -298,13 +308,13 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
 
     prepareBaseData() {
         this.#armes();
-        this.#modules();
         this.#capacites();
         this.#phase2();
         this.aspects.prepareData();
     }
 
     prepareDerivedData() {
+        this.#modules();
         this.#derived();
         this.#defenses();
     }
@@ -390,6 +400,9 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
         let reactionMalus = 0;
 
         const actuel = data.filter(itm => itm.system.active.base || (itm.system?.niveau?.actuel?.permanent ?? false));
+
+        console.error(actuel);
+        console.error(data);
 
         for(let m of actuel) {
             const system = m.system?.niveau?.actuel ?? {};

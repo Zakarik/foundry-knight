@@ -530,6 +530,26 @@ export class ArmureLegendeDataModel extends foundry.abstract.TypeDataModel {
                         })
                       }),
                       distance: new ArrayField(new StringField())
+                    }),
+                    slots: new SchemaField({
+                      tete:new SchemaField({
+                        value:new NumberField({initial:8}),
+                      }),
+                      torse:new SchemaField({
+                        value:new NumberField({initial:10}),
+                      }),
+                      brasGauche:new SchemaField({
+                        value:new NumberField({initial:8}),
+                      }),
+                      brasDroit:new SchemaField({
+                        value:new NumberField({initial:8}),
+                      }),
+                      jambeGauche:new SchemaField({
+                        value:new NumberField({initial:8}),
+                      }),
+                      jambeDroite:new SchemaField({
+                        value:new NumberField({initial:8}),
+                      })
                     })
                   }),
                   wolf: new SchemaField({

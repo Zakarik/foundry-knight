@@ -120,6 +120,7 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
           embuscadeSubis:new BooleanField({initial:false, nullable:false}),
           embuscadePris:new BooleanField({initial:false, nullable:false}),
       }),
+      otherMods:new ObjectField(),
     }
   }
 

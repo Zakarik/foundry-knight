@@ -476,64 +476,87 @@ export class MechaArmureDataModel extends foundry.abstract.TypeDataModel {
                   tourspasses:new NumberField({ initial: 1, integer: true, nullable: false }),
                   type:new StringField({ initial: "degats"}),
               }),
-          }),
+            }),
+            otherMods:new ObjectField(),
         }
-    }
-    static migrateData(source) {
-        if(source.version < 1) {
-            const mods = ['reaction', 'defense', 'initiative'];
+  }
 
-            for(let m of mods) {
-              if(!source[m]) continue;
+  static migrateData(source) {
+      if(source.version < 1) {
+          const mods = ['reaction', 'defense', 'initiative'];
 
-                for(let b in source[m].bonus) {
-                    source[m].bonus[b] = 0;
-                }
+          for(let m of mods) {
+            if(!source[m]) continue;
 
-                for(let b in source[m].malus) {
-                    source[m].malus[b] = 0;
-                }
-            }
+              for(let b in source[m].bonus) {
+                  source[m].bonus[b] = 0;
+              }
 
-            for(let i in source.initiative.diceBonus) {
-                source.initiative.diceBonus[i] = 0;
-            }
+              for(let b in source[m].malus) {
+                  source[m].malus[b] = 0;
+              }
+          }
 
-            for(let i in source.initiative.diceMalus) {
-                source.initiative.diceMalus[i] = 0;
-            }
+          for(let i in source.initiative.diceBonus) {
+              source.initiative.diceBonus[i] = 0;
+          }
 
-            for(let i in source.initiative.embuscade.diceBonus) {
-                source.initiative.embuscade.diceBonus[i] = 0;
-            }
+          for(let i in source.initiative.diceMalus) {
+              source.initiative.diceMalus[i] = 0;
+          }
 
-            for(let i in source.initiative.embuscade.diceMalus) {
-                source.initiative.embuscade.diceMalus[i] = 0;
-            }
+          for(let i in source.initiative.embuscade.diceBonus) {
+              source.initiative.embuscade.diceBonus[i] = 0;
+          }
 
-            for(let i in source.initiative.embuscade.bonus) {
-                source.initiative.embuscade.bonus[i] = 0;
-            }
+          for(let i in source.initiative.embuscade.diceMalus) {
+              source.initiative.embuscade.diceMalus[i] = 0;
+          }
 
-            for(let i in source.initiative.embuscade.malus) {
-                source.initiative.embuscade.malus[i] = 0;
-            }
+          for(let i in source.initiative.embuscade.bonus) {
+              source.initiative.embuscade.bonus[i] = 0;
+          }
 
-            source.version = 1;
-        }
+          for(let i in source.initiative.embuscade.malus) {
+              source.initiative.embuscade.malus[i] = 0;
+          }
 
-        return super.migrateData(source);
-    }
+          source.version = 1;
+      }
+
+      return super.migrateData(source);
+  }
+
+  get piloteId() {
+    return this.pilote;
+  }
+
+  get getPilote() {
+    const piloteData = game.actors?.get(this.piloteId) || false;
+
+    return piloteData;
+  }
 
   prepareBaseData() {
     this.#modules();
 	}
 
 	prepareDerivedData() {
+    this.#handlePilote();
     this.#derived();
 
     Object.defineProperty(this.initiative, 'complet', {
       value: `${this.initiative.dice}D6+${this.initiative.value}`,
+    });
+  }
+
+  #handlePilote() {
+    const data = this.getPilote;
+
+    if(!data) return;
+
+    Object.defineProperty(this, 'aspects', {
+      value: data.system.aspects,
     });
   }
 
@@ -554,6 +577,55 @@ export class MechaArmureDataModel extends foundry.abstract.TypeDataModel {
       Object.defineProperty(system, update, {
         value: Math.max(base+bonus-malus, 0),
       });
+    }
+
+    let pilote = {};
+
+    if(this.piloteId !== 0) {
+      const piloteData = game.actors?.get(this.piloteId) || false;
+
+      if(piloteData !== false) {
+        const piloteSystem = piloteData.system;
+
+        pilote.name = piloteData.name;
+        pilote.surnom = piloteSystem.surnom;
+        pilote.aspects = piloteSystem.aspects;
+
+        const dataRD = ['reaction', 'defense'];
+
+        for(let i = 0;i < dataRD.length;i++) {
+            const isKraken = piloteSystem.options.kraken;
+            const dataBonus = piloteSystem[dataRD[i]].bonus;
+            const dataMalus = piloteSystem[dataRD[i]].malus;
+            const dataMABonus = Object.values(this[dataRD[i]].bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+            const dataMAMalus = Object.values(this[dataRD[i]].malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+            const base = piloteSystem[dataRD[i]].base;
+
+            let bonus = isKraken ? 1 : 0;
+            let malus = 0;
+
+            for(const bonusList in dataBonus) {
+              if(bonusList === 'user') bonus += dataBonus[bonusList];
+            }
+
+            for(const malusList in dataMalus) {
+              if(malusList === 'user') malus += dataMalus[malusList];
+            }
+
+            bonus += dataMABonus;
+            malus += dataMAMalus;
+
+            if(dataRD[i] === 'defense') {
+              const ODAura = +piloteSystem.aspects.aspects?.dame?.caracteristiques?.aura?.overdrive?.value || 0;
+
+              if(ODAura >= 5) bonus += +piloteSystem.aspects.dame.caracteristiques.aura.value;
+            }
+
+            Object.defineProperty(this[dataRD[i]], 'value', {
+              value: Math.max(base+bonus-malus, 0),
+            });
+        }
+      }
     }
   }
 

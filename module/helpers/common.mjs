@@ -5,6 +5,11 @@ export const listLogo = [
   "version3"
 ];
 
+export function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+
 export function getAllEffects() {
   const merge0 = foundry.utils.mergeObject({}, CONFIG.KNIGHT.effets);
   const merge1 = foundry.utils.mergeObject(merge0, CONFIG.KNIGHT.effetsfm4);
@@ -43,8 +48,7 @@ export function sum(total, num) {
   return total + num;
 }
 
-export function listEffects(raw, custom, labels) {
-    const l = getAllEffects();
+export function listEffects(raw, custom, labels, chargeur=null) {
     const liste = [];
 
     if(raw === undefined) return;
@@ -55,20 +59,44 @@ export function listEffects(raw, custom, labels) {
       const name = game.i18n.localize(labels[secondSplit[0]].label);
       const sub = split[1];
       const other = Object.values(secondSplit);
+      let base = name;
       let complet = name;
+      let toComplete = '';
+      let munition = chargeur;
+      let chargeurMax = 0;
 
       if(other.length > 1) {
         other.splice(0, 1);
-        complet += ` ${other.join(" ").replace("<space>", " ")}`;
+        base += ` ${other.join(" ").replace("<space>", " ")}`;
       }
 
-      if(sub != undefined) { complet += " "+sub; }
+      if(secondSplit[0] === 'chargeur') {
+        if(munition === null || munition === undefined) munition = sub;
+        toComplete += ` / ${sub}`;
+        chargeurMax = sub;
+        complet += ` ${sub}`;
+      }
+      else if(sub != undefined) { base += " "+sub; }
 
-      liste.push({
-        name:complet,
+      let toPush = secondSplit[0] === 'chargeur' ? {
+        index:n,
+        name:base,
+        complet:complet,
+        toComplete:toComplete,
+        description:game.i18n.localize(labels[secondSplit[0]].description),
+        raw:raw[n],
+        chargeur:munition,
+        chargeurMax,
+        isChargeur:true,
+      } : {
+        index:n,
+        name:base,
+        complet:complet,
         description:game.i18n.localize(labels[secondSplit[0]].description),
         raw:raw[n]
-      });
+      }
+
+      liste.push(toPush);
     }
 
     for(let n = 0;n < custom.length;n++) {
@@ -4097,7 +4125,7 @@ export async function getCapacite(actor, typeWpn, baseC, otherC, effetsWpn, stru
 
 export function getSpecial(actor) {
     const wear = actor.system.wear;
-    const armor = actor?.armureData || undefined;
+    const armor = actor?.system?.dataArmor || undefined;
     const getArmorData = armor !== undefined &&  wear === 'armure' ? armor?.system || false : false;
 
     let result = {
@@ -4511,7 +4539,7 @@ export function getModStyle(style) {
   return result;
 }
 
-export async function confirmationDialog(type='delete', label='') {
+export async function confirmationDialog(type='delete', label='', format={}) {
   let content = '';
 
   switch(type) {
@@ -4521,6 +4549,10 @@ export async function confirmationDialog(type='delete', label='') {
 
     case 'restoration':
       content = game.i18n.localize(`KNIGHT.AUTRE.${label}`);
+      break;
+
+    case 'active':
+      content = game.i18n.format(`KNIGHT.AUTRE.${label}`, format);
       break;
   }
 
@@ -5125,7 +5157,7 @@ export function getNestedPropertyValue(obj, propertyPath) {
   return value;
 }
 
-export async function createSheet(actor, type, name, data, item, imgAvatar, imgToken) {
+export async function createSheet(actor, type, name, data, item, imgAvatar, imgToken, disposition=-1) {
   let newActor = await Actor.create({
     name: name,
     type: type,
@@ -5133,7 +5165,8 @@ export async function createSheet(actor, type, name, data, item, imgAvatar, imgT
     prototypeToken:{
       texture:{
         src:imgToken,
-      }
+      },
+      disposition:disposition,
     },
     system:data,
     items:item,
@@ -5142,6 +5175,106 @@ export async function createSheet(actor, type, name, data, item, imgAvatar, imgT
   });
 
   return newActor;
+}
+
+/**
+ * Trouve un token de référence pour un Actor sur la scène active.
+ * - Priorise un token contrôlé correspondant à l'acteur.
+ * - Sinon, prend le premier token sur la scène active avec actorId = refActor.id.
+ * @param {Actor|string} refActor - Actor ou actorId.
+ * @returns {Token|null} - Le token placeable (scène active) ou null si introuvable.
+ */
+function findRefTokenForActor(refActor) {
+  const refActorId = typeof refActor === "string" ? refActor : refActor?.id;
+  if (!refActorId) return null;
+
+  // 1) Un token contrôlé de cet acteur ?
+  const controlled = canvas.tokens.controlled.find(t => t.document.actorId === refActorId);
+  if (controlled) return controlled;
+
+  // 2) Sinon, n'importe quel token sur la scène active pour cet acteur
+  const any = canvas.tokens.placeables.find(t => t.document.actorId === refActorId);
+  return any ?? null;
+}
+
+/**
+ * Crée un token pour un Actor à droite d'un token de référence (trouvé à partir d'un autre Actor).
+ * Gère snap, tokens non 1x1, lien à la fiche, etc.
+ *
+ * @param {object} params
+ * @param {Actor}  params.actor          - L'Actor à “poser”.
+ * @param {Actor|string} params.refActor - L'Actor (ou son id) dont on utilisera le token comme référence (sur la scène active).
+ * @param {number} [params.index=0]      - Rang dans la série (0 pour le 1er, 1 pour le 2e, etc.).
+ * @param {number} [params.gapCells=1]   - Cases vides entre chaque nouveau token.
+ * @param {number} [params.offsetCells=0]- Décalage initial (en cases) après le bord droit du token de ref.
+ * @param {boolean}[params.link=true]    - Token lié à la fiche (actorLink).
+ * @param {string[]} [params.copy=["disposition","elevation","rotation","hidden"]]
+ * @returns {Promise<TokenDocument>}     - Le TokenDocument créé.
+ */
+export async function spawnTokenRightOfActor({
+  actor,
+  refActor,
+  index = 0,
+  gapCells = 0,
+  offsetCells = 0,
+  link = true,
+  copy = ["disposition", "elevation", "rotation", "hidden"]
+}) {
+  if (!actor) throw new Error("spawnTokenRightOfActor: actor manquant.");
+  const refToken = findRefTokenForActor(refActor);
+  if (!refToken) {
+    return;
+  }
+
+  const scene = refToken.document.parent;                    // scène du token de ref
+  const isActiveScene = scene === canvas.scene;
+  const gridSize = (isActiveScene ? canvas.grid.size : scene.grid.size) || 1;
+  const snapper  = isActiveScene ? canvas.grid : scene.grid;
+  const isGridless = scene.grid?.type === CONST.GRID_TYPES.GRIDLESS;
+
+  // Prépare un TokenDocument temporaire pour connaître la largeur en cases
+  const tmp = await actor.getTokenDocument({ actorLink: link });
+  const widthCells = tmp.width ?? 1;
+  const tokenPx    = widthCells * gridSize;
+
+  // Bord droit du token de référence -> offset initial -> progression par index
+  const startX = refToken.document.x + refToken.w + offsetCells * gridSize;
+  const rawX   = startX + index * (tokenPx + gapCells * gridSize);
+  const rawY   = refToken.document.y;
+
+  const { x, y } = isGridless ? { x: rawX, y: rawY } : snapper.getSnappedPosition(rawX, rawY, 1);
+
+  // Données finales
+  const data = Object.assign(tmp.toObject(), { x, y });
+  for (const k of copy) if (k in refToken.document) data[k] = refToken.document[k];
+
+  const created = await scene.createEmbeddedDocuments("Token", [data]);
+  return created?.[0];
+}
+
+/**
+ * Crée une série de tokens à droite du token lié à refActor.
+ * @param {Actor[]} actors - Les acteurs à poser.
+ * @param {Actor|string} refActor - L'acteur dont on utilisera le token comme référence.
+ * @param {object} opts - mêmes options que spawnTokenRightOfActor (gapCells, offsetCells, link, copy)
+ * @returns {Promise<TokenDocument[]>}
+ */
+export async function spawnTokensRightOfActor(actors, refActor, opts = {}) {
+  const out = [];
+  for (let i = 0; i < actors.length; i++) {
+    const doc = await spawnTokenRightOfActor({ actor: actors[i], refActor, index: i, ...opts });
+    out.push(doc);
+  }
+  return out;
+}
+
+export async function deleteTokens(ids=[]) {
+
+  if(!canvas.scene) return;
+  const findids = canvas.scene.tokens
+    .filter(t => ids.includes(t.actorId))
+    .map(t => t.id);
+  if (findids.length) await canvas.scene.deleteEmbeddedDocuments("Token", findids);
 }
 
 export function setValueByPath(obj, path, value) {
@@ -5371,7 +5504,6 @@ export async function generateNavigator() {
 
 export async function importActor(json, type) {
   const localize = getAllEffects();
-  const listTemplate = game.template.Actor;
   const traAspects = {'chair':'chair', 'bête':'bete', 'machine':'machine', 'dame':'dame', 'masque':'masque'};
   const aspects = json.aspects;
   const resilience = json.resilience;
@@ -5383,223 +5515,214 @@ export async function importActor(json, type) {
   const capacities = json.capacities;
   const weapons = json.weapons;
 
-  let system = type === 'pnj' || type === 'creature' ? Object.assign({}, listTemplate[type], listTemplate.templates.creature, listTemplate.templates.generique) : Object.assign({}, listTemplate[type], listTemplate.generique);
-  delete system.templates;
+  const create = await createSheet(
+    "",
+    type,
+    json.name === '' ? game.i18n.localize(`TYPES.Actor.${type}`) : json.name,
+  );
+
+  let update = {};
 
   for(let a of aspects) {
     const nA = a.name;
     const tra = traAspects[nA];
 
-    system.aspects[tra] = {
-      value:a.score,
-      ae:{
-        mineur:{},
-        majeur:{}
-      }
-    }
+    update[`system.aspects.${tra}.value`] = a.score;
 
-    if(a.major) system.aspects[tra].ae.majeur.value = a.exceptional;
-    else system.aspects[tra].ae.mineur.value = a.exceptional;
+    if(a.major) update[`system.aspects.${tra}.ae.majeur.value`] = a.exceptional;
+    else update[`system.aspects.${tra}.ae.mineur.value`] = a.exceptional;
   }
 
-  system.defense.base = json.defense;
-  system.reaction.base = json.reaction;
-  system.type = `${json.type.charAt(0).toUpperCase() + json.type.slice(1)} (${json.level.charAt(0).toUpperCase() + json.level.slice(1)})`;
+  update['system.defense.base'] = json.defense;
+  update['system.reaction.base'] = json.reaction;
+  update['system.type'] = `${json.type.charAt(0).toUpperCase() + json.type.slice(1)} (${json.level.charAt(0).toUpperCase() + json.level.slice(1)})`;
 
   if(type === 'creature') {
-    system.resilience.max = resilience;
-    system.resilience.value = resilience;
-    system.bouclier.base = shield;
-    system.energie.max = energy;
-    system.energie.value = energy;
-    system.sante.base = health;
-    system.sante.value = health;
-    system.armure.base = armor;
-    system.armure.value = armor;
+    update['system.resilience.max'] = resilience;
+    update['system.resilience.value'] = resilience;
+    update['system.bouclier.base'] = shield;
+    update['system.energie.max'] = energy;
+    update['system.energie.value'] = energy;
+    update['system.sante.base'] = health;
+    update['system.sante.value'] = health;
+    update['system.armure.base'] = armor;
+    update['system.armure.value'] = armor;
 
-    if(resilience > 0) system.options.resilience = true;
-    else system.options.resilience = false;
+    if(resilience > 0) update['system.options.resilience'] = true;
+    else update['system.options.resilience'] = false;
 
-    if(shield > 0 ) system.options.bouclier = true;
-    else system.options.bouclier = false;
+    if(shield > 0 ) update['system.options.bouclier'] = true;
+    else update['system.options.bouclier'] = false;
 
-    if(energy > 0 ) system.options.energie = true;
-    else system.options.energie = false;
+    if(energy > 0 ) update['system.options.energie'] = true;
+    else update['system.options.energie'] = false;
 
-    if(health > 0 ) system.options.sante = true;
-    else system.options.sante = false;
+    if(health > 0 ) update['system.options.sante'] = true;
+    else update['system.options.sante'] = false;
 
-    if(armor > 0 ) system.options.armure = true;
-    else system.options.armure = false;
+    if(armor > 0 ) update['system.options.armure'] = true;
+    else update['system.options.armure'] = false;
 
   } else if(type === 'pnj') {
-    system.resilience.max = resilience;
-    system.resilience.value = resilience;
-    system.bouclier.base = shield;
-    system.energie.max = energy;
-    system.energie.value = energy;
-    system.sante.base = health;
-    system.sante.value = health;
-    system.champDeForce.base = forcefield;
-    system.armure.base = armor;
-    system.armure.value = armor;
+    update['system.resilience.max'] = resilience;
+    update['system.resilience.value'] = resilience;
+    update['system.bouclier.base'] = shield;
+    update['system.energie.max'] = energy;
+    update['system.energie.value'] = energy;
+    update['system.sante.base'] = health;
+    update['system.sante.value'] = health;
+    update['system.armure.base'] = armor;
+    update['system.armure.value'] = armor;
+    update['system.champDeForce.base'] = forcefield;
 
-    if(resilience > 0) system.options.resilience = true;
-    else system.options.resilience = false;
+    if(resilience > 0) update['system.options.resilience'] = true;
 
-    if(shield > 0 ) system.options.bouclier = true;
-    else system.options.bouclier = false;
+    if(shield > 0 ) update['system.options.bouclier'] = true;
 
-    if(energy > 0 ) system.options.energie = true;
-    else system.options.energie = false;
+    if(energy > 0 ) update['system.options.energie'] = true;
 
-    if(health > 0 ) system.options.sante = true;
-    else system.options.sante = false;
+    if(health > 0 ) update['system.options.sante'] = true;
 
-    if(forcefield > 0 ) system.options.champDeForce = true;
-    else system.options.champDeForce = false;
+    if(armor > 0 ) update['system.options.armure'] = true;
 
-    if(armor > 0 ) system.options.armure = true;
-    else system.options.armure = false;
+    if(forcefield > 0 ) update['system.options.champDeForce'] = true;
 
   } else if(type === 'bande') {
-    system.sante.base = health;
-    system.sante.value = health;
-    system.bouclier.base = shield;
+    update['system.sante.base'] = health;
+    update['system.sante.value'] = health;
+    update['system.bouclier.base'] = shield;
 
-    if(shield > 0 ) system.options.bouclier = true;
-    else system.options.bouclier = false;
+    if(shield > 0 ) update['system.options.bouclier'] = true;
   }
-
-  const create = await createSheet(
-    "",
-    type,
-    json.name,
-    system,
-  );
 
   let allItm = [];
 
-  for(let c of capacities) {
-    let itm = {};
-    itm.img = getDefaultImg('capacite');
-    itm.type = 'capacite';
-    itm.name = c.name;
-    itm.system = {
-      description:c.description,
-    };
+  if(capacities) {
+    for(let c of capacities) {
+      let itm = {};
+      itm.img = getDefaultImg('capacite');
+      itm.type = 'capacite';
+      itm.name = c.name;
+      itm.system = {
+        description:c.description,
+      };
 
-    allItm.push(itm);
+      allItm.push(itm);
+    }
   }
 
-  for(let w of weapons) {
-    let tWpn = w.contact ? 'contact' : 'distance';
+  if(weapons) {
+    for(let w of weapons) {
+      let tWpn = w.contact ? 'contact' : 'distance';
 
-    let itm = {};
-    itm.img = getDefaultImg('capacite');
-    itm.type = 'arme';
-    itm.name = w.name;
-    itm.system = {
-      type:tWpn,
-      portee:w.range,
-      degats:{
-        dice:w.dices,
-        fixe:w.raw,
-      },
-      violence:{
-        dice:w.violenceDices,
-        fixe:w.violenceRaw,
-      },
-      effets:{
-        raw:[],
-        custom:[]
-      }
-    }
-
-    for(let e of w.effects) {
-      let tra = e.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-      tra = tra.replace('-', '');
-      tra = tra.toLowerCase();
-      tra = tra.replaceAll('ignore armure', 'ignorearmure')
-      .replaceAll('ignore cdf', 'ignorechampdeforce')
-      .replaceAll('degats continus', 'degatscontinus')
-      .replaceAll('perce armure', 'percearmure');
-      const isExist = localize?.[tra.split(' ')[0]] ?? '';
-
-      if(isExist !== '') itm.system.effets.raw.push(tra);
-      else itm.system.effets.custom.push({
-        label:e.name,
-        description:"",
-        other:{
-          cdf:0
-        },
-        attaque:{
-          aspect:{
-            fixe:"",
-            jet:"",
-            odInclusFixe:false,
-            odInclusJet:false
-          },
-          carac:{
-            fixe:"",
-            jet:"",
-            odInclusFixe:false,
-            odInclusJet:false
-          },
-          conditionnel:{
-            condition:"",
-            has:false
-          },
-          jet:0,
-          reussite:0,
-        },
+      let itm = {};
+      itm.img = getDefaultImg('capacite');
+      itm.type = 'arme';
+      itm.name = w.name;
+      itm.system = {
+        type:tWpn,
+        portee:w.range,
         degats:{
-          aspect:{
-            fixe:"",
-            jet:"",
-            odInclusFixe:false,
-            odInclusJet:false
-          },
-          carac:{
-            fixe:"",
-            jet:"",
-            odInclusFixe:false,
-            odInclusJet:false
-          },
-          conditionnel:{
-            condition:"",
-            has:false
-          },
-          jet:0,
-          reussite:0,
+          dice:w.dices,
+          fixe:w.raw,
         },
         violence:{
-          aspect:{
-            fixe:"",
-            jet:"",
-            odInclusFixe:false,
-            odInclusJet:false
-          },
-          carac:{
-            fixe:"",
-            jet:"",
-            odInclusFixe:false,
-            odInclusJet:false
-          },
-          conditionnel:{
-            condition:"",
-            has:false
-          },
-          jet:0,
-          reussite:0,
+          dice:w.violenceDices,
+          fixe:w.violenceRaw,
+        },
+        effets:{
+          raw:[],
+          custom:[]
         }
-      });
-    }
+      }
 
-    allItm.push(itm);
+      for(let e of w.effects) {
+        let tra = e.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        tra = tra.replace('-', '');
+        tra = tra.toLowerCase();
+        tra = tra.replaceAll('ignore armure', 'ignorearmure')
+        .replaceAll('ignore cdf', 'ignorechampdeforce')
+        .replaceAll('degats continus', 'degatscontinus')
+        .replaceAll('perce armure', 'percearmure');
+        const isExist = localize?.[tra.split(' ')[0]] ?? '';
+
+        if(isExist !== '') itm.system.effets.raw.push(tra);
+        else itm.system.effets.custom.push({
+          label:e.name,
+          description:"",
+          other:{
+            cdf:0
+          },
+          attaque:{
+            aspect:{
+              fixe:"",
+              jet:"",
+              odInclusFixe:false,
+              odInclusJet:false
+            },
+            carac:{
+              fixe:"",
+              jet:"",
+              odInclusFixe:false,
+              odInclusJet:false
+            },
+            conditionnel:{
+              condition:"",
+              has:false
+            },
+            jet:0,
+            reussite:0,
+          },
+          degats:{
+            aspect:{
+              fixe:"",
+              jet:"",
+              odInclusFixe:false,
+              odInclusJet:false
+            },
+            carac:{
+              fixe:"",
+              jet:"",
+              odInclusFixe:false,
+              odInclusJet:false
+            },
+            conditionnel:{
+              condition:"",
+              has:false
+            },
+            jet:0,
+            reussite:0,
+          },
+          violence:{
+            aspect:{
+              fixe:"",
+              jet:"",
+              odInclusFixe:false,
+              odInclusJet:false
+            },
+            carac:{
+              fixe:"",
+              jet:"",
+              odInclusFixe:false,
+              odInclusJet:false
+            },
+            conditionnel:{
+              condition:"",
+              has:false
+            },
+            jet:0,
+            reussite:0,
+          }
+        });
+      }
+
+      allItm.push(itm);
+    }
   }
 
   await create.createEmbeddedDocuments("Item", allItm);
+
+  create.update(update);
 
   create.sheet.render(true);
 }
@@ -5608,4 +5731,212 @@ export async function actualiseRoll(actor) {
   const roll = Object.values(ui.windows).find(itm => itm.options.baseApplication === 'KnightRollDialog' && ((itm?.who?.id ?? undefined) === actor.id || itm.options.id === actor.id));
 
   if(roll) roll.actualise();
+}
+
+export async function rollDamage(message, eventOrOptions) {
+  let index = 0;
+
+  // Cas 1: on t’a passé un Event (click)
+  if (eventOrOptions?.currentTarget) {
+    const tgt = $(eventOrOptions.currentTarget);
+    const header = tgt.parents('section.content');
+    index = header.data('index');
+  }
+  // Cas 2: on t’a passé des options (ex: { index, extraFlags, overrideTargets })
+  else if (typeof eventOrOptions === "object") {
+    index = eventOrOptions?.index ?? 0;
+  }
+
+  const flags = message.flags.knight;
+  const weapon = flags.weapon;
+  const raw = weapon.effets.raw.concat(weapon?.distance?.raw ?? [], weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
+  const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
+
+  const roll = new game.knight.RollKnight(actor, {
+      name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
+      weapon:weapon,
+      surprise:flags.surprise,
+  }, false);
+
+  let addFlags = {
+      flavor:flags.flavor,
+      total:flags.content[index].total,
+      targets:flags.content[index].targets,
+      attaque:message.rolls,
+      weapon:weapon,
+      actor:actor,
+      surprise:flags.surprise,
+      style:flags.style,
+      dataStyle:flags.dataStyle,
+      dataMod:flags.dataMod,
+      maximize:flags.maximize,
+      ghost:flags.ghost,
+      ersatzghost:flags.ersatzghost,
+      secondWpn:flags.secondWpn,
+  };
+
+  let data = {
+      total:flags.content[index].total,
+      targets:flags.content[index].targets.map(target => {
+          if(target?.btn) target.btn = target.btn.filter(itm => !itm.classes.includes('applyAttaqueEffects'))
+          return target;
+      }),
+      attaque:message.rolls,
+      flags:addFlags,
+  };
+
+  if(raw.includes('tirenrafale')) {
+      data.content = {
+          tirenrafale:true,
+      }
+  }
+
+  await roll.doRollDamage(data);
+}
+
+export async function rollViolence(message, eventOrOptions) {
+  let index = 0;
+
+  // Cas 1: on t’a passé un Event (click)
+  if (eventOrOptions?.currentTarget) {
+    const tgt = $(eventOrOptions.currentTarget);
+    const header = tgt.parents('section.content');
+    index = header.data('index');
+  }
+  // Cas 2: on t’a passé des options (ex: { index, extraFlags, overrideTargets })
+  else if (typeof eventOrOptions === "object") {
+    index = eventOrOptions?.index ?? 0;
+  }
+
+  const flags = message.flags.knight;
+  const weapon = flags.weapon;
+  const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
+
+  let addFlags = {
+      flavor:flags.flavor,
+      total:flags.content[index].total,
+      targets:flags.content[index].targets,
+      attaque:message.rolls,
+      weapon:weapon,
+      actor:actor,
+      surprise:flags.surprise,
+      style:flags.style,
+      dataStyle:flags.dataStyle,
+      dataMod:flags.dataMod,
+      maximize:flags.maximize,
+      secondWpn:flags.secondWpn,
+  };
+
+  const roll = new game.knight.RollKnight(actor, {
+      name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}`,
+      weapon:flags.weapon,
+      surprise:flags.surprise,
+  }, false);
+
+  await roll.doRollViolence({
+      total:flags.content[index].total,
+      targets:flags.content[index].targets,
+      attaque:message.rolls,
+      flags:addFlags,
+  });
+}
+/**
+ * Ajoute des flags sous le scope "knight" puis renvoie le document mis à jour.
+ * - Si `flags` est un objet: ajoute/merge toutes les paires clé/valeur.
+ * - Sinon, utilise `name` comme clé pour la valeur `flags`.
+ *
+ * @param {Document} origin - ex: un ChatMessage, Item, Actor, etc.
+ * @param {object|any} flags - soit un objet clé/valeur, soit une valeur simple.
+ * @param {string} [name=''] - clé utilisée si `flags` n'est pas un objet.
+ * @returns {Promise<{document: Document, keys: string[]}>}
+ */
+export async function addFlags(origin, flags, name = '') {
+  if (!origin?.update) {
+    throw new Error('addFlags: origin ne possède pas de méthode update().');
+  }
+
+  // Prépare la structure d’update
+  const update = {};
+  const scope = 'flags.knight';
+
+  // Récupère la liste existante
+  const existingList = origin.getFlag?.('knight', 'list') ?? [];
+
+  let newKeys = [];
+  if (flags && typeof flags === 'object' && !Array.isArray(flags)) {
+    newKeys = Object.keys(flags);
+
+    for (const k of newKeys) {
+      update[`${scope}.${k}`] = flags[k];
+    }
+  } else {
+    const key = name || 'value';
+    newKeys = [key];
+    update[`${scope}.${key}`] = flags;
+  }
+
+  // Merge unique avec l’ancienne liste
+  const mergedList = Array.from(new Set([...existingList, ...newKeys]));
+  update[`${scope}.list`] = mergedList;
+
+  // Une seule opération asynchrone et atomique
+  const updated = await origin.update(update);
+
+  // Selon Foundry, update renvoie le même objet ou une nouvelle instance (selon version).
+  // On renvoie ce que fournit update, sinon on retombe sur origin.
+  return { document: updated ?? origin, keys: mergedList };
+}
+
+
+export function getFinalWeaponData(style, wpn) {
+  let result = wpn;
+  const options = result?.options ?? [];
+  const structurelles = result?.structurelles?.raw ?? [];
+  const ornementales = result?.ornementales?.raw ?? [];
+  const distance = result?.distance?.raw ?? [];
+
+  for(let p of structurelles) {
+    const findOption = options?.find(itm => itm.value === p)?.active ?? true;
+
+    if(!findOption) continue;
+
+    switch(p) {
+      case 'agressive':
+        if(style !== 'agressif') continue;
+        result.degats.dice += 1;
+        break;
+
+      case 'allegee':
+        result.degats.dice -= 1;
+        break;
+    }
+  }
+
+  for(let p of distance) {
+    const findOption = options?.find(itm => itm.value === p)?.active ?? true;
+
+    if(!findOption) continue;
+
+    switch(p) {
+      case 'chargeurballesgrappes':
+        result.degats.dice -= 1;
+        result.violence.dice += 1;
+        break;
+
+      case 'chargeurminutionsexplosives':
+        result.degats.dice += 1;
+        result.violence.dice -= 1;
+        break;
+
+      case 'munitionsiem':
+        result.degats.dice -= 1;
+        result.violence.dice -= 1;
+        break;
+    }
+  }
+
+  result.degats.dice = Math.max(0, result.degats.dice);
+  result.violence.dice = Math.max(0, result.violence.dice);
+
+  return result;
 }

@@ -485,7 +485,7 @@ export class KnightSheet extends ActorSheet {
                         "phase2":false
                       }
                     },
-                    dataLion.modules,
+                    [],
                     dataLion.img,
                     dataLion.img
                   );

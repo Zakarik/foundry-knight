@@ -76,6 +76,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                     bonus:new NumberField({initial:0, nullable:false, integer:true}),
                     malus:new NumberField({initial:0, nullable:false, integer:true}),
                 }),
+                reduction:new NumberField({initial:0, nullable:false, integer:true}),
             }),
             energie:new SchemaField({
                 base:new NumberField({ initial: 0, integer: true, nullable: false }),
@@ -361,8 +362,15 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 }),
             }),
             contacts:new SchemaField({
+                actuel:new NumberField({ initial: 1, min:1, integer: true, nullable: false }),
                 value:new NumberField({ initial: 1, min:1, integer: true, nullable: false }),
                 mod:new NumberField({ initial: 0, integer: true, nullable: false }),
+                bonus:new ObjectField({
+                    initial:{
+                      user:0,
+                      system:0,
+                    }
+                }),
             }),
             heroisme:new SchemaField({
                 value:new NumberField({initial:0, nullable:false, integer:true}),
@@ -381,6 +389,12 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             langues:new SchemaField({
                 value:new NumberField({initial:1, nullable:false, integer:true}),
                 mod:new NumberField({initial:0, nullable:false, integer:true}),
+                bonus:new ObjectField({
+                    initial:{
+                      user:0,
+                      system:0,
+                    }
+                }),
             }),
             motivations:new SchemaField({
                 majeure:new StringField({initial:"", nullable:false}),
@@ -417,6 +431,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
               }),
             }),
             restrictions:new ObjectField(),
+            otherMods:new ObjectField(),
         }
     }
 
@@ -547,6 +562,13 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             }
 
             source.version = 1;
+        } else if(source.version < 2) {
+            const grenades = source.combat.grenades;
+            const flashbang = grenades.liste.flashbang;
+
+            if(!flashbang.effets.raw.includes('lumiere 2')) flashbang.effets.raw.push('lumiere 2');
+
+            source.version = 2;
         }
 
         return super.migrateData(source);
@@ -768,7 +790,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                     id:g._id,
                     name:g.name,
                     gratuit:gratuit || false,
-                    value:gratuit ? 0 : dataProgression.prix,
+                    value:gratuit ? 0 : dataProgression?.prix ?? 0,
                 })
             } else if(g.type === 'module') {
                 if(g.system.isLion) continue;
@@ -785,7 +807,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                             name:name,
                             id:g._id,
                             gratuit:gratuit || false,
-                            value:gratuit ? 0 : dataProgression.prix,
+                            value:gratuit ? 0 : dataProgression?.prix ?? 0,
                             niveau:n,
                             isModule:true
                         });
@@ -797,7 +819,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                     name:g[1].nom,
                     id:g[0],
                     gratuit:g[1].gratuit,
-                    value:g[1].cout,
+                    value:g[1]?.cout ?? 0,
                     isAutre:true
                 });
             }
@@ -1001,8 +1023,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 case 'machine':
                     // REACTION
                     let isWatchtower = false;
-
-                    if(this.dataArmor) this.dataArmor?.system?.capacites?.selected?.watchtower?.active ?? false;
+                    if(this.dataArmor) isWatchtower = this.dataArmor?.system?.capacites?.selected?.watchtower?.active ?? false;
 
                     base = maxCarac;
                     base += this.options.kraken ? 1 : 0;
@@ -1024,16 +1045,17 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
                 case 'dame':
                     // CONTACTS
-                    base = maxCarac;
+                    const contactBonus = Object.values(this.contacts.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
+                    base = maxCaracWOD;
                     bonus = this.contacts.mod;
 
                     if(this.wear === 'armure' && this.capaciteUltime) {
                         if(this.capaciteUltime.system.passives.contact.active && this.capaciteUltime.system.type === 'passive') bonus += this.capaciteUltime.contact.value;
                     }
 
-
                     Object.defineProperty(this.contacts, 'value', {
-                        value: base+bonus,
+                        value: Math.max(base+bonus+contactBonus, 0),
                     });
                     break;
 
@@ -1071,8 +1093,10 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         }
 
         // LANGUES
+        const langueBonus = Object.values(this.langues.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
         Object.defineProperty(this.langues, 'value', {
-            value: Math.max(this.aspects.machine.caracteristiques.savoir.value-1, 1)+this.langues.mod,
+            value: Math.max(Math.max(this.aspects.machine.caracteristiques.savoir.value-1, 1)+this.langues.mod+langueBonus, 0),
         });
 
         // ARMURE
@@ -1192,17 +1216,28 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         Object.defineProperty(this.progression.experience, 'actuel', {
             value: this.progression.experience.total-this.progression.experience.depense.total,
         });
+
+        // BONUS D'OD INSTINCT 3
+        if(this.armorISwear && this.aspects.bete.caracteristiques.instinct.overdrive.value >= 3) {
+            Object.defineProperty(this.initiative.bonus, 'od', {
+                value: 3*this.aspects.bete.caracteristiques.instinct.overdrive.value,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
+        }
     }
 
     #modules() {
         const armure = this.dataArmor;
         const data = this.modules;
-        const tete = data.reduce((acc, curr) => acc + (Number(curr.system.slots.tete) || 0), 0);
-        const torse = data.reduce((acc, curr) => acc + (Number(curr.system.slots.torse) || 0), 0);
-        const brasDroit = data.reduce((acc, curr) => acc + (Number(curr.system.slots.brasDroit) || 0), 0);
-        const brasGauche = data.reduce((acc, curr) => acc + (Number(curr.system.slots.brasGauche) || 0), 0);
-        const jambeDroite = data.reduce((acc, curr) => acc + (Number(curr.system.slots.jambeDroite) || 0), 0);
-        const jambeGauche = data.reduce((acc, curr) => acc + (Number(curr.system.slots.jambeGauche) || 0), 0);
+
+        const tete = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.tete) || 0), 0);
+        const torse = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.torse) || 0), 0);
+        const brasDroit = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.brasDroit) || 0), 0);
+        const brasGauche = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.brasGauche) || 0), 0);
+        const jambeDroite = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.jambeDroite) || 0), 0);
+        const jambeGauche = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.jambeGauche) || 0), 0);
 
         let santeBonus = 0;
         let armureBonus = 0;
@@ -1300,7 +1335,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
         if(this.armorISwear) {
             const dataArmure = this.dataArmor;
-            const actuel = data.filter(itm => itm.system.active.base || (itm.system?.niveau?.actuel?.permanent ?? false));
+            const actuel = data.filter(itm => (itm.system.active.base && (!itm.system?.isLion ?? false)) || ((itm.system?.niveau?.actuel?.permanent ?? false) && (!itm.system?.isLion ?? false)));
             let specialRaw = [];
             let specialCustom = [];
 
@@ -2199,7 +2234,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                 espoir += 3;
             }
 
-            if(system.soigne.implant || system.reconstruction) continue;
+            if(system.soigne.implant || system.soigne.reconstruction) continue;
 
             for(let a in system.aspects) {
                 if(system.aspects[a].value > 0) {
@@ -2415,6 +2450,12 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                     value: max,
                 });
             }
+        }
+
+        if(this.contacts.actuel > this.contacts.value) {
+            Object.defineProperty(this.contacts, 'actuel', {
+                value: this.contacts.value,
+            });
         }
 
         if((this.wear === 'armure' || this.wear === 'ascension') && !this.dataArmor) this.wear = 'tenueCivile';

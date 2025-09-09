@@ -9,6 +9,7 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
 
         return {
             version:new NumberField({initial:0, nullable:false, integer:true}),
+            type:new StringField({initial:''}),
             histoire:new HTMLField({initial:""}),
             tactique:new HTMLField({initial:""}),
             description:new HTMLField({initial:""}),
@@ -73,6 +74,7 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
                 bouclier:new BooleanField({initial:true, nullable:false}),
                 phase2:new BooleanField({initial:false, nullable:false}),
             }),
+            otherMods:new ObjectField(),
         }
     }
 
@@ -212,16 +214,6 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
             });
         }
 
-        Object.defineProperty(this.initiative, 'dice', {
-            value: 0,
-        });
-
-        Object.defineProperty(this.initiative, 'base', {
-            value: 0,
-        });
-
-        Object.defineProperty(this.initiative, 'value', {
-            value: 1,
-        });
+        this.initiative.prepareBandeData();
     }
 }

@@ -11,6 +11,7 @@ export const KNIGHT = {};
     creatures:['sante', 'armure', 'energie', 'bouclier'],
     mechaarmures:['resilience', 'vitesse', 'manoeuvrabilite', 'puissance', 'systemes', 'senseurs', 'champDeForce'],
     pnj:['sante', 'armure', 'energie', 'champDeForce', 'bouclier'],
+    knight:['sante', 'armure', 'energie', 'champDeForce', 'espoir', 'heroisme'],
     aspectsCaracteristiques:{
       "chair": "KNIGHT.ASPECTS.CHAIR.Label",
       "deplacement": "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.DEPLACEMENT.Label",
@@ -263,7 +264,7 @@ export const KNIGHT = {};
         degats:{dice:0},
         violence:{dice:0},
         effets:{
-          raw:['aucundegatsviolence', 'barrage 2', 'choc 1', 'dispersion 6'],
+          raw:['aucundegatsviolence', 'barrage 2', 'choc 1', 'dispersion 6', 'lumiere 2'],
           custom:[],
         }
       },
@@ -525,6 +526,7 @@ export const KNIGHT = {};
         'regularite',
         'sillonslignesfleches',
         'boostdegats',
+        'precision'
       ],
       violence:[
         'affecteanatheme',
