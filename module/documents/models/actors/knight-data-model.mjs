@@ -1335,7 +1335,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
         if(this.armorISwear) {
             const dataArmure = this.dataArmor;
-            const actuel = data.filter(itm => itm.system.active.base || (itm.system?.niveau?.actuel?.permanent ?? false));
+            const actuel = data.filter(itm => (itm.system.active.base && (!itm.system?.isLion ?? false)) || ((itm.system?.niveau?.actuel?.permanent ?? false) && (!itm.system?.isLion ?? false)));
             let specialRaw = [];
             let specialCustom = [];
 

@@ -5223,8 +5223,7 @@ export async function spawnTokenRightOfActor({
   if (!actor) throw new Error("spawnTokenRightOfActor: actor manquant.");
   const refToken = findRefTokenForActor(refActor);
   if (!refToken) {
-    ui.notifications?.warn("Aucun token de référence trouvé pour l'acteur sur la scène active.");
-    throw new Error("spawnTokenRightOfActor: token de référence introuvable.");
+    return;
   }
 
   const scene = refToken.document.parent;                    // scène du token de ref
@@ -5270,6 +5269,7 @@ export async function spawnTokensRightOfActor(actors, refActor, opts = {}) {
 }
 
 export async function deleteTokens(ids=[]) {
+  if(!canvas.scene) return;
   const findids = canvas.scene.tokens
     .filter(t => ids.includes(t.actorId))
     .map(t => t.id);

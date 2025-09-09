@@ -308,13 +308,13 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
 
     prepareBaseData() {
         this.#armes();
-        this.#modules();
         this.#capacites();
         this.#phase2();
         this.aspects.prepareData();
     }
 
     prepareDerivedData() {
+        this.#modules();
         this.#derived();
         this.#defenses();
     }
@@ -400,6 +400,9 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
         let reactionMalus = 0;
 
         const actuel = data.filter(itm => itm.system.active.base || (itm.system?.niveau?.actuel?.permanent ?? false));
+
+        console.error(actuel);
+        console.error(data);
 
         for(let m of actuel) {
             const system = m.system?.niveau?.actuel ?? {};
