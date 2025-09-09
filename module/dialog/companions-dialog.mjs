@@ -10,6 +10,7 @@ import {
     constructor(data, object, options) {
         super(options);
         this.data = data;
+        console.warn(data);
     }
 
     static get defaultOptions() {
@@ -68,46 +69,63 @@ import {
 
     });
 
-    html.find("div.lion div.block input.aspect").change(ev => {
+    html.find("div.lion div.block input.aspect").change(async ev => {
       const maxAspect = +this.data.content.data.lion.aspects.value;
       const dataTarget = $(ev.currentTarget);
       const type = dataTarget.data("type");
-      const actInput = +dataTarget.val();
+      const maxRepartitionAspectCompanions = parseInt(this.data.content.data.lion.aspects.max);
+      let actInput = +dataTarget.val();
       let totalAspect = 0;
+
+      if(actInput > maxRepartitionAspectCompanions) {
+        $(ev.currentTarget).val(maxRepartitionAspectCompanions);
+        actInput = maxRepartitionAspectCompanions;
+      }
 
       for (let i of html.find("div.lion input.aspect")) {
         const target = +$(i).val();
-        totalAspect += target;
+        const tType = $(i).data("type");
+        totalAspect += tType === type ? actInput : target;
       }
 
       if(totalAspect > maxAspect) {
-        $(ev.currentTarget).val(actInput-1);
-      } else {
-        this.data.content.data.aspects.lion[type].value = actInput;
-        $(html.find("div.lion input.aspectDistribuer")).val(maxAspect-totalAspect);
-        this.data.content.data.lion.aspects.restant = maxAspect-totalAspect;
+        const adjustAspect = totalAspect - maxAspect;
+        $(ev.currentTarget).val(adjustAspect);
+        actInput = adjustAspect;
+        totalAspect -= adjustAspect;
       }
+
+      this.data.content.data.aspects.lion[type].value = actInput;
+      $(html.find("div.lion input.aspectDistribuer")).val(maxAspect-totalAspect);
+      this.data.content.data.lion.aspects.restant = maxAspect-totalAspect;
     });
 
     html.find("div.lion div.block input.ae").change(ev => {
       const maxAspect = +this.data.content.data.lion.ae;
       const dataTarget = $(ev.currentTarget);
       const type = dataTarget.data("type");
-      const actInput = +dataTarget.val();
+      let actInput = +dataTarget.val();
       let totalAspect = 0;
 
       for (let i of html.find("div.lion input.ae")) {
         const target = +$(i).val();
-        totalAspect += target;
+        const tType = $(i).data("type");
+
+        if(tType !== type) totalAspect += target;
       }
 
-      if(totalAspect > maxAspect) {
-        $(ev.currentTarget).val(actInput-1);
-      } else {
-        this.data.content.data.aspects.lion[type].ae = actInput;
-        $(html.find("div.lion input.aeDistribuer")).val(maxAspect-totalAspect);
-        this.data.content.data.lion.restant = maxAspect-totalAspect;
-      }
+      // Si le nouveau total dépasserait maxAspect
+      if((totalAspect + actInput) > maxAspect) {
+        // Ajuster la valeur de l'input actuel
+        const valeurAjustee = maxAspect - totalAspect;
+        $(ev.currentTarget).val(valeurAjustee);
+        totalAspect += valeurAjustee;
+        actInput = valeurAjustee;
+      } else totalAspect += actInput;
+
+      this.data.content.data.aspects.lion[type].ae = actInput;
+      $(html.find("div.lion input.aeDistribuer")).val(maxAspect-totalAspect);
+      this.data.content.data.lion.restant = maxAspect-totalAspect;
     });
 
     html.find("div.wolf div.block input.aspect").change(ev => {
@@ -216,6 +234,7 @@ import {
     try {
 
       if (button.callback) button.callback(this.options.jQuery ? this.element : this.element[0]);
+
       const isLion = this.data.content.selected.lion;
       const isWolf = this.data.content.selected.wolf;
       const isCrow = this.data.content.selected.crow;
@@ -267,7 +286,7 @@ import {
         };
 
         const actor = game.actors.get(this.data.actor);
-        const armor = await getArmor(actor);;
+        const armor = await getArmor(actor);
         const companionsEvolutions = armor.system.evolutions.special.companions;
         const evolutionsValue = +companionsEvolutions.value;
         const evolutionsAppliedV = +companionsEvolutions?.applied?.value || 0;
@@ -415,6 +434,10 @@ import {
 
         update[`system.evolutions.special.companions.applied.value`] = evolutionsAppliedV + 1;
         update[`system.evolutions.special.companions.applied.liste`] = evolutionsAppliedL.concat(evoListe);
+        const id = this.data.content.data.evo;
+        console.warn(this.data);
+
+        update[`system.archivage.liste.${id}`] = JSON.stringify(armor.system);
 
         armor.update(update);
 

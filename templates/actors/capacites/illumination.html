@@ -39,7 +39,7 @@
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
 
-                    <button class="degats violence" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="blaze"
+                    <button class="degatsViolence" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="blaze"
                         data-label="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}}"
                         data-degats="{{blaze.degats}}" data-violence="{{blaze.violence}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}} : {{localize "KNIGHT.AUTRE.Degats"}} / {{localize "KNIGHT.AUTRE.Violence"}}
@@ -301,11 +301,7 @@
                 </div>
                 <div class="effets">
                     {{#each this.lantern.effets.liste as | key effet|}}
-                        <div>
-                            <span class="label">{{key.name}}</span>
-                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                        </div>
+                        {{~> systems/knight/templates/parts/effets.html type='illumination_lantern'}}
                     {{/each}}
                 </div>
             </div>

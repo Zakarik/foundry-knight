@@ -22,7 +22,7 @@ export class VehiculeSheet extends ActorSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["vehicule", "sheet", "actor"],
       template: "systems/knight/templates/actors/vehicule-sheet.html",
-      width: 900,
+      width: 920,
       height: 600,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".body", initial: "vehicule"}],
       dragDrop: [{dragSelector: [".draggable", ".item-list .item"], dropSelector: null}],
@@ -372,6 +372,41 @@ export class VehiculeSheet extends ActorSheet {
 
       item.update({[`system`]:data});
     });
+
+    html.find('button.btnRestaureChargeur').click(async ev => {
+      const header = $(ev.currentTarget).parents(".summary");
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.resetMunition();
+    });
+
+    html.find('a.btnChargeurPlus').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item").length > 0 ? tgt.parents(".item") : tgt.parents(".headerData");
+      const index = tgt.parents(".btnChargeur").data('index');
+      const raw = header.data('raw');
+      const type = raw ? raw : tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.addMunition(index, type, munition, pnj, wpn);
+    });
+
+    html.find('a.btnChargeurMoins').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item").length > 0 ? tgt.parents(".item") : tgt.parents(".headerData");
+      const index = tgt.parents(".btnChargeur").data('index');
+      const raw = header.data('raw');
+      const type = raw ? raw : tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.removeMunition(index, type, munition, pnj, wpn);
+    });
   }
 
   /* -------------------------------------------- */
@@ -480,7 +515,7 @@ export class VehiculeSheet extends ActorSheet {
         const raw = data.effets.raw;
         const custom = data.effets.custom;
 
-        data.effets.liste = listEffects(raw, custom, labels);
+        data.effets.liste = listEffects(raw, custom, labels, data.effets?.chargeur);
 
         const rawDistance = data.distance.raw;
         const customDistance = data.distance.custom;
@@ -501,7 +536,7 @@ export class VehiculeSheet extends ActorSheet {
             const bRaw2 = munition.raw || [];
             const bCustom2 = munition.custom || [];
 
-            munition.liste = listEffects(bRaw2, bCustom2, labels);
+            munition.liste = listEffects(bRaw2, bCustom2, labels, munition?.chargeur);
           }
         }
 
@@ -522,7 +557,7 @@ export class VehiculeSheet extends ActorSheet {
 
         if(dataMunitions.has) {
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            itemArme.optionsmunitions.liste[key].liste = listEffects(value.raw, value.custom, labels);
+            itemArme.optionsmunitions.liste[key].liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
           }
         }
 
@@ -613,7 +648,8 @@ export class VehiculeSheet extends ActorSheet {
                 optionsmunitions:dataMunitions,
                 effets:{
                   raw:moduleEffets.raw,
-                  custom:moduleEffets.custom
+                  custom:moduleEffets.custom,
+                  chargeur:moduleEffets?.chargeur,
                 },
                 niveau:niveau,
                 whoActivate:itemWhoActivate,
@@ -730,7 +766,7 @@ export class VehiculeSheet extends ActorSheet {
       if(!data) continue;
 
       const listData = {
-        modules:[{path:['system.effets', 'system.arme.effets', 'system.arme.distance', 'system.arme.structurelles', 'system.arme.ornementales', 'system.jetsimple.effets'], simple:true}],
+        modules:[{path:['system.niveau.actuel.effets', 'system.niveau.actuel.arme.effets', 'system.niveau.actuel.arme.distance', 'system.niveau.actuel.arme.structurelles', 'system.niveau.actuel.arme.ornementales', 'system.niveau.actuel.jetsimple.effets'], simple:true}],
         armes:[{path:['system.effets', 'system.effets2mains', 'system.distance', 'system.structurelles', 'system.ornementales'], simple:true}],
         grenades:[{path:['effets'], simple:true}]
       }[base.key];
@@ -744,7 +780,19 @@ export class VehiculeSheet extends ActorSheet {
           const dataMunitions = data[n].system.optionsmunitions;
 
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            value.liste = listEffects(value.raw, value.custom, labels);
+            value.liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
+          }
+        }
+
+        if(base.key === 'modules') {
+          const dataPnj = data[n].system.niveau.actuel.pnj.liste;
+
+          for(let pnj in dataPnj) {
+            for(let wpnPnj in dataPnj[pnj].armes.liste) {
+              const dataWpnPnj = dataPnj[pnj].armes.liste[wpnPnj];
+
+              dataWpnPnj.effets.liste = listEffects(dataWpnPnj.effets.raw, dataWpnPnj.effets.custom, labels, dataWpnPnj.effets?.chargeur);
+            }
           }
         }
       }
@@ -756,7 +804,7 @@ export class VehiculeSheet extends ActorSheet {
       const data = path.split('.').reduce((obj, key) => obj?.[key], capacite);
       if (!data) return;
       const effets = simple ? data : data.effets;
-      effets.liste = listEffects(effets.raw, effets.custom, labels);
+      effets.liste = listEffects(effets.raw, effets.custom, labels, effets?.chargeur);
     };
 
     if (!items) {

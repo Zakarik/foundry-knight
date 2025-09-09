@@ -15,7 +15,7 @@ export class IASheet extends ActorSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["ia", "sheet", "actor"],
       template: "systems/knight/templates/actors/ia-sheet.html",
-      width: 900,
+      width: 920,
       height: 600,
     });
   }

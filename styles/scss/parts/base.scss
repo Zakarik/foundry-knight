@@ -40,6 +40,10 @@
     nav.tabs {
       justify-content: space-between;
     }
+
+    nav.tabs [data-tab] {
+      color: $white;
+    }
   }
 }
 
@@ -1231,6 +1235,26 @@
         }
       }
     }
+  }
+}
+
+li.chat-message {
+  &.whisper {
+    background:
+        linear-gradient(rgba(232, 232, 239, 0.8), rgba(232, 232, 239, 0.8)),
+        url('../../../ui/parchment.jpg') repeat;
+  }
+
+  &.blind {
+      background:
+          linear-gradient(rgba(245, 234, 245, 0.8), rgba(245, 234, 245, 0.8)),
+          url('../../../ui/parchment.jpg') repeat;
+  }
+
+  &.emote {
+      background:
+          linear-gradient(rgba(243, 237, 222, 0.8), rgba(243, 237, 222, 0.8)),
+          url('../../../ui/parchment.jpg') repeat;
   }
 }
 

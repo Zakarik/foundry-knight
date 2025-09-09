@@ -174,12 +174,23 @@ Hooks.once('init', async function() {
   let statusEffects = [
     {
       id:'dead',
+      name:'EFFECT.StatusDead',
       label:'EFFECT.StatusDead',
-      icon:'icons/svg/skull.svg'
+      icon:'icons/svg/skull.svg',
+      img:'icons/svg/skull.svg'
+    },
+    {
+      id:'peur',
+      label:'KNIGHT.EFFETS.PEUR.Label',
+      label:'KNIGHT.EFFETS.PEUR.Label',
+      icon:'systems/knight/assets/icons/effects/peur.svg',
+      img:'systems/knight/assets/icons/effects/peur.svg'
     },
     {
       id:'lumiere',
+      name:"KNIGHT.EFFETS.LUMIERE.Label",
       label:"KNIGHT.EFFETS.LUMIERE.Label",
+      img:'systems/knight/assets/icons/effects/lumiere.svg',
       icon:'systems/knight/assets/icons/effects/lumiere.svg',
       changes:[{
         key: `system.defense.malus.lumiere`,
@@ -199,6 +210,8 @@ Hooks.once('init', async function() {
     {
       id:'barrage',
       label:"KNIGHT.EFFETS.BARRAGE.Label",
+      name:"KNIGHT.EFFETS.BARRAGE.Label",
+      img:'systems/knight/assets/icons/effects/barrage.svg',
       icon:'systems/knight/assets/icons/effects/barrage.svg',
       changes:[{
         key: `system.defense.malus.barrage`,
@@ -218,31 +231,43 @@ Hooks.once('init', async function() {
     {
       id:'designation',
       label:"KNIGHT.EFFETS.DESIGNATION.Label",
+      name:"KNIGHT.EFFETS.DESIGNATION.Label",
+      img:'systems/knight/assets/icons/effects/designation.svg',
       icon:'systems/knight/assets/icons/effects/designation.svg'
     },
     {
       id:'choc',
       label:"KNIGHT.EFFETS.CHOC.Label",
+      name:"KNIGHT.EFFETS.CHOC.Label",
+      img:'systems/knight/assets/icons/effects/choc.svg',
       icon:'systems/knight/assets/icons/effects/choc.svg'
     },
     {
       id:'parasitage',
       label:"KNIGHT.EFFETS.PARASITAGE.Label",
+      name:"KNIGHT.EFFETS.PARASITAGE.Label",
+      img:'systems/knight/assets/icons/effects/parasitage.svg',
       icon:'systems/knight/assets/icons/effects/parasitage.svg'
     },
     {
       id:'degatscontinus',
       label:"KNIGHT.EFFETS.DEGATSCONTINUS.Label",
+      name:"KNIGHT.EFFETS.DEGATSCONTINUS.Label",
+      img:'systems/knight/assets/icons/effects/degatscontinus.svg',
       icon:'systems/knight/assets/icons/effects/degatscontinus.svg'
     },
     {
       id:'soumission',
       label:"KNIGHT.EFFETS.SOUMISSION.Label",
+      name:"KNIGHT.EFFETS.SOUMISSION.Label",
+      img:'systems/knight/assets/icons/effects/soumission.svg',
       icon:'systems/knight/assets/icons/effects/soumission.svg'
     },
     {
       id:'fumigene',
       label:"KNIGHT.EFFETS.FUMIGENE.Label",
+      name:"KNIGHT.EFFETS.FUMIGENE.Label",
+      img:'systems/knight/assets/icons/effects/fumigene.svg',
       icon:'systems/knight/assets/icons/effects/fumigene.svg',
       changes:[{
         key: `system.defense.bonus.fumigene`,
@@ -409,7 +434,9 @@ Hooks.once('init', async function() {
     CONFIG.statusEffects.push({
       id:'immobilisation',
       label:"KNIGHT.EFFETS.IMMOBILISATION.Label",
-      icon:'systems/knight/assets/icons/effects/immobilisation.svg'
+      name:"KNIGHT.EFFETS.IMMOBILISATION.Label",
+      icon:'systems/knight/assets/icons/effects/immobilisation.svg',
+      img:'systems/knight/assets/icons/effects/immobilisation.svg'
     });
   }
 });
@@ -427,18 +454,18 @@ Hooks.once("ready", HooksKnight.ready);
 Hooks.on('deleteItem', doc => toggler.clearForId(doc.id));
 Hooks.on('deleteActor', doc => toggler.clearForId(doc.id));
 
-Hooks.on("createActiveEffect", function(effect, data) {
+Hooks.on("createActiveEffect", async function(effect, data) {
   const status = effect.statuses;
-  let effectCounter = foundry.utils.getProperty(effect, "flags.statuscounter.counter");
+  let effectCounter = 1;
 
-  if (effectCounter && (status.has("barrage") || status.has("lumiere"))) {
+  if (effectCounter && (status.has("barrage") || status.has("lumiere")) && effect.parent.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
     let update = []
     for(let e of effect.changes) {
       update.push({
         key:e.key,
         mode:e.mode,
         priority:e.priority,
-        value:`${effectCounter.value}`
+        value:`${effectCounter}`
       });
     }
 
@@ -446,22 +473,239 @@ Hooks.on("createActiveEffect", function(effect, data) {
       "_id":effect._id,
       changes:update,
     }])
+  } else if(effectCounter && status.has("peur") && effect.parent.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
+    let content = '';
+    content += '<select name="peur">';
+    content += `<option value="success">${game.i18n.localize("KNIGHT.JETS.Succes")}</option>`;
+    content += `<option value="fail">${game.i18n.localize("KNIGHT.JETS.Echec")}</option>`;
+    content += `<option value="epicfail">${game.i18n.localize("KNIGHT.JETS.EchecCritique")}</option>`;
+    content += '</select>';
+    content += '<label class="knightNumber">'
+    content += '<span>Valeur de la peur ?</span>'
+    content += `<input type="number" name="value" min="1" value="1" />`
+    content += '</label>'
+    let update = [];
+
+    await foundry.applications.api.DialogV2.prompt({
+      window: {
+        title: game.i18n.localize("KNIGHT.JETS.JetPeur")
+      },
+      modal: true,
+      content: content,
+      ok: {
+        label: game.i18n.localize("KNIGHT.AUTRE.Valider"),
+        callback: async (event, button, dialog) => {
+          const result = $(button.form.elements.peur).val();
+          const value = $(button.form.elements.value).val();
+
+          switch(result) {
+            case 'success':
+              update.push({
+                key:'system.otherMods.peur.type',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: 'rollDice'
+              },{
+                key:'system.otherMods.peur.value',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: -1
+              });
+              break;
+            case 'fail':
+              update.push({
+                key:'system.otherMods.peur.type',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: 'rollDice'
+              },{
+                key:'system.otherMods.peur.value',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: -value
+              },{
+                key:'system.defense.malus.peur',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: value
+              },{
+                key:'system.reaction.malus.peur',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: value
+              });
+              break;
+            case 'epicfail':
+              const rPeur = new game.knight.RollKnight(this.actor, {
+                name:game.i18n.localize(`KNIGHT.JETS.DureePeur`),
+                dices:`${value}D6`,
+              }, false);
+
+              await rPeur.doRoll();
+              break;
+          }
+
+          effect.parent.updateEmbeddedDocuments('ActiveEffect', [{
+            "_id":effect._id,
+            flags:{
+              knight:{
+                roll:result,
+              }
+            },
+            changes:update,
+          }]);
+
+          effect.statusCounter.setValue(value)
+        }
+      }
+    });
+  } else if(status.has("peur") && effect.parent.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
+    let content = '';
+    content += '<select name="peur">';
+    content += `<option value="success">${game.i18n.localize("KNIGHT.JETS.Succes")}</option>`;
+    content += `<option value="fail">${game.i18n.localize("KNIGHT.JETS.Echec")}</option>`;
+    content += `<option value="epicfail">${game.i18n.localize("KNIGHT.JETS.EchecCritique")}</option>`;
+    content += '</select>';
+    content += '<label class="knightNumber">'
+    content += '<span>Valeur de la peur ?</span>'
+    content += `<input type="number" name="value" min="1" value="1" />`
+    content += '</label>'
+    let update = [];
+
+    await foundry.applications.api.DialogV2.prompt({
+      window: {
+        title: game.i18n.localize("KNIGHT.JETS.JetPeur")
+      },
+      modal: true,
+      content: content,
+      ok: {
+        label: game.i18n.localize("KNIGHT.AUTRE.Valider"),
+        callback: async (event, button, dialog) => {
+          const result = $(button.form.elements.peur).val()
+          const value = $(button.form.elements.value).val()
+          switch(result) {
+            case 'success':
+              update.push({
+                key:'system.otherMods.peur.type',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: 'rollDice'
+              },{
+                key:'system.otherMods.peur.value',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: -1
+              });
+              break;
+            case 'fail':
+              update.push({
+                key:'system.otherMods.peur.type',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: 'rollDice'
+              },{
+                key:'system.otherMods.peur.value',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: `-${value}`
+              },{
+                key:'system.defense.malus.peur',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: value
+              },{
+                key:'system.reaction.malus.peur',
+                mode: 2,
+                priority: 4,
+                icon:'',
+                value: value
+              });
+              break;
+            case 'epicfail':
+              const rPeur = new game.knight.RollKnight(this.actor, {
+                name:game.i18n.localize(`KNIGHT.JETS.DureePeur`),
+                dices:`${value}D6`,
+              }, false);
+
+              await rPeur.doRoll();
+              break;
+          }
+
+          console.warn(update);
+
+          effect.parent.updateEmbeddedDocuments('ActiveEffect', [{
+            "_id":effect._id,
+            flags:{
+              knight:{
+                roll:result,
+              }
+            },
+            changes:update,
+          }]);
+        }
+      }
+    });
   }
 });
 
 Hooks.on("updateActiveEffect", function(effect, effectData, diffData, options, userId) {
   const status = effect.statuses;
-  let effectCounter = foundry.utils.getProperty(effectData, "flags.statuscounter.counter");
+  let effectCounter = foundry.utils.getProperty(effectData, "flags.statuscounter.counter") || foundry.utils.getProperty(effectData, "flags.statuscounter.config") || foundry.utils.getProperty(effectData, "flags.statuscounter.value");
 
-  if (effectCounter && (status.has("barrage") || status.has("lumiere"))) {
+  if (effectCounter && (status.has("barrage") || status.has("lumiere")) && effect.parent.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
     let update = []
     for(let e of effect.changes) {
       update.push({
         key:e.key,
         mode:e.mode,
         priority:e.priority,
-        value:`${effectCounter.value}`
+        value:`${effectCounter}`
       });
+    }
+
+    effect.parent.updateEmbeddedDocuments('ActiveEffect', [{
+      "_id":effect._id,
+      changes:update,
+    }])
+  } else if (effectCounter && status.has("peur") && effect.parent.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
+    if(effect.flags.knight.roll !== 'fail') return;
+
+    let update = []
+    for(let e of effect.changes) {
+      if(e.key.includes('peur.type')) {
+        update.push({
+          key:e.key,
+          mode:e.mode,
+          priority:e.priority,
+          value: e.value
+        });
+      } else if(e.key.includes('peur.value')) {
+        update.push({
+          key:e.key,
+          mode:e.mode,
+          priority:e.priority,
+          value: -effectCounter
+        });
+      } else if(e.key.includes('malus')) {
+        update.push({
+          key:e.key,
+          mode:e.mode,
+          priority:e.priority,
+          value:`${effectCounter}`
+        });
+
+      }
     }
 
     effect.parent.updateEmbeddedDocuments('ActiveEffect', [{
@@ -474,7 +718,6 @@ Hooks.on("updateActiveEffect", function(effect, effectData, diffData, options, u
 Hooks.on('renderItemDirectory', async function () {
   if (game.modules.get("babele")?.active && game.i18n.lang !== "fr") {
     Hooks.once("babele.ready", async function () {
-      console.warn('test');
       await generateNavigator();
 
       $("section#items footer.action-buttons button.compendium").remove();

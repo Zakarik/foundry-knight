@@ -278,7 +278,8 @@
       "Resilience":"Résilience",
       "Bouclier":"Shielding",
       "Noyaux":"Energy cores",
-      "Noyau":"Energy core"
+      "Noyau":"Energy core",
+      "ReductionPEs":"Reducing loss of hope"
     },
     "PERSONNAGE":{
       "Label":"Character",
@@ -490,6 +491,7 @@
         },
         "AKIMBO": {
           "FullLabel":"Akimbo Style",
+          "SecondWpn":"Right-click on the secondary weapon you want to use.",
           "Label": "Akimbo",
           "Info": "<b>Bonus :</b> Can perform an attack with two weapons simultaneously. Cumulates the damage dice of both weapons. Adds half the Violence dice of the second weapon to those of the first. <br/><br/><b>Malus :</b> -3D Attack."
         },
@@ -747,7 +749,10 @@
       "CHARGEUR": {
         "Label":"Clip",
         "Description":"This weapon or module has a limited number of uses per mission, as indicated by X. Once this number of uses has been depleted, the weapon or module can no longer fire or be activated. It must be reloaded (for free) in Camelot in between missions.",
-        "Description-short":"This weapon or module has a limited number of uses per mission, as indicated by X."
+        "Description-short":"This weapon or module has a limited number of uses per mission, as indicated by X.",
+        "Restaurer":"Restore all clips",
+        "RemplirChargeur":"Refill 1 Clip use",
+        "ViderChargeur":"Remove 1 use from Clip"
       },
       "CHOC": {
         "Label":"Stun",
@@ -782,7 +787,8 @@
       "DESIGNATION": {
         "Label":"Holo-targeting",
         "Description":"This weapon can holo-target one enemy (and only one, not a band) once per turn. Its wielder and their allies gain 1 automatic success on any skill check made to hit the marked target and ignore any critical failure results on their attack checks. Holo-targeting an enemy this way does not require an action. No skill check is required to mark a target and the _holo-targeting_ range is that of the weapon used. The target remains marked for the entire scene or conflict phase. A marked target is automatically tracked by the user’s armour. It uses the target’s movement and sound made to give a precise indication of its position, allowing the Knight to fire at it with weapons with the _artillery_ effect or use any alternate mode of sight effects on it automatically. Combined with predator vision, for instance, it would allow the user to see a target through walls as a silhouette on their meta-armour’s Augmented Reality HUD. Targets remain marked so long as the meta-armour can realistically keep track of them.\r\n**Caution**: This effect cannot stack multiple times on a single target.",
-        "Description-short":"This weapon can holo-target one enemy (and only one, not a band) once per turn. Its wielder and their allies gain 1 automatic success on any skill check made to hit the marked target and ignore any critical failure results on their attack checks."
+        "Description-short":"This weapon can holo-target one enemy (and only one, not a band) once per turn. Its wielder and their allies gain 1 automatic success on any skill check made to hit the marked target and ignore any critical failure results on their attack checks.",
+        "IgnoreEpicFail":"Ignores critical failures"
       },
       "DESTRUCTEUR": {
         "Label":"Destructive",
@@ -897,6 +903,9 @@
         "Label":"Armour-piercing",
         "Description":"This weapon ignores X armour points. If this value is higher than the enemy’s armour points, damage is immediately inflicted on the target’s health points.",
         "Description-short":"This weapon ignores X armour points"
+      },
+      "PEUR":{
+        "Label":"Fear"
       },
       "PRECISION": {
         "Label":"Precise",
@@ -1441,6 +1450,10 @@
             "AspectsExceptionnelsRepartir":"Exceptional aspect points to be distributed",
             "AspectsExceptionnelsRestantRepartir":"Exceptional aspect points still to be distributed",
             "NiveauConfigurationRestant":"Level still to be distributed",
+            "Invocation":"Summon : {type}",
+            "Revocation":"Revoke : {type}",
+            "Change":"Change configuration",
+            "Use":"Using configuration",
             "ENERGIE":{
               "Base":"Generate a companion",
               "Prolonger":"Extending a companion",
@@ -1452,6 +1465,7 @@
             "LION":{
               "Label":"Lion",
               "Img":"Lion's image",
+              "Token":"Lion's token",
               "CEvolutions":"Every evolution of the Lion",
               "Pointgloiredepart":"Starting points of glory",
               "BonusPointgloire":"Bonus glory points for modules",
@@ -1461,12 +1475,15 @@
             "WOLF":{
               "Label":"Wolf",
               "Img":"Wolf's image",
+              "Token":"Wolf's token",
               "CEvolutions":"Every evolution of the Wolf",
               "BonusRepartir":"Number of configurations to increase",
               "EvolutionConfigurations":"Configuration evolution",
               "CONFIGURATIONS":{
                 "Label":"Configurations",
                 "Active":"Active configuration",
+                "Utiliser":"Use the configuration",
+                "Utiliser-hint":"Spends the EP from using the current configuration on all wolfs.",
                 "Disponible":"Available configurations",
                 "LABOR":{
                   "Label":"Labor",
@@ -1493,6 +1510,7 @@
             "CROW":{
               "Label":"Crow",
               "Img":"Crow's image",
+              "Token":"Crow's token",
               "CEvolutions":"Every evolution of the Crow",
               "Cohesion":"Cohesion bonus",
               "Debordement":"Overrun bonus",
@@ -2105,7 +2123,8 @@
           "Has":"Applies / Has effects",
           "Hasnt":"Does not apply / Has no effect"
         },
-        "CoutAugmentation":"Energy per increase"
+        "CoutAugmentation":"Energy per increase",
+        "CoutAttaque":"Energy per attack"
       },
       "ARME":{
         "Nom":"Weapon name",
@@ -2197,6 +2216,8 @@
       "ModificateurViolence":"Violence modifier",
       "JetEspoir":"Hope roll",
       "JetEgide":"Aegis roll",
+      "JetPeur":"Result of the roll to resist fear?",
+      "DureePeur":"Duration of fear",
       "OtherEffects":"Other effects",
       "Notheroisme":"Not enough heroism",
       "Notenergie":"Not enough energy",
@@ -2235,6 +2256,10 @@
       "ModeHeroique":"Heroic Mode",
       "AppliquerEffets":"Apply all effects",
       "AppliquerEffetsAll":"Apply effects to all targets",
+      "ChargeurVide":"Clip empty",
+      "RemplirChargeur":"Fills all clips",
+      "Remet1Charge":"Add 1 clip",
+      "Retire1Charge":"Remove 1 clip",
       "RESULTATS":{
         "Affecte":"Affected",
         "PasAffecte":"Not affected",
@@ -2359,10 +2384,13 @@
       "ConfirmationArmure":"Are you sure you want to recover all your armour?",
       "ConfirmationSante":"Are you sure you want to recover all your health?",
       "ConfirmationEspoir":"Are you sure you want to recover all your hope?",
+      "ConfirmationChargeur":"Are you sure you want to charge all your clips?",
+      "ConfirmationContacts":"Are you sure you want to restore all your contact points?",
       "Reset":"Reset",
       "Difficulte":"Difficulty",
       "MJOnly":"MJ Only",
-      "NoGrenades":"You're out of grenades."
+      "NoGrenades":"You're out of grenades.",
+      "Activation":"Do you want to activate {effect}?"
     },
     "PHASE2":{
       "Label":"Phase 2",
@@ -2425,6 +2453,7 @@
     },
     "ACTIVATION": {
       "Label": "Activation",
+      "Desactivation":"Deactivation",
       "Aucune": "None",
       "Instantanee": "Instantaneous",
       "Deplacement": "Move action",
@@ -2435,8 +2464,8 @@
       "Combat6Sec": "Combat action / 6 seconds",
       "Tour": "1 turn",
       "Tour6Sec": "1 turn / 6 seconds",
-      "Toutes": "Move action, Combat action or 1 Turn",
       "DeplacementCombat": "Move action or Combat action",
+      "Toutes": "Move action, Combat action or 1 Turn",
       "TourComplet": "Full turn"
     },
     "BONUS":{
@@ -2796,7 +2825,17 @@
       "Armure":"Restoring armour",
       "Energie":"Restoring energy",
       "Grenades":"Restoring grenades",
-      "Nods":"Restoring nodes"
+      "Nods":"Restoring nodes",
+      "Contacts":"Restore contact points",
+      "MSG":{
+        "Espoir":"Restores hope",
+        "Sante":"Restores health",
+        "Armure":"Restores armor",
+        "Energie":"Restores energy",
+        "Grenades":"Restores grenades",
+        "Nods":"Restores nods",
+        "Contacts":"Restores contact points"
+      }
     },
     "HIDESHOW":{
       "Hide":"Click to hide this insert when the sheet is limited.",

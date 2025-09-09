@@ -3,6 +3,8 @@ Knight est un JDR Français
 
 Si vous voulez aider, contactez moi sur le Discord-FR de Foundry : https://discord.gg/pPSDNJk
 
+Si vous voulez me soutenir, n'hésitez pas à faire un tour sur mon Tipeee : https://fr.tipeee.com/zakarik
+
 Pseudo : Zakarik
 
 # Prérequis
@@ -47,6 +49,8 @@ L'ensemble du code est sous licence MIT.
 Knight is a french RPG
 
 If you want to help, contact me on Discord Foundry : Zakarik
+
+If you'd like to support me, please take a look at my Tipeee: https://en.tipeee.com/zakarik
 
 Nickname : Zakarik
 
@@ -97,6 +101,8 @@ Knight es un RPG francés
 Si quieres ayudar, ponte en contacto conmigo en Discord Foundry : Zakarik
 
 Si quieres ayudar, ponte en contacto conmigo en Discord Foundry : https://discord.gg/pPSDNJk
+
+Si quieres apoyarme, echa un vistazo a mi Tipeee: https://es.tipeee.com/zakarik
 
 Apodo : Zakarik
 

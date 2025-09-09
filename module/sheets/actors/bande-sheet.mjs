@@ -20,7 +20,7 @@ export class BandeSheet extends ActorSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["bande", "sheet", "actor"],
       template: "systems/knight/templates/actors/bande-sheet.html",
-      width: 900,
+      width: 920,
       height: 780,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".body", initial: "description"}],
       dragDrop: [{dragSelector: [".draggable", ".item-list .item"], dropSelector: null}],
@@ -39,6 +39,8 @@ export class BandeSheet extends ActorSheet {
     context.systemData = context.data.system;
 
     actualiseRoll(this.actor);
+
+    console.warn(context);
 
     return context;
   }

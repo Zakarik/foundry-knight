@@ -172,17 +172,68 @@
                     </div>
                     <div class="effets">
                         {{#each key.effets.liste as | key effet|}}
-                            <div>
-                                <span class="label">{{key.name}}</span>
-                                <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                            </div>
+                            {{~> systems/knight/templates/parts/effets.html type='std'}}
                         {{/each}}
                         <a class="edit" data-path="system.capacites.selected.companions.lion.armes.contact.{{arme}}.effets">
                             <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
                         </a>
                     </div>
                 {{/each}}
+            </div>
+            <div class="lionSlots" style="display:none;">
+                <h5>
+                    {{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Label"}}
+                </h5>
+
+                <div class="line">
+                    <label>
+                        <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Tete"}}</span>
+                        <input type="number" name="system.capacites.selected.companions.lion.slots.tete.value" value="{{ifThen lion.slots.tete.value lion.slots.tete.value 8}}"
+                        min="0"
+                        {{#if ../this.softlock}}disabled{{/if}}
+                        />
+                    </label>
+
+                    <label>
+                        <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.BrasGauche"}}</span>
+                        <input type="number" name="system.capacites.selected.companions.lion.slots.brasGauche.value" value="{{ifThen lion.slots.brasGauche.value lion.slots.brasGauche.value 8}}"
+                        min="0"
+                        {{#if ../this.softlock}}disabled{{/if}}
+                        />
+                    </label>
+
+                    <label>
+                        <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.BrasDroit"}}</span>
+                        <input type="number" name="system.capacites.selected.companions.lion.slots.brasDroit.value" value="{{ifThen lion.slots.brasDroit.value lion.slots.brasDroit.value 8}}"
+                        min="0"
+                        {{#if ../this.softlock}}disabled{{/if}}
+                        />
+                    </label>
+
+                    <label>
+                        <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Torse"}}</span>
+                        <input type="number" name="system.capacites.selected.companions.lion.slots.torse.value" value="{{ifThen lion.slots.torse.value lion.slots.torse.value 10}}"
+                        min="0"
+                        {{#if ../this.softlock}}disabled{{/if}}
+                        />
+                    </label>
+
+                    <label>
+                        <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.JambeGauche"}}</span>
+                        <input type="number" name="system.capacites.selected.companions.lion.slots.jambeGauche.value" value="{{ifThen lion.slots.jambeGauche.value lion.slots.jambeGauche.value 8}}"
+                        min="0"
+                        {{#if ../this.softlock}}disabled{{/if}}
+                        />
+                    </label>
+
+                    <label>
+                        <span>{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.JambeDroite"}}</span>
+                        <input type="number" name="system.capacites.selected.companions.lion.slots.jambeDroite.value" value="{{ifThen lion.slots.jambeDroite.value lion.slots.jambeDroite.value 8}}"
+                        min="0"
+                        {{#if ../this.softlock}}disabled{{/if}}
+                        />
+                    </label>
+                </div>
             </div>
         </div>
 
@@ -553,6 +604,16 @@
             <img class="img" src="{{#if lion.img}}{{lion.img}}{{else}}systems/knight/assets/lion.jpg{{/if}}" data-edit="system.capacites.selected.companions.lion.img" title="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}}" />
             <img class="img" src="{{#if wolf.img}}{{wolf.img}}{{else}}systems/knight/assets/wolf.jpg{{/if}}" data-edit="system.capacites.selected.companions.wolf.img" title="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label"}}" />
             <img class="img" src="{{#if crow.img}}{{crow.img}}{{else}}systems/knight/assets/crow.jpg{{/if}}" data-edit="system.capacites.selected.companions.crow.img" title="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label"}}" />
+        </div>
+
+        <div class="img">
+            <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Token"}}</span>
+            <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Token"}}</span>
+            <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Token"}}</span>
+
+            <img class="img" src="{{#if lion.token}}{{lion.token}}{{else}}systems/knight/assets/lion.jpg{{/if}}" data-edit="system.capacites.selected.companions.lion.token" title="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Label"}}" />
+            <img class="img" src="{{#if wolf.token}}{{wolf.token}}{{else}}systems/knight/assets/wolf.jpg{{/if}}" data-edit="system.capacites.selected.companions.wolf.token" title="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label"}}" />
+            <img class="img" src="{{#if crow.token}}{{crow.token}}{{else}}systems/knight/assets/crow.jpg{{/if}}" data-edit="system.capacites.selected.companions.crow.token" title="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.CROW.Label"}}" />
         </div>
     </div>
 </div>

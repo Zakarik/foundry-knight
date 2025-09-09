@@ -12,25 +12,29 @@
     <button type="action" class="recover" data-type="grenades" data-max="{{systemData.combat.grenades.quantity.max}}">{{localize "KNIGHT.RECUPERER.Grenades"}}</button>
 
     {{#each systemData.combat.grenades.liste as | key grenades|}}
-    <div class="line  {{#if key.custom}}draggable{{/if}}"
-    data-type="grenade"
-    data-what="{{grenades}}"
-    data-label="{{#if key.custom}}{{key.label}}{{else}}{{getGrenadeName grenades}}{{/if}}">
-        {{#if key.custom}}
-        <input type="text" name="system.combat.grenades.liste.{{grenades}}.label" value="{{key.label}}"/>
-        {{else}}
-        <span class="label">{{getGrenadeName grenades}}</span>
-        {{/if}}
-        <div class="effets {{#if key.custom}}paddingLeft paddingBottom draggable{{/if}}"
-        {{#if key.custom}}
+    <div class="line
+        {{ifThen key.custom 'custom draggable' ''}} {{ifThen key.unlocked 'unlocked' ''}}"
         data-type="grenade"
         data-what="{{grenades}}"
-        data-label="{{key.label}}"
+        data-label="{{ifThen key.custom key.label (getGrenadeName grenades)}}">
+        {{#if (and key.custom key.unlocked)}}
+            <input type="text" name="system.combat.grenades.liste.{{grenades}}.label" value="{{key.label}}"/>
+        {{else}}
+            <span class="label">{{ifThen key.custom (ifThen key.label key.label (localize "KNIGHT.Nom")) (getGrenadeName grenades)}}</span>
+        {{/if}}
+        {{#if key.custom}}
+            <a class="unlocked" data-type="grenade" data-id="{{grenades}}"><i class="fa-solid {{ifThen key.unlocked 'fa-lock' 'fa-lock-open'}}"></i></a>
+        {{/if}}
+        {{#if (and key.custom key.unlocked)}}
+            <a class="delete" data-type="grenade" data-id="{{grenades}}"><i class="fas fa-trash"></i></a>
+        {{/if}}
+        <div class="effets {{ifThen key.custom 'draggable' ''}}"
+        {{#if key.custom}}
+            data-type="grenade"
+            data-what="{{grenades}}"
+            data-label="{{key.label}}"
         {{/if}}
         >
-            {{#if key.custom}}
-                <a class="delete" data-type="grenade" data-id="{{grenades}}"><i class="fas fa-trash"></i></a>
-            {{/if}}
             {{#each key.effets.liste as | keyEffet effet|}}
             <div class="effetNormal">
                 <span class="label">{{keyEffet.name}}</span>
@@ -38,7 +42,7 @@
                 <span class="hideInfo">{{{getEffetsDescription keyEffet.description}}}</span>
             </div>
             {{/each}}
-            {{#if key.custom}}
+            {{#if (and key.custom key.unlocked)}}
             <a class="edit" data-path="system.combat.grenades.liste.{{grenades}}.effets">
                 <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
             </a>

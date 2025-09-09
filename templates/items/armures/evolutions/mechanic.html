@@ -13,7 +13,7 @@
     <label class="shortspan">
         <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
         <select name="system.evolutions.liste.{{key}}.capacites.mechanic.activation.contact">
-            {{selectOptions (getList 'activationsimple') selected=this.activation localize=true}}
+            {{selectOptions (getList 'activationsimple') selected=this.activation.contact localize=true}}
         </select>
     </label>
     <div class="shortspan withSpecialMiddle">
@@ -40,7 +40,7 @@
     <label class="shortspan">
         <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
         <select name="system.evolutions.liste.{{key}}.capacites.mechanic.activation.distance">
-            {{selectOptions (getList 'activationsimple') selected=this.activation localize=true}}
+            {{selectOptions (getList 'activationsimple') selected=this.activation.distance localize=true}}
         </select>
     </label>
     <div class="shortspan withSpecialMiddle">

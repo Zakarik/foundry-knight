@@ -13,6 +13,7 @@
 
     {{#each content}}
     <section class="content" data-index="{{index}}">
+        {{#unless noAtk}}
         <div class="dice-result">
         {{#if actorName}}
         <div class="dice-formula">{{actorName}}</div>
@@ -41,6 +42,7 @@
             {{/if}}
         </h4>
         </div>
+        {{/unless}}
 
         {{#each targets}}
         <div class="listTargets dice-formula">
@@ -49,7 +51,10 @@
                 {{#if isValue}}
                 <span class="dmg">{{value}}</span>
                 {{else}}
-                <span class="{{ifThen hit 'hit' 'fail'}}">{{localize (ifThen hit 'KNIGHT.JETS.RESULTATS.Touche' 'KNIGHT.JETS.RESULTATS.Manque')}}</span>
+                {{#if isEmpty}}
+                <span></span>
+                    {{else}}
+                    <span class="{{ifThen hit 'hit' 'fail'}}">{{localize (ifThen hit 'KNIGHT.JETS.RESULTATS.Touche' 'KNIGHT.JETS.RESULTATS.Manque')}}</span>
                     {{#if ptsFaible}}
                     <span class="hit">{{localize 'KNIGHT.JETS.RESULTATS.PFTarget'}}</span>
                     {{/if}}
@@ -57,9 +62,10 @@
                     <span class="subtitle defense">{{defense}}</span>
                     {{/if}}
                 {{/if}}
+                {{/if}}
             </div>
             {{#each effets}}
-                <div class="target sub {{#if tooltip}}withTooltip{{/if}}" data-key="{{key}}" data-id="{{../id}}">
+                <div class="target sub {{#if tooltip}}withTooltip{{/if}}" data-key="{{key}}" data-id="{{../id}}" title="{{title}}">
                     <span class="label">{{label}}</span>
                     {{#unless empty}}
                         {{#if value}}
@@ -103,7 +109,7 @@
         </div>
         {{/unless}}
         {{/if}}
-
+        {{log this}}
         {{#if weapon}}
         <div class="btn">
             {{#unless noDmg}} <button type="action" class="degats" >{{localize 'KNIGHT.AUTRE.Degats'}}</button> {{/unless}}
@@ -152,7 +158,7 @@
             {{/if}}
         </div>
         {{#each effets}}
-            <div class="target sub {{#if tooltip}}withTooltip{{/if}}" data-key="{{key}}" data-id="{{../id}}">
+            <div class="target sub {{#if tooltip}}withTooltip{{/if}}" data-key="{{key}}" data-id="{{../id}}" title="{{title}}">
                 <span class="label">{{label}}</span>
                 {{#unless empty}}
                     {{#if value}}

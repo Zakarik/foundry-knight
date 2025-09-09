@@ -62,6 +62,10 @@
                 <button class="configurationWolf" data-configuration="{{data.companions.type}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
                 </button>
+
+                <button class="useConfigurationWolf double" title="{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Utiliser-hint"}}" data-configuration="{{data.companions.type}}">
+                    {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Label"}} : {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.Utiliser"}}
+                </button>
             {{/if}}
         </div>
         {{/if}}
@@ -156,17 +160,63 @@
                 </div>
                 <div class="effets">
                     {{#each this.lion.armes.contact.coups.effets.liste as | key effet|}}
-                        <div>
-                            <span class="label">{{key.name}}</span>
-                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                        </div>
+                        {{~> systems/knight/templates/parts/effets.html type='std'}}
                     {{/each}}
+                </div>
+            </div>
+            <div class="lionSlots" style="display:none;">
+                <h5>
+                    {{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Label"}}
+                </h5>
+
+                <div class="line">
+                    <div class="block {{#if (isNegative lion.slots.tete.value lion.slots.tete.used)}}red{{/if}}">
+                        <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Tete"}}</span>
+                        <span class="score">
+                            {{lion.slots.tete.used}} / {{lion.slots.tete.value}}
+                        </span>
+                    </div>
+
+                    <div class="block {{#if (isNegative lion.slots.brasGauche.value lion.slots.brasGauche.used)}}red{{/if}}">
+                        <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.BrasGauche"}}</span>
+                        <span class="score">
+                            {{lion.slots.brasGauche.used}} / {{lion.slots.brasGauche.value}}
+                        </span>
+                    </div>
+
+                    <div class="block {{#if (isNegative lion.slots.brasDroit.value lion.slots.brasDroit.used)}}red{{/if}}">
+                        <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.BrasDroit"}}</span>
+                        <span class="score">
+                            {{lion.slots.brasDroit.used}} / {{lion.slots.brasDroit.value}}
+                        </span>
+                    </div>
+
+                    <div class="block {{#if (isNegative lion.slots.torse.value lion.slots.torse.used)}}red{{/if}}">
+                        <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.Torse"}}</span>
+                        <span class="score">
+                            {{lion.slots.torse.used}} / {{lion.slots.torse.value}}
+                        </span>
+                    </div>
+
+                    <div class="block {{#if (isNegative lion.slots.jambeGauche.value lion.slots.jambeGauche.used)}}red{{/if}}">
+                        <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.JambeGauche"}}</span>
+                        <span class="score">
+                            {{lion.slots.jambeGauche.used}} / {{lion.slots.jambeGauche.value}}
+                        </span>
+                    </div>
+
+                    <div class="block {{#if (isNegative lion.slots.jambeDroite.value lion.slots.jambeDroite.used)}}red{{/if}}">
+                        <span class="title">{{localize "KNIGHT.ITEMS.ARMURE.SLOTS.JambeDroite"}}</span>
+                        <span class="score">
+                            {{lion.slots.jambeDroite.used}} / {{lion.slots.jambeDroite.value}}
+                        </span>
+                    </div>
                 </div>
             </div>
             <div class="modulesLion" style="display:none;">
                 <h5>
                     {{localize "KNIGHT.ITEMS.MODULE.Label"}}
+                    <a class="item-control item-create" title="Create Item" data-type="module" data-special="lion"><i class="fas fa-plus"></i></a>
                 </h5>
                 {{#each this.lion.modules as | kLion module|}}
                 <div class="bModule">
@@ -360,40 +410,24 @@
                                 {{/unless}}
                                 <div class="effets">
                                     {{#each kLion.system.arme.effets.liste as | key effet|}}
-                                        <div>
-                                            <span class="label">{{kLion.name}}</span>
-                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                            <span class="hideInfo">{{{getEffetsDescription kLion.description}}}</span>
-                                        </div>
+                                        {{~> systems/knight/templates/parts/effets.html type='std'}}
                                     {{/each}}
                                 </div>
                                 {{#if (isWpnDistance kLion.system.arme.type)}}
                                 <div class="effets">
                                     {{#each kLion.system.arme.distance.liste as | key effet|}}
-                                        <div>
-                                            <span class="label">{{kLion.name}}</span>
-                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                            <span class="hideInfo">{{{getEffetsDescription kLion.description}}}</span>
-                                        </div>
+                                        {{~> systems/knight/templates/parts/effets.html type='std'}}
                                     {{/each}}
                                 </div>
                                 {{else}}
                                 <div class="effets">
                                     {{#each kLion.system.arme.structurelles.liste as | key effet|}}
-                                        <div>
-                                            <span class="label">{{kLion.name}}</span>
-                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                            <span class="hideInfo">{{{getEffetsDescription kLion.description}}}</span>
-                                        </div>
+                                        {{~> systems/knight/templates/parts/effets.html type='std'}}
                                     {{/each}}
                                 </div>
                                 <div class="effets">
                                     {{#each kLion.system.arme.ornementales.liste as | key effet|}}
-                                        <div>
-                                            <span class="label">{{kLion.name}}</span>
-                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                            <span class="hideInfo">{{{getEffetsDescription kLion.description}}}</span>
-                                        </div>
+                                        {{~> systems/knight/templates/parts/effets.html type='std'}}
                                     {{/each}}
                                 </div>
                                 {{/if}}
@@ -490,11 +524,7 @@
                                                 </div>
                                                 <div class="effets">
                                                     {{#each kArme.effets.liste as | kEffet effet|}}
-                                                        <div>
-                                                            <span class="label">{{kEffet.name}}</span>
-                                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                                            <span class="hideInfo">{{{getEffetsDescription kEffet.description}}}</span>
-                                                        </div>
+                                                        {{~> systems/knight/templates/parts/effets.html type='std'}}
                                                     {{/each}}
                                                 </div>
                                             </div>
@@ -571,11 +601,7 @@
                     </div>
                     <div class="effets">
                         {{#each key.effets.liste as | key effet|}}
-                            <div>
-                                <span class="label">{{key.name}}</span>
-                                <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                            </div>
+                            {{~> systems/knight/templates/parts/effets.html type='std'}}
                         {{/each}}
                     </div>
                 {{/each}}
@@ -664,11 +690,7 @@
                     <span class="title">{{localize "KNIGHT.EFFETS.Label"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
                     <div class="effets">
                         {{#each this.wolf.configurations.fighter.bonus.effets.liste as | key effet|}}
-                            <div>
-                                <span class="label">{{key.name}}</span>
-                                <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                            </div>
+                            {{~> systems/knight/templates/parts/effets.html type='std'}}
                         {{/each}}
                     </div>
                 </div>

@@ -1,7 +1,9 @@
 import {
     listLogo,
     generateNavigator,
-    getODValue
+    getODValue,
+    rollDamage,
+    rollViolence
   } from "./helpers/common.mjs";
 
 export default class HooksKnight {
@@ -139,11 +141,12 @@ export default class HooksKnight {
 
     static async init() {
         //DEBUT GESTION MESSAGES
-        Hooks.on("renderChatMessage", (message, html, messageData) => {
+        Hooks.on("renderChatMessage", async (message, html, messageData) => {
             const version = game.version.split('.')[0];
             const isVersion12 = version >= 12 ? true : false;
             const tgtBtn = html.find('.knight-roll div.tgtBtn');
             const tgtBtnId = $(tgtBtn).data('id');
+            const allInOne = message?.flags?.knight?.rollAll ?? false;
 
             if(!game.user.isGM) {
             html.find('.knight-roll div.listTargets,div.onlyGm').remove();
@@ -169,12 +172,17 @@ export default class HooksKnight {
                 }
             }
 
-            html.find('.knight-roll div.dice-result').click(ev => {
-            const tgt = $(ev.currentTarget);
+            if(allInOne) {
+                html.find('.knight-roll div.btn button.degats').remove();
+                html.find('.knight-roll div.btn button.violence').remove();
+            }
 
-            tgt.find('div.dice-tooltip').toggle({
-                complete: () => {},
-            });
+            html.find('.knight-roll div.dice-result').click(ev => {
+                const tgt = $(ev.currentTarget);
+
+                tgt.find('div.dice-tooltip').toggle({
+                    complete: () => {},
+                });
             });
 
             html.find('.knight-roll div.details.withTooltip').click(ev => {
@@ -185,57 +193,17 @@ export default class HooksKnight {
                 });
             });
 
-            html.find('.knight-roll button.degats').click(async ev => {
-                const tgt = $(ev.currentTarget);
-                const flags = message.flags;
-                const weapon = flags.weapon;
-                const raw = weapon.effets.raw.concat(weapon?.distance?.raw ?? [], weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
-                const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
+            html.find('.knight-roll button.degats').click(async function(ev) {
+                await rollDamage(message, ev);
+            });
 
-                const roll = new game.knight.RollKnight(actor, {
-                    name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
-                    weapon:weapon,
-                    surprise:flags.surprise,
-                }, false);
-
-                let addFlags = {
-                    flavor:flags.flavor,
-                    total:flags.content[0].total,
-                    targets:flags.content[0].targets,
-                    attaque:message.rolls,
-                    weapon:weapon,
-                    actor:actor,
-                    surprise:flags.surprise,
-                    style:flags.style,
-                    dataStyle:flags.dataStyle,
-                    dataMod:flags.dataMod,
-                    maximize:flags.maximize,
-                };
-
-                let data = {
-                    total:flags.content[0].total,
-                    targets:flags.content[0].targets.map(target => {
-                        if(target?.btn) target.btn = target.btn.filter(itm => !itm.classes.includes('applyAttaqueEffects'))
-                        return target;
-                    }),
-                    attaque:message.rolls,
-                    flags:addFlags,
-                };
-
-                console.warn(data)
-
-                if(raw.includes('tirenrafale')) {
-                    data.content = {
-                    tirenrafale:true,
-                    }
-                }
-
-                await roll.doRollDamage(data);
+            html.find('.knight-roll button.violence').click(async ev => {
+                await rollViolence(message, ev);
             });
 
             html.find('.knight-roll button.applyAttaqueEffects').click(async ev => {
                 const tgt = $(ev.currentTarget);
-                const flags = message.flags;
+                const flags = message.flags.knight;
                 const weapon = flags.weapon;
                 const tokenId = tgt.data('id');
                 const token = canvas?.tokens?.get(tokenId);
@@ -250,8 +218,13 @@ export default class HooksKnight {
                     const split = effectName.split(' ');
                     const name = split[0];
                     const value = split[1];
+                    let skip = false;
 
-                    if(status.includes(name) && ((weapon.options.find(itm => itm.value === name)?.active ?? false) || !weapon.options.find(itm => itm.value === name))) {
+                    if((weapon.options.find(itm => itm.value === 'barrage')?.active ?? false) && name !== 'barrage') {
+                        skip = true;
+                    }
+
+                    if(status.includes(name) && !skip && ((weapon.options.find(itm => itm.value === name)?.active ?? false) || !weapon.options.find(itm => itm.value === name))) {
                         if(conditionnel.includes(name)) {
                             let isHit = false;
 
@@ -279,7 +252,7 @@ export default class HooksKnight {
                 const effectList = actor.type === 'bande'
                     ? ['lumiere']
                     : CONFIG.KNIGHT.LIST.EFFETS.status.attaque;
-                effectList.map(iconName => {
+                effectList.map(async iconName => {
                     const isBoolean = ['designation', 'soumission'].includes(iconName);
                     if (effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) {
                         // Check if "Status Icon Counters" module is set
@@ -287,18 +260,25 @@ export default class HooksKnight {
                             // Set the icon path in the system
                             const iconPath = `systems/knight/assets/icons/effects/${iconName}.svg`;
 
-                            // Get the counters
-                            let counters = EffectCounter.getAllCounters(actor);
-
                             // Get the effect
-                            let effect = counters.find(e => e.path === iconPath);
+                            let effect = actor.appliedEffects.find(e => e.icon === iconPath);
 
                             if (!effect) {
-                                let counterNumber = isBoolean ? 1 : effects[iconName];
-                                // Create the counter
-                                if (counterNumber) {
-                                    const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
-                                    counter.update();
+                                if(isVersion12) {
+                                    let counterNumber = isBoolean ? 1 : effects[iconName];
+                                    // Create the counter
+                                    if (counterNumber) {
+                                        const newEffect = await ActiveEffect.fromStatusEffect(CONFIG.statusEffects.find(itm => itm.icon === iconPath).id);
+                                        const counter = await actor.createEmbeddedDocuments('ActiveEffect', [newEffect]);
+                                        counter[0].statusCounter.setValue(counterNumber);
+                                    }
+                                } else {
+                                    let counterNumber = isBoolean ? 1 : effects[iconName];
+                                    // Create the counter
+                                    if (counterNumber) {
+                                        const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
+                                        counter.update();
+                                    }
                                 }
                             } else {
                                 switch (iconName) {
@@ -308,9 +288,16 @@ export default class HooksKnight {
                                     case 'immobilisation':
                                     case 'lumiere':
                                     case 'parasitage':
-                                        if (effect.value < effects[iconName]) {
-                                            // Update the counter
-                                            effect.setValue(effects[iconName]);
+                                        if(isVersion12) {
+                                            if (effect.statusCounter.displayValue < effects[iconName]) {
+                                                // Update the counter
+                                                effect.statusCounter.setValue(effects[iconName]);
+                                            }
+                                        } else {
+                                            if (effect.value < effects[iconName]) {
+                                                // Update the counter
+                                                effect.setValue(effects[iconName]);
+                                            }
                                         }
                                         break;
                                 }
@@ -329,7 +316,7 @@ export default class HooksKnight {
 
             html.find('.knight-roll button.applyAllAttaqueEffects').click(async ev => {
                 const tgt = $(ev.currentTarget);
-                const flags = message.flags;
+                const flags = message.flags.knight;
                 const weapon = flags.weapon;
 
                 for(const content of flags.content) {
@@ -348,8 +335,13 @@ export default class HooksKnight {
                             const split = effectName.split(' ');
                             const name = split[0];
                             const value = split[1];
+                            let skip = false;
 
-                            if(status.includes(name) && ((weapon.options.find(itm => itm.value === name)?.active ?? false) || !weapon.options.find(itm => itm.value === name))) {
+                            if((weapon.options.find(itm => itm.value === 'barrage')?.active ?? false) && name !== 'barrage') {
+                                skip = true;
+                            }
+
+                            if(status.includes(name) && !skip && ((weapon.options.find(itm => itm.value === name)?.active ?? false) || !weapon.options.find(itm => itm.value === name))) {
                                 if(conditionnel.includes(name)) {
                                     let isHit = false;
 
@@ -374,7 +366,7 @@ export default class HooksKnight {
                         const effectList = actor.type === 'bande'
                         ? ['lumiere']
                         : CONFIG.KNIGHT.LIST.EFFETS.status.attaque;
-                        effectList.map(iconName => {
+                        effectList.map(async iconName => {
                             const isBoolean = ['designation', 'soumission'].includes(iconName);
                             if (effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) {
                                 // Check if "Status Icon Counters" module is set
@@ -382,18 +374,25 @@ export default class HooksKnight {
                                     // Set the icon path in the system
                                     const iconPath = `systems/knight/assets/icons/effects/${iconName}.svg`;
 
-                                    // Get the counters
-                                    let counters = EffectCounter.getAllCounters(actor);
-
                                     // Get the effect
-                                    let effect = counters.find(e => e.path === iconPath);
+                                    let effect = actor.appliedEffects.find(e => e.icon === iconPath);
 
                                     if (!effect) {
-                                        let counterNumber = isBoolean ? 1 : effects[iconName];
-                                        // Create the counter
-                                        if (counterNumber) {
-                                            const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
-                                            counter.update();
+                                        if(isVersion12) {
+                                            let counterNumber = isBoolean ? 1 : effects[iconName];
+                                            // Create the counter
+                                            if (counterNumber) {
+                                                const newEffect = await ActiveEffect.fromStatusEffect(CONFIG.statusEffects.find(itm => itm.icon === iconPath).id);
+                                                const counter = await actor.createEmbeddedDocuments('ActiveEffect', [newEffect]);
+                                                counter[0].statusCounter.setValue(counterNumber);
+                                            }
+                                        } else {
+                                            let counterNumber = isBoolean ? 1 : effects[iconName];
+                                            // Create the counter
+                                            if (counterNumber) {
+                                                const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
+                                                counter.update();
+                                            }
                                         }
                                     } else {
                                         switch (iconName) {
@@ -403,9 +402,16 @@ export default class HooksKnight {
                                             case 'immobilisation':
                                             case 'lumiere':
                                             case 'parasitage':
-                                                if (effect.value < effects[iconName]) {
-                                                    // Update the counter
-                                                    effect.setValue(effects[iconName]);
+                                                if(isVersion12) {
+                                                    if (effect.statusCounter.displayValue < effects[iconName]) {
+                                                        // Update the counter
+                                                        effect.statusCounter.setValue(effects[iconName]);
+                                                    }
+                                                } else {
+                                                    if (effect.value < effects[iconName]) {
+                                                        // Update the counter
+                                                        effect.setValue(effects[iconName]);
+                                                    }
                                                 }
                                                 break;
                                         }
@@ -479,7 +485,7 @@ export default class HooksKnight {
                 // Get params
                 const {
                     token,
-                    dmg,
+                    dmgTaken,
                     dmgBonus = 0,
                     effects = [],
                     igncdf = false,
@@ -497,17 +503,22 @@ export default class HooksKnight {
                         resilience: false,
                         blindage: false
                     },
+                    surprise,
+                    msg,
+                    target,
                 } = data;
+                const alreadySurprise = msg.getFlag('knight', 'surprise');
+
+                let dmg = dmgTaken;
 
                 // Get actor
                 const actor = token.actor;
 
                 // Chair exceptionnelle
-                const hasChairMaj = !!actor.system.aspects?.chair?.ae?.majeur
+                const hasChairMaj = !!actor.system.aspects?.chair?.ae?.majeur?.value
                 const chairEx =
                     parseInt(actor.system.aspects?.chair?.ae?.mineur?.value || 0) +
                     parseInt(actor.system.aspects?.chair?.ae?.majeur?.value || 0);
-
                 const findValue = (name) =>
                     ((actor?.system?.options && typeof actor?.system?.options[name] !== 'undefined'
                     ? actor?.system?.options[name]
@@ -539,6 +550,14 @@ export default class HooksKnight {
                     || actor.type === 'vehicule'
                     || false;
 
+                if(surprise && !alreadySurprise) {
+                    if(effects?.revetementomega) dmg += parseInt(effects.revetementomega);
+
+                    if(effects?.assistanceattaque) {
+                        dmg += Math.max(target.difficulty-1, 0);
+                    }
+                }
+
                 // Other
                 const assassin = effects.assassin || 0;
                 let damageTotal = parseInt(dmg, 10) + parseInt(dmgBonus, 10) + assassin;
@@ -551,6 +570,7 @@ export default class HooksKnight {
                     else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
 
                     chatMessage += `<p><b>${game.i18n.localize('KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead')}.</b></p>`;
+
                     ChatMessage.create({
                         user: game.user._id,
                         speaker: ChatMessage.getSpeaker({ actor: actor }),
@@ -606,7 +626,8 @@ export default class HooksKnight {
                 const effectList = actor.type === 'bande'
                     ? []
                     : CONFIG.KNIGHT.LIST.EFFETS.status.degats;
-                effectList.map(iconName => {
+
+                effectList.map(async iconName => {
                     const isBoolean = ['designation', 'soumission'].includes(iconName);
                     if (effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) {
                         // Check if "Status Icon Counters" module is set
@@ -614,18 +635,25 @@ export default class HooksKnight {
                             // Set the icon path in the system
                             const iconPath = `systems/knight/assets/icons/effects/${iconName}.svg`;
 
-                            // Get the counters
-                            let counters = EffectCounter.getAllCounters(actor);
-
                             // Get the effect
-                            let effect = counters.find(e => e.path === iconPath);
+                            let effect = actor.appliedEffects.find(e => e.icon === iconPath);
 
                             if (!effect) {
-                                let counterNumber = isBoolean ? 1 : effects[iconName];
-                                // Create the counter
-                                if (counterNumber) {
-                                    const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
-                                    counter.update();
+                                if(isVersion12) {
+                                    let counterNumber = isBoolean ? 1 : effects[iconName];
+                                    // Create the counter
+                                    if (counterNumber) {
+                                        const newEffect = await ActiveEffect.fromStatusEffect(CONFIG.statusEffects.find(itm => itm.icon === iconPath).id);
+                                        const counter = await actor.createEmbeddedDocuments('ActiveEffect', [newEffect]);
+                                        counter[0].statusCounter.setValue(counterNumber);
+                                    }
+                                } else {
+                                    let counterNumber = isBoolean ? 1 : effects[iconName];
+                                    // Create the counter
+                                    if (counterNumber) {
+                                        const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
+                                        counter.update();
+                                    }
                                 }
                             } else {
                                 switch (iconName) {
@@ -635,9 +663,16 @@ export default class HooksKnight {
                                     case 'immobilisation':
                                     case 'lumiere':
                                     case 'parasitage':
-                                        if (effect.value < effects[iconName]) {
-                                            // Update the counter
-                                            effect.setValue(effects[iconName]);
+                                        if(isVersion12) {
+                                            if (effect.statusCounter.displayValue < effects[iconName]) {
+                                                // Update the counter
+                                                effect.statusCounter.setValue(effects[iconName]);
+                                            }
+                                        } else {
+                                            if (effect.value < effects[iconName]) {
+                                                // Update the counter
+                                                effect.setValue(effects[iconName]);
+                                            }
                                         }
                                         break;
                                 }
@@ -652,12 +687,11 @@ export default class HooksKnight {
                         }
                     }
                 });
-
                 // #####################
                 // Damages on resilience
                 // #####################
                 const briserResi = effects.briserlaresilience || 0;
-                if (resilience > 0 && dmgZone.resilience && (damagesLeft > 0 || briserResi > 0)) {
+                if (resilience > 0 && dmgZone.resilience && (damagesLeft > 0 || briserResi > 0) && !antiVehicule) {
                     // if damages are not already divided by 10
                     if (!damagesLeftDivideBy10) {
                         damagesLeft = Math.ceil(damagesLeft / 10);
@@ -700,7 +734,7 @@ export default class HooksKnight {
                 if (
                     armor > 0 &&
                     damagesLeft > 0 &&
-                    armor >= pierceArmor &&
+                    armor > pierceArmor &&
                     dmgZone.armure &&
                     (!ignarm || sante === 0 || (!dmgZone.sante && ignarm))
                 ) {
@@ -724,11 +758,21 @@ export default class HooksKnight {
                         armorDmg += damagesLeft > 0 ? damagesLeft : 0;
                     }
 
+                    // Calculate rest armor
+                    let dmgTakeByArmor = armor - armorDmg;
+
+                    if(dmgTakeByArmor < pierceArmor) {
+                        dmgTakeByArmor = pierceArmor;
+                        armorDmg = armor - pierceArmor;
+
+                        if(armorLessDestructeur > armorDmg) armorLessDestructeur = armorDmg;
+                    }
+
                     // Set the damages left
                     damagesLeft -= armorLessDestructeur;
 
                     // Update the actor and the chat message
-                    const armorRest = armor - armorDmg < 0 ? 0 : armor - armorDmg;
+                    const armorRest = dmgTakeByArmor < 0 ? 0 : dmgTakeByArmor;
                     actor.update({
                         'system.armure.value': armorRest,
                     });
@@ -842,13 +886,14 @@ export default class HooksKnight {
                 // Get params
                 const {
                     token,
-                    dmg,
+                    dmgTaken,
                     dmgBonus = 0,
                     effects = [],
                     igncdf = false,
                     ignarm = false,
                     ignegi = false,
                     esquive = false,
+                    antiVehicule = false,
                     pierceArmor = 0,
                     penetrating = 0,
                     dmgZone = {
@@ -859,7 +904,14 @@ export default class HooksKnight {
                         resilience: false,
                         blindage: false
                     },
+                    surprise,
+                    msg,
+                    target,
                 } = data;
+                const alreadySurprise = msg.getFlag('knight', 'surprise');
+
+                let dmg = parseInt(dmgTaken);
+
                 // Get actor
                 const actor = token.actor;
                 const actorIsKnight = actor.type === "knight";
@@ -923,6 +975,14 @@ export default class HooksKnight {
                 let espoirDmg = 0;
                 let espoirRest = espoir;
 
+                if(surprise && !alreadySurprise) {
+                    if(effects?.revetementomega) dmg += parseInt(effects.revetementomega);
+
+                    if(effects?.assistanceattaque) {
+                        dmg += Math.max(target.difficulty-1, 0);
+                    }
+                }
+
                 // Other
                 const assassin = effects.assassin || 0;
                 let damageTotal = parseInt(dmg, 10) + parseInt(dmgBonus, 10) + assassin;
@@ -979,7 +1039,7 @@ export default class HooksKnight {
                     hasArmor &&
                     armor > 0 &&
                     damagesLeft > 0 &&
-                    armor >= pierceArmor &&
+                    armor > pierceArmor &&
                     dmgZone.armure &&
                     (!ignarm || sante === 0 || (!dmgZone.sante && ignarm))
                 ) {
@@ -1003,11 +1063,21 @@ export default class HooksKnight {
                     armorDmg += damagesLeft > 0 ? damagesLeft : 0;
                     }
 
+                    // Calculate rest armor
+                    let dmgTakeByArmor = armor - armorDmg;
+
+                    if(dmgTakeByArmor < pierceArmor) {
+                        dmgTakeByArmor = pierceArmor;
+                        armorDmg = armor - pierceArmor;
+
+                        if(armorLessDestructeur > armorDmg) armorLessDestructeur = armorDmg;
+                    }
+
                     // Set the damages left
                     damagesLeft -= armorLessDestructeur;
 
                     // Update the actor and the chat message
-                    armorRest = armor - armorDmg < 0 ? 0 : armor - armorDmg;
+                    armorRest = dmgTakeByArmor < 0 ? 0 : dmgTakeByArmor;
                     actor.update({
                         'system.armure.value': armorRest,
                     });
@@ -1072,7 +1142,7 @@ export default class HooksKnight {
                 const effectList = actor.type === 'bande'
                     ? []
                     : CONFIG.KNIGHT.LIST.EFFETS.status.degats;
-                effectList.map(iconName => {
+                effectList.map(async iconName => {
                     const isBoolean = ['designation', 'soumission'].includes(iconName);
                     if (effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) {
                         // Check if "Status Icon Counters" module is set
@@ -1080,18 +1150,25 @@ export default class HooksKnight {
                             // Set the icon path in the system
                             const iconPath = `systems/knight/assets/icons/effects/${iconName}.svg`;
 
-                            // Get the counters
-                            let counters = EffectCounter.getAllCounters(actor);
-
                             // Get the effect
-                            let effect = counters.find(e => e.path === iconPath);
+                            let effect = actor.appliedEffects.find(e => e.icon === iconPath);
 
                             if (!effect) {
-                                let counterNumber = isBoolean ? 1 : effects[iconName];
-                                // Create the counter
-                                if (counterNumber) {
-                                    const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
-                                    counter.update();
+                                if(isVersion12) {
+                                    let counterNumber = isBoolean ? 1 : effects[iconName];
+                                    // Create the counter
+                                    if (counterNumber) {
+                                        const newEffect = await ActiveEffect.fromStatusEffect(CONFIG.statusEffects.find(itm => itm.icon === iconPath).id);
+                                        const counter = await actor.createEmbeddedDocuments('ActiveEffect', [newEffect]);
+                                        counter[0].statusCounter.setValue(counterNumber);
+                                    }
+                                } else {
+                                    let counterNumber = isBoolean ? 1 : effects[iconName];
+                                    // Create the counter
+                                    if (counterNumber) {
+                                        const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
+                                        counter.update();
+                                    }
                                 }
                             } else {
                                 switch (iconName) {
@@ -1101,9 +1178,16 @@ export default class HooksKnight {
                                     case 'immobilisation':
                                     case 'lumiere':
                                     case 'parasitage':
-                                        if (effect.value < effects[iconName]) {
-                                            // Update the counter
-                                            effect.setValue(effects[iconName]);
+                                        if(isVersion12) {
+                                            if (effect.statusCounter.displayValue < effects[iconName]) {
+                                                // Update the counter
+                                                effect.statusCounter.setValue(effects[iconName]);
+                                            }
+                                        } else {
+                                            if (effect.value < effects[iconName]) {
+                                                // Update the counter
+                                                effect.setValue(effects[iconName]);
+                                            }
                                         }
                                         break;
                                 }
@@ -1123,7 +1207,7 @@ export default class HooksKnight {
                 // Damages on resilience
                 // #####################
                 const briserResi = effects.briserlaresilience || 0;
-                if (hasResilience && resilience > 0 && dmgZone.resilience && (damagesLeft > 0 || briserResi > 0)) {
+                if (hasResilience && resilience > 0 && dmgZone.resilience && (damagesLeft > 0 || briserResi > 0) && (!antiVehicule || actorIsMechaArmor)) {
                     // Divide damages by 10
                     damagesLeft = Math.ceil(damagesLeft / 10);
 
@@ -1206,6 +1290,16 @@ export default class HooksKnight {
                 // Damages on espoir
                 // #################
                 if (hasEspoir && espoir > 0 && damagesLeft > 0 && dmgZone.espoir) {
+
+                    if(actor.system.armorISwear && actor.system.dataArmor) {
+                        const reduction = actor?.system?.dataArmor?.system?.special?.selected?.apeiron?.espoir?.reduction?.value ?? 0;
+
+                        damagesLeft -= reduction;
+                    }
+
+                    if(actor.system?.options?.kraken ?? false) damagesLeft -= 1;
+                    if(actor.system?.espoir?.reduction ?? 0) damagesLeft -= actor.system?.espoir?.reduction;
+
                     // Check if the damages are upper than the health
                     if (damagesLeft > espoir) {
                     espoirDmg += espoir;
@@ -1415,10 +1509,10 @@ export default class HooksKnight {
 
                 // Check if the armor need to fold
                 if (armorRest <= 0 && hasSante) {
-                    if (actor.system.wear !== 'guardian') {
+                    if (actor.system.wear === 'armure') {
                     chatMessage += `<p>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.ArmorFolds")}.</p>`;
                     // actor.update({ 'system.wear': 'guardian' }); //TODO Bug, it set the armor at 13 and the guardian armor value at 0
-                    } else {
+                    } else if(actor.system.wear === 'guardian') {
                     chatMessage += `<p>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.GuardianDontProtect")}</p>`;
                     }
                 }
@@ -1485,8 +1579,7 @@ export default class HooksKnight {
             // Create dialog for damages
             const doDamages = async (data) => {
                 // Get data
-                const {tokenId, dmg, effects, dmgType} = data;
-
+                const {tokenId, dmg, effects, dmgType, message} = data;
                 // Get token
                 const token = canvas?.tokens?.get(tokenId) ?? {isVisible:false};
 
@@ -1512,6 +1605,12 @@ export default class HooksKnight {
 
                 if (['pnj', 'creature', 'bande', 'vehicule'].includes(token.actor.type)) {
                     // Updates for PNJs
+                    const actor = token.actor;
+                    const options = actor.system.options;
+
+                    if(options?.resilience) dmgZone.resilience = true;
+                    if(options?.sante) dmgZone.sante = true;
+                    if(options?.armure) dmgZone.armure = true;
                 }
                 else if (['mechaarmure'].includes(token.actor.type)) {
                     // Updates for Mecha Armors
@@ -1565,7 +1664,8 @@ export default class HooksKnight {
                     token,
                     dmg: damages,
                     effects,
-                    dmgZone
+                    dmgZone,
+                    surprise: message.getFlag('knight', 'surprise'),
                 });
 
                 const dialogTitle = () => {
@@ -1612,7 +1712,7 @@ export default class HooksKnight {
                             // Get the datas
                             const data = {
                                 token: token,
-                                dmg: html.find('#dmg')[0]?.value,
+                                dmgTaken: html.find('#dmg')[0]?.value,
                                 effects: effects,
                                 dmgBonus: html.find('#dmgBonus')[0]?.value,
                                 igncdf: html.find('#igncdf')[0]?.checked,
@@ -1631,6 +1731,9 @@ export default class HooksKnight {
                                 },
                                 antiAnatheme: html.find('#antiAnatheme')[0]?.checked,
                                 antiVehicule: html.find('#antiVehicule')[0]?.checked,
+                                surprise: html.find('#surprise')[0]?.checked,
+                                msg:message,
+                                target:message.getFlag('knight', 'targets')?.find(tgt => tgt.id === tokenId) ?? undefined,
                             }
 
                             // Select the good damages
@@ -1675,7 +1778,7 @@ export default class HooksKnight {
                 });
 
             // Do damages
-            await doDamages({tokenId, dmg, effects, dmgType});
+            await doDamages({tokenId, dmg, effects, dmgType, message});
             });
 
             html.find('.knight-roll button.setDegatsAllTargets').click(async ev => {
@@ -1704,7 +1807,7 @@ export default class HooksKnight {
                 const dmg = targetsIdsDmgs[i].split('-')[1];
 
                 // Do damages
-                await doDamages({tokenId, dmg, effects, dmgType});
+                await doDamages({tokenId, dmg, effects, dmgType, message});
             }
             });
 
@@ -1718,12 +1821,12 @@ export default class HooksKnight {
                 name:`${actor.name}`,
             }, false);
 
-            roll.sendMessage({text:'Le débordement augmente...', classes:'important'});
+            roll.sendMessage({text:game.i18n.localize('KNIGHT.JETS.DebordementAugmente'), classes:'important'});
             });
 
             html.find('.knight-roll button.relancedegats').click(async ev => {
             const tgt = $(ev.currentTarget);
-            const flags = message.flags;
+            const flags = message.flags.knight;
             const weapon = flags.weapon;
             const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
 
@@ -1755,40 +1858,6 @@ export default class HooksKnight {
             };
 
             await roll.doRollDamage(data);
-            });
-
-            html.find('.knight-roll button.violence').click(async ev => {
-            const tgt = $(ev.currentTarget);
-            const flags = message.flags;
-            const weapon = flags.weapon;
-            const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
-
-            let addFlags = {
-                flavor:flags.flavor,
-                total:flags.content[0].total,
-                targets:flags.content[0].targets,
-                attaque:message.rolls,
-                weapon:weapon,
-                actor:actor,
-                surprise:flags.surprise,
-                style:flags.style,
-                dataStyle:flags.dataStyle,
-                dataMod:flags.dataMod,
-                maximize:flags.maximize,
-            };
-
-            const roll = new game.knight.RollKnight(actor, {
-                name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}`,
-                weapon:flags.weapon,
-                surprise:flags.surprise,
-            }, false);
-
-            await roll.doRollViolence({
-                total:flags.content[0].total,
-                targets:flags.content[0].targets,
-                attaque:message.rolls,
-                flags:addFlags,
-            });
             });
 
             html.find('.knight-roll div.listTargets div.target').mouseenter(ev => {
@@ -1827,4 +1896,5 @@ export default class HooksKnight {
         });
         //FIN GESTION MESSAGE
     }
+
 }

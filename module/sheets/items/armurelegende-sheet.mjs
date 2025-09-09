@@ -56,10 +56,17 @@ export class ArmureLegendeSheet extends ItemSheet {
       const capacites = data.data.system.capacites.all[value];
       const hasSpecial = capacites?.special || false;
       const alreadySpecial = data.data.system.special.selected?.[value] || false;
-
+      const selected = Object.values(data.data.system.capacites.selected).filter(element => element.key == value).length;
       let result = capacites;
+      let val = value;
+
+      if(val === 'personnalise' && selected > 0) {
+        val += selected;
+      }
+
       result.softlock = true;
-      result.key = value;
+      result.main = value;
+      result.key = val;
 
       let update = {
         system:{
@@ -67,7 +74,7 @@ export class ArmureLegendeSheet extends ItemSheet {
           capacites:{
             actuel:"",
             selected:{
-              [value]:result
+              [val]:result
             }
           },
           special:{
@@ -216,12 +223,10 @@ export class ArmureLegendeSheet extends ItemSheet {
 
     cArray.sort(SortByLabel);
 
-    if(Object.values(capacitesSelected).findIndex(element => element.key == "personnalise") == -1) {
-      cArray.unshift({
-        key:"personnalise",
-        label:capacites["personnalise"].label
-      });
-    }
+    cArray.unshift({
+      key:"personnalise",
+      label:capacites["personnalise"].label
+    });
 
     for (let i = 0;i < cArray.length;i++) {
       cObject[cArray[i].key] = {};

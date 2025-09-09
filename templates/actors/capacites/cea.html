@@ -46,11 +46,7 @@
                 </div>
                 <div class="effets">
                 {{#each this.salve.effets.liste as | key effet|}}
-                    <div>
-                        <span class="label">{{key.name}}</span>
-                        <img class="info" src="systems/knight/assets/icons/info.svg" />
-                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                    </div>
+                    {{~> systems/knight/templates/parts/effets.html type='cea_salve'}}
                 {{/each}}
                 </div>
             </div>
@@ -76,11 +72,7 @@
                 </div>
                 <div class="effets">
                 {{#each this.vague.effets.liste as | key effet|}}
-                    <div>
-                        <span class="label">{{key.name}}</span>
-                        <img class="info" src="systems/knight/assets/icons/info.svg" />
-                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                    </div>
+                    {{~> systems/knight/templates/parts/effets.html type='cea_vague'}}
                 {{/each}}
                 </div>
             </div>
@@ -104,11 +96,7 @@
                 </div>
                 <div class="effets">
                 {{#each this.rayon.effets.liste as | key effet|}}
-                    <div>
-                        <span class="label">{{key.name}}</span>
-                        <img class="info" src="systems/knight/assets/icons/info.svg" />
-                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                    </div>
+                    {{~> systems/knight/templates/parts/effets.html type='cea_rayon'}}
                 {{/each}}
                 </div>
             </div>

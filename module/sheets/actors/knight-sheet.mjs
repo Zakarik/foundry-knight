@@ -15,6 +15,10 @@ import {
   createSheet,
   actualiseRoll,
   getAllEffects,
+  capitalizeFirstLetter,
+  spawnTokenRightOfActor,
+  spawnTokensRightOfActor,
+  deleteTokens,
 } from "../../helpers/common.mjs";
 
 import toggler from '../../helpers/toggler.js';
@@ -29,7 +33,7 @@ export class KnightSheet extends ActorSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["knight", "sheet", "actor"],
       template: "systems/knight/templates/actors/knight-sheet.html",
-      width: 920,
+      width: 940,
       height: 720,
       tabs: [
         {navSelector: ".sheet-tabs", contentSelector: ".body", initial: "personnage"},
@@ -241,7 +245,6 @@ export class KnightSheet extends ActorSheet {
       const value = target.data("value") ? false : true;
       const hasFlux = target.data("flux") || false;
       const flux = hasFlux != false ? eval(hasFlux) : false;
-      const cout = eval(target.data("cout"));
       const isAllie = target.data("isallie");
       const capacite = target.data("capacite");
       const variant = target.data("variant");
@@ -249,6 +252,7 @@ export class KnightSheet extends ActorSheet {
       const dEspoir = target.data("despoir");
       const espoir = target.data("espoir");
       const caracteristiques = target.data("caracteristiques")?.split('.')?.filter((a) => a) || false;
+      let cout = eval(target.data("cout"));
 
       const getData = this.actor;
       const armure = await getArmor(this.actor);
@@ -256,7 +260,14 @@ export class KnightSheet extends ActorSheet {
       const armorCapacites = getData.armureData.system.capacites.selected;
 
       if(value && type !== 'modulePnj') {
-        const coutCalcule = remplaceEnergie && armure.system.espoir.cout > 0 && type === 'module' ? Math.max(Math.floor(cout / armure.system.espoir.cout), 1) : cout;
+        let coutCalcule = cout;
+
+        if(remplaceEnergie && type === 'module' && coutCalcule > 0) {
+          coutCalcule = armure.system.espoir.cout > 0 ? Math.max(Math.floor(cout / armure.system.espoir.cout), 1) : coutCalcule;
+
+          if(coutCalcule < 1) coutCalcule = 1;
+        }
+
         const depense = await this._depensePE(name, coutCalcule, true, false, flux, true);
 
         if(!depense) return;
@@ -290,23 +301,29 @@ export class KnightSheet extends ActorSheet {
 
               let update = {};
               update['name'] = `${name} : ${this.title}`;
+              update['prototypeToken.name'] = `${name} : ${this.title}`;
               update['img'] = armure.img;
+              update['prototypeToken.texture.src'] = armure.img;
               update['system.energie.value'] = cout;
               update['system.wear'] = "ascension";
               update['system.equipements.ascension'] = this.actor.system.equipements.armure;
 
-              newActor.update(update);
-              newActor.items.find(item => item.type === 'armure').update({[`system.energie.base`]:cout});
+              await newActor.update(update);
+              await newActor.items.find(item => item.type === 'armure').update({[`system.energie.base`]:cout});
 
-              armure.update({[`system.${toupdate}`]:{
+              await armure.update({[`system.${toupdate}`]:{
                 active:true,
                 depense:cout,
                 ascensionId:newActor.id
               }});
+
+              await spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
             } else {
               const actor = game.actors.get(id);
 
               if(actor !== undefined) await actor.delete();
+
+              await deleteTokens([actor.id]);
 
               armure.update({[`system.${toupdate}`]:{
                 active:false,
@@ -464,10 +481,7 @@ export class KnightSheet extends ActorSheet {
                         "base":dataLion.armure.base
                       },
                       "initiative":{
-                        "diceBase":dataLion.initiative.value,
-                        "bonus":{
-                          "user":dataLion.initiative.fixe,
-                        }
+                        "diceBase":dataLion.initiative.value
                       },
                       "defense":{
                         "base":dataLion.defense.value
@@ -487,8 +501,11 @@ export class KnightSheet extends ActorSheet {
                     },
                     [],
                     dataLion.img,
-                    dataLion.img
+                    dataLion?.token ?? dataLion.img,
+                    1
                   );
+
+                  await newActor.update({['system.initiative.bonus.user']:dataLion.initiative.fixe});
 
                   const nLItems = [];
 
@@ -517,6 +534,8 @@ export class KnightSheet extends ActorSheet {
                   await newActor.createEmbeddedDocuments("Item", nLItems);
 
                   update[`system.capacites.selected.companions.lion.id`] = newActor.id
+
+                  await spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
                   break;
 
                 case 'wolf':
@@ -527,7 +546,7 @@ export class KnightSheet extends ActorSheet {
                   const dataWMachine = dataWolf.aspects.machine;
                   const dataWDame = dataWolf.aspects.dame;
                   const dataWMasque = dataWolf.aspects.masque;
-
+                  const createdActors = [];
                   const dataActor = {
                     "aspects": {
                       "chair":{
@@ -558,10 +577,7 @@ export class KnightSheet extends ActorSheet {
                       "base":dataWolf.armure.base
                     },
                     "initiative":{
-                      "diceBase":dataWolf.initiative.value,
-                      "bonus":{
-                        "user":dataWolf.initiative.fixe,
-                      }
+                      "diceBase":dataWolf.initiative.value
                     },
                     "defense":{
                       "base":dataWolf.defense.base
@@ -590,8 +606,11 @@ export class KnightSheet extends ActorSheet {
                       dataActor,
                       {},
                       dataWolf.img,
-                      dataWolf.img
+                      dataWolf?.token ?? dataWolf.img,
+                      1
                     );
+
+                    await newActor.update({['system.initiative.bonus.user']:dataWolf.initiative.fixe});
                     const nWItems = [];
                     const nWItem = {
                       name:dataWolf.armes.contact.coups.label,
@@ -618,7 +637,10 @@ export class KnightSheet extends ActorSheet {
                     await newActor.createEmbeddedDocuments("Item", nWItems);
 
                     update[`system.capacites.selected.companions.wolf.id.id${i}`] = newActor.id;
+                    createdActors.push(newActor);
                   }
+
+                  await spawnTokensRightOfActor(createdActors, this.actor);
                   break;
 
                 case 'crow':
@@ -664,10 +686,7 @@ export class KnightSheet extends ActorSheet {
                         "base":dataCrow.cohesion.base
                       },
                       "initiative":{
-                        "diceBase":dataCrow.initiative.value,
-                        "bonus":{
-                          "user":dataCrow.initiative.fixe,
-                        }
+                        "diceBase":dataCrow.initiative.value
                       },
                       "defense":{
                         "base":dataCrow.defense.value
@@ -690,12 +709,37 @@ export class KnightSheet extends ActorSheet {
                     },
                     {},
                     dataCrow.img,
-                    dataCrow.img
+                    dataCrow?.token ?? dataCrow.img,
+                    1
                   );
+                  await newActor.update({['system.initiative.bonus.user']:dataCrow.initiative.fixe});
 
                   update[`system.capacites.selected.companions.crow.id`] = newActor.id;
+
+                  await spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
                   break;
               }
+
+              const msgCompanions = {
+                flavor:`${name}`,
+                main:{
+                  total:`${game.i18n.format("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Invocation", {type:game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.${special.toUpperCase()}.Label`)})}`
+                }
+              };
+
+              const msgActiveCompanions = {
+                user: game.user.id,
+                speaker: {
+                  actor: getData?.id || null,
+                  token: getData?.token?.id || null,
+                  alias: getData?.name || null,
+                },
+                type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+                content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
+                sounds:CONFIG.sounds.notification,
+              };
+
+              await ChatMessage.create(msgActiveCompanions);
             } else {
               let recupValue = 0;
 
@@ -706,6 +750,8 @@ export class KnightSheet extends ActorSheet {
                   recupValue = actorLion?.system?.energie?.value || 0;
 
                   this._gainPE(recupValue, true, false);
+
+                  await deleteTokens([actorLion.id]);
 
                   if(Object.keys(actorLion).length != 0) await actorLion.delete();
                   break;
@@ -722,6 +768,8 @@ export class KnightSheet extends ActorSheet {
 
                   this._gainPE(recupValue, true, false);
 
+                  await deleteTokens([actor1Wolf.id, actor2Wolf.id, actor3Wolf.id]);
+
                   if(Object.keys(actor1Wolf).length != 0) await actor1Wolf.delete();
                   if(Object.keys(actor2Wolf).length != 0) await actor2Wolf.delete();
                   if(Object.keys(actor3Wolf).length != 0) await actor3Wolf.delete();
@@ -735,9 +783,32 @@ export class KnightSheet extends ActorSheet {
 
                   this._gainPE(recupValue, true, false);
 
+                  await deleteTokens([actorCrow.id]);
+
                   if(Object.keys(actorCrow).length != 0) await actorCrow.delete();
                   break;
               }
+
+              const msgCompanions = {
+                flavor:`${name}`,
+                main:{
+                  total:`${game.i18n.format("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Revocation", {type:game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.${special.toUpperCase()}.Label`)})}`
+                }
+              };
+
+              const msgActiveCompanions = {
+                user: game.user.id,
+                speaker: {
+                  actor: getData?.id || null,
+                  token: getData?.token?.id || null,
+                  alias: getData?.name || null,
+                },
+                type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+                content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
+                sounds:CONFIG.sounds.notification,
+              };
+
+              await ChatMessage.create(msgActiveCompanions);
             }
 
             armure.update(update);
@@ -1024,16 +1095,46 @@ export class KnightSheet extends ActorSheet {
               data = dataModule.system,
               dataNiveau = data.niveau.actuel;
 
-        dataModule.update({[`system.active.base`]:value});
+        let moduleUpdate = {[`system.active.base`]:value};
+        let abort = false;
 
         if(dataNiveau.jetsimple.has && value) {
           const roll = new game.knight.RollKnight(this.actor, {
             name:`${dataNiveau.jetsimple.label}`,
             dices:`${dataNiveau.jetsimple.jet}`,
+            item:dataModule,
+            effectspath:'jetsimple.effets',
           }, false);
 
-          await roll.doRoll({}, dataNiveau.jetsimple.effets);
+          if(data.hasOtherMunition('jetsimple')) {
+            await roll.doRoll({}, dataNiveau.jetsimple.effets);
+          } else {
+            await roll.sendMessage({
+                text:game.i18n.localize('KNIGHT.JETS.ChargeurVide'),
+                classes:'important',
+            });
+          }
         }
+
+        if(!data.hasOtherMunition('module') && value && dataNiveau.effets.has) {
+          abort = true;
+          const roll = new game.knight.RollKnight(this.actor, {
+            name:`${dataModule.name}`,
+          }, false);
+
+          await roll.sendMessage({
+            text:game.i18n.localize('KNIGHT.JETS.ChargeurVide'),
+            classes:'important',
+          });
+        } else if(dataNiveau.effets.raw.find(itm => itm.includes('chargeur')) && value) {
+          const findModuleChargeur = dataNiveau.effets.raw.find(itm => itm.includes('chargeur'));
+          const chargeur = dataNiveau.effets?.chargeur ?? null;
+
+          if(chargeur === null) moduleUpdate[`system.niveau.details.n${data.getNiveau}.effets.chargeur`] = Math.max(parseInt(findModuleChargeur.split(' ')[1])-1, 0);
+          else moduleUpdate[`system.niveau.details.n${data.getNiveau}.effets.chargeur`] = Math.max(parseInt(chargeur)-1, 0);
+        }
+
+        if(!abort) dataModule.update(moduleUpdate);
       }
 
       if(type === 'modulePnj') {
@@ -1161,13 +1262,16 @@ export class KnightSheet extends ActorSheet {
             system.debordement.value = dataPnj.debordement;
           }
 
-          newActor = await Actor.create({
-            name: `${this.title} : ${dataPnj.nom}`,
-            type: dataPnj.type,
-            img:dataModule.img,
-            system:system,
-            permission:this.actor.ownership
-          });
+          newActor = await createSheet(
+            this.actor,
+            dataPnj.type,
+            `${this.title} : ${dataPnj.nom}`,
+            system,
+            {},
+            dataModule.img,
+            dataModule.img,
+            1
+          );
 
           if(dataPnj.armes.has && dataPnj.type !== 'bande') {
             const items = [];
@@ -1203,7 +1307,7 @@ export class KnightSheet extends ActorSheet {
               }
 
               const nItem = {
-                name:arme.nom,
+                name:arme?.nom ?? game.i18n.localize('TYPES.Item.arme'),
                 type:'arme',
                 system:wpn,
                 };
@@ -1222,10 +1326,14 @@ export class KnightSheet extends ActorSheet {
             'id':newActor.id
           }});
 
+          await spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
+
         } else if(!value) {
           const actor = game.actors.get(dataModule.system.id);
 
           if(actor !== undefined) await actor.delete();
+
+          await deleteTokens([actor.id]);
 
           dataModule.update({[`system`]:{
             'active':{
@@ -1236,6 +1344,14 @@ export class KnightSheet extends ActorSheet {
           }});
         }
       }
+
+      const exec = new game.knight.RollKnight(this.actor,
+        {
+        name:value ? game.i18n.localize(`KNIGHT.ACTIVATION.Label`) : game.i18n.localize(`KNIGHT.ACTIVATION.Desactivation`),
+        }).sendMessage({
+            text:name ? name : getData.items.get(module).name,
+            sounds:CONFIG.sounds.notification,
+        });
     });
 
     html.find('.armure .activationLegende').click(async ev => {
@@ -1372,10 +1488,7 @@ export class KnightSheet extends ActorSheet {
                       "base":dataLion.armure.base
                     },
                     "initiative":{
-                      "diceBase":dataLion.initiative.value,
-                      "bonus":{
-                        "user":dataLion.initiative.fixe,
-                      }
+                      "diceBase":dataLion.initiative.value
                     },
                     "defense":{
                       "base":dataLion.defense.value
@@ -1394,8 +1507,10 @@ export class KnightSheet extends ActorSheet {
                   },
                   dataLion.modules,
                   dataLion.img,
-                  dataLion.img
+                  dataLion?.token ?? dataLion.img,
+                  1
                 );
+                await newActor.update({['system.initiative.bonus.user']:dataLion.initiative.fixe});
 
                 const nLItems = [];
 
@@ -1424,12 +1539,10 @@ export class KnightSheet extends ActorSheet {
                 await newActor.createEmbeddedDocuments("Item", nLItems);
 
                 update[`system.capacites.selected.companions.lion.id`] = newActor.id
+                await spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
                 break;
 
               case 'wolf':
-                let newActor2;
-                let newActor3;
-
                 const dataWolf = armorCapacites.companions.wolf;
 
                 const dataWChair = dataWolf.aspects.chair;
@@ -1437,6 +1550,7 @@ export class KnightSheet extends ActorSheet {
                 const dataWMachine = dataWolf.aspects.machine;
                 const dataWDame = dataWolf.aspects.dame;
                 const dataWMasque = dataWolf.aspects.masque;
+                const createdActors = [];
 
                 const dataActor = {
                   "aspects": {
@@ -1468,10 +1582,7 @@ export class KnightSheet extends ActorSheet {
                     "base":dataWolf.armure.base
                   },
                   "initiative":{
-                    "diceBase":dataWolf.initiative.value,
-                    "bonus":{
-                      "user":dataWolf.initiative.fixe,
-                    }
+                    "diceBase":dataWolf.initiative.value
                   },
                   "defense":{
                     "base":dataWolf.defense.base
@@ -1500,8 +1611,12 @@ export class KnightSheet extends ActorSheet {
                     dataActor,
                     {},
                     dataWolf.img,
-                    dataWolf.img
+                    dataWolf?.token ?? dataWolf.img,
+                    1
                   );
+
+                  await newActor.update({['system.initiative.bonus.user']:dataWolf.initiative.fixe});
+
                   const nWItems = [];
                   const nWItem = {
                     name:dataWolf.armes.contact.coups.label,
@@ -1528,7 +1643,10 @@ export class KnightSheet extends ActorSheet {
                   await newActor.createEmbeddedDocuments("Item", nWItems);
 
                   update[`system.capacites.selected.companions.wolf.id.id${i}`] = newActor.id;
+                  createdActors.push(newActor);
                 }
+
+                await spawnTokensRightOfActor(createdActors, this.actor);
                 break;
 
               case 'crow':
@@ -1574,10 +1692,7 @@ export class KnightSheet extends ActorSheet {
                       "base":dataCrow.cohesion.base
                     },
                     "initiative":{
-                      "diceBase":dataCrow.initiative.value,
-                      "bonus":{
-                        "user":dataCrow.initiative.fixe,
-                      }
+                      "diceBase":dataCrow.initiative.value
                     },
                     "defense":{
                       "base":dataCrow.defense.value
@@ -1597,10 +1712,13 @@ export class KnightSheet extends ActorSheet {
                   },
                   {},
                   dataCrow.img,
-                  dataCrow.img
+                  dataCrow?.token ?? dataCrow.img,
+                  1
                 );
+                await newActor.update({['system.initiative.bonus.user']:dataCrow.initiative.fixe});
 
                 update[`system.capacites.selected.companions.crow.id`] = newActor.id;
+                await spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
                 break;
             }
           }  else {
@@ -1610,6 +1728,8 @@ export class KnightSheet extends ActorSheet {
                 const actorLion = game.actors.get(idLion);
 
                 this._gainPE(actorLion.system.energie.value, true, false);
+
+                await deleteTokens([actorLion.id]);
 
                 await actorLion.delete();
                 break;
@@ -1624,6 +1744,8 @@ export class KnightSheet extends ActorSheet {
 
                 this._gainPE(actor1Wolf.system.energie.value, true, false);
 
+                await deleteTokens([actor1Wolf.id, actor2Wolf.id, actor3Wolf.id]);
+
                 await actor1Wolf.delete();
                 await actor2Wolf.delete();
                 await actor3Wolf.delete();
@@ -1634,6 +1756,8 @@ export class KnightSheet extends ActorSheet {
                 const actorCrow = game.actors.get(idCrow);
 
                 this._gainPE(actorCrow.system.energie.value, true, false);
+
+                await deleteTokens([actorCrow.id]);
 
                 await actorCrow.delete();
                 break;
@@ -2186,6 +2310,76 @@ export class KnightSheet extends ActorSheet {
       const configuration = target.data("configuration");
       const armure = await getArmor(this.actor);
       const armorCapacites = armure.system.capacites.selected.companions;
+      const idWolf = armorCapacites.wolf.id;
+
+      const actor1Wolf = game.actors.get(idWolf.id1);
+      const actor2Wolf = game.actors.get(idWolf.id2);
+      const actor3Wolf = game.actors.get(idWolf.id3);
+
+      const wolf1Energie = +actor1Wolf.system.energie.value;
+      const wolf2Energie = +actor2Wolf.system.energie.value;
+      const wolf3Energie = +actor3Wolf.system.energie.value;
+      let fonctionne = false;
+
+      if(wolf1Energie-4 >= 0) {
+        actor1Wolf.update({[`system`]:{
+          'energie':{
+            'value':wolf1Energie-4
+          },
+          'configurationActive':configuration
+        }});
+        fonctionne = true;
+      }
+
+      if(wolf2Energie-4 >= 0) {
+        actor2Wolf.update({[`system`]:{
+          'energie':{
+            'value':wolf2Energie-4
+          },
+          'configurationActive':configuration
+        }});
+        fonctionne = true;
+      }
+
+      if(wolf3Energie-4 >= 0) {
+        actor3Wolf.update({[`system`]:{
+          'energie':{
+            'value':wolf3Energie-4
+          },
+          'configurationActive':configuration
+        }});
+        fonctionne = true
+      }
+
+      if(fonctionne) {
+        const msgCompanions = {
+          flavor:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Change")}`,
+          main:{
+            total:`${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.${configuration.toUpperCase()}.Label`)}`
+          }
+        };
+
+        const msgActiveCompanions = {
+          user: game.user.id,
+          speaker: {
+            actor: this.actor?.id || null,
+            token: this.actor?.token?.id || null,
+            alias: this.actor?.name || null,
+          },
+          type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+          content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
+          sound: CONFIG.sounds.dice
+        };
+
+        await ChatMessage.create(msgActiveCompanions);
+      }
+    });
+
+    html.find('.armure .useConfigurationWolf').click(async ev => {
+      const target = $(ev.currentTarget);
+      const configuration = target.data("configuration");
+      const armure = await getArmor(this.actor);
+      const armorCapacites = armure.system.capacites.selected.companions;
       const detailsConfigurations = armorCapacites.wolf.configurations;
       const idWolf = armorCapacites.wolf.id;
 
@@ -2197,7 +2391,7 @@ export class KnightSheet extends ActorSheet {
       const wolf2Energie = +actor2Wolf.system.energie.value;
       const wolf3Energie = +actor3Wolf.system.energie.value;
       const depenseEnergie = +detailsConfigurations[configuration].energie;
-
+      let fonctionne = false;
 
       if(wolf1Energie-depenseEnergie >= 0) {
         actor1Wolf.update({[`system`]:{
@@ -2206,6 +2400,7 @@ export class KnightSheet extends ActorSheet {
           },
           'configurationActive':configuration
         }});
+        fonctionne = true
       }
 
       if(wolf2Energie-depenseEnergie >= 0) {
@@ -2215,6 +2410,7 @@ export class KnightSheet extends ActorSheet {
           },
           'configurationActive':configuration
         }});
+        fonctionne = true
       }
 
       if(wolf3Energie-depenseEnergie >= 0) {
@@ -2224,6 +2420,29 @@ export class KnightSheet extends ActorSheet {
           },
           'configurationActive':configuration
         }});
+        fonctionne = true
+      }
+      if(fonctionne) {
+        const msgCompanions = {
+          flavor:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Use")}`,
+          main:{
+            total:`${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.CONFIGURATIONS.${configuration.toUpperCase()}.Label`)}`
+          }
+        };
+
+        const msgActiveCompanions = {
+          user: game.user.id,
+          speaker: {
+            actor: this.actor?.id || null,
+            token: this.actor?.token?.id || null,
+            alias: this.actor?.name || null,
+          },
+          type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+          content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
+          sound: CONFIG.sounds.dice
+        };
+
+        await ChatMessage.create(msgActiveCompanions);
       }
     });
 
@@ -2354,6 +2573,7 @@ export class KnightSheet extends ActorSheet {
           armure.update(itemUpdate);
           break;
         case "typeLegende":
+          console.warn(armureLegende)
           const typeLegende = armureLegende.system.capacites.selected['type'];
           const typeLegendeSelectionne = typeLegende.selectionne || 0;
           calcul = typeLegendeSelectionne;
@@ -2448,6 +2668,23 @@ export class KnightSheet extends ActorSheet {
       const violenceD = target.data("violence");
       const violenceF = target?.data("violencefixe") || 0;
       const cout = target?.data("cout") || false;
+      const listtargets = game.user.targets;
+      const allTargets = [];
+      let activeTenebricide = true;
+
+      if(listtargets && listtargets.size > 0) {
+        for(let t of listtargets) {
+          const actor = t.actor;
+
+          allTargets.push({
+              id:t.id,
+              name:actor.name,
+              aspects:actor.system.aspects,
+              type:actor.type,
+              effets:[],
+          });
+        }
+      }
 
       if(cout !== false) {
         const tCout = eval(cout);
@@ -2467,7 +2704,7 @@ export class KnightSheet extends ActorSheet {
       const roll = new game.knight.RollKnight(this.actor, {
         name:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Degats")}`,
       }, false);
-      const weapon = roll.prepareWpnContact({
+      const weapon = roll.prepareWpnDistance({
         name:`${label}`,
         system:{
           degats:{dice:degatsD, fixe:degatsF},
@@ -2475,13 +2712,16 @@ export class KnightSheet extends ActorSheet {
           effets:{raw:raw, custom:custom},
         }
       });
+      if(weapon.effets.raw.includes('tenebricide') && !await confirmationDialog("active", "Activation", {effect:game.i18n.localize("KNIGHT.EFFETS.TENEBRICIDE.Label")})) activeTenebricide = false;
       const options = weapon.options;
 
       for(let o of options) {
-        o.active = true;
+
+        if(o.value === 'tenebricide') o.active = activeTenebricide;
+        else o.active = true;
       }
 
-      const flags = roll.getRollData(weapon)
+      const flags = roll.getRollData(weapon, {targets:allTargets})
       roll.setWeapon(weapon);
       await roll.doRollDamage(flags);
 
@@ -2497,6 +2737,23 @@ export class KnightSheet extends ActorSheet {
       const degatsD = target.data("degats");
       const degatsF = target?.data("degatsfixe") || 0;
       const cout = target?.data("cout") || false;
+      const listtargets = game.user.targets;
+      const allTargets = [];
+      let activeTenebricide = true;
+
+      if(listtargets && listtargets.size > 0) {
+        for(let t of listtargets) {
+          const actor = t.actor;
+
+          allTargets.push({
+              id:t.id,
+              name:actor.name,
+              aspects:actor.system.aspects,
+              type:actor.type,
+              effets:[],
+          });
+        }
+     }
 
       if(cout !== false) {
         const tCout = eval(cout);
@@ -2516,7 +2773,7 @@ export class KnightSheet extends ActorSheet {
       const roll = new game.knight.RollKnight(this.actor, {
         name:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Degats")}`,
       }, false);
-      const weapon = roll.prepareWpnContact({
+      const weapon = roll.prepareWpnDistance({
         name:`${label}`,
         system:{
           degats:{dice:degatsD, fixe:degatsF},
@@ -2524,13 +2781,17 @@ export class KnightSheet extends ActorSheet {
           effets:{raw:raw, custom:custom},
         }
       });
+
+      if(weapon.effets.raw.includes('tenebricide') && !await confirmationDialog("active", "Activation", {effect:game.i18n.localize("KNIGHT.EFFETS.TENEBRICIDE.Label")})) activeTenebricide = false;
       const options = weapon.options;
 
       for(let o of options) {
-        o.active = true;
+
+        if(o.value === 'tenebricide') o.active = activeTenebricide;
+        else o.active = true;
       }
 
-      const flags = roll.getRollData(weapon)
+      const flags = roll.getRollData(weapon, {targets:allTargets});
       roll.setWeapon(weapon);
       await roll.doRollDamage(flags);
     });
@@ -2543,6 +2804,23 @@ export class KnightSheet extends ActorSheet {
       const violenceD = target.data("violence");
       const violenceF = target?.data("violencefixe") || 0;
       const cout = target?.data("cout") || false;
+      const listtargets = game.user.targets;
+      const allTargets = [];
+      let activeTenebricide = true;
+
+      if(listtargets && listtargets.size > 0) {
+        for(let t of listtargets) {
+          const actor = t.actor;
+
+          allTargets.push({
+              id:t.id,
+              name:actor.name,
+              aspects:actor.system.aspects,
+              type:actor.type,
+              effets:[],
+          });
+        }
+      }
 
       if(cout !== false) {
         const tCout = eval(cout);
@@ -2562,7 +2840,7 @@ export class KnightSheet extends ActorSheet {
       const roll = new game.knight.RollKnight(this.actor, {
         name:`${label} : ${game.i18n.localize("KNIGHT.AUTRE.Violence")}`,
       }, false);
-      const weapon = roll.prepareWpnContact({
+      const weapon = roll.prepareWpnDistance({
         name:`${label}`,
         system:{
           degats:{dice:0, fixe:0},
@@ -2570,13 +2848,17 @@ export class KnightSheet extends ActorSheet {
           effets:{raw:raw, custom:custom},
         }
       });
+
+      if(weapon.effets.raw.includes('tenebricide') && !await confirmationDialog("active", "Activation", {effect:game.i18n.localize("KNIGHT.EFFETS.TENEBRICIDE.Label")})) activeTenebricide = false;
       const options = weapon.options;
 
       for(let o of options) {
-        o.active = true;
+
+        if(o.value === 'tenebricide') o.active = activeTenebricide;
+        else o.active = true;
       }
 
-      const flags = roll.getRollData(weapon)
+      const flags = roll.getRollData(weapon, {targets:allTargets})
       roll.setWeapon(weapon);
       await roll.doRollViolence(flags);
     });
@@ -3094,14 +3376,14 @@ export class KnightSheet extends ActorSheet {
           }
         }
 
-        const rNods = new game.knight.RollKnight(targetTo.actor, {
+        const rNods = new game.knight.RollKnight(targetTo?.actor, {
           name:game.i18n.localize(`KNIGHT.JETS.Nods${nods}`),
           dices: dices,
           bonus:[recuperation],
           addContent:btn,
           addFlags:{
             type:'nods',
-            target:targetTo.id,
+            target:targetTo?.id,
             nod:nods,
           }
         }, false);
@@ -3397,9 +3679,10 @@ export class KnightSheet extends ActorSheet {
       const id = target.data("num");
       const dataArmor = await getArmor(this.actor);
       const listEvolutions = dataArmor.system.evolutions.liste;
-      const dataEArmor = listEvolutions[id].data;
-      const capacites = listEvolutions[id].capacites;
-      let special = listEvolutions[id].special;
+      console.warn(dataArmor);
+      const dataEArmor = listEvolutions[id]?.data ?? {};
+      const capacites = listEvolutions[id]?.capacites ?? {};
+      let special = listEvolutions[id]?.special ?? {};
       const gloireListe = this.actor.system.progression.gloire.depense.liste;
       const isEmpty = gloireListe[0]?.isEmpty ?? false;
       const addOrder =  Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
@@ -3452,6 +3735,8 @@ export class KnightSheet extends ActorSheet {
     });
 
     html.find('.appliquer-evolution-companions').click(ev => {
+      const target = $(ev.currentTarget);
+      const id = target.data("num");
       const dataCompanions = this.actor.armureData.system.capacites.selected.companions;
       const dataWolfConfig = dataCompanions.wolf.configurations;
       let data = this.actor.armureData.system.evolutions.special.companions.evolutions;
@@ -3590,6 +3875,7 @@ export class KnightSheet extends ActorSheet {
       data['wolf'].bonusRestant = data.wolf.bonus;
 
       data['crow']['aspects'].restant = data.crow.aspects.value;
+      data['evo'] = id;
 
       const companions = new game.knight.applications.KnightCompanionsDialog({
         title: this.actor.name+" : "+game.i18n.localize("KNIGHT.ITEMS.ARMURE.EVOLUTIONS.EvolutionCompanion"),
@@ -3771,12 +4057,13 @@ export class KnightSheet extends ActorSheet {
         case 'sante':
         case 'armure':
         case 'energie':
+        case 'contacts':
           if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
-          html.find(`div.${type} input.value`).val(max);
+          this.actor.update({[`system.${type}.value`]:max});
           break;
 
         case 'grenades':
-          html.find(`div.${type} input.value`).val(max);
+          this.actor.update({[`system.combat.${type}.quantity.value`]:max});          html.find(`div.${type} input.value`).val(max);
           break;
 
         case 'nods':
@@ -3787,10 +4074,40 @@ export class KnightSheet extends ActorSheet {
             const name = split[0];
             const max = split[1];
 
-            html.find(`div.${type} input.${name}Value`).val(max);
+            update[`system.combat.${type}.${name}.value`] = max;
           }
+
+          this.actor.update(update);
+          break;
+
+        case 'chargeur':
+          if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
+          const items = this.actor.items.filter(itm => itm.type === 'arme' || itm.type === 'module' || itm.type === 'armure');
+
+          items.forEach(itm => {
+            itm.system.resetMunition();
+          })
+
+          const exec = new game.knight.RollKnight(this.actor,
+          {
+          name:this.actor.name,
+          }).sendMessage({
+              text:game.i18n.localize('KNIGHT.JETS.RemplirChargeur'),
+              classes:'important',
+              sounds:CONFIG.sounds.notification,
+          });
           break;
       }
+
+      if(type === 'chargeur') return;
+
+      const exec = new game.knight.RollKnight(this.actor,
+        {
+        name:'',
+        }).sendMessage({
+            text:game.i18n.localize(`KNIGHT.RECUPERER.MSG.${capitalizeFirstLetter(type)}`),
+            sounds:CONFIG.sounds.notification,
+        });
     });
 
     html.find('a.add').click(ev => {
@@ -3802,10 +4119,20 @@ export class KnightSheet extends ActorSheet {
       switch(type) {
         case 'grenade':
           const getGrenades = this.actor.system.combat.grenades.liste;
-          const getLength = Object.keys(getGrenades).length;
+          let maxGrenadeNumber = 5; // commence à 5 car on veut au moins 6
+
+          Object.keys(getGrenades).forEach(key => {
+            const match = key.match(/^grenade_(\d+)$/);
+            if (match) {
+              const num = parseInt(match[1], 10);
+              if (num > maxGrenadeNumber) {
+                maxGrenadeNumber = num;
+              }
+            }
+          });
 
           update[`system.combat.grenades.liste`] = {
-            [`grenade_${getLength}`]: {
+            [`grenade_${maxGrenadeNumber + 1}`]: {
               "custom":true,
               "label":"",
               "degats": {
@@ -3843,6 +4170,18 @@ export class KnightSheet extends ActorSheet {
       this.actor.update(update);
     });
 
+    html.find('div.grenades a.unlocked').click(ev => {
+      const target = $(ev.currentTarget);
+      const id = target.data("id");
+      const grenades = this.actor.system.combat.grenades.liste[id];
+      const unlocked = grenades?.unlocked ?? false;
+
+      let update = {};
+      update[`system.combat.grenades.liste.${id}.unlocked`] = !unlocked;
+
+      this.actor.update(update);
+    });
+
     html.find('div.effets a.edit').click(async ev => {
       const data = this.getData();
       const maxEffets = data.systemData.type === 'contact' ? data?.systemData?.restrictions?.contact?.maxEffetsContact || undefined : undefined;
@@ -3856,11 +4195,40 @@ export class KnightSheet extends ActorSheet {
 
       await new game.knight.applications.KnightEffetsDialog({actor:this.actor._id, item:null, isToken:this?.document?.isToken || false, token:this?.token || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
     });
+
+    html.find('a.btnChargeurPlus').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item").length > 0 ? tgt.parents(".item") : tgt.parents(".headerData");
+      const index = tgt.parents(".btnChargeur").data('index');
+      const raw = header.data('raw');
+      const type = raw ? raw : tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.addMunition(index, type, munition, pnj, wpn);
+    });
+
+    html.find('a.btnChargeurMoins').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item").length > 0 ? tgt.parents(".item") : tgt.parents(".headerData");
+      const index = tgt.parents(".btnChargeur").data('index');
+      const raw = header.data('raw');
+      const type = raw ? raw : tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.removeMunition(index, type, munition, pnj, wpn);
+    });
   }
 
   /* -------------------------------------------- */
   async _onItemCreate(event) {
     event.preventDefault();
+    const actorData = this.actor.system;
     const gloireListe = this.actor.system.progression.gloire.depense.liste;
     const isEmpty = gloireListe[0]?.isEmpty ?? false;
     const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
@@ -3882,7 +4250,8 @@ export class KnightSheet extends ActorSheet {
 
     // Remove the type from the dataset since it's in the itemData.type prop.
     delete itemData.system["type"];
-    const hasCapaciteCompanions = data.actor?.armureData?.system?.capacites?.selected?.companions || false;
+    const hasCapaciteCompanions = this.actor?.armureData?.system?.capacites?.selected?.companions || false;
+    const hasCapaciteCompanionsLegend = this.actor?.armureLegendeData?.system?.capacites?.selected?.companions || false;
 
     if (type === 'arme') {
       itemData.system = {
@@ -3903,8 +4272,8 @@ export class KnightSheet extends ActorSheet {
       };
       delete itemData.system["subtype"];
     }
-
-    if(type === 'module' && hasCapaciteCompanions) {
+    console.warn(type)
+    if((type === 'module' && hasCapaciteCompanions) || (type === 'module' && hasCapaciteCompanionsLegend)) {
       const hasArmure = actorData.equipements.armure.hasArmor;
 
       if(!hasArmure) return;
@@ -3999,6 +4368,7 @@ export class KnightSheet extends ActorSheet {
     const data = this.actor;
     const actorData = data.system;
     const hasCapaciteCompanions = data?.armureData?.system?.capacites?.selected?.companions || false;
+    const hasCapaciteCompanionsLegend = data?.armureLegendeData?.system?.capacites?.selected?.companions || false;
     const gloireListe = actorData.progression.gloire.depense.liste;
     const isEmpty = gloireListe[0]?.isEmpty ?? false;
     const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
@@ -4016,7 +4386,7 @@ export class KnightSheet extends ActorSheet {
       }
     }
 
-    if(itemBaseType === 'module' && hasCapaciteCompanions) {
+    if((itemBaseType === 'module' && hasCapaciteCompanions) || (itemBaseType === 'module' && hasCapaciteCompanionsLegend)) {
       if(!hasArmor) return;
 
       const askContent = await renderTemplate("systems/knight/templates/dialog/ask-sheet.html", {what:game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.LION.Ajoutermodule")});
@@ -4481,6 +4851,105 @@ export class KnightSheet extends ActorSheet {
       bonusViolence:{
         "contact":[],
         "distance":[]
+      },
+      slots:{
+        tete:{
+          used:0,
+          value:0
+        },
+        torse:{
+          used:0,
+          value:0
+        },
+        brasGauche:{
+          used:0,
+          value:0
+        },
+        brasDroit:{
+          used:0,
+          value:0
+        },
+        jambeGauche:{
+          used:0,
+          value:0
+        },
+        jambeDroite:{
+          used:0,
+          value:0
+        }
+      }
+    };
+    let lionLegend = {
+      armure:{
+        bonus:[0],
+        malus:[0]
+      },
+      champDeForce:{
+        bonus:[0],
+        malus:[0]
+      },
+      defense:{
+        bonus:[0],
+        malus:[0]
+      },
+      reaction:{
+        bonus:[0],
+        malus:[0]
+      },
+      energie:{
+        bonus:[0],
+        malus:[0]
+      },
+      initiative:{
+        bonus:[0],
+        malus:[0]
+      },
+      armes:{
+        contact:[],
+        distance:[]
+      },
+      modules:[],
+      bonusDgtsVariable:{
+        "contact":[],
+        "distance":[]
+      },
+      bonusViolenceVariable:{
+        "contact":[],
+        "distance":[]
+      },
+      bonusDgts:{
+        "contact":[],
+        "distance":[]
+      },
+      bonusViolence:{
+        "contact":[],
+        "distance":[]
+      },
+      slots:{
+        tete:{
+          used:0,
+          value:0
+        },
+        torse:{
+          used:0,
+          value:0
+        },
+        brasGauche:{
+          used:0,
+          value:0
+        },
+        brasDroit:{
+          used:0,
+          value:0
+        },
+        jambeGauche:{
+          used:0,
+          value:0
+        },
+        jambeDroite:{
+          used:0,
+          value:0
+        }
       }
     };
 
@@ -4510,8 +4979,8 @@ export class KnightSheet extends ActorSheet {
 
           if(!AlreadyEvo && PGEvo <= totalPG) {
             evolutionsAchetables.push({
-              id:key,
-              value:PGEvo
+              value:PGEvo,
+              id:key
             });
           }
         }
@@ -4526,6 +4995,7 @@ export class KnightSheet extends ActorSheet {
           if(nbreEvo > nbreEvoApplied) {
             for(let n = nbreEvoApplied+1; n <= nbreEvo;n++) {
               evolutionsCompanions.push({
+                id:n,
                 value:valueEvo*n
               });
             }
@@ -4642,6 +5112,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label')}`,
                   type:'armure',
+                  raw:'borealis',
                   system:{
                     subCapaciteName:'borealis',
                     capacite:true,
@@ -4663,6 +5134,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.OFFENSIF.Label')}`,
                   type:'armure',
+                  raw:'borealis',
                   system:{
                     subCapaciteName:'borealis',
                     capacite:true,
@@ -4686,6 +5158,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label'),
                   type:'armure',
+                  raw:'cea_vague',
                   system:{
                     subCapaciteName:'vague',
                     capacite:true,
@@ -4706,6 +5179,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label'),
                   type:'armure',
+                  raw:'cea_salve',
                   system:{
                     subCapaciteName:'salve',
                     capacite:true,
@@ -4726,6 +5200,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label'),
                   type:'armure',
+                  raw:'cea_rayon',
                   system:{
                     subCapaciteName:'rayon',
                     capacite:true,
@@ -4747,6 +5222,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.VAGUE.Label'),
                   type:'armure',
+                  raw:'cea_vague',
                   system:{
                     subCapaciteName:'vague',
                     capacite:true,
@@ -4767,6 +5243,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.SALVE.Label'),
                   type:'armure',
+                  raw:'cea_salve',
                   system:{
                     subCapaciteName:'salve',
                     capacite:true,
@@ -4787,6 +5264,7 @@ export class KnightSheet extends ActorSheet {
                   _id:i._id,
                   name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.CEA.RAYON.Label'),
                   type:'armure',
+                  raw:'cea_rayon',
                   system:{
                     subCapaciteName:'rayon',
                     capacite:true,
@@ -4811,6 +5289,7 @@ export class KnightSheet extends ActorSheet {
                     _id:i._id,
                     name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame')}`,
                     type:'armure',
+                    raw:'morph_lame',
                     system:{
                       subCapaciteName:'lame',
                       capacite:true,
@@ -4834,6 +5313,7 @@ export class KnightSheet extends ActorSheet {
                     _id:i._id,
                     name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe')}`,
                     type:'armure',
+                    raw:'morph_griffe',
                     system:{
                       subCapaciteName:'griffe',
                       capacite:true,
@@ -4857,6 +5337,7 @@ export class KnightSheet extends ActorSheet {
                     _id:i._id,
                     name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon')}`,
                     type:'armure',
+                    raw:'morph_canon',
                     system:{
                       subCapaciteName:'canon',
                       capacite:true,
@@ -5055,6 +5536,13 @@ export class KnightSheet extends ActorSheet {
             }
           }
 
+          lion.slots.tete.used += i.system.slots.tete;
+          lion.slots.brasGauche.used += i.system.slots.brasGauche;
+          lion.slots.brasDroit.used += i.system.slots.brasDroit;
+          lion.slots.torse.used += i.system.slots.torse;
+          lion.slots.jambeDroite.used += i.system.slots.jambeDroite;
+          lion.slots.jambeGauche.used += i.system.slots.jambeGauche;
+
         } else {
           if(itemDataNiveau.permanent || itemActive) {
 
@@ -5172,7 +5660,8 @@ export class KnightSheet extends ActorSheet {
               const moduleEffetsFinal = {
                 raw:[...new Set(moiduleEffetsRaw)],
                 custom:moduleEffetsCustom,
-                liste:moduleEffets.liste
+                liste:moduleEffets.liste,
+                chargeur:moduleEffets?.chargeur,
               };
 
               const dataMunitions = itemArme?.optionsmunitions || {has:false};
@@ -5193,8 +5682,8 @@ export class KnightSheet extends ActorSheet {
                   const raw = dataMunitions.liste[i].raw.concat(armorSpecialRaw);
                   const custom = dataMunitions.liste[i].custom.concat(armorSpecialCustom);
 
-                  data.niveau.details[`n${niveau}`].arme.optionsmunitions.liste[i].raw = [...new Set(raw)];
-                  data.niveau.details[`n${niveau}`].arme.optionsmunitions.liste[i].custom = custom;
+                  data.niveau.actuel.arme.optionsmunitions.liste[i].raw = [...new Set(raw)];
+                  data.niveau.actuel.arme.optionsmunitions.liste[i].custom = custom;
                 }
 
                 degats = dataMunitions.liste[actuel].degats;
@@ -5376,16 +5865,6 @@ export class KnightSheet extends ActorSheet {
       // ARMURE DE LEGENDE
       if (i.type === 'armurelegende') {
         armureLegendeData = i;
-
-        const armorCapacites = data.capacites.selected;
-
-        for (let [key, capacite] of Object.entries(armorCapacites)) {
-          switch(key) {
-            case "vision":
-              if(armorData.capacites.vision.energie < capacite.energie.min) armorData.capacites.vision.energie = capacite.energie.min;
-              break;
-          }
-        }
       }
 
       // ART
@@ -5435,45 +5914,163 @@ export class KnightSheet extends ActorSheet {
     const hasCompanions = armureData?.system?.capacites?.selected?.companions || false;
 
     if(hasCompanions) {
-      const lionCDF = +armureData.system.capacites.selected.companions.lion.champDeForce.base;
-      const lionArmure = +armureData.system.capacites.selected.companions.lion.armure.base;
-      const lionDefense = +armureData.system.capacites.selected.companions.lion.defense.base;
-      const lionReaction = +armureData.system.capacites.selected.companions.lion.reaction.base;
-      const lionEnergie = +armureData.system.capacites.selected.companions.lion.energie.base;
-      const lionInitiativeB = +armureData.system.capacites.selected.companions.lion.initiative.value;
+      const lionData = armureData.system.capacites.selected.companions.lion;
+      const lionCDF = +lionData.champDeForce.base;
+      const lionArmure = +lionData.armure.base;
+      const lionDefense = +lionData.defense.base;
+      const lionReaction = +lionData.reaction.base;
+      const lionEnergie = +lionData.energie.base;
+      const lionInitiativeB = +lionData.initiative.value;
+      const lionSlots = lionData.slots;
 
-      armureData.system.capacites.selected.companions.lion.champDeForce.value = lionCDF+lion.champDeForce.bonus.reduce(sum)-lion.champDeForce.malus.reduce(sum);
-      armureData.system.capacites.selected.companions.lion.champDeForce.bonus = lion.champDeForce.bonus;
-      armureData.system.capacites.selected.companions.lion.champDeForce.malus = lion.champDeForce.malus;
+      lionData.champDeForce.value = lionCDF+lion.champDeForce.bonus.reduce(sum)-lion.champDeForce.malus.reduce(sum);
+      lionData.champDeForce.bonus = lion.champDeForce.bonus;
+      lionData.champDeForce.malus = lion.champDeForce.malus;
 
-      armureData.system.capacites.selected.companions.lion.armure.value = lionArmure+lion.armure.bonus.reduce(sum)-lion.armure.malus.reduce(sum);
-      armureData.system.capacites.selected.companions.lion.armure.bonus = lion.armure.bonus;
-      armureData.system.capacites.selected.companions.lion.armure.malus = lion.armure.malus;
+      lionData.armure.value = lionArmure+lion.armure.bonus.reduce(sum)-lion.armure.malus.reduce(sum);
+      lionData.armure.bonus = lion.armure.bonus;
+      lionData.armure.malus = lion.armure.malus;
 
-      armureData.system.capacites.selected.companions.lion.defense.value = lionDefense+lion.defense.bonus.reduce(sum)-lion.defense.malus.reduce(sum);
-      armureData.system.capacites.selected.companions.lion.defense.bonus = lion.defense.bonus;
-      armureData.system.capacites.selected.companions.lion.defense.malus = lion.defense.malus;
+      lionData.defense.value = lionDefense+lion.defense.bonus.reduce(sum)-lion.defense.malus.reduce(sum);
+      lionData.defense.bonus = lion.defense.bonus;
+      lionData.defense.malus = lion.defense.malus;
 
-      armureData.system.capacites.selected.companions.lion.reaction.value = lionReaction+lion.reaction.bonus.reduce(sum)-lion.reaction.malus.reduce(sum);
-      armureData.system.capacites.selected.companions.lion.reaction.bonus = lion.reaction.bonus;
-      armureData.system.capacites.selected.companions.lion.reaction.malus = lion.reaction.malus;
+      lionData.reaction.value = lionReaction+lion.reaction.bonus.reduce(sum)-lion.reaction.malus.reduce(sum);
+      lionData.reaction.bonus = lion.reaction.bonus;
+      lionData.reaction.malus = lion.reaction.malus;
 
-      armureData.system.capacites.selected.companions.lion.energie.value = lionEnergie+lion.energie.bonus.reduce(sum)-lion.energie.malus.reduce(sum);
-      armureData.system.capacites.selected.companions.lion.energie.bonus = lion.energie.bonus;
-      armureData.system.capacites.selected.companions.lion.energie.malus = lion.energie.malus;
+      lionData.energie.value = lionEnergie+lion.energie.bonus.reduce(sum)-lion.energie.malus.reduce(sum);
+      lionData.energie.bonus = lion.energie.bonus;
+      lionData.energie.malus = lion.energie.malus;
 
-      armureData.system.capacites.selected.companions.lion.initiative.total = lionInitiativeB+lion.energie.bonus.reduce(sum)-lion.energie.malus.reduce(sum);
-      armureData.system.capacites.selected.companions.lion.initiative.bonus = lion.initiative.bonus;
-      armureData.system.capacites.selected.companions.lion.initiative.malus = lion.initiative.malus;
+      lionData.initiative.total = lionInitiativeB+lion.energie.bonus.reduce(sum)-lion.energie.malus.reduce(sum);
+      lionData.initiative.bonus = lion.initiative.bonus;
+      lionData.initiative.malus = lion.initiative.malus;
 
-      armureData.system.capacites.selected.companions.lion.bonusDgtsVariable = lion.bonusDgtsVariable;
-      armureData.system.capacites.selected.companions.lion.bonusDgts = lion.bonusDgts;
+      lionData.bonusDgtsVariable = lion.bonusDgtsVariable;
+      lionData.bonusDgts = lion.bonusDgts;
 
-      armureData.system.capacites.selected.companions.lion.bonusViolenceVariable = lion.bonusViolenceVariable;
-      armureData.system.capacites.selected.companions.lion.bonusViolence = lion.bonusViolence;
+      lionData.bonusViolenceVariable = lion.bonusViolenceVariable;
+      lionData.bonusViolence = lion.bonusViolence;
 
-      armureData.system.capacites.selected.companions.lion.modules = [];
-      armureData.system.capacites.selected.companions.lion.modules = lion.modules;
+      lionData.modules = [];
+      lionData.modules = lion.modules;
+
+      if(!lionSlots) {
+        lionData.slots = {};
+        lionData.slots.tete = {
+          used:0,
+          value:8,
+        };
+        lionData.slots.torse = {
+          used:0,
+          value:10,
+        };
+        lionData.slots.brasGauche = {
+          used:0,
+          value:8,
+        };
+        lionData.slots.brasDroit = {
+          used:0,
+          value:8,
+        };
+        lionData.slots.jambeGauche = {
+          used:0,
+          value:8,
+        };
+        lionData.slots.jambeDroite = {
+          used:0,
+          value:8,
+        };
+      }
+
+      lionData.slots.tete.used = lion.slots.tete.used;
+      lionData.slots.torse.used = lion.slots.torse.used;
+      lionData.slots.brasGauche.used = lion.slots.brasGauche.used;
+      lionData.slots.brasDroit.used = lion.slots.brasDroit.used;
+      lionData.slots.jambeDroite.used = lion.slots.jambeDroite.used;
+      lionData.slots.jambeGauche.used = lion.slots.jambeGauche.used;
+    };
+
+    const hasCompanionsLegend = armureLegendeData?.system?.capacites?.selected?.companions || false;
+
+    if(hasCompanionsLegend) {
+      const lionData = armureLegendeData.system.capacites.selected.companions.lion;
+      const lionCDF = +lionData.champDeForce.base;
+      const lionArmure = +lionData.armure.base;
+      const lionDefense = +lionData.defense.base;
+      const lionReaction = +lionData.reaction.base;
+      const lionEnergie = +lionData.energie.base;
+      const lionInitiativeB = +lionData.initiative.value;
+      const lionSlots = lionData.slots;
+
+      lionData.champDeForce.value = lionCDF+lion.champDeForce.bonus.reduce(sum)-lion.champDeForce.malus.reduce(sum);
+      lionData.champDeForce.bonus = lion.champDeForce.bonus;
+      lionData.champDeForce.malus = lion.champDeForce.malus;
+
+      lionData.armure.value = lionArmure+lion.armure.bonus.reduce(sum)-lion.armure.malus.reduce(sum);
+      lionData.armure.bonus = lion.armure.bonus;
+      lionData.armure.malus = lion.armure.malus;
+
+      lionData.defense.value = lionDefense+lion.defense.bonus.reduce(sum)-lion.defense.malus.reduce(sum);
+      lionData.defense.bonus = lion.defense.bonus;
+      lionData.defense.malus = lion.defense.malus;
+
+      lionData.reaction.value = lionReaction+lion.reaction.bonus.reduce(sum)-lion.reaction.malus.reduce(sum);
+      lionData.reaction.bonus = lion.reaction.bonus;
+      lionData.reaction.malus = lion.reaction.malus;
+
+      lionData.energie.value = lionEnergie+lion.energie.bonus.reduce(sum)-lion.energie.malus.reduce(sum);
+      lionData.energie.bonus = lion.energie.bonus;
+      lionData.energie.malus = lion.energie.malus;
+
+      lionData.initiative.total = lionInitiativeB+lion.energie.bonus.reduce(sum)-lion.energie.malus.reduce(sum);
+      lionData.initiative.bonus = lion.initiative.bonus;
+      lionData.initiative.malus = lion.initiative.malus;
+
+      lionData.bonusDgtsVariable = lion.bonusDgtsVariable;
+      lionData.bonusDgts = lion.bonusDgts;
+
+      lionData.bonusViolenceVariable = lion.bonusViolenceVariable;
+      lionData.bonusViolence = lion.bonusViolence;
+
+      lionData.modules = [];
+      lionData.modules = lion.modules;
+
+      if(!lionSlots) {
+        lionData.slots = {};
+        lionData.slots.tete = {
+          used:0,
+          value:8,
+        };
+        lionData.slots.torse = {
+          used:0,
+          value:10,
+        };
+        lionData.slots.brasGauche = {
+          used:0,
+          value:8,
+        };
+        lionData.slots.brasDroit = {
+          used:0,
+          value:8,
+        };
+        lionData.slots.jambeGauche = {
+          used:0,
+          value:8,
+        };
+        lionData.slots.jambeDroite = {
+          used:0,
+          value:8,
+        };
+      }
+
+      lionData.slots.tete.used = lion.slots.tete.used;
+      lionData.slots.torse.used = lion.slots.torse.used;
+      lionData.slots.brasGauche.used = lion.slots.brasGauche.used;
+      lionData.slots.brasDroit.used = lion.slots.brasDroit.used;
+      lionData.slots.jambeDroite.used = lion.slots.jambeDroite.used;
+      lionData.slots.jambeGauche.used = lion.slots.jambeGauche.used;
     };
 
     if(capaciteultime) {
@@ -5671,7 +6268,7 @@ export class KnightSheet extends ActorSheet {
       if(!data) continue;
 
       const listData = {
-        modules:[{path:['system.effets', 'system.arme.effets', 'system.arme.distance', 'system.arme.structurelles', 'system.arme.ornementales', 'system.jetsimple.effets'], simple:true}],
+        modules:[{path:['system.niveau.actuel.effets', 'system.niveau.actuel.arme.effets', 'system.niveau.actuel.arme.distance', 'system.niveau.actuel.arme.structurelles', 'system.niveau.actuel.arme.ornementales', 'system.niveau.actuel.jetsimple.effets'], simple:true}],
         armes:[{path:['system.effets', 'system.effets2mains', 'system.distance', 'system.structurelles', 'system.ornementales'], simple:true}],
         grenades:[{path:['effets'], simple:true}]
       }[base.key];
@@ -5684,7 +6281,19 @@ export class KnightSheet extends ActorSheet {
           const dataMunitions = data[n].system.optionsmunitions;
 
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            value.liste = listEffects(value.raw, value.custom, labels);
+            value.liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
+          }
+        }
+
+        if(base.key === 'modules') {
+          const dataPnj = data[n].system?.niveau?.actuel?.pnj?.liste ?? {};
+
+          for(let pnj in dataPnj) {
+            for(let wpnPnj in dataPnj[pnj].armes.liste) {
+              const dataWpnPnj = dataPnj[pnj].armes.liste[wpnPnj];
+
+              dataWpnPnj.effets.liste = listEffects(dataWpnPnj.effets.raw, dataWpnPnj.effets.custom, labels, dataWpnPnj.effets?.chargeur);
+            }
           }
         }
       }
@@ -5698,7 +6307,7 @@ export class KnightSheet extends ActorSheet {
       if (!data) return;
       const effets = simple ? data : data.effets;
 
-      if(effets !== undefined) effets.liste = listEffects(effets.raw, effets.custom, labels);
+      if(effets !== undefined) effets.liste = listEffects(effets.raw, effets.custom, labels, effets?.chargeur);
     };
 
     if (!items) {
@@ -6174,7 +6783,9 @@ export class KnightSheet extends ActorSheet {
 
   _getArmorLegende() {
     const data = this.actor;
-    const armor = data.items.filter((a) => a.type === 'armurelegende');
+    let armor = data.items.find((a) => a.type === 'armurelegende');
+
+    if(!armor) armor = [];
 
     return armor;
   }

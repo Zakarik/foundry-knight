@@ -521,6 +521,30 @@ export class ModuleSheet extends ItemSheet {
 
       this.item.update({[`system.niveau.details.${key}.textarea.${type}`]:Math.max(height, min)});
     });
+
+    html.find('a.btnChargeurPlus').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+
+      this.item.system.addMunition(index, type, munition, pnj, wpn);
+      this.item.render();
+    });
+
+    html.find('a.btnChargeurMoins').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+
+      this.item.system.removeMunition(index, type, munition, pnj, wpn);
+      this.item.render();
+    });
   }
 
   _listeCategorie(context) {
@@ -742,15 +766,17 @@ export class ModuleSheet extends ItemSheet {
       if(beffets !== false) {
         const raw = beffets.raw;
         const custom = beffets.custom;
+        const munition = beffets.chargeur;
 
-        beffets.liste = listEffects(raw, custom, labels);
+        beffets.liste = listEffects(raw, custom, labels, munition);
       }
 
       if(effets !== false) {
         const raw = effets.raw;
         const custom = effets.custom;
+        const munition = effets.chargeur;
 
-        effets.liste = listEffects(raw, custom, labels);
+        effets.liste = listEffects(raw, custom, labels, munition);
       }
 
       for(let i = 0; i < length;i++) {
@@ -758,8 +784,10 @@ export class ModuleSheet extends ItemSheet {
 
         const bRaw = bEffets.raw;
         const bCustom = bEffets.custom;
+        const munition = bEffets.chargeur;
 
-        bEffets.liste = listEffects(bRaw, bCustom, labels);
+
+        bEffets.liste = listEffects(bRaw, bCustom, labels, munition);
       }
 
       if(distance !== false) {
@@ -786,8 +814,9 @@ export class ModuleSheet extends ItemSheet {
       if(effetsJetSimple !== false) {
         const raw = effetsJetSimple.raw;
         const custom = effetsJetSimple.custom;
+        const munition = effetsJetSimple.chargeur;
 
-        effetsJetSimple.liste = listEffects(raw, custom, labels);
+        effetsJetSimple.liste = listEffects(raw, custom, labels, munition);
       }
 
       for (let [key, pnj] of Object.entries(pnjListe)) {
@@ -797,8 +826,9 @@ export class ModuleSheet extends ItemSheet {
           for (let [kArme, arme] of Object.entries(pnjArmes)) {
             const rArme = arme.effets.raw;
             const cArme = arme.effets.custom;
+            const munition = arme.effets.chargeur;
 
-            arme.effets.liste = listEffects(rArme, cArme, labels);
+            arme.effets.liste = listEffects(rArme, cArme, labels, munition);
           }
         }
       }
@@ -820,9 +850,5 @@ export class ModuleSheet extends ItemSheet {
     }
 
     if (!foundry.utils.isEmpty(update)) this.item.update(update);
-  }
-
-  _prepareEffetsMunition(context) {
-
   }
 }

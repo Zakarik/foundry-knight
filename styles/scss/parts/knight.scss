@@ -37,7 +37,7 @@
           display:grid;
           width:100%;
           line-height:29px;
-          grid-template-columns: 30px 1fr 26px 8px 26px;
+          grid-template-columns: 30px 1fr 36px 8px 36px;
 
           span.option {
             display: inline-block;
@@ -116,7 +116,7 @@
           display: grid;
           width:100%;
           line-height:30px;
-          grid-template-columns: 1fr 60px;
+          grid-template-columns: 1fr 80px;
 
           span.label {
             display:inline-block;
@@ -167,7 +167,7 @@
           display:grid;
           width:100%;
           line-height:29px;
-          grid-template-columns:30px 1fr 60px;
+          grid-template-columns:30px 1fr 80px;
 
           span.option {
             display: inline-block;
@@ -212,10 +212,9 @@
 
         div.subLine {
           display: grid;
-          grid-template-columns: 1fr 60px;
+          grid-template-columns: 1fr 80px;
           width:100%;
           line-height:30px;
-          grid-template-columns: 1fr 60px;
 
           span.label {
             display:inline-block;
@@ -251,7 +250,7 @@
           display:grid;
           width:100%;
           line-height:29px;
-          grid-template-columns: 1fr 60px;
+          grid-template-columns: 1fr 80px;
 
           span.label {
             display:inline-block;
@@ -287,7 +286,7 @@
           display:grid;
           width:100%;
           line-height:29px;
-          grid-template-columns: 1fr 26px 8px 26px;
+          grid-template-columns: 1fr 36px 8px 36px;
 
           span.label {
             display:inline-block;
@@ -333,6 +332,42 @@
             background:$black;
             text-align:center;
             font-size:16px;
+            border-top: 1px solid $lightBlack;
+          }
+        }
+      }
+
+      div.reductionPEs {
+        div.line {
+          display:grid;
+          width:100%;
+          line-height:20px;
+          grid-template-columns: 1fr 45px;
+
+          span.label {
+            display:inline-block;
+            width:100%;
+            height:40px;
+            font-variant: small-caps;
+            font-size:14px;
+            letter-spacing: 1px;
+            padding-left:5px;
+            border-top: 1px solid $black;
+          }
+
+          input {
+            display: inline-block;
+            width:100%;
+            height:40px;
+            background:$black;
+            text-align:center;
+            font-size:16px;
+            border:0px;
+            border-radius:0px;
+            padding:0px;
+            margin:0px;
+            padding-bottom:1px;
+            z-index:10;
             border-top: 1px solid $lightBlack;
           }
         }
@@ -669,7 +704,7 @@
     }
 
     section.body {
-      width:calc(100% - 160px);
+      width:calc(100% - 180px);
       padding-left:10px;
       padding-top:40px;
       padding-right:0px;
@@ -879,12 +914,14 @@
           }
 
           div.block {
-            display:flex;
+            display:grid;
+            grid-template-columns: 100px 1fr;
             width:100%;
             flex-wrap: wrap;
             border:1px solid $lightBlue;
 
             header {
+              grid-column: 1 / 3;
               display:flex;
               width:100%;
               justify-content: space-between;
@@ -928,6 +965,12 @@
               text-align: justify;
               word-break:break-all;
               background:$lightBlack;
+            }
+
+            img {
+              display: none;
+              border: 0px;
+              border-top: 1px solid $lightBlack;
             }
           }
         }
@@ -1826,7 +1869,8 @@
             div.blockMultiline {
               width: 410px;
               right: 0px;
-              display: flex;
+              display: grid;
+              grid-template-columns: 1fr 1fr;
               margin-top: -22px;
               top: 0px;
               margin-left: auto;
@@ -1834,19 +1878,25 @@
               min-height:22px;
 
               button {
+                width:100%;
                 position:relative;
                 min-height:23px;
                 margin:0px;
+                border-left:1px solid $black;
 
                 &.choisi {
                   border-left-color:$black;
+                }
+
+                &.double {
+                  grid-column: 1 / 3;
                 }
               }
 
               select {
                 position:relative;
                 text-align: center;
-                width:204px;
+                width:100%;
                 height:22px;
                 line-height:22px;
                 margin:0px;
@@ -1885,8 +1935,8 @@
               }
 
               &>* {
-                &:not(:first-child) {
-                  border-right:0px;
+                &:nth-child(odd) {
+                  border-right:1px solid $lightBlack;
                 }
 
                 &:first-child {
@@ -2528,6 +2578,7 @@
                       padding-bottom: 5px;
                       padding-left: 5px;
                       border-top: 1px solid black;
+                      align-items: flex-start;
 
                       @include effets();
                     }
@@ -2857,15 +2908,15 @@
                         padding-bottom: 5px;
                         padding-left: 5px;
                         border-top: 1px solid black;
+                        align-items: flex-start;
 
                         @include effets();
                     }
                 }
 
-                div.modulesLion {
+                div.lionSlots {
                   width:100%;
-                  border-top:1px solid black;
-                  margin-top:5px;
+                  border-top:1px solid $black;
 
                   h5 {
                       width: 100%;
@@ -2876,6 +2927,76 @@
                       font-weight: normal;
                       text-transform: uppercase;
                       background:$lightBlack;
+                  }
+
+                  div.line {
+                      display: grid;
+                      grid-template-columns: repeat(6, 1fr);
+                      border-top: 1px solid black;
+
+                      div.block {
+                          display: grid;
+                          grid-template-columns: 1fr;
+                          flex-wrap: wrap;
+
+                          span {
+                              display:inline-block;
+                              width:100%;
+                              font-variant: small-caps;
+                              text-align: center;
+                              line-height: 26px;
+
+                              &.title {
+                                background:$lightBlack;
+                              }
+
+                              &.score {
+                                background:$black;
+                              }
+                          }
+
+                          &.red {
+                            span {
+                              color:red;
+                              font-weight:bold;
+                            }
+                          }
+
+                          &:not(:last-of-type) {
+                              span {
+                                &.title {
+                                  border-right:1px solid black;
+                                }
+
+                                &.score {
+                                  border-right:1px solid black;
+                                }
+                              }
+                          }
+                      }
+                  }
+                }
+
+                div.modulesLion {
+                  width:100%;
+                  border-top:1px solid $black;
+
+                  h5 {
+                      width: 100%;
+                      margin: 0px;
+                      line-height: 25px;
+                      font-size: 14px;
+                      padding-left: 5px;
+                      font-weight: normal;
+                      text-transform: uppercase;
+                      background:$lightBlack;
+                      position:relative;
+
+                      i {
+                        position: absolute;
+                        right: 5px;
+                        line-height: 22px;
+                      }
                   }
 
                   div.bModule {
@@ -3599,6 +3720,7 @@
                                 padding-bottom: 5px;
                                 padding-left: 5px;
                                 border-top: 1px solid black;
+                                align-items: flex-start;
 
                                 @include effets();
                               }
@@ -3874,6 +3996,7 @@
                                             border-top:1px solid $lightBlack;
                                             border-right:0px !important;
                                             border-left:0px !important;
+                                            align-items: flex-start;
 
                                             @include effets();
                                         }
@@ -4088,6 +4211,7 @@
                             padding-bottom: 5px;
                             padding-left: 5px;
                             border-top: 1px solid black;
+                            align-items: flex-start;
 
                             @include effets();
                         }
@@ -5102,6 +5226,7 @@
                         padding-bottom: 5px;
                         padding-left: 5px;
                         border-top: 1px solid black;
+                        align-items: flex-start;
 
                         @include effets();
                       }
@@ -5377,6 +5502,7 @@
                                     border-top:1px solid $lightBlack;
                                     border-right:0px !important;
                                     border-left:0px !important;
+                                    align-items: flex-start;
 
                                     @include effets();
                                 }
@@ -5977,6 +6103,87 @@
       div.historique {
         @include header();
 
+        h2.header {
+          span.option {
+            height: 22px;
+            border: 0px;
+            position: absolute;
+            left: 2px;
+            top: 0px;
+
+            img {
+              height: 22px;
+              border: 0px;
+              cursor:pointer;
+
+              &:hover {
+                filter: drop-shadow(0px 0px 5px $black);
+              }
+            }
+          }
+
+
+          div.data {
+            position: absolute;
+            width: 85px;
+            display: grid;
+            grid-template-columns: 40px 5px 40px;
+            justify-content: space-between;
+            align-items: center;
+            top: 1px;
+            right: 1px;
+            background: $lightBlack;
+            height: 21px;
+            line-height: 21px;
+
+            input {
+              position: relative;
+              font-size: 14px;
+              font-weight: normal;
+              height: 21px;
+              line-height: 21px;
+              border: 0px;
+              text-align: center;
+            }
+
+            span {
+              font-size: 14px;
+              font-weight: normal;
+              height: 20px;
+              line-height: 21px;
+            }
+          }
+
+          padding-left: 26px;
+        }
+
+        div.mainOptions {
+          width: 100%;
+        }
+
+        div.subLine {
+          display: grid;
+          grid-template-columns: 1fr 40px;
+          background: $lightBlack;
+          grid-gap: 2px;
+          align-items: center;
+          justify-content: left;
+          width: 100%;
+          border: 1px solid $lightBlack;
+
+          input {
+            width: 100%;
+            text-align: center;
+            border: 0px;
+            border-radius: 0px;
+            background: $black;
+          }
+
+          span {
+            margin-left: auto;
+          }
+        }
+
         div.main {
           display:flex;
           width:100%;
@@ -6055,7 +6262,7 @@
             h2.header {
               a.item-create {
                 position: absolute;
-                right: 45px;
+                right: 90px;
                 line-height: 22px;
               }
             }

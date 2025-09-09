@@ -13,7 +13,7 @@
         <div class="add">
             <a data-value="{{systemData.capacites.actuel}}">{{localize "KNIGHT.AUTRE.Ajouter"}}</a>
             <select name="system.capacites.actuel">
-                {{selectOptions systemData.capacites.liste selected=systemData.capacites.actuel localize=true blank='' nameAttr="key" labelAttr="label"}}
+                {{selectOptions systemData.capacites.liste selected=systemData.capacites.actuel localize=true blank='' valueAttr="key" labelAttr="label"}}
             </select>
         </div>
         {{#each systemData.capacites.selected as | key selected|}}
@@ -27,7 +27,7 @@
             {{localize "KNIGHT.ITEMS.ARMURE.Special"}}
         </h2>
         {{#each systemData.special.selected as | key selected|}}
-            {{#if (capaciteIsValid @root key selected)}} {{~> (specialLegende)}} {{/if}}
+            {{#if (capaciteIsValid @root key selected)}} {{~> (specialLegende . key)}} {{/if}}
         {{/each}}
     </div>
 </form>

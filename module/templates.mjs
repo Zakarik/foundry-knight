@@ -122,6 +122,7 @@ export const PreloadTemplates = async function() {
     `${path}/actors/special/porteurlumiere.html`,
     `${path}/actors/special/recolteflux.html`,
     `${path}/actors/special/energiedeficiente.html`,
+    `${path}/actors/subtab/historique.html`,
     `${path}/actors/subtab/armes.html`,
     `${path}/actors/subtab/grenades.html`,
     `${path}/actors/subtab/longbow.html`,
@@ -215,6 +216,7 @@ export const PreloadTemplates = async function() {
     `${path}/items/capacitesUltimes/passives/vision.html`,
     `${path}/items/capacitesUltimes/passives/warlord.html`,
     `${path}/items/capacitesUltimes/actives/base.html`,
+    `${path}/parts/effets.html`,
   ];
 
   // Load the template parts

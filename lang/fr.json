@@ -278,7 +278,8 @@
       "Resilience":"Résilience",
       "Bouclier":"Bouclier",
       "Noyaux":"Noyaux d'énergie",
-      "Noyau":"Noyau d'énergie"
+      "Noyau":"Noyau d'énergie",
+      "ReductionPEs":"Réductions des pertes d'espoir"
     },
     "PERSONNAGE":{
       "Label":"Personnage",
@@ -490,6 +491,7 @@
         },
         "AKIMBO": {
           "FullLabel":"Style Akimbo",
+          "SecondWpn":"Faites un clique droit sur l'arme secondaire que vous voulez utiliser.",
           "Label": "Akimbo",
           "Info": "<b>Bonus :</b> Peut effectuer une attaque avec deux armes simultanéments. Cumule les dés de Dégâts de ses deux armes. Additionne la moitié des dés de Violence de la seconde arme avec ceux de la première. <br/><br/><b>Malus :</b> -3D Attaque."
         },
@@ -747,7 +749,10 @@
       "CHARGEUR": {
         "Label":"Chargeur",
         "Description":"L’arme ou le module dispose d’un nombre d’utilisations indiqué par X. Une fois utilisé autant de fois que X, on estime qu’il n’a plus de munitions et ne peut donc plus faire feu. L’arme ou le module doit être rechargé (gratuitement) à Camelot entre deux missions.",
-        "Description-short":"L’arme ou le module dispose d’un nombre d’utilisations indiqué par X."
+        "Description-short":"L’arme ou le module dispose d’un nombre d’utilisations indiqué par X.",
+        "Restaurer":"Restaurer tous les chargeurs",
+        "RemplirChargeur":"Remettre 1 charge de Chargeur",
+        "ViderChargeur":"Retirer 1 charge de Chargeur"
       },
       "CHOC": {
         "Label":"Choc",
@@ -782,7 +787,8 @@
       "DESIGNATION": {
         "Label":"Désignation",
         "Description":"L'arme peut désigner une cible (une seule cible, pas une bande) une fois par tour. Son utilisateur et ses alliés reçoivent un bonus de 1 réussite automatique pour toucher la cible et ignorent toujours les éventuels échecs critiques qu'ils pourraient subir lorsqu'ils tentent de la toucher. Désigner une cible ne coûte pas d'action. Il n'y a aucun test à effectuer pour désigner une cible et la portée de la _désignation_ est celle de l'arme utilisée. La cible demeure désignée durant toute la scène ou toute la phase de conflit. Une fois désignée, l'armure va suivre les mouvements et les bruits de la cible et représenter sa position, ce qui permet au chevalier de lui tirer dessus avec une arme disposant de l'effet _artillerie_ notamment, ou d'utiliser automatiquement tout effet venant de ses éventuelles visions alternatives. L'effet permet par exemple, couplé avec un module de type vision prédatrice, de voir la cible à travers les murs, silhouettée sur la visière à Réalité Augmentée de la méta-armure. Tant que la signature de la cible reste visible par la méta-armure, la cible reste désignée.\r\n**Attention** : L'effet ne peut être cumulé sur une même cible.",
-        "Description-short":"L'arme peut désigner une cible (une seule cible, pas une bande) une fois par tour. Son utilisateur et ses alliés reçoivent un bonus de 1 réussite automatique pour toucher la cible et ignorent toujours les éventuels échecs critiques qu'ils pourraient subir lorsqu'ils tentent de la toucher."
+        "Description-short":"L'arme peut désigner une cible (une seule cible, pas une bande) une fois par tour. Son utilisateur et ses alliés reçoivent un bonus de 1 réussite automatique pour toucher la cible et ignorent toujours les éventuels échecs critiques qu'ils pourraient subir lorsqu'ils tentent de la toucher.",
+        "IgnoreEpicFail":"Ignore les échecs critiques"
       },
       "DESTRUCTEUR": {
         "Label":"Destructeur",
@@ -897,6 +903,9 @@
         "Label":"Perce Armure",
         "Description":"L'arme ignore une certaine valeur d'armure, X représentant cette valeur. Si la valeur est égale ou supérieure aux points d'armure de l'ennemi, le total de PA est simplement ignoré et la santé est directement touchée.",
         "Description-short":"L'arme ignore une certaine valeur d'armure, X représentant cette valeur.."
+      },
+      "PEUR":{
+        "Label":"Peur"
       },
       "PRECISION": {
         "Label":"Precision",
@@ -1441,6 +1450,10 @@
             "AspectsExceptionnelsRepartir":"Points d'aspects exceptionnels à répartir",
             "AspectsExceptionnelsRestantRepartir":"Points d'aspects exceptionnels restant à répartir",
             "NiveauConfigurationRestant":"Niveau restant à répartir",
+            "Invocation":"Invocation : {type}",
+            "Revocation":"Révocation : {type}",
+            "Change":"Changement de configuration",
+            "Use":"Utilisation de configuration",
             "ENERGIE":{
               "Base":"Générer un compagnon",
               "Prolonger":"Prolonger un compagnon",
@@ -1452,6 +1465,7 @@
             "LION":{
               "Label":"Lion",
               "Img":"Image du Lion",
+              "Token":"Token du Lion",
               "CEvolutions":"Chaque évolution du Lion",
               "Pointgloiredepart":"Points de gloires de départ",
               "BonusPointgloire":"Points de gloire bonus pour des modules",
@@ -1461,12 +1475,15 @@
             "WOLF":{
               "Label":"Wolf",
               "Img":"Image des Wolf",
+              "Token":"Token des Wolf",
               "CEvolutions":"Chaque évolution du Wolf",
               "BonusRepartir":"Nombre de configurations à augmenter",
               "EvolutionConfigurations":"Evolution des configurations",
               "CONFIGURATIONS":{
                 "Label":"Configurations",
                 "Active":"Configuration active",
+                "Utiliser":"Utiliser la configuration",
+                "Utiliser-hint":"Dépense les PE de l'utilisation de la configuration actuelle sur tous les wolf.",
                 "Disponible":"Configurations disponibles",
                 "LABOR":{
                   "Label":"Labor",
@@ -1493,6 +1510,7 @@
             "CROW":{
               "Label":"Crow",
               "Img":"Image des Crow",
+              "Token":"Token des Crow",
               "CEvolutions":"Chaque évolution du Crow",
               "Cohesion":"Bonus de cohésion",
               "Debordement":"Bonus de débordement",
@@ -2105,7 +2123,8 @@
           "Has":"Applique/Possède des effets",
           "Hasnt":"N'applique pas/Ne possède pas d'effets"
         },
-        "CoutAugmentation":"Energie par augmentation"
+        "CoutAugmentation":"Energie par augmentation",
+        "CoutAttaque":"Energie par attaque"
       },
       "ARME":{
         "Nom":"Nom de l'arme",
@@ -2197,6 +2216,8 @@
       "ModificateurViolence":"Modificateur de violence",
       "JetEspoir":"Jet d'espoir",
       "JetEgide":"Jet d'egide",
+      "JetPeur":"Résultat du jet pour résister à la peur ?",
+      "DureePeur":"Durée de la peur",
       "OtherEffects":"Autres effets",
       "Notheroisme":"Pas assez d'héroisme",
       "Notenergie":"Pas assez d'énergie",
@@ -2235,6 +2256,10 @@
       "ModeHeroique":"Mode Héroique",
       "AppliquerEffets":"Appliquer tous les effets",
       "AppliquerEffetsAll":"Appliquer les effets à toutes les cibles",
+      "ChargeurVide":"Chargeur vide",
+      "RemplirChargeur":"Rempli tous les chargeurs",
+      "Remet1Charge":"Remet 1 charge",
+      "Retire1Charge":"Retire 1 charge",
       "RESULTATS":{
         "Affecte":"Affecté",
         "PasAffecte":"Pas affecté",
@@ -2359,10 +2384,13 @@
       "ConfirmationArmure":"Êtes vous sûre de vouloir récupérer toute votre armure ?",
       "ConfirmationSante":"Êtes vous sûre de vouloir récupérer toute votre santé ?",
       "ConfirmationEspoir":"Êtes vous sûre de vouloir récupérer toute votre espoir ?",
+      "ConfirmationChargeur":"Êtes vous sûre de vouloir restaurer tous vos chargeurs ?",
+      "ConfirmationContacts":"Êtes vous sûre de vouloir restaurer tous vos points de contacts ?",
       "Reset":"Reset",
       "Difficulte":"Difficulté",
       "MJOnly":"MJ Uniquement",
-      "NoGrenades":"Vous n'avez plus de grenades."
+      "NoGrenades":"Vous n'avez plus de grenades.",
+      "Activation":"Voulez-vous activer {effect} ?"
     },
     "PHASE2":{
       "Label":"Phase 2",
@@ -2425,6 +2453,7 @@
     },
     "ACTIVATION": {
       "Label": "Activation",
+      "Desactivation":"Désactivation",
       "Aucune": "Aucune",
       "Instantanee": "Instantanée",
       "Deplacement": "Action de déplacement",
@@ -2796,7 +2825,17 @@
       "Armure":"Restaurer l'armure",
       "Energie":"Restaurer l'énergie",
       "Grenades":"Restaurer les grenades",
-      "Nods":"Restaurer les nods"
+      "Nods":"Restaurer les nods",
+      "Contacts":"Restaurer les points de contacts",
+      "MSG":{
+        "Espoir":"Restaure son espoir",
+        "Sante":"Restaure sa santé",
+        "Armure":"Restaure son armure",
+        "Energie":"Restaure son énergie",
+        "Grenades":"Restaure ses grenades",
+        "Nods":"Restaure ses nods",
+        "Contacts":"Restaure ses points de contacts"
+      }
     },
     "HIDESHOW":{
       "Hide":"Cliquez pour cacher cet encart lorsque la fiche est limitée.",

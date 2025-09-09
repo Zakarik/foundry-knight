@@ -237,6 +237,31 @@ export class ArmeSheet extends ItemSheet {
 
       await this.item.update(update);
     });
+
+    html.find('a.btnChargeurPlus').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+
+      this.item.system.addMunition(index, type, munition, pnj, wpn);
+
+      this.item.render();
+    });
+
+    html.find('a.btnChargeurMoins').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+
+      this.item.system.removeMunition(index, type, munition, pnj, wpn);
+      this.item.render();
+    });
   }
 
   async _onDrop(event) {
@@ -460,7 +485,7 @@ export class ArmeSheet extends ItemSheet {
     const bCustom = bEffets.custom;
     const labels = getAllEffects();
 
-    bEffets.liste = listEffects(bRaw, bCustom, labels);
+    bEffets.liste = listEffects(bRaw, bCustom, labels, bEffets?.chargeur);
   }
 
   _prepareEffets2Mains(context) {
@@ -470,7 +495,7 @@ export class ArmeSheet extends ItemSheet {
     const bCustom = bEffets.custom;
     const labels = getAllEffects();
 
-    bEffets.liste = listEffects(bRaw, bCustom, labels);
+    bEffets.liste = listEffects(bRaw, bCustom, labels, bEffets?.chargeur);
   }
 
   _prepareEffetsMunition(context) {
@@ -484,7 +509,7 @@ export class ArmeSheet extends ItemSheet {
       const bCustom = bEffets.custom;
       const labels = getAllEffects();
 
-      bEffets.liste = listEffects(bRaw, bCustom, labels);
+      bEffets.liste = listEffects(bRaw, bCustom, labels, bEffets?.chargeur);
     }
   }
 

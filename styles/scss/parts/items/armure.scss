@@ -859,6 +859,7 @@
                             padding-bottom: 19px;
                             padding-left: 5px;
                             border-top: 1px solid black;
+                            align-items: flex-start;
 
                             @include effets();
                         }
@@ -2363,6 +2364,7 @@
                             padding-bottom: 19px;
                             padding-left: 5px;
                             border-top: 1px solid black;
+                            align-items: flex-start;
 
                             @include effets();
                         }
@@ -2560,6 +2562,7 @@
                     padding-bottom: 19px;
                     padding-left: 5px;
                     border-top: 1px solid black;
+                    align-items: flex-start;
 
                     @include effets();
 
@@ -3011,6 +3014,7 @@
                             padding-bottom: 19px;
                             padding-left: 5px;
                             border-top: 1px solid black;
+                            align-items: flex-start;
 
                             @include effets();
                         }
@@ -3097,6 +3101,7 @@
                             padding-bottom: 19px;
                             padding-left: 5px;
                             border-top: 1px solid black;
+                            align-items: flex-start;
 
                             @include effets();
                         }
@@ -3203,6 +3208,7 @@
                             padding-bottom: 19px;
                             padding-left: 5px;
                             border-top: 1px solid black;
+                            align-items: flex-start;
 
                             @include effets();
                         }
@@ -3528,6 +3534,7 @@
                             padding-bottom: 19px;
                             padding-left: 5px;
                             border-top: 1px solid black;
+                            align-items: flex-start;
 
                             @include effets();
                         }
@@ -3904,6 +3911,7 @@
                                 padding-bottom: 19px;
                                 padding-left: 5px;
                                 border-top: 1px solid black;
+                                align-items: flex-start;
 
                                 @include effets();
                             }
@@ -4164,8 +4172,70 @@
                                     padding-bottom: 19px;
                                     padding-left: 5px;
                                     border-top: 1px solid black;
+                                    align-items: flex-start;
 
                                     @include effets();
+                                }
+                            }
+                        }
+
+                        div.lionSlots {
+                            display:flex;
+                            flex-wrap: wrap;
+                            width:100%;
+                            justify-content: space-between;
+                            align-items: flex-start;
+                            border-top:1px solid black;
+
+                            h5 {
+                                width: 100%;
+                                margin: 0px;
+                                line-height: 25px;
+                                font-size: 14px;
+                                padding-left: 5px;
+                                font-weight: normal;
+                                text-transform: uppercase;
+                                background:$lightBlack;
+                            }
+
+                            div.line {
+                                display: grid;
+                                grid-template-columns: repeat(6, 1fr);
+                                border-top: 1px solid $black;
+
+                                label {
+                                    display: grid;
+                                    grid-template-columns: 1fr;
+                                    flex-wrap: wrap;
+
+                                    span {
+                                        display:inline-block;
+                                        width:100%;
+                                        font-variant: small-caps;
+                                        text-align: center;
+                                        background:$lightBlack;
+                                        padding-top:5px;
+                                    }
+
+                                    input {
+                                        width:100%;
+                                        border-radius:0px;
+                                        border-top:1px solid $lightBlack;
+                                        border-left:0px;
+                                        border-right:0px;
+                                        border-bottom:0px;
+                                        text-align: center;
+                                    }
+
+                                    &:not(:last-of-type) {
+                                        span {
+                                            border-right:1px solid $black;
+                                        }
+
+                                        input {
+                                            border-right:1px solid $lightBlack
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -4404,6 +4474,7 @@
                                 padding-bottom: 19px;
                                 padding-left: 5px;
                                 border-top: 1px solid black;
+                                align-items: flex-start;
 
                                 @include effets();
                             }
@@ -5199,6 +5270,7 @@
                             padding-bottom: 19px;
                             padding-left: 5px;
                             border-top: 1px solid black;
+                            align-items: flex-start;
 
                             @include effets();
                         }

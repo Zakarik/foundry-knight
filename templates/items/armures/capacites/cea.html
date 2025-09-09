@@ -88,11 +88,7 @@
                 </label>
                 <div class="effets">
                 {{#each this.salve.effets.liste as | key effet|}}
-                    <div>
-                        <span class="label">{{key.name}}</span>
-                        <img class="info" src="systems/knight/assets/icons/info.svg" />
-                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                    </div>
+                    {{~> systems/knight/templates/parts/effets.html type='cea_salve'}}
                 {{/each}}
                     <a class="edit" data-path="system.capacites.selected.cea.salve.effets">
                         <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
@@ -138,11 +134,7 @@
                 </label>
                 <div class="effets">
                 {{#each this.vague.effets.liste as | key effet|}}
-                    <div>
-                        <span class="label">{{key.name}}</span>
-                        <img class="info" src="systems/knight/assets/icons/info.svg" />
-                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                    </div>
+                {{~> systems/knight/templates/parts/effets.html type='cea_vague'}}
                 {{/each}}
                     <a class="edit" data-path="system.capacites.selected.cea.vague.effets">
                         <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
@@ -186,11 +178,7 @@
                 </label>
                 <div class="effets">
                 {{#each this.rayon.effets.liste as | key effet|}}
-                    <div>
-                        <span class="label">{{key.name}}</span>
-                        <img class="info" src="systems/knight/assets/icons/info.svg" />
-                        <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                    </div>
+                {{~> systems/knight/templates/parts/effets.html type='cea_rayon'}}
                 {{/each}}
                     <a class="edit" data-path="system.capacites.selected.cea.rayon.effets">
                         <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>

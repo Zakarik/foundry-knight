@@ -8,6 +8,7 @@ $green:#18520b;
 $lightGreen:#59d13e;
 $red:#AF0000;
 $lightGrey:RGB(193, 193, 193);
+$news:#00ffcc44;
 
 @mixin header(){
     h2.header {
@@ -93,6 +94,7 @@ $lightGrey:RGB(193, 193, 193);
 
 @mixin effets($background:$lightBlack){
     div {
+      display: block;
         position: relative;
         width: max-content;
         padding-left: 15px;
@@ -108,6 +110,17 @@ $lightGrey:RGB(193, 193, 193);
             font-variant: small-caps;
             color: $white;
             line-height: 20px;
+
+            input {
+              width: 15px;
+              min-width: 0px;
+              padding: 0px;
+              line-height: 15px;
+              text-align: right;
+              border: 0px;
+              background: transparent;
+              height: 15px;
+            }
         }
 
         img.info {
@@ -143,6 +156,29 @@ $lightGrey:RGB(193, 193, 193);
             top: 100%;
             text-align: justify;
             word-break: break-word;
+        }
+
+        section {
+          &.btnChargeur {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 2px;
+
+            a {
+              &.btnEffChange {
+                display: grid;
+                align-items: center;
+                justify-content: center;
+                padding: 0px;
+                border: 0px;
+                height: 15px;
+                line-height: 8px;
+                background: $black;
+                color: $white;
+                font-size: 20px;
+              }
+            }
+          }
         }
     }
 
@@ -280,14 +316,6 @@ $lightGrey:RGB(193, 193, 193);
             margin-left:auto;
             position:relative;
 
-            &.paddingBottom {
-              padding-bottom: 20px;
-            }
-
-            &.paddingLeft {
-              padding-left: 20px;
-            }
-
             div {
               position: relative;
               width: max-content;
@@ -383,6 +411,18 @@ $lightGrey:RGB(193, 193, 193);
               border: 0px;
               background: white;
               cursor: pointer;
+            }
+          }
+
+          &.custom {
+            grid-template-columns: 100px max-content 1fr 30px;
+          }
+
+          &.unlocked {
+            grid-template-columns: 100px max-content max-content 1fr 30px;
+
+            div.effets {
+              padding-bottom: 20px;
             }
           }
 
@@ -526,6 +566,27 @@ $lightGrey:RGB(193, 193, 193);
           width:70px !important;
         }
       }
+
+      button.btnRestaureChargeur {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100%;
+        background: $lightBlack;
+        color: $white;
+        cursor: pointer;
+        text-align: center;
+        align-items: center;
+        height: 20px;
+        line-height: 20px;
+        padding: 0px;
+        font-variant: small-caps;
+        border: 0px;
+
+        &:hover {
+          background: $white;
+          color: $lightBlack;
+        }
+      }
     }
 
     select {
@@ -589,6 +650,7 @@ $lightGrey:RGB(193, 193, 193);
         width: 100%;
         justify-content: space-evenly;
         flex-wrap: wrap;
+        align-items: flex-start;
 
         padding-right: 5px;
         padding-bottom: 5px;

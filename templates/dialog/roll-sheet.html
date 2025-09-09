@@ -26,6 +26,10 @@
 {{/if}}
 
 {{#each mods}}
+    {{#if (eq key 'info')}}
+    <span class="{{classes}}" style="display:none;"></span>
+    {{/if}}
+
     {{#if (eq key 'score')}}
         <label class="{{classes}}" data-key="{{name}}">
             <span>{{label}}</span>
@@ -178,7 +182,7 @@
                             {{#each possibility.liste1.liste}}
                                 <a class="{{raw}} {{ifThen custom 'custom' ''}}" title="{{description}}" data-raw="{{raw}}" data-custom="{{custom}}" data-id="{{id}}" data-liste="liste1">
                                     <i></i>
-                                    {{name}}
+                                    {{ifThen isChargeur complet name}}
                                 </a>
                             {{/each}}
                         </div>
@@ -195,7 +199,7 @@
                             {{#each possibility.liste2.liste}}
                                 <a title="{{description}}" data-raw="{{raw}}" data-custom="{{custom}}" data-id="{{id}}" data-liste="liste2">
                                     <i></i>
-                                    {{name}}
+                                    {{ifThen isChargeur complet name}}
                                 </a>
                             {{/each}}
                         </div>
@@ -212,7 +216,7 @@
                             {{#each possibility.liste3.liste}}
                                 <a class="{{raw}} {{ifThen custom 'custom' ''}}" title="{{description}}" data-raw="{{raw}}" data-custom="{{custom}}" data-id="{{id}}" data-liste="liste3">
                                     <i></i>
-                                    {{name}}
+                                    {{ifThen isChargeur complet name}}
                                 </a>
                             {{/each}}
                         </div>

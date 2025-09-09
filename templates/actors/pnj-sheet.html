@@ -276,6 +276,15 @@
                 </div>
             </div>
         </section>
+
+        <section class="mainBlock">
+            <div class="reductionPEs">
+                <div class="line">
+                    <span class="label">{{localize "KNIGHT.LATERAL.ReductionPEs"}}</span>
+                    <input type="number" name="system.espoir.reduction" value="{{systemData.espoir.reduction}}" min="0"/>
+                </div>
+            </div>
+        </section>
     </section>
 
     {{!-- Sheet Body --}}
@@ -557,11 +566,7 @@
                         <span class="title">{{localize "KNIGHT.EFFETS.Label"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
                         <div class="effets">
                             {{#each systemData.wolf.fighter.bonus.effets.liste as | key effet|}}
-                                <div>
-                                    <span class="label">{{key.name}}</span>
-                                    <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                                </div>
+                                {{~> systems/knight/templates/parts/effets.html type='std'}}
                             {{/each}}
                         </div>
                     </div>
@@ -665,11 +670,7 @@
                         <span class="title">{{localize "KNIGHT.EFFETS.Label"}} / {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Companion"}}</span>
                         <div class="effets">
                             {{#each systemData.wolf.fighter.bonus.effets.liste as | key effet|}}
-                                <div>
-                                    <span class="label">{{key.name}}</span>
-                                    <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                                </div>
+                                {{~> systems/knight/templates/parts/effets.html type='std'}}
                             {{/each}}
                         </div>
                     </div>
@@ -834,11 +835,7 @@
                                 </div>
                                 <div class="effets">
                                     {{#each key.system.degats.roll.effets.liste as | key effet|}}
-                                        <div>
-                                            <span class="label">{{key.name}}</span>
-                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                                        </div>
+                                        {{~> systems/knight/templates/parts/effets.html type='std'}}
                                     {{/each}}
                                 </div>
                             </div>
@@ -860,11 +857,7 @@
                                 </div>
                                 <div class="effets">
                                     {{#each key.system.attaque.effets.liste as | key effet|}}
-                                        <div>
-                                            <span class="label">{{key.name}}</span>
-                                            <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                            <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                                        </div>
+                                        {{~> systems/knight/templates/parts/effets.html type='std'}}
                                     {{/each}}
                                 </div>
                             </div>
@@ -969,7 +962,7 @@
                                     </div>
                                     <div class="effets">
                                         <div>
-                                            <span class="label">{{key.utilisations}} {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Utilisations"}}</span>
+                                            <span class="label">{{utilisation}} {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Utilisations"}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1017,7 +1010,7 @@
                                     </div>
                                     <div class="effets">
                                         <div>
-                                            <span class="label">{{key.utilisations}} {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Utilisations"}}</span>
+                                            <span class="label">{{utilisation}} {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Utilisations"}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1109,6 +1102,8 @@
 
         <div class="tab options" data-group="primary" data-tab="options">
             <div class="main">
+                <button type="action" class="recover unselected" data-type="chargeur">{{localize "KNIGHT.EFFETS.CHARGEUR.Restaurer"}}</button>
+
                 <button type="action" data-value="{{systemData.options.art}}" data-option="art" class="{{#if systemData.options.art}}selected{{else}}unselected{{/if}}">
                     {{#if systemData.options.art}}
                         {{localize "KNIGHT.OPTIONS.ART.Has"}}

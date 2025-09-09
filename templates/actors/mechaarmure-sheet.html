@@ -172,7 +172,7 @@
 
         <div class="tab pilote" data-group="primary" data-tab="pilote">
             <div class="listeAspects">
-                {{#each actor.pilote.aspects as | key aspect|}}
+                {{#each systemData.aspects as | key aspect|}}
                 <div class="aspect">
                     <h2 class="header">
                         {{getAspect aspect}}
@@ -579,7 +579,7 @@
                 <div class="gestionButton">
                     <button type="action" class="ajouterModule" data-type="base">{{localize "KNIGHT.AUTRE.Ajouter"}}</button>
                     <select name="system.modules.actuel.base">
-                        {{selectOptions actor.modules selected=systemData.modules.actuel.base blank='' nameAttr="key" labelAttr="label" sort=true}}
+                        {{selectOptions actor.modules selected=systemData.modules.actuel.base blank='' valueAttr="key" labelAttr="label" sort=true}}
                     </select>
                 </div>
 
@@ -604,7 +604,7 @@
                 <div class="gestionButton">
                     <button type="action" class="ajouterModule" data-type="c1">{{localize "KNIGHT.AUTRE.Ajouter"}}</button>
                     <select name="system.modules.actuel.c1">
-                        {{selectOptions actor.modules selected=systemData.modules.actuel.c1 blank='' nameAttr="key" labelAttr="label" sort=true}}
+                        {{selectOptions actor.modules selected=systemData.modules.actuel.c1 blank='' valueAttr="key" labelAttr="label" sort=true}}
                     </select>
                 </div>
 
@@ -629,7 +629,7 @@
                 <div class="gestionButton">
                     <button type="action" class="ajouterModule" data-type="c2">{{localize "KNIGHT.AUTRE.Ajouter"}}</button>
                     <select name="system.modules.actuel.c2">
-                        {{selectOptions actor.modules selected=systemData.modules.actuel.c2 blank='' nameAttr="key" labelAttr="label" sort=true}}
+                        {{selectOptions actor.modules selected=systemData.modules.actuel.c2 blank='' valueAttr="key" labelAttr="label" sort=true}}
                     </select>
                 </div>
 

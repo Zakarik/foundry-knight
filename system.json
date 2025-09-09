@@ -35,8 +35,8 @@
     }
   ],
   "compatibility": {
-    "minimum": "11",
-    "verified": "12"
+    "minimum": "12",
+    "verified": "13"
   },
   "media": [
     {
@@ -44,10 +44,43 @@
         "thumbnail": "systems/knight/assets/artwork/knight-thumbnail.webp"
     }
   ],
+  "documentTypes": {
+    "Actor": {
+      "knight": {},
+      "ia":{},
+      "pnj":{},
+      "creature":{},
+      "bande":{},
+      "vehicule":{},
+      "mechaarmure":{}
+    },
+    "Item":{
+      "armure":{},
+      "arme":{},
+      "avantage":{},
+      "inconvenient":{},
+      "motivationMineure":{},
+      "langue":{},
+      "contact":{},
+      "blessure":{},
+      "trauma":{},
+      "module":{},
+      "capacite":{},
+      "armurelegende":{},
+      "carteheroique":{},
+      "capaciteheroique":{},
+      "effet":{},
+      "art":{},
+      "distinction":{},
+      "capaciteultime":{}
+    }
+  },
   "primaryTokenAttribute":"sante",
   "secondaryTokenAttribute":"armure",
-  "gridDistance": 5,
-  "gridUnits": "m",
+  "grid":{
+    "distance":5,
+    "unit":"m"
+  },
   "url": "#{URL}#",
   "manifest": "#{MANIFEST}#",
   "download": "#{DOWNLOAD}#",

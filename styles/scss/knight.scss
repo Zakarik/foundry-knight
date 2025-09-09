@@ -67,7 +67,8 @@ $imgs:
     flex:none;
 
     .profile-img {
-      width:160px;
+      width:180px;
+      min-width: 180px;
       height:200px;
       border-color:$white;
       background:$lightBlack;
@@ -80,7 +81,7 @@ $imgs:
       flex-wrap: wrap;
       justify-content: space-between;
       height:200px;
-      width:calc(100% - 160px);
+      width:calc(100% - 180px);
       flex:none;
 
       .data {
@@ -216,7 +217,7 @@ $imgs:
 
   section.menu {
     display:flex;
-    width:160px;
+    width:180px;
     border:1px solid $white;
     flex-flow: column;
     height:calc(100% - 200px);
@@ -330,5 +331,19 @@ button {
     background-color: $lightGrey;
     font-size: 18px;
     font-weight: bold;
+    color: $black;
+  }
+}
+
+div.dialog-content {
+  label.knightNumber {
+    display: grid;
+    grid-template-columns: 1fr 50px;
+    align-items: center;
+
+    input {
+      text-align: center;
+      padding: 0px;
+    }
   }
 }

@@ -234,11 +234,7 @@
                                 <div class="effets" style="display:none;">
                                     <div class="blockEffets">
                                         {{#each this.system.effets.liste as | key effet|}}
-                                            <div>
-                                                <span class="label">{{key.name}}</span>
-                                                <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                                            </div>
+                                            {{~> systems/knight/templates/parts/effets.html type='base'}}
                                         {{/each}}
                                     </div>
                                 </div>
@@ -259,11 +255,7 @@
                                             </div>
                                             <div class="blockEffets">
                                                 {{#each key.liste as | kE effet|}}
-                                                    <div>
-                                                        <span class="label">{{kE.name}}</span>
-                                                        <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                                        <span class="hideInfo">{{{getEffetsDescription kE.description}}}</span>
-                                                    </div>
+                                                    {{~> systems/knight/templates/parts/effets.html type='munition' munition=munition}}
                                                 {{/each}}
                                             </div>
                                         </div>
@@ -273,11 +265,7 @@
                                 <div class="effets" style="display:none;">
                                     <div class="blockEffets">
                                         {{#each this.system.distance.liste as | key effet|}}
-                                            <div>
-                                                <span class="label">{{key.name}}</span>
-                                                <img class="info" src="systems/knight/assets/icons/info.svg" />
-                                                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
-                                            </div>
+                                            {{~> systems/knight/templates/parts/effets.html type='distance'}}
                                         {{/each}}
                                     </div>
                                 </div>

@@ -27,7 +27,7 @@ export class CreatureSheet extends ActorSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["creature", "sheet", "actor"],
       template: "systems/knight/templates/actors/creature-sheet.html",
-      width: 900,
+      width: 920,
       height: 790,
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".body", initial: "description"}],
       dragDrop: [{dragSelector: [".draggable", ".item-list .item"], dropSelector: null}],
@@ -51,9 +51,9 @@ export class CreatureSheet extends ActorSheet {
 
     context.systemData = context.data.system;
 
-    console.warn(context);
-
     actualiseRoll(this.actor);
+
+    console.warn(context);
 
     return context;
   }
@@ -468,6 +468,32 @@ export class CreatureSheet extends ActorSheet {
 
       this.actor.update({[`system.options.${option}`]:result});
     });
+
+    html.find('a.btnChargeurPlus').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item");
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.addMunition(index, type, munition, pnj, wpn);
+    });
+
+    html.find('a.btnChargeurMoins').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item");
+      const index = tgt.parents(".btnChargeur").data('index');
+      const type = tgt.parents(".btnChargeur").data('type');
+      const munition = tgt.parents(".btnChargeur").data('munition');
+      const pnj = tgt.parents(".btnChargeur").data('pnj');
+      const wpn = tgt.parents(".btnChargeur").data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+
+      item.system.removeMunition(index, type, munition, pnj, wpn);
+    });
   }
 
   /* -------------------------------------------- */
@@ -561,7 +587,7 @@ export class CreatureSheet extends ActorSheet {
         const custom = data.effets.custom;
         const labels = localize;
 
-        data.effets.liste = listEffects(raw, custom, labels);
+        data.effets.liste = listEffects(raw, custom, labels, data.effets?.chargeur);
 
         const main = data?.options2mains?.actuel || "";
         const munition = data?.options2mains?.actuel || "";
@@ -594,7 +620,7 @@ export class CreatureSheet extends ActorSheet {
               const bRaw2 = munition.raw || [];
               const bCustom2 = munition.custom || [];
 
-              munition.liste = listEffects(bRaw2, bCustom2, labels);
+              munition.liste = listEffects(bRaw2, bCustom2, labels, munition?.chargeur);
             }
           }
 
@@ -690,7 +716,7 @@ export class CreatureSheet extends ActorSheet {
         if(data.degats.has) {
           const labels = localize;
 
-          data.degats.system.effets.liste = listEffects(data.degats.system.effets.raw, data.degats.system.effets.custom, labels);
+          data.degats.system.effets.liste = listEffects(data.degats.system.effets.raw, data.degats.system.effets.custom, labels, data.degats.system.effets?.chargeur);
         }
       }
     }

@@ -1,6 +1,16 @@
 import {
     getAllEffects,
+    rollDamage,
+    rollViolence,
+    addFlags,
+    getFinalWeaponData,
 } from "../helpers/common.mjs";
+
+function decodeHtmlEntities(str) {
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = str;
+    return textarea.value;
+}
 
 // DATA
 // name : Nom du jet
@@ -23,6 +33,8 @@ export class RollKnight {
         this.bonus = data?.bonus ?? [];
         this.carac = data?.carac ?? [];
         this.weapon = data?.weapon ?? undefined;
+        this.item = data?.item ?? undefined;
+        this.effectspath = data?.effectspath ?? undefined;
         this.isSuccess = isSuccess;
         this.style = data?.style ?? 'standard';
         this.dataStyle = data?.dataStyle ?? {};
@@ -75,10 +87,9 @@ export class RollKnight {
             await roll.evaluate();
 
             const process = await this.#processRoll(roll);
-            total = await this.#sendRoll(process, effets, addData);
+            total = await this.#sendRoll(process, effets, addData, updates);
         } else {
             const weapon = this.weapon;
-            const localize = getAllEffects();
             const allRaw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
             let text = '';
             let allContent = [];
@@ -87,86 +98,7 @@ export class RollKnight {
             let listTargets = [];
             let finalDataToAdd = {};
 
-            if((this.#isEffetActive(allRaw, weapon.options, ['barrage']) && !this.#isEffetActive(allRaw, weapon.options, ['choc'])) || (this.#hasEffet(allRaw, 'barrage') && this.#hasEffet(allRaw, 'aucundegatsviolence') && !this.#isEffetActive(allRaw, weapon.options, ['choc']))) {
-                if(this.#getEffet(allRaw, 'barrage')) {
-                    const targets = game.user.targets;
-
-                    text = `${game.i18n.localize(localize['barrage'].label)} ${this.#getEffet(allRaw, 'barrage').split(' ')[1]}`;
-
-                    if(targets && targets.size > 0) {
-                        for(let t of targets) {
-                            const tActor = t.actor;
-
-                            if(tActor) {
-                                const chairAE = tActor?.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
-
-                                if(chairAE > 0) {
-                                    let target = {
-                                        id:t.id,
-                                        simple:true,
-                                        name:tActor.name,
-                                        aspects:tActor.system.aspects,
-                                        type:tActor.type,
-                                        effets:[],
-                                    };
-
-                                    target.effets.push({
-                                        key:'barrage',
-                                        simple:'barrage',
-                                        label:game.i18n.localize(localize['barrage'].label),
-                                        subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
-                                    })
-
-                                    target.btn = [{
-                                        label:game.i18n.localize('KNIGHT.JETS.AppliquerEffets'),
-                                        classes:'btn full applyAttaqueEffects',
-                                        id:t.id
-                                    }]
-
-                                    listTargets.push(target);
-                                } else {
-                                    let target = {
-                                        id:t.id,
-                                        simple:true,
-                                        name:tActor.name,
-                                        aspects:tActor.system.aspects,
-                                        type:tActor.type,
-                                        effets:[],
-                                    };
-
-                                    target.effets.push({
-                                        key:'barrage',
-                                        simple:'barrage',
-                                        hit:true,
-                                        label:game.i18n.localize(localize['barrage'].label),
-                                    });
-
-                                    target.btn = [{
-                                        label:'Appliquer les effets',
-                                        classes:'btn full applyAttaqueEffects',
-                                        id:t.id
-                                    }]
-
-                                    listTargets.push(target);
-                                }
-                            }
-                        }
-                    }
-
-                    allFlag.push({
-                        targets:listTargets
-                    });
-
-                    if(targets.size > 1) {
-                        finalDataToAdd['allTgtBtn'] = [{
-                            mainClasses:'btn gmOnly full',
-                            classes:'applyAllAttaqueEffects',
-                            label:game.i18n.localize('KNIGHT.JETS.AppliquerEffetsAll'),
-                        }]
-                    }
-
-                }
-            } else if(this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses'])) {
+            if(this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses'])) {
                 const targets = game.user.targets;
                 let n = 0;
 
@@ -199,15 +131,23 @@ export class RollKnight {
                     allRoll = allRoll.concat(process.rolls)
                 }
             } else {
-                const roll = new Roll(this.formula);
-                await roll.evaluate();
+                if((this.#isEffetActive(allRaw, weapon.options, ['barrage']))) {
+                    const prepareWeapon = await this.#prepareSendWeaponWithoutRoll({});
 
-                const process = await this.#processRoll(roll);
-                const prepareWeapon = await this.#prepareRollWeapon(process);
+                    allContent.push(prepareWeapon.content);
+                    allFlag.push(prepareWeapon.flags);
 
-                allContent.push(prepareWeapon.content);
-                allFlag.push(prepareWeapon.flags);
-                allRoll = allRoll.concat(process.rolls)
+                } else {
+                    const roll = new Roll(this.formula);
+                    await roll.evaluate();
+
+                    const process = await this.#processRoll(roll);
+                    const prepareWeapon = await this.#prepareRollWeapon(process);
+
+                    allContent.push(prepareWeapon.content);
+                    allFlag.push(prepareWeapon.flags);
+                    allRoll = allRoll.concat(process.rolls)
+                }
             }
 
             this.#sendRollWeapon({
@@ -216,12 +156,14 @@ export class RollKnight {
                 text,
                 targets:listTargets,
                 flags:allFlag,
-                finalDataToAdd
+                finalDataToAdd,
+                updates,
             })
         }
 
         if(!foundry.utils.isEmpty(updates)) {
-            let forArmor = false;
+            let updateArmure = {};
+            let updateItems = {};
 
             for (let [key, value] of Object.entries(updates)) {
                 const keySplit = key.split('.');
@@ -229,9 +171,17 @@ export class RollKnight {
 
                 if(first === 'armure') {
                     let oldKey = key;
-                    forArmor = true;
                     key = keySplit.slice(1).join('.');
-                    updates[key] = value;
+                    updateArmure[key] = value;
+
+                    delete updates[oldKey];
+                }
+
+                if(first === 'item') {
+                    let oldKey = key;
+                    key = keySplit.slice(2).join('.');
+                    updateItems[keySplit[1]] = {};
+                    updateItems[keySplit[1]][key] = value;
 
                     delete updates[oldKey];
                 }
@@ -297,11 +247,144 @@ export class RollKnight {
                 }
             }
 
-            if(forArmor && this.actor.type === 'knight') {
-                if(this.actor.system.dataArmor) await this.actor.system.dataArmor.update(updates);
-                else await this.actor.update(updates);
+
+            for (let [key, value] of Object.entries(updateArmure)) {
+                if (typeof value === 'string' && value.includes('@{rollTotal}')) {
+                    let updatedValue = value.replace(/@{rollTotal}/g, total);
+
+                    if (updatedValue.includes('@{max,')) {
+                        const maxMatch = updatedValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                        if (maxMatch) {
+                            const maxValue = parseFloat(maxMatch[1]);
+                            updatedValue = updatedValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                            updatedValue = `Math.max(${updatedValue}, ${maxValue})`;
+                        }
+                    }
+
+                    if (updatedValue.includes('@{min,')) {
+                        const minMatch = updatedValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                        if (minMatch) {
+                            const minValue = parseFloat(minMatch[1]);
+                            updatedValue = updatedValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                            updatedValue = `Math.min(${updatedValue}, ${minValue})`;
+                        }
+                    }
+
+                    try {
+                        updates[key] = eval(updatedValue);
+                    } catch (e) {
+                        // Garde la valeur remplacée si l'évaluation échoue
+                        updates[key] = updatedValue;
+                    }
+                } else if (typeof value === 'object' && value !== null) {
+                    for (const [subKey, subValue] of Object.entries(value)) {
+                        if (typeof subValue === 'string' && subValue.includes('@{rollTotal}')) {
+                            let updatedSubValue = subValue.replace(/@{rollTotal}/g, total);
+
+                            if (updatedSubValue.includes('@{max,')) {
+                                const maxMatch = updatedSubValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                                if (maxMatch) {
+                                    const maxValue = parseFloat(maxMatch[1]);
+                                    updatedSubValue = updatedSubValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                                    updatedSubValue = `Math.max(${updatedSubValue}, ${maxValue})`;
+                                }
+                            }
+
+                            if (updatedSubValue.includes('@{min,')) {
+                                const minMatch = updatedSubValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                                if (minMatch) {
+                                    const minValue = parseFloat(minMatch[1]);
+                                    updatedSubValue = updatedSubValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                                    updatedSubValue = `Math.min(${updatedSubValue}, ${minValue})`;
+                                }
+                            }
+
+                            try {
+                                value[subKey] = eval(updatedSubValue);
+                            } catch (e) {
+                                // Garde la valeur remplacée si l'évaluation échoue
+                                value[subKey] = updatedSubValue;
+                            }
+                        }
+                    }
+                }
             }
-            else await this.actor.update(updates);
+
+            for(let i in updateItems) {
+                for (let [key, value] of Object.entries(updateItems[i])) {
+                    if (typeof value === 'string' && value.includes('@{rollTotal}')) {
+                        let updatedValue = value.replace(/@{rollTotal}/g, total);
+
+                        if (updatedValue.includes('@{max,')) {
+                            const maxMatch = updatedValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                            if (maxMatch) {
+                                const maxValue = parseFloat(maxMatch[1]);
+                                updatedValue = updatedValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                                updatedValue = `Math.max(${updatedValue}, ${maxValue})`;
+                            }
+                        }
+
+                        if (updatedValue.includes('@{min,')) {
+                            const minMatch = updatedValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                            if (minMatch) {
+                                const minValue = parseFloat(minMatch[1]);
+                                updatedValue = updatedValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                                updatedValue = `Math.min(${updatedValue}, ${minValue})`;
+                            }
+                        }
+
+                        try {
+                            updates[key] = eval(updatedValue);
+                        } catch (e) {
+                            // Garde la valeur remplacée si l'évaluation échoue
+                            updates[key] = updatedValue;
+                        }
+                    } else if (typeof value === 'object' && value !== null) {
+                        for (const [subKey, subValue] of Object.entries(value)) {
+                            if (typeof subValue === 'string' && subValue.includes('@{rollTotal}')) {
+                                let updatedSubValue = subValue.replace(/@{rollTotal}/g, total);
+
+                                if (updatedSubValue.includes('@{max,')) {
+                                    const maxMatch = updatedSubValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                                    if (maxMatch) {
+                                        const maxValue = parseFloat(maxMatch[1]);
+                                        updatedSubValue = updatedSubValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                                        updatedSubValue = `Math.max(${updatedSubValue}, ${maxValue})`;
+                                    }
+                                }
+
+                                if (updatedSubValue.includes('@{min,')) {
+                                    const minMatch = updatedSubValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                                    if (minMatch) {
+                                        const minValue = parseFloat(minMatch[1]);
+                                        updatedSubValue = updatedSubValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                                        updatedSubValue = `Math.min(${updatedSubValue}, ${minValue})`;
+                                    }
+                                }
+
+                                try {
+                                    value[subKey] = eval(updatedSubValue);
+                                } catch (e) {
+                                    // Garde la valeur remplacée si l'évaluation échoue
+                                    value[subKey] = updatedSubValue;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(!foundry.utils.isEmpty(updateArmure) && this.actor.system.dataArmor && (this.actor.type === 'knight' || this.actor.type === 'pnj')) {
+                await this.actor.system.dataArmor.update(updateArmure);
+            }
+
+            if(!foundry.utils.isEmpty(updateItems)) {
+                for(let i in updateItems) {
+                    this.actor.items.get(i).update(updateItems[i]);
+                }
+            }
+
+            if(!foundry.utils.isEmpty(updates)) await this.actor.update(updates);
         }
 
         return total;
@@ -336,7 +419,7 @@ export class RollKnight {
             foundry.utils.mergeObject(content, addContent);
         }
 
-        if(flags.dataMod.degats.dice > 0 || flags.dataMod.degats.fixe > 0) {
+        if(flags.dataMod.degats.dice > 0) {
             let degatsMod = ``;
 
             if(flags.dataMod.degats.dice > 0) degatsMod = `${flags.dataMod.degats.dice}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
@@ -346,7 +429,32 @@ export class RollKnight {
                 key:'modificateurdegats',
                 label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} : +${degatsMod}`,
             });
+        } else if(flags.dataMod.degats.dice === 0 && flags.dataMod.degats.fixe > 0) {
+            let degatsMod = `+${flags.dataMod.degats.fixe}`;
+
+            main.tags.push({
+                key:'modificateurdegats',
+                label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} : ${degatsMod}`,
+            });
+        } else if(flags.dataMod.degats.dice < 0) {
+            let degatsMod = ``;
+
+            if(flags.dataMod.degats.dice < 0) degatsMod = `${flags.dataMod.degats.dice}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+            if(flags.dataMod.degats.fixe > 0) degatsMod += `${flags.dataMod.degats.fixe}`;
+
+            main.tags.push({
+                key:'modificateurdegats',
+                label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} : ${degatsMod}`,
+            });
+        } else if(flags.dataMod.degats.fixe < 0) {
+            let degatsMod = `${flags.dataMod.degats.fixe}`;
+
+            main.tags.push({
+                key:'modificateurdegats',
+                label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} : ${degatsMod}`,
+            });
         }
+
 
         if(flags.maximize.degats) {
             main.tags.push({
@@ -354,7 +462,6 @@ export class RollKnight {
                 label:`${game.i18n.localize('KNIGHT.JETS.MaximizeDegatsTag')}`,
             });
         }
-
         const handleDamage = await this.#handleDamageEffet(weapon, data, bonus, main, rolls);
         const roll = handleDamage.roll;
         let results = roll.dice.reduce((acc, dice) => {
@@ -401,13 +508,14 @@ export class RollKnight {
             content:await renderTemplate(RollKnight.template, main),
             sound: CONFIG.sounds.dice,
             rolls:rolls,
-            flags: flags,
             rollMode:chatRollMode,
         };
 
-        if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
+        ChatMessage.applyRollMode(chatData, chatRollMode);
 
-        await ChatMessage.create(chatData);
+        const msg = await ChatMessage.create(chatData);
+
+        addFlags(msg, flags);
     }
 
     async doRollViolence(data={}) {
@@ -438,7 +546,7 @@ export class RollKnight {
             if(flags.dataMod.violence.dice > 0) violenceMod = `${flags.dataMod.violence.dice}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
             if(flags.dataMod.violence.fixe > 0) violenceMod += `+${flags.dataMod.violence.fixe}`;
 
-            tags.push({
+            main.tags.push({
                 key:'modificateurviolence',
                 label:`${game.i18n.localize('KNIGHT.JETS.ModificateurViolence')} : ${violenceMod}`,
             });
@@ -497,13 +605,13 @@ export class RollKnight {
             content:await renderTemplate(RollKnight.template, main),
             sound: CONFIG.sounds.dice,
             rolls:rolls,
-            flags: flags,
             rollMode:chatRollMode,
         };
 
-        if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
+        ChatMessage.applyRollMode(chatData, chatRollMode);
+        const msg = await ChatMessage.create(chatData);
 
-        await ChatMessage.create(chatData);
+        addFlags(msg, flags);
     }
 
     async sendMessage(data={}) {
@@ -525,14 +633,14 @@ export class RollKnight {
                 scene: this.actor?.token?.parent?.id ?? null
             },
             content:await renderTemplate(RollKnight.template, main),
-            sound: CONFIG.sounds.dice,
-            flags: flags,
+            sound: data.sounds ? data.sounds : CONFIG.sounds.dice,
             rollMode:chatRollMode,
         };
 
-        if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
+        ChatMessage.applyRollMode(chatData, chatRollMode);
+        const msg = await ChatMessage.create(chatData);
 
-        await ChatMessage.create(chatData)
+        addFlags(msg, flags);
 
     }
 
@@ -573,7 +681,6 @@ export class RollKnight {
                 });
                 return acc;
             }, []);
-
             success = roll.total;
         }
 
@@ -608,7 +715,7 @@ export class RollKnight {
         }
     }
 
-    async #sendRoll(data={}, effets={}, addData={}) {
+    async #sendRoll(data={}, effets={}, addData={}, updates={}) {
         const rolls = data.rolls;
         const results = data.results;
         const success = data.success;
@@ -678,18 +785,34 @@ export class RollKnight {
 
         if(!foundry.utils.isEmpty(effets)) {
             const localize = getAllEffects();
+            let hasChargeur = false;
 
             for(let e of effets.raw) {
                 const loc = localize[e.split(' ')[0]];
                 const effet = this.#getEffet(effets.raw, e);
 
-                listEffets.push({
-                    simple:e,
-                    key:effet,
-                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                    description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
-                });
+                if(e.includes('chargeur')) {
+                    hasChargeur = true;
+
+                    listEffets.push({
+                        simple:e,
+                        key:effet,
+                        label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${this.item.system.getMunition[this.effectspath.split('.')[0]]-1} / ${effet.split(' ')[1]}` : `${this.item.system.getMunition[this.effectspath.split('.')[0]]-1} / ${game.i18n.localize(loc.label)}`,
+                        description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                    });
+                } else {
+                    listEffets.push({
+                        simple:e,
+                        key:effet,
+                        label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                        description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                    });
+                }
+
+
             }
+
+            if(hasChargeur && this.effectspath) updates[`item.${this.item.id}.system.niveau.details.n${this.item.system.getNiveau}.${this.effectspath}.chargeur`] = Math.max(this.item.system.getMunition[this.effectspath.split('.')[0]]-1, 0);
 
             for(let c of effets.custom) {
                 listEffets.push({
@@ -748,6 +871,7 @@ export class RollKnight {
 
         if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
 
+        ChatMessage.applyRollMode(chatData, chatRollMode);
         const msg = await ChatMessage.create(chatData);
 
         for(let f in this.addFlags) {
@@ -846,6 +970,7 @@ export class RollKnight {
                 }
 
                 target.ptsFaible = ptsFaible;
+                target.difficulty = difficulty;
 
                 if(content.total > difficulty) {
                     target.marge = content.total-difficulty;
@@ -902,14 +1027,55 @@ export class RollKnight {
                 else if(weapon.type === 'contact') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (0)`;
             }
 
+            target.ptsFaible = ptsFaible;
+            target.difficulty = difficulty;
+
             if(content.total > difficulty) {
                 target.marge = content.total-difficulty;
                 target.hit = true;
-                target.ptsFaible = ptsFaible;
             }
             target.defense = resultDefense;
+            content.targets.push(target);
+        }
 
-            content.actorName = actor.name;
+        flags = {
+            targets:content.targets,
+            total:content.total,
+        };
+
+        return {
+            content,
+            flags,
+        }
+    }
+
+    async #prepareSendWeaponWithoutRoll(data={}) {
+        const index = data?.index ?? 0;
+        const targets = game.user.targets;
+        let flags = {};
+
+        let content = {
+            index:index,
+            caracteristiques:`${this.carac.join(' / ')}`,
+            bonus:this.bonus,
+            targets:[],
+            weapon:this.weapon,
+            noAtk:true,
+        };
+
+        for(let t of targets) {
+            const actor = t.actor;
+
+            let target = {
+                id:t.id,
+                name:actor.name,
+                aspects:actor.system.aspects,
+                type:actor.type,
+                effets:[],
+                isEmpty:true,
+            };
+
+            content.targets.push(target);
         }
 
         flags = {
@@ -971,10 +1137,9 @@ export class RollKnight {
             maximize:this.maximize,
         };
 
-        await this.#handleAttaqueEffet(weapon, main, rolls);
-
+        await this.#handleAttaqueEffet(weapon, main, rolls, data?.updates ?? {});
         foundry.utils.mergeObject(main, finalDataToAdd);
-
+        flags = foundry.utils.mergeObject(this.addFlags, flags)
         let chatData = {
             user:game.user.id,
             speaker: {
@@ -986,13 +1151,21 @@ export class RollKnight {
             content:await renderTemplate(RollKnight.template, main),
             sound: CONFIG.sounds.dice,
             rolls:rolls,
-            flags: flags,
             rollMode:chatRollMode,
         };
 
-        if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
+        ChatMessage.applyRollMode(chatData, chatRollMode);
+        const msg = await ChatMessage.create(chatData)
 
-        await ChatMessage.create(chatData)
+        await addFlags(msg, flags);
+        const allInOne = msg?.flags?.knight?.rollAll ?? false;
+        if(allInOne) {
+            const hasNotDmg = msg?.flags?.knight?.noDmg ?? false;
+            const hasNotViolence = msg?.flags?.knight?.noViolence ?? false;
+
+            if(!hasNotDmg) await rollDamage(msg, {});
+            if(!hasNotViolence) await rollViolence(msg, {});
+        }
     }
 
     #isEffetActive(effets, options, data=[]) {
@@ -1021,6 +1194,7 @@ export class RollKnight {
             else if(this.#hasEffet(effets, d) && this.#searchOptions(options, d).active) result = true;
         }
 
+
         return result;
     }
 
@@ -1044,7 +1218,7 @@ export class RollKnight {
         return result;
     }
 
-    async #handleAttaqueEffet(weapon, content, rolls) {
+    async #handleAttaqueEffet(weapon, content, rolls, updates={}) {
         const armorIsWear = this.armorIsWear;
         const localize = getAllEffects();
         const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
@@ -1061,154 +1235,204 @@ export class RollKnight {
             const effet = this.#getEffet(raw, l);
 
             if(this.#isEffetActive(raw, options, [l])) {
-                switch(l) {
-                    case 'aucundegatsviolence':
-                        if(effet) {
-                            detailledEffets.push({
-                                simple:l,
-                                key:effet,
-                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}`)),
-                            });
-
-                            noDmg = true;
-                            noViolence = true;
-                        }
-                        break;
-
-                    case 'barrage':
-                    case 'choc':
-                    case 'electrifiee':
-                    case 'artillerie':
-                    case 'demoralisant':
-                    case 'esperance':
-                    case 'lunetteintelligente':
-                    case 'cadence':
-                    case 'chromeligneslumineuses':
-                        if(effet) detailledEffets.push({
+                if(this.#isEffetActive(raw, options, ['barrage'])) {
+                    if(l === 'barrage') {
+                        detailledEffets.push({
                             simple:l,
                             key:effet,
                             label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
                             description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
                         });
-                        break;
 
-                    case 'lumiere':
-                        if(effet && !this.#isEffetActive(raw, options, 'lumineuse')) {
-                            let value = parseInt(effet.split(' ')[1]);
-                            if(this.#isEffetActive(raw, options, 'arabesqueiridescentes')) value += 1;
-
-                            detailledEffets.push({
-                                simple:l,
-                                key:effet,
-                                label:`${game.i18n.localize(loc.label)} ${value}`,
-                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
-                            });
-                        } else if(effet && !this.#isEffetActive(raw, options, 'arabesqueiridescentes')) {
-                            detailledEffets.push({
-                                simple:l,
-                                key:effet,
-                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
-                            });
-                        }
-                        break;
-
-                    case 'arabesqueiridescentes':
-                        if(effet && !this.#isEffetActive(raw, options, 'lumiere')) {
-                            detailledEffets.push({
-                                simple:l,
-                                key:effet,
-                                label:`${game.i18n.localize(loc.label)} 1`,
-                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
-                            });
-                        } else if(effet && this.#isEffetActive(raw, options, 'lumineuse')) {
-                            let value = parseInt(this.#getEffet(raw, 'lumiere').split(' ')[1])+1;
-
-                            detailledEffets.push({
-                                simple:l,
-                                key:effet,
-                                label:`${game.i18n.localize(localize['lumiere'].label)} ${value}`,
-                                description:this.#sanitizeTxt(game.i18n.localize(`${localize['lumiere'].description}-short`)),
-                            });
-
-                            effets.push({
-                                simple:l,
-                                key:effet,
-                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
-                            });
-                        } else {
-                            if(effet) effets.push({
-                                simple:l,
-                                key:effet,
-                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
-                            });
-                        }
-                        break;
-
-                    case 'lumineuse':
-                        if(effet && !this.#isEffetActive(raw, options, 'arabesqueiridescentes')) {
-                            detailledEffets.push({
-                                simple:l,
-                                key:effet,
-                                label:`${game.i18n.localize(localize['lumiere'].label)} 2`,
-                                description:this.#sanitizeTxt(game.i18n.localize(`${localize['lumiere'].description}-short`)),
-                            });
-                        }
-
-                        effets.push({
-                            simple:l,
-                            key:effet,
-                            label:`${game.i18n.localize(loc.label)}`,
-                            description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
-                        });
-                        break;
-
-                    case 'jumelle':
-                    case 'jumelageakimbo':
-                    case 'jumeleakimbo':
-                        if(effet && this.style === 'akimbo') detailledEffets.push({
-                            simple:l,
-                            key:effet,
-                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                            description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
-                        });
-                        else if(effet) effets.push({
-                            simple:l,
-                            key:effet,
-                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                            description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
-                        });
-                        break;
-
-                    case 'jumeleambidextrie':
-                    case 'jumelageambidextrie':
-                    case 'soeur':
-                        if(effet && this.style === 'ambidextre') detailledEffets.push({
-                            simple:l,
-                            key:effet,
-                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                            description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
-                        });
-                        else if(effet) effets.push({
-                            simple:l,
-                            key:effet,
-                            label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
-                            description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
-                        });
-                        break;
-
-                    default:
+                        noDmg = true;
+                        noViolence = true;
+                    } else {
                         if(effet) effets.push({
                             simple:l,
                             key:effet,
                             label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
                             description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
                         });
-                        break;
+                    }
+                } else {
+                    switch(l) {
+                        case 'aucundegatsviolence':
+                            if(effet) {
+                                detailledEffets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}`)),
+                                });
+
+                                noDmg = true;
+                                noViolence = true;
+                            }
+                            break;
+
+                        case 'chargeur':
+                            if(effet) {
+                                const isComposed = /module_|capacite_/.test(weapon.id) ? true : false;
+                                const wpnId = isComposed ? weapon.id.split('_')[1] : weapon.id;
+                                const wpn = this.actor.items.get(wpnId);
+                                let qty = 0;
+
+                                if(wpn) {
+                                    if(isComposed) {
+                                        wpn.system.useMunition(weapon.id.split('_')[2], weapon, updates);
+                                        qty = wpn.system.qtyMunition(weapon.id.split('_')[2], weapon)-1;
+                                    }
+                                    else {
+                                        wpn.system.useMunition(updates);
+                                        qty = wpn.system.qtyMunition-1;
+                                    }
+                                }
+                                let label = loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${qty} / ${effet.split(' ')[1]}` : `${qty} / ${game.i18n.localize(loc.label)}`;
+                                if(weapon.id.includes('longbow')) label = loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`;
+
+                                effets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:label,
+                                    description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                                });
+                            }
+                            break;
+
+                        case 'choc':
+                        case 'electrifiee':
+                        case 'artillerie':
+                        case 'demoralisant':
+                        case 'esperance':
+                        case 'lunetteintelligente':
+                        case 'cadence':
+                        case 'chromeligneslumineuses':
+                            if(effet) detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                            break;
+
+                        case 'lumiere':
+                            if(effet && !this.#isEffetActive(raw, options, 'lumineuse')) {
+                                let value = parseInt(effet.split(' ')[1]);
+                                if(this.#isEffetActive(raw, options, 'arabesqueiridescentes')) value += 1;
+
+                                detailledEffets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:`${game.i18n.localize(loc.label)} ${value}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                });
+                            } else if(effet && !this.#isEffetActive(raw, options, 'arabesqueiridescentes')) {
+                                detailledEffets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                                });
+                            }
+                            break;
+
+                        case 'arabesqueiridescentes':
+                            if(effet && !this.#isEffetActive(raw, options, 'lumiere')) {
+                                detailledEffets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:`${game.i18n.localize(loc.label)} 1`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                });
+                            } else if(effet && this.#isEffetActive(raw, options, 'lumineuse')) {
+                                let value = parseInt(this.#getEffet(raw, 'lumiere').split(' ')[1])+1;
+
+                                detailledEffets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:`${game.i18n.localize(localize['lumiere'].label)} ${value}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(`${localize['lumiere'].description}-short`)),
+                                });
+
+                                effets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                                });
+                            } else {
+                                if(effet) effets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                                });
+                            }
+                            break;
+
+                        case 'lumineuse':
+                            if(effet && !this.#isEffetActive(raw, options, 'arabesqueiridescentes')) {
+                                detailledEffets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:`${game.i18n.localize(localize['lumiere'].label)} 2`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(`${localize['lumiere'].description}-short`)),
+                                });
+                            }
+
+                            effets.push({
+                                simple:l,
+                                key:effet,
+                                label:`${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                            break;
+
+                        case 'jumelle':
+                        case 'jumelageakimbo':
+                        case 'jumeleakimbo':
+                            if(effet && this.style === 'akimbo') detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                            else if(effet) effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                            break;
+
+                        case 'jumeleambidextrie':
+                        case 'jumelageambidextrie':
+                        case 'soeur':
+                            if(effet && this.style === 'ambidextre') detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                            else if(effet) effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                            break;
+
+                        default:
+                            if(effet) effets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                            });
+                            break;
+                    }
                 }
+
             } else {
                 if(effet) effets.push({
                     simple:l,
@@ -1291,20 +1515,37 @@ export class RollKnight {
 
         for(let c of content.content) {
             const total = c.total;
-            c.bonus.push(5);
 
             let hasBtnApply = false;
 
             for(let t of c.targets) {
-                const tgt = game.user.targets.find(tgt => tgt.id === t.id);
-                const actor = tgt.actor;
+                const actor = canvas.tokens.get(t.id).actor;
 
                 if(actor) {
                     const type = actor.type;
                     const target = type === 'vehicule' ? actor.system.pilote : actor;
                     const chair = target?.system?.aspects?.chair?.value ?? 0;
 
+                    if(actor.statuses.has('designation') && weapon.type === 'distance' && total) {
+                        const newTotal = total + 1;
+
+                        if(t.hit) {
+                            t.marge += 1;
+                        } else if(newTotal > t.difficulty) {
+                            t.hit = true;
+                            t.marge = newTotal - t.difficulty;
+                        }
+
+                        t.effets.push({
+                            value:`+1 ${game.i18n.localize('KNIGHT.JETS.Succes')} (${game.i18n.localize('KNIGHT.AUTRE.Inclus')})`,
+                            key:'tgtWithDesignation',
+                            label:game.i18n.localize('KNIGHT.EFFETS.DESIGNATION.Label'),
+                            subtitle:`${newTotal} ${game.i18n.localize('KNIGHT.JETS.Succes')} / ${game.i18n.localize('KNIGHT.EFFETS.DESIGNATION.IgnoreEpicFail')}`,
+                        })
+                    }
                     for(let d of detailledEffets) {
+                        if(!target) continue;
+
                         const comparaison = target.type === 'knight' ? chair : Math.ceil(chair/2);
                         const chairAE = target.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
@@ -1333,6 +1574,7 @@ export class RollKnight {
                         }
                     }
 
+
                     if(this.#isEffetActive(raw, options, CONFIG.KNIGHT.LIST.EFFETS.status.attaque)) {
                         hasBtnApply = true;
                         t.btn = [{
@@ -1354,11 +1596,16 @@ export class RollKnight {
 
             c.noDmg = noDmg;
             c.noViolence = noViolence;
+
+            this.addFlags.btnApply = hasBtnApply;
+            this.addFlags.noDmg = noDmg;
+            this.addFlags.noViolence = noViolence;
         }
 
         content.detailledEffets = detailledEffets;
         // content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
-        content.effets = effets.map(effet => { return { description : effet.description.replace(/<.*?>/g, ''), key: effet.key, label: effet.label } });
+
+        content.effets = effets.map(effet => { return { description : decodeHtmlEntities(effet.description.replace(/<.*?>/g, '')), key: effet.key, label: effet.label } });
     }
 
     async #handleDamageEffet(weapon, data={}, bonus=[], content={}, rolls=[]) {
@@ -1401,11 +1648,24 @@ export class RollKnight {
         let titleDice = '';
         let title = '';
         let isGhostActive = false;
+        let idErsatzGhost = undefined;
+        let isErsatzGhostActive = false;
         let isChangelingActive = false;
         let isGoliathActive = false;
 
-        if(getGhost && armorIsWear && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && this.#isEffetActive(raw, options, ['silencieux']))))) {
-            isGhostActive = (getGhost?.active?.conflit ?? false) || (getGhost?.active?.horsconflit ?? false) ? true : false;
+
+        if(getGhost && armorIsWear && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && (this.#isEffetActive(raw, options, ['silencieux']) || this.#isEffetActive(raw, options, ['munitionssubsoniques']) || this.#isEffetActive(raw, options, ['assassine'])))))) {
+            isGhostActive = data?.flags?.ghost;
+        }
+
+        if(armorIsWear && data?.flags?.ersatzghost?.value && data?.flags?.ersatzghost?.id  && (
+            (weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) ||
+            (weapon.type === 'distance' && (this.#isEffetActive(raw, options, ['silencieux']) ||
+            this.#isEffetActive(raw, options, ['munitionssubsoniques']) ||
+            this.#isEffetActive(raw, options, ['assassine'])))))) {
+
+            isErsatzGhostActive = data?.flags?.ersatzghost?.value;
+            idErsatzGhost = data?.flags?.ersatzghost?.id;
         }
 
         if(getChangeling && armorIsWear) {
@@ -1504,11 +1764,6 @@ export class RollKnight {
                 }
             }
 
-            if (isGhostActive) {
-                bonus.push(discretion + odDiscretion);
-                title += ` + ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label')}`;
-            }
-
             if(odDiscretion >= 2) {
                 if(this.isSurprise) {
                     bonus.push(discretion);
@@ -1540,6 +1795,98 @@ export class RollKnight {
             }
         }
 
+        if(armorIsWear && isGhostActive) {
+            const discretion = this.isPJ ? this.getCaracteristique('masque', 'discretion') : Math.ceil(this.getAspect('masque')/2);
+            const odDiscretion = this.isPJ ? this.getOD('masque', 'discretion') : this.getAE('masque');
+
+            bonus.push(discretion + odDiscretion);
+            title += ` + ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Label')}`;
+        }
+
+        if(armorIsWear && isErsatzGhostActive) {
+            const ersatzghost = this.attaquant.items.find(itm => itm._id === idErsatzGhost).system.niveau.actuel.ersatz.rogue;
+            let ersatzbonus = 0;
+
+            if(this.isPJ) {
+                ersatzbonus = this.getAspectOrCaracteristique(ersatzghost.degats.caracteristique);
+
+                if(ersatzghost.degats.od) {
+                    ersatzbonus += this.getAEAspectOrODCaracteristique(ersatzghost.degats.caracteristique);
+                }
+            } else {
+                switch(ersatzghost.degats.caracteristique) {
+                    case 'deplacement':
+                    case 'force':
+                    case 'endurance':
+                        ersatzbonus = Math.ceil(this.getAspect('chair')/2);
+
+                        if(ersatzghost.degats.od) {
+                            ersatzbonus += this.getAE('chair');
+                        }
+                        break;
+
+                    case 'combat':
+                    case 'hargne':
+                    case 'instinct':
+                        ersatzbonus = Math.ceil(this.getAspect('bete')/2);
+
+                        if(ersatzghost.degats.od) {
+                            ersatzbonus += this.getAE('bete');
+                        }
+                        break;
+
+                    case 'tir':
+                    case 'savoir':
+                    case 'technique':
+                        ersatzbonus = Math.ceil(this.getAspect('machine')/2);
+
+                        if(ersatzghost.degats.od) {
+                            ersatzbonus += this.getAE('machine');
+                        }
+                        break;
+
+                    case 'parole':
+                    case 'aura':
+                    case 'sangFroid':
+                        ersatzbonus = Math.ceil(this.getAspect('dame')/2);
+
+                        if(ersatzghost.degats.od) {
+                            ersatzbonus += this.getAE('dame');
+                        }
+                        break;
+
+                    case 'discretion':
+                    case 'dexterite':
+                    case 'perception':
+                        ersatzbonus = Math.ceil(this.getAspect('masque')/2);
+
+                        if(ersatzghost.degats.od) {
+                            ersatzbonus += this.getAE('masque');
+                        }
+                        break;
+
+                    default:
+                        ersatzbonus = Math.ceil(this.getAspect(ersatzghost.degats.caracteristique)/2);
+
+                        if(ersatzghost.degats.od) {
+                            ersatzbonus += this.getAE(ersatzghost.degats.caracteristique);
+                        }
+                        break;
+                }
+            }
+
+            if(ersatzbonus > 0) {
+                bonus.push(ersatzbonus);
+                title += ` + ${game.i18n.localize('KNIGHT.ITEMS.MODULE.ERSATZ.ROGUE.Label')}`;
+
+                if(ersatzghost.degats.dice) {
+                    wpnDice += ersatzbonus;
+                    titleDice += ` + ${game.i18n.localize('KNIGHT.ITEMS.MODULE.ERSATZ.ROGUE.Label')}`;
+                }
+            }
+
+        }
+
         if(style === 'pilonnage') {
             if(dataStyle.type) {
                 if(dataStyle.type === 'degats') {
@@ -1566,11 +1913,20 @@ export class RollKnight {
         if(data.flags.dataMod.degats.dice > 0) {
             wpnDice += data.flags.dataMod.degats.dice;
             titleDice += ` + ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
+        } else if(data.flags.dataMod.degats.dice < 0) {
+            wpnDice += data.flags.dataMod.degats.dice;
+            titleDice += ` - ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
         }
 
-        if(data.flags.dataMod.degats.fixe > 0) {
+        if(data.flags.dataMod.degats.fixe > 0 && (data.flags.dataMod.degats.dice > 0 || data.flags.dataMod.degats.dice === 0)) {
             bonus.push(data.flags.dataMod.degats.fixe);
             title += ` + ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
+        } else if(data.flags.dataMod.degats.fixe > 0 && data.flags.dataMod.degats.dice < 0) {
+            bonus.push(-data.flags.dataMod.degats.fixe);
+            title += ` - ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
+        } else if(data.flags.dataMod.degats.fixe < 0 && (data.flags.dataMod.degats.dice > 0 || data.flags.dataMod.degats.dice === 0)) {
+            bonus.push(data.flags.dataMod.degats.fixe);
+            title += ` - ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
         }
 
         if(modulesDice > 0) {
@@ -1649,6 +2005,20 @@ export class RollKnight {
                                 label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
                                 description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
                             });
+                        }
+                        break;
+
+                    case 'precision':
+                        if(effet) {
+                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('machine', 'tir') : Math.ceil(this.getAspect('machine')/2);
+                            let totalOD = 0;
+
+                            if(this.attaquant.type === 'knight') {
+                                totalOD = armorIsWear ? this.getOD('machine', 'tir') : 0;
+                            }
+
+                            bonus.push(total+totalOD);
+                            title += `${loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`}`
                         }
                         break;
 
@@ -1855,7 +2225,7 @@ export class RollKnight {
                     case 'munitionssubsoniques':
                     case 'silencieux':
                         if(effet) {
-                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('masque', 'discretion') : this.getAspect('masque');
+                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('masque', 'discretion') : Math.ceil(this.getAspect('masque')/2);
                             let totalOD = 0;
 
                             if(this.attaquant.type === 'knight') {
@@ -2105,10 +2475,16 @@ export class RollKnight {
             }
         }
 
-        wpnDice = style === 'akimbo' ? wpnDice+baseDice : wpnDice;
+        wpnDice = wpnDice;
         wpnDice += wpnBonusDice;
+
+        if(style === 'akimbo' && data.flags.secondWpn) {
+            const secondWpn = getFinalWeaponData(style, data.flags.secondWpn);
+            wpnDice += secondWpn.degats.dice;
+        }
+
         const dice = hasTenebricide ? Math.floor(wpnDice/2) : wpnDice;
-        let formula = `${dice}D6`;
+        let formula = `${Math.max(dice, 0)}D6`;
         title = weapon.degats.fixe > 0 ? `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6 + ${game.i18n.localize("KNIGHT.AUTRE.Base")}${title}` :
         `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6${title}`;
 
@@ -2127,18 +2503,30 @@ export class RollKnight {
         for(let t of targets) {
             t.effets = [];
             let total = roll.total+Object.values(bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-            const tgt = game.user.targets.find(tgt => tgt.id === t.id);
-            const actor = tgt.actor;
+            const actor = canvas.tokens.get(t.id).actor;
             const type = actor.type;
             const target = type === 'vehicule' ? actor.system.pilote : actor;
 
             for(let d of detailledEffets) {
                 switch(d.simple) {
+                    case 'revetementomega':
+                        if(t.marge && this.isSurprise) {
+                            total += parseInt(d.value);
+
+                            t.effets.push({
+                                simple:d.simple,
+                                key:d.key,
+                                label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[d.simple].label)}`})}`,
+                                empty:true,
+                            });
+                        }
+                        break;
+
                     case 'connectee':
                     case 'munitionshypervelocite':
                     case 'assistanceattaque':
                         if(t.marge) {
-                            total += t.marge,
+                            total += (t.marge-1),
 
                             t.effets.push({
                                 simple:d.simple,
@@ -2297,11 +2685,20 @@ export class RollKnight {
         if(data.flags.dataMod.violence.dice > 0) {
             wpnDice += data.flags.dataMod.violence.dice;
             titleDice += ` + ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
+        } else if(data.flags.dataMod.violence.dice < 0) {
+            wpnDice += data.flags.dataMod.violence.dice;
+            titleDice += ` - ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
         }
 
-        if(data.flags.dataMod.violence.fixe > 0) {
+        if(data.flags.dataMod.violence.fixe > 0 && (data.flags.dataMod.violence.dice > 0 || data.flags.dataMod.violence.dice === 0)) {
             bonus.push(data.flags.dataMod.violence.fixe);
             title += ` + ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
+        } else if(data.flags.dataMod.violence.fixe > 0 && data.flags.dataMod.violence.dice < 0) {
+            bonus.push(-data.flags.dataMod.violence.fixe);
+            title += ` - ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
+        } else if(data.flags.dataMod.violence.fixe < 0 && (data.flags.dataMod.violence.dice > 0 || data.flags.dataMod.violence.dice === 0)) {
+            bonus.push(data.flags.dataMod.violence.fixe);
+            title += ` - ${game.i18n.localize('KNIGHT.JETS.Modificateur')}`;
         }
 
         if(modulesDice > 0) {
@@ -2647,10 +3044,16 @@ export class RollKnight {
             }
         }
 
-        wpnDice = style === 'akimbo' ? wpnDice+Math.ceil(baseDice/2) : wpnDice;
+        wpnDice = wpnDice;
         wpnDice += wpnBonusDice;
+
+        if(style === 'akimbo' && data.flags.secondWpn) {
+            const secondWpn = getFinalWeaponData(style, data.flags.secondWpn);
+            wpnDice += Math.ceil(secondWpn.violence.dice/2);
+        }
+
         const dice = hasTenebricide ? Math.floor(wpnDice/2) : wpnDice;
-        let formula = `${dice}D6`;
+        let formula = `${Math.max(dice, 0)}D6`;
         title = weapon.degats.fixe > 0 ? `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6 + ${game.i18n.localize("KNIGHT.AUTRE.Base")}${title}` :
         `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6${title}`;
 
@@ -2667,8 +3070,7 @@ export class RollKnight {
         await roll.evaluate(rollOptions);
 
         for(let t of targets) {
-            const tgt = game.user.targets.find(tgt => tgt.id === t.id);
-            const actor = tgt.actor;
+            const actor = canvas.tokens.get(t.id).actor;
             const type = actor.type;
             const target = type === 'vehicule' ? actor.system.pilote : actor;
             t.effets = [];
@@ -2693,7 +3095,7 @@ export class RollKnight {
 
                     case 'fureur':
                         if(target.type === 'bande' && fureur > 0) {
-                            if(target.system?.aspects?.chair?.value ?? 0 > 10) {
+                            if((target.system?.aspects?.chair?.value ?? 0) > 10) {
                                 total += fureur;
 
                                 t.effets.push({
@@ -2708,7 +3110,7 @@ export class RollKnight {
 
                     case 'ultraviolence':
                         if(target.type === 'bande' && ultraviolence > 0) {
-                            if(target.system?.aspects?.chair?.value ?? 0 < 10) {
+                            if((target.system?.aspects?.chair?.value ?? 0) < 10) {
                                 total += ultraviolence;
 
                                 t.effets.push({
@@ -3079,6 +3481,14 @@ export class RollKnight {
             type:'distance',
             cout:system?.cout ?? 0,
             espoir:system?.espoir ?? 0,
+            effets:{
+                raw:system?.effets?.raw ?? [],
+                custom:system?.effets?.custom ?? [],
+            },
+            distance:{
+                raw:system?.distance?.raw ?? [],
+                custom:system?.distance?.custom ?? [],
+            },
             bonus:{
                 degats:{
                     dice:modules?.degats?.dice ?? 0,
@@ -3105,21 +3515,11 @@ export class RollKnight {
             }
         }
 
+        data.effets.raw = data.effets.raw.concat(specialRaw, system?.distance?.raw ?? []);
+        data.effets.custom = data.effets.custom.concat(specialCustom, system?.distance?.custom ?? []);
+        raw = data.effets.raw;
+
         if(!system?.optionsmunitions?.has ?? false) {
-            data.effets = {
-                raw:system?.effets?.raw ?? [],
-                custom:system?.effets?.custom ?? [],
-            };
-            data.distance = {
-                raw:system?.distance?.raw ?? [],
-                custom:system?.distance?.custom ?? [],
-            };
-
-            data.effets.raw = data.effets.raw.concat(specialRaw);
-            data.effets.custom = data.effets.custom.concat(specialCustom);
-
-            raw = system.effets.raw.concat(system?.distance?.raw ?? []);
-
             if(!system?.degats?.variable?.has ?? false) data.degats = {dice:system?.degats?.dice ?? 0, fixe:system?.degats?.fixe ?? 0};
             else {
                 const list = {};
@@ -3194,19 +3594,6 @@ export class RollKnight {
 
             raw = system.effets.raw.concat(data.munitions[data.actuel].raw)
 
-            data.effets = {
-                raw:raw,
-                custom:system.effets.custom.concat(data.munitions[data.actuel].custom),
-            };
-
-            data.distance = {
-                raw:system.distance.raw,
-                custom:system.distance.custom,
-            };
-
-            data.effets.raw = data.effets.raw.concat(specialRaw);
-            data.effets.custom = data.effets.custom.concat(specialCustom);
-
             let classes = [];
             classes.push('selectSimple munitions full');
 
@@ -3226,6 +3613,46 @@ export class RollKnight {
         }
 
         data.options = modules.options ? modules.options.concat(data.options) : data.options;
+
+        if(this.#hasEffet(raw, 'boostviolence')) {
+            let classes = ['selectDouble', 'boostviolence'];
+            const getOption = getWpn ? getWpn.options.find(itm => itm.classes.includes('boostviolence')) : undefined;
+            const boostViolenceEntry = raw.find(entry => entry.includes("boostviolence"));
+            const boostViolenceValue = parseInt(boostViolenceEntry.split(' ')[1]);
+            const list = Array.from({length: boostViolenceValue+1}, (_, index) => [index, `${index}D6`]).reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
+
+            if(!this.#hasEffet(raw, 'boostdegats')) classes.push('full');
+
+            data.options.push({
+                key:'select',
+                classes:classes.join(' '),
+                label:game.i18n.localize(CONFIG.KNIGHT.effetsfm4.boostviolence.label),
+                list,
+                selected:getOption ? getOption.selected : 0,
+                value:1,
+                selectvalue:0,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'boostdegats')) {
+            let classes = ['selectDouble', 'boostdegats'];
+            const getOption = getWpn ? getWpn.options.find(itm => itm.classes.includes('boostdegats')) : undefined;
+            const boostDegatsEntry = raw.find(entry => entry.includes("boostdegats"));
+            const boostDegatsValue = parseInt(boostDegatsEntry.split(' ')[1]);
+            const list = Array.from({length: boostDegatsValue+1}, (_, index) => [index, `${index}D6`]).reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
+
+            if(!this.#hasEffet(raw, 'boostviolence')) classes.push('full');
+
+            data.options.push({
+                key:'select',
+                classes:classes.join(' '),
+                label:game.i18n.localize(CONFIG.KNIGHT.effetsfm4.boostdegats.label),
+                list,
+                selected:getOption ? getOption.selected : 0,
+                value:1,
+                selectvalue:0,
+            });
+        }
 
         if(this.#hasEffet(raw, 'tirenrafale')) {
             let classes = ['tirenrafale', 'center', 'roll', 'full'];
@@ -3261,7 +3688,7 @@ export class RollKnight {
             });
         }
 
-        if(this.#hasEffet(raw, 'barrage') && !this.#hasEffet(raw, 'aucundegatsviolence')) {
+        if(this.#hasEffet(raw, 'barrage')) {
             let classes = ['barrage', 'active', 'full'];
 
             data.options.push({
@@ -3269,7 +3696,103 @@ export class RollKnight {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.BARRAGE.Label'),
                 value:'barrage',
-                active:false,
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'chargeurballesgrappes')) {
+            let classes = ['chargeurballesgrappes', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.CHARGEURBALLESGRAPPES.Label'),
+                value:'chargeurballesgrappes',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'chargeurmunitionsexplosives')) {
+            let classes = ['chargeurmunitionsexplosives', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.CHARGEURMUNITIONSEXPLOSIVES.Label'),
+                value:'chargeurmunitionsexplosives',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'munitionsiem')) {
+            let classes = ['munitionsiem', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSIEM.Label'),
+                value:'munitionsiem',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'munitionsnonletales')) {
+            let classes = ['munitionsnonletales', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSNONLETALES.Label'),
+                value:'munitionsnonletales',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'munitionshypervelocite')) {
+            let classes = ['munitionshypervelocite', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSHYPERVELOCITE.Label'),
+                value:'munitionshypervelocite',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'pointeurlaser')) {
+            let classes = ['pointeurlaser', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.POINTEURLASER.Label'),
+                value:'pointeurlaser',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'munitionsdrones')) {
+            let classes = ['munitionsdrones', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSDRONES.Label'),
+                value:'munitionsdrones',
+                active:true,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'munitionssubsoniques')) {
+            let classes = ['munitionssubsoniques', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.AMELIORATIONS.MUNITIONSSUBSONIQUES.Label'),
+                value:'munitionssubsoniques',
+                active:true,
             });
         }
 
@@ -3281,7 +3804,7 @@ export class RollKnight {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.CHROMELIGNESLUMINEUSES.Label'),
                 value:'chromeligneslumineuses',
-                active:false,
+                active:true,
             });
         } else if(this.#hasEffet(raw, 'cadence')) {
             let classes = ['cadence', 'active', 'full'];
@@ -3291,7 +3814,7 @@ export class RollKnight {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.CADENCE.Label'),
                 value:'cadence',
-                active:false,
+                active:true,
             });
         }
 
@@ -3315,7 +3838,7 @@ export class RollKnight {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.AMELIORATIONS.CRANERIEURGRAVE.Label'),
                 value:'cranerieurgrave',
-                active:false,
+                active:true,
             });
         } else if(this.#hasEffet(raw, 'obliteration')) {
             let classes = ['obliteration', 'active', 'full'];
@@ -3325,7 +3848,7 @@ export class RollKnight {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.OBLITERATION.Label'),
                 value:'obliteration',
-                active:false,
+                active:true,
             });
         }
 
@@ -3337,7 +3860,7 @@ export class RollKnight {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.TENEBRICIDE.Label'),
                 value:'tenebricide',
-                active:false,
+                active:true,
             });
         }
 

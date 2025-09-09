@@ -1,3 +1,338 @@
+## v3.49.2
+### Bugfix
+- Correction d'un bug empêchant de jeter les dégâts / la violence si aucune seconde arme n'était sélectionnée.
+
+## v3.49.1
+### Bugfix
+- Correction d'un problème empêchant d'attaquer avec une arme à distance.
+- Correction d'un problème activant tout le temps le ténèbricide sur les modules ne nécessitant pas de jet d'attaque (corrigé via une fenêtre de confirmation).
+- Correction d'un problème d'affichage lors de l'ouverture de la fenêtre de jet via une arme sur tourelle.
+
+## v3.49.0
+### Améliorations
+- Ajout de la possibilité de définir la seconde arme lors d'un tir en akimbo, en utilisant le clique droit.
+- Ajout de l'état "Peur", qui demandera quel a été le résultat du jet pour y résister lors de l'application... Et appliquera les modificateurs correct le cas échéant !
+- Ajout de la création automatique du token lors de l'invocation d'une créature (armure Druid ou Shaman, ou certains modules invoquant une autre créature), s'il y a un token lié à l'acteur sur la scène. Les tokens créés sont supprimés lors de la révocation.
+- Ajout de la possibilité de définir le style du token dans la fiche de l'armure Druid pour les compagnons.
+- Ajout de l'affichage des slots (restant et totaux) pour le compagnon Lion de la Druid.
+
+### Bugfix
+- Réactivation de l'option "Jeter les dégâts et la violence en même temps que le jet d'attaque", qui devrait être corrigée !
+- Correction du Camouflage Optique (Ersatz Rogue).
+- Le bouton "Appliquer tous les dégâts" ne fonctionnait pas correctement, c'est corrigé.
+- Correction de certains bugs des Mecha-Armures.
+
+## v3.48.3
+### Bugfix
+- Désactivation de l'option "Jeter les dégâts et la violence en même temps que le jet d'attaque", car cette option semble provoquer un bug et sera réparée dans une prochaine mise à jour.
+
+## v3.48.2
+### Bugfix
+- Correction d'un bug empêchant de drag & drop une arme sur une fiche du Knight.
+
+## v3.48.1
+### Bugfix
+- Correction de la dépense d'énergie et d'espoir des personnages non-knight.
+
+## v3.48.0
+### Améliorations
+- Amélioration de la prise en charge des armures sur les PNJ (certaines capacités ne fonctionnaient pas correctement).
+- Retrait d'anciens fichiers devenus inutiles.
+
+### Bugfix
+- Correction de quelques bugs visuels suite à la nouvelle façon d'afficher la fenêtre de jets pour les armes sur tourelle.
+
+
+## v3.47.0
+### Améliorations
+- Ajout d'un bouton "Attaque surprise" à la fenêtre d'application des dégâts, qui permet de recalculer tout comme s'il s'agissait d'une attaque surprise, si ça avait été oublié dans le jet.
+
+### Bugfix
+- Correction d'un problème de calcul dans l'assistance à l'attaque (1 dégâts de trop était infligé).
+- Correction d'un problème de gestion du perce armure dans l'application des dégâts.
+- Correction d'un message en doublon lors de "Remplir tous les chargeurs".
+
+## v3.46.0
+### Améliorations
+- Amélioration de la mise en page pour les grenades personnalisées.
+
+### Bugfix
+- Correction d'un bug de gestion des grenades personnalisées.
+- Correction d'un oubli de l'effet lumière 2 sur les grenades flashbang.
+- Correction d'un bug de gestion des effets, pour les armures rajoutant des effets aux armes.
+- Correction du non-affichage des variations de couleurs pour les messages privés.
+
+## v3.45.0
+### Améliorations
+- Changement de la notification d'activation par le son de notification de Foundry, plutôt que par le son de dés.
+
+### Bugfix
+- Correction de l'impossibilité de mettre de l'art sur les PNJ.
+- Correction de la mise en page de l'art sur les PNJ.
+
+## v3.44.6
+### Bugfix
+- Correction d'un bug faisant que les jets devant être privés ne l'étaient pas.
+
+## v3.44.5
+### Bugfix
+- Correction d'un bug d'affichage du coût d'activation dans le mode mechanic de la Priest.
+Vérifiez les armures portées par le joueur, que l'activation à distance / au contact soit bien "Déplacement", y compris pour les évolutions de l'armure.
+
+## v3.44.4
+### Bugfix
+- Correction d'un bug ne sauvegardant pas le type des bandes.
+
+## v3.44.3
+### Bugfix
+- Correction d'un bug d'affichage avec l'image des distinctions.
+
+## v3.44.2
+### Bugfix
+- Correction supplémentaire sur le problème des hauts faits des PNJ.
+
+## v3.44.1
+### Bugfix
+- Correction d'un bug n'enregistrant pas le haut fait des PNJ.
+
+## v3.44.0
+### Améliorations
+- Compatibilité V13.
+- Ajout de la possibilité de mettre plusieurs personnalisés sur les armures.
+- Ajout de messages lors de l'activation / désactivation des capacités et modules des PJ, et lorsqu'ils cliquent sur restaurer santé / énergie / etc.
+
+### Bugfix
+- Correction de l'oubli du bouton dévérouillé pour les capacités / spéciaux personnalisés.
+
+## v3.43.2
+### Bugfix
+- Correction d'un problème de calcul des PG pouvant survenir si le coût en PG d'une arme ou d'un module était absent.
+
+## v3.43.1
+### Bugfix
+- Correction d'un bug avec le watchtower qui ne réduisait pas la réaction.
+- Correction d'un bug avec le Cadence qui ne fonctionnait pas correctement avec les dégâts automatiques.
+- Correction d'un bug qui ne permettait pas de mettre des valeurs négatives pour les modificateurs de dégâts / violence.
+
+## v3.43.0
+### Améliorations
+- Amélioration de la gestion des modules qui crée des PNJ, afin qu'ils soient, comme tous les autres cas de figure, mis dans le même dossier que le personnage parent.
+
+### Bugfix
+- Correction d'un problème empêchant le fonctionnement de l'armure de légende Warrior.
+- Correction d'un problème empêchant le fonctionnement du "modificateur de violence" dans la fenêtre de jet.
+- Correction d'un bug avec l'amélioration "Pointeur laser" qui ne fonctionnait pas.
+
+## v3.42.8
+### Bugfix
+- Correction d'un problème de calcul dans l'attaque du mode Ghost.
+
+## v3.42.7
+### Bugfix
+- Correction de la mise en page des véhicules suite à la dernière mise à jour.
+
+## v3.42.6
+### Bugfix
+- Correction de la mise en page, agrandissant le menu pour pouvoir supporter jusqu'à 4 nombres.
+
+## v3.42.5
+### Bugfix
+- Correction suite à la dernière mise à jour, causant des démultiplications de jets lors du rechargement de la page / de la partie.
+- Correction d'un bug d'encodage des caractères pour les effets personnalisés.
+
+## v3.42.4
+### Bugfix
+- Correction de l'option "Jeter les dégâts et la violence en même temps que l'attaque", qui ne fonctionnait plus.
+
+## v3.42.3
+### Bugfix
+- Dernière (je l'espère) correction pour les pertes d'espoirs.
+
+## v3.42.2
+### Bugfix
+- Correction de quelques mécomprehension sur les réductions de coût en espoir et les pertes (en attendant d'un éventuel éclaircissement) d'espoir de la Berserk.
+Actuellement, les coûts seront interprêté comme étant ce qui est dépensé par les modules, et les pertes seront les jets d'espoir ratés.
+Pour être clair : Le Noyaux Apeiron ne diminue pas les coûts en espoir, de même, le nouveau champ rajouté sur la fiche ne diminue pas non plus les coûts en espoir de la Berserk, et sert surtout d'aide mémoire. Pareil pour le Kraken, il ne diminue pas le coût en point d'espoir des modules / capacités.
+
+## v3.42.1
+### Bugfix
+- Ajout d'une traduction anglaise oubliée.
+
+## v3.42.0
+### Amélioration
+- Ajout d'un champ pour noter les réductions de pertes d'espoirs éventuels, soit comme aide mémoire, soit pour être pris en compte par les armures comme la Berserk.
+
+### Bugfix
+- Correction de divers bug sur le ciblage des tokens et le calcul des dégâts.
+- Correction de divers bug concernant la Berserk et la dépense d'espoir.
+- Correction de divers bug concernant les Mecha-armures
+
+## v3.41.8
+### Bugfix
+- Correction d'un bug empêchant de choisir des impulsions pour la Warmaster.
+
+## v3.41.7
+### Bugfix
+- Correction d'un bug avec l'effet Cadence, qui ne retirait pas 3 dés à l'attaque.
+- Correction d'un problème de compatibilité de Monk's Little Details.
+
+## v3.41.6
+### Bugfix
+- Correction d'un problème avec les évolutions d'armures.
+
+## v3.41.5
+### Bugfix
+- Correction d'un problème avec l'activation des méta-armures de légende.
+
+## v3.41.4
+### Bugfix
+- Correction de nombreux bug affectant l'armure Druid.
+
+## v3.41.3
+### Bugfix
+- Correction d'un bug empêchant le style précis de fonctionner.
+
+## v3.41.2
+### Bugfix
+- Correction d'un bug empêchant d'écrire la description limitée des chevaliers du Knight.
+
+## v3.41.1
+### Bugfix
+- Corrections de bugs de compatibilité avec Status Icon Counter.
+- Correction d'un bug avec les modules pour le compagnon Lion du Druid (encore).
+
+## v3.41.0
+### Amélioration
+- Ajout d'un bouton pour "utiliser" une configuration avec les Wolf (et déduire automatiquement les PE de tous les Wolfs).
+- Ajout de messages signalant les changements sur les compagnons du Druid (invocation, révocation, changement de configuration)
+
+### Bugfix
+- Correction de divers bugs avec les compagnons Wolf du Druid.
+- Correction d'un bug avec les modules pour le compagnon Lion du Druid.
+
+## v3.40.11
+### Bugfix
+- Correction d'un bug empêchant le jet de dé dans le cas d'un nods sur autrui sans ciblage.
+
+## v3.40.10
+### Bugfix
+- Les jets d'entraides ne compteront plus les OD.
+
+## v3.40.9
+### Bugfix
+- Correction d'un bug ne prenant pas en compte le mode Ghost sous certaines conditions.
+
+## v3.40.8
+### Bugfix
+- Correction d'un bug comptant les OD comme bonus en points de contact.
+
+## v3.40.7
+### Bugfix
+- Correction d'un bug avec Status Icon Counter, qui ne fonctionnait plus correctement, suite à une mise à jour.
+
+## v3.40.6
+### Bugfix
+- Correction d'un bug pouvant bloquer une fiche dans certains cas rares.
+- Correction d'un bug dans le jet d'initiative des bandes, qui lançait incorrectement 3D6 au lieu de faire 1.
+- Correction d'un bug dans le décompte des slots pour la Druid, qui comptait même les modules sur le Lion, alors que ça n'aurait pas du être le cas.
+- Correction d'un bug sur l'Oriflamme de la Wizard, qui ne permettait pas d'appliquer les dégâts et/ou la violence, alors que toutes les autres armes le permettent.
+
+## v3.40.5
+### Bugfix
+- Correction du calcul de l'OD 3 d'Instinct.
+
+## v3.40.4
+### Bugfix
+- Correction de la non-prise en compte de l'OD 3 d'Instinct (+3 à l'Initiative).
+- Correction du non-fonctionnement de l'Ersatz Rogue.
+
+## v3.40.3
+### Bugfix
+- Correction d'un bug d'importation des PNJ / Créature / Bande qui n'importait pas tout.
+
+## v3.40.2
+### Bugfix
+- Correction de la non-prise en charge de l'effet Désignation.
+- Correction d'un bug d'importation des PNJ / Créature / Bande qui plantait tout.
+
+## v3.40.1
+### Bugfix
+- Correction d'un oubli de traduction pour "Le débordement augmente..."
+
+## v3.40.0
+### Améliorations
+- Ajout d'un champ "Energie par attaque" sur les modules d'armes, afin d'automatiser la dépense d'énergie à chaque attaque de certains modules.
+Il s'agit des modules "Pod Missile" et "Pod Roquette" (et peut-être d'autres), pensez à mettre à jour manuellement les modules sur les personnages.
+
+### Bugfix
+- Correction d'un bug ne remettant pas à zéro les chargeurs pour certains modules.
+- Correction d'un bug rare n'affichant pas des modules dans la fenêtre de jet.
+- Correction d'un bug d'affichage mineur dans le lanceur de jet.
+
+## v3.39.3
+### Bugfix
+- Correction de l'impossibilité d'ajouter des langues.
+- Correction de la position du bouton pour ajouter des contacts, qui était passé derrière la valeur actuel / max des contacts.
+
+## v3.39.2
+### Bugfix
+- Correction d'un bug permettant aux PNJ d'utiliser le mode Ghost.
+
+## v3.39.1
+### Bugfix
+- Correction d'un bug rendant impossible de faire des jets de modules d'armes sur les véhicules.
+
+## v3.39.0
+### Améliorations
+- Ajout de la possibilité de rentrer à la main un modificateur pour le nombre de langues et les points de contacts.
+- Ajout d'une valeure actuelle pour les points de contacts, en plus de la valeur max.
+
+## v3.38.5
+### Bugfix
+- Correction d'un bug de disposition du token des companions invoqués, qui n'étaient pas allié.
+- Correction de quelques erreurs de valeurs pour l'initiative des autres companions.
+
+## v3.38.4
+### Bugfix
+- Correction d'un bug ne mettant pas les valeurs corrects pour l'initiative du Lion.
+- Correction d'un bug pour la gestion de l'Ultraviolence et de la Fureur, qui mettait des valeurs incorrect dans le tchat - et provoquait un bug dans les dégâts automatique par la suite.
+
+## v3.38.3
+### Bugfix
+- Correction du message lors de l'application des dégâts, pour que ça ne parle d'armure qui se fold uniquement si le PJ est en armure
+
+## v3.38.2
+### Bugfix
+- Correction d'un bug causant l'apparition de messages d'erreurs avec certains effets et status icon counter.
+
+## v3.38.1
+### Bugfix
+- Correction d'un bug dans l'application des dégâts, qui ne prenait pas correctement en compte la Chair Exceptionnelle.
+
+## v3.38.0
+### Améliorations
+- En attendant que ce soit FAQ éventuellement, j'ai modifié le fonctionnement de barrage pour être totalement by the book.
+Dorénavant, barrage désactive tous les autres effets de l'arme et est le seul effet qui s'applique (lorsqu'il est activé).
+
+## v3.37.3
+### Bugfix
+- L'effet précision avait été oublié. C'est à présent corrigé.
+
+## v3.37.2
+### Bugfix
+- Correction d'un bug empêchant le fonctionnement de certaines armures de légendes.
+
+## v3.37.1
+### Bugfix
+- Correction d'un bug ne prenant pas en compte les soins des blessures par reconstruction corporelle.
+
+## v3.37.0
+### Améliorations
+- Ajout de la gestion pleine et entière de l'effet "Chargeur", avec décompte des munitions, possibilité de les modifier et équipement impossible à utiliser lorsque ça arrive à 0.
+
+### Bugfix
+- Correction d'un bug sur les modificateurs pour les jets d'entraide.
+
 ## v3.36.7
 ### Bugfix
 - Correction d'un bug avec les jets d'armes des PNJ.
