@@ -323,7 +323,7 @@ export class KnightSheet extends ActorSheet {
 
               if(actor !== undefined) await actor.delete();
 
-              await deleteTokens([actor.id]);
+              if(actor?.id) await deleteTokens([actor.id]);
 
               armure.update({[`system.${toupdate}`]:{
                 active:false,

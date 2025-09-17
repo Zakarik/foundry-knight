@@ -1,3 +1,8 @@
+## v3.49.4
+### Bugfix
+- Correction d'un bug qui empêchait l'affichage des IA sur les fiches des joueurs dans certains cas rares.
+- Correction d'un bug qui pouvait empêcher la désactivation du mode ascension.
+
 ## v3.49.3
 ### Bugfix
 - Correction d'un bug qui empêchait l'affichage des IA sur les fiches des joueurs dans certains cas rares.
