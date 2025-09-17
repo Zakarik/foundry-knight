@@ -1,3 +1,7 @@
+## v3.49.5
+### Bugfix
+- Correction d'un bug qui pouvait empêcher la désactivation du mode companions..
+
 ## v3.49.4
 ### Bugfix
 - Correction d'un bug qui empêchait l'affichage des IA sur les fiches des joueurs dans certains cas rares.
