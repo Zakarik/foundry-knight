@@ -240,6 +240,7 @@ export class KnightSheet extends ActorSheet {
       const toupdate = target.data("toupdate");
       const id = target.data("id");
       const special = target.data("special");
+      const active = target.data("active");
       const retrieve = target.data("depense");
       const name = target.data("name");
       const value = target.data("value") ? false : true;
@@ -259,7 +260,7 @@ export class KnightSheet extends ActorSheet {
       const remplaceEnergie = armure.system.espoir.remplaceEnergie || false;
       const armorCapacites = getData.armureData.system.capacites.selected;
 
-      if(value && type !== 'modulePnj') {
+      /*if(value && type !== 'modulePnj') {
         let coutCalcule = cout;
 
         if(remplaceEnergie && type === 'module' && coutCalcule > 0) {
@@ -271,14 +272,20 @@ export class KnightSheet extends ActorSheet {
         const depense = await this._depensePE(name, coutCalcule, true, false, flux, true);
 
         if(!depense) return;
-      }
+      }*/
 
       let depenseEspoir;
       let newActor;
       let update = {};
       let specialUpdate = {};
 
-      if(type === 'capacites') {
+
+      if(type === 'capacites') getData.activateCapacity({
+        capacite,
+        special,
+        variant})
+
+      /*if(type === 'capacites') {
         switch(capacite) {
           case "ascension":
             if(value) {
@@ -1088,7 +1095,7 @@ export class KnightSheet extends ActorSheet {
             await roll.doRoll();
             break;
         }
-      }
+      }*/
 
       if(type === 'module') {
         const dataModule = this.actor.items.get(module),
@@ -1345,6 +1352,8 @@ export class KnightSheet extends ActorSheet {
         }
       }
 
+
+      if(type === 'capacites') return;
       const exec = new game.knight.RollKnight(this.actor,
         {
         name:value ? game.i18n.localize(`KNIGHT.ACTIVATION.Label`) : game.i18n.localize(`KNIGHT.ACTIVATION.Desactivation`),

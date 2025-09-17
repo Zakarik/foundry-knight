@@ -1457,6 +1457,7 @@ export class KnightRollDialog extends Dialog {
     }
 
     #prepareTitle() {
+        console.error(this);
         this.data.title = `${this.actor.name} : ${game.i18n.localize("KNIGHT.JETS.Label")}`;
     }
 

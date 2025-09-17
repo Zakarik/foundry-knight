@@ -1335,7 +1335,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
         if(this.armorISwear) {
             const dataArmure = this.dataArmor;
-            const actuel = data.filter(itm => itm.system.active.base || (itm.system?.niveau?.actuel?.permanent ?? false));
+            const actuel = data.filter(itm => (itm.system.active.base  && (!itm.system?.isLion ?? false)) || ((itm.system?.niveau?.actuel?.permanent ?? false) && (!itm.system?.isLion ?? false)));
             let specialRaw = [];
             let specialCustom = [];
 
@@ -1796,6 +1796,13 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                                 enumerable:true,
                                 configurable:true
                             });
+                        } else {
+                            Object.defineProperty(whatAffect.malus, c, {
+                                value: 0,
+                                writable:true,
+                                enumerable:true,
+                                configurable:true
+                            });
                         }
                         break;
                     case 'companions':
@@ -1817,8 +1824,17 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                                 if(game.actors.get(crow)) depense = game.actors.get(crow).system.energie.base;
                             }
 
+                            console.error(depense);
+
                             Object.defineProperty(whatAffect.malus, c, {
                                 value: depense,
+                                writable:true,
+                                enumerable:true,
+                                configurable:true
+                            });
+                        } else {
+                            Object.defineProperty(whatAffect.malus, c, {
+                                value: 0,
                                 writable:true,
                                 enumerable:true,
                                 configurable:true

@@ -583,7 +583,7 @@
                                     <span class="portee">{{getPortee kArme.portee}}</span>
                                     <span class="degats">{{kArme.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kArme.degats.fixe}}</span>
                                     <span class="violence">{{kArme.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{kArme.violence.fixe}}</span>
-
+                                </div>
                                 <div class="effets">
                                     {{#each kArme.effets.liste as | kEffet effet|}}
                                         {{~> systems/knight/templates/parts/effets.html type='pnjwpn' pnj=pnj wpn=arme}}

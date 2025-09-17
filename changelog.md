@@ -1,3 +1,8 @@
+## v3.49.3
+### Bugfix
+- Correction d'un bug qui empêchait l'affichage des IA sur les fiches des joueurs dans certains cas rares.
+
+
 ## v3.49.2
 ### Bugfix
 - Correction d'un bug empêchant de jeter les dégâts / la violence si aucune seconde arme n'était sélectionnée.

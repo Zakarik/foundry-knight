@@ -6,18 +6,17 @@
 
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
-            {{#unless this.active.scene}}
+            {{#unless active.scene}}
             <button class="activation"
-                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="tour"
-                data-cout="2"
-                data-flux="1"
-                data-toupdate="capacites.selected.discord.active"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-special="tour"
                 data-value="{{active.tour}}">
                 {{localize "KNIGHT.DUREE.UnTour"}} : {{localizeactivate active.tour}}
             </button>
 
-            {{#if this.active.tour}}
-            <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
+            {{#if active.tour}}
+            <button class="prolonger" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
                 data-cout="2"
                 data-flux="1">
                 {{localize "KNIGHT.DUREE.UnTour"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
@@ -26,10 +25,9 @@
             {{/unless}}
             {{#unless active.tour}}
             <button class="activation"
-                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="scene"
-                data-cout="6"
-                data-flux="3"
-                data-toupdate="capacites.selected.discord.active"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-special="scene"
                 data-value="{{active.scene}}">
                 {{localize "KNIGHT.DUREE.ConflitPhase"}} : {{localizeactivate active.scene}}
             </button>
