@@ -195,9 +195,19 @@ export class ArmureAPI {
           result += ` : ${translate(`${baseStr}.${capacite.toUpperCase()}.TYPE.${capitalizeFirstLetter(special)}`)}`;
           break;
 
+        case 'discord':
+          result = translate(`${baseStr}.${capacite.toUpperCase()}.Label`);
+          result += special === 'tour' ? ` : ${game.i18n.localize("KNIGHT.DUREE.UnTour")}` : ` : ${game.i18n.localize("KNIGHT.DUREE.ConflitPhase")}`;
+          break;
+
         case 'mechanic':
           result = translate(`${baseStr}.${capacite.toUpperCase()}.Label`);
           result += ` : ${translate(`KNIGHT.AUTRE.${capitalizeFirstLetter(special)}`)}`
+          break;
+
+        case 'nanoc':
+          result = translate(`${baseStr}.${capacite.toUpperCase()}.Label`);
+          result += ` : ${translate(`${baseStr}.${capacite.toUpperCase()}.Objet${capitalizeFirstLetter(special)}`)}`;
           break;
 
         default:
@@ -301,8 +311,11 @@ export class ArmureAPI {
         case "illumination":
         case "warlord":
         case "type":
-        case "morph":
           result = data;
+          break;
+
+        case "morph":
+          result = special !== 'phase' && special !== 'phaseN2' ? data : false;
           break;
 
         case 'rage':

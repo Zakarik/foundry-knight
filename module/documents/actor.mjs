@@ -319,15 +319,24 @@ export class KnightActor extends Actor {
           .sys(getPath, value)
           .apply();
         break;
-
       case "illumination":
-        if(special !== 'candle') {
+        if(special === 'lantern' && variant === 'dgts') {
+          const blaLabel = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label")
+
+          await this._degats(blaLabel, [], [], {dice:getCapacite.lantern.degats});
+          sendMsg = false;
+        } else if(special === 'blaze' && variant === 'dgts') {
+          const blaLabel = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label")
+
+          await this._degats(blaLabel, [], [], {dice:getCapacite.blaze.degats});
+          await this._violence(blaLabel, [], [], {dice:getCapacite.blaze.violence});
+          sendMsg = false;
+        } else if(special !== 'candle') {
           await PatchBuilder.for(armure)
             .sys(getPath, value)
             .apply();
         }
         break;
-
       case "oriflamme":
         const oriLabel = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ORIFLAMME.Label")
 
@@ -762,9 +771,9 @@ export class KnightActor extends Actor {
       case "morph":
         pb = new PatchBuilder();
 
-        if(!value && !special) {
+        if(!special) {
           pb.sys(getPath.split('.').slice(0, -1).join('.'), {
-              'morph':false,
+              'morph':value,
               'polymorphieLame':false,
               'polymorphieGriffe':false,
               'polymorphieCanon':false,
@@ -781,7 +790,7 @@ export class KnightActor extends Actor {
               'polymorphieCanon':false,
             })
         }
-        else if(special !== 'polymorphieReset') pb.sys(getPath, value);
+        else if(special !== 'polymorphieReset' && (special !== 'phase' || special !== 'phaseN2')) pb.sys(getPath, value);
         else if(special === 'polymorphieReset') {
           sendMsg = false;
 
@@ -800,7 +809,6 @@ export class KnightActor extends Actor {
         const rageInterdit = [];
         const rageBonus = [];
 
-        console.error(special);
         if(!special) {
           pb = new PatchBuilder();
 
@@ -941,7 +949,6 @@ export class KnightActor extends Actor {
         } else if(special === 'blaze') {
           const blaLabel = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label")
 
-          console.error(getCapacite.blaze.violence);
           await this._degats(blaLabel, [], [], {dice:getCapacite.blaze.degats});
           await this._violence(blaLabel, [], [], {dice:getCapacite.blaze.violence});
         }
@@ -991,7 +998,7 @@ export class KnightActor extends Actor {
       case "mechanic":
         const mechanic = getCapacite.reparation[special];
         const roll = new game.knight.RollKnight(this, {
-          name:`${name}`,
+          name:`${getName}`,
           dices:`${mechanic.dice}D6+${mechanic.fixe}`,
         }, false);
 
@@ -1103,8 +1110,12 @@ export class KnightActor extends Actor {
 
       case 'nanoc':
       case 'mechanic':
-      case 'shrine':
         depenseEnergie = getCapacite.energie[split[1]];
+        break;
+
+      case 'shrine':
+        if(split[1] === 'distance' || split[1] === 'personnel') depenseEnergie = getCapacite.energie[split[1]];
+        else if(split[1] === 'distance6' || split[1] === 'personnel6') depenseEnergie = getCapacite.energie[`${split[1]}tours`];
         break;
 
       case 'ghost':
