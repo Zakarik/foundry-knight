@@ -5273,6 +5273,7 @@ export async function deleteTokens(ids=[]) {
   const findids = canvas.scene.tokens
     .filter(t => ids.includes(t.actorId))
     .map(t => t.id);
+
   if (findids.length) await canvas.scene.deleteEmbeddedDocuments("Token", findids);
 }
 

@@ -323,7 +323,7 @@ export class KnightSheet extends ActorSheet {
 
               if(actor !== undefined) await actor.delete();
 
-              await deleteTokens([actor.id]);
+              if(actor?.id) await deleteTokens([actor.id]);
 
               armure.update({[`system.${toupdate}`]:{
                 active:false,
@@ -751,7 +751,7 @@ export class KnightSheet extends ActorSheet {
 
                   this._gainPE(recupValue, true, false);
 
-                  await deleteTokens([actorLion.id]);
+                  if(actorLion?.id) await deleteTokens([actorLion.id]);
 
                   if(Object.keys(actorLion).length != 0) await actorLion.delete();
                   break;
@@ -768,7 +768,7 @@ export class KnightSheet extends ActorSheet {
 
                   this._gainPE(recupValue, true, false);
 
-                  await deleteTokens([actor1Wolf.id, actor2Wolf.id, actor3Wolf.id]);
+                  if(actor1Wolf?.id) await deleteTokens([actor1Wolf.id, actor2Wolf.id, actor3Wolf.id]);
 
                   if(Object.keys(actor1Wolf).length != 0) await actor1Wolf.delete();
                   if(Object.keys(actor2Wolf).length != 0) await actor2Wolf.delete();
@@ -783,7 +783,7 @@ export class KnightSheet extends ActorSheet {
 
                   this._gainPE(recupValue, true, false);
 
-                  await deleteTokens([actorCrow.id]);
+                  if(actorCrow?.id) await deleteTokens([actorCrow.id]);
 
                   if(Object.keys(actorCrow).length != 0) await actorCrow.delete();
                   break;
@@ -1333,7 +1333,7 @@ export class KnightSheet extends ActorSheet {
 
           if(actor !== undefined) await actor.delete();
 
-          await deleteTokens([actor.id]);
+          if(actor?.id) await deleteTokens([actor.id]);
 
           dataModule.update({[`system`]:{
             'active':{
@@ -1729,7 +1729,7 @@ export class KnightSheet extends ActorSheet {
 
                 this._gainPE(actorLion.system.energie.value, true, false);
 
-                await deleteTokens([actorLion.id]);
+                if(actorLion?.id) await deleteTokens([actorLion.id]);
 
                 await actorLion.delete();
                 break;
@@ -1744,7 +1744,7 @@ export class KnightSheet extends ActorSheet {
 
                 this._gainPE(actor1Wolf.system.energie.value, true, false);
 
-                await deleteTokens([actor1Wolf.id, actor2Wolf.id, actor3Wolf.id]);
+                if(actor1Wolf?.id) await deleteTokens([actor1Wolf.id, actor2Wolf.id, actor3Wolf.id]);
 
                 await actor1Wolf.delete();
                 await actor2Wolf.delete();
@@ -1757,7 +1757,7 @@ export class KnightSheet extends ActorSheet {
 
                 this._gainPE(actorCrow.system.energie.value, true, false);
 
-                await deleteTokens([actorCrow.id]);
+                if(actorCrow?.id) await deleteTokens([actorCrow.id]);
 
                 await actorCrow.delete();
                 break;
