@@ -401,9 +401,6 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
 
         const actuel = data.filter(itm => itm.system.active.base || (itm.system?.niveau?.actuel?.permanent ?? false));
 
-        console.error(actuel);
-        console.error(data);
-
         for(let m of actuel) {
             const system = m.system?.niveau?.actuel ?? {};
             const effets = system?.effets ?? {has:false};

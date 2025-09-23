@@ -2640,7 +2640,7 @@ export class PNJSheet extends ActorSheet {
           longbow.effets.liste3.cout = 0;
           longbow.effets.liste3.selected = 0;
         }*/
-        console.warn(capacites)
+
         for (let c in capacites) {
           const dCapacite = capacites[c];
 
