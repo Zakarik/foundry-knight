@@ -776,7 +776,6 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
   prepareBaseData() {
     if(this.generation === 4) {
-
       Object.defineProperty(this.jauges, 'sante', {
         value: false,
       });

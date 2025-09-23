@@ -576,7 +576,6 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
     prepareBaseData() {
         this.#checkArmor();
-        this.#setJauges();
         this.#experience();
         this.#base();
         this.#updateCapacites();
@@ -591,6 +590,7 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 	}
 
 	prepareDerivedData() {
+        this.#setJauges();
         this.#modules();
         this.#avantages();
         this.#inconvenients();
@@ -598,6 +598,8 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         this.#derived();
         this.initiative.prepareData();
         this.#sanitizeValue();
+
+        console.error(this);
     }
 
     #checkArmor() {
@@ -1149,7 +1151,8 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         const espoirMalus = Object.values(this.espoir.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
         if(this.armorISwear) {
-            if(this.dataArmor?.special?.selected?.plusespoir?.espoir?.base ?? undefined) espoirBase = this.dataArmor.special.selected.plusespoir.espoir.base;
+            const dataArmor = this.dataArmor?.system;
+            if(dataArmor?.special?.selected?.plusespoir?.espoir?.base ?? undefined) espoirBase = dataArmor.special.selected.plusespoir.espoir.base;
         }
 
         Object.defineProperty(this.espoir, 'base', {

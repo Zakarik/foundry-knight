@@ -1,3 +1,10 @@
+## v3.49.6
+### Bugfix
+- Correction d'un bug avec le spécial "plusespoir" qui n'était pas pris en compte.
+- Correction d'un bug qui ne prenait pas correctement en compte la génération 4 des armures.
+- Correction d'un bug d'affichage dans la capacité ultime "Maître des bêtes" qui ne permettait aucune modification, et ne s'affichait pas correctement.
+- Correction des modules qui n'étaient pas correctement attribué au Lion.
+
 ## v3.49.5
 ### Bugfix
 - Correction d'un bug qui pouvait empêcher la désactivation du mode companions..

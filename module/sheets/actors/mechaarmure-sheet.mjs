@@ -438,7 +438,7 @@ export class MechaArmureSheet extends ActorSheet {
           newEnergie = await this._depenseNE(+data.noyaux, `${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`);
 
           if(!newEnergie) return;
-          console.warn(this.actor);
+
           newActor = await Actor.create({
             name: `${this.title} : ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
             type: "bande",

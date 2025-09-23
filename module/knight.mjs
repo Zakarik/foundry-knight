@@ -642,8 +642,6 @@ Hooks.on("createActiveEffect", async function(effect, data) {
               break;
           }
 
-          console.warn(update);
-
           effect.parent.updateEmbeddedDocuments('ActiveEffect', [{
             "_id":effect._id,
             flags:{

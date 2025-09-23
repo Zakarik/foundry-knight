@@ -507,7 +507,7 @@ export class KnightSheet extends ActorSheet {
 
                   await newActor.update({['system.initiative.bonus.user']:dataLion.initiative.fixe});
 
-                  const nLItems = [];
+                  const nLItems = getData.items.filter(itm => itm.type === 'module' && itm?.system?.isLion);
 
                   const nLItem = {
                     name:dataLion.armes.contact.coups.label,
@@ -2573,7 +2573,6 @@ export class KnightSheet extends ActorSheet {
           armure.update(itemUpdate);
           break;
         case "typeLegende":
-          console.warn(armureLegende)
           const typeLegende = armureLegende.system.capacites.selected['type'];
           const typeLegendeSelectionne = typeLegende.selectionne || 0;
           calcul = typeLegendeSelectionne;
@@ -3679,7 +3678,6 @@ export class KnightSheet extends ActorSheet {
       const id = target.data("num");
       const dataArmor = await getArmor(this.actor);
       const listEvolutions = dataArmor.system.evolutions.liste;
-      console.warn(dataArmor);
       const dataEArmor = listEvolutions[id]?.data ?? {};
       const capacites = listEvolutions[id]?.capacites ?? {};
       let special = listEvolutions[id]?.special ?? {};
@@ -4272,7 +4270,7 @@ export class KnightSheet extends ActorSheet {
       };
       delete itemData.system["subtype"];
     }
-    console.warn(type)
+
     if((type === 'module' && hasCapaciteCompanions) || (type === 'module' && hasCapaciteCompanionsLegend)) {
       const hasArmure = actorData.equipements.armure.hasArmor;
 
