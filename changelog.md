@@ -1,3 +1,7 @@
+## v3.49.7
+### Bugfix
+- Correction d'un bug dupliquant certains effets (en particulier, les effets personnalisés)
+
 ## v3.49.6
 ### Bugfix
 - Correction d'un bug avec le spécial "plusespoir" qui n'était pas pris en compte.

@@ -850,8 +850,8 @@ export class KnightRollDialog extends Dialog {
             const style = actor.system.combat.style;
             const modStyle = getModStyle(style);
             const capacitiesSelected = armor?.system?.capacites?.selected;
-            let effets = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
-            let custom = weapon.effets.custom.concat(weapon?.distance?.custom ?? [], weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
+            let effets = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
+            let custom = weapon.effets.custom.concat(weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
             const isTourelle = weapon?.tourelle ?? false;
             dices += modStyle.bonus.attaque;
             dices -= modStyle.malus.attaque;

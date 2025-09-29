@@ -90,7 +90,7 @@ export class RollKnight {
             total = await this.#sendRoll(process, effets, addData, updates);
         } else {
             const weapon = this.weapon;
-            const allRaw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
+            const allRaw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
             let text = '';
             let allContent = [];
             let allFlag = []
@@ -1221,10 +1221,10 @@ export class RollKnight {
     async #handleAttaqueEffet(weapon, content, rolls, updates={}) {
         const armorIsWear = this.armorIsWear;
         const localize = getAllEffects();
-        const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
+        const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
         const options = weapon.options;
         const list = CONFIG.KNIGHT.LIST.EFFETS.attaque;
-        const custom = weapon.effets.custom.concat(weapon?.distance?.custom ?? [], weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
+        const custom = weapon.effets.custom.concat(weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
         let detailledEffets = [];
         let effets = [];
         let noDmg = false;
