@@ -231,6 +231,7 @@ export class KnightActor extends Actor {
     let pb;
     let newActor;
     let sendMsg = true;
+    let dialog;
 
     switch(capacite) {
       case 'ascension': {
@@ -981,7 +982,7 @@ export class KnightActor extends Actor {
         const autre = [].concat(listC);
         autre.shift();
 
-        const dialog = new game.knight.applications.KnightRollDialog(this._id, {
+        dialog = new game.knight.applications.KnightRollDialog(this._id, {
           label:getName,
           base:listC[0],
           whatRoll:autre,
@@ -1004,6 +1005,7 @@ export class KnightActor extends Actor {
 
         await roll.doRoll();
         break;
+
       default:
         console.warn(`activateCapacity: capacité inconnue "${capacite}"`);
         break;
@@ -1020,7 +1022,172 @@ export class KnightActor extends Actor {
     }
   }
 
+  async activateSpecial(args = {}) {
+    // Déstructuration défensive + valeurs par défaut
+    const {
+      capacite = '',
+      special = '',
+      variant = '',
+    } = args;
+
+    // Gardes minimales (évite les plantages)
+    if (!capacite) {
+      console.warn('activateSpecial: special manquant');
+      return;
+    }
+
+    if (!this) {
+      console.error('activateSpecial: contexte actor introuvable');
+      return;
+    }
+
+    // Récupération armure + capacités (sécurisée)
+    const armure = await getArmor(this).catch(e => {
+      console.error('activateSpecial: getArmor a échoué', e);
+      return null;
+    });
+    if (!armure) return;
+
+    const getArmure = new ArmureAPI(armure);
+    const getSpecial = getArmure.getSpecial(capacite);
+    const getName = getArmure.getSpecialActiveName(capacite, special, variant);
+
+    let dialog;
+
+    switch(capacite) {
+      case 'contrecoups':
+        dialog = new game.knight.applications.KnightRollDialog(this._id, {
+          label:getName,
+          base:getSpecial.jet[special],
+          difficulte:this?.system?.equipements?.armure?.special?.[capacite],
+          btn:{
+            nood:true,
+          }
+        });
+
+        dialog.open();
+        break;
+
+      case 'impregnation':
+        dialog = new game.knight.applications.KnightRollDialog(this._id, {
+          label:getName,
+          base:getSpecial.jets[`c1${special}`],
+          whatRoll:[getSpecial.jets[`c2${special}`]],
+        });
+
+        dialog.open();
+        break;
+
+      case 'energiedeficiente':
+        const roll = new game.knight.RollKnight(this.actor, {
+          name:getName,
+          dices:`${special}D6`,
+        }, false);
+
+        const rTotal = await roll.doRoll();
+
+        this._gainPE(rTotal, getArmure)
+        break;
+
+      case 'recolteflux':
+        let flux = this?.system?.flux?.value ?? 0;
+        let bonus = 0;
+
+        if(special === 'horsconflit') {
+          const limiteFlux = getSpecial?.horsconflit?.limite ?? 0;
+
+          bonus += (this?.system?.equipements?.armure?.special?.flux ?? 0)*(getSpecial?.horsconflit?.base ?? 0);
+
+          if((flux+bonus) > limiteFlux) bonus = limiteFlux - flux;;
+        } else if(special === 'conflit') {
+          if(variant === 'debut') bonus += getSpecial?.conflit?.base ?? 0;
+          else if(variant === 'tour') bonus += getSpecial?.conflit?.tour ?? 0;
+          else if(variant === 'hostile') bonus += getSpecial?.conflit?.hostile ?? 0;
+          else if(variant === 'salopard') bonus += getSpecial?.conflit?.salopard ?? 0;
+          else if(variant === 'patron') bonus += getSpecial?.conflit?.patron ?? 0;
+        }
+
+        flux += bonus;
+
+        await PatchBuilder.for(this)
+          .sys("flux.value", flux)
+          .apply();
+
+        const dataMsg = {
+          flavor:getName,
+          main:{
+            total:bonus
+          }
+        };
+
+        const msg = {
+          user: game.user.id,
+          speaker: {
+            actor: this?.id || null,
+            token: this?.token?.id || null,
+            alias: this?.name || null,
+          },
+          type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+          content: await renderTemplate('systems/knight/templates/dices/wpn.html', dataMsg)
+        };
+
+        const rMode = game.settings.get("core", "rollMode");
+        const msgFData = ChatMessage.applyRollMode(msg, rMode);
+
+        await ChatMessage.create(msgFData, {
+          rollMode:rMode
+        });
+        break;
+    }
+  }
+
+  async prolongateCapacity(args = {}) {
+    // Déstructuration défensive + valeurs par défaut
+    const {
+      capacite = '',
+      special = '',
+      variant = '',
+      forceEspoir = false,
+    } = args;
+
+    // Gardes minimales (évite les plantages)
+    if (!capacite) {
+      console.warn('prolongateCapacity: capacite manquant');
+      return;
+    }
+
+    if (!this) {
+      console.error('prolongateCapacity: contexte actor introuvable');
+      return;
+    }
+
+    // Récupération armure + capacités (sécurisée)
+    const armure = await getArmor(this).catch(e => {
+      console.error('prolongateCapacity: getArmor a échoué', e);
+      return null;
+    });
+    if (!armure) return;
+    const getArmure = new ArmureAPI(armure);
+    const getName = getArmure.getCapaciteActiveName(capacite, special, variant);
+
+    const ask = await this._depenseProlongate({armure:getArmure, capacite, special, variant});
+    if(!ask) return;
+
+    console.error('TEST');
+
+    let label = game.i18n.localize("KNIGHT.AUTRE.Prolonger");
+
+    const exec = new game.knight.RollKnight(this,
+      {
+      name:label,
+      }).sendMessage({
+          text:getName,
+          sounds:CONFIG.sounds.notification,
+      });
+  }
+
   async _depensePE(armure, capacite, forceEspoir = false) {
+
     const split = capacite.split('/');
     const mainLabel = game.i18n.localize(CONFIG.KNIGHT.capacites[split[0]]);
     const subLabel = split[1] ? ` ${game.i18n.localize(CONFIG.KNIGHT[split[1]])}` : '';
@@ -1202,6 +1369,184 @@ export class KnightActor extends Actor {
     substractEnergie = value - depenseEnergie;
     substractEspoir = espoir - depenseEspoir;
     substractFlux = flux - depenseFlux;
+    if(substractEnergie < 0) {
+      await sendLackMsg(`${remplaceEnergie || forceEspoir ? 'Notespoir' : 'Notenergie'}`);
+
+      return false;
+    } else if(substractEspoir < 0 && !remplaceEnergie) {
+      await sendLackMsg(`Notespoir`);
+
+      return false;
+    } else if(substractFlux < 0 && hasFlux) {
+      await sendLackMsg(`Notflux`);
+
+      return false;
+    } else {
+      let pbE = new PatchBuilder();
+
+      if(!remplaceEnergie) pbE.sys(`equipements.${this.system.wear}.${getType}.value`, substractEnergie);
+      else if(remplaceEnergie && !this.system.espoir.perte.saufAgonie) pbE.sys('espoir.value', substractEnergie);
+
+      if(!remplaceEnergie && depenseEspoir) pbE.sys('espoir.value', substractEspoir);
+
+      if(depenseFlux && hasFlux) pbE.sys('flux.value', substractFlux);
+
+      await pbE.applyTo(this);
+
+      return true;
+    }
+  }
+
+  async _depenseProlongate(args = {}) {
+    // Déstructuration défensive + valeurs par défaut
+    const {
+      armure = undefined,
+      capacite = undefined,
+      special = undefined,
+      variant = undefined,
+      forceEspoir = false,
+    } = args;
+
+    // Gardes minimales (évite les plantages)
+    if (!capacite) {
+      console.warn('_depenseProlongate: capacite manquante');
+      return;
+    }
+
+    console.error(armure, capacite, special, variant);
+
+    const actor = this;
+    const remplaceEnergie = armure.espoirRemplaceEnergie;
+    const hasFlux = armure.hasFlux;
+    const getType = remplaceEnergie || forceEspoir ? 'espoir' : 'energie';
+    const getCapacite = armure.getCapacite(capacite);
+
+    const flux = hasFlux ? this?.system?.flux?.value ?? 0 : 0;
+    const energie = this?.system?.[getType]?.value ?? 0;
+    const espoir = this?.system?.espoir?.value ?? 0;
+
+    let depenseEnergie = 0;
+    let depenseFlux = 0;
+    let depenseEspoir = 0;
+
+    let substractEnergie = 0;
+    let substractFlux = 0;
+    let substractEspoir = 0;
+
+    let tmp = 0;
+    let tmp2 = 0;
+
+    switch(capacite) {
+      case 'changeling':
+        if(getCapacite.active.fauxEtre) {
+          tmp = getCapacite?.energie?.fauxEtre?.value ?? 0;
+          tmp *= actor?.system?.equipements?.armure?.capacites?.changeling?.fauxetres ?? 0;
+
+          depenseEnergie += tmp;
+        }
+        if(getCapacite.active.personnel) depenseEnergie += getCapacite.energie.personnel;
+        if(getCapacite.active.etendue) depenseEnergie += getCapacite.energie.etendue;
+        break;
+
+      case 'companions':
+        depenseEnergie += getCapacite.energie.prolonger;
+        break;
+
+      case 'discord':
+        if(special === 'tour') {
+          depenseEnergie += getCapacite.tour.energie;
+          depenseFlux += getCapacite.tour.flux;
+        } else if(special === 'scene') {
+          depenseEnergie += getCapacite.scene.energie;
+          depenseFlux += getCapacite.scene.flux;
+        }
+        break;
+
+      case 'ghost':
+        if(special === 'conflit') depenseEnergie += getCapacite.energie.tour;
+        else if(special === 'horsconflit') depenseEnergie += getCapacite.energie.minute;
+        break;
+
+      case 'illumination':
+        if(special === 'beacon') depenseEspoir += getCapacite.beacon.espoir.prolonger;
+        else if(special === 'blaze') depenseEspoir += getCapacite.blaze.espoir.prolonger;
+        else if(special === 'lantern') depenseEspoir += getCapacite.lantern.espoir.prolonger;
+        else if(special === 'lighthouse') depenseEspoir += getCapacite.lighthouse.espoir.prolonger;
+        else if(special === 'projector') depenseEspoir += getCapacite.projector.espoir.prolonger;
+        else if(special === 'torch') depenseEspoir += getCapacite.torch.espoir.prolonger;
+        break;
+
+      case 'warlord':
+        if(special === 'force') {
+          tmp = getCapacite.active.force.allie ? getCapacite.impulsions.force.energie.prolonger : 0;
+          tmp *= getCapacite.active.force.allie ? actor?.system?.equipements?.armure?.capacites?.warlord?.force?.nbre ?? 0 : 0;
+          tmp += getCapacite.active.force.porteur ? getCapacite.impulsions.force.energie.porteur : 0;
+          depenseEnergie += tmp;
+        } else if(special === 'esquive') {
+          tmp = getCapacite.active.esquive.allie ? getCapacite.impulsions.esquive.energie.prolonger : 0;
+          tmp *= getCapacite.active.esquive.allie ? actor?.system?.equipements?.armure?.capacites?.warlord?.esquive?.nbre ?? 0 : 0;
+          tmp += getCapacite.active.esquive.porteur ? getCapacite.impulsions.esquive.energie.porteur : 0;
+          depenseEnergie += tmp;
+        } else if(special === 'guerre') {
+          tmp = getCapacite.active.guerre.allie ? getCapacite.impulsions.guerre.energie.prolonger : 0;
+          tmp *= getCapacite.active.guerre.allie ? actor?.system?.equipements?.armure?.capacites?.warlord?.guerre?.nbre ?? 0 : 0;
+          tmp += getCapacite.active.guerre.porteur ? getCapacite.impulsions.guerre.energie.porteur : 0;
+          depenseEnergie += tmp;
+        }
+        break;
+
+      case 'totem':
+        tmp = getCapacite.energie.prolonger;
+        tmp *= actor?.system?.equipements?.armure?.capacites?.totem?.nombre ?? 0;
+        depenseEnergie += tmp;
+
+        depenseFlux
+        break;
+
+      case 'puppet':
+        tmp = getCapacite.energie.prolonger;
+        tmp *= actor?.system?.equipements?.armure?.capacites?.puppet?.cible ?? 0;
+        depenseEnergie += tmp;
+
+        tmp2 = getCapacite.flux.prolonger;
+        tmp2 *= actor?.system?.equipements?.armure?.capacites?.puppet?.cible ?? 0;
+        depenseFlux += tmp2;
+        break;
+    }
+
+    if(!depenseEnergie) depenseEnergie = 0;
+    if(!depenseEspoir) depenseEspoir = 0;
+    if(!depenseFlux) depenseFlux = 0;
+
+    if(remplaceEnergie) depenseEnergie += depenseEspoir;
+
+    substractEnergie = energie - depenseEnergie;
+    substractEspoir = espoir - depenseEspoir;
+    substractFlux = flux - depenseFlux;
+
+    let label = game.i18n.localize(CONFIG.KNIGHT.capacites[capacite]);
+    label += ` : ${game.i18n.localize("KNIGHT.AUTRE.Prolonger")}`;
+    const sendLackMsg = async (i18nKey) => {
+      const payload = {
+        flavor: `${label}`,
+        main: { total: `${game.i18n.localize(`KNIGHT.JETS.${i18nKey}`)}` }
+      };
+      const data = {
+        user: game.user.id,
+        speaker: {
+          actor: this?.id ?? null,
+          token: this?.token?.id ?? null,
+          alias: this?.name ?? null,
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
+        sound: CONFIG.sounds.dice
+      };
+      const rMode = game.settings.get("core", "rollMode");
+      const msgData = ChatMessage.applyRollMode(data, rMode);
+      await ChatMessage.create(msgData, { rollMode: rMode });
+    };
+
     if(substractEnergie < 0) {
       await sendLackMsg(`${remplaceEnergie || forceEspoir ? 'Notespoir' : 'Notenergie'}`);
 

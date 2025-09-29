@@ -144,12 +144,48 @@ export class ArmureAPI {
         return foundry.utils.getProperty(this.sys, 'special.selected') ?? {};
     }
 
+    get ListCapaciteProlongated() {
+      const list = [
+        'totem',
+        'companions',
+        'changeling',
+        'ghost',
+        'illumination',
+        'nanoc',
+        'puppet',
+        'discord',
+        'shrine',
+        'type',
+        'warlord',
+      ];
+
+      return list;
+    }
+
+    get listSpecial() {
+      const root = foundry.utils.getProperty(this.sys, 'special.selected');
+
+      if (!root || typeof root !== 'object') return null;
+      return Object.keys(root);
+    }
+
     /**
      * Retourne la capacité (enfant direct) sous la clé donnée, ou null si absente.
      * @param {string} key - Clé directe dans l'objet ciblé (ex: "bouclier")
      * @param {string} [path='capacites.selected'] - Chemin vers l'objet parent
      */
     getCapacite(key, path = 'capacites.selected') {
+        const root = foundry.utils.getProperty(this.sys, path);
+        if (!root || typeof root !== 'object') return null;
+        return Object.prototype.hasOwnProperty.call(root, key) ? root[key] : null;
+    }
+
+    /**
+     * Retourne la capacité (enfant direct) sous la clé donnée, ou null si absente.
+     * @param {string} key - Clé directe dans l'objet ciblé (ex: "bouclier")
+     * @param {string} [path='capacites.selected'] - Chemin vers l'objet parent
+     */
+    getSpecial(key, path = 'special.selected') {
         const root = foundry.utils.getProperty(this.sys, path);
         if (!root || typeof root !== 'object') return null;
         return Object.prototype.hasOwnProperty.call(root, key) ? root[key] : null;
@@ -210,6 +246,23 @@ export class ArmureAPI {
           result += ` : ${translate(`${baseStr}.${capacite.toUpperCase()}.Objet${capitalizeFirstLetter(special)}`)}`;
           break;
 
+        default:
+          result = translate(`${baseStr}.${capacite.toUpperCase()}.Label`);
+          break;
+      }
+
+      return result;
+    }
+
+    getSpecialActiveName(capacite, special = '', variant = '') {
+      const baseStr = `KNIGHT.ITEMS.ARMURE.SPECIAL`;
+      let result = ``;
+
+      const translate = (str) => {
+        return game.i18n.localize(str);
+      }
+
+      switch(capacite) {
         default:
           result = translate(`${baseStr}.${capacite.toUpperCase()}.Label`);
           break;
@@ -323,12 +376,28 @@ export class ArmureAPI {
           break;
 
         case "companions":
+          result = data[special];
+          break;
+
         case "shrine":
           result = data.base;
           break;
       }
 
       return result;
+    }
+
+    capaciteCanBeProlongated(capacite, special = '', variant = '') {
+      const isActive = this.isCapaciteActive(capacite, special, variant);
+      const canBeProlongated = this.ListCapaciteProlongated;
+
+      if(!isActive) return false;
+
+      if(canBeProlongated.includes(capacite)) {
+        if(capacite === 'warlord' && special === 'action') return false;
+        else return true;
+      }
+      else return false;
     }
 
     // --------------
