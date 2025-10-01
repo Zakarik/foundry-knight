@@ -7,11 +7,7 @@
         <div class="blockMultiline">
             <button class="activation"
                 data-type="capacites"
-                data-capacite="{{key}}"
-                data-name="{{label}}"
-                data-cout="0"
-                data-difficulte="{{{difficulte}}}"
-                data-caracteristiques="{{#each aspects as | key aspect|}}{{#each key.caracteristiques as | keyCarac caracteristique|}}{{#if keyCarac.value}}{{caracteristique}}{{/if}}.{{/each}}{{/each}}">
+                data-capacite="{{key}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ZEN.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
             </button>
         </div>

@@ -193,6 +193,22 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     return result;
   }
 
+  get energieDisponiblePar10() {
+    const remplaceEnergie = this.espoir.remplaceEnergie;
+    let total = 0;
+
+    if(this.actor) {
+      total = remplaceEnergie
+        ? this?.actor?.espoir?.value
+        : this?.actor?.system?.energie?.value;
+
+      total = Number(total) || 0; // sécurise en nombre
+    }
+
+    const n = Math.floor(total / 10); // nombre de dizaines complètes
+    return Array.from({ length: n }, (_, i) => (i + 1) * 10);
+  }
+
   qtyMunition(type, weapon) {
     const capacite = type
     .replaceAll(/borealis[DC]/g, 'borealis')

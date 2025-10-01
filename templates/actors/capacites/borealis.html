@@ -15,17 +15,17 @@
                 </label>
 
                 <button class="activation"
-                    data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                    data-toupdate="capacites.selected.borealis.active.support"
-                    data-cout="{{support.energie.base}}+{{support.energie.allie}}*{{data.borealis.allie}}"
+                    data-type="capacites"
+                    data-capacite="{{key}}"
+                    data-special="support"
                     data-value="{{active.support}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.SUPPORT.Label"}} : {{localizeactivate active.support}}
                 </button>
 
                 <button class="activation"
-                    data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                    data-toupdate="capacites.selected.borealis.active.utilitaire"
-                    data-cout="{{utilitaire.energie}}"
+                    data-type="capacites"
+                    data-capacite="{{key}}"
+                    data-special="utilitaire"
                     data-value="{{active.utilitaire}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.BOREALIS.UTILITAIRE.Label"}} : {{localizeactivate active.utilitaire}}
                 </button>

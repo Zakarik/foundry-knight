@@ -9,7 +9,6 @@ export function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-
 export function getAllEffects() {
   const merge0 = foundry.utils.mergeObject({}, CONFIG.KNIGHT.effets);
   const merge1 = foundry.utils.mergeObject(merge0, CONFIG.KNIGHT.effetsfm4);
@@ -5223,7 +5222,7 @@ export async function spawnTokenRightOfActor({
   if (!actor) throw new Error("spawnTokenRightOfActor: actor manquant.");
   const refToken = findRefTokenForActor(refActor);
   if (!refToken) {
-    return;
+    throw new Error("spawnTokenRightOfActor: token de référence introuvable.");
   }
 
   const scene = refToken.document.parent;                    // scène du token de ref
@@ -5234,6 +5233,7 @@ export async function spawnTokenRightOfActor({
 
   // Prépare un TokenDocument temporaire pour connaître la largeur en cases
   const tmp = await actor.getTokenDocument({ actorLink: link });
+
   const widthCells = tmp.width ?? 1;
   const tokenPx    = widthCells * gridSize;
 

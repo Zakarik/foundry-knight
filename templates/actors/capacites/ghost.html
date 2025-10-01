@@ -8,28 +8,27 @@
         <div class="blockMultiline">
             {{#unless active.horsconflit}}
             <button class="activation"
-                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="conflit"
-                data-toupdate="capacites.selected.ghost.active"
-                data-cout="{{energie.tour}}"
-                data-value="{{active.conflit}}">
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-special="conflit">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ActivationConflit"}} : {{localizeactivate active.conflit}}
             </button>
             {{/unless}}
 
             {{#unless active.conflit}}
             <button class="activation"
-                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="horsconflit"
-                data-toupdate="capacites.selected.ghost.active"
-                data-cout="{{energie.minute}}"
-                data-value="{{active.horsconflit}}">
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-special="horsconflit">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.ActivationHorsConflit"}} : {{localizeactivate active.horsconflit}}
             </button>
             {{/unless}}
 
             {{#if active.conflit}}
             <button class="prolonger"
-                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                data-toupdate="capacites.selected.ghost.active"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}}"
                 data-cout="{{energie.tour}}">
                 {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>
@@ -42,7 +41,9 @@
 
             {{#if active.horsconflit}}
             <button class="prolonger"
-                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-name="{{label}}"
                 data-toupdate="capacites.selected.ghost.active"
                 data-cout="{{energie.minute}}">
                 {{localize "KNIGHT.AUTRE.Prolonger"}}

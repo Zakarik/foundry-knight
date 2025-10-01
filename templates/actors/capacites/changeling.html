@@ -6,17 +6,17 @@
         {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
             <button class="activation "
-                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                data-toupdate="capacites.selected.changeling.active.personnel"
-                data-cout="{{energie.personnel}}"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-special="personnel"
                 data-value="{{active.personnel}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.TransformationPersonnelle"}} : {{localizeactivate active.personnel}}
             </button>
 
             <button class="activation"
-                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                data-toupdate="capacites.selected.changeling.active.etendue"
-                data-cout="{{energie.etendue}}"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-special="etendue"
                 data-value="{{active.etendue}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.TransformationEtendue"}} : {{localizeactivate active.etendue}}
             </button>
@@ -58,9 +58,9 @@
             </label>
 
             <button class="activation"
-                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                data-toupdate="capacites.selected.changeling.active.fauxEtre"
-                data-cout="{{data.changeling.fauxetres}}*{{energie.fauxEtre.value}}"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-special="fauxEtre"
                 data-value="{{active.fauxEtre}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.FauxEtres"}} : {{localizeactivate active.fauxEtre}}
             </button>
@@ -69,7 +69,10 @@
             {{#if desactivationexplosive.acces}}
                 {{#if active.personnel}}
                 <button class="activation"
-                    data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+                    data-type="capacites"
+                    data-capacite="{{key}}"
+                    data-special="explosive"
+                    data-name="{{label}}"
                     data-toupdate="capacites.selected.changeling.active.personnel/capacites.selected.changeling.active.etendue/capacites.selected.changeling.active.fauxEtre"
                     data-cout="0"
                     data-dgtsDice="{{desactivationexplosive.degats.dice}}",
@@ -82,20 +85,26 @@
                 {{else}}
                     {{#if active.etendue}}
                     <button class="activation"
-                        data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-special="explosive"
+                        data-name="{{label}}"
                         data-toupdate="capacites.selected.changeling.active.personnel/capacites.selected.changeling.active.etendue/capacites.selected.changeling.active.fauxEtre"
                         data-cout="0"
                         data-dgtsDice="{{desactivationexplosive.degats.dice}}",
                         data-dgtsFixe="{{desactivationexplosive.degats.fixe}}",
-                    data-violenceDice="{{desactivationexplosive.violence.dice}}",
-                    data-violenceFixe="{{desactivationexplosive.violence.fixe}}",
+                        data-violenceDice="{{desactivationexplosive.violence.dice}}",
+                        data-violenceFixe="{{desactivationexplosive.violence.fixe}}",
                         data-explosive="true">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.CHANGELING.DesactivationExplosive"}}
                     </button>
                     {{else}}
                         {{#if active.fauxEtre}}
                         <button class="activation"
-                            data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
+                            data-type="capacites"
+                            data-capacite="{{key}}"
+                            data-name="{{label}}"
+                            data-special="explosive"
                             data-toupdate="capacites.selected.changeling.active.personnel/capacites.selected.changeling.active.etendue/capacites.selected.changeling.active.fauxEtre"
                             data-cout="0"
                             data-dgtsDice="{{desactivationexplosive.degats.dice}}",

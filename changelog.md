@@ -1,3 +1,8 @@
+## v3.50.0
+### Bugfix
+- Refactorisation d'une partie du code pour plus de simplicité.
+- Correction d'un bug sur le nombre de succès auto de l'immobilisation du mode morph.
+
 ## v3.49.6
 ### Bugfix
 - Correction d'un bug avec le spécial "plusespoir" qui n'était pas pris en compte.

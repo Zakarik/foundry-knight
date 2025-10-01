@@ -15,26 +15,24 @@
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SHRINE.ENERGIE.Personnel"}} : {{localize "KNIGHT.AUTRE.Activer"}}
                 </button>
 
-                <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                    data-cout="{{energie.distance}}"
-                    data-toupdate="capacites.selected.shrine.active"
+                <button class="activation" data-type="capacites"
+                    data-capacite="{{key}}"
                     data-special="distance"
                     data-value="{{active.distance}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SHRINE.ENERGIE.Distance"}} : {{localize "KNIGHT.AUTRE.Activer"}}
                 </button>
 
                 {{#if energie.acces6tours}}
-                    <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                        data-cout="{{energie.personnel6tours}}"
-                        data-toupdate="capacites.selected.shrine.active"
+                    <button class="activation"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
                         data-special="personnel6"
                         data-value="{{active.personnel6}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SHRINE.ENERGIE.Personnel6Tours"}} : {{localize "KNIGHT.AUTRE.Activer"}}
                     </button>
 
-                    <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                        data-cout="{{energie.distance6tours}}"
-                        data-toupdate="capacites.selected.shrine.active"
+                    <button class="activation" data-type="capacites"
+                        data-capacite="{{key}}"
                         data-special="distance6"
                         data-value="{{active.distance6}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SHRINE.ENERGIE.Distance6Tours"}} : {{localize "KNIGHT.AUTRE.Activer"}}
@@ -42,9 +40,8 @@
                 {{/if}}
             {{else}}
                 {{#if active.personnel}}
-                    <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                    data-id="{{data.shrine.id}}"
-                    data-toupdate="capacites.selected.shrine.active"
+                    <button class="activation" data-type="capacites"
+                    data-capacite="{{key}}"
                     data-special="personnel"
                     data-value="{{active.personnel}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SHRINE.ENERGIE.Personnel"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
@@ -52,9 +49,9 @@
                 {{/if}}
 
                 {{#if active.distance}}
-                <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                    data-id="{{data.shrine.id}}"
-                    data-toupdate="capacites.selected.shrine.active"
+                <button class="activation"
+                    data-type="capacites"
+                    data-capacite="{{key}}"
                     data-special="distance"
                     data-value="{{active.distance}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SHRINE.ENERGIE.Distance"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
@@ -62,9 +59,9 @@
                 {{/if}}
 
                 {{#if active.personnel6}}
-                <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                    data-id="{{data.shrine.id}}"
-                    data-toupdate="capacites.selected.shrine.active"
+                <button class="activation"
+                    data-type="capacites"
+                    data-capacite="{{key}}"
                     data-special="personnel6"
                     data-value="{{active.personnel6}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SHRINE.ENERGIE.Personnel6Tours"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
@@ -72,9 +69,9 @@
                 {{/if}}
 
                 {{#if this.active.distance6}}
-                <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                    data-id="{{data.shrine.id}}"
-                    data-toupdate="capacites.selected.shrine.active"
+                <button class="activation"
+                    data-type="capacites"
+                    data-capacite="{{key}}"
                     data-special="distance6"
                     data-value="{{active.distance6}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.SHRINE.ENERGIE.Distance6Tours"}} : {{localize "KNIGHT.AUTRE.Desactiver"}}
