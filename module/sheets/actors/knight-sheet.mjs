@@ -330,7 +330,7 @@ export class KnightSheet extends ActorSheet {
 
               if(actor !== undefined) await actor.delete();
 
-              await deleteTokens([actor.id]);
+              if(actor?.id) await deleteTokens([actor.id]);
 
               armure.update({[`system.${toupdate}`]:{
                 active:false,
@@ -506,7 +506,7 @@ export class KnightSheet extends ActorSheet {
                         "phase2":false
                       }
                     },
-                    dataLion.modules,
+                    [],
                     dataLion.img,
                     dataLion?.token ?? dataLion.img,
                     1
@@ -514,7 +514,7 @@ export class KnightSheet extends ActorSheet {
 
                   await newActor.update({['system.initiative.bonus.user']:dataLion.initiative.fixe});
 
-                  const nLItems = [];
+                  const nLItems = getData.items.filter(itm => itm.type === 'module' && itm?.system?.isLion);
 
                   const nLItem = {
                     name:dataLion.armes.contact.coups.label,
@@ -758,7 +758,7 @@ export class KnightSheet extends ActorSheet {
 
                   this._gainPE(recupValue, true, false);
 
-                  await deleteTokens([actorLion.id]);
+                  if(actorLion?.id) await deleteTokens([actorLion.id]);
 
                   if(Object.keys(actorLion).length != 0) await actorLion.delete();
                   break;
@@ -775,7 +775,7 @@ export class KnightSheet extends ActorSheet {
 
                   this._gainPE(recupValue, true, false);
 
-                  await deleteTokens([actor1Wolf.id, actor2Wolf.id, actor3Wolf.id]);
+                  if(actor1Wolf?.id) await deleteTokens([actor1Wolf.id, actor2Wolf.id, actor3Wolf.id]);
 
                   if(Object.keys(actor1Wolf).length != 0) await actor1Wolf.delete();
                   if(Object.keys(actor2Wolf).length != 0) await actor2Wolf.delete();
@@ -790,7 +790,7 @@ export class KnightSheet extends ActorSheet {
 
                   this._gainPE(recupValue, true, false);
 
-                  await deleteTokens([actorCrow.id]);
+                  if(actorCrow?.id) await deleteTokens([actorCrow.id]);
 
                   if(Object.keys(actorCrow).length != 0) await actorCrow.delete();
                   break;
@@ -1340,7 +1340,7 @@ export class KnightSheet extends ActorSheet {
 
           if(actor !== undefined) await actor.delete();
 
-          await deleteTokens([actor.id]);
+          if(actor?.id) await deleteTokens([actor.id]);
 
           dataModule.update({[`system`]:{
             'active':{
@@ -1738,7 +1738,7 @@ export class KnightSheet extends ActorSheet {
 
                 this._gainPE(actorLion.system.energie.value, true, false);
 
-                await deleteTokens([actorLion.id]);
+                if(actorLion?.id) await deleteTokens([actorLion.id]);
 
                 await actorLion.delete();
                 break;
@@ -1753,7 +1753,7 @@ export class KnightSheet extends ActorSheet {
 
                 this._gainPE(actor1Wolf.system.energie.value, true, false);
 
-                await deleteTokens([actor1Wolf.id, actor2Wolf.id, actor3Wolf.id]);
+                if(actor1Wolf?.id) await deleteTokens([actor1Wolf.id, actor2Wolf.id, actor3Wolf.id]);
 
                 await actor1Wolf.delete();
                 await actor2Wolf.delete();
@@ -1766,7 +1766,7 @@ export class KnightSheet extends ActorSheet {
 
                 this._gainPE(actorCrow.system.energie.value, true, false);
 
-                await deleteTokens([actorCrow.id]);
+                if(actorCrow?.id) await deleteTokens([actorCrow.id]);
 
                 await actorCrow.delete();
                 break;
@@ -2582,7 +2582,6 @@ export class KnightSheet extends ActorSheet {
           armure.update(itemUpdate);
           break;
         case "typeLegende":
-          console.warn(armureLegende)
           const typeLegende = armureLegende.system.capacites.selected['type'];
           const typeLegendeSelectionne = typeLegende.selectionne || 0;
           calcul = typeLegendeSelectionne;
@@ -3688,7 +3687,6 @@ export class KnightSheet extends ActorSheet {
       const id = target.data("num");
       const dataArmor = await getArmor(this.actor);
       const listEvolutions = dataArmor.system.evolutions.liste;
-      console.warn(dataArmor);
       const dataEArmor = listEvolutions[id]?.data ?? {};
       const capacites = listEvolutions[id]?.capacites ?? {};
       let special = listEvolutions[id]?.special ?? {};
@@ -4281,7 +4279,7 @@ export class KnightSheet extends ActorSheet {
       };
       delete itemData.system["subtype"];
     }
-    console.warn(type)
+
     if((type === 'module' && hasCapaciteCompanions) || (type === 'module' && hasCapaciteCompanionsLegend)) {
       const hasArmure = actorData.equipements.armure.hasArmor;
 

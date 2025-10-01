@@ -3,10 +3,25 @@
 - Refactorisation d'une partie du code pour plus de simplicité.
 - Correction d'un bug sur le nombre de succès auto de l'immobilisation du mode morph.
 
+## v3.49.6
+### Bugfix
+- Correction d'un bug avec le spécial "plusespoir" qui n'était pas pris en compte.
+- Correction d'un bug qui ne prenait pas correctement en compte la génération 4 des armures.
+- Correction d'un bug d'affichage dans la capacité ultime "Maître des bêtes" qui ne permettait aucune modification, et ne s'affichait pas correctement.
+- Correction des modules qui n'étaient pas correctement attribué au Lion.
+
+## v3.49.5
+### Bugfix
+- Correction d'un bug qui pouvait empêcher la désactivation du mode companions..
+
+## v3.49.4
+### Bugfix
+- Correction d'un bug qui empêchait l'affichage des IA sur les fiches des joueurs dans certains cas rares.
+- Correction d'un bug qui pouvait empêcher la désactivation du mode ascension.
+
 ## v3.49.3
 ### Bugfix
 - Correction d'un bug qui empêchait l'affichage des IA sur les fiches des joueurs dans certains cas rares.
-
 
 ## v3.49.2
 ### Bugfix

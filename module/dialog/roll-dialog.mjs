@@ -1500,8 +1500,6 @@ export class KnightRollDialog extends Dialog {
                         data:c,
                         value:armorIsWear ? `${aspects[a].caracteristiques[c].value} + ${aspects[a].caracteristiques[c].overdrive.value} ${game.i18n.localize('KNIGHT.ASPECTS.OD')}` : `${aspects[a].caracteristiques[c].value}`,
                     }
-                    console.warn(c);
-                    console.warn(aspects[a])
                 }
             }
         } else {

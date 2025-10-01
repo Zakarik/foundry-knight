@@ -660,8 +660,10 @@
     });
 
     Handlebars.registerHelper('companionsCanBeActivate', function (data, companion=null, legend=false) {
+        const isLegend = legend === true;
+
         const active = data?.active || {lion:false, wolf:false, crow:false};
-        const deployable = legend ? 1 : data?.deployable || 1;
+        const deployable = isLegend ? 1 : data?.deployables || 1;
         const isActive = companion !== null ? active[companion] : true;
 
         let i = 0;

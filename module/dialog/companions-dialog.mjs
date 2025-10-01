@@ -10,7 +10,6 @@ import {
     constructor(data, object, options) {
         super(options);
         this.data = data;
-        console.warn(data);
     }
 
     static get defaultOptions() {
@@ -435,7 +434,6 @@ import {
         update[`system.evolutions.special.companions.applied.value`] = evolutionsAppliedV + 1;
         update[`system.evolutions.special.companions.applied.liste`] = evolutionsAppliedL.concat(evoListe);
         const id = this.data.content.data.evo;
-        console.warn(this.data);
 
         update[`system.archivage.liste.${id}`] = JSON.stringify(armor.system);
 
