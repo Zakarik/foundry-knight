@@ -1,7 +1,7 @@
-## v3.50.0
+## v3.49.8
 ### Bugfix
-- Refactorisation d'une partie du code pour plus de simplicité.
-- Correction d'un bug sur le nombre de succès auto de l'immobilisation du mode morph.
+- Correction de divers problèmes dans tous les cas devant "invoquer" une créature.
+Cette correction retire la nécessité d'accorder les droits aux PJ Druid / Shaman & co, mais introduit la simple obligation de MJ connecté lorsque les capacités sont utilisées, et également la dépendance au module "socketlib".
 
 ## v3.49.6
 ### Bugfix

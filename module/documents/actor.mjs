@@ -4,6 +4,7 @@ import {
   spawnTokenRightOfActor,
   spawnTokensRightOfActor,
   deleteTokens,
+  deleteActors,
   createSheet,
   capitalizeFirstLetter,
   confirmationDialog,
@@ -11,6 +12,7 @@ import {
 
 import PatchBuilder from "../utils/patchBuilder.mjs";
 import ArmureAPI from "../utils/armureAPI.mjs";
+import {SOCKET} from "../utils/socketHandler.mjs";
 
 /**
  * Extend the base Actor document to support attributes and groups with a custom template creation dialog.
@@ -171,12 +173,12 @@ export class KnightActor extends Actor {
       const a = game.actors?.get(actorId);
       if (!a) return;
       try {
-        await deleteTokens([a.id]);   // d’abord les tokens
+        deleteTokens([a.id]);   // d’abord les tokens
       } catch (e) {
         console.warn('deleteTokens a échoué (continuation)', e);
       }
       try {
-        await a.delete();             // puis l’acteur
+        deleteActors([a.uuid]);   // puis l'acteur
       } catch (e) {
         console.warn('actor.delete a échoué (continuation)', e);
       }
@@ -186,7 +188,10 @@ export class KnightActor extends Actor {
       if (!actorDoc) return;
 
       if (toDelete.length) {
-        await actorDoc.deleteEmbeddedDocuments('Item', toDelete);
+        await SOCKET.executeAsGM('deleteItmInActor', {
+          actor:actorDoc.uuid,
+          items:toDelete,
+        });
       }
     };
 
@@ -239,7 +244,8 @@ export class KnightActor extends Actor {
           // 1) Cloner proprement les données source via deepClone
           const clone = foundry.utils.deepClone(this);
           // 2) Créer l’acteur d’ascension
-          const src = await Actor.create(clone);
+          const { id, uuid } = await SOCKET.executeAsGM('createSubActor', clone);
+          const src = await fromUuid(uuid);
 
           // 3) Editer nom et visuels
           const newName = `${getName} : ${this.name}`;
@@ -384,6 +390,7 @@ export class KnightActor extends Actor {
               const dataLDame = dataLion.aspects.dame;
               const dataLMasque = dataLion.aspects.masque;
               const modules = this.items.filter(itm => itm.type === 'module' && (itm.system?.isLion ?? false));
+
               newActor = await createSheet(
                 this,
                 "pnj",
@@ -475,7 +482,10 @@ export class KnightActor extends Actor {
 
               nLItems.push(nLItem);
 
-              await newActor.createEmbeddedDocuments("Item", nLItems);
+              await SOCKET.executeAsGM('giveItmToActor', {
+                actor:newActor.uuid,
+                items:nLItems,
+              });
 
               pb.sys('capacites.selected.companions.lion.id', newActor.id);
 
@@ -699,9 +709,7 @@ export class KnightActor extends Actor {
 
               this._gainPE(recupValue, getArmure);
 
-              await deleteTokens([actorLion.id]);
-
-              if(Object.keys(actorLion).length != 0) await actorLion.delete();
+              deleteActorAndTokens(idLion);
               break;
 
             case 'wolf':
@@ -716,11 +724,9 @@ export class KnightActor extends Actor {
 
               this._gainPE(recupValue, getArmure);
 
-              await deleteTokens([actor1Wolf.id, actor2Wolf.id, actor3Wolf.id]);
-
-              if(Object.keys(actor1Wolf).length != 0) await actor1Wolf.delete();
-              if(Object.keys(actor2Wolf).length != 0) await actor2Wolf.delete();
-              if(Object.keys(actor3Wolf).length != 0) await actor3Wolf.delete();
+              deleteActorAndTokens(actor1Wolf.id);
+              deleteActorAndTokens(actor2Wolf.id);
+              deleteActorAndTokens(actor3Wolf.id);
               break;
 
             case 'crow':
@@ -731,14 +737,12 @@ export class KnightActor extends Actor {
 
               this._gainPE(recupValue, getArmure);
 
-              await deleteTokens([actorCrow.id]);
-
-              if(Object.keys(actorCrow).length != 0) await actorCrow.delete();
+              deleteActorAndTokens(actorCrow.id);
               break;
           }
 
           const msgCompanions = {
-            flavor:`${name}`,
+            flavor:`${getName}`,
             main:{
               total:`${game.i18n.format("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Revocation", {type:game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.${special.toUpperCase()}.Label`)})}`
             }
