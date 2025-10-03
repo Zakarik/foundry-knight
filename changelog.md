@@ -1,3 +1,7 @@
+## v3.49.8
+### Bugfix
+- Correction de divers bugs lors de la création d'acteurs / tokens par les joueurs (mode Companion, mode Ascension, ...), en retirant la nécessité d'accorder les droits de création aux joueurs. Il y a un module qui devient, par contre, nécessaire pour le système : socketlib. Et il est aussi nécessaire, lorsque ces pouvoirs sont utilisés, qu'un MJ soit connecté.
+
 ## v3.49.7
 ### Bugfix
 - Correction d'un bug dupliquant certains effets (en particulier, les effets personnalisés)

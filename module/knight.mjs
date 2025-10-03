@@ -47,6 +47,7 @@ import { GmTool } from "./gm/gmTool.mjs";
 import { GmInitiative } from "./gm/gmInitiative.mjs";
 import { GmMonitor } from "./gm/gmMonitor.mjs";
 import HooksKnight from "./hooks.mjs";
+import {knightSocketReady} from "./utils/socketHandler.mjs";
 
 // MODELS
 import { KnightDataModel } from "./documents/models/actors/knight-data-model.mjs";
@@ -118,7 +119,7 @@ Hooks.once('init', async function() {
     dialogRollWId,
     directRoll,
     RollKnight,
-    migrations: MigrationKnight
+    migrations: MigrationKnight,
   };
 
   // Add custom constants for configuration.
@@ -450,6 +451,7 @@ Hooks.once('init', HooksKnight.init);
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 Hooks.once("ready", HooksKnight.ready);
+Hooks.once("socketlib.ready", knightSocketReady);
 
 Hooks.on('deleteItem', doc => toggler.clearForId(doc.id));
 Hooks.on('deleteActor', doc => toggler.clearForId(doc.id));

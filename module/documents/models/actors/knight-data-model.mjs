@@ -598,8 +598,6 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         this.#derived();
         this.initiative.prepareData();
         this.#sanitizeValue();
-
-        console.error(this);
     }
 
     #checkArmor() {

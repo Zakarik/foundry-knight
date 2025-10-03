@@ -19,10 +19,12 @@ import {
   spawnTokenRightOfActor,
   spawnTokensRightOfActor,
   deleteTokens,
+  deleteActors,
 } from "../../helpers/common.mjs";
 
 import toggler from '../../helpers/toggler.js';
 
+import { SOCKET } from '../../utils/socketHandler.mjs';
 /**
  * @extends {ActorSheet}
  */
@@ -284,11 +286,20 @@ export class KnightSheet extends ActorSheet {
             if(value) {
               const substract = this.actor.system.energie.max-cout;
               let clone = foundry.utils.deepClone(this.actor);
-              newActor = await Actor.create(clone);
+              const { id, uuid } = await SOCKET.executeAsGM('createSubActor', clone);
+              newActor = await fromUuid(uuid);
 
-              for(let item of newActor.items.filter(items => items.system.rarete === 'prestige')) {
-                item.delete();
+              // Nettoyer/adapter les items
+              const filteredItems = [];
+              for (const it of newActor.items ?? []) {
+                // retirer les items de rareté prestige
+                if (it?.system?.niveau?.actuel?.rarete === 'prestige') filteredItems.push(it.id);
               }
+
+              SOCKET.executeAsGM('deleteItmInActor', {
+                actor:uuid,
+                items:filteredItems
+              });
 
               for(let item of newActor.items.filter(items => items.type === 'armure')) {
                 let itmUpdate = {};
@@ -317,13 +328,12 @@ export class KnightSheet extends ActorSheet {
                 ascensionId:newActor.id
               }});
 
-              await spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
+              spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
             } else {
               const actor = game.actors.get(id);
 
-              if(actor !== undefined) await actor.delete();
-
-              if(actor?.id) await deleteTokens([actor.id]);
+              deleteActors([actor.uuid]);
+              deleteTokens([actor.id]);
 
               armure.update({[`system.${toupdate}`]:{
                 active:false,
@@ -505,7 +515,7 @@ export class KnightSheet extends ActorSheet {
                     1
                   );
 
-                  await newActor.update({['system.initiative.bonus.user']:dataLion.initiative.fixe});
+                  newActor.update({['system.initiative.bonus.user']:dataLion.initiative.fixe});
 
                   const nLItems = getData.items.filter(itm => itm.type === 'module' && itm?.system?.isLion);
 
@@ -531,11 +541,14 @@ export class KnightSheet extends ActorSheet {
 
                   nLItems.push(nLItem);
 
-                  await newActor.createEmbeddedDocuments("Item", nLItems);
+                  SOCKET.executeAsGM('giveItmToActor', {
+                    actor:newActor.uuid,
+                    items:nLItems
+                  });
 
                   update[`system.capacites.selected.companions.lion.id`] = newActor.id
 
-                  await spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
+                  spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
                   break;
 
                 case 'wolf':
@@ -610,7 +623,7 @@ export class KnightSheet extends ActorSheet {
                       1
                     );
 
-                    await newActor.update({['system.initiative.bonus.user']:dataWolf.initiative.fixe});
+                    newActor.update({['system.initiative.bonus.user']:dataWolf.initiative.fixe});
                     const nWItems = [];
                     const nWItem = {
                       name:dataWolf.armes.contact.coups.label,
@@ -634,13 +647,13 @@ export class KnightSheet extends ActorSheet {
 
                     nWItems.push(nWItem);
 
-                    await newActor.createEmbeddedDocuments("Item", nWItems);
+                    newActor.createEmbeddedDocuments("Item", nWItems);
 
                     update[`system.capacites.selected.companions.wolf.id.id${i}`] = newActor.id;
                     createdActors.push(newActor);
                   }
 
-                  await spawnTokensRightOfActor(createdActors, this.actor);
+                  spawnTokensRightOfActor(createdActors, this.actor);
                   break;
 
                 case 'crow':
@@ -712,11 +725,11 @@ export class KnightSheet extends ActorSheet {
                     dataCrow?.token ?? dataCrow.img,
                     1
                   );
-                  await newActor.update({['system.initiative.bonus.user']:dataCrow.initiative.fixe});
+                  newActor.update({['system.initiative.bonus.user']:dataCrow.initiative.fixe});
 
                   update[`system.capacites.selected.companions.crow.id`] = newActor.id;
 
-                  await spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
+                  spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
                   break;
               }
 
@@ -751,9 +764,8 @@ export class KnightSheet extends ActorSheet {
 
                   this._gainPE(recupValue, true, false);
 
-                  if(actorLion?.id) await deleteTokens([actorLion.id]);
-
-                  if(Object.keys(actorLion).length != 0) await actorLion.delete();
+                  deleteTokens([actorLion.id]);
+                  deleteActors([actorLion.uuid]);
                   break;
 
                 case 'wolf':
@@ -768,11 +780,8 @@ export class KnightSheet extends ActorSheet {
 
                   this._gainPE(recupValue, true, false);
 
-                  if(actor1Wolf?.id) await deleteTokens([actor1Wolf.id, actor2Wolf.id, actor3Wolf.id]);
-
-                  if(Object.keys(actor1Wolf).length != 0) await actor1Wolf.delete();
-                  if(Object.keys(actor2Wolf).length != 0) await actor2Wolf.delete();
-                  if(Object.keys(actor3Wolf).length != 0) await actor3Wolf.delete();
+                  deleteTokens([actor1Wolf.id, actor2Wolf.id, actor3Wolf.id]);
+                  deleteActors([actor1Wolf.uuid, actor2Wolf.uuid, actor3Wolf.uuid]);
                   break;
 
                 case 'crow':
@@ -783,9 +792,8 @@ export class KnightSheet extends ActorSheet {
 
                   this._gainPE(recupValue, true, false);
 
-                  if(actorCrow?.id) await deleteTokens([actorCrow.id]);
-
-                  if(Object.keys(actorCrow).length != 0) await actorCrow.delete();
+                  deleteTokens([actorCrow.id]);
+                  deleteActors([actorCrow.uuid]);
                   break;
               }
 
@@ -1314,6 +1322,7 @@ export class KnightSheet extends ActorSheet {
 
                 items.push(nItem);
             }
+
 
             await newActor.createEmbeddedDocuments("Item", items);
           }
