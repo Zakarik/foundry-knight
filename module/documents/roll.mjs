@@ -36,6 +36,7 @@ export class RollKnight {
         this.item = data?.item ?? undefined;
         this.effectspath = data?.effectspath ?? undefined;
         this.isSuccess = isSuccess;
+        this.isExploit = false;
         this.style = data?.style ?? 'standard';
         this.dataStyle = data?.dataStyle ?? {};
         this.dataMod = data?.dataMod ?? {degats:{dice:0, fixe:0}, violence:{dice:0, fixe:0}};
@@ -650,32 +651,53 @@ export class RollKnight {
         const dices = roll.dice;
         let rolls = [roll];
         let rollState = RollKnight.NORMAL;
-        let numbers = 0;
         let success = 0;
+        let failure = 0;
 
         let results;
 
-        if(this.isSuccess) {
-            results = dices.reduce((acc, dice) => {
-                numbers += dice.number;
+        const computeBatch = (dices) => {
+            // Retourne un lot "aplati" + stats
+            const batch = [];
+            let success = 0;
+            let failure = 0;
 
-                dice.results.forEach(result => {
-                    success += result.result%2 === 0 ? 1 : 0;
+            dices.forEach(dice => {
+              const faces = dice._faces;
+              dice.results.forEach(({ result }) => {
+                const isEven = result % 2 === 0;
+                if (isEven) success += 1;
+                else failure += 1;;
 
-                    acc.push({
-                        value:result.result,
-                        class:`d${dice._faces} ${result.result%2 === 0 ? 'success' : 'fail'}`,
-                    });
+                batch.push({
+                  value: result,
+                  class: `d${faces} ${isEven ? 'success' : 'fail'}`,
                 });
-                return acc;
-            }, []);
+              });
+            });
+
+            return { batch, success, failure };
+        };
+
+        const markDiscardedFails = (batch) => {
+            // Marque les échecs d'un lot comme "discarded"
+            for (const item of batch) {
+              if (item.class.includes('fail') && !item.class.includes('discarded')) {
+                item.class += ' discarded';
+              }
+            }
+        };
+
+        if(this.isSuccess) {
+            const { batch:b1, success: s1, failure:f1 } = computeBatch(dices);
+            results = b1;
+            success += s1;
+            failure += f1;
         } else {
             results = dices.reduce((acc, dice) => {
-                numbers += dice.number;
-
-                dice.results.forEach(result => {
+                dice.results.forEach(({ result }) => {
                     acc.push({
-                        value:result.result,
+                        value:result,
                         class:`d${dice._faces}`,
                     });
                 });
@@ -685,25 +707,34 @@ export class RollKnight {
         }
 
         if(this.isSuccess) {
-            if(numbers === success && this.exploit) {
+            const setting = game.settings.get("knight", 'advcampaign');
+            const tags = this.tags;
+
+            if(tags.find(itm => itm.key === 'equilibrerbalance') && failure !== 0 && setting) {
+                markDiscardedFails(results);
+
+                const rEquilibrer = new Roll(`${failure}D6`);
+                await rEquilibrer.evaluate();
+                const { batch:b3, success: s3, failure:f3 } = computeBatch(rEquilibrer.dice);
+
+                results = results.concat(b3);
+                failure -= s3;
+                success += s3;
+                rolls.push(rEquilibrer);
+            }
+
+            if(failure === 0 && this.exploit) {
                 const rEpicSuccess = new Roll(this.formula);
                 await rEpicSuccess.evaluate();
 
-                let epicSuccess = rEpicSuccess.dice.reduce((acc, dice) => {
-                    dice.results.forEach(result => {
-                        success += result.result%2 === 0 ? 1 : 0;
+                const { batch:b2, success: s2, failure:f2 } = computeBatch(rEpicSuccess.dice);
 
-                        acc.push({
-                            value:result.result,
-                            class:`d${dice._faces} ${result.result%2 === 0 ? 'success' : 'fail'}`,
-                        });
-                    });
-                    return acc;
-                }, []);
-
-                results = results.concat(epicSuccess);
+                success += s2;
+                failure += f2;
+                results = results.concat(b2);
                 rollState = RollKnight.EPICSUCCESS;
                 rolls.push(rEpicSuccess);
+                this.isExploit = true;
             } else if(success === 0 && this.exploit) rollState = RollKnight.EPICFAIL;
         }
 
@@ -877,6 +908,9 @@ export class RollKnight {
         for(let f in this.addFlags) {
             msg.setFlag('knight', f, this.addFlags[f]);
         }
+
+        msg.setFlag('knight', 'exploit', this.isExploit)
+        msg.setFlag('knight', 'isSuccess', this.isSuccess)
 
         return total;
     }
@@ -1130,11 +1164,14 @@ export class RollKnight {
             flavor:main.flavor,
             weapon:weapon,
             content:flag,
+            tags:main.tags,
             surprise:this.isSurprise,
             style:this.style,
             dataStyle:this.dataStyle,
             dataMod:this.dataMod,
             maximize:this.maximize,
+            exploit:this.isExploit,
+            isSuccess:this.isSuccess,
         };
 
         await this.#handleAttaqueEffet(weapon, main, rolls, data?.updates ?? {});
@@ -1634,7 +1671,9 @@ export class RollKnight {
         const list = CONFIG.KNIGHT.LIST.EFFETS.degats;
         const modulesDice = weapon?.bonus?.degats?.dice ?? 0;
         const modulesFixe = weapon?.bonus?.degats?.fixe ?? 0;
-        const modulesDegatsVariable = weapon?.options?.filter(itm => itm.classes.includes('dgtsbonusvariable')) ?? [];
+        const modulesDegatsVariable = options?.filter(itm => itm.classes.includes('dgtsbonusvariable')) ?? [];
+        const advcampaign = game.settings.get("knight", 'advcampaign');
+        const isBourreauTenebres = advcampaign ? options.find(itm => itm.value === 'bourreautenebres' && itm.active) : false;
         const armorIsWear = this.armorIsWear;
         let detailledEffets = [];
         let effets = [];
@@ -1951,6 +1990,20 @@ export class RollKnight {
             }
         }
 
+        if(isBourreauTenebres) {
+            detailledEffets.push({
+                simple:'bourreauTenebres',
+                key:'bourreauTenebres',
+                label:`${game.i18n.localize("KNIGHT.EFFETS.BOURREAUTENEBRES.Label")}`,
+                description:this.#sanitizeTxt(game.i18n.localize(`KNIGHT.EFFETS.BOURREAUTENEBRES.Description-short`)),
+            });
+        }
+
+        let optSubDice = {
+            bourreau:isBourreauTenebres || hasBourreau ? true : false,
+            min:isBourreauTenebres && min < 4 ? 4 : min,
+        }
+
         for(let l of list) {
             const loc = localize[l.split(' ')[0]];
             const effet = this.#getEffet(raw, l);
@@ -2050,7 +2103,8 @@ export class RollKnight {
                     case 'briserlaresilience':
                         if(effet) {
                             const subdice = 1;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau, min:min});
+
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
 
                             rolls.push(subroll.roll);
 
@@ -2072,7 +2126,7 @@ export class RollKnight {
                     case 'rouagescassesgraves':
                         if(effet) {
                             const subdice = 1;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau, min:min});
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
 
                             rolls.push(subroll.roll);
 
@@ -2090,7 +2144,7 @@ export class RollKnight {
                     case 'chenesculpte':
                         if(effet) {
                             const subdice = 2;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau, min:min});
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
 
                             rolls.push(subroll.roll);
 
@@ -2291,7 +2345,7 @@ export class RollKnight {
                     case 'assassin':
                         if(effet) {
                             const subdice = hasTenebricide ? Math.floor(effet.split(' ')[1]/2) : effet.split(' ')[1];
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau, min:min});
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
 
                             rolls.push(subroll.roll);
 
@@ -2309,7 +2363,7 @@ export class RollKnight {
                     case 'revetementomega':
                         if(effet) {
                             const subdice = hasTenebricide ? Math.floor(2/2) : 2;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau, min:min});
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
 
                             rolls.push(subroll.roll);
 
@@ -2328,7 +2382,7 @@ export class RollKnight {
                     case 'destructeur':
                         if(effet) {
                             const subdice = hasTenebricide ? 1 : 2;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau, min:min});
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
 
                             rolls.push(subroll.roll);
 
@@ -2346,7 +2400,7 @@ export class RollKnight {
                     case 'meurtrier':
                         if(effet) {
                             const subdice = hasTenebricide ? 1 : 2;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau, min:min});
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
 
                             rolls.push(subroll.roll);
 
@@ -2451,7 +2505,7 @@ export class RollKnight {
                 });
             } else {
                 if(dices) {
-                    const subroll = fixe ? await this.doSimpleRoll(`${dices}D6+${fixe}`, dices, [fixe]) : await this.doSimpleRoll(`${dices}D6`, dices, []);
+                    const subroll = fixe ? await this.doSimpleRoll(`${dices}D6+${fixe}`, dices, [fixe], rollOptions, optSubDice) : await this.doSimpleRoll(`${dices}D6`, dices, [], rollOptions, optSubDice);
 
                     rolls.push(subroll.roll);
 
@@ -2499,6 +2553,12 @@ export class RollKnight {
         effets.sort((a, b) => a.label.localeCompare(b.label));
         const roll = new Roll(formula);
         await roll.evaluate(rollOptions);
+
+        if(isBourreauTenebres) {
+            for(let d of roll.terms[0].results) {
+                if(d.result < 4) d.result = 4;
+            }
+        }
 
         for(let t of targets) {
             t.effets = [];
@@ -2623,8 +2683,10 @@ export class RollKnight {
         const list = CONFIG.KNIGHT.LIST.EFFETS.violence;
         const modulesDice = weapon?.bonus?.violence?.dice ?? 0;
         const modulesFixe = weapon?.bonus?.violence?.fixe ?? 0;
-        const modulesViolenceVariable = weapon.options.filter(itm => itm.classes.includes('violencebonusvariable'));
+        const modulesViolenceVariable = options.filter(itm => itm.classes.includes('violencebonusvariable'));
         const armorIsWear = this.armorIsWear;
+        const advcampaign = game.settings.get("knight", 'advcampaign');
+        const isDevasterAnatheme = advcampaign ? options.find(itm => itm.value === 'devasteranatheme' && itm.active) : false;
         let detailledEffets = [];
         let effets = [];
         let rollOptions = {
@@ -2723,6 +2785,20 @@ export class RollKnight {
             }
         }
 
+        if(isDevasterAnatheme) {
+            detailledEffets.push({
+                simple:'devasterAnatheme',
+                key:'devasterAnatheme',
+                label:`${game.i18n.localize("KNIGHT.EFFETS.DEVASTERANATHEME.Label")}`,
+                description:this.#sanitizeTxt(game.i18n.localize(`KNIGHT.EFFETS.DEVASTERANATHEME.Description-short`)),
+            });
+        }
+
+        let optSubDice = {
+            bourreau:isDevasterAnatheme || hasDevastation ? true : false,
+            min:isDevasterAnatheme && min < 4 ? 4 : min,
+        }
+
         for(let l of list) {
             const loc = localize[l.split(' ')[0]];
             const effet = this.#getEffet(raw, l);
@@ -2817,7 +2893,7 @@ export class RollKnight {
                     case 'ultraviolence':
                         if(effet) {
                             const subdice = 2;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {devastation:hasDevastation, min:min});
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
 
                             rolls.push(subroll.roll);
                             ultraviolence = subroll.roll.total;
@@ -2870,7 +2946,7 @@ export class RollKnight {
                     case 'rouagescassesgraves':
                         if(effet) {
                             const subdice = 1;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {bourreau:hasBourreau});
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
 
                             rolls.push(subroll.roll);
 
@@ -2888,7 +2964,7 @@ export class RollKnight {
                     case 'fureur':
                         if(effet) {
                             const subdice = 4;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {devastation:hasDevastation, min:min});
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
 
                             rolls.push(subroll.roll);
 
@@ -2922,7 +2998,7 @@ export class RollKnight {
                     case 'briserlaresilience':
                         if(effet) {
                             const subdice = 1;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, {devastation:hasDevastation, min:min});
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
 
                             rolls.push(subroll.roll);
 
@@ -3020,7 +3096,7 @@ export class RollKnight {
                 });
             } else {
                 if(dices) {
-                    const subroll = fixe ? await this.doSimpleRoll(`${dices}D6+${fixe}`, dices, [fixe]) : await this.doSimpleRoll(`${dices}D6`, dices, []);
+                    const subroll = fixe ? await this.doSimpleRoll(`${dices}D6+${fixe}`, dices, [fixe]) : await this.doSimpleRoll(`${dices}D6`, dices, [], rollOptions, optSubDice);
 
                     rolls.push(subroll.roll);
 
@@ -3068,6 +3144,12 @@ export class RollKnight {
 
         const roll = new Roll(formula);
         await roll.evaluate(rollOptions);
+
+        if(isDevasterAnatheme) {
+            for(let d of roll.terms[0].results) {
+                if(d.result < 4) d.result = 4;
+            }
+        }
 
         for(let t of targets) {
             const actor = canvas.tokens.get(t.id).actor;

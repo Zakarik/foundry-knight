@@ -356,7 +356,8 @@
       order:3;
     }
 
-    &.relancedegats {
+    &.relancedegats,
+    &.full {
       grid-column: 1 / 3;
     }
   }

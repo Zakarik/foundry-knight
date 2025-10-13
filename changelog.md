@@ -1,3 +1,12 @@
+## v3.50.0
+### Améliorations
+- Ajoute de la possibilité de cocher, pour un avantage, "Equilibrer la balance" / "Bourreau des ténèbres" / "Dévaster l'Anathème".
+Les trois étant activable / désactivable, par la suite, dans la fenêtre de jet. Pour pouvoir faire ça, il faut activer l'option dans... les options.
+
+### Bugfix
+- Correction d'un bug rare quand l'historique d'évolution d'une armure devenait trop grand, en utilisant un algorithme pour réduire son poids.
+- Correction d'un bug avec les évolutions du longbow.
+
 ## v3.49.8
 ### Bugfix
 - Correction de divers bugs lors de la création d'acteurs / tokens par les joueurs (mode Companion, mode Ascension, ...), en retirant la nécessité d'accorder les droits de création aux joueurs. Il y a un module qui devient, par contre, nécessaire pour le système : socketlib. Et il est aussi nécessaire, lorsque ces pouvoirs sont utilisés, qu'un MJ soit connecté.

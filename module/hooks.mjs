@@ -143,16 +143,16 @@ export default class HooksKnight {
         //DEBUT GESTION MESSAGES
         Hooks.on("renderChatMessage", async (message, html, messageData) => {
             const version = game.version.split('.')[0];
-            const isVersion12 = version >= 12 ? true : false;
+            const isVersion13 = version >= 12 ? true : false;
             const tgtBtn = html.find('.knight-roll div.tgtBtn');
             const tgtBtnId = $(tgtBtn).data('id');
             const allInOne = message?.flags?.knight?.rollAll ?? false;
 
             if(!game.user.isGM) {
-            html.find('.knight-roll div.listTargets,div.onlyGm').remove();
+                html.find('.knight-roll div.listTargets,div.onlyGm').remove();
             }
 
-            if(isVersion12) {
+            if(isVersion13) {
                 if(game.user.id !== message.author.id && !game.user.isGM) {
                     html.find('.knight-roll div.btn').remove();
                 }
@@ -161,6 +161,7 @@ export default class HooksKnight {
                     html.find('.knight-roll div.btn').remove();
                 }
             }
+
 
             if(tgtBtnId) {
                 const token = canvas?.tokens?.get(tgtBtnId)?.actor ?? undefined;
@@ -264,7 +265,7 @@ export default class HooksKnight {
                             let effect = actor.appliedEffects.find(e => e.icon === iconPath);
 
                             if (!effect) {
-                                if(isVersion12) {
+                                if(isVersion13) {
                                     let counterNumber = isBoolean ? 1 : effects[iconName];
                                     // Create the counter
                                     if (counterNumber) {
@@ -288,7 +289,7 @@ export default class HooksKnight {
                                     case 'immobilisation':
                                     case 'lumiere':
                                     case 'parasitage':
-                                        if(isVersion12) {
+                                        if(isVersion13) {
                                             if (effect.statusCounter.displayValue < effects[iconName]) {
                                                 // Update the counter
                                                 effect.statusCounter.setValue(effects[iconName]);
@@ -304,7 +305,7 @@ export default class HooksKnight {
                             }
                          } else {
                             // No "Status Icon Counters" module
-                            if(isVersion12) {
+                            if(isVersion13) {
                                 actor.toggleStatusEffect(iconName, { active: true, overlay: false });
                             } else {
                                 V11toggleStatusEffect(actor, iconName, { active: true, overlay: false });
@@ -378,7 +379,7 @@ export default class HooksKnight {
                                     let effect = actor.appliedEffects.find(e => e.icon === iconPath);
 
                                     if (!effect) {
-                                        if(isVersion12) {
+                                        if(isVersion13) {
                                             let counterNumber = isBoolean ? 1 : effects[iconName];
                                             // Create the counter
                                             if (counterNumber) {
@@ -402,7 +403,7 @@ export default class HooksKnight {
                                             case 'immobilisation':
                                             case 'lumiere':
                                             case 'parasitage':
-                                                if(isVersion12) {
+                                                if(isVersion13) {
                                                     if (effect.statusCounter.displayValue < effects[iconName]) {
                                                         // Update the counter
                                                         effect.statusCounter.setValue(effects[iconName]);
@@ -418,7 +419,7 @@ export default class HooksKnight {
                                     }
                                 } else {
                                     // No "Status Icon Counters" module
-                                    if(isVersion12) {
+                                    if(isVersion13) {
                                         actor.toggleStatusEffect(iconName, { active: true, overlay: false });
                                     } else {
                                         V11toggleStatusEffect(actor, iconName, { active: true, overlay: false });
@@ -566,7 +567,7 @@ export default class HooksKnight {
 
                 // Check if the target is still alive
                 if (sante === 0 && armor === 0) {
-                    if(isVersion12) actor.toggleStatusEffect('dead', { active: true, overlay: true });
+                    if(isVersion13) actor.toggleStatusEffect('dead', { active: true, overlay: true });
                     else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
 
                     chatMessage += `<p><b>${game.i18n.localize('KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead')}.</b></p>`;
@@ -639,7 +640,7 @@ export default class HooksKnight {
                             let effect = actor.appliedEffects.find(e => e.icon === iconPath);
 
                             if (!effect) {
-                                if(isVersion12) {
+                                if(isVersion13) {
                                     let counterNumber = isBoolean ? 1 : effects[iconName];
                                     // Create the counter
                                     if (counterNumber) {
@@ -663,7 +664,7 @@ export default class HooksKnight {
                                     case 'immobilisation':
                                     case 'lumiere':
                                     case 'parasitage':
-                                        if(isVersion12) {
+                                        if(isVersion13) {
                                             if (effect.statusCounter.displayValue < effects[iconName]) {
                                                 // Update the counter
                                                 effect.statusCounter.setValue(effects[iconName]);
@@ -679,7 +680,7 @@ export default class HooksKnight {
                             }
                          } else {
                             // No "Status Icon Counters" module
-                            if(isVersion12) {
+                            if(isVersion13) {
                                 actor.toggleStatusEffect(iconName, { active: true, overlay: false });
                             } else {
                                 V11toggleStatusEffect(actor, iconName, { active: true, overlay: false });
@@ -869,7 +870,7 @@ export default class HooksKnight {
                 // Set the creature dead
                 if (damagesLeft >= 0) {
                     chatMessage += `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetDead")}.</b></p>`;
-                    if(isVersion12) actor.toggleStatusEffect('dead', { active: true, overlay: true });
+                    if(isVersion13) actor.toggleStatusEffect('dead', { active: true, overlay: true });
                     else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
                 }
 
@@ -991,7 +992,7 @@ export default class HooksKnight {
 
                 // Check if the target is still alive
                 if ((actorIsKnight && ((hasSante && sante === 0) || (!hasSante && armor === 0))) || (actorIsMechaArmor && blindage === 0)) {
-                    if(isVersion12) actor.toggleStatusEffect('dead', { active: true, overlay: true });
+                    if(isVersion13) actor.toggleStatusEffect('dead', { active: true, overlay: true });
                     else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
 
                     chatMessage += `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead")}.</b></p>`;
@@ -1154,7 +1155,7 @@ export default class HooksKnight {
                             let effect = actor.appliedEffects.find(e => e.icon === iconPath);
 
                             if (!effect) {
-                                if(isVersion12) {
+                                if(isVersion13) {
                                     let counterNumber = isBoolean ? 1 : effects[iconName];
                                     // Create the counter
                                     if (counterNumber) {
@@ -1178,7 +1179,7 @@ export default class HooksKnight {
                                     case 'immobilisation':
                                     case 'lumiere':
                                     case 'parasitage':
-                                        if(isVersion12) {
+                                        if(isVersion13) {
                                             if (effect.statusCounter.displayValue < effects[iconName]) {
                                                 // Update the counter
                                                 effect.statusCounter.setValue(effects[iconName]);
@@ -1194,7 +1195,7 @@ export default class HooksKnight {
                             }
                          } else {
                             // No "Status Icon Counters" module
-                            if(isVersion12) {
+                            if(isVersion13) {
                                 actor.toggleStatusEffect(iconName, { active: true, overlay: false });
                             } else {
                                 V11toggleStatusEffect(actor, iconName, { active: true, overlay: false });
@@ -1520,14 +1521,14 @@ export default class HooksKnight {
                 // Check if the player is dead
                 if ((actorIsKnight && ((hasSante && santeRest <= 0) || (!hasSante && armorRest <= 0))) || (actorIsMechaArmor && blindageRest <= 0)) {
                     chatMessage += `<p>${game.i18n.format("KNIGHT.JETS.DEGATSAUTO.PjDead", {name: actor.name})}.</p>`;
-                    if(isVersion12) actor.toggleStatusEffect('dead', { active: true, overlay: true });
+                    if(isVersion13) actor.toggleStatusEffect('dead', { active: true, overlay: true });
                     else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
                 }
 
                 // Check if the player sinks into despair
                 if (hasEspoir && espoirRest <= 0) {
                     chatMessage += `<p>${game.i18n.format("KNIGHT.JETS.DEGATSAUTO.PjHopeless", {name: actor.name})}</p>`;
-                    if(isVersion12) actor.toggleStatusEffect('dead', { active: true, overlay: true });
+                    if(isVersion13) actor.toggleStatusEffect('dead', { active: true, overlay: true });
                     else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
                 }
 

@@ -993,6 +993,21 @@
         "Label":"Unarmored",
         "Description":"The weapon can be used without meta-armour.",
         "Description-short":"The weapon can be used without meta-armour."
+      },
+      "DEVASTERANATHEME": {
+        "Label": "Devastate the Anathema",
+        "Description": "The PC's devastating power is immeasurable, and they are capable of driving back hordes of enemies on their own. Thus, on each of their attacks against Anathema mobs (but not Desperates), with any weapon(s), when the PC rolls their Violence dice, all die results less than or equal to 3 are treated as 4s. This advantage stacks with all weapon effects and is always applied after those effects have been taken into account. Dice granted by the Fury and Ultraviolence effects are therefore added before using Devastate the Anathema.",
+        "Description-short": "Violence dice that roll 3 or less are turned into 4."
+      },
+      "BOURREAUTENEBRES": {
+        "Label": "Executioner of Darkness",
+        "Description": "The light within the PC allows them to deliver the coup de grâce to powerful enemies. Thus, on each of their attacks against hostiles, thugs, or bosses of the Anathema (but not Desperates), with any weapon(s), when the PC rolls their damage dice, all die results less than or equal to 3 are treated as 4s. This advantage stacks with fixed damage and all weapon effects and is always applied after those effects have been taken into account. For example, dice granted by the Deadly or Destructive effects are added before using Executioner of Darkness.",
+        "Description-short": "Damage dice that roll 3 or less are turned into 4."
+      },
+      "EQUILIBRERBALANCE": {
+        "Label": "Balance the Scales",
+        "Description": "From now on, whenever the PC makes a test, regardless of the target number, they may always, once per test, reroll the dice that did not grant a success.",
+        "Description-short": "May reroll, once, all dice that did not score a success."
       }
     },
     "AMELIORATIONS":{
@@ -1307,7 +1322,10 @@
         "Diviser": "Divided by",
         "Diminuer": "Reduced by",
         "Infatigable": "Tireless",
-        "NoDmgSante":"Does not lose health points due to armour damage (usually 1 HP / 5 AP)"
+        "NoDmgSante":"Does not lose health points due to armour damage (usually 1 HP / 5 AP)",
+        "devasterAnatheme":"Devastate the Anathema",
+        "bourreauTenebres":"Executioner of Darkness",
+        "equilibrerBalance":"Balance the Scales"
       },
       "DESAVANTAGE":{
         "MalusSante": "Health penalty",
@@ -2605,6 +2623,10 @@
       "CANPJRESTAURE":{
         "Label":"Give players access to the Health / Armour / Energy / Hope restoration buttons.",
         "Hint":"If this box is unchecked, these options will not be accessible to PC, and only the GM will be able to click on them."
+      },
+      "ADVCAMPAIGN": {
+        "Label": "Enable campaign-specific advantages",
+        "Hint": "Provides additional options for advantages, allowing Devastate the Anathema / Balance the Scales / Executioner of Darkness to be enabled."
       }
     },
     "GM":{

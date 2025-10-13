@@ -233,10 +233,14 @@
                     {{/if}}
                 </div>
                 {{#each key.capacites as | kCap capacite |}}
+                    {{#unless (eq capacite 'longbow')}}
                     {{~> (evolutions) key=evolution}}
+                    {{/unless}}
                 {{/each}}
                 {{#each key.special as | kSpe special |}}
+                    {{#unless (eq special 'longbow')}}
                     {{~> (evolutions) key=evolution}}
+                    {{/unless}}
                 {{/each}}
             </div>
         </div>

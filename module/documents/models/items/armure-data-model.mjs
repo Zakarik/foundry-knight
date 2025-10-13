@@ -115,7 +115,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
         liste: new ObjectField(),
         special: new ObjectField()
       }),
-      archivage: new ObjectField()
+      archivage: new ObjectField(),
     };
   }
 

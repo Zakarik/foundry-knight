@@ -3697,7 +3697,9 @@ export class KnightSheet extends ActorSheet {
 
       const update = {};
 
-      update[`system.archivage.liste.${listEvolutions[id].value}`] = JSON.stringify(dataArmor.system);
+      const LZString = globalThis.LZString;
+      const { archivage, ...dataToSave } = dataArmor.system;
+      update[`system.archivage.liste.${listEvolutions[id].value}`] = LZString.compressToUTF16(JSON.stringify(dataToSave));
 
       for (let [key, spec] of Object.entries(special)) {
         const hasDelete = spec?.delete || false;
@@ -3959,7 +3961,8 @@ export class KnightSheet extends ActorSheet {
       let erase = {};
 
       if(type === 'liste') {
-        const parse = JSON.parse(getArchives[1]);
+        const LZString = globalThis.LZString;
+        const parse = JSON.parse(LZString.decompressFromUTF16(getArchives[1]));
         const listEvolutions = parse.evolutions.liste;
 
         for (let [key, evolutions] of Object.entries(listEvolutions)) {

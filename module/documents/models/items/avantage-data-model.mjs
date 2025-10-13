@@ -9,6 +9,9 @@ export class AvantageDataModel extends foundry.abstract.TypeDataModel {
               sante:new NumberField({ initial: 0, integer: true, nullable: false }),
               espoir:new NumberField({ initial: 0, integer: true, nullable: false }),
               noDmgSante:new BooleanField({initial:false}),
+              devasterAnatheme:new BooleanField({initial:false}),
+              bourreauTenebres:new BooleanField({initial:false}),
+              equilibrerBalance:new BooleanField({initial:false}),
               initiative:new SchemaField({
                 dice:new NumberField({ initial: 0, integer: true, nullable: false }),
                 fixe:new NumberField({ initial: 0, integer: true, nullable: false }),

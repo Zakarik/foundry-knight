@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.36.3";
+    static NEEDED_VERSION = "3.50";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -65,7 +65,7 @@ Applique les modifications par la mise à jour au Monde.
             }
         }
 
-        await game.settings.set("knight", "systemVersion", game.system.version);
+        //await game.settings.set("knight", "systemVersion", game.system.version);
         ui.notifications.info(`Migration du système de Knight à la version ${game.system.version} terminé!`, {
             permanent: true,
         });
@@ -1424,6 +1424,27 @@ Applique les modifications par la mise à jour au Monde.
             }
         }
 
+        if (options?.force || MigrationKnight.needUpdate("3.50.0")) {
+            const itms = actor.items.filter(itm => itm.type === 'armure');
+
+            for (let item of itms) {
+                const LZString = globalThis.LZString;
+                const system = item.system;
+                const archivages = system.archivage.liste;
+                let itmUpdate = {};
+
+                for(let a in archivages) {
+                    const data = archivages[a];
+                    const parse = JSON.parse(data);
+                    delete parse.archivage;
+
+                    itmUpdate[`system.archivage.liste.${a}`] = LZString.compressToUTF16(JSON.stringify(parse));
+                }
+
+                item.update(itmUpdate);
+            }
+        }
+
         return update;
     }
 
@@ -2291,6 +2312,22 @@ Applique les modifications par la mise à jour au Monde.
                 }
 
                 item.update(update);
+            }
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("3.50.0")) {
+            if(item.type === 'armure') {
+                const LZString = globalThis.LZString;
+                const system = item.system;
+                const archivages = system.archivage.liste;
+
+                for(let a in archivages) {
+                    const data = archivages[a];
+                    const parse = JSON.parse(data);
+                    delete parse.archivage;
+
+                    update[`system.archivage.liste.${a}`] = LZString.compressToUTF16(JSON.stringify(parse));
+                }
             }
         }
 

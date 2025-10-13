@@ -7,7 +7,8 @@
     "module/knight.mjs"
   ],
   "scripts": [
-    "scripts/knight-dices.js"
+    "scripts/knight-dices.js",
+    "scripts/lz-string.min.js"
   ],
   "styles": [
     "styles/knight.css"

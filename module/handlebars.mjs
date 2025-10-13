@@ -84,7 +84,7 @@
     });
 
     Handlebars.registerHelper('affichageCapacite', function (capacite) {
-        return `systems/knight/templates/actors/capacites/${capacite.key}.html`;
+        return `systems/knight/templates/actors/capacites/${capacite.key.includes('personnalise') ? 'personnalise' : capacite.key}.html`;
     });
 
     Handlebars.registerHelper('affichageCapaciteLegende', function (capacite) {
@@ -993,6 +993,10 @@
 
     Handlebars.registerHelper('hasEditNods', function () {
         return game.settings.get("knight", "canEditNods");
+    });
+
+    Handlebars.registerHelper('hasSetting', function (str) {
+        return game.settings.get("knight", str);
     });
 
     Handlebars.registerHelper('hasPJRestaure', function () {
