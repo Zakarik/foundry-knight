@@ -6,6 +6,7 @@ Les trois étant activable / désactivable, par la suite, dans la fenêtre de je
 ### Bugfix
 - Correction d'un bug rare quand l'historique d'évolution d'une armure devenait trop grand, en utilisant un algorithme pour réduire son poids.
 - Correction d'un bug avec les évolutions du longbow.
+- Correction d'un bug avec les capacités personnalisées, quand il y en avait plusieurs.
 
 ## v3.49.8
 ### Bugfix
