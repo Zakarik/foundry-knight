@@ -1,3 +1,7 @@
+## v3.50.2
+### Bugfix
+- Correction de l'ordre de calcul de la défense, pour se conformer aux règles de Knight.
+
 ## v3.50.1
 ### Bugfix
 - Correction du bouton "Equilibrer la balance" qui s'affichait tout le temps... Ce qui ne devait, normalement, pas être le cas !

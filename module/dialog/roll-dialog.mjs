@@ -504,8 +504,6 @@ export class KnightRollDialog extends Dialog {
 
                     options.active = true;
                 }
-
-                console.error(this);
             });
         }
 

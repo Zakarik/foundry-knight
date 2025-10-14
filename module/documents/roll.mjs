@@ -975,29 +975,17 @@ export class RollKnight {
                 let resultDefense = ``;
 
                 if(!isSurprise) {
-                    let defValue = actor.system.defense.value;
-                    let reaValue = actor.system.reaction.value;
+                    const getDefense = this.calcDefense({
+                        target:actor,
+                        armorIsWear,
+                        getODDexterite,
+                        pointsFaibles,
+                        weapon
+                    });
 
-                    if (this.carac.some(carac => pointsFaibles.includes(carac))) {
-                        defValue = Math.ceil(defValue / 2);
-                        reaValue = Math.ceil(reaValue / 2);
-                        ptsFaible = true;
-                    }
-
-                    if(weapon.type === 'distance' && armorIsWear && getODDexterite >= 5) {
-                        difficulty = Math.max(actor.system.defense.value, actor.system.reaction.value);
-
-                        if(defValue > reaValue) resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (${defValue})`;
-                        else resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (${reaValue})`;
-                    }
-                    else if(weapon.type === 'distance') {
-                        difficulty = reaValue;
-                        resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (${reaValue})`;
-                    }
-                    else if(weapon.type === 'contact') {
-                        difficulty = defValue;
-                        resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (${defValue})`;
-                    }
+                    ptsFaible = getDefense.ptsFaible;
+                    resultDefense = getDefense.resultDefense;
+                    difficulty = getDefense.difficulty;
                 } else {
                     if(weapon.type === 'distance') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (0)`;
                     else if(weapon.type === 'contact') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (0)`;
@@ -1033,29 +1021,17 @@ export class RollKnight {
 
 
             if(!isSurprise) {
-                const defValue = actor.system.defense.value;
-                const reaValue = actor.system.reaction.value;
+                const getDefense = this.calcDefense({
+                    target:actor,
+                    armorIsWear,
+                    getODDexterite,
+                    pointsFaibles,
+                    weapon
+                });
 
-                if(weapon.type === 'distance' && armorIsWear && getODDexterite >= 5) {
-
-                    difficulty = Math.max(defValue, reaValue);
-
-                    if(defValue > reaValue) resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (${defValue})`;
-                    else resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (${reaValue})`;
-                }
-                else if(weapon.type === 'distance') {
-                    difficulty = actor.system.reaction.value;
-                    resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (${reaValue})`;
-                }
-                else if(weapon.type === 'contact') {
-                    difficulty = actor.system.defense.value;
-                    resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (${defValue})`;
-                }
-
-                if (this.carac.some(carac => pointsFaibles.includes(carac))) {
-                    difficulty = Math.ceil(difficulty / 2);
-                    ptsFaible = true;
-                }
+                ptsFaible = getDefense.ptsFaible;
+                resultDefense = getDefense.resultDefense;
+                difficulty = getDefense.difficulty;
             } else {
                 if(weapon.type === 'distance') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (0)`;
                 else if(weapon.type === 'contact') resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (0)`;
@@ -1565,7 +1541,6 @@ export class RollKnight {
 
                     if(actor.statuses.has('designation') && weapon.type === 'distance' && total) {
                         const newTotal = total + 1;
-
                         if(t.hit) {
                             t.marge += 1;
                         } else if(newTotal > t.difficulty) {
@@ -4173,6 +4148,72 @@ export class RollKnight {
         return {
             roll:roll,
             tooltip:tooltip,
+        }
+    }
+
+    calcDefense(data = {}) {
+        const actor = data?.target;
+        const armorIsWear = data?.armorIsWear ?? false;
+        const getODDexterite = data?.getODDexterite ?? 0;
+        const pointsFaibles = data?.pointsFaibles ?? "";
+        const weapon = data?.weapon;
+
+        let defValue = actor.system.defense.valueWOMod;
+        let reaValue = actor.system.reaction.valueWOMod;
+
+        let difficulty = 0;
+        let resultDefense = "";
+        let ptsFaible = false;
+
+
+        if (this.carac.some(carac => pointsFaibles.includes(carac))) {
+            defValue = Math.ceil(defValue / 2);
+            reaValue = Math.ceil(reaValue / 2);
+            ptsFaible = true;
+        }
+
+        if(weapon.type === 'distance' && armorIsWear && getODDexterite >= 5) {
+            difficulty = Math.max(defValue, reaValue);
+
+            if(defValue > reaValue) {
+                if(actor.type === 'vehicule') difficulty += (actor?.system?.defense?.mod ?? 0) < 0 ? actor?.system?.defense?.mod ?? 0 : 0;
+                else difficulty -= actor.system?.defense?.malustotal ?? 0;
+
+                resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (${difficulty})`;
+            }
+            else {
+                if(actor.system.reaction.iswatchtower) difficulty = difficulty/2;
+
+                if(actor.type === 'vehicule') difficulty += (actor?.system?.defense?.mod ?? 0) < 0 ? actor?.system?.reaction?.mod ?? 0 : 0;
+                else difficulty -= actor.system?.reaction?.malustotal ?? 0;
+
+                resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (${difficulty})`;
+            }
+        }
+        else if(weapon.type === 'distance') {
+            difficulty = reaValue;
+
+            if(actor.system.reaction.iswatchtower) difficulty = difficulty/2;
+
+            if(actor.type === 'vehicule') difficulty += (actor?.system?.defense?.mod ?? 0) < 0 ? actor?.system?.reaction?.mod ?? 0 : 0;
+            else difficulty -= actor.system?.reaction?.malustotal ?? 0;
+
+            resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsReaction')} (${difficulty})`;
+        }
+        else if(weapon.type === 'contact') {
+            difficulty = defValue;
+            console.error(actor.system.defense);
+
+            if(actor.type === 'vehicule') difficulty += (actor?.system?.defense?.mod ?? 0) < 0 ? actor?.system?.defense?.mod ?? 0 : 0;
+            else difficulty -= actor.system?.defense?.malustotal;
+
+            resultDefense = `${game.i18n.localize('KNIGHT.JETS.RESULTATS.VsDefense')} (${difficulty})`;
+        }
+
+        return {
+            difficulty,
+            resultDefense,
+            ptsFaible
         }
     }
 }

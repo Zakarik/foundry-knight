@@ -1018,6 +1018,19 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                     Object.defineProperty(this.defense, 'value', {
                         value: Math.max(this.defense.base+this.defense.mod, 0),
                     });
+
+                    Object.defineProperty(this.defense, 'valueWOMod', {
+                        value: this.defense.base + bonus,
+                    });
+
+                    console.error(base);
+                    console.error(bonus);
+                    console.error(this.defense.valueWOMod);
+
+                    Object.defineProperty(this.defense, 'malustotal', {
+                        value: malus,
+                    });
+
                     break;
 
                 case 'machine':
@@ -1040,6 +1053,18 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
 
                     Object.defineProperty(this.reaction, 'value', {
                         value: isWatchtower ? Math.floor((this.reaction.base+this.reaction.mod)/2) : Math.max(this.reaction.base+this.reaction.mod, 0),
+                    });
+
+                    Object.defineProperty(this.reaction, 'valueWOMod', {
+                        value: this.reaction.base + bonus,
+                    });
+
+                    Object.defineProperty(this.reaction, 'malustotal', {
+                        value: malus,
+                    });
+
+                    Object.defineProperty(this.reaction, 'iswatchtower', {
+                        value: isWatchtower,
                     });
                     break;
 

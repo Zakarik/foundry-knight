@@ -624,6 +624,15 @@ export class MechaArmureDataModel extends foundry.abstract.TypeDataModel {
             Object.defineProperty(this[dataRD[i]], 'value', {
               value: Math.max(base+bonus-malus, 0),
             });
+
+            Object.defineProperty(this[dataRD[i]], 'valueWOMod', {
+              value: base + bonus,
+            });
+
+            Object.defineProperty(this[dataRD[i]], 'malustotal', {
+                value: malus,
+            });
+
         }
       }
     }

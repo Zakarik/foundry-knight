@@ -68,10 +68,36 @@ export class VehiculeDataModel extends foundry.abstract.TypeDataModel {
         reaction:new SchemaField({
             value:new NumberField({initial:0, nullable:false, integer:true}),
             mod:new NumberField({initial:0, nullable:false, integer:true}),
+            valueWOMod:new NumberField({initial:0, nullable:false, integer:true}),
+            bonus:new ObjectField({
+              initial:{
+                user:0,
+                system:0,
+              }
+            }),
+            malus:new ObjectField({
+              initial:{
+                user:0,
+                system:0,
+              }
+            }),
         }),
         defense:new SchemaField({
             value:new NumberField({initial:0, nullable:false, integer:true}),
             mod:new NumberField({initial:0, nullable:false, integer:true}),
+            valueWOMod:new NumberField({initial:0, nullable:false, integer:true}),
+            bonus:new ObjectField({
+              initial:{
+                user:0,
+                system:0,
+              }
+            }),
+            malus:new ObjectField({
+              initial:{
+                user:0,
+                system:0,
+              }
+            }),
         }),
         equipage:new SchemaField({
             value:new NumberField({initial:0, nullable:false, integer:true}),
@@ -137,18 +163,17 @@ export class VehiculeDataModel extends foundry.abstract.TypeDataModel {
         value: '',
       });
     } else {
-      const defenseBonus = pilote.system.defense?.bonus?.user ?? 0;
-      const defenseMalus = pilote.system.defense?.malus?.user ?? 0;
-      const reactionBonus = pilote.system.reaction?.bonus?.user ?? 0;
-      const reactionMalus = pilote.system.reaction?.malus?.user ?? 0;
+      const malusDefense = Object.values(this.defense?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
+      const malusReaction = Object.values(this.reaction?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
       const manoeuvrabilite = this.manoeuvrabilite;
 
-      Object.defineProperty(this.defense, 'mod', {
-        value: defenseBonus-defenseMalus,
+      Object.defineProperty(this.reaction, 'mod', {
+        value: manoeuvrabilite-malusReaction,
       });
 
-      Object.defineProperty(this.reaction, 'mod', {
-        value: reactionBonus-reactionMalus+manoeuvrabilite,
+      Object.defineProperty(this.defense, 'mod', {
+        value: 0-malusDefense,
       });
     }
   }
@@ -158,12 +183,25 @@ export class VehiculeDataModel extends foundry.abstract.TypeDataModel {
 
     if(!pilote) return;
 
+    let bonusDefense = Object.values(this.defense?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+    bonusDefense += pilote.system?.defense?.bonus?.user ?? 0;
+    let bonusReaction = Object.values(this.reaction?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+    bonusReaction += pilote.system?.reaction?.bonus?.user ?? 0;
+
     Object.defineProperty(this.reaction, 'value', {
-      value: Math.max(pilote.system.reaction.value+this.reaction.mod),
+      value: Math.max(pilote.system.reaction.value + this.reaction.mod + bonusReaction, 0),
+    });
+
+    Object.defineProperty(this.reaction, 'valueWOMod', {
+        value: this.reaction.mod > 0 ? pilote.system.reaction.valueWOMod + this.reaction.mod + bonusReaction : pilote.system.reaction.base + bonusReaction,
     });
 
     Object.defineProperty(this.defense, 'value', {
-      value: Math.max(pilote.system.defense.value+this.defense.mod),
+      value: Math.max(pilote.system.defense.base+this.defense.mod + bonusDefense, 0),
+    });
+
+    Object.defineProperty(this.defense, 'valueWOMod', {
+        value: this.defense.mod > 0 ? pilote.system.defense.base + this.defense.mod + bonusDefense : pilote.system.defense.base + bonusDefense,
     });
 
     Object.defineProperty(this.initiative, 'complet', {
