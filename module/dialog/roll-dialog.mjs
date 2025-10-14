@@ -1701,15 +1701,23 @@ export class KnightRollDialog extends Dialog {
         });
 
         //BOUTON ÉQUILIBRER LA BALANCE
-        data.mods.push({
-            key:'btn',
-            name:'equilibrerbalance',
-            classes:'btn equilibrerbalance colFiveSeven',
-            btnclasses:'btn equilibrerbalance',
-            label:game.i18n.localize('KNIGHT.EFFETS.EQUILIBRERBALANCE.Label'),
-        });
+        if(game.settings.get('knight', 'advcampaign') && this.actor.items.find(itm =>
+            itm.type === 'avantage' &&
+            itm.system.type === 'standard' &&
+            (
+              itm.system.bonus?.equilibrerBalance
+            )
+          )) {
+            data.mods.push({
+                key:'btn',
+                name:'equilibrerbalance',
+                classes:'btn equilibrerbalance colFiveSeven',
+                btnclasses:'btn equilibrerbalance',
+                label:game.i18n.localize('KNIGHT.EFFETS.EQUILIBRERBALANCE.Label'),
+            });
 
-        this.rollData.btn.equilibrerbalance = true;
+            this.rollData.btn.equilibrerbalance = true;
+        }
 
         //ARMES
         const wpns = this.#prepareWpn();

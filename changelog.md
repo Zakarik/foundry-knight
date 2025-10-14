@@ -1,3 +1,7 @@
+## v3.50.1
+### Bugfix
+- Correction du bouton "Equilibrer la balance" qui s'affichait tout le temps... Ce qui ne devait, normalement, pas être le cas !
+
 ## v3.50.0
 ### Améliorations
 - Ajoute de la possibilité de cocher, pour un avantage, "Equilibrer la balance" / "Bourreau des ténèbres" / "Dévaster l'Anathème".
