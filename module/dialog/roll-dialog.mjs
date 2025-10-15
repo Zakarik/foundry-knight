@@ -391,8 +391,7 @@ export class KnightRollDialog extends Dialog {
         for(let w of allWpn) {
             const id = $(w).data('id');
 
-            if(id === this.rollData.wpnSelected) this.#selectWpn($(w).find('button.btnWpn'), true);
-            else this.#unselectWpn($(w).find('button.btnWpn'));
+            if(id == this.rollData.wpnSelected) this.#selectWpn($(w).find('button.btnWpn'), true);
 
             if(id === this.rollData.wpnSecond) this.#selectWpn($(w).find('button.btnWpn'), true, true);
         }
@@ -424,7 +423,6 @@ export class KnightRollDialog extends Dialog {
             if(isSelected) this.#unselectWpn(tgt, true);
             else this.#selectWpn(tgt, false, true);
         });
-
 
         const mainsWpn = parent.find('div.data .selectSimple.mains');
         const munitionsWpn = parent.find('div.data .selectSimple.munitions');
@@ -2494,9 +2492,31 @@ export class KnightRollDialog extends Dialog {
                             id:`capacite_${armure.id}_${c}Canon`
                         };
 
+                        let wpnLame2 = {
+                            name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame')} 2`,
+                            system:systemLame,
+                            id:`capacite_${armure.id}_${c}Lame2`
+                        };
+
+                        let wpnGriffe2 = {
+                            name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe')} 2`,
+                            system:systemGriffe,
+                            id:`capacite_${armure.id}_${c}Griffe2`
+                        };
+
+                        let wpnCanon2 = {
+                            name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon')} 2`,
+                            system:systemCanon,
+                            id:`capacite_${armure.id}_${c}Canon2`
+                        };
+
                         if(dataC?.active?.polymorphieLame ?? false) contact.push(this.#addWpnContact(wpnLame, bonusContact));
                         if(dataC?.active?.polymorphieGriffe ?? false) contact.push(this.#addWpnContact(wpnGriffe, bonusContact));
                         if(dataC?.active?.polymorphieCanon ?? false) distance.push(this.#addWpnDistance(wpnCanon, bonusContact));
+
+                        if(dataC?.active?.polymorphieLame2 ?? false) contact.push(this.#addWpnContact(wpnLame2, bonusContact));
+                        if(dataC?.active?.polymorphieGriffe2 ?? false) contact.push(this.#addWpnContact(wpnGriffe2, bonusContact));
+                        if(dataC?.active?.polymorphieCanon2 ?? false) distance.push(this.#addWpnDistance(wpnCanon2, bonusContact));
                         break;
 
                     case 'longbow':
@@ -4353,16 +4373,11 @@ export class KnightRollDialog extends Dialog {
             const $button = $t.parents('div.button');
             const $cat = $t.parents('div.cat');
 
-            $button.toggleClass('selected', isSelected);
-            $cat.toggleClass('selected', isSelected);
-
             if (isSelected) {
                 $t.add($button).add($cat).show();
-                $button.siblings('div.button').show();
-                $cat.find('i').removeClass('fa-plus-square fa-minus-square').addClass('fa-minus-square');
+                $button.parents('div.button').siblings('div.button').show();
             } else {
                 $button.removeClass('selected');
-                if (!$t.siblings('.selected').length) $cat.removeClass('selected');
             }
 
             const $catIcon = $cat.find('h3 i');

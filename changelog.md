@@ -1,3 +1,8 @@
+## v3.50.4
+### Bugfix
+- Correction de problèmes d'affichages dans le la fenêtre de jet.
+- Correction de l'impossibilité de choisir 2 fois la même polymorphie de guerre avec le mode Morph.
+
 ## v3.50.3
 ### Bugfix
 - Correction d'un bug empêchant l'invocation de créatures par les PJs.

@@ -2695,8 +2695,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
       const choisi = this?.morph?.choisi ?? {};
       const active = this?.morph?.active ?? {};
 
-      const nbreChoisi = Object.keys(choisi).filter(key => (key !== 'polymorphieLame' && key !== 'polymorphieGriffe' && key !== 'polymorphieCanon' && key !== 'fait') && this.morph.choisi[key]).length;
-      const nbrePolymorphieGuerre = Object.keys(active).filter(key => (key === 'polymorphieLame' || key === 'polymorphieGriffe' || key === 'polymorphieCanon') && this.morph.active[key]).length;
+      const nbreChoisi = Object.keys(choisi).filter(key => (key !== 'polymorphieLame' && key !== 'polymorphieGriffe' && key !== 'polymorphieCanon' && key !== 'polymorphieLame2' && key !== 'polymorphieGriffe2' && key !== 'polymorphieCanon2' && key !== 'fait') && this.morph.choisi[key]).length;
+      const nbrePolymorphieGuerre = Object.keys(active).filter(key => (key === 'polymorphieLame' || key === 'polymorphieGriffe' || key === 'polymorphieCanon' || key === 'polymorphieLame2' || key === 'polymorphieGriffe2' || key === 'polymorphieCanon2') && this.morph.active[key]).length;
 
       Object.defineProperty(this.selected.morph.polymorphie, 'max', {
         value: nbrePolymorphieGuerre === 2 ? true : false,
