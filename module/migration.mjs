@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.50";
+    static NEEDED_VERSION = "3.50.0";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -65,7 +65,7 @@ Applique les modifications par la mise à jour au Monde.
             }
         }
 
-        //await game.settings.set("knight", "systemVersion", game.system.version);
+        await game.settings.set("knight", "systemVersion", game.system.version);
         ui.notifications.info(`Migration du système de Knight à la version ${game.system.version} terminé!`, {
             permanent: true,
         });

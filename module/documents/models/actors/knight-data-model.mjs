@@ -1023,10 +1023,6 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                         value: this.defense.base + bonus,
                     });
 
-                    console.error(base);
-                    console.error(bonus);
-                    console.error(this.defense.valueWOMod);
-
                     Object.defineProperty(this.defense, 'malustotal', {
                         value: malus,
                     });

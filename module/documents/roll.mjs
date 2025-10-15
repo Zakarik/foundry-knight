@@ -4202,7 +4202,6 @@ export class RollKnight {
         }
         else if(weapon.type === 'contact') {
             difficulty = defValue;
-            console.error(actor.system.defense);
 
             if(actor.type === 'vehicule') difficulty += (actor?.system?.defense?.mod ?? 0) < 0 ? actor?.system?.defense?.mod ?? 0 : 0;
             else difficulty -= actor.system?.defense?.malustotal;

@@ -1,3 +1,8 @@
+## v3.50.3
+### Bugfix
+- Correction d'un bug empêchant l'invocation de créatures par les PJs.
+- Correction d'un bug de boucle de migration.
+
 ## v3.50.2
 ### Bugfix
 - Correction de l'ordre de calcul de la défense, pour se conformer aux règles de Knight.

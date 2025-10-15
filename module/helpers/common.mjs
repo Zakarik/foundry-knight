@@ -5175,7 +5175,7 @@ export async function createSheet(actor, type, name, data, item, imgAvatar, imgT
     permission:actor.ownership
   });*/
 
-  const createData = {
+  let createData = {
     name: name,
     type: type,
     img:imgAvatar,
@@ -5187,9 +5187,10 @@ export async function createSheet(actor, type, name, data, item, imgAvatar, imgT
     },
     system:data,
     items:item,
-    folder:actor.folder,
     ownership:actor.ownership
   };
+
+  if(actor.folder) createData.folder = actor.folder.id
   /*const res = await game.knight.knightRPC.executeAsGM("CREATE_ACTOR", createData, { timeout: 10000 });
   ui.notifications.info(`Actor créé: ${res.id}`);
   console.error("T3")*/
