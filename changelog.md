@@ -1,3 +1,9 @@
+## v3.50.5
+### Bugfix
+- Correction d'un bug sur les modules améliorant les grenades : Le champ gérant les dés de violence ne s'affichait plus lorsqu'on modifiait le module.
+- Correction d'un oubli de ma part concernant la gestion des grenades personnalisées, qui n'était tout simplement pas pris en charge.
+C'est réglé à présent. Il faut modifier un module une fois qu'il est sur un acteur pour pouvoir modifier les grenades personnalisées de cet acteur.
+
 ## v3.50.4
 ### Bugfix
 - Correction de problèmes d'affichages dans le la fenêtre de jet.

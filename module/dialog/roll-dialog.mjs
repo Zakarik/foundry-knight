@@ -2150,20 +2150,27 @@ export class KnightRollDialog extends Dialog {
         }
 
         if(actGrenade > 0) {
+            const listeBonusGrenade = actor.items.filter(itm =>
+                itm?.type === 'module'
+                && (itm?.system?.niveau?.actuel?.bonus?.has ?? false)
+                && (itm?.system?.niveau?.actuel?.bonus?.grenades?.has ?? false));
+
+            const bonusGrenade = listeBonusGrenade.map(itm => itm?.system?.niveau?.actuel?.bonus?.grenades?.liste);
+
             for(let g in grenades) {
                 const system = grenades[g];
-                const bonusGrenade = actor.items.filter(itm => itm.type === 'module' &&
-                    (itm?.system?.niveau?.actuel?.bonus?.has ?? false) &&
-                    (itm?.system?.niveau?.actuel?.bonus?.grenades?.has ?? false) &&
-                    (itm?.system?.niveau?.actuel?.bonus?.grenades?.liste?.[g] ?? undefined));
+
                 let wpn = {};
 
                 if(system.custom) wpn.name = system.label;
                 else wpn.name = game.i18n.localize(CONFIG.KNIGHT.grenades[g]);
 
                 for(let b of bonusGrenade) {
-                    const d = b?.system?.niveau?.actuel?.bonus?.grenades?.liste?.[g]?.degats?.dice ?? 0
-                    const v = b?.system?.niveau?.actuel?.bonus?.grenades?.liste?.[g]?.violence?.dice ?? 0
+                    let d = 0;
+                    let v = 0;
+
+                    d = b?.[g]?.degats?.dice ?? 0
+                    v = b?.[g]?.violence?.dice ?? 0
 
                     system.degats.dice += parseInt(d);
                     system.violence.dice += parseInt(v);

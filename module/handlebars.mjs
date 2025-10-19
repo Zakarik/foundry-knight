@@ -291,13 +291,21 @@
         return result;
     });
 
-    Handlebars.registerHelper('getGrenadeName', function (value) {
+    Handlebars.registerHelper('getGrenadeName', function (value, attrs) {
         if(value === undefined) return '';
         let name = value;
         if(Array.isArray(name)) name = value[0];
+        let isCustom = name.includes('grenade_');
+
+        if(isCustom) {
+            const data = attrs;
+            const actor = data?.document?.actor;
+            if(actor) name = actor?.system?.combat?.grenades?.liste?.[name]?.label ?? name;
+            else isCustom = false;
+        }
 
         const label = name.toString().charAt(0).toUpperCase()+name.toString().substr(1);
-        return game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${label}`);
+        return isCustom ? name : game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${label}`);
     });
 
     Handlebars.registerHelper('getNodsName', function (value) {
