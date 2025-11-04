@@ -20,78 +20,85 @@
         </span>
         {{#if ("armure" @root/systemData/wear)}}
             <div class="blockMultiline">
-                {{#if (moduleCanBeActivate key 'other')}}
-                    {{#unless key.system.active.base}}
-                        <button class="activation" data-name="{{key.name}}" data-type="module" data-module="{{key._id}}"
+                {{#unless (notOnlyNPC key)}}
+                    {{#if (moduleCanBeActivate key 'other')}}
+                        {{#unless key.system.active.base}}
+                            <button class="activation" data-name="{{key.name}}" data-type="module" data-module="{{key._id}}"
+                                data-subtype="other"
+                                data-cout="0"
+                                data-value="{{key.system.active.base}}">
+                                {{localize "KNIGHT.AUTRE.Activer"}}
+                            </button>
+                        {{/unless}}
+                    {{/if}}
+                    {{#if (moduleCanBeActivate key 'tour')}}
+                        {{#unless key.system.active.base}}
+                            <button class="activation" data-name="{{key.name}}" data-type="module" data-module="{{key._id}}"
+                                data-subtype="tour"
+                                data-cout="{{key.system.niveau.actuel.energie.tour.value}}"
+                                data-value="{{key.system.active.base}}"
+                                    title="{{localize "KNIGHT.AUTRE.Activer"}} ({{key.system.niveau.actuel.energie.tour.label}})">
+                                {{localize "KNIGHT.AUTRE.Activer"}} ({{key.system.niveau.actuel.energie.tour.label}})
+                            </button>
+                        {{/unless}}
+                    {{/if}}
+                    {{#if (moduleCanBeActivate key 'minute')}}
+                        {{#unless key.system.active.base}}
+                            <button class="activation" data-name="{{key.name}}" data-type="module" data-module="{{key._id}}"
+                                data-subtype="minute"
+                                data-cout="{{key.system.niveau.actuel.energie.minute.value}}"
+                                data-value="{{key.system.active.base}}"
+                                    title="{{localize "KNIGHT.AUTRE.Activer"}} ({{key.system.niveau.actuel.energie.minute.label}})">
+                                {{localize "KNIGHT.AUTRE.Activer"}} ({{key.system.niveau.actuel.energie.minute.label}})
+                            </button>
+                        {{/unless}}
+                    {{/if}}
+                    {{#if key.system.active.base}}
+                        <button class="activation" data-type="module" data-module="{{key._id}}"
                             data-cout="0"
                             data-value="{{key.system.active.base}}">
-                            {{localize "KNIGHT.AUTRE.Activer"}}
+                                {{localize "KNIGHT.AUTRE.Desactiver"}}
                         </button>
-                    {{/unless}}
-                {{/if}}
-                {{#if (moduleCanBeActivate key 'tour')}}
-                    {{#unless key.system.active.base}}
-                        <button class="activation" data-name="{{key.name}}" data-type="module" data-module="{{key._id}}"
-                            data-cout="{{key.system.niveau.actuel.energie.tour.value}}"
-                            data-value="{{key.system.active.base}}"
-                                title="{{localize "KNIGHT.AUTRE.Activer"}} ({{key.system.niveau.actuel.energie.tour.label}})">
-                            {{localize "KNIGHT.AUTRE.Activer"}} ({{key.system.niveau.actuel.energie.tour.label}})
-                        </button>
-                    {{/unless}}
-                {{/if}}
-                {{#if (moduleCanBeActivate key 'minute')}}
-                    {{#unless key.system.active.base}}
-                        <button class="activation" data-name="{{key.name}}" data-type="module" data-module="{{key._id}}"
-                            data-cout="{{key.system.niveau.actuel.energie.minute.value}}"
-                            data-value="{{key.system.active.base}}"
-                                title="{{localize "KNIGHT.AUTRE.Activer"}} ({{key.system.niveau.actuel.energie.minute.label}})">
-                            {{localize "KNIGHT.AUTRE.Activer"}} ({{key.system.niveau.actuel.energie.minute.label}})
-                        </button>
-                    {{/unless}}
-                {{/if}}
-                {{#if key.system.active.base}}
-                    <button class="activation" data-type="module" data-module="{{key._id}}"
-                        data-cout="0"
-                        data-value="{{key.system.active.base}}">
-                            {{localize "KNIGHT.AUTRE.Desactiver"}}
-                    </button>
-                    {{#if (moduleCanBeActivate key 'supplementaire')}}
-                        <button class="supplementaire"
-                            data-cout="{{key.system.niveau.actuel.energie.supplementaire}}">
-                            {{localize "KNIGHT.ITEMS.MODULE.DepenseSupplementaire"}}
-                        </button>
+                        {{#if (moduleCanBeActivate key 'supplementaire')}}
+                            <button class="supplementaire"
+                                data-subtype="supplementaire"
+                                data-cout="{{key.system.niveau.actuel.energie.supplementaire}}">
+                                {{localize "KNIGHT.ITEMS.MODULE.DepenseSupplementaire"}}
+                            </button>
+                        {{/if}}
                     {{/if}}
-                {{/if}}
-                {{#if key.system.niveau.actuel.pnj.has}}
-                {{#unless key.system.active.pnj}}
-                    {{#each key.system.niveau.actuel.pnj.liste as | keyPnj pnj|}}                        {{#if (moduleCanBeActivate @../this 'pnj')}}
-                            <button class="activation" data-name="{{../name}}" data-type="modulePnj" data-module="{{../_id}}"
-                                data-cout="0" data-index="{{@index}}"
-                                data-value="{{../active/base}}"
-                                    title="{{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}}">
-                                {{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}}
-                            </button>
-                        {{/if}}
-
-                        {{#if (moduleCanBeActivate @../this 'tour')}}
-                            <button class="activation" data-name="{{@../name}}" data-type="modulePnj" data-module="{{../_id}}"
-                                data-cout="{{../energie/tour/value}}" data-index="{{@index}}"
-                                data-value="{{../active/base}}"
-                                    title="{{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{localize "KNIGHT.AUTRE.Tour"}})">
-                                {{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{localize "KNIGHT.AUTRE.Tour"}})
-                            </button>
-                        {{/if}}
-
-                        {{#if (moduleCanBeActivate @../this 'minute')}}
-                            <button class="activation" data-name="{{../name}}" data-type="modulePnj" data-module="{{@../this/_id}}"
-                                data-cout="{{../energie/minute/value}}" data-index="{{@index}}"
-                                data-value="{{../active/base}}"
-                                    title="{{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{localize "KNIGHT.AUTRE.Minute"}})">
-                                {{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{localize "KNIGHT.AUTRE.Minute"}})
-                            </button>
-                        {{/if}}
-                    {{/each}}
                 {{/unless}}
+                {{#if key.system.niveau.actuel.pnj.has}}
+                    {{#unless key.system.active.pnj}}
+                        {{#each key.system.niveau.actuel.pnj.liste as | keyPnj pnj|}}
+                            {{#if (moduleCanBeActivate @../this 'pnj')}}
+                                <button class="activation" data-name="{{../name}}" data-type="modulePnj" data-module="{{../_id}}" data-subtype="other"
+                                    data-cout="0" data-index="{{@index}}"
+                                    data-value="{{../system/niveau/actuel/active/pnj}}"
+                                        title="{{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}}">
+                                    {{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}}
+                                </button>
+                            {{/if}}
+
+                            {{#if (moduleCanBeActivate @../this 'tour')}}
+                                <button class="activation" data-name="{{../name}}" data-type="modulePnj" data-module="{{../_id}}" data-subtype="tour"
+                                    data-cout="{{../system/niveau/actuel/energie/tour/value}}" data-index="{{@index}}"
+                                    data-value="{{../system/niveau/actuel/active/pnj}}"
+                                        title="{{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{../system/niveau/actuel/energie/tour/label}})">
+                                    {{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{../system/niveau/actuel/energie/tour/label}})
+                                </button>
+                            {{/if}}
+
+                            {{#if (moduleCanBeActivate @../this 'minute')}}
+                                <button class="activation" data-name="{{../name}}" data-type="modulePnj" data-module="{{../_id}}" data-subtype="minute"
+                                    data-cout="{{../system/niveau/actuel/energie/minute/value}}" data-index="{{@index}}"
+                                    data-value="{{../system/niveau/actuel/active/pnj}}"
+                                        title="{{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{../system/niveau/actuel/energie/minute/label}})">
+                                    {{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{../system/niveau/actuel/energie/minute/label}})
+                                </button>
+                            {{/if}}
+                        {{/each}}
+                    {{/unless}}
                 {{/if}}
                 {{#if key.system.active.pnj}}
                     <button class="activation" data-type="modulePnj" data-module="{{key._id}}"
@@ -168,8 +175,8 @@
                             <button class="activation" data-type="modulePnj" data-module="{{key._id}}"
                                 data-cout="{{key.system.energie.tour.value}}" data-index="{{@index}}"
                                 data-value="{{key.system.active.pnj}}"
-                                    title="{{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{localize "KNIGHT.AUTRE.Tour"}})">
-                                {{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{localize "KNIGHT.AUTRE.Tour"}})
+                                    title="{{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{key.system.niveau.actuel.energie.tour.label}})">
+                                {{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{key.system.niveau.actuel.energie.tour.label}})
                             </button>
                         {{/if}}
 
@@ -177,8 +184,8 @@
                             <button class="activation" data-type="modulePnj" data-module="{{key._id}}"
                                 data-cout="{{key.system.energie.minute.value}}" data-index="{{@index}}"
                                 data-value="{{key.system.active.pnj}}"
-                                    title="{{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{localize "KNIGHT.AUTRE.Minute"}})">
-                                {{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{localize "KNIGHT.AUTRE.Minute"}})
+                                    title="{{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{key.system.niveau.actuel.energie.minute.label}})">
+                                {{localize "KNIGHT.AUTRE.Activer"}} : {{keyPnj.nom}} ({{key.system.niveau.actuel.energie.minute.label}})
                             </button>
                         {{/if}}
                     {{/each}}
@@ -285,7 +292,7 @@
                         {{#unless @root/actor/armureData/system/espoir/remplaceEnergie}}
                         {{localize "KNIGHT.AUTRE.EnergieSupplementaireComplet"}}
                         {{else}}
-                        {{localize "KNIGHT.LATERAL.EspoirSupplementaireComplet"}}
+                        {{localize "KNIGHT.AUTRE.EspoirSupplementaireComplet"}}
                         {{/unless}}
                     </span>
                     <span class="score">{{key.system.niveau.actuel.energie.supplementaire}}</span>

@@ -169,6 +169,10 @@ export class ArmureAPI {
       return Object.keys(root);
     }
 
+    get ModuleCostDivided() {
+      return this.espoirRemplaceEnergie ? this.sys.espoir.cout : 0;
+    }
+
     /**
      * Retourne la capacité (enfant direct) sous la clé donnée, ou null si absente.
      * @param {string} key - Clé directe dans l'objet ciblé (ex: "bouclier")
@@ -361,10 +365,14 @@ export class ArmureAPI {
         case "ghost":
         case "discord":
         case "nanoc":
-        case "illumination":
         case "warlord":
         case "type":
           result = data;
+          break;
+
+        case "illumination":
+          if(special === 'candle') result = false;
+          else result = data;
           break;
 
         case "morph":

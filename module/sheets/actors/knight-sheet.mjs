@@ -237,6 +237,7 @@ export class KnightSheet extends ActorSheet {
     html.find('.armure .activation').click(async ev => {
       const target = $(ev.currentTarget);
       const type = target.data("type");
+      const subtype = target.data("subtype");
       const toupdate = target.data("toupdate");
       const id = target.data("id");
       const special = target.data("special");
@@ -252,6 +253,7 @@ export class KnightSheet extends ActorSheet {
       const module = target.data("module");
       const dEspoir = target.data("despoir");
       const espoir = target.data("espoir");
+      const index = target.data("index");
       const caracteristiques = target.data("caracteristiques")?.split('.')?.filter((a) => a) || false;
       let cout = eval(target.data("cout"));
 
@@ -280,7 +282,7 @@ export class KnightSheet extends ActorSheet {
       let specialUpdate = {};
 
 
-      if(type === 'capacites') getData.activateCapacity({
+      if(type === 'capacites') armure.system.activateCapacity({
         capacite,
         special,
         variant})
@@ -1097,7 +1099,7 @@ export class KnightSheet extends ActorSheet {
         }
       }*/
 
-      if(type === 'module') {
+      /*if(type === 'module') {
         const dataModule = this.actor.items.get(module),
               data = dataModule.system,
               dataNiveau = data.niveau.actuel;
@@ -1142,13 +1144,15 @@ export class KnightSheet extends ActorSheet {
         }
 
         if(!abort) dataModule.update(moduleUpdate);
+      }*/
+
+      if(type === 'module') {
+        this.actor.items.get(module).system.activate(value, subtype)
       }
 
       if(type === 'modulePnj') {
-        const index = target.data("index");
-
-        const dataModule = this.actor.items.get(module),
-              data = dataModule.system,
+        this.actor.items.get(module).system.activateNPC(value, subtype, index);
+        /*      data = dataModule.system,
               niveau = data.niveau.value,
               dataNiveau = data.niveau.details[`n${niveau}`],
               dataPnj = dataNiveau.pnj.liste[index];
@@ -1349,18 +1353,16 @@ export class KnightSheet extends ActorSheet {
             },
             'id':''
           }});
-        }
+        }*/
       }
 
-
-      if(type === 'capacites') return;
-      const exec = new game.knight.RollKnight(this.actor,
+      /*const exec = new game.knight.RollKnight(this.actor,
         {
         name:value ? game.i18n.localize(`KNIGHT.ACTIVATION.Label`) : game.i18n.localize(`KNIGHT.ACTIVATION.Desactivation`),
         }).sendMessage({
             text:name ? name : getData.items.get(module).name,
             sounds:CONFIG.sounds.notification,
-        });
+        });*/
     });
 
     html.find('.armure .activationLegende').click(async ev => {

@@ -1,4 +1,4 @@
-## v3.50.0
+## v3.51.0
 ### Bugfix
 - Refactorisation d'une partie du code pour plus de simplicité.
 - Correction d'un bug sur le nombre de succès auto de l'immobilisation du mode morph.
