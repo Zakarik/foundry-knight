@@ -1,3 +1,5 @@
+import { SOCKET } from '../utils/socketHandler.mjs';
+
 export const listLogo = [
   "default",
   "version1",
@@ -5157,7 +5159,7 @@ export function getNestedPropertyValue(obj, propertyPath) {
 }
 
 export async function createSheet(actor, type, name, data, item, imgAvatar, imgToken, disposition=-1) {
-  let newActor = await Actor.create({
+  /*let newActor = await Actor.create({
     name: name,
     type: type,
     img:imgAvatar,
@@ -5171,7 +5173,30 @@ export async function createSheet(actor, type, name, data, item, imgAvatar, imgT
     items:item,
     folder:actor.folder,
     permission:actor.ownership
-  });
+  });*/
+
+  let createData = {
+    name: name,
+    type: type,
+    img:imgAvatar,
+    prototypeToken:{
+      texture:{
+        src:imgToken,
+      },
+      disposition:disposition,
+    },
+    system:data,
+    items:item,
+    ownership:actor.ownership
+  };
+
+  if(actor.folder) createData.folder = actor.folder.id
+  /*const res = await game.knight.knightRPC.executeAsGM("CREATE_ACTOR", createData, { timeout: 10000 });
+  ui.notifications.info(`Actor créé: ${res.id}`);
+  console.error("T3")*/
+
+  const { id, uuid } = await SOCKET.executeAsGM('createSubActor', createData);
+  const newActor = await fromUuid(uuid);
 
   return newActor;
 }
@@ -5248,7 +5273,11 @@ export async function spawnTokenRightOfActor({
   const data = Object.assign(tmp.toObject(), { x, y });
   for (const k of copy) if (k in refToken.document) data[k] = refToken.document[k];
 
-  const created = await scene.createEmbeddedDocuments("Token", [data]);
+  const created = await SOCKET.executeAsGM('createToken', {
+    scene:scene.uuid,
+    actor:actor.uuid,
+    data:[data]
+  });
   return created?.[0];
 }
 
@@ -5272,9 +5301,17 @@ export async function deleteTokens(ids=[]) {
   if(!canvas.scene) return;
   const findids = canvas.scene.tokens
     .filter(t => ids.includes(t.actorId))
-    .map(t => t.id);
+    .map(t => t.uuid);
 
-  if (findids.length) await canvas.scene.deleteEmbeddedDocuments("Token", findids);
+  if (findids.length) await SOCKET.executeAsGM('deleteActorOrToken', {
+    actors:findids,
+  });
+}
+
+export async function deleteActors(ids=[]) {
+  await SOCKET.executeAsGM('deleteActorOrToken', {
+    actors:ids,
+  });
 }
 
 export function setValueByPath(obj, path, value) {

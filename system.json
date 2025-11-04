@@ -7,11 +7,22 @@
     "module/knight.mjs"
   ],
   "scripts": [
-    "scripts/knight-dices.js"
+    "scripts/knight-dices.js",
+    "scripts/lz-string.min.js"
   ],
   "styles": [
     "styles/knight.css"
   ],
+  "socket":true,
+  "relationships": {
+    "requires": [
+      {
+        "id": "socketlib",
+        "type": "module",
+        "manifest": "https://github.com/farling42/foundryvtt-socketlib/releases/latest/download/module.json"
+      }
+    ]
+  },
   "languages": [
     {
       "lang": "fr",

@@ -9,7 +9,7 @@ import ArmureAPI from "../../../utils/armureAPI.mjs";
 
 export class ModuleDataModel extends foundry.abstract.TypeDataModel {
 	static defineSchema() {
-    const {HTMLField, NumberField, SchemaField, StringField, ObjectField, BooleanField} = foundry.data.fields;
+    const {HTMLField, NumberField, SchemaField, StringField, ObjectField, BooleanField, ArrayField} = foundry.data.fields;
 
     return {
         id:new StringField(),
@@ -183,7 +183,7 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
                 },
                 grenades:{
                   has:false,
-                  liste:{
+                  liste:new ObjectField({initial:{
                     antiblindage: {
                       degats: {
                         dice: 0
@@ -207,8 +207,8 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
                       violence: {
                         dice: 0
                       }
-                    }
-                  }
+                    },
+                  }})
                 }
               },
               arme:{
@@ -847,6 +847,30 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
   }
 
   prepareBaseData() {
+    //GERE LES EVENTUELLES GRENADES PERSONNALISEES
+    const actor = this.actor;
+
+    const listG = actor ? actor.system?.combat?.grenades?.liste ?? {} : CONFIG.KNIGHT.LIST.grenades;
+    const keysToRemoveSet = new Set(['flashbang', 'iem']);
+    const allowed = Object.keys(listG).filter(k => !keysToRemoveSet.has(k));
+    const defaults = { degats: { dice: 0 }, violence: { dice: 0 }, custom: true };
+
+    const levels = this.niveau?.details ?? {};
+    for (const lvl of Object.values(levels)) {
+      const gren = lvl?.bonus?.grenades;
+      if (!gren || !gren.liste) continue;
+      const dGrenade = gren.liste;
+
+      // Nouveau dictionnaire: pour chaque clé autorisée, reprendre l’existant ou mettre le défaut
+      const merged = Object.fromEntries(
+        allowed.map(k => [k, dGrenade[k] ?? { ...defaults }])
+      );
+
+      // Affectation simple: pas besoin de defineProperty
+      gren.liste = merged;
+    }
+    //FIN GRENADES PERSONNALISEES
+
     const niveau = Math.max(this.niveau.value, 1);
 
     const itemDataNiveau = this.niveau.details[`n${niveau}`];

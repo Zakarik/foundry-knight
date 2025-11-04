@@ -63,9 +63,11 @@ export class AvantageSheet extends ItemSheet {
       this.item.update({[`system.bonus.coutsReduits.has`]:result});
     });
 
-    html.find('button.noDmgSante').click(ev => {
+    html.find('button.avantage').click(ev => {
       ev.preventDefault();
-      const actuel = this.item.system.bonus.noDmgSante || false;
+      const target = $(ev.currentTarget);
+      const type = target.data("type");
+      const actuel = this.item.system.bonus[type] || false;
 
       let result = false;
 
@@ -73,7 +75,7 @@ export class AvantageSheet extends ItemSheet {
         result = true;
       }
 
-      this.item.update({[`system.bonus.noDmgSante`]:result});
+      this.item.update({[`system.bonus.${type}`]:result});
     });
   }
 }

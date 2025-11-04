@@ -434,8 +434,9 @@ import {
         update[`system.evolutions.special.companions.applied.value`] = evolutionsAppliedV + 1;
         update[`system.evolutions.special.companions.applied.liste`] = evolutionsAppliedL.concat(evoListe);
         const id = this.data.content.data.evo;
-
-        update[`system.archivage.liste.${id}`] = JSON.stringify(armor.system);
+        const { archivage, ...dataToSave } = armor.system;
+        const LZString = globalThis.LZString;
+        update[`system.archivage.liste.${id}`] = LZString.compressToUTF16(JSON.stringify(dataToSave));
 
         armor.update(update);
 

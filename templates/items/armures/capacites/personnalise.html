@@ -1,7 +1,7 @@
 <div class="personnalise">
     <h3 class="header js-toggler">
         <i class="far fa-minus-square"></i>
-        <input type="text" name="system.capacites.selected.personnalise.label" value="{{this.label}}"
+        <input type="text" name="system.capacites.selected.{{key}}.label" value="{{this.label}}"
                 {{#if this.softlock}}disabled{{/if}}/>
         <div>
             <a class="verrouillage" data-type="{{this.key}}" data-value="{{this.softlock}}">
@@ -17,6 +17,6 @@
             </a>
         </div>
     </h3>
-    {{editor this.description target="system.capacites.selected.personnalise.description" button=true owner="../owner" editable="../editable"}}
+    {{editor this.description target=(concat "system.capacites.selected." key '.description') button=true owner="../owner" editable="../editable"}}
 </div>
-
+{{log this}}

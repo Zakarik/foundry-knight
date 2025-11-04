@@ -16,6 +16,7 @@ export const RegisterSettings = function () {
         type: Boolean,
 
     });
+
     game.settings.register("knight", "acces-egide", {
         name: "KNIGHT.SETTINGS.ARMURES.Egide",
         hint: "",
@@ -165,5 +166,14 @@ export const RegisterSettings = function () {
             $("div#interface").removeClass(listLogo);
             $("div#interface").addClass(value);
         }
+    });
+
+    game.settings.register("knight", "advcampaign", {
+        name: "KNIGHT.SETTINGS.ADVCAMPAIGN.Label",
+        hint: "KNIGHT.SETTINGS.ADVCAMPAIGN.Hint",
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: false,
     });
 };

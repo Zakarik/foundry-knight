@@ -993,6 +993,21 @@
         "Label":"Sans armure",
         "Description":"L’arme peut être utilisée sans méta-armure.",
         "Description-short":"L’arme peut être utilisée sans méta-armure."
+      },
+      "DEVASTERANATHEME":{
+        "Label":"Dévaster l'Anathème",
+        "Description":"Le pouvoir dévastateur du PJ est incommensurable et il est capable de repousser des hordes d’ennemis à lui seul. Ainsi, à chacune de ses attaques contre des bandes de l’Anathème (mais pas de désespérés), avec n’importe quelle(s) armes(s), lorsque le PJ lance ses dés de violence, tous les résultats des dés inférieurs ou égaux à 3 sont considérés comme des 4. Cet avantage se combine avec tous les effets d’armes et est toujours activé après que les effets ont été pris en compte. Les dés octroyés par les effets fureur et ultraviolence sont donc rajoutés avant d’utiliser dévaster l’Anathème.",
+        "Description-short":"Les dés de violence qui font 3 ou moins sont transformés en 4."
+      },
+      "BOURREAUTENEBRES":{
+        "Label":"Bourreau des ténèbres",
+        "Description":"La lumière qui habite le PJ le rend capable d’infliger le coup de grâce à des ennemis puissants. Ainsi, à chacune de ses attaques contre des hostiles, salopards ou patrons de l’Anathème (mais pas des désespérés), avec n’importe quelle(s) armes(s), lorsque le PJ lance ses dés de dégâts, tous les résultats des dés infé- rieurs ou égaux à 3 sont considérés comme des 4. Cet avantage se combine avec les dégâts fixes et tous les effets d’arme et est toujours activé après que les effets ont été pris en compte. Par exemple, les dés octroyés par les effets meurtrier ou destructeur sont rajoutés avant d’utiliser bourreau des ténèbres.",
+        "Description-short":"Les dés de dégâts qui font 3 ou moins sont transformés en 4."
+      },
+      "EQUILIBRERBALANCE":{
+        "Label":"Équilibrer la balance",
+        "Description":"Désormais, lorsque le PJ effectue un test, peu importe l’objectif, il peut toujours, une fois par test, relancer les dés ne lui ayant pas octroyé de réussite.",
+        "Description-short":"Peut relancer, une fois, tous les dés n'ayant pas fait de réussite."
       }
     },
     "AMELIORATIONS":{
@@ -1307,7 +1322,10 @@
         "Diviser": "Divisé par",
         "Diminuer": "Diminué de",
         "Infatigable": "Infatigable",
-        "NoDmgSante":"Ne perd pas de points de santés dus aux dégâts causés à son armure (1 PS / 5 PA habituellement)"
+        "NoDmgSante":"Ne perd pas de points de santés dus aux dégâts causés à son armure (1 PS / 5 PA habituellement)",
+        "DevasterAnatheme":"Dévaster l'Anathème",
+        "BourreauTenebres":"Bourreau des ténèbres",
+        "EquilibrerBalance":"Équilibrer la balance"
       },
       "DESAVANTAGE":{
         "MalusSante": "Malus à la santé",
@@ -2605,6 +2623,10 @@
       "CANPJRESTAURE":{
         "Label":"Permettre aux joueurs d'avoir accès aux boutons de restauration de Santé / Armure / Energie / Espoir.",
         "Hint":"Si cette case est décochée, ces options ne seront pas accessible aux PJ et le MJ sera le seul a pouvoir cliquer dessus."
+      },
+      "ADVCAMPAIGN":{
+        "Label":"Activer les avantages propre à la campagne",
+        "Hint":"Donne des options supplémentaires pour les avantages, en permettant d'activer Dévaster l'Anathème / Equilibrer la Balance / Bourreau des ténèbres."
       }
     },
     "GM":{

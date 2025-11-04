@@ -219,7 +219,6 @@ export class KnightRollDialog extends Dialog {
 
     #renderHTML(html) {
         this.data.roll.html = html;
-
         toggler.init(this.id, html);
         this.#renderSTD(html);
         this.#renderWpn(html);
@@ -392,8 +391,7 @@ export class KnightRollDialog extends Dialog {
         for(let w of allWpn) {
             const id = $(w).data('id');
 
-            if(id === this.rollData.wpnSelected) this.#selectWpn($(w).find('button.btnWpn'), true);
-            else this.#unselectWpn($(w).find('button.btnWpn'));
+            if(id == this.rollData.wpnSelected) this.#selectWpn($(w).find('button.btnWpn'), true);
 
             if(id === this.rollData.wpnSecond) this.#selectWpn($(w).find('button.btnWpn'), true, true);
         }
@@ -425,7 +423,6 @@ export class KnightRollDialog extends Dialog {
             if(isSelected) this.#unselectWpn(tgt, true);
             else this.#selectWpn(tgt, false, true);
         });
-
 
         const mainsWpn = parent.find('div.data .selectSimple.mains');
         const munitionsWpn = parent.find('div.data .selectSimple.munitions');
@@ -773,6 +770,7 @@ export class KnightRollDialog extends Dialog {
         const succesBonus = parseInt(data.find('label.score.succesBonus input').val());
         const modificateur = parseInt(data.find('label.score.modificateur input').val());
         const isModeHeroique = data.find('button.btn.modeheroique').hasClass('selected');
+        const isEquilibrerBalance = data.find('button.btn.equilibrerbalance').hasClass('selected');
         const isNoOd = this.rollData.btn?.nood ?? false;
         const isAttaqueSurprise = this.rollData.btn?.attaquesurprise ?? false;
         let carac = base ? [this.#getLabelRoll(base)] : [];
@@ -850,8 +848,8 @@ export class KnightRollDialog extends Dialog {
             const style = actor.system.combat.style;
             const modStyle = getModStyle(style);
             const capacitiesSelected = armor?.system?.capacites?.selected;
-            let effets = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
-            let custom = weapon.effets.custom.concat(weapon?.distance?.custom ?? [], weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
+            let effets = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
+            let custom = weapon.effets.custom.concat(weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
             const isTourelle = weapon?.tourelle ?? false;
             dices += modStyle.bonus.attaque;
             dices -= modStyle.malus.attaque;
@@ -1248,6 +1246,13 @@ export class KnightRollDialog extends Dialog {
             tags.push({
                 key:'difficulte',
                 label:`${game.i18n.localize('KNIGHT.AUTRE.Difficulte')} : ${difficulte}`,
+            });
+        }
+
+        if(isEquilibrerBalance) {
+            tags.push({
+                key:'equilibrerbalance',
+                label:`${game.i18n.localize('KNIGHT.EFFETS.EQUILIBRERBALANCE.Label')}`,
             });
         }
 
@@ -1692,6 +1697,25 @@ export class KnightRollDialog extends Dialog {
             label:game.i18n.localize('KNIGHT.JETS.ModeHeroique'),
         });
 
+        //BOUTON ÉQUILIBRER LA BALANCE
+        if(game.settings.get('knight', 'advcampaign') && this.actor.items.find(itm =>
+            itm.type === 'avantage' &&
+            itm.system.type === 'standard' &&
+            (
+              itm.system.bonus?.equilibrerBalance
+            )
+          )) {
+            data.mods.push({
+                key:'btn',
+                name:'equilibrerbalance',
+                classes:'btn equilibrerbalance colFiveSeven',
+                btnclasses:'btn equilibrerbalance',
+                label:game.i18n.localize('KNIGHT.EFFETS.EQUILIBRERBALANCE.Label'),
+            });
+
+            this.rollData.btn.equilibrerbalance = true;
+        }
+
         //ARMES
         const wpns = this.#prepareWpn();
         this.data.roll.allWpn = this.rollData.typeWpn.contact.concat(this.rollData.typeWpn.distance, this.rollData.typeWpn.tourelle, this.rollData.typeWpn.aicontact, this.rollData.typeWpn.aidistance, this.rollData.typeWpn.grenade, this.rollData.typeWpn.complexe);
@@ -2127,20 +2151,27 @@ export class KnightRollDialog extends Dialog {
         }
 
         if(actGrenade > 0) {
+            const listeBonusGrenade = actor.items.filter(itm =>
+                itm?.type === 'module'
+                && (itm?.system?.niveau?.actuel?.bonus?.has ?? false)
+                && (itm?.system?.niveau?.actuel?.bonus?.grenades?.has ?? false));
+
+            const bonusGrenade = listeBonusGrenade.map(itm => itm?.system?.niveau?.actuel?.bonus?.grenades?.liste);
+
             for(let g in grenades) {
                 const system = grenades[g];
-                const bonusGrenade = actor.items.filter(itm => itm.type === 'module' &&
-                    (itm?.system?.niveau?.actuel?.bonus?.has ?? false) &&
-                    (itm?.system?.niveau?.actuel?.bonus?.grenades?.has ?? false) &&
-                    (itm?.system?.niveau?.actuel?.bonus?.grenades?.liste?.[g] ?? undefined));
+
                 let wpn = {};
 
                 if(system.custom) wpn.name = system.label;
                 else wpn.name = game.i18n.localize(CONFIG.KNIGHT.grenades[g]);
 
                 for(let b of bonusGrenade) {
-                    const d = b?.system?.niveau?.actuel?.bonus?.grenades?.liste?.[g]?.degats?.dice ?? 0
-                    const v = b?.system?.niveau?.actuel?.bonus?.grenades?.liste?.[g]?.violence?.dice ?? 0
+                    let d = 0;
+                    let v = 0;
+
+                    d = b?.[g]?.degats?.dice ?? 0
+                    v = b?.[g]?.violence?.dice ?? 0
 
                     system.degats.dice += parseInt(d);
                     system.violence.dice += parseInt(v);
@@ -2469,9 +2500,31 @@ export class KnightRollDialog extends Dialog {
                             id:`capacite_${armure.id}_${c}Canon`
                         };
 
+                        let wpnLame2 = {
+                            name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame')} 2`,
+                            system:systemLame,
+                            id:`capacite_${armure.id}_${c}Lame2`
+                        };
+
+                        let wpnGriffe2 = {
+                            name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe')} 2`,
+                            system:systemGriffe,
+                            id:`capacite_${armure.id}_${c}Griffe2`
+                        };
+
+                        let wpnCanon2 = {
+                            name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon')} 2`,
+                            system:systemCanon,
+                            id:`capacite_${armure.id}_${c}Canon2`
+                        };
+
                         if(dataC?.active?.polymorphieLame ?? false) contact.push(this.#addWpnContact(wpnLame, bonusContact));
                         if(dataC?.active?.polymorphieGriffe ?? false) contact.push(this.#addWpnContact(wpnGriffe, bonusContact));
                         if(dataC?.active?.polymorphieCanon ?? false) distance.push(this.#addWpnDistance(wpnCanon, bonusContact));
+
+                        if(dataC?.active?.polymorphieLame2 ?? false) contact.push(this.#addWpnContact(wpnLame2, bonusContact));
+                        if(dataC?.active?.polymorphieGriffe2 ?? false) contact.push(this.#addWpnContact(wpnGriffe2, bonusContact));
+                        if(dataC?.active?.polymorphieCanon2 ?? false) distance.push(this.#addWpnDistance(wpnCanon2, bonusContact));
                         break;
 
                     case 'longbow':
@@ -2696,6 +2749,24 @@ export class KnightRollDialog extends Dialog {
     #addWpnContact(wpn, modules, addSpecial=true) {
         const getWpn = this.rollData.allWpn.find(itm => itm.id === wpn.id);
         const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const avantages = this.actor.items.filter(itm =>
+            itm.type === 'avantage' &&
+            itm.system.type === 'standard' &&
+            (
+              itm.system.bonus?.devasterAnatheme ||
+              itm.system.bonus?.bourreauTenebres
+            )
+          );
+
+          // Les trois flags à surveiller
+          const flags = ['devasterAnatheme', 'bourreauTenebres'];
+
+          // Résultat: tableau unique de 0..3 clés
+          const tableauAvantages = [...new Set(
+            avantages.flatMap(itm =>
+              flags.filter(f => itm.system.bonus?.[f])
+            )
+          )];
         const system = wpn.system;
         let raw = [];
         let specialRaw = [];
@@ -2723,7 +2794,6 @@ export class KnightRollDialog extends Dialog {
                 }
             }
         };
-
         let raw1 = system?.eff1?.effets?.raw ?? [];
         let raw2 = system?.eff2?.effets?.raw ?? [];
         let custom1 = system?.eff1?.effets?.custom ?? [];
@@ -2874,6 +2944,26 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 list:list,
                 selected:data.actuel,
+            });
+        }
+
+        if(tableauAvantages.includes('devasterAnatheme')) {
+            data.options.push({
+                key:'btn',
+                classes:'devasteranatheme full active',
+                label:game.i18n.localize('KNIGHT.ITEMS.AVANTAGE.DevasterAnatheme'),
+                value:'devasteranatheme',
+                active:getWpn?.options?.find(itm => itm.value === 'devasterAnatheme')?.active ?? false,
+            });
+        }
+
+        if(tableauAvantages.includes('bourreauTenebres')) {
+            data.options.push({
+                key:'btn',
+                classes:'bourreautenebres full active',
+                label:game.i18n.localize('KNIGHT.ITEMS.AVANTAGE.BourreauTenebres'),
+                value:'bourreautenebres',
+                active:getWpn?.options?.find(itm => itm.value === 'bourreautenebres')?.active ?? false,
             });
         }
 
@@ -3108,6 +3198,24 @@ export class KnightRollDialog extends Dialog {
     #addWpnDistance(wpn, modules, addSpecial=true) {
         const getWpn = this.rollData.allWpn.find(itm => itm.id === wpn.id);
         const armure = this.actor.items.find(itm => itm.type === 'armure');
+        const avantages = this.actor.items.filter(itm =>
+            itm.type === 'avantage' &&
+            itm.system.type === 'standard' &&
+            (
+              itm.system.bonus?.devasterAnatheme ||
+              itm.system.bonus?.bourreauTenebres
+            )
+          );
+
+          // Les trois flags à surveiller
+          const flags = ['devasterAnatheme', 'bourreauTenebres'];
+
+          // Résultat: tableau unique de 0..3 clés
+          const tableauAvantages = [...new Set(
+            avantages.flatMap(itm =>
+              flags.filter(f => itm.system.bonus?.[f])
+            )
+          )];
         const system = wpn.system;
         let raw = [];
         let specialRaw = [];
@@ -3257,6 +3365,26 @@ export class KnightRollDialog extends Dialog {
                 dice:system.tourelle.attaque.dice,
                 fixe:system.tourelle.attaque.fixe,
             }
+        }
+
+        if(tableauAvantages.includes('devasterAnatheme')) {
+            data.options.push({
+                key:'btn',
+                classes:'devasteranatheme full active',
+                label:game.i18n.localize('KNIGHT.ITEMS.AVANTAGE.DevasterAnatheme'),
+                value:'devasteranatheme',
+                active:getWpn?.options?.find(itm => itm.value === 'devasterAnatheme')?.active ?? false,
+            });
+        }
+
+        if(tableauAvantages.includes('bourreauTenebres')) {
+            data.options.push({
+                key:'btn',
+                classes:'bourreautenebres full active',
+                label:game.i18n.localize('KNIGHT.ITEMS.AVANTAGE.BourreauTenebres'),
+                value:'bourreautenebres',
+                active:getWpn?.options?.find(itm => itm.value === 'bourreautenebres')?.active ?? false,
+            });
         }
 
         data.options = modules.options ? modules.options.concat(data.options) : data.options;
@@ -4253,16 +4381,11 @@ export class KnightRollDialog extends Dialog {
             const $button = $t.parents('div.button');
             const $cat = $t.parents('div.cat');
 
-            $button.toggleClass('selected', isSelected);
-            $cat.toggleClass('selected', isSelected);
-
             if (isSelected) {
                 $t.add($button).add($cat).show();
-                $button.siblings('div.button').show();
-                $cat.find('i').removeClass('fa-plus-square fa-minus-square').addClass('fa-minus-square');
+                $button.parents('div.button').siblings('div.button').show();
             } else {
                 $button.removeClass('selected');
-                if (!$t.siblings('.selected').length) $cat.removeClass('selected');
             }
 
             const $catIcon = $cat.find('h3 i');

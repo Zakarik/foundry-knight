@@ -3480,7 +3480,7 @@ li.chat-message.emote {
   width: 250px;
   padding-right: 2px;
 }
-.avantage div.main button.noDmgSante {
+.avantage div.main button.avantage {
   width: 100%;
   text-align: center;
   border-left: 0px;
@@ -3492,10 +3492,10 @@ li.chat-message.emote {
   border-radius: 0px;
   cursor: pointer;
 }
-.avantage div.main button.noDmgSante.buttonChecked {
+.avantage div.main button.avantage.buttonChecked {
   background: RGB(76 74 90);
 }
-.avantage div.main button.noDmgSante.buttonUnchecked {
+.avantage div.main button.avantage.buttonUnchecked {
   background: RGB(43 42 51);
 }
 .avantage div.description {
@@ -42719,7 +42719,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight-roll button.btnDgts, .knight-roll button.btnViolence {
   order: 3;
 }
-.knight-roll button.relancedegats {
+.knight-roll button.relancedegats, .knight-roll button.full {
   grid-column: 1/3;
 }
 

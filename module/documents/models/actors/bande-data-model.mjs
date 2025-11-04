@@ -193,6 +193,14 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
             Object.defineProperty(this[d], 'value', {
                 value: Math.max(base+this[d].mod, 0),
             });
+
+            Object.defineProperty(this[d], 'valueWOMod', {
+                value: base+bonus,
+            });
+
+            Object.defineProperty(this[d], 'malustotal', {
+                value: malus,
+            });
         }
     }
 

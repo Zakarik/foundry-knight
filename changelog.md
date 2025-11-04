@@ -3,6 +3,48 @@
 - Refactorisation d'une partie du code pour plus de simplicité.
 - Correction d'un bug sur le nombre de succès auto de l'immobilisation du mode morph.
 
+## v3.50.5
+### Bugfix
+- Correction d'un bug sur les modules améliorant les grenades : Le champ gérant les dés de violence ne s'affichait plus lorsqu'on modifiait le module.
+- Correction d'un oubli de ma part concernant la gestion des grenades personnalisées, qui n'était tout simplement pas pris en charge.
+C'est réglé à présent. Il faut modifier un module une fois qu'il est sur un acteur pour pouvoir modifier les grenades personnalisées de cet acteur.
+
+## v3.50.4
+### Bugfix
+- Correction de problèmes d'affichages dans le la fenêtre de jet.
+- Correction de l'impossibilité de choisir 2 fois la même polymorphie de guerre avec le mode Morph.
+
+## v3.50.3
+### Bugfix
+- Correction d'un bug empêchant l'invocation de créatures par les PJs.
+- Correction d'un bug de boucle de migration.
+
+## v3.50.2
+### Bugfix
+- Correction de l'ordre de calcul de la défense, pour se conformer aux règles de Knight.
+
+## v3.50.1
+### Bugfix
+- Correction du bouton "Equilibrer la balance" qui s'affichait tout le temps... Ce qui ne devait, normalement, pas être le cas !
+
+## v3.50.0
+### Améliorations
+- Ajoute de la possibilité de cocher, pour un avantage, "Equilibrer la balance" / "Bourreau des ténèbres" / "Dévaster l'Anathème".
+Les trois étant activable / désactivable, par la suite, dans la fenêtre de jet. Pour pouvoir faire ça, il faut activer l'option dans... les options.
+
+### Bugfix
+- Correction d'un bug rare quand l'historique d'évolution d'une armure devenait trop grand, en utilisant un algorithme pour réduire son poids.
+- Correction d'un bug avec les évolutions du longbow.
+- Correction d'un bug avec les capacités personnalisées, quand il y en avait plusieurs.
+
+## v3.49.8
+### Bugfix
+- Correction de divers bugs lors de la création d'acteurs / tokens par les joueurs (mode Companion, mode Ascension, ...), en retirant la nécessité d'accorder les droits de création aux joueurs. Il y a un module qui devient, par contre, nécessaire pour le système : socketlib. Et il est aussi nécessaire, lorsque ces pouvoirs sont utilisés, qu'un MJ soit connecté.
+
+## v3.49.7
+### Bugfix
+- Correction d'un bug dupliquant certains effets (en particulier, les effets personnalisés)
+
 ## v3.49.6
 ### Bugfix
 - Correction d'un bug avec le spécial "plusespoir" qui n'était pas pris en compte.

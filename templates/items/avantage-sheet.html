@@ -100,9 +100,20 @@
                         </span>
                         <input type="number" name="system.bonus.recuperation.espoir" value="{{systemData.bonus.recuperation.espoir}}" />
                     </label>
+                    {{#if (hasSetting 'advcampaign')}}
                     <div class="btn">
-                        <button type="action" class="button {{#if systemData.bonus.noDmgSante}} buttonChecked {{else}} buttonUnchecked {{/if}} noDmgSante" data-type="noDmgSante" title="{{localize "KNIGHT.ITEMS.AVANTAGE.NoDmgSante"}}">{{localize "KNIGHT.ITEMS.AVANTAGE.Infatigable"}}</button>
+                        <button type="action" class="button {{#if systemData.bonus.noDmgSante}} buttonChecked {{else}} buttonUnchecked {{/if}} avantage" data-type="noDmgSante" title="{{localize "KNIGHT.ITEMS.AVANTAGE.NoDmgSante"}}">{{localize "KNIGHT.ITEMS.AVANTAGE.Infatigable"}}</button>
                     </div>
+                    <div class="btn">
+                        <button type="action" class="button {{#if systemData.bonus.devasterAnatheme}} buttonChecked {{else}} buttonUnchecked {{/if}} avantage" data-type="devasterAnatheme" title="{{localize "KNIGHT.ITEMS.AVANTAGE.DevasterAnatheme"}}">{{localize "KNIGHT.ITEMS.AVANTAGE.DevasterAnatheme"}}</button>
+                    </div>
+                    <div class="btn">
+                        <button type="action" class="button {{#if systemData.bonus.bourreauTenebres}} buttonChecked {{else}} buttonUnchecked {{/if}} avantage" data-type="bourreauTenebres" title="{{localize "KNIGHT.ITEMS.AVANTAGE.BourreauTenebres"}}">{{localize "KNIGHT.ITEMS.AVANTAGE.BourreauTenebres"}}</button>
+                    </div>
+                    <div class="btn">
+                        <button type="action" class="button {{#if systemData.bonus.equilibrerBalance}} buttonChecked {{else}} buttonUnchecked {{/if}} avantage" data-type="equilibrerBalance" title="{{localize "KNIGHT.ITEMS.AVANTAGE.EquilibrerBalance"}}">{{localize "KNIGHT.ITEMS.AVANTAGE.EquilibrerBalance"}}</button>
+                    </div>
+                    {{/if}}
                 </div>
             </div>
             {{/if}}

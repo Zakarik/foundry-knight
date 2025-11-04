@@ -19,10 +19,12 @@ import {
   spawnTokenRightOfActor,
   spawnTokensRightOfActor,
   deleteTokens,
+  deleteActors,
 } from "../../helpers/common.mjs";
 
 import toggler from '../../helpers/toggler.js';
 
+import { SOCKET } from '../../utils/socketHandler.mjs';
 /**
  * @extends {ActorSheet}
  */
@@ -293,11 +295,20 @@ export class KnightSheet extends ActorSheet {
             if(value) {
               const substract = this.actor.system.energie.max-cout;
               let clone = foundry.utils.deepClone(this.actor);
-              newActor = await Actor.create(clone);
+              const { id, uuid } = await SOCKET.executeAsGM('createSubActor', clone);
+              newActor = await fromUuid(uuid);
 
-              for(let item of newActor.items.filter(items => items.system.rarete === 'prestige')) {
-                item.delete();
+              // Nettoyer/adapter les items
+              const filteredItems = [];
+              for (const it of newActor.items ?? []) {
+                // retirer les items de rareté prestige
+                if (it?.system?.niveau?.actuel?.rarete === 'prestige') filteredItems.push(it.id);
               }
+
+              SOCKET.executeAsGM('deleteItmInActor', {
+                actor:uuid,
+                items:filteredItems
+              });
 
               for(let item of newActor.items.filter(items => items.type === 'armure')) {
                 let itmUpdate = {};
@@ -326,13 +337,12 @@ export class KnightSheet extends ActorSheet {
                 ascensionId:newActor.id
               }});
 
-              await spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
+              spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
             } else {
               const actor = game.actors.get(id);
 
-              if(actor !== undefined) await actor.delete();
-
-              if(actor?.id) await deleteTokens([actor.id]);
+              deleteActors([actor.uuid]);
+              deleteTokens([actor.id]);
 
               armure.update({[`system.${toupdate}`]:{
                 active:false,
@@ -514,7 +524,7 @@ export class KnightSheet extends ActorSheet {
                     1
                   );
 
-                  await newActor.update({['system.initiative.bonus.user']:dataLion.initiative.fixe});
+                  newActor.update({['system.initiative.bonus.user']:dataLion.initiative.fixe});
 
                   const nLItems = getData.items.filter(itm => itm.type === 'module' && itm?.system?.isLion);
 
@@ -540,11 +550,14 @@ export class KnightSheet extends ActorSheet {
 
                   nLItems.push(nLItem);
 
-                  await newActor.createEmbeddedDocuments("Item", nLItems);
+                  SOCKET.executeAsGM('giveItmToActor', {
+                    actor:newActor.uuid,
+                    items:nLItems
+                  });
 
                   update[`system.capacites.selected.companions.lion.id`] = newActor.id
 
-                  await spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
+                  spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
                   break;
 
                 case 'wolf':
@@ -619,7 +632,7 @@ export class KnightSheet extends ActorSheet {
                       1
                     );
 
-                    await newActor.update({['system.initiative.bonus.user']:dataWolf.initiative.fixe});
+                    newActor.update({['system.initiative.bonus.user']:dataWolf.initiative.fixe});
                     const nWItems = [];
                     const nWItem = {
                       name:dataWolf.armes.contact.coups.label,
@@ -643,13 +656,13 @@ export class KnightSheet extends ActorSheet {
 
                     nWItems.push(nWItem);
 
-                    await newActor.createEmbeddedDocuments("Item", nWItems);
+                    newActor.createEmbeddedDocuments("Item", nWItems);
 
                     update[`system.capacites.selected.companions.wolf.id.id${i}`] = newActor.id;
                     createdActors.push(newActor);
                   }
 
-                  await spawnTokensRightOfActor(createdActors, this.actor);
+                  spawnTokensRightOfActor(createdActors, this.actor);
                   break;
 
                 case 'crow':
@@ -721,11 +734,11 @@ export class KnightSheet extends ActorSheet {
                     dataCrow?.token ?? dataCrow.img,
                     1
                   );
-                  await newActor.update({['system.initiative.bonus.user']:dataCrow.initiative.fixe});
+                  newActor.update({['system.initiative.bonus.user']:dataCrow.initiative.fixe});
 
                   update[`system.capacites.selected.companions.crow.id`] = newActor.id;
 
-                  await spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
+                  spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
                   break;
               }
 
@@ -760,9 +773,8 @@ export class KnightSheet extends ActorSheet {
 
                   this._gainPE(recupValue, true, false);
 
-                  if(actorLion?.id) await deleteTokens([actorLion.id]);
-
-                  if(Object.keys(actorLion).length != 0) await actorLion.delete();
+                  deleteTokens([actorLion.id]);
+                  deleteActors([actorLion.uuid]);
                   break;
 
                 case 'wolf':
@@ -777,11 +789,8 @@ export class KnightSheet extends ActorSheet {
 
                   this._gainPE(recupValue, true, false);
 
-                  if(actor1Wolf?.id) await deleteTokens([actor1Wolf.id, actor2Wolf.id, actor3Wolf.id]);
-
-                  if(Object.keys(actor1Wolf).length != 0) await actor1Wolf.delete();
-                  if(Object.keys(actor2Wolf).length != 0) await actor2Wolf.delete();
-                  if(Object.keys(actor3Wolf).length != 0) await actor3Wolf.delete();
+                  deleteTokens([actor1Wolf.id, actor2Wolf.id, actor3Wolf.id]);
+                  deleteActors([actor1Wolf.uuid, actor2Wolf.uuid, actor3Wolf.uuid]);
                   break;
 
                 case 'crow':
@@ -792,9 +801,8 @@ export class KnightSheet extends ActorSheet {
 
                   this._gainPE(recupValue, true, false);
 
-                  if(actorCrow?.id) await deleteTokens([actorCrow.id]);
-
-                  if(Object.keys(actorCrow).length != 0) await actorCrow.delete();
+                  deleteTokens([actorCrow.id]);
+                  deleteActors([actorCrow.uuid]);
                   break;
               }
 
@@ -872,18 +880,27 @@ export class KnightSheet extends ActorSheet {
             if(special !== 'polymorphieReset') update[`system.${toupdate}.${special}`] = value;
 
             if(value) {
-              if(special === "polymorphieLame" || special === "polymorphieGriffe" || special === "polymorphieCanon")
+              if(
+                special === "polymorphieLame" || special === "polymorphieGriffe" || special === "polymorphieCanon" ||
+                special === "polymorphieLame2" || special === "polymorphieGriffe2" || special === "polymorphieCanon2"
+              )
                 update[`system.capacites.selected.morph.active.${special}`] = value;
               else if(special === 'polymorphieReset') {
                 update[`system.capacites.selected.morph.active.polymorphieLame`] = false;
                 update[`system.capacites.selected.morph.active.polymorphieGriffe`] = false;
                 update[`system.capacites.selected.morph.active.polymorphieCanon`] = false;
+                update[`system.capacites.selected.morph.active.polymorphieLame2`] = false;
+                update[`system.capacites.selected.morph.active.polymorphieGriffe2`] = false;
+                update[`system.capacites.selected.morph.active.polymorphieCanon2`] = false;
               }
             } else {
               switch(special) {
                 case "polymorphieLame":
                 case "polymorphieGriffe":
                 case "polymorphieCanon":
+                case "polymorphieLame2":
+                case "polymorphieGriffe2":
+                case "polymorphieCanon2":
                   update[`system.capacites.selected.morph.active.${special}`] = value;
                   break;
 
@@ -891,6 +908,9 @@ export class KnightSheet extends ActorSheet {
                   update[`system.capacites.selected.morph.active.polymorphieLame`] = false;
                   update[`system.capacites.selected.morph.active.polymorphieGriffe`] = false;
                   update[`system.capacites.selected.morph.active.polymorphieCanon`] = false;
+                  update[`system.capacites.selected.morph.active.polymorphieLame2`] = false;
+                  update[`system.capacites.selected.morph.active.polymorphieGriffe2`] = false;
+                  update[`system.capacites.selected.morph.active.polymorphieCanon2`] = false;
                   update[`system.capacites.selected.morph.choisi.vol`] = false;
                   update[`system.capacites.selected.morph.choisi.phase`] = false;
                   update[`system.capacites.selected.morph.choisi.etirement`] = false;
@@ -900,9 +920,13 @@ export class KnightSheet extends ActorSheet {
                   update[`system.capacites.selected.morph.choisi.polymorphieLame`] = false;
                   update[`system.capacites.selected.morph.choisi.polymorphieGriffe`] = false;
                   update[`system.capacites.selected.morph.choisi.polymorphieCanon`] = false;
+                  update[`system.capacites.selected.morph.choisi.polymorphieLame2`] = false;
+                  update[`system.capacites.selected.morph.choisi.polymorphieGriffe2`] = false;
+                  update[`system.capacites.selected.morph.choisi.polymorphieCanon2`] = false;
                   break;
               }
             }
+            console.error(update);
             armure.update(update);
             break;
           case "puppet":
@@ -1325,6 +1349,7 @@ export class KnightSheet extends ActorSheet {
 
                 items.push(nItem);
             }
+
 
             await newActor.createEmbeddedDocuments("Item", items);
           }
@@ -3091,6 +3116,9 @@ export class KnightSheet extends ActorSheet {
                 case 'lame':
                 case 'griffe':
                 case 'canon':
+                case 'lame2':
+                case 'griffe2':
+                case 'canon2':
                   id = `capacite_${id}_morph${what.charAt(0).toUpperCase() + what.substr(1)}`;
                   break;
               }
@@ -3699,7 +3727,9 @@ export class KnightSheet extends ActorSheet {
 
       const update = {};
 
-      update[`system.archivage.liste.${listEvolutions[id].value}`] = JSON.stringify(dataArmor.system);
+      const LZString = globalThis.LZString;
+      const { archivage, ...dataToSave } = dataArmor.system;
+      update[`system.archivage.liste.${listEvolutions[id].value}`] = LZString.compressToUTF16(JSON.stringify(dataToSave));
 
       for (let [key, spec] of Object.entries(special)) {
         const hasDelete = spec?.delete || false;
@@ -3961,7 +3991,8 @@ export class KnightSheet extends ActorSheet {
       let erase = {};
 
       if(type === 'liste') {
-        const parse = JSON.parse(getArchives[1]);
+        const LZString = globalThis.LZString;
+        const parse = JSON.parse(LZString.decompressFromUTF16(getArchives[1]));
         const listEvolutions = parse.evolutions.liste;
 
         for (let [key, evolutions] of Object.entries(listEvolutions)) {
@@ -5317,6 +5348,30 @@ export class KnightSheet extends ActorSheet {
                   });
                 }
 
+                if(dCapacite?.active?.polymorphieLame2 ?? false) {
+                  armesContactEquipee.push({
+                    _id:i._id,
+                    name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Lame')} 2`,
+                    type:'armure',
+                    raw:'morph_lame2',
+                    system:{
+                      subCapaciteName:'lame2',
+                      capacite:true,
+                      noRack:true,
+                      type:'contact',
+                      portee:dCapacite.polymorphie.lame.portee,
+                      degats:dCapacite.polymorphie.lame.degats,
+                      violence:dCapacite.polymorphie.lame.violence,
+                      effets:{
+                        raw:dCapacite.polymorphie.lame.effets.raw,
+                        custom:dCapacite.polymorphie.lame.effets.custom,
+                        liste:dCapacite.polymorphie.lame.effets.liste,
+                        chargeur:dCapacite.polymorphie.lame.effets?.chargeur ?? null
+                      }
+                    }
+                  });
+                }
+
                 if(dCapacite?.active?.polymorphieGriffe ?? false) {
                   armesContactEquipee.push({
                     _id:i._id,
@@ -5341,6 +5396,30 @@ export class KnightSheet extends ActorSheet {
                   });
                 }
 
+                if(dCapacite?.active?.polymorphieGriffe2 ?? false) {
+                  armesContactEquipee.push({
+                    _id:i._id,
+                    name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Griffe')} 2`,
+                    type:'armure',
+                    raw:'morph_griffe2',
+                    system:{
+                      subCapaciteName:'griffe2',
+                      capacite:true,
+                      noRack:true,
+                      type:'contact',
+                      portee:dCapacite.polymorphie.griffe.portee,
+                      degats:dCapacite.polymorphie.griffe.degats,
+                      violence:dCapacite.polymorphie.griffe.violence,
+                      effets:{
+                        raw:dCapacite.polymorphie.griffe.effets.raw,
+                        custom:dCapacite.polymorphie.griffe.effets.custom,
+                        liste:dCapacite.polymorphie.griffe.effets.liste,
+                        chargeur:dCapacite.polymorphie.griffe.effets?.chargeur ?? null
+                      }
+                    }
+                  });
+                }
+
                 if(dCapacite?.active?.polymorphieCanon ?? false) {
                   armesDistanceEquipee.push({
                     _id:i._id,
@@ -5349,6 +5428,30 @@ export class KnightSheet extends ActorSheet {
                     raw:'morph_canon',
                     system:{
                       subCapaciteName:'canon',
+                      capacite:true,
+                      noRack:true,
+                      type:'distance',
+                      portee:dCapacite.polymorphie.canon.portee,
+                      degats:dCapacite.polymorphie.canon.degats,
+                      violence:dCapacite.polymorphie.canon.violence,
+                      effets:{
+                        raw:dCapacite.polymorphie.canon.effets.raw,
+                        custom:dCapacite.polymorphie.canon.effets.custom,
+                        liste:dCapacite.polymorphie.canon.effets.liste,
+                        chargeur:dCapacite.polymorphie.canon.effets?.chargeur ?? null
+                      }
+                    }
+                  });
+                }
+
+                if(dCapacite?.active?.polymorphieCanon2 ?? false) {
+                  armesDistanceEquipee.push({
+                    _id:i._id,
+                    name:`${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Label')} - ${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.MORPH.CAPACITES.POLYMORPHIE.Canon')} 2`,
+                    type:'armure',
+                    raw:'morph_canon2',
+                    system:{
+                      subCapaciteName:'canon2',
                       capacite:true,
                       noRack:true,
                       type:'distance',
@@ -6679,6 +6782,12 @@ export class KnightSheet extends ActorSheet {
           capaciteToUpdate[`system.capacites.selected.morph.active.polymorphieCanon`] = false;
           capaciteToUpdate[`system.capacites.selected.morph.active.polymorphieGriffe`] = false;
           capaciteToUpdate[`system.capacites.selected.morph.active.polymorphieLame`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.choisi.polymorphieLame2`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.choisi.polymorphieGriffe2`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.choisi.polymorphieCanon2`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.active.polymorphieCanon2`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.active.polymorphieGriffe2`] = false;
+          capaciteToUpdate[`system.capacites.selected.morph.active.polymorphieLame2`] = false;
           break;
         case "puppet":
           capaciteToUpdate[`system.capacites.selected.puppet.active`] = false;
