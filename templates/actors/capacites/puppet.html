@@ -17,10 +17,8 @@
                 <span>{{localize "KNIGHT.AUTRE.CibleSupplementaire"}}</span>
             </label>
             <button class="activation"
-                data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                data-toupdate="capacites.selected.puppet.active"
-                data-cout="{{energie.ordre}}+({{data.puppet.cible}}*{{energie.supplementaire}})"
-                data-flux="{{flux.ordre}}+({{data.puppet.cible}}*{{flux.supplementaire}})"
+                data-type="capacites"
+                data-capacite="{{key}}"
                 data-value="{{active}}">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.PUPPET.Label"}} : {{localizeactivate active}}
             </button>

@@ -602,6 +602,24 @@
         return result;
     });
 
+    Handlebars.registerHelper('notOnlyNPC', function (data) {
+        if(data === undefined) return true;
+
+        const actuel = data.system.niveau.actuel;
+
+        let result = true;
+
+        if(actuel.arme.has) result = false;
+        if(actuel.bonus.has) result = false;
+        if(actuel.effets.has) result = false;
+        if(actuel.ersatz.bard.has) result = false;
+        if(actuel.ersatz.rogue.has) result = false;
+        if(actuel.jetsimple.has) result = false;
+        if(actuel.overdrives.has) result = false;
+
+        return result;
+    });
+
     Handlebars.registerHelper('canRoll', function (type, roll) {
         let result = true;
 

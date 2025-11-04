@@ -1,3 +1,8 @@
+## v3.51.0
+### Bugfix
+- Refactorisation d'une partie du code pour plus de simplicité.
+- Correction d'un bug sur le nombre de succès auto de l'immobilisation du mode morph.
+
 ## v3.50.5
 ### Bugfix
 - Correction d'un bug sur les modules améliorant les grenades : Le champ gérant les dés de violence ne s'affichait plus lorsqu'on modifiait le module.

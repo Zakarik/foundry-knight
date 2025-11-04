@@ -239,9 +239,11 @@ export class KnightSheet extends ActorSheet {
     html.find('.armure .activation').click(async ev => {
       const target = $(ev.currentTarget);
       const type = target.data("type");
+      const subtype = target.data("subtype");
       const toupdate = target.data("toupdate");
       const id = target.data("id");
       const special = target.data("special");
+      const active = target.data("active");
       const retrieve = target.data("depense");
       const name = target.data("name");
       const value = target.data("value") ? false : true;
@@ -253,6 +255,7 @@ export class KnightSheet extends ActorSheet {
       const module = target.data("module");
       const dEspoir = target.data("despoir");
       const espoir = target.data("espoir");
+      const index = target.data("index");
       const caracteristiques = target.data("caracteristiques")?.split('.')?.filter((a) => a) || false;
       let cout = eval(target.data("cout"));
 
@@ -261,7 +264,7 @@ export class KnightSheet extends ActorSheet {
       const remplaceEnergie = armure.system.espoir.remplaceEnergie || false;
       const armorCapacites = getData.armureData.system.capacites.selected;
 
-      if(value && type !== 'modulePnj') {
+      /*if(value && type !== 'modulePnj') {
         let coutCalcule = cout;
 
         if(remplaceEnergie && type === 'module' && coutCalcule > 0) {
@@ -273,14 +276,20 @@ export class KnightSheet extends ActorSheet {
         const depense = await this._depensePE(name, coutCalcule, true, false, flux, true);
 
         if(!depense) return;
-      }
+      }*/
 
       let depenseEspoir;
       let newActor;
       let update = {};
       let specialUpdate = {};
 
-      if(type === 'capacites') {
+
+      if(type === 'capacites') armure.system.activateCapacity({
+        capacite,
+        special,
+        variant})
+
+      /*if(type === 'capacites') {
         switch(capacite) {
           case "ascension":
             if(value) {
@@ -1112,9 +1121,9 @@ export class KnightSheet extends ActorSheet {
             await roll.doRoll();
             break;
         }
-      }
+      }*/
 
-      if(type === 'module') {
+      /*if(type === 'module') {
         const dataModule = this.actor.items.get(module),
               data = dataModule.system,
               dataNiveau = data.niveau.actuel;
@@ -1159,13 +1168,15 @@ export class KnightSheet extends ActorSheet {
         }
 
         if(!abort) dataModule.update(moduleUpdate);
+      }*/
+
+      if(type === 'module') {
+        this.actor.items.get(module).system.activate(value, subtype)
       }
 
       if(type === 'modulePnj') {
-        const index = target.data("index");
-
-        const dataModule = this.actor.items.get(module),
-              data = dataModule.system,
+        this.actor.items.get(module).system.activateNPC(value, subtype, index);
+        /*      data = dataModule.system,
               niveau = data.niveau.value,
               dataNiveau = data.niveau.details[`n${niveau}`],
               dataPnj = dataNiveau.pnj.liste[index];
@@ -1367,16 +1378,16 @@ export class KnightSheet extends ActorSheet {
             },
             'id':''
           }});
-        }
+        }*/
       }
 
-      const exec = new game.knight.RollKnight(this.actor,
+      /*const exec = new game.knight.RollKnight(this.actor,
         {
         name:value ? game.i18n.localize(`KNIGHT.ACTIVATION.Label`) : game.i18n.localize(`KNIGHT.ACTIVATION.Desactivation`),
         }).sendMessage({
             text:name ? name : getData.items.get(module).name,
             sounds:CONFIG.sounds.notification,
-        });
+        });*/
     });
 
     html.find('.armure .activationLegende').click(async ev => {

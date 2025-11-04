@@ -1818,6 +1818,13 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                                 enumerable:true,
                                 configurable:true
                             });
+                        } else {
+                            Object.defineProperty(whatAffect.malus, c, {
+                                value: 0,
+                                writable:true,
+                                enumerable:true,
+                                configurable:true
+                            });
                         }
                         break;
                     case 'companions':
@@ -1839,8 +1846,17 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                                 if(game.actors.get(crow)) depense = game.actors.get(crow).system.energie.base;
                             }
 
+                            console.error(depense);
+
                             Object.defineProperty(whatAffect.malus, c, {
                                 value: depense,
+                                writable:true,
+                                enumerable:true,
+                                configurable:true
+                            });
+                        } else {
+                            Object.defineProperty(whatAffect.malus, c, {
+                                value: 0,
                                 writable:true,
                                 enumerable:true,
                                 configurable:true

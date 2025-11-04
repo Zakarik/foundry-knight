@@ -1,3 +1,12 @@
+import {
+  getArmor,
+  createSheet,
+  deleteTokens,
+  spawnTokenRightOfActor,
+} from "../../../helpers/common.mjs";
+import PatchBuilder from "../../../utils/patchBuilder.mjs";
+import ArmureAPI from "../../../utils/armureAPI.mjs";
+
 export class ModuleDataModel extends foundry.abstract.TypeDataModel {
 	static defineSchema() {
     const {HTMLField, NumberField, SchemaField, StringField, ObjectField, BooleanField, ArrayField} = foundry.data.fields;
@@ -449,6 +458,10 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     return this.niveau.value;
   }
 
+  get niveauActuel() {
+    return this.niveau.actuel;
+  }
+
   get getMunition() {
     const jetsSimpleFindChargeur = this.niveau.details[`n${this.getNiveau}`].jetsimple.effets.raw.find(itm => itm.includes('chargeur'));
     const jetsSimpleChargeur = this.niveau.details[`n${this.getNiveau}`].jetsimple.effets?.chargeur;
@@ -883,6 +896,391 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     this.niveau.actuel.whoActivate = itemDataNiveau.whoActivate
 	}
 
-	prepareDerivedData() {
+	prepareDerivedData() {}
+
+  async activate(value, type) {
+
+    if(value) {
+      const depense = await this.usePE(type);
+
+      if(!depense) return;
+    }
+
+    let pbM = new PatchBuilder();
+    const dataModule = this.item,
+          dataNiveau = this.niveauActuel;
+
+    pbM.sys(`active.base`, value)
+    let abort = false;
+
+    if(dataNiveau.jetsimple.has && value) {
+      const roll = new game.knight.RollKnight(this.actor, {
+        name:`${dataNiveau.jetsimple.label}`,
+        dices:`${dataNiveau.jetsimple.jet}`,
+        item:dataModule,
+        effectspath:'jetsimple.effets',
+      }, false);
+
+      if(this.hasOtherMunition('jetsimple')) {
+        await roll.doRoll({}, dataNiveau.jetsimple.effets);
+      } else {
+        await roll.sendMessage({
+            text:game.i18n.localize('KNIGHT.JETS.ChargeurVide'),
+            classes:'important',
+        });
+      }
+    }
+
+    if(!this.hasOtherMunition('module') && value && dataNiveau.effets.has) {
+      abort = true;
+      const roll = new game.knight.RollKnight(this.actor, {
+        name:`${dataModule.name}`,
+      }, false);
+
+      await roll.sendMessage({
+        text:game.i18n.localize('KNIGHT.JETS.ChargeurVide'),
+        classes:'important',
+      });
+
+    } else if(dataNiveau.effets.raw.find(itm => itm.includes('chargeur')) && value) {
+      const findModuleChargeur = dataNiveau.effets.raw.find(itm => itm.includes('chargeur'));
+      const chargeur = dataNiveau.effets?.chargeur ?? null;
+
+      if(chargeur === null) pbM.sys(`niveau.details.n${data.getNiveau}.effets.chargeur`, Math.max(parseInt(findModuleChargeur.split(' ')[1])-1, 0))
+      else pbM.sys(`niveau.details.n${data.getNiveau}.effets.chargeur`, Math.max(parseInt(chargeur)-1, 0))
+    }
+
+    if(!abort) {
+      await pbM.applyTo(dataModule);
+
+      const exec = new game.knight.RollKnight(this.actor,
+        {
+        name:value ? game.i18n.localize(`KNIGHT.ACTIVATION.Label`) : game.i18n.localize(`KNIGHT.ACTIVATION.Desactivation`),
+        }).sendMessage({
+            text:name ? name : this.item.name,
+            sounds:CONFIG.sounds.notification,
+        });
+    }
+
+  }
+
+  async activateNPC(value, type, index) {
+    if(value) {
+      const depense = await this.usePE(type);
+
+      if(!depense) return;
+    }
+
+    const dataModule = this.item,
+          data = this,
+          dataNiveau = data.niveauActuel,
+          dataPnj = dataNiveau.pnj.liste[index];
+
+    let newActor;
+
+    if(value) {
+      const listeAspects = dataPnj.aspects.liste;
+
+      const system = {
+        aspects:dataPnj.aspects.has ? {
+          'chair':{
+            'value':listeAspects.chair.value,
+            'ae':{
+              'mineur':{
+                'value':listeAspects.chair.ae.mineur
+              },
+              'majeur':{
+                'value':listeAspects.chair.ae.majeur
+              }
+            }
+          },
+          'bete':{
+            'value':listeAspects.bete.value,
+            'ae':{
+              'mineur':{
+                'value':listeAspects.bete.ae.mineur
+              },
+              'majeur':{
+                'value':listeAspects.bete.ae.majeur
+              }
+            }
+          },
+          'machine':{
+            'value':listeAspects.machine.value,
+            'ae':{
+              'mineur':{
+                'value':listeAspects.machine.ae.mineur
+              },
+              'majeur':{
+                'value':listeAspects.machine.ae.majeur
+              }
+            }
+          },
+          'dame':{
+            'value':listeAspects.dame.value,
+            'ae':{
+              'mineur':{
+                'value':listeAspects.dame.ae.mineur
+              },
+              'majeur':{
+                'value':listeAspects.dame.ae.majeur
+              }
+            }
+          },
+          'masque':{
+            'value':listeAspects.masque.value,
+            'ae':{
+              'mineur':{
+                'value':listeAspects.masque.ae.mineur
+              },
+              'majeur':{
+                'value':listeAspects.masque.ae.majeur
+              }
+            }
+          }
+        } : {},
+        initiative:{
+          diceBase:dataPnj.initiative.dice,
+          bonus:{user:dataPnj.initiative.fixe}
+        },
+        sante:{
+          base:dataPnj.sante,
+          value:dataPnj.sante
+        },
+        armure:{
+          base:dataPnj.armure,
+          value:dataPnj.armure
+        },
+        champDeForce:{
+          base:dataPnj.champDeForce
+        },
+        reaction:{
+          base:dataPnj.reaction
+        },
+        defense:{
+          base:dataPnj.defense
+        },
+        options:{
+          noAspects:dataPnj.aspects.has ? false : true,
+          noArmesImprovisees:dataPnj.aspects.has ? false : true,
+          noCapacites:true,
+          noGrenades:true,
+          noNods:true,
+          espoir:false,
+          bouclier:false,
+          sante:false,
+          energie:false,
+          resilience:false
+        }
+      };
+
+      if(dataPnj.jetSpecial.has) {
+        const jetsSpeciaux = [];
+
+        system.options.jetsSpeciaux = true;
+
+        for (let [key, jet] of Object.entries(dataPnj.jetSpecial.liste)) {
+          jetsSpeciaux.push({
+            name:jet.nom,
+            value:`${jet.dice}D6+${jet.overdrive}`
+          });
+        }
+
+        system.jetsSpeciaux = jetsSpeciaux;
+      }
+
+      if(dataPnj.type === 'bande') {
+        system.debordement = {};
+        system.debordement.value = dataPnj.debordement;
+      }
+
+      newActor = await createSheet(
+        this.actor,
+        dataPnj.type,
+        `${this.title} : ${dataPnj.nom}`,
+        system,
+        {},
+        dataModule.img,
+        dataModule.img,
+        1
+      );
+
+      if(dataPnj.armes.has && dataPnj.type !== 'bande') {
+        const items = [];
+
+        for (let [key, arme] of Object.entries(dataPnj.armes.liste)) {
+          const wpnType = arme.type === 'tourelle' ? 'distance' : arme.type;
+
+          let wpn = {
+            type:wpnType,
+            portee:arme.portee,
+            degats:{
+              dice:arme.degats.dice,
+              fixe:arme.degats.fixe
+            },
+            violence:{
+              dice:arme.violence.dice,
+              fixe:arme.violence.fixe
+            },
+            effets:{
+              raw:arme.effets.raw,
+              custom:arme.effets.custom
+            }
+          };
+
+          if(arme.type === 'tourelle') {
+            wpn['tourelle'] = {
+              has:true,
+              attaque:{
+                dice:arme.attaque.dice,
+                fixe:arme.attaque.fixe
+              }
+            }
+          }
+
+          const nItem = {
+            name:arme?.nom ?? game.i18n.localize('TYPES.Item.arme'),
+            type:'arme',
+            system:wpn,
+            };
+
+            items.push(nItem);
+        }
+
+        await newActor.createEmbeddedDocuments("Item", items);
+      }
+
+      await PatchBuilder.for(dataModule)
+        .sys('active.pnj', true)
+        .sys('active.pnjName', dataPnj.nom)
+        .sys('id', newActor.id)
+        .apply();
+
+      await spawnTokenRightOfActor({actor:newActor, refActor:this.actor});
+
+    } else if(!value) {
+      const actor = game.actors.get(dataModule.system.id);
+
+      if(actor !== undefined) await actor.delete();
+
+      if(actor?.id) await deleteTokens([actor.id]);
+
+      await PatchBuilder.for(dataModule)
+        .sys('active.pnj', false)
+        .sys('active.pnjName', '')
+        .sys('id', '')
+        .apply();
+    }
+  }
+
+  async supplementaire() {
+    await this.usePE('supplementaire');
+  }
+
+  async usePE(type, forceEspoir = false) {
+    // Récupération armure + capacités (sécurisée)
+    const getArmure = await getArmor(this.actor).catch(e => {
+      console.error('module usePE: getArmor a échoué', e);
+      return null;
+    });
+    if (!getArmure) return;
+
+    const niveauActuel = this.niveauActuel;
+    const armure = new ArmureAPI(getArmure);
+    const label = this.item.name;
+    const actor = this?.actor ?? null;
+
+    const remplaceEnergie = armure.espoirRemplaceEnergie;
+    const getType = remplaceEnergie || forceEspoir ? 'espoir' : 'energie';
+    const hasFlux = armure.hasFlux;
+
+    const flux = hasFlux ? actor?.system?.flux?.value ?? 0 : 0;
+    const value = actor?.system?.[getType]?.value ?? 0;
+    const espoir = actor?.system?.espoir?.value ?? 0;
+
+    const sendLackMsg = async (i18nKey) => {
+      const payload = {
+        flavor: `${label}`,
+        main: { total: `${game.i18n.localize(`KNIGHT.JETS.${i18nKey}`)}` }
+      };
+      const data = {
+        user: game.user.id,
+        speaker: {
+          actor: actor?.id ?? null,
+          token: actor?.token?.id ?? null,
+          alias: actor?.name ?? null,
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
+        sound: CONFIG.sounds.dice
+      };
+      const rMode = game.settings.get("core", "rollMode");
+      const msgData = ChatMessage.applyRollMode(data, rMode);
+      await ChatMessage.create(msgData, { rollMode: rMode });
+    };
+
+    let cout = 0;
+
+    switch(type) {
+      case 'other':
+        cout += 0;
+        break;
+
+      case 'tour':
+      case 'minute':
+        cout += niveauActuel?.energie?.[type]?.value ?? 0;
+        break;
+
+      case 'supplementaire':
+        cout += niveauActuel?.energie?.supplementaire ?? 0;
+        break;
+    }
+
+    let depenseEnergie = 0;
+    let depenseFlux = 0;
+    let depenseEspoir = 0;
+    let substractEnergie = 0;
+    let substractEspoir = 0;
+    let substractFlux = 0;
+
+    depenseEnergie += cout;
+
+    if(remplaceEnergie && depenseEnergie > 0 && armure.ModuleCostDivided > 0) {
+      depenseEnergie = Math.max(Math.floor(cout / armure.ModuleCostDivided), 1);
+
+      if(depenseEnergie < 1) depenseEnergie = 1;
+    }
+
+    if(remplaceEnergie) depenseEnergie += depenseEspoir;
+
+    substractEnergie = value - depenseEnergie;
+    substractEspoir = espoir - depenseEspoir;
+    substractFlux = flux - depenseFlux;
+    if(substractEnergie < 0) {
+      await sendLackMsg(`${remplaceEnergie || forceEspoir ? 'Notespoir' : 'Notenergie'}`);
+
+      return false;
+    } else if(substractEspoir < 0 && !remplaceEnergie) {
+      await sendLackMsg(`Notespoir`);
+
+      return false;
+    } else if(substractFlux < 0 && hasFlux) {
+      await sendLackMsg(`Notflux`);
+
+      return false;
+    } else {
+      let pbE = new PatchBuilder();
+
+      if(!remplaceEnergie) pbE.sys(`equipements.${actor.system.wear}.${getType}.value`, substractEnergie);
+      else if(remplaceEnergie && !actor.system.espoir.perte.saufAgonie) pbE.sys('espoir.value', substractEnergie);
+
+      if(!remplaceEnergie && depenseEspoir) pbE.sys('espoir.value', substractEspoir);
+
+      if(depenseFlux && hasFlux) pbE.sys('flux.value', substractFlux);
+
+      await pbE.applyTo(actor);
+
+      return true;
+    }
   }
 }
