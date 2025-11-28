@@ -1,3 +1,7 @@
+## v3.50.6
+### Bugfix
+- Correction du calcul du perce armure, pour prendre en compte la FAQ.
+
 ## v3.50.5
 ### Bugfix
 - Correction d'un bug sur les modules améliorant les grenades : Le champ gérant les dés de violence ne s'affichait plus lorsqu'on modifiait le module.

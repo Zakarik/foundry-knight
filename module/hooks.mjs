@@ -481,6 +481,19 @@ export default class HooksKnight {
                 }
             });
 
+            function rulePierceArmorAndDestructeur(args) {
+                let {
+                    armor,
+                    pierceArmor,
+                    dmgTakeByArmor,
+                    armorLessDestructeur,
+                } = args;
+
+                if(armor <= pierceArmor) {
+                    dmgTakeByArmor = armorLessDestructeur;
+                }
+            }
+
             // Display damages on PNJs
             async function displayDamageOnPNJ(data) {
                 // Get params
@@ -762,12 +775,12 @@ export default class HooksKnight {
                     // Calculate rest armor
                     let dmgTakeByArmor = armor - armorDmg;
 
-                    if(dmgTakeByArmor < pierceArmor) {
-                        dmgTakeByArmor = pierceArmor;
-                        armorDmg = armor - pierceArmor;
-
-                        if(armorLessDestructeur > armorDmg) armorLessDestructeur = armorDmg;
-                    }
+                    rulePierceArmorAndDestructeur({
+                        armor,
+                        pierceArmor,
+                        dmgTakeByArmor,
+                        armorLessDestructeur,
+                    });
 
                     // Set the damages left
                     damagesLeft -= armorLessDestructeur;
@@ -1067,12 +1080,12 @@ export default class HooksKnight {
                     // Calculate rest armor
                     let dmgTakeByArmor = armor - armorDmg;
 
-                    if(dmgTakeByArmor < pierceArmor) {
-                        dmgTakeByArmor = pierceArmor;
-                        armorDmg = armor - pierceArmor;
-
-                        if(armorLessDestructeur > armorDmg) armorLessDestructeur = armorDmg;
-                    }
+                    rulePierceArmorAndDestructeur({
+                        armor,
+                        pierceArmor,
+                        dmgTakeByArmor,
+                        armorLessDestructeur,
+                    });
 
                     // Set the damages left
                     damagesLeft -= armorLessDestructeur;
