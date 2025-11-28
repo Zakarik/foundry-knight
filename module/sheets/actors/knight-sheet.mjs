@@ -3044,7 +3044,14 @@ export class KnightSheet extends ActorSheet {
       let base = '';
       let whatRoll = [];
 
-      if(isDistance === 'grenades') {
+      this.actor.system.useWpn(isDistance, {
+        id,
+        type:id,
+        name:other,
+        num:what
+      });
+
+      /*if(isDistance === 'grenades') {
         const nbreGrenade = this.actor.system?.combat?.grenades?.quantity?.value ?? 0;
 
         if(nbreGrenade === 0) {
@@ -3140,7 +3147,7 @@ export class KnightSheet extends ActorSheet {
         modificateur
       });
 
-      dialog.open();
+      dialog.open();*/
     });
 
     html.find('.jetEgide').click(async ev => {
@@ -3323,120 +3330,17 @@ export class KnightSheet extends ActorSheet {
     });
 
     html.find('div.nods img.dice').click(async ev => {
-      const data = this.actor;
       const target = $(ev.currentTarget);
-      const nbre = +target.data("number");
       const nods = target.data("nods");
-      const dices = target.data("dices");
-      const wear = data.system.wear;
 
-      if(nbre > 0) {
-        const recuperation = data.system.combat.nods[nods].recuperationBonus;
-        let update = {}
-
-        switch(nods) {
-          case 'soin':
-            update['system.sante.value'] = `@{rollTotal}+${data.system.sante.value}`;
-            break;
-
-          case 'energie':
-            update[`system.equipements.${wear}.energie.value`] = `@{rollTotal}+${data.system.energie.value}`;
-            break;
-
-          case 'armure':
-            update[`system.equipements.${wear}.armure.value`] = `@{rollTotal}+${data.system.armure.value}`;
-            break;
-        }
-        update[`system.combat.nods.${nods}.value`] = nbre - 1;
-
-        const rNods = new game.knight.RollKnight(this.actor, {
-          name:game.i18n.localize(`KNIGHT.JETS.Nods${nods}`),
-          dices:dices,
-          bonus:[recuperation]
-        }, false);
-
-        await rNods.doRoll(update);
-      } else {
-        const rNods = new game.knight.RollKnight(this.actor, {
-          name:game.i18n.localize(`KNIGHT.JETS.Nods${nods}`),
-        }, false);
-
-        rNods.sendMessage({
-          classes:'fail',
-          text:`${game.i18n.localize(`KNIGHT.JETS.NotNods`)}`,
-        })
-      }
+      this.actor.system.useNods(nods, true);
     });
 
     html.find('div.nods img.diceTarget').click(async ev => {
-      const data = this.actor;
       const targetFrom = $(ev.currentTarget);
-      const nbre = +targetFrom.data("number");
       const nods = targetFrom.data("nods");
-      const dices = targetFrom.data("dices");
-      const wear = data.system.wear;
 
-      const targetTo = game.user?.targets?.values()?.next()?.value ?? undefined;
-      if(nbre > 0) {
-        const recuperation = targetTo ? targetTo.actor.system?.combat?.nods?.[nods]?.recuperationBonus ?? 0 : 0;
-
-        let btn = {}
-
-        /*switch(nods) {
-          case 'soin':
-            update['system.sante.value'] = `@{rollTotal}+${targetTo.actor.system.sante.value}`;
-            break;
-
-          case 'energie':
-            update[`system.equipements.${wear}.energie.value`] = `@{rollTotal}+${targetTo.actor.system.energie.value}`;
-            break;
-
-          case 'armure':
-            update[`system.equipements.${wear}.armure.value`] = `@{rollTotal}+${targetTo.actor.system.armure.value}`;
-            break;
-        }*/
-        const updateNods = {};
-
-        updateNods[`system.combat.nods.${nods}.value`] = nbre - 1;
-
-        await this.actor.update(updateNods);
-
-        if(targetTo) {
-          btn = {
-            otherBtn:[
-              {
-                classes:'applyNods full',
-                label:game.i18n.localize('KNIGHT.JETS.AppliquerNods'),
-                id:targetTo.id,
-                tgt:true,
-              }
-            ]
-          }
-        }
-
-        const rNods = new game.knight.RollKnight(targetTo?.actor, {
-          name:game.i18n.localize(`KNIGHT.JETS.Nods${nods}`),
-          dices: dices,
-          bonus:[recuperation],
-          addContent:btn,
-          addFlags:{
-            type:'nods',
-            target:targetTo?.id,
-            nod:nods,
-          }
-        }, false);
-
-        await rNods.doRoll();
-      } else {
-        const rNods = new game.knight.RollKnight(this.actor, {
-          name:game.i18n.localize(`KNIGHT.JETS.Nods${nods}`),
-        }, false);
-
-        rNods.sendMessage({
-          classes:'fail',
-          text:`${game.i18n.localize(`KNIGHT.JETS.NotNods`)}`,
-        })
-      }
+      this.actor.system.useNods(nods);
     });
 
     html.find('div.combat div.wpn a.item-equip').click(ev => {

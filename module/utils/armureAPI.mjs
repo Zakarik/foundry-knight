@@ -376,7 +376,9 @@ export class ArmureAPI {
           break;
 
         case "morph":
-          result = special !== 'phase' && special !== 'phaseN2' ? data : false;
+          if(variant === 'choix') result = data;
+          else result = special !== 'phase' && special !== 'phaseN2' ? data : false;
+
           break;
 
         case 'rage':

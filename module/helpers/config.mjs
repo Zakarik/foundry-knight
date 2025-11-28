@@ -1688,3 +1688,16 @@ KNIGHT.module = {
     "espoir":"KNIGHT.ITEMS.MODULE.RARETE.Espoir",
   }
 };
+
+KNIGHT.TOOLS = {
+  'times':{
+      active:false,
+      button: true,
+      toggle: false,
+      visible: true,
+      icon: "fa-solid fa-r",
+      name:'times',
+      title: "",
+      onChange:(event, active) => {},
+  }
+};

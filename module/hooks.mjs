@@ -1,7 +1,6 @@
 import {
     listLogo,
     generateNavigator,
-    getODValue,
     rollDamage,
     rollViolence
   } from "./helpers/common.mjs";
@@ -9,7 +8,7 @@ import {
 export default class HooksKnight {
     static async ready() {
         // DEBUT MIGRATION
-        if (game.user.isGM) {
+        if (game.user.isGM && game.settings.get("knight", "GmTool")) {
             new game.knight.documents.GmTool().render(true);
         }
 

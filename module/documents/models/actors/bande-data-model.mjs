@@ -78,6 +78,10 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
         }
     }
 
+    get actor() {
+        return this.parent;
+    }
+
     get aspect() {
         let data = {}
 
@@ -91,6 +95,7 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
 
         return data;
     }
+
     static migrateData(source) {
         if(source.version < 1) {
             const mods = ['sante', 'bouclier', 'reaction', 'defense', 'initiative'];
@@ -223,5 +228,78 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
         }
 
         this.initiative.prepareBandeData();
+    }
+
+    togglePhase2() {
+        const aspects = this.aspects;
+        const phase2 = this.phase2;
+
+        let update = {};
+
+        if(this.phase2Activate) {
+            update['system.phase2Activate'] = false;
+
+            for(let a in phase2.aspects) {
+              update[`system.aspects.${a}.value`] = aspects[a].value - phase2.aspects[a].value;
+              update[`system.aspects.${a}.ae.mineur.value`] = aspects[a].ae.mineur.value - phase2.aspects[a].ae.mineur;
+              update[`system.aspects.${a}.ae.majeur.value`] = aspects[a].ae.majeur.value - phase2.aspects[a].ae.majeur;
+            }
+        } else {
+            update['system.phase2Activate'] = true;
+
+            for(let a in phase2.aspects) {
+              update[`system.aspects.${a}.value`] = aspects[a].value + phase2.aspects[a].value;
+              update[`system.aspects.${a}.ae.mineur.value`] = aspects[a].ae.mineur.value + phase2.aspects[a].ae.mineur;
+              update[`system.aspects.${a}.ae.majeur.value`] = aspects[a].ae.majeur.value + phase2.aspects[a].ae.majeur;
+            }
+        }
+
+        this.actor.update(update);
+    }
+
+    async doDebordement() {
+        const actor = this.actor;
+        const label = actor.name;
+        const dgtsDice = Number(this?.debordement?.tour)*Number(this?.debordement?.value);
+        const roll = new game.knight.RollKnight(actor, {
+        name:`${label} : ${game.i18n.localize('KNIGHT.AUTRE.Debordement')}`,
+        }, false);
+        const weapon = roll.prepareWpnContact({
+        name:`${label}`,
+        system:{
+            degats:{dice:0, fixe:dgtsDice},
+            effets:{},
+        }
+        });
+        const addFlags = {
+        actor,
+        attaque:[],
+        dataMod:{degats:{dice:0, fixe:0}, violence:{dice:0, fixe:0}},
+        dataStyle:{},
+        flavor:label,
+        maximize:{degats:false, violence:false},
+        style:'standard',
+        surprise:false,
+        targets:[],
+        total:0,
+        weapon
+        }
+
+        let data = {
+        total:0,
+        targets: game.user.targets.size > 0 ? game.user.targets : [],
+        attaque:[],
+        flags:addFlags,
+        content:{
+            otherBtn:[{
+            classes:'debordement full',
+            title:game.i18n.localize('KNIGHT.JETS.AugmenterDebordement'),
+            label:game.i18n.localize('KNIGHT.JETS.AugmenterDebordement'),
+            }]
+        }
+        };
+
+        roll.setWeapon(weapon);
+        await roll.doRollDamage(data, addFlags);
     }
 }

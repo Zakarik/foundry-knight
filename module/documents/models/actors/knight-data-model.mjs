@@ -435,6 +435,14 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         }
     }
 
+    get actor() {
+        return this.parent;
+    }
+
+    get actorId() {
+      return this.actor?.token ? this.actor.token.id : this.actor.id;
+    }
+
     get items() {
         return this.parent.items;
     }
@@ -501,6 +509,15 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         }
 
         return result;
+    }
+
+    get rollWpnDistanceMod() {
+        const statuses = this.actor.statuses;
+        let modificateur = 0;
+
+        if(statuses.has('fumigene')) modificateur -= 3;
+
+        return modificateur;
     }
 
     static migrateData(source) {
@@ -2543,5 +2560,219 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         }
 
         return result;
+    }
+
+    async useNods(type, heal=false) {
+        const nod = this.combat.nods[type];
+
+        const nbre = Number(nod.value);
+        const dices = nod.dices;
+        const wear = this.whatWear;
+
+        if(nbre > 0) {
+            const recuperation = this.combat.nods[type].recuperationBonus;
+            let update = {}
+
+            if(heal) {
+                switch(type) {
+                    case 'soin':
+                    update['system.sante.value'] = `@{rollTotal}+${this.sante.value}`;
+                    break;
+
+                    case 'energie':
+                    update[`system.equipements.${wear}.energie.value`] = `@{rollTotal}+${this.energie.value}`;
+                    break;
+
+                    case 'armure':
+                    update[`system.equipements.${wear}.armure.value`] = `@{rollTotal}+${this.armure.value}`;
+                    break;
+                }
+            }
+
+            update[`system.combat.nods.${type}.value`] = nbre - 1;
+
+            const rNods = new game.knight.RollKnight(this.actor, {
+                name:game.i18n.localize(`KNIGHT.JETS.Nods${type}`),
+                dices:dices,
+                bonus:[recuperation]
+            }, false);
+
+            await rNods.doRoll(update);
+        } else {
+          const rNods = new game.knight.RollKnight(this.actor, {
+            name:game.i18n.localize(`KNIGHT.JETS.Nods${type}`),
+          }, false);
+
+          rNods.sendMessage({
+            classes:'fail',
+            text:`${game.i18n.localize(`KNIGHT.JETS.NotNods`)}`,
+          })
+        }
+    }
+
+    useGrenade(type) {
+        const nbreGrenade = this.combat?.grenades?.quantity?.value ?? 0;
+
+        if(nbreGrenade === 0) {
+            ui.notifications.warn(game.i18n.localize(`KNIGHT.AUTRE.NoGrenades`));
+            return;
+        }
+
+        const dataGrenade = this.combat.grenades.liste[type];
+        const wpn = `grenade_${type}`;
+        const label = dataGrenade.custom ? `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${dataGrenade.label}` : `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${type.charAt(0).toUpperCase()+type.substr(1)}`)}`;
+        const modificateur = this.rollWpnDistanceMod;
+        const actor = this.actorId;
+
+        const dialog = new game.knight.applications.KnightRollDialog(actor, {
+            label,
+            wpn,
+            modificateur
+        });
+
+        dialog.open();
+
+        return dialog;
+    }
+
+    useLongbow() {
+        const label = game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label`);
+        const wpn = `capacite_${this.dataArmor.id}_longbow`;
+        const actor = this.actorId;
+        const modificateur = this.rollWpnDistanceMod;
+
+        const dialog = new game.knight.applications.KnightRollDialog(actor, {
+          label,
+          wpn,
+          modificateur
+        });
+
+        dialog.open();
+
+        return dialog;
+    }
+
+    useAI(type, name, num) {
+        const label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[name][num]);
+        const wpn = type === 'distance' ? `${name}${num}d` : `${name}${num}c`;
+        const whatRoll = [];
+        let modificateur = 0;
+        let base = '';
+
+        whatRoll.push('force');
+
+        if(type === 'distance') {
+            modificateur = this.rollWpnDistanceMod;
+            base = 'tir';
+        }
+        else base = 'combat';
+
+        const actor = this.actorId;
+
+        const dialog = new game.knight.applications.KnightRollDialog(actor, {
+          label,
+          wpn,
+          base,
+          whatRoll,
+          modificateur
+        });
+
+        dialog.open();
+
+        return dialog;
+    }
+
+    useStdWpn(itemId, args={}) {
+        const item = this.actor.items.get(itemId);
+        const label = item.name;
+        const {
+            type,
+            name,
+        } = args;
+        let modificateur = 0;
+        let id = itemId;
+
+        if(item) {
+            switch(item.type) {
+                case 'module':
+                    id = `module_${id}`;
+                    if(item.system?.niveau?.actuel?.arme?.type === 'distance') modificateur += this.rollWpnDistanceMod;
+                    break;
+
+                case 'armure':
+                    switch(name) {
+                      case 'rayon':
+                      case 'salve':
+                      case 'vague':
+                        id = type === 'distance' ? `capacite_${id}_cea${name.charAt(0).toUpperCase() + name.substr(1)}D` : `capacite_${id}_cea${name.charAt(0).toUpperCase() + name.substr(1)}C`;
+
+                        if(type === 'distance') modificateur += this.rollWpnDistanceMod;
+                        break;
+
+                      case 'borealis':
+                        id = type === 'distance' ? `capacite_${id}_borealisD` : `capacite_${id}_borealisC`;
+                        console.error(id);
+                        if(type === 'distance') modificateur += this.rollWpnDistanceMod;
+                        break;
+
+                      case 'lame':
+                      case 'griffe':
+                      case 'canon':
+                      case 'lame2':
+                      case 'griffe2':
+                      case 'canon2':
+                        id = `capacite_${id}_morph${name.charAt(0).toUpperCase() + name.substr(1)}`;
+                        break;
+                    }
+                    break;
+
+                case 'arme':
+                    if(item.system.type === 'distance') modificateur += this.rollWpnDistanceMod;
+                    break;
+            }
+        }
+
+        const actor = this.actorId;
+
+        const dialog = new game.knight.applications.KnightRollDialog(actor, {
+          label:label,
+          wpn:id,
+          modificateur
+        });
+
+        dialog.open();
+
+        return dialog
+    }
+
+    useWpn(wpnType='', args={}) {
+        const {
+            id,
+            type,
+            name,
+            num
+        } = args;
+
+        let dialog;
+
+        switch(wpnType) {
+            case 'grenades':
+                dialog = this.useGrenade(type);
+                break;
+
+            case 'longbow':
+                dialog = this.useLongbow();
+                break;
+
+            case 'armesimprovisees':
+                dialog = this.useAI(type, name, num);
+                break;
+
+            default:
+                dialog = this.useStdWpn(id, {type, name:num});
+                break;
+        }
+
+        return dialog;
     }
 }

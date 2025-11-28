@@ -176,4 +176,13 @@ export const RegisterSettings = function () {
         type: Boolean,
         default: false,
     });
+
+    game.settings.register("knight", "GmTool", {
+        name: "",
+        hint: "",
+        scope: "client",
+        config: true,
+        type: Boolean,
+        default: true,
+    });
 };

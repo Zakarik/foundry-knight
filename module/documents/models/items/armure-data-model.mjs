@@ -10,6 +10,7 @@ import {
 
 import PatchBuilder from "../../../utils/patchBuilder.mjs";
 import ArmureAPI from "../../../utils/armureAPI.mjs";
+import { SOCKET } from '../../../utils/socketHandler.mjs';
 
 import { ArmureCapaciteDataModel } from '../parts/armure-capacite-data-model.mjs';
 import { ArmureSpecialDataModel } from '../parts/armure-special-data-model.mjs';
@@ -859,11 +860,6 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       }
     };
 
-    const activateAll = (arr) => {
-      if (!Array.isArray(arr)) return;
-      for (const o of arr) o.active = true;
-    };
-
     const splitAE = (ae) => {
       const v = Number(ae) || 0;
       return {
@@ -875,8 +871,6 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
         }
       };
     };
-
-    const asInt = (v, d = 0) => Number.isFinite(v) ? Math.trunc(v) : d;
 
     const getArmure = new ArmureAPI(armure);
     const getCapacite = getArmure.getCapacite(capacite);
@@ -908,7 +902,8 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           // 1) Cloner proprement les données source via deepClone
           const clone = foundry.utils.deepClone(actor);
           // 2) Créer l’acteur d’ascension
-          const src = await Actor.create(clone);
+          const { id, uuid } = await SOCKET.executeAsGM('createSubActor', clone);
+          const src = await fromUuid(uuid);
 
           // 3) Editer nom et visuels
           const newName = `${getName} : ${actor.name}`;
@@ -946,7 +941,10 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
             }
           }
 
-          await batchDeleteItemsBy(src, filteredItems);
+          SOCKET.executeAsGM('deleteItmInActor', {
+            actor:uuid,
+            items:filteredItems
+          });
           // 6) Marquer l’état côté armure d’origine (update unique agrégé)
           await PatchBuilder.for(armure)
             .sys(getPath, {
@@ -1144,7 +1142,10 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
               nLItems.push(nLItem);
 
-              await newActor.createEmbeddedDocuments("Item", nLItems);
+              SOCKET.executeAsGM('giveItmToActor', {
+                actor:newActor.uuid,
+                items:nLItems
+              });
 
               pb.sys('capacites.selected.companions.lion.id', newActor.id);
 
@@ -1249,7 +1250,10 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
                 nWItems.push(nWItem);
 
-                await newActor.createEmbeddedDocuments("Item", nWItems);
+                SOCKET.executeAsGM('giveItmToActor', {
+                  actor:newActor.uuid,
+                  items:nWItems
+                });
 
                 pb.sys(`capacites.selected.companions.wolf.id.id${i}`, newActor.id);
                 createdActors.push(newActor);
@@ -1769,7 +1773,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
         flux += bonus;
 
-        await PatchBuilder.for(this)
+        await PatchBuilder.for(this.actor)
           .sys("flux.value", flux)
           .apply();
 
@@ -2085,6 +2089,20 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     let tmp2 = 0;
 
     switch(capacite) {
+      case 'type':
+        if(variant === 'conflit') depenseEnergie += getCapacite?.energie?.tour ?? 0;
+        else depenseEnergie += getCapacite?.energie?.scene ?? 0;
+        break;
+
+      case 'shrine':
+        if(special === 'distance6' || special === 'personnel6') depenseEnergie += getCapacite?.energie?.[`${special}tours`] ?? 0;
+        else depenseEnergie += getCapacite?.energie?.[special] ?? 0;
+        break;
+
+      case 'nanoc':
+        depenseEnergie += getCapacite.energie.prolonger;
+        break;
+
       case 'changeling':
         if(getCapacite.active.fauxEtre) {
           tmp = getCapacite?.energie?.fauxEtre?.value ?? 0;

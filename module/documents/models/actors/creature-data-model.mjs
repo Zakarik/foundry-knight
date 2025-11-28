@@ -114,7 +114,7 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
           energie:new BooleanField({initial:true, nullable:false}),
           notFirstMenu:new BooleanField({initial:false, nullable:false}),
           noSecondMenu:new BooleanField({initial:false, nullable:false}),
-          phase2:new BooleanField({initial:true, nullable:false}),
+          phase2:new BooleanField({initial:false, nullable:false}),
           resilience:new BooleanField({initial:true, nullable:false}),
           sante:new BooleanField({initial:true, nullable:false}),
           embuscadeSubis:new BooleanField({initial:false, nullable:false}),
@@ -122,6 +122,14 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
       }),
       otherMods:new ObjectField(),
     }
+  }
+
+  get actor() {
+      return this.parent;
+  }
+
+  get actorId() {
+    return this.actor?.token ? this.actor.token.id : this.actor.id;
   }
 
   get items() {
@@ -508,4 +516,120 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
           });
       }
   }
+
+  useAI(type, name, num) {
+      const label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[name][num]);
+      const wpn = type === 'distance' ? `${name}${num}d` : `${name}${num}c`;
+      const whatRoll = [];
+      let modificateur = 0;
+      let base = '';
+
+      whatRoll.push('force');
+
+      if(type === 'distance') {
+          modificateur = this.rollWpnDistanceMod;
+          base = 'tir';
+      }
+      else base = 'combat';
+
+      const actor = this.actorId;
+
+      const dialog = new game.knight.applications.KnightRollDialog(actor, {
+        label,
+        wpn,
+        base,
+        whatRoll,
+        modificateur
+      });
+
+      dialog.open();
+
+      return dialog;
+  }
+
+  useStdWpn(itemId, args={}) {
+      const item = this.actor.items.get(itemId);
+      const label = item.name;
+      const {
+          type,
+          name,
+      } = args;
+      let modificateur = 0;
+      let id = itemId;
+
+      if(item) {
+          switch(item.type) {
+              case 'module':
+                  id = `module_${id}`;
+                  if(item.system?.niveau?.actuel?.arme?.type === 'distance') modificateur += this.rollWpnDistanceMod;
+                  break;
+
+              case 'armure':
+                  switch(name) {
+                    case 'rayon':
+                    case 'salve':
+                    case 'vague':
+                      id = type === 'distance' ? `capacite_${id}_cea${name.charAt(0).toUpperCase() + name.substr(1)}D` : `capacite_${id}_cea${name.charAt(0).toUpperCase() + name.substr(1)}C`;
+
+                      if(type === 'distance') modificateur += this.rollWpnDistanceMod;
+                      break;
+
+                    case 'borealis':
+                      id = type === 'distance' ? `capacite_${id}_borealisD` : `capacite_${id}_borealisC`;
+                      console.error(id);
+                      if(type === 'distance') modificateur += this.rollWpnDistanceMod;
+                      break;
+
+                    case 'lame':
+                    case 'griffe':
+                    case 'canon':
+                    case 'lame2':
+                    case 'griffe2':
+                    case 'canon2':
+                      id = `capacite_${id}_morph${name.charAt(0).toUpperCase() + name.substr(1)}`;
+                      break;
+                  }
+                  break;
+
+              case 'arme':
+                  if(item.system.type === 'distance') modificateur += this.rollWpnDistanceMod;
+                  break;
+          }
+      }
+
+      const actor = this.actorId;
+
+      const dialog = new game.knight.applications.KnightRollDialog(actor, {
+        label:label,
+        wpn:id,
+        modificateur
+      });
+
+      dialog.open();
+
+      return dialog
+  }
+
+  useWpn(wpnType='', args={}) {
+    const {
+        id,
+        type,
+        name,
+        num
+    } = args;
+
+    let dialog;
+
+    switch(wpnType) {
+        case 'armesimprovisees':
+            dialog = this.useAI(type, name, num);
+            break;
+
+        default:
+            dialog = this.useStdWpn(id, {type, name:num});
+            break;
+    }
+
+    return dialog;
+}
 }

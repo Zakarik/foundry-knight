@@ -2404,6 +2404,8 @@
       "ConfirmationEspoir":"Êtes vous sûre de vouloir récupérer toute votre espoir ?",
       "ConfirmationChargeur":"Êtes vous sûre de vouloir restaurer tous vos chargeurs ?",
       "ConfirmationContacts":"Êtes vous sûre de vouloir restaurer tous vos points de contacts ?",
+      "ConfirmationNods":"Êtes vous sûre de vouloir restaurer tous vos nods ?",
+      "ConfirmationGrenades":"Êtes vous sûre de vouloir restaurer toutes vos grenades ?",
       "Reset":"Reset",
       "Difficulte":"Difficulté",
       "MJOnly":"MJ Uniquement",
@@ -2634,6 +2636,7 @@
         "Label":"Boîte à outil du MJ",
         "Rafraichir":"Rafraichir",
         "Reset":"Reset",
+        "ShowHide":"Afficher / Masquer la boîte à outil du MJ",
         "INITIATIVE":{
           "Label":"Gestion de l'initiative",
           "RemiseAZero":"Restaurer l'initiative par défaut",

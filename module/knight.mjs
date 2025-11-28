@@ -73,7 +73,6 @@ import { ArmeDataModel } from "./documents/models/items/arme-data-model.mjs";
 import { ArmureDataModel } from "./documents/models/items/armure-data-model.mjs";
 
 import {
-  listLogo,
   SortByLabel,
   generateNavigator,
   importActor,
@@ -82,10 +81,10 @@ import {
 import {
   dialogRollWId,
   directRoll,
-  doViolence,
 } from "./helpers/dialogRoll.mjs";
 
 import {RollKnight} from "./documents/roll.mjs";
+import {menuKnight} from "./menu.mjs";
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -440,6 +439,8 @@ Hooks.once('init', async function() {
       img:'systems/knight/assets/icons/effects/immobilisation.svg'
     });
   }
+
+  menuKnight.init();
 });
 
 /* -------------------------------------------- */
