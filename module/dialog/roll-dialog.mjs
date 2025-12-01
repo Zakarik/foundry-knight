@@ -171,6 +171,18 @@ export class KnightRollDialog extends Dialog {
         return style
     }
 
+    get wpnSelected() {
+        const wpnSelected = this.rollData?.wpnSelected;
+        return wpnSelected ? this.rollData.allWpn.find(itm => itm.id === wpnSelected) : undefined;
+    }
+
+    get wpnIsTourelle() {
+        const wpn = this.wpnSelected;
+
+        if(wpn?.tourelle) return true;
+        else return false;
+    }
+
 
     actualise() {
         this.#renderInitialization(this.data.roll.html);
@@ -763,9 +775,8 @@ export class KnightRollDialog extends Dialog {
         const label = data.find('input.label').val();
         const base = this.rollData.base;
         const selected = this.rollData.whatRoll;
-        const weaponID = data.find('div.wpn .button .btnWpn.selected').parents('div.button').data('id');
         const weaponData = data.find('div.wpn .button .data');
-        const weapon = weaponID ? this.rollData.allWpn.find(itm => itm.id === weaponID) : undefined
+        const weapon = this.wpnSelected;
         const difficulte = parseInt(data.find('label.score.difficulte input').val());
         const succesBonus = parseInt(data.find('label.score.succesBonus input').val());
         const modificateur = parseInt(data.find('label.score.modificateur input').val());
@@ -1462,7 +1473,6 @@ export class KnightRollDialog extends Dialog {
     }
 
     #prepareTitle() {
-        console.error(this);
         this.data.title = `${this.actor.name} : ${game.i18n.localize("KNIGHT.JETS.Label")}`;
     }
 
@@ -4066,6 +4076,33 @@ export class KnightRollDialog extends Dialog {
         const hasWpn = this.rollData.wpnSelected === '' ? false : true;
         const isPJ = this.isPJ;
 
+        const btnSort = {
+            update(html, isPJ, isTourelle) {
+                if(isPJ) {
+                    html.find('.btn.withoutod').removeClass('rowFour');
+                    html.find('.btn.attaquesurprise').removeClass('rowFive');
+                    html.find('.btn.withoutod').addClass('rowThree');
+                    html.find('.btn.attaquesurprise').addClass('rowFour');
+                    html.find('.btn.maximizedegats').addClass('rowFive');
+                    html.find('.btn.maximizeviolence').addClass('rowSix');
+                } else {
+                    html.find('label.btn.attaquesurprise').removeClass('rowFour');
+                    html.find('label.btn.attaquesurprise').removeClass('rowTwo');
+                    html.find('label.btn.attaquesurprise').removeClass('rowThree');
+
+                    if(isTourelle) {
+                        html.find('label.btn.attaquesurprise').addClass('rowTwo');
+                        html.find('label.btn.maximizedegats').addClass('rowThree');
+                        html.find('label.btn.maximizeviolence').addClass('rowFour');
+                    } else {
+                        html.find('label.btn.attaquesurprise').addClass('rowThree');
+                        html.find('label.btn.maximizedegats').addClass('rowFour');
+                        html.find('label.btn.maximizeviolence').addClass('rowFive');
+                    }
+                }
+            }
+        }
+
         if(!hasWpn || forceUnselect) {
             if(init) {
                 html.find('.modificateurdegats').hide();
@@ -4166,17 +4203,7 @@ export class KnightRollDialog extends Dialog {
 
                 html.find('.score.difficulte').hide();
 
-                if(isPJ) {
-                    html.find('.btn.withoutod').removeClass('rowFour');
-                    html.find('.btn.attaquesurprise').removeClass('rowFive');
-                    html.find('.btn.withoutod').addClass('rowThree');
-                    html.find('.btn.attaquesurprise').addClass('rowFour');
-                    html.find('.btn.maximizedegats').addClass('rowFive');
-                    html.find('.btn.maximizeviolence').addClass('rowSix');
-                } else {
-                    html.find('.btn.attaquesurprise').removeClass('rowFour');
-                    html.find('.btn.attaquesurprise').addClass('rowThree');
-                }
+                btnSort.update(html, isPJ, this.wpnIsTourelle);
 
                 html.find('.score.succesBonus').removeClass('colTwo');
                 html.find('.score.modificateur').removeClass('colThree');
@@ -4217,7 +4244,9 @@ export class KnightRollDialog extends Dialog {
                     complete: () => {},
                 });
 
-                if(isPJ) {
+                btnSort.update(html, isPJ, this.wpnIsTourelle);
+
+                /*if(isPJ) {
                     html.find('.btn.withoutod').removeClass('rowFour');
                     html.find('.btn.attaquesurprise').removeClass('rowFive');
                     html.find('.btn.withoutod').addClass('rowThree');
@@ -4228,7 +4257,7 @@ export class KnightRollDialog extends Dialog {
                 } else {
                     html.find('.btn.attaquesurprise').removeClass('rowFour');
                     html.find('.btn.attaquesurprise').addClass('rowThree');
-                }
+                }*/
 
                 html.find('.score.succesBonus').removeClass('colTwo');
                 html.find('.score.modificateur').removeClass('colThree');

@@ -594,6 +594,12 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
               case 'arme':
                   if(item.system.type === 'distance') modificateur += this.rollWpnDistanceMod;
                   break;
+
+              case 'capacite':
+                  if(item.system.attaque.type === 'distance') modificateur += this.rollWpnDistanceMod;
+
+                  id = `pnjcapacite_${id}`;
+                  break;
           }
       }
 
