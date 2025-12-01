@@ -1,3 +1,7 @@
+## v3.50.7
+### Bugfix
+- Correction d'un bug avec l'armure spécifique à la Geste qui entrainait une multiplication de l'ajout de "hargne" aux jets de dés.
+
 ## v3.50.6
 ### Bugfix
 - Correction du calcul du perce armure, pour prendre en compte la FAQ.

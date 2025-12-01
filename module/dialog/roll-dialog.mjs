@@ -123,35 +123,37 @@ export class KnightRollDialog extends Dialog {
 
                 if(nc) {
                     if(c.combosBonus.has) {
-                        result.bonus = Object.values(c.combosBonus.liste);
+                        result.bonus = Object.values(c.combosBonus.liste).filter(v => v !== "");;
                     }
 
                     if(c.combosInterdits.has) {
-                        result.interdits = Object.values(c.combosInterdits.liste);
+                        result.interdits = Object.values(c.combosInterdits.liste).filter(v => v !== "");;
                     }
                 }
 
                 if(nr) {
                     if(r.combosBonus.has) {
-                        result.bonus = Object.values(r.combosBonus.liste);
+                        result.bonus = Object.values(r.combosBonus.liste).filter(v => v !== "");;
                     }
 
                     if(r.combosInterdits.has) {
-                        result.interdits = Object.values(r.combosInterdits.liste);
+                        result.interdits = Object.values(r.combosInterdits.liste).filter(v => v !== "");;
                     }
                 }
 
                 if(nf) {
                     if(f.combosBonus.has) {
-                        result.bonus = Object.values(f.combosBonus.liste);
+                        result.bonus = Object.values(f.combosBonus.liste).filter(v => v !== "");;
                     }
 
                     if(f.combosInterdits.has) {
-                        result.interdits = Object.values(f.combosInterdits.liste);
+                        result.interdits = Object.values(f.combosInterdits.liste).filter(v => v !== "");;
                     }
                 }
             }
         }
+
+        console.error(result);
 
         return result;
     }
@@ -762,7 +764,7 @@ export class KnightRollDialog extends Dialog {
         const armorIsWear = this.armorIsWear;
         const label = data.find('input.label').val();
         const base = this.rollData.base;
-        const selected = this.rollData.whatRoll;
+        const selected = [...new Set(this.rollData.whatRoll)].filter(v => v !== base);
         const weaponID = data.find('div.wpn .button .btnWpn.selected').parents('div.button').data('id');
         const weaponData = data.find('div.wpn .button .data');
         const weapon = weaponID ? this.rollData.allWpn.find(itm => itm.id === weaponID) : undefined
