@@ -1,3 +1,8 @@
+## v3.50.8
+### Bugfix
+- Prise en compte de la FAQ concernant le cumul de l'effet jumelé Akimbo/Ambidextrie + OD de combat / tir réduisant les malus de l'Akimbo / Ambidextrie.
+Si les deux sont présent, il n'y a plus aucun malus normalement.
+
 ## v3.50.7
 ### Bugfix
 - Correction d'un bug avec l'armure spécifique à la Geste qui entrainait une multiplication de l'ajout de "hargne" aux jets de dés.

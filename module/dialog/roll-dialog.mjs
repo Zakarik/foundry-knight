@@ -922,7 +922,14 @@ export class KnightRollDialog extends Dialog {
 
                     if(secondId) flags['secondWpn'] = this.rollData.allWpn.find(itm => itm.id === secondId);
 
-                    if((this.#isEffetActive(effets, weapon.options, ['jumelle', 'jumeleakimbo', 'jumelageakimbo']) ||
+                    if(this.#isEffetActive(effets, weapon.options, ['jumelle', 'jumeleakimbo', 'jumelageakimbo']) &&
+                    (
+                        (weapon.type === 'distance' && this.#getODAspect(actor, 'tir') >= 3 && armorIsWear) ||
+                        (weapon.type === 'contact' && this.#getODAspect(actor, 'combat') >= 3 && armorIsWear))
+                    ) {
+                        dices += 3;
+                    }
+                    else if((this.#isEffetActive(effets, weapon.options, ['jumelle', 'jumeleakimbo', 'jumelageakimbo']) ||
                         (weapon.type === 'distance' && this.#getODAspect(actor, 'tir') >= 3 && armorIsWear) ||
                         (weapon.type === 'contact' && this.#getODAspect(actor, 'combat') >= 3 && armorIsWear))) {
                         dices += 2;
@@ -930,7 +937,14 @@ export class KnightRollDialog extends Dialog {
                     break;
 
                 case 'ambidextre':
-                    if((this.#isEffetActive(effets, weapon.options, ['jumeleambidextrie', 'soeur', 'jumelageambidextrie']) ||
+                    if(this.#isEffetActive(effets, weapon.options, ['jumeleambidextrie', 'soeur', 'jumelageambidextrie']) &&
+                    (
+                        (weapon.type === 'distance' && this.#getODAspect(actor, 'tir') >= 4 && armorIsWear) ||
+                        (weapon.type === 'contact' && this.#getODAspect(actor, 'combat') >= 4 && armorIsWear))
+                    ) {
+                        dices += 3;
+                    }
+                    else if((this.#isEffetActive(effets, weapon.options, ['jumeleambidextrie', 'soeur', 'jumelageambidextrie']) ||
                         (weapon.type === 'distance' && this.#getODAspect(actor, 'tir') >= 4 && armorIsWear) ||
                         (weapon.type === 'contact' && this.#getODAspect(actor, 'combat') >= 4 && armorIsWear))) {
                         dices += 2;
