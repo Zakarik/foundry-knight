@@ -128,7 +128,7 @@ export class BandeSheet extends ActorSheet {
       const tenebricide = $(ev.currentTarget)?.data("tenebricide") || false;
       const obliteration = $(ev.currentTarget)?.data("obliteration") || false;
 
-      if(type === 'degats') this._doDgts(name, capacite, obliteration, tenebricide);
+      if(type === 'degats') this.actor.system.doCapacityDgt(capacite, {tenebricide, obliteration});
     });
 
     html.find('.jetDebordement').click(async ev => {

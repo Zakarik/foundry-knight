@@ -229,11 +229,10 @@ export class CreatureSheet extends ActorSheet {
     html.find('.capacites div.bCapacite .activation').click(async ev => {
       const type = $(ev.currentTarget).data("type");
       const capacite = $(ev.currentTarget).data("capacite");
-      const name = $(ev.currentTarget)?.data("name") || '';
       const tenebricide = $(ev.currentTarget)?.data("tenebricide") || false;
       const obliteration = $(ev.currentTarget)?.data("obliteration") || false;
 
-      if(type === 'degats') this._doDgts(name, capacite, obliteration, tenebricide);
+      if(type === 'degats') this.actor.system.doCapacityDgt(capacite, {tenebricide, obliteration});
     });
 
     html.find('.roll').click(ev => {
@@ -254,93 +253,19 @@ export class CreatureSheet extends ActorSheet {
 
     html.find('.jetWpn').click(ev => {
       const target = $(ev.currentTarget);
-      const name = target.data("name");
       const isDistance = target.data("isdistance");
-      const num = target.data("num");
-      const aspect = target?.data("aspect") || [];
-      const actor = this.actor.token ? this.actor.token.id : this.actor.id;
       const parent = target.parents('div.wpn');
       const other = parent.data("other");
       const what = parent.data("what");
-      const beteAE = (this.actor.system?.aspects?.bete?.ae?.majeur?.value ?? 0) > 0 || (this.actor.system?.aspects?.bete?.ae?.mineur?.value ?? 0) > 0 ? true : false
-      const machineAE = (this.actor.system?.aspects?.machine?.ae?.majeur?.value ?? 0) > 0 || (this.actor.system?.aspects?.machine?.ae?.mineur?.value ?? 0) > 0 ? true : false
-      const masqueAE = (this.actor.system?.aspects?.masque?.ae?.majeur?.value ?? 0) > 0 || (this.actor.system?.aspects?.masque?.ae?.mineur?.value ?? 0) > 0 ? true : false
-      const hasFumigene = this.actor.statuses.has('fumigene');
-      const notFumigene = beteAE || machineAE || masqueAE ? true : false;
-      let modificateur = 0;
+
       let id = target.data("id");
-      let base = '';
-      let whatRoll = [];
 
-      let label;
-
-      switch(isDistance) {
-        case 'grenades':
-          const dataGrenade = this.actor.system.combat.grenades.liste[name];
-          id = `grenade_${name}`;
-          label = dataGrenade.custom ? `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${dataGrenade.label}` : `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${name.charAt(0).toUpperCase()+name.substr(1)}`)}`;
-
-          if(hasFumigene && !notFumigene) modificateur -= 3;
-          break;
-
-        case 'armesimprovisees':
-          label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[name][num]);
-          id = id === 'distance' ? `${other}${what}d` : `${other}${what}c`;
-
-          base = 'chair';
-
-          if(id === 'distance' && hasFumigene && !notFumigene) modificateur -= 3;
-          break;
-
-        case 'longbow':
-          label = game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label`);
-          id = `capacite_${armure.id}_longbow`;
-          break;
-
-        default:
-          const item = this.actor.items.get(id);
-
-          if(item) {
-            if(item.type === 'module') id = `module_${id}`;
-            if(item.type === 'armure') {
-              switch(what) {
-                case 'rayon':
-                case 'salve':
-                case 'vague':
-                  id = isDistance === 'distance' ? `capacite_${id}_cea${what.charAt(0).toUpperCase() + what.substr(1)}D` : `capacite_${id}_cea${what.charAt(0).toUpperCase() + what.substr(1)}C`;
-                  if(isDistance === 'distance' && hasFumigene && !notFumigene) modificateur -= 3;
-                  break;
-
-                case 'borealis':
-                  id = isDistance === 'distance' ? `capacite_${id}_borealisD` : `capacite_${id}_borealisC`;
-                  if(isDistance === 'distance' && hasFumigene && !notFumigene) modificateur -= 3;
-                  break;
-
-                case 'lame':
-                case 'griffe':
-                case 'canon':
-                  id = `capacite_${id}_morph${what.charAt(0).toUpperCase() + what.substr(1)}`;
-                  break;
-              }
-            }
-            if(item.type === 'capacite') id = `pnjcapacite_${id}`;
-            if(item.type === 'arme') {
-              if(item.system.type === 'distance' && hasFumigene && !notFumigene) modificateur -= 3;
-            }
-
-            label = name;
-          }
-          break;
-      }
-
-      const dialog = new game.knight.applications.KnightRollDialog(actor, {
-        label:label,
-        wpn:id,
-        base:base,
-        whatRoll:whatRoll
+      this.actor.system.useWpn(isDistance, {
+        id,
+        type:id,
+        name:other,
+        num:what
       });
-
-      dialog.open();
     });
 
     html.find('.setResilience').click(async ev => {
@@ -431,33 +356,11 @@ export class CreatureSheet extends ActorSheet {
     });
 
     html.find('.activatePhase2').click(ev => {
-      const aspects = this.actor.system.aspects;
-      const phase2 = this.actor.system.phase2;
-      let update = {};
-      update['system.phase2Activate'] = true;
-
-      for(let a in phase2.aspects) {
-        update[`system.aspects.${a}.value`] = aspects[a].value + phase2.aspects[a].value;
-        update[`system.aspects.${a}.ae.mineur.value`] = aspects[a].ae.mineur.value + phase2.aspects[a].ae.mineur;
-        update[`system.aspects.${a}.ae.majeur.value`] = aspects[a].ae.majeur.value + phase2.aspects[a].ae.majeur;
-      }
-
-      this.actor.update(update);
+      this.actor.system.togglePhase2();
     });
 
     html.find('.desactivatePhase2').click(ev => {
-      const aspects = this.actor.system.aspects;
-      const phase2 = this.actor.system.phase2;
-      let update = {};
-      update['system.phase2Activate'] = false;
-
-      for(let a in phase2.aspects) {
-        update[`system.aspects.${a}.value`] = aspects[a].value - phase2.aspects[a].value;
-        update[`system.aspects.${a}.ae.mineur.value`] = aspects[a].ae.mineur.value - phase2.aspects[a].ae.mineur;
-        update[`system.aspects.${a}.ae.majeur.value`] = aspects[a].ae.majeur.value - phase2.aspects[a].ae.majeur;
-      }
-
-      this.actor.update(update);
+      this.actor.system.togglePhase2();
     });
 
     html.find('div.options button').click(ev => {
@@ -783,56 +686,6 @@ export class CreatureSheet extends ActorSheet {
 
       return true;
     }
-  }
-
-  async _doDgts(label, id, obliteration, tenebricide) {
-    const actor = this.actor;
-    const capacite = actor.items.get(id);
-    const roll = new game.knight.RollKnight(actor, {
-      name:`${label} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
-    }, false);
-    const weapon = roll.prepareWpnContact({
-      name:capacite.name,
-      system:{
-        degats:{dice:capacite.system.degats.system.dice, fixe:capacite.system.degats.system.fixe},
-        effets:capacite.system.degats.system.effets,
-      }
-    });
-    const options = weapon.options;
-    const addFlags = {
-      actor,
-      attaque:[],
-      dataMod:{degats:{dice:0, fixe:0}, violence:{dice:0, fixe:0}},
-      dataStyle:{},
-      flavor:label,
-      maximize:{degats:obliteration, violence:false},
-      style:'standard',
-      surprise:false,
-      targets:[],
-      total:0,
-      weapon
-    }
-
-    let data = {
-      total:0,
-      targets:[],
-      attaque:[],
-      flags:addFlags
-    };
-
-    if(weapon.effets.raw.includes('tirenrafale')) {
-      data.content = {
-        tirenrafale:true,
-      }
-    }
-
-    for(let o of options) {
-      if(obliteration && o.classes.includes('obliteration')) o.active = true;
-      if(tenebricide && o.classes.includes('tenebricide')) o.active = true;
-    }
-
-    roll.setWeapon(weapon);
-    await roll.doRollDamage(data, addFlags);
   }
 
   async _getAllEffets(dataWpn, tenebricide, obliteration) {

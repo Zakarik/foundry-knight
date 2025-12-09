@@ -1,7 +1,7 @@
 ## v3.51.0
-### Bugfix
 - Refactorisation d'une partie du code pour plus de simplicité.
 - Correction d'un bug sur le nombre de succès auto de l'immobilisation du mode morph.
+- Correction d'un bug empêchant d'ajouter des effets sur une capacité de PNJ / Créature si elle est sur un token.
 
 ## v3.50.5
 ### Bugfix

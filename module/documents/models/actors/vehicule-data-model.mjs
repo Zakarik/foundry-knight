@@ -1,115 +1,114 @@
-export class VehiculeDataModel extends foundry.abstract.TypeDataModel {
+
+import { BaseActorDataModel } from "../base/base-actor-data-model.mjs";
+
+export class VehiculeDataModel extends BaseActorDataModel {
 	static defineSchema() {
 		const {SchemaField, EmbeddedDataField, StringField, NumberField, BooleanField, ObjectField, ArrayField, HTMLField} = foundry.data.fields;
 
-    return {
-        version:new NumberField({initial:0, nullable:false, integer:true}),
-        description:new HTMLField({initial:""}),
-        descriptionLimitee:new HTMLField({initial:""}),
-        manoeuvrabilite:new NumberField({ initial: 0, integer: true, nullable: false }),
-        vitesse:new NumberField({ initial: 0, integer: true, nullable: false }),
-        passagers:new NumberField({ initial: 0, integer: true, nullable: false }),
-        limited:new SchemaField({
-          showDescriptionFull:new BooleanField({initial:false}),
-          showDescriptionLimited:new BooleanField({initial:false}),
-        }),
-        champDeForce: new SchemaField({
-            value:new NumberField({ initial: 0, integer: true, nullable: false }),
-            base:new NumberField({ initial: 0, integer: true, nullable: false }),
-            bonus:new ObjectField({
-              initial:{
-                user:0,
-              }
-            }),
-            malus:new ObjectField({
-              initial:{
-                user:0,
-              }
-            }),
-        }),
-        energie:new SchemaField({
-            base:new NumberField({initial:0, nullable:false, integer:true}),
-            value:new NumberField({initial:0, nullable:false, integer:true}),
-            max:new NumberField({initial:0, nullable:false, integer:true}),
-            bonus:new ObjectField({
-              initial:{
-                user:0,
-              }
-            }),
-            malus:new ObjectField({
-              initial:{
-                user:0,
-              }
-            }),
-        }),
-        armure:new SchemaField({
-            base:new NumberField({initial:0, nullable:false, integer:true}),
-            value:new NumberField({initial:0, nullable:false, integer:true}),
-            max:new NumberField({initial:16, nullable:false, integer:true}),
-            bonus:new ObjectField({
-              initial:{
-                user:0,
-              }
-            }),
-            malus:new ObjectField({
-              initial:{
-                user:0,
-              }
-            }),
-        }),
-        initiative:new SchemaField({
-            dice:new NumberField({initial:0, nullable:false, integer:true}),
-            value:new NumberField({initial:0, nullable:false, integer:true}),
-            embuscade:new SchemaField({
-                dice:new NumberField({initial:0, nullable:false, integer:true}),
-                value:new NumberField({initial:0, nullable:false, integer:true}),
-            }),
-        }),
-        reaction:new SchemaField({
-            value:new NumberField({initial:0, nullable:false, integer:true}),
-            mod:new NumberField({initial:0, nullable:false, integer:true}),
-            valueWOMod:new NumberField({initial:0, nullable:false, integer:true}),
-            bonus:new ObjectField({
-              initial:{
-                user:0,
-                system:0,
-              }
-            }),
-            malus:new ObjectField({
-              initial:{
-                user:0,
-                system:0,
-              }
-            }),
-        }),
-        defense:new SchemaField({
-            value:new NumberField({initial:0, nullable:false, integer:true}),
-            mod:new NumberField({initial:0, nullable:false, integer:true}),
-            valueWOMod:new NumberField({initial:0, nullable:false, integer:true}),
-            bonus:new ObjectField({
-              initial:{
-                user:0,
-                system:0,
-              }
-            }),
-            malus:new ObjectField({
-              initial:{
-                user:0,
-                system:0,
-              }
-            }),
-        }),
-        equipage:new SchemaField({
-            value:new NumberField({initial:0, nullable:false, integer:true}),
-            max:new NumberField({initial:0, nullable:false, integer:true}),
-            pilote:new SchemaField({
-                name:new StringField({ initial: "" }),
-                id:new StringField({ initial: "" }),
-            }),
-            passagers:new ArrayField(new ObjectField()),
-        }),
-        otherMods:new ObjectField(),
+    const base = super.defineSchema();
+    const specific = {
+      version:new NumberField({initial:0, nullable:false, integer:true}),
+      manoeuvrabilite:new NumberField({ initial: 0, integer: true, nullable: false }),
+      vitesse:new NumberField({ initial: 0, integer: true, nullable: false }),
+      passagers:new NumberField({ initial: 0, integer: true, nullable: false }),
+      champDeForce: new SchemaField({
+          value:new NumberField({ initial: 0, integer: true, nullable: false }),
+          base:new NumberField({ initial: 0, integer: true, nullable: false }),
+          bonus:new ObjectField({
+            initial:{
+              user:0,
+            }
+          }),
+          malus:new ObjectField({
+            initial:{
+              user:0,
+            }
+          }),
+      }),
+      energie:new SchemaField({
+          base:new NumberField({initial:0, nullable:false, integer:true}),
+          value:new NumberField({initial:0, nullable:false, integer:true}),
+          max:new NumberField({initial:0, nullable:false, integer:true}),
+          bonus:new ObjectField({
+            initial:{
+              user:0,
+            }
+          }),
+          malus:new ObjectField({
+            initial:{
+              user:0,
+            }
+          }),
+      }),
+      armure:new SchemaField({
+          base:new NumberField({initial:0, nullable:false, integer:true}),
+          value:new NumberField({initial:0, nullable:false, integer:true}),
+          max:new NumberField({initial:16, nullable:false, integer:true}),
+          bonus:new ObjectField({
+            initial:{
+              user:0,
+            }
+          }),
+          malus:new ObjectField({
+            initial:{
+              user:0,
+            }
+          }),
+      }),
+      initiative:new SchemaField({
+          dice:new NumberField({initial:0, nullable:false, integer:true}),
+          value:new NumberField({initial:0, nullable:false, integer:true}),
+          embuscade:new SchemaField({
+              dice:new NumberField({initial:0, nullable:false, integer:true}),
+              value:new NumberField({initial:0, nullable:false, integer:true}),
+          }),
+      }),
+      reaction:new SchemaField({
+          value:new NumberField({initial:0, nullable:false, integer:true}),
+          mod:new NumberField({initial:0, nullable:false, integer:true}),
+          valueWOMod:new NumberField({initial:0, nullable:false, integer:true}),
+          bonus:new ObjectField({
+            initial:{
+              user:0,
+              system:0,
+            }
+          }),
+          malus:new ObjectField({
+            initial:{
+              user:0,
+              system:0,
+            }
+          }),
+      }),
+      defense:new SchemaField({
+          value:new NumberField({initial:0, nullable:false, integer:true}),
+          mod:new NumberField({initial:0, nullable:false, integer:true}),
+          valueWOMod:new NumberField({initial:0, nullable:false, integer:true}),
+          bonus:new ObjectField({
+            initial:{
+              user:0,
+              system:0,
+            }
+          }),
+          malus:new ObjectField({
+            initial:{
+              user:0,
+              system:0,
+            }
+          }),
+      }),
+      equipage:new SchemaField({
+          value:new NumberField({initial:0, nullable:false, integer:true}),
+          max:new NumberField({initial:0, nullable:false, integer:true}),
+          pilote:new SchemaField({
+              name:new StringField({ initial: "" }),
+              id:new StringField({ initial: "" }),
+          }),
+          passagers:new ArrayField(new ObjectField()),
+      }),
     }
+
+    return foundry.utils.mergeObject(base, specific);
   }
 
   get pilote() {
@@ -141,6 +140,7 @@ export class VehiculeDataModel extends foundry.abstract.TypeDataModel {
   }
 
   prepareBaseData() {
+    super.prepareBaseData();
 	}
 
 	prepareDerivedData() {

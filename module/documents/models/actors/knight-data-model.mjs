@@ -3,6 +3,7 @@ import {
     SortByAddOrder,
     getFlatEffectBonus,
   } from "../../../helpers/common.mjs";
+import { BaseActorDataModel } from "../base/base-actor-data-model.mjs";
 import { AspectsPCDataModel } from '../parts/aspects-pc-data-model.mjs';
 import { ArmesImproviseesDataModel } from '../parts/armesimprovisees-data-model.mjs';
 import { GrenadesDataModel } from '../parts/grenades-data-model.mjs';
@@ -10,12 +11,11 @@ import { NodsDataModel } from '../parts/nods-data-model.mjs';
 import { DefensesDataModel } from '../parts/defenses-data-model.mjs';
 import { InitiativeDataModel } from '../parts/initiative-data-model.mjs';
 
-export class KnightDataModel extends foundry.abstract.TypeDataModel {
+export class KnightDataModel extends BaseActorDataModel {
 	static defineSchema() {
 		const {SchemaField, EmbeddedDataField, StringField, NumberField, BooleanField, ObjectField, ArrayField, HTMLField} = foundry.data.fields;
-
-        return {
-            version:new NumberField({initial:0, nullable:false, integer:true}),
+        const base = super.defineSchema();
+        const specific = {
             wear:new StringField({initial:"tenueCivile"}),
 			age:new StringField({ initial: ""}),
 			archetype:new StringField({ initial: ""}),
@@ -24,17 +24,11 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             section:new StringField({initial:""}),
             hautFait:new StringField({initial:""}),
             histoire:new HTMLField({initial:""}),
-            description:new HTMLField({initial:""}),
-            descriptionLimitee:new HTMLField({initial:""}),
             aspects:new EmbeddedDataField(AspectsPCDataModel),
             defense:new EmbeddedDataField(DefensesDataModel),
             reaction:new EmbeddedDataField(DefensesDataModel),
             egide:new EmbeddedDataField(DefensesDataModel),
             initiative:new EmbeddedDataField(InitiativeDataModel),
-            limited:new SchemaField({
-              showDescriptionFull:new BooleanField({initial:false}),
-              showDescriptionLimited:new BooleanField({initial:false}),
-            }),
             GM:new SchemaField({
                 dontshow:new BooleanField({initial:false}),
             }),
@@ -431,20 +425,9 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
               }),
             }),
             restrictions:new ObjectField(),
-            otherMods:new ObjectField(),
         }
-    }
 
-    get actor() {
-        return this.parent;
-    }
-
-    get actorId() {
-      return this.actor?.token ? this.actor.token.id : this.actor.id;
-    }
-
-    get items() {
-        return this.parent.items;
+        return foundry.utils.mergeObject(base, specific);
     }
 
     get armes() {
@@ -592,6 +575,8 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
     }
 
     prepareBaseData() {
+        super.prepareBaseData();
+
         this.#checkArmor();
         this.#experience();
         this.#base();
@@ -2682,97 +2667,12 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         return dialog;
     }
 
-    useStdWpn(itemId, args={}) {
-        const item = this.actor.items.get(itemId);
-        const label = item.name;
-        const {
-            type,
-            name,
-        } = args;
-        let modificateur = 0;
-        let id = itemId;
-
-        if(item) {
-            switch(item.type) {
-                case 'module':
-                    id = `module_${id}`;
-                    if(item.system?.niveau?.actuel?.arme?.type === 'distance') modificateur += this.rollWpnDistanceMod;
-                    break;
-
-                case 'armure':
-                    switch(name) {
-                      case 'rayon':
-                      case 'salve':
-                      case 'vague':
-                        id = type === 'distance' ? `capacite_${id}_cea${name.charAt(0).toUpperCase() + name.substr(1)}D` : `capacite_${id}_cea${name.charAt(0).toUpperCase() + name.substr(1)}C`;
-
-                        if(type === 'distance') modificateur += this.rollWpnDistanceMod;
-                        break;
-
-                      case 'borealis':
-                        id = type === 'distance' ? `capacite_${id}_borealisD` : `capacite_${id}_borealisC`;
-                        console.error(id);
-                        if(type === 'distance') modificateur += this.rollWpnDistanceMod;
-                        break;
-
-                      case 'lame':
-                      case 'griffe':
-                      case 'canon':
-                      case 'lame2':
-                      case 'griffe2':
-                      case 'canon2':
-                        id = `capacite_${id}_morph${name.charAt(0).toUpperCase() + name.substr(1)}`;
-                        break;
-                    }
-                    break;
-
-                case 'arme':
-                    if(item.system.type === 'distance') modificateur += this.rollWpnDistanceMod;
-                    break;
-            }
-        }
-
-        const actor = this.actorId;
-
-        const dialog = new game.knight.applications.KnightRollDialog(actor, {
-          label:label,
-          wpn:id,
-          modificateur
-        });
-
-        dialog.open();
-
-        return dialog
-    }
-
-    useWpn(wpnType='', args={}) {
-        const {
-            id,
-            type,
-            name,
-            num
-        } = args;
-
-        let dialog;
-
-        switch(wpnType) {
-            case 'grenades':
-                dialog = this.useGrenade(type);
-                break;
-
-            case 'longbow':
-                dialog = this.useLongbow();
-                break;
-
-            case 'armesimprovisees':
-                dialog = this.useAI(type, name, num);
-                break;
-
-            default:
-                dialog = this.useStdWpn(id, {type, name:num});
-                break;
-        }
-
-        return dialog;
+    // Méthode à surcharger dans les enfants
+    _getWeaponHandlers() {
+        return {
+          armesimprovisees: ({ type, name, num }) => this.useAI(type, name, num),
+          grenades: ({ type }) => this.useGrenade(type),
+          longbow: () => this.useLongbow(),
+        };
     }
 }

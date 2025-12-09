@@ -412,8 +412,8 @@ export class RollKnight {
         let content = {
             isSuccess:this.isSuccess,
             label:label,
-            damage: this.actor.type !== "bande" ? true : undefined,
-            debordement: this.actor.type === "bande" ? true : undefined,
+            damage: this.actor.type !== "bande" || (this.actor.type === 'bande' && data?.notDebordement) ? true : undefined,
+            debordement: this.actor.type === "bande" && !data?.notDebordement ? true : undefined,
         };
 
         if(addContent) {

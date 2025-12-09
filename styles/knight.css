@@ -1641,6 +1641,7 @@ li.chat-message.emote {
   grid-gap: 2px;
   row-gap: 2px;
   padding-bottom: 35px;
+  grid-template-rows: max-content max-content 30px 1fr;
 }
 .rollDialog div.dialog-content p {
   display: contents;
@@ -2765,6 +2766,21 @@ li.chat-message.emote {
   border: 0px;
   height: 32px;
 }
+.rollDialog div.dialog-content div.grpBtn {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2px;
+}
+.rollDialog div.dialog-content div.grpWpn {
+  grid-column: 1/7;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  justify-content: space-between;
+  align-content: baseline;
+  align-items: flex-start;
+  grid-gap: 2px;
+  row-gap: 2px;
+}
 .rollDialog div.dialog-content div.allCol {
   grid-column: 1/7;
 }
@@ -2798,11 +2814,23 @@ li.chat-message.emote {
 .rollDialog div.dialog-content div.colFiveSeven {
   grid-column: 5/7;
 }
+.rollDialog div.dialog-content div.rowTwo {
+  grid-row: 2;
+}
+.rollDialog div.dialog-content div.rowTwoSix {
+  grid-row: 2/6;
+}
 .rollDialog div.dialog-content div.rowFourTwo {
   grid-row: 4/6;
 }
 .rollDialog div.dialog-content div.rowThree {
   grid-row: 3;
+}
+.rollDialog div.dialog-content div.rowThreeFive {
+  grid-row: 3/5;
+}
+.rollDialog div.dialog-content div.rowThreeSeven {
+  grid-row: 3/7;
 }
 .rollDialog div.dialog-content div.rowFour {
   grid-row: 4;
@@ -2845,6 +2873,9 @@ li.chat-message.emote {
 }
 .rollDialog div.dialog-content label.rowFour {
   grid-row: 4;
+}
+.rollDialog div.dialog-content label.rowFourSix {
+  grid-row: 4/6;
 }
 .rollDialog div.dialog-content label.rowThree {
   grid-row: 3;
@@ -42580,6 +42611,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight-roll div.btn.full, .knight-roll div.tgtBtn.full {
   grid-template-columns: 1fr;
+}
+.knight-roll div.btn.debordement, .knight-roll div.tgtBtn.debordement {
+  margin-top: 2px;
 }
 .knight-roll div.effets {
   display: flex;

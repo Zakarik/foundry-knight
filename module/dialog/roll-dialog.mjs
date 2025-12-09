@@ -1497,6 +1497,18 @@ export class KnightRollDialog extends Dialog {
             mods:[],
         };
 
+        let buttons = {
+            key:'grpBtn',
+            classes:'grpBtn rowFour colFiveSeven',
+            grp:[],
+        };
+
+        let grpWpn = {
+            key:'grpWpn',
+            classes:'grpWpn',
+            grp:[],
+        }
+
 
         if(isPJ) {
             data.aspects = {};
@@ -1662,47 +1674,47 @@ export class KnightRollDialog extends Dialog {
 
         if(isPJ) {
             //BOUTON SANS OD
-            data.mods.push({
+            buttons.grp.push({
                 key:'btn',
                 name:'nood',
-                classes:'btn withoutod rowFour colFiveSeven',
+                classes:'btn withoutod',
                 btnclasses:'btn withoutod',
                 label:game.i18n.localize('KNIGHT.JETS.NoOd'),
             });
         }
 
         //BOUTON ATTAQUE SURPRISE
-        data.mods.push({
+        buttons.grp.push({
             key:'btn',
             name:'attaquesurprise',
-            classes:isPJ ? 'btn attaquesurprise rowFive colFiveSeven' : 'btn attaquesurprise rowFour colFiveSeven',
+            classes:'btn attaquesurprise',
             btnclasses:'btn attaquesurprise',
             label:game.i18n.localize('KNIGHT.JETS.AttackSurprise'),
         });
 
         //BOUTON MAXIMISER LES DEGATS
-        data.mods.push({
+        buttons.grp.push({
             key:'btn',
             name:'maximizedegats',
-            classes:'btn maximizedegats colFiveSeven',
+            classes:'btn maximizedegats',
             btnclasses:'btn maximizedegats',
             label:game.i18n.localize('KNIGHT.JETS.MaximizeDegats'),
-        });
+        })
 
         //BOUTON MAXIMISER LA VIOLENCE
-        data.mods.push({
+        buttons.grp.push({
             key:'btn',
             name:'maximizeviolence',
-            classes:'btn maximizeviolence colFiveSeven',
+            classes:'btn maximizeviolence',
             btnclasses:'btn maximizeviolence',
             label:game.i18n.localize('KNIGHT.JETS.MaximizeViolence'),
         });
 
         //BOUTON MODE HEROIQUE
-        data.mods.push({
+        buttons.grp.push({
             key:'btn',
             name:'modeheroique',
-            classes:'btn modeheroique colFiveSeven',
+            classes:'btn modeheroique',
             btnclasses:'btn modeheroique',
             label:game.i18n.localize('KNIGHT.JETS.ModeHeroique'),
         });
@@ -1715,10 +1727,10 @@ export class KnightRollDialog extends Dialog {
               itm.system.bonus?.equilibrerBalance
             )
           )) {
-            data.mods.push({
+            buttons.grp.push({
                 key:'btn',
                 name:'equilibrerbalance',
-                classes:'btn equilibrerbalance colFiveSeven',
+                classes:'btn equilibrerbalance',
                 btnclasses:'btn equilibrerbalance',
                 label:game.i18n.localize('KNIGHT.EFFETS.EQUILIBRERBALANCE.Label'),
             });
@@ -1726,39 +1738,42 @@ export class KnightRollDialog extends Dialog {
             this.rollData.btn.equilibrerbalance = true;
         }
 
+        //ON AJOUTE LE GROUPE BOUTON S'IL Y A DES BOUTONS
+        if(buttons.grp.length > 0) data.mods.push(buttons);
+
         //ARMES
         const wpns = this.#prepareWpn();
         this.data.roll.allWpn = this.rollData.typeWpn.contact.concat(this.rollData.typeWpn.distance, this.rollData.typeWpn.tourelle, this.rollData.typeWpn.aicontact, this.rollData.typeWpn.aidistance, this.rollData.typeWpn.grenade, this.rollData.typeWpn.complexe);
 
-        data.mods.push({
+        grpWpn.grp.push({
             key:'wpn',
             classes:'wpn contact colOne wpncontact',
             label:game.i18n.localize('KNIGHT.COMBAT.ARMES.CONTACT.Label'),
             list:this.rollData.typeWpn.contact,
         });
 
-        data.mods.push({
+        grpWpn.grp.push({
             key:'wpn',
             classes:'wpn distance colTwo wpndistance',
             label:game.i18n.localize('KNIGHT.COMBAT.ARMES.DISTANCE.Label'),
             list:this.rollData.typeWpn.distance,
         });
 
-        data.mods.push({
+        grpWpn.grp.push({
             key:'complexe',
             classes:'wpn complexe allCol',
             label:wpns.complexeLabel ? wpns.complexeLabel : game.i18n.localize('KNIGHT.ARMURE.Label'),
             list:this.rollData.typeWpn.complexe,
         });
 
-        data.mods.push({
+        grpWpn.grp.push({
             key:'wpn',
             classes:'wpn distance colDuo grenade',
             label:game.i18n.localize('KNIGHT.COMBAT.GRENADES.Label'),
             list:this.rollData.typeWpn.grenade,
         });
 
-        data.mods.push({
+        grpWpn.grp.push({
             key:'wpn',
             classes:'wpn distance colDuo tourelle',
             label:game.i18n.localize('KNIGHT.COMBAT.ARMES.TOURELLE.Label'),
@@ -1771,14 +1786,14 @@ export class KnightRollDialog extends Dialog {
         })
 
         if(this.actor.type === 'mechaarmure') {
-            data.mods.push({
+            grpWpn.grp.push({
                 key:'wpn',
                 classes:'wpn contact colOne aicontact',
                 label:game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.LabelContact'),
                 list:this.rollData.typeWpn.aicontact,
             });
 
-            data.mods.push({
+            grpWpn.grp.push({
                 key:'wpn',
                 classes:'wpn distance colTwo aidistance',
                 label:game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.LabelDistance'),
@@ -1786,21 +1801,24 @@ export class KnightRollDialog extends Dialog {
             });
         }
         else {
-            data.mods.push({
+            grpWpn.grp.push({
                 key:'wpn',
                 classes:'wpn contact colOne aicontact',
                 label:game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.LabelContact'),
                 list:wpns.listaicontact,
             });
 
-            data.mods.push({
+            grpWpn.grp.push({
                 key:'wpn',
                 classes:'wpn distance colTwo aidistance',
                 label:game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.LabelDistance'),
                 list:wpns.listaidistance,
             });
-
         }
+
+
+        //ON AJOUTE LE GROUPE WPN S'IL Y A DES ARMES
+        if(grpWpn.grp.length > 0) data.mods.push(grpWpn);
 
         return data;
     }
@@ -3913,27 +3931,21 @@ export class KnightRollDialog extends Dialog {
 
         $(tgt).parents('div.button').addClass('selected');
         $(tgt).parents('div.cat').addClass('selected');
-
         if(!double) {
             if(wpn?.tourelle) {
-                $(tgt).parents('div.wpn.tourelle').siblings('div.aspects').hide({
+                $(tgt).parents('div.grpWpn').siblings('div.aspects').hide({
                     complete: () => {
-                        $(tgt).parents('div.wpn').siblings('label.style').addClass('rowThreeFive');
-                        $(tgt).parents('div.wpn').siblings('label.btn.withoutod').addClass('rowTwo');
-                        $(tgt).parents('div.wpn').siblings('label.btn.attaquesurprise').addClass('rowThree');
-                        $(tgt).parents('div.wpn').siblings('label.btn.maximizedegats').addClass('rowFour');
-                        $(tgt).parents('div.wpn').siblings('label.btn.maximizeviolence').addClass('rowFive');
+                        $(tgt).parents('div.grpWpn').siblings('label.style').addClass('rowThreeFive');
+                        $(tgt).parents('div.grpWpn').siblings('label.style').removeClass('rowFourTwo rowFourSix');
+                        $(tgt).parents('div.grpWpn').siblings('div.grpBtn').removeClass('rowFour rowThreeSeven rowThreeFive');
+                        $(tgt).parents('div.grpWpn').siblings('div.grpBtn').addClass('rowTwoSix');
                     },
                 });
-
             } else {
-                $(tgt).parents('div.wpn').siblings('label.style').removeClass('rowThreeFive');
-                $(tgt).parents('div.wpn').siblings('label.btn.withoutod').removeClass('rowTwo');
-                $(tgt).parents('div.wpn').siblings('label.btn.attaquesurprise').removeClass('rowThree');
-                $(tgt).parents('div.wpn').siblings('label.btn.maximizedegats').removeClass('rowFour');
-                $(tgt).parents('div.wpn').siblings('label.btn.maximizeviolence').removeClass('rowFive');
+                $(tgt).parents('div.grpWpn').siblings('label.style').addClass('rowFourSix');
+                $(tgt).parents('div.grpWpn').siblings('label.style').removeClass('rowThreeFive');
 
-                $(tgt).parents('div.wpn').siblings('div.aspects').show({
+                $(tgt).parents('div.grpWpn').siblings('div.aspects').show({
                     complete: () => {
                     },
                 });
@@ -3992,6 +4004,16 @@ export class KnightRollDialog extends Dialog {
 
             $(tgt).parents('div.cat').hide({
                 complete: () => {},
+            });
+        }
+
+        if(!this.rollData.wpnSelected) {
+            $(tgt).parents('div.grpWpn').siblings('label.style').removeClass('rowThreeFive');
+            $(tgt).parents('div.grpWpn').siblings('label.style').addClass('rowFourTwo');
+
+            $(tgt).parents('div.grpWpn').siblings('div.aspects').show({
+                complete: () => {
+                },
             });
         }
 
@@ -4076,33 +4098,6 @@ export class KnightRollDialog extends Dialog {
         const hasWpn = this.rollData.wpnSelected === '' ? false : true;
         const isPJ = this.isPJ;
 
-        const btnSort = {
-            update(html, isPJ, isTourelle) {
-                if(isPJ) {
-                    html.find('.btn.withoutod').removeClass('rowFour');
-                    html.find('.btn.attaquesurprise').removeClass('rowFive');
-                    html.find('.btn.withoutod').addClass('rowThree');
-                    html.find('.btn.attaquesurprise').addClass('rowFour');
-                    html.find('.btn.maximizedegats').addClass('rowFive');
-                    html.find('.btn.maximizeviolence').addClass('rowSix');
-                } else {
-                    html.find('label.btn.attaquesurprise').removeClass('rowFour');
-                    html.find('label.btn.attaquesurprise').removeClass('rowTwo');
-                    html.find('label.btn.attaquesurprise').removeClass('rowThree');
-
-                    if(isTourelle) {
-                        html.find('label.btn.attaquesurprise').addClass('rowTwo');
-                        html.find('label.btn.maximizedegats').addClass('rowThree');
-                        html.find('label.btn.maximizeviolence').addClass('rowFour');
-                    } else {
-                        html.find('label.btn.attaquesurprise').addClass('rowThree');
-                        html.find('label.btn.maximizedegats').addClass('rowFour');
-                        html.find('label.btn.maximizeviolence').addClass('rowFive');
-                    }
-                }
-            }
-        }
-
         if(!hasWpn || forceUnselect) {
             if(init) {
                 html.find('.modificateurdegats').hide();
@@ -4125,18 +4120,6 @@ export class KnightRollDialog extends Dialog {
                 html.find('.score.modificateur').addClass('colThree');
                 html.find('.score.succesBonus').removeClass('colOne');
                 html.find('.score.modificateur').removeClass('colTwo');
-
-                if(isPJ) {
-                    html.find('.btn.attaquesurprise').addClass('rowFive');
-                    html.find('.btn.withoutod').addClass('rowFour');
-                    html.find('.btn.withoutod').removeClass('rowThree');
-                    html.find('.btn.maximizedegats').removeClass('rowFive');
-                    html.find('.btn.maximizeviolence').removeClass('rowSix');
-                    html.find('.btn.attaquesurprise').removeClass('rowFour');
-                } else {
-                    html.find('.btn.attaquesurprise').removeClass('rowFour');
-                    html.find('.btn.attaquesurprise').addClass('rowThree');
-                }
             } else {
                 html.find('.modificateurdegats').hide({
                     complete: () => {},
@@ -4166,23 +4149,16 @@ export class KnightRollDialog extends Dialog {
                     complete: () => {},
                 });
 
-                if(isPJ) {
-                    html.find('.btn.attaquesurprise').addClass('rowFive');
-                    html.find('.btn.withoutod').addClass('rowFour');
-                    html.find('.btn.withoutod').removeClass('rowThree');
-                    html.find('.btn.maximizedegats').removeClass('rowFive');
-                    html.find('.btn.maximizeviolence').removeClass('rowSix');
-                    html.find('.btn.attaquesurprise').removeClass('rowFour');
-                } else {
-                    html.find('.btn.attaquesurprise').removeClass('rowFour');
-                    html.find('.btn.attaquesurprise').addClass('rowThree');
-                }
-
                 html.find('.score.succesBonus').addClass('colTwo');
                 html.find('.score.modificateur').addClass('colThree');
                 html.find('.score.succesBonus').removeClass('colOne');
                 html.find('.score.modificateur').removeClass('colTwo');
             }
+
+            if(!isPJ) html.find('.grpBtn').hide();
+
+            html.find('div.grpBtn').addClass('rowFour');
+            html.find('div.grpBtn').removeClass('rowThreeSeven rowThreeFive');
         } else {
             if(init) {
                 html.find('.modificateurdegats').show();
@@ -4202,8 +4178,6 @@ export class KnightRollDialog extends Dialog {
                 html.find('.attaquesurprise').show();
 
                 html.find('.score.difficulte').hide();
-
-                btnSort.update(html, isPJ, this.wpnIsTourelle);
 
                 html.find('.score.succesBonus').removeClass('colTwo');
                 html.find('.score.modificateur').removeClass('colThree');
@@ -4244,26 +4218,17 @@ export class KnightRollDialog extends Dialog {
                     complete: () => {},
                 });
 
-                btnSort.update(html, isPJ, this.wpnIsTourelle);
-
-                /*if(isPJ) {
-                    html.find('.btn.withoutod').removeClass('rowFour');
-                    html.find('.btn.attaquesurprise').removeClass('rowFive');
-                    html.find('.btn.withoutod').addClass('rowThree');
-
-                    html.find('.btn.maximizedegats').addClass('rowFive');
-                    html.find('.btn.maximizeviolence').addClass('rowSix');
-                    html.find('.btn.attaquesurprise').addClass('rowFour');
-                } else {
-                    html.find('.btn.attaquesurprise').removeClass('rowFour');
-                    html.find('.btn.attaquesurprise').addClass('rowThree');
-                }*/
-
                 html.find('.score.succesBonus').removeClass('colTwo');
                 html.find('.score.modificateur').removeClass('colThree');
                 html.find('.score.succesBonus').addClass('colOne');
                 html.find('.score.modificateur').addClass('colTwo');
             }
+
+            if(!isPJ) html.find('.grpBtn').show();
+
+            html.find('div.grpBtn').removeClass('rowFour rowThreeSeven rowThreeFive');
+            if(isPJ) html.find('div.grpBtn').addClass('rowThreeSeven');
+            else html.find('div.grpBtn').addClass('rowThreeFive');
         }
     }
 

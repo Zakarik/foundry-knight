@@ -1,20 +1,19 @@
 import {
   getFlatEffectBonus,
 } from "../../../helpers/common.mjs";
-import { AspectsNPCDataModel } from '../parts/aspects-npc-data-model.mjs';
+
+import { BaseNPCDataModel } from "../base/base-npc-data-model.mjs";
 import { ArmesImproviseesDataModel } from '../parts/armesimprovisees-data-model.mjs';
 import { GrenadesDataModel } from '../parts/grenades-data-model.mjs';
 import { NodsDataModel } from '../parts/nods-data-model.mjs';
 import { DefensesDataModel } from '../parts/defenses-data-model.mjs';
-import { InitiativeDataModel } from '../parts/initiative-data-model.mjs';
-import { Phase2DataModel } from '../parts/phase2-data-model.mjs';
 
-export class PNJDataModel extends foundry.abstract.TypeDataModel {
+export class PNJDataModel extends BaseNPCDataModel {
     static defineSchema() {
-    const {SchemaField, EmbeddedDataField, StringField, NumberField, BooleanField, ObjectField, ArrayField, HTMLField} = foundry.data.fields;
+    const {SchemaField, EmbeddedDataField, StringField, NumberField, BooleanField, ObjectField, ArrayField} = foundry.data.fields;
 
-        return {
-            version:new NumberField({initial:0, nullable:false, integer:true}),
+        const base = super.defineSchema();
+        const specific = {
             age:new StringField({ initial: ""}),
             archetype:new StringField({ initial: ""}),
             metaarmure:new StringField({ initial: ""}),
@@ -22,31 +21,13 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
             surnom:new StringField({initial:""}),
             section:new StringField({initial:""}),
             hautFait:new StringField({initial:""}),
-            type:new StringField({initial:""}),
-            histoire:new HTMLField({initial:""}),
-            description:new HTMLField({initial:""}),
-            descriptionLimitee:new HTMLField({initial:""}),
-            tactique:new HTMLField({initial:""}),
-            pointsFaibles:new HTMLField({initial:""}),
-            aspects:new EmbeddedDataField(AspectsNPCDataModel),
-            bouclier:new EmbeddedDataField(DefensesDataModel),
             champDeForce:new EmbeddedDataField(DefensesDataModel),
-            defense:new EmbeddedDataField(DefensesDataModel),
-            reaction:new EmbeddedDataField(DefensesDataModel),
             egide:new EmbeddedDataField(DefensesDataModel),
-            phase2:new EmbeddedDataField(Phase2DataModel),
-            phase2Activate:new BooleanField({initial:false}),
-            initiative:new EmbeddedDataField(InitiativeDataModel),
             configurationActive:new StringField({initial:""}),
             wolf:new ObjectField({}),
             jetsSpeciaux:new ArrayField(new ObjectField({})),
             colosse:new BooleanField({initial:false}),
             patron:new BooleanField({initial:false}),
-            limited:new SchemaField({
-                showPointsFaibles:new BooleanField({initial:false}),
-                showDescriptionFull:new BooleanField({initial:false}),
-                showDescriptionLimited:new BooleanField({initial:false}),
-            }),
             armure: new SchemaField({
                 base:new NumberField({initial:0, min:0, nullable:false, integer:true}),
                 bonusValue:new NumberField({initial:0, nullable:false, integer:true}),
@@ -71,21 +52,6 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
                 armesimprovisees:new EmbeddedDataField(ArmesImproviseesDataModel),
                 grenades:new EmbeddedDataField(GrenadesDataModel),
                 nods:new EmbeddedDataField(NodsDataModel),
-                data:new SchemaField({
-                    degatsbonus:new SchemaField({
-                        dice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    }),
-                    violencebonus:new SchemaField({
-                        dice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    }),
-                    modificateur:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    sacrifice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    succesbonus:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    tourspasses:new NumberField({ initial: 1, integer: true, nullable: false }),
-                    type:new StringField({ initial: "degats"}),
-                }),
             }),
             equipements:new SchemaField({
                 armure:new SchemaField({
@@ -196,14 +162,12 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
             options:new SchemaField({
                 art:new BooleanField({initial:false, nullable:false}),
                 armure:new BooleanField({initial:true, nullable:false}),
-                bouclier:new BooleanField({initial:true, nullable:false}),
                 champDeForce:new BooleanField({initial:true, nullable:false}),
                 energie:new BooleanField({initial:true, nullable:false}),
                 espoir:new BooleanField({initial:true, nullable:false}),
                 modules:new BooleanField({initial:false, nullable:false}),
                 notFirstMenu:new BooleanField({initial:false, nullable:false}),
                 noSecondMenu:new BooleanField({initial:false, nullable:false}),
-                phase2:new BooleanField({initial:true, nullable:false}),
                 resilience:new BooleanField({initial:true, nullable:false}),
                 sante:new BooleanField({initial:true, nullable:false}),
                 embuscadeSubis:new BooleanField({initial:false, nullable:false}),
@@ -211,26 +175,9 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
                 wolfConfiguration:new BooleanField({initial:false, nullable:false}),
                 jetsSpeciaux:new BooleanField({initial:false, nullable:false}),
             }),
-            otherMods:new ObjectField(),
-        }
-    }
-
-    get aspect() {
-        let data = {}
-
-        for(let a of CONFIG.KNIGHT.LIST.aspects) {
-            data[a] = {
-                value:this.aspects[a].value,
-                mineur:this.aspects[a].ae.mineur.value,
-                majeur:this.aspects[a].ae.majeur.value,
-            }
         }
 
-        return data;
-    }
-
-    get items() {
-        return this.parent.items;
+        return foundry.utils.mergeObject(base, specific);
     }
 
     get armes() {
@@ -251,6 +198,12 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
 
     get dataArmor() {
         return this.items.find(items => items.type === 'armure');
+    }
+
+    get armorISwear() {
+        const wear = this.dataArmor ? true : false;
+
+        return wear;
     }
 
     static migrateData(source) {
@@ -307,6 +260,8 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
     }
 
     prepareBaseData() {
+        super.prepareBaseData();
+
         this.#armes();
         this.#capacites();
         this.#phase2();
@@ -400,8 +355,7 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
         let reactionMalus = 0;
 
         const actuel = data.filter(itm => itm.system.active.base || (itm.system?.niveau?.actuel?.permanent ?? false));
-        console.error(data);
-        console.error(actuel);
+
         for(let m of actuel) {
             const system = m.system?.niveau?.actuel ?? {};
             const effets = system?.effets ?? {has:false};
@@ -980,5 +934,130 @@ export class PNJDataModel extends foundry.abstract.TypeDataModel {
                 value: malus,
             });
         }
+    }
+
+    async useNods(type, heal=false) {
+        const nod = this.combat.nods[type];
+
+        const nbre = Number(nod.value);
+        const dices = nod.dices;
+        const wear = this.whatWear;
+
+        if(nbre > 0) {
+            const recuperation = this.combat.nods[type].recuperationBonus;
+            let update = {}
+
+            if(heal) {
+                switch(type) {
+                    case 'soin':
+                    update['system.sante.value'] = `@{rollTotal}+${this.sante.value}`;
+                    break;
+
+                    case 'energie':
+                    update[`system.equipements.${wear}.energie.value`] = `@{rollTotal}+${this.energie.value}`;
+                    break;
+
+                    case 'armure':
+                    update[`system.equipements.${wear}.armure.value`] = `@{rollTotal}+${this.armure.value}`;
+                    break;
+                }
+            }
+
+            update[`system.combat.nods.${type}.value`] = nbre - 1;
+
+            const rNods = new game.knight.RollKnight(this.actor, {
+                name:game.i18n.localize(`KNIGHT.JETS.Nods${type}`),
+                dices:dices,
+                bonus:[recuperation]
+            }, false);
+
+            await rNods.doRoll(update);
+        } else {
+          const rNods = new game.knight.RollKnight(this.actor, {
+            name:game.i18n.localize(`KNIGHT.JETS.Nods${type}`),
+          }, false);
+
+          rNods.sendMessage({
+            classes:'fail',
+            text:`${game.i18n.localize(`KNIGHT.JETS.NotNods`)}`,
+          })
+        }
+    }
+
+    useGrenade(type) {
+        const nbreGrenade = this.combat?.grenades?.quantity?.value ?? 0;
+
+        if(nbreGrenade === 0) {
+            ui.notifications.warn(game.i18n.localize(`KNIGHT.AUTRE.NoGrenades`));
+            return;
+        }
+
+        const dataGrenade = this.combat.grenades.liste[type];
+        const wpn = `grenade_${type}`;
+        const label = dataGrenade.custom ? `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${dataGrenade.label}` : `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${type.charAt(0).toUpperCase()+type.substr(1)}`)}`;
+        const modificateur = this.rollWpnDistanceMod;
+        const actor = this.actorId;
+
+        const dialog = new game.knight.applications.KnightRollDialog(actor, {
+            label,
+            wpn,
+            modificateur
+        });
+
+        dialog.open();
+
+        return dialog;
+    }
+
+    useLongbow() {
+        const label = game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label`);
+        const wpn = `capacite_${this.dataArmor.id}_longbow`;
+        const actor = this.actorId;
+        const modificateur = this.rollWpnDistanceMod;
+
+        const dialog = new game.knight.applications.KnightRollDialog(actor, {
+          label,
+          wpn,
+          modificateur
+        });
+
+        dialog.open();
+
+        return dialog;
+    }
+
+    useAI(type, name, num) {
+        const label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[name][num]);
+        const wpn = type === 'distance' ? `${name}${num}d` : `${name}${num}c`;
+        const whatRoll = [];
+        let modificateur = 0;
+        let base = '';
+
+        whatRoll.push('force');
+
+        base = 'chair';
+
+        const actor = this.actorId;
+
+        const dialog = new game.knight.applications.KnightRollDialog(actor, {
+          label,
+          wpn,
+          base,
+          whatRoll,
+          modificateur
+        });
+
+        dialog.open();
+
+        return dialog;
+    }
+
+    // Méthode à surcharger dans les enfants
+    _getWeaponHandlers() {
+        return {
+          armesimprovisees: ({ type, name, num }) => this.useAI(type, name, num),
+          grenades: ({ type }) => this.useGrenade(type),
+          longbow: () => this.useLongbow(),
+        };
     }
 }

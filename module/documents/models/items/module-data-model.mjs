@@ -946,8 +946,8 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
       const findModuleChargeur = dataNiveau.effets.raw.find(itm => itm.includes('chargeur'));
       const chargeur = dataNiveau.effets?.chargeur ?? null;
 
-      if(chargeur === null) pbM.sys(`niveau.details.n${data.getNiveau}.effets.chargeur`, Math.max(parseInt(findModuleChargeur.split(' ')[1])-1, 0))
-      else pbM.sys(`niveau.details.n${data.getNiveau}.effets.chargeur`, Math.max(parseInt(chargeur)-1, 0))
+      if(chargeur === null) pbM.sys(`niveau.details.n${this.getNiveau}.effets.chargeur`, Math.max(parseInt(findModuleChargeur.split(' ')[1])-1, 0))
+      else pbM.sys(`niveau.details.n${this.getNiveau}.effets.chargeur`, Math.max(parseInt(chargeur)-1, 0))
     }
 
     if(!abort) {

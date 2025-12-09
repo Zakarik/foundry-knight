@@ -1,46 +1,11 @@
-import { AspectsNPCDataModel } from '../parts/aspects-npc-data-model.mjs';
-import { DefensesDataModel } from '../parts/defenses-data-model.mjs';
-import { InitiativeDataModel } from '../parts/initiative-data-model.mjs';
-import { Phase2DataModel } from '../parts/phase2-data-model.mjs';
+import { BaseNPCDataModel } from "../base/base-npc-data-model.mjs";
 
-export class BandeDataModel extends foundry.abstract.TypeDataModel {
+export class BandeDataModel extends BaseNPCDataModel {
 	static defineSchema() {
-		const {SchemaField, EmbeddedDataField, StringField, NumberField, BooleanField, ObjectField, ArrayField, HTMLField} = foundry.data.fields;
+		const {SchemaField, NumberField, ObjectField} = foundry.data.fields;
 
-        return {
-            version:new NumberField({initial:0, nullable:false, integer:true}),
-            type:new StringField({initial:''}),
-            histoire:new HTMLField({initial:""}),
-            tactique:new HTMLField({initial:""}),
-            description:new HTMLField({initial:""}),
-            descriptionLimitee:new HTMLField({initial:""}),
-            pointsFaibles:new HTMLField({initial:""}),
-            aspects:new EmbeddedDataField(AspectsNPCDataModel),
-            limited:new SchemaField({
-                showPointsFaibles:new BooleanField({initial:false}),
-                showDescriptionFull:new BooleanField({initial:false}),
-                showDescriptionLimited:new BooleanField({initial:false}),
-            }),
-            combat:new SchemaField({
-                data:new SchemaField({
-                    degatsbonus:new SchemaField({
-                        dice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    }),
-                    violencebonus:new SchemaField({
-                        dice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    }),
-                    modificateur:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    sacrifice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    succesbonus:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    tourspasses:new NumberField({ initial: 1, integer: true, nullable: false }),
-                    type:new StringField({ initial: "degats"}),
-                }),
-            }),
-            bouclier:new EmbeddedDataField(DefensesDataModel),
-            defense:new EmbeddedDataField(DefensesDataModel),
-            reaction:new EmbeddedDataField(DefensesDataModel),
+        const base = super.defineSchema();
+        const specific = {
             debordement:new SchemaField({
               value:new NumberField({ initial: 0, integer: true, nullable: false }),
               tour:new NumberField({ initial: 1, integer: true, nullable: false }),
@@ -67,33 +32,9 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
                 value:new NumberField({initial:0, nullable:false, integer:true}),
                 max:new NumberField({initial:16, nullable:false, integer:true}),
             }),
-            phase2:new EmbeddedDataField(Phase2DataModel),
-            phase2Activate:new BooleanField({initial:false}),
-            initiative:new EmbeddedDataField(InitiativeDataModel),
-            options:new SchemaField({
-                bouclier:new BooleanField({initial:true, nullable:false}),
-                phase2:new BooleanField({initial:false, nullable:false}),
-            }),
-            otherMods:new ObjectField(),
-        }
-    }
-
-    get actor() {
-        return this.parent;
-    }
-
-    get aspect() {
-        let data = {}
-
-        for(let a of CONFIG.KNIGHT.LIST.aspects) {
-            data[a] = {
-                value:this.aspects[a].value,
-                mineur:this.aspects[a].ae.mineur.value,
-                majeur:this.aspects[a].ae.majeur.value,
-            }
         }
 
-        return data;
+        return foundry.utils.mergeObject(base, specific);
     }
 
     static migrateData(source) {
@@ -143,6 +84,8 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
     }
 
     prepareBaseData() {
+        super.prepareBaseData();
+
         this.#phase2();
         this.aspects.prepareData();
 	}
@@ -228,33 +171,6 @@ export class BandeDataModel extends foundry.abstract.TypeDataModel {
         }
 
         this.initiative.prepareBandeData();
-    }
-
-    togglePhase2() {
-        const aspects = this.aspects;
-        const phase2 = this.phase2;
-
-        let update = {};
-
-        if(this.phase2Activate) {
-            update['system.phase2Activate'] = false;
-
-            for(let a in phase2.aspects) {
-              update[`system.aspects.${a}.value`] = aspects[a].value - phase2.aspects[a].value;
-              update[`system.aspects.${a}.ae.mineur.value`] = aspects[a].ae.mineur.value - phase2.aspects[a].ae.mineur;
-              update[`system.aspects.${a}.ae.majeur.value`] = aspects[a].ae.majeur.value - phase2.aspects[a].ae.majeur;
-            }
-        } else {
-            update['system.phase2Activate'] = true;
-
-            for(let a in phase2.aspects) {
-              update[`system.aspects.${a}.value`] = aspects[a].value + phase2.aspects[a].value;
-              update[`system.aspects.${a}.ae.mineur.value`] = aspects[a].ae.mineur.value + phase2.aspects[a].ae.mineur;
-              update[`system.aspects.${a}.ae.majeur.value`] = aspects[a].ae.majeur.value + phase2.aspects[a].ae.majeur;
-            }
-        }
-
-        this.actor.update(update);
     }
 
     async doDebordement() {
