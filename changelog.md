@@ -3,6 +3,19 @@
 - Correction d'un bug sur le nombre de succès auto de l'immobilisation du mode morph.
 - Correction d'un bug empêchant d'ajouter des effets sur une capacité de PNJ / Créature si elle est sur un token.
 - Correction d'un bug d'affichage lorsque l'ont permet de modifier le nombre de dés des nods, sur les PNJ.
+- 
+## v3.50.8
+### Bugfix
+- Prise en compte de la FAQ concernant le cumul de l'effet jumelé Akimbo/Ambidextrie + OD de combat / tir réduisant les malus de l'Akimbo / Ambidextrie.
+Si les deux sont présent, il n'y a plus aucun malus normalement.
+
+## v3.50.7
+### Bugfix
+- Correction d'un bug avec l'armure spécifique à la Geste qui entrainait une multiplication de l'ajout de "hargne" aux jets de dés.
+
+## v3.50.6
+### Bugfix
+- Correction du calcul du perce armure, pour prendre en compte la FAQ.
 
 ## v3.50.5
 ### Bugfix

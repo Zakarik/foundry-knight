@@ -123,35 +123,37 @@ export class KnightRollDialog extends Dialog {
 
                 if(nc) {
                     if(c.combosBonus.has) {
-                        result.bonus = Object.values(c.combosBonus.liste);
+                        result.bonus = Object.values(c.combosBonus.liste).filter(v => v !== "");;
                     }
 
                     if(c.combosInterdits.has) {
-                        result.interdits = Object.values(c.combosInterdits.liste);
+                        result.interdits = Object.values(c.combosInterdits.liste).filter(v => v !== "");;
                     }
                 }
 
                 if(nr) {
                     if(r.combosBonus.has) {
-                        result.bonus = Object.values(r.combosBonus.liste);
+                        result.bonus = Object.values(r.combosBonus.liste).filter(v => v !== "");;
                     }
 
                     if(r.combosInterdits.has) {
-                        result.interdits = Object.values(r.combosInterdits.liste);
+                        result.interdits = Object.values(r.combosInterdits.liste).filter(v => v !== "");;
                     }
                 }
 
                 if(nf) {
                     if(f.combosBonus.has) {
-                        result.bonus = Object.values(f.combosBonus.liste);
+                        result.bonus = Object.values(f.combosBonus.liste).filter(v => v !== "");;
                     }
 
                     if(f.combosInterdits.has) {
-                        result.interdits = Object.values(f.combosInterdits.liste);
+                        result.interdits = Object.values(f.combosInterdits.liste).filter(v => v !== "");;
                     }
                 }
             }
         }
+
+        console.error(result);
 
         return result;
     }
@@ -774,7 +776,8 @@ export class KnightRollDialog extends Dialog {
         const armorIsWear = this.armorIsWear;
         const label = data.find('input.label').val();
         const base = this.rollData.base;
-        const selected = this.rollData.whatRoll;
+        const selected = [...new Set(this.rollData.whatRoll)].filter(v => v !== base);
+        const weaponID = data.find('div.wpn .button .btnWpn.selected').parents('div.button').data('id');
         const weaponData = data.find('div.wpn .button .data');
         const weapon = this.wpnSelected;
         const difficulte = parseInt(data.find('label.score.difficulte input').val());
@@ -931,7 +934,14 @@ export class KnightRollDialog extends Dialog {
 
                     if(secondId) flags['secondWpn'] = this.rollData.allWpn.find(itm => itm.id === secondId);
 
-                    if((this.#isEffetActive(effets, weapon.options, ['jumelle', 'jumeleakimbo', 'jumelageakimbo']) ||
+                    if(this.#isEffetActive(effets, weapon.options, ['jumelle', 'jumeleakimbo', 'jumelageakimbo']) &&
+                    (
+                        (weapon.type === 'distance' && this.#getODAspect(actor, 'tir') >= 3 && armorIsWear) ||
+                        (weapon.type === 'contact' && this.#getODAspect(actor, 'combat') >= 3 && armorIsWear))
+                    ) {
+                        dices += 3;
+                    }
+                    else if((this.#isEffetActive(effets, weapon.options, ['jumelle', 'jumeleakimbo', 'jumelageakimbo']) ||
                         (weapon.type === 'distance' && this.#getODAspect(actor, 'tir') >= 3 && armorIsWear) ||
                         (weapon.type === 'contact' && this.#getODAspect(actor, 'combat') >= 3 && armorIsWear))) {
                         dices += 2;
@@ -939,7 +949,14 @@ export class KnightRollDialog extends Dialog {
                     break;
 
                 case 'ambidextre':
-                    if((this.#isEffetActive(effets, weapon.options, ['jumeleambidextrie', 'soeur', 'jumelageambidextrie']) ||
+                    if(this.#isEffetActive(effets, weapon.options, ['jumeleambidextrie', 'soeur', 'jumelageambidextrie']) &&
+                    (
+                        (weapon.type === 'distance' && this.#getODAspect(actor, 'tir') >= 4 && armorIsWear) ||
+                        (weapon.type === 'contact' && this.#getODAspect(actor, 'combat') >= 4 && armorIsWear))
+                    ) {
+                        dices += 3;
+                    }
+                    else if((this.#isEffetActive(effets, weapon.options, ['jumeleambidextrie', 'soeur', 'jumelageambidextrie']) ||
                         (weapon.type === 'distance' && this.#getODAspect(actor, 'tir') >= 4 && armorIsWear) ||
                         (weapon.type === 'contact' && this.#getODAspect(actor, 'combat') >= 4 && armorIsWear))) {
                         dices += 2;
