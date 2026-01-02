@@ -177,6 +177,14 @@ export default class HooksKnight {
                 html.find('.knight-roll div.btn button.violence').remove();
             }
 
+            if(message?.flags?.knight?.noDmg) {
+                html.find('.knight-roll div.btn button.degats').remove();
+            }
+
+            if(message?.flags?.knight?.noViolence) {
+                html.find('.knight-roll div.btn button.violence').remove();
+            }
+
             html.find('.knight-roll div.dice-result').click(ev => {
                 const tgt = $(ev.currentTarget);
 
@@ -250,11 +258,12 @@ export default class HooksKnight {
                 // Set effects
                 // #####################
                 const effectList = actor.type === 'bande'
-                    ? ['lumiere']
+                    ? ['lumiere', 'aneantirbande']
                     : CONFIG.KNIGHT.LIST.EFFETS.status.attaque;
                 effectList.map(async iconName => {
                     const isBoolean = ['designation', 'soumission'].includes(iconName);
-                    if (effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) {
+                    const isSpecial = ['aneantirbande'].includes(iconName);
+                    if ((effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) && !isSpecial) {
                         // Check if "Status Icon Counters" module is set
                         if (window.EffectCounter) {
                             // Set the icon path in the system
@@ -309,6 +318,12 @@ export default class HooksKnight {
                             } else {
                                 V11toggleStatusEffect(actor, iconName, { active: true, overlay: false });
                             }
+                        }
+                    } else if(effects[iconName] && isSpecial && actor.type === 'bande') {
+                        if(actor.system.sante.max <= 300) {
+                            actor.update({[`system.sante.value`]:0});
+                            if(isVersion13) actor.toggleStatusEffect('dead', { active: true, overlay: true });
+                            else V11toggleStatusEffect(actor, 'dead', { active: true, overlay: true });
                         }
                     }
                 });

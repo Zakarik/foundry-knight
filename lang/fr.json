@@ -100,7 +100,8 @@
         "Label":"Configuration",
         "Configurations":"Configurations",
         "NomC1":"Nom de la configuration 1",
-        "NomC2":"Nom de la configuration 2"
+        "NomC2":"Nom de la configuration 2",
+        "Changement":"Changement de configuration"
       },
       "MODULES":{
         "BASE":{
@@ -229,7 +230,11 @@
         "STATIONDEFENSEAUTOMATISE":{
           "Label":"Station de Défense Automatisée",
           "Description":"La configuration Og met aussi à disposition du pilote plusieurs grands drones de déploiement de station de défense automatisée destinée à renforcer la puissance de feu des alliés lors d’une bataille.<br/><br/><b>Effets :</b> Ces stations peuvent être déployées à portée moyenne ou inférieure et s’ouvrent comme des fleurs hexagonales de 30 mètres de diamètre pourvues de six bunkers blindés ultra-résistants, de dix shotguns automatiques lourds montés en tourelle intelligente, de dix railguns sur pivot, d’un énorme stock de munitions, de nods et de grenades, d’une tour de communication, d’un champ de force Shrine, d’une station médicale et d’une station de réparation.<br/><br/>Grâce à cet équipement, la station est considérée comme possédant et infligeant un débordement de 10 aux ennemis à portée moyenne. De plus, chaque mechaarmure et véhicule ennemi possédant de la résilience et situé à portée moyenne de la station perd 1 point de résilience par tour.<br/><br/>De plus, la station dispose de plus d’une tour d’artillerie pouvant être contrôlée par le pilote. Elle est équipée d’un pod missile et d’un pod roquette pouvant tirer jusqu’à portée longue depuis la station et avec des munitions illimitées. Une fois par tour en phase de conflit, le pilote de la mecha-armure peut décider de tirer sans dépenser d’action avec un des deux pods de la station. Le tir touche automatiquement. On considère qu’il commande à la station de tirer. Il n’a pas besoin d’être dans la même zone pour utiliser cette capacité.<br/><br/>La station dispose de 80 points de blindage, d’une résilience de 1 et d’un CdF de 10. Elle peut être prise pour cible par un ennemi qui la touche automatiquement s’il est à portée. Une fois la station détruite, l’effet disparaît. Une seule station peut être déployée en même temps. Pour en déployer une nouvelle, il faut que l’ancienne station de défense soit détruite.",
-          "Destruction":"Destruction de la station"
+          "Destruction":"Destruction de la station",
+          "PodMissile":"Pod Missile",
+          "PodMissileDescription":"Un lance-missile antichar ou antiaérien à guidage monté sur une épaule. Il doit être rechargé à Camelot. Le pod missile ne peut fonctionner si aucune cible n'a été désignée au préalable avec l'effet désignation.",
+          "PodRoquette":"Pod Roquette",
+          "PodRoquetteDescription":"Un lanceur envoie une salve de roquettes antipersonnel."
         },
         "MODESIEGETOWER":{
           "Label":"Mode Siege Tower",
@@ -676,6 +681,17 @@
         "NoAeInclusJet":"Aspect Exceptionnel Non-Inclus dans le jet",
         "AeInclusFixe":"Aspect Exceptionnel Inclus dans le bonus fixe",
         "NoAeInclusFixe":"Aspect Exceptionnel Non-Inclus dans le bonus fixe"
+      },
+      "AUTOHIT":{
+        "Label":"Touche automatiquement*",
+        "Description":"Touche automatiquement, ne nécessite pas de jet d'attaque. *Effet propre au système.",
+        "Description-short":"Touche automatiquement, ne nécessite pas de jet d'attaque. *Effet propre au système."
+      },
+      "ANEANTIRBANDE": {
+        "Label":"Aneantir une bande",
+        "Description":"Élimine une bande ennemie d’une cohésion égale ou inférieure à 300.",
+        "Description-short":"Élimine une bande ennemie d’une cohésion égale ou inférieure à 300.",
+        "TropCohesion":"une cohésion trop élevée"
       },
       "AFFECTEANATHEME": {
         "Label":"Affecte uniquement l'anathème",
@@ -2469,7 +2485,7 @@
       "ConflitSceneProlonger":"Une scène ou une phase de conflit, peut être prolongé en conservant exactement la même valeur de PE octroyée.",
       "Heure":"1 heure",
       "Permanent":"Permanent",
-      "Sanslimite":"Sanslimite"
+      "Sanslimite":"Sans limite"
     },
     "ACTIVATION": {
       "Label": "Activation",

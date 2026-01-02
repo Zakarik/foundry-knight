@@ -11,7 +11,7 @@
         </div>
         {{else}}
         <div class="blockMultiline">
-            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}">
+            <button class="activation" data-key="{{key}}" data-main="{{type}}" data-type="activation">
                 {{localize "KNIGHT.AUTRE.Activer"}}
             </button>
         </div>
@@ -34,7 +34,7 @@
         </div>
         <div class="longspan">
             <span class="label">{{localize "KNIGHT.DUREE.Label"}}</span>
-            <span class="value">{{this.duree}}{{localize "KNIGHT.AUTRE.Des-short"}}6 {{localize "KNIGHT.AUTRE.Tours"}}</span>
+            <span class="value">{{this.duree}}{{localize "KNIGHT.JETS.Des-short"}}6 {{localize "KNIGHT.AUTRE.Tours"}}</span>
         </div>
         <div class="longspan">
             <span class="label">{{localize "KNIGHT.PORTEE.Label"}}</span>

@@ -2667,7 +2667,6 @@ export class KnightDataModel extends BaseActorDataModel {
         return dialog;
     }
 
-    // Méthode à surcharger dans les enfants
     _getWeaponHandlers() {
         return {
           armesimprovisees: ({ type, name, num }) => this.useAI(type, name, num),

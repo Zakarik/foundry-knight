@@ -57,7 +57,7 @@ export class RollKnight {
     }
 
     get isPJ() {
-        const actor = this.attaquant.type;
+        const actor = !this.attaquant ? undefined : this.attaquant.type;
         let result = false;
 
         if(actor === 'knight') result = true;
@@ -72,7 +72,7 @@ export class RollKnight {
     }
 
     get armorIsWear() {
-        const wear = this.attaquant.system?.wear ?? '';
+        const wear = !this.attaquant ? '' : this.attaquant.system?.wear ?? '';
         let result = false;
 
         if((wear === 'armure' || wear === 'ascension') || !this.isPJ) result = true;
@@ -389,6 +389,94 @@ export class RollKnight {
         }
 
         return total;
+    }
+
+    async autoApplyEffects(data={}) {
+        const prepareWeapon = await this.#prepareSendWeaponWithoutRoll({});
+        const rolls = [];
+        const content = [prepareWeapon.content];
+        const text = data?.text ?? '';
+        const weapon = this.weapon;
+        const flag = [prepareWeapon.flags];
+        const tags = this.tags;
+        const targets = data?.targets ?? [];
+        const finalDataToAdd = data?.finalDataToAdd ?? {};
+
+        if(this.weapon.portee) {
+            const traPortee = game.i18n.localize(`KNIGHT.PORTEE.${this.weapon.portee.charAt(0).toUpperCase() + this.weapon.portee.slice(1)}`);
+
+            tags.unshift({
+                key:this.weapon.portee,
+                label:traPortee.includes('KNIGHT.PORTEE') ? `${this.weapon.portee}` : `${traPortee}`
+            },{
+                key:this.style,
+                label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${this.style.toUpperCase()}.FullLabel`)
+            });
+        } else if(this.isPJ) {
+            tags.unshift({
+                key:this.style,
+                label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${this.style.toUpperCase()}.FullLabel`)
+            });
+        }
+
+        const chatRollMode = game.settings.get("core", "rollMode");
+        let main = {
+            flavor:`${this.name}`,
+            tags:tags,
+            content:content,
+            text:text,
+            targets
+        }
+
+        let flags = {
+            actor:this.actor,
+            flavor:main.flavor,
+            weapon:weapon,
+            content:flag,
+            tags:main.tags,
+            surprise:this.isSurprise,
+            style:this.style,
+            dataStyle:this.dataStyle,
+            dataMod:this.dataMod,
+            maximize:this.maximize,
+            exploit:this.isExploit,
+            isSuccess:this.isSuccess,
+        };
+
+        await this.#handleAttaqueEffet(weapon, main, rolls, data?.updates ?? {}, true);
+
+        foundry.utils.mergeObject(main, finalDataToAdd);
+        flags = foundry.utils.mergeObject(this.addFlags, flags);
+
+        if(data?.noDmg) flags.noDmg = data.noDmg;
+        if(data?.noViolence) flags.noViolence = data.noViolence;
+
+        let chatData = {
+            user:game.user.id,
+            speaker: {
+                actor: this.actor?.id ?? null,
+                token: this.actor?.token ?? null,
+                alias: this.actor?.name ?? null,
+                scene: this.actor?.token?.parent?.id ?? null
+            },
+            content:await renderTemplate(RollKnight.template, main),
+            sound: CONFIG.sounds.dice,
+            rolls:rolls,
+            rollMode:chatRollMode,
+        };
+
+        ChatMessage.applyRollMode(chatData, chatRollMode);
+        const msg = await ChatMessage.create(chatData)
+
+        await addFlags(msg, flags);
+        const allInOne = msg?.flags?.knight?.rollAll ?? false;
+        if(allInOne) {
+            const hasNotDmg = msg?.flags?.knight?.noDmg ?? false;
+            const hasNotViolence = msg?.flags?.knight?.noViolence ?? false;
+
+            if(!hasNotDmg) await rollDamage(msg, {});
+            if(!hasNotViolence) await rollViolence(msg, {});
+        }
     }
 
     async doRollDamage(data={}) {
@@ -1082,7 +1170,7 @@ export class RollKnight {
                 aspects:actor.system.aspects,
                 type:actor.type,
                 effets:[],
-                isEmpty:true,
+                hit:true,
             };
 
             content.targets.push(target);
@@ -1231,7 +1319,7 @@ export class RollKnight {
         return result;
     }
 
-    async #handleAttaqueEffet(weapon, content, rolls, updates={}) {
+    async #handleAttaqueEffet(weapon, content, rolls, updates={}, autoApply=false) {
         const armorIsWear = this.armorIsWear;
         const localize = getAllEffects();
         const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
@@ -1312,6 +1400,7 @@ export class RollKnight {
                             }
                             break;
 
+                        case 'aneantirbande':
                         case 'choc':
                         case 'electrifiee':
                         case 'artillerie':
@@ -1320,6 +1409,7 @@ export class RollKnight {
                         case 'lunetteintelligente':
                         case 'cadence':
                         case 'chromeligneslumineuses':
+                        case 'autohit':
                             if(effet) detailledEffets.push({
                                 simple:l,
                                 key:effet,
@@ -1562,6 +1652,16 @@ export class RollKnight {
                         const chairAE = target.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
                         switch(d.simple) {
+                            case 'aneantirbande':
+                                t.effets.push({
+                                    simple:d.simple,
+                                    key:d.key,
+                                    label:d.label,
+                                    hit:(target.type === 'bande' && target.system.sante.max <= 300) ? true : false,
+                                    subtitle:target.system.sante.max <= 300 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.EFFETS.ANEANTIRBANDE.TropCohesion')})
+                                })
+                                break;
+
                             case 'choc':
                             case 'electrifiee':
 
@@ -1569,7 +1669,7 @@ export class RollKnight {
                                     simple:d.simple,
                                     key:d.key,
                                     label:d.label,
-                                    hit:total > comparaison && t.hit && chairAE === 0  ? true : false,
+                                    hit:(total > comparaison && t.hit && chairAE === 0) || (autoApply && chairAE === 0)  ? true : false,
                                     subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
                                 })
                                 break;
@@ -1621,11 +1721,12 @@ export class RollKnight {
     }
 
     async #handleDamageEffet(weapon, data={}, bonus=[], content={}, rolls=[]) {
-        const type = this.attaquant.type;
-        const armure = this.attaquant.items.find(itm => itm.type === 'armure');
+        const attaquant = !this.attaquant ? undefined : this.attaquant;
+        const type = !attaquant ? '' : attaquant.type;
+        const armure = !attaquant ? undefined : attaquant.items.find(itm => itm.type === 'armure');
         const capacites = armure?.system?.capacites?.selected ?? {};
         const getGhost = capacites?.ghost ?? undefined;
-        const getGoliathMeter = this.attaquant.system?.equipements?.armure?.capacites?.goliath?.metre ?? 0;
+        const getGoliathMeter = !attaquant ? 0 : this.attaquant.system?.equipements?.armure?.capacites?.goliath?.metre ?? 0;
         const getGoliath = capacites?.goliath ?? undefined;
         const getChangeling = capacites?.changeling ?? undefined;
         const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
@@ -1764,7 +1865,7 @@ export class RollKnight {
             }
         }
 
-        if(armorIsWear && this.attaquant.type === 'knight') {
+        if(armorIsWear && attaquant?.type === 'knight') {
             const discretion = this.getCaracteristique('masque', 'discretion');
             const odDiscretion = this.getOD('masque', 'discretion');
 
@@ -2636,9 +2737,10 @@ export class RollKnight {
     }
 
     async #handleViolenceEffet(weapon, data={}, bonus=[], content={}, rolls=[]) {
-        const armure = this.attaquant.items.find(itm => itm.type === 'armure');
+        const attaquant = !this.attaquant ? undefined : this.attaquant;
+        const armure = !attaquant ? undefined : attaquant.items.find(itm => itm.type === 'armure');
         const capacites = armure?.system?.capacites?.selected ?? {};
-        const getGoliathMeter = this.attaquant.system?.equipements?.armure?.capacites?.goliath?.metre ?? 0;
+        const getGoliathMeter = !attaquant ? 0 : attaquant.system?.equipements?.armure?.capacites?.goliath?.metre ?? 0;
         const getGoliath = capacites?.goliath ?? undefined;
         const raw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
         const custom = weapon.effets.custom.concat(weapon?.distance?.custom ?? [], weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
@@ -3228,7 +3330,7 @@ export class RollKnight {
     }
 
     prepareWpnContact(wpn, modules=[], addSpecial=true) {
-        const armure = this.attaquant.items.find(itm => itm.type === 'armure');
+        const armure = !this.attaquant ? undefined : this.attaquant.items.find(itm => itm.type === 'armure');
         const system = wpn.system;
         let raw = [];
         let specialRaw = [];
@@ -3524,7 +3626,7 @@ export class RollKnight {
     }
 
     prepareWpnDistance(wpn, modules=[], addSpecial=true) {
-        const armure = this.attaquant.items.find(itm => itm.type === 'armure');
+        const armure = !this.attaquant ? undefined : this.attaquant.items.find(itm => itm.type === 'armure');
         const system = wpn.system;
         let raw = [];
         let specialRaw = [];

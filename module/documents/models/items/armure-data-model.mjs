@@ -1,5 +1,4 @@
 import {
-  getArmor,
   spawnTokenRightOfActor,
   spawnTokensRightOfActor,
   deleteTokens,
@@ -852,14 +851,6 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       }
     };
 
-    const batchDeleteItemsBy = async (actorDoc, toDelete) => {
-      if (!actorDoc) return;
-
-      if (toDelete.length) {
-        await actorDoc.deleteEmbeddedDocuments('Item', toDelete);
-      }
-    };
-
     const splitAE = (ae) => {
       const v = Number(ae) || 0;
       return {
@@ -1677,6 +1668,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
         }, false);
 
         await roll.doRoll();
+        sendMsg = false;
         break;
 
       default:

@@ -9,7 +9,7 @@
       grid-gap: 2px;
       row-gap: 2px;
       padding-bottom: 35px;
-      grid-template-rows: max-content max-content 30px 1fr;
+      grid-template-rows: max-content max-content 30px max-content 1fr;
 
       p {
         display: contents;
@@ -1438,6 +1438,11 @@
         }
         &.rowSix {
           grid-row: 6;
+        }
+
+        &.modificateurdegats,
+        &.modificateurviolence {
+          align-self: end;
         }
       }
 

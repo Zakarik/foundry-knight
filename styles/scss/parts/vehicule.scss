@@ -328,6 +328,88 @@
         }
       }
 
+      div.debordement {
+        div.line {
+          display:grid;
+          width:100%;
+          line-height:29px;
+          grid-template-columns: 1fr 80px;
+
+          span.label {
+            display:inline-block;
+            width:100%;
+            height:30px;
+            font-variant: small-caps;
+            font-size:14px;
+            letter-spacing: 1px;
+            padding-left:3px;
+            border-bottom: 1px solid $black;
+          }
+
+          input {
+            display: inline-block;
+            width:100%;
+            height:30px;
+            background:$black;
+            text-align:center;
+            font-size:16px;
+            border:0px;
+            border-radius:0px;
+            padding:0px;
+            margin:0px;
+            padding-bottom:1px;
+            z-index:10;
+            border-bottom: 1px solid $lightBlack;
+          }
+        }
+
+        div.tour {
+          display:grid;
+          width:100%;
+          line-height:30px;
+          grid-template-columns: 1fr 80px;
+
+          span.label {
+            display:inline-block;
+            width:calc(100% - 60px);
+            height:30px;
+            font-variant: small-caps;
+            font-size:16px;
+            letter-spacing: 1px;
+            padding-left:3px;
+          }
+
+          input {
+            display: inline-block;
+            width:100%;
+            height:30px;
+            background:$black;
+            text-align:center;
+            font-size:16px;
+            border:0px;
+            border-radius:0px;
+            padding:0px;
+            margin:0px;
+          }
+        }
+
+        button {
+          width: 100%;
+          font-size:11px;
+          line-height: 20px;
+          background:$black;
+          border-top: 1px solid $lightBlack;
+          border-left: 0px;
+          border-right: 0px;
+          border-bottom: 1px solid $lightBlack;
+          border-radius: 0px;
+          font-variant: small-caps;
+          color:$white;
+          cursor:pointer;
+          margin:0px;
+        }
+      }
+
       section.mainBlock {
         display:block;
 

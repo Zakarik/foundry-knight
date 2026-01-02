@@ -3,6 +3,7 @@
         <i class="far fa-plus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.Label"}}
 
+        {{#if ("armure" @root/systemData/wear)}}
         {{#unless impulsions.choisi}}
         <div class="blockMultiline">
             <button class="aChoisir"
@@ -51,7 +52,6 @@
             </button>
         </div>
         {{else}}
-        {{#if ("armure" @root/systemData/wear)}}
         <div class="blockMultiline">
             <button class="activationLegende"
                 data-type="capacites"
@@ -255,8 +255,8 @@
                 {{/if}}
             {{/if}}
         </div>
-        {{/if}}
         {{/unless}}
+        {{/if}}
     </h3>
 
     <span class="description" style="display:none">{{{this.description}}}</span>

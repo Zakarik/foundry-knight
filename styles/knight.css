@@ -1641,7 +1641,7 @@ li.chat-message.emote {
   grid-gap: 2px;
   row-gap: 2px;
   padding-bottom: 35px;
-  grid-template-rows: max-content max-content 30px 1fr;
+  grid-template-rows: max-content max-content 30px max-content 1fr;
 }
 .rollDialog div.dialog-content p {
   display: contents;
@@ -2840,6 +2840,9 @@ li.chat-message.emote {
 }
 .rollDialog div.dialog-content div.rowSix {
   grid-row: 6;
+}
+.rollDialog div.dialog-content div.modificateurdegats, .rollDialog div.dialog-content div.modificateurviolence {
+  align-self: end;
 }
 .rollDialog div.dialog-content label.colOne {
   grid-column: 1/3;
@@ -34076,20 +34079,36 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border: 1px solid RGB(87 110 178);
 }
 .pnj section.body div.combat div.main div.nods div.line {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 60px 81px 30px 30px;
   width: 100%;
   justify-content: space-between;
   background: RGB(76 74 90);
 }
+.pnj section.body div.combat div.main div.nods div.line.col5 {
+  grid-template-columns: 1fr 60px 81px 30px 30px;
+}
+.pnj section.body div.combat div.main div.nods div.line.col4 {
+  grid-template-columns: 1fr 81px 30px 30px;
+}
 .pnj section.body div.combat div.main div.nods div.line span.label {
-  width: 130px;
+  width: 100%;
   line-height: 30px;
   padding-left: 5px;
+}
+.pnj section.body div.combat div.main div.nods div.line input[type=text] {
+  width: 100%;
+  height: 100%;
+  border-radius: 0px;
+  border: 1px solid RGB(43 42 51);
+  text-align: center;
+  border-top: 1px solid RGB(43 42 51);
+  border-bottom: 0px;
 }
 .pnj section.body div.combat div.main div.nods div.line div.blockQuantite {
   display: flex;
   justify-content: space-between;
-  width: calc(100% - 130px - 61px);
+  width: 100%;
   border-right: 1px solid RGB(76 74 90);
   background: RGB(43 42 51);
 }
@@ -34099,7 +34118,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   line-height: 30px;
 }
 .pnj section.body div.combat div.main div.nods div.line div.blockQuantite input {
-  width: calc(50% - 4px);
+  width: 100%;
   height: 30px;
   border: 0px;
   margin: 0px;
@@ -34114,7 +34133,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 61px;
 }
 .pnj section.body div.combat div.main div.nods div.line div.blockRoll img {
-  width: 30px;
+  width: 100%;
   height: 30px;
   border-radius: 0px;
   border: 0px;
@@ -39061,6 +39080,79 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   text-align: center;
   font-size: 12px;
   border-bottom: 1px solid RGB(43 42 51);
+}
+.vehicule section.menu div.debordement div.line {
+  display: grid;
+  width: 100%;
+  line-height: 29px;
+  grid-template-columns: 1fr 80px;
+}
+.vehicule section.menu div.debordement div.line span.label {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  font-variant: small-caps;
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding-left: 3px;
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.vehicule section.menu div.debordement div.line input {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  margin: 0px;
+  padding-bottom: 1px;
+  z-index: 10;
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.vehicule section.menu div.debordement div.tour {
+  display: grid;
+  width: 100%;
+  line-height: 30px;
+  grid-template-columns: 1fr 80px;
+}
+.vehicule section.menu div.debordement div.tour span.label {
+  display: inline-block;
+  width: calc(100% - 60px);
+  height: 30px;
+  font-variant: small-caps;
+  font-size: 16px;
+  letter-spacing: 1px;
+  padding-left: 3px;
+}
+.vehicule section.menu div.debordement div.tour input {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  margin: 0px;
+}
+.vehicule section.menu div.debordement button {
+  width: 100%;
+  font-size: 11px;
+  line-height: 20px;
+  background: RGB(43 42 51);
+  border-top: 1px solid RGB(76 74 90);
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+  font-variant: small-caps;
+  color: white;
+  cursor: pointer;
+  margin: 0px;
 }
 .vehicule section.menu section.mainBlock {
   display: block;

@@ -387,7 +387,7 @@
     });
 
     Handlebars.registerHelper('getWpnType', function (value) {
-        const result = value === '' ? '' : game.i18n.localize(`KNIGHT.COMBAT.ARMES.${value.toUpperCase()}.Label`);
+        const result = value === '' || !value ? '' : game.i18n.localize(`KNIGHT.COMBAT.ARMES.${value.toUpperCase()}.Label`);
 
         return result;
     });
@@ -609,13 +609,13 @@
 
         let result = true;
 
-        if(actuel.arme.has) result = false;
-        if(actuel.bonus.has) result = false;
-        if(actuel.effets.has) result = false;
-        if(actuel.ersatz.bard.has) result = false;
-        if(actuel.ersatz.rogue.has) result = false;
-        if(actuel.jetsimple.has) result = false;
-        if(actuel.overdrives.has) result = false;
+        if(actuel.arme?.has) result = false;
+        if(actuel.bonus?.has) result = false;
+        if(actuel.effets?.has) result = false;
+        if(actuel.ersatz?.bard?.has) result = false;
+        if(actuel.ersatz?.rogue?.has) result = false;
+        if(actuel.jetsimple?.has) result = false;
+        if(actuel.overdrives?.has) result = false;
 
         return result;
     });

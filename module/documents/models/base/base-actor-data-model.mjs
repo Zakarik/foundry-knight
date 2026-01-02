@@ -26,7 +26,7 @@ export class BaseActorDataModel extends foundry.abstract.TypeDataModel {
     }
 
     get actorId() {
-      return this.actor?.token ? this.actor.token.id : this.actor.id;
+        return this.actor?.token ? this.actor.token.id : this.actor.id;
     }
 
     get items() {
@@ -34,7 +34,8 @@ export class BaseActorDataModel extends foundry.abstract.TypeDataModel {
     }
 
     useStdWpn(itemId, args={}) {
-        const item = this.actor.items.get(itemId);
+        const actor = this.actor;
+        const item = actor.items.get(itemId);
         const label = item.name;
         const {
             type,
@@ -89,13 +90,18 @@ export class BaseActorDataModel extends foundry.abstract.TypeDataModel {
             }
         }
 
-        const actor = this.actorId;
+        const actorId = this.actorId;
+        let rollData = {
+            label:label,
+            wpn:id,
+            modificateur
+        };
 
-        const dialog = new game.knight.applications.KnightRollDialog(actor, {
-          label:label,
-          wpn:id,
-          modificateur
-        });
+        if(actor.type === 'vehicule' && item) {
+            rollData.whoActivate = item.type === 'module' ? item.system?.niveau?.actuel?.whoActivate : item.system.whoActivate;
+        }
+
+        const dialog = new game.knight.applications.KnightRollDialog(actorId, rollData);
 
         dialog.open();
 

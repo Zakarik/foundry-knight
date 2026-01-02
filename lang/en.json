@@ -100,7 +100,8 @@
         "Label":"Configuration",
         "Configurations":"Configurations",
         "NomC1":"Configuration name 1",
-        "NomC2":"Configuration name 2"
+        "NomC2":"Configuration name 2",
+        "Changement":"Configuration change"
       },
       "MODULES":{
         "BASE":{
@@ -229,7 +230,11 @@
         "STATIONDEFENSEAUTOMATISE":{
           "Label":"Automated Defense Station",
           "Description":"The Og configuration also provides the pilot with several large drones for deployment of automated defense stations designed to boost allied firepower in battle.<br/><br/><b>Effects:</b> These stations can be deployed at medium or lower ranges and open up like 30-meter-diameter hexagonal flowers equipped with six heavy-duty armored bunkers, ten heavy automatic shotguns mounted in smart turrets, ten pivot-mounted railguns, a huge stockpile of ammunition, nodes and grenades, a communications tower, a Shrine force field, a medical station and a repair station.<br/><br/>Thanks to this equipment, the station is considered to possess and inflict an overrun of 10 on enemies at medium range. In addition, every enemy mecha-armour and vehicle with resilience within medium range of the station loses 1 point of resilience per turn.<br/><br/>The station also features a pilot-controlled artillery tower. It's equipped with a pod missile and a pod rocket that can fire up to long range from the station, with unlimited ammunition. Once per turn in the conflict phase, the mecha-armour pilot can decide to fire one of the station's two pods without spending an action. The shot hits automatically. He is considered to be commanding the station to fire. He does not need to be in the same zone to use this ability.<br/><br/>The station has 80 armor points, a resilience of 1 and a FF of 10, and can be targeted by an enemy who automatically hits it if within range. Once the station is destroyed, the effect disappears. Only one station can be deployed at a time. To deploy a new one, the old defense station must be destroyed.",
-          "Destruction":"Destruction of the station"
+          "Destruction":"Destruction of the station",
+          "PodMissile":"Missile pod",
+          "PodMissileDescription":"Shoulder-mounted guided anti-tank or anti-air missile launcher. Must be reloaded in Camelot. Missile pods only work if an enemy has been holo-targeted.",
+          "PodRoquette":"Rocket pod",
+          "PodRoquetteDescription":"A launcher capable of firing dozens of small antipersonnel scattering rockets."
         },
         "MODESIEGETOWER":{
           "Label":"Siege Tower mode",
@@ -676,6 +681,17 @@
         "NoAeInclusJet":"Exceptional Aspect Not Included in the roll",
         "AeInclusFixe":"Exceptional Aspect Included in fixed bonus",
         "NoAeInclusFixe":"Exceptional Aspect Not Included in fixed bonus"
+      },
+      "AUTOHIT":{
+        "Label":"Hit automatically*",
+        "Description":"Automatically hits, does not require an attack roll. *System-specific effect.",
+        "Description-short":"Automatically hits, does not require an attack roll. *System-specific effect."
+      },
+      "ANEANTIRBANDE": {
+        "Label":"Destroy a band",
+        "Description":"Eliminate an enemy band with a cohesion equal to or less than 300.",
+        "Description-short":"Eliminate an enemy band with a cohesion equal to or less than 300.",
+        "TropCohesion":"excessive cohesion"
       },
       "AFFECTEANATHEME": {
         "Label":"Only affects creatures of the Anathema",

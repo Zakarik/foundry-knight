@@ -615,6 +615,7 @@ export class ModuleSheet extends ItemSheet {
         rarObject[rar[i].key] = rar[i].label;
       };
 
+      if(!data?.listes) data.listes = {};
       data.listes.rarete = rarObject;
     }
   }
@@ -636,17 +637,17 @@ export class ModuleSheet extends ItemSheet {
       const armure = data?.bonus?.armure?.has || false;
       const champDeForce = data?.bonus?.champDeForce?.has || false;
       const energie = data?.bonus?.energie?.has || false;
-      const degats = data?.bonus.degats;
-      const violence = data?.bonus.violence;
+      const degats = data?.bonus?.degats;
+      const violence = data?.bonus?.violence;
       const arme = data.arme;
       const overdrives = data.overdrives;
-      const bonusOverdrives = data.bonus.overdrives;
-      const bonusGrenades = data.bonus.grenades;
-      const ersatz = data.ersatz;
-      const eRogue = ersatz.rogue;
-      const eBard = ersatz.bard;
-      const jetSimple = data.jetsimple;
-      const effets = data.effets;
+      const bonusOverdrives = data?.bonus?.overdrives;
+      const bonusGrenades = data?.bonus?.grenades;
+      const ersatz = data?.ersatz;
+      const eRogue = ersatz?.rogue;
+      const eBard = ersatz?.bard;
+      const jetSimple = data?.jetsimple;
+      const effets = data?.effets;
 
       const pHas = pnj?.has || false;
       const pLis = pnj?.liste?.length || 0;
@@ -670,9 +671,11 @@ export class ModuleSheet extends ItemSheet {
       const eRHas = eRogue?.has || false;
       const eBHas = eBard?.has || false;
 
-      const jSimple = jetSimple.has;
+      const jSimple = jetSimple?.has;
 
       const eHas = effets?.has || false;
+
+      if(!data?.labels) data.labels = {};
 
       if(secondmode) { data.labels.secondmode = game.i18n.localize("KNIGHT.ITEMS.MODULE.SECONDMODE.Has"); }
       else { data.labels.secondmode = game.i18n.localize("KNIGHT.ITEMS.MODULE.SECONDMODE.Hasnt"); }
@@ -759,8 +762,8 @@ export class ModuleSheet extends ItemSheet {
       const distance = data.arme.distance || false;
       const structurelles = data.arme.structurelles || false;
       const ornementales = data.arme.ornementales || false;
-      const effetsJetSimple = data.jetsimple.effets || false;
-      const pnjListe = data.pnj.liste;
+      const effetsJetSimple = data?.jetsimple?.effets || false;
+      const pnjListe = data?.pnj?.liste ?? {};
       const labels = getAllEffects();
 
       if(beffets !== false) {
@@ -843,7 +846,12 @@ export class ModuleSheet extends ItemSheet {
 
     for(const niv in niveaux) {
       const data = niveaux[niv];
-      const energie = data.energie;
+
+      if(!data?.energie) data.energie = {};
+      if(!data?.energie?.tour) data.energie.tour = {};
+      if(!data?.energie?.minute) data.energie.minute = {};
+
+      const energie = data?.energie;
 
       if(energie.tour.label === "") update["system.energie.tour.label"] = `${game.i18n.localize("KNIGHT.AUTRE.Tour")}`;
       if(energie.minute.label === "") update["system.energie.minute.label"] = `${game.i18n.localize("KNIGHT.AUTRE.Minute")}`;

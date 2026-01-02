@@ -890,11 +890,11 @@ export class KnightRollDialog extends Dialog {
                 let toAddCustom = [];
 
                 for(let r of weapon.eff1.raw) {
-                    if(weapon.options.find(itm => itm.value === r)) toAddRaw.push(r);
+                    if(weapon.options.find(itm => itm.value === r && (itm?.active ?? true))) toAddRaw.push(r);
                 }
 
                 for(let r of weapon.eff1.custom) {
-                    if(weapon.options.find(itm => itm.value === r)) toAddCustom.push(r);
+                    if(weapon.options.find(itm => itm.value === r && (itm?.active ?? true))) toAddCustom.push(r);
                 }
 
                 weapon.effets.raw = weapon.effets.raw.concat(toAddRaw);
@@ -910,11 +910,11 @@ export class KnightRollDialog extends Dialog {
                 let toAddCustom = [];
 
                 for(let r of weapon.eff2.raw) {
-                    if(weapon.options.find(itm => itm.value === r)) toAddRaw.push(r);
+                    if(weapon.options.find(itm => itm.value === r && (itm?.active ?? true))) toAddRaw.push(r);
                 }
 
                 for(let r of weapon.eff2.custom) {
-                    if(weapon.options.find(itm => itm.value === r)) toAddCustom.push(r);
+                    if(weapon.options.find(itm => itm.value === r && (itm?.active ?? true))) toAddCustom.push(r);
                 }
 
                 weapon.effets.raw = weapon.effets.raw.concat(toAddRaw);
@@ -1831,37 +1831,9 @@ export class KnightRollDialog extends Dialog {
         const items = actor.items;
         const armure = items.find(itm => itm.type === 'armure');
         const weapons = items.filter(itm => itm.type == 'arme' && (itm.system.equipped || itm.system.tourelle.has || !isPJ || itm.system.whoActivate === this.data.whoActivate));
-        const modules = type === 'vehicule' ? items.filter(itm => itm.type == 'module' && (itm.system?.active?.base ?? false) && (itm.system?.niveau?.actuel?.arme?.has ?? false) && itm.system.niveau.actuel.whoActivate === this.data.whoActivate) : items.filter(itm => itm.type == 'module' && ((itm.system?.active?.base ?? false) || (itm.system?.niveau?.actuel?.permanent ?? false)) && (itm.system?.niveau?.actuel?.arme?.has ?? false));
-        const modulesContact = type === 'vehicule' ? actor.items.filter(itm => itm.type === 'module' &&
-            itm.system.niveau.actuel.whoActivate === this.data.whoActivate &&
-            ((itm.system?.active?.base ?? false) || itm.system.niveau.actuel.permanent) &&
-            (itm.system?.niveau?.actuel?.bonus?.has ?? false) &&
-            (((itm.system?.niveau?.actuel?.bonus?.degats?.has ?? false) &&
-            ((itm.system?.niveau?.actuel?.bonus?.degats?.type ?? 'contact') === 'contact')) ||
-            ((itm.system?.niveau?.actuel?.bonus?.violence?.has ?? false) &&
-            ((itm.system?.niveau?.actuel?.bonus?.violence?.type ?? 'contact') === 'contact')))) :
-            actor.items.filter(itm => itm.type === 'module' &&
-            ((itm.system?.active?.base ?? false) || itm.system.niveau.actuel.permanent) &&
-            (itm.system?.niveau?.actuel?.bonus?.has ?? false) &&
-            (((itm.system?.niveau?.actuel?.bonus?.degats?.has ?? false) &&
-            ((itm.system?.niveau?.actuel?.bonus?.degats?.type ?? 'contact') === 'contact')) ||
-            ((itm.system?.niveau?.actuel?.bonus?.violence?.has ?? false) &&
-            ((itm.system?.niveau?.actuel?.bonus?.violence?.type ?? 'contact') === 'contact'))));
-        const modulesDistance = type === 'vehicule' ? actor.items.filter(itm => itm.type === 'module' &&
-            itm.system.niveau.actuel.whoActivate === this.data.whoActivate &&
-            ((itm.system?.active?.base ?? false) || itm.system.niveau.actuel.permanent) &&
-            (itm.system?.niveau?.actuel?.bonus?.has ?? false) &&
-            (((itm.system?.niveau?.actuel?.bonus?.degats?.has ?? false) &&
-            ((itm.system?.niveau?.actuel?.bonus?.degats?.type ?? 'contact') === 'distance')) ||
-            ((itm.system?.niveau?.actuel?.bonus?.violence?.has ?? false) &&
-            ((itm.system?.niveau?.actuel?.bonus?.violence?.type ?? 'contact') === 'distance')))) :
-            actor.items.filter(itm => itm.type === 'module' &&
-            ((itm.system?.active?.base ?? false) || itm.system.niveau.actuel.permanent) &&
-            (itm.system?.niveau?.actuel?.bonus?.has ?? false) &&
-            (((itm.system?.niveau?.actuel?.bonus?.degats?.has ?? false) &&
-            ((itm.system?.niveau?.actuel?.bonus?.degats?.type ?? 'contact') === 'distance')) ||
-            ((itm.system?.niveau?.actuel?.bonus?.violence?.has ?? false) &&
-            ((itm.system?.niveau?.actuel?.bonus?.violence?.type ?? 'contact') === 'distance'))));
+        const modules = this.#getWpnModules(items, type, this.data.whoActivate);
+        const modulesContact = this.#getBonusModulesByType(actor, type, 'contact', this.data.whoActivate);
+        const modulesDistance = this.#getBonusModulesByType(actor, type, 'distance', this.data.whoActivate);
         const armesImprovisees = actor.system?.combat?.armesimprovisees?.liste ?? {};
         const grenades = actor.system?.combat?.grenades?.liste ?? {};
         const capacites = armure ? armure.system?.capacites?.selected ?? {} : {};
@@ -3220,6 +3192,8 @@ export class KnightRollDialog extends Dialog {
             return a.label.localeCompare(b.label);
         });
 
+        console.error(data);
+
         return data;
     }
 
@@ -3683,6 +3657,7 @@ export class KnightRollDialog extends Dialog {
     #renderInitialization(html) {
         const scores = ['difficulte', 'succesBonus', 'modificateur'];
         const actor = this.who;
+        console.error(actor);
         const style = actor.system.combat.style;
         const isPJ = this.isPJ;
 
@@ -5082,5 +5057,61 @@ export class KnightRollDialog extends Dialog {
                 });
                 break;
         }
+    }
+
+    #getBonusModulesByType(actor, type, bonusType, whoActivate) {
+        return actor.items.filter(itm => {
+            if (itm.type !== 'module') return false;
+
+            // Commun
+            const actif = itm.system?.active?.base ?? false;
+            const permanent = itm.system?.niveau?.actuel?.permanent ?? false;
+            const bonus = itm.system?.niveau?.actuel?.bonus;
+
+            console.error(actif, permanent, bonus);
+
+            if (!bonus?.has) return false;
+            if (!actif && !permanent) return false;
+
+            // Condition spéciale véhicule
+            if (type === 'vehicule' &&
+                itm.system?.niveau?.actuel?.whoActivate !== whoActivate) {
+                return false;
+            }
+
+            // Vérifie degats ou violence
+            const degatsOK =
+                (bonus.degats?.has ?? false) &&
+                (bonus.degats?.type ?? 'contact') === bonusType;
+
+            const violenceOK =
+                (bonus.violence?.has ?? false) &&
+                (bonus.violence?.type ?? 'contact') === bonusType;
+
+            return degatsOK || violenceOK;
+        });
+    }
+
+    #getWpnModules(items, type, whoActivate) {
+        return items.filter(itm => {
+            if (itm.type !== 'module') return false;
+
+            const actif = itm.system?.active?.base ?? false;
+            const permanent = itm.system?.niveau?.actuel?.permanent ?? false;
+            const arme = itm.system?.niveau?.actuel?.arme?.has ?? false;
+
+            // Exclure si pas d'arme
+            if (!arme) return false;
+
+            // Condition spéciale pour les véhicules
+            if (type === 'vehicule') {
+                const activateur = itm.system?.niveau?.actuel?.whoActivate;
+                if (activateur !== whoActivate) return false;
+                return true;
+            }
+
+            // Côté non-vehicle : actif OU permanent
+            return actif || permanent;
+        });
     }
 }

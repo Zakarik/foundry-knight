@@ -43,6 +43,8 @@ export class VehiculeSheet extends ActorSheet {
 
     actualiseRoll(this.actor);
 
+    console.error(context);
+
     return context;
   }
 
@@ -66,6 +68,35 @@ export class VehiculeSheet extends ActorSheet {
     toggler.init(this.id, html);
 
     hideShowLimited(this.actor, html);
+
+    html.find('div.combat div.armesDistance img.info').click(ev => {
+      const span = $(ev.currentTarget).siblings("span.hideInfo")
+      const width = $(ev.currentTarget).parents("div.main").width() / 2;
+      const isW50 = $(ev.currentTarget).parents("div.wpn").width();
+      let position = "";
+      let borderRadius = "border-top-right-radius";
+
+      if(isW50 <= width) {
+        if($(ev.currentTarget).parents("div.wpn").position().left > width) {
+          position = "right";
+          borderRadius = "border-top-right-radius";
+        } else {
+          position = "left";
+          borderRadius = "border-top-left-radius";
+        }
+      } else {
+        if($(ev.currentTarget).parent().position().left > width) {
+          position = "right";
+          borderRadius = "border-top-right-radius";
+        } else {
+          position = "left";
+          borderRadius = "border-top-left-radius";
+        }
+      }
+
+      span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
+      $(ev.currentTarget).toggleClass("clicked");
+    });
 
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
@@ -266,11 +297,64 @@ export class VehiculeSheet extends ActorSheet {
       const actorId = target.data("who");
       let id = target.data("id");
       let modificateur = 0;
+      let autoHit = false;
+      let wpnData = {};
+      let wpnEffects = [];
 
-      if(actorId === '') return;
+      if(actorId === '' && !this.actor.system?.options?.noPassager) return;
       const item = this.actor.items.get(id);
 
-      if(item.type === 'module') id = `module_${id}`;
+      if(item.type === 'module') {
+        id = `module_${id}`;
+        wpnData = item.system.niveau.actuel.arme;
+        wpnEffects = wpnData?.effets?.raw ?? [];
+      } else {
+        wpnData = item.system;
+        wpnEffects = wpnData?.effets?.raw ?? [];
+      }
+
+      if(wpnEffects.includes('autohit')) autoHit = true;
+
+      if(autoHit) {
+        const roll = new game.knight.RollKnight(this.actor, {
+          name:`${item.name}`,
+        }, false);
+
+        const prepareWpnData = {
+          name:roll.name,
+          system:wpnData
+        }
+
+        let weapon = wpnData.type === 'distance' ? roll.prepareWpnDistance(prepareWpnData) : roll.prepareWpnContact(prepareWpnData);
+        let options = weapon.options;
+
+        for(let o of options) {
+          o.active = true;
+        }
+
+        const listtargets = game.user.targets;
+        let allTargets = [];
+
+        if(listtargets && listtargets.size > 0) {
+          for(let t of listtargets) {
+            const actor = t.actor;
+
+            allTargets.push({
+                id:t.id,
+                name:actor.name,
+                aspects:actor.system.aspects,
+                type:actor.type,
+                effets:[],
+            });
+          }
+        }
+
+        //const flags = roll.getRollData(weapon, {targets:allTargets})
+
+        roll.setWeapon(weapon);
+        roll.autoApplyEffects();
+        return;
+      }
 
       const actor = this.actor.token ? this.actor.token.id : this.actor.id;
       const getActor = this.actor.token ? canvas.tokens.get(actor).actor : game.actors.get(actor);
@@ -406,6 +490,10 @@ export class VehiculeSheet extends ActorSheet {
       const item = this.actor.items.get(header.data("item-id"));
 
       item.system.removeMunition(index, type, munition, pnj, wpn);
+    });
+
+    html.find('.jetDebordement').click(async ev => {
+      this.actor.system.doDebordement();
     });
   }
 
@@ -785,7 +873,7 @@ export class VehiculeSheet extends ActorSheet {
         }
 
         if(base.key === 'modules') {
-          const dataPnj = data[n].system.niveau.actuel.pnj.liste;
+          const dataPnj = data[n].system.niveau.actuel?.pnj?.liste;
 
           for(let pnj in dataPnj) {
             for(let wpnPnj in dataPnj[pnj].armes.liste) {

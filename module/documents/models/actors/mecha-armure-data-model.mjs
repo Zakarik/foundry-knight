@@ -4,6 +4,10 @@ import { AspectsPCDataModel } from '../parts/aspects-pc-data-model.mjs';
 import { DefensesDataModel } from '../parts/defenses-data-model.mjs';
 import { ArmesImproviseesDataModel } from '../parts/armesimprovisees-data-model.mjs';
 import { InitiativeDataModel } from '../parts/initiative-data-model.mjs';
+import { SOCKET } from '../../../utils/socketHandler.mjs';
+import {
+  spawnTokenRightOfActor,
+} from "../../../helpers/common.mjs";
 
 export class MechaArmureDataModel extends BaseActorDataModel {
 	static defineSchema() {
@@ -54,6 +58,10 @@ export class MechaArmureDataModel extends BaseActorDataModel {
       }),
       configurations:new SchemaField({
         actuel:new StringField({initial:'c1'}),
+        invocations:new ObjectField({}),
+        save:new SchemaField({
+          resilience:new NumberField({ initial: 0, integer: true, nullable: false }),
+        }),
         liste:new SchemaField({
           base:new SchemaField({
             modules:new ObjectField(),
@@ -264,8 +272,8 @@ export class MechaArmureDataModel extends BaseActorDataModel {
               fixe:new NumberField({ initial: 30, integer: true, nullable: false }),
             }),
             violence:new SchemaField({
-              dice:new NumberField({ initial: 0, integer: true, nullable: false }),
-              fixe:new NumberField({ initial: 1, integer: true, nullable: false }),
+              dice:new NumberField({ initial: 1, integer: true, nullable: false }),
+              fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
             }),
             portee:new StringField({initial:'Contact'}),
             effets:new SchemaField({
@@ -578,6 +586,14 @@ export class MechaArmureDataModel extends BaseActorDataModel {
       Object.defineProperty(system, update, {
         value: Math.max(base+bonus-malus, 0),
       });
+
+      if(update === 'max') {
+        if(system.value > system.max) {
+          Object.defineProperty(system, 'value', {
+            value: system.max
+          });
+        }
+      }
     }
 
     let pilote = {};
@@ -693,15 +709,6 @@ export class MechaArmureDataModel extends BaseActorDataModel {
           });
           break;
 
-        case 'modeSiegeTower':
-          Object.defineProperty(this.resilience.bonus, m, {
-              value: data.bonus.resilience,
-              writable:true,
-              enumerable:true,
-              configurable:true
-          });
-          break;
-
         case 'nanoBrume':
           Object.defineProperty(this.defense.bonus, m, {
               value: data.bonus.defense,
@@ -719,5 +726,801 @@ export class MechaArmureDataModel extends BaseActorDataModel {
           break;
       }
     }
+  }
+
+  useAI(type, name, num) {
+    const label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[name][num]);
+    const wpn = type === 'distance' ? `${name}${num}d` : `${name}${num}c`;
+    const whatRoll = [];
+    let modificateur = 0;
+    let base = '';
+
+    whatRoll.push('force');
+
+    if(type === 'distance') {
+        modificateur = this.rollWpnDistanceMod;
+        base = 'tir';
+    }
+    else base = 'combat';
+
+    const actor = this.actorId;
+
+    const dialog = new game.knight.applications.KnightRollDialog(actor, {
+      label,
+      wpn,
+      base,
+      whatRoll,
+      modificateur
+    });
+
+    dialog.open();
+
+    return dialog;
+  }
+
+  // Méthode à surcharger dans les enfants
+  _getWeaponHandlers() {
+      return {
+        armesimprovisees: ({ type, name, num }) => this.useAI(type, name, num),
+      };
+  }
+
+  changeConfiguration(type) {
+    const actor = this.actor;
+
+    actor.update({['system.configurations.actuel']:type});
+
+    const exec = new game.knight.RollKnight(actor,
+      {
+      name:game.i18n.localize(`KNIGHT.MECHAARMURE.CONFIGURATIONS.Changement`),
+      }).sendMessage({
+          text:actor.system?.configurations.liste?.[type]?.name ?? '',
+          sounds:CONFIG.sounds.notification,
+      });
+  }
+
+  async activateCapacity(main, key, mainType, subkey=null) {
+    const actor = this.actor;
+    const idActor = actor.token ? actor.token.id : actor.id;
+    const splitType = mainType.split('/');
+    const type = splitType[0];
+    const depense = await this._depenseNE(main, mainType, key, subkey);
+    const config = this.configurations.liste[main].modules[key];
+    const resilience = config.resilience;
+    let label = game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`);
+    let update = {}
+    let dataWpn = {
+      raw:[],
+      custom:[]
+    }
+    let weapon;
+    let options;
+    let flags;
+    let roll;
+    let listtargets;
+    let allTargets = [];
+    let exec;
+    let rollDice;
+    let degatsD;
+    let degatsF;
+    let violenceD;
+    let violenceF;
+    let actuel = {};
+    let save = {}
+    let calcul;
+
+    if(!depense.notConcerned && type !== 'attaque') {
+      if(!depense.result) return;
+      else update = foundry.utils.mergeObject(update, depense.update);
+    }
+
+    switch(type) {
+      case 'activation':
+        const noDesactivation = ['chocSonique', 'vagueSoin', 'canonNoe', 'podMiracle', 'dronesEvacuation'];
+        const activation = config.active ? false : true;
+
+        if(!noDesactivation.includes(key)) update[`system.configurations.liste.${main}.modules.${key}.active`] = activation;
+
+        exec = new game.knight.RollKnight(this.actor,
+          {
+          name:activation ? game.i18n.localize(`KNIGHT.ACTIVATION.Label`) : game.i18n.localize(`KNIGHT.ACTIVATION.Desactivation`),
+          }).sendMessage({
+              text:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`),
+              sounds:CONFIG.sounds.notification,
+        });
+
+        switch(key) {
+          case 'chocSonique':
+            roll = new game.knight.RollKnight(this.actor, {
+              name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
+            }, false);
+
+            await roll.doRoll({}, config.effets);
+            break;
+
+          case 'podMiracle':
+              const payload = {
+                name: `${actor.name} : ${label}`,
+                type: "mechaarmure",
+                img:actor.img,
+                system:{
+                  "description":game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Description`),
+                  "blindage":{
+                    "value":config.blindage,
+                    "max":config.blindage
+                  },
+                  "resilience":{
+                    "value":config.resilience,
+                    "base":config.resilience
+                  },
+                  "champDeForce":{
+                    "base":config.champDeForce
+                  },
+                  "options":{
+                    "isPod":true,
+                    "noPilote":true,
+                    "noEnergie":true,
+                    "noInitiative":true,
+                    "noRD":true,
+                    "noCarac":true
+                  }
+                },
+                permission:actor.ownership
+              };
+
+              const { id, uuid } = await SOCKET.executeAsGM('createSubActor', payload);
+              const src = await fromUuid(uuid);
+              await spawnTokenRightOfActor({ actor: src, refActor: actor });
+            break;
+
+          case 'modeSiegeTower':
+            if(activation) {
+              update[`system.configurations.save.resilience`] = this.resilience.value;
+              update[`system.resilience.bonus.modeSiegeTower`] = config.bonus.resilience;
+              update[`system.resilience.value`] = this.resilience.value+config.bonus.resilience;
+            } else {
+              actuel.resilience = this.resilience.value;
+              save.resilience = this.configurations.save.resilience;
+              calcul = config.bonus.resilience-(actuel.resilience - save.resilience);
+
+              update[`system.configurations.save.resilience`] = 0;
+              update[`system.resilience.bonus.modeSiegeTower`] = 0;
+
+              if(calcul === 0) update[`system.resilience.value`] = save.resilience;
+              else if(calcul > 0) update[`system.resilience.value`] = save.resilience-calcul;
+            }
+            break;
+        }
+        break;
+
+      case 'attaque':
+        const dialog = new game.knight.applications.KnightRollDialog(idActor, {
+          label:label,
+          wpn:`ma_${actor.id}_${key}`
+        });
+
+        dialog.open();
+        break;
+
+      case 'degats':
+        listtargets = game.user.targets;
+
+        if(listtargets && listtargets.size > 0) {
+          for(let t of listtargets) {
+            const actor = t.actor;
+
+            allTargets.push({
+                id:t.id,
+                name:actor.name,
+                aspects:actor.system.aspects,
+                type:actor.type,
+                effets:[],
+            });
+          }
+        }
+
+        degatsD = config.degats.dice;
+        degatsF = config.degats.fixe;
+
+        switch(key) {
+          case 'tourellesLasersAutomatisees':
+          case 'missilesJericho':
+            dataWpn.raw = config.effets.raw;
+            dataWpn.custom = config.effets.custom;
+            break;
+
+          case 'moduleInferno':
+            roll = new game.knight.RollKnight(this.actor, {
+              name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Cdf`)}`,
+              dices:`${config.cdf}`,
+            }, false);
+
+            rollDice = new Roll(`${config.cdf}D6`);
+            await rollDice.evaluate();
+
+            const rInfTour = rollDice.total > 1 ? game.i18n.localize(`KNIGHT.AUTRE.Tours`) : game.i18n.localize(`KNIGHT.AUTRE.Tour`);
+            roll.sendMessage({text:`${rollDice.total} ${rInfTour}`, classes:'important'})
+            break;
+        }
+
+        roll = new game.knight.RollKnight(this.actor, {
+          name:label,
+        }, false);
+
+        weapon = roll.prepareWpnDistance({
+          name:label,
+          system:{
+            degats:{dice:degatsD, fixe:degatsF},
+            violence:{dice:0, fixe:0},
+            effets:dataWpn,
+          }
+        });
+        options = weapon.options;
+
+        for(let o of options) {
+          o.active = true;
+        }
+
+        flags = roll.getRollData(weapon, {targets:allTargets})
+        roll.setWeapon(weapon);
+        await roll.doRollDamage(flags);
+        break;
+
+      case 'violence':
+        listtargets = game.user.targets;
+
+        if(listtargets && listtargets.size > 0) {
+          for(let t of listtargets) {
+            const actor = t.actor;
+
+            allTargets.push({
+                id:t.id,
+                name:actor.name,
+                aspects:actor.system.aspects,
+                type:actor.type,
+                effets:[],
+            });
+          }
+        }
+
+        violenceD = config.degats.dice;
+        violenceF = config.degats.fixe;
+
+        switch(key) {
+          case 'tourellesLasersAutomatisees':
+            dataWpn.raw = config.effets.raw;
+            dataWpn.custom = config.effets.custom;
+            break;
+          case 'moduleInferno':
+            roll = new game.knight.RollKnight(this.actor, {
+              name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Cdf`)}`,
+              dices:`${config.cdf}`,
+            }, false);
+
+            const rollDice = new Roll(`${config.cdf}D6`);
+            await rollDice.evaluate();
+
+            const rInfTour = rollDice.total > 1 ? game.i18n.localize(`KNIGHT.AUTRE.Tours`) : game.i18n.localize(`KNIGHT.AUTRE.Tour`);
+            roll.sendMessage({text:`${rollDice.total} ${rInfTour}`, classes:'important'})
+            break;
+        }
+
+        roll = new game.knight.RollKnight(this.actor, {
+          name:label,
+        }, false);
+
+        weapon = roll.prepareWpnDistance({
+          name:label,
+          system:{
+            degats:{dice:0, fixe:0},
+            violence:{dice:violenceD, fixe:violenceF},
+            effets:dataWpn,
+          }
+        });
+        options = weapon.options;
+
+        for(let o of options) {
+          o.active = true;
+        }
+
+        flags = roll.getRollData(weapon, {targets:allTargets})
+        roll.setWeapon(weapon);
+        await roll.doRollViolence(flags);
+        break;
+
+      case 'special':
+        switch(key) {
+          case 'sautMarkIV':
+            update[`system.resilience.value`] = this.resilience.value - resilience;
+            update[`system.configurations.liste.${main}.modules.${key}.active`] = false;
+
+            exec = new game.knight.RollKnight(this.actor,
+              {
+              name:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`),
+              }).sendMessage({
+                  text:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.SAUTMARKIV.Atterrissage`),
+                  sounds:CONFIG.sounds.notification,
+            });
+            break;
+
+          case 'moduleWraith':
+            exec = new game.knight.RollKnight(this.actor,
+              {
+              name:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`),
+              }).sendMessage({
+                  text:game.i18n.localize(`KNIGHT.AUTRE.Prolonger`),
+                  sounds:CONFIG.sounds.notification,
+            });
+            break;
+
+          case 'canonNoe':
+            exec = new game.knight.RollKnight(this.actor,
+              {
+              name:game.i18n.localize(`KNIGHT.ACTIVATION.Label`),
+              }).sendMessage({
+                  text:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`),
+                  sounds:CONFIG.sounds.notification,
+            });
+
+            roll = new game.knight.RollKnight(this.actor, {
+              name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.LATERAL.Resilience`)}`,
+              dices:`${config.reparations.mechaarmure.resilience}D6`,
+            }, false);
+
+            await roll.doRoll();
+            break;
+
+          case 'canonMagma':
+            roll = new game.knight.RollKnight(this.actor, {
+              name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.AneantirBande`)}`,
+            }, false);
+
+            weapon = roll.prepareWpnDistance({
+              name:roll.name,
+              system:{
+                degats:{dice:0, fixe:0},
+                violence:{dice:0, fixe:0},
+                effets:{
+                  raw:[`aneantirbande`]
+                },
+              }
+            });
+            options = weapon.options;
+
+            for(let o of options) {
+              o.active = true;
+            }
+
+            listtargets = game.user.targets;
+
+            if(listtargets && listtargets.size > 0) {
+              for(let t of listtargets) {
+                const actor = t.actor;
+
+                allTargets.push({
+                    id:t.id,
+                    name:actor.name,
+                    aspects:actor.system.aspects,
+                    type:actor.type,
+                    effets:[],
+                });
+              }
+            }
+
+            flags = roll.getRollData(weapon, {targets:allTargets})
+
+            roll.setWeapon(weapon);
+            roll.autoApplyEffects({
+              noDmg:true,
+              noViolence:true,
+            });
+            break;
+
+          case 'stationDefenseAutomatise':
+            const activation = config.active ? false : true;
+            update[`system.configurations.liste.${main}.modules.${key}.active`] = activation;
+
+            if(activation) {
+              exec = new game.knight.RollKnight(actor,
+                {
+                name:game.i18n.localize(`KNIGHT.ACTIVATION.Label`),
+                }).sendMessage({
+                    text:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`),
+                    sounds:CONFIG.sounds.notification,
+              });
+
+              const payload = {
+                name: `${actor.name} : ${label}`,
+                type: "vehicule",
+                img:actor.img,
+                system:{
+                  "description":game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Description`),
+                  "armure":{
+                    "value":80,
+                    "base":80,
+                  },
+                  "resilience":{
+                    "value":1,
+                    "base":1,
+                  },
+                  "champDeForce":{
+                    "base":10,
+                  },
+                  "debordement":{
+                    'value':10
+                  },
+                  "options":{
+                    "blindage":true,
+                    "noPilote":true,
+                    "noPassager":true,
+                    "debordement":true
+                  }
+                },
+                ownership:actor.ownership
+              };
+
+              const { id, uuid } = await SOCKET.executeAsGM('createSubActor', payload);
+              const src = await fromUuid(uuid);
+
+              await SOCKET.executeAsGM('giveItmToActor', {
+                actor:uuid,
+                items:[
+                  new Item({
+                    name:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.PodMissile`),
+                    type:'module',
+                    img:'modules/knight-compendium/assets/modules/pod-missile.webp',
+                    system:{
+                      description:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.PodMissileDescription`),
+                      categorie:'distance',
+                      niveau:{
+                        details:{
+                          n1:{
+                            permanent:true,
+                            rarete:'avance',
+                            activation:'deplacement',
+                            prix:30,
+                            arme:{
+                              has:true,
+                              type:'distance',
+                              portee:'longue',
+                              degats:{
+                                dice:6,
+                                fixe:3
+                              },
+                              violence:{
+                                dice:1,
+                                fixe:6
+                              },
+                              effets:{
+                                raw:['antivehicule', 'artillerie', 'autohit'],
+                                liste:[],
+                              }
+                            },
+                          }
+                        }
+                      }
+                    }
+                  }),
+                  new Item({
+                    name:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.PodRoquette`),
+                    type:'module',
+                    img:'modules/knight-compendium/assets/modules/pod-roquette.webp',
+                    system:{
+                      description:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.PodRoquetteDescription`),
+                      categorie:'distance',
+                      niveau:{
+                        details:{
+                          n1:{
+                            permanent:true,
+                            rarete:'avance',
+                            activation:'deplacement',
+                            prix:30,
+                            arme:{
+                              has:true,
+                              type:'distance',
+                              portee:'longue',
+                              degats:{
+                                dice:1,
+                                fixe:6
+                              },
+                              violence:{
+                                dice:8,
+                                fixe:12
+                              },
+                              effets:{
+                                raw:['demoralisant', 'autohit'],
+                                liste:[],
+                              }
+                            },
+                          }
+                        }
+                      }
+                    }
+                  })
+                ]
+              });
+              const token = await spawnTokenRightOfActor({ actor: src, refActor: actor });
+
+              update[`system.configurations.invocations.stationDefenseAutomatiseActor`] = uuid;
+              update[`system.configurations.invocations.stationDefenseAutomatiseToken`] = token.uuid;
+            } else {
+              update[`system.configurations.invocations.stationDefenseAutomatiseActor`] = null;
+              update[`system.configurations.invocations.stationDefenseAutomatiseToken`] = null;
+
+              await SOCKET.executeAsGM('deleteActorOrToken', {
+                actors:[
+                  this.configurations.invocations.stationDefenseAutomatiseActor,
+                  this.configurations.invocations.stationDefenseAutomatiseToken,
+                ],
+              });
+
+              exec = new game.knight.RollKnight(this.actor,
+                {
+                name:game.i18n.localize(`KNIGHT.ACTIVATION.Desactivation`),
+                }).sendMessage({
+                    text:game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`),
+                    sounds:CONFIG.sounds.notification,
+              });
+            }
+            break;
+
+          case 'missilesJericho':
+            listtargets = game.user.targets;
+
+            if(listtargets && listtargets.size > 0) {
+              for(let t of listtargets) {
+                const actor = t.actor;
+
+                allTargets.push({
+                    id:t.id,
+                    name:actor.name,
+                    aspects:actor.system.aspects,
+                    type:actor.type,
+                    effets:[],
+                });
+              }
+            }
+
+            dataWpn.raw = config.effets.raw;
+            dataWpn.custom = config.effets.custom;
+
+            degatsD = config.degats.dice;
+            degatsF = config.degats.fixe;
+            violenceD = config.degats.dice;
+            violenceF = config.degats.fixe;
+
+            label += ` : ${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.ZoneExterieure`)}`
+
+            roll = new game.knight.RollKnight(this.actor, {
+              name:label,
+            }, false);
+
+            weapon = roll.prepareWpnDistance({
+              name:label,
+              system:{
+                degats:{dice:degatsD, fixe:degatsF},
+                violence:{dice:violenceD, fixe:violenceF},
+                effets:dataWpn,
+              }
+            });
+            options = weapon.options;
+
+            for(let o of options) {
+              o.active = true;
+            }
+
+            flags = roll.getRollData(weapon, {targets:allTargets})
+            roll.setWeapon(weapon);
+
+            if(splitType[1] === 'degats') {
+              await roll.doRollDamage(flags);
+            } else if(splitType[1] === 'violence') {
+              await roll.doRollViolence(flags);
+            }
+            break;
+        }
+        break;
+
+      case 'multi':
+        switch(key) {
+          case 'offering':
+            let sublabel = ``;
+
+            if(splitType[1] == `degats`) sublabel += ` : ${game.i18n.localize("KNIGHT.BONUS.Degats")} / ${game.i18n.localize("KNIGHT.BONUS.Violence")}`;
+            else if(splitType[1] == `caracteristique`) sublabel += ` : ${game.i18n.localize("KNIGHT.BONUS.BonusCaracteristique")}`;
+            else if(splitType[1] == `action`) sublabel += ` : ${game.i18n.localize("KNIGHT.BONUS.Action")}`;
+            else if(splitType[1] == `cdf`) sublabel += ` : ${game.i18n.localize("KNIGHT.BONUS.ChampDeForce")}`;
+            else if(splitType[1] == `noyaux`) {
+              sublabel += ` : ${game.i18n.localize("KNIGHT.BONUS.Noyau")}`;
+              sublabel += ` (${config.noyaux.actuel})`;
+            }
+
+            exec = new game.knight.RollKnight(this.actor,
+              {
+              name:game.i18n.localize(`KNIGHT.ACTIVATION.Label`),
+              }).sendMessage({
+                  text:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}${sublabel}`,
+                  sounds:CONFIG.sounds.notification,
+            });
+            break;
+
+          case 'curse':
+            const noActivation = ['choc'];
+
+            if(!noActivation.includes(splitType[1])) {
+              exec = new game.knight.RollKnight(this.actor,
+                {
+                name:game.i18n.localize(`KNIGHT.ACTIVATION.Label`),
+                }).sendMessage({
+                    text:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
+                    sounds:CONFIG.sounds.notification,
+              });
+            }
+
+            roll = new game.knight.RollKnight(this.actor, {
+              name:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)}`,
+            }, false);
+
+            switch(splitType[1]) {
+              case "degats":
+                roll.sendMessage({text:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.DiminueDegatsViolence`)} : ${config.special.degats}${game.i18n.localize(`KNIGHT.JETS.Des-short`)}6`});
+                break;
+
+              case "reussite":
+                roll.sendMessage({text:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.RetireReussite`)} : ${config.special.reussite}`});
+                break;
+
+              case "baisserresilienceroll":
+                rollDice = new Roll(`${config.special.baisserresilience.roll}D6`);
+                await rollDice.evaluate();
+
+                roll.sendMessage({text:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.BaisseResilience`)} : ${rollDice.total}`})
+                break;
+
+              case "baisserresiliencefixe":
+                roll.sendMessage({text:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.BaisseResilience`)} : ${config.special.baisserresilience.fixe}`})
+                break;
+
+              case "champdeforce":
+                roll.sendMessage({text:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.AnnuleChampDeForce`)}`})
+                break;
+
+              case "annulerresilience":
+                roll.sendMessage({text:`${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.AnnuleResilience`)}`})
+                break;
+
+              case "choc":
+                rollDice = new Roll(`${config.special.choc}`);
+                await rollDice.evaluate();
+
+                roll.name = `${game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.EFFETS.CHOC.Label`)}`;
+
+                weapon = roll.prepareWpnDistance({
+                  name:roll.name,
+                  system:{
+                    degats:{dice:0, fixe:0},
+                    violence:{dice:0, fixe:0},
+                    effets:{
+                      raw:[`choc ${rollDice.total}`]
+                    },
+                  }
+                });
+                options = weapon.options;
+
+                for(let o of options) {
+                  o.active = true;
+                }
+
+                listtargets = game.user.targets;
+
+                if(listtargets && listtargets.size > 0) {
+                  for(let t of listtargets) {
+                    const actor = t.actor;
+
+                    allTargets.push({
+                        id:t.id,
+                        name:actor.name,
+                        aspects:actor.system.aspects,
+                        type:actor.type,
+                        effets:[],
+                    });
+                  }
+                }
+
+                flags = roll.getRollData(weapon, {targets:allTargets})
+
+                roll.setWeapon(weapon);
+                roll.autoApplyEffects({
+                  noDmg:true,
+                  noViolence:true,
+                });
+                break;
+            }
+            break;
+        }
+        break;
+    }
+
+    if(!foundry.utils.isEmpty(update)) await actor.update(update);
+  }
+
+  async _depenseNE(main, mainType, key, subkey=null) {
+    const splitType = mainType.split('/');
+    const type = splitType[0];
+    const label = game.i18n.localize(`KNIGHT.MECHAARMURE.MODULES.${key.toUpperCase()}.Label`);
+    const noyauxActuel = this.energie.value;
+    const config = this.configurations.liste[main].modules[key];
+    const complexe = ['moduleWraith', 'dronesEvacuation', 'canonMagma'];
+    let noyaux = complexe.includes(key) ? config.noyaux[subkey] : config.noyaux;
+
+    if(type === 'multi') {
+      switch(key) {
+        case 'offering':
+          if(splitType[1] === 'degats' || splitType[1] === 'caracteristique') noyaux = 1;
+          else if(splitType[1] === 'action' || splitType[1] === 'cdf') noyaux = 2;
+          else if(splitType[1] === 'noyaux') noyaux = Number(noyaux.actuel);
+          break;
+
+        case 'curse':
+          if(splitType[1] === 'degats' || splitType[1] === 'reussite') noyaux = 1;
+          else if(splitType[1] === 'baisserresilienceroll' || splitType[1] === 'baisserresiliencefixe') noyaux = 2;
+          else if(splitType[1] === 'champdeforce') noyaux = 3;
+          else if(splitType[1] === 'annulerresilience' || splitType[1] === 'choc') noyaux = 5;
+          break;
+      }
+    }
+
+    if(noyaux === 0 || (type === 'activation' && config.active) || (type === 'special' && key === 'stationDefenseAutomatise' && config.active)) return {
+      notConcerned:true,
+    }
+
+    if(type === 'special' && key === 'missilesJericho') noyaux += 1;
+
+    let newEnergie = noyauxActuel - noyaux;
+
+    if(newEnergie < 0) {
+      const msgEnergie = {
+        flavor:`${label}`,
+        main:{
+          total:`${game.i18n.localize(`KNIGHT.JETS.Notenergie`)}`
+        }
+      };
+
+      const msgEnergieData = {
+        user: game.user.id,
+        speaker: {
+          actor: this.actor?.id || null,
+          token: this.actor?.token?.id || null,
+          alias: this.actor?.name || null,
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgEnergie),
+        sound: CONFIG.sounds.dice
+      };
+
+      const rMode = game.settings.get("core", "rollMode");
+      const msgFData = ChatMessage.applyRollMode(msgEnergieData, rMode);
+
+      await ChatMessage.create(msgFData, {
+        rollMode:rMode
+      });
+
+      return {
+        notConcerned:false,
+        result:false,
+      };
+    }
+
+    if(newEnergie < 0) newEnergie = 0;
+
+    let update = {};
+
+    update[`system.energie.value`] = newEnergie;
+
+    return {
+      update:update,
+      notConcerned:false,
+      result:true,
+    };
   }
 }

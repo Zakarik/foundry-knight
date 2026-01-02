@@ -431,6 +431,7 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
                 }
               },
               effets:{
+                has:false,
                 raw:[],
                 custom:[],
                 liste:[],
@@ -901,7 +902,7 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
   async activate(value, type) {
 
     if(value) {
-      const depense = await this.usePE(type);
+      const depense = this.actor.type === 'vehicule' ? await this.usePEVehicule(type) : await this.usePE(type);
 
       if(!depense) return;
     }
@@ -1277,6 +1278,73 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
       if(!remplaceEnergie && depenseEspoir) pbE.sys('espoir.value', substractEspoir);
 
       if(depenseFlux && hasFlux) pbE.sys('flux.value', substractFlux);
+
+      await pbE.applyTo(actor);
+
+      return true;
+    }
+  }
+
+  async usePEVehicule(type, forceEspoir = false) {
+    const niveauActuel = this.niveauActuel;
+    const label = this.item.name;
+    const actor = this?.actor ?? null;
+
+    const getType = 'energie';
+    const value = actor?.system?.[getType]?.value ?? 0;
+
+    const sendLackMsg = async (i18nKey) => {
+      const payload = {
+        flavor: `${label}`,
+        main: { total: `${game.i18n.localize(`KNIGHT.JETS.${i18nKey}`)}` }
+      };
+      const data = {
+        user: game.user.id,
+        speaker: {
+          actor: actor?.id ?? null,
+          token: actor?.token?.id ?? null,
+          alias: actor?.name ?? null,
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
+        sound: CONFIG.sounds.dice
+      };
+      const rMode = game.settings.get("core", "rollMode");
+      const msgData = ChatMessage.applyRollMode(data, rMode);
+      await ChatMessage.create(msgData, { rollMode: rMode });
+    };
+
+    let cout = 0;
+
+    switch(type) {
+      case 'other':
+        cout += 0;
+        break;
+
+      case 'tour':
+      case 'minute':
+        cout += niveauActuel?.energie?.[type]?.value ?? 0;
+        break;
+
+      case 'supplementaire':
+        cout += niveauActuel?.energie?.supplementaire ?? 0;
+        break;
+    }
+
+    let depenseEnergie = 0;
+    let substractEnergie = 0;
+
+    depenseEnergie += cout;
+
+    substractEnergie = value - depenseEnergie;
+    console.error(substractEnergie);
+    if(substractEnergie < 0) {
+      await sendLackMsg(`${'Notenergie'}`);
+
+      return false;
+    } else {
+      let pbE = new PatchBuilder();
+      pbE.sys(`energie.value`, substractEnergie);
 
       await pbE.applyTo(actor);
 
