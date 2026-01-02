@@ -9,9 +9,9 @@
             <div class="blockMultiline">
                 {{#if beacon.selectionne}}
                     <button class="activation"
-                        data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="beacon"
-                        data-toupdate="capacites.selected.illumination.active"
-                        data-cout="0" data-espoir="{{beacon.espoir.base}}"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-special="beacon"
                         data-value="{{active.beacon}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BEACON.Label"}} : {{localizeactivate active.beacon}}
                     </button>
@@ -26,9 +26,9 @@
 
                 {{#if blaze.selectionne}}
                     <button class="activation"
-                        data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="blaze"
-                        data-toupdate="capacites.selected.illumination.active"
-                        data-cout="0" data-espoir="{{blaze.espoir.base}}"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-special="blaze"
                         data-value="{{active.blaze}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.BLAZE.Label"}} : {{localizeactivate active.blaze}}
                     </button>
@@ -48,8 +48,10 @@
                 {{/if}}
 
                 {{#if candle.selectionne}}
-                    <button class="activation" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="candle"
-                        data-cout="0" data-despoir="{{candle.espoir.dice}}D{{candle.espoir.face}}"
+                    <button class="activation"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-special="candle"
                         data-value="{{active.beacon}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.CANDLE.Label"}} : {{localize "KNIGHT.AUTRE.Activer"}}
                     </button>
@@ -57,9 +59,9 @@
 
                 {{#if lantern.selectionne}}
                     <button class="activation"
-                        data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="lantern"
-                        data-toupdate="capacites.selected.illumination.active"
-                        data-cout="0" data-espoir="{{lantern.espoir.base}}"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-special="lantern"
                         data-value="{{active.lantern}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LANTERN.Label"}} : {{localizeactivate active.lantern}}
                     </button>
@@ -79,9 +81,9 @@
 
                 {{#if lighthouse.selectionne}}
                     <button class="activation"
-                        data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="lighthouse"
-                        data-toupdate="capacites.selected.illumination.active"
-                        data-cout="0" data-espoir="{{lighthouse.espoir.base}}"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-special="lighthouse"
                         data-value="{{active.lighthouse}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.LIGHTHOUSE.Label"}} : {{localizeactivate active.lighthouse}}
                     </button>
@@ -96,9 +98,9 @@
 
                 {{#if projector.selectionne}}
                     <button class="activation"
-                        data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="projector"
-                        data-toupdate="capacites.selected.illumination.active"
-                        data-cout="0" data-espoir="{{projector.espoir.base}}"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-special="projector"
                         data-value="{{active.projector}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.PROJECTOR.Label"}} : {{localizeactivate active.projector}}
                     </button>
@@ -113,9 +115,9 @@
 
                 {{#if torch.selectionne}}
                     <button class="activation"
-                        data-type="capacites" data-capacite="{{key}}" data-name="{{label}}" data-special="torch"
-                        data-toupdate="capacites.selected.illumination.active"
-                        data-cout="0" data-espoir="{{torch.espoir.base}}"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-special="torch"
                         data-value="{{active.torch}}">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.TORCH.Label"}} : {{localizeactivate active.torch}}
                     </button>

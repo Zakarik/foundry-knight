@@ -17,6 +17,7 @@ export function getAllEffects() {
   const merge2 = foundry.utils.mergeObject(merge1, CONFIG.KNIGHT.AMELIORATIONS.distance);
   const merge3 = foundry.utils.mergeObject(merge2, CONFIG.KNIGHT.AMELIORATIONS.ornementales);
   const merge4 = foundry.utils.mergeObject(merge3, CONFIG.KNIGHT.AMELIORATIONS.structurelles);
+  const merge5 = foundry.utils.mergeObject(merge4, CONFIG.KNIGHT.effetspecial);
 
   return merge4;
 }
@@ -100,13 +101,15 @@ export function listEffects(raw, custom, labels, chargeur=null) {
       liste.push(toPush);
     }
 
-    for(let n = 0;n < custom.length;n++) {
-        liste.push({
-          id:n,
-          name:custom[n]?.label ?? '***',
-          description:custom[n].description,
-          custom:true
-        });
+    if(custom !== undefined) {
+      for(let n = 0;n < custom.length;n++) {
+          liste.push({
+            id:n,
+            name:custom[n]?.label ?? '***',
+            description:custom[n].description,
+            custom:true
+          });
+      }
     }
 
     function _sortByName(x, y){
@@ -4578,6 +4581,12 @@ export async function getArmor(actor) {
   return getItems.find(armure => armure.type === 'armure');
 }
 
+export async function getArmorLegend(actor) {
+  const getItems = await actor.getEmbeddedCollection("Item");
+
+  return getItems.find(armure => armure.type === 'armurelegende');
+}
+
 export async function getAllArmor(actor) {
   const getItems = await actor.getEmbeddedCollection("Item");
 
@@ -5278,7 +5287,7 @@ export async function spawnTokenRightOfActor({
     actor:actor.uuid,
     data:[data]
   });
-  return created?.[0];
+  return created;
 }
 
 /**

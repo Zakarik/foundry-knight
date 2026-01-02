@@ -1,30 +1,18 @@
-import { AspectsNPCDataModel } from '../parts/aspects-npc-data-model.mjs';
+
+import { BaseNPCDataModel } from "../base/base-npc-data-model.mjs";
 import { ArmesImproviseesDataModel } from '../parts/armesimprovisees-data-model.mjs';
-import { DefensesDataModel } from '../parts/defenses-data-model.mjs';
-import { InitiativeDataModel } from '../parts/initiative-data-model.mjs';
-import { Phase2DataModel } from '../parts/phase2-data-model.mjs';import {
+import {
   getFlatEffectBonus,
 } from "../../../helpers/common.mjs";
 
-export class CreatureDataModel extends foundry.abstract.TypeDataModel {
+export class CreatureDataModel extends BaseNPCDataModel {
 	static defineSchema() {
-		const {SchemaField, EmbeddedDataField, StringField, NumberField, BooleanField, ObjectField, ArrayField, HTMLField} = foundry.data.fields;
+		const {SchemaField, EmbeddedDataField, NumberField, BooleanField, ObjectField} = foundry.data.fields;
 
-    return {
-      version:new NumberField({initial:0, nullable:false, integer:true}),
-      type:new StringField({initial:""}),
-      histoire:new HTMLField({initial:""}),
-      description:new HTMLField({initial:""}),
-      descriptionLimitee:new HTMLField({initial:""}),
-      tactique:new HTMLField({initial:""}),
-      pointsFaibles:new HTMLField({initial:""}),
+    const base = super.defineSchema();
+    const specific = {
       colosse:new BooleanField({initial:false}),
       patron:new BooleanField({initial:false}),
-      limited:new SchemaField({
-        showPointsFaibles:new BooleanField({initial:false}),
-        showDescriptionFull:new BooleanField({initial:false}),
-        showDescriptionLimited:new BooleanField({initial:false}),
-      }),
       armure: new SchemaField({
           base:new NumberField({initial:0, min:0, nullable:false, integer:true}),
           mod:new NumberField({initial:0, nullable:false, integer:true}),
@@ -41,28 +29,9 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
             }
           }),
       }),
-      aspects:new EmbeddedDataField(AspectsNPCDataModel),
       combat:new SchemaField({
           armesimprovisees:new EmbeddedDataField(ArmesImproviseesDataModel),
-          data:new SchemaField({
-              degatsbonus:new SchemaField({
-                  dice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                  fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
-              }),
-              violencebonus:new SchemaField({
-                  dice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                  fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
-              }),
-              modificateur:new NumberField({ initial: 0, integer: true, nullable: false }),
-              sacrifice:new NumberField({ initial: 0, integer: true, nullable: false }),
-              succesbonus:new NumberField({ initial: 0, integer: true, nullable: false }),
-              tourspasses:new NumberField({ initial: 1, integer: true, nullable: false }),
-              type:new StringField({ initial: "degats"}),
-          }),
       }),
-      bouclier:new EmbeddedDataField(DefensesDataModel),
-      defense:new EmbeddedDataField(DefensesDataModel),
-      reaction:new EmbeddedDataField(DefensesDataModel),
       sante:new SchemaField({
           base:new NumberField({initial:0, nullable:false, integer:true}),
           mod:new NumberField({initial:0, nullable:false, integer:true}),
@@ -99,9 +68,6 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
               }
           }),
       }),
-      phase2:new EmbeddedDataField(Phase2DataModel),
-      phase2Activate:new BooleanField({initial:false}),
-      initiative:new EmbeddedDataField(InitiativeDataModel),
       bonusSiEmbuscade:new SchemaField({
         bonusInitiative:new SchemaField({
           dice:new NumberField({ initial: 0, integer: true, nullable: false }),
@@ -110,36 +76,17 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
       }),
       options:new SchemaField({
           armure:new BooleanField({initial:true, nullable:false}),
-          bouclier:new BooleanField({initial:true, nullable:false}),
           energie:new BooleanField({initial:true, nullable:false}),
           notFirstMenu:new BooleanField({initial:false, nullable:false}),
           noSecondMenu:new BooleanField({initial:false, nullable:false}),
-          phase2:new BooleanField({initial:true, nullable:false}),
           resilience:new BooleanField({initial:true, nullable:false}),
           sante:new BooleanField({initial:true, nullable:false}),
           embuscadeSubis:new BooleanField({initial:false, nullable:false}),
           embuscadePris:new BooleanField({initial:false, nullable:false}),
       }),
-      otherMods:new ObjectField(),
-    }
-  }
-
-  get items() {
-      return this.parent.items;
-  }
-
-  get aspect() {
-    let data = {}
-
-    for(let a of CONFIG.KNIGHT.LIST.aspects) {
-        data[a] = {
-            value:this.aspects[a].value,
-            mineur:this.aspects[a].ae.mineur.value,
-            majeur:this.aspects[a].ae.majeur.value,
-        }
     }
 
-    return data;
+    return foundry.utils.mergeObject(base, specific);
   }
 
   get armes() {
@@ -201,6 +148,8 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
   }
 
   prepareBaseData() {
+    super.prepareBaseData();
+
     this.#armes();
     this.#capacites();
     this.#phase2();
@@ -507,5 +456,37 @@ export class CreatureDataModel extends foundry.abstract.TypeDataModel {
               value: malus,
           });
       }
+  }
+
+  useAI(type, name, num) {
+      const label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[name][num]);
+      const wpn = type === 'distance' ? `${name}${num}d` : `${name}${num}c`;
+      const whatRoll = [];
+      let modificateur = 0;
+      let base = '';
+
+      whatRoll.push('force');
+      base = 'chair';
+
+      const actor = this.actorId;
+
+      const dialog = new game.knight.applications.KnightRollDialog(actor, {
+        label,
+        wpn,
+        base,
+        whatRoll,
+        modificateur
+      });
+
+      dialog.open();
+
+      return dialog;
+  }
+
+  // Méthode à surcharger dans les enfants
+  _getWeaponHandlers() {
+      return {
+        armesimprovisees: ({ type, name, num }) => this.useAI(type, name, num),
+      };
   }
 }

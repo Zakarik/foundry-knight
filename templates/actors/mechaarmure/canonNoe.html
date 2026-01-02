@@ -11,11 +11,11 @@
         </div>
         {{else}}
         <div class="blockMultiline">
-            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true" data-special="resilience">
+            <button class="activation" data-key="{{key}}" data-main="{{type}}" data-type="special">
                     {{localize "KNIGHT.AUTRE.Activer"}} : {{localize "KNIGHT.LATERAL.Resilience"}}
             </button>
 
-            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true" data-special="autre">
+            <button class="activation" data-key="{{key}}" data-main="{{type}}" data-type="activation">
                     {{localize "KNIGHT.AUTRE.Activer"}} : {{localize "KNIGHT.AUTRE.Label"}}
             </button>
         </div>

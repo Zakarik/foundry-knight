@@ -420,6 +420,8 @@ export const KNIGHT = {};
     },
     EFFETS:{
       attaque:[
+        'aneantirbande',
+        'autohit',
         'artillerie',
         'barrage',
         'cadence',
@@ -556,6 +558,7 @@ export const KNIGHT = {};
       ],
       status:{
         attaque:[
+          'aneantirbande',
           'barrage',
           'choc',
           'designation',
@@ -658,6 +661,11 @@ export const KNIGHT = {};
  };
 
  KNIGHT.effets = {
+    "aneantirbande": {
+      "label":"KNIGHT.EFFETS.ANEANTIRBANDE.Label",
+      "description":"KNIGHT.EFFETS.ANEANTIRBANDE.Description",
+      "double":false
+    },
    "affecteanatheme": {
      "label":"KNIGHT.EFFETS.AFFECTEANATHEME.Label",
      "description":"KNIGHT.EFFETS.AFFECTEANATHEME.Description",
@@ -696,6 +704,11 @@ export const KNIGHT = {};
    "aucundegatsviolence": {
      "label":"KNIGHT.EFFETS.AUCUNDEGATSVIOLENCE.Label",
      "description":"KNIGHT.EFFETS.AUCUNDEGATSVIOLENCE.Description",
+     "double":false
+   },
+   "autohit": {
+     "label":"KNIGHT.EFFETS.AUTOHIT.Label",
+     "description":"KNIGHT.EFFETS.AUTOHIT.Description",
      "double":false
    },
    "barrage": {
@@ -954,6 +967,14 @@ export const KNIGHT = {};
     "double":false
   }
  }
+
+ KNIGHT.effetspecial = {
+    "autohit": {
+      "label":"KNIGHT.EFFETS.AUTOHIT.Label",
+      "description":"KNIGHT.EFFETS.AUTOHIT.Description",
+      "double":false
+    },
+ };
 
  KNIGHT.AMELIORATIONS = {
   distance:{
@@ -1686,5 +1707,18 @@ KNIGHT.module = {
     "rare":"KNIGHT.ITEMS.MODULE.RARETE.Rare",
     "prestige":"KNIGHT.ITEMS.MODULE.RARETE.Prestige",
     "espoir":"KNIGHT.ITEMS.MODULE.RARETE.Espoir",
+  }
+};
+
+KNIGHT.TOOLS = {
+  'times':{
+      active:false,
+      button: true,
+      toggle: false,
+      visible: true,
+      icon: "fa-solid fa-r",
+      name:'times',
+      title: "",
+      onChange:(event, active) => {},
   }
 };

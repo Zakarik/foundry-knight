@@ -1,3 +1,9 @@
+## v3.51.0
+- Refactorisation d'une partie du code pour plus de simplicité.
+- Correction d'un bug sur le nombre de succès auto de l'immobilisation du mode morph.
+- Correction d'un bug empêchant d'ajouter des effets sur une capacité de PNJ / Créature si elle est sur un token.
+- Correction d'un bug d'affichage lorsque l'ont permet de modifier le nombre de dés des nods, sur les PNJ.
+- 
 ## v3.50.8
 ### Bugfix
 - Prise en compte de la FAQ concernant le cumul de l'effet jumelé Akimbo/Ambidextrie + OD de combat / tir réduisant les malus de l'Akimbo / Ambidextrie.

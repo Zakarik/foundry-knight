@@ -11,11 +11,11 @@
         </div>
         {{else}}
         <div class="blockMultiline">
-            <button class="degats" data-label="{{{getMAModule this.key}}}" data-key="{{this.key}}" data-type="{{this.type}}" data-cout="{{this.noyaux}}" data-degats="{{this.degats.dice}}" data-degatsfixe="{{this.degats.fixe}}">
+            <button class="activation" data-key="{{key}}" data-main="{{type}}" data-type="degats">
                 {{localize "KNIGHT.AUTRE.Degats"}}
             </button>
 
-            <button class="violence" data-label="{{{getMAModule this.key}}}" data-key="{{this.key}}" data-type="{{this.type}}" data-cout="{{this.noyaux}}" data-violence="{{this.violence.dice}}" data-violencefixe="{{this.violence.fixe}}">
+            <button class="activation" data-key="{{key}}" data-main="{{type}}" data-type="violence">
                 {{localize "KNIGHT.AUTRE.Violence"}}
             </button>
         </div>

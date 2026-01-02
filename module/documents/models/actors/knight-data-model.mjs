@@ -3,6 +3,7 @@ import {
     SortByAddOrder,
     getFlatEffectBonus,
   } from "../../../helpers/common.mjs";
+import { BaseActorDataModel } from "../base/base-actor-data-model.mjs";
 import { AspectsPCDataModel } from '../parts/aspects-pc-data-model.mjs';
 import { ArmesImproviseesDataModel } from '../parts/armesimprovisees-data-model.mjs';
 import { GrenadesDataModel } from '../parts/grenades-data-model.mjs';
@@ -10,12 +11,11 @@ import { NodsDataModel } from '../parts/nods-data-model.mjs';
 import { DefensesDataModel } from '../parts/defenses-data-model.mjs';
 import { InitiativeDataModel } from '../parts/initiative-data-model.mjs';
 
-export class KnightDataModel extends foundry.abstract.TypeDataModel {
+export class KnightDataModel extends BaseActorDataModel {
 	static defineSchema() {
 		const {SchemaField, EmbeddedDataField, StringField, NumberField, BooleanField, ObjectField, ArrayField, HTMLField} = foundry.data.fields;
-
-        return {
-            version:new NumberField({initial:0, nullable:false, integer:true}),
+        const base = super.defineSchema();
+        const specific = {
             wear:new StringField({initial:"tenueCivile"}),
 			age:new StringField({ initial: ""}),
 			archetype:new StringField({ initial: ""}),
@@ -24,17 +24,11 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
             section:new StringField({initial:""}),
             hautFait:new StringField({initial:""}),
             histoire:new HTMLField({initial:""}),
-            description:new HTMLField({initial:""}),
-            descriptionLimitee:new HTMLField({initial:""}),
             aspects:new EmbeddedDataField(AspectsPCDataModel),
             defense:new EmbeddedDataField(DefensesDataModel),
             reaction:new EmbeddedDataField(DefensesDataModel),
             egide:new EmbeddedDataField(DefensesDataModel),
             initiative:new EmbeddedDataField(InitiativeDataModel),
-            limited:new SchemaField({
-              showDescriptionFull:new BooleanField({initial:false}),
-              showDescriptionLimited:new BooleanField({initial:false}),
-            }),
             GM:new SchemaField({
                 dontshow:new BooleanField({initial:false}),
             }),
@@ -431,12 +425,9 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
               }),
             }),
             restrictions:new ObjectField(),
-            otherMods:new ObjectField(),
         }
-    }
 
-    get items() {
-        return this.parent.items;
+        return foundry.utils.mergeObject(base, specific);
     }
 
     get armes() {
@@ -501,6 +492,15 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         }
 
         return result;
+    }
+
+    get rollWpnDistanceMod() {
+        const statuses = this.actor.statuses;
+        let modificateur = 0;
+
+        if(statuses.has('fumigene')) modificateur -= 3;
+
+        return modificateur;
     }
 
     static migrateData(source) {
@@ -575,6 +575,8 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
     }
 
     prepareBaseData() {
+        super.prepareBaseData();
+
         this.#checkArmor();
         this.#experience();
         this.#base();
@@ -1818,6 +1820,13 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                                 enumerable:true,
                                 configurable:true
                             });
+                        } else {
+                            Object.defineProperty(whatAffect.malus, c, {
+                                value: 0,
+                                writable:true,
+                                enumerable:true,
+                                configurable:true
+                            });
                         }
                         break;
                     case 'companions':
@@ -1839,8 +1848,17 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
                                 if(game.actors.get(crow)) depense = game.actors.get(crow).system.energie.base;
                             }
 
+                            console.error(depense);
+
                             Object.defineProperty(whatAffect.malus, c, {
                                 value: depense,
+                                writable:true,
+                                enumerable:true,
+                                configurable:true
+                            });
+                        } else {
+                            Object.defineProperty(whatAffect.malus, c, {
+                                value: 0,
                                 writable:true,
                                 enumerable:true,
                                 configurable:true
@@ -2527,5 +2545,133 @@ export class KnightDataModel extends foundry.abstract.TypeDataModel {
         }
 
         return result;
+    }
+
+    async useNods(type, heal=false) {
+        const nod = this.combat.nods[type];
+
+        const nbre = Number(nod.value);
+        const dices = nod.dices;
+        const wear = this.whatWear;
+
+        if(nbre > 0) {
+            const recuperation = this.combat.nods[type].recuperationBonus;
+            let update = {}
+
+            if(heal) {
+                switch(type) {
+                    case 'soin':
+                    update['system.sante.value'] = `@{rollTotal}+${this.sante.value}`;
+                    break;
+
+                    case 'energie':
+                    update[`system.equipements.${wear}.energie.value`] = `@{rollTotal}+${this.energie.value}`;
+                    break;
+
+                    case 'armure':
+                    update[`system.equipements.${wear}.armure.value`] = `@{rollTotal}+${this.armure.value}`;
+                    break;
+                }
+            }
+
+            update[`system.combat.nods.${type}.value`] = nbre - 1;
+
+            const rNods = new game.knight.RollKnight(this.actor, {
+                name:game.i18n.localize(`KNIGHT.JETS.Nods${type}`),
+                dices:dices,
+                bonus:[recuperation]
+            }, false);
+
+            await rNods.doRoll(update);
+        } else {
+          const rNods = new game.knight.RollKnight(this.actor, {
+            name:game.i18n.localize(`KNIGHT.JETS.Nods${type}`),
+          }, false);
+
+          rNods.sendMessage({
+            classes:'fail',
+            text:`${game.i18n.localize(`KNIGHT.JETS.NotNods`)}`,
+          })
+        }
+    }
+
+    useGrenade(type) {
+        const nbreGrenade = this.combat?.grenades?.quantity?.value ?? 0;
+
+        if(nbreGrenade === 0) {
+            ui.notifications.warn(game.i18n.localize(`KNIGHT.AUTRE.NoGrenades`));
+            return;
+        }
+
+        const dataGrenade = this.combat.grenades.liste[type];
+        const wpn = `grenade_${type}`;
+        const label = dataGrenade.custom ? `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${dataGrenade.label}` : `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${type.charAt(0).toUpperCase()+type.substr(1)}`)}`;
+        const modificateur = this.rollWpnDistanceMod;
+        const actor = this.actorId;
+
+        const dialog = new game.knight.applications.KnightRollDialog(actor, {
+            label,
+            wpn,
+            modificateur
+        });
+
+        dialog.open();
+
+        return dialog;
+    }
+
+    useLongbow() {
+        const label = game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label`);
+        const wpn = `capacite_${this.dataArmor.id}_longbow`;
+        const actor = this.actorId;
+        const modificateur = this.rollWpnDistanceMod;
+
+        const dialog = new game.knight.applications.KnightRollDialog(actor, {
+          label,
+          wpn,
+          modificateur
+        });
+
+        dialog.open();
+
+        return dialog;
+    }
+
+    useAI(type, name, num) {
+        const label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[name][num]);
+        const wpn = type === 'distance' ? `${name}${num}d` : `${name}${num}c`;
+        const whatRoll = [];
+        let modificateur = 0;
+        let base = '';
+
+        whatRoll.push('force');
+
+        if(type === 'distance') {
+            modificateur = this.rollWpnDistanceMod;
+            base = 'tir';
+        }
+        else base = 'combat';
+
+        const actor = this.actorId;
+
+        const dialog = new game.knight.applications.KnightRollDialog(actor, {
+          label,
+          wpn,
+          base,
+          whatRoll,
+          modificateur
+        });
+
+        dialog.open();
+
+        return dialog;
+    }
+
+    _getWeaponHandlers() {
+        return {
+          armesimprovisees: ({ type, name, num }) => this.useAI(type, name, num),
+          grenades: ({ type }) => this.useGrenade(type),
+          longbow: () => this.useLongbow(),
+        };
     }
 }

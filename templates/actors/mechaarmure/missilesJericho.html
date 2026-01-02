@@ -11,19 +11,19 @@
         </div>
         {{else}}
         <div class="blockMultiline">
-            <button class="degats" data-label="{{{getMAModule this.key}}}" data-key="{{this.key}}" data-type="{{this.type}}" data-cout="{{this.noyaux}}" data-degats="{{this.degats.dice}}" data-degatsfixe="{{this.degats.fixe}}">
+            <button class="activation" data-key="{{key}}" data-main="{{type}}" data-type="degats">
                 {{localize "KNIGHT.AUTRE.Degats"}}
             </button>
 
-            <button class="degats" data-label="{{{getMAModule this.key}}}" data-key="{{this.key}}" data-type="{{this.type}}" data-cout="{{this.noyaux}}+1" data-degats="{{this.degats.dice}}" data-degatsfixe="{{this.degats.fixe}}">
+            <button class="activation" data-key="{{key}}" data-main="{{type}}" data-type="special/degats">
                 {{localize "KNIGHT.AUTRE.Degats"}} : {{localize "KNIGHT.MECHAARMURE.MODULES.MISSILESJERICHO.ZoneExterieure"}}
             </button>
 
-            <button class="violence" data-label="{{{getMAModule this.key}}}" data-key="{{this.key}}" data-type="{{this.type}}" data-cout="{{this.noyaux}}" data-degats="{{this.violence.dice}}" data-violencefixe="{{this.violence.fixe}}">
+            <button class="activation" data-key="{{key}}" data-main="{{type}}" data-type="violence">
                 {{localize "KNIGHT.AUTRE.Violence"}}
             </button>
 
-            <button class="violence" data-label="{{{getMAModule this.key}}}" data-key="{{this.key}}" data-type="{{this.type}}" data-cout="{{this.noyaux}}+1" data-violence="{{this.violence.dice}}" data-violencefixe="{{this.violence.fixe}}">
+            <button class="activation" data-key="{{key}}" data-main="{{type}}" data-type="special/violence">
                 {{localize "KNIGHT.AUTRE.Violence"}} : {{localize "KNIGHT.MECHAARMURE.MODULES.MISSILESJERICHO.ZoneExterieure"}}
             </button>
         </div>
@@ -47,6 +47,14 @@
         <div class="longspan">
             <span class="label">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
             <span class="value">{{getActivation this.activation}}</span>
+        </div>
+        <div class="longspan">
+            <span class="label">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+            <span class="value">{{this.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.degats.fixe}}</span>
+        </div>
+        <div class="longspan">
+            <span class="label">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+            <span class="value">{{this.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{violence.fixe}}</span>
         </div>
         <div class="effets">
             {{#each this.effets.liste as | key effet|}}

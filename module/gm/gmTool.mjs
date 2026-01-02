@@ -10,6 +10,7 @@ import { GmMonitor } from "./gmMonitor.mjs";
         const x = $(window).width();
         const y = $(window).height();
         return foundry.utils.mergeObject(super.defaultOptions, {
+            baseApplication:'GmTool',
             classes: ["knight", "gmTool"],
             template: "systems/knight/templates/gm/gmTool.html",
             title: game.i18n.localize("KNIGHT.GM.TOOL.Label"),
@@ -86,9 +87,5 @@ import { GmMonitor } from "./gmMonitor.mjs";
             const app = Object.values(ui.windows).find((app) => app instanceof GmMonitor) ?? new game.knight.documents.GmMonitor()
             app.render(true);
         });
-    }
-
-    async close(options={}) {
-        return;
     }
  }

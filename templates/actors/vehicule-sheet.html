@@ -9,39 +9,43 @@
                     <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
                 </h1>
 
+                {{#unless systemData.options.noPilote}}
                 <div class="pilote">
-                    <span class="label">{{localize "KNIGHT.VEHICULE.Pilote"}}</span>
-                    {{#if systemData.equipage.pilote.name}}
-                        <span class="value">
-                            {{systemData.equipage.pilote.name}}
-                            <div class="gestionButton">
-                                <a class="item-control pilote-edit" title="{{localize "KNIGHT.VEHICULE.PasserPassager"}}"><i class="fa-solid fa-user"></i></i></a>
-                                <a class="item-control pilote-delete" title="{{localize "KNIGHT.VEHICULE.DeletePilote"}}"><i class="fas fa-trash"></i></a>
-                            </div>
-                        </span>
-                    {{else}}
-                        <span class="value">{{localize "KNIGHT.VEHICULE.PasPilote"}}</span>
-                    {{/if}}
+                        <span class="label">{{localize "KNIGHT.VEHICULE.Pilote"}}</span>
+                        {{#if systemData.equipage.pilote.name}}
+                            <span class="value">
+                                {{systemData.equipage.pilote.name}}
+                                <div class="gestionButton">
+                                    <a class="item-control pilote-edit" title="{{localize "KNIGHT.VEHICULE.PasserPassager"}}"><i class="fa-solid fa-user"></i></i></a>
+                                    <a class="item-control pilote-delete" title="{{localize "KNIGHT.VEHICULE.DeletePilote"}}"><i class="fas fa-trash"></i></a>
+                                </div>
+                            </span>
+                        {{else}}
+                            <span class="value">{{localize "KNIGHT.VEHICULE.PasPilote"}}</span>
+                        {{/if}}
                 </div>
+                {{/unless}}
 
+                {{#unless systemData.options.noPassager}}
                 <div class="passagers">
-                    <span class="label">{{localize "KNIGHT.VEHICULE.Passagers"}}</span>
-                    {{#if (isEmpty this.data.system.equipage.passagers false)}}
-                        <span class="value">{{localize "KNIGHT.VEHICULE.PasPassager"}}</span>
-                    {{else}}
-                        <div class="values">
-                            {{#each systemData.equipage.passagers as | key passager|}}
-                                <span class="value" data-id="{{passager}}">
-                                    {{key.name}}
-                                    <div class="gestionButton">
-                                        <a class="item-control passager-edit" title="{{localize "KNIGHT.VEHICULE.PasserPilote"}}"><i class="fa-solid fa-user"></i></i></a>
-                                        <a class="item-control passager-delete" title="{{localize "KNIGHT.VEHICULE.DeletePassager"}}"><i class="fas fa-trash"></i></a>
-                                    </div>
-                                </span>
-                            {{/each}}
-                        </div>
-                    {{/if}}
+                        <span class="label">{{localize "KNIGHT.VEHICULE.Passagers"}}</span>
+                        {{#if (isEmpty this.data.system.equipage.passagers false)}}
+                            <span class="value">{{localize "KNIGHT.VEHICULE.PasPassager"}}</span>
+                        {{else}}
+                            <div class="values">
+                                {{#each systemData.equipage.passagers as | key passager|}}
+                                    <span class="value" data-id="{{passager}}">
+                                        {{key.name}}
+                                        <div class="gestionButton">
+                                            <a class="item-control passager-edit" title="{{localize "KNIGHT.VEHICULE.PasserPilote"}}"><i class="fa-solid fa-user"></i></i></a>
+                                            <a class="item-control passager-delete" title="{{localize "KNIGHT.VEHICULE.DeletePassager"}}"><i class="fas fa-trash"></i></a>
+                                        </div>
+                                    </span>
+                                {{/each}}
+                            </div>
+                        {{/if}}
                 </div>
+                {{/unless}}
             </div>
         </div>
     </header>
@@ -49,6 +53,7 @@
     {{!-- MENU LATERAL  --}}
     <section class="menu">
         <section class="mainBlock">
+            {{#unless systemData.options.noPilote}}
             <div class="manoeuvrabilite">
                 <div class="line">
                     <span class="label">{{localize "KNIGHT.VEHICULE.Manoeuvrabilite"}}</span>
@@ -56,12 +61,15 @@
                 </div>
                 <button type="action" class="jetPilotage">{{localize "KNIGHT.JETS.JetPilotage"}}</button>
             </div>
+            {{/unless}}
+            {{#unless systemData.options.noPassager}}
             <div class="passagers">
                 <div class="line">
                     <span class="label">{{localize "KNIGHT.VEHICULE.Passagers"}}</span>
                     <input type="number" name="system.passagers" value="{{systemData.passagers}}" min="0" />
                 </div>
             </div>
+            {{/unless}}
             <div class="vitesse">
                 <div class="line">
                     <span class="label">{{localize "KNIGHT.VEHICULE.Vitesse"}}</span>
@@ -73,7 +81,7 @@
             <div class="armure">
                 <div class="line js-simpletoggler">
                     <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="armure"></span>
-                    <span class="label">{{localize "KNIGHT.LATERAL.Armure"}}</span>
+                    <span class="label">{{localize (ifThen systemData.options.blindage "KNIGHT.LATERAL.Blindage" "KNIGHT.LATERAL.Armure")}}</span>
                     <input type="number" name="system.armure.value" min="0" max="{{systemData.armure.max}}" value="{{systemData.armure.value}}" />
                     <span class="separation">/</span>
                     <span class="score" title="{{systemData.armure.base}} + {{systemData.armure.bonusValue}} - {{systemData.armure.malusValue}} = {{systemData.armure.max}}">{{systemData.armure.max}}</span>
@@ -110,6 +118,28 @@
                 </div>
             </div>
         </section>
+
+        {{#if systemData.options.debordement}}
+        <section class="mainBlock">
+            <div class="debordement">
+                <div class="line">
+                    <span class="label">{{localize "KNIGHT.AUTRE.Debordement"}}</span>
+                    <input type="number" name="system.debordement.value" min="0" value="{{systemData.debordement.value}}" />
+                </div>
+                <div class="tour">
+                    <span class="label">
+                        {{#if (isHigherThan systemData.debordement.tour 1)}}
+                            {{localize "KNIGHT.AUTRE.Tours"}}
+                            {{else}}
+                            {{localize "KNIGHT.AUTRE.Tour"}}
+                        {{/if}}
+                    </span>
+                    <input type="number" name="system.debordement.tour" min="1" value="{{systemData.debordement.tour}}" />
+                </div>
+                <button type="action" class="jetDebordement" data-name="{{data.name}}" data-value="{{systemData.debordement.tour}}*{{systemData.debordement.value}}">{{localize "KNIGHT.AUTRE.Debordement"}}</button>
+            </div>
+        </section>
+        {{/if}}
 
         <section class="mainBlock">
             <div class="reaction">
@@ -206,9 +236,11 @@
                                     </div>
                                     {{/unless}}
                                     <span class="name">{{this.name}}</span>
+                                    {{#if @root/data/system/equipage/passagers}}
                                     <select class="whoActivate" data-id="{{this._id}}" data-niveau="{{this.system.niveau}}">
                                         {{selectOptions (getPassagers @root/data/system/equipage/passagers) selected=key.system.whoActivate blank=''}}
                                     </select>
+                                    {{/if}}
                                     {{#if this.system.optionsmunitions.has}}
                                         <select class="wpnMunitionChange" data-id="{{this._id}}" data-niveau="{{this.system.niveau}}">
                                             {{selectOptions (getMunitions key.system.optionsmunitions.liste) selected=key.system.optionsmunitions.actuel}}

@@ -379,6 +379,11 @@ export class KnightEffetsDialog extends FormApplication {
       const isToken = this.object.isToken;
       const token = this.object.token;
 
+      console.error(actor);
+      console.error(item);
+      console.error(isToken);
+      console.error(token);
+
       if(item === null && !isToken) objectToUpdate = game.actors.get(actor);
       else if(item == null && token !== null) objectToUpdate = token;
       else if(!isToken) {

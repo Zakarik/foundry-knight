@@ -173,6 +173,18 @@ export class KnightRollDialog extends Dialog {
         return style
     }
 
+    get wpnSelected() {
+        const wpnSelected = this.rollData?.wpnSelected;
+        return wpnSelected ? this.rollData.allWpn.find(itm => itm.id === wpnSelected) : undefined;
+    }
+
+    get wpnIsTourelle() {
+        const wpn = this.wpnSelected;
+
+        if(wpn?.tourelle) return true;
+        else return false;
+    }
+
 
     actualise() {
         this.#renderInitialization(this.data.roll.html);
@@ -767,7 +779,7 @@ export class KnightRollDialog extends Dialog {
         const selected = [...new Set(this.rollData.whatRoll)].filter(v => v !== base);
         const weaponID = data.find('div.wpn .button .btnWpn.selected').parents('div.button').data('id');
         const weaponData = data.find('div.wpn .button .data');
-        const weapon = weaponID ? this.rollData.allWpn.find(itm => itm.id === weaponID) : undefined
+        const weapon = this.wpnSelected;
         const difficulte = parseInt(data.find('label.score.difficulte input').val());
         const succesBonus = parseInt(data.find('label.score.succesBonus input').val());
         const modificateur = parseInt(data.find('label.score.modificateur input').val());
@@ -881,11 +893,11 @@ export class KnightRollDialog extends Dialog {
                 let toAddCustom = [];
 
                 for(let r of weapon.eff1.raw) {
-                    if(weapon.options.find(itm => itm.value === r)) toAddRaw.push(r);
+                    if(weapon.options.find(itm => itm.value === r && (itm?.active ?? true))) toAddRaw.push(r);
                 }
 
                 for(let r of weapon.eff1.custom) {
-                    if(weapon.options.find(itm => itm.value === r)) toAddCustom.push(r);
+                    if(weapon.options.find(itm => itm.value === r && (itm?.active ?? true))) toAddCustom.push(r);
                 }
 
                 weapon.effets.raw = weapon.effets.raw.concat(toAddRaw);
@@ -901,11 +913,11 @@ export class KnightRollDialog extends Dialog {
                 let toAddCustom = [];
 
                 for(let r of weapon.eff2.raw) {
-                    if(weapon.options.find(itm => itm.value === r)) toAddRaw.push(r);
+                    if(weapon.options.find(itm => itm.value === r && (itm?.active ?? true))) toAddRaw.push(r);
                 }
 
                 for(let r of weapon.eff2.custom) {
-                    if(weapon.options.find(itm => itm.value === r)) toAddCustom.push(r);
+                    if(weapon.options.find(itm => itm.value === r && (itm?.active ?? true))) toAddCustom.push(r);
                 }
 
                 weapon.effets.raw = weapon.effets.raw.concat(toAddRaw);
@@ -1502,6 +1514,18 @@ export class KnightRollDialog extends Dialog {
             mods:[],
         };
 
+        let buttons = {
+            key:'grpBtn',
+            classes:'grpBtn rowFour colFiveSeven',
+            grp:[],
+        };
+
+        let grpWpn = {
+            key:'grpWpn',
+            classes:'grpWpn',
+            grp:[],
+        }
+
 
         if(isPJ) {
             data.aspects = {};
@@ -1667,47 +1691,47 @@ export class KnightRollDialog extends Dialog {
 
         if(isPJ) {
             //BOUTON SANS OD
-            data.mods.push({
+            buttons.grp.push({
                 key:'btn',
                 name:'nood',
-                classes:'btn withoutod rowFour colFiveSeven',
+                classes:'btn withoutod',
                 btnclasses:'btn withoutod',
                 label:game.i18n.localize('KNIGHT.JETS.NoOd'),
             });
         }
 
         //BOUTON ATTAQUE SURPRISE
-        data.mods.push({
+        buttons.grp.push({
             key:'btn',
             name:'attaquesurprise',
-            classes:isPJ ? 'btn attaquesurprise rowFive colFiveSeven' : 'btn attaquesurprise rowFour colFiveSeven',
+            classes:'btn attaquesurprise',
             btnclasses:'btn attaquesurprise',
             label:game.i18n.localize('KNIGHT.JETS.AttackSurprise'),
         });
 
         //BOUTON MAXIMISER LES DEGATS
-        data.mods.push({
+        buttons.grp.push({
             key:'btn',
             name:'maximizedegats',
-            classes:'btn maximizedegats colFiveSeven',
+            classes:'btn maximizedegats',
             btnclasses:'btn maximizedegats',
             label:game.i18n.localize('KNIGHT.JETS.MaximizeDegats'),
-        });
+        })
 
         //BOUTON MAXIMISER LA VIOLENCE
-        data.mods.push({
+        buttons.grp.push({
             key:'btn',
             name:'maximizeviolence',
-            classes:'btn maximizeviolence colFiveSeven',
+            classes:'btn maximizeviolence',
             btnclasses:'btn maximizeviolence',
             label:game.i18n.localize('KNIGHT.JETS.MaximizeViolence'),
         });
 
         //BOUTON MODE HEROIQUE
-        data.mods.push({
+        buttons.grp.push({
             key:'btn',
             name:'modeheroique',
-            classes:'btn modeheroique colFiveSeven',
+            classes:'btn modeheroique',
             btnclasses:'btn modeheroique',
             label:game.i18n.localize('KNIGHT.JETS.ModeHeroique'),
         });
@@ -1720,10 +1744,10 @@ export class KnightRollDialog extends Dialog {
               itm.system.bonus?.equilibrerBalance
             )
           )) {
-            data.mods.push({
+            buttons.grp.push({
                 key:'btn',
                 name:'equilibrerbalance',
-                classes:'btn equilibrerbalance colFiveSeven',
+                classes:'btn equilibrerbalance',
                 btnclasses:'btn equilibrerbalance',
                 label:game.i18n.localize('KNIGHT.EFFETS.EQUILIBRERBALANCE.Label'),
             });
@@ -1731,39 +1755,42 @@ export class KnightRollDialog extends Dialog {
             this.rollData.btn.equilibrerbalance = true;
         }
 
+        //ON AJOUTE LE GROUPE BOUTON S'IL Y A DES BOUTONS
+        if(buttons.grp.length > 0) data.mods.push(buttons);
+
         //ARMES
         const wpns = this.#prepareWpn();
         this.data.roll.allWpn = this.rollData.typeWpn.contact.concat(this.rollData.typeWpn.distance, this.rollData.typeWpn.tourelle, this.rollData.typeWpn.aicontact, this.rollData.typeWpn.aidistance, this.rollData.typeWpn.grenade, this.rollData.typeWpn.complexe);
 
-        data.mods.push({
+        grpWpn.grp.push({
             key:'wpn',
             classes:'wpn contact colOne wpncontact',
             label:game.i18n.localize('KNIGHT.COMBAT.ARMES.CONTACT.Label'),
             list:this.rollData.typeWpn.contact,
         });
 
-        data.mods.push({
+        grpWpn.grp.push({
             key:'wpn',
             classes:'wpn distance colTwo wpndistance',
             label:game.i18n.localize('KNIGHT.COMBAT.ARMES.DISTANCE.Label'),
             list:this.rollData.typeWpn.distance,
         });
 
-        data.mods.push({
+        grpWpn.grp.push({
             key:'complexe',
             classes:'wpn complexe allCol',
             label:wpns.complexeLabel ? wpns.complexeLabel : game.i18n.localize('KNIGHT.ARMURE.Label'),
             list:this.rollData.typeWpn.complexe,
         });
 
-        data.mods.push({
+        grpWpn.grp.push({
             key:'wpn',
             classes:'wpn distance colDuo grenade',
             label:game.i18n.localize('KNIGHT.COMBAT.GRENADES.Label'),
             list:this.rollData.typeWpn.grenade,
         });
 
-        data.mods.push({
+        grpWpn.grp.push({
             key:'wpn',
             classes:'wpn distance colDuo tourelle',
             label:game.i18n.localize('KNIGHT.COMBAT.ARMES.TOURELLE.Label'),
@@ -1776,14 +1803,14 @@ export class KnightRollDialog extends Dialog {
         })
 
         if(this.actor.type === 'mechaarmure') {
-            data.mods.push({
+            grpWpn.grp.push({
                 key:'wpn',
                 classes:'wpn contact colOne aicontact',
                 label:game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.LabelContact'),
                 list:this.rollData.typeWpn.aicontact,
             });
 
-            data.mods.push({
+            grpWpn.grp.push({
                 key:'wpn',
                 classes:'wpn distance colTwo aidistance',
                 label:game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.LabelDistance'),
@@ -1791,21 +1818,24 @@ export class KnightRollDialog extends Dialog {
             });
         }
         else {
-            data.mods.push({
+            grpWpn.grp.push({
                 key:'wpn',
                 classes:'wpn contact colOne aicontact',
                 label:game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.LabelContact'),
                 list:wpns.listaicontact,
             });
 
-            data.mods.push({
+            grpWpn.grp.push({
                 key:'wpn',
                 classes:'wpn distance colTwo aidistance',
                 label:game.i18n.localize('KNIGHT.COMBAT.ARMESIMPROVISEES.LabelDistance'),
                 list:wpns.listaidistance,
             });
-
         }
+
+
+        //ON AJOUTE LE GROUPE WPN S'IL Y A DES ARMES
+        if(grpWpn.grp.length > 0) data.mods.push(grpWpn);
 
         return data;
     }
@@ -1818,37 +1848,9 @@ export class KnightRollDialog extends Dialog {
         const items = actor.items;
         const armure = items.find(itm => itm.type === 'armure');
         const weapons = items.filter(itm => itm.type == 'arme' && (itm.system.equipped || itm.system.tourelle.has || !isPJ || itm.system.whoActivate === this.data.whoActivate));
-        const modules = type === 'vehicule' ? items.filter(itm => itm.type == 'module' && (itm.system?.active?.base ?? false) && (itm.system?.niveau?.actuel?.arme?.has ?? false) && itm.system.niveau.actuel.whoActivate === this.data.whoActivate) : items.filter(itm => itm.type == 'module' && ((itm.system?.active?.base ?? false) || (itm.system?.niveau?.actuel?.permanent ?? false)) && (itm.system?.niveau?.actuel?.arme?.has ?? false));
-        const modulesContact = type === 'vehicule' ? actor.items.filter(itm => itm.type === 'module' &&
-            itm.system.niveau.actuel.whoActivate === this.data.whoActivate &&
-            ((itm.system?.active?.base ?? false) || itm.system.niveau.actuel.permanent) &&
-            (itm.system?.niveau?.actuel?.bonus?.has ?? false) &&
-            (((itm.system?.niveau?.actuel?.bonus?.degats?.has ?? false) &&
-            ((itm.system?.niveau?.actuel?.bonus?.degats?.type ?? 'contact') === 'contact')) ||
-            ((itm.system?.niveau?.actuel?.bonus?.violence?.has ?? false) &&
-            ((itm.system?.niveau?.actuel?.bonus?.violence?.type ?? 'contact') === 'contact')))) :
-            actor.items.filter(itm => itm.type === 'module' &&
-            ((itm.system?.active?.base ?? false) || itm.system.niveau.actuel.permanent) &&
-            (itm.system?.niveau?.actuel?.bonus?.has ?? false) &&
-            (((itm.system?.niveau?.actuel?.bonus?.degats?.has ?? false) &&
-            ((itm.system?.niveau?.actuel?.bonus?.degats?.type ?? 'contact') === 'contact')) ||
-            ((itm.system?.niveau?.actuel?.bonus?.violence?.has ?? false) &&
-            ((itm.system?.niveau?.actuel?.bonus?.violence?.type ?? 'contact') === 'contact'))));
-        const modulesDistance = type === 'vehicule' ? actor.items.filter(itm => itm.type === 'module' &&
-            itm.system.niveau.actuel.whoActivate === this.data.whoActivate &&
-            ((itm.system?.active?.base ?? false) || itm.system.niveau.actuel.permanent) &&
-            (itm.system?.niveau?.actuel?.bonus?.has ?? false) &&
-            (((itm.system?.niveau?.actuel?.bonus?.degats?.has ?? false) &&
-            ((itm.system?.niveau?.actuel?.bonus?.degats?.type ?? 'contact') === 'distance')) ||
-            ((itm.system?.niveau?.actuel?.bonus?.violence?.has ?? false) &&
-            ((itm.system?.niveau?.actuel?.bonus?.violence?.type ?? 'contact') === 'distance')))) :
-            actor.items.filter(itm => itm.type === 'module' &&
-            ((itm.system?.active?.base ?? false) || itm.system.niveau.actuel.permanent) &&
-            (itm.system?.niveau?.actuel?.bonus?.has ?? false) &&
-            (((itm.system?.niveau?.actuel?.bonus?.degats?.has ?? false) &&
-            ((itm.system?.niveau?.actuel?.bonus?.degats?.type ?? 'contact') === 'distance')) ||
-            ((itm.system?.niveau?.actuel?.bonus?.violence?.has ?? false) &&
-            ((itm.system?.niveau?.actuel?.bonus?.violence?.type ?? 'contact') === 'distance'))));
+        const modules = this.#getWpnModules(items, type, this.data.whoActivate);
+        const modulesContact = this.#getBonusModulesByType(actor, type, 'contact', this.data.whoActivate);
+        const modulesDistance = this.#getBonusModulesByType(actor, type, 'distance', this.data.whoActivate);
         const armesImprovisees = actor.system?.combat?.armesimprovisees?.liste ?? {};
         const grenades = actor.system?.combat?.grenades?.liste ?? {};
         const capacites = armure ? armure.system?.capacites?.selected ?? {} : {};
@@ -3207,6 +3209,8 @@ export class KnightRollDialog extends Dialog {
             return a.label.localeCompare(b.label);
         });
 
+        console.error(data);
+
         return data;
     }
 
@@ -3670,6 +3674,7 @@ export class KnightRollDialog extends Dialog {
     #renderInitialization(html) {
         const scores = ['difficulte', 'succesBonus', 'modificateur'];
         const actor = this.who;
+        console.error(actor);
         const style = actor.system.combat.style;
         const isPJ = this.isPJ;
 
@@ -3918,27 +3923,21 @@ export class KnightRollDialog extends Dialog {
 
         $(tgt).parents('div.button').addClass('selected');
         $(tgt).parents('div.cat').addClass('selected');
-
         if(!double) {
             if(wpn?.tourelle) {
-                $(tgt).parents('div.wpn.tourelle').siblings('div.aspects').hide({
+                $(tgt).parents('div.grpWpn').siblings('div.aspects').hide({
                     complete: () => {
-                        $(tgt).parents('div.wpn').siblings('label.style').addClass('rowThreeFive');
-                        $(tgt).parents('div.wpn').siblings('label.btn.withoutod').addClass('rowTwo');
-                        $(tgt).parents('div.wpn').siblings('label.btn.attaquesurprise').addClass('rowThree');
-                        $(tgt).parents('div.wpn').siblings('label.btn.maximizedegats').addClass('rowFour');
-                        $(tgt).parents('div.wpn').siblings('label.btn.maximizeviolence').addClass('rowFive');
+                        $(tgt).parents('div.grpWpn').siblings('label.style').addClass('rowThreeFive');
+                        $(tgt).parents('div.grpWpn').siblings('label.style').removeClass('rowFourTwo rowFourSix');
+                        $(tgt).parents('div.grpWpn').siblings('div.grpBtn').removeClass('rowFour rowThreeSeven rowThreeFive');
+                        $(tgt).parents('div.grpWpn').siblings('div.grpBtn').addClass('rowTwoSix');
                     },
                 });
-
             } else {
-                $(tgt).parents('div.wpn').siblings('label.style').removeClass('rowThreeFive');
-                $(tgt).parents('div.wpn').siblings('label.btn.withoutod').removeClass('rowTwo');
-                $(tgt).parents('div.wpn').siblings('label.btn.attaquesurprise').removeClass('rowThree');
-                $(tgt).parents('div.wpn').siblings('label.btn.maximizedegats').removeClass('rowFour');
-                $(tgt).parents('div.wpn').siblings('label.btn.maximizeviolence').removeClass('rowFive');
+                $(tgt).parents('div.grpWpn').siblings('label.style').addClass('rowFourSix');
+                $(tgt).parents('div.grpWpn').siblings('label.style').removeClass('rowThreeFive');
 
-                $(tgt).parents('div.wpn').siblings('div.aspects').show({
+                $(tgt).parents('div.grpWpn').siblings('div.aspects').show({
                     complete: () => {
                     },
                 });
@@ -3997,6 +3996,16 @@ export class KnightRollDialog extends Dialog {
 
             $(tgt).parents('div.cat').hide({
                 complete: () => {},
+            });
+        }
+
+        if(!this.rollData.wpnSelected) {
+            $(tgt).parents('div.grpWpn').siblings('label.style').removeClass('rowThreeFive');
+            $(tgt).parents('div.grpWpn').siblings('label.style').addClass('rowFourTwo');
+
+            $(tgt).parents('div.grpWpn').siblings('div.aspects').show({
+                complete: () => {
+                },
             });
         }
 
@@ -4103,18 +4112,6 @@ export class KnightRollDialog extends Dialog {
                 html.find('.score.modificateur').addClass('colThree');
                 html.find('.score.succesBonus').removeClass('colOne');
                 html.find('.score.modificateur').removeClass('colTwo');
-
-                if(isPJ) {
-                    html.find('.btn.attaquesurprise').addClass('rowFive');
-                    html.find('.btn.withoutod').addClass('rowFour');
-                    html.find('.btn.withoutod').removeClass('rowThree');
-                    html.find('.btn.maximizedegats').removeClass('rowFive');
-                    html.find('.btn.maximizeviolence').removeClass('rowSix');
-                    html.find('.btn.attaquesurprise').removeClass('rowFour');
-                } else {
-                    html.find('.btn.attaquesurprise').removeClass('rowFour');
-                    html.find('.btn.attaquesurprise').addClass('rowThree');
-                }
             } else {
                 html.find('.modificateurdegats').hide({
                     complete: () => {},
@@ -4144,23 +4141,16 @@ export class KnightRollDialog extends Dialog {
                     complete: () => {},
                 });
 
-                if(isPJ) {
-                    html.find('.btn.attaquesurprise').addClass('rowFive');
-                    html.find('.btn.withoutod').addClass('rowFour');
-                    html.find('.btn.withoutod').removeClass('rowThree');
-                    html.find('.btn.maximizedegats').removeClass('rowFive');
-                    html.find('.btn.maximizeviolence').removeClass('rowSix');
-                    html.find('.btn.attaquesurprise').removeClass('rowFour');
-                } else {
-                    html.find('.btn.attaquesurprise').removeClass('rowFour');
-                    html.find('.btn.attaquesurprise').addClass('rowThree');
-                }
-
                 html.find('.score.succesBonus').addClass('colTwo');
                 html.find('.score.modificateur').addClass('colThree');
                 html.find('.score.succesBonus').removeClass('colOne');
                 html.find('.score.modificateur').removeClass('colTwo');
             }
+
+            if(!isPJ) html.find('.grpBtn').hide();
+
+            html.find('div.grpBtn').addClass('rowFour');
+            html.find('div.grpBtn').removeClass('rowThreeSeven rowThreeFive');
         } else {
             if(init) {
                 html.find('.modificateurdegats').show();
@@ -4180,18 +4170,6 @@ export class KnightRollDialog extends Dialog {
                 html.find('.attaquesurprise').show();
 
                 html.find('.score.difficulte').hide();
-
-                if(isPJ) {
-                    html.find('.btn.withoutod').removeClass('rowFour');
-                    html.find('.btn.attaquesurprise').removeClass('rowFive');
-                    html.find('.btn.withoutod').addClass('rowThree');
-                    html.find('.btn.attaquesurprise').addClass('rowFour');
-                    html.find('.btn.maximizedegats').addClass('rowFive');
-                    html.find('.btn.maximizeviolence').addClass('rowSix');
-                } else {
-                    html.find('.btn.attaquesurprise').removeClass('rowFour');
-                    html.find('.btn.attaquesurprise').addClass('rowThree');
-                }
 
                 html.find('.score.succesBonus').removeClass('colTwo');
                 html.find('.score.modificateur').removeClass('colThree');
@@ -4232,24 +4210,17 @@ export class KnightRollDialog extends Dialog {
                     complete: () => {},
                 });
 
-                if(isPJ) {
-                    html.find('.btn.withoutod').removeClass('rowFour');
-                    html.find('.btn.attaquesurprise').removeClass('rowFive');
-                    html.find('.btn.withoutod').addClass('rowThree');
-
-                    html.find('.btn.maximizedegats').addClass('rowFive');
-                    html.find('.btn.maximizeviolence').addClass('rowSix');
-                    html.find('.btn.attaquesurprise').addClass('rowFour');
-                } else {
-                    html.find('.btn.attaquesurprise').removeClass('rowFour');
-                    html.find('.btn.attaquesurprise').addClass('rowThree');
-                }
-
                 html.find('.score.succesBonus').removeClass('colTwo');
                 html.find('.score.modificateur').removeClass('colThree');
                 html.find('.score.succesBonus').addClass('colOne');
                 html.find('.score.modificateur').addClass('colTwo');
             }
+
+            if(!isPJ) html.find('.grpBtn').show();
+
+            html.find('div.grpBtn').removeClass('rowFour rowThreeSeven rowThreeFive');
+            if(isPJ) html.find('div.grpBtn').addClass('rowThreeSeven');
+            else html.find('div.grpBtn').addClass('rowThreeFive');
         }
     }
 
@@ -5103,5 +5074,61 @@ export class KnightRollDialog extends Dialog {
                 });
                 break;
         }
+    }
+
+    #getBonusModulesByType(actor, type, bonusType, whoActivate) {
+        return actor.items.filter(itm => {
+            if (itm.type !== 'module') return false;
+
+            // Commun
+            const actif = itm.system?.active?.base ?? false;
+            const permanent = itm.system?.niveau?.actuel?.permanent ?? false;
+            const bonus = itm.system?.niveau?.actuel?.bonus;
+
+            console.error(actif, permanent, bonus);
+
+            if (!bonus?.has) return false;
+            if (!actif && !permanent) return false;
+
+            // Condition spéciale véhicule
+            if (type === 'vehicule' &&
+                itm.system?.niveau?.actuel?.whoActivate !== whoActivate) {
+                return false;
+            }
+
+            // Vérifie degats ou violence
+            const degatsOK =
+                (bonus.degats?.has ?? false) &&
+                (bonus.degats?.type ?? 'contact') === bonusType;
+
+            const violenceOK =
+                (bonus.violence?.has ?? false) &&
+                (bonus.violence?.type ?? 'contact') === bonusType;
+
+            return degatsOK || violenceOK;
+        });
+    }
+
+    #getWpnModules(items, type, whoActivate) {
+        return items.filter(itm => {
+            if (itm.type !== 'module') return false;
+
+            const actif = itm.system?.active?.base ?? false;
+            const permanent = itm.system?.niveau?.actuel?.permanent ?? false;
+            const arme = itm.system?.niveau?.actuel?.arme?.has ?? false;
+
+            // Exclure si pas d'arme
+            if (!arme) return false;
+
+            // Condition spéciale pour les véhicules
+            if (type === 'vehicule') {
+                const activateur = itm.system?.niveau?.actuel?.whoActivate;
+                if (activateur !== whoActivate) return false;
+                return true;
+            }
+
+            // Côté non-vehicle : actif OU permanent
+            return actif || permanent;
+        });
     }
 }

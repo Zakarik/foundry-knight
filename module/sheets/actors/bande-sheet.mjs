@@ -128,14 +128,11 @@ export class BandeSheet extends ActorSheet {
       const tenebricide = $(ev.currentTarget)?.data("tenebricide") || false;
       const obliteration = $(ev.currentTarget)?.data("obliteration") || false;
 
-      if(type === 'degats') this._doDgts(name, capacite, obliteration, tenebricide);
+      if(type === 'degats') this.actor.system.doCapacityDgt(capacite, {tenebricide, obliteration});
     });
 
     html.find('.jetDebordement').click(async ev => {
-      const name = $(ev.currentTarget)?.data("name") || '';
-      const value = eval($(ev.currentTarget).data("value"));
-
-      this._doDebordement(name, value);
+      this.actor.system.doDebordement();
     });
 
     html.find('.roll').click(ev => {
@@ -183,33 +180,11 @@ export class BandeSheet extends ActorSheet {
     });
 
     html.find('.activatePhase2').click(ev => {
-      const aspects = this.actor.system.aspects;
-      const phase2 = this.actor.system.phase2;
-      let update = {};
-      update['system.phase2Activate'] = true;
-
-      for(let a in phase2.aspects) {
-        update[`system.aspects.${a}.value`] = aspects[a].value + phase2.aspects[a].value;
-        update[`system.aspects.${a}.ae.mineur.value`] = aspects[a].ae.mineur.value + phase2.aspects[a].ae.mineur;
-        update[`system.aspects.${a}.ae.majeur.value`] = aspects[a].ae.majeur.value + phase2.aspects[a].ae.majeur;
-      }
-
-      this.actor.update(update);
+      this.actor.system.togglePhase2();
     });
 
     html.find('.desactivatePhase2').click(ev => {
-      const aspects = this.actor.system.aspects;
-      const phase2 = this.actor.system.phase2;
-      let update = {};
-      update['system.phase2Activate'] = false;
-
-      for(let a in phase2.aspects) {
-        update[`system.aspects.${a}.value`] = aspects[a].value - phase2.aspects[a].value;
-        update[`system.aspects.${a}.ae.mineur.value`] = aspects[a].ae.mineur.value - phase2.aspects[a].ae.mineur;
-        update[`system.aspects.${a}.ae.majeur.value`] = aspects[a].ae.majeur.value - phase2.aspects[a].ae.majeur;
-      }
-
-      this.actor.update(update);
+      this.actor.system.togglePhase2();
     });
 
     html.find('button.destruction').click(async ev => {
@@ -424,49 +399,6 @@ export class BandeSheet extends ActorSheet {
     context.actor.aspectexceptionnel = result;
   }
 
-  async _doDebordement(label, dgtsDice) {
-    const actor = this.actor;
-    const roll = new game.knight.RollKnight(actor, {
-      name:`${label} : ${game.i18n.localize('KNIGHT.AUTRE.Debordement')}`,
-    }, false);
-    const weapon = roll.prepareWpnContact({
-      name:`${label}`,
-      system:{
-        degats:{dice:0, fixe:dgtsDice},
-        effets:{},
-      }
-    });
-    const addFlags = {
-      actor,
-      attaque:[],
-      dataMod:{degats:{dice:0, fixe:0}, violence:{dice:0, fixe:0}},
-      dataStyle:{},
-      flavor:label,
-      maximize:{degats:false, violence:false},
-      style:'standard',
-      surprise:false,
-      targets:[],
-      total:0,
-      weapon
-    }
-
-    let data = {
-      total:0,
-      targets: game.user.targets.size > 0 ? game.user.targets : [],
-      attaque:[],
-      flags:addFlags,
-      content:{
-        otherBtn:[{
-          classes:'debordement full',
-          title:game.i18n.localize('KNIGHT.JETS.AugmenterDebordement'),
-          label:game.i18n.localize('KNIGHT.JETS.AugmenterDebordement'),
-        }]
-      }
-    };
-
-    roll.setWeapon(weapon);
-    await roll.doRollDamage(data, addFlags);
-  }
 
   async _doDgts(label, id, obliteration, tenebricide) {
     const actor = this.actor;

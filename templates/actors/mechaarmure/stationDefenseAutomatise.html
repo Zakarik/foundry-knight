@@ -11,8 +11,12 @@
         </div>
         {{else}}
         <div class="blockMultiline">
-            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}">
-                {{localize "KNIGHT.AUTRE.Activer"}}
+            <button class="activation" data-key="{{key}}" data-main="{{type}}" data-type="special">
+                {{#unless this.active}}
+                    {{localize "KNIGHT.AUTRE.Activer"}}
+                {{else}}
+                    {{localize "KNIGHT.AUTRE.Desactiver"}}
+                {{/unless}}
             </button>
         </div>
         {{/if}}

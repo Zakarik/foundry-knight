@@ -11,29 +11,29 @@
         </div>
         {{else}}
         <div class="blockMultiline">
-            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true" data-special="1">
+            <button class="activation" data-key="{{key}}" data-main="{{type}}" data-type="multi/degats">
                     {{localize "KNIGHT.AUTRE.Activer"}} : {{localize "KNIGHT.BONUS.Degats"}} / {{localize "KNIGHT.AUTRE.Violence"}}
             </button>
 
-            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true" data-special="1">
+            <button class="activation" data-key="{{key}}" data-main="{{type}}" data-type="multi/caracteristique">
                     {{localize "KNIGHT.AUTRE.Activer"}} : {{localize "KNIGHT.BONUS.BonusCaracteristique"}}
             </button>
 
-            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true" data-special="2">
+            <button class="activation" data-key="{{key}}" data-main="{{type}}" data-type="multi/action">
                     {{localize "KNIGHT.AUTRE.Activer"}} : {{localize "KNIGHT.BONUS.Action"}}
             </button>
 
-            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true" data-special="2">
+            <button class="activation" data-key="{{key}}" data-main="{{type}}" data-type="multi/cdf">
                     {{localize "KNIGHT.AUTRE.Activer"}} : {{localize "KNIGHT.BONUS.ChampDeForce"}}
+            </button>
+
+            <button class="activation" data-key="{{key}}" data-main="{{type}}" data-type="multi/noyaux">
+                    {{localize "KNIGHT.AUTRE.Activer"}} : {{localize "KNIGHT.BONUS.Noyau"}}
             </button>
 
             <select name="system.configurations.liste.{{this.type}}.modules.{{this.key}}.noyaux.actuel">
                 {{selectOptions (getNoyaux this.noyaux.min this.noyaux.max) selected=this.noyaux.actuel}}
             </select>
-
-            <button class="activation" data-key="{{this.key}}" data-type="{{this.type}}" data-simple="true" data-special="{{this.noyaux.actuel}}">
-                    {{localize "KNIGHT.AUTRE.Activer"}} : {{localize "KNIGHT.BONUS.Noyau"}}
-            </button>
         </div>
         {{/if}}
     </h3>
@@ -46,7 +46,7 @@
     <div class="block" style="display:none;">
         <div class="longspan">
             <span class="label">{{localize "KNIGHT.LATERAL.Noyaux"}}</span>
-            <span class="value">{{this.noyaux}}</span>
+            <span class="value">{{noyaux.min}} / {{noyaux.max}}</span>
         </div>
         <div class="longspan">
             <span class="label">{{localize "KNIGHT.ACTIVATION.Label"}}</span>
@@ -54,7 +54,7 @@
         </div>
         <div class="longspan">
             <span class="label">{{localize "KNIGHT.DUREE.Label"}}</span>
-            <span class="value">{{this.duree}}{{localize "KNIGHT.AUTRE.Des-short"}}3 {{localize "KNIGHT.AUTRE.Tours"}}</span>
+            <span class="value">{{this.duree}}{{localize "KNIGHT.JETS.Des-short"}}3 {{localize "KNIGHT.AUTRE.Tours"}}</span>
         </div>
         <div class="longspan">
             <span class="label">{{localize "KNIGHT.PORTEE.Label"}}</span>

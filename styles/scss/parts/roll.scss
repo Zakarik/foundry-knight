@@ -183,6 +183,10 @@
       &.full {
         grid-template-columns: 1fr;
       }
+
+      &.debordement {
+        margin-top: 2px;
+      }
     }
 
     &.effets {

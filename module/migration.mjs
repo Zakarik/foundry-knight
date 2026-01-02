@@ -6,7 +6,7 @@ import {
 Applique les modifications par la mise à jour au Monde.
 */
  export class MigrationKnight {
-    static NEEDED_VERSION = "3.50.0";
+    static NEEDED_VERSION = "3.51.0";
 
     static needUpdate(version) {
         const currentVersion = game.settings.get("knight", "systemVersion");
@@ -1442,6 +1442,40 @@ Applique les modifications par la mise à jour au Monde.
                 }
 
                 item.update(itmUpdate);
+            }
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("3.51.0")) {
+            if(actor.type === 'mechaarmure') {
+                const cfgBase = actor.system.configurations.liste.base.modules;
+                const cfgC1 = actor.system.configurations.liste.c1.modules;
+                const cfgC2 = actor.system.configurations.liste.c2.modules;
+
+                if(cfgBase?.souffleDemoniaque) {
+                    update[`system.configurations.liste.base.modules.souffleDemoniaque.violence`] = {
+                        dice:1,
+                        fixe:0,
+                    }
+                }
+
+                if(cfgC1?.souffleDemoniaque) {
+                    update[`system.configurations.liste.c1.modules.souffleDemoniaque.violence`] = {
+                        dice:1,
+                        fixe:0,
+                    }
+                }
+
+                if(cfgC2?.souffleDemoniaque) {
+                    update[`system.configurations.liste.c2.modules.souffleDemoniaque.violence`] = {
+                        dice:1,
+                        fixe:0,
+                    }
+                }
+
+                update[`system.modules.liste.souffleDemoniaque.violence`] = {
+                    dice:1,
+                    fixe:0,
+                }
             }
         }
 

@@ -26,6 +26,8 @@ async function giveItmToActor(payload={}) {
     const actor = await fromUuid(payload.actor);
     const items = payload.items;
 
+    console.error(items);
+
     actor.createEmbeddedDocuments("Item", items);
 }
 
@@ -41,12 +43,14 @@ async function createToken(payload={}) {
     const data = payload.data;
 
     const created = await scene.createEmbeddedDocuments("Token", data);
+
     return created?.[0];
 }
 
 async function deleteActorOrToken(payload={}) {
     for(let a of payload.actors) {
         const actor = await fromUuid(a);
+        if(!actor) continue;
 
         actor.delete();
     }
