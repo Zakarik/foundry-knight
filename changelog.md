@@ -1,9 +1,14 @@
+## v3.51.1
+### Bugfix
+- Correction d'un bug d'affichage des boutons d'activation des modules.
+
 ## v3.51.0
 - Refactorisation d'une partie du code pour plus de simplicité.
 - Correction d'un bug sur le nombre de succès auto de l'immobilisation du mode morph.
 - Correction d'un bug empêchant d'ajouter des effets sur une capacité de PNJ / Créature si elle est sur un token.
 - Correction d'un bug d'affichage lorsque l'ont permet de modifier le nombre de dés des nods, sur les PNJ.
-- 
+- Ajout de la possibilité de masquer la boîte à outil du MJ.
+
 ## v3.50.8
 ### Bugfix
 - Prise en compte de la FAQ concernant le cumul de l'effet jumelé Akimbo/Ambidextrie + OD de combat / tir réduisant les malus de l'Akimbo / Ambidextrie.

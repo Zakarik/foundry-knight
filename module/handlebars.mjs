@@ -607,7 +607,7 @@
 
         const actuel = data.system.niveau.actuel;
 
-        let result = true;
+        let result = actuel.pnj?.has ? true : false;
 
         if(actuel.arme?.has) result = false;
         if(actuel.bonus?.has) result = false;
