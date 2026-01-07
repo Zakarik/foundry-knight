@@ -13,19 +13,13 @@ import {
   options,
   hideShowLimited,
   dragMacro,
-  createSheet,
   actualiseRoll,
   getAllEffects,
   capitalizeFirstLetter,
-  spawnTokenRightOfActor,
-  spawnTokensRightOfActor,
-  deleteTokens,
-  deleteActors,
 } from "../../helpers/common.mjs";
 
 import toggler from '../../helpers/toggler.js';
 
-import { SOCKET } from '../../utils/socketHandler.mjs';
 /**
  * @extends {ActorSheet}
  */
@@ -2313,65 +2307,8 @@ export class KnightSheet extends ActorSheet {
     html.find('button.recover').click(async ev => {
       const target = $(ev.currentTarget);
       const type = target.data("type");
-      const max = target.data("max");
-      const list = target?.data("list")?.split("/") || '';
 
-      switch(type) {
-        case 'espoir':
-        case 'sante':
-        case 'armure':
-        case 'energie':
-        case 'contacts':
-          if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
-          this.actor.update({[`system.${type}.value`]:max});
-          break;
-
-        case 'grenades':
-          this.actor.update({[`system.combat.${type}.quantity.value`]:max});          html.find(`div.${type} input.value`).val(max);
-          break;
-
-        case 'nods':
-          let update = {};
-
-          for (let i of list) {
-            const split = i.split('-');
-            const name = split[0];
-            const max = split[1];
-
-            update[`system.combat.${type}.${name}.value`] = max;
-          }
-
-          this.actor.update(update);
-          break;
-
-        case 'chargeur':
-          if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
-          const items = this.actor.items.filter(itm => itm.type === 'arme' || itm.type === 'module' || itm.type === 'armure');
-
-          items.forEach(itm => {
-            itm.system.resetMunition();
-          })
-
-          const exec = new game.knight.RollKnight(this.actor,
-          {
-          name:this.actor.name,
-          }).sendMessage({
-              text:game.i18n.localize('KNIGHT.JETS.RemplirChargeur'),
-              classes:'important',
-              sounds:CONFIG.sounds.notification,
-          });
-          break;
-      }
-
-      if(type === 'chargeur') return;
-
-      const exec = new game.knight.RollKnight(this.actor,
-        {
-        name:'',
-        }).sendMessage({
-            text:game.i18n.localize(`KNIGHT.RECUPERER.MSG.${capitalizeFirstLetter(type)}`),
-            sounds:CONFIG.sounds.notification,
-        });
+      this.actor.system.askToRestore(type);
     });
 
     html.find('a.add').click(ev => {

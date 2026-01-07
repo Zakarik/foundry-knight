@@ -2,6 +2,8 @@ import {
     getModStyle,
     SortByAddOrder,
     getFlatEffectBonus,
+    confirmationDialog,
+    capitalizeFirstLetter,
   } from "../../../helpers/common.mjs";
 import { BaseActorDataModel } from "../base/base-actor-data-model.mjs";
 import { AspectsPCDataModel } from '../parts/aspects-pc-data-model.mjs';
@@ -356,7 +358,7 @@ export class KnightDataModel extends BaseActorDataModel {
                 }),
             }),
             contacts:new SchemaField({
-                actuel:new NumberField({ initial: 1, min:1, integer: true, nullable: false }),
+                actuel:new NumberField({ initial: 1, min:0, integer: true, nullable: false }),
                 value:new NumberField({ initial: 1, min:1, integer: true, nullable: false }),
                 mod:new NumberField({ initial: 0, integer: true, nullable: false }),
                 bonus:new ObjectField({
@@ -2673,5 +2675,75 @@ export class KnightDataModel extends BaseActorDataModel {
           grenades: ({ type }) => this.useGrenade(type),
           longbow: () => this.useLongbow(),
         };
+    }
+
+    async askToRestore(type) {
+        let max = 0;
+
+        switch(type) {
+          case 'espoir':
+          case 'sante':
+          case 'armure':
+          case 'energie':
+            if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
+            max = this[type].max;
+
+            this.actor.update({[`system.${type}.value`]:max});
+            break;
+
+          case 'contacts':
+            if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
+            max = this[type].value;
+
+            this.actor.update({[`system.${type}.actuel`]:max});
+            break;
+
+          case 'grenades':
+            max = this.combat.grenades.quantity.max;
+
+            this.actor.update({[`system.combat.${type}.quantity.value`]:max});
+            break;
+
+          case 'nods':
+            const list = this.combat.nods;
+            let update = {};
+
+            for (let i in list) {
+                const data = list[i];
+
+              update[`system.combat.${type}.${i}.value`] = data.max;
+            }
+
+            this.actor.update(update);
+            break;
+
+          case 'chargeur':
+            if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
+            const items = this.actor.items.filter(itm => itm.type === 'arme' || itm.type === 'module' || itm.type === 'armure');
+
+            items.forEach(itm => {
+              itm.system.resetMunition();
+            })
+
+            const exec = new game.knight.RollKnight(this.actor,
+            {
+            name:this.actor.name,
+            }).sendMessage({
+                text:game.i18n.localize('KNIGHT.JETS.RemplirChargeur'),
+                classes:'important',
+                sounds:CONFIG.sounds.notification,
+            });
+            break;
+        }
+
+        if(type === 'chargeur') return;
+
+        const exec = new game.knight.RollKnight(this.actor,
+          {
+          name:'',
+          }).sendMessage({
+              text:game.i18n.localize(`KNIGHT.RECUPERER.MSG.${capitalizeFirstLetter(type)}`),
+              sounds:CONFIG.sounds.notification,
+          });
     }
 }
