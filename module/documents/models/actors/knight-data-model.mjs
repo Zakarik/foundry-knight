@@ -496,15 +496,6 @@ export class KnightDataModel extends BaseActorDataModel {
         return result;
     }
 
-    get rollWpnDistanceMod() {
-        const statuses = this.actor.statuses;
-        let modificateur = 0;
-
-        if(statuses.has('fumigene')) modificateur -= 3;
-
-        return modificateur;
-    }
-
     static migrateData(source) {
         if(source.version < 1) {
             const mods = ['sante', 'reaction', 'defense', 'espoir', 'initiative', 'egide'];
@@ -2699,12 +2690,14 @@ export class KnightDataModel extends BaseActorDataModel {
             break;
 
           case 'grenades':
+            if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
             max = this.combat.grenades.quantity.max;
 
             this.actor.update({[`system.combat.${type}.quantity.value`]:max});
             break;
 
           case 'nods':
+            if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
             const list = this.combat.nods;
             let update = {};
 
