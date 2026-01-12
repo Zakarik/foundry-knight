@@ -1591,7 +1591,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           const niveauActuel = Object.keys(getCapacite?.niveau ?? {}).find(k => getCapacite.niveau[k] === true) ?? null;
           const degatsRage = getCapacite[niveauActuel].subis;
           const degatsLabel = game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.RAGE.SubirDegats");
-          const sante = this.system.sante.value;
+          const sante = this.actor.system.sante.value;
 
           const rDegats = new game.knight.RollKnight(this, {
             name:`${getName} : ${degatsLabel}`,
