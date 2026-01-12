@@ -33,6 +33,15 @@ export class BaseActorDataModel extends foundry.abstract.TypeDataModel {
         return this.parent.items;
     }
 
+    get rollWpnDistanceMod() {
+        const statuses = this.actor.statuses;
+        let modificateur = 0;
+
+        if(statuses.has('fumigene')) modificateur -= 3;
+
+        return modificateur;
+    }
+
     useStdWpn(itemId, args={}) {
         const actor = this.actor;
         const item = actor.items.get(itemId);

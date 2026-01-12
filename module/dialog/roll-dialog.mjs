@@ -1609,12 +1609,14 @@ export class KnightRollDialog extends Dialog {
             value:this.rollData.succesBonus
         });
 
+        console.error(this.rollData)
+
         //MODIFICATEUR
         data.mods.push({
             key:'score',
             classes:'score modificateur colThree',
             label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} (${game.i18n.localize('KNIGHT.JETS.Des')})`,
-            value:this.rollData.modificateur,
+            value:this.rollData?.modificateur ?? 0,
         });
 
         if(isPJ) {
