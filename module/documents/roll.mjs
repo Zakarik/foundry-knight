@@ -4,6 +4,7 @@ import {
     rollViolence,
     addFlags,
     getFinalWeaponData,
+    divideDice,
 } from "../helpers/common.mjs";
 
 function decodeHtmlEntities(str) {
@@ -1687,7 +1688,7 @@ export class RollKnight {
                     }
 
 
-                    if(this.#isEffetActive(raw, options, CONFIG.KNIGHT.LIST.EFFETS.status.attaque)) {
+                    if(this.#isEffetActive(raw, options, CONFIG.KNIGHT.LIST.EFFETS.status.attaque.all)) {
                         hasBtnApply = true;
                         t.btn = [{
                             label:game.i18n.localize('KNIGHT.JETS.AppliquerEffets'),
@@ -1734,7 +1735,6 @@ export class RollKnight {
         const options = weapon?.options ?? [];
         const localize = getAllEffects();
         const hasObliteration = this.#isEffetActive(raw, options, ['obliteration']);
-        const hasTenebricide = this.#isEffetActive(raw, options, ['tenebricide']);
         const hasBourreau = this.#isEffetActive(raw, options, ['bourreau']);
         const style = data?.flags?.style ?? 'standard';
         const dataStyle = data?.flags?.dataStyle ?? {
@@ -1767,7 +1767,6 @@ export class RollKnight {
         let isErsatzGhostActive = false;
         let isChangelingActive = false;
         let isGoliathActive = false;
-
 
         if(getGhost && armorIsWear && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && (this.#isEffetActive(raw, options, ['silencieux']) || this.#isEffetActive(raw, options, ['munitionssubsoniques']) || this.#isEffetActive(raw, options, ['assassine'])))))) {
             isGhostActive = data?.flags?.ghost;
@@ -2100,6 +2099,7 @@ export class RollKnight {
                     case 'percearmure':
                     case 'bourreau':
                     case 'fauconplumesluminescentes':
+                    case 'annihilation':
                         if(effet) detailledEffets.push({
                             simple:l,
                             key:effet,
@@ -2180,7 +2180,7 @@ export class RollKnight {
                         if(effet) {
                             const subdice = 1;
 
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, foundry.utils.mergeObject(optSubDice, {id:l}));
 
                             rolls.push(subroll.roll);
 
@@ -2202,7 +2202,7 @@ export class RollKnight {
                     case 'rouagescassesgraves':
                         if(effet) {
                             const subdice = 1;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, foundry.utils.mergeObject(optSubDice, {id:l}));
 
                             rolls.push(subroll.roll);
 
@@ -2220,7 +2220,7 @@ export class RollKnight {
                     case 'chenesculpte':
                         if(effet) {
                             const subdice = 2;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, foundry.utils.mergeObject(optSubDice, {id:l}));
 
                             rolls.push(subroll.roll);
 
@@ -2420,8 +2420,8 @@ export class RollKnight {
 
                     case 'assassin':
                         if(effet) {
-                            const subdice = hasTenebricide ? Math.floor(effet.split(' ')[1]/2) : effet.split(' ')[1];
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
+                            const subdice = effet.split(' ')[1];
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, foundry.utils.mergeObject(optSubDice, {id:l}));
 
                             rolls.push(subroll.roll);
 
@@ -2438,8 +2438,8 @@ export class RollKnight {
 
                     case 'revetementomega':
                         if(effet) {
-                            const subdice = hasTenebricide ? Math.floor(2/2) : 2;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
+                            const subdice = 2;
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, foundry.utils.mergeObject(optSubDice, {id:l}));
 
                             rolls.push(subroll.roll);
 
@@ -2457,8 +2457,8 @@ export class RollKnight {
                     case 'barbelee':
                     case 'destructeur':
                         if(effet) {
-                            const subdice = hasTenebricide ? 1 : 2;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
+                            const subdice = 2;
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, foundry.utils.mergeObject(optSubDice, {id:l}));
 
                             rolls.push(subroll.roll);
 
@@ -2475,8 +2475,8 @@ export class RollKnight {
 
                     case 'meurtrier':
                         if(effet) {
-                            const subdice = hasTenebricide ? 1 : 2;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
+                            const subdice = 2;
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, foundry.utils.mergeObject(optSubDice, {id:l}));
 
                             rolls.push(subroll.roll);
 
@@ -2613,7 +2613,7 @@ export class RollKnight {
             wpnDice += secondWpn.degats.dice;
         }
 
-        const dice = hasTenebricide ? Math.floor(wpnDice/2) : wpnDice;
+        const dice = wpnDice;
         let formula = `${Math.max(dice, 0)}D6`;
         title = weapon.degats.fixe > 0 ? `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6 + ${game.i18n.localize("KNIGHT.AUTRE.Base")}${title}` :
         `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6${title}`;
@@ -2638,12 +2638,67 @@ export class RollKnight {
 
         for(let t of targets) {
             t.effets = [];
-            let total = roll.total+Object.values(bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+            t.detailledEffets = detailledEffets.map(e => ({ ...e }));
+            const valueBonus = Object.values(bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+            let total = roll.total+valueBonus;
             const actor = canvas.tokens.get(t.id).actor;
             const type = actor.type;
             const target = type === 'vehicule' ? actor.system.pilote : actor;
+            const targetDetailledEffets = t.detailledEffets;
+            const tenebricide = targetDetailledEffets.find(d => d.simple === 'tenebricide');
+            let typeOfEnemy = actor?.system?.type ?? "";
+            let origin = actor?.system?.origin ?? "humain";
+            typeOfEnemy = typeOfEnemy.toLowerCase();
 
-            for(let d of detailledEffets) {
+            //gestion des effets prioritaires
+            if(tenebricide && origin === 'humain') {
+                total = Number(divideDice(roll)+valueBonus);
+                t.effets.push({
+                    simple:tenebricide.simple,
+                    key:tenebricide.key,
+                    label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[tenebricide.simple].label)}`})}`,
+                    empty:true,
+                });
+
+                for(let d of targetDetailledEffets) {
+                    switch(d.simple) {
+                        case 'assassin':
+                        case 'revetementomega':
+                        case 'meurtrier':
+                        case 'barbele':
+                        case 'destructeur':
+                        case 'chenesculpte':
+                        case 'armeazurine':
+                        case 'armerougesang':
+                        case 'griffuresgravees':
+                        case 'masquebrisesculpte':
+                        case 'rouagescassesgraves':
+                        case 'briserlaresilience':
+                            const fRoll = rolls.find(r => r.data.id === d.simple);
+                            if(fRoll) d.value = `+${divideDice(fRoll)}`;
+                            break;
+                    }
+                }
+            }
+
+            if(targetDetailledEffets.find(d => d.simple === 'annihilation')) {
+                if(typeOfEnemy.includes(game.i18n.localize("KNIGHT.TYPE.Salopard").toLowerCase())) {
+                    const rollAnnihilation = roll.clone();
+                    await rollAnnihilation.evaluate({maximize:true});
+
+                    total = Number(rollAnnihilation.total+valueBonus);
+
+                    t.effets.push({
+                        simple:'annihilation',
+                        key:'annihilation',
+                        label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize['annihilation'].label)}`})}`,
+                        empty:true,
+                    });
+                }
+            }
+
+            //tous les autres
+            for(let d of targetDetailledEffets) {
                 switch(d.simple) {
                     case 'revetementomega':
                         if(t.marge && this.isSurprise) {
@@ -2705,7 +2760,7 @@ export class RollKnight {
 
             if(this.#isEffetActive(raw, options, ['modeheroique'])) {
                 if(t.marge) {
-                    const subroll = await this.doSimpleRoll(`${t.marge}D6`, t.marge, [], rollOptions, {bourreau:hasBourreau, min:min});
+                    const subroll = await this.doSimpleRoll(`${t.marge}D6`, t.marge, [], rollOptions, {bourreau:hasBourreau, min:min, id:'modeheroique'});
                     total += subroll.roll.total;
                     rolls.push(subroll.roll);
 
@@ -2747,7 +2802,6 @@ export class RollKnight {
         const options = weapon.options;
         const localize = getAllEffects();
         const hasObliteration = this.#isEffetActive(raw, options, ['obliteration']);
-        const hasTenebricide = this.#isEffetActive(raw, options, ['tenebricide']);
         const hasDevastation = this.#isEffetActive(raw, options, ['devastation']);
         const style = data?.flags?.style ?? 'standard';
         const dataStyle = data?.flags?.dataStyle ?? {
@@ -2970,7 +3024,7 @@ export class RollKnight {
                     case 'ultraviolence':
                         if(effet) {
                             const subdice = 2;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, foundry.utils.mergeObject(optSubDice, {id:l}));
 
                             rolls.push(subroll.roll);
                             ultraviolence = subroll.roll.total;
@@ -3023,7 +3077,7 @@ export class RollKnight {
                     case 'rouagescassesgraves':
                         if(effet) {
                             const subdice = 1;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, foundry.utils.mergeObject(optSubDice, {id:l}));
 
                             rolls.push(subroll.roll);
 
@@ -3041,7 +3095,7 @@ export class RollKnight {
                     case 'fureur':
                         if(effet) {
                             const subdice = 4;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, foundry.utils.mergeObject(optSubDice, {id:l}));
 
                             rolls.push(subroll.roll);
 
@@ -3075,7 +3129,7 @@ export class RollKnight {
                     case 'briserlaresilience':
                         if(effet) {
                             const subdice = 1;
-                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, optSubDice);
+                            const subroll = await this.doSimpleRoll(`${subdice}D6`, subdice, [], rollOptions, foundry.utils.mergeObject(optSubDice, {id:l}));
 
                             rolls.push(subroll.roll);
 
@@ -3205,7 +3259,7 @@ export class RollKnight {
             wpnDice += Math.ceil(secondWpn.violence.dice/2);
         }
 
-        const dice = hasTenebricide ? Math.floor(wpnDice/2) : wpnDice;
+        const dice = wpnDice;
         let formula = `${Math.max(dice, 0)}D6`;
         title = weapon.degats.fixe > 0 ? `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6 + ${game.i18n.localize("KNIGHT.AUTRE.Base")}${title}` :
         `(${game.i18n.localize("KNIGHT.AUTRE.Base")}${titleDice})D6${title}`;
@@ -3229,11 +3283,43 @@ export class RollKnight {
         }
 
         for(let t of targets) {
+            t.effets = [];
+            t.detailledEffets = detailledEffets.map(e => ({ ...e }));
+            const targetDetailledEffets = t.detailledEffets;
+            const tenebricide = targetDetailledEffets.find(d => d.simple === 'tenebricide');
             const actor = canvas.tokens.get(t.id).actor;
             const type = actor.type;
             const target = type === 'vehicule' ? actor.system.pilote : actor;
-            t.effets = [];
-            let total = roll.total+Object.values(bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+            const valueBonus = Object.values(bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+            let origin = actor?.system?.origin ?? "humain";
+            let total = roll.total+valueBonus;
+
+            //gestion des effets prioritaires
+            if(tenebricide && origin === 'humain') {
+                total = Number(divideDice(roll)+valueBonus);
+                t.effets.push({
+                    simple:tenebricide.simple,
+                    key:tenebricide.key,
+                    label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize(localize[tenebricide.simple].label)}`})}`,
+                    empty:true,
+                });
+
+                for(let d of targetDetailledEffets) {
+                    switch(d.simple) {
+                        case 'ultraviolence':
+                        case 'fureur':
+                        case 'briserlaresilience':
+                        case 'armeazurine':
+                        case 'armerougesang':
+                        case 'griffuresgravees':
+                        case 'masquebrisesculpte':
+                        case 'rouagescassesgraves':
+                            const fRoll = rolls.find(r => r.data.id === d.simple);
+                            if(fRoll) d.value = `+${divideDice(fRoll)}`;
+                            break;
+                    }
+                }
+            }
 
             for(let d of detailledEffets) {
                 switch(d.simple) {
@@ -3286,7 +3372,7 @@ export class RollKnight {
 
             if(this.#isEffetActive(raw, options, ['modeheroique'])) {
                 if(t.marge) {
-                    const subroll = await this.doSimpleRoll(`${t.marge}D6`, t.marge, [], rollOptions, {devastation:hasDevastation, min:min});
+                    const subroll = await this.doSimpleRoll(`${t.marge}D6`, t.marge, [], rollOptions, {devastation:hasDevastation, min:min, id:'modeheroique'});
                     total += subroll.roll.total;
                     rolls.push(subroll.roll);
 
@@ -4239,6 +4325,7 @@ export class RollKnight {
         }, []);
 
         if(!hasBourreau && !hasDevastation) total = roll.total;
+        roll.data.id = data?.id ?? undefined;
 
         let tooltip = await renderTemplate(RollKnight.tooltip, {parts:[{
             base:`${dices}D6`,

@@ -153,8 +153,6 @@ export class KnightRollDialog extends Dialog {
             }
         }
 
-        console.error(result);
-
         return result;
     }
 
@@ -445,6 +443,7 @@ export class KnightRollDialog extends Dialog {
         const violenceWpn = parent.find('div.data label.violencevariable');
         const dgtsBonusWpn = parent.find('div.data label.dgtsbonusvariable');
         const violenceBonusWpn = parent.find('div.data label.violencebonusvariable');
+        const boost = parent.find('div.data div.boostsimple');
         const boostdegats = parent.find('div.data label.boostdegats');
         const boostviolence = parent.find('div.data label.boostviolence');
 
@@ -666,6 +665,31 @@ export class KnightRollDialog extends Dialog {
                         moduleVariable.violence = val;
                     }
                 }
+            });
+        }
+
+        for(let w of boost) {
+            const parent = $(w).parents('div.button');
+            const select1 = $(w).find('select.select1');
+            const select2 = $(w).find('select.select2');
+            const id = $(parent).data('id');
+            const wpn = this.data.roll.allWpn.find(itm => itm.id === id);
+            let options = wpn.options.find(itm => itm.classes.includes('boostsimple'));
+
+            $(select1).val(options.selected1);
+            $(select2).val(options.selected2);
+            $(select1).change(ev => {
+                const tgt = $(ev.currentTarget);
+                const val = tgt.val();
+
+                options.selected1 = val;
+            });
+
+            $(select2).change(ev => {
+                const tgt = $(ev.currentTarget);
+                const val = parseInt(tgt.val());
+
+                options.selected2 = val;
             });
         }
 
@@ -1097,6 +1121,7 @@ export class KnightRollDialog extends Dialog {
             const violenceVariable = weapon.options.find(itm => itm.classes.includes('violencevariable') && itm.key === 'select');
             const dgtsBonusVariable = weapon.options.find(itm => itm.classes.includes('dgtsbonusvariable') && itm.key === 'select');
             const violenceBonusVariable = weapon.options.find(itm => itm.classes.includes('violencebonusvariable') && itm.key === 'select');
+            const boost = weapon.options.find(itm => itm.classes.includes('boostsimple') && itm.key === 'doubleselect');
             const boostdegats = weapon.options.find(itm => itm.classes.includes('boostdegats') && itm.key === 'select');
             const boostviolence = weapon.options.find(itm => itm.classes.includes('boostviolence') && itm.key === 'select');
 
@@ -1167,6 +1192,12 @@ export class KnightRollDialog extends Dialog {
                 }
 
                 cout += coutViolence;
+            }
+
+            if(boost) {
+                const boostSelected = parseInt($(weaponData.find(`div.boostsimple select.select2`)).val());
+
+                cout += boostSelected*boost.value;
             }
 
             if(boostdegats) {
@@ -2987,6 +3018,31 @@ export class KnightRollDialog extends Dialog {
         data.degats.addchair = system?.degats?.addchair ?? true;
         data.options = modules.options ? modules.options.concat(data.options) : data.options;
 
+        if(this.#hasEffet(raw, 'boost')) {
+            let classes = ['doubleCol', 'selectDouble', 'boostsimple', 'full'];
+            const getOption = getWpn ? getWpn.options.find(itm => itm.classes.includes('boostsimple')) : undefined;
+            const boostEntry = raw.find(entry => entry.includes("boost"));
+            const boostValue = parseInt(boostEntry.split(' ')[1]);
+            const list1 = {
+                'degats':game.i18n.localize("KNIGHT.AUTRE.Degats"),
+                'violence':game.i18n.localize("KNIGHT.AUTRE.Violence")
+            };
+            const list2 = Array.from({length: boostValue+1}, (_, index) => [index, `${index}D6`]).reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
+
+            data.options.push({
+                key:'doubleselect',
+                classes:classes.join(' '),
+                label:game.i18n.localize(CONFIG.KNIGHT.effetsadl.boost.label),
+                list1,
+                list2,
+                selected1:getOption ? getOption.selected1 : 'degats',
+                selected2:getOption ? getOption.selected2 : 0,
+                value:1,
+                select1value:'degats',
+                select2value:0,
+            });
+        }
+
         if(this.#hasEffet(raw, 'boostviolence')) {
             let classes = ['selectDouble', 'boostviolence'];
             const getOption = getWpn ? getWpn.options.find(itm => itm.classes.includes('boostviolence')) : undefined;
@@ -3117,15 +3173,15 @@ export class KnightRollDialog extends Dialog {
             });
         }
 
-        if(this.#hasEffet(raw, 'tenebricide')) {
-            let classes = ['tenebricide', 'active', 'full'];
+        if(this.#hasEffet(raw, 'cataclysme')) {
+            let classes = ['cataclysme', 'active', 'full'];
 
             data.options.push({
                 key:'btn',
                 classes:classes.join(' '),
-                label:game.i18n.localize('KNIGHT.EFFETS.TENEBRICIDE.Label'),
-                value:'tenebricide',
-                active:getWpn?.options?.find(itm => itm.value === 'tenebricide')?.active ?? false,
+                label:game.i18n.localize('KNIGHT.EFFETS.CATACLYSME.Label'),
+                value:'cataclysme',
+                active:getWpn?.options?.find(itm => itm.value === 'cataclysme')?.active ?? false,
             });
         }
 
@@ -3208,8 +3264,6 @@ export class KnightRollDialog extends Dialog {
             if (a.key !== 'btn' && b.key === 'btn') return -1;
             return a.label.localeCompare(b.label);
         });
-
-        console.error(data);
 
         return data;
     }
@@ -3646,15 +3700,15 @@ export class KnightRollDialog extends Dialog {
             });
         }
 
-        if(this.#hasEffet(raw, 'tenebricide')) {
-            let classes = ['tenebricide', 'active', 'full'];
+        if(this.#hasEffet(raw, 'cataclysme')) {
+            let classes = ['cataclysme', 'active', 'full'];
 
             data.options.push({
                 key:'btn',
                 classes:classes.join(' '),
-                label:game.i18n.localize('KNIGHT.EFFETS.TENEBRICIDE.Label'),
-                value:'tenebricide',
-                active:getWpn?.options?.find(itm => itm.value === 'tenebricide')?.active ?? false,
+                label:game.i18n.localize('KNIGHT.EFFETS.CATACLYSME.Label'),
+                value:'cataclysme',
+                active:getWpn?.options?.find(itm => itm.value === 'cataclysme')?.active ?? false,
             });
         }
 
@@ -3674,7 +3728,6 @@ export class KnightRollDialog extends Dialog {
     #renderInitialization(html) {
         const scores = ['difficulte', 'succesBonus', 'modificateur'];
         const actor = this.who;
-        console.error(actor);
         const style = actor.system.combat.style;
         const isPJ = this.isPJ;
 
@@ -5084,8 +5137,6 @@ export class KnightRollDialog extends Dialog {
             const actif = itm.system?.active?.base ?? false;
             const permanent = itm.system?.niveau?.actuel?.permanent ?? false;
             const bonus = itm.system?.niveau?.actuel?.bonus;
-
-            console.error(actif, permanent, bonus);
 
             if (!bonus?.has) return false;
             if (!actif && !permanent) return false;

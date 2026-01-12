@@ -63,7 +63,7 @@ export class BaseActorDataModel extends foundry.abstract.TypeDataModel {
 
                       case 'borealis':
                         id = type === 'distance' ? `capacite_${id}_borealisD` : `capacite_${id}_borealisC`;
-                        console.error(id);
+
                         if(type === 'distance') modificateur += this.rollWpnDistanceMod;
                         break;
 

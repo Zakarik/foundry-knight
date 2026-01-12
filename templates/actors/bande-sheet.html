@@ -14,6 +14,10 @@
                     <span>{{localize "KNIGHT.TYPE.Label"}} : </span>
                     <input type="text" name="system.type" value="{{systemData.type}}" />
                 </label>
+
+                <select name="system.origin" class="origin">
+                    {{selectOptions (getCFG 'LIST.origin') selected=systemData.origin localize=true}}
+                </select>
                 {{/unless}}
 
                 {{#if systemData.options.destruction}}
@@ -115,10 +119,23 @@
             {{/if}}
 
             {{#if systemData.options.champDeForce}}
-            <div class="bouclier">
-                <div class="line">
-                    <span class="label">{{localize "KNIGHT.LATERAL.ChampDeForce-short"}}</span>
-                    <span class="score">{{systemData.bouclier.value}}</span>
+            <div class="champDeForce">
+                <div class="line js-simpletoggler">
+                    <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="champDeForce"></span>
+                    <span class="label" title="{{localize "KNIGHT.LATERAL.ChampDeForce"}}">{{localize "KNIGHT.LATERAL.ChampDeForce-short"}}</span>
+                    <span class="score" title="{{systemData.champDeForce.base}} + {{systemData.champDeForce.mod}} = {{systemData.champDeForce.value}}">{{systemData.champDeForce.value}}</span>
+                </div>
+                <div class="subLine" style="display:none;">
+                    <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
+                    <input type="number" name="system.champDeForce.base" data-type="champDeForce"  min="0" value="{{systemData.champDeForce.base}}" />
+                </div>
+                <div class="subLine" style="display:none;">
+                    <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
+                    <input type="number" name="system.champDeForce.bonus.user" data-type="champDeForce"  min="0" value="{{systemData.champDeForce.bonus.user}}" />
+                </div>
+                <div class="subLine" style="display:none;">
+                    <span class="label withBorder">{{localize "KNIGHT.MALUS.Label"}}</span>
+                    <input class="withBorder" type="number" name="system.champDeForce.malus.user" data-type="champDeForce"  min="0" value="{{systemData.champDeForce.malus.user}}" />
                 </div>
             </div>
             {{/if}}
@@ -470,6 +487,14 @@
                         {{localize "KNIGHT.OPTIONS.PHASE2.Has"}}
                     {{else}}
                         {{localize "KNIGHT.OPTIONS.PHASE2.Hasnt"}}
+                    {{/if}}
+                </button>
+
+                <button type="action" data-value="{{systemData.options.champDeForce}}" data-option="champDeForce" class="{{#if systemData.options.champDeForce}}selected{{else}}unselected{{/if}}">
+                    {{#if systemData.options.champDeForce}}
+                        {{localize "KNIGHT.OPTIONS.CHAMPDEFORCE.Has"}}
+                    {{else}}
+                        {{localize "KNIGHT.OPTIONS.CHAMPDEFORCE.Hasnt"}}
                     {{/if}}
                 </button>
             </div>

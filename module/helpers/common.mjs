@@ -18,8 +18,9 @@ export function getAllEffects() {
   const merge3 = foundry.utils.mergeObject(merge2, CONFIG.KNIGHT.AMELIORATIONS.ornementales);
   const merge4 = foundry.utils.mergeObject(merge3, CONFIG.KNIGHT.AMELIORATIONS.structurelles);
   const merge5 = foundry.utils.mergeObject(merge4, CONFIG.KNIGHT.effetspecial);
+  const merge6 = foundry.utils.mergeObject(merge5, CONFIG.KNIGHT.effetsadl);
 
-  return merge4;
+  return merge6;
 }
 
 export function SortByLabel(x, y){
@@ -5200,9 +5201,6 @@ export async function createSheet(actor, type, name, data, item, imgAvatar, imgT
   };
 
   if(actor.folder) createData.folder = actor.folder.id
-  /*const res = await game.knight.knightRPC.executeAsGM("CREATE_ACTOR", createData, { timeout: 10000 });
-  ui.notifications.info(`Actor créé: ${res.id}`);
-  console.error("T3")*/
 
   const { id, uuid } = await SOCKET.executeAsGM('createSubActor', createData);
   const newActor = await fromUuid(uuid);
@@ -5881,7 +5879,10 @@ export async function rollViolence(message, eventOrOptions) {
 
   await roll.doRollViolence({
       total:flags.content[index].total,
-      targets:flags.content[index].targets,
+      targets:flags.content[index].targets.map(target => {
+        if(target?.btn) target.btn = target.btn.filter(itm => !itm.classes.includes('applyAttaqueEffects'))
+        return target;
+      }),
       attaque:message.rolls,
       flags:addFlags,
   });
@@ -5985,4 +5986,101 @@ export function getFinalWeaponData(style, wpn) {
   result.violence.dice = Math.max(0, result.violence.dice);
 
   return result;
+}
+
+export function convertJsonEffects(e) {
+  const label = e.name;
+  const value = e.value;
+
+  let result = '';
+
+  const normalize = (str) => {
+    return str
+      .toLowerCase()
+      .normalize("NFD")                 // sépare lettres + accents
+      .replace(/[\u0300-\u036f]/g, "")  // supprime les accents
+      .replace(/[\s\-()\[\]]/g, "");    // supprime espaces, tirets, parenthèses, crochets
+  };
+
+  switch(label) {
+    case 'Anti-anathème':
+    case 'Anti-véhicule':
+    case 'Artillerie':
+    case "Briser la résilience":
+    case "Démoralisant":
+    case "Désignation":
+    case "Destructeur":
+    case "Deux mains":
+    case "En chaîne":
+    case "Espérance":
+    case "Fureur":
+    case "Ignore armure":
+    case "Jumelé (akimbo)":
+    case "Jumelé (ambidextrie)":
+    case "Lesté":
+    case "Lourd":
+    case "Meurtrier":
+    case "Oblitération":
+    case "Orfévrerie":
+    case "[Sans armure]":
+    case "Silencieux":
+    case "Soumission":
+    case "Ténébricide":
+    case "Tir en rafale":
+    case "Tir en sécurité":
+    case "Ultraviolence":
+    case "Excellence":
+    case "Régularité":
+    case "Conviction":
+      result = normalize(label);
+      break;
+
+    case 'Assassin X':
+    case 'Barrage X':
+    case 'Cadence X':
+    case 'Choc X':
+    case 'Défense X':
+    case 'Dégâts continus X':
+    case 'Dispersion X':
+    case 'Immobilisation X':
+    case 'Intimidante X':
+    case "Lumière X":
+    case "Parasitage X":
+    case "Pénétrant X":
+    case "Perce armure X":
+    case "Bourreau X":
+    case "Dévastation X":
+      result = label.replace(' X', '');
+      result = normalize(result);
+
+      result += ` ${value ? value : 1}`;
+      break;
+
+    case "Assistance à l'attaque":
+      result = label.replace(" à l'", '');
+      result = normalize(result);
+      break;
+
+    case "Ignore cdf":
+      result = label.replace(" cdf", 'champdeforce');
+      result = normalize(result);
+      break;
+  }
+
+  return result;
+}
+
+export function divideDice(roll) {
+    const dices = roll.dice;
+    let total = 0;
+
+    for(let d of dices) {
+        let num = Math.floor(d.results.filter(a => a.active).length/2);
+
+        for(let t = 0;t < num;t++) {
+            total += Number(d?.results?.[t]?.result ?? 0);
+        }
+    }
+
+    return total;
 }

@@ -1,9 +1,16 @@
+import {
+  convertJsonEffects
+} from "../../../helpers/common.mjs";
+
+import PatchBuilder from "../../../utils/patchBuilder.mjs";
+
 export class ArmeDataModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const {HTMLField, SchemaField, StringField, NumberField, BooleanField, ArrayField, ObjectField} = foundry.data.fields;
 
     return {
       whoActivate: new StringField({}),
+      chassis:new StringField({}),
       equipped:new BooleanField({initial:false}),
       rack:new BooleanField({initial:false}),
       description: new HTMLField({initial: ''}),
@@ -447,5 +454,54 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
 
   prepareDerivedData() {
 
+  }
+
+  async importWpn(json, remplace=true) {
+    const pb = await PatchBuilder.for(this.item)
+
+    if(remplace) {
+      pb.sys('options2mains.has', false);
+      pb.sys('optionsmunitions.has', false);
+      pb.sys('degats.variable.has', false);
+      pb.sys('violence.variable.has', false);
+
+      pb.sys('effets.raw', []);
+      pb.sys('effets.custom', []);
+      pb.sys('effets2mains.raw', []);
+      pb.sys('effets2mains.custom', []);
+      pb.sys('distance.raw', []);
+      pb.sys('distance.custom', []);
+      pb.sys('ornementales.raw', []);
+      pb.sys('ornementales.custom', []);
+      pb.sys('structurelles.raw', []);
+      pb.sys('structurelles.custom', []);
+    }
+
+    pb.set('name',  json?.weapon_name ?? this.item.name);
+
+    pb.sys('description', json?.weapon_description ?? this.description);
+
+    pb.sys('chassis', json?.chassis ?? this.chassis);
+
+    pb.sys('degats.dice', json?.damage_dice ?? 0);
+    pb.sys('degats.fixe', json?.damage_flat ?? 0);
+
+    pb.sys('violence.dice', json?.violence_dice ?? 0);
+    pb.sys('violence.fixe', json?.violence_flat ?? 0);
+
+    pb.sys('portee', json?.reach?.toLowerCase() ?? 'contact');
+
+    pb.sys('prix', json?.gp ?? 0);
+
+    const effects = [];
+
+    for(let e of json?.effects ?? []) {
+      const convert = convertJsonEffects(e);
+      if(convert) effects.push(convert);
+    }
+
+    pb.sys('effets.raw', effects);
+
+    pb.apply();
   }
 }

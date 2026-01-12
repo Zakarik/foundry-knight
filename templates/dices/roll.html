@@ -83,7 +83,7 @@
             {{/each}}
             {{#if isValue}}
                 <div class="btn">
-                    <button type="action" class="setDegats" data-id="{{id}}" data-dmg="{{value}}" data-dmgType="{{#if ../damage}}damage{{/if}}{{#if ../violence}}violence{{/if}}{{#if ../debordement}}debordement{{/if}}" data-effects="{{#each ../../detailledEffets}}{{key}}{{#if value}} {{value}}{{/if}}{{#unless @last}},{{/unless}}{{/each}}{{#each ../../effets}},{{key}}{{#if value}} {{value}}{{/if}}{{/each}}">{{#if ../damage}}{{localize 'KNIGHT.JETS.DEGATSAUTO.SetDamages'}}{{/if}}{{#if ../violence}}{{localize 'KNIGHT.JETS.DEGATSAUTO.SetViolence'}}{{/if}}{{#if ../debordement}}{{localize 'KNIGHT.JETS.DEGATSAUTO.SetDebordement'}}{{/if}}</button>
+                    <button type="action" class="setDegats" data-id="{{id}}" data-dmg="{{value}}" data-dmgType="{{#if ../damage}}damage{{/if}}{{#if ../violence}}violence{{/if}}{{#if ../debordement}}debordement{{/if}}" data-effects="{{#each detailledEffets}}{{key}}{{#if value}} {{value}}{{/if}}{{#unless @last}},{{/unless}}{{/each}}{{#each ../../effets}},{{key}}{{#if value}} {{value}}{{/if}}{{/each}}">{{#if ../damage}}{{localize 'KNIGHT.JETS.DEGATSAUTO.SetDamages'}}{{/if}}{{#if ../violence}}{{localize 'KNIGHT.JETS.DEGATSAUTO.SetViolence'}}{{/if}}{{#if ../debordement}}{{localize 'KNIGHT.JETS.DEGATSAUTO.SetDebordement'}}{{/if}}</button>
                 </div>
             {{/if}}
             {{#if btn}}

@@ -1337,7 +1337,7 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     depenseEnergie += cout;
 
     substractEnergie = value - depenseEnergie;
-    console.error(substractEnergie);
+
     if(substractEnergie < 0) {
       await sendLackMsg(`${'Notenergie'}`);
 

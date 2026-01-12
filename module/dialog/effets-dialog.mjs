@@ -106,9 +106,12 @@ export class KnightEffetsDialog extends FormApplication {
     const hasCodexFM4 = game.settings.get("knight", "codexfm4");
     const effets = CONFIG.KNIGHT.effets;
     const effetsfm4 = CONFIG.KNIGHT.effetsfm4;
+    const effetsadl = CONFIG.KNIGHT.effetsadl;
     let pe = foundry.utils.mergeObject({}, effets);
 
     if(hasCodexFM4) pe = foundry.utils.mergeObject(pe, effetsfm4);
+
+    pe = foundry.utils.mergeObject(pe, effetsadl);
 
     const possibles = pe;
     const distance = CONFIG.KNIGHT.AMELIORATIONS.distance;
@@ -302,10 +305,10 @@ export class KnightEffetsDialog extends FormApplication {
       }
     }
 
-    function _sortByName(x, y){
-      if (x.name.toLowerCase() < y.name.toLowerCase()) {return -1;}
-      if (x.name.toLowerCase() > y.name.toLowerCase()) {return 1;}
-      return 0;
+    function _sortByName(x, y) {
+      return x.name.localeCompare(y.name, 'fr', {
+        sensitivity: 'base'
+      });
     }
 
     liste.sort(_sortByName);
@@ -378,11 +381,6 @@ export class KnightEffetsDialog extends FormApplication {
       const item = this.object.id;
       const isToken = this.object.isToken;
       const token = this.object.token;
-
-      console.error(actor);
-      console.error(item);
-      console.error(isToken);
-      console.error(token);
 
       if(item === null && !isToken) objectToUpdate = game.actors.get(actor);
       else if(item == null && token !== null) objectToUpdate = token;

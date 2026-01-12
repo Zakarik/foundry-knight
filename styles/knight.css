@@ -1818,12 +1818,14 @@ li.chat-message.emote {
   border-left: 1px solid var(--color-border-light-primary);
   border-right: 1px solid var(--color-border-light-primary);
 }
-.rollDialog div.dialog-content div.wpn div.data label.selectDouble {
+.rollDialog div.dialog-content div.wpn div.data label.selectDouble,
+.rollDialog div.dialog-content div.wpn div.data div.selectDouble {
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
 }
-.rollDialog div.dialog-content div.wpn div.data label.selectDouble span {
+.rollDialog div.dialog-content div.wpn div.data label.selectDouble span,
+.rollDialog div.dialog-content div.wpn div.data div.selectDouble span {
   display: grid;
   background: RGB(76 74 90);
   color: white;
@@ -1833,7 +1835,8 @@ li.chat-message.emote {
   height: 24px;
   align-items: center;
 }
-.rollDialog div.dialog-content div.wpn div.data label.selectDouble select {
+.rollDialog div.dialog-content div.wpn div.data label.selectDouble select,
+.rollDialog div.dialog-content div.wpn div.data div.selectDouble select {
   background: RGB(43 42 51);
   text-align: center;
   width: 100%;
@@ -1842,18 +1845,31 @@ li.chat-message.emote {
   border: 0px;
   padding-left: 20px;
 }
-.rollDialog div.dialog-content div.wpn div.data label.selectDouble select option {
+.rollDialog div.dialog-content div.wpn div.data label.selectDouble select option,
+.rollDialog div.dialog-content div.wpn div.data div.selectDouble select option {
   background: RGB(43 42 51);
 }
-.rollDialog div.dialog-content div.wpn div.data label.selectDouble.full {
+.rollDialog div.dialog-content div.wpn div.data label.selectDouble.full,
+.rollDialog div.dialog-content div.wpn div.data div.selectDouble.full {
   grid-column: 1/3;
 }
-.rollDialog div.dialog-content div.wpn div.data label.selectSimple {
+.rollDialog div.dialog-content div.wpn div.data label.doubleCol,
+.rollDialog div.dialog-content div.wpn div.data div.doubleCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.rollDialog div.dialog-content div.wpn div.data label.doubleCol.selectDouble span,
+.rollDialog div.dialog-content div.wpn div.data div.doubleCol.selectDouble span {
+  grid-column: 1/3;
+}
+.rollDialog div.dialog-content div.wpn div.data label.selectSimple,
+.rollDialog div.dialog-content div.wpn div.data div.selectSimple {
   display: grid;
   grid-template-columns: 1fr;
   width: 100%;
 }
-.rollDialog div.dialog-content div.wpn div.data label.selectSimple select {
+.rollDialog div.dialog-content div.wpn div.data label.selectSimple select,
+.rollDialog div.dialog-content div.wpn div.data div.selectSimple select {
   background: RGB(43 42 51);
   text-align: center;
   width: 100%;
@@ -1862,10 +1878,12 @@ li.chat-message.emote {
   border: 0px;
   padding-left: 20px;
 }
-.rollDialog div.dialog-content div.wpn div.data label.selectSimple select option {
+.rollDialog div.dialog-content div.wpn div.data label.selectSimple select option,
+.rollDialog div.dialog-content div.wpn div.data div.selectSimple select option {
   background: RGB(43 42 51);
 }
-.rollDialog div.dialog-content div.wpn div.data label.selectSimple.full {
+.rollDialog div.dialog-content div.wpn div.data label.selectSimple.full,
+.rollDialog div.dialog-content div.wpn div.data div.selectSimple.full {
   grid-column: 1/3;
 }
 .rollDialog div.dialog-content div.wpn div.data button {
@@ -18197,8 +18215,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 
 .knight div.editor,
 .ia div.editor,
-.creature div.editor,
 .pnj div.editor,
+.creature div.editor,
 .bande div.editor,
 .vehicule div.editor,
 .mechaarmure div.editor {
@@ -18207,8 +18225,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight div.editor .tox,
 .ia div.editor .tox,
-.creature div.editor .tox,
 .pnj div.editor .tox,
+.creature div.editor .tox,
 .bande div.editor .tox,
 .vehicule div.editor .tox,
 .mechaarmure div.editor .tox {
@@ -18216,8 +18234,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight div.editor div.tox-tinymce,
 .ia div.editor div.tox-tinymce,
-.creature div.editor div.tox-tinymce,
 .pnj div.editor div.tox-tinymce,
+.creature div.editor div.tox-tinymce,
 .bande div.editor div.tox-tinymce,
 .vehicule div.editor div.tox-tinymce,
 .mechaarmure div.editor div.tox-tinymce {
@@ -18225,8 +18243,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight .editor-edit,
 .ia .editor-edit,
-.creature .editor-edit,
 .pnj .editor-edit,
+.creature .editor-edit,
 .bande .editor-edit,
 .vehicule .editor-edit,
 .mechaarmure .editor-edit {
@@ -18234,8 +18252,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight .tox-editor-container,
 .ia .tox-editor-container,
-.creature .tox-editor-container,
 .pnj .tox-editor-container,
+.creature .tox-editor-container,
 .bande .tox-editor-container,
 .vehicule .tox-editor-container,
 .mechaarmure .tox-editor-container {
@@ -18243,8 +18261,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header,
 .ia header.sheet-header,
-.creature header.sheet-header,
 .pnj header.sheet-header,
+.creature header.sheet-header,
 .bande header.sheet-header,
 .vehicule header.sheet-header,
 .mechaarmure header.sheet-header {
@@ -18255,8 +18273,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .profile-img,
 .ia header.sheet-header .profile-img,
-.creature header.sheet-header .profile-img,
 .pnj header.sheet-header .profile-img,
+.creature header.sheet-header .profile-img,
 .bande header.sheet-header .profile-img,
 .vehicule header.sheet-header .profile-img,
 .mechaarmure header.sheet-header .profile-img {
@@ -18270,8 +18288,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData,
 .ia header.sheet-header .headerData,
-.creature header.sheet-header .headerData,
 .pnj header.sheet-header .headerData,
+.creature header.sheet-header .headerData,
 .bande header.sheet-header .headerData,
 .vehicule header.sheet-header .headerData,
 .mechaarmure header.sheet-header .headerData {
@@ -18284,8 +18302,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData .data,
 .ia header.sheet-header .headerData .data,
-.creature header.sheet-header .headerData .data,
 .pnj header.sheet-header .headerData .data,
+.creature header.sheet-header .headerData .data,
 .bande header.sheet-header .headerData .data,
 .vehicule header.sheet-header .headerData .data,
 .mechaarmure header.sheet-header .headerData .data {
@@ -18296,14 +18314,13 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   flex-wrap: wrap;
   justify-content: space-between;
   align-content: flex-start;
-  height: 160px;
   width: 100%;
   flex: none;
 }
 .knight header.sheet-header .headerData .data h1.charname,
 .ia header.sheet-header .headerData .data h1.charname,
-.creature header.sheet-header .headerData .data h1.charname,
 .pnj header.sheet-header .headerData .data h1.charname,
+.creature header.sheet-header .headerData .data h1.charname,
 .bande header.sheet-header .headerData .data h1.charname,
 .vehicule header.sheet-header .headerData .data h1.charname,
 .mechaarmure header.sheet-header .headerData .data h1.charname {
@@ -18316,8 +18333,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData .data h1.charname input,
 .ia header.sheet-header .headerData .data h1.charname input,
-.creature header.sheet-header .headerData .data h1.charname input,
 .pnj header.sheet-header .headerData .data h1.charname input,
+.creature header.sheet-header .headerData .data h1.charname input,
 .bande header.sheet-header .headerData .data h1.charname input,
 .vehicule header.sheet-header .headerData .data h1.charname input,
 .mechaarmure header.sheet-header .headerData .data h1.charname input {
@@ -18335,8 +18352,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData .data label,
 .ia header.sheet-header .headerData .data label,
-.creature header.sheet-header .headerData .data label,
 .pnj header.sheet-header .headerData .data label,
+.creature header.sheet-header .headerData .data label,
 .bande header.sheet-header .headerData .data label,
 .vehicule header.sheet-header .headerData .data label,
 .mechaarmure header.sheet-header .headerData .data label {
@@ -18348,8 +18365,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData .data label span,
 .ia header.sheet-header .headerData .data label span,
-.creature header.sheet-header .headerData .data label span,
 .pnj header.sheet-header .headerData .data label span,
+.creature header.sheet-header .headerData .data label span,
 .bande header.sheet-header .headerData .data label span,
 .vehicule header.sheet-header .headerData .data label span,
 .mechaarmure header.sheet-header .headerData .data label span {
@@ -18359,8 +18376,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData .data label input,
 .ia header.sheet-header .headerData .data label input,
-.creature header.sheet-header .headerData .data label input,
 .pnj header.sheet-header .headerData .data label input,
+.creature header.sheet-header .headerData .data label input,
 .bande header.sheet-header .headerData .data label input,
 .vehicule header.sheet-header .headerData .data label input,
 .mechaarmure header.sheet-header .headerData .data label input {
@@ -18374,8 +18391,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure,
 .ia header.sheet-header .headerData div.buttonSelectArmure,
-.creature header.sheet-header .headerData div.buttonSelectArmure,
 .pnj header.sheet-header .headerData div.buttonSelectArmure,
+.creature header.sheet-header .headerData div.buttonSelectArmure,
 .bande header.sheet-header .headerData div.buttonSelectArmure,
 .vehicule header.sheet-header .headerData div.buttonSelectArmure,
 .mechaarmure header.sheet-header .headerData div.buttonSelectArmure {
@@ -18388,8 +18405,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
 .ia header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
-.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
 .pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
+.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
 .bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
 .vehicule header.sheet-header .headerData div.buttonSelectArmure div.blockArmure,
 .mechaarmure header.sheet-header .headerData div.buttonSelectArmure div.blockArmure {
@@ -18403,8 +18420,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
 .ia header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
-.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
 .pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
+.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
 .bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
 .vehicule header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button,
 .mechaarmure header.sheet-header .headerData div.buttonSelectArmure div.blockArmure button {
@@ -18414,8 +18431,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
 .ia header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
-.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
 .pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
+.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
 .bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
 .vehicule header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit,
 .mechaarmure header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-edit {
@@ -18425,8 +18442,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
 .ia header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
-.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
 .pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
+.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
 .bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
 .vehicule header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete,
 .mechaarmure header.sheet-header .headerData div.buttonSelectArmure div.blockArmure a.item-delete {
@@ -18436,8 +18453,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
 .ia header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
-.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
 .pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
+.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
 .bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
 .vehicule header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected,
 .mechaarmure header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.unselected {
@@ -18446,8 +18463,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
 .ia header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
-.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
 .pnj header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
+.creature header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
 .bande header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
 .vehicule header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected,
 .mechaarmure header.sheet-header .headerData div.buttonSelectArmure div.blockArmure.selected {
@@ -18456,8 +18473,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure button,
 .ia header.sheet-header .headerData div.buttonSelectArmure button,
-.creature header.sheet-header .headerData div.buttonSelectArmure button,
 .pnj header.sheet-header .headerData div.buttonSelectArmure button,
+.creature header.sheet-header .headerData div.buttonSelectArmure button,
 .bande header.sheet-header .headerData div.buttonSelectArmure button,
 .vehicule header.sheet-header .headerData div.buttonSelectArmure button,
 .mechaarmure header.sheet-header .headerData div.buttonSelectArmure button {
@@ -18469,8 +18486,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure button.unselected,
 .ia header.sheet-header .headerData div.buttonSelectArmure button.unselected,
-.creature header.sheet-header .headerData div.buttonSelectArmure button.unselected,
 .pnj header.sheet-header .headerData div.buttonSelectArmure button.unselected,
+.creature header.sheet-header .headerData div.buttonSelectArmure button.unselected,
 .bande header.sheet-header .headerData div.buttonSelectArmure button.unselected,
 .vehicule header.sheet-header .headerData div.buttonSelectArmure button.unselected,
 .mechaarmure header.sheet-header .headerData div.buttonSelectArmure button.unselected {
@@ -18479,8 +18496,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure button.selected,
 .ia header.sheet-header .headerData div.buttonSelectArmure button.selected,
-.creature header.sheet-header .headerData div.buttonSelectArmure button.selected,
 .pnj header.sheet-header .headerData div.buttonSelectArmure button.selected,
+.creature header.sheet-header .headerData div.buttonSelectArmure button.selected,
 .bande header.sheet-header .headerData div.buttonSelectArmure button.selected,
 .vehicule header.sheet-header .headerData div.buttonSelectArmure button.selected,
 .mechaarmure header.sheet-header .headerData div.buttonSelectArmure button.selected {
@@ -18489,8 +18506,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight header.sheet-header .headerData div.buttonSelectArmure.centered,
 .ia header.sheet-header .headerData div.buttonSelectArmure.centered,
-.creature header.sheet-header .headerData div.buttonSelectArmure.centered,
 .pnj header.sheet-header .headerData div.buttonSelectArmure.centered,
+.creature header.sheet-header .headerData div.buttonSelectArmure.centered,
 .bande header.sheet-header .headerData div.buttonSelectArmure.centered,
 .vehicule header.sheet-header .headerData div.buttonSelectArmure.centered,
 .mechaarmure header.sheet-header .headerData div.buttonSelectArmure.centered {
@@ -18498,8 +18515,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight section.menu,
 .ia section.menu,
-.creature section.menu,
 .pnj section.menu,
+.creature section.menu,
 .bande section.menu,
 .vehicule section.menu,
 .mechaarmure section.menu {
@@ -18514,8 +18531,8 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight i.hideShowLimited,
 .ia i.hideShowLimited,
-.creature i.hideShowLimited,
 .pnj i.hideShowLimited,
+.creature i.hideShowLimited,
 .bande i.hideShowLimited,
 .vehicule i.hideShowLimited,
 .mechaarmure i.hideShowLimited {
@@ -18527,12 +18544,30 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight i.hideShowLimited:hover,
 .ia i.hideShowLimited:hover,
-.creature i.hideShowLimited:hover,
 .pnj i.hideShowLimited:hover,
+.creature i.hideShowLimited:hover,
 .bande i.hideShowLimited:hover,
 .vehicule i.hideShowLimited:hover,
 .mechaarmure i.hideShowLimited:hover {
   text-shadow: 0 0 10px RGB(37 85 228);
+}
+
+.pnj header.sheet-header .profile-img {
+  width: 180px;
+  min-width: 180px;
+  height: 215px;
+  border-color: white;
+  background: RGB(76 74 90);
+  margin-right: 0px;
+  object-fit: contain;
+}
+.pnj header.sheet-header .headerData {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  height: 215px;
+  width: calc(100% - 180px);
+  flex: none;
 }
 
 .knight div.evolutionsAchetables {
@@ -27651,7 +27686,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .pnj header.sheet-header div.lastBlock {
   display: grid;
-  grid-template-columns: 1fr 100px 100px;
+  grid-template-columns: 1fr 1fr;
   grid-gap: 2px;
 }
 .pnj header.sheet-header div.lastBlock button.setbtn {
@@ -36912,6 +36947,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   width: 100%;
   height: 30px;
   text-align: center;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.bouclier div.line span.option img {
   height: 29px;
@@ -36930,6 +36966,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   font-size: 14px;
   letter-spacing: 1px;
   padding-left: 1px;
+  border-bottom: 1px solid RGB(43 42 51);
 }
 .bande section.menu div.bouclier div.line span.score {
   display: inline-block;
@@ -36938,6 +36975,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.bouclier div.subLine {
   display: grid;
@@ -36973,7 +37011,22 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   display: grid;
   width: 100%;
   line-height: 29px;
-  grid-template-columns: 1fr 80px;
+  grid-template-columns: 30px 1fr 80px;
+}
+.bande section.menu div.champDeForce div.line span.option {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  text-align: center;
+}
+.bande section.menu div.champDeForce div.line span.option img {
+  height: 29px;
+  width: 29px;
+  border: 0px;
+  cursor: pointer;
+}
+.bande section.menu div.champDeForce div.line span.option img:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
 }
 .bande section.menu div.champDeForce div.line span.label {
   display: inline-block;
@@ -36991,6 +37044,36 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   text-align: center;
   font-size: 16px;
+}
+.bande section.menu div.champDeForce div.subLine {
+  display: grid;
+  width: 100%;
+  line-height: 30px;
+  justify-content: space-between;
+  grid-template-columns: 1fr 80px;
+}
+.bande section.menu div.champDeForce div.subLine span.label {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  font-variant: small-caps;
+  font-size: 16px;
+  letter-spacing: 1px;
+  padding-left: 5px;
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.bande section.menu div.champDeForce div.subLine input {
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  background: RGB(43 42 51);
+  text-align: center;
+  font-size: 16px;
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  margin: 0px;
+  border-bottom: 1px solid RGB(76 74 90);
 }
 .bande section.menu div.reaction div.line,
 .bande section.menu div.defense div.line {
@@ -42553,6 +42636,23 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   cursor: pointer;
   margin: 0px;
 }
+.bande div.data select.origin,
+.creature div.data select.origin,
+.pnj div.data select.origin {
+  border: 0px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-variant: small-caps;
+  background: transparent;
+  border-bottom: 1px solid white;
+  border-radius: 0px;
+}
+.bande div.data select.origin option,
+.creature div.data select.origin option,
+.pnj div.data select.origin option {
+  background: RGB(43 42 51);
+}
 
 .knight-roll {
   display: grid;
@@ -43499,6 +43599,55 @@ section#compendium > header:first-of-type:before {
   flex: 0;
 }
 .knight-import-all section.window-content div.dialog-buttons button {
+  height: 28px;
+  line-height: 26px;
+  margin: 0px;
+  min-width: max-content;
+  white-space: nowrap;
+  background-color: RGB(193, 193, 193);
+  border-radius: 0px;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.knight-import-adl section.window-content div.dialog-content {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.knight-import-adl section.window-content div.dialog-content h1 {
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  border: 0px;
+  font-variant: small-caps;
+  font-weight: bold;
+}
+.knight-import-adl section.window-content div.dialog-content select {
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  font-variant: small-caps;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 0px;
+  border-bottom: 0px;
+  border-color: black;
+}
+.knight-import-adl section.window-content div.dialog-content textarea {
+  border-radius: 0px;
+  height: calc(100% - 49px);
+}
+.knight-import-adl section.window-content div.dialog-buttons {
+  flex: 0;
+}
+.knight-import-adl section.window-content div.dialog-buttons button {
   height: 28px;
   line-height: 26px;
   margin: 0px;

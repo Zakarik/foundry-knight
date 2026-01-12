@@ -687,6 +687,111 @@
         "Description":"Automatically hits, does not require an attack roll. *System-specific effect.",
         "Description-short":"Automatically hits, does not require an attack roll. *System-specific effect."
       },
+      "ANNIHILATION":{
+        "Label":"Annihilation",
+        "Description":"Against a Badass enemy, the weapon always inflicts the maximum damage roll result, as if each die had rolled a 6. The dice are simply not rolled. If the weapon has the scatter effect, each enemy/Badass target hit suffers maximum damage. This stacks with Obliteration if multiple targets are hit by the same attack. *Based on the type entered on the form, it must be ‘Badass’ with this exact spelling (upper and lower case letters do not matter).",
+        "Description-short":"If Badass, the weapon inflicts maximum damage. If Scatter, the effect applies to each Badass-type target hit."
+      },
+      "BOOST":{
+        "Label":"Boost",
+        "Description":"Per combat action, when attacking, the PC can add 1D6 damage or violence for each EP used for this effect, up to a maximum of XD6.",
+        "Description-short":"Per combat action, when attacking, the PC can add 1D6 damage or violence for each EP used for this effect, up to a maximum of XD6."
+      },
+      "CATACLYSME":{
+        "Label":"Cataclysm",
+        "Description":"Once per turn, when the PC attacks, they can choose to target all brute enemies and Badass within short range, in addition to any band that may be present. All targets hit by the attack suffer damage (violence in the case of the band) equal to the result of the violence dice roll for their weapon.",
+        "Description-short":"Once per turn, when the PC attacks, they can choose to target all brute enemies and Badass within short range, in addition to any band that may be present. All targets hit by the attack suffer damage (violence in the case of the band) equal to the result of the violence dice roll for their weapon."
+      },
+      "CHIRURGICAL":{
+        "Label":"Surgical",
+        "Description":"When the weapon is used, its user adds their Knowledge stat (+1 damage point per overdrive) (or Machine divided by 2, rounded up to the nearest whole number, for an NPC) when determining damage, in addition to other stats already included (such as Strength and any Strength OD). They do not need to use this characteristic in their combo.",
+        "Description-short":"Adds Knowledge (+1 per OD) / Machine divided by 2, rounded up for an NPC with damage."
+      },
+      "DEFERLANTE":{
+        "Label":"Breaking wave",
+        "Description":"For each successful consecutive attack on the same target, the PC gains +3 cumulative fixed damage (limited to +24 damage). This bonus accumulates as long as the PC is not interrupted, does not change targets, does not suffer an effect that causes them to lose an action (shock, submission, etc.), and does not miss their attack. If the PC is interrupted, misses their attack, or loses the wave effect, the accumulated wave damage resets to zero. If a PC uses the ambidexterity style on two different targets, the effect is canceled. If the PC attacks the same target with two weapons that have the surge effect, the fixed damage bonus stacks with each attack. Thus, during the same turn, using ambidexterity, the knight can activate the effect twice on the same target.",
+        "Description-short":"For each successful consecutive attack on the same target, the PC gains +3 cumulative fixed damage (limited to +24 damage). This bonus accumulates as long as the PC is not interrupted, does not change targets, does not suffer an effect that causes them to lose an action (shock, submission, etc.), and does not miss their attack. If the PC is interrupted, misses their attack, or loses the wave effect, the accumulated wave damage resets to zero. If a PC uses the ambidexterity style on two different targets, the effect is canceled. If the PC attacks the same target with two weapons that have the surge effect, the fixed damage bonus stacks with each attack. Thus, during the same turn, using ambidexterity, the knight can activate the effect twice on the same target."
+      },
+      "DEVIATION":{
+        "Label":"Deflection",
+        "Description":"If an enemy targets the PC with a ranged attack at short or medium range and misses, the PC can spend 4 EP and return the damage from the attack to the attacker. The GM rolls the damage dice and adds the fixed damage bonuses (without effects) of the attack that would have injured the PC if it had hit. This effect does not work against attacks with the X scatter effect, against band damage, or against any area effects or effects involving scenery (at the GM's discretion).",
+        "Description-short":"If an enemy targets the PC with a ranged attack at short or medium range and misses, the PC can spend 4 EP and return the damage from the attack to the attacker. The GM rolls the damage dice and adds the fixed damage bonuses (without effects) of the attack that would have injured the PC if it had hit. This effect does not work against attacks with the X scatter effect, against band damage, or against any area effects or effects involving scenery (at the GM's discretion)."
+      },
+      "EXPOSER":{
+        "Label":"Exhibit",
+        "Description":"When the PC successfully attacks a target, that target is exposed. The target remains exposed until the start of its next turn. Any attack that would deal damage to it receives a bonus of 12 damage. The same target cannot be exposed more than once in the same turn.",
+        "Description-short":"When the PC successfully attacks a target, that target is exposed. The target remains exposed until the start of its next turn. Any attack that would deal damage to it receives a bonus of 12 damage. The same target cannot be exposed more than once in the same turn."
+      },
+      "FATAL":{
+        "Label":"Fatal",
+        "Description":"By sacrificing 2D6 during his attack roll, if the attack roll is successful, the knight knocks out a targeted hostile human within range of the attack. The fatal effect can be stacked to target multiple hostiles at once by sacrificing 2D6 for each. The dice are sacrificed at the same time. If the roll fails, the attack simply misses.",
+        "Description-short":"By sacrificing 2D6 during his attack roll, if the attack roll is successful, the knight knocks out a targeted hostile human within range of the attack. The fatal effect can be stacked to target multiple hostiles at once by sacrificing 2D6 for each. The dice are sacrificed at the same time. If the roll fails, the attack simply misses."
+      },
+      "FRAPPEAPORTEE":{
+        "Label":"Strike within range",
+        "Description":"The weapon can attack a target within short range in the same way as if it were within melee range.",
+        "Description-short":"The weapon can attack a target within short range in the same way as if it were within melee range."
+      },
+      "HECATOMBE":{
+        "Label":"Massacre",
+        "Description":"When a PC inflicts violence on a band, the band always suffers at least half (rounded down) of the total possible violence from the dice rolled. Thus, if a PC should inflict a maximum of 24 points of violence because they roll 4 dice, they will always inflict at least 12 points, and more if the results on their violence dice are better.",
+        "Description-short":"When a PC inflicts violence on a band, the band always suffers at least half (rounded down) of the total possible violence from the dice rolled. Thus, if a PC should inflict a maximum of 24 points of violence because they roll 4 dice, they will always inflict at least 12 points, and more if the results on their violence dice are better."
+      },
+      "MOBILE":{
+        "Label":"Mobile",
+        "Description":"The weapon loses the heavy effect and any associated penalties. If it had it, it retains the two-handed effect.",
+        "Description-short":"The weapon loses the heavy effect and any associated penalties. If it had it, it retains the two-handed effect."
+      },
+      "NONLETAL":{
+        "Label":"Non-lethal",
+        "Description":"If an enemy reaches 0 HP by taking damage from this weapon, they do not die, but simply fall unconscious for 1D6 hours before regaining consciousness with 1 health point.",
+        "Description-short":"If an enemy reaches 0 HP by taking damage from this weapon, they do not die, but simply fall unconscious for 1D6 hours before regaining consciousness with 1 health point."
+      },
+      "PILLAGE":{
+        "Label":"Looting",
+        "Description":"When the PC successfully attacks one or more NPCs, they regain 3 HP. This effect only works once per attack. Even with the Dispersion 6 effect, if the character manages to hit 6 targets, they only regain 3 HP.",
+        "Description-short":"When the PC successfully attacks one or more NPCs, they regain 3 HP. This effect only works once per attack. Even with the Dispersion 6 effect, if the character manages to hit 6 targets, they only regain 3 HP."
+      },
+      "REMPART":{
+        "Label":"Rampart",
+        "Description":"When the PC successfully hits a brute or badass enemy, they can decide to provoke them. The enemy must then attack the PC (and only the PC, except for abilities and effects targeting multiple victims) as a priority on their next turn or flee, regardless of what their tactics indicate.",
+        "Description-short":"When the PC successfully hits a brute or badass enemy, they can decide to provoke them. The enemy must then attack the PC (and only the PC, except for abilities and effects targeting multiple victims) as a priority on their next turn or flee, regardless of what their tactics indicate."
+      },
+      "RETRIBUTION":{
+        "Label":"Reward",
+        "Description":"If an enemy targets the PC in melee combat and misses their attack, the PC can spend 3 EP and return the damage from the attack to the attacker. The GM rolls the damage dice and adds the fixed damage bonuses (without effects) of the attack that would have injured the PC if it had hit. This effect does not work against attacks with the X-scatter effect, against area damage, or against any area effects or effects involving scenery (at the GM's discretion).",
+        "Description-short":"If an enemy targets the PC in melee combat and misses their attack, the PC can spend 3 EP and return the damage from the attack to the attacker. The GM rolls the damage dice and adds the fixed damage bonuses (without effects) of the attack that would have injured the PC if it had hit. This effect does not work against attacks with the X-scatter effect, against area damage, or against any area effects or effects involving scenery (at the GM's discretion)."
+      },
+      "SENSITIF":{
+        "Label":"Sensitive",
+        "Description":"When the weapon is used, its user adds their Perception characteristic (+1 damage point per overdrive) (or Mask divided by 2, rounded up to the nearest whole number, for an NPC) when determining damage, in addition to other characteristics already included (such as Strength and any Strength OD). They do not need to use this characteristic in their combo.",
+        "Description-short":"Adds Perception (+1 per OD) / Mask divided by 2, rounded up for an NPC with damage."
+      },
+      "SOURNOIS":{
+        "Label":"Sneaky",
+        "Description":"Even if spotted by their target, the PC can make a surprise attack if they are behind them or if another knight is engaged with them. Note: the PC can only apply one sneak attack per game turn.",
+        "Description-short":"Even if spotted by their target, the PC can make a surprise attack if they are behind them or if another knight is engaged with them. Note: the PC can only apply one sneak attack per game turn."
+      },
+      "SPECIALISTE":{
+        "Label":"Specialist",
+        "Description":"When the character makes an attack roll with the weapon, they may reroll X dice of their choice. This reroll of X dice may only be performed once per attack.",
+        "Description-short":"When the character makes an attack roll with the weapon, they may reroll X dice of their choice. This reroll of X dice may only be performed once per attack."
+      },
+      "TERRIFIANT":{
+        "Label":"Terrifying",
+        "Description":"The overrun of the band targeted by the attack is divided (rounded up) by two until the next turn of the PC. Multiple terrifying effects cannot be combined on the same band. The division is made before any decrease due to effects such as demoralization.",
+        "Description-short":"The overrun of the band targeted by the attack is divided (rounded up) by two until the next turn of the PC. Multiple terrifying effects cannot be combined on the same band. The division is made before any decrease due to effects such as demoralization."
+      },
+      "TITANICIDE":{
+        "Label":"Titanicide",
+        "Description":"When the character attacks an enemy with resilience, if they inflict damage, they can spend 3 EP each time to reduce resilience by 15.",
+        "Description-short":"When the character attacks an enemy with resilience, if they inflict damage, they can spend 3 EP each time to reduce resilience by 15."
+      },
+      "UNEMAIN":{
+        "Label":"One hand",
+        "Description":"Simply removes the two-handed effect.",
+        "Description-short":"Simply removes the two-handed effect."
+      },
       "ANEANTIRBANDE": {
         "Label":"Destroy a band",
         "Description":"Eliminate an enemy band with a cohesion equal to or less than 300.",
@@ -706,7 +811,7 @@
       "ANTIANATHEME": {
         "Label":"Anti-Anathema",
         "Description":"When this weapon is used against a creature of the Anathema, it ignores any shield or exceptional Flesh values the target may have. Damage is inflicted directly to their AP, if applicable, then their health. When a weapon with this effect hits a band of creatures of the Anathema, ignore its shield and exceptional Flesh.",
-        "Description-short":"Ignores any shield or exceptional Flesh values."
+        "Description-short":"Ignores any shield or exceptional Flesh values of creatures of anathema.."
       },
       "ANTIVEHICULE": {
         "Label":"Anti-vehicle",

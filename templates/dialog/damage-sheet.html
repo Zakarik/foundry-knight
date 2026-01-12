@@ -81,10 +81,17 @@
     </div>
     {{/if}}
     {{#if pnj}}
-    <div class="sub">
-        <input type="checkbox" name="antiAnatheme" id="antiAnatheme" {{#if (or effects.antianatheme effects.fauconplumesluminescentes)}}checked{{/if}}/>
-        <label for="antiAnatheme">
-            {{localize "KNIGHT.EFFETS.ANTIANATHEME.Label"}}
+    {{log this}}
+    <div  class="sub">
+        <input type="checkbox" name="antiAnathemeBouclier" id="antiAnathemeBouclier" {{#if (and (or effects.antianatheme effects.fauconplumesluminescentes) (eq origin 'anatheme'))}}checked{{/if}}/>
+        <label for="antiAnathemeBouclier">
+            {{localize "KNIGHT.EFFETS.ANTIANATHEME.Label"}} ({{localize 'KNIGHT.LATERAL.Bouclier'}})
+        </label>
+    </div>
+    <div  class="sub">
+        <input type="checkbox" name="antiAnathemeChairEx" id="antiAnathemeChairEx" {{#if (and (or effects.antianatheme effects.fauconplumesluminescentes) (eq origin 'anatheme'))}}checked{{/if}}/>
+        <label for="antiAnathemeChairEx">
+            {{localize "KNIGHT.EFFETS.ANTIANATHEME.Label"}} ({{localize 'KNIGHT.COMBAT.ARMESIMPROVISEES.Chair'}})
         </label>
     </div>
     {{/if}}
@@ -192,7 +199,6 @@
     </div>
     {{/if}}
     {{/if}}
-    {{log this}}
     <div  class="sub">
         <input type="checkbox" name="surprise" id="surprise" {{#if surprise}}checked{{/if}}/>
         <label for="surprise">

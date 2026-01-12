@@ -14,6 +14,7 @@ export class PNJDataModel extends BaseNPCDataModel {
 
         const base = super.defineSchema();
         const specific = {
+            origin:new StringField({initial:'humain'}),
             age:new StringField({ initial: ""}),
             archetype:new StringField({ initial: ""}),
             metaarmure:new StringField({ initial: ""}),
@@ -21,7 +22,6 @@ export class PNJDataModel extends BaseNPCDataModel {
             surnom:new StringField({initial:""}),
             section:new StringField({initial:""}),
             hautFait:new StringField({initial:""}),
-            champDeForce:new EmbeddedDataField(DefensesDataModel),
             egide:new EmbeddedDataField(DefensesDataModel),
             configurationActive:new StringField({initial:""}),
             wolf:new ObjectField({}),

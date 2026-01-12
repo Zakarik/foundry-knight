@@ -1,3 +1,12 @@
+## v3.52.0
+### Bugfix
+- Sur un PNJ, s'il n'a pas d'espoir, il n'a pas non plus la case de réduction des pertes d'espoir.
+
+### Améliorations
+- Ajout de la possibilité de mettre un champ de force sur les bandes.
+- Ajout d'un champ permettant d'indiquer si un PNJ / Créature / Bande est de type humain, anathème ou autre (robot, par ex.).
+Utile pour certains effets.
+
 ## v3.51.1
 ### Bugfix
 - Correction d'un bug d'affichage des boutons d'activation des modules.

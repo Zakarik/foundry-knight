@@ -43,7 +43,7 @@ export class VehiculeSheet extends ActorSheet {
 
     actualiseRoll(this.actor);
 
-    console.error(context);
+    console.warn(context);
 
     return context;
   }

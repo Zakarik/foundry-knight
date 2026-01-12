@@ -44,12 +44,18 @@
                     <input type="text" name="system.hautFait" value="{{systemData.hautFait}}" />
                 </label>
 
-                <div class="lastBlock">
+                <div>
                     <label>
                         <span>{{localize "KNIGHT.TYPE.Label"}} : </span>
                         <input type="text" name="system.type" value="{{systemData.type}}" />
                     </label>
+                </div>
 
+                <select name="system.origin" class="origin">
+                    {{selectOptions (getCFG 'LIST.origin') selected=systemData.origin localize=true}}
+                </select>
+
+                <div class="lastBlock">
                     <button type="action" class="setbtn {{ifThen systemData.colosse 'selected' 'unselected'}}" data-type="colosse">
                         <i class="{{ifThen systemData.colosse 'fa-solid fa-check' 'fa-solid fa-xmark'}}"></i>
                         {{localize 'KNIGHT.Colosse'}}
@@ -277,6 +283,7 @@
             </div>
         </section>
 
+        {{#if systemData.options.espoir}}
         <section class="mainBlock">
             <div class="reductionPEs">
                 <div class="line">
@@ -285,6 +292,7 @@
                 </div>
             </div>
         </section>
+        {{/if}}
     </section>
 
     {{!-- Sheet Body --}}

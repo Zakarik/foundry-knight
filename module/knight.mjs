@@ -283,6 +283,27 @@ Hooks.once('init', async function() {
         icon:'',
         value: 2
       }]
+    },
+    {
+      id:'exposer',
+      label:"KNIGHT.EFFETS.EXPOSER.Label",
+      name:"KNIGHT.EFFETS.EXPOSER.Label",
+      img:'systems/knight/assets/icons/effects/exposer.svg',
+      icon:'systems/knight/assets/icons/effects/exposer.svg',
+    },
+    {
+      id:'terrifiant',
+      label:"KNIGHT.EFFETS.TERRIFIANT.Label",
+      name:"KNIGHT.EFFETS.TERRIFIANT.Label",
+      img:'systems/knight/assets/icons/effects/terrifiant.svg',
+      icon:'systems/knight/assets/icons/effects/terrifiant.svg',
+    },
+    {
+      id:'demoralisant',
+      label:"KNIGHT.EFFETS.DEMORALISANT.Label",
+      name:"KNIGHT.EFFETS.DEMORALISANT.Label",
+      img:'systems/knight/assets/icons/effects/demoralisant.svg',
+      icon:'systems/knight/assets/icons/effects/demoralisant.svg',
     }
   ];
 

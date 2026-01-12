@@ -2,7 +2,7 @@ import { BaseNPCDataModel } from "../base/base-npc-data-model.mjs";
 
 export class BandeDataModel extends BaseNPCDataModel {
 	static defineSchema() {
-		const {SchemaField, NumberField, ObjectField} = foundry.data.fields;
+		const {SchemaField, NumberField, ObjectField, BooleanField} = foundry.data.fields;
 
         const base = super.defineSchema();
         const specific = {
@@ -32,6 +32,9 @@ export class BandeDataModel extends BaseNPCDataModel {
                 value:new NumberField({initial:0, nullable:false, integer:true}),
                 max:new NumberField({initial:16, nullable:false, integer:true}),
             }),
+            options:new SchemaField({
+              champDeForce:new BooleanField({initial:false, nullable:false}),
+            })
         }
 
         return foundry.utils.mergeObject(base, specific);
@@ -176,7 +179,13 @@ export class BandeDataModel extends BaseNPCDataModel {
     async doDebordement() {
         const actor = this.actor;
         const label = actor.name;
-        const dgtsDice = Number(this?.debordement?.tour)*Number(this?.debordement?.value);
+        let debordementValue = Number(this?.debordement?.value);
+        let debordementTour = Number(this?.debordement?.tour);
+
+        if(actor.statuses.has('terrifiant')) debordementValue = Math.ceil(debordementValue / 2);
+        if(actor.statuses.has('demoralisant')) debordementValue -= 2;
+
+        const dgtsDice = debordementValue*debordementTour;
         const roll = new game.knight.RollKnight(actor, {
         name:`${label} : ${game.i18n.localize('KNIGHT.AUTRE.Debordement')}`,
         }, false);
