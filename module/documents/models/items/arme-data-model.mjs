@@ -259,6 +259,27 @@ export class ArmeDataModel extends foundry.abstract.TypeDataModel {
     return result;
   }
 
+  get allEffects() {
+    const type = this.type;
+    const options2mains = this.options2mains;
+    const optionsmunitions = this.optionsmunitions;
+    const effects = [];
+
+    if(options2mains.has && options2mains.actuel === '2main') {
+      effects.push(...this.effets2mains.raw);
+    }
+
+    if((options2mains.has && options2mains.actuel === '1main') || !options2mains.has) effects.push(...this.effets.raw);
+
+    if(type === 'distance') {
+      effects.push(...this.distance.raw);
+
+      if(optionsmunitions.has) effects.push(...optionsmunitions.liste[optionsmunitions.actuel].raw)
+    } else if(type === 'contact') effects.push(...this.ornementales.raw, ...this.structurelles.raw);
+
+    return effects;
+  }
+
   addMunition(index, type) {
     let data = undefined;
     let chargeur = undefined;

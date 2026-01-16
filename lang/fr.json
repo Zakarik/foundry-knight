@@ -700,7 +700,7 @@
       "CATACLYSME":{
         "Label":"Cataclysme",
         "Description":"Une fois par tour, lorsque le PJ attaque, il peut choisir de cibler tous les ennemis à portée courte de type hostiles et salopards en plus d’une bande éventuellement présente. Toutes les cibles touchées par l’attaque se voient infliger une quantité de dégâts (violence dans le cas de la bande) égale au résultat des dés de violence de son arme.",
-        "Description-short":"Une fois par tour, permet de cibler tous les ennemis à portée courte de type hostile et salopard, en plus d'une bande éventuellement présente. Toutes les cibles touchées subissent une quantité de dégâts (violence pour la bande) égal au résultat des dés de violence."
+        "Description-short":"Les dés de dégâts sont substitués aux dés violences pour toutes les cibles (Déjà pris en compte en cliquant sur le bouton 'Dégâts')."
       },
       "CHIRURGICAL":{
         "Label":"Chirurgical",
@@ -878,12 +878,13 @@
       "CHOC": {
         "Label":"Choc",
         "Description":"Si le jet pour toucher avec l'arme est supérieur au score de l'aspect _Chair_ (divisé par 2 pour un PNJ) de la cible, celle-ci perd ses X prochaines actions. Cet effet ne fonctionne pas contre les bandes. Attention, l'effet ne peut pas se cumuler alors que la cible est déjà sous l'effet _choc_. Dans certaines circonstances, l'effet _choc_ peut être considéré comme automatique et ne prend donc pas en compte le score de l'aspect _Chair_. Lorsque l'effet _choc_ est censé s'appliquer automatiquement, il faut tout de même que le personnage touche sa cible. En revanche, son résultat n'a pas besoin d'égaler l'aspect _Chair_ divisé par deux de la cible pour que l'effet fonctionne. En fonction des circonstances, le MJ peut décider qu'un personnage sous l'effet choc subit un malus de 2 à sa _réaction_ et à sa _défense_. L'effet ne se cumule pas avec _parasitage X_.",
-        "Description-short":"Si le nombre de succès est supérieur à l'aspect Chair (ou Chair / 2 pour un PNJ), la cible perd ses X prochaines actions."
+        "Description-short":"Si le nombre de succès est supérieur à l'aspect Chair (ou Chair / 2 pour un PNJ), la cible perd ses X prochaines actions.",
+        "Auto":"Choc automatique"
       },
       "CONVICTION": {
         "Label":"Conviction",
-        "Description":"Quand vainc un ennemi, reçoit 1PEs (max 1 par attaque), 3PEs si vainc une bande.",
-        "Description-short":"Quand vainc un ennemi, reçoit 1PEs (max 1 par attaque), 3PEs si vainc une bande."
+        "Description":"Lorsqu’un PJ élimine une créature de l’Anathème ennemie, il gagne 1 PES pour un hostile ou un salopard, 2 PES pour une bande non humaine, 3 PES pour un patron, un colosse ou un patron-colosse.",
+        "Description-short":"Lorsqu’un PJ élimine une créature de l’Anathème ennemie, il gagne 1 PES pour un hostile ou un salopard, 2 PES pour une bande non humaine, 3 PES pour un patron, un colosse ou un patron-colosse."
       },
       "DEFENSE": {
         "Label":"Défense",
@@ -1260,7 +1261,8 @@
       "ELECTRIFIEE":{
         "Label":"Électrifiée",
         "Description":"L’arme gagne l’effet choc 1.\r\nSi le jet pour toucher avec l'arme est supérieur au score de l'aspect _Chair_ (divisé par 2 pour un PNJ) de la cible, celle-ci perd sa prochaine action. Cet effet ne fonctionne pas contre les bandes. Attention, l'effet ne peut pas se cumuler alors que la cible est déjà sous l'effet _choc_. Dans certaines circonstances, l'effet _choc_ peut être considéré comme automatique et ne prend donc pas en compte le score de l'aspect _Chair_. Lorsque l'effet _choc_ est censé s'appliquer automatiquement, il faut tout de même que le personnage touche sa cible. En revanche, son résultat n'a pas besoin d'égaler l'aspect _Chair_ divisé par deux de la cible pour que l'effet fonctionne. En fonction des circonstances, le MJ peut décider qu'un personnage sous l'effet choc subit un malus de 2 à sa _réaction_ et à sa _défense_. L'effet ne se cumule pas avec _parasitage X_.",
-        "Description-short":"Si le nombre de succès est supérieur à l'aspect Chair (ou Chair / 2 pour un PNJ), la cible perd sa prochaines actions."
+        "Description-short":"Si le nombre de succès est supérieur à l'aspect Chair (ou Chair / 2 pour un PNJ), la cible perd sa prochaines actions.",
+        "Auto":"Électrifiée Automatique"
       },
       "FAUCHEUSEGRAVEE":{
         "Label":"Faucheuse gravée",

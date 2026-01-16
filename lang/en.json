@@ -700,7 +700,7 @@
       "CATACLYSME":{
         "Label":"Cataclysm",
         "Description":"Once per turn, when the PC attacks, they can choose to target all brute enemies and Badass within short range, in addition to any band that may be present. All targets hit by the attack suffer damage (violence in the case of the band) equal to the result of the violence dice roll for their weapon.",
-        "Description-short":"Once per turn, when the PC attacks, they can choose to target all brute enemies and Badass within short range, in addition to any band that may be present. All targets hit by the attack suffer damage (violence in the case of the band) equal to the result of the violence dice roll for their weapon."
+        "Description-short":"Damage dice replace violence dice for all targets (already taken into account by clicking on the ‘Damage’ button)."
       },
       "CHIRURGICAL":{
         "Label":"Surgical",
@@ -878,12 +878,13 @@
       "CHOC": {
         "Label":"Stun",
         "Description":"If this weapon’s attack roll is higher than the target’s _Flesh_ aspect (divided by 2 for NPCs), then they lose their next X actions. This has no effect on bands. This effect cannot be applied to a target that is already stunned by another _stun_ effect. Under certain circumstances, a _stun_ effect may be automatic as long as the skill check to hit succeeds, regardless of the target’s _Flesh_ aspect score. The attacking character still needs to roll to hit. The attack roll does not need to be higher than the target’s _Flesh_ aspect (or half their aspect, rounded up, for an NPC) for the stun to work. A stunned character may suffer a 2-point penalty to their _reaction_ and _defence_ scores if the GM considers it appropriate. This effect does not stack with the _interference_ X effect.",
-        "Description-short":"If this weapon’s attack roll is higher than the target’s Flesh aspect (divided by 2 for NPCs), then they lose their next X actions."
+        "Description-short":"If this weapon’s attack roll is higher than the target’s Flesh aspect (divided by 2 for NPCs), then they lose their next X actions.",
+        "Auto":"Automatic Stun"
       },
       "CONVICTION": {
         "Label":"Conviction",
-        "Description":"When defeating an enemy, receives 1 hope points (max 1 per attack), 3 hope points if defeating a band.",
-        "Description-short":"When defeating an enemy, receives 1 hope points (max 1 per attack), 3 hope points if defeating a band."
+        "Description":"When a PC eliminates an enemy Anathema creature, they gain 1 PES for a Brute or Badass, 2 PES for a non-human band, and 3 PES for a Boss, Behemoth, or Boss-Behemoth.",
+        "Description-short":"When a PC eliminates an enemy Anathema creature, they gain 1 PES for a Brute or Badass, 2 PES for a non-human band, and 3 PES for a Boss, Behemoth, or Boss-Behemoth."
       },
       "DEFENSE": {
         "Label":"Defence",
@@ -1260,7 +1261,8 @@
       "ELECTRIFIEE":{
         "Label":"Electrified",
         "Description":"The weapon now has the stun 1 effect.\r\nIf this weapon’s attack roll is higher than the target’s _Flesh_ aspect (divided by 2 for NPCs), then they lose their next X actions. This has no effect on bands. This effect cannot be applied to a target that is already stunned by another _stun_ effect. Under certain circumstances, a _stun_ effect may be automatic as long as the skill check to hit succeeds, regardless of the target’s _Flesh_ aspect score. The attacking character still needs to roll to hit. The attack roll does not need to be higher than the target’s _Flesh_ aspect (or half their aspect, rounded up, for an NPC) for the stun to work. A stunned character may suffer a 2-point penalty to their _reaction_ and _defence_ scores if the GM considers it appropriate. This effect does not stack with the _interference_ X effect.",
-        "Description-short":"If this weapon’s attack roll is higher than the target’s Flesh aspect (divided by 2 for NPCs), then they lose their next X actions."
+        "Description-short":"If this weapon’s attack roll is higher than the target’s Flesh aspect (divided by 2 for NPCs), then they lose their next X actions.",
+        "Auto":"Automatic Electrified"
       },
       "FAUCHEUSEGRAVEE":{
         "Label":"Engraved reaper",

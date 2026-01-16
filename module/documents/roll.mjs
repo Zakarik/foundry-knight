@@ -543,6 +543,8 @@ export class RollKnight {
                 key:'modificateurdegats',
                 label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} : ${degatsMod}`,
             });
+        } else if(flags?.addDmgTags) {
+            main.tags.push(...flags.addDmgTags.map(({ key, label }) => ({ key, label })));
         }
 
 
@@ -1411,6 +1413,16 @@ export class RollKnight {
                         case 'cadence':
                         case 'chromeligneslumineuses':
                         case 'autohit':
+                        case 'fatal':
+                            if(effet) detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                            break;
+
+                        case 'cataclysme':
                             if(effet) detailledEffets.push({
                                 simple:l,
                                 key:effet,
@@ -1629,6 +1641,7 @@ export class RollKnight {
                     const type = actor.type;
                     const target = type === 'vehicule' ? actor.system.pilote : actor;
                     const chair = target?.system?.aspects?.chair?.value ?? 0;
+                    t.btn = [];
 
                     if(actor.statuses.has('designation') && weapon.type === 'distance' && total) {
                         const newTotal = total + 1;
@@ -1652,6 +1665,8 @@ export class RollKnight {
                         const comparaison = target.type === 'knight' ? chair : Math.ceil(chair/2);
                         const chairAE = target.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
 
+                        t.btn = [];
+
                         switch(d.simple) {
                             case 'aneantirbande':
                                 t.effets.push({
@@ -1665,14 +1680,30 @@ export class RollKnight {
 
                             case 'choc':
                             case 'electrifiee':
-
                                 t.effets.push({
                                     simple:d.simple,
                                     key:d.key,
                                     label:d.label,
                                     hit:(total > comparaison && t.hit && chairAE === 0) || (autoApply && chairAE === 0)  ? true : false,
                                     subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
-                                })
+                                });
+
+                                t.btn.push({
+                                    id:t.id,
+                                    classes:'btn autoStatus full',
+                                    label:d.simple === 'choc' ? game.i18n.localize(`KNIGHT.EFFETS.CHOC.Auto`) : game.i18n.localize(`KNIGHT.AMELIORATIONS.ELECTRIFIEE.Auto`),
+                                    other:`electrifiee`,
+                                });
+                                break;
+
+                            case 'fatal':
+                                if(actor.system.origin === 'humain' && actor.system.type.includes(game.i18n.localize("KNIGHT.TYPE.Hostile"))  && t.hit) {
+                                    t.btn.push({
+                                        id:t.id,
+                                        classes:'btn autoDeath',
+                                        label:game.i18n.localize(`KNIGHT.EFFETS.${d.simple.toUpperCase()}.Label`),
+                                    });
+                                }
                                 break;
 
                             case 'barrage':
@@ -1687,14 +1718,23 @@ export class RollKnight {
                         }
                     }
 
+                    if(this.hasWpnEqpWithEffects(target, 'deviation') && !t.hit && weapon.type === 'distance') {
+                        t.btn.push({
+                            id:t.id,
+                            classes:'btn deviation',
+                            label:game.i18n.localize(`KNIGHT.EFFETS.DEVIATION.Label`),
+                            other:4,
+                        })
+                    }
 
                     if(this.#isEffetActive(raw, options, CONFIG.KNIGHT.LIST.EFFETS.status.attaque.all)) {
                         hasBtnApply = true;
-                        t.btn = [{
+
+                        t.btn.push({
                             label:game.i18n.localize('KNIGHT.JETS.AppliquerEffets'),
                             classes:'btn full applyAttaqueEffects',
                             id:t.id
-                        }]
+                        });
                     }
                 }
             }
@@ -1716,7 +1756,6 @@ export class RollKnight {
         }
 
         content.detailledEffets = detailledEffets;
-        // content.effets = effets.map(effet => `<span title="${effet.description.replace(/<.*?>/g, '')}" data-key="${effet.key}">${effet.label}</span>`).join(' / ');
 
         content.effets = effets.map(effet => { return { description : decodeHtmlEntities(effet.description.replace(/<.*?>/g, '')), key: effet.key, label: effet.label } });
     }
@@ -1742,7 +1781,6 @@ export class RollKnight {
             value:0
         };
         const rollAttaque = data?.attaque ?? [];
-        const attaque = data?.total ?? 0;
         const targets = data?.targets ?? [];
         const list = CONFIG.KNIGHT.LIST.EFFETS.degats;
         const modulesDice = weapon?.bonus?.degats?.dice ?? 0;
@@ -1756,7 +1794,6 @@ export class RollKnight {
         let rollOptions = {
             maximize:hasObliteration || (data?.flags?.maximize?.degats ?? false) ? true : false,
         };
-        let baseDice = weapon.degats.dice;
         let wpnDice = weapon.degats.dice;
         let wpnBonusDice = 0;
         let min = false;
@@ -1767,6 +1804,8 @@ export class RollKnight {
         let isErsatzGhostActive = false;
         let isChangelingActive = false;
         let isGoliathActive = false;
+
+        if(this.#isEffetActive(raw, options, ['cataclysme'])) wpnDice = weapon.violence.dice;
 
         if(getGhost && armorIsWear && ((weapon.type === 'contact' && !this.#isEffetActive(raw, options, ['lumiere']) || (weapon.type === 'distance' && (this.#isEffetActive(raw, options, ['silencieux']) || this.#isEffetActive(raw, options, ['munitionssubsoniques']) || this.#isEffetActive(raw, options, ['assassine'])))))) {
             isGhostActive = data?.flags?.ghost;
@@ -2100,12 +2139,31 @@ export class RollKnight {
                     case 'bourreau':
                     case 'fauconplumesluminescentes':
                     case 'annihilation':
+                    case 'conviction':
                         if(effet) detailledEffets.push({
                             simple:l,
                             key:effet,
                             label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
                             description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
                         });
+                        break;
+
+                    case 'boost':
+                        if(effet) {
+                            const boostDegatsDice = options.find(itm => itm.classes.includes('boostsimple') && itm.key === 'duoselect' && itm.selected1 === 'degats');
+
+                            if(boostDegatsDice) {
+                                wpnBonusDice += boostDegatsDice.selected2;
+                                titleDice += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
+
+                                effets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} (${game.i18n.localize('KNIGHT.AUTRE.Degats')}) ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                                });
+                            }
+                        }
                         break;
 
                     case 'boostdegats':
@@ -2134,6 +2192,20 @@ export class RollKnight {
                                 label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
                                 description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
                             });
+                        }
+                        break;
+
+                    case 'chirurgical':
+                        if(effet) {
+                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('machine', 'savoir') : Math.ceil(this.getAspect('machine')/2);
+                            let totalOD = 0;
+
+                            if(this.attaquant.type === 'knight') {
+                                totalOD = armorIsWear ? this.getOD('machine', 'savoir') : 0;
+                            }
+
+                            bonus.push(total+totalOD);
+                            title += `${loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`}`
                         }
                         break;
 
@@ -2646,6 +2718,7 @@ export class RollKnight {
             const target = type === 'vehicule' ? actor.system.pilote : actor;
             const targetDetailledEffets = t.detailledEffets;
             const tenebricide = targetDetailledEffets.find(d => d.simple === 'tenebricide');
+            const activeEffects = actor.effects;
             let typeOfEnemy = actor?.system?.type ?? "";
             let origin = actor?.system?.origin ?? "humain";
             typeOfEnemy = typeOfEnemy.toLowerCase();
@@ -2730,7 +2803,7 @@ export class RollKnight {
 
                     case 'excellence':
                         if(t.marge) {
-                            total += t.marge*2,
+                            total += t.marge*3,
 
                             t.effets.push({
                                 simple:d.simple,
@@ -2756,6 +2829,21 @@ export class RollKnight {
                         }
                         break;
                 }
+            }
+
+            if(activeEffects.find(e => e.statuses.has('exposer') && e.getFlag('knight', 'appliedBy') !== weapon.id)) {
+                total += 12;
+
+                t.effets.push({
+                    simple:'exposer',
+                    key:'exposer',
+                    label:`${game.i18n.format("KNIGHT.JETS.RESULTATS.DegatsAvec", {avec:`${game.i18n.localize('KNIGHT.EFFETS.EXPOSER.Label')}`})}`,
+                    empty:true,
+                });
+            } else if(activeEffects.find(e => e.statuses.has('exposer') && e.getFlag('knight', 'appliedBy') === weapon.id)) {
+                const aEFind = activeEffects.find(e => e.statuses.has('exposer') && e.getFlag('knight', 'appliedBy') === weapon.id);
+
+                if(aEFind) aEFind.setFlag('knight', 'appliedBy', null)
             }
 
             if(this.#isEffetActive(raw, options, ['modeheroique'])) {
@@ -2824,7 +2912,6 @@ export class RollKnight {
             maximize:hasObliteration || (data?.flags?.maximize?.violence ?? false) ? true : false,
         };
         let isGoliathActive = false;
-        let baseDice = weapon.violence.dice
         let wpnDice = weapon.violence.dice;
         let wpnBonusDice = 0;
         let min = false;
@@ -2933,7 +3020,7 @@ export class RollKnight {
         for(let l of list) {
             const loc = localize[l.split(' ')[0]];
             const effet = this.#getEffet(raw, l);
-
+            console.error(raw, options, l)
             if(this.#isEffetActive(raw, options, [l])) {
                 switch(l) {
                     case 'affecteanatheme':
@@ -2967,6 +3054,24 @@ export class RollKnight {
                         }
                         break;
 
+                    case 'boost':
+                        if(effet) {
+                            const boostViolenceDice = options.find(itm => itm.classes.includes('boostsimple') && itm.key === 'duoselect' && itm.selected1 === 'violence');
+
+                            if(boostViolenceDice) {
+                                wpnBonusDice += boostViolenceDice.selected2;
+                                titleDice += loc?.double ?? false ? ` + ${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`;
+
+                                effets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} (${game.i18n.localize('KNIGHT.AUTRE.Violence')}) ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                                });
+                            }
+                        }
+                        break;
+
                     case 'boostviolence':
                         if(effet) {
                             const boostViolenceDice = options.find(itm => itm.classes.includes('boostviolence') && itm.key === 'select');
@@ -2981,7 +3086,6 @@ export class RollKnight {
                             });
                         }
                         break;
-
 
                     case 'intimidanthum':
                         if(effet) {
@@ -3069,7 +3173,6 @@ export class RollKnight {
                         }
                         break;
 
-
                     case 'armeazurine':
                     case 'armerougesang':
                     case 'griffuresgravees':
@@ -3143,7 +3246,6 @@ export class RollKnight {
                             });
                         }
                         break;
-
 
                     case 'tenebricide':
                         if(effet) detailledEffets.push({
@@ -4403,5 +4505,17 @@ export class RollKnight {
             resultDefense,
             ptsFaible
         }
+    }
+
+    hasWpnEqpWithEffects(target, effect) {
+        let result = false;
+
+        const itemsWpn = target.items.find(itm =>
+            (itm.type === 'arme' && itm.system.equipped && itm.system.allEffects.includes(effect)) ||
+            (itm.type === 'module' && itm.system.active.base && itm.system.allWpnEffects.includes(effect)));
+
+        if(itemsWpn) result = true;
+
+        return result;
     }
 }

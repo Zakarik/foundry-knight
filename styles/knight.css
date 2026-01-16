@@ -42942,6 +42942,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: RGB(193, 193, 193);
 }
+.knight-roll button.degats, .knight-roll button.violence {
+  margin-top: 5px;
+}
 .knight-roll button.btnDgts, .knight-roll button.btnViolence {
   order: 3;
 }

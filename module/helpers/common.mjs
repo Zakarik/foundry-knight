@@ -5804,6 +5804,7 @@ export async function rollDamage(message, eventOrOptions) {
 
   let addFlags = {
       flavor:flags.flavor,
+      addDmgTags:flags.addDmgTags,
       total:flags.content[index].total,
       targets:flags.content[index].targets,
       attaque:message.rolls,
@@ -5836,6 +5837,115 @@ export async function rollDamage(message, eventOrOptions) {
   }
 
   await roll.doRollDamage(data);
+}
+
+export async function rollDeviation(message, eventOrOptions) {
+  let msg = message;
+  let ev = eventOrOptions;
+
+  const tgt = $(ev.currentTarget);
+  const tokenId = tgt.data('id');
+  const other = Number(tgt.data('other'));
+  const token = canvas?.tokens?.get(tokenId);
+
+  if(!token) return;
+
+  const actor = token.actor;
+  let flags = msg.flags.knight;
+  let wpn = flags.weapon;
+
+  if(other > 0) {
+    let remplaceEnergie = actor?.isRemplaceEnergie ? true : false;
+    const valueToUse = remplaceEnergie ? actor.system.espoir.value : actor.system.energie.value;
+
+    if(valueToUse > 0) {
+      actor.update({[`system.${remplaceEnergie ? 'espoir' : 'energie'}.value`]:valueToUse-other});
+
+      flags.addDmgTags = [{
+        label:`${game.i18n.localize(`KNIGHT.JETS.${remplaceEnergie ? 'Depenseespoir' : 'Depenseenergie'}`)} : ${other}`,
+        key:`${remplaceEnergie ? 'depenseespoir' : 'depenseenergie'} : ${other}`,
+      }];
+    } else {
+
+      const payload = {
+        flavor: `${game.i18n.localize("KNIGHT.EFFETS.DEVIATION.Label")}`,
+        main: { total: `${game.i18n.localize(`KNIGHT.JETS.${remplaceEnergie ? 'Notespoir' : 'Notenergie'}`)}` }
+      };
+
+      const data = {
+        user: game.user.id,
+        speaker: {
+          actor: actor?.id ?? null,
+          token: tokenId,
+          alias: actor?.name ?? null,
+          scene: actor?.token?.parent?.id ?? null
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
+        sound: CONFIG.sounds.dice
+      };
+
+      const rMode = game.settings.get("core", "rollMode");
+      const msgData = ChatMessage.applyRollMode(data, rMode);
+      await ChatMessage.create(msgData, { rollMode: rMode });
+
+      return;
+    }
+  }
+
+  flags.content = [{
+      targets:[{
+          id:msg.speaker.token,
+          name:flags.actor.name,
+      }]
+  }]
+
+  message.speaker = {
+      actor: actor?.id ?? null,
+      token: tokenId,
+      alias: actor?.name ?? null,
+      scene: actor?.token?.parent?.id ?? null
+  };
+
+  flags.flavor += ` - ${game.i18n.localize('KNIGHT.EFFETS.DEVIATION.Label')}`;
+
+  wpn.eff1 = {
+      value:0,
+      raw:[],
+      custom:[],
+  };
+
+  wpn.eff2 = {
+      value:0,
+      raw:[],
+      custom:[],
+  };
+
+  wpn.effets = {
+      raw:[],
+      custom:[],
+  };
+
+  wpn.ornementales = {
+      raw:[],
+      custom:[],
+  };
+
+  wpn.structurelles = {
+      raw:[],
+      custom:[],
+  };
+
+  wpn.distance = {
+      raw:[],
+      custom:[],
+  };
+
+  wpn.espoir = 0;
+  wpn.type = 'distance';
+
+
+  await rollDamage(msg, ev);
 }
 
 export async function rollViolence(message, eventOrOptions) {

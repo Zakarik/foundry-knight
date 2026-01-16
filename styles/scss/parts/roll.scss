@@ -355,6 +355,11 @@
       }
     }
 
+    &.degats,
+    &.violence {
+      margin-top:5px;
+    }
+
     &.btnDgts,
     &.btnViolence {
       order:3;

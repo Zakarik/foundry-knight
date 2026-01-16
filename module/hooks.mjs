@@ -2,6 +2,7 @@ import {
     listLogo,
     generateNavigator,
     rollDamage,
+    rollDeviation,
     rollViolence
   } from "./helpers/common.mjs";
 
@@ -209,6 +210,36 @@ export default class HooksKnight {
                 await rollViolence(message, ev);
             });
 
+            html.find('.knight-roll button.deviation').click(async function(ev) {
+                await rollDeviation(message, ev);
+            });
+
+            html.find('.knight-roll button.autoStatus').click(async ev => {
+                const tgt = $(ev.currentTarget);
+                const flags = message.flags.knight;
+                const weapon = flags.weapon;
+                const tokenId = tgt.data('id');
+                const status = tgt.data('other');
+                const token = canvas?.tokens?.get(tokenId);
+
+                if(!token) return;
+
+                const actor = token.actor;
+
+                for(const content of flags.content) {
+                    const target = content.targets.find(tkn => tkn.id === tokenId);
+
+                    if(target) applyAtkEffects(actor, weapon, target, [status]);
+                }
+            });
+
+            html.find('.knight-roll button.autoDeath').click(async ev => {
+                const tgt = $(ev.currentTarget);
+                const tokenId = tgt.data('id');
+                const token = canvas?.tokens?.get(tokenId);
+                applyDeath(token.actor);
+            });
+
             html.find('.knight-roll button.applyAttaqueEffects').click(async ev => {
                 const tgt = $(ev.currentTarget);
                 const flags = message.flags.knight;
@@ -220,7 +251,12 @@ export default class HooksKnight {
 
                 const actor = token.actor;
 
-                applyAtkEffects(actor, weapon);
+                for(const content of flags.content) {
+                    const target = content.targets.find(tkn => tkn.id === tokenId);
+
+                    if(target) applyAtkEffects(actor, weapon, target);
+                }
+
             });
 
             html.find('.knight-roll button.applyAllAttaqueEffects').click(async ev => {
@@ -237,7 +273,7 @@ export default class HooksKnight {
 
                         const actor = token.actor;
 
-                        applyAtkEffects(actor, weapon);
+                        console.error(applyAtkEffects(actor, weapon, target));
                     }
 
                 }
@@ -395,7 +431,7 @@ export default class HooksKnight {
 
                 // Check if the target is still alive
                 if (sante === 0 && armor === 0) {
-                    applyStatus(actor, 'dead');
+                    applyDeath(actor);
 
                     chatMessage += `<p><b>${game.i18n.localize('KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead')}.</b></p>`;
 
@@ -639,7 +675,8 @@ export default class HooksKnight {
                 // Set the creature dead
                 if (damagesLeft >= 0) {
                     chatMessage += `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetDead")}.</b></p>`;
-                    applyStatus(actor, 'dead');
+                    console.error('t1');
+                    applyDeath(actor, msg.getFlag('knight', 'weapon'));
                 }
 
                 ChatMessage.create({
@@ -678,7 +715,6 @@ export default class HooksKnight {
                     target,
                 } = data;
                 const alreadySurprise = msg.getFlag('knight', 'surprise');
-                console.error(data);
 
                 let dmg = parseInt(dmgTaken);
 
@@ -761,7 +797,7 @@ export default class HooksKnight {
 
                 // Check if the target is still alive
                 if ((actorIsKnight && ((hasSante && sante === 0) || (!hasSante && armor === 0))) || (actorIsMechaArmor && blindage === 0)) {
-                    applyStatus(actor, 'dead');
+                    applyDeath(actor);
 
                     chatMessage += `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetAlreadyDead")}.</b></p>`;
                     ChatMessage.create({
@@ -1230,13 +1266,13 @@ export default class HooksKnight {
                 // Check if the player is dead
                 if ((actorIsKnight && ((hasSante && santeRest <= 0) || (!hasSante && armorRest <= 0))) || (actorIsMechaArmor && blindageRest <= 0)) {
                     chatMessage += `<p>${game.i18n.format("KNIGHT.JETS.DEGATSAUTO.PjDead", {name: actor.name})}.</p>`;
-                    applyStatus(actor, 'dead');
+                    applyDeath(actor, msg.getFlag('knight', 'weapon'));
                 }
 
                 // Check if the player sinks into despair
                 if (hasEspoir && espoirRest <= 0) {
                     chatMessage += `<p>${game.i18n.format("KNIGHT.JETS.DEGATSAUTO.PjHopeless", {name: actor.name})}</p>`;
-                    applyStatus(actor, 'dead');
+                    applyDeath(actor);
                 }
 
                 // Send message
@@ -1248,16 +1284,22 @@ export default class HooksKnight {
                 return;
             }
 
-            function applyAtkEffects(actor, weapon) {
+            function applyAtkEffects(actor, weapon, target, autoHit=[]) {
+                const raw = weapon?.effets?.raw ?? [];
+                const structurelle = weapon?.structurelles?.raw ?? [];
+                const ornementale = weapon?.ornementales?.raw ?? [];
                 let effects = {};
 
-                weapon.effets.raw.forEach(effectName => {
+                [...raw, ...structurelle, ...ornementale].forEach(effectName => {
                     const status = CONFIG.KNIGHT.LIST.EFFETS.attaque;
                     const conditionnel = CONFIG.KNIGHT.LIST.EFFETS.status.conditionnel;
+                    const convert = CONFIG.KNIGHT.LIST.EFFETS.status.convert;
                     const split = effectName.split(' ');
-                    const name = split[0];
-                    const value = split[1];
+                    const rawConvert = convert[effectName];
+                    let name = split[0];
+                    let value = split[1];
                     let skip = false;
+
 
                     if((weapon.options.find(itm => itm.value === 'barrage')?.active ?? false) && name !== 'barrage') {
                         skip = true;
@@ -1267,21 +1309,32 @@ export default class HooksKnight {
                         if(conditionnel.includes(name)) {
                             let isHit = false;
 
-                            for (const content of flags.content) {
-                                const target = content.targets.find(itm => itm.id === tokenId);
+                            if (target && target.effets) {
+                                const effect = target.effets.find(itm => itm.simple === name && conditionnel.includes(itm.simple));
 
-                                if (target && target.effets) {
-                                    const effect = target.effets.find(itm => itm.simple === name && conditionnel.includes(itm.simple));
-
-                                    if (effect) {
-                                        isHit = effect.hit;
-                                        break;
-                                    }
+                                if (effect) {
+                                    isHit = autoHit.includes(effect.simple) ? true : effect.hit;
                                 }
                             }
 
+                            if(rawConvert) {
+                                const splitConvert = rawConvert.split(' ');
+
+                                name = splitConvert[0];
+                                value = splitConvert[1];
+                            }
+
                             if(isHit) effects[name] = value ? parseInt(value) : true;
-                        } else effects[name] = value ? parseInt(value) : true;
+                        } else {
+                            if(rawConvert) {
+                                const splitConvert = rawConvert.split(' ');
+
+                                name = splitConvert[0];
+                                value = splitConvert[1];
+                            }
+
+                            effects[name] = value ? parseInt(value) : true;
+                        }
                     }
                 });
 
@@ -1316,8 +1369,11 @@ export default class HooksKnight {
                                     // Create the counter
                                     if (counterNumber) {
                                         const newEffect = await ActiveEffect.fromStatusEffect(CONFIG.statusEffects.find(itm => itm.icon === iconPath).id);
+
                                         const counter = await actor.createEmbeddedDocuments('ActiveEffect', [newEffect]);
+
                                         counter[0].statusCounter.setValue(counterNumber);
+                                        counter[0].setFlag('knight', 'appliedBy', weapon.id);
                                     }
                                 } else {
                                     let counterNumber = isBoolean ? 1 : effects[iconName];
@@ -1359,12 +1415,12 @@ export default class HooksKnight {
                             }
                          } else {
                             // No "Status Icon Counters" module
-                            applyStatus(actor, iconName, false);
+                            applyStatus(actor, iconName, false, weapon);
                         }
                     } else if(effects[iconName] && isSpecial && actor.type === 'bande') {
                         if(actor.system.sante.max <= 300) {
                             actor.update({[`system.sante.value`]:0});
-                            applyStatus(actor, 'dead');
+                            applyDeath(actor);
                         }
                     }
                 });
@@ -1440,12 +1496,15 @@ export default class HooksKnight {
                 });
             }
 
-            async function applyStatus(actor, statusId, overlay=true) {
+            async function applyStatus(actor, statusId, overlay=true, weapon=null) {
                 const version = game.version.split('.')[0];
                 const isVersion13 = version >= 12 ? true : false;
+                let newEffect;
 
-                if(isVersion13) actor.toggleStatusEffect(statusId, { active: true, overlay: overlay });
-                else V11toggleStatusEffect(actor, statusId, { active: true, overlay: overlay });
+                if(isVersion13) newEffect = await actor.toggleStatusEffect(statusId, { active: true, overlay: overlay });
+                else newEffect = await V11toggleStatusEffect(actor, statusId, { active: true, overlay: overlay });
+
+                if(weapon) newEffect.setFlag('knight', 'appliedBy', weapon.id);
             }
 
             async function V11toggleStatusEffect(actor, statusId, {active, overlay=false}={}) {
@@ -1668,6 +1727,12 @@ export default class HooksKnight {
                     width: 650
                     }
                 ).render(true);
+            }
+
+            const applyDeath = async (actor, weapon=null) => {
+                applyStatus(actor, 'dead', true, weapon);
+
+                if(weapon)
             }
 
             html.find('.knight-roll button.setDegats').click(async ev => {

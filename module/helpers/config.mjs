@@ -482,6 +482,11 @@ export const KNIGHT = {};
         'systemerefroidissement',
         'exposer',
         'terrifiant',
+        'cataclysme',
+        'deviation',
+        'fatal',
+        'frappeaportee',
+        'mobile',
       ],
       degats:[
         'annihilation',
@@ -536,7 +541,11 @@ export const KNIGHT = {};
         'regularite',
         'sillonslignesfleches',
         'boostdegats',
-        'precision'
+        'precision',
+        'boost',
+        'chirurgical',
+        'conviction',
+        'nonletal',
       ],
       violence:[
         'affecteanatheme',
@@ -563,6 +572,8 @@ export const KNIGHT = {};
         'boostviolence',
         'intimidanthum',
         'intimidantana',
+        'boost',
+        'conviction',
       ],
       applyDmg:{
         bande:[],
@@ -636,6 +647,7 @@ export const KNIGHT = {};
             'parasitage',
             'soumission',
             'exposer',
+            'electrifiee',
           ],
           bande:[
             'lumiere',
@@ -659,8 +671,12 @@ export const KNIGHT = {};
         ],
         conditionnel:[
           'choc',
-          'barrage'
+          'electrifiee',
+          'barrage',
         ],
+        convert:{
+          'electrifiee':'choc 1',
+        }
       },
       boolean:[
         'designation',

@@ -1111,6 +1111,10 @@ export class KnightRollDialog extends Dialog {
                 dices -= 3;
             }
 
+            if((this.#isEffetActive(effets, weapon.options, ['fatal']))) {
+                dices -= 2;
+            }
+
             if(this.actor.type === 'mechaarmure') {
                 if(!this.#isEffetActive(effets, weapon.options, ['antivehicule'])) weapon.effets.raw.push('antivehicule');
 
@@ -1121,7 +1125,7 @@ export class KnightRollDialog extends Dialog {
             const violenceVariable = weapon.options.find(itm => itm.classes.includes('violencevariable') && itm.key === 'select');
             const dgtsBonusVariable = weapon.options.find(itm => itm.classes.includes('dgtsbonusvariable') && itm.key === 'select');
             const violenceBonusVariable = weapon.options.find(itm => itm.classes.includes('violencebonusvariable') && itm.key === 'select');
-            const boost = weapon.options.find(itm => itm.classes.includes('boostsimple') && itm.key === 'doubleselect');
+            const boost = weapon.options.find(itm => itm.classes.includes('boostsimple') && itm.key === 'duoselect');
             const boostdegats = weapon.options.find(itm => itm.classes.includes('boostdegats') && itm.key === 'select');
             const boostviolence = weapon.options.find(itm => itm.classes.includes('boostviolence') && itm.key === 'select');
 
@@ -1608,8 +1612,6 @@ export class KnightRollDialog extends Dialog {
             label:`${game.i18n.localize('KNIGHT.JETS.Modificateur')} (${game.i18n.localize('KNIGHT.JETS.Succes')})`,
             value:this.rollData.succesBonus
         });
-
-        console.error(this.rollData)
 
         //MODIFICATEUR
         data.mods.push({
@@ -3032,7 +3034,7 @@ export class KnightRollDialog extends Dialog {
             const list2 = Array.from({length: boostValue+1}, (_, index) => [index, `${index}D6`]).reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
 
             data.options.push({
-                key:'doubleselect',
+                key:'duoselect',
                 classes:classes.join(' '),
                 label:game.i18n.localize(CONFIG.KNIGHT.effetsadl.boost.label),
                 list1,
@@ -3184,6 +3186,18 @@ export class KnightRollDialog extends Dialog {
                 label:game.i18n.localize('KNIGHT.EFFETS.CATACLYSME.Label'),
                 value:'cataclysme',
                 active:getWpn?.options?.find(itm => itm.value === 'cataclysme')?.active ?? false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'fatal')) {
+            let classes = ['fatal', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.FATAL.Label'),
+                value:'fatal',
+                active:false,
             });
         }
 
@@ -3711,6 +3725,18 @@ export class KnightRollDialog extends Dialog {
                 label:game.i18n.localize('KNIGHT.EFFETS.CATACLYSME.Label'),
                 value:'cataclysme',
                 active:getWpn?.options?.find(itm => itm.value === 'cataclysme')?.active ?? false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'fatal')) {
+            let classes = ['fatal', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.FATAL.Label'),
+                value:'fatal',
+                active:false,
             });
         }
 
@@ -4754,6 +4780,43 @@ export class KnightRollDialog extends Dialog {
                     }
 
                     mid += `</select></label>`;
+                    break;
+
+                case 'duoselect':
+                    const list1 = o.list1;
+                    const list2 = o.list2;
+
+                    mid += `<div class="${o.classes}" data-value="${o.value}" data-id="${o.id}">`
+
+                    if(o.label) mid += `<span>${o.label}</span>`;
+
+                    mid += `<select class="select1" data-value="${o.select1value}">`
+
+                    if(o.hasBlank) {
+                        if(o.selected1 === '') mid += `<option value ='' selected></option>`;
+                        else mid += `<option value =''></option>`;
+                    }
+
+                    for(let l in list1) {
+                        if(list1[l].selected) mid += `<option value='${l}' selected>${list1[l]}</option>`;
+                        else  mid += `<option value='${l}'>${list1[l]}</option>`;
+                    }
+
+                    mid += `</select>`;
+
+                    mid += `<select class="select2" data-value="${o.select2value}">`
+
+                    if(o.hasBlank) {
+                        if(o.selected2 === '') mid += `<option value ='' selected></option>`;
+                        else mid += `<option value =''></option>`;
+                    }
+
+                    for(let l in list2) {
+                        if(list2[l].selected) mid += `<option value='${l}' selected>${list2[l]}</option>`;
+                        else  mid += `<option value='${l}'>${list2[l]}</option>`;
+                    }
+
+                    mid += `</select></div>`;
                     break;
 
                 case 'btn':

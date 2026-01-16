@@ -1841,8 +1841,6 @@ export class KnightDataModel extends BaseActorDataModel {
                                 if(game.actors.get(crow)) depense = game.actors.get(crow).system.energie.base;
                             }
 
-                            console.error(depense);
-
                             Object.defineProperty(whatAffect.malus, c, {
                                 value: depense,
                                 writable:true,
