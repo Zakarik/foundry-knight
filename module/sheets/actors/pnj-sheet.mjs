@@ -682,76 +682,17 @@ export class PNJSheet extends ActorSheet {
     });
 
     html.find('div.nods img.dice').click(async ev => {
-      const data = this.actor;
       const target = $(ev.currentTarget);
-      const nbre = +target.data("number");
       const nods = target.data("nods");
-      const wear = data.system.wear;
 
-      if(nbre > 0) {
-        const recuperation = data.system.combat.nods[nods].recuperationBonus;
-        let update = {}
-
-        switch(nods) {
-          case 'soin':
-            update['system.sante.value'] = `@{rollTotal}+${data.system.sante.value}`;
-            break;
-
-          case 'energie':
-            update[`system.energie.value`] = `@{rollTotal}+${data.system.energie.value}`;
-            break;
-
-          case 'armure':
-            update[`system.armure.value`] = `@{rollTotal}+${data.system.armure.value}`;
-            break;
-        }
-        update[`system.combat.nods.${nods}.value`] = nbre - 1;
-
-        const rNods = new game.knight.RollKnight(this.actor, {
-          name:game.i18n.localize(`KNIGHT.JETS.Nods${nods}`),
-          dices:`3D6`,
-          bonus:[recuperation]
-        }, false);
-
-        await rNods.doRoll(update);
-      } else {
-        const rNods = new game.knight.RollKnight(this.actor, {
-          name:game.i18n.localize(`KNIGHT.JETS.Nods${nods}`),
-        }, false);
-
-        rNods.sendMessage({
-          classes:'fail',
-          text:`${game.i18n.localize(`KNIGHT.JETS.NotNods`)}`,
-        })
-      }
+      this.actor.system.useNods(nods, true);
     });
 
     html.find('div.nods img.diceTarget').click(async ev => {
-      const data = this.actor;
       const target = $(ev.currentTarget);
-      const nbre = +target.data("number");
       const nods = target.data("nods");
 
-      if(nbre > 0) {
-        let update = {}
-        update[`system.combat.nods.${nods}.value`] = nbre - 1;
-
-        const rNods = new game.knight.RollKnight(this.actor, {
-          name:game.i18n.localize(`KNIGHT.JETS.Nods${nods}`),
-          dices:`3D6`,
-        }, false);
-
-        await rNods.doRoll(update);
-      } else {
-        const rNods = new game.knight.RollKnight(this.actor, {
-          name:game.i18n.localize(`KNIGHT.JETS.Nods${nods}`),
-        }, false);
-
-        rNods.sendMessage({
-          classes:'fail',
-          text:`${game.i18n.localize(`KNIGHT.JETS.NotNods`)}`,
-        })
-      }
+      this.actor.system.useNods(nods);
     });
 
     html.find('img.rollSpecifique').click(async ev => {

@@ -941,10 +941,8 @@ export class PNJDataModel extends BaseNPCDataModel {
 
         const nbre = Number(nod.value);
         const dices = nod.dices;
-        const wear = this.whatWear;
 
         if(nbre > 0) {
-            const recuperation = this.combat.nods[type].recuperationBonus;
             let update = {}
 
             if(heal) {
@@ -954,11 +952,11 @@ export class PNJDataModel extends BaseNPCDataModel {
                     break;
 
                     case 'energie':
-                    update[`system.equipements.${wear}.energie.value`] = `@{rollTotal}+${this.energie.value}`;
+                    update[`system.energie.value`] = `@{rollTotal}+${this.energie.value}`;
                     break;
 
                     case 'armure':
-                    update[`system.equipements.${wear}.armure.value`] = `@{rollTotal}+${this.armure.value}`;
+                    update[`system.armure.value`] = `@{rollTotal}+${this.armure.value}`;
                     break;
                 }
             }
@@ -968,7 +966,6 @@ export class PNJDataModel extends BaseNPCDataModel {
             const rNods = new game.knight.RollKnight(this.actor, {
                 name:game.i18n.localize(`KNIGHT.JETS.Nods${type}`),
                 dices:dices,
-                bonus:[recuperation]
             }, false);
 
             await rNods.doRoll(update);
