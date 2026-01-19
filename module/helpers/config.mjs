@@ -484,9 +484,13 @@ export const KNIGHT = {};
         'terrifiant',
         'cataclysme',
         'deviation',
+        'retribution',
         'fatal',
         'frappeaportee',
         'mobile',
+        'pillage',
+        'rempart',
+        'specialiste',
       ],
       degats:[
         'annihilation',
@@ -546,6 +550,7 @@ export const KNIGHT = {};
         'chirurgical',
         'conviction',
         'nonletal',
+        'sensitif',
       ],
       violence:[
         'affecteanatheme',

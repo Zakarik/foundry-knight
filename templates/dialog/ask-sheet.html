@@ -7,3 +7,11 @@
         {{/each}}
     </select>
 {{/if}}
+{{#each list}}
+    {{#if (eq key 'check')}}
+        <label class="{{class}} {{ifThen checked 'checked' ''}}">
+            {{#if img}}<img src="{{img}}" />{{/if}}
+            <button type="action" class="{{btn}}" data-id="{{id}}">{{label}}{{#if checked}} <i class="fa-solid fa-check"></i>{{/if}}</button>
+        </label>
+    {{/if}}
+{{/each}}

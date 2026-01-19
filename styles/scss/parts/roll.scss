@@ -356,7 +356,9 @@
     }
 
     &.degats,
-    &.violence {
+    &.violence,
+    &.relanceattaque,
+    &.relancedegats {
       margin-top:5px;
     }
 
@@ -365,6 +367,7 @@
       order:3;
     }
 
+    &.relanceattaque,
     &.relancedegats,
     &.full {
       grid-column: 1 / 3;

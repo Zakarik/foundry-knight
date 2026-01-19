@@ -1060,4 +1060,15 @@ export class PNJDataModel extends BaseNPCDataModel {
           longbow: () => this.useLongbow(),
         };
     }
+
+    givePE(energy, autoApply=true) {
+      let path = `system.energie.value`;
+      let value = this.energie.value;
+      let update = {}
+
+      update[path] = `${value+energy}`;
+
+      if(autoApply) this.actor.update(energy);
+      else return update;
+    }
 }

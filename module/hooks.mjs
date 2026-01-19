@@ -675,7 +675,6 @@ export default class HooksKnight {
                 // Set the creature dead
                 if (damagesLeft >= 0) {
                     chatMessage += `<p><b>${game.i18n.localize("KNIGHT.JETS.DEGATSAUTO.TargetDead")}.</b></p>`;
-                    console.error('t1');
                     applyDeath(actor, msg.getFlag('knight', 'weapon'));
                 }
 
@@ -1729,10 +1728,23 @@ export default class HooksKnight {
                 ).render(true);
             }
 
-            const applyDeath = async (actor, weapon=null) => {
+            const applyDeath = async (actor, weapon) => {
                 applyStatus(actor, 'dead', true, weapon);
 
-                if(weapon)
+                if(weapon) {
+                    if(weapon.rollType === 'damage' && weapon?.options?.find(opt => opt.classes.includes('nonletal'))) {
+                        const rNonLetal = new Roll(`1D6`);
+                        await rNonLetal.evaluate();
+
+                        new game.knight.RollKnight(actor,
+                        {
+                            name:`${game.i18n.localize("KNIGHT.EFFETS.NONLETAL.Label")}`,
+                        }).sendMessage({
+                            text: `${game.i18n.format("KNIGHT.AUTRE.Inconscient", {time:`${rNonLetal.total} ${rNonLetal.total > 1 ? game.i18n.localize("KNIGHT.AUTRE.Heures") : game.i18n.localize("KNIGHT.AUTRE.Heure")}`})}`,
+                            sounds:CONFIG.sounds.notification,
+                        });
+                    }
+                }
             }
 
             html.find('.knight-roll button.setDegats').click(async ev => {
@@ -1800,39 +1812,101 @@ export default class HooksKnight {
             });
 
             html.find('.knight-roll button.relancedegats').click(async ev => {
-            const tgt = $(ev.currentTarget);
-            const flags = message.flags.knight;
-            const weapon = flags.weapon;
-            const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
+                const tgt = $(ev.currentTarget);
+                const flags = message.flags.knight;
+                const weapon = flags.weapon;
+                const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
 
-            const roll = new game.knight.RollKnight(actor, {
-                name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.EFFETS.TIRENRAFALE.Label')}`,
-                weapon:weapon,
-                surprise:flags.surprise,
-            }, false);
+                const roll = new game.knight.RollKnight(actor, {
+                    name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.EFFETS.TIRENRAFALE.Label')}`,
+                    weapon:weapon,
+                    surprise:flags.surprise,
+                }, false);
 
-            let addFlags = {
-                flavor:flags.flavor,
-                total:flags.total,
-                targets:flags.targets,
-                attaque:message.rolls,
-                weapon:weapon,
-                actor:actor,
-                surprise:flags.surprise,
-                style:flags.style,
-                dataStyle:flags.dataStyle,
-                dataMod:flags.dataMod,
-                maximize:flags.maximize,
-            };
+                let addFlags = {
+                    flavor:flags.flavor,
+                    total:flags.total,
+                    targets:flags.targets,
+                    attaque:message.rolls,
+                    weapon:weapon,
+                    actor:actor,
+                    surprise:flags.surprise,
+                    style:flags.style,
+                    dataStyle:flags.dataStyle,
+                    dataMod:flags.dataMod,
+                    maximize:flags.maximize,
+                };
 
-            let data = {
-                total:flags.total,
-                targets:flags.targets,
-                attaque:flags.attaque,
-                flags:addFlags,
-            };
+                let data = {
+                    total:flags.total,
+                    targets:flags.targets,
+                    attaque:flags.attaque,
+                    flags:addFlags,
+                };
 
-            await roll.doRollDamage(data);
+                await roll.doRollDamage(data);
+            });
+
+            html.find('.knight-roll button.relanceattaque').click(async ev => {
+                const tgt = $(ev.currentTarget);
+                const flags = message.flags.knight;
+                const weapon = flags.weapon;
+                const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
+                const list = [];
+                let n = 0;
+
+                for(let r of message.rolls) {
+                    for(let d of r.dice) {
+                        for(let t of d.results) {
+                            if(!t.active) continue;
+
+                            list.push({
+                                key:'check',
+                                class:'btnCheck',
+                                img:`systems/knight/ui/dices/d6at/d6_${t.result}.webp`,
+                                btn:'btnCheck',
+                                id:n,
+                                label:game.i18n.localize("KNIGHT.AUTRE.Choisir"),
+                            })
+
+                            n++;
+                        }
+                    }
+                }
+
+                const askContent = await renderTemplate("systems/knight/templates/dialog/ask-sheet.html", {
+                    what:game.i18n.localize('KNIGHT.EFFETS.SPECIALISTE.Choisir'),
+                    list:list
+                });
+                const askDialogOptions = {
+                    classes: ["dialog", "knight", "askdice"],
+                    height:400
+                };
+
+                await new Dialog({
+                    title: game.i18n.localize("KNIGHT.EFFETS.SPECIALISTE.Label"),
+                    content: askContent,
+                    buttons: {
+                      button1: {
+                        label: game.i18n.localize('KNIGHT.EFFETS.SPECIALISTE.Relance'),
+                        callback: async () => {},
+                        icon: `<i class="fas fa-check"></i>`
+                      },
+                      button2: {
+                        label: game.i18n.localize('KNIGHT.AUTRE.Annuler'),
+                        callback: async () => {},
+                        icon: `<i class="fas fa-times"></i>`
+                      }
+                    }
+                  }, askDialogOptions).render(true);
+                console.error(message);
+                /*const roll = new game.knight.RollKnight(actor, {
+                    name:`${flags.flavor} : ${game.i18n.localize('KNIGHT.EFFETS.SPECIALISTE.Label')}`,
+                    weapon:weapon,
+                    surprise:flags.surprise,
+                }, false);
+
+                await roll.doRollDamage(data);*/
             });
 
             html.find('.knight-roll div.listTargets div.target').mouseenter(ev => {

@@ -85,3 +85,46 @@
     margin: 0px;
   }
 }
+
+.askdice {
+  div.dialog-content {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-content: baseline;
+    align-items: baseline;
+
+    >span {
+      display: inline-block;
+      text-align: justify;
+      width: 100%;
+      line-height: 16px;
+      min-height: 20px;
+
+      grid-column: 1 / 5;
+    }
+
+    button {
+      color: $white;
+      background: $lightBlack;
+      cursor: pointer;
+      border-radius: 0px;
+      margin: 0px;
+      text-align: left;
+      border-top: 0px;
+      border-color: black;
+    }
+  }
+
+  div.dialog-buttons {
+    button {
+      color: $white;
+      background: $lightBlack;
+      cursor: pointer;
+      border-radius: 0px;
+      margin: 0px;
+    }
+  }
+}

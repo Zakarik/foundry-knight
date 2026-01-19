@@ -810,7 +810,7 @@ export class KnightRollDialog extends Dialog {
         const isModeHeroique = data.find('button.btn.modeheroique').hasClass('selected');
         const isEquilibrerBalance = data.find('button.btn.equilibrerbalance').hasClass('selected');
         const isNoOd = this.rollData.btn?.nood ?? false;
-        const isAttaqueSurprise = this.rollData.btn?.attaquesurprise ?? false;
+        let isAttaqueSurprise = this.rollData.btn?.attaquesurprise ?? false;
         let carac = base ? [this.#getLabelRoll(base)] : [];
         let dices = this.#getValueAspect(actor, base);
         let bonus = [];
@@ -1113,6 +1113,10 @@ export class KnightRollDialog extends Dialog {
 
             if((this.#isEffetActive(effets, weapon.options, ['fatal']))) {
                 dices -= 2;
+            }
+
+            if((this.#isEffetActive(effets, weapon.options, ['sournois']))) {
+                isAttaqueSurprise = true;
             }
 
             if(this.actor.type === 'mechaarmure') {
@@ -3201,6 +3205,30 @@ export class KnightRollDialog extends Dialog {
             });
         }
 
+        if(this.#hasEffet(raw, 'nonletal')) {
+            let classes = ['nonletal', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.NONLETAL.Label'),
+                value:'nonletal',
+                active:false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'sournois')) {
+            let classes = ['sournois', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.SOURNOIS.Label'),
+                value:'sournois',
+                active:false,
+            });
+        }
+
         const localize = getAllEffects();
 
         if(raw1 || custom1) data.eff1 = {
@@ -3518,18 +3546,6 @@ export class KnightRollDialog extends Dialog {
             });
         }
 
-        if(this.#hasEffet(raw, 'tirenrafale')) {
-            let classes = ['tirenrafale', 'center', 'roll', 'full'];
-
-            data.options.push({
-                key:'btn',
-                special:'roll',
-                classes:classes.join(' '),
-                label:game.i18n.localize('KNIGHT.EFFETS.TIRENRAFALE.Label'),
-                title:game.i18n.localize('KNIGHT.EFFETS.TIRENRAFALE.Relance'),
-            });
-        }
-
         if(this.#hasEffet(raw, 'soeur')) {
             let classes = ['jumelageambidextrie', 'active', 'full'];
 
@@ -3736,6 +3752,30 @@ export class KnightRollDialog extends Dialog {
                 classes:classes.join(' '),
                 label:game.i18n.localize('KNIGHT.EFFETS.FATAL.Label'),
                 value:'fatal',
+                active:false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'nonletal')) {
+            let classes = ['nonletal', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.NONLETAL.Label'),
+                value:'nonletal',
+                active:false,
+            });
+        }
+
+        if(this.#hasEffet(raw, 'sournois')) {
+            let classes = ['sournois', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.SOURNOIS.Label'),
+                value:'sournois',
                 active:false,
             });
         }

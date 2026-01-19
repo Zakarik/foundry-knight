@@ -2737,4 +2737,16 @@ export class KnightDataModel extends BaseActorDataModel {
               sounds:CONFIG.sounds.notification,
           });
     }
+
+    givePE(energy, autoApply=true) {
+        const wear = this.whatWear;
+        let path = this.isRemplaceEnergie ? `system.espoir.value` : `system.equipements.${wear}.energie.value`;
+        let value = this.isRemplaceEnergie ? this.energie.value : this.espoir.value;
+        let update = {}
+
+        update[path] = `${value+energy}`;
+
+        if(autoApply) this.actor.update(energy);
+        else return update;
+    }
 }

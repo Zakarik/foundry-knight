@@ -775,7 +775,9 @@
       "SPECIALISTE":{
         "Label":"Spécialiste",
         "Description":"Lorsque le personnage effectue un jet d’attaque avec l’arme, il peut relancer X dés de son choix. Cette relance de X dé ne peut être effectuée qu’une seule fois par attaque.",
-        "Description-short":"Lorsque le personnage effectue un jet d’attaque avec l’arme, il peut relancer X dés de son choix. Cette relance de X dé ne peut être effectuée qu’une seule fois par attaque."
+        "Description-short":"Lorsque le personnage effectue un jet d’attaque avec l’arme, il peut relancer X dés de son choix. Cette relance de X dé ne peut être effectuée qu’une seule fois par attaque.",
+        "Relance":"Relancer",
+        "Choisir":"Choisir les dés à relancer"
       },
       "TERRIFIANT":{
         "Label":"Terrifiant",
@@ -2459,6 +2461,10 @@
       }
     },
     "AUTRE": {
+      "Inconscient":"Inconscient pour {time}",
+      "RecuperationEnergie":"Récupération de PE",
+      "Heure":"heure",
+      "Heures":"heures",
       "And": "et",
       "Label":"Autre",
       "Standard":"Standard",

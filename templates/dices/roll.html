@@ -122,6 +122,12 @@
         </div>
         {{/if}}
 
+        {{#if ../specialiste}}
+        <div class="btn">
+            <button type="action" class="relanceattaque" data-limit="{{specialiste}}" title="{{localize 'KNIGHT.EFFETS.SPECIALISTE.Relance'}}">{{localize 'KNIGHT.EFFETS.SPECIALISTE.Label'}}</button>
+        </div>
+        {{/if}}
+
         {{#each otherBtn}}
             <div class="{{ifThen tgt 'tgtBtn' 'btn'}} {{classes}}" data-id="{{id}}">
                 <button type="action" title="{{title}}">{{label}}</button>

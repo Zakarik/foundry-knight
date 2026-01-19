@@ -775,7 +775,9 @@
       "SPECIALISTE":{
         "Label":"Specialist",
         "Description":"When the character makes an attack roll with the weapon, they may reroll X dice of their choice. This reroll of X dice may only be performed once per attack.",
-        "Description-short":"When the character makes an attack roll with the weapon, they may reroll X dice of their choice. This reroll of X dice may only be performed once per attack."
+        "Description-short":"When the character makes an attack roll with the weapon, they may reroll X dice of their choice. This reroll of X dice may only be performed once per attack.",
+        "Relance":"Reroll",
+        "Choisir":"Choose the dice to roll again"
       },
       "TERRIFIANT":{
         "Label":"Terrifying",
@@ -2459,6 +2461,10 @@
       }
     },
     "AUTRE": {
+      "Inconscient":"Unconscious for {time}",
+      "RecuperationEnergie":"PE recovery",
+      "Heure":"hour",
+      "Heures":"hours",
       "And": "and",
       "Label":"Other",
       "Standard":"Standard",

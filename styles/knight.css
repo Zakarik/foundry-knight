@@ -3158,6 +3158,41 @@ li.chat-message.emote {
   margin: 0px;
 }
 
+.askdice div.dialog-content {
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-content: baseline;
+  align-items: baseline;
+}
+.askdice div.dialog-content > span {
+  display: inline-block;
+  text-align: justify;
+  width: 100%;
+  line-height: 16px;
+  min-height: 20px;
+  grid-column: 1/5;
+}
+.askdice div.dialog-content button {
+  color: white;
+  background: RGB(76 74 90);
+  cursor: pointer;
+  border-radius: 0px;
+  margin: 0px;
+  text-align: left;
+  border-top: 0px;
+  border-color: black;
+}
+.askdice div.dialog-buttons button {
+  color: white;
+  background: RGB(76 74 90);
+  cursor: pointer;
+  border-radius: 0px;
+  margin: 0px;
+}
+
 .item h2.header {
   display: block;
   position: relative;
@@ -42942,13 +42977,13 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: RGB(193, 193, 193);
 }
-.knight-roll button.degats, .knight-roll button.violence {
+.knight-roll button.degats, .knight-roll button.violence, .knight-roll button.relanceattaque, .knight-roll button.relancedegats {
   margin-top: 5px;
 }
 .knight-roll button.btnDgts, .knight-roll button.btnViolence {
   order: 3;
 }
-.knight-roll button.relancedegats, .knight-roll button.full {
+.knight-roll button.relanceattaque, .knight-roll button.relancedegats, .knight-roll button.full {
   grid-column: 1/3;
 }
 

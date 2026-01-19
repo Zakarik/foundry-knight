@@ -5802,6 +5802,8 @@ export async function rollDamage(message, eventOrOptions) {
       surprise:flags.surprise,
   }, false);
 
+  weapon.rollType = 'damage';
+
   let addFlags = {
       flavor:flags.flavor,
       addDmgTags:flags.addDmgTags,
@@ -5965,6 +5967,8 @@ export async function rollViolence(message, eventOrOptions) {
   const flags = message.flags.knight;
   const weapon = flags.weapon;
   const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
+
+  weapon.rollType = 'violence';
 
   let addFlags = {
       flavor:flags.flavor,

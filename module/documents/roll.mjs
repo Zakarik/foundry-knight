@@ -1242,6 +1242,8 @@ export class RollKnight {
         };
 
         await this.#handleAttaqueEffet(weapon, main, rolls, data?.updates ?? {});
+
+        console.error(main);
         foundry.utils.mergeObject(main, finalDataToAdd);
         flags = foundry.utils.mergeObject(this.addFlags, flags)
         let chatData = {
@@ -1414,12 +1416,29 @@ export class RollKnight {
                         case 'chromeligneslumineuses':
                         case 'autohit':
                         case 'fatal':
+                        case 'pillage':
+                        case 'rempart':
                             if(effet) detailledEffets.push({
                                 simple:l,
                                 key:effet,
                                 label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
                                 description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
                             });
+                            break;
+
+                        case 'specialiste':
+                            if(effet) {
+                                detailledEffets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                                });
+
+                                content.specialiste = effet.split(' ')[1];
+
+                                console.error(content);
+                            }
                             break;
 
                         case 'cataclysme':
@@ -1706,6 +1725,17 @@ export class RollKnight {
                                 }
                                 break;
 
+                            case 'pillage':
+                                if(t.hit && !this.tags.find(t => t.key === 'pillage')) {
+                                    this.tags.push({
+                                        label:`${game.i18n.localize("KNIGHT.AUTRE.RecuperationEnergie")} : 3`,
+                                        key:'pillage',
+                                    });
+
+                                    updates = foundry.utils.mergeObject(updates, this.actor.system.givePE(3, false));
+                                }
+                                break;
+
                             case 'barrage':
                                 t.effets.push({
                                     simple:d.simple,
@@ -1724,6 +1754,15 @@ export class RollKnight {
                             classes:'btn deviation',
                             label:game.i18n.localize(`KNIGHT.EFFETS.DEVIATION.Label`),
                             other:4,
+                        })
+                    }
+
+                    if(this.hasWpnEqpWithEffects(target, 'retribution') && !t.hit && weapon.type === 'contact') {
+                        t.btn.push({
+                            id:t.id,
+                            classes:'btn deviation',
+                            label:game.i18n.localize(`KNIGHT.EFFETS.RETRIBUTION.Label`),
+                            other:3,
                         })
                     }
 
@@ -2216,6 +2255,20 @@ export class RollKnight {
 
                             if(this.attaquant.type === 'knight') {
                                 totalOD = armorIsWear ? this.getOD('machine', 'tir') : 0;
+                            }
+
+                            bonus.push(total+totalOD);
+                            title += `${loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : ` + ${game.i18n.localize(loc.label)}`}`
+                        }
+                        break;
+
+                    case 'sensitif':
+                        if(effet) {
+                            const total = this.attaquant.type === 'knight' ? this.getCaracteristique('masque', 'perception') : Math.ceil(this.getAspect('masque')/2);
+                            let totalOD = 0;
+
+                            if(this.attaquant.type === 'knight') {
+                                totalOD = armorIsWear ? this.getOD('masque', 'perception') : 0;
                             }
 
                             bonus.push(total+totalOD);
@@ -3998,18 +4051,6 @@ export class RollKnight {
                 selected:getOption ? getOption.selected : 0,
                 value:1,
                 selectvalue:0,
-            });
-        }
-
-        if(this.#hasEffet(raw, 'tirenrafale')) {
-            let classes = ['tirenrafale', 'center', 'roll', 'full'];
-
-            data.options.push({
-                key:'btn',
-                special:'roll',
-                classes:classes.join(' '),
-                label:game.i18n.localize('KNIGHT.EFFETS.TIRENRAFALE.Label'),
-                title:game.i18n.localize('KNIGHT.EFFETS.TIRENRAFALE.Relance'),
             });
         }
 
