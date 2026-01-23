@@ -2457,30 +2457,32 @@ export class KnightSheet extends ActorSheet {
           one: {
           label: game.i18n.localize('KNIGHT.IMPORT.Importer'),
           callback: async (html) => {
-            const target = html.find('.typeToImport').val();
-            const data = html.find('.toImport').val();
-            const json = JSON.parse(data);
-            if(json.chassis === game.i18n.localize('KNIGHT.IMPORT.Longbow')) {
-              console.error(json);
-              this.actor.system.dataArmor.system.importLongbow(json);
-            }
-            /*if(target === 'null') {
-              const name = `${game.i18n.localize(`TYPES.Item.${type}`)}`;
-              const itemData = {
-                name: name,
-                type: 'arme',
-                img: getDefaultImg('arme'),
-              };
-              const create = await Item.create(itemData, {parent: this.actor});
-              create.system.importWpn(json)
-            } else {
-              const wpn = await this.actor.items.get(target);
-              wpn.system.importWpn(json)
-            }*/
-              /*try{
+              try{
+                const target = html.find('.typeToImport').val();
+                const data = html.find('.toImport').val();
+                const json = JSON.parse(data);
+
+                if(json.chassis === game.i18n.localize('KNIGHT.IMPORT.Longbow')) {
+                  this.actor.system.dataArmor.system.importLongbow(json);
+                } else if(target === 'null') {
+                  const name = `${game.i18n.localize(`TYPES.Item.${type}`)}`;
+                  const itemData = {
+                    name: name,
+                    type: 'arme',
+                    img: getDefaultImg('arme'),
+                    system:{
+                      type:type,
+                    }
+                  };
+                  const create = await Item.create(itemData, {parent: this.actor});
+                  create.system.importWpn(json)
+                } else {
+                  const wpn = await this.actor.items.get(target);
+                  wpn.system.importWpn(json)
+                }
               } catch {
                 ui.notifications.error(game.i18n.localize('KNIGHT.IMPORT.Error'));
-              }*/
+              }
             }
           }
         }

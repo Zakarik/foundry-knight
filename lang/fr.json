@@ -3026,7 +3026,9 @@
       "Label":"Import depuis KNPC Generator",
       "Error":"Erreur d'importation, vérifiez le texte et réessayez.",
       "Importer":"Importer le ou les créatures",
-      "Longbow":"Fusil de précision polymorphe polycalibre Longbow"
+      "Longbow":"Fusil de précision polymorphe polycalibre Longbow",
+      "Adl":"Import de l'Arsenal de Légende",
+      "Adl-hint":"Permet d'importer une nouvelle arme de l'Arsenal de légende, ou d'en mettre à jour une."
     }
   }
 }
