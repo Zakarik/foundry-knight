@@ -2364,9 +2364,9 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       pb.sys(`${pathLongbow}.violence.adlfixe`, json.violence_flat);
       pb.sys(`${pathLongbow}.effets.base.raw`, await this.listEffects(json.effects));
 
-      const mineur = json.effects.find(e => e.name === 'mineur1');
-      const interm = json.effects.find(e => e.name === 'interm1');
-      const majeur = json.effects.find(e => e.name === 'majeur1');
+      const mineur = json.selectable_effects.find(e => e.name === 'mineur1');
+      const interm = json.selectable_effects.find(e => e.name === 'interm1');
+      const majeur = json.selectable_effects.find(e => e.name === 'majeur1');
 
       if(mineur) {
         pb.sys(`${pathLongbow}.effets.liste1.raw`, await this.listEffects(mineur.effects));
@@ -2392,12 +2392,11 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       longbow.violence.min = json.violence_dice;
       longbow.violence.adlfixe = json.violence_flat;
       longbow.effets.base.raw = await this.listEffects(json.effects);
-      longbow.effets.base.raw = await this.listEffects(json.effects);
       longbow.key = 'longbow';
 
-      const mineur = json.effects.find(e => e.name === 'mineur1');
-      const interm = json.effects.find(e => e.name === 'interm1');
-      const majeur = json.effects.find(e => e.name === 'majeur1');
+      const mineur = json.selectable_effects.find(e => e.name === 'mineur1');
+      const interm = json.selectable_effects.find(e => e.name === 'interm1');
+      const majeur = json.selectable_effects.find(e => e.name === 'majeur1');
 
       if(mineur) {
         longbow.effets.liste1.raw = await this.listEffects(mineur.effects);
