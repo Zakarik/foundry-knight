@@ -48,21 +48,23 @@
 
             <div class="data">
                 <h4>{{localize "KNIGHT.AUTRE.Degats"}}</h4>
+                {{#unless (hasSetting 'adl')}}
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.DEGATS.Cout"}}</span>
                     <input type="number" name="system.capacites.selected.longbow.degats.energie" value="{{this.degats.energie}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
+                {{/unless}}
                 <label class="longspan">
-                    <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.DEGATS.Min"}}</span>
+                    <span>{{localize (ifThen (hasSetting 'adl') "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Dice" "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.DEGATS.Min")}}</span>
                     <input type="number" name="system.capacites.selected.longbow.degats.min" value="{{this.degats.min}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
                 <label class="longspan">
-                    <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.DEGATS.Max"}}</span>
-                    <input type="number" name="system.capacites.selected.longbow.degats.max" value="{{this.degats.max}}"
+                    <span>{{localize (ifThen (hasSetting 'adl') "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Fixe" "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.DEGATS.Max")}}</span>
+                    <input type="number" name="{{ifThen (hasSetting 'adl') "system.capacites.selected.longbow.degats.adlfixe" "system.capacites.selected.longbow.degats.max"}}" value="{{ifThen (hasSetting 'adl') this.degats.adlfixe this.degats.max}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
@@ -70,21 +72,23 @@
 
             <div class="data">
                 <h4>{{localize "KNIGHT.AUTRE.Violence"}}</h4>
+                {{#unless (hasSetting 'adl')}}
                 <label class="longspan">
                     <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.VIOLENCE.Cout"}}</span>
                     <input type="number" name="system.capacites.selected.longbow.violence.energie" value="{{this.violence.energie}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
+                {{/unless}}
                 <label class="longspan">
-                    <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.VIOLENCE.Min"}}</span>
+                    <span>{{localize (ifThen (hasSetting 'adl') "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Dice" "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.VIOLENCE.Min")}}</span>
                     <input type="number" name="system.capacites.selected.longbow.violence.min" value="{{this.violence.min}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>
                 <label class="longspan">
-                    <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.VIOLENCE.Max"}}</span>
-                    <input type="number" name="system.capacites.selected.longbow.violence.max" value="{{this.violence.max}}"
+                    <span>{{localize (ifThen (hasSetting 'adl') "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Fixe" "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.VIOLENCE.Max")}}</span>
+                    <input type="number" name="{{ifThen (hasSetting 'adl') "system.capacites.selected.longbow.violence.adlfixe" "system.capacites.selected.longbow.violence.max"}}" value="{{ifThen (hasSetting 'adl') this.violence.adlfixe this.violence.max}}"
                     {{#if this.softlock}}disabled{{/if}}
                     />
                 </label>

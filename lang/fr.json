@@ -784,10 +784,16 @@
         "Description":"Le débordement de la bande ciblée par l’attaque est divisé (arrondi au supérieur) par deux jusqu’au prochain tour du PJ. Plusieurs effets terrifiant ne peuvent se cumuler sur une même bande. La division s’effectue avant une éventuelle baisse due à des effets comme démoralisant.",
         "Description-short":"Le débordement de la bande ciblée par l’attaque est divisé (arrondi au supérieur) par deux jusqu’au prochain tour du PJ. Plusieurs effets terrifiant ne peuvent se cumuler sur une même bande. La division s’effectue avant une éventuelle baisse due à des effets comme démoralisant."
       },
+      "TIRELITE":{
+        "Label":"Tir d'élite",
+        "Description":"Une fois par tour, lorsque le chevalier obtient un exploit en effectuant un tir sur une cible de type nuisible, hostile ou salopard (hors Colosse), s’il passe sa réaction, celle-ci est automatiquement éliminée, ou passe à la phase suivante si elle en a plusieurs.",
+        "Description-short":"Une fois par tour, lorsque le chevalier obtient un exploit en effectuant un tir sur une cible de type nuisible, hostile ou salopard (hors Colosse), s’il passe sa réaction, celle-ci est automatiquement éliminée, ou passe à la phase suivante si elle en a plusieurs."
+      },
       "TITANICIDE":{
         "Label":"Titanicide",
         "Description":"Lorsque le personnage attaque un ennemi possédant de la résilience, s’il lui inflige des dégâts, il peut dépenser 3 PE à chaque pour faire baisser la résilence de 15.",
-        "Description-short":"Lorsque le personnage attaque un ennemi possédant de la résilience, s’il lui inflige des dégâts, il peut dépenser 3 PE à chaque pour faire baisser la résilence de 15."
+        "Description-short":"Lorsque le personnage attaque un ennemi possédant de la résilience, s’il lui inflige des dégâts, il peut dépenser 3 PE à chaque pour faire baisser la résilence de 15.",
+        "Resilience":"Appliqué sur la résilience"
       },
       "UNEMAIN":{
         "Label":"Une main",
@@ -1746,6 +1752,8 @@
             "Label": "Fusil de précision Longbow",
             "Description":"La méta-armure Ranger et le fusil Longbow ne sont qu’une seule machinerie qui concilie la puissance et la précision d’un fusil anti-matériel avec la polyvalence nécessaire à celui qui évolue seul dans les territoires de l’Anathème. Le fusil Longbow est sans doute l’arme principale d’un chevalier en armure Ranger. Le fusil de précision Longbow peut être racké. Il compte dans la limite des armes contenues dans le rack de la méta-armure. De plus, au même titre qu’une autre arme de tir, il peut recevoir des améliorations d’armes, mais dans la limite de deux (et seulement deux) maximum, avec les mêmes restrictions que les armes possédant l’effet lourd.",
             "Cout":"Coût",
+            "Dice":"Nombre de dés",
+            "Fixe":"Bonus fixe",
             "EFFETS":{
               "Cout":"Coût des effets",
               "Base":"Effets de base",
@@ -2684,6 +2692,7 @@
       "LabelEnnemi":"Type ennemi",
       "Humain":"Humain",
       "Anatheme":"Anathème",
+      "Nuisible":"Hostile",
       "Hostile":"Hostile",
       "Salopard":"Salopard",
       "Patron":"Patron",
@@ -2758,6 +2767,10 @@
       "ADVCAMPAIGN":{
         "Label":"Activer les avantages propre à la campagne",
         "Hint":"Donne des options supplémentaires pour les avantages, en permettant d'activer Dévaster l'Anathème / Equilibrer la Balance / Bourreau des ténèbres."
+      },
+      "ADL":{
+        "Label":"Utiliser l'Arsenal de Légende",
+        "Hint":"Active les boutons permettant d'importer depuis l'Arsenal de Légende du site Knight JDR Système et modifie le longbow pour correspondre à l'ADL."
       }
     },
     "GM":{
@@ -3012,7 +3025,8 @@
     "IMPORT":{
       "Label":"Import depuis KNPC Generator",
       "Error":"Erreur d'importation, vérifiez le texte et réessayez.",
-      "Importer":"Importer le ou les créatures"
+      "Importer":"Importer le ou les créatures",
+      "Longbow":"Fusil de précision polymorphe polycalibre Longbow"
     }
   }
 }

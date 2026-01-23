@@ -5,6 +5,7 @@ import {
   createSheet,
   capitalizeFirstLetter,
   confirmationDialog,
+  convertJsonEffects,
 } from "../../../helpers/common.mjs";
 
 import PatchBuilder from "../../../utils/patchBuilder.mjs";
@@ -2346,5 +2347,88 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     const flags = roll.getRollData(weapon, {targets:allTargets});
     roll.setWeapon(weapon);
     await roll.doRollViolence(flags);
+  }
+
+  async importLongbow(json) {
+    const getArmure = new ArmureAPI(this.item);
+    const getCapacity = getArmure.hasCapacite('longbow');
+    const pathLongbow = `capacites.selected.longbow`;
+    const pb = await PatchBuilder.for(this.item);
+
+    if(getCapacity) {
+      pb.sys(`${pathLongbow}.label`, json.weapon_name);
+      pb.sys(`${pathLongbow}.description`, json.weapon_description);
+      pb.sys(`${pathLongbow}.degats.min`, json.damage_dice);
+      pb.sys(`${pathLongbow}.degats.adlfixe`, json.damage_flat);
+      pb.sys(`${pathLongbow}.violence.min`, json.violence_dice);
+      pb.sys(`${pathLongbow}.violence.adlfixe`, json.violence_flat);
+      pb.sys(`${pathLongbow}.effets.base.raw`, await this.listEffects(json.effects));
+
+      const mineur = json.effects.find(e => e.name === 'mineur1');
+      const interm = json.effects.find(e => e.name === 'interm1');
+      const majeur = json.effects.find(e => e.name === 'majeur1');
+
+      if(mineur) {
+        pb.sys(`${pathLongbow}.effets.liste1.raw`, await this.listEffects(mineur.effects));
+        pb.sys(`${pathLongbow}.effets.liste1.energie`, mineur.energy);
+      }
+      if(interm) {
+        pb.sys(`${pathLongbow}.effets.liste2.raw`, await this.listEffects(interm.effects));
+        pb.sys(`${pathLongbow}.effets.liste2.energie`, interm.energy);
+      }
+      if(majeur) {
+        pb.sys(`${pathLongbow}.effets.liste3.raw`, await this.listEffects(majeur.effects));
+        pb.sys(`${pathLongbow}.effets.liste3.energie`, majeur.energy);
+        pb.sys(`${pathLongbow}.effets.liste3.acces`, true);
+      } else pb.sys(`${pathLongbow}.effets.liste3.acces`, false);
+
+      pb.sys(`evolutions.special.-=longbow`, null);
+    } else {
+      let longbow = getArmure.getSys('capacites.base.longbow');
+      longbow.label = json.weapon_name;
+      longbow.description = json.weapon_description;
+      longbow.degats.min = json.damage_dice;
+      longbow.degats.adlfixe = json.damage_flat;
+      longbow.violence.min = json.violence_dice;
+      longbow.violence.adlfixe = json.violence_flat;
+      longbow.effets.base.raw = await this.listEffects(json.effects);
+      longbow.effets.base.raw = await this.listEffects(json.effects);
+      longbow.key = 'longbow';
+
+      const mineur = json.effects.find(e => e.name === 'mineur1');
+      const interm = json.effects.find(e => e.name === 'interm1');
+      const majeur = json.effects.find(e => e.name === 'majeur1');
+
+      if(mineur) {
+        longbow.effets.liste1.raw = await this.listEffects(mineur.effects);
+        longbow.effets.liste1.energie = mineur.energy;
+      }
+
+      if(interm) {
+        longbow.effets.liste2.raw = await this.listEffects(interm.effects);
+        longbow.effets.liste2.energie = interm.energy;
+      }
+
+      if(majeur) {
+        longbow.effets.liste3.raw = await this.listEffects(majeur.effects);
+        longbow.effets.liste3.energie = majeur.energy;
+        longbow.effets.liste3.acces = true;
+      } else longbow.effets.liste3.acces = false;
+
+      pb.sys(`${pathLongbow}`, longbow);
+    }
+
+    pb.apply();
+  }
+
+  async listEffects(effects) {
+    const resultEffects = [];
+
+    for(let e of effects ?? []) {
+      const convert = convertJsonEffects(e);
+      if(convert) resultEffects.push(convert);
+    }
+
+    return resultEffects;
   }
 }

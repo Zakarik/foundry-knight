@@ -2433,12 +2433,15 @@ export class KnightSheet extends ActorSheet {
 
       if(itm) {
         html += `<h1>Choisir l'arme à écraser</h1>`
+        html += `<div class='select'>`
         html += `<select class="typeToImport">`
         html += `<option value='null'>Importer une nouvelle arme</option>`
         for(let i of itm) {
           html += `<option value='${i.id}'>${i.name}</option>`
         }
         html += `</select>`;
+        html += `<span>Sera ignoré en cas d'import du Longbow, car les paramètres du Longbow seront remplacés.</span>`;
+        html += `</div>`
       }
 
       html += `<textarea class="toImport"></textarea>`;
@@ -2454,26 +2457,27 @@ export class KnightSheet extends ActorSheet {
           one: {
           label: game.i18n.localize('KNIGHT.IMPORT.Importer'),
           callback: async (html) => {
-              const target = html.find('.typeToImport').val();
-              const data = html.find('.toImport').val();
-              const json = JSON.parse(data);
+            const target = html.find('.typeToImport').val();
+            const data = html.find('.toImport').val();
+            const json = JSON.parse(data);
+            if(json.chassis === game.i18n.localize('KNIGHT.IMPORT.Longbow')) {
+              console.error(json);
+              this.actor.system.dataArmor.system.importLongbow(json);
+            }
+            /*if(target === 'null') {
+              const name = `${game.i18n.localize(`TYPES.Item.${type}`)}`;
+              const itemData = {
+                name: name,
+                type: 'arme',
+                img: getDefaultImg('arme'),
+              };
+              const create = await Item.create(itemData, {parent: this.actor});
+              create.system.importWpn(json)
+            } else {
               const wpn = await this.actor.items.get(target);
               wpn.system.importWpn(json)
-
-
+            }*/
               /*try{
-                const isArray = Array.isArray(json);
-
-
-                console.error();
-
-                if(isArray) {
-                  for(let a of json) {
-                    importWpn(a, type);
-                  }
-                } else {
-                  importWpn(json, type);
-                }
               } catch {
                 ui.notifications.error(game.i18n.localize('KNIGHT.IMPORT.Error'));
               }*/

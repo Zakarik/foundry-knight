@@ -376,12 +376,29 @@ li.chat-message {
         font-weight: bold;
         border-radius: 0px;
         border-bottom: 0px;
+        border-left: 0px;
+        border-right: 0px;
         border-color: black;
+      }
+
+      div.select {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: 2px;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+
+        span {
+          padding-left: 5px;
+          padding-right: 5px;
+          font-variant: small-caps;
+          text-align: justify;
+        }
       }
 
       textarea {
         border-radius: 0px;
-        height: calc(100% - 49px);
+        height: 90px;
       }
     }
 

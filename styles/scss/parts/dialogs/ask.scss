@@ -90,7 +90,7 @@
   div.dialog-content {
     display: grid;
     grid-gap: 5px;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     justify-content: space-between;
     flex-wrap: wrap;
     align-content: baseline;
@@ -103,10 +103,12 @@
       line-height: 16px;
       min-height: 20px;
 
-      grid-column: 1 / 5;
+      grid-column: 1 / 7;
     }
 
     button {
+      display: flex;
+      justify-content: space-between;
       color: $white;
       background: $lightBlack;
       cursor: pointer;
@@ -115,6 +117,20 @@
       text-align: left;
       border-top: 0px;
       border-color: black;
+
+      &.unselected {
+        background: transparent;
+
+        i {
+          color: $red;
+        }
+      }
+
+      &.selected {
+        i {
+          color: $lightGreen;
+        }
+      }
     }
   }
 

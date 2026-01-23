@@ -690,6 +690,8 @@ export class KnightRollDialog extends Dialog {
                 const val = parseInt(tgt.val());
 
                 options.selected2 = val;
+
+                if(wpn.id.includes('longbow')) this.#calculateLongbow(id, parent);
             });
         }
 
@@ -707,6 +709,8 @@ export class KnightRollDialog extends Dialog {
                 const val = parseInt(tgt.val());
 
                 options.selected = val;
+
+                if(wpn.id.includes('longbow')) this.#calculateLongbow(id, parent);
             });
         }
 
@@ -724,6 +728,8 @@ export class KnightRollDialog extends Dialog {
                 const val = parseInt(tgt.val());
 
                 options.selected = val;
+
+                if(wpn.id.includes('longbow')) this.#calculateLongbow(id, parent);
             });
         }
 
@@ -1119,6 +1125,10 @@ export class KnightRollDialog extends Dialog {
                 isAttaqueSurprise = true;
             }
 
+            if((this.#isEffetActive(effets, weapon.options, ['titanicide']))) {
+                cout += 3;
+            }
+
             if(this.actor.type === 'mechaarmure') {
                 if(!this.#isEffetActive(effets, weapon.options, ['antivehicule'])) weapon.effets.raw.push('antivehicule');
 
@@ -1203,21 +1213,21 @@ export class KnightRollDialog extends Dialog {
             }
 
             if(boost) {
-                const boostSelected = parseInt($(weaponData.find(`div.boostsimple select.select2`)).val());
+                const boostSelected = parseInt(boost.selected2);
 
-                cout += boostSelected*boost.value;
+                if(!weapon.id.includes('longbow')) cout += boostSelected*boost.value;
             }
 
             if(boostdegats) {
-                const boostDegatsSelected = parseInt($(weaponData.find(`label.boostdegats select`)).val());
+                const boostDegatsSelected = parseInt(boostdegats.selected);
 
-                cout += boostDegatsSelected*boostdegats.value;
+                if(!weapon.id.includes('longbow')) cout += boostDegatsSelected*boostdegats.value;
             }
 
             if(boostviolence) {
-                const boostViolenceSelected = parseInt($(weaponData.find(`label.boostviolence select`)).val());
+                const boostViolenceSelected = parseInt(boostviolence.selected);
 
-                cout += boostViolenceSelected*boostviolence.value;
+                if(!weapon.id.includes('longbow')) cout += boostViolenceSelected*boostviolence.value;
             }
 
             for(let c of custom) {
@@ -2660,7 +2670,7 @@ export class KnightRollDialog extends Dialog {
                         }
 
                         const wpnLongbow = {
-                            name:game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label'),
+                            name:dataC.label,
                             id:`capacite_${armure.id}_${c}`,
                             system:{
                                 energie:0,
@@ -2668,11 +2678,11 @@ export class KnightRollDialog extends Dialog {
                                 type:'distance',
                                 degats:{
                                     dice:dgtsMin,
-                                    fixe:0,
+                                    fixe:game.settings.get("knight", "adl") ? dataC.degats.adlfixe : 0,
                                 },
                                 violence:{
                                     dice:violenceMin,
-                                    fixe:0,
+                                    fixe:game.settings.get("knight", "adl") ? dataC.violence.adlfixe : 0,
                                 },
                                 effets:{
                                     raw:dataC.effets.base.raw,
@@ -3229,6 +3239,18 @@ export class KnightRollDialog extends Dialog {
             });
         }
 
+        if(this.#hasEffet(raw, 'titanicide')) {
+            let classes = ['titanicide', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.TITANICIDE.Label'),
+                value:'titanicide',
+                active:false,
+            });
+        }
+
         const localize = getAllEffects();
 
         if(raw1 || custom1) data.eff1 = {
@@ -3506,6 +3528,31 @@ export class KnightRollDialog extends Dialog {
 
         data.options = modules.options ? modules.options.concat(data.options) : data.options;
 
+        if(this.#hasEffet(raw, 'boost')) {
+            let classes = ['doubleCol', 'selectDouble', 'boostsimple', 'full'];
+            const getOption = getWpn ? getWpn.options.find(itm => itm.classes.includes('boostsimple')) : undefined;
+            const boostEntry = raw.find(entry => entry.includes("boost"));
+            const boostValue = parseInt(boostEntry.split(' ')[1]);
+            const list1 = {
+                'degats':game.i18n.localize("KNIGHT.AUTRE.Degats"),
+                'violence':game.i18n.localize("KNIGHT.AUTRE.Violence")
+            };
+            const list2 = Array.from({length: boostValue+1}, (_, index) => [index, `${index}D6`]).reduce((acc, [key, value]) => ({...acc, [key]: value}), {});
+
+            data.options.push({
+                key:'duoselect',
+                classes:classes.join(' '),
+                label:game.i18n.localize(CONFIG.KNIGHT.effetsadl.boost.label),
+                list1,
+                list2,
+                selected1:getOption ? getOption.selected1 : 'degats',
+                selected2:getOption ? getOption.selected2 : 0,
+                value:1,
+                select1value:'degats',
+                select2value:0,
+            });
+        }
+
         if(this.#hasEffet(raw, 'boostviolence')) {
             let classes = ['selectDouble', 'boostviolence'];
             const getOption = getWpn ? getWpn.options.find(itm => itm.classes.includes('boostviolence')) : undefined;
@@ -3780,6 +3827,18 @@ export class KnightRollDialog extends Dialog {
             });
         }
 
+        if(this.#hasEffet(raw, 'titanicide')) {
+            let classes = ['titanicide', 'active', 'full'];
+
+            data.options.push({
+                key:'btn',
+                classes:classes.join(' '),
+                label:game.i18n.localize('KNIGHT.EFFETS.TITANICIDE.Label'),
+                value:'titanicide',
+                active:false,
+            });
+        }
+
         data.options.sort((a, b) => {
             if (a.key === 'select') return -1;
             if (b.key === 'select') return 1;
@@ -3893,6 +3952,9 @@ export class KnightRollDialog extends Dialog {
         const { energie: liste1Energie } = possibility.liste1;
         const { energie: liste2Energie } = possibility.liste2;
         const liste3Energie = possibility.liste3?.energie ?? 0;
+        const boost = longbow.options.find(itm => itm.classes.includes('boostsimple') && itm.key === 'duoselect');
+        const boostdegats = longbow.options.find(itm => itm.classes.includes('boostdegats') && itm.key === 'select');
+        const boostviolence = longbow.options.find(itm => itm.classes.includes('boostviolence') && itm.key === 'select');
 
         let cout = 0;
 
@@ -3923,6 +3985,24 @@ export class KnightRollDialog extends Dialog {
                 default: return acc;
             }
         }, 0);
+
+        if(boost) {
+            const boostSelected = parseInt(boost.selected2);
+
+            cout += boostSelected*boost.value;
+        }
+
+        if(boostdegats) {
+            const boostDegatsSelected = parseInt(boostdegats.selected);
+
+            cout += boostDegatsSelected*boostdegats.value;
+        }
+
+        if(boostviolence) {
+            const boostViolenceSelected = parseInt(boostviolence.selected);
+
+            cout += boostViolenceSelected*boostviolence.value;
+        }
 
         longbow.cout = cout;
         $(parent.find('button.btnWpn span p')).text(cout);

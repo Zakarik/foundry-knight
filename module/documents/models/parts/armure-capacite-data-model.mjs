@@ -363,12 +363,14 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
           degats: new SchemaField({
             energie: new NumberField({initial: 1}),
             min: new NumberField({initial: 3}),
-            max: new NumberField({initial: 9})
+            max: new NumberField({initial: 9}),
+            adlfixe: new NumberField({initial: 0}),
           }),
           violence: new SchemaField({
             energie: new NumberField({initial: 1}),
             min: new NumberField({initial: 1}),
-            max: new NumberField({initial: 7})
+            max: new NumberField({initial: 7}),
+            adlfixe: new NumberField({initial: 0}),
           }),
           portee: new SchemaField({
             energie: new NumberField({initial: 1}),

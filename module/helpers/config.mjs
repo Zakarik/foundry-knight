@@ -491,6 +491,7 @@ export const KNIGHT = {};
         'pillage',
         'rempart',
         'specialiste',
+        'tirelite',
       ],
       degats:[
         'annihilation',
@@ -551,6 +552,7 @@ export const KNIGHT = {};
         'conviction',
         'nonletal',
         'sensitif',
+        'titanicide',
       ],
       violence:[
         'affecteanatheme',
@@ -653,6 +655,7 @@ export const KNIGHT = {};
             'soumission',
             'exposer',
             'electrifiee',
+            'tirelite',
           ],
           bande:[
             'lumiere',
@@ -669,6 +672,7 @@ export const KNIGHT = {};
             'parasitage',
             'soumission',
             'exposer',
+            'tirelite',
           ],
         },
         degats:[
@@ -689,6 +693,7 @@ export const KNIGHT = {};
         'exposer',
         'demoralisant',
         'terrifiant',
+        'tirelite',
       ],
       special:[
         'aneantirbande',
@@ -1198,6 +1203,11 @@ export const KNIGHT = {};
   "titanicide": {
     "label":"KNIGHT.EFFETS.TITANICIDE.Label",
     "description":"KNIGHT.EFFETS.TITANICIDE.Description",
+    "double":false
+  },
+  "tirelite": {
+    "label":"KNIGHT.EFFETS.TIRELITE.Label",
+    "description":"KNIGHT.EFFETS.TIRELITE.Description",
     "double":false
   },
   "unemain": {

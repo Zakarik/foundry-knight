@@ -627,6 +627,8 @@ export class ArmureSheet extends ItemSheet {
         }
       }
 
+      console.error(update);
+
       await this.item.update(update);
     });
 

@@ -48,6 +48,10 @@ export class RollKnight {
         this.difficulte = data?.difficulte ?? undefined;
         this.addContent = data?.addContent ?? {};
         this.addFlags = data?.addFlags ?? {};
+        this.allData = data ?? {};
+        this.targets = data?.targets ?? undefined;
+        this.showFormula = data?.showFormula ?? undefined;
+        this.alreadyReroll = data?.relance ?? false;
     }
 
     get isVersion12() {
@@ -144,6 +148,318 @@ export class RollKnight {
                     await roll.evaluate();
 
                     const process = await this.#processRoll(roll);
+                    const prepareWeapon = await this.#prepareRollWeapon(process);
+
+                    allContent.push(prepareWeapon.content);
+                    allFlag.push(prepareWeapon.flags);
+                    allRoll = allRoll.concat(process.rolls)
+                }
+            }
+
+            this.#sendRollWeapon({
+                rolls:allRoll,
+                content:allContent,
+                text,
+                targets:listTargets,
+                flags:allFlag,
+                finalDataToAdd,
+                updates,
+            })
+        }
+
+        if(!foundry.utils.isEmpty(updates)) {
+            let updateArmure = {};
+            let updateItems = {};
+
+            for (let [key, value] of Object.entries(updates)) {
+                const keySplit = key.split('.');
+                const first = keySplit[0];
+
+                if(first === 'armure') {
+                    let oldKey = key;
+                    key = keySplit.slice(1).join('.');
+                    updateArmure[key] = value;
+
+                    delete updates[oldKey];
+                }
+
+                if(first === 'item') {
+                    let oldKey = key;
+                    key = keySplit.slice(2).join('.');
+                    updateItems[keySplit[1]] = {};
+                    updateItems[keySplit[1]][key] = value;
+
+                    delete updates[oldKey];
+                }
+
+                if (typeof value === 'string' && value.includes('@{rollTotal}')) {
+                    let updatedValue = value.replace(/@{rollTotal}/g, total);
+
+                    if (updatedValue.includes('@{max,')) {
+                        const maxMatch = updatedValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                        if (maxMatch) {
+                            const maxValue = parseFloat(maxMatch[1]);
+                            updatedValue = updatedValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                            updatedValue = `Math.max(${updatedValue}, ${maxValue})`;
+                        }
+                    }
+
+                    if (updatedValue.includes('@{min,')) {
+                        const minMatch = updatedValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                        if (minMatch) {
+                            const minValue = parseFloat(minMatch[1]);
+                            updatedValue = updatedValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                            updatedValue = `Math.min(${updatedValue}, ${minValue})`;
+                        }
+                    }
+
+                    try {
+                        updates[key] = eval(updatedValue);
+                    } catch (e) {
+                        // Garde la valeur remplacée si l'évaluation échoue
+                        updates[key] = updatedValue;
+                    }
+                } else if (typeof value === 'object' && value !== null) {
+                    for (const [subKey, subValue] of Object.entries(value)) {
+                        if (typeof subValue === 'string' && subValue.includes('@{rollTotal}')) {
+                            let updatedSubValue = subValue.replace(/@{rollTotal}/g, total);
+
+                            if (updatedSubValue.includes('@{max,')) {
+                                const maxMatch = updatedSubValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                                if (maxMatch) {
+                                    const maxValue = parseFloat(maxMatch[1]);
+                                    updatedSubValue = updatedSubValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                                    updatedSubValue = `Math.max(${updatedSubValue}, ${maxValue})`;
+                                }
+                            }
+
+                            if (updatedSubValue.includes('@{min,')) {
+                                const minMatch = updatedSubValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                                if (minMatch) {
+                                    const minValue = parseFloat(minMatch[1]);
+                                    updatedSubValue = updatedSubValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                                    updatedSubValue = `Math.min(${updatedSubValue}, ${minValue})`;
+                                }
+                            }
+
+                            try {
+                                value[subKey] = eval(updatedSubValue);
+                            } catch (e) {
+                                // Garde la valeur remplacée si l'évaluation échoue
+                                value[subKey] = updatedSubValue;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            for (let [key, value] of Object.entries(updateArmure)) {
+                if (typeof value === 'string' && value.includes('@{rollTotal}')) {
+                    let updatedValue = value.replace(/@{rollTotal}/g, total);
+
+                    if (updatedValue.includes('@{max,')) {
+                        const maxMatch = updatedValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                        if (maxMatch) {
+                            const maxValue = parseFloat(maxMatch[1]);
+                            updatedValue = updatedValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                            updatedValue = `Math.max(${updatedValue}, ${maxValue})`;
+                        }
+                    }
+
+                    if (updatedValue.includes('@{min,')) {
+                        const minMatch = updatedValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                        if (minMatch) {
+                            const minValue = parseFloat(minMatch[1]);
+                            updatedValue = updatedValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                            updatedValue = `Math.min(${updatedValue}, ${minValue})`;
+                        }
+                    }
+
+                    try {
+                        updates[key] = eval(updatedValue);
+                    } catch (e) {
+                        // Garde la valeur remplacée si l'évaluation échoue
+                        updates[key] = updatedValue;
+                    }
+                } else if (typeof value === 'object' && value !== null) {
+                    for (const [subKey, subValue] of Object.entries(value)) {
+                        if (typeof subValue === 'string' && subValue.includes('@{rollTotal}')) {
+                            let updatedSubValue = subValue.replace(/@{rollTotal}/g, total);
+
+                            if (updatedSubValue.includes('@{max,')) {
+                                const maxMatch = updatedSubValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                                if (maxMatch) {
+                                    const maxValue = parseFloat(maxMatch[1]);
+                                    updatedSubValue = updatedSubValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                                    updatedSubValue = `Math.max(${updatedSubValue}, ${maxValue})`;
+                                }
+                            }
+
+                            if (updatedSubValue.includes('@{min,')) {
+                                const minMatch = updatedSubValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                                if (minMatch) {
+                                    const minValue = parseFloat(minMatch[1]);
+                                    updatedSubValue = updatedSubValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                                    updatedSubValue = `Math.min(${updatedSubValue}, ${minValue})`;
+                                }
+                            }
+
+                            try {
+                                value[subKey] = eval(updatedSubValue);
+                            } catch (e) {
+                                // Garde la valeur remplacée si l'évaluation échoue
+                                value[subKey] = updatedSubValue;
+                            }
+                        }
+                    }
+                }
+            }
+
+            for(let i in updateItems) {
+                for (let [key, value] of Object.entries(updateItems[i])) {
+                    if (typeof value === 'string' && value.includes('@{rollTotal}')) {
+                        let updatedValue = value.replace(/@{rollTotal}/g, total);
+
+                        if (updatedValue.includes('@{max,')) {
+                            const maxMatch = updatedValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                            if (maxMatch) {
+                                const maxValue = parseFloat(maxMatch[1]);
+                                updatedValue = updatedValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                                updatedValue = `Math.max(${updatedValue}, ${maxValue})`;
+                            }
+                        }
+
+                        if (updatedValue.includes('@{min,')) {
+                            const minMatch = updatedValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                            if (minMatch) {
+                                const minValue = parseFloat(minMatch[1]);
+                                updatedValue = updatedValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                                updatedValue = `Math.min(${updatedValue}, ${minValue})`;
+                            }
+                        }
+
+                        try {
+                            updates[key] = eval(updatedValue);
+                        } catch (e) {
+                            // Garde la valeur remplacée si l'évaluation échoue
+                            updates[key] = updatedValue;
+                        }
+                    } else if (typeof value === 'object' && value !== null) {
+                        for (const [subKey, subValue] of Object.entries(value)) {
+                            if (typeof subValue === 'string' && subValue.includes('@{rollTotal}')) {
+                                let updatedSubValue = subValue.replace(/@{rollTotal}/g, total);
+
+                                if (updatedSubValue.includes('@{max,')) {
+                                    const maxMatch = updatedSubValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                                    if (maxMatch) {
+                                        const maxValue = parseFloat(maxMatch[1]);
+                                        updatedSubValue = updatedSubValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                                        updatedSubValue = `Math.max(${updatedSubValue}, ${maxValue})`;
+                                    }
+                                }
+
+                                if (updatedSubValue.includes('@{min,')) {
+                                    const minMatch = updatedSubValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                                    if (minMatch) {
+                                        const minValue = parseFloat(minMatch[1]);
+                                        updatedSubValue = updatedSubValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                                        updatedSubValue = `Math.min(${updatedSubValue}, ${minValue})`;
+                                    }
+                                }
+
+                                try {
+                                    value[subKey] = eval(updatedSubValue);
+                                } catch (e) {
+                                    // Garde la valeur remplacée si l'évaluation échoue
+                                    value[subKey] = updatedSubValue;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(!foundry.utils.isEmpty(updateArmure) && this.actor.system.dataArmor && (this.actor.type === 'knight' || this.actor.type === 'pnj')) {
+                await this.actor.system.dataArmor.update(updateArmure);
+            }
+
+            if(!foundry.utils.isEmpty(updateItems)) {
+                for(let i in updateItems) {
+                    this.actor.items.get(i).update(updateItems[i]);
+                }
+            }
+
+            if(!foundry.utils.isEmpty(updates)) await this.actor.update(updates);
+        }
+
+        return total;
+    }
+
+    async doReRoll(oldRoll, updates={}, effets={}, addData={}) {
+        let total = 0;
+
+        if(!this.weapon) {
+            const roll = new Roll(this.formula);
+            await roll.evaluate();
+
+            const process = await this.#processRoll(roll, oldRoll);
+            total = await this.#sendRoll(process, effets, addData, updates);
+        } else {
+            const weapon = this.weapon;
+            const allRaw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
+            let text = '';
+            let allContent = [];
+            let allFlag = []
+            let allRoll = [];
+            let listTargets = [];
+            let finalDataToAdd = {};
+
+            if(this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses'])) {
+                const targets = this.targets;
+                let n = 0;
+
+                if(targets) {
+                    for(let t of targets) {
+                        const roll = new Roll(this.formula);
+                        await roll.evaluate();
+
+                        const process = await this.#processRoll(roll, oldRoll);
+                        const prepareWeapon = await this.#prepareRollWeapon(foundry.utils.mergeObject(process, {
+                            target:t,
+                            index:n,
+                        }));
+
+                        allContent.push(prepareWeapon.content);
+                        allFlag.push(prepareWeapon.flags);
+                        allRoll = allRoll.concat(process.rolls)
+
+                        n++;
+                    }
+                } else {
+                    const roll = new Roll(this.formula);
+                    await roll.evaluate();
+
+                    const process = await this.#processRoll(roll, oldRoll);
+                    const prepareWeapon = await this.#prepareRollWeapon(process);
+
+                    allContent.push(prepareWeapon.content);
+                    allFlag.push(prepareWeapon.flags);
+                    allRoll = allRoll.concat(process.rolls)
+                }
+            } else {
+                if((this.#isEffetActive(allRaw, weapon.options, ['barrage']))) {
+                    const prepareWeapon = await this.#prepareSendWeaponWithoutRoll({});
+
+                    allContent.push(prepareWeapon.content);
+                    allFlag.push(prepareWeapon.flags);
+
+                } else {
+                    const roll = new Roll(this.formula);
+                    await roll.evaluate();
+
+                    const process = await this.#processRoll(roll, oldRoll);
+
                     const prepareWeapon = await this.#prepareRollWeapon(process);
 
                     allContent.push(prepareWeapon.content);
@@ -588,7 +904,6 @@ export class RollKnight {
         if(handleDamage.targets) content.targets = handleDamage.targets;
 
         main.content.push(content);
-
         let chatData = {
             user:game.user.id,
             speaker: {
@@ -736,10 +1051,10 @@ export class RollKnight {
 
     }
 
-    async #processRoll(roll) {
+    async #processRoll(roll, oldRoll=undefined) {
         if(!roll) return;
 
-        const dices = roll.dice;
+        const dices = oldRoll ? [...oldRoll.dice, ...roll.dice] : roll.dice;
         let rolls = [roll];
         let rollState = RollKnight.NORMAL;
         let success = 0;
@@ -755,15 +1070,23 @@ export class RollKnight {
 
             dices.forEach(dice => {
               const faces = dice._faces;
-              dice.results.forEach(({ result }) => {
-                const isEven = result % 2 === 0;
-                if (isEven) success += 1;
-                else failure += 1;;
+              dice.results.forEach(({ result, active }) => {
 
-                batch.push({
-                  value: result,
-                  class: `d${faces} ${isEven ? 'success' : 'fail'}`,
-                });
+                if(!active) {
+                    batch.push({
+                      value: result,
+                      class: `d${faces} discarded`,
+                    });
+                } else {
+                    const isEven = result % 2 === 0;
+                    if (isEven) success += 1;
+                    else failure += 1;;
+
+                    batch.push({
+                      value: result,
+                      class: `d${faces} ${isEven ? 'success' : 'fail'}`,
+                    });
+                }
               });
             });
 
@@ -815,7 +1138,7 @@ export class RollKnight {
             }
 
             if(failure === 0 && this.exploit) {
-                const rEpicSuccess = new Roll(this.formula);
+                const rEpicSuccess = new Roll(oldRoll && this.showFormula ? this.showFormula : this.formula);
                 await rEpicSuccess.evaluate();
 
                 const { batch:b2, success: s2, failure:f2 } = computeBatch(rEpicSuccess.dice);
@@ -1016,8 +1339,9 @@ export class RollKnight {
         const isSurprise = this.isSurprise;
         const weapon = this.weapon;
         const allRaw = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? [], weapon?.distance?.raw ?? []);
-        const targets = game.user.targets;
-        const formula = rollState === RollKnight.EPICSUCCESS ? `${this.formula} + ${this.formula}` : this.formula;
+        const targets = this.targets ? this.targets : game.user.targets;
+        const showFormula = this?.showFormula ? this.showFormula : this.formula;
+        const formula = rollState === RollKnight.EPICSUCCESS ? `${showFormula} + ${showFormula}` : showFormula;
         let flags = {};
 
         let content = {
@@ -1049,7 +1373,7 @@ export class RollKnight {
 
         if(!this.#isEffetActive(allRaw, weapon.options, ['cadence', 'chromeligneslumineuses'])) {
             for(let t of targets) {
-                const actor = t.actor;
+                const actor = this.targets ? canvas.tokens.get(t.id)?.actor : t.actor;
                 const getODDexterite = this.getOD('masque', 'dexterite', actor);
                 const armorIsWear = this.armorIsWear;
                 const pointsFaibles = actor.system?.pointsFaibles ?? '';
@@ -1203,18 +1527,26 @@ export class RollKnight {
         if(this.weapon.portee) {
             const traPortee = game.i18n.localize(`KNIGHT.PORTEE.${this.weapon.portee.charAt(0).toUpperCase() + this.weapon.portee.slice(1)}`);
 
-            tags.unshift({
-                key:this.weapon.portee,
-                label:traPortee.includes('KNIGHT.PORTEE') ? `${this.weapon.portee}` : `${traPortee}`
-            },{
-                key:this.style,
-                label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${this.style.toUpperCase()}.FullLabel`)
-            });
+            if(!tags.find(t => t.key === this.style)) {
+                tags.unshift({
+                    key:this.style,
+                    label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${this.style.toUpperCase()}.FullLabel`)
+                });
+            }
+
+            if(!tags.find(t => t.key === this.weapon.portee)) {
+                tags.unshift({
+                    key:this.weapon.portee,
+                    label:traPortee.includes('KNIGHT.PORTEE') ? `${this.weapon.portee}` : `${traPortee}`
+                });
+            }
         } else if(this.isPJ) {
-            tags.unshift({
-                key:this.style,
-                label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${this.style.toUpperCase()}.FullLabel`)
-            });
+            if(!tags.find(t => t.key === this.style)) {
+                tags.unshift({
+                    key:this.style,
+                    label:game.i18n.localize(`KNIGHT.COMBAT.STYLES.${this.style.toUpperCase()}.FullLabel`)
+                });
+            }
         }
 
         const chatRollMode = game.settings.get("core", "rollMode");
@@ -1229,6 +1561,7 @@ export class RollKnight {
         let flags = {
             actor:this.actor,
             flavor:main.flavor,
+            rollData:this.allData,
             weapon:weapon,
             content:flag,
             tags:main.tags,
@@ -1243,7 +1576,6 @@ export class RollKnight {
 
         await this.#handleAttaqueEffet(weapon, main, rolls, data?.updates ?? {});
 
-        console.error(main);
         foundry.utils.mergeObject(main, finalDataToAdd);
         flags = foundry.utils.mergeObject(this.addFlags, flags)
         let chatData = {
@@ -1418,6 +1750,7 @@ export class RollKnight {
                         case 'fatal':
                         case 'pillage':
                         case 'rempart':
+                        case 'tirelite':
                             if(effet) detailledEffets.push({
                                 simple:l,
                                 key:effet,
@@ -1427,7 +1760,7 @@ export class RollKnight {
                             break;
 
                         case 'specialiste':
-                            if(effet) {
+                            if(effet && !this.alreadyReroll) {
                                 detailledEffets.push({
                                     simple:l,
                                     key:effet,
@@ -1436,8 +1769,13 @@ export class RollKnight {
                                 });
 
                                 content.specialiste = effet.split(' ')[1];
-
-                                console.error(content);
+                            } else {
+                                effets.push({
+                                    simple:l,
+                                    key:effet,
+                                    label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                    description:this.#sanitizeTxt(game.i18n.localize(loc.description)),
+                                });
                             }
                             break;
 
@@ -1711,7 +2049,7 @@ export class RollKnight {
                                     id:t.id,
                                     classes:'btn autoStatus full',
                                     label:d.simple === 'choc' ? game.i18n.localize(`KNIGHT.EFFETS.CHOC.Auto`) : game.i18n.localize(`KNIGHT.AMELIORATIONS.ELECTRIFIEE.Auto`),
-                                    other:`electrifiee`,
+                                    other:d.key,
                                 });
                                 break;
 
@@ -2185,6 +2523,17 @@ export class RollKnight {
                             label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
                             description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
                         });
+                        break;
+
+                    case 'titanicide':
+                        if(effet) {
+                            detailledEffets.push({
+                                simple:l,
+                                key:effet,
+                                label:loc?.double ?? false ? `${game.i18n.localize(loc.label)} ${effet.split(' ')[1]}` : `${game.i18n.localize(loc.label)}`,
+                                description:this.#sanitizeTxt(game.i18n.localize(`${loc.description}-short`)),
+                            });
+                        }
                         break;
 
                     case 'boost':
@@ -2823,6 +3172,7 @@ export class RollKnight {
                 }
             }
 
+            console.error(targetDetailledEffets);
             //tous les autres
             for(let d of targetDetailledEffets) {
                 switch(d.simple) {
@@ -2881,6 +3231,17 @@ export class RollKnight {
                             })
                         }
                         break;
+
+                    case 'titanicide':
+                        t.effets.push({
+                            simple:d.simple,
+                            key:d.key,
+                            label:d.label,
+                            value:15,
+                            hit:true,
+                            subtitle:game.i18n.localize('KNIGHT.EFFETS.TITANICIDE.Resilience')
+                        })
+                    break;
                 }
             }
 

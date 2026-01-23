@@ -32,12 +32,12 @@
                     <span class="score">{{this.degats.energie}}</span>
                 </div>
                 <div class="longspan">
-                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.DEGATS.Min"}}</span>
+                    <span class="header">{{localize (ifThen (hasSetting 'adl') "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Dice" "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.DEGATS.Min")}}</span>
                     <span class="score">{{this.degats.min}}</span>
                 </div>
                 <div class="longspan">
-                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.DEGATS.Max"}}</span>
-                    <span class="score">{{this.degats.max}}</span>
+                    <span class="header">{{localize (ifThen (hasSetting 'adl') "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Fixe" "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.DEGATS.Max")}}</span>
+                    <span class="score">{{ifThen (hasSetting 'adl') this.degats.adlfixe this.degats.max}}</span>
                 </div>
             </div>
 
@@ -48,12 +48,12 @@
                     <span class="score">{{this.violence.energie}}</span>
                 </div>
                 <div class="longspan">
-                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.VIOLENCE.Min"}}</span>
+                    <span class="header">{{localize (ifThen (hasSetting 'adl') "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Dice" "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.VIOLENCE.Min")}}</span>
                     <span class="score">{{this.violence.min}}</span>
                 </div>
                 <div class="longspan">
-                    <span class="header">{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.VIOLENCE.Max"}}</span>
-                    <span class="score">{{this.violence.max}}</span>
+                    <span class="header">{{localize (ifThen (hasSetting 'adl') "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Fixe" "KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.VIOLENCE.Max")}}</span>
+                    <span class="score">{{ifThen (hasSetting 'adl') this.violence.adlfixe this.violence.max}}</span>
                 </div>
             </div>
 

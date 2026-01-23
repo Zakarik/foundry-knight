@@ -784,10 +784,16 @@
         "Description":"The overrun of the band targeted by the attack is divided (rounded up) by two until the next turn of the PC. Multiple terrifying effects cannot be combined on the same band. The division is made before any decrease due to effects such as demoralization.",
         "Description-short":"The overrun of the band targeted by the attack is divided (rounded up) by two until the next turn of the PC. Multiple terrifying effects cannot be combined on the same band. The division is made before any decrease due to effects such as demoralization."
       },
+      "TIRELITE":{
+        "Label":"Sharpshooting",
+        "Description":"Once per turn, when the knight achieves a feat by shooting at a Harmful, Brute, or Badass target (excluding Behemoth), if he passes his reaction, it is automatically eliminated, or moves on to the next phase if there are several.",
+        "Description-short":"Once per turn, when the knight achieves a feat by shooting at a Harmful, Brute, or Badass target (excluding Behemoth), if he passes his reaction, it is automatically eliminated, or moves on to the next phase if there are several."
+      },
       "TITANICIDE":{
         "Label":"Titanicide",
         "Description":"When the character attacks an enemy with resilience, if they inflict damage, they can spend 3 EP each time to reduce resilience by 15.",
-        "Description-short":"When the character attacks an enemy with resilience, if they inflict damage, they can spend 3 EP each time to reduce resilience by 15."
+        "Description-short":"When the character attacks an enemy with resilience, if they inflict damage, they can spend 3 EP each time to reduce resilience by 15.",
+        "Resilience":"Applied to resilience"
       },
       "UNEMAIN":{
         "Label":"One hand",
@@ -1746,6 +1752,8 @@
             "Label": "Weapon-polycaliber polymorph longbow sniper rifle",
             "Description":"The Ranger and its Longbow are in fact a single piece of equipment, combining the firepower and precision of an antimateriel rifle with the adaptive armour required to survive in territory controlled by the Anathema. There is little point in wielding other weapons when using this meta-armour. Longbow sniper rifles can be racked. When they are, they count against the rack’s weapon capacity. Just like any other ranged weapon, a Longbow can receive enhancements–no more than two, though, with the same restrictions as weapons with the heavy effect, even after any evolutions.",
             "Cout":"Cost",
+            "Dice":"Number of dice",
+            "Fixe":"Fixed bonus",
             "EFFETS":{
               "Cout":"Coût des effets",
               "Base":"Base effects",
@@ -2684,6 +2692,7 @@
       "LabelEnnemi":"Enemy type",
       "Humain":"Human",
       "Anatheme":"Anathema",
+      "Nuisible":"Harmful",
       "Hostile":"Brute",
       "Salopard":"Badass",
       "Patron":"Boss",
@@ -2758,6 +2767,10 @@
       "ADVCAMPAIGN": {
         "Label": "Enable campaign-specific advantages",
         "Hint": "Provides additional options for advantages, allowing Devastate the Anathema / Balance the Scales / Executioner of Darkness to be enabled."
+      },
+      "ADL":{
+        "Label":"Use the Legendary Arsenal",
+        "Hint":"Enables buttons for importing from the Legendary Arsenal on the Knight RPG System website and modifies the longbow to match the ADL."
       }
     },
     "GM":{
@@ -3012,7 +3025,8 @@
     "IMPORT":{
       "Label":"Import from KNPC Generator",
       "Error":"Import error, check text and try again.",
-      "Importer":"Import creature(s)"
+      "Importer":"Import creature(s)",
+      "Longbow":"Fusil de précision polymorphe polycalibre Longbow"
     }
   }
 }

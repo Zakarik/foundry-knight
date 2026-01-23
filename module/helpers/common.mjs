@@ -5822,15 +5822,24 @@ export async function rollDamage(message, eventOrOptions) {
       secondWpn:flags.secondWpn,
   };
 
+  const forbiddenClasses = [
+    "applyAttaqueEffects",
+    "autoStatus",
+  ];
+
   let data = {
       total:flags.content[index].total,
       targets:flags.content[index].targets.map(target => {
-          if(target?.btn) target.btn = target.btn.filter(itm => !itm.classes.includes('applyAttaqueEffects'))
+          if(target?.btn) target.btn = target.btn.filter(
+            itm => !forbiddenClasses.some(cls => itm.classes.includes(cls))
+          )
           return target;
       }),
       attaque:message.rolls,
       flags:addFlags,
   };
+
+  console.error(data);
 
   if(raw.includes('tirenrafale')) {
       data.content = {
@@ -6117,67 +6126,29 @@ export function convertJsonEffects(e) {
   };
 
   switch(label) {
-    case 'Anti-anathème':
-    case 'Anti-véhicule':
-    case 'Artillerie':
-    case "Briser la résilience":
-    case "Démoralisant":
-    case "Désignation":
-    case "Destructeur":
-    case "Deux mains":
-    case "En chaîne":
-    case "Espérance":
-    case "Fureur":
-    case "Ignore armure":
-    case "Jumelé (akimbo)":
-    case "Jumelé (ambidextrie)":
-    case "Lesté":
-    case "Lourd":
-    case "Meurtrier":
-    case "Oblitération":
-    case "Orfévrerie":
-    case "[Sans armure]":
-    case "Silencieux":
-    case "Soumission":
-    case "Ténébricide":
-    case "Tir en rafale":
-    case "Tir en sécurité":
-    case "Ultraviolence":
-    case "Excellence":
-    case "Régularité":
-    case "Conviction":
-      result = normalize(label);
-      break;
-
-    case 'Assassin X':
-    case 'Barrage X':
-    case 'Cadence X':
-    case 'Choc X':
-    case 'Défense X':
-    case 'Dégâts continus X':
-    case 'Dispersion X':
-    case 'Immobilisation X':
-    case 'Intimidante X':
-    case "Lumière X":
-    case "Parasitage X":
-    case "Pénétrant X":
-    case "Perce armure X":
-    case "Bourreau X":
-    case "Dévastation X":
-      result = label.replace(' X', '');
-      result = normalize(result);
-
-      result += ` ${value ? value : 1}`;
-      break;
-
     case "Assistance à l'attaque":
       result = label.replace(" à l'", '');
+      result = normalize(result);
+      break;
+
+    case "Tir d'élite":
+      result = label.replace("Tir d'élite", 'tirelite');
       result = normalize(result);
       break;
 
     case "Ignore cdf":
       result = label.replace(" cdf", 'champdeforce');
       result = normalize(result);
+      break;
+
+    default:
+      if(label.includes(' X')) {
+        result = label.replace(' X', '');
+        result = normalize(result);
+
+        result += ` ${value ? value : 1}`;
+
+      } else result = normalize(label);
       break;
   }
 

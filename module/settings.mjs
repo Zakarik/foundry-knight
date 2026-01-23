@@ -110,6 +110,18 @@ export const RegisterSettings = function () {
         }
     });
 
+    game.settings.register("knight", "adl", {
+        name: "KNIGHT.SETTINGS.ADL.Label",
+        hint: "KNIGHT.SETTINGS.ADL.Hint",
+        scope: "world",
+        config: true,
+        type: Boolean,
+        default: false,
+        onChange: value => {
+            foundry.utils.debouncedReload();
+        }
+    });
+
     game.settings.register("knight", "codexfm4", {
         name: "KNIGHT.SETTINGS.CODEXFM4.Label",
         hint: "KNIGHT.SETTINGS.CODEXFM4.Hint",
@@ -181,7 +193,7 @@ export const RegisterSettings = function () {
         name: "",
         hint: "",
         scope: "client",
-        config: true,
+        config: false,
         type: Boolean,
         default: true,
     });
