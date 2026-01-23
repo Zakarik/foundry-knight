@@ -1106,7 +1106,9 @@
                         {{/each}}
                     </div>
                     {{/if}}
-                    <a class="adl-import" title="" data-type="contact">ADL Import</a>
+                    {{#if (hasSetting 'adl')}}
+                    <a class="adl-import" title="{{localize "KNIGHT.IMPORT.Adl-hint"}}" data-type="contact">{{localize "KNIGHT.IMPORT.Adl"}}</a>
+                    {{/if}}
                 </div>
 
                 <div class="armesDistance">
@@ -1150,7 +1152,9 @@
                         {{/each}}
                     </div>
                     {{/if}}
-                    <a class="adl-import" title="" data-type="distance">ADL Import</a>
+                    {{#if (hasSetting 'adl')}}
+                    <a class="adl-import" title="{{localize "KNIGHT.IMPORT.Adl-hint"}}" data-type="distance">{{localize "KNIGHT.IMPORT.Adl"}}</a>
+                    {{/if}}
                 </div>
             </div>
 
