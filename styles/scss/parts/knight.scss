@@ -5818,6 +5818,30 @@
                 }
               }
             }
+
+            a.adl-import {
+              font-variant: small-caps;
+              display: block;
+              text-align: center;
+              width: 100%;
+              color: $white;
+              cursor: pointer;
+              border-top: 2px solid $black;
+              border-left:0px;
+              border-right:0px;
+              border-bottom:0px;
+              background: $lightBlack;
+              position: relative;
+              line-height: 28px;
+              margin-left: auto;
+              margin-right: auto;
+
+              &:hover {
+                background-color: $black;
+                border-color: $lightBlack;
+                color: $white;
+              }
+            }
           }
 
           div.armesImprovisees {

@@ -7,11 +7,16 @@ export const KNIGHT = {};
 
  KNIGHT.LIST = {
     vehicules:['armure', 'energie', 'champDeForce'],
-    bandes:['sante', 'bouclier'],
+    bandes:['sante', 'bouclier', 'champDeForce'],
     creatures:['sante', 'armure', 'energie', 'bouclier'],
     mechaarmures:['resilience', 'vitesse', 'manoeuvrabilite', 'puissance', 'systemes', 'senseurs', 'champDeForce'],
     pnj:['sante', 'armure', 'energie', 'champDeForce', 'bouclier'],
     knight:['sante', 'armure', 'energie', 'champDeForce', 'espoir', 'heroisme'],
+    origin:{
+      humain:'KNIGHT.TYPE.Humain',
+      anatheme:'KNIGHT.TYPE.Anatheme',
+      autre:'KNIGHT.AUTRE.Label',
+    },
     aspectsCaracteristiques:{
       "chair": "KNIGHT.ASPECTS.CHAIR.Label",
       "deplacement": "KNIGHT.ASPECTS.CHAIR.CARACTERISTIQUES.DEPLACEMENT.Label",
@@ -475,8 +480,21 @@ export const KNIGHT = {};
         'revetementomega',
         'structurealpha',
         'systemerefroidissement',
+        'exposer',
+        'terrifiant',
+        'cataclysme',
+        'deviation',
+        'retribution',
+        'fatal',
+        'frappeaportee',
+        'mobile',
+        'pillage',
+        'rempart',
+        'specialiste',
+        'tirelite',
       ],
       degats:[
+        'annihilation',
         'affecteanatheme',
         'anatheme',
         'antianatheme',
@@ -528,7 +546,13 @@ export const KNIGHT = {};
         'regularite',
         'sillonslignesfleches',
         'boostdegats',
-        'precision'
+        'precision',
+        'boost',
+        'chirurgical',
+        'conviction',
+        'nonletal',
+        'sensitif',
+        'titanicide',
       ],
       violence:[
         'affecteanatheme',
@@ -555,26 +579,125 @@ export const KNIGHT = {};
         'boostviolence',
         'intimidanthum',
         'intimidantana',
+        'boost',
+        'conviction',
       ],
-      status:{
-        attaque:[
-          'aneantirbande',
-          'barrage',
-          'choc',
-          'designation',
-          'immobilisation',
-          'lumiere',
-          'parasitage',
-          'soumission',
+      applyDmg:{
+        bande:[],
+        other:[
+          'affecteanatheme',
+          'anatheme',
+          'antianatheme',
+          'antivehicule',
+          'assassin',
+          'assistanceattaque',
+          'briserlaresilience',
+          'degatscontinus',
+          'destructeur',
+          'dispersion',
+          'enchaine',
+          'ignorearmure',
+          'ignorechampdeforce',
+          'leste',
+          'meurtrier',
+          'obliteration',
+          'orfevrerie',
+          'percearmure',
+          'penetrant',
+          'silencieux',
+          'tenebricide',
+          'tirenrafale',
+          'armeazurine',
+          'armerougesang',
+          'chenesculpte',
+          'cranerieurgrave',
+          'faucheusegravee',
+          'fauconplumesluminescentes',
+          'griffuresgravees',
+          'masquebrisesculpte',
+          'rouagescassesgraves',
+          'agressive',
+          'allegee',
+          'assassine',
+          'barbelee',
+          'connectee',
+          'massive',
+          'sournoise',
+          'surmesure',
+          'chargeurballesgrappes',
+          'chargeurmunitionsexplosives',
+          'munitionshypervelocite',
+          'munitionsiem',
+          'munitionsnonletales',
+          'munitionssubsoniques',
+          'revetementomega',
+          'excellence',
+          'bourreau',
+          'regularite',
+          'sillonslignesfleches',
+          'boostdegats',
+          'precision'
         ],
+      },
+      status:{
+        attaque:{
+          all:[
+            'lumiere',
+            'aneantirbande',
+            'terrifiant',
+            'demoralisant',
+            'barrage',
+            'choc',
+            'designation',
+            'immobilisation',
+            'lumiere',
+            'parasitage',
+            'soumission',
+            'exposer',
+            'electrifiee',
+            'tirelite',
+          ],
+          bande:[
+            'lumiere',
+            'aneantirbande',
+            'terrifiant',
+            'demoralisant',
+          ],
+          other:[
+            'barrage',
+            'choc',
+            'designation',
+            'immobilisation',
+            'lumiere',
+            'parasitage',
+            'soumission',
+            'exposer',
+            'tirelite',
+          ],
+        },
         degats:[
           'degatscontinus',
         ],
         conditionnel:[
           'choc',
-          'barrage'
+          'electrifiee',
+          'barrage',
         ],
-      }
+        convert:{
+          'electrifiee':'choc 1',
+        }
+      },
+      boolean:[
+        'designation',
+        'soumission',
+        'exposer',
+        'demoralisant',
+        'terrifiant',
+        'tirelite',
+      ],
+      special:[
+        'aneantirbande',
+      ],
     }
  }
 
@@ -966,7 +1089,7 @@ export const KNIGHT = {};
     "description":"KNIGHT.EFFETS.SANSARMURE.Description",
     "double":false
   }
- }
+ };
 
  KNIGHT.effetspecial = {
     "autohit": {
@@ -974,6 +1097,124 @@ export const KNIGHT = {};
       "description":"KNIGHT.EFFETS.AUTOHIT.Description",
       "double":false
     },
+ };
+
+ KNIGHT.effetsadl = {
+  "annihilation": {
+    "label":"KNIGHT.EFFETS.ANNIHILATION.Label",
+    "description":"KNIGHT.EFFETS.ANNIHILATION.Description",
+    "double":false
+  },
+  "boost": {
+    "label":"KNIGHT.EFFETS.BOOST.Label",
+    "description":"KNIGHT.EFFETS.BOOST.Description",
+    "double":true
+  },
+  "cataclysme": {
+    "label":"KNIGHT.EFFETS.CATACLYSME.Label",
+    "description":"KNIGHT.EFFETS.CATACLYSME.Description",
+    "double":false
+  },
+  "chirurgical": {
+    "label":"KNIGHT.EFFETS.CHIRURGICAL.Label",
+    "description":"KNIGHT.EFFETS.CHIRURGICAL.Description",
+    "double":false
+  },
+  "deferlante": {
+    "label":"KNIGHT.EFFETS.DEFERLANTE.Label",
+    "description":"KNIGHT.EFFETS.DEFERLANTE.Description",
+    "double":false
+  },
+  "deviation": {
+    "label":"KNIGHT.EFFETS.DEVIATION.Label",
+    "description":"KNIGHT.EFFETS.DEVIATION.Description",
+    "double":false
+  },
+  "excellence": {
+    "label":"KNIGHT.EFFETS.EXCELLENCE.Label",
+    "description":"KNIGHT.EFFETS.EXCELLENCE.Description",
+    "double":false
+  },
+  "exposer": {
+    "label":"KNIGHT.EFFETS.EXPOSER.Label",
+    "description":"KNIGHT.EFFETS.EXPOSER.Description",
+    "double":false
+  },
+  "fatal": {
+    "label":"KNIGHT.EFFETS.FATAL.Label",
+    "description":"KNIGHT.EFFETS.FATAL.Description",
+    "double":false
+  },
+  "frappeaportee": {
+    "label":"KNIGHT.EFFETS.FRAPPEAPORTEE.Label",
+    "description":"KNIGHT.EFFETS.FRAPPEAPORTEE.Description",
+    "double":false
+  },
+  "hecatombe": {
+    "label":"KNIGHT.EFFETS.HECATOMBE.Label",
+    "description":"KNIGHT.EFFETS.HECATOMBE.Description",
+    "double":false
+  },
+  "mobile": {
+    "label":"KNIGHT.EFFETS.MOBILE.Label",
+    "description":"KNIGHT.EFFETS.MOBILE.Description",
+    "double":false
+  },
+  "nonletal": {
+    "label":"KNIGHT.EFFETS.NONLETAL.Label",
+    "description":"KNIGHT.EFFETS.NONLETAL.Description",
+    "double":false
+  },
+  "pillage": {
+    "label":"KNIGHT.EFFETS.PILLAGE.Label",
+    "description":"KNIGHT.EFFETS.PILLAGE.Description",
+    "double":false
+  },
+  "rempart": {
+    "label":"KNIGHT.EFFETS.REMPART.Label",
+    "description":"KNIGHT.EFFETS.REMPART.Description",
+    "double":false
+  },
+  "retribution": {
+    "label":"KNIGHT.EFFETS.RETRIBUTION.Label",
+    "description":"KNIGHT.EFFETS.RETRIBUTION.Description",
+    "double":false
+  },
+  "sensitif": {
+    "label":"KNIGHT.EFFETS.SENSITIF.Label",
+    "description":"KNIGHT.EFFETS.SENSITIF.Description",
+    "double":false
+  },
+  "sournois": {
+    "label":"KNIGHT.EFFETS.SOURNOIS.Label",
+    "description":"KNIGHT.EFFETS.SOURNOIS.Description",
+    "double":false
+  },
+  "specialiste": {
+    "label":"KNIGHT.EFFETS.SPECIALISTE.Label",
+    "description":"KNIGHT.EFFETS.SPECIALISTE.Description",
+    "double":true
+  },
+  "terrifiant": {
+    "label":"KNIGHT.EFFETS.TERRIFIANT.Label",
+    "description":"KNIGHT.EFFETS.TERRIFIANT.Description",
+    "double":false
+  },
+  "titanicide": {
+    "label":"KNIGHT.EFFETS.TITANICIDE.Label",
+    "description":"KNIGHT.EFFETS.TITANICIDE.Description",
+    "double":false
+  },
+  "tirelite": {
+    "label":"KNIGHT.EFFETS.TIRELITE.Label",
+    "description":"KNIGHT.EFFETS.TIRELITE.Description",
+    "double":false
+  },
+  "unemain": {
+    "label":"KNIGHT.EFFETS.UNEMAIN.Label",
+    "description":"KNIGHT.EFFETS.UNEMAIN.Description",
+    "double":false
+  },
  };
 
  KNIGHT.AMELIORATIONS = {

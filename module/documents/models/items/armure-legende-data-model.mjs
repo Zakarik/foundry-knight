@@ -1874,10 +1874,6 @@ export class ArmureLegendeDataModel extends foundry.abstract.TypeDataModel {
     let substractEspoir = 0;
     let substractFlux = 0;
 
-    console.error(getCapacite[split[1]]);
-    console.error(getCapacite);
-    console.error(split);
-
     switch(split[0]) {
       case 'ascension':
         depenseEnergie = actor?.system?.equipements?.armure?.capacites?.ascension?.energie ?? 0;

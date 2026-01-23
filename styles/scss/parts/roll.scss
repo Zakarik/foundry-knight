@@ -355,11 +355,19 @@
       }
     }
 
+    &.degats,
+    &.violence,
+    &.relanceattaque,
+    &.relancedegats {
+      margin-top:5px;
+    }
+
     &.btnDgts,
     &.btnViolence {
       order:3;
     }
 
+    &.relanceattaque,
     &.relancedegats,
     &.full {
       grid-column: 1 / 3;

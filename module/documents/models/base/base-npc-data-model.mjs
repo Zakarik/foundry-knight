@@ -11,6 +11,7 @@ export class BaseNPCDataModel extends BaseActorDataModel {
 
         const base = super.defineSchema();
         const specific = {
+            origin:new StringField({initial:'anatheme'}),
             type:new StringField({initial:''}),
             histoire:new HTMLField({initial:""}),
             tactique:new HTMLField({initial:""}),
@@ -36,6 +37,7 @@ export class BaseNPCDataModel extends BaseActorDataModel {
                     type:new StringField({ initial: "degats"}),
                 }),
             }),
+            champDeForce:new EmbeddedDataField(DefensesDataModel),
             bouclier:new EmbeddedDataField(DefensesDataModel),
             defense:new EmbeddedDataField(DefensesDataModel),
             reaction:new EmbeddedDataField(DefensesDataModel),
@@ -43,8 +45,8 @@ export class BaseNPCDataModel extends BaseActorDataModel {
             phase2Activate:new BooleanField({initial:false}),
             initiative:new EmbeddedDataField(InitiativeDataModel),
             options:new SchemaField({
-                bouclier:new BooleanField({initial:true, nullable:false}),
-                phase2:new BooleanField({initial:false, nullable:false}),
+              bouclier:new BooleanField({initial:true, nullable:false}),
+              phase2:new BooleanField({initial:false, nullable:false}),
             }),
         };
 

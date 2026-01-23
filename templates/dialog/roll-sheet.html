@@ -164,15 +164,23 @@
                             <div class="bases" style="display:none;">
                                 <label class="longbow_dgts">
                                     <span>{{localize 'KNIGHT.AUTRE.Degats'}}</span>
+                                    {{#if (hasSetting 'adl')}}
+                                    <span class="value">{{degats.dice}}{{localize 'KNIGHT.JETS.Des-short'}}6+{{degats.fixe}}</span>
+                                    {{else}}
                                     <select>
                                         {{selectOptions possibility.degats.list selected=degats.dice}}
                                     </select>
+                                    {{/if}}
                                 </label>
                                 <label class="longbow_violence">
                                     <span>{{localize 'KNIGHT.AUTRE.Violence'}}</span>
+                                    {{#if (hasSetting 'adl')}}
+                                    <span class="value">{{violence.dice}}{{localize 'KNIGHT.JETS.Des-short'}}6+{{violence.fixe}}</span>
+                                    {{else}}
                                     <select>
                                         {{selectOptions possibility.violence.list selected=violence.dice}}
                                     </select>
+                                    {{/if}}
                                 </label>
                                 <label class="longbow_portee">
                                     <span>{{localize 'KNIGHT.PORTEE.Label'}}</span>

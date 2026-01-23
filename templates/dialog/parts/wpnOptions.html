@@ -8,6 +8,20 @@
 </label>
 {{/if}}
 
+{{#if (eq key 'duoselect')}}
+<div class="{{classes}}" data-value="{{value}}" data-id="{{id}}">
+    {{#if label}}<span>{{label}}</span>{{/if}}
+    <select class="select1" data-value="{{select1value}}">
+        {{#if hasBlank}}{{selectOptions list1 selected=selected1 blank='0'}}
+        {{else}}{{selectOptions list1 selected=selected1}}{{/if}}
+    </select>
+    <select class='select2' data-value="{{select2value}}">
+        {{#if hasBlank}}{{selectOptions list2 selected=selected2 blank='0'}}
+        {{else}}{{selectOptions list2 selected=selected2}}{{/if}}
+    </select>
+</div>
+{{/if}}
+
 {{#if (eq key 'btn')}}
     <button type="action" class="{{classes}}" data-value="{{value}}" title="{{title}}">
         {{#unless (eq special 'roll')}}<i></i>{{/unless}}

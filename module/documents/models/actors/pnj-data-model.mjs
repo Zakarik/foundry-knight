@@ -14,6 +14,7 @@ export class PNJDataModel extends BaseNPCDataModel {
 
         const base = super.defineSchema();
         const specific = {
+            origin:new StringField({initial:'humain'}),
             age:new StringField({ initial: ""}),
             archetype:new StringField({ initial: ""}),
             metaarmure:new StringField({ initial: ""}),
@@ -21,7 +22,6 @@ export class PNJDataModel extends BaseNPCDataModel {
             surnom:new StringField({initial:""}),
             section:new StringField({initial:""}),
             hautFait:new StringField({initial:""}),
-            champDeForce:new EmbeddedDataField(DefensesDataModel),
             egide:new EmbeddedDataField(DefensesDataModel),
             configurationActive:new StringField({initial:""}),
             wolf:new ObjectField({}),
@@ -1056,5 +1056,16 @@ export class PNJDataModel extends BaseNPCDataModel {
           grenades: ({ type }) => this.useGrenade(type),
           longbow: () => this.useLongbow(),
         };
+    }
+
+    givePE(energy, autoApply=true) {
+      let path = `system.energie.value`;
+      let value = this.energie.value;
+      let update = {}
+
+      update[path] = `${value+energy}`;
+
+      if(autoApply) this.actor.update(energy);
+      else return update;
     }
 }

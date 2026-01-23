@@ -489,4 +489,15 @@ export class CreatureDataModel extends BaseNPCDataModel {
         armesimprovisees: ({ type, name, num }) => this.useAI(type, name, num),
       };
   }
+
+  givePE(energy, autoApply=true) {
+    let path = `system.energie.value`;
+    let value = this.energie.value;
+    let update = {}
+
+    update[path] = `${value+energy}`;
+
+    if(autoApply) this.actor.update(energy);
+    else return update;
+  }
 }

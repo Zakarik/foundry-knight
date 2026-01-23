@@ -528,6 +528,22 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     return result;
   }
 
+  get allWpnEffects() {
+    const arme = this.niveauActuel.arme;
+    let effects = [];
+
+    if(!arme.has) return effects;
+
+    if(arme.type === 'contact') effects.push(...arme.effets.raw, ...arme.ornementales.raw, ...arme.structurelles.raw);
+    else if(arme.type === 'distance') {
+      effects.push(...arme.effets.raw, ...arme.distance.raw);
+
+      if(arme.optionsmunitions.has) effects.push(...arme.optionsmunitions.liste[arme.optionsmunitions.actuel].raw)
+    }
+
+    return effects;
+  }
+
   qtyMunition() {
     const niveau = this.niveau.value;
     const actuel = this.niveau?.details?.[`n${niveau}`];
@@ -1337,7 +1353,7 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     depenseEnergie += cout;
 
     substractEnergie = value - depenseEnergie;
-    console.error(substractEnergie);
+
     if(substractEnergie < 0) {
       await sendLackMsg(`${'Notenergie'}`);
 

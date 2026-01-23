@@ -1067,4 +1067,19 @@
     Handlebars.registerHelper('isNaN', function (value, defaut) {
         return defaut;
     });
+
+    Handlebars.registerHelper('npcTypeStandardize', function (value) {
+        const listType = [];
+
+        return value.toLowerCase();
+    });
+
+    Handlebars.registerHelper('getCFG', function (str) {
+        const cfg = str.split('.').reduce((obj, key) => {
+            return obj && obj[key] !== undefined ? obj[key] : undefined;
+        }, CONFIG.KNIGHT);
+
+        return cfg;
+    });
+
  };

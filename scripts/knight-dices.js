@@ -11,7 +11,7 @@ Hooks.on('diceSoNiceReady', (dice3d) => {
         'systems/knight/ui/dices/d6s/d6_6.webp'
       ],
     system:"original"
-    });    
+    });
 
     dice3d.addSystem({id:"kaltg",name:"☑ Knight Alternative"},false);
     dice3d.addDicePreset({
@@ -25,7 +25,7 @@ Hooks.on('diceSoNiceReady', (dice3d) => {
         'systems/knight/ui/dices/d6at/d6_6.webp'
       ],
     system:"kaltg"
-    }); 
+    });
 
     dice3d.addSystem({id:"kaltn",name:"☑ Knight Negative"},false);
     dice3d.addDicePreset({
@@ -39,7 +39,7 @@ Hooks.on('diceSoNiceReady', (dice3d) => {
         'systems/knight/ui/dices/d6an/d6_6.webp'
       ],
     system:"kaltn"
-    }); 
+    });
 
     dice3d.addSystem({id:"kaltb",name:"☑ Knight Success Only"},false);
     dice3d.addDicePreset({
@@ -53,7 +53,7 @@ Hooks.on('diceSoNiceReady', (dice3d) => {
         'systems/knight/ui/dices/d6ab/d6_6.webp'
       ],
     system:"kaltb"
-    }); 
+    });
 
     dice3d.addColorset({
       name: 'original',
@@ -101,7 +101,6 @@ Hooks.on('diceSoNiceReady', (dice3d) => {
     background:'#ffffff25',
     outline:'#ffffff25',
     edge:'#ffffff25'
-  },"false");  
+  },"false");
 
 });
-  

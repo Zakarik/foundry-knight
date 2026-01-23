@@ -2424,6 +2424,70 @@ export class KnightSheet extends ActorSheet {
 
       item.system.removeMunition(index, type, munition, pnj, wpn);
     });
+
+    html.find('a.adl-import').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const type = tgt.data('type');
+      const itm = this.actor.items.filter(itm => itm.type === 'arme' && itm.system.type === type);
+      let html = ``;
+
+      if(itm) {
+        html += `<h1>Choisir l'arme à écraser</h1>`
+        html += `<div class='select'>`
+        html += `<select class="typeToImport">`
+        html += `<option value='null'>Importer une nouvelle arme</option>`
+        for(let i of itm) {
+          html += `<option value='${i.id}'>${i.name}</option>`
+        }
+        html += `</select>`;
+        html += `<span>Sera ignoré en cas d'import du Longbow, car les paramètres du Longbow seront remplacés.</span>`;
+        html += `</div>`
+      }
+
+      html += `<textarea class="toImport"></textarea>`;
+
+      const dOptions = {
+        classes: ["knight-import-adl"],
+        height:250
+      };
+      let d = new Dialog({
+        title: game.i18n.localize('KNIGHT.IMPORT.Label'),
+        content:html,
+        buttons: {
+          one: {
+          label: game.i18n.localize('KNIGHT.IMPORT.Importer'),
+          callback: async (html) => {
+            const target = html.find('.typeToImport').val();
+            const data = html.find('.toImport').val();
+            const json = JSON.parse(data);
+            if(json.chassis === game.i18n.localize('KNIGHT.IMPORT.Longbow')) {
+              console.error(json);
+              this.actor.system.dataArmor.system.importLongbow(json);
+            }
+            /*if(target === 'null') {
+              const name = `${game.i18n.localize(`TYPES.Item.${type}`)}`;
+              const itemData = {
+                name: name,
+                type: 'arme',
+                img: getDefaultImg('arme'),
+              };
+              const create = await Item.create(itemData, {parent: this.actor});
+              create.system.importWpn(json)
+            } else {
+              const wpn = await this.actor.items.get(target);
+              wpn.system.importWpn(json)
+            }*/
+              /*try{
+              } catch {
+                ui.notifications.error(game.i18n.localize('KNIGHT.IMPORT.Error'));
+              }*/
+            }
+          }
+        }
+      },
+      dOptions);
+      d.render(true);
+    });
   }
 
   /* -------------------------------------------- */

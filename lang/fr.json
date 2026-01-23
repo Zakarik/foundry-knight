@@ -687,6 +687,119 @@
         "Description":"Touche automatiquement, ne nécessite pas de jet d'attaque. *Effet propre au système.",
         "Description-short":"Touche automatiquement, ne nécessite pas de jet d'attaque. *Effet propre au système."
       },
+      "ANNIHILATION":{
+        "Label":"Annihilation",
+        "Description":"Contre un ennemi de type salopard, l’arme inflige toujours le résultat maximal des dés de dégâts, comme si chacun des dés avait fait 6. Les dés ne sont simplement pas lancés. Si l’arme possède l’effet dispersion, chaque cible adverse/de type salopard touchée subit le maximum de dégâts. Ceci se cumule avec Oblitération si plusieurs cibles sont visées par la même attaque. *Se base sur le type inscrit sur la fiche, doit être 'Salopard' avec cet orthographe précise (les majuscules et minuscules ne comptent pas).",
+        "Description-short":"Si Salopard, l'arme inflige le maximum de dégâts. Si dispersion, l'effet s'applique sur chaque cible de type salopard touchée."
+      },
+      "BOOST":{
+        "Label":"Boost",
+        "Description":"Par action de combat, lorsqu’il attaque, le PJ peut ajoute 1D6 de dégât ou de violence pour chaque PE utilisé pour cet effet, dans la limite de XD6.",
+        "Description-short":"Par action de combat, lorsqu’il attaque, le PJ peut ajoute 1D6 de dégât ou de violence pour chaque PE utilisé pour cet effet, dans la limite de XD6."
+      },
+      "CATACLYSME":{
+        "Label":"Cataclysme",
+        "Description":"Une fois par tour, lorsque le PJ attaque, il peut choisir de cibler tous les ennemis à portée courte de type hostiles et salopards en plus d’une bande éventuellement présente. Toutes les cibles touchées par l’attaque se voient infliger une quantité de dégâts (violence dans le cas de la bande) égale au résultat des dés de violence de son arme.",
+        "Description-short":"Les dés de dégâts sont substitués aux dés violences pour toutes les cibles (Déjà pris en compte en cliquant sur le bouton 'Dégâts')."
+      },
+      "CHIRURGICAL":{
+        "Label":"Chirurgical",
+        "Description":"Lorsque l’arme est utilisée, son utilisateur ajoute sa caractéristique Savoir (+1 point de dégâts par overdrive) (ou Machine divisée par 2, arrondi à l’entier supérieur, pour un PNJ) lorsqu’il détermine les dégâts, en plus d’autres caractéristiques déjà incluses (comme la Force et les éventuels OD de Force). Il n’a pas besoin d’utiliser cette caractéristique dans son combo.",
+        "Description-short":"Ajoute le Savoir (+1 par OD) / Machine divisée par 2, arrondi au supérieur pour un PNJ aux dégâts."
+      },
+      "DEFERLANTE":{
+        "Label":"Déferlante",
+        "Description":"À chaque attaque réussie à la suite sur une même cible, le PJ gagne +3 dégâts fixes cumulables (limité à +24 dégâts). Ce bonus s’accumule tant que le PJ n’est pas interrompu, qu’il ne change pas de cible, qu’il ne subit pas d’effet lui faisant perdre une action (choc, soumission, etc.) ou qu’il ne rate pas son attaque. Si le PJ est interrompu, rate son attaque ou s’il perd l’effet déferlante, le cumul de dégâts de déferlante retombe à zéro. Si un PJ utilise le style ambidextrie sur deux cibles différentes, l’effet est annulé. Si le PJ attaque une même cible avec deux armes possédant l’effet déferlante, le bonus de dégâts fixes se cumule à chaque attaque. Ainsi, durant le même tour, en ambidextrie, le chevalier peut activer deux fois l’effet sur une même cible.",
+        "Description-short":"À chaque attaque réussie à la suite sur une même cible, le PJ gagne +3 dégâts fixes cumulables (limité à +24 dégâts). Ce bonus s’accumule tant que le PJ n’est pas interrompu, qu’il ne change pas de cible, qu’il ne subit pas d’effet lui faisant perdre une action (choc, soumission, etc.) ou qu’il ne rate pas son attaque. Si le PJ est interrompu, rate son attaque ou s’il perd l’effet déferlante, le cumul de dégâts de déferlante retombe à zéro. Si un PJ utilise le style ambidextrie sur deux cibles différentes, l’effet est annulé. Si le PJ attaque une même cible avec deux armes possédant l’effet déferlante, le bonus de dégâts fixes se cumule à chaque attaque. Ainsi, durant le même tour, en ambidextrie, le chevalier peut activer deux fois l’effet sur une même cible."
+      },
+      "DEVIATION":{
+        "Label":"Déviation",
+        "Description":"Si un ennemi cible le PJ au tir, à portée courte ou moyenne, et rate son tir, alors le PJ peut dépenser 4 PE et renvoyer les dégâts de l’attaque à l’assaillant. Le MJ lance les dés de dégâts et ajoute les bonus fixes de dégâts (sans les effets) de l’attaque qui aurait dû blesser le PJ si elle l’avait touché. Cet effet ne fonctionne pas contre les attaques avec l’effet dispersion X, contre les dégâts des bandes et contre tous les effets de zones ou impliquant des éléments de décor (au choix du MJ).",
+        "Description-short":"Si un ennemi cible le PJ au tir, à portée courte ou moyenne, et rate son tir, alors le PJ peut dépenser 4 PE et renvoyer les dégâts de l’attaque à l’assaillant Le MJ lance les dés de dégâts et ajoute les bonus fixes de dégâts (sans les effets) de l’attaque qui aurait dû blesser le PJ si elle l’avait touché. Cet effet ne fonctionne pas contre les attaques avec l’effet dispersion X, contre les dégâts des bandes et contre tous les effets de zones ou impliquant des éléments de décor (au choix du MJ)."
+      },
+      "EXPOSER":{
+        "Label":"Exposer",
+        "Description":"Lorsque le PJ réussit son attaque sur une cible, celle-ci est exposée. La cible est exposée jusqu’au début de son prochain tour. Toute attaque qui devrait infliger des dégâts contre elle reçoit un bonus de 12 dégâts. Une même cible ne peut être exposée plusieurs fois dans un même tour.",
+        "Description-short":"Lorsque le PJ réussit son attaque sur une cible, celle-ci est exposée. La cible est exposée jusqu’au début de son prochain tour. Toute attaque qui devrait infliger des dégâts contre elle reçoit un bonus de 12 dégâts. Une même cible ne peut être exposée plusieurs fois dans un même tour."
+      },
+      "FATAL":{
+        "Label":"Fatal",
+        "Description":"En sacrifiant 2D6 lors de son test d’attaque, si le test d’attaque est un succès, le chevalier met hors combat un hostile humain ciblé à portée de l’attaque. L’effet fatal peut être cumulé pour cibler plusieurs hostiles d’un coup en sacrifiant pour chacun 2D6. Les dés sont sacrifiés en même temps. Si le test est un échec, l’attaque rate tout simplement.",
+        "Description-short":"En sacrifiant 2D6 lors de son test d’attaque, si le test d’attaque est un succès, le chevalier met hors combat un hostile humain ciblé à portée de l’attaque. L’effet fatal peut être cumulé pour cibler plusieurs hostiles d’un coup en sacrifiant pour chacun 2D6. Les dés sont sacrifiés en même temps. Si le test est un échec, l’attaque rate tout simplement."
+      },
+      "FRAPPEAPORTEE":{
+        "Label":"Frappe à portée",
+        "Description":"L’arme peut effectuer une attaque sur une cible située à portée courte de la même façon que si elle se trouvait à portée contact.",
+        "Description-short":"L’arme peut effectuer une attaque sur une cible située à portée courte de la même façon que si elle se trouvait à portée contact."
+      },
+      "HECATOMBE":{
+        "Label":"Hécatombe",
+        "Description":"Lorsqu’un PJ inflige de la violence à une bande, celle-ci subit toujours au minimum la moitié (arrondie à l’inférieur) du total de violence possible sur les dés lancés. Ainsi, si un PJ devrait infligé 24 de violence maximum, car il lance 4 dés, il en infligera toujours au minimum 12 et plus si les résultats sur ses dés de violence sont meilleurs.",
+        "Description-short":"Lorsqu’un PJ inflige de la violence à une bande, celle-ci subit toujours au minimum la moitié (arrondie à l’inférieur) du total de violence possible sur les dés lancés. Ainsi, si un PJ devrait infligé 24 de violence maximum, car il lance 4 dés, il en infligera toujours au minimum 12 et plus si les résultats sur ses dés de violence sont meilleurs."
+      },
+      "MOBILE":{
+        "Label":"Mobile",
+        "Description":"L’arme perd l’effet lourd et les malus qui lui sont attachés. Si elle l’avait, elle conserve l’effet deux mains.",
+        "Description-short":"L’arme perd l’effet lourd et les malus qui lui sont attachés. Si elle l’avait, elle conserve l’effet deux mains."
+      },
+      "NONLETAL":{
+        "Label":"Non létal",
+        "Description":"Si un ennemi atteint 0 PS en subissant les dégâts de cette arme, il ne meurt pas, mais tombe simplement inconscient pour 1D6 heures avant de reprendre ses esprits avec 1 point de santé.",
+        "Description-short":"Si un ennemi atteint 0 PS en subissant les dégâts de cette arme, il ne meurt pas, mais tombe simplement inconscient pour 1D6 heures avant de reprendre ses esprits avec 1 point de santé."
+      },
+      "PILLAGE":{
+        "Label":"Pillage",
+        "Description":"Lorsque le PJ réussit une attaque contre un ou plusieurs PNJ, il récupère 3 PE. Cet effet ne fonctionne qu’une seule fois par attaque. Même avec l’effet dipersion 6, si le personnage réussit à toucher 6 cibles, il ne récupère que 3 PE.",
+        "Description-short":"Lorsque le PJ réussit une attaque contre un ou plusieurs PNJ, il récupère 3 PE. Cet effet ne fonctionne qu’une seule fois par attaque. Même avec l’effet dipersion 6, si le personnage réussit à toucher 6 cibles, il ne récupère que 3 PE."
+      },
+      "REMPART":{
+        "Label":"Rempart",
+        "Description":"Lorsque le PJ réussit à toucher un ennemi de type hostile ou salopard, il peut décider de le provoquer. L’ennemi doit alors attaquer le PJ (et uniquement lui, sauf capacités et effets ciblant plusieurs victimes) en priorité lors de son prochain tour ou fuir, malgré ce qu’indique sa tactique.",
+        "Description-short":"Lorsque le PJ réussit à toucher un ennemi de type hostile ou salopard, il peut décider de le provoquer. L’ennemi doit alors attaquer le PJ (et uniquement lui, sauf capacités et effets ciblant plusieurs victimes) en priorité lors de son prochain tour ou fuir, malgré ce qu’indique sa tactique."
+      },
+      "RETRIBUTION":{
+        "Label":"Rétribution",
+        "Description":"Si un ennemi cible le PJ au contact et rate son attaque, alors le PJ peut dépenser 3 PE et renvoyer les dégâts de l’attaque à l’assaillant. Le MJ lance les dés de dégâts et ajoute les bonus fixes de dégâts (sans les effets) de l’attaque qui aurait dû blesser le PJ si elle l’avait touché. Cet effet ne fonctionne pas contre les attaques avec l’effet dispersion X, contre les dégâts des bandes et contre tous les effets de zone ou impliquant des éléments de décor (au choix du MJ).",
+        "Description-short":"Si un ennemi cible le PJ au contact et rate son attaque, alors le PJ peut dépenser 3 PE et renvoyer les dégâts de l’attaque à l’assaillant. Le MJ lance les dés de dégâts et ajoute les bonus fixes de dégâts (sans les effets) de l’attaque qui aurait dû blesser le PJ si elle l’avait touché. Cet effet ne fonctionne pas contre les attaques avec l’effet dispersion X, contre les dégâts des bandes et contre tous les effets de zone ou impliquant des éléments de décor (au choix du MJ)."
+      },
+      "SENSITIF":{
+        "Label":"Sensitif",
+        "Description":"Lorsque l’arme est utilisée, son utilisateur ajoute sa caractéristique Perception (+1 point de dégâts par overdrive) (ou Masque divisé par 2, arrondi à l’entier supérieur, pour un PNJ) lorsqu’il détermine les dégâts en plus d’autres caractéristiques déjà incluses (comme la Force et les éventuels OD de Force). Il n’a pas besoin d’utiliser cette caractéristique dans son combo.",
+        "Description-short":"Ajoute la Perception (+1 par OD) / Masque divisée par 2, arrondi au supérieur pour un PNJ aux dégâts."
+      },
+      "SOURNOIS":{
+        "Label":"Sournois",
+        "Description":"Même s’il a été repéré par sa cible, le PJ peut faire une attaque surprise s’il est dans son dos ou si un autre chevalier est engagé avec elle. Attention : le PJ ne peut appliquer qu’un seul effet sournois par tour de jeu.",
+        "Description-short":"Même s’il a été repéré par sa cible, le PJ peut faire une attaque surprise s’il est dans son dos ou si un autre chevalier est engagé avec elle. Attention : le PJ ne peut appliquer qu’un seul effet sournois par tour de jeu."
+      },
+      "SPECIALISTE":{
+        "Label":"Spécialiste",
+        "Description":"Lorsque le personnage effectue un jet d’attaque avec l’arme, il peut relancer X dés de son choix. Cette relance de X dé ne peut être effectuée qu’une seule fois par attaque.",
+        "Description-short":"Lorsque le personnage effectue un jet d’attaque avec l’arme, il peut relancer X dés de son choix. Cette relance de X dé ne peut être effectuée qu’une seule fois par attaque.",
+        "Relance":"Relancer",
+        "Choisir":"Choisir les dés à relancer"
+      },
+      "TERRIFIANT":{
+        "Label":"Terrifiant",
+        "Description":"Le débordement de la bande ciblée par l’attaque est divisé (arrondi au supérieur) par deux jusqu’au prochain tour du PJ. Plusieurs effets terrifiant ne peuvent se cumuler sur une même bande. La division s’effectue avant une éventuelle baisse due à des effets comme démoralisant.",
+        "Description-short":"Le débordement de la bande ciblée par l’attaque est divisé (arrondi au supérieur) par deux jusqu’au prochain tour du PJ. Plusieurs effets terrifiant ne peuvent se cumuler sur une même bande. La division s’effectue avant une éventuelle baisse due à des effets comme démoralisant."
+      },
+      "TIRELITE":{
+        "Label":"Tir d'élite",
+        "Description":"Une fois par tour, lorsque le chevalier obtient un exploit en effectuant un tir sur une cible de type nuisible, hostile ou salopard (hors Colosse), s’il passe sa réaction, celle-ci est automatiquement éliminée, ou passe à la phase suivante si elle en a plusieurs.",
+        "Description-short":"Une fois par tour, lorsque le chevalier obtient un exploit en effectuant un tir sur une cible de type nuisible, hostile ou salopard (hors Colosse), s’il passe sa réaction, celle-ci est automatiquement éliminée, ou passe à la phase suivante si elle en a plusieurs."
+      },
+      "TITANICIDE":{
+        "Label":"Titanicide",
+        "Description":"Lorsque le personnage attaque un ennemi possédant de la résilience, s’il lui inflige des dégâts, il peut dépenser 3 PE à chaque pour faire baisser la résilence de 15.",
+        "Description-short":"Lorsque le personnage attaque un ennemi possédant de la résilience, s’il lui inflige des dégâts, il peut dépenser 3 PE à chaque pour faire baisser la résilence de 15.",
+        "Resilience":"Appliqué sur la résilience"
+      },
+      "UNEMAIN":{
+        "Label":"Une main",
+        "Description":"Supprime simplement l’effet deux mains.",
+        "Description-short":"Supprime simplement l’effet deux mains."
+      },
       "ANEANTIRBANDE": {
         "Label":"Aneantir une bande",
         "Description":"Élimine une bande ennemie d’une cohésion égale ou inférieure à 300.",
@@ -706,7 +819,7 @@
       "ANTIANATHEME": {
         "Label":"Anti-Anathème",
         "Description":"L'arme ignore purement et simplement la valeur de bouclier et de _Chair_ exceptionnelle (qu'elle soit majeure ou mineure) de la créature de l'Anathème prise pour cible. Les PA, puis la santé de la cible sont directement touchés. Lorsqu'une arme de ce type touche une bande de créatures de l'Anathème, ses scores de bouclier et de Chair exceptionnelle sont ignorés.",
-        "Description-short":"Ignore le bouclier et la Chair exceptionnelle majeure et mineure."
+        "Description-short":"Ignore le bouclier et la Chair exceptionnelle majeure et mineure des créatures de l'anathème."
       },
       "ANTIVEHICULE": {
         "Label":"Anti-Véhicule",
@@ -773,12 +886,13 @@
       "CHOC": {
         "Label":"Choc",
         "Description":"Si le jet pour toucher avec l'arme est supérieur au score de l'aspect _Chair_ (divisé par 2 pour un PNJ) de la cible, celle-ci perd ses X prochaines actions. Cet effet ne fonctionne pas contre les bandes. Attention, l'effet ne peut pas se cumuler alors que la cible est déjà sous l'effet _choc_. Dans certaines circonstances, l'effet _choc_ peut être considéré comme automatique et ne prend donc pas en compte le score de l'aspect _Chair_. Lorsque l'effet _choc_ est censé s'appliquer automatiquement, il faut tout de même que le personnage touche sa cible. En revanche, son résultat n'a pas besoin d'égaler l'aspect _Chair_ divisé par deux de la cible pour que l'effet fonctionne. En fonction des circonstances, le MJ peut décider qu'un personnage sous l'effet choc subit un malus de 2 à sa _réaction_ et à sa _défense_. L'effet ne se cumule pas avec _parasitage X_.",
-        "Description-short":"Si le nombre de succès est supérieur à l'aspect Chair (ou Chair / 2 pour un PNJ), la cible perd ses X prochaines actions."
+        "Description-short":"Si le nombre de succès est supérieur à l'aspect Chair (ou Chair / 2 pour un PNJ), la cible perd ses X prochaines actions.",
+        "Auto":"Choc automatique"
       },
       "CONVICTION": {
         "Label":"Conviction",
-        "Description":"Quand vainc un ennemi, reçoit 1PEs (max 1 par attaque), 3PEs si vainc une bande.",
-        "Description-short":"Quand vainc un ennemi, reçoit 1PEs (max 1 par attaque), 3PEs si vainc une bande."
+        "Description":"Lorsqu’un PJ élimine une créature de l’Anathème ennemie, il gagne 1 PES pour un hostile ou un salopard, 2 PES pour une bande non humaine, 3 PES pour un patron, un colosse ou un patron-colosse.",
+        "Description-short":"Lorsqu’un PJ élimine une créature de l’Anathème ennemie, il gagne 1 PES pour un hostile ou un salopard, 2 PES pour une bande non humaine, 3 PES pour un patron, un colosse ou un patron-colosse."
       },
       "DEFENSE": {
         "Label":"Défense",
@@ -1155,7 +1269,8 @@
       "ELECTRIFIEE":{
         "Label":"Électrifiée",
         "Description":"L’arme gagne l’effet choc 1.\r\nSi le jet pour toucher avec l'arme est supérieur au score de l'aspect _Chair_ (divisé par 2 pour un PNJ) de la cible, celle-ci perd sa prochaine action. Cet effet ne fonctionne pas contre les bandes. Attention, l'effet ne peut pas se cumuler alors que la cible est déjà sous l'effet _choc_. Dans certaines circonstances, l'effet _choc_ peut être considéré comme automatique et ne prend donc pas en compte le score de l'aspect _Chair_. Lorsque l'effet _choc_ est censé s'appliquer automatiquement, il faut tout de même que le personnage touche sa cible. En revanche, son résultat n'a pas besoin d'égaler l'aspect _Chair_ divisé par deux de la cible pour que l'effet fonctionne. En fonction des circonstances, le MJ peut décider qu'un personnage sous l'effet choc subit un malus de 2 à sa _réaction_ et à sa _défense_. L'effet ne se cumule pas avec _parasitage X_.",
-        "Description-short":"Si le nombre de succès est supérieur à l'aspect Chair (ou Chair / 2 pour un PNJ), la cible perd sa prochaines actions."
+        "Description-short":"Si le nombre de succès est supérieur à l'aspect Chair (ou Chair / 2 pour un PNJ), la cible perd sa prochaines actions.",
+        "Auto":"Électrifiée Automatique"
       },
       "FAUCHEUSEGRAVEE":{
         "Label":"Faucheuse gravée",
@@ -1637,6 +1752,8 @@
             "Label": "Fusil de précision Longbow",
             "Description":"La méta-armure Ranger et le fusil Longbow ne sont qu’une seule machinerie qui concilie la puissance et la précision d’un fusil anti-matériel avec la polyvalence nécessaire à celui qui évolue seul dans les territoires de l’Anathème. Le fusil Longbow est sans doute l’arme principale d’un chevalier en armure Ranger. Le fusil de précision Longbow peut être racké. Il compte dans la limite des armes contenues dans le rack de la méta-armure. De plus, au même titre qu’une autre arme de tir, il peut recevoir des améliorations d’armes, mais dans la limite de deux (et seulement deux) maximum, avec les mêmes restrictions que les armes possédant l’effet lourd.",
             "Cout":"Coût",
+            "Dice":"Nombre de dés",
+            "Fixe":"Bonus fixe",
             "EFFETS":{
               "Cout":"Coût des effets",
               "Base":"Effets de base",
@@ -2352,6 +2469,10 @@
       }
     },
     "AUTRE": {
+      "Inconscient":"Inconscient pour {time}",
+      "RecuperationEnergie":"Récupération de PE",
+      "Heure":"heure",
+      "Heures":"heures",
       "And": "et",
       "Label":"Autre",
       "Standard":"Standard",
@@ -2571,6 +2692,7 @@
       "LabelEnnemi":"Type ennemi",
       "Humain":"Humain",
       "Anatheme":"Anathème",
+      "Nuisible":"Hostile",
       "Hostile":"Hostile",
       "Salopard":"Salopard",
       "Patron":"Patron",
@@ -2645,6 +2767,10 @@
       "ADVCAMPAIGN":{
         "Label":"Activer les avantages propre à la campagne",
         "Hint":"Donne des options supplémentaires pour les avantages, en permettant d'activer Dévaster l'Anathème / Equilibrer la Balance / Bourreau des ténèbres."
+      },
+      "ADL":{
+        "Label":"Utiliser l'Arsenal de Légende",
+        "Hint":"Active les boutons permettant d'importer depuis l'Arsenal de Légende du site Knight JDR Système et modifie le longbow pour correspondre à l'ADL."
       }
     },
     "GM":{
@@ -2899,7 +3025,8 @@
     "IMPORT":{
       "Label":"Import depuis KNPC Generator",
       "Error":"Erreur d'importation, vérifiez le texte et réessayez.",
-      "Importer":"Importer le ou les créatures"
+      "Importer":"Importer le ou les créatures",
+      "Longbow":"Fusil de précision polymorphe polycalibre Longbow"
     }
   }
 }

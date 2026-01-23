@@ -82,5 +82,24 @@
                 }
             }
         }
+
+        &.data {
+            select {
+                &.origin {
+                    border:0px;
+                    width:100%;
+                    text-align: center;
+                    color:$white;
+                    font-variant: small-caps;
+                    background: transparent;
+                    border-bottom: 1px solid $white;
+                    border-radius: 0px;
+
+                    option {
+                        background:$black;
+                    }
+                }
+            }
+        }
     }
 }

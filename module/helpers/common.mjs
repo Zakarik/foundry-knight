@@ -18,8 +18,9 @@ export function getAllEffects() {
   const merge3 = foundry.utils.mergeObject(merge2, CONFIG.KNIGHT.AMELIORATIONS.ornementales);
   const merge4 = foundry.utils.mergeObject(merge3, CONFIG.KNIGHT.AMELIORATIONS.structurelles);
   const merge5 = foundry.utils.mergeObject(merge4, CONFIG.KNIGHT.effetspecial);
+  const merge6 = foundry.utils.mergeObject(merge5, CONFIG.KNIGHT.effetsadl);
 
-  return merge4;
+  return merge6;
 }
 
 export function SortByLabel(x, y){
@@ -5200,9 +5201,6 @@ export async function createSheet(actor, type, name, data, item, imgAvatar, imgT
   };
 
   if(actor.folder) createData.folder = actor.folder.id
-  /*const res = await game.knight.knightRPC.executeAsGM("CREATE_ACTOR", createData, { timeout: 10000 });
-  ui.notifications.info(`Actor créé: ${res.id}`);
-  console.error("T3")*/
 
   const { id, uuid } = await SOCKET.executeAsGM('createSubActor', createData);
   const newActor = await fromUuid(uuid);
@@ -5804,8 +5802,11 @@ export async function rollDamage(message, eventOrOptions) {
       surprise:flags.surprise,
   }, false);
 
+  weapon.rollType = 'damage';
+
   let addFlags = {
       flavor:flags.flavor,
+      addDmgTags:flags.addDmgTags,
       total:flags.content[index].total,
       targets:flags.content[index].targets,
       attaque:message.rolls,
@@ -5821,15 +5822,24 @@ export async function rollDamage(message, eventOrOptions) {
       secondWpn:flags.secondWpn,
   };
 
+  const forbiddenClasses = [
+    "applyAttaqueEffects",
+    "autoStatus",
+  ];
+
   let data = {
       total:flags.content[index].total,
       targets:flags.content[index].targets.map(target => {
-          if(target?.btn) target.btn = target.btn.filter(itm => !itm.classes.includes('applyAttaqueEffects'))
+          if(target?.btn) target.btn = target.btn.filter(
+            itm => !forbiddenClasses.some(cls => itm.classes.includes(cls))
+          )
           return target;
       }),
       attaque:message.rolls,
       flags:addFlags,
   };
+
+  console.error(data);
 
   if(raw.includes('tirenrafale')) {
       data.content = {
@@ -5838,6 +5848,115 @@ export async function rollDamage(message, eventOrOptions) {
   }
 
   await roll.doRollDamage(data);
+}
+
+export async function rollDeviation(message, eventOrOptions) {
+  let msg = message;
+  let ev = eventOrOptions;
+
+  const tgt = $(ev.currentTarget);
+  const tokenId = tgt.data('id');
+  const other = Number(tgt.data('other'));
+  const token = canvas?.tokens?.get(tokenId);
+
+  if(!token) return;
+
+  const actor = token.actor;
+  let flags = msg.flags.knight;
+  let wpn = flags.weapon;
+
+  if(other > 0) {
+    let remplaceEnergie = actor?.isRemplaceEnergie ? true : false;
+    const valueToUse = remplaceEnergie ? actor.system.espoir.value : actor.system.energie.value;
+
+    if(valueToUse > 0) {
+      actor.update({[`system.${remplaceEnergie ? 'espoir' : 'energie'}.value`]:valueToUse-other});
+
+      flags.addDmgTags = [{
+        label:`${game.i18n.localize(`KNIGHT.JETS.${remplaceEnergie ? 'Depenseespoir' : 'Depenseenergie'}`)} : ${other}`,
+        key:`${remplaceEnergie ? 'depenseespoir' : 'depenseenergie'} : ${other}`,
+      }];
+    } else {
+
+      const payload = {
+        flavor: `${game.i18n.localize("KNIGHT.EFFETS.DEVIATION.Label")}`,
+        main: { total: `${game.i18n.localize(`KNIGHT.JETS.${remplaceEnergie ? 'Notespoir' : 'Notenergie'}`)}` }
+      };
+
+      const data = {
+        user: game.user.id,
+        speaker: {
+          actor: actor?.id ?? null,
+          token: tokenId,
+          alias: actor?.name ?? null,
+          scene: actor?.token?.parent?.id ?? null
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
+        sound: CONFIG.sounds.dice
+      };
+
+      const rMode = game.settings.get("core", "rollMode");
+      const msgData = ChatMessage.applyRollMode(data, rMode);
+      await ChatMessage.create(msgData, { rollMode: rMode });
+
+      return;
+    }
+  }
+
+  flags.content = [{
+      targets:[{
+          id:msg.speaker.token,
+          name:flags.actor.name,
+      }]
+  }]
+
+  message.speaker = {
+      actor: actor?.id ?? null,
+      token: tokenId,
+      alias: actor?.name ?? null,
+      scene: actor?.token?.parent?.id ?? null
+  };
+
+  flags.flavor += ` - ${game.i18n.localize('KNIGHT.EFFETS.DEVIATION.Label')}`;
+
+  wpn.eff1 = {
+      value:0,
+      raw:[],
+      custom:[],
+  };
+
+  wpn.eff2 = {
+      value:0,
+      raw:[],
+      custom:[],
+  };
+
+  wpn.effets = {
+      raw:[],
+      custom:[],
+  };
+
+  wpn.ornementales = {
+      raw:[],
+      custom:[],
+  };
+
+  wpn.structurelles = {
+      raw:[],
+      custom:[],
+  };
+
+  wpn.distance = {
+      raw:[],
+      custom:[],
+  };
+
+  wpn.espoir = 0;
+  wpn.type = 'distance';
+
+
+  await rollDamage(msg, ev);
 }
 
 export async function rollViolence(message, eventOrOptions) {
@@ -5857,6 +5976,8 @@ export async function rollViolence(message, eventOrOptions) {
   const flags = message.flags.knight;
   const weapon = flags.weapon;
   const actor = message.speaker.token ? canvas.tokens.get(message.speaker.token).actor : game.actors.get(message.speaker.actor);
+
+  weapon.rollType = 'violence';
 
   let addFlags = {
       flavor:flags.flavor,
@@ -5881,7 +6002,10 @@ export async function rollViolence(message, eventOrOptions) {
 
   await roll.doRollViolence({
       total:flags.content[index].total,
-      targets:flags.content[index].targets,
+      targets:flags.content[index].targets.map(target => {
+        if(target?.btn) target.btn = target.btn.filter(itm => !itm.classes.includes('applyAttaqueEffects'))
+        return target;
+      }),
       attaque:message.rolls,
       flags:addFlags,
   });
@@ -5985,4 +6109,63 @@ export function getFinalWeaponData(style, wpn) {
   result.violence.dice = Math.max(0, result.violence.dice);
 
   return result;
+}
+
+export function convertJsonEffects(e) {
+  const label = e.name;
+  const value = e.value;
+
+  let result = '';
+
+  const normalize = (str) => {
+    return str
+      .toLowerCase()
+      .normalize("NFD")                 // sépare lettres + accents
+      .replace(/[\u0300-\u036f]/g, "")  // supprime les accents
+      .replace(/[\s\-()\[\]]/g, "");    // supprime espaces, tirets, parenthèses, crochets
+  };
+
+  switch(label) {
+    case "Assistance à l'attaque":
+      result = label.replace(" à l'", '');
+      result = normalize(result);
+      break;
+
+    case "Tir d'élite":
+      result = label.replace("Tir d'élite", 'tirelite');
+      result = normalize(result);
+      break;
+
+    case "Ignore cdf":
+      result = label.replace(" cdf", 'champdeforce');
+      result = normalize(result);
+      break;
+
+    default:
+      if(label.includes(' X')) {
+        result = label.replace(' X', '');
+        result = normalize(result);
+
+        result += ` ${value ? value : 1}`;
+
+      } else result = normalize(label);
+      break;
+  }
+
+  return result;
+}
+
+export function divideDice(roll) {
+    const dices = roll.dice;
+    let total = 0;
+
+    for(let d of dices) {
+        let num = Math.floor(d.results.filter(a => a.active).length/2);
+
+        for(let t = 0;t < num;t++) {
+            total += Number(d?.results?.[t]?.result ?? 0);
+        }
+    }
+
+    return total;
 }

@@ -280,4 +280,15 @@ export class VehiculeDataModel extends BaseActorDataModel {
       roll.setWeapon(weapon);
       await roll.doRollDamage(data, addFlags);
   }
+
+  givePE(energy, autoApply=true) {
+    let path = `system.energie.value`;
+    let value = this.energie.value;
+    let update = {}
+
+    update[path] = `${value+energy}`;
+
+    if(autoApply) this.actor.update(energy);
+    else return update;
+  }
 }

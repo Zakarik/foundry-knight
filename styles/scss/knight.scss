@@ -34,8 +34,8 @@ $imgs:
 
 .knight,
 .ia,
-.creature,
 .pnj,
+.creature,
 .bande,
 .vehicule,
 .mechaarmure {
@@ -92,7 +92,6 @@ $imgs:
         flex-wrap: wrap;
         justify-content: space-between;
         align-content:flex-start;
-        height:160px;
         width:100%;
         flex:none;
 
@@ -239,6 +238,29 @@ $imgs:
   }
 }
 
+.pnj {
+  header.sheet-header {
+    .profile-img {
+      width:180px;
+      min-width: 180px;
+      height:215px;
+      border-color:$white;
+      background:$lightBlack;
+      margin-right:0px;
+      object-fit: contain;
+    }
+
+    .headerData {
+      display:flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      height:215px;
+      width:calc(100% - 180px);
+      flex:none;
+    }
+  }
+}
+
 @import "parts/knight";
 @import "parts/ia";
 @import "parts/pnj";
@@ -302,6 +324,81 @@ li.chat-message {
       textarea {
         border-radius: 0px;
         height: calc(100% - 27px);
+      }
+    }
+
+    div.dialog-buttons {
+      flex: 0;
+
+      button {
+        height: 28px;
+        line-height: 26px;
+        margin: 0px;
+        min-width: max-content;
+        white-space: nowrap;
+        background-color: $lightGrey;
+        border-radius: 0px;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
+      }
+    }
+  }
+}
+
+.knight-import-adl {
+  section.window-content {
+    div.dialog-content {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      align-content: flex-start;
+
+      h1 {
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
+        text-align: center;
+        font-size: 18px;
+        border: 0px;
+        font-variant: small-caps;
+        font-weight: bold;
+      }
+
+      select {
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
+        font-variant: small-caps;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 0px;
+        border-bottom: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        border-color: black;
+      }
+
+      div.select {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: 2px;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+
+        span {
+          padding-left: 5px;
+          padding-right: 5px;
+          font-variant: small-caps;
+          text-align: justify;
+        }
+      }
+
+      textarea {
+        border-radius: 0px;
+        height: 90px;
       }
     }
 

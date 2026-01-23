@@ -83,13 +83,13 @@
             {{/each}}
             {{#if isValue}}
                 <div class="btn">
-                    <button type="action" class="setDegats" data-id="{{id}}" data-dmg="{{value}}" data-dmgType="{{#if ../damage}}damage{{/if}}{{#if ../violence}}violence{{/if}}{{#if ../debordement}}debordement{{/if}}" data-effects="{{#each ../../detailledEffets}}{{key}}{{#if value}} {{value}}{{/if}}{{#unless @last}},{{/unless}}{{/each}}{{#each ../../effets}},{{key}}{{#if value}} {{value}}{{/if}}{{/each}}">{{#if ../damage}}{{localize 'KNIGHT.JETS.DEGATSAUTO.SetDamages'}}{{/if}}{{#if ../violence}}{{localize 'KNIGHT.JETS.DEGATSAUTO.SetViolence'}}{{/if}}{{#if ../debordement}}{{localize 'KNIGHT.JETS.DEGATSAUTO.SetDebordement'}}{{/if}}</button>
+                    <button type="action" class="setDegats" data-id="{{id}}" data-dmg="{{value}}" data-dmgType="{{#if ../damage}}damage{{/if}}{{#if ../violence}}violence{{/if}}{{#if ../debordement}}debordement{{/if}}">{{#if ../damage}}{{localize 'KNIGHT.JETS.DEGATSAUTO.SetDamages'}}{{/if}}{{#if ../violence}}{{localize 'KNIGHT.JETS.DEGATSAUTO.SetViolence'}}{{/if}}{{#if ../debordement}}{{localize 'KNIGHT.JETS.DEGATSAUTO.SetDebordement'}}{{/if}}</button>
                 </div>
             {{/if}}
             {{#if btn}}
                 <div class="btn">
                     {{#each btn}}
-                        <button type="action" class="{{classes}}" data-id="{{id}}">{{label}}</button>
+                        <button type="action" class="{{classes}}" data-id="{{id}}" data-other="{{other}}" data-tooltip="{{tooltip}}">{{label}}</button>
                     {{/each}}
                 </div>
             {{/if}}
@@ -103,11 +103,11 @@
         {{/each}}
 
         {{#if targets}}
-        {{#unless weapon}}
-        <div class="onlyGm btn" style="width: 200%;">
-            <button type="action" class="setDegatsAllTargets" data-alltargets="{{#each targets}}{{id}}-{{value}}{{#unless @last}},{{/unless}}{{/each}}" data-dmgType="{{#if damage}}damage{{/if}}{{#if violence}}violence{{/if}}{{#if debordement}}debordement{{/if}}" data-effects="{{#each ../detailledEffets}}{{key}}{{#if value}} {{value}}{{/if}}{{#unless @last}},{{/unless}}{{/each}}{{#each ../effets}},{{key}}{{#if value}} {{value}}{{/if}}{{/each}}">{{#if damage}}{{localize 'KNIGHT.JETS.DEGATSAUTO.DamageForAllTargets'}}{{/if}}{{#if violence}}{{localize 'KNIGHT.JETS.DEGATSAUTO.ViolenceForAllTargets'}}{{/if}}{{#if debordement}}{{localize 'KNIGHT.JETS.DEGATSAUTO.DebordementForAllTargets'}}{{/if}}</button>
-        </div>
-        {{/unless}}
+            {{#unless weapon}}
+                <div class="onlyGm btn" style="width: 200%;">
+                    <button type="action" class="setDegatsAllTargets" data-alltargets="{{#each targets}}{{id}}-{{value}}{{#unless @last}},{{/unless}}{{/each}}" data-dmgType="{{#if damage}}damage{{/if}}{{#if violence}}violence{{/if}}{{#if debordement}}debordement{{/if}}">{{#if damage}}{{localize 'KNIGHT.JETS.DEGATSAUTO.DamageForAllTargets'}}{{/if}}{{#if violence}}{{localize 'KNIGHT.JETS.DEGATSAUTO.ViolenceForAllTargets'}}{{/if}}{{#if debordement}}{{localize 'KNIGHT.JETS.DEGATSAUTO.DebordementForAllTargets'}}{{/if}}</button>
+                </div>
+            {{/unless}}
         {{/if}}
         {{#if weapon}}
         <div class="btn">
@@ -119,6 +119,12 @@
         {{#if tirenrafale}}
         <div class="btn">
             <button type="action" class="relancedegats" title="{{localize 'KNIGHT.EFFETS.TIRENRAFALE.Relance'}}">{{localize 'KNIGHT.EFFETS.TIRENRAFALE.Label'}}</button>
+        </div>
+        {{/if}}
+
+        {{#if ../specialiste}}
+        <div class="btn">
+            <button type="action" class="relanceattaque" data-limit="{{../specialiste}}" title="{{localize 'KNIGHT.EFFETS.SPECIALISTE.Relance'}}">{{localize 'KNIGHT.EFFETS.SPECIALISTE.Label'}}</button>
         </div>
         {{/if}}
 
@@ -176,7 +182,7 @@
         {{#if btn}}
             <div class="btn">
                 {{#each btn}}
-                    <button type="action" class="{{classes}}" data-id="{{id}}">{{label}}</button>
+                    <button type="action" class="{{classes}}" data-id="{{id}}" data-other="{{other}}" data-tooltip="{{tooltip}}">{{label}}</button>
                 {{/each}}
             </div>
         {{/if}}
