@@ -1795,7 +1795,7 @@ export default class HooksKnight {
             const flags = message.flags.knight;
             const targets = flags.targets;
             const findTarget = targets.find(t => t.id === tokenId);
-            const arrayOfEffects = [...findTarget.detailledEffets, ...findTarget.listEffets];
+            const arrayOfEffects = [...findTarget?.detailledEffets ?? [], ...findTarget?.listEffets ?? []];
             const options = flags.weapon.options;
             const effects = arrayOfEffects.reduce((acc, item) => {
                 const key = item.key;
@@ -1853,7 +1853,7 @@ export default class HooksKnight {
                 const dmg = targetsIdsDmgs[i].split('-')[1];
 
                 const findTarget = targets.find(t => t.id === tokenId);
-                const arrayOfEffects = [...findTarget.detailledEffets, ...findTarget.listEffets];
+                const arrayOfEffects = [...findTarget?.detailledEffets ?? [], ...findTarget?.listEffets ?? []];
                 const options = flags.weapon.options;
                 const effects = arrayOfEffects.reduce((acc, item) => {
                     const key = item.key;
