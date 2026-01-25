@@ -1946,6 +1946,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
       case 'puppet':
         depenseEnergie = getCapacite.energie.ordre + (actor?.system?.equipements?.armure?.capacites?.puppet?.cible ?? 0 * getCapacite.energie.supplementaire);
+        if(getCapacite?.flux?.has) depenseFlux = getCapacite.flux.ordre + (actor?.system?.equipements?.armure?.capacites?.puppet?.cible ?? 0 * getCapacite.flux.supplementaire);
         break;
 
       case 'illumination':
