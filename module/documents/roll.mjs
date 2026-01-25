@@ -903,6 +903,8 @@ export class RollKnight {
         }]});
         if(handleDamage.targets) content.targets = handleDamage.targets;
 
+        console.error(content)
+
         main.content.push(content);
         let chatData = {
             user:game.user.id,
@@ -3112,7 +3114,10 @@ export class RollKnight {
 
         for(let t of targets) {
             t.effets = [];
+            t.listEffets = effets
+                .map(e => ({ ...e }));
             t.detailledEffets = detailledEffets.map(e => ({ ...e }));
+
             const valueBonus = Object.values(bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
             let total = roll.total+valueBonus;
             const actor = canvas.tokens.get(t.id).actor;
@@ -3172,7 +3177,6 @@ export class RollKnight {
                 }
             }
 
-            console.error(targetDetailledEffets);
             //tous les autres
             for(let d of targetDetailledEffets) {
                 switch(d.simple) {
@@ -3275,6 +3279,8 @@ export class RollKnight {
                     });
                 }
             }
+
+            console.error(t);
 
             t.isValue = true;
             t.value = total;
@@ -3800,6 +3806,8 @@ export class RollKnight {
 
         for(let t of targets) {
             t.effets = [];
+            t.listEffets = effets
+                .map(e => ({ ...e }));
             t.detailledEffets = detailledEffets.map(e => ({ ...e }));
             const targetDetailledEffets = t.detailledEffets;
             const tenebricide = targetDetailledEffets.find(d => d.simple === 'tenebricide');

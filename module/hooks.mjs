@@ -1795,14 +1795,22 @@ export default class HooksKnight {
             const flags = message.flags.knight;
             const targets = flags.targets;
             const findTarget = targets.find(t => t.id === tokenId);
-            const arrayOfEffects = [...findTarget.detailledEffets, ...findTarget.effets];
+            const arrayOfEffects = [...findTarget.detailledEffets, ...findTarget.listEffets];
+            const options = flags.weapon.options;
             const effects = arrayOfEffects.reduce((acc, item) => {
-                const [key, value] = item.key.split(" ");
+                const key = item.key;
+                const value = Number(item.value);
+                const find = options.find(o => o.classes.includes(key));
 
-                acc[key] = value ?? true;
+                if(find){
+                    if(find.active) acc[key] = value ?? find.active;
+                    else acc[key] = false;
+                }
+                else acc[key] = value ? value : true;
 
                 return acc;
               }, {});
+
             /*tgt
                 .data('effects')
                 ?.split(',')
@@ -1845,14 +1853,21 @@ export default class HooksKnight {
                 const dmg = targetsIdsDmgs[i].split('-')[1];
 
                 const findTarget = targets.find(t => t.id === tokenId);
-                const arrayOfEffects = [...findTarget.detailledEffets, ...findTarget.effets];
+                const arrayOfEffects = [...findTarget.detailledEffets, ...findTarget.listEffets];
+                const options = flags.weapon.options;
                 const effects = arrayOfEffects.reduce((acc, item) => {
-                    const [key, value] = item.key.split(" ");
+                    const key = item.key;
+                    const value = Number(item.value);
+                    const find = options.find(o => o.classes.includes(key));
 
-                    acc[key] = value ?? true;
+                    if(find){
+                        if(find.active) acc[key] = value ?? find.active;
+                        else acc[key] = false;
+                    }
+                    else acc[key] = value ? value : true;
 
                     return acc;
-                  }, {});
+                }, {});
 
                 // Do damages
                 await doDamages({tokenId, dmg, effects, dmgType, message});
