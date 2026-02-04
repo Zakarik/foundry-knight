@@ -6,6 +6,7 @@ import {
   capitalizeFirstLetter,
   confirmationDialog,
   convertJsonEffects,
+  getAllEffects,
 } from "../../../helpers/common.mjs";
 
 import PatchBuilder from "../../../utils/patchBuilder.mjs";
@@ -223,6 +224,65 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     return Array.from({ length: n }, (_, i) => (i + 1) * 10);
   }
 
+  async toggleEffect(index, type) {
+    const split = type.split('_');
+    const capacite = split[0];
+    const subcapacite = split[1];
+    const dataCapacite = this.getDataCapacite(capacite, subcapacite);
+    let data = dataCapacite.data;
+    let activable = undefined;
+    let actuel = undefined;
+    let name = dataCapacite.name;
+    let isTwo = dataCapacite.path.includes('chargeur2');
+
+
+    activable = data?.activable ?? undefined;
+    actuel = isTwo ? activable[index]?.active2 ?? false : activable[index]?.active ?? false;
+
+    if(!data) return;
+    const armure = this.item;
+
+    if(!actuel) {
+      const depense = await this.usePEActivateEffets(armure, name, activable[index]);
+
+      if(!depense) return;
+    }
+
+    if(isTwo) activable[index].active2 = !actuel;
+    else activable[index].active = !actuel;
+
+    let path = dataCapacite.path.split('.');
+    path.pop();
+    path.push('activable');
+    path = path.join('.');
+
+    this.item.update({[path]:activable});
+
+    const allLabels = getAllEffects();
+
+    const splitEffect = activable[index].key.split(" ");
+    const secondSplitEffect = splitEffect[0].split("<space>");
+    const nameEffect = game.i18n.localize(allLabels[secondSplitEffect[0]].label);
+    const otherEffect = Object.values(secondSplitEffect);
+    const subEffect = splitEffect[1];
+    let complet = nameEffect;
+
+    if(otherEffect.length > 1) {
+      otherEffect.splice(0, 1);
+      complet += ` ${otherEffect.join(" ").replace("<space>", " ")}`;
+    }
+
+    if(subEffect != undefined) { complet += " "+subEffect; }
+
+    const exec = new game.knight.RollKnight(this.actor,
+    {
+    name:name,
+    }).sendMessage({
+        text:!actuel ? `${complet} : ${game.i18n.localize('KNIGHT.AUTRE.Activer')}` : `${complet} : ${game.i18n.localize('KNIGHT.AUTRE.Desactiver')}`,
+        classes:'important',
+    });
+  }
+
   qtyMunition(type, weapon) {
     const capacite = type
     .replaceAll(/borealis[DC]/g, 'borealis')
@@ -234,7 +294,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
     switch(capacite) {
       case 'borealis':
-        const mainStd = this.#getDataCapacite(capacite);
+        const mainStd = this.getDataCapacite(capacite);
         const dataStd = mainStd.data;
         const findChargeurStd = dataStd.raw.find(itm => itm.includes('chargeur'));
 
@@ -250,7 +310,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       case 'salve':
       case 'vague':
       case 'rayon':
-        const mainCea = this.#getDataCapacite('cea', capacite);
+        const mainCea = this.getDataCapacite('cea', capacite);
         const dataCea = mainCea.data;
         const findChargeurCea = dataCea.raw.find(itm => itm.includes('chargeur'));
 
@@ -266,7 +326,12 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       case 'griffe':
       case 'lame':
       case 'canon':
-        const mainMorph = this.#getDataCapacite('morph', capacite);
+      case 'griffe2':
+      case 'lame2':
+      case 'canon2':
+        let isTwo = capacite.includes('2');
+
+        const mainMorph = this.getDataCapacite('morph', capacite);
         const dataMorph = mainMorph.data;
         const findChargeurMorph = dataMorph.raw.find(itm => itm.includes('chargeur'));
 
@@ -274,7 +339,10 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
         const chargeurMorphMax = parseInt(findChargeurMorph.split(' ')[1]);
 
-        let chargeurMorph = dataMorph?.chargeur !== null && dataMorph?.chargeur !== undefined ? parseInt(dataMorph.chargeur) : chargeurMorphMax;
+        let chargeurMorph = 0;
+
+        if(isTwo) chargeurMorph = dataMorph?.chargeur2 !== null && dataMorph?.chargeur2 !== undefined ? parseInt(dataMorph.chargeur2) : chargeurMorphMax;
+        else  chargeurMorph = dataMorph?.chargeur !== null && dataMorph?.chargeur !== undefined ? parseInt(dataMorph.chargeur) : chargeurMorphMax;
 
         result = chargeurMorph;
         break;
@@ -293,7 +361,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
     switch(capacite) {
       case 'borealis':
-        const mainStd = this.#getDataCapacite(capacite);
+        const mainStd = this.getDataCapacite(capacite);
         const dataStd = mainStd.data;
         const findChargeurStd = dataStd.raw.find(itm => itm.includes('chargeur'));
 
@@ -309,7 +377,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       case 'salve':
       case 'vague':
       case 'rayon':
-        const mainCea = this.#getDataCapacite('cea', capacite);
+        const mainCea = this.getDataCapacite('cea', capacite);
         const dataCea = mainCea.data;
         const findChargeurCea = dataCea.raw.find(itm => itm.includes('chargeur'));
 
@@ -325,7 +393,12 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       case 'griffe':
       case 'lame':
       case 'canon':
-        const mainMorph = this.#getDataCapacite('morph', capacite);
+      case 'griffe2':
+      case 'lame2':
+      case 'canon2':
+        let isTwo = capacite.includes('2');
+
+        const mainMorph = this.getDataCapacite('morph', capacite);
         const dataMorph = mainMorph.data;
         const findChargeurMorph = dataMorph.raw.find(itm => itm.includes('chargeur'));
 
@@ -333,16 +406,19 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
         const chargeurMorphMax = parseInt(findChargeurMorph.split(' ')[1]);
 
-        let chargeurMorph = dataMorph?.chargeur !== null && dataMorph?.chargeur !== undefined ? parseInt(dataMorph.chargeur) : chargeurMorphMax;
+        let chargeurMorph = 0;
+
+        if(isTwo) chargeurMorph = dataMorph?.chargeur2 !== null && dataMorph?.chargeur2 !== undefined ? parseInt(dataMorph.chargeur2) : chargeurMorphMax;
+        else  chargeurMorph = dataMorph?.chargeur !== null && dataMorph?.chargeur !== undefined ? parseInt(dataMorph.chargeur) : chargeurMorphMax;
 
         if(chargeurMorph === 0) result = false;
         break;
 
       case 'longbow':
-        const mainLBBase = this.#getDataCapacite('longbow', 'base');
-        const mainLBListe1 = this.#getDataCapacite('longbow', 'liste1');
-        const mainLBListe2 = this.#getDataCapacite('longbow', 'liste2');
-        const mainLBListe3 = this.#getDataCapacite('longbow', 'liste3');
+        const mainLBBase = this.getDataCapacite('longbow', 'base');
+        const mainLBListe1 = this.getDataCapacite('longbow', 'liste1');
+        const mainLBListe2 = this.getDataCapacite('longbow', 'liste2');
+        const mainLBListe3 = this.getDataCapacite('longbow', 'liste3');
         const dataLongbowBase = mainLBBase.data;
         const dataLongbowListe1 = mainLBListe1.data;
         const dataLongbowListe2 = mainLBListe2.data;
@@ -394,7 +470,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     const split = type.split('_');
     const capacite = split[0];
     const subcapacite = split[1];
-    const dataCapacite = this.#getDataCapacite(capacite, subcapacite);
+    const dataCapacite = this.getDataCapacite(capacite, subcapacite);
     let data = dataCapacite.data;
     let chargeur = undefined;
     let actuel = undefined;
@@ -402,10 +478,13 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
 
     chargeur = data?.raw?.[index] ?? undefined;
-    actuel = data?.chargeur === null || data?.chargeur === undefined ? parseInt(chargeur.split(' ')[1]) : data.chargeur;
 
     if(!data || !chargeur) return;
     if(!chargeur.includes('chargeur')) return;
+
+    if(dataCapacite.path.includes('chargeur2')) actuel = data?.chargeur2 === null || data?.chargeur2 === undefined ? parseInt(chargeur.split(' ')[1]) : data.chargeur2;
+    else actuel = data?.chargeur === null || data?.chargeur === undefined ? parseInt(chargeur.split(' ')[1]) : data.chargeur;
+
 
     this.item.update({[dataCapacite.path]:Math.min(actuel+1, parseInt(chargeur.split(' ')[1]))})
 
@@ -422,7 +501,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     const split = type.split('_');
     const capacite = split[0];
     const subcapacite = split[1];
-    const dataCapacite = this.#getDataCapacite(capacite, subcapacite);
+    const dataCapacite = this.getDataCapacite(capacite, subcapacite);
     let data = dataCapacite.data;
     let chargeur = undefined;
     let actuel = undefined;
@@ -435,9 +514,10 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     if(!data || !chargeur) return;
     if(!chargeur.includes('chargeur')) return;
 
-    actuel = data?.chargeur === null || data?.chargeur === undefined ? parseInt(chargeur.split(' ')[1]) : data.chargeur;
+    if(dataCapacite.path.includes('chargeur2')) actuel = data?.chargeur2 === null || data?.chargeur2 === undefined ? parseInt(chargeur.split(' ')[1]) : data.chargeur2;
+    else actuel = data?.chargeur === null || data?.chargeur === undefined ? parseInt(chargeur.split(' ')[1]) : data.chargeur;
 
-    this.item.update({[dataCapacite.path]:Math.min(actuel-1, parseInt(chargeur.split(' ')[1]))})
+    this.item.update({[dataCapacite.path]:Math.max(actuel-1, 0)})
 
     const exec = new game.knight.RollKnight(this.actor,
     {
@@ -457,7 +537,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
     switch(capacite) {
       case 'borealis':
-        const mainStd = this.#getDataCapacite(capacite);
+        const mainStd = this.getDataCapacite(capacite);
         const dataStd = mainStd.data;
         const findChargeurStd = dataStd.raw.find(itm => itm.includes('chargeur'));
 
@@ -473,7 +553,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       case 'salve':
       case 'vague':
       case 'rayon':
-        const mainCea = this.#getDataCapacite('cea', capacite);
+        const mainCea = this.getDataCapacite('cea', capacite);
         const dataCea = mainCea.data;
         const findChargeurCea = dataCea.raw.find(itm => itm.includes('chargeur'));
 
@@ -489,7 +569,12 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       case 'griffe':
       case 'lame':
       case 'canon':
-        const mainMorph = this.#getDataCapacite('morph', capacite);
+      case 'griffe2':
+      case 'lame2':
+      case 'canon2':
+        let isTwo = capacite.includes('2');
+
+        const mainMorph = this.getDataCapacite('morph', capacite);
         const dataMorph = mainMorph.data;
         const findChargeurMorph = dataMorph.raw.find(itm => itm.includes('chargeur'));
 
@@ -497,15 +582,19 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
         const chargeurMorphMax = parseInt(findChargeurMorph.split(' ')[1]);
 
-        let chargeurMorph = dataMorph?.chargeur !== null && dataMorph?.chargeur !== undefined ? parseInt(dataMorph.chargeur) : chargeurMorphMax;
+        let chargeurMorph = 0;
+
+        if(isTwo) chargeurMorph = dataMorph?.chargeur2 !== null && dataMorph?.chargeur2 !== undefined ? parseInt(dataMorph.chargeur2) : chargeurMorphMax;
+        else chargeurMorph = dataMorph?.chargeur !== null && dataMorph?.chargeur !== undefined ? parseInt(dataMorph.chargeur) : chargeurMorphMax;
+
         updates[`armure.${mainMorph.path}`] = Math.max(chargeurMorph-1, 0);
         break;
 
       case 'longbow':
-        const mainLBBase = this.#getDataCapacite('longbow', 'base');
-        const mainLBListe1 = this.#getDataCapacite('longbow', 'liste1');
-        const mainLBListe2 = this.#getDataCapacite('longbow', 'liste2');
-        const mainLBListe3 = this.#getDataCapacite('longbow', 'liste3');
+        const mainLBBase = this.getDataCapacite('longbow', 'base');
+        const mainLBListe1 = this.getDataCapacite('longbow', 'liste1');
+        const mainLBListe2 = this.getDataCapacite('longbow', 'liste2');
+        const mainLBListe3 = this.getDataCapacite('longbow', 'liste3');
         const dataLongbowBase = mainLBBase.data;
         const dataLongbowListe1 = mainLBListe1.data;
         const dataLongbowListe2 = mainLBListe2.data;
@@ -658,7 +747,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           case 'changeling':
           case 'illumination':
           case 'oriflamme':
-            const std = this.#getDataCapacite(l, undefined);
+            const std = this.getDataCapacite(l, undefined);
 
             const findChargeurStd = std.data.raw.find(itm => itm.includes('chargeur'));
 
@@ -668,9 +757,9 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
             break;
 
           case 'cea':
-            const salve = this.#getDataCapacite(l, 'salve');
-            const vague = this.#getDataCapacite(l, 'vague');
-            const rayon = this.#getDataCapacite(l, 'rayon');
+            const salve = this.getDataCapacite(l, 'salve');
+            const vague = this.getDataCapacite(l, 'vague');
+            const rayon = this.getDataCapacite(l, 'rayon');
 
             const findChargeurSalve = salve.data.raw.find(itm => itm.includes('chargeur'));
             const findChargeurVague = vague.data.raw.find(itm => itm.includes('chargeur'));
@@ -690,10 +779,10 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
             break;
 
           case 'longbow':
-            const lbBase = this.#getDataCapacite(l, 'base');
-            const lbListe1 = this.#getDataCapacite(l, 'liste1');
-            const lbListe2 = this.#getDataCapacite(l, 'liste2');
-            const lbListe3 = this.#getDataCapacite(l, 'liste3');
+            const lbBase = this.getDataCapacite(l, 'base');
+            const lbListe1 = this.getDataCapacite(l, 'liste1');
+            const lbListe2 = this.getDataCapacite(l, 'liste2');
+            const lbListe3 = this.getDataCapacite(l, 'liste3');
 
             const findChargeurLbBase = lbBase.data.raw.find(itm => itm.includes('chargeur'));
             const findChargeurLbListe1 = lbListe1.data.raw.find(itm => itm.includes('chargeur'));
@@ -719,9 +808,9 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
             break;
 
           case 'morph':
-            const griffe = this.#getDataCapacite(l, 'griffe');
-            const lame = this.#getDataCapacite(l, 'lame');
-            const canon = this.#getDataCapacite(l, 'canon');
+            const griffe = this.getDataCapacite(l, 'griffe');
+            const lame = this.getDataCapacite(l, 'lame');
+            const canon = this.getDataCapacite(l, 'canon');
 
             const findChargeurGriffe = griffe.data.raw.find(itm => itm.includes('chargeur'));
             const findChargeurLame = lame.data.raw.find(itm => itm.includes('chargeur'));
@@ -729,14 +818,17 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
             if(findChargeurGriffe) {
               updates[`${griffe.path}`] = parseInt(findChargeurGriffe.split(' ')[1]);
+              updates[`${griffe.path}2`] = parseInt(findChargeurGriffe.split(' ')[1]);
             }
 
             if(findChargeurLame) {
               updates[`${lame.path}`] = parseInt(findChargeurLame.split(' ')[1]);
+              updates[`${lame.path}2`] = parseInt(findChargeurLame.split(' ')[1]);
             }
 
             if(findChargeurCanon) {
               updates[`${canon.path}`] = parseInt(findChargeurCanon.split(' ')[1]);
+              updates[`${canon.path}2`] = parseInt(findChargeurCanon.split(' ')[1]);
             }
             break;
         }
@@ -746,7 +838,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     if(!foundry.utils.isEmpty(updates)) this.item.update(updates);
   }
 
-  #getDataCapacite(capacite, subcapacite) {
+  getDataCapacite(capacite, subcapacite) {
     const basePath = this.capacites.selected;
     const baseStringPath = 'system.capacites.selected'
     let name = this.item.name
@@ -779,15 +871,26 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
         break;
 
       case 'longbow':
-        name = `${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label')}`
+        name = basePath.longbow?.label ? basePath.longbow.label : `${game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label')}`;
         data = basePath.longbow.effets[subcapacite];
         path = `${baseStringPath}.longbow.effets.${subcapacite}.chargeur`;
         break;
 
       case 'morph':
-        name = `${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.${capacite.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.${capacite.toUpperCase()}.CAPACITES.POLYMORPHIE.${subcapacite.charAt(0).toUpperCase() + subcapacite.slice(1).toLowerCase()}`)}`
-        data = basePath.morph.polymorphie[subcapacite].effets;
-        path = `${baseStringPath}.morph.polymorphie.${subcapacite}.effets.chargeur`;
+        let subMorph = subcapacite;
+        let isTwo = false;
+
+        if(subMorph.includes('2')) {
+          subMorph = subcapacite.replaceAll('2', '');
+          isTwo = true;
+        }
+
+        name = `${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.${capacite.toUpperCase()}.Label`)} - ${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.${capacite.toUpperCase()}.CAPACITES.POLYMORPHIE.${subMorph.charAt(0).toUpperCase() + subMorph.slice(1).toLowerCase()}`)}`;
+
+        if(isTwo) name += ` 2`;
+
+        data = basePath.morph.polymorphie[subMorph].effets;
+        path = isTwo ? `${baseStringPath}.morph.polymorphie.${subMorph}.effets.chargeur2` : `${baseStringPath}.morph.polymorphie.${subMorph}.effets.chargeur`;
         break;
 
       case 'oriflamme':
@@ -2228,6 +2331,68 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       if(!remplaceEnergie && depenseEspoir) pbE.sys('espoir.value', substractEspoir);
 
       if(depenseFlux && hasFlux) pbE.sys('flux.value', substractFlux);
+
+      await pbE.applyTo(actor);
+
+      return true;
+    }
+  }
+
+  async usePEActivateEffets(armure, label, effet, forceEspoir = false) {
+    const actor = this.actor;
+
+    const remplaceEnergie = armure.espoirRemplaceEnergie;
+    const getType = remplaceEnergie || forceEspoir ? 'espoir' : 'energie';
+
+    const value = actor?.system?.[getType]?.value ?? 0;
+    const espoir = actor?.system?.espoir?.value ?? 0;
+
+    const sendLackMsg = async (i18nKey) => {
+      const payload = {
+        flavor: `${label}`,
+        main: { total: `${game.i18n.localize(`KNIGHT.JETS.${i18nKey}`)}` }
+      };
+      const data = {
+        user: game.user.id,
+        speaker: {
+          actor: actor?.id ?? null,
+          token: actor?.token?.id ?? null,
+          alias: actor?.name ?? null,
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
+        sound: CONFIG.sounds.dice
+      };
+      const rMode = game.settings.get("core", "rollMode");
+      const msgData = ChatMessage.applyRollMode(data, rMode);
+      await ChatMessage.create(msgData, { rollMode: rMode });
+    };
+
+    let depenseEnergie = Number(effet.cost);
+    let depenseEspoir = 0;
+    let substractEnergie = 0;
+    let substractEspoir = 0;
+
+    if(remplaceEnergie) depenseEnergie += depenseEspoir;
+
+    substractEnergie = value - depenseEnergie;
+    substractEspoir = espoir - depenseEspoir;
+    if(substractEnergie < 0) {
+      await sendLackMsg(`${remplaceEnergie || forceEspoir ? 'Notespoir' : 'Notenergie'}`);
+
+      return false;
+    } else if(substractEspoir < 0 && !remplaceEnergie) {
+      await sendLackMsg(`Notespoir`);
+
+      return false;
+    } else {
+      let pbE = new PatchBuilder();
+      const pathEnergie = actor.type === 'knight' ? `equipements.${actor.system.wear}.${getType}.value` : `${getType}.value`;
+
+      if(!remplaceEnergie) pbE.sys(pathEnergie, substractEnergie);
+      else if(remplaceEnergie && !actor.system.espoir.perte.saufAgonie) pbE.sys('espoir.value', substractEnergie);
+
+      if(!remplaceEnergie && depenseEspoir) pbE.sys('espoir.value', substractEspoir);
 
       await pbE.applyTo(actor);
 

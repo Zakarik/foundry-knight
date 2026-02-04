@@ -664,6 +664,8 @@
       "Effet":"Effet",
       "Edit":"Modifier les effet",
       "Add":"Effets possibles à ajouter",
+      "AddActivable":"Effets activables possibles à ajouter",
+      "Cost":"Cout d'activation",
       "Presents":"Effets présents",
       "CUSTOM":{
         "Label":"Effet personnalisé",

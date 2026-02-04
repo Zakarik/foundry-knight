@@ -85,7 +85,7 @@ export class CapaciteUltimeSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:this.getData().data.system.overdrives, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, raw:path.raw, custom:path.custom, activable:path.activable, toUpdate:stringPath, aspects:this.getData().data.system.overdrives, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
     });
 
     html.find('img.info').click(ev => {
@@ -193,72 +193,43 @@ export class CapaciteUltimeSheet extends ItemSheet {
 
     const oriflamme = context.data.system.passives.capacites.oriflamme.update.effets;
 
-    const oRaw = oriflamme.raw;
-    const oCustom = oriflamme.custom;
-
-    oriflamme.liste = listEffects(oRaw, oCustom, labels);
+    oriflamme.liste = listEffects(oriflamme, labels);
 
     const vague = context.data.system.passives.capacites.cea.update.vague.effets;
 
-    const vRaw = vague.raw;
-    const vCustom = vague.custom;
 
-    vague.liste = listEffects(vRaw, vCustom, labels);
+    vague.liste = listEffects(vague, labels);
 
     const salve = context.data.system.passives.capacites.cea.update.salve.effets;
 
-    const sRaw = salve.raw;
-    const sCustom = salve.custom;
-
-    salve.liste = listEffects(sRaw, sCustom, labels);
+    salve.liste = listEffects(salve, labels);
 
     const rayon = context.data.system.passives.capacites.cea.update.rayon.effets;
 
-    const rRaw = rayon.raw;
-    const rCustom = rayon.custom;
-
-    rayon.liste = listEffects(rRaw, rCustom, labels);
+    rayon.liste = listEffects(rayon, labels);
 
     const griffe = context.data.system.passives.capacites.morph.update.polymorphie.griffe.effets;
 
-    const gRaw = griffe.raw;
-    const gCustom = griffe.custom;
-
-    griffe.liste = listEffects(gRaw, gCustom, labels);
+    griffe.liste = listEffects(griffe, labels);
 
     const lame = context.data.system.passives.capacites.morph.update.polymorphie.lame.effets;
 
-    const lRaw = lame.raw;
-    const lCustom = lame.custom;
-
-    lame.liste = listEffects(lRaw, lCustom, labels);
+    lame.liste = listEffects(lame, labels);
 
     const canon = context.data.system.passives.capacites.morph.update.polymorphie.canon.effets;
 
-    const cRaw = canon.raw;
-    const cCustom = canon.custom;
-
-    canon.liste = listEffects(cRaw, cCustom, labels);
+    canon.liste = listEffects(canon, labels);
 
     const degats = context.data.system.actives.degats.effets;
 
-    const dRaw = degats.raw;
-    const dCustom = degats.custom;
-
-    degats.liste = listEffects(dRaw, dCustom, labels);
+    degats.liste = listEffects(degats, labels);
 
     const violence = context.data.system.actives.violence.effets;
 
-    const viRaw = violence.raw;
-    const viCustom = violence.custom;
-
-    violence.liste = listEffects(viRaw, viCustom, labels);
+    violence.liste = listEffects(violence, labels);
 
     const effets = context.data.system.actives.effets;
 
-    const eRaw = effets.raw;
-    const eCustom = effets.custom;
-
-    effets.liste = listEffects(eRaw, eCustom, labels);
+    effets.liste = listEffects(effets, labels);
   }
 }

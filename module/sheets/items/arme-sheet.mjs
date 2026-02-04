@@ -151,7 +151,7 @@ export class ArmeSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, activable:path.activable, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
     });
 
     html.find('div.distance a.edit').click(async ev => {
@@ -163,7 +163,7 @@ export class ArmeSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, typeEffets:'distance', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Distance")}`}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, activable:path.activable, toUpdate:stringPath, aspects:aspects, typeEffets:'distance', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Distance")}`}).render(true);
     });
 
     html.find('div.ornementales a.edit').click(async ev => {
@@ -175,7 +175,7 @@ export class ArmeSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, typeEffets:'ornementales', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Ornementales")}`}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, activable:path.activable, toUpdate:stringPath, aspects:aspects, typeEffets:'ornementales', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Ornementales")}`}).render(true);
     });
 
     html.find('div.structurelles a.edit').click(async ev => {
@@ -187,7 +187,7 @@ export class ArmeSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, typeEffets:'structurelles', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Structurelles")}`}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, activable:path.activable, toUpdate:stringPath, aspects:aspects, typeEffets:'structurelles', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Structurelles")}`}).render(true);
     });
 
     html.find('img.info').click(ev => {
@@ -481,21 +481,17 @@ export class ArmeSheet extends ItemSheet {
   _prepareEffets(context) {
     const bEffets = context.data.system.effets;
 
-    const bRaw = bEffets.raw;
-    const bCustom = bEffets.custom;
     const labels = getAllEffects();
 
-    bEffets.liste = listEffects(bRaw, bCustom, labels, bEffets?.chargeur);
+    bEffets.liste = listEffects(bEffets, labels, bEffets?.chargeur);
   }
 
   _prepareEffets2Mains(context) {
     const bEffets = context.data.system.effets2mains;
 
-    const bRaw = bEffets.raw;
-    const bCustom = bEffets.custom;
     const labels = getAllEffects();
 
-    bEffets.liste = listEffects(bRaw, bCustom, labels, bEffets?.chargeur);
+    bEffets.liste = listEffects(bEffets, labels, bEffets?.chargeur);
   }
 
   _prepareEffetsMunition(context) {
@@ -505,42 +501,34 @@ export class ArmeSheet extends ItemSheet {
     for(let i = 0; i < length;i++) {
       const bEffets = data[i];
 
-      const bRaw = bEffets.raw;
-      const bCustom = bEffets.custom;
       const labels = getAllEffects();
 
-      bEffets.liste = listEffects(bRaw, bCustom, labels, bEffets?.chargeur);
+      bEffets.liste = listEffects(bEffets, labels, bEffets?.chargeur);
     }
   }
 
   _prepareDistance(context) {
     const bEffets = context.data.system.distance;
 
-    const bRaw = bEffets.raw;
-    const bCustom = bEffets.custom;
     const labels = getAllEffects();
 
-    bEffets.liste = listEffects(bRaw, bCustom, labels);
+    bEffets.liste = listEffects(bEffets, labels);
   }
 
   _prepareStructurelles(context) {
     const bEffets = context.data.system.structurelles;
 
-    const bRaw = bEffets.raw;
-    const bCustom = bEffets.custom;
     const labels = getAllEffects();
 
-    bEffets.liste = listEffects(bRaw, bCustom, labels);
+    bEffets.liste = listEffects(bEffets, labels);
   }
 
   _prepareOrnementales(context) {
     const bEffets = context.data.system.ornementales;
 
-    const bRaw = bEffets.raw;
-    const bCustom = bEffets.custom;
     const labels = getAllEffects();
 
-    bEffets.liste = listEffects(bRaw, bCustom, labels);
+    bEffets.liste = listEffects(bEffets, labels);
   }
 
   _listeRarete(context) {

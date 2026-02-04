@@ -1,10 +1,14 @@
 <div>
+    {{#if activable}}<i class="fa-solid fa-power-off effects activable {{ifThen active 'active' 'inactive'}}"
+    data-id="{{id}}" data-type="{{type}}" data-munition="{{munition}}" data-pnj="{{pnj}}" data-wpn="{{wpn}}"
+    data-tooltip="{{ifThen active (localize 'KNIGHT.AUTRE.Desactiver') (localize 'KNIGHT.AUTRE.Activer')}}"></i>{{/if}}
     <span class="label">
         {{#if (eq type 'std')}}
             {{complet}}
         {{else}}
             {{name}}{{#if isChargeur}} {{chargeur}} {{/if}}{{ifThen toComplete toComplete ''}}
         {{/if}}
+        {{#if activable}} <i class="fa-solid {{ifThen active 'fa-check green' 'fa-xmark red'}}"></i>{{/if}}
     </span>
     <img class="info" src="systems/knight/assets/icons/info.svg" />
     {{#if (and isChargeur (ne type 'std'))}}

@@ -111,24 +111,19 @@ export class CapaciteSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, activable:path.activable, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
     });
   }
 
   _prepareEffets(context) {
     const dEffets = context.data.system.degats.system.effets;
 
-    const bRaw = dEffets.raw;
-    const bCustom = dEffets.custom;
     const labels = getAllEffects();
 
-    dEffets.liste = listEffects(bRaw, bCustom, labels);
+    dEffets.liste = listEffects(dEffets, labels);
 
     const aEffets = context.data.system.attaque.effets;
 
-    const aRaw = aEffets.raw;
-    const aCustom = aEffets.custom;
-
-    aEffets.liste = listEffects(aRaw, aCustom, labels);
+    aEffets.liste = listEffects(aEffets, labels);
   }
 }

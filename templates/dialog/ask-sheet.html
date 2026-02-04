@@ -1,17 +1,23 @@
-<span>{{what}}</span>
-{{#if select.has}}
-    <select class="whatSelect">
-        <option value=""></option>
-        {{#each select.liste as | key effet|}}
-            <option value="{{effet}}">{{key}}</option>
-        {{/each}}
-    </select>
-{{/if}}
+{{#if what}}<span>{{what}}</span>{{/if}}
 {{#each list}}
     {{#if (eq key 'check')}}
-        <label class="{{class}} {{ifThen checked 'checked' ''}}">
+        <label class="check {{class}} {{ifThen checked 'checked' ''}}">
             {{#if img}}<img src="{{img}}" />{{/if}}
             <button type="action" class="{{btn}}" data-id="{{id}}">{{label}} <i></i></button>
         </label>
+    {{/if}}
+    {{#if (eq key 'number')}}
+        <label class="number {{class}}">
+            <span>{{label}}</span>
+            <input type="number" value="{{value}}" min="{{min}}" max="{{max}}" />
+        </label>
+    {{/if}}
+    {{#if (eq key 'select')}}
+        <select class="select {{class}}">
+            <option value=""></option>
+            {{#each liste as | key effet|}}
+                <option value="{{effet}}">{{key}}</option>
+            {{/each}}
+        </select>
     {{/if}}
 {{/each}}

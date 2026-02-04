@@ -118,7 +118,7 @@
                     <span class="label">{{localize "KNIGHT.LATERAL.Sante"}}</span>
                     <input class="value" type="number" name="system.sante.value" min="0" max="{{systemData.sante.max}}" value="{{systemData.sante.value}}" />
                     <span class="separation">/</span>
-                    <span class="score" title="{{systemData.sante.base}} + {{systemData.sante.mod}} = {{systemData.sante.max}}">{{systemData.sante.max}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'sante' systemData}}">{{systemData.sante.max}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
@@ -136,7 +136,7 @@
                 <div class="line js-simpletoggler">
                     <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="egide"></span>
                     <span class="label" title="{{localize "KNIGHT.LATERAL.ChampDeForce"}}">{{localize "KNIGHT.LATERAL.Egide"}}</span>
-                    <span class="score" title="{{systemData.egide.base}} + {{systemData.egide.mod}} = {{systemData.egide.value}}">{{systemData.egide.value}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'egide' systemData}}">{{systemData.egide.value}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
@@ -164,7 +164,7 @@
                     <span class="label">{{localize "KNIGHT.LATERAL.Espoir"}}</span>
                     <input class="value" type="number" name="system.espoir.value" min="0" max="{{systemData.espoir.max}}" value="{{systemData.espoir.value}}" />
                     <span class="separation">/</span>
-                    <span class="score" title="{{systemData.espoir.base}} + {{systemData.espoir.mod}} = {{systemData.espoir.value}}">{{systemData.espoir.max}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'espoir' systemData}}">{{systemData.espoir.max}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
@@ -198,7 +198,7 @@
                     <span class="label">{{localize "KNIGHT.LATERAL.Armure"}}</span>
                     <input class="value" type="number" name="{{getInputPath systemData.wear 'armure'}}" min="0" max="{{systemData.armure.max}}" value="{{getInputData systemData 'armure' 'value'}}" />
                     <span class="separation">/</span>
-                    <span class="score" title="{{systemData.armure.base}} + {{systemData.armure.mod}} = {{systemData.armure.max}}">{{systemData.armure.max}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'armure' systemData}}">{{systemData.armure.max}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
@@ -218,7 +218,7 @@
                     <span class="label">{{localize "KNIGHT.LATERAL.Energie"}}</span>
                     <input class="value" type="number" name="{{getInputPath systemData.wear 'energie'}}" min="0" max="{{systemData.energie.max}}" value="{{getInputData systemData 'energie' 'value'}}" />
                     <span class="separation">/</span>
-                    <span class="score" title="{{systemData.energie.base}} + {{systemData.energie.mod}} = {{systemData.energie.max}}">{{systemData.energie.max}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'energie' systemData}}">{{systemData.energie.max}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
@@ -237,7 +237,7 @@
                 <div class="line js-simpletoggler">
                     <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="champDeForce"></span>
                     <span class="label" title="{{localize "KNIGHT.LATERAL.ChampDeForce"}}">{{localize "KNIGHT.LATERAL.ChampDeForce-short"}}</span>
-                    <span class="score" title="{{systemData.champDeForce.base}} + {{systemData.champDeForce.mod}} = {{systemData.champDeForce.value}}">{{systemData.champDeForce.value}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'champDeForce' systemData}}">{{systemData.champDeForce.value}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
@@ -286,7 +286,7 @@
                 <div class="line js-simpletoggler">
                     <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="reaction"></span>
                     <span class="label">{{localize "KNIGHT.LATERAL.Reaction"}}</span>
-                    <span class="score" title="{{systemData.reaction.base}}{{#if systemData.options.kraken}} + 1 {{/if}}+ {{systemData.reaction.bonusValue}} - {{systemData.reaction.malusValue}} = {{systemData.reaction.value}}">{{systemData.reaction.value}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'reaction' systemData}}">{{systemData.reaction.value}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>
@@ -302,7 +302,7 @@
                 <div class="line js-simpletoggler">
                     <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="defense"></span>
                     <span class="label">{{localize "KNIGHT.LATERAL.Defense"}}</span>
-                    <span class="score" title="{{systemData.defense.base}}{{#if systemData.options.kraken}} + 1 {{/if}}+ {{systemData.defense.bonusValue}} - {{systemData.defense.malusValue}} = {{systemData.defense.value}}">{{systemData.defense.value}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'defense' systemData}}">{{systemData.defense.value}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.BONUS.Label"}}</span>

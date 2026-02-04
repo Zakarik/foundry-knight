@@ -981,7 +981,7 @@ export class ArmureSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:this.getData().data.system.overdrives, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, activable:path.activable, toUpdate:stringPath, aspects:this.getData().data.system.overdrives, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
     });
 
     html.find('div.distance a.edit').click(async ev => {
@@ -992,7 +992,7 @@ export class ArmureSheet extends ItemSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:this.getData().data.system.overdrives, typeEffets:'distance', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Distance")}`}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, activable:path.activable, toUpdate:stringPath, aspects:this.getData().data.system.overdrives, typeEffets:'distance', title:`${this.object.name} : ${game.i18n.localize("KNIGHT.AMELIORATIONS.LABEL.Distance")}`}).render(true);
     });
 
     html.find('textarea').blur(async ev => {
@@ -1858,12 +1858,10 @@ export class ArmureSheet extends ItemSheet {
     const bEffets = context.data.system.capacites.selected?.borealis?.offensif?.effets || false;
     if(!bEffets) return;
 
-    const bRaw = bEffets.raw;
-    const bCustom = bEffets.custom;
     const bChargeur = bEffets.chargeur;
     const bLabels = getAllEffects();
 
-    bEffets.liste = listEffects(bRaw, bCustom, bLabels, bChargeur);
+    bEffets.liste = listEffects(bEffets, bLabels, bChargeur);
   }
 
   _prepareEffetsSelectedChangeling(context) {
@@ -1871,12 +1869,10 @@ export class ArmureSheet extends ItemSheet {
     if(!cEffets) return;
 
     const cLEffets = cEffets.desactivationexplosive.effets;
-    const raw = cLEffets.raw;
-    const custom = cLEffets.custom;
     const chargeur = cLEffets.chargeur;
     const labels = getAllEffects();
 
-    cLEffets.liste = listEffects(raw, custom, labels, chargeur);
+    cLEffets.liste = listEffects(cLEffets, labels, chargeur);
   }
 
   _prepareEffetsSelectedMorph(context) {
@@ -1884,24 +1880,18 @@ export class ArmureSheet extends ItemSheet {
     if(!capacite) return;
 
     const effetsG = capacite.polymorphie.griffe.effets;
-    const rawG = effetsG.raw;
-    const customG = effetsG.custom;
     const chargeurG = effetsG.chargeur;
     const labels = getAllEffects();
 
     const effetsL = capacite.polymorphie.lame.effets;
-    const rawL = effetsL.raw;
-    const customL = effetsL.custom;
     const chargeurL = effetsL.chargeur;
 
     const effetsC = capacite.polymorphie.canon.effets;
-    const rawC = effetsC.raw;
-    const customC = effetsC.custom;
     const chargeurC = effetsC.chargeur;
 
-    effetsG.liste = listEffects(rawG, customG, labels, chargeurG);
-    effetsL.liste = listEffects(rawL, customL, labels, chargeurL);
-    effetsC.liste = listEffects(rawC, customC, labels, chargeurC);
+    effetsG.liste = listEffects(effetsG, labels, chargeurG);
+    effetsL.liste = listEffects(effetsL, labels, chargeurL);
+    effetsC.liste = listEffects(effetsC, labels, chargeurC);
   }
 
   _prepareEffetsSelectedLongbow(context) {
@@ -1910,39 +1900,29 @@ export class ArmureSheet extends ItemSheet {
     if(!lEffets) return;
 
     const lEB = lEffets.base;
-    const lRB = lEB.raw;
-    const lCB = lEB.custom;
     const lChargeurB = lEB.chargeur;
 
     const lE1 = lEffets.liste1;
-    const lR1 = lE1.raw;
-    const lC1 = lE1.custom;
     const lChargeur1 = lE1.chargeur;
 
     const lE2 = lEffets.liste2;
-    const lR2 = lE2.raw;
-    const lC2 = lE2.custom;
     const lChargeur2 = lE2.chargeur;
 
     const lE3 = lEffets.liste3;
-    const lR3 = lE3.raw;
-    const lC3 = lE3.custom;
     const lChargeur3 = lE3.chargeur;
 
     const lA = lAmelioration?.distance || {raw:[], custom:[]};
-    const lRA = lA.raw;
-    const lCA = lA.custom;
     const lChargeurA = lA.chargeur;
 
     const labels = getAllEffects();
 
     const lEffets3 = lE3.acces;
 
-    lEB.liste = listEffects(lRB, lCB, labels, lChargeurB);
-    lE1.liste = listEffects(lR1, lC1, labels, lChargeur1);
-    lE2.liste = listEffects(lR2, lC2, labels, lChargeur2);
-    lE3.liste = listEffects(lR3, lC3, labels, lChargeur3);
-    lA.liste = listEffects(lRA, lCA, labels, lChargeurA);
+    lEB.liste = listEffects(lEB, labels, lChargeurB);
+    lE1.liste = listEffects(lE1, labels, lChargeur1);
+    lE2.liste = listEffects(lE2, labels, lChargeur2);
+    lE3.liste = listEffects(lE3, labels, lChargeur3);
+    lA.liste = listEffects(lA, labels, lChargeurA);
 
     if(lEffets3) {
       lE3.label = game.i18n.localize(CONFIG.KNIGHT.longbow["effets3"]);
@@ -1955,12 +1935,10 @@ export class ArmureSheet extends ItemSheet {
     const bEffets = context.data.system.capacites.selected?.oriflamme?.effets || false;
     if(!bEffets) return;
 
-    const bRaw = bEffets.raw;
-    const bCustom = bEffets.custom;
     const bChargeur = bEffets.chargeur;
     const bLabels = getAllEffects();
 
-    bEffets.liste = listEffects(bRaw, bCustom, bLabels, bChargeur);
+    bEffets.liste = listEffects(bEffets, bLabels, bChargeur);
   }
 
   _prepareEffetsSelectedCea(context) {
@@ -1972,21 +1950,15 @@ export class ArmureSheet extends ItemSheet {
     if(!bSEffets) return;
     if(!bREffets) return;
 
-    const bVRaw = bVEffets.raw;
-    const bVCustom = bVEffets.custom;
     const bVChargeur = bVEffets.chargeur;
-    const bSRaw = bSEffets.raw;
-    const bSCustom = bSEffets.custom;
     const bSChargeur = bSEffets.chargeur;
-    const bRRaw = bREffets.raw;
-    const bRCustom = bREffets.custom;
     const bRChargeur = bREffets.chargeur;
 
     const bLabels = getAllEffects();
 
-    bVEffets.liste = listEffects(bVRaw, bVCustom, bLabels, bVChargeur);
-    bSEffets.liste = listEffects(bSRaw, bSCustom, bLabels, bSChargeur);
-    bREffets.liste = listEffects(bRRaw, bRCustom, bLabels, bRChargeur);
+    bVEffets.liste = listEffects(bVEffets, bLabels, bVChargeur);
+    bSEffets.liste = listEffects(bSEffets, bLabels, bSChargeur);
+    bREffets.liste = listEffects(bREffets, bLabels, bRChargeur);
   }
 
   _prepareEffetsSelectedCompanions(context) {
@@ -2001,25 +1973,18 @@ export class ArmureSheet extends ItemSheet {
 
     if(lEffets != false) {
       const cLEffets = lEffets.contact.coups.effets;
-      const cLRaw = cLEffets.raw;
-      const cLCustom = cLEffets.custom;
 
-      cLEffets.liste = listEffects(cLRaw, cLCustom, labels);
+      cLEffets.liste = listEffects(cLEffets, labels);
     }
 
     if(wEffets != false) {
       const cWEffets = wEffets.contact.coups.effets;
-      const cWRaw = cWEffets.raw;
-      const CWCustom = cWEffets.custom;
 
-      cWEffets.liste = listEffects(cWRaw, CWCustom, labels);
+      cWEffets.liste = listEffects(cWEffets, labels);
     }
 
     if(bEffets != false) {
-      const raw = bEffets.raw;
-      const custom = bEffets.custom;
-
-      bEffets.liste = listEffects(raw, custom, labels);
+      bEffets.liste = listEffects(bEffets, labels);
     }
   }
 
@@ -2028,11 +1993,9 @@ export class ArmureSheet extends ItemSheet {
 
     if(!plEffets) return;
 
-    const raw = plEffets.raw;
-    const custom = plEffets.custom;
     const labels = getAllEffects();
 
-    plEffets.liste = listEffects(raw, custom, labels);
+    plEffets.liste = listEffects(plEffets, labels);
   }
 
   _prepareEffetsSelectedIllumination(context) {
@@ -2040,12 +2003,10 @@ export class ArmureSheet extends ItemSheet {
 
     if(!iEffets) return;
 
-    const raw = iEffets.raw;
-    const custom = iEffets.custom;
     const chargeur = iEffets.chargeur;
     const labels = getAllEffects();
 
-    iEffets.liste = listEffects(raw, custom, labels, chargeur);
+    iEffets.liste = listEffects(iEffets, labels, chargeur);
   }
 
   //GESTION DES TRADUCTIONS DES SPECIAUX
@@ -2529,22 +2490,18 @@ export class ArmureSheet extends ItemSheet {
     const bEffets = context.data.system.evolutions.liste?.[key].capacites?.borealis?.offensif?.effets || false;
     if(!bEffets) return;
 
-    const bRaw = bEffets.raw;
-    const bCustom = bEffets.custom;
     const bLabels = getAllEffects();
 
-    bEffets.liste = listEffects(bRaw, bCustom, bLabels);
+    bEffets.liste = listEffects(bEffets, bLabels);
   }
 
   _prepareEffetsEvolutionsOriflamme(key, context) {
     const bEffets = context.data.system.evolutions.liste?.[key].capacites?.oriflamme?.effets || false;
     if(!bEffets) return;
 
-    const bRaw = bEffets.raw;
-    const bCustom = bEffets.custom;
     const bLabels = getAllEffects();
 
-    bEffets.liste = listEffects(bRaw, bCustom, bLabels);
+    bEffets.liste = listEffects(bEffets, bLabels);
   }
 
   _prepareEffetsEvolutionsChangeling(key, context) {
@@ -2552,11 +2509,9 @@ export class ArmureSheet extends ItemSheet {
     if(!cEffets) return;
 
     const cLEffets = cEffets.desactivationexplosive.effets;
-    const raw = cLEffets.raw;
-    const custom = cLEffets.custom;
     const labels = getAllEffects();
 
-    cLEffets.liste = listEffects(raw, custom, labels);
+    cLEffets.liste = listEffects(cLEffets, labels);
   }
 
   _prepareEffetsEvolutionsIllumination(key, context) {
@@ -2564,11 +2519,9 @@ export class ArmureSheet extends ItemSheet {
 
     if(!iEffets) return;
 
-    const raw = iEffets.raw;
-    const custom = iEffets.custom;
     const labels = getAllEffects();
 
-    iEffets.liste = listEffects(raw, custom, labels);
+    iEffets.liste = listEffects(iEffets, labels);
   }
 
   _prepareEffetsEvolutionsLongbow(context) {
@@ -2577,20 +2530,12 @@ export class ArmureSheet extends ItemSheet {
     if(!lEffets) return;
 
     const lEB = lEffets['3'].effets.base;
-    const lRB = lEB.raw;
-    const lCB = lEB.custom;
 
     const lE1 = lEffets['1'].effets.liste1;
-    const lR1 = lE1.raw;
-    const lC1 = lE1.custom;
 
     const lE2 = lEffets['1'].effets.liste2;
-    const lR2 = lE2.raw;
-    const lC2 = lE2.custom;
 
     const lE3 = lEffets['1'].effets.liste3;
-    const lR3 = lE3.raw;
-    const lC3 = lE3.custom;
 
     const lEffets3 = lE3.acces;
 
@@ -2602,10 +2547,10 @@ export class ArmureSheet extends ItemSheet {
       lE3.label = game.i18n.localize(CONFIG.KNIGHT.longbow["noeffets3"]);
     }
 
-    lEB.liste = listEffects(lRB, lCB, labels);
-    lE1.liste = listEffects(lR1, lC1, labels);
-    lE2.liste = listEffects(lR2, lC2, labels);
-    lE3.liste = listEffects(lR3, lC3, labels);
+    lEB.liste = listEffects(lEB, labels);
+    lE1.liste = listEffects(lE1, labels);
+    lE2.liste = listEffects(lE2, labels);
+    lE3.liste = listEffects(lE3, labels);
   }
 
   _prepareEffetsEvolutionsMorph(key, context) {
@@ -2613,21 +2558,15 @@ export class ArmureSheet extends ItemSheet {
     if(!cEffets) return;
 
     const effetsG = cEffets.polymorphie.griffe.effets;
-    const rawG = effetsG.raw;
-    const customG = effetsG.custom;
     const labels = getAllEffects();
 
     const effetsL = cEffets.polymorphie.lame.effets;
-    const rawL = effetsL.raw;
-    const customL = effetsL.custom;
 
     const effetsC = cEffets.polymorphie.canon.effets;
-    const rawC = effetsC.raw;
-    const customC = effetsC.custom;
 
-    effetsG.liste = listEffects(rawG, customG, labels);
-    effetsL.liste = listEffects(rawL, customL, labels);
-    effetsC.liste = listEffects(rawC, customC, labels);
+    effetsG.liste = listEffects(effetsG, labels);
+    effetsL.liste = listEffects(effetsL, labels);
+    effetsC.liste = listEffects(effetsC, labels);
   }
 
   _prepareEffetsEvolutionsCea(key, context) {
@@ -2647,9 +2586,9 @@ export class ArmureSheet extends ItemSheet {
     const bRCustom = bREffets.custom;
     const labels = getAllEffects();
 
-    bVEffets.liste = listEffects(bVRaw, bVCustom, labels);
-    bSEffets.liste = listEffects(bSRaw, bSCustom, labels);
-    bREffets.liste = listEffects(bRRaw, bRCustom, labels);
+    bVEffets.liste = listEffects(bVEffets, labels);
+    bSEffets.liste = listEffects(bSEffets, labels);
+    bREffets.liste = listEffects(bREffets, labels);
   }
 
   //GESTION DES DUREES DES CAPACITES

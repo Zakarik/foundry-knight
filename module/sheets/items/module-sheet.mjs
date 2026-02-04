@@ -307,7 +307,7 @@ export class ModuleSheet extends ItemSheet {
           break;
       }
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:CONFIG.KNIGHT.listCaracteristiques, typeEffets:type, title:label}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor?._id || null, item:this.item._id, isToken:this.item?.parent?.isToken || false, token:this.item?.parent || null, raw:path.raw, custom:path.custom, activable:path.activable, toUpdate:stringPath, aspects:CONFIG.KNIGHT.listCaracteristiques, typeEffets:type, title:label}).render(true);
     });
 
     html.find('img.info').click(ev => {
@@ -767,59 +767,44 @@ export class ModuleSheet extends ItemSheet {
       const labels = getAllEffects();
 
       if(beffets !== false) {
-        const raw = beffets.raw;
-        const custom = beffets.custom;
         const munition = beffets.chargeur;
 
-        beffets.liste = listEffects(raw, custom, labels, munition);
+        beffets.liste = listEffects(beffets, labels, munition);
       }
 
       if(effets !== false) {
-        const raw = effets.raw;
-        const custom = effets.custom;
         const munition = effets.chargeur;
 
-        effets.liste = listEffects(raw, custom, labels, munition);
+        effets.liste = listEffects(effets, labels, munition);
       }
 
       for(let i = 0; i < length;i++) {
         const bEffets = munitions[i];
 
-        const bRaw = bEffets.raw;
-        const bCustom = bEffets.custom;
         const munition = bEffets.chargeur;
 
 
-        bEffets.liste = listEffects(bRaw, bCustom, labels, munition);
+        bEffets.liste = listEffects(bEffets, labels, munition);
       }
 
       if(distance !== false) {
-        const raw = distance.raw;
-        const custom = distance.custom;
-
-        distance.liste = listEffects(raw, custom, labels);
+        distance.liste = listEffects(distance, labels);
       }
 
       if(structurelles !== false) {
-        const raw = structurelles.raw;
-        const custom = structurelles.custom;
 
-        structurelles.liste = listEffects(raw, custom, labels);
+        structurelles.liste = listEffects(structurelles, labels);
       }
 
       if(ornementales !== false) {
-        const raw = ornementales.raw;
-        const custom = ornementales.custom;
 
-        ornementales.liste = listEffects(raw, custom, labels);
+        ornementales.liste = listEffects(ornementales, labels);
       }
 
       if(effetsJetSimple !== false) {
-        const raw = effetsJetSimple.raw;
-        const custom = effetsJetSimple.custom;
         const munition = effetsJetSimple.chargeur;
 
-        effetsJetSimple.liste = listEffects(raw, custom, labels, munition);
+        effetsJetSimple.liste = listEffects(effetsJetSimple, labels, munition);
       }
 
       for (let [key, pnj] of Object.entries(pnjListe)) {
@@ -827,11 +812,10 @@ export class ModuleSheet extends ItemSheet {
 
         if(pnjArmes !== false) {
           for (let [kArme, arme] of Object.entries(pnjArmes)) {
-            const rArme = arme.effets.raw;
-            const cArme = arme.effets.custom;
+            const armeEffects = arme.effets;
             const munition = arme.effets.chargeur;
 
-            arme.effets.liste = listEffects(rArme, cArme, labels, munition);
+            arme.effets.liste = listEffects(armeEffects, labels, munition);
           }
         }
       }

@@ -1082,4 +1082,75 @@
         return cfg;
     });
 
+
+    Handlebars.registerHelper('tooltip', function (type, data) {
+        let tooltip = [];
+        let allData;
+        let dataEqp;
+        let dataValue;
+
+        const loopInMod = (tooltip, data, bonus=true) => {
+            for(let m in data) {
+                const value = data[m];
+                if(value > 0) {
+                    let startStr = bonus ? '+' : '-';
+
+                    switch(m) {
+                        case 'style':
+                            tooltip.push(`${startStr} ${value} (${game.i18n.localize('KNIGHT.ITEMS.MODULE.Label')})`);
+                            break;
+
+                        case 'modules':
+                            tooltip.push(`${startStr} ${value} (${game.i18n.localize('KNIGHT.COMBAT.STYLES.Label')})`);
+                            break;
+
+                        case 'armes':
+                            tooltip.push(`${startStr} ${value} (${game.i18n.localize('KNIGHT.COMBAT.ARMES.Label')})`);
+                            break;
+
+                        default:
+                            tooltip.push(`${startStr} ${value} (${game.i18n.localize('KNIGHT.AUTRE.Label')})`);
+                            break;
+                    }
+                }
+            }
+        }
+
+        switch(type) {
+            case 'armure':
+            case 'champDeForce':
+            case 'energie':
+            case 'sante':
+                const wear = data.wear;
+                dataEqp = data?.equipements?.[wear]?.[type];
+                dataValue = data[type];
+
+                tooltip.push(`${game.i18n.localize('KNIGHT.AUTRE.Base')} : ${dataValue.base}`);
+
+                if(dataEqp) {
+                    loopInMod(tooltip, dataEqp.bonus);
+                    loopInMod(tooltip, dataEqp.malus, false);
+                }
+
+                if(dataValue?.bonus) loopInMod(tooltip, dataValue.bonus);
+                if(dataValue?.malus) loopInMod(tooltip, dataValue.malus, false);
+                break;
+
+            case 'reaction':
+            case 'defense':
+            case 'egide':
+            case 'espoir':
+            case 'bouclier':
+                allData = data[type];
+                tooltip.push(`${game.i18n.localize('KNIGHT.AUTRE.Base')} : ${allData.base}`);
+
+                loopInMod(tooltip, allData.bonus);
+                loopInMod(tooltip, allData.malus, false);
+
+                if(allData.iswatchtower) tooltip.push(game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.WATCHTOWER.Label"));
+                break;
+        }
+
+        return tooltip.join('<br/>');
+    });
  };

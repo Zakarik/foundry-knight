@@ -664,6 +664,8 @@
       "Effet":"Effect",
       "Edit":"Edit effects",
       "Add":"Possible effects to add",
+      "AddActivable":"Possible activatable effects to add",
+      "Cost":"Activation cost",
       "Presents":"Current effects",
       "CUSTOM":{
         "Label":"Custom effect",

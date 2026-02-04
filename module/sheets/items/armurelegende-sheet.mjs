@@ -397,11 +397,9 @@ export class ArmureLegendeSheet extends ItemSheet {
     const bEffets = context.data.system.capacites.selected?.oriflamme?.effets || false;
     if(!bEffets) return;
 
-    const bRaw = bEffets.raw;
-    const bCustom = bEffets.custom;
     const bLabels = getAllEffects();
 
-    bEffets.liste = listEffects(bRaw, bCustom, bLabels);
+    bEffets.liste = listEffects(bEffets, bLabels);
   }
 
   _prepareEffetsSelectedCompanions(context) {
@@ -416,25 +414,19 @@ export class ArmureLegendeSheet extends ItemSheet {
 
     if(lEffets != false) {
       const cLEffets = lEffets.contact.coups.effets;
-      const cLRaw = cLEffets.raw;
-      const cLCustom = cLEffets.custom;
 
-      cLEffets.liste = listEffects(cLRaw, cLCustom, labels);
+      cLEffets.liste = listEffects(cLEffets, labels);
     }
 
     if(wEffets != false) {
       const cWEffets = wEffets.contact.coups.effets;
-      const cWRaw = cWEffets.raw;
-      const CWCustom = cWEffets.custom;
 
-      cWEffets.liste = listEffects(cWRaw, CWCustom, labels);
+      cWEffets.liste = listEffects(cWEffets, labels);
     }
 
     if(bEffets != false) {
-      const raw = bEffets.raw;
-      const custom = bEffets.custom;
 
-      bEffets.liste = listEffects(raw, custom, labels);
+      bEffets.liste = listEffects(bEffets, labels);
     }
   }
 

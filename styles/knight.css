@@ -355,6 +355,30 @@
   color: white;
   font-size: 20px;
 }
+.effetsDialog div.dialog-content div.effets div i.activable,
+.effetsDialog div.dialog-content div.effetsAdd div i.activable {
+  cursor: pointer;
+}
+.effetsDialog div.dialog-content div.effets div i.activable.inactive,
+.effetsDialog div.dialog-content div.effetsAdd div i.activable.inactive {
+  color: #C50000;
+}
+.effetsDialog div.dialog-content div.effets div i.activable.active,
+.effetsDialog div.dialog-content div.effetsAdd div i.activable.active {
+  color: #59d13e;
+}
+.effetsDialog div.dialog-content div.effets div i.activable:hover,
+.effetsDialog div.dialog-content div.effetsAdd div i.activable:hover {
+  color: white;
+}
+.effetsDialog div.dialog-content div.effets div i.red,
+.effetsDialog div.dialog-content div.effetsAdd div i.red {
+  color: #C50000;
+}
+.effetsDialog div.dialog-content div.effets div i.green,
+.effetsDialog div.dialog-content div.effetsAdd div i.green {
+  color: #59d13e;
+}
 .effetsDialog div.dialog-content div.effets a.edit,
 .effetsDialog div.dialog-content div.effetsAdd a.edit {
   position: absolute;
@@ -3117,6 +3141,15 @@ li.chat-message.emote {
 .askdialog div.dialog-content select option {
   background: RGB(43 42 51);
 }
+.askdialog div.dialog-content label.number {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 50px;
+  align-items: center;
+}
+.askdialog div.dialog-content label.number input {
+  text-align: center;
+}
 .askdialog button {
   color: white;
   background: RGB(76 74 90);
@@ -5312,6 +5345,24 @@ li.chat-message.emote {
   color: white;
   font-size: 20px;
 }
+.armure form.armureWindows div.evolutions div.mainData div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.effets div i.activable:hover {
+  color: white;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.effets div i.red {
+  color: #C50000;
+}
+.armure form.armureWindows div.evolutions div.mainData div.data div.effets div i.green {
+  color: #59d13e;
+}
 .armure form.armureWindows div.evolutions div.mainData div.data div.effets a.edit {
   position: absolute;
   bottom: 0px;
@@ -7397,6 +7448,24 @@ li.chat-message.emote {
   color: white;
   font-size: 20px;
 }
+.armure form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.activable {
+  cursor: pointer;
+}
+.armure form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.activable.active {
+  color: #59d13e;
+}
+.armure form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.activable:hover {
+  color: white;
+}
+.armure form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.red {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.green {
+  color: #59d13e;
+}
 .armure form.armureWindows div.capacites div.changeling div.explosion > div.effets a.edit {
   position: absolute;
   bottom: 0px;
@@ -7623,6 +7692,30 @@ li.chat-message.emote {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.armure form.armureWindows div.capacites div.longbow div.effets div i.activable,
+.armure form.armureWindows div.capacites div.longbow div.distance div i.activable {
+  cursor: pointer;
+}
+.armure form.armureWindows div.capacites div.longbow div.effets div i.activable.inactive,
+.armure form.armureWindows div.capacites div.longbow div.distance div i.activable.inactive {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.longbow div.effets div i.activable.active,
+.armure form.armureWindows div.capacites div.longbow div.distance div i.activable.active {
+  color: #59d13e;
+}
+.armure form.armureWindows div.capacites div.longbow div.effets div i.activable:hover,
+.armure form.armureWindows div.capacites div.longbow div.distance div i.activable:hover {
+  color: white;
+}
+.armure form.armureWindows div.capacites div.longbow div.effets div i.red,
+.armure form.armureWindows div.capacites div.longbow div.distance div i.red {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.longbow div.effets div i.green,
+.armure form.armureWindows div.capacites div.longbow div.distance div i.green {
+  color: #59d13e;
 }
 .armure form.armureWindows div.capacites div.longbow div.effets a.edit,
 .armure form.armureWindows div.capacites div.longbow div.distance a.edit {
@@ -8023,6 +8116,24 @@ li.chat-message.emote {
   color: white;
   font-size: 20px;
 }
+.armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets div i.activable:hover {
+  color: white;
+}
+.armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets div i.red {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets div i.green {
+  color: #59d13e;
+}
 .armure form.armureWindows div.capacites div.borealis div.mainData div.data div.effets a.edit {
   position: absolute;
   bottom: 0px;
@@ -8166,6 +8277,24 @@ li.chat-message.emote {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.activable:hover {
+  color: white;
+}
+.armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.red {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.green {
+  color: #59d13e;
 }
 .armure form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets a.edit {
   position: absolute;
@@ -8332,6 +8461,24 @@ li.chat-message.emote {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets div i.activable:hover {
+  color: white;
+}
+.armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets div i.red {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets div i.green {
+  color: #59d13e;
 }
 .armure form.armureWindows div.capacites div.cea div.mainData div.data div.effets a.edit {
   position: absolute;
@@ -8652,6 +8799,24 @@ li.chat-message.emote {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets div i.activable:hover {
+  color: white;
+}
+.armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets div i.red {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets div i.green {
+  color: #59d13e;
 }
 .armure form.armureWindows div.capacites div.morph div.mainData div.data div.effets a.edit {
   position: absolute;
@@ -9165,6 +9330,36 @@ li.chat-message.emote {
   color: white;
   font-size: 20px;
 }
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.activable,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.activable,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div i.activable {
+  cursor: pointer;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.activable.inactive,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.activable.inactive,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.activable.active,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.activable.active,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div i.activable.active {
+  color: #59d13e;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.activable:hover,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.activable:hover,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div i.activable:hover {
+  color: white;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.red,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.red,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div i.red {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.green,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.green,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div i.green {
+  color: #59d13e;
+}
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets a.edit,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets a.edit,
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets a.edit {
@@ -9583,6 +9778,36 @@ li.chat-message.emote {
   color: white;
   font-size: 20px;
 }
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.activable,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.activable,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div i.activable {
+  cursor: pointer;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.activable.inactive,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.inactive,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.activable.active,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.active,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div i.activable.active {
+  color: #59d13e;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.activable:hover,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.activable:hover,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div i.activable:hover {
+  color: white;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.red,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.red,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div i.red {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.green,
+.armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.green,
+.armure form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div i.green {
+  color: #59d13e;
+}
 .armure form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets a.edit,
 .armure form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets a.edit,
 .armure form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets a.edit {
@@ -9924,6 +10149,24 @@ li.chat-message.emote {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets div i.activable:hover {
+  color: white;
+}
+.armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets div i.red {
+  color: #C50000;
+}
+.armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets div i.green {
+  color: #59d13e;
 }
 .armure form.armureWindows div.capacites div.illumination div.mainData div.col div.data div.effets a.edit {
   position: absolute;
@@ -10829,6 +11072,24 @@ li.chat-message.emote {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets div i.activable:hover {
+  color: white;
+}
+.armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets div i.red {
+  color: #C50000;
+}
+.armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets div i.green {
+  color: #59d13e;
 }
 .armure form.armureWindows div.special div.porteurlumiere div.mainData div.data div.effets a.edit {
   position: absolute;
@@ -12024,6 +12285,24 @@ li.chat-message.emote {
   color: white;
   font-size: 20px;
 }
+.armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.activable {
+  cursor: pointer;
+}
+.armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.activable.active {
+  color: #59d13e;
+}
+.armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.activable:hover {
+  color: white;
+}
+.armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.red {
+  color: #C50000;
+}
+.armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets div i.green {
+  color: #59d13e;
+}
 .armurelegende form.armureWindows div.capacites div.changeling div.explosion > div.effets a.edit {
   position: absolute;
   bottom: 0px;
@@ -12488,6 +12767,24 @@ li.chat-message.emote {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.activable:hover {
+  color: white;
+}
+.armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.red {
+  color: #C50000;
+}
+.armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets div i.green {
+  color: #59d13e;
 }
 .armurelegende form.armureWindows div.capacites div.oriflamme div.mainData div.data div.effets a.edit {
   position: absolute;
@@ -12988,6 +13285,36 @@ li.chat-message.emote {
   color: white;
   font-size: 20px;
 }
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.activable,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.activable,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div i.activable {
+  cursor: pointer;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.activable.inactive,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.activable.inactive,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.activable.active,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.activable.active,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div i.activable.active {
+  color: #59d13e;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.activable:hover,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.activable:hover,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div i.activable:hover {
+  color: white;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.red,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.red,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div i.red {
+  color: #C50000;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets div i.green,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets div i.green,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets div i.green {
+  color: #59d13e;
+}
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.armes div.effets a.edit,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.armes div.effets a.edit,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.armes div.effets a.edit {
@@ -13404,6 +13731,36 @@ li.chat-message.emote {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.activable,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.activable,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div i.activable {
+  cursor: pointer;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.activable.inactive,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.inactive,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.activable.active,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.active,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div i.activable.active {
+  color: #59d13e;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.activable:hover,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.activable:hover,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div i.activable:hover {
+  color: white;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.red,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.red,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div i.red {
+  color: #C50000;
+}
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets div i.green,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets div i.green,
+.armurelegende form.armureWindows div.capacites div.companions div.mainData div.crow div.configurations div.configuration div.effets div i.green {
+  color: #59d13e;
 }
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.lion div.configurations div.configuration div.effets a.edit,
 .armurelegende form.armureWindows div.capacites div.companions div.mainData div.wolf div.configurations div.configuration div.effets a.edit,
@@ -14453,6 +14810,24 @@ li.chat-message.emote {
   color: white;
   font-size: 20px;
 }
+.module div.main div.blockEffets div.effets div i.activable {
+  cursor: pointer;
+}
+.module div.main div.blockEffets div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.module div.main div.blockEffets div.effets div i.activable.active {
+  color: #59d13e;
+}
+.module div.main div.blockEffets div.effets div i.activable:hover {
+  color: white;
+}
+.module div.main div.blockEffets div.effets div i.red {
+  color: #C50000;
+}
+.module div.main div.blockEffets div.effets div i.green {
+  color: #59d13e;
+}
 .module div.main div.blockEffets div.effets a.edit {
   position: absolute;
   bottom: 0px;
@@ -15133,6 +15508,24 @@ li.chat-message.emote {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.module div.main div.effets div i.activable {
+  cursor: pointer;
+}
+.module div.main div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.module div.main div.effets div i.activable.active {
+  color: #59d13e;
+}
+.module div.main div.effets div i.activable:hover {
+  color: white;
+}
+.module div.main div.effets div i.red {
+  color: #C50000;
+}
+.module div.main div.effets div i.green {
+  color: #59d13e;
 }
 .module div.main div.effets a.edit {
   position: absolute;
@@ -16244,6 +16637,42 @@ li.chat-message.emote {
   color: white;
   font-size: 20px;
 }
+.arme form.armeWindows div.blockEffets div.effets div i.activable,
+.arme form.armeWindows div.blockEffets div.distance div i.activable,
+.arme form.armeWindows div.blockEffets div.structurelles div i.activable,
+.arme form.armeWindows div.blockEffets div.ornementales div i.activable {
+  cursor: pointer;
+}
+.arme form.armeWindows div.blockEffets div.effets div i.activable.inactive,
+.arme form.armeWindows div.blockEffets div.distance div i.activable.inactive,
+.arme form.armeWindows div.blockEffets div.structurelles div i.activable.inactive,
+.arme form.armeWindows div.blockEffets div.ornementales div i.activable.inactive {
+  color: #C50000;
+}
+.arme form.armeWindows div.blockEffets div.effets div i.activable.active,
+.arme form.armeWindows div.blockEffets div.distance div i.activable.active,
+.arme form.armeWindows div.blockEffets div.structurelles div i.activable.active,
+.arme form.armeWindows div.blockEffets div.ornementales div i.activable.active {
+  color: #59d13e;
+}
+.arme form.armeWindows div.blockEffets div.effets div i.activable:hover,
+.arme form.armeWindows div.blockEffets div.distance div i.activable:hover,
+.arme form.armeWindows div.blockEffets div.structurelles div i.activable:hover,
+.arme form.armeWindows div.blockEffets div.ornementales div i.activable:hover {
+  color: white;
+}
+.arme form.armeWindows div.blockEffets div.effets div i.red,
+.arme form.armeWindows div.blockEffets div.distance div i.red,
+.arme form.armeWindows div.blockEffets div.structurelles div i.red,
+.arme form.armeWindows div.blockEffets div.ornementales div i.red {
+  color: #C50000;
+}
+.arme form.armeWindows div.blockEffets div.effets div i.green,
+.arme form.armeWindows div.blockEffets div.distance div i.green,
+.arme form.armeWindows div.blockEffets div.structurelles div i.green,
+.arme form.armeWindows div.blockEffets div.ornementales div i.green {
+  color: #59d13e;
+}
 .arme form.armeWindows div.blockEffets div.effets a.edit,
 .arme form.armeWindows div.blockEffets div.distance a.edit,
 .arme form.armeWindows div.blockEffets div.structurelles a.edit,
@@ -16563,6 +16992,24 @@ form.capacite div.main div.effets div section.btnChargeur a.btnEffChange {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+form.capacite div.main div.effets div i.activable {
+  cursor: pointer;
+}
+form.capacite div.main div.effets div i.activable.inactive {
+  color: #C50000;
+}
+form.capacite div.main div.effets div i.activable.active {
+  color: #59d13e;
+}
+form.capacite div.main div.effets div i.activable:hover {
+  color: white;
+}
+form.capacite div.main div.effets div i.red {
+  color: #C50000;
+}
+form.capacite div.main div.effets div i.green {
+  color: #59d13e;
 }
 form.capacite div.main div.effets a.edit {
   position: absolute;
@@ -17984,6 +18431,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.capaciteUltime div.passive div.data div.effets div i.activable, .capaciteUltime div.active div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.capaciteUltime div.passive div.data div.effets div i.activable.inactive, .capaciteUltime div.active div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.capaciteUltime div.passive div.data div.effets div i.activable.active, .capaciteUltime div.active div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.capaciteUltime div.passive div.data div.effets div i.activable:hover, .capaciteUltime div.active div.data div.effets div i.activable:hover {
+  color: white;
+}
+.capaciteUltime div.passive div.data div.effets div i.red, .capaciteUltime div.active div.data div.effets div i.red {
+  color: #C50000;
+}
+.capaciteUltime div.passive div.data div.effets div i.green, .capaciteUltime div.active div.data div.effets div i.green {
+  color: #59d13e;
 }
 .capaciteUltime div.passive div.data div.effets a.edit, .capaciteUltime div.active div.data div.effets a.edit {
   position: absolute;
@@ -21303,6 +21768,30 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   font-size: 20px;
 }
+.knight section.body div.armure div.capacites div.mainData div.data div.effets div i.activable,
+.knight section.body div.armure div.special div.mainData div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.knight section.body div.armure div.capacites div.mainData div.data div.effets div i.activable.inactive,
+.knight section.body div.armure div.special div.mainData div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.knight section.body div.armure div.capacites div.mainData div.data div.effets div i.activable.active,
+.knight section.body div.armure div.special div.mainData div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.knight section.body div.armure div.capacites div.mainData div.data div.effets div i.activable:hover,
+.knight section.body div.armure div.special div.mainData div.data div.effets div i.activable:hover {
+  color: white;
+}
+.knight section.body div.armure div.capacites div.mainData div.data div.effets div i.red,
+.knight section.body div.armure div.special div.mainData div.data div.effets div i.red {
+  color: #C50000;
+}
+.knight section.body div.armure div.capacites div.mainData div.data div.effets div i.green,
+.knight section.body div.armure div.special div.mainData div.data div.effets div i.green {
+  color: #59d13e;
+}
 .knight section.body div.armure div.capacites div.mainData div.data div.effets a.edit,
 .knight section.body div.armure div.special div.mainData div.data div.effets a.edit {
   position: absolute;
@@ -21886,6 +22375,54 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.armes div.effets div i.activable,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.armes div.effets div i.activable,
+.knight section.body div.armure div.capacites div.mainData div.crow div.armes div.effets div i.activable,
+.knight section.body div.armure div.special div.mainData div.lion div.armes div.effets div i.activable,
+.knight section.body div.armure div.special div.mainData div.wolf div.armes div.effets div i.activable,
+.knight section.body div.armure div.special div.mainData div.crow div.armes div.effets div i.activable {
+  cursor: pointer;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.armes div.effets div i.activable.inactive,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.armes div.effets div i.activable.inactive,
+.knight section.body div.armure div.capacites div.mainData div.crow div.armes div.effets div i.activable.inactive,
+.knight section.body div.armure div.special div.mainData div.lion div.armes div.effets div i.activable.inactive,
+.knight section.body div.armure div.special div.mainData div.wolf div.armes div.effets div i.activable.inactive,
+.knight section.body div.armure div.special div.mainData div.crow div.armes div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.armes div.effets div i.activable.active,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.armes div.effets div i.activable.active,
+.knight section.body div.armure div.capacites div.mainData div.crow div.armes div.effets div i.activable.active,
+.knight section.body div.armure div.special div.mainData div.lion div.armes div.effets div i.activable.active,
+.knight section.body div.armure div.special div.mainData div.wolf div.armes div.effets div i.activable.active,
+.knight section.body div.armure div.special div.mainData div.crow div.armes div.effets div i.activable.active {
+  color: #59d13e;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.armes div.effets div i.activable:hover,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.armes div.effets div i.activable:hover,
+.knight section.body div.armure div.capacites div.mainData div.crow div.armes div.effets div i.activable:hover,
+.knight section.body div.armure div.special div.mainData div.lion div.armes div.effets div i.activable:hover,
+.knight section.body div.armure div.special div.mainData div.wolf div.armes div.effets div i.activable:hover,
+.knight section.body div.armure div.special div.mainData div.crow div.armes div.effets div i.activable:hover {
+  color: white;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.armes div.effets div i.red,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.armes div.effets div i.red,
+.knight section.body div.armure div.capacites div.mainData div.crow div.armes div.effets div i.red,
+.knight section.body div.armure div.special div.mainData div.lion div.armes div.effets div i.red,
+.knight section.body div.armure div.special div.mainData div.wolf div.armes div.effets div i.red,
+.knight section.body div.armure div.special div.mainData div.crow div.armes div.effets div i.red {
+  color: #C50000;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.armes div.effets div i.green,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.armes div.effets div i.green,
+.knight section.body div.armure div.capacites div.mainData div.crow div.armes div.effets div i.green,
+.knight section.body div.armure div.special div.mainData div.lion div.armes div.effets div i.green,
+.knight section.body div.armure div.special div.mainData div.wolf div.armes div.effets div i.green,
+.knight section.body div.armure div.special div.mainData div.crow div.armes div.effets div i.green {
+  color: #59d13e;
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.armes div.effets a.edit,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.armes div.effets a.edit,
@@ -23267,6 +23804,54 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   font-size: 20px;
 }
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.inactive,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.inactive,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.inactive,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.inactive,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.inactive,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.active,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.active,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.active,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.active,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.active,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable:hover,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable:hover,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable:hover,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable:hover,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable:hover,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable:hover {
+  color: white;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.red,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.red,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.red,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.red,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.red,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.red {
+  color: #C50000;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.green,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.green,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.green,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.green,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.green,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.green {
+  color: #59d13e;
+}
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets a.edit,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets a.edit,
 .knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets a.edit,
@@ -23826,6 +24411,54 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   font-size: 20px;
 }
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable {
+  cursor: pointer;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active {
+  color: #59d13e;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable:hover,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable:hover,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable:hover,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable:hover,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable:hover,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable:hover {
+  color: white;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red {
+  color: #C50000;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green,
+.knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green,
+.knight section.body div.armure div.special div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green,
+.knight section.body div.armure div.special div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green,
+.knight section.body div.armure div.special div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green {
+  color: #59d13e;
+}
 .knight section.body div.armure div.capacites div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets a.edit,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets a.edit,
 .knight section.body div.armure div.capacites div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets a.edit,
@@ -24260,6 +24893,54 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.configurations div.configuration div.effets div i.activable,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.configurations div.configuration div.effets div i.activable,
+.knight section.body div.armure div.capacites div.mainData div.crow div.configurations div.configuration div.effets div i.activable,
+.knight section.body div.armure div.special div.mainData div.lion div.configurations div.configuration div.effets div i.activable,
+.knight section.body div.armure div.special div.mainData div.wolf div.configurations div.configuration div.effets div i.activable,
+.knight section.body div.armure div.special div.mainData div.crow div.configurations div.configuration div.effets div i.activable {
+  cursor: pointer;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.configurations div.configuration div.effets div i.activable.inactive,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.inactive,
+.knight section.body div.armure div.capacites div.mainData div.crow div.configurations div.configuration div.effets div i.activable.inactive,
+.knight section.body div.armure div.special div.mainData div.lion div.configurations div.configuration div.effets div i.activable.inactive,
+.knight section.body div.armure div.special div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.inactive,
+.knight section.body div.armure div.special div.mainData div.crow div.configurations div.configuration div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.configurations div.configuration div.effets div i.activable.active,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.active,
+.knight section.body div.armure div.capacites div.mainData div.crow div.configurations div.configuration div.effets div i.activable.active,
+.knight section.body div.armure div.special div.mainData div.lion div.configurations div.configuration div.effets div i.activable.active,
+.knight section.body div.armure div.special div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.active,
+.knight section.body div.armure div.special div.mainData div.crow div.configurations div.configuration div.effets div i.activable.active {
+  color: #59d13e;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.configurations div.configuration div.effets div i.activable:hover,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.configurations div.configuration div.effets div i.activable:hover,
+.knight section.body div.armure div.capacites div.mainData div.crow div.configurations div.configuration div.effets div i.activable:hover,
+.knight section.body div.armure div.special div.mainData div.lion div.configurations div.configuration div.effets div i.activable:hover,
+.knight section.body div.armure div.special div.mainData div.wolf div.configurations div.configuration div.effets div i.activable:hover,
+.knight section.body div.armure div.special div.mainData div.crow div.configurations div.configuration div.effets div i.activable:hover {
+  color: white;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.configurations div.configuration div.effets div i.red,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.configurations div.configuration div.effets div i.red,
+.knight section.body div.armure div.capacites div.mainData div.crow div.configurations div.configuration div.effets div i.red,
+.knight section.body div.armure div.special div.mainData div.lion div.configurations div.configuration div.effets div i.red,
+.knight section.body div.armure div.special div.mainData div.wolf div.configurations div.configuration div.effets div i.red,
+.knight section.body div.armure div.special div.mainData div.crow div.configurations div.configuration div.effets div i.red {
+  color: #C50000;
+}
+.knight section.body div.armure div.capacites div.mainData div.lion div.configurations div.configuration div.effets div i.green,
+.knight section.body div.armure div.capacites div.mainData div.wolf div.configurations div.configuration div.effets div i.green,
+.knight section.body div.armure div.capacites div.mainData div.crow div.configurations div.configuration div.effets div i.green,
+.knight section.body div.armure div.special div.mainData div.lion div.configurations div.configuration div.effets div i.green,
+.knight section.body div.armure div.special div.mainData div.wolf div.configurations div.configuration div.effets div i.green,
+.knight section.body div.armure div.special div.mainData div.crow div.configurations div.configuration div.effets div i.green {
+  color: #59d13e;
 }
 .knight section.body div.armure div.capacites div.mainData div.lion div.configurations div.configuration div.effets a.edit,
 .knight section.body div.armure div.capacites div.mainData div.wolf div.configurations div.configuration div.effets a.edit,
@@ -25177,6 +25858,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   font-size: 20px;
 }
+.knight section.body div.armure div.modules div.mainBlock div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.knight section.body div.armure div.modules div.mainBlock div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.knight section.body div.armure div.modules div.mainBlock div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.knight section.body div.armure div.modules div.mainBlock div.data div.effets div i.activable:hover {
+  color: white;
+}
+.knight section.body div.armure div.modules div.mainBlock div.data div.effets div i.red {
+  color: #C50000;
+}
+.knight section.body div.armure div.modules div.mainBlock div.data div.effets div i.green {
+  color: #59d13e;
+}
 .knight section.body div.armure div.modules div.mainBlock div.data div.effets a.edit {
   position: absolute;
   bottom: 0px;
@@ -25475,6 +26174,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable {
+  cursor: pointer;
+}
+.knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active {
+  color: #59d13e;
+}
+.knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable:hover {
+  color: white;
+}
+.knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red {
+  color: #C50000;
+}
+.knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green {
+  color: #59d13e;
 }
 .knight section.body div.armure div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets a.edit {
   position: absolute;
@@ -26067,6 +26784,30 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.knight section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable,
+.knight section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable {
+  cursor: pointer;
+}
+.knight section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable.inactive,
+.knight section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.inactive {
+  color: #C50000;
+}
+.knight section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable.active,
+.knight section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.active {
+  color: #59d13e;
+}
+.knight section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable:hover,
+.knight section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable:hover {
+  color: white;
+}
+.knight section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.red,
+.knight section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.red {
+  color: #C50000;
+}
+.knight section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.green,
+.knight section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.green {
+  color: #59d13e;
 }
 .knight section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets a.edit,
 .knight section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets a.edit {
@@ -29171,6 +29912,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   font-size: 20px;
 }
+.pnj section.body div.capacites div.wolf div.configuration div.effets div i.activable {
+  cursor: pointer;
+}
+.pnj section.body div.capacites div.wolf div.configuration div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.wolf div.configuration div.effets div i.activable.active {
+  color: #59d13e;
+}
+.pnj section.body div.capacites div.wolf div.configuration div.effets div i.activable:hover {
+  color: white;
+}
+.pnj section.body div.capacites div.wolf div.configuration div.effets div i.red {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.wolf div.configuration div.effets div i.green {
+  color: #59d13e;
+}
 .pnj section.body div.capacites div.wolf div.configuration div.effets a.edit {
   position: absolute;
   bottom: 0px;
@@ -29862,6 +30621,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   font-size: 20px;
 }
+.pnj section.body div.capacites div.modules div.mainBlock div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.pnj section.body div.capacites div.modules div.mainBlock div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.modules div.mainBlock div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.pnj section.body div.capacites div.modules div.mainBlock div.data div.effets div i.activable:hover {
+  color: white;
+}
+.pnj section.body div.capacites div.modules div.mainBlock div.data div.effets div i.red {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.modules div.mainBlock div.data div.effets div i.green {
+  color: #59d13e;
+}
 .pnj section.body div.capacites div.modules div.mainBlock div.data div.effets a.edit {
   position: absolute;
   bottom: 0px;
@@ -30159,6 +30936,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable {
+  cursor: pointer;
+}
+.pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active {
+  color: #59d13e;
+}
+.pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable:hover {
+  color: white;
+}
+.pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green {
+  color: #59d13e;
 }
 .pnj section.body div.capacites div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets a.edit {
   position: absolute;
@@ -30957,6 +31752,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   font-size: 20px;
 }
+.pnj section.body div.capacites div.capacite div.mainData div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.data div.effets div i.activable:hover {
+  color: white;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.data div.effets div i.red {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.data div.effets div i.green {
+  color: #59d13e;
+}
 .pnj section.body div.capacites div.capacite div.mainData div.data div.effets a.edit {
   position: absolute;
   bottom: 0px;
@@ -31389,6 +32202,36 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets div i.activable,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets div i.activable,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.armes div.effets div i.activable {
+  cursor: pointer;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets div i.activable.inactive,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets div i.activable.inactive,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.armes div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets div i.activable.active,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets div i.activable.active,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.armes div.effets div i.activable.active {
+  color: #59d13e;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets div i.activable:hover,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets div i.activable:hover,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.armes div.effets div i.activable:hover {
+  color: white;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets div i.red,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets div i.red,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.armes div.effets div i.red {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets div i.green,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets div i.green,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.armes div.effets div i.green {
+  color: #59d13e;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.armes div.effets a.edit,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.armes div.effets a.edit,
@@ -32223,6 +33066,36 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   font-size: 20px;
 }
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.inactive,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.inactive,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.active,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.active,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable:hover,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable:hover,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.activable:hover {
+  color: white;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.red,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.red,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.red {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets div i.green,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets div i.green,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets div i.green {
+  color: #59d13e;
+}
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data div.effets a.edit,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data div.effets a.edit,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data div.effets a.edit {
@@ -32625,6 +33498,36 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   font-size: 20px;
 }
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable {
+  cursor: pointer;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active {
+  color: #59d13e;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable:hover,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable:hover,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable:hover {
+  color: white;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green {
+  color: #59d13e;
+}
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets a.edit,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets a.edit,
 .pnj section.body div.capacites div.capacite div.mainData div.crow div.modulesLion div.bModule div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets a.edit {
@@ -32941,6 +33844,36 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets div i.activable,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets div i.activable,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.configurations div.configuration div.effets div i.activable {
+  cursor: pointer;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets div i.activable.inactive,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.inactive,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.configurations div.configuration div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets div i.activable.active,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets div i.activable.active,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.configurations div.configuration div.effets div i.activable.active {
+  color: #59d13e;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets div i.activable:hover,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets div i.activable:hover,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.configurations div.configuration div.effets div i.activable:hover {
+  color: white;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets div i.red,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets div i.red,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.configurations div.configuration div.effets div i.red {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets div i.green,
+.pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets div i.green,
+.pnj section.body div.capacites div.capacite div.mainData div.crow div.configurations div.configuration div.effets div i.green {
+  color: #59d13e;
 }
 .pnj section.body div.capacites div.capacite div.mainData div.lion div.configurations div.configuration div.effets a.edit,
 .pnj section.body div.capacites div.capacite div.mainData div.wolf div.configurations div.configuration div.effets a.edit,
@@ -33338,6 +34271,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.activable:hover {
+  color: white;
+}
+.pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.red {
+  color: #C50000;
+}
+.pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.green {
+  color: #59d13e;
 }
 .pnj section.body div.capacites div.capacite div.mainBlock div.data div.effets a.edit {
   position: absolute;
@@ -33806,6 +34757,30 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable,
+.pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable {
+  cursor: pointer;
+}
+.pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable.inactive,
+.pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.inactive {
+  color: #C50000;
+}
+.pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable.active,
+.pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.active {
+  color: #59d13e;
+}
+.pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable:hover,
+.pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable:hover {
+  color: white;
+}
+.pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.red,
+.pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.red {
+  color: #C50000;
+}
+.pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.green,
+.pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.green {
+  color: #59d13e;
 }
 .pnj section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets a.edit,
 .pnj section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets a.edit {
@@ -35718,6 +36693,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   font-size: 20px;
 }
+.creature section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.creature section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.creature section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.creature section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.activable:hover {
+  color: white;
+}
+.creature section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.red {
+  color: #C50000;
+}
+.creature section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.green {
+  color: #59d13e;
+}
 .creature section.body div.capacites div.capacite div.mainBlock div.data div.effets a.edit {
   position: absolute;
   bottom: 0px;
@@ -36185,6 +37178,30 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.creature section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable,
+.creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable {
+  cursor: pointer;
+}
+.creature section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable.inactive,
+.creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.inactive {
+  color: #C50000;
+}
+.creature section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable.active,
+.creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.active {
+  color: #59d13e;
+}
+.creature section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable:hover,
+.creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable:hover {
+  color: white;
+}
+.creature section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.red,
+.creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.red {
+  color: #C50000;
+}
+.creature section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.green,
+.creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.green {
+  color: #59d13e;
 }
 .creature section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets a.edit,
 .creature section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets a.edit {
@@ -37933,6 +38950,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   font-size: 20px;
 }
+.bande section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.bande section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.bande section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.bande section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.activable:hover {
+  color: white;
+}
+.bande section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.red {
+  color: #C50000;
+}
+.bande section.body div.capacites div.capacite div.mainBlock div.data div.effets div i.green {
+  color: #59d13e;
+}
 .bande section.body div.capacites div.capacite div.mainBlock div.data div.effets a.edit {
   position: absolute;
   bottom: 0px;
@@ -38400,6 +39435,30 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.bande section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable,
+.bande section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable {
+  cursor: pointer;
+}
+.bande section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable.inactive,
+.bande section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.inactive {
+  color: #C50000;
+}
+.bande section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable.active,
+.bande section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.active {
+  color: #59d13e;
+}
+.bande section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.activable:hover,
+.bande section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable:hover {
+  color: white;
+}
+.bande section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.red,
+.bande section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.red {
+  color: #C50000;
+}
+.bande section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets div i.green,
+.bande section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.green {
+  color: #59d13e;
 }
 .bande section.body div.combat div.main div.armesContact div.wpn div.effets div.blockEffets a.edit,
 .bande section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets a.edit {
@@ -40197,6 +41256,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   color: white;
   font-size: 20px;
 }
+.vehicule section.body div.modules div.mainBlock div.data div.effets div i.activable {
+  cursor: pointer;
+}
+.vehicule section.body div.modules div.mainBlock div.data div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.vehicule section.body div.modules div.mainBlock div.data div.effets div i.activable.active {
+  color: #59d13e;
+}
+.vehicule section.body div.modules div.mainBlock div.data div.effets div i.activable:hover {
+  color: white;
+}
+.vehicule section.body div.modules div.mainBlock div.data div.effets div i.red {
+  color: #C50000;
+}
+.vehicule section.body div.modules div.mainBlock div.data div.effets div i.green {
+  color: #59d13e;
+}
 .vehicule section.body div.modules div.mainBlock div.data div.effets a.edit {
   position: absolute;
   bottom: 0px;
@@ -40494,6 +41571,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable {
+  cursor: pointer;
+}
+.vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable.active {
+  color: #59d13e;
+}
+.vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.activable:hover {
+  color: white;
+}
+.vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.red {
+  color: #C50000;
+}
+.vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets div i.green {
+  color: #59d13e;
 }
 .vehicule section.body div.modules div.mainBlock div.data.pnj div.mainBlock div.armes > div div.effets a.edit {
   position: absolute;
@@ -40810,6 +41905,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable {
+  cursor: pointer;
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.inactive {
+  color: #C50000;
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable.active {
+  color: #59d13e;
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.activable:hover {
+  color: white;
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.red {
+  color: #C50000;
+}
+.vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets div i.green {
+  color: #59d13e;
 }
 .vehicule section.body div.combat div.main div.armesDistance div.wpn div.effets div.blockEffets a.edit {
   position: absolute;
@@ -42397,6 +43510,24 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   background: RGB(43 42 51);
   color: white;
   font-size: 20px;
+}
+.mechaarmure section.body div.combat div.main div.modules div.liste div.effets div i.activable, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets div i.activable {
+  cursor: pointer;
+}
+.mechaarmure section.body div.combat div.main div.modules div.liste div.effets div i.activable.inactive, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets div i.activable.inactive {
+  color: #C50000;
+}
+.mechaarmure section.body div.combat div.main div.modules div.liste div.effets div i.activable.active, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets div i.activable.active {
+  color: #59d13e;
+}
+.mechaarmure section.body div.combat div.main div.modules div.liste div.effets div i.activable:hover, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets div i.activable:hover {
+  color: white;
+}
+.mechaarmure section.body div.combat div.main div.modules div.liste div.effets div i.red, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets div i.red {
+  color: #C50000;
+}
+.mechaarmure section.body div.combat div.main div.modules div.liste div.effets div i.green, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets div i.green {
+  color: #59d13e;
 }
 .mechaarmure section.body div.combat div.main div.modules div.liste div.effets a.edit, .mechaarmure section.body div.combat div.main div.modules div.blockModule div.effets a.edit {
   position: absolute;

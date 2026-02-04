@@ -51,8 +51,11 @@ export function sum(total, num) {
   return total + num;
 }
 
-export function listEffects(raw, custom, labels, chargeur=null) {
+export function listEffects(effects, labels, chargeur=null, activable2=false) {
     const liste = [];
+    const raw = effects?.raw ?? undefined;
+    const activable = effects?.activable ?? undefined;
+    const custom = effects?.custom ?? undefined;
 
     if(raw === undefined) return;
 
@@ -100,6 +103,40 @@ export function listEffects(raw, custom, labels, chargeur=null) {
       }
 
       liste.push(toPush);
+    }
+
+    if(activable !== undefined) {
+      let n = 0;
+
+      for(let e of activable) {
+          const id = n;
+          const split = e.key.split(" ");
+          const secondSplit = split[0].split("<space>");
+          const name = game.i18n.localize(labels[secondSplit[0]].label);
+          const sub = split[1];
+          const other = Object.values(secondSplit);
+          const cost = e?.cost ?? 0;
+          let complet = name;
+
+          if(other.length > 1) {
+            other.splice(0, 1);
+            complet += ` ${other.join(" ").replace("<space>", " ")}`;
+          }
+
+          if(sub != undefined) { complet += " "+sub; }
+
+          if(cost > 0) complet += ` (${cost} ${game.i18n.localize("KNIGHT.AUTRE.PointEnergie-short")})`;
+
+          liste.push({
+            id,
+            name:complet,
+            description:game.i18n.localize(labels[secondSplit[0]].description),
+            custom:false,
+            activable:true,
+            cost,
+            active:activable2 ? e?.active2 ?? false : e?.active ?? false,
+          });
+      }
     }
 
     if(custom !== undefined) {
@@ -4631,7 +4668,7 @@ export function compareArrays(arr1, arr2) {
   return true;
 };
 
-export function getFlatEffectBonus(wpn, forceEquipped=false) {
+export function getFlatEffectBonus(wpn, forceEquipped=false, isActive2=false) {
   const data = wpn?.system ? wpn.system : wpn;
   const type = data.type;
   const equipped = forceEquipped ? true : data?.equipped || false;
@@ -4656,6 +4693,7 @@ export function getFlatEffectBonus(wpn, forceEquipped=false) {
 
   let lEffets = [];
   let effetsRaw = [];
+  let effetsActivable = [];
   let actuel = '';
 
   switch(type) {
@@ -4663,15 +4701,21 @@ export function getFlatEffectBonus(wpn, forceEquipped=false) {
       const opt2Mains = data?.options2mains?.has || false;
       actuel = data?.options2mains?.actuel || '1main';
       effetsRaw =  (!opt2Mains || actuel === '1main') ? data.effets.raw : [];
+      const effets1MainActivable =  (!opt2Mains || actuel === '1main') ? data.effets?.activable ?? [] : [];
 
       const effets2Mains = opt2Mains && actuel === '2main' ? data.effets2mains.custom : [];
       const effets2MainsRaw = opt2Mains && actuel === '2main' ? data.effets2mains.raw : [];
+      const effets2MainsActivable = opt2Mains && actuel === '2main' ? data.effets2mains?.activable ?? [] : [];
       const ornementales = data?.ornementales?.custom || [];
       const ornementalesRaw = data?.ornementales?.raw || [];
       const structurelles = data?.structurelles?.custom || [];
       const structurellesRaw = data?.structurelles?.raw || [];
 
-      lEffets = effets.concat(effetsRaw, effets2Mains, effets2MainsRaw, ornementales, ornementalesRaw, structurelles, structurellesRaw);
+      effetsActivable = [].concat(effets1MainActivable, effets2MainsActivable)
+      .filter(itm => (itm?.active && !isActive2) || (itm?.active2 && isActive2))
+      .map(({ key }) => key);
+
+      lEffets = effets.concat(effetsRaw, effetsActivable, effets2Mains, effets2MainsRaw, ornementales, ornementalesRaw, structurelles, structurellesRaw);
       break;
 
     case 'distance':
@@ -4679,12 +4723,17 @@ export function getFlatEffectBonus(wpn, forceEquipped=false) {
       actuel = data?.optionsmunitions?.actuel;
       effetsRaw = data.effets.raw;
 
+      const activable = data?.effets?.activable ?? [];
       const distance = data?.distance?.custom || [];
       const distanceRaw = data?.distance?.raw || [];
       const effetsMunitionsRaw = munitions ? data?.optionsmunitions?.liste?.[actuel]?.raw || [] : [];
       const effetsMunitions = munitions ? data?.optionsmunitions?.liste?.[actuel]?.custom || [] : [];
+      const effetsMunitionsActivable = munitions ? data?.optionsmunitions?.liste?.[actuel]?.activable || [] : [];
+      effetsActivable = [].concat(activable, effetsMunitionsActivable)
+      .filter(itm => (itm?.active && !isActive2) || (itm?.active2 && isActive2))
+      .map(({ key }) => key);
 
-      lEffets = effets.concat(effetsRaw, distance, distanceRaw, effetsMunitions, effetsMunitionsRaw);
+      lEffets = effets.concat(effetsRaw, effetsActivable, distance, distanceRaw, effetsMunitions, effetsMunitionsRaw);
       break;
   }
 

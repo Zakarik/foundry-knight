@@ -3,6 +3,7 @@ import {
   createSheet,
   deleteTokens,
   spawnTokenRightOfActor,
+  getAllEffects,
 } from "../../../helpers/common.mjs";
 import PatchBuilder from "../../../utils/patchBuilder.mjs";
 import ArmureAPI from "../../../utils/armureAPI.mjs";
@@ -258,6 +259,7 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
                   liste:[],
                   custom:[],
                   raw:[],
+                  activable:[],
                   chargeur:null,
                 },
                 distance:{
@@ -542,6 +544,70 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     }
 
     return effects;
+  }
+
+  async toggleEffect(index, type) {
+    const basePath = `system.niveau.details.n${this.getNiveau}.arme`;
+    const baseNiveau = this.niveau.details[`n${this.getNiveau}`].arme;
+    let data = undefined;
+    let activable = undefined;
+    let actuel = undefined;
+    let path = '';
+    let update = {};
+
+    switch(type) {
+      case 'base':
+        data = baseNiveau.effets;
+        path = `${basePath}.effets.activable`;
+        break;
+
+      case 'munition':
+        data = baseNiveau.optionsmunitions?.liste?.[munition] ?? undefined;
+        path = `${basePath}.optionsmunitions.liste.${munition}.activable`;
+        break;
+    }
+
+    activable = data?.activable ?? undefined;
+    actuel = activable[index]?.active ?? false;
+
+    if(!data) return;
+    const armure = this.actor.system.dataArmor;
+
+    if(!actuel) {
+      const depense = await this.usePEActivateEffets(armure, this.item.name, activable[index]);
+
+      if(!depense) return;
+    }
+
+    activable[index].active = !actuel;
+
+    update[path] = activable;
+
+    this.item.update(update);
+
+    const allLabels = getAllEffects();
+
+    const splitEffect = activable[index].key.split(" ");
+    const secondSplitEffect = splitEffect[0].split("<space>");
+    const nameEffect = game.i18n.localize(allLabels[secondSplitEffect[0]].label);
+    const otherEffect = Object.values(secondSplitEffect);
+    const subEffect = splitEffect[1];
+    let complet = nameEffect;
+
+    if(otherEffect.length > 1) {
+      otherEffect.splice(0, 1);
+      complet += ` ${otherEffect.join(" ").replace("<space>", " ")}`;
+    }
+
+    if(subEffect != undefined) { complet += " "+subEffect; }
+
+    const exec = new game.knight.RollKnight(this.actor,
+    {
+    name:this.item.name,
+    }).sendMessage({
+        text:!actuel ? `${complet} : ${game.i18n.localize('KNIGHT.AUTRE.Activer')}` : `${complet} : ${game.i18n.localize('KNIGHT.AUTRE.Desactiver')}`,
+        classes:'important',
+    });
   }
 
   qtyMunition() {
@@ -1361,6 +1427,68 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     } else {
       let pbE = new PatchBuilder();
       pbE.sys(`energie.value`, substractEnergie);
+
+      await pbE.applyTo(actor);
+
+      return true;
+    }
+  }
+
+  async usePEActivateEffets(armure, label, effet, forceEspoir = false) {
+    const actor = this.actor;
+
+    const remplaceEnergie = armure.espoirRemplaceEnergie;
+    const getType = remplaceEnergie || forceEspoir ? 'espoir' : 'energie';
+
+    const value = actor?.system?.[getType]?.value ?? 0;
+    const espoir = actor?.system?.espoir?.value ?? 0;
+
+    const sendLackMsg = async (i18nKey) => {
+      const payload = {
+        flavor: `${label}`,
+        main: { total: `${game.i18n.localize(`KNIGHT.JETS.${i18nKey}`)}` }
+      };
+      const data = {
+        user: game.user.id,
+        speaker: {
+          actor: actor?.id ?? null,
+          token: actor?.token?.id ?? null,
+          alias: actor?.name ?? null,
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
+        sound: CONFIG.sounds.dice
+      };
+      const rMode = game.settings.get("core", "rollMode");
+      const msgData = ChatMessage.applyRollMode(data, rMode);
+      await ChatMessage.create(msgData, { rollMode: rMode });
+    };
+
+    let depenseEnergie = Number(effet.cost);
+    let depenseEspoir = 0;
+    let substractEnergie = 0;
+    let substractEspoir = 0;
+
+    if(remplaceEnergie) depenseEnergie += depenseEspoir;
+
+    substractEnergie = value - depenseEnergie;
+    substractEspoir = espoir - depenseEspoir;
+    if(substractEnergie < 0) {
+      await sendLackMsg(`${remplaceEnergie || forceEspoir ? 'Notespoir' : 'Notenergie'}`);
+
+      return false;
+    } else if(substractEspoir < 0 && !remplaceEnergie) {
+      await sendLackMsg(`Notespoir`);
+
+      return false;
+    } else {
+      let pbE = new PatchBuilder();
+      const pathEnergie = actor.type === 'knight' ? `equipements.${actor.system.wear}.${getType}.value` : `${getType}.value`;
+
+      if(!remplaceEnergie) pbE.sys(pathEnergie, substractEnergie);
+      else if(remplaceEnergie && !actor.system.espoir.perte.saufAgonie) pbE.sys('espoir.value', substractEnergie);
+
+      if(!remplaceEnergie && depenseEspoir) pbE.sys('espoir.value', substractEspoir);
 
       await pbE.applyTo(actor);
 

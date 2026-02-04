@@ -4,27 +4,27 @@
         <div class="effets">
             {{#each object.data.liste as | key effet|}}
                 <div class="{{#if key.custom}}wEdit{{/if}}">
-                    <img class="delete" title="{{localize "KNIGHT.AUTRE.Supprimer"}}" data-custom="{{key.custom}}" data-index="{{key.id}}" src="systems/knight/assets/icons/delete.svg" />
+                    <img class="delete" title="{{localize "KNIGHT.AUTRE.Supprimer"}}" data-custom="{{key.custom}}" data-activable="{{key.activable}}" data-index="{{key.id}}" src="systems/knight/assets/icons/delete.svg" />
                     {{#if key.custom}}
                         <img src="systems/knight/assets/icons/optionWhite.svg" data-index="{{key.id}}" class="edit" title="{{localize "KNIGHT.AUTRE.Editer"}}">
                     {{/if}}
-                    <span class="label">{{key.name}}</span>
+                    <span class="label">{{key.name}} {{#if key.activable}}{{ifThen key.cost (concat '(' key.cost ' ' (localize 'KNIGHT.AUTRE.PointEnergie-short') ')')}}{{/if}}</span>
                     <img class="info" src="systems/knight/assets/icons/info.svg" />
                     <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
                 </div>
             {{/each}}
         </div>
         <h2 class="header">{{localize "KNIGHT.EFFETS.Add"}}</h2>
-        <div class="effetsAdd">
+        <div class="effetsAdd standard">
             {{#each object.data.ePossibles as | key effet|}}
                 <div class="{{#if key.double}}double{{/if}} {{#if key.text}}text{{/if}}">
                     <img class="info" src="systems/knight/assets/icons/info.svg" />
                     <span class="label">{{key.name}}</span>
                     {{#if key.double}}
-                        <input type="number" class="double{{key.key}}" value="0" min="0" {{#if key.max}}max="{{key.max}}"{{/if}} />
+                        <input type="number" class="double" value="0" min="0" {{#if key.max}}max="{{key.max}}"{{/if}} />
                     {{/if}}
                     {{#if key.text}}
-                        <input type="text" class="text{{key.key}}" value="" placeholder="{{key.placeholder}}" />
+                        <input type="text" class="text" value="" placeholder="{{key.placeholder}}" />
                     {{/if}}
                     <a class="add" title="{{localize "KNIGHT.AUTRE.Ajouter"}}"
                         data-label="{{key.key}}" data-double="{{key.double}}" data-text="{{key.text}}">
@@ -34,6 +34,28 @@
                 </div>
             {{/each}}
         </div>
+        {{#if object.data.ePossiblesActivable}}
+        <h2 class="header">{{localize "KNIGHT.EFFETS.AddActivable"}}</h2>
+        <div class="effetsAdd activable">
+            {{#each object.data.ePossiblesActivable as | key effet|}}
+                <div class="{{#if key.double}}double{{/if}} {{#if key.text}}text{{/if}}">
+                    <img class="info" src="systems/knight/assets/icons/info.svg" />
+                    <span class="label">{{key.name}}</span>
+                    {{#if key.double}}
+                        <input type="number" class="double" value="0" min="0" {{#if key.max}}max="{{key.max}}"{{/if}} />
+                    {{/if}}
+                    {{#if key.text}}
+                        <input type="text" class="text" value="" placeholder="{{key.placeholder}}" />
+                    {{/if}}
+                    <a class="add" title="{{localize "KNIGHT.AUTRE.Ajouter"}}"
+                        data-label="{{key.key}}" data-double="{{key.double}}" data-text="{{key.text}}">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                    <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+                </div>
+            {{/each}}
+        </div>
+        {{/if}}
     </div>
     <div class="dialog-buttons">
         <button class="dialog-button valider">

@@ -54,7 +54,7 @@
                     <span class="label">{{localize "KNIGHT.LATERAL.Sante"}}</span>
                     <input type="number" name="system.sante.value" min="0" max="{{systemData.sante.max}}" value="{{systemData.sante.value}}" />
                     <span class="separation">/</span>
-                    <span class="score" title="{{systemData.sante.base}} + {{systemData.sante.mod}} = {{systemData.sante.max}}">{{systemData.sante.max}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'sante' systemData}}">{{systemData.sante.max}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
@@ -82,7 +82,7 @@
                     <span class="label">{{localize "KNIGHT.LATERAL.Armure"}}</span>
                     <input class="value" type="number" name="system.armure.value" min="0" max="{{systemData.armure.max}}" value="{{systemData.armure.value}}" />
                     <span class="separation">/</span>
-                    <span class="score" title="{{systemData.armure.base}} + {{systemData.armure.mod}} = {{systemData.armure.max}}">{{systemData.armure.max}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'armure' systemData}}">{{systemData.armure.max}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
@@ -106,7 +106,7 @@
                     <span class="label">{{localize "KNIGHT.LATERAL.Energie"}}</span>
                     <input type="number" name="system.energie.value" min="0" max="{{systemData.energie.max}}" value="{{systemData.energie.value}}" />
                     <span class="separation">/</span>
-                    <span class="score" title="{{systemData.energie.base}} + {{systemData.energie.mod}} = {{systemData.energie.max}}">{{systemData.energie.max}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'energie' systemData}}">{{systemData.energie.max}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
@@ -128,7 +128,7 @@
                 <div class="line js-simpletoggler">
                     <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="bouclier"></span>
                     <span class="label">{{localize "KNIGHT.LATERAL.Bouclier"}}</span>
-                    <span class="score" title="{{systemData.bouclier.base}} + {{systemData.bouclier.mod}} = {{systemData.bouclier.value}}">{{systemData.bouclier.value}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'bouclier' systemData}}">{{systemData.bouclier.value}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
@@ -152,7 +152,7 @@
                 <div class="line js-simpletoggler">
                     <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="reaction"></span>
                     <span class="label">{{localize "KNIGHT.LATERAL.Reaction"}}</span>
-                    <span class="score" title="{{systemData.reaction.base}} + {{systemData.reaction.mod}} = {{systemData.reaction.value}}">{{systemData.reaction.value}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'reaction' systemData}}">{{systemData.reaction.value}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
@@ -172,7 +172,7 @@
                 <div class="line js-simpletoggler">
                     <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="defense"></span>
                     <span class="label">{{localize "KNIGHT.LATERAL.Defense"}}</span>
-                    <span class="score" title="{{systemData.defense.base}} + {{systemData.defense.mod}} = {{systemData.defense.value}}">{{systemData.defense.value}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'defense' systemData}}">{{systemData.defense.value}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>

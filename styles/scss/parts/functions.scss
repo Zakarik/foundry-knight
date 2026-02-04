@@ -7,6 +7,7 @@ $lightBlue: RGB(087 110 178);
 $green:#18520b;
 $lightGreen:#59d13e;
 $red:#AF0000;
+$lightRed:#C50000;
 $lightGrey:RGB(193, 193, 193);
 $news:#00ffcc44;
 
@@ -106,6 +107,7 @@ $news:#00ffcc44;
         margin-top: 5px;
         border:1px solid black;
 
+
         span.label {
             font-variant: small-caps;
             color: $white;
@@ -179,6 +181,30 @@ $news:#00ffcc44;
               }
             }
           }
+        }
+
+        i.activable {
+          cursor:pointer;
+
+          &.inactive {
+            color:$lightRed;
+          }
+
+          &.active {
+            color: $lightGreen;
+          }
+
+          &:hover {
+            color: $white;
+          }
+        }
+
+        i.red {
+          color: $lightRed;
+        }
+
+        i.green {
+          color: $lightGreen;
         }
     }
 

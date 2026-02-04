@@ -2644,14 +2644,14 @@ export class KnightRollDialog extends Dialog {
                                     energie:dataC.effets.liste1.energie,
                                     raw:dataC.effets.liste1.raw,
                                     custom:dataC.effets.liste1.custom,
-                                    liste:listEffects(dataC.effets.liste1.raw, dataC.effets.liste1.custom, labels),
+                                    liste:listEffects(dataC.effets.liste1, labels),
                                     selected:[]
                                 },
                                 liste2:{
                                     energie:dataC.effets.liste2.energie,
                                     raw:dataC.effets.liste2.raw,
                                     custom:dataC.effets.liste2.custom,
-                                    liste:listEffects(dataC.effets.liste2.raw, dataC.effets.liste2.custom, labels),
+                                    liste:listEffects(dataC.effets.liste2, labels),
                                     selected:[]
                                 },
                             }
@@ -2662,7 +2662,7 @@ export class KnightRollDialog extends Dialog {
                                 energie:dataC.effets.liste3.energie,
                                 raw:dataC.effets.liste3.raw,
                                 custom:dataC.effets.liste3.custom,
-                                liste:listEffects(dataC.effets.liste3.raw, dataC.effets.liste3.custom, labels),
+                                liste:listEffects(dataC.effets.liste3, labels),
                                 selected:[]
                             };
 
@@ -5046,7 +5046,7 @@ export class KnightRollDialog extends Dialog {
                         </header>
                         <div class="block">`;
 
-            const effetsList = listEffects(data.possibility.liste1.raw, data.possibility.liste1.custom, labels);
+            const effetsList = listEffects(data.possibility.liste1, labels);
 
             for(let l of effetsList) {
                 effets += `<a title="${l.description}" data-raw="${l.raw}">
@@ -5067,7 +5067,7 @@ export class KnightRollDialog extends Dialog {
                         </header>
                         <div class="block">`;
 
-            const effetsList = listEffects(data.possibility.liste2.raw, data.possibility.liste2.custom, labels);
+            const effetsList = listEffects(data.possibility.liste2, labels);
 
             for(let l of effetsList) {
                 effets += `<a title="${l.description}" data-raw="${l.raw}">
@@ -5088,7 +5088,7 @@ export class KnightRollDialog extends Dialog {
                         </header>
                         <div class="block">`;
 
-            const effetsList = listEffects(data.possibility.liste3.raw, data.possibility.liste3.custom, labels);
+            const effetsList = listEffects(data.possibility.liste3, labels);
 
             for(let l of effetsList) {
                 effets += `<a title="${l.description}" data-raw="${l.raw}">

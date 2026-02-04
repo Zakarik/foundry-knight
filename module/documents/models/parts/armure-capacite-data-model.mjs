@@ -1534,7 +1534,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 liste: new ArrayField(new StringField()),
                 raw: new ArrayField(new StringField()),
                 custom: new ArrayField(new ObjectField()),
-                chargeur: new NumberField({initial: null})
+                chargeur: new NumberField({initial: null}),
+                chargeur2: new NumberField({initial: null}),
               })
             }),
             lame: new SchemaField({
@@ -1552,7 +1553,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 liste: new ArrayField(new StringField()),
                 raw: new ArrayField(new StringField()),
                 custom: new ArrayField(new ObjectField()),
-                chargeur: new NumberField({initial: null})
+                chargeur: new NumberField({initial: null}),
+                chargeur2: new NumberField({initial: null}),
               })
             }),
             canon: new SchemaField({
@@ -1571,7 +1573,8 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
                 liste: new ArrayField(new StringField()),
                 raw: new ArrayField(new StringField(), {initial: ["destructeur", "meurtrier", "ultraviolence"]}),
                 custom: new ArrayField(new ObjectField()),
-                chargeur: new NumberField({initial: null})
+                chargeur: new NumberField({initial: null}),
+                chargeur2: new NumberField({initial: null}),
               })
             })
           }),
@@ -2683,7 +2686,7 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
       const lionWpn = capacites.companions.lion.armes.contact.coups;
 
       Object.defineProperty(lionWpn.effets, 'liste', {
-        value: listEffects(lionWpn.effets.raw, lionWpn.effets.custom, allLabels),
+        value: listEffects(lionWpn.effets, allLabels),
         writable:true,
         enumerable:true,
         configurable:true

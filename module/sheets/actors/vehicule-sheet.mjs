@@ -495,6 +495,20 @@ export class VehiculeSheet extends ActorSheet {
     html.find('.jetDebordement').click(async ev => {
       this.actor.system.doDebordement();
     });
+
+    html.find('i.effects.activable').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item").length > 0 ? tgt.parents(".item") : tgt.parents(".headerData");
+      const raw = header.data('raw');
+      const type = raw ? raw : tgt.data('type');
+      const munition = tgt.data('munition');
+      const pnj = tgt.data('pnj');
+      const wpn = tgt.data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+      const id = tgt.data('id');
+
+      item.system.toggleEffect(id, type, munition, pnj, wpn);
+    });
   }
 
   /* -------------------------------------------- */
@@ -600,18 +614,16 @@ export class VehiculeSheet extends ActorSheet {
 
       // ARME
       if (i.type === 'arme') {
-        const raw = data.effets.raw;
-        const custom = data.effets.custom;
+        const effects = data.effets;
 
-        data.effets.liste = listEffects(raw, custom, labels, data.effets?.chargeur);
+        data.effets.liste = listEffects(effects, labels, data.effets?.chargeur);
 
-        const rawDistance = data.distance.raw;
-        const customDistance = data.distance.custom;
+        const effectsDistance = data.distance;
         const optionsMunitions = data?.optionsmunitions?.has || false;
         const munition = data?.options2mains?.actuel || "";
         const effetMunition = data?.optionsmunitions?.liste || {};
 
-        data.distance.liste = listEffects(rawDistance, customDistance, labels);
+        data.distance.liste = listEffects(effectsDistance, labels);
 
         if(optionsMunitions === true) {
           data.degats.dice = data.optionsmunitions?.liste?.[munition]?.degats?.dice || 0;
@@ -621,10 +633,9 @@ export class VehiculeSheet extends ActorSheet {
           data.violence.fixe = data.optionsmunitions?.liste?.[munition]?.violence?.fixe || 0;
 
           for (let [kM, munition] of Object.entries(effetMunition)) {
-            const bRaw2 = munition.raw || [];
-            const bCustom2 = munition.custom || [];
+            const bEffects2 = munition;
 
-            munition.liste = listEffects(bRaw2, bCustom2, labels, munition?.chargeur);
+            munition.liste = listEffects(bEffects2, labels, munition?.chargeur);
           }
         }
 
@@ -645,7 +656,7 @@ export class VehiculeSheet extends ActorSheet {
 
         if(dataMunitions.has) {
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            itemArme.optionsmunitions.liste[key].liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
+            itemArme.optionsmunitions.liste[key].liste = listEffects(value, labels, value?.chargeur);
           }
         }
 
@@ -868,7 +879,7 @@ export class VehiculeSheet extends ActorSheet {
           const dataMunitions = data[n].system.optionsmunitions;
 
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            value.liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
+            value.liste = listEffects(value, labels, value?.chargeur);
           }
         }
 
@@ -879,7 +890,7 @@ export class VehiculeSheet extends ActorSheet {
             for(let wpnPnj in dataPnj[pnj].armes.liste) {
               const dataWpnPnj = dataPnj[pnj].armes.liste[wpnPnj];
 
-              dataWpnPnj.effets.liste = listEffects(dataWpnPnj.effets.raw, dataWpnPnj.effets.custom, labels, dataWpnPnj.effets?.chargeur);
+              dataWpnPnj.effets.liste = listEffects(dataWpnPnj.effets, labels, dataWpnPnj.effets?.chargeur);
             }
           }
         }
@@ -892,7 +903,7 @@ export class VehiculeSheet extends ActorSheet {
       const data = path.split('.').reduce((obj, key) => obj?.[key], capacite);
       if (!data) return;
       const effets = simple ? data : data.effets;
-      effets.liste = listEffects(effets.raw, effets.custom, labels, effets?.chargeur);
+      effets.liste = listEffects(effets, labels, effets?.chargeur);
     };
 
     if (!items) {

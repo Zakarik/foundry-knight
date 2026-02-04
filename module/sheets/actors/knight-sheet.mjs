@@ -2394,7 +2394,7 @@ export class KnightSheet extends ActorSheet {
         path = path[key];
       });
 
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor._id, item:null, isToken:this?.document?.isToken || false, token:this?.token || null, raw:path.raw, custom:path.custom, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
+      await new game.knight.applications.KnightEffetsDialog({actor:this.actor._id, item:null, isToken:this?.document?.isToken || false, token:this?.token || null, raw:path.raw, custom:path.custom, activable:path.activable, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
     });
 
     html.find('a.btnChargeurPlus').click(async ev => {
@@ -2489,6 +2489,20 @@ export class KnightSheet extends ActorSheet {
       },
       dOptions);
       d.render(true);
+    });
+
+    html.find('i.effects.activable').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item").length > 0 ? tgt.parents(".item") : tgt.parents(".headerData");
+      const raw = header.data('raw');
+      const type = raw ? raw : tgt.data('type');
+      const munition = tgt.data('munition');
+      const pnj = tgt.data('pnj');
+      const wpn = tgt.data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+      const id = tgt.data('id');
+
+      item.system.toggleEffect(id, type, munition, pnj, wpn);
     });
   }
 
@@ -2686,10 +2700,11 @@ export class KnightSheet extends ActorSheet {
 
                 const askNiveau = await renderTemplate("systems/knight/templates/dialog/ask-sheet.html", {
                   what:game.i18n.localize("KNIGHT.ITEMS.MODULE.QuelNiveau"),
-                  select:{
-                    has:true,
-                    liste:niveauMax
-                  }
+                  list:[{
+                    key:'select',
+                    liste:niveauMax,
+                    class:'whatSelect'
+                  }],
                 });
                 const askNiveauDialogOptions = {classes: ["dialog", "knight", "askniveau"]};
 
@@ -2773,10 +2788,11 @@ export class KnightSheet extends ActorSheet {
 
         const askNiveau = await renderTemplate("systems/knight/templates/dialog/ask-sheet.html", {
           what:game.i18n.localize("KNIGHT.ITEMS.MODULE.QuelNiveau"),
-          select:{
-            has:true,
-            liste:niveauMax
-          }
+          list:[{
+            key:'select',
+            liste:niveauMax,
+            class:'whatSelect'
+          }]
         });
         const askNiveauDialogOptions = {classes: ["dialog", "knight", "askniveau"]};
 
@@ -3012,6 +3028,7 @@ export class KnightSheet extends ActorSheet {
   }
 
   async _prepareCharacterItems(actorData, system, items) {
+    const allEffects = getAllEffects();
     const eqpData = system.equipements;
     const armorData = eqpData.armure;
     const wear = system.wear;
@@ -3370,6 +3387,7 @@ export class KnightSheet extends ActorSheet {
 
             switch(c) {
               case 'longbow':
+                console.error(dCapacite);
                 longbow = dCapacite;
                 longbow.has = true;
                 break;
@@ -3389,9 +3407,10 @@ export class KnightSheet extends ActorSheet {
                     degats:dCapacite.offensif.degats,
                     violence:dCapacite.offensif.violence,
                     effets:{
+                      activable:dCapacite.offensif.effets.activable,
                       raw:dCapacite.offensif.effets.raw,
                       custom:dCapacite.offensif.effets.custom,
-                      liste:dCapacite.offensif.effets.liste,
+                      liste:listEffects(dCapacite.offensif.effets, allEffects, dCapacite.offensif.effets?.chargeur ?? null),
                       chargeur:dCapacite.offensif.effets?.chargeur ?? null
                     }
                   }
@@ -3411,9 +3430,10 @@ export class KnightSheet extends ActorSheet {
                     degats:dCapacite.offensif.degats,
                     violence:dCapacite.offensif.violence,
                     effets:{
+                      activable:dCapacite.offensif.effets.activable,
                       raw:dCapacite.offensif.effets.raw,
                       custom:dCapacite.offensif.effets.custom,
-                      liste:dCapacite.offensif.effets.liste,
+                      liste:listEffects(dCapacite.offensif.effets, allEffects, dCapacite.offensif.effets?.chargeur ?? null),
                       chargeur:dCapacite.offensif.effets?.chargeur ?? null
                     }
                   }
@@ -3435,9 +3455,10 @@ export class KnightSheet extends ActorSheet {
                     degats:dCapacite.vague.degats,
                     violence:dCapacite.vague.violence,
                     effets:{
+                      activable:dCapacite.vague.effets.activable,
                       raw:dCapacite.vague.effets.raw,
                       custom:dCapacite.vague.effets.custom,
-                      liste:dCapacite.vague.effets.liste,
+                      liste:listEffects(dCapacite.vague.effets, allEffects, dCapacite.vague.effets?.chargeur ?? null),
                       chargeur:dCapacite.vague.effets?.chargeur ?? null
                     }
                   }
@@ -3456,9 +3477,10 @@ export class KnightSheet extends ActorSheet {
                     degats:dCapacite.salve.degats,
                     violence:dCapacite.salve.violence,
                     effets:{
+                      activable:dCapacite.salve.effets.activable,
                       raw:dCapacite.salve.effets.raw,
                       custom:dCapacite.salve.effets.custom,
-                      liste:dCapacite.salve.effets.liste,
+                      liste:listEffects(dCapacite.salve.effets, allEffects, dCapacite.salve.effets?.chargeur ?? null),
                       chargeur:dCapacite.salve.effets?.chargeur ?? null
                     }
                   }
@@ -3477,9 +3499,10 @@ export class KnightSheet extends ActorSheet {
                     degats:dCapacite.rayon.degats,
                     violence:dCapacite.rayon.violence,
                     effets:{
+                      activable:dCapacite.rayon.effets.activable,
                       raw:dCapacite.rayon.effets.raw,
                       custom:dCapacite.rayon.effets.custom,
-                      liste:dCapacite.rayon.effets.liste,
+                      liste:listEffects(dCapacite.rayon.effets, allEffects, dCapacite.rayon.effets?.chargeur ?? null),
                       chargeur:dCapacite.rayon.effets?.chargeur ?? null
                     }
                   }
@@ -3499,9 +3522,10 @@ export class KnightSheet extends ActorSheet {
                     degats:dCapacite.vague.degats,
                     violence:dCapacite.vague.violence,
                     effets:{
+                      activable:dCapacite.vague.effets.activable,
                       raw:dCapacite.vague.effets.raw,
                       custom:dCapacite.vague.effets.custom,
-                      liste:dCapacite.vague.effets.liste,
+                      liste:listEffects(dCapacite.vague.effets, allEffects, dCapacite.vague.effets?.chargeur ?? null),
                       chargeur:dCapacite.vague.effets?.chargeur ?? null
                     }
                   }
@@ -3520,9 +3544,10 @@ export class KnightSheet extends ActorSheet {
                     degats:dCapacite.salve.degats,
                     violence:dCapacite.salve.violence,
                     effets:{
+                      activable:dCapacite.salve.effets.activable,
                       raw:dCapacite.salve.effets.raw,
                       custom:dCapacite.salve.effets.custom,
-                      liste:dCapacite.salve.effets.liste,
+                      liste:listEffects(dCapacite.salve.effets, allEffects, dCapacite.salve.effets?.chargeur ?? null),
                       chargeur:dCapacite.salve.effets?.chargeur ?? null
                     }
                   }
@@ -3541,9 +3566,10 @@ export class KnightSheet extends ActorSheet {
                     degats:dCapacite.rayon.degats,
                     violence:dCapacite.rayon.violence,
                     effets:{
+                      activable:dCapacite.rayon.effets.activable,
                       raw:dCapacite.rayon.effets.raw,
                       custom:dCapacite.rayon.effets.custom,
-                      liste:dCapacite.rayon.effets.liste,
+                      liste:listEffects(dCapacite.rayon.effets, allEffects, dCapacite.rayon.effets?.chargeur ?? null),
                       chargeur:dCapacite.rayon.effets?.chargeur ?? null
                     }
                   }
@@ -3566,10 +3592,12 @@ export class KnightSheet extends ActorSheet {
                       degats:dCapacite.polymorphie.lame.degats,
                       violence:dCapacite.polymorphie.lame.violence,
                       effets:{
+                        activable:dCapacite.polymorphie.lame.effets.activable,
                         raw:dCapacite.polymorphie.lame.effets.raw,
                         custom:dCapacite.polymorphie.lame.effets.custom,
-                        liste:dCapacite.polymorphie.lame.effets.liste,
-                        chargeur:dCapacite.polymorphie.lame.effets?.chargeur ?? null
+                        liste:listEffects(dCapacite.polymorphie.lame.effets, allEffects, dCapacite.polymorphie.lame.effets?.chargeur ?? null),
+                        chargeur:dCapacite.polymorphie.lame.effets?.chargeur ?? null,
+                        chargeur2:dCapacite.polymorphie.lame.effets?.chargeur2 ?? null
                       }
                     }
                   });
@@ -3590,10 +3618,12 @@ export class KnightSheet extends ActorSheet {
                       degats:dCapacite.polymorphie.lame.degats,
                       violence:dCapacite.polymorphie.lame.violence,
                       effets:{
+                        activable:dCapacite.polymorphie.lame.effets.activable,
                         raw:dCapacite.polymorphie.lame.effets.raw,
                         custom:dCapacite.polymorphie.lame.effets.custom,
-                        liste:dCapacite.polymorphie.lame.effets.liste,
-                        chargeur:dCapacite.polymorphie.lame.effets?.chargeur ?? null
+                        liste:listEffects(dCapacite.polymorphie.lame.effets, allEffects, dCapacite.polymorphie.lame.effets?.chargeur2 ?? null, true),
+                        chargeur:dCapacite.polymorphie.lame.effets?.chargeur ?? null,
+                        chargeur2:dCapacite.polymorphie.lame.effets?.chargeur2 ?? null
                       }
                     }
                   });
@@ -3614,10 +3644,12 @@ export class KnightSheet extends ActorSheet {
                       degats:dCapacite.polymorphie.griffe.degats,
                       violence:dCapacite.polymorphie.griffe.violence,
                       effets:{
+                        activable:dCapacite.polymorphie.griffe.effets.activable,
                         raw:dCapacite.polymorphie.griffe.effets.raw,
                         custom:dCapacite.polymorphie.griffe.effets.custom,
-                        liste:dCapacite.polymorphie.griffe.effets.liste,
-                        chargeur:dCapacite.polymorphie.griffe.effets?.chargeur ?? null
+                        liste:listEffects(dCapacite.polymorphie.griffe.effets, allEffects, dCapacite.polymorphie.griffe.effets?.chargeur ?? null),
+                        chargeur:dCapacite.polymorphie.griffe.effets?.chargeur ?? null,
+                        chargeur2:dCapacite.polymorphie.griffe.effets?.chargeur2 ?? null
                       }
                     }
                   });
@@ -3638,10 +3670,12 @@ export class KnightSheet extends ActorSheet {
                       degats:dCapacite.polymorphie.griffe.degats,
                       violence:dCapacite.polymorphie.griffe.violence,
                       effets:{
+                        activable:dCapacite.polymorphie.griffe.effets.activable,
                         raw:dCapacite.polymorphie.griffe.effets.raw,
                         custom:dCapacite.polymorphie.griffe.effets.custom,
-                        liste:dCapacite.polymorphie.griffe.effets.liste,
-                        chargeur:dCapacite.polymorphie.griffe.effets?.chargeur ?? null
+                        liste:listEffects(dCapacite.polymorphie.griffe.effets, allEffects, dCapacite.polymorphie.griffe.effets?.chargeur2 ?? null, true),
+                        chargeur:dCapacite.polymorphie.griffe.effets?.chargeur ?? null,
+                        chargeur2:dCapacite.polymorphie.griffe.effets?.chargeur2 ?? null
                       }
                     }
                   });
@@ -3662,10 +3696,12 @@ export class KnightSheet extends ActorSheet {
                       degats:dCapacite.polymorphie.canon.degats,
                       violence:dCapacite.polymorphie.canon.violence,
                       effets:{
+                        activable:dCapacite.polymorphie.canon.effets.activable,
                         raw:dCapacite.polymorphie.canon.effets.raw,
                         custom:dCapacite.polymorphie.canon.effets.custom,
-                        liste:dCapacite.polymorphie.canon.effets.liste,
-                        chargeur:dCapacite.polymorphie.canon.effets?.chargeur ?? null
+                        liste:listEffects(dCapacite.polymorphie.canon.effets, allEffects, dCapacite.polymorphie.canon.effets?.chargeur ?? null),
+                        chargeur:dCapacite.polymorphie.canon.effets?.chargeur ?? null,
+                        chargeur2:dCapacite.polymorphie.canon.effets?.chargeur2 ?? null
                       }
                     }
                   });
@@ -3686,10 +3722,12 @@ export class KnightSheet extends ActorSheet {
                       degats:dCapacite.polymorphie.canon.degats,
                       violence:dCapacite.polymorphie.canon.violence,
                       effets:{
+                        activable:dCapacite.polymorphie.canon.effets.activable,
                         raw:dCapacite.polymorphie.canon.effets.raw,
                         custom:dCapacite.polymorphie.canon.effets.custom,
-                        liste:dCapacite.polymorphie.canon.effets.liste,
-                        chargeur:dCapacite.polymorphie.canon.effets?.chargeur ?? null
+                        liste:listEffects(dCapacite.polymorphie.canon.effets, allEffects, dCapacite.polymorphie.canon.effets?.chargeur2 ?? null, true),
+                        chargeur:dCapacite.polymorphie.canon.effets?.chargeur ?? null,
+                        chargeur2:dCapacite.polymorphie.canon.effets?.chargeur2 ?? null
                       }
                     }
                   });
@@ -3851,6 +3889,7 @@ export class KnightSheet extends ActorSheet {
                   effets:{
                     raw:moiduleEffetsRaw,
                     custom:moduleEffetsCustom,
+                    activable:moduleEffets.activable,
                     liste:moduleEffets.liste
                   }
                 }
@@ -3999,6 +4038,7 @@ export class KnightSheet extends ActorSheet {
               const moduleEffetsFinal = {
                 raw:[...new Set(moiduleEffetsRaw)],
                 custom:moduleEffetsCustom,
+                activable:moduleEffets.activable,
                 liste:moduleEffets.liste,
                 chargeur:moduleEffets?.chargeur,
               };
@@ -4573,14 +4613,24 @@ export class KnightSheet extends ActorSheet {
     const legend = armureLegendeData?.capacites?.selected ?? {};
     const listToVerify = {...capacites, ...special};
     const labels = getAllEffects();
+    const forbiddenWpn = ['morph', 'cea', 'oriflamme'];
+
+    const isAllowedWeapon = itm => {
+      const baseRaw = itm?.raw?.split('_')?.[0] ?? '';
+      const isForbidden = forbiddenWpn.includes(baseRaw);
+      const isArmure = itm?.type === 'armure';
+
+      return !(isArmure && isForbidden);
+    };
+
     const wpnModules = [
       {data:modules, key:'modules'},
-      {data:armesContactEquipee, key:'armes'},
-      {data:armesDistanceEquipee, key:'armes'},
-      {data:armesContactRack, key:'armes'},
-      {data:armesDistanceRack, key:'armes'},
-      {data:armesContactArmoury, key:'armes'},
-      {data:armesDistanceArmoury, key:'armes'},
+      {data:armesContactEquipee.filter(isAllowedWeapon), key:'armes'},
+      {data:armesDistanceEquipee.filter(isAllowedWeapon), key:'armes'},
+      {data:armesContactRack.filter(isAllowedWeapon), key:'armes'},
+      {data:armesDistanceRack.filter(isAllowedWeapon), key:'armes'},
+      {data:armesContactArmoury.filter(isAllowedWeapon), key:'armes'},
+      {data:armesDistanceArmoury.filter(isAllowedWeapon), key:'armes'},
       {data:armesTourelles, key:'armes'},
       {data:grenades, key:'grenades'},
     ];
@@ -4620,7 +4670,7 @@ export class KnightSheet extends ActorSheet {
           const dataMunitions = data[n].system.optionsmunitions;
 
           for (const [key, value] of Object.entries(dataMunitions.liste)) {
-            value.liste = listEffects(value.raw, value.custom, labels, value?.chargeur);
+            value.liste = listEffects(value, labels, value?.chargeur);
           }
         }
 
@@ -4631,7 +4681,7 @@ export class KnightSheet extends ActorSheet {
             for(let wpnPnj in dataPnj[pnj].armes.liste) {
               const dataWpnPnj = dataPnj[pnj].armes.liste[wpnPnj];
 
-              dataWpnPnj.effets.liste = listEffects(dataWpnPnj.effets.raw, dataWpnPnj.effets.custom, labels, dataWpnPnj.effets?.chargeur);
+              dataWpnPnj.effets.liste = listEffects(dataWpnPnj.effets, labels, dataWpnPnj.effets?.chargeur);
             }
           }
         }
@@ -4646,7 +4696,7 @@ export class KnightSheet extends ActorSheet {
       if (!data) return;
       const effets = simple ? data : data.effets;
 
-      if(effets !== undefined) effets.liste = listEffects(effets.raw, effets.custom, labels, effets?.chargeur);
+      if(effets !== undefined) effets.liste = listEffects(effets, labels, effets?.chargeur);
     };
 
     if (!items) {

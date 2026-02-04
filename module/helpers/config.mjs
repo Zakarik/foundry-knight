@@ -873,7 +873,8 @@ export const KNIGHT = {};
    "defense": {
      "label":"KNIGHT.EFFETS.DEFENSE.Label",
      "description":"KNIGHT.EFFETS.DEFENSE.Description",
-     "double":true
+     "double":true,
+     "activable":true,
    },
    "degatscontinus": {
      "label":"KNIGHT.EFFETS.DEGATSCONTINUS.Label",
@@ -1009,7 +1010,8 @@ export const KNIGHT = {};
    "reaction": {
      "label":"KNIGHT.EFFETS.REACTION.Label",
      "description":"KNIGHT.EFFETS.REACTION.Description",
-     "double":true
+     "double":true,
+     "activable":true,
    },
    "regularite": {
      "label":"KNIGHT.EFFETS.REGULARITE.Label",

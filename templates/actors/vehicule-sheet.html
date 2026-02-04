@@ -84,7 +84,7 @@
                     <span class="label">{{localize (ifThen systemData.options.blindage "KNIGHT.LATERAL.Blindage" "KNIGHT.LATERAL.Armure")}}</span>
                     <input type="number" name="system.armure.value" min="0" max="{{systemData.armure.max}}" value="{{systemData.armure.value}}" />
                     <span class="separation">/</span>
-                    <span class="score" title="{{systemData.armure.base}} + {{systemData.armure.bonusValue}} - {{systemData.armure.malusValue}} = {{systemData.armure.max}}">{{systemData.armure.max}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'armure' systemData}}">{{systemData.armure.max}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
@@ -98,7 +98,7 @@
                     <span class="label">{{localize "KNIGHT.LATERAL.Energie"}}</span>
                     <input class="value" type="number" name="system.energie.value" min="0" max="{{systemData.energie.max}}" value="{{systemData.energie.value}}" />
                     <span class="separation">/</span>
-                    <span class="score" title="{{systemData.energie.base}} + {{systemData.energie.bonusValue}} - {{systemData.energie.malusValue}} = {{systemData.energie.max}}">{{systemData.energie.max}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'energie' systemData}}">{{systemData.energie.max}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>
@@ -110,7 +110,7 @@
                 <div class="line js-simpletoggler">
                     <span class="option"><img src="systems/knight/assets/icons/option.svg" class="option" data-option="champDeForce"></span>
                     <span class="label" title="{{localize "KNIGHT.LATERAL.ChampDeForce"}}">{{localize "KNIGHT.LATERAL.ChampDeForce-short"}}</span>
-                    <span class="score" title="{{systemData.champDeForce.base}} + {{systemData.champDeForce.bonusValue}} - {{systemData.champDeForce.malusValue}} = {{systemData.champDeForce.value}}">{{systemData.champDeForce.value}}</span>
+                    <span class="score" data-tooltip="{{tooltip 'champDeforce' systemData}}">{{systemData.champDeForce.value}}</span>
                 </div>
                 <div class="subLine" style="display:none;">
                     <span class="label">{{localize "KNIGHT.AUTRE.Base"}}</span>

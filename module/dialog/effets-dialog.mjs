@@ -7,7 +7,8 @@ export class KnightEffetsDialog extends FormApplication {
   super(options);
       this.object.actor = object.actor;
       this.object.id = object.item;
-      this.object.raw = object?.raw === undefined ? [] : object.raw
+      this.object.raw = object?.raw === undefined ? [] : object.raw;
+      this.object.activable = object?.activable === undefined ? [] : object.activable;
       this.object.isToken = object?.isToken || false;
       this.object.token = object?.token || null;
       this.object.custom = object?.custom === undefined ? [] : object.custom;
@@ -107,20 +108,89 @@ export class KnightEffetsDialog extends FormApplication {
     const effets = CONFIG.KNIGHT.effets;
     const effetsfm4 = CONFIG.KNIGHT.effetsfm4;
     const effetsadl = CONFIG.KNIGHT.effetsadl;
-    let pe = foundry.utils.mergeObject({}, effets);
-
-    if(hasCodexFM4) pe = foundry.utils.mergeObject(pe, effetsfm4);
-
-    pe = foundry.utils.mergeObject(pe, effetsadl);
-
-    const possibles = pe;
     const distance = CONFIG.KNIGHT.AMELIORATIONS.distance;
     const structurelles = CONFIG.KNIGHT.AMELIORATIONS.structurelles;
     const ornements = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
+    let pe = foundry.utils.mergeObject({}, effets);
+    pe = foundry.utils.mergeObject(pe, effetsadl);
+    pe = foundry.utils.mergeObject(pe, distance);
+    pe = foundry.utils.mergeObject(pe, structurelles);
+    pe = foundry.utils.mergeObject(pe, ornements);
+
+    if(hasCodexFM4) pe = foundry.utils.mergeObject(pe, effetsfm4);
+
+    const possibles = pe;
     const raw = this.object?.raw || [];
     const custom = this.object?.custom || [];
+    const activable = this.object?.activable || [];
     const liste = [];
     let ePossibles = [];
+    let ePossiblesActivable = [];
+
+    const loopInEffects = (array, custom=false, activable=false) => {
+      let n = 0;
+
+      for(let e of array) {
+        if(custom) {
+          liste.push({
+            id:n,
+            name:e.label,
+            description:e.description,
+            custom,
+            activable,
+          });
+        } else if(activable) {
+          const id = n;
+          const split = e.key.split(" ");
+          const secondSplit = split[0].split("<space>");
+          const name = game.i18n.localize(possibles[secondSplit[0]].label);
+          const sub = split[1];
+          const other = Object.values(secondSplit);
+          let complet = name;
+
+          if(other.length > 1) {
+            other.splice(0, 1);
+            complet += ` ${other.join(" ").replace("<space>", " ")}`;
+          }
+
+          if(sub != undefined) { complet += " "+sub; }
+
+          liste.push({
+            id,
+            name:complet,
+            description:game.i18n.localize(possibles[secondSplit[0]].description),
+            custom,
+            activable,
+            cost:e.cost,
+          });
+        } else {
+          const id = n;
+          const split = e.split(" ");
+          const secondSplit = split[0].split("<space>");
+          const name = game.i18n.localize(possibles[secondSplit[0]].label);
+          const sub = split[1];
+          const other = Object.values(secondSplit);
+          let complet = name;
+
+          if(other.length > 1) {
+            other.splice(0, 1);
+            complet += ` ${other.join(" ").replace("<space>", " ")}`;
+          }
+
+          if(sub != undefined) { complet += " "+sub; }
+
+          liste.push({
+            id,
+            name:complet,
+            description:game.i18n.localize(possibles[secondSplit[0]].description),
+            custom,
+            activable,
+          });
+        }
+
+        n++;
+      }
+    }
 
     if(tEffets === undefined || tEffets === 'effets') {
       for (let [key, effet] of Object.entries(possibles)){
@@ -132,39 +202,17 @@ export class KnightEffetsDialog extends FormApplication {
             description:game.i18n.localize(possibles[key].description),
             max:effet.max
           });
+
+          if(effet.activable) {
+            ePossiblesActivable.push({
+              key:key,
+              double:effet.double,
+              name:game.i18n.localize(effet.label),
+              description:game.i18n.localize(possibles[key].description),
+              max:effet.max
+            })
+          }
         }
-      }
-
-      for(let n = 0;n < raw.length;n++) {
-        const split = raw[n].split(" ");
-        const secondSplit = split[0].split("<space>");
-        const name = game.i18n.localize(possibles[secondSplit[0]].label);
-        const sub = split[1];
-        const other = Object.values(secondSplit);
-        let complet = name;
-
-        if(other.length > 1) {
-          other.splice(0, 1);
-          complet += ` ${other.join(" ").replace("<space>", " ")}`;
-        }
-
-        if(sub != undefined) { complet += " "+sub; }
-
-        liste.push({
-          id:n,
-          name:complet,
-          description:game.i18n.localize(possibles[secondSplit[0]].description),
-          custom:false
-        });
-      }
-
-      for(let n = 0;n < custom.length;n++) {
-        liste.push({
-          id:n,
-          name:custom[n].label,
-          description:custom[n].description,
-          custom:true
-        });
       }
     }
 
@@ -181,38 +229,6 @@ export class KnightEffetsDialog extends FormApplication {
           });
         }
       }
-
-      for(let n = 0;n < raw.length;n++) {
-        const split = raw[n].split(" ");
-        const secondSplit = split[0].split("<space>");
-        const name = game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[secondSplit[0]].label);
-        const sub = split[1];
-        const other = Object.values(secondSplit);
-        let complet = name;
-
-        if(other.length > 1) {
-          other.splice(0, 1);
-          complet += ` ${other.join(" ").replace("<space>", " ")}`;
-        }
-
-        if(sub != undefined) { complet += " "+sub; }
-
-        liste.push({
-          id:n,
-          name:complet,
-          description:game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.distance[secondSplit[0]].description),
-          custom:false
-        });
-      }
-
-      for(let n = 0;n < custom.length;n++) {
-        liste.push({
-          id:n,
-          name:custom[n].label,
-          description:custom[n].description,
-          custom:true
-        });
-      }
     }
 
     if(tEffets === 'structurelles') {
@@ -225,38 +241,6 @@ export class KnightEffetsDialog extends FormApplication {
             description:game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.structurelles[key].description)
           });
         }
-      }
-
-      for(let n = 0;n < raw.length;n++) {
-        const split = raw[n].split(" ");
-        const secondSplit = split[0].split("<space>");
-        const name = game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.structurelles[secondSplit[0]].label);
-        const sub = split[1];
-        const other = Object.values(secondSplit);
-        let complet = name;
-
-        if(other.length > 1) {
-          other.splice(0, 1);
-          complet += ` ${other.join(" ").replace("<space>", " ")}`;
-        }
-
-        if(sub != undefined) { complet += " "+sub; }
-
-        liste.push({
-          id:n,
-          name:complet,
-          description:game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.structurelles[secondSplit[0]].description),
-          custom:false
-        });
-      }
-
-      for(let n = 0;n < custom.length;n++) {
-        liste.push({
-          id:n,
-          name:custom[n].label,
-          description:custom[n].description,
-          custom:true
-        });
       }
     }
 
@@ -305,6 +289,10 @@ export class KnightEffetsDialog extends FormApplication {
       }
     }
 
+    loopInEffects(raw);
+    loopInEffects(custom, true);
+    loopInEffects(activable, false, true);
+
     function _sortByName(x, y) {
       return x.name.localeCompare(y.name, 'fr', {
         sensitivity: 'base'
@@ -333,9 +321,10 @@ export class KnightEffetsDialog extends FormApplication {
           typeEffets:this.object.typeEffets,
           maxEffets:this.object.maxEffets,
           data:{
-            liste:liste,
-            ePossibles:ePossibles,
-            custom:this.object.data.custom
+            liste,
+            ePossibles,
+            ePossiblesActivable,
+            custom:this.object.data.custom,
           },
           title:""
         },
@@ -414,8 +403,10 @@ export class KnightEffetsDialog extends FormApplication {
 
       const update = {
         [`${this.object.toUpdate}.raw`]:this.object.raw,
-        [`${this.object.toUpdate}.custom`]:this.object.custom
+        [`${this.object.toUpdate}.custom`]:this.object.custom,
       }
+
+      if(this.object.activable) update[`${this.object.toUpdate}.activable`] = this.object.activable;
 
       objectToUpdate.update(update);
 
@@ -429,16 +420,17 @@ export class KnightEffetsDialog extends FormApplication {
       await this.close({ submit: false, force: true });
     });
 
-    html.find('a.add').click(ev => {
+    html.find('.standard a.add').click(ev => {
+      const tgt = $(ev.currentTarget);
       const countEffets = this.object.raw.length;
 
       if(this.object.maxEffets !== undefined) {
         if(countEffets === this.object.maxEffets) return;
       }
 
-      const label = $(ev.currentTarget).data("label");
-      const double = $(ev.currentTarget).data("double") || false;
-      const text = $(ev.currentTarget).data("text") || false;
+      const label = tgt.data("label");
+      const double = tgt.data("double") || false;
+      const text = tgt.data("text") || false;
       let raw = this.object.raw;
       let complet = "";
 
@@ -446,12 +438,106 @@ export class KnightEffetsDialog extends FormApplication {
 
       complet = label;
 
-      if(text) { complet += `<space>(${html.find('input.text'+label).val().replace(" ", "<space>")})`; }
-      if(double) { complet += " "+html.find('input.double'+label).val(); }
+      if(text) { complet += `<space>(${tgt.siblings('input.text').val().replace(" ", "<space>")})`; }
+      if(double) { complet += " "+tgt.siblings('input.double').val(); }
 
       this.object.raw.push(complet);
 
       this.render();
+    });
+
+    html.find('.activable a.add').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const countEffets = this.object.activable.length;
+      const hasCodexFM4 = game.settings.get("knight", "codexfm4");
+      const effets = CONFIG.KNIGHT.effets;
+      const effetsfm4 = CONFIG.KNIGHT.effetsfm4;
+      const effetsadl = CONFIG.KNIGHT.effetsadl;
+      const distance = CONFIG.KNIGHT.AMELIORATIONS.distance;
+      const structurelles = CONFIG.KNIGHT.AMELIORATIONS.structurelles;
+      const ornements = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
+      let pe = foundry.utils.mergeObject({}, effets);
+      pe = foundry.utils.mergeObject(pe, effetsadl);
+      pe = foundry.utils.mergeObject(pe, distance);
+      pe = foundry.utils.mergeObject(pe, structurelles);
+      pe = foundry.utils.mergeObject(pe, ornements);
+
+      if(hasCodexFM4) pe = foundry.utils.mergeObject(pe, effetsfm4);
+
+      const possibles = pe;
+
+      if(this.object.maxEffets !== undefined) {
+        if(countEffets === this.object.maxEffets) return;
+      }
+
+      const label = tgt.data("label");
+      const double = tgt.data("double") || false;
+      const text = tgt.data("text") || false;
+      let eName = '';
+
+      const split = label.split(" ");
+      const secondSplit = split[0].split("<space>");
+      const name = game.i18n.localize(possibles[secondSplit[0]].label);
+      const other = Object.values(secondSplit);
+      eName = name;
+
+      if(text) {
+        other.splice(0, 1);
+        eName += `<space>(${tgt.siblings('input.text').val().replace(" ", "<space>")})`;
+      }
+
+      if(double) {
+        other.splice(0, 1);
+        eName += " "+tgt.siblings('input.double').val();
+      }
+
+      const askContent = await renderTemplate("systems/knight/templates/dialog/ask-sheet.html", {
+        list:[
+          {
+            key:'number',
+            label:`${game.i18n.localize("KNIGHT.EFFETS.Cost")} : `,
+            class:'cost',
+            min:0,
+            value:0,
+          }
+        ],
+      });
+      const askDialogOptions = {classes: ["dialog", "knight", "askdialog"]};
+
+      await new Dialog({
+        title: eName,
+        content: askContent,
+        buttons: {
+          button1: {
+            label: game.i18n.localize('KNIGHT.AUTRE.Ajouter'),
+            callback: async (data) => {
+              const tgtDialog = $(data);
+              const cost = Number(tgtDialog.find('.cost input').val());
+              let raw = this.object.activable;
+              let complet = '';
+
+              if(raw === "") { this.object.activable = []; }
+
+              complet = label;
+
+              if(text) { complet += `<space>(${tgt.siblings('input.text').val().replace(" ", "<space>")})`; }
+              if(double) { complet += " "+tgt.siblings('input.double').val(); }
+
+              this.object.activable.push({
+                key:complet,
+                cost:cost,
+              });
+
+              this.render();
+            },
+            icon: `<i class="fas fa-check"></i>`
+          },
+          buttons2:{
+            label: game.i18n.localize('KNIGHT.AUTRE.Annuler'),
+            icon: `<i class="fa-solid fa-xmark"></i>`
+          }
+        }
+      }, askDialogOptions).render(true);
     });
 
     html.find('.effetCustom button.ajouter').click(ev => {
@@ -961,17 +1047,23 @@ export class KnightEffetsDialog extends FormApplication {
     html.find('img.delete').click(ev => {
       const index = $(ev.currentTarget).data("index");
       const custom = $(ev.currentTarget).data("custom");
+      const activable = $(ev.currentTarget).data("activable");
       const customBase = this.object.custom === undefined ? [] : this.object.custom;
+      const activableBase = this.object.activable === undefined ? [] : this.object.activable;
 
       const rawData = [].concat(this.object.raw);
       const customData = [].concat(customBase);
+      const activableData = [].concat(activableBase);
 
-      if(!custom) {
-        rawData.splice(index, 1);
-        this.object.raw = rawData;
-      } else {
+      if(custom) {
         customData.splice(index, 1);
         this.object.custom = customData;
+      } else if(activable) {
+        activableData.splice(index, 1);
+        this.object.activable = activableData;
+      } else {
+        rawData.splice(index, 1);
+        this.object.raw = rawData;
       }
 
       this.render();

@@ -271,8 +271,8 @@ export class CreatureSheet extends ActorSheet {
     html.find('.setResilience').click(async ev => {
       const askContent = await renderTemplate("systems/knight/templates/dialog/ask-sheet.html", {
         what:`${game.i18n.localize("KNIGHT.RESILIENCE.TYPES.Label")} ?`,
-        select:{
-          has:true,
+        list:[{
+          key:'select',
           liste:{
             colosseRecrue:game.i18n.localize("KNIGHT.RESILIENCE.TYPES.COLOSSE.Recrue"),
             colosseInitie:game.i18n.localize("KNIGHT.RESILIENCE.TYPES.COLOSSE.Initie"),
@@ -280,8 +280,9 @@ export class CreatureSheet extends ActorSheet {
             patronRecrue:game.i18n.localize("KNIGHT.RESILIENCE.TYPES.PATRON.Recrue"),
             patronInitie:game.i18n.localize("KNIGHT.RESILIENCE.TYPES.PATRON.Initie"),
             patronHeros:game.i18n.localize("KNIGHT.RESILIENCE.TYPES.PATRON.Heros"),
-          }
-        }
+          },
+          class:'whatSelect'
+        }]
       });
       const askDialogOptions = {classes: ["dialog", "knight", "askdialog"]};
 
@@ -397,6 +398,20 @@ export class CreatureSheet extends ActorSheet {
 
       item.system.removeMunition(index, type, munition, pnj, wpn);
     });
+
+    html.find('i.effects.activable').click(async ev => {
+      const tgt = $(ev.currentTarget);
+      const header = tgt.parents(".item").length > 0 ? tgt.parents(".item") : tgt.parents(".headerData");
+      const raw = header.data('raw');
+      const type = raw ? raw : tgt.data('type');
+      const munition = tgt.data('munition');
+      const pnj = tgt.data('pnj');
+      const wpn = tgt.data('wpn');
+      const item = this.actor.items.get(header.data("item-id"));
+      const id = tgt.data('id');
+
+      item.system.toggleEffect(id, type, munition, pnj, wpn);
+    });
   }
 
   /* -------------------------------------------- */
@@ -486,11 +501,10 @@ export class CreatureSheet extends ActorSheet {
 
         const optionsMunitions = data?.optionsmunitions?.has || false;
         const options2mains = data?.options2mains?.has || false;
-        const raw = data.effets.raw;
-        const custom = data.effets.custom;
+        const effects = data.effets;
         const labels = localize;
 
-        data.effets.liste = listEffects(raw, custom, labels, data.effets?.chargeur);
+        data.effets.liste = listEffects(effects, labels, data.effets?.chargeur);
 
         const main = data?.options2mains?.actuel || "";
         const munition = data?.options2mains?.actuel || "";
@@ -512,37 +526,32 @@ export class CreatureSheet extends ActorSheet {
         }
 
         if(type === 'distance') {
-          const rawDistance = data.distance.raw;
-          const customDistance = data.distance.custom;
+          const effects = data.distance.raw;
           const effetMunition = data?.optionsmunitions?.liste || {};
 
-          data.distance.liste = listEffects(rawDistance, customDistance, labels);
+          data.distance.liste = listEffects(effects, labels);
 
           if(optionsMunitions !== false) {
             for (let [kM, munition] of Object.entries(effetMunition)) {
-              const bRaw2 = munition.raw || [];
-              const bCustom2 = munition.custom || [];
+              const bEffects2 = munition;
 
-              munition.liste = listEffects(bRaw2, bCustom2, labels, munition?.chargeur);
+              munition.liste = listEffects(bEffects2, labels, munition?.chargeur);
             }
           }
 
         } else if(type === 'contact') {
-          const rawStructurelles = data.structurelles.raw;
-          const customStructurelles = data.structurelles.custom;
+          const effectsStructurelles = data.structurelles;
 
-          data.structurelles.liste = listEffects(rawStructurelles, customStructurelles, labels);
+          data.structurelles.liste = listEffects(effectsStructurelles, labels);
 
-          const rawOrnementales = data.ornementales.raw;
-          const customOrnementales = data.ornementales.custom;
+          const effectsOrnementales = data.ornementales;
 
-          data.ornementales.liste = listEffects(rawOrnementales, customOrnementales, labels);
+          data.ornementales.liste = listEffects(effectsOrnementales, labels);
 
           if(options2mains) {
-            const raw2 = data.effets2mains.raw;
-            const custom2 = data.effets2mains.custom;
+            const effects2 = data.effets2mains.raw;
 
-            data.effets2mains.liste = listEffects(raw2, custom2, labels);
+            data.effets2mains.liste = listEffects(effects2, labels);
           }
         }
 
@@ -619,7 +628,7 @@ export class CreatureSheet extends ActorSheet {
         if(data.degats.has) {
           const labels = localize;
 
-          data.degats.system.effets.liste = listEffects(data.degats.system.effets.raw, data.degats.system.effets.custom, labels, data.degats.system.effets?.chargeur);
+          data.degats.system.effets.liste = listEffects(data.degats.system.effets, labels, data.degats.system.effets?.chargeur);
         }
       }
     }

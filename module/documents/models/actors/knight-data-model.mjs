@@ -1182,9 +1182,7 @@ export class KnightDataModel extends BaseActorDataModel {
         });
 
         if(this.espoir.value > this.espoir.max) {
-            Object.defineProperty(this.espoir, 'value', {
-                value: this.espoir.max,
-            });
+            this.actor.update({['system.espoir.value']:this.espoir.max})
         }
 
         //EGIDE
@@ -1805,6 +1803,7 @@ export class KnightDataModel extends BaseActorDataModel {
                 const data = capacites[c];
 
                 switch(c) {
+
                     case 'ascension':
                         if(data.active) {
                             Object.defineProperty(whatAffect.malus, c, {
@@ -1936,6 +1935,65 @@ export class KnightDataModel extends BaseActorDataModel {
                                 configurable:true
                             });
                         }
+
+                        if(data?.choisi?.polymorphie) {
+                            if(data?.active?.polymorphieGriffe) {
+                                const griffeFlatBonus = getFlatEffectBonus(
+                                    data.polymorphie.griffe,
+                                    true
+                                );
+
+                                this.applyFlatEffectBonus('griffe', griffeFlatBonus);
+                            }
+
+                            if(data?.active?.polymorphieGriffe2) {
+                                const griffe2FlatBonus = getFlatEffectBonus(
+                                    data.polymorphie.griffe,
+                                    true,
+                                    true
+                                );
+
+                                this.applyFlatEffectBonus('griffe2', griffe2FlatBonus);
+                            }
+
+                            if(data?.active?.polymorphieLame) {
+                                const lameFlatBonus = getFlatEffectBonus(
+                                    data.polymorphie.lame,
+                                    true
+                                );
+
+                                this.applyFlatEffectBonus('lame', lameFlatBonus);
+                            }
+
+                            if(data?.active?.polymorphieLame2) {
+                                const lame2FlatBonus = getFlatEffectBonus(
+                                    data.polymorphie.lame,
+                                    true,
+                                    true
+                                );
+
+                                this.applyFlatEffectBonus('lame2', lame2FlatBonus);
+                            }
+
+                            if(data?.active?.polymorphieCanon) {
+                                const canonFlatBonus = getFlatEffectBonus(
+                                    data.polymorphie.canon,
+                                    true
+                                );
+
+                                this.applyFlatEffectBonus('canon', canonFlatBonus);
+                            }
+
+                            if(data?.active?.polymorphieCanon2) {
+                                const canon2FlatBonus = getFlatEffectBonus(
+                                    data.polymorphie.canon,
+                                    true,
+                                    true
+                                );
+
+                                this.applyFlatEffectBonus('canon2', canon2FlatBonus);
+                            }
+                        }
                         break;
                     case 'rage':
                         if(data.active) {
@@ -2048,6 +2106,42 @@ export class KnightDataModel extends BaseActorDataModel {
                                 }
                             }
                         }
+                        break;
+                    case 'longbow':
+                        const longbowFlatBonus = getFlatEffectBonus({
+                            type:'distance',
+                            effets:data.effets.base
+                        }, true);
+
+                        this.applyFlatEffectBonus('longbow', longbowFlatBonus);
+                        break;
+
+                    case 'borealis':
+                        const borealisFlatBonus = getFlatEffectBonus({
+                            type:'distance',
+                            effets:data.offensif.effets
+                        }, true);
+
+                        this.applyFlatEffectBonus('borealis', borealisFlatBonus);
+                        break;
+
+                    case 'cea':
+                        const ceaRayonFlatBonus = getFlatEffectBonus({
+                            type:'distance',
+                            effets:data.rayon.effets
+                        }, true);
+                        const ceaSalveFlatBonus = getFlatEffectBonus({
+                            type:'distance',
+                            effets:data.salve.effets
+                        }, true);
+                        const ceaVagueFlatBonus = getFlatEffectBonus({
+                            type:'distance',
+                            effets:data.vague.effets
+                        }, true);
+
+                        this.applyFlatEffectBonus('ceaRayon', ceaRayonFlatBonus);
+                        this.applyFlatEffectBonus('ceaSalve', ceaSalveFlatBonus);
+                        this.applyFlatEffectBonus('ceaVague', ceaVagueFlatBonus);
                         break;
                 }
             }
@@ -2748,5 +2842,44 @@ export class KnightDataModel extends BaseActorDataModel {
 
         if(autoApply) this.actor.update(energy);
         else return update;
+    }
+
+    applyFlatEffectBonus(name, flatEffect) {
+        const wear = this.whatWear;
+        const mod = {
+            champDeForce:flatEffect.cdf,
+            reaction:flatEffect.reaction,
+            defense:flatEffect.defense,
+        };
+        const path = {
+            champDeForce:this.equipements[wear].champDeForce,
+            reaction:this.reaction,
+            defense:this.defense,
+        }
+
+        const main = ['champDeForce', 'reaction', 'defense'];
+
+        for(let m of main) {
+            const bonus = Number(mod?.[m]?.bonus ?? 0);
+            const malus = Number(mod?.[m]?.malus ?? 0);
+
+            if(mod[m].bonus !== 0) {
+                Object.defineProperty(path[m].bonus, name, {
+                    value: bonus,
+                    writable:true,
+                    enumerable:true,
+                    configurable:true
+                });
+            }
+
+            if(mod[m].malus !== 0) {
+                Object.defineProperty(path[m].malus, name, {
+                    value: malus,
+                    writable:true,
+                    enumerable:true,
+                    configurable:true
+                });
+            }
+        }
     }
 }
