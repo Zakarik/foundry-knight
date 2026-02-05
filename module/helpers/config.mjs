@@ -945,7 +945,7 @@ export const KNIGHT = {};
    "ignorechampdeforce": {
      "label":"KNIGHT.EFFETS.IGNORECHAMPDEFORCE.Label",
      "description":"KNIGHT.EFFETS.IGNORECHAMPDEFORCE.Description",
-     "double":false
+     "double":false,
    },
    "jumeleakimbo": {
      "label":"KNIGHT.EFFETS.JUMELEAKIMBO.Label",
@@ -1079,7 +1079,8 @@ export const KNIGHT = {};
   "cdf": {
     "label":"KNIGHT.EFFETS.CDF.Label",
     "description":"KNIGHT.EFFETS.CDF.Description",
-    "double":true
+    "double":true,
+     "activable":true,
   },
   "retourflamme": {
     "label":"KNIGHT.EFFETS.RETOURFLAMME.Label",

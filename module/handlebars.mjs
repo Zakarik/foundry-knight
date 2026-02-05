@@ -1083,7 +1083,7 @@
     });
 
 
-    Handlebars.registerHelper('tooltip', function (type, data) {
+    Handlebars.registerHelper('menuTooltip', function (type, data) {
         let tooltip = [];
         let allData;
         let dataEqp;
@@ -1097,11 +1097,11 @@
 
                     switch(m) {
                         case 'style':
-                            tooltip.push(`${startStr} ${value} (${game.i18n.localize('KNIGHT.ITEMS.MODULE.Label')})`);
+                            tooltip.push(`${startStr} ${value} (${game.i18n.localize('KNIGHT.COMBAT.STYLES.Label')})`);
                             break;
 
                         case 'modules':
-                            tooltip.push(`${startStr} ${value} (${game.i18n.localize('KNIGHT.COMBAT.STYLES.Label')})`);
+                            tooltip.push(`${startStr} ${value} (${game.i18n.localize('KNIGHT.ITEMS.MODULE.Label')})`);
                             break;
 
                         case 'armes':
@@ -1136,8 +1136,6 @@
                 if(dataValue?.malus) loopInMod(tooltip, dataValue.malus, false);
                 break;
 
-            case 'reaction':
-            case 'defense':
             case 'egide':
             case 'espoir':
             case 'bouclier':
@@ -1148,6 +1146,18 @@
                 loopInMod(tooltip, allData.malus, false);
 
                 if(allData.iswatchtower) tooltip.push(game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.WATCHTOWER.Label"));
+                break;
+
+            case 'reaction':
+            case 'defense':
+                allData = data[type];
+                tooltip.push(`${game.i18n.localize('KNIGHT.AUTRE.Base')} : ${allData.base}`);
+
+                loopInMod(tooltip, allData.bonus);
+                loopInMod(tooltip, allData.malus, false);
+
+                if(allData.iswatchtower) tooltip.push(game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.WATCHTOWER.Label"));
+                if(data.options.kraken) tooltip.push(game.i18n.localize("KNIGHT.OPTIONS.KRAKEN.Has"));
                 break;
         }
 

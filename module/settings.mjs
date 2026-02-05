@@ -125,7 +125,7 @@ export const RegisterSettings = function () {
     game.settings.register("knight", "codexfm4", {
         name: "KNIGHT.SETTINGS.CODEXFM4.Label",
         hint: "KNIGHT.SETTINGS.CODEXFM4.Hint",
-        scope: "client",
+        scope: "world",
         config: true,
         type: Boolean,
         default: false,

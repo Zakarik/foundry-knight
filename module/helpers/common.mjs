@@ -136,6 +136,8 @@ export function listEffects(effects, labels, chargeur=null, activable2=false) {
             cost,
             active:activable2 ? e?.active2 ?? false : e?.active ?? false,
           });
+
+          n++;
       }
     }
 
@@ -4743,7 +4745,7 @@ export function getFlatEffectBonus(wpn, forceEquipped=false, isActive2=false) {
     const hasCdf = other?.cdf || undefined;
     const defenseMod = ['defense', 'boucliergrave', 'massive'];
     const reactionMod = ['reaction', 'protectionarme'];
-    const cdfMod = ['armuregravee'];
+    const cdfMod = ['armuregravee', 'cdf'];
 
     const whatBonus = {
       defense:typeof eff === 'string' || eff instanceof String ? Number(eff.split(' ')[1]) : 0,
