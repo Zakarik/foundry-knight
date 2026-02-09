@@ -1,3 +1,10 @@
+## v3.53.0
+### Améliorations
+- Ajout de la possibilité de mettre des effets "activables", des effets normalement passif (Défense, Réaction, Champ de Force) qui peuvent être activés / désactivés contre un coût en PE, avec message dans le tchat.
+- Ajout de la possibilité d'importer des armes depuis l'Arsenal de Légende sur Knight JDR Système.
+C'est une option à activer pour utiliser l'Arsenal de Légende.
+
+
 ## v3.52.0
 ### Bugfix
 - Sur un PNJ, s'il n'a pas d'espoir, il n'a pas non plus la case de réduction des pertes d'espoir.
