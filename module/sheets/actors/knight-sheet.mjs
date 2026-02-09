@@ -2455,7 +2455,7 @@ export class KnightSheet extends ActorSheet {
         content:html,
         buttons: {
           one: {
-          label: game.i18n.localize('KNIGHT.IMPORT.Importer'),
+          label: game.i18n.localize('KNIGHT.IMPORT.ImporterArme'),
           callback: async (html) => {
               try{
                 const target = html.find('.typeToImport').val();

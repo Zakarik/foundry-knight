@@ -6,6 +6,9 @@
 - Ajout de la possibilité de mettre un champ de force sur les bandes.
 - Ajout d'un champ permettant d'indiquer si un PNJ / Créature / Bande est de type humain, anathème ou autre (robot, par ex.).
 Utile pour certains effets.
+- Ajout de la possibilité de mettre des effets "activables", des effets normalement passif (Défense, Réaction, Champ de Force) qui peuvent être activés / désactivés contre un coût en PE, avec message dans le tchat.
+- Ajout de la possibilité d'importer des armes depuis l'Arsenal de Légende sur Knight JDR Système.
+C'est une option à activer pour utiliser l'Arsenal de Légende.
 
 ## v3.51.1
 ### Bugfix
