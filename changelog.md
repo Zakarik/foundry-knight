@@ -8,12 +8,15 @@
 - Correction d'un bug avec le Choc automatique.
 - Correction d'une erreur avec l'application d'effets.
 
+## v3.53.1
+### Bugfix
+- Correction d'un bug empêchant le fonctionnement du système sur la version 12 de Foundry.
+
 ## v3.53.0
 ### Améliorations
 - Ajout de la possibilité de mettre des effets "activables", des effets normalement passif (Défense, Réaction, Champ de Force) qui peuvent être activés / désactivés contre un coût en PE, avec message dans le tchat.
 - Ajout de la possibilité d'importer des armes depuis l'Arsenal de Légende sur Knight JDR Système.
 C'est une option à activer pour utiliser l'Arsenal de Légende.
-
 
 ## v3.52.0
 ### Bugfix
