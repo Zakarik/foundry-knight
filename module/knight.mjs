@@ -304,6 +304,13 @@ Hooks.once('init', async function() {
       name:"KNIGHT.EFFETS.DEMORALISANT.Label",
       img:'systems/knight/assets/icons/effects/demoralisant.svg',
       icon:'systems/knight/assets/icons/effects/demoralisant.svg',
+    },
+    {
+      id:'immobilisation',
+      label:"KNIGHT.EFFETS.IMMOBILISATION.Label",
+      name:"KNIGHT.EFFETS.IMMOBILISATION.Label",
+      icon:'systems/knight/assets/icons/effects/immobilisation.svg',
+      img:'systems/knight/assets/icons/effects/immobilisation.svg'
     }
   ];
 
@@ -448,18 +455,6 @@ Hooks.once('init', async function() {
     types: ["capaciteultime"],
     makeDefault: true
   });
-
-  const hasCodexFM4 = game.settings.get("knight", "codexfm4");
-
-  if(hasCodexFM4) {
-    CONFIG.statusEffects.push({
-      id:'immobilisation',
-      label:"KNIGHT.EFFETS.IMMOBILISATION.Label",
-      name:"KNIGHT.EFFETS.IMMOBILISATION.Label",
-      icon:'systems/knight/assets/icons/effects/immobilisation.svg',
-      img:'systems/knight/assets/icons/effects/immobilisation.svg'
-    });
-  }
 
   menuKnight.init();
 });

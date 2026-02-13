@@ -1,3 +1,5 @@
+import toggler from '../helpers/toggler.js';
+
 /**
  * Effets dialog
  * @extends {Application}
@@ -93,7 +95,7 @@ export class KnightEffetsDialog extends FormApplication {
         template: "systems/knight/templates/dialog/effets-sheet.html",
         classes: ["dialog", "knight", "effetsDialog"],
         title: "",
-        width: 700,
+        width: 900,
         height: 500,
         resizable: true,
         closeOnSubmit: false,
@@ -104,7 +106,6 @@ export class KnightEffetsDialog extends FormApplication {
 
   async getData(options = null) {
     const tEffets = this.object.typeEffets;
-    const hasCodexFM4 = game.settings.get("knight", "codexfm4");
     const effets = CONFIG.KNIGHT.effets;
     const effetsfm4 = CONFIG.KNIGHT.effetsfm4;
     const effetsadl = CONFIG.KNIGHT.effetsadl;
@@ -116,8 +117,7 @@ export class KnightEffetsDialog extends FormApplication {
     pe = foundry.utils.mergeObject(pe, distance);
     pe = foundry.utils.mergeObject(pe, structurelles);
     pe = foundry.utils.mergeObject(pe, ornements);
-
-    if(hasCodexFM4) pe = foundry.utils.mergeObject(pe, effetsfm4);
+    pe = foundry.utils.mergeObject(pe, effetsfm4);
 
     const possibles = pe;
     const raw = this.object?.raw || [];
@@ -335,6 +335,7 @@ export class KnightEffetsDialog extends FormApplication {
 
   activateListeners(html) {
     super.activateListeners(html);
+    toggler.init(this.id, html);
 
     this.renderBtn(html);
 
@@ -449,7 +450,6 @@ export class KnightEffetsDialog extends FormApplication {
     html.find('.activable a.add').click(async ev => {
       const tgt = $(ev.currentTarget);
       const countEffets = this.object.activable.length;
-      const hasCodexFM4 = game.settings.get("knight", "codexfm4");
       const effets = CONFIG.KNIGHT.effets;
       const effetsfm4 = CONFIG.KNIGHT.effetsfm4;
       const effetsadl = CONFIG.KNIGHT.effetsadl;
@@ -461,8 +461,7 @@ export class KnightEffetsDialog extends FormApplication {
       pe = foundry.utils.mergeObject(pe, distance);
       pe = foundry.utils.mergeObject(pe, structurelles);
       pe = foundry.utils.mergeObject(pe, ornements);
-
-      if(hasCodexFM4) pe = foundry.utils.mergeObject(pe, effetsfm4);
+      pe = foundry.utils.mergeObject(pe, effetsfm4);
 
       const possibles = pe;
 

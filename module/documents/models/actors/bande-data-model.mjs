@@ -96,6 +96,7 @@ export class BandeDataModel extends BaseNPCDataModel {
 	prepareDerivedData() {
         this.#defenses();
         this.#derived();
+        this._setStatusImmunity();
     }
 
     #phase2() {

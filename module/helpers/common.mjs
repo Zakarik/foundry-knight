@@ -6108,7 +6108,6 @@ export async function addFlags(origin, flags, name = '') {
   return { document: updated ?? origin, keys: mergedList };
 }
 
-
 export function getFinalWeaponData(style, wpn) {
   let result = wpn;
   const options = result?.options ?? [];

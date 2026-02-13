@@ -15,7 +15,6 @@ import {
   dragMacro,
   actualiseRoll,
   getAllEffects,
-  capitalizeFirstLetter,
 } from "../../helpers/common.mjs";
 
 import toggler from '../../helpers/toggler.js';

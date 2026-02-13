@@ -137,6 +137,15 @@
 .effetsDialog {
   @include header();
 
+  form.effetsDialog {
+    display: grid;
+    column-gap: 10px;
+    grid-template-columns: 300px 1fr;
+    align-items: flex-start;
+    align-content: flex-start;
+    row-gap: 5px;
+  }
+
   div.editor {
     .tox {
       min-height:inherit;
@@ -619,10 +628,20 @@
         border-bottom:1px solid $white;
       }
     }
+
+    &.leftBlock {
+      grid-row: 1 / 4;
+    }
   }
 
   div.dialog-buttons {
-    margin-bottom:5px;
+    position: absolute;
+    width: calc(100% - 27px);
+    bottom: 0px;
+    z-index: 100;
+    padding-bottom:10px;
+    background: $black;
+
     button {
       cursor:pointer;
       background:$lightBlack;

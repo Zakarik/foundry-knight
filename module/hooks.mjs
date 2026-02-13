@@ -63,6 +63,7 @@ export default class HooksKnight {
             await generateNavigator();
           });
         }
+
         //FIN GESTION INTERFACE
         //
         //
@@ -162,7 +163,6 @@ export default class HooksKnight {
                 }
             }
 
-
             if(tgtBtnId) {
                 const token = canvas?.tokens?.get(tgtBtnId)?.actor ?? undefined;
 
@@ -229,7 +229,7 @@ export default class HooksKnight {
                 for(const content of flags.content) {
                     const target = content.targets.find(tkn => tkn.id === tokenId);
 
-                    if(target) applyAtkEffects(actor, weapon, target, [status]);
+                    if(target) autoApplyEffects(actor, [status], target, weapon);
                 }
             });
 
@@ -1305,6 +1305,128 @@ export default class HooksKnight {
                 return;
             }
 
+            function autoApplyEffects(actor, wpnEffects, target, weapon) {
+                let effects = {};
+
+                [...wpnEffects].forEach(effectName => {
+                    const convert = CONFIG.KNIGHT.LIST.EFFETS.status.convert;
+                    const split = effectName.split(' ');
+                    const rawConvert = convert[effectName];
+                    let name = split[0];
+                    let value = split[1];
+
+                    if(rawConvert) {
+                        const splitConvert = rawConvert.split(' ');
+
+                        name = splitConvert[0];
+                        value = splitConvert[1];
+                    }
+
+                    effects[name] = value ? parseInt(value) : true;
+                });
+
+                // #####################
+                // Set effects
+                // #####################
+                const effectList = actor.type === 'bande'
+                    ? CONFIG.KNIGHT.LIST.EFFETS.status.attaque.bande
+                    : CONFIG.KNIGHT.LIST.EFFETS.status.attaque.other;
+                effectList.map(async iconName => {
+                    const isBoolean = CONFIG.KNIGHT.LIST.EFFETS.boolean.includes(iconName);
+                    const isSpecial = CONFIG.KNIGHT.LIST.EFFETS.special.includes(iconName);
+
+                    if ((effects[iconName] && (typeof effects[iconName] === 'number' || isBoolean)) && !isSpecial) {
+                        const type = actor?.system?.type ? actor.system.type.toLowerCase() : "" ;
+
+                        if(
+                            (iconName === 'demoralisant' && actor?.system?.origin !== 'humain') ||
+                            (iconName === 'tirelite' && (actor.type === 'knight' || actor.type === 'bande' || actor.type === 'mechaarmure' || actor.type === 'vehicule'))
+                        ) return;
+
+                        if(iconName === 'tirelite') {
+                            if(actor?.system?.colosse || !target.hit || !isExploit) return;
+
+                            if(type.includes(game.i18n.localize("KNIGHT.TYPE.Nuisible").toLowerCase()) ||
+                            type.includes(game.i18n.localize("KNIGHT.TYPE.Hostile").toLowerCase()) ||
+                            type.includes(game.i18n.localize("KNIGHT.TYPE.Salopard").toLowerCase())) {
+                                actor.update({[`system.sante.value`]:0});
+                                applyDeath(actor);
+                                return;
+                            } else return;
+                        }
+
+                        // Check if "Status Icon Counters" module is set
+                        if (window.EffectCounter) {
+                            // Set the icon path in the system
+                            const iconPath = `systems/knight/assets/icons/effects/${iconName}.svg`;
+
+                            // Get the effect
+                            let effect = actor.appliedEffects.find(e => e.icon === iconPath);
+
+                            if (!effect) {
+                                if(isVersion13) {
+                                    let counterNumber = isBoolean ? 1 : effects[iconName];
+
+                                    // Create the counter
+                                    if (counterNumber) {
+                                        const newEffect = await ActiveEffect.fromStatusEffect(CONFIG.statusEffects.find(itm => itm.icon === iconPath).id);
+
+                                        const counter = await actor.createEmbeddedDocuments('ActiveEffect', [newEffect]);
+
+                                        counter[0].statusCounter.setValue(counterNumber);
+                                        counter[0].setFlag('knight', 'appliedBy', weapon.id);
+                                    }
+                                } else {
+                                    let counterNumber = isBoolean ? 1 : effects[iconName];
+                                    // Create the counter
+                                    if (counterNumber) {
+                                        const counter = new ActiveEffectCounter(counterNumber, iconPath, actor);
+                                        counter.update();
+                                    }
+                                }
+                            } else {
+                                switch (iconName) {
+                                    case 'barrage':
+                                    case 'choc':
+                                    case 'degatscontinus':
+                                    case 'immobilisation':
+                                    case 'lumiere':
+                                    case 'parasitage':
+                                        if(isVersion13) {
+                                            if (effect.statusCounter.displayValue < effects[iconName]) {
+                                                // Update the counter
+                                                effect.statusCounter.setValue(effects[iconName]);
+                                            }
+                                        } else {
+                                            if (effect.value < effects[iconName]) {
+                                                // Update the counter
+                                                effect.setValue(effects[iconName]);
+                                            }
+                                        }
+                                        break;
+
+                                    case 'demoralisant':
+                                        if(isVersion13) {
+                                            effect.statusCounter.setValue(effect.statusCounter.displayValue + 1);
+                                        } else {
+                                            effect.setValue(effect.value + 1);
+                                        }
+                                        break;
+                                }
+                            }
+                         } else {
+                            // No "Status Icon Counters" module
+                            applyStatus(actor, iconName, false, weapon);
+                        }
+                    } else if(effects[iconName] && isSpecial && actor.type === 'bande') {
+                        if(actor.system.sante.max <= 300) {
+                            actor.update({[`system.sante.value`]:0});
+                            applyDeath(actor);
+                        }
+                    }
+                });
+            }
+
             function applyAtkEffects(actor, weapon, target, autoHit=[], isExploit=false) {
                 const raw = weapon?.effets?.raw ?? [];
                 const distance = weapon?.distance?.raw ?? [];
@@ -1321,7 +1443,6 @@ export default class HooksKnight {
                     let name = split[0];
                     let value = split[1];
                     let skip = false;
-
 
                     if((weapon.options.find(itm => itm.value === 'barrage')?.active ?? false) && name !== 'barrage') {
                         skip = true;
@@ -1542,7 +1663,7 @@ export default class HooksKnight {
                 if(isVersion13) newEffect = await actor.toggleStatusEffect(statusId, { active: true, overlay: overlay });
                 else newEffect = await V11toggleStatusEffect(actor, statusId, { active: true, overlay: overlay });
 
-                if(weapon) newEffect.setFlag('knight', 'appliedBy', weapon.id);
+                if(weapon && newEffect?.id) newEffect.setFlag('knight', 'appliedBy', weapon.id);
             }
 
             async function V11toggleStatusEffect(actor, statusId, {active, overlay=false}={}) {

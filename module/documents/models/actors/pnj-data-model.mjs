@@ -272,6 +272,7 @@ export class PNJDataModel extends BaseNPCDataModel {
         this.#modules();
         this.#derived();
         this.#defenses();
+        this._setStatusImmunity();
     }
 
     #armes() {

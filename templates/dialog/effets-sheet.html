@@ -1,5 +1,5 @@
 <form class="{{cssClass}}" autocomplete="off">
-    <div class="dialog-content">
+    <div class="dialog-content leftBlock">
         <h2 class="header">{{localize "KNIGHT.EFFETS.Presents"}}</h2>
         <div class="effets">
             {{#each object.data.liste as | key effet|}}
@@ -14,7 +14,12 @@
                 </div>
             {{/each}}
         </div>
-        <h2 class="header">{{localize "KNIGHT.EFFETS.Add"}}</h2>
+    </div>
+    <div class="dialog-content">
+        <h2 class="header js-toggler">
+            <i class="far fa-minus-square extendButton"></i>
+            {{localize "KNIGHT.EFFETS.Add"}}
+        </h2>
         <div class="effetsAdd standard">
             {{#each object.data.ePossibles as | key effet|}}
                 <div class="{{#if key.double}}double{{/if}} {{#if key.text}}text{{/if}}">
@@ -34,8 +39,13 @@
                 </div>
             {{/each}}
         </div>
-        {{#if object.data.ePossiblesActivable}}
-        <h2 class="header">{{localize "KNIGHT.EFFETS.AddActivable"}}</h2>
+    </div>
+    {{#if object.data.ePossiblesActivable}}
+    <div class="dialog-content">
+        <h2 class="header js-toggler">
+            <i class="far fa-minus-square extendButton"></i>
+            {{localize "KNIGHT.EFFETS.AddActivable"}}
+        </h2>
         <div class="effetsAdd activable">
             {{#each object.data.ePossiblesActivable as | key effet|}}
                 <div class="{{#if key.double}}double{{/if}} {{#if key.text}}text{{/if}}">
@@ -55,8 +65,8 @@
                 </div>
             {{/each}}
         </div>
-        {{/if}}
     </div>
+    {{/if}}
     <div class="dialog-buttons">
         <button class="dialog-button valider">
             <i class="fas fa-check"></i>
@@ -68,7 +78,10 @@
         </button>
     </div>
     <div class="dialog-content">
-        <h2 class="header">{{localize "KNIGHT.EFFETS.CUSTOM.Label"}}</h2>
+        <h2 class="header js-toggler">
+            <i class="far fa-minus-square extendButton"></i>
+            {{localize "KNIGHT.EFFETS.CUSTOM.Label"}}
+        </h2>
         <div class="effetCustom">
             <div class="header {{#if object.data.custom.edit}}edit{{/if}}">
                 <input type="text" class="nom" name="custom.nom" value="{{object.data.custom.nom}}" placeholder="{{localize "KNIGHT.Nom"}}" />
