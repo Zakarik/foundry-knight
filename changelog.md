@@ -1,3 +1,13 @@
+## v3.54.0
+### Améliorations
+- Ajout de la prise en compte des immunités dues aux OD d'Endurance.
+- Suppression du paramètre pour inclure le CodexFM 4, pour simplifier les choses : Tout est dorénavant inclus par défaut.
+- Amélioration de la fenêtre d'ajout d'effets, j'espère que le nouveau design sera plus pratique à utiliser !
+
+### Bugfix
+- Correction d'un bug avec le Choc automatique.
+- Correction d'une erreur avec l'application d'effets.
+
 ## v3.53.0
 ### Améliorations
 - Ajout de la possibilité de mettre des effets "activables", des effets normalement passif (Défense, Réaction, Champ de Force) qui peuvent être activés / désactivés contre un coût en PE, avec message dans le tchat.

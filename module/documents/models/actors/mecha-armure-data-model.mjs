@@ -557,6 +557,8 @@ export class MechaArmureDataModel extends BaseActorDataModel {
     Object.defineProperty(this.initiative, 'complet', {
       value: `${this.initiative.dice}D6+${this.initiative.value}`,
     });
+
+    this._setStatusImmunity();
   }
 
   #handlePilote() {

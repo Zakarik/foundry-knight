@@ -325,6 +325,7 @@
           },
           "ENDURANCE": {
             "Label": "Endurance",
+            "Full":"Endurance OD",
             "OD":"Damage compensator",
             "OD2":"The character is no longer affected by stun 1 effects.",
             "OD3":"While in meta-armour, the character’s health is increased by 6 points.",
@@ -1061,7 +1062,8 @@
       },
       "SOUMISSION": {
         "Label":"Submission",
-        "Description":"By hitting a target with a submission effect, the attacker can pin their target down and prevent them from moving. Furthermore, the pinned target may only attack the one who has them pinned, and only with melee attacks. To break free from a _submission_ effect, the pinned target must, on its turn, succeed at a base _Movement_ or _Combat_ skill check (_Flesh_ or _Beast_ aspect for NPCs) with a difficulty equal to the successes obtained on the pinner’s attack roll. If the target hasn’t managed to break free on its turn, the attacker may either maintain their hold and inflict their weapon damage without having to roll to hit, or try to get a better hold on their target. If this second skill check succeeds, any damage dealt bypasses force fields and anathema shields. _Submission_ effects do not work on behemoth class enemies."
+        "Description":"By hitting a target with a submission effect, the attacker can pin their target down and prevent them from moving. Furthermore, the pinned target may only attack the one who has them pinned, and only with melee attacks. To break free from a _submission_ effect, the pinned target must, on its turn, succeed at a base _Movement_ or _Combat_ skill check (_Flesh_ or _Beast_ aspect for NPCs) with a difficulty equal to the successes obtained on the pinner’s attack roll. If the target hasn’t managed to break free on its turn, the attacker may either maintain their hold and inflict their weapon damage without having to roll to hit, or try to get a better hold on their target. If this second skill check succeeds, any damage dealt bypasses force fields and anathema shields. _Submission_ effects do not work on behemoth class enemies.",
+        "Description-short":"By hitting a target with a submission effect, the attacker can pin their target down and prevent them from moving. Furthermore, the pinned target may only attack the one who has them pinned, and only with melee attacks. To break free from a _submission_ effect, the pinned target must, on its turn, succeed at a base _Movement_ or _Combat_ skill check (_Flesh_ or _Beast_ aspect for NPCs) with a difficulty equal to the successes obtained on the pinner’s attack roll. If the target hasn’t managed to break free on its turn, the attacker may either maintain their hold and inflict their weapon damage without having to roll to hit, or try to get a better hold on their target. If this second skill check succeeds, any damage dealt bypasses force fields and anathema shields. _Submission_ effects do not work on behemoth class enemies."
       },
       "TENEBRICIDE": {
         "Label":"Shadowpurge",
@@ -2749,10 +2751,6 @@
         "Version1":"Version 1",
         "Version2":"Version 2",
         "Version3":"Version 3"
-      },
-      "CODEXFM4":{
-        "Label":"Include Codex Fan Made 4",
-        "Hint":"Adds token & effect status 'Immobilization', 'Boost', 'FF', 'Intimidating', 'Flashback', 'Unarmored'."
       },
       "OLDROLL":{
         "Label":"Roll damage and violence at the same time as the attack",

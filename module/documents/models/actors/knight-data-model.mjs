@@ -593,6 +593,7 @@ export class KnightDataModel extends BaseActorDataModel {
         this.#derived();
         this.initiative.prepareData();
         this.#sanitizeValue();
+        this._setStatusImmunity();
     }
 
     #checkArmor() {

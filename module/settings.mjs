@@ -7,16 +7,6 @@ export const RegisterSettings = function () {
     /* ------------------------------------ */
     /* User settings                        */
     /* ------------------------------------ */
-    game.settings.register("knight", "include-armorbase", {
-        name: "",
-        hint: "",
-        scope: "world",
-        config: false,
-        default: true,
-        type: Boolean,
-
-    });
-
     game.settings.register("knight", "acces-egide", {
         name: "KNIGHT.SETTINGS.ARMURES.Egide",
         hint: "",
@@ -27,6 +17,16 @@ export const RegisterSettings = function () {
         onChange: value => {
             foundry.utils.debouncedReload();
         }
+    });
+
+    game.settings.register("knight", "include-armorbase", {
+        name: "",
+        hint: "",
+        scope: "world",
+        config: false,
+        default: true,
+        type: Boolean,
+
     });
 
     game.settings.register("knight", "include-capacite2038", {
@@ -86,45 +86,9 @@ export const RegisterSettings = function () {
         type: Boolean,
     });
 
-    game.settings.register("knight", "systemVersion", {
-        name: "Version du Système",
-        scope: "world",
-        config: false,
-        type: String,
-        default: 0,
-    });
-
-    game.settings.register("knight", "clearTogglers", {
-        name: "KNIGHT.SETTINGS.TOGGLERS.Label",
-        hint: "KNIGHT.SETTINGS.TOGGLERS.Hint",
-        scope: "client",
-        config: true,
-        type: Boolean,
-        default: false,
-        onChange: value => {
-            if (value) {
-                toggler.clearAll();
-
-                game.settings.set('knight', 'clearTogglers', false);
-            }
-        }
-    });
-
     game.settings.register("knight", "adl", {
         name: "KNIGHT.SETTINGS.ADL.Label",
         hint: "KNIGHT.SETTINGS.ADL.Hint",
-        scope: "world",
-        config: true,
-        type: Boolean,
-        default: false,
-        onChange: value => {
-            foundry.utils.debouncedReload();
-        }
-    });
-
-    game.settings.register("knight", "codexfm4", {
-        name: "KNIGHT.SETTINGS.CODEXFM4.Label",
-        hint: "KNIGHT.SETTINGS.CODEXFM4.Hint",
         scope: "world",
         config: true,
         type: Boolean,
@@ -196,5 +160,29 @@ export const RegisterSettings = function () {
         config: false,
         type: Boolean,
         default: true,
+    });
+
+    game.settings.register("knight", "clearTogglers", {
+        name: "KNIGHT.SETTINGS.TOGGLERS.Label",
+        hint: "KNIGHT.SETTINGS.TOGGLERS.Hint",
+        scope: "client",
+        config: true,
+        type: Boolean,
+        default: false,
+        onChange: value => {
+            if (value) {
+                toggler.clearAll();
+
+                game.settings.set('knight', 'clearTogglers', false);
+            }
+        }
+    });
+
+    game.settings.register("knight", "systemVersion", {
+        name: "Version du Système",
+        scope: "world",
+        config: false,
+        type: String,
+        default: 0,
     });
 };

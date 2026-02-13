@@ -325,6 +325,7 @@
           },
           "ENDURANCE": {
             "Label": "Endurance",
+            "Full":"OD d'Endurance",
             "OD":"Compensateur de dégâts",
             "OD2":"Le personnage ne subit plus l’effet choc 1 .",
             "OD3":"Tant qu’il porte sa méta-armure, le personnage gagne 6 points de santé.",
@@ -1061,7 +1062,8 @@
       },
       "SOUMISSION": {
         "Label":"Soumission",
-        "Description":"Après avoir touché sa cible avec un effet _soumission_, l’attaquant peut soumettre sa cible physiquement et l’empêcher de se déplacer ou d’attaquer qui que ce soit d’autre que l’attaquant, et ce au contact. Pour se libérer de l’effet _soumission_, la cible touchée doit, à son tour, réussir un test base _Déplacement_ ou _Combat_ (aspect _Chair_ ou _Bête_) dont la difficulté est définie par le nombre de réussites de l’attaquant. Si la cible n’a pas pu se libérer à son tour, l’attaquant peut maintenir la soumission sans relancer les dés et infliger des dégâts normalement, ou relancer un test d’attaque afin de renforcer sa prise. Si le jet est à nouveau réussi, les dégâts sont infligés sans prendre en considération tout éventuel champ de force ou bouclier (pour les créatures de l’Anathème). L’effet _soumission_ ne peut impacter les colosses."
+        "Description":"Après avoir touché sa cible avec un effet _soumission_, l’attaquant peut soumettre sa cible physiquement et l’empêcher de se déplacer ou d’attaquer qui que ce soit d’autre que l’attaquant, et ce au contact. Pour se libérer de l’effet _soumission_, la cible touchée doit, à son tour, réussir un test base _Déplacement_ ou _Combat_ (aspect _Chair_ ou _Bête_) dont la difficulté est définie par le nombre de réussites de l’attaquant. Si la cible n’a pas pu se libérer à son tour, l’attaquant peut maintenir la soumission sans relancer les dés et infliger des dégâts normalement, ou relancer un test d’attaque afin de renforcer sa prise. Si le jet est à nouveau réussi, les dégâts sont infligés sans prendre en considération tout éventuel champ de force ou bouclier (pour les créatures de l’Anathème). L’effet _soumission_ ne peut impacter les colosses.",
+        "Description-short":"Après avoir touché sa cible avec un effet _soumission_, l’attaquant peut soumettre sa cible physiquement et l’empêcher de se déplacer ou d’attaquer qui que ce soit d’autre que l’attaquant, et ce au contact. Pour se libérer de l’effet _soumission_, la cible touchée doit, à son tour, réussir un test base _Déplacement_ ou _Combat_ (aspect _Chair_ ou _Bête_) dont la difficulté est définie par le nombre de réussites de l’attaquant. Si la cible n’a pas pu se libérer à son tour, l’attaquant peut maintenir la soumission sans relancer les dés et infliger des dégâts normalement, ou relancer un test d’attaque afin de renforcer sa prise. Si le jet est à nouveau réussi, les dégâts sont infligés sans prendre en considération tout éventuel champ de force ou bouclier (pour les créatures de l’Anathème). L’effet _soumission_ ne peut impacter les colosses."
       },
       "TENEBRICIDE": {
         "Label":"Ténébricide",
@@ -2749,10 +2751,6 @@
         "Version1":"Version 1",
         "Version2":"Version 2",
         "Version3":"Version 3"
-      },
-      "CODEXFM4":{
-        "Label":"Inclure le Codex Fan Made 4",
-        "Hint":"Ajoute le status de token & effets 'Immobilisation', 'Boost', 'CdF', 'Intimidante', 'Retour de flamme', 'Sans armure'."
       },
       "OLDROLL":{
         "Label":"Jeter les dégâts et la violence en même temps que l'attaque",

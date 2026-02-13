@@ -682,6 +682,7 @@ export const KNIGHT = {};
           'choc',
           'electrifiee',
           'barrage',
+          'soumission'
         ],
         convert:{
           'electrifiee':'choc 1',

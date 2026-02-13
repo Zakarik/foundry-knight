@@ -159,6 +159,7 @@ export class CreatureDataModel extends BaseNPCDataModel {
 	prepareDerivedData() {
     this.#derived();
     this.#defenses();
+    this._setStatusImmunity();
   }
 
   #armes() {

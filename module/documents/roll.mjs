@@ -1753,6 +1753,7 @@ export class RollKnight {
                         case 'pillage':
                         case 'rempart':
                         case 'tirelite':
+                        case 'soumission':
                             if(effet) detailledEffets.push({
                                 simple:l,
                                 key:effet,
@@ -2023,8 +2024,10 @@ export class RollKnight {
 
                         const comparaison = target.type === 'knight' ? chair : Math.ceil(chair/2);
                         const chairAE = target.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
+                        const hasImmunity = this.getImmunity(actor, d);
 
                         t.btn = [];
+                        let hit = false;
 
                         switch(d.simple) {
                             case 'aneantirbande':
@@ -2037,14 +2040,28 @@ export class RollKnight {
                                 })
                                 break;
 
-                            case 'choc':
-                            case 'electrifiee':
+                            case 'soumission':
+                                if(!hasImmunity.has && t.hit) hit = true;
+
                                 t.effets.push({
                                     simple:d.simple,
                                     key:d.key,
                                     label:d.label,
-                                    hit:(total > comparaison && t.hit && chairAE === 0) || (autoApply && chairAE === 0)  ? true : false,
-                                    subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
+                                    hit,
+                                    subtitle:!hit && hasImmunity.protectedBy ? game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:hasImmunity.protectedBy}) : '',
+                                });
+                                break;
+
+                            case 'choc':
+                            case 'electrifiee':
+                                if((total > comparaison && t.hit && !hasImmunity.has) || (autoApply && !hasImmunity.has)) hit = true;
+
+                                t.effets.push({
+                                    simple:d.simple,
+                                    key:d.key,
+                                    label:d.label,
+                                    hit,
+                                    subtitle:!hit && hasImmunity.protectedBy ? game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:hasImmunity.protectedBy}) : '',
                                 });
 
                                 t.btn.push({
@@ -2077,12 +2094,14 @@ export class RollKnight {
                                 break;
 
                             case 'barrage':
+                                if(!hasImmunity.has) hit = true;
+
                                 t.effets.push({
                                     simple:d.simple,
                                     key:d.key,
                                     label:d.label,
-                                    hit:true,
-                                    subtitle:chairAE === 0 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
+                                    hit,
+                                    subtitle:!hit ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.JETS.CHAIR.Majeur')})
                                 })
                                 break;
                         }
@@ -3179,6 +3198,8 @@ export class RollKnight {
 
             //tous les autres
             for(let d of targetDetailledEffets) {
+                const hasImmunity = this.getImmunity(actor, d);
+
                 switch(d.simple) {
                     case 'revetementomega':
                         if(t.marge && this.isSurprise) {
@@ -3222,10 +3243,7 @@ export class RollKnight {
                         break;
 
                     case 'meurtrier':
-                        const chairAE = target.system?.aspects?.chair?.ae?.majeur?.value ?? 0;
-
-                        if(chairAE > 0) {
-
+                        if(hasImmunity.has) {
                             t.effets.push({
                                 simple:d.simple,
                                 key:d.key,
@@ -4927,5 +4945,18 @@ export class RollKnight {
         if(itemsWpn) result = true;
 
         return result;
+    }
+
+    getImmunity(actor, effect) {
+        const immunity = actor?.system?.immunityList ?? [];
+        const effValue = Number(effect?.key?.split(' ')?.[1] ?? 0);
+        const immunityFilter = effValue ? immunity.filter(eff => eff.key === effect.simple && (eff.value >= effValue || !eff?.value)) : immunity.filter(eff => eff.key === effect?.simple);
+        const hasImmunity = immunityFilter.length > 0;
+        const protectedBy = hasImmunity ? `${[...new Set(immunityFilter.map(eff => eff.protectedBy))].join('/')}` : '';
+
+        return {
+            has:hasImmunity ? true : false,
+            protectedBy,
+        };
     }
 }
