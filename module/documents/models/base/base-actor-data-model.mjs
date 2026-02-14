@@ -372,6 +372,8 @@ export class BaseActorDataModel extends foundry.abstract.TypeDataModel {
                 break;
 
             case 'mechaarmure':
+                const protectedBy = game.i18n.localize('KNIGHT.Colosse');
+
                 immunity.push({
                     key:'soumission',
                     protectedBy,

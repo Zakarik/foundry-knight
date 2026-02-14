@@ -1,3 +1,7 @@
+## v3.54.1
+### Bugfix
+- Correction d'un bug suite à la dernière mise à jour, avec les immunités.
+
 ## v3.54.0
 ### Améliorations
 - Ajout de la prise en compte des immunités dues aux OD d'Endurance.
