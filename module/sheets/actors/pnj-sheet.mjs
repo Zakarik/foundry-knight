@@ -1,9 +1,5 @@
 import {
-  getEffets,
-  getAspectValue,
-  getAEValue,
   listEffects,
-  SortByName,
   confirmationDialog,
   getDefaultImg,
   diceHover,
@@ -11,14 +7,11 @@ import {
   commonPNJ,
   hideShowLimited,
   dragMacro,
-  createSheet,
   actualiseRoll,
   getAllEffects,
   getAllArmor,
-  spawnTokenRightOfActor,
-  spawnTokensRightOfActor,
-  deleteTokens,
   getArmor,
+  getArmorLegend,
 } from "../../helpers/common.mjs";
 
 import toggler from '../../helpers/toggler.js';
@@ -454,66 +447,13 @@ export class PNJSheet extends ActorSheet {
     });
 
     html.find('.capacites div.armure .prolonger').click(async ev => {
+      const type = $(ev.currentTarget).data("type");
       const capacite = $(ev.currentTarget).data("capacite");
       const special = $(ev.currentTarget).data("special");
-      const cout = eval($(ev.currentTarget).data("cout"));
-      const espoir = $(ev.currentTarget).data("espoir");
+      const variant = $(ev.currentTarget).data("variant");
+      const armor = type === 'legende' ? await getArmorLegend(this.actor) : await getArmor(this.actor);
 
-      const getData = this.getData();
-      const system = getData.data.system;
-      const options = system.options;
-
-      this._depensePE(cout);
-
-      switch(capacite) {
-        case "illumination":
-          switch(special) {
-            case "torch":
-            case "lighthouse":
-            case "lantern":
-            case "blaze":
-            case "beacon":
-            case "projector":
-              if(options.espoir) {
-                const espoirValue = espoir.value;
-                const espoirNew = espoirValue-espoir;
-
-                if(espoirNew < 0) {
-                  const msgEspoir = {
-                    flavor:`${label}`,
-                    main:{
-                      total:`${game.i18n.localize('KNIGHT.JETS.Notespoir')}`
-                    }
-                  };
-
-                  const msgEspoirData = {
-                    user: game.user.id,
-                    speaker: {
-                      actor: this.actor?.id || null,
-                      token: this.actor?.token?.id || null,
-                      alias: this.actor?.name || null,
-                    },
-                    type: CONST.CHAT_MESSAGE_TYPES.OTHER,
-                    content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgEspoir),
-                    sound: CONFIG.sounds.dice
-                  };
-
-                  const rMode = game.settings.get("core", "rollMode");
-                  const msgFData = ChatMessage.applyRollMode(msgEspoirData, rMode);
-
-                  await ChatMessage.create(msgFData, {
-                    rollMode:rMode
-                  });
-
-                  return;
-                }
-
-                this.actor.update({['system.espoir.value']:espoirNew});
-              }
-              break;
-          }
-          break;
-      }
+      await armor.system.prolongateCapacity({capacite, special, variant});
     });
 
     html.find('.capacites div.armure input.update').change(async ev => {

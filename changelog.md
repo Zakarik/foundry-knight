@@ -1,3 +1,7 @@
+## v3.54.3
+### Bugfix
+- Application des correctifs sur les PNJ, que j'avais oublié...
+
 ## v3.54.2
 ### Bugfix
 - Correction de bugs avec les prolongations des capacités.
