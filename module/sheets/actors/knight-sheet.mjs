@@ -735,30 +735,11 @@ export class KnightSheet extends ActorSheet {
     html.find('.armure .prolonger').click(async ev => {
       const type = $(ev.currentTarget).data("type");
       const capacite = $(ev.currentTarget).data("capacite");
-      const name = $(ev.currentTarget).data("name");
-      const hasFlux = $(ev.currentTarget).data("flux") || false;
       const special = $(ev.currentTarget).data("special");
-      const id = $(ev.currentTarget).data("id");
-      const cout = eval($(ev.currentTarget).data("cout"));
-      const flux = hasFlux != false ? eval(hasFlux) : false;
-      const espoir = $(ev.currentTarget).data("espoir");
+      const variant = $(ev.currentTarget).data("variant");
+      const armor = type === 'legende' ? await getArmorLegend(this.actor) : await getArmor(this.actor);
 
-      await this._depensePE(name, cout, true, false, flux, true);
-
-      switch(capacite) {
-        case "illumination":
-          switch(special) {
-            case "torch":
-            case "lighthouse":
-            case "lantern":
-            case "blaze":
-            case "beacon":
-            case "projector":
-              await this._depensePE(`${name} : ${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.${special.toUpperCase()}.Label`)}`, espoir, true, true, false, true);
-              break;
-          }
-          break;
-      }
+      await armor.system.prolongateCapacity({capacite, special, variant});
     });
 
     html.find('.armure .configurationWolf').click(async ev => {

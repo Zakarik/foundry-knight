@@ -23,10 +23,8 @@
                 </button>
                 {{#if this.active}}
                 <button class="prolonger"
-                    data-type="capacites"
-                    data-capacite="{{key}}"
-                    data-name="{{label}}"
-                    data-cout="{{energie.prolonger}}*{{data.totem.nombre}}">
+                    data-type="^legende"
+                    data-capacite="{{key}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TOTEM.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                 </button>
                 {{/if}}

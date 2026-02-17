@@ -78,14 +78,10 @@
                 </button>
                 {{/if}}
 
-                <button class="prolonger" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                data-id="{{data.shrine.id}}"
-                data-cout="
-                    {{#if active.personnel}} {{energie.personnel}} {{/if}}
-                    {{#if active.distance}} {{energie.distance}} {{/if}}
-                    {{#if active.personnel6}} {{energie.personnel6tours}} {{/if}}
-                    {{#if active.distance6}} {{energie.distance6tours}} {{/if}}
-                ">
+                <button class="prolonger"
+                    data-type="capacites"
+                    data-capacite="{{key}}"
+                    data-special="{{#if active.personnel}}personnel{{/if}}{{#if active.distance}}distance{{/if}}{{#if active.personnel6}}personnel6{{/if}}{{#if active.distance6}}distance6{{/if}}">
                     {{localize "KNIGHT.AUTRE.Prolonger"}}
                 </button>
             {{/unless}}

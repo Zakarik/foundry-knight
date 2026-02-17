@@ -42,20 +42,26 @@
             {{/unless}}
 
             {{#if this.active.base}}
-            <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                data-cout="{{this.energie.prolonger}}">
+            <button class="prolonger"
+                data-type="capacites"
+                data-capacite="{{key}}"
+                data-special="base">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetBase"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>
             {{else}}
                 {{#if this.active.detaille}}
-                <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                    data-cout="{{this.energie.prolonger}}">
+                <button class="prolonger"
+                    data-type="capacites"
+                    data-capacite="{{key}}"
+                    data-special="detaille">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetDetaille"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                 </button>
                 {{else}}
                     {{#if this.active.mecanique}}
-                    <button class="prolonger" data-type="capacites" data-capacite="{{this.key}}" data-name="{{this.label}}"
-                        data-cout="{{this.energie.prolonger}}">
+                    <button class="prolonger"
+                        data-type="capacites"
+                        data-capacite="{{key}}"
+                        data-special="mecanique">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetMecanique"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}

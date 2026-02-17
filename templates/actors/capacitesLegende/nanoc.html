@@ -33,20 +33,18 @@
 
             {{#if active.base}}
             <button class="prolonger"
-                data-type="capacites"
+                data-type="legende"
                 data-capacite="{{key}}"
-                data-name="{{label}}"
-                data-cout="{{energie.prolonger}}">
+                data-special="base">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetBase"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>
             {{/if}}
 
             {{#if active.detaille}}
             <button class="prolonger"
-                data-type="capacites"
+                data-type="legende"
                 data-capacite="{{key}}"
-                data-name="{{label}}"
-                data-cout="{{energie.prolonger}}">
+                data-special="detaille">
                 {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.NANOC.ObjetDetaille"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>
             {{/if}}

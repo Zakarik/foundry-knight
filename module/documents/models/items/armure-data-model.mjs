@@ -1469,7 +1469,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
               await deleteTokens([actorLion.id]);
 
-              if(Object.keys(actorLion).length != 0) await actorLion.delete();
+              if(Object.keys(actorLion).length != 0) await SOCKET.executeAsGM('deleteActorOrToken', {actors:[actorLion.uuid]});
               break;
 
             case 'wolf':
@@ -1486,9 +1486,13 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
               await deleteTokens([actor1Wolf.id, actor2Wolf.id, actor3Wolf.id]);
 
-              if(Object.keys(actor1Wolf).length != 0) await actor1Wolf.delete();
-              if(Object.keys(actor2Wolf).length != 0) await actor2Wolf.delete();
-              if(Object.keys(actor3Wolf).length != 0) await actor3Wolf.delete();
+              let toDel = [];
+
+              if(Object.keys(actor1Wolf).length != 0) toDel.push(actor1Wolf.uuid);
+              if(Object.keys(actor2Wolf).length != 0) toDel.push(actor2Wolf.uuid);
+              if(Object.keys(actor3Wolf).length != 0) toDel.push(actor3Wolf.uuid);
+
+              if(toDel.length > 0) await SOCKET.executeAsGM('deleteActorOrToken', {actors:toDel});
               break;
 
             case 'crow':
@@ -1501,7 +1505,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
               await deleteTokens([actorCrow.id]);
 
-              if(Object.keys(actorCrow).length != 0) await actorCrow.delete();
+              if(Object.keys(actorCrow).length != 0) await SOCKET.executeAsGM('deleteActorOrToken', {actors:actorCrow.uuid});
               break;
           }
 

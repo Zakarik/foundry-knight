@@ -110,24 +110,13 @@
                     data-value="{{active.force.porteur}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.FORCE.Label"}} : {{localizeactivate active.force.porteur}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.ACTIVATION.Porteur"}})
                 </button>
-                {{#if active.force.allie}}
+                {{#if (or active.force.allie active.force.porteur)}}
                     <button class="prolonger"
-                        data-type="capacites"
+                        data-type="legende"
                         data-capacite="{{key}}"
-                        data-name="{{label}}"
-                        data-cout="{{#if active.force.allie}}({{impulsions.force.energie.prolonger}}*{{data.warlord.force.nbre}}){{else}}0{{/if}}+{{#if active.force.porteur}}{{impulsions.force.energie.porteur}}{{else}}0{{/if}}">
+                        data-name="force">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.FORCE.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
-                    {{else}}
-                    {{#if active.force.porteur}}
-                        <button class="prolonger"
-                            data-type="capacites"
-                            data-capacite="{{key}}"
-                            data-name="{{label}}"
-                            data-cout="{{#if active.force.allie}}({{impulsions.force.energie.prolonger}}*{{data.warlord.force.nbre}}){{else}}0{{/if}}+{{#if data.warlord.force.porteur}}{{impulsions.force.energie.porteur}}{{else}}0{{/if}}">
-                            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.FORCE.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
-                        </button>
-                    {{/if}}
                 {{/if}}
             {{/if}}
             {{#if impulsions.esquive.choisi}}
@@ -162,24 +151,13 @@
                     data-value="{{active.esquive.allie}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.ESQUIVE.Label"}} : {{localizeactivate active.esquive.allie}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.ACTIVATION.Allie"}})
                 </button>
-                {{#if active.esquive.allie}}
+                {{#if (or active.esquive.allie active.esquive.porteur)}}
                     <button class="prolonger"
-                        data-type="capacites"
+                        data-type="legende"
                         data-capacite="{{key}}"
-                        data-name="{{label}}"
-                        data-cout="{{#if active.esquive.allie}}({{impulsions.esquive.energie.prolonger}}*{{data.warlord.esquive.nbre}}){{else}}0{{/if}}+{{#if active.esquive.porteur}}{{impulsions.esquive.energie.porteur}}{{else}}0{{/if}}">
+                        data-special="esquive">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.ESQUIVE.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
-                    {{else}}
-                    {{#if active.esquive.porteur}}
-                        <button class="prolonger"
-                            data-type="capacites"
-                            data-capacite="{{key}}"
-                            data-name="{{label}}"
-                            data-cout="{{#if active.esquive.allie}}({{impulsions.esquive.energie.prolonger}}*{{data.warlord.esquive.nbre}}){{else}}0{{/if}}+{{#if active.esquive.porteur}}{{impulsions.esquive.energie.porteur}}{{else}}0{{/if}}">
-                            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.ESQUIVE.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
-                        </button>
-                    {{/if}}
                 {{/if}}
             {{/if}}
             {{#if impulsions.energie.choisi}}
@@ -234,24 +212,13 @@
                     data-value="{{active.guerre.porteur}}">
                     {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.GUERRE.Label"}} : {{localizeactivate active.guerre.porteur}} ({{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.ACTIVATION.Porteur"}})
                 </button>
-                {{#if active.guerre.allie}}
+                {{#if (or active.guerre.allie active.guerre.porteur)}}
                     <button class="prolonger"
-                        data-type="capacites"
+                        data-type="legende"
                         data-capacite="{{key}}"
-                        data-name="{{label}}"
-                        data-cout="{{#if active.guerre.allie}}({{impulsions.guerre.energie.prolonger}}*{{data.warlord.guerre.nbre}}){{else}}0{{/if}}+{{#if active.guerre.porteur}}{{impulsions.guerre.energie.porteur}}{{else}}0{{/if}}">
+                        data-special="guerre">
                         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.GUERRE.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
-                    {{else}}
-                    {{#if active.guerre.porteur}}
-                        <button class="prolonger"
-                            data-type="capacites"
-                            data-capacite="{{key}}"
-                            data-name="{{label}}"
-                            data-cout="{{#if active.guerre.allie}}({{impulsions.guerre.energie.prolonger}}*{{data.warlord.guerre.nbre}}){{else}}0{{/if}}+{{#if active.guerre.porteur}}{{impulsions.guerre.energie.porteur}}{{else}}0{{/if}}">
-                            {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.WARLORD.IMPULSIONS.GUERRE.Label"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
-                        </button>
-                    {{/if}}
                 {{/if}}
             {{/if}}
         </div>

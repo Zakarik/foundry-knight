@@ -20,9 +20,10 @@
             </button>
 
                 {{#if active.tour}}
-                <button class="prolonger" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                    data-cout="2"
-                    data-flux="1">
+                <button class="prolonger"
+                    data-type="legende"
+                    data-capacite="{{key}}"
+                    data-special="tour">
                     {{localize "KNIGHT.DUREE.UnTour"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                 </button>
                 {{/if}}
@@ -41,9 +42,10 @@
             </button>
 
                 {{#if this.active.scene}}
-                <button class="prolonger" data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                    data-cout="6"
-                    data-flux="3">
+                <button class="prolonger"
+                    data-type="legende"
+                    data-capacite="{{key}}"
+                    data-special="scene">
                     {{localize "KNIGHT.DUREE.ConflitPhase"}} : {{localize "KNIGHT.AUTRE.Prolonger"}}
                 </button>
                 {{/if}}

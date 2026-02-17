@@ -55,10 +55,10 @@
                     {{/if}}
 
                     {{#if active.base}}
-                    <button class="
-                        prolonger
-                        " data-type="capacites" data-capacite="{{key}}" data-name="{{label}}"
-                        data-cout="{{energie.prolonger}}">
+                    <button class="prolonger"
+                        data-type="legende"
+                        data-capacite="{{key}}"
+                        data-special="{{#if active.wolf}}wolf{{/if}}{{#if active.lion}}lion{{/if}}{{#if active.crow}}crow{{/if}}">
                         {{localize "KNIGHT.AUTRE.Prolonger"}}
                     </button>
                     {{/if}}

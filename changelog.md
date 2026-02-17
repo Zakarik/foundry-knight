@@ -1,3 +1,8 @@
+## v3.54.2
+### Bugfix
+- Correction de bugs avec les prolongations des capacités.
+- Correction de bugs avec la désactivation des companions.
+
 ## v3.54.1
 ### Bugfix
 - Correction d'un bug suite à la dernière mise à jour, avec les immunités.

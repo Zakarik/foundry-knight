@@ -33,13 +33,10 @@
             {{/unless}}
 
             {{#if active.conflit}}
-            <button class="
-                prolonger
-                "
-                data-type="capacites"
+            <button class="prolonger"
+                data-type="legende"
                 data-capacite="{{key}}"
-                data-name="{{label}}"
-                data-cout="{{energie.tour}}">
+                data-special="conflit">
                 {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>
 
@@ -48,14 +45,11 @@
             </button>
             {{/if}}
 
-            {{#if this.active.horsconflit}}
-            <button class="
-                prolonger
-                "
-                data-type="capacites"
+            {{#if active.horsconflit}}
+            <button class="prolonger"
+                data-type="legende"
                 data-capacite="{{key}}"
-                data-name="{{label}}"
-                data-cout="{{energie.minute}}">
+                data-special="horsconflit">
                 {{localize "KNIGHT.AUTRE.Prolonger"}}
             </button>
 

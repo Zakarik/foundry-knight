@@ -56,16 +56,9 @@
                 {{/if}}
 
                 <button class="prolonger"
-                    data-type="capacites"
+                    data-type="legende"
                     data-capacite="{{key}}"
-                    data-name="{{label}}"
-                    data-id="{{data.shrine.id}}"
-                    data-cout="
-                    {{#if this.active.personnel}} {{this.energie.personnel}} {{/if}}
-                    {{#if this.active.distance}} {{this.energie.distance}} {{/if}}
-                    {{#if this.active.personnel6}} {{this.energie.personnel6tours}} {{/if}}
-                    {{#if this.active.distance6}} {{this.energie.distance6tours}} {{/if}}
-                    ">
+                    data-special="{{#if active.personnel}}personnel{{/if}}{{#if active.distance}}distance{{/if}}{{#if active.personnel6}}personnel6{{/if}}{{#if active.distance6}}distance6{{/if}}">
                     {{localize "KNIGHT.AUTRE.Prolonger"}}
                 </button>
             {{/unless}}
