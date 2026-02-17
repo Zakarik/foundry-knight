@@ -810,12 +810,14 @@ export class KnightRollDialog extends Dialog {
         const weaponID = data.find('div.wpn .button .btnWpn.selected').parents('div.button').data('id');
         const weaponData = data.find('div.wpn .button .data');
         const weapon = this.wpnSelected;
-        const difficulte = parseInt(data.find('label.score.difficulte input').val());
-        const succesBonus = parseInt(data.find('label.score.succesBonus input').val());
-        const modificateur = parseInt(data.find('label.score.modificateur input').val());
+        const difficulte = Number(data.find('label.score.difficulte input').val());
+        const succesBonus = Number(data.find('label.score.succesBonus input').val());
+        const modificateur = Number(data.find('label.score.modificateur input').val());
         const isModeHeroique = data.find('button.btn.modeheroique').hasClass('selected');
         const isEquilibrerBalance = data.find('button.btn.equilibrerbalance').hasClass('selected');
         const isNoOd = this.rollData.btn?.nood ?? false;
+
+        console.error(succesBonus);
         let isAttaqueSurprise = this.rollData.btn?.attaquesurprise ?? false;
         let carac = base ? [this.#getLabelRoll(base)] : [];
         let dices = this.#getValueAspect(actor, base);

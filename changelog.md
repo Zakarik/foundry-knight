@@ -1,3 +1,7 @@
+## v3.54.4
+### Bugfix
+- Correction d'un bug qui pouvait survenir lorsque tout modificateur de succès avait été supprimé dans la fenêtre de jet.
+
 ## v3.54.3
 ### Bugfix
 - Application des correctifs sur les PNJ, que j'avais oublié...
