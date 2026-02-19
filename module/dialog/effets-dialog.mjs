@@ -114,9 +114,6 @@ export class KnightEffetsDialog extends FormApplication {
     const ornements = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
     let pe = foundry.utils.mergeObject({}, effets);
     pe = foundry.utils.mergeObject(pe, effetsadl);
-    pe = foundry.utils.mergeObject(pe, distance);
-    pe = foundry.utils.mergeObject(pe, structurelles);
-    pe = foundry.utils.mergeObject(pe, ornements);
     pe = foundry.utils.mergeObject(pe, effetsfm4);
 
     const possibles = pe;

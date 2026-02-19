@@ -1,3 +1,7 @@
+## v3.54.5
+### Bugfix
+- Correction de la fenêtre d'ajout d'effets affichant, dans tous les cas, tous les effets, alors qu'ils devaient être filtré selon distance / structurelle / ornementale
+
 ## v3.54.4
 ### Bugfix
 - Correction d'un bug qui pouvait survenir lorsque tout modificateur de succès avait été supprimé dans la fenêtre de jet.
