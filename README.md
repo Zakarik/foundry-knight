@@ -14,6 +14,9 @@ L'ensemble du compendium de Knight en français et en anglais (nécessite Babele
 - [Translation: Spanish [Knight]](https://foundryvtt.com/packages/knight-es) par [NarumiRM](https://github.com/NarumiRM)
 Traduction espagnole du système (et bientôt du compendium).
 
+- [Knight Argon](https://foundryvtt.com/packages/enhancedcombathud-knight) par Moi-même.
+Un HUD pour améliorer l'utilisation du système.
+
 # Modules compatibles
 - [Status Icon Counter](https://foundryvtt.com/packages/statuscounter) est compatible avec le système.
 Pour l'heure, les effets lumières et barrages prennent en compte le module, appliquant le malus correctement.
