@@ -897,6 +897,10 @@
         "Description":"Lorsqu’un PJ élimine une créature de l’Anathème ennemie, il gagne 1 PES pour un hostile ou un salopard, 2 PES pour une bande non humaine, 3 PES pour un patron, un colosse ou un patron-colosse.",
         "Description-short":"Lorsqu’un PJ élimine une créature de l’Anathème ennemie, il gagne 1 PES pour un hostile ou un salopard, 2 PES pour une bande non humaine, 3 PES pour un patron, un colosse ou un patron-colosse."
       },
+      "COUVERTREACTION": {
+        "Label":"Couvert (Bonus de Réaction)",
+        "Ignore":"Couvert ignoré"
+      },
       "DEFENSE": {
         "Label":"Défense",
         "Description":"L’utilisateur reçoit un modificateur de _défense_, X représentant cette valeur, tant qu’il utilise cette arme ou module. Les modificateurs reçus peuvent se cumuler tant que le personnage peut recevoir l’effet.",

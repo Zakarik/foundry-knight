@@ -897,6 +897,10 @@
         "Description":"When a PC eliminates an enemy Anathema creature, they gain 1 PES for a Brute or Badass, 2 PES for a non-human band, and 3 PES for a Boss, Behemoth, or Boss-Behemoth.",
         "Description-short":"When a PC eliminates an enemy Anathema creature, they gain 1 PES for a Brute or Badass, 2 PES for a non-human band, and 3 PES for a Boss, Behemoth, or Boss-Behemoth."
       },
+      "COUVERTREACTION": {
+        "Label":"Covered (Reaction Bonus)",
+        "Ignore":"Cover ignored"
+      },
       "DEFENSE": {
         "Label":"Defence",
         "Description":"The wielder of this weapon gains a bonus to their _defence_ score equal to X. These bonuses add to any others so long as the character is capable of using the weapon or module.",

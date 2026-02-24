@@ -2019,6 +2019,7 @@ export class RollKnight {
                             subtitle:`${newTotal} ${game.i18n.localize('KNIGHT.JETS.Succes')} / ${game.i18n.localize('KNIGHT.EFFETS.DESIGNATION.IgnoreEpicFail')}`,
                         })
                     }
+
                     for(let d of detailledEffets) {
                         if(!target) continue;
 
@@ -2038,6 +2039,18 @@ export class RollKnight {
                                     hit:(target.type === 'bande' && target.system.sante.max <= 300) ? true : false,
                                     subtitle:target.system.sante.max <= 300 ? undefined : game.i18n.format('KNIGHT.JETS.RESULTATS.ProtegePar', {aspect:game.i18n.localize('KNIGHT.EFFETS.ANEANTIRBANDE.TropCohesion')})
                                 })
+                                break;
+
+                            case 'artillerie':
+                                if(actor.statuses.has('couvertreaction')) {
+                                    t.effets.push({
+                                        simple:d.simple,
+                                        key:d.key,
+                                        label:d.label,
+                                        hit:true,
+                                        subtitle:game.i18n.localize("KNIGHT.EFFETS.COUVERTREACTION.Ignore")
+                                    })
+                                }
                                 break;
 
                             case 'soumission':
@@ -4884,6 +4897,19 @@ export class RollKnight {
         let resultDefense = "";
         let ptsFaible = false;
 
+        if(actor.statuses.has('couvertreaction') && weapon.effets.raw.includes('artillerie') && weapon.type === 'distance') {
+            const couvertReaction = actor.effects.find(eff => eff.statuses.has('couvertreaction'));
+
+            if(couvertReaction) {
+                const couvertReaChange = couvertReaction.changes.find(eff => eff.key.includes('reaction.bonus'));
+
+                if(couvertReaChange) {
+                    const couvertReactionValue = Number(couvertReaChange.value);
+
+                    reaValue -= couvertReactionValue;
+                }
+            }
+        }
 
         if (this.carac.some(carac => pointsFaibles.includes(carac))) {
             defValue = Math.ceil(defValue / 2);

@@ -1,3 +1,10 @@
+## v3.55.0
+### Améliorations
+- Ajout d'un statut "Couvert (Bonus de Réaction), afin de pouvoir mettre facilement un bonus de réaction en cas de couvert. Ce statut est ignoré si l'arme possède l'effet "Artillerie".
+
+### Bugfix
+- Correction d'un bug dans la gestion des améliorations des armes.
+
 ## v3.54.5
 ### Bugfix
 - Correction de la fenêtre d'ajout d'effets affichant, dans tous les cas, tous les effets, alors qu'ils devaient être filtré selon distance / structurelle / ornementale

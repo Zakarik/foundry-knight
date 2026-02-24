@@ -1,4 +1,7 @@
 import toggler from '../helpers/toggler.js';
+import {
+    getAllEffects,
+} from "../helpers/common.mjs";
 
 /**
  * Effets dialog
@@ -116,7 +119,7 @@ export class KnightEffetsDialog extends FormApplication {
     pe = foundry.utils.mergeObject(pe, effetsadl);
     pe = foundry.utils.mergeObject(pe, effetsfm4);
 
-    const possibles = pe;
+    const possibles = getAllEffects();
     const raw = this.object?.raw || [];
     const custom = this.object?.custom || [];
     const activable = this.object?.activable || [];

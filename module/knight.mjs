@@ -311,7 +311,21 @@ Hooks.once('init', async function() {
       name:"KNIGHT.EFFETS.IMMOBILISATION.Label",
       icon:'systems/knight/assets/icons/effects/immobilisation.svg',
       img:'systems/knight/assets/icons/effects/immobilisation.svg'
-    }
+    },
+    {
+      id:'couvertreaction',
+      label:"KNIGHT.EFFETS.COUVERTREACTION.Label",
+      name:"KNIGHT.EFFETS.COUVERTREACTION.Label",
+      img:'systems/knight/assets/icons/effects/covertreaction.svg',
+      icon:'systems/knight/assets/icons/effects/covertreaction.svg',
+      changes:[{
+        key: `system.reaction.bonus.couvertreaction`,
+        mode: 2,
+        priority: 4,
+        icon:'',
+        value: 1
+      }]
+    },
   ];
 
   statusEffects.sort(SortByLabel)
@@ -477,7 +491,7 @@ Hooks.on("createActiveEffect", async function(effect, data) {
   const status = effect.statuses;
   let effectCounter = 1;
 
-  if (effectCounter && (status.has("barrage") || status.has("lumiere")) && effect.parent.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
+  if (effectCounter && (status.has("barrage") || status.has("lumiere") || status.has("couvertreaction")) && effect.parent.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
     let update = []
     for(let e of effect.changes) {
       update.push({
@@ -680,7 +694,7 @@ Hooks.on("updateActiveEffect", function(effect, effectData, diffData, options, u
   const status = effect.statuses;
   let effectCounter = foundry.utils.getProperty(effectData, "flags.statuscounter.counter") || foundry.utils.getProperty(effectData, "flags.statuscounter.config") || foundry.utils.getProperty(effectData, "flags.statuscounter.value");
 
-  if (effectCounter && (status.has("barrage") || status.has("lumiere")) && effect.parent.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
+  if (effectCounter && (status.has("barrage") || status.has("lumiere") || status.has("couvertreaction")) && effect.parent.permission >= CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
     let update = []
     for(let e of effect.changes) {
       update.push({
