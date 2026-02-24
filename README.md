@@ -7,10 +7,6 @@ Si vous voulez me soutenir, n'hésitez pas à faire un tour sur mon Tipeee : htt
 
 Pseudo : Zakarik
 
-# Prérequis
-Afin d'assurer le bon fonctionnement du système, les joueurs doivent avoir l'autorisation de créer de nouveaux acteurs.
-C'est un prérequis pour le bon fonctionnement du mode Ascension (Armure Shaman) et du mode Companions (Armure Druid).
-
 # Modules complémentaires au système
 - [Knight Compendium](https://foundryvtt.com/packages/knight-compendium) par #DjLeChuck
 L'ensemble du compendium de Knight en français et en anglais (nécessite Babele, voir ci-dessous).
