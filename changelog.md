@@ -1,3 +1,7 @@
+## v3.55.1
+### Bugfix
+- Retrait de plein de logs dans les fichiers, que j'avais oublié de retirer !
+
 ## v3.55.0
 ### Améliorations
 - Ajout d'un statut "Couvert (Bonus de Réaction), afin de pouvoir mettre facilement un bonus de réaction en cas de couvert. Ce statut est ignoré si l'arme possède l'effet "Artillerie".

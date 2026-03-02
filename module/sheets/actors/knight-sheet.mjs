@@ -3367,7 +3367,6 @@ export class KnightSheet extends ActorSheet {
 
             switch(c) {
               case 'longbow':
-                console.error(dCapacite);
                 longbow = dCapacite;
                 longbow.has = true;
                 break;

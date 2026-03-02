@@ -903,8 +903,6 @@ export class RollKnight {
         }]});
         if(handleDamage.targets) content.targets = handleDamage.targets;
 
-        console.error(content)
-
         main.content.push(content);
         let chatData = {
             user:game.user.id,
@@ -3311,8 +3309,6 @@ export class RollKnight {
                 }
             }
 
-            console.error(t);
-
             t.isValue = true;
             t.value = total;
         }
@@ -3471,7 +3467,7 @@ export class RollKnight {
         for(let l of list) {
             const loc = localize[l.split(' ')[0]];
             const effet = this.#getEffet(raw, l);
-            console.error(raw, options, l)
+
             if(this.#isEffetActive(raw, options, [l])) {
                 switch(l) {
                     case 'affecteanatheme':

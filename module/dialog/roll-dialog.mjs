@@ -817,7 +817,6 @@ export class KnightRollDialog extends Dialog {
         const isEquilibrerBalance = data.find('button.btn.equilibrerbalance').hasClass('selected');
         const isNoOd = this.rollData.btn?.nood ?? false;
 
-        console.error(succesBonus);
         let isAttaqueSurprise = this.rollData.btn?.attaquesurprise ?? false;
         let carac = base ? [this.#getLabelRoll(base)] : [];
         let dices = this.#getValueAspect(actor, base);

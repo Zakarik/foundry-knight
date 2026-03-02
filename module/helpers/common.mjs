@@ -5890,8 +5890,6 @@ export async function rollDamage(message, eventOrOptions) {
       flags:addFlags,
   };
 
-  console.error(data);
-
   if(raw.includes('tirenrafale')) {
       data.content = {
           tirenrafale:true,
