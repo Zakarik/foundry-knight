@@ -30,7 +30,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
       const item = this.actor.items.get(key);
 
       const gloireListe = this.actor.system.progression.gloire.depense.liste;
-      const gloireMax = this.#getHighestOrder(gloireListe);
+      const gloireMax = this._getHighestOrder(gloireListe);
 
       const data = {
         "niveau":{
@@ -1387,7 +1387,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
 
       if(typeToAddGloire.includes(type)) {
         const gloireListe = actor.system?.progression?.gloire?.depense?.liste ?? {};
-        const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this.#getHighestOrder(gloireListe);
+        const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
 
         if(type === 'module') {
           const niveau = itemData.system?.niveau?.value ?? 1;
@@ -1652,7 +1652,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
 
       if(typeToAddGloire.includes(itemBaseType)) {
         const gloireListe = actor.system?.progression?.gloire?.depense?.liste ?? {};
-        const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this.#getHighestOrder(gloireListe);
+        const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
 
         if(itemBaseType === 'module') {
           const level = item.system.niveau.value;
@@ -1670,7 +1670,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
     if(!foundry.utils.isEmpty(itemUpdate)) itemCreate[0].update(itemUpdate);
   }
 
-  #getHighestOrder(myObject) {
+  _getHighestOrder(myObject) {
     let highestOrder = -1;
 
     for (const key in myObject) {
