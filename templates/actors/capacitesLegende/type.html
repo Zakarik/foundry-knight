@@ -3,7 +3,7 @@
     <h3 class="header js-toggler">
         <i class="far fa-plus-square"></i>
         {{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.TYPE.Label"}}
-
+        {{log this}}
         {{#if ("armure" @root/systemData/wear)}}
             {{#if choixFaits}}
             <div class="blockMultiline">
@@ -288,7 +288,7 @@
                 <button class="
                     aChoisir
                     {{#if type.scholar.selectionne}}
-                    aChoisir
+                    choisi
                     {{/if}}
                     "
                     data-type="capacites" data-capacite="{{key}}Legende"

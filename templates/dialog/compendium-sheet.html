@@ -1,6 +1,6 @@
 <form class="{{cssClass}}" autocomplete="off">
     <section class="body">
-        <nav class="sheet-tabs tabs" data-group="primary">
+        <nav class="sheet-tabs tabs {{#if data.cyberware}}cyberware{{/if}}" data-group="primary">
             <a class="item" data-tab="armures">{{localize "KNIGHT.COMPENDIUM.Armures"}}</a>
             <a class="item" data-tab="modules">{{localize "KNIGHT.ITEMS.MODULE.Label"}}</a>
             <a class="item" data-tab="armes">{{localize "KNIGHT.COMBAT.ARMES.Label"}}</a>
@@ -8,6 +8,9 @@
             <a class="item" data-tab="distinctions">{{localize "KNIGHT.COMPENDIUM.Distinctions"}}</a>
             <a class="item" data-tab="cartes">{{localize "KNIGHT.COMPENDIUM.Cartes"}}</a>
             <a class="item" data-tab="capacites">{{localize "KNIGHT.COMPENDIUM.Capacites"}}</a>
+            {{#if data.cyberware}}
+            <a class="item" data-tab="cyberware">{{localize "KNIGHT.COMPENDIUM.Cyberware"}}</a>
+            {{/if}}
         </nav>
 
         <div class="tab armures" data-group="primary" data-tab="armures">
@@ -156,6 +159,28 @@
                 </div>
                 {{#each data.capacites}}
                     <div class="line draggable tofilter {{compendiumColor ../fcapacites ../search name uuid}}" style="{{ifThen (compendiumFilter ../fcapacites ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-type="{{type}}" data-name="{{name}}">
+                        {{#each all}}
+                            {{{this}}}
+                        {{/each}}
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="tab cyberware" data-group="primary" data-tab="cyberware">
+            {{~> systems/knight/templates/dialog/parts/compendium-filter.html tab='cyberware'}}
+            <div class="data">
+                <div class="header">
+                    {{#each header.cyberware}}
+                        <span class="summary {{type}}" data-by="{{type}}" data-tab="cyberware">
+                            {{#if html}}<i class="fa-solid fa-arrow-up" data-type="ascendant"></i>{{/if}}
+                            {{html}}
+                            {{#if html}}<i class="fa-solid fa-arrow-down" data-type="descendant"></i>{{/if}}
+                        </span>
+                    {{/each}}
+                </div>
+                {{#each data.cyberware}}
+                    <div class="line draggable tofilter {{compendiumColor ../fcyberware ../search name uuid}}" style="{{ifThen (compendiumFilter ../fcyberware ../search name uuid) 'display:none;' ''}}" data-uuid="{{uuid}}" data-name="{{name}}" data-gloire="{{gloire}}">
                         {{#each all}}
                             {{{this}}}
                         {{/each}}

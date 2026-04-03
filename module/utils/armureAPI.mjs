@@ -103,7 +103,7 @@ export class ArmureAPI {
         hasArmure: !!s.jauges?.armure,
         hasCDF: !!s.jauges?.champDeForce,
         hasEgide: !!s.jauges?.egide,
-        hasEnrthir: !!s.jauges?.energie,
+        hasEnergie: !!s.jauges?.energie,
         hasEspoir: !!s.jauges?.espoir,
         hasFlux: !!s.jauges?.flux,
         hasSante: !!s.jauges?.sante,
@@ -351,7 +351,7 @@ export class ArmureAPI {
 
       switch(capacite) {
         case 'ascension': {
-          result = data.active;
+          result = data?.active;
           break;
         }
 
@@ -386,11 +386,11 @@ export class ArmureAPI {
           break;
 
         case "companions":
-          result = data[special];
+          result = data?.[special];
           break;
 
         case "shrine":
-          result = data.base;
+          result = data?.base;
           break;
       }
 
@@ -413,8 +413,10 @@ export class ArmureAPI {
     // --------------
     // Utilitaires divers
     // --------------
+    set(path, value) { return foundry.utils.setProperty(this.item, path, value); }
     get(path) { return foundry.utils.getProperty(this.item, path); }
     getSys(path) { return foundry.utils.getProperty(this.sys, path); }
+    setSys(path, value) { return foundry.utils.setProperty(this.sys, path, value); }
     cloneSys() { return foundry.utils.deepClone(this.sys); }
 }
 

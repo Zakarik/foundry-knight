@@ -1,18 +1,7 @@
-/**
- * Registre des armes personnalisées.
- * Permet d'enregistrer des handlers spécifiques pour différents types d'armes.
- * @type {Object}
- */
-const registryWpn = {};
-
-/**
- * Handler par défaut pour les armes.
- * Fournit une méthode activate vide qui peut être surchargée.
- * @type {Object}
- */
-const wpnDefaultHandler = {
-  async activate() {}
-};
+import { DefensesDataModel } from '../parts/defenses-data-model.mjs';
+import { InitiativeDataModel } from '../parts/initiative-data-model.mjs';
+import { ArmesImproviseesDataModel } from '../parts/armesimprovisees-data-model.mjs';
+import { fields } from '../../../utils/field-builder.mjs';
 
 /**
  * Modèle de données de base pour tous les acteurs du système Knight.
@@ -20,7 +9,149 @@ const wpnDefaultHandler = {
  * par tous les types d'acteurs (knight, creature, bande, ia, vehicule, mechaarmure).
  * @extends {foundry.abstract.TypeDataModel}
  */
-export class BaseActorDataModel extends foundry.abstract.TypeDataModel {
+export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
+    // Pour Héritage
+    // Extension : on ajoute/modifie
+    static get baseDefinition() {
+        return {
+            // Numéro de version pour gérer les migrations de données
+            version:["num", { initial: 0, nullable:false, integer:true}],
+            // Description complète visible par le propriétaire
+            description:["html", { initial: ""}],
+            // Description restreinte visible par les autres joueurs
+            descriptionLimitee:["html", { initial: ""}],
+            defense:["embedded", DefensesDataModel],
+            reaction:["embedded", DefensesDataModel],
+            initiative:["embedded", InitiativeDataModel],
+
+            // Options d'affichage pour les permissions limitées
+            limited:["schema", {
+                showDescriptionFull:["bool", { initial: false}],
+                showDescriptionLimited:["bool", { initial: false}],
+             }],
+
+
+            combat:["schema", {
+                data:["schema", {
+                    degatsbonus:["schema", {
+                        dice:["num", { initial: 0, nullable:false, integer:true}],
+                        fixe:["num", { initial: 0, nullable:false, integer:true}],
+                    }],
+                    violencebonus:["schema", {
+                        dice:["num", { initial: 0, nullable:false, integer:true}],
+                        fixe:["num", { initial: 0, nullable:false, integer:true}],
+                    }],
+                    modificateur:["num", { initial: 0, nullable:false, integer:true}],
+                    sacrifice:["num", { initial: 0, nullable:false, integer:true}],
+                    succesbonus:["num", { initial: 0, nullable:false, integer:true}],
+                    tourspasses:["num", { initial: 1, nullable:false, integer:true}],
+                    type:["str", { initial: "degats"}],
+                }],
+                armesimprovisees:["embedded", ArmesImproviseesDataModel],
+            }],
+            sante:["schema", {
+                base:["num", { initial: 0, nullable:false, integer:true}],
+                mod:["num", { initial: 0, nullable:false, integer:true}],
+                value:["num", { initial: 0, nullable:false, integer:true}],
+                max:["num", { initial: 16, nullable:false, integer:true}],
+                bonusValue:["num", { initial: 0, nullable:false, integer:true}],
+                malusValue:["num", { initial: 0, nullable:false, integer:true}],
+                override:["obj", {}],
+                bonus:["obj", {
+                    initial:{
+                        user:0,
+                    }
+                }],
+                malus:["obj", {
+                    initial:{
+                        user:0,
+                    }
+                }],
+            }],
+            armure: ["schema", {
+                base:["num", { initial: 0, min:0, nullable:false, integer:true}],
+                mod:["num", { initial: 0, nullable:false, integer:true}],
+                value:["num", { initial: 0, nullable:false, integer:true}],
+                max:["num", { initial: 0, nullable:false, integer:true}],
+                bonus:["obj", {
+                    initial:{
+                        user:0,
+                    }
+                }],
+                malus:["obj", {
+                    initial:{
+                        user:0,
+                    }
+                }],
+            }],
+            energie:["schema", {
+                base:["num", { initial: 0, nullable:false, integer:true}],
+                mod:["num", { initial: 0, nullable:false, integer:true}],
+                value:["num", { initial: 0, nullable:false, integer:true}],
+                max:["num", { initial: 0, nullable:false, integer:true}],
+                bonus:["obj", {
+                    initial:{
+                        user:0,
+                    }
+                }],
+                malus:["obj", {
+                    initial:{
+                        user:0,
+                    }
+                }],
+            }],
+
+            // Stockage libre pour des modificateurs additionnels
+            otherMods:["obj", {}],
+
+            // Système d'immunités aux statuts
+            immunity:["schema", {
+                // Immunités définies manuellement par l'utilisateur
+                manuel:["arr",
+                    ["schema", {
+                        key:["str", { initial: ""}],      // Clé du statut (ex: 'choc', 'soumission')
+                        value:["num", { initial: null, nullable:true }], // Niveau d'immunité si partielle,
+                        protectedBy:["str", { initial: null, nullable:true}],
+                    }]
+                ],
+                // Immunités calculées automatiquement (ex: via overdrive)
+                auto:["arr",
+                    ["schema", {
+                        key:["str", { initial: ""}],      // Clé du statut (ex: 'choc', 'soumission')
+                        value:["num", { initial: null, nullable:true }], // Niveau d'immunité si partielle,
+                        protectedBy:["str", { initial: null, nullable:true}],
+                    }]
+                ],
+                // Fusion des immunités manuelles et automatiques (calculé dynamiquement)
+                merge:["arr",
+                    ["schema", {
+                        key:["str", { initial: ""}],      // Clé du statut (ex: 'choc', 'soumission')
+                        value:["num", { initial: null, nullable:true }], // Niveau d'immunité si partielle,
+                        protectedBy:["str", { initial: null, nullable:true}],
+                    }]
+                ],
+            }],
+
+            options:["schema", {
+                embuscadeSubis:["bool", {initial:false, nullable:false}],
+                embuscadePris:["bool", {initial:false, nullable:false}],
+            }],
+            bonusSiEmbuscade:["schema", {
+                dice:["num", { initial: 0, nullable:false, integer:true}],
+                fixe:["num", { initial: 0, nullable:false, integer:true}],
+            }],
+            langues:["schema", {
+                value:["num", { initial: 1, nullable:false, integer:true}],
+                mod:["num", { initial: 0, nullable:false, integer:true}],
+                bonus:["obj", {
+                    "initial":{
+                        user:0,
+                        system:0,
+                    }
+                }],
+            }],
+        };
+    }
 
     /**
      * Définit le schéma de données commun à tous les acteurs.
@@ -33,7 +164,10 @@ export class BaseActorDataModel extends foundry.abstract.TypeDataModel {
      * - immunity : Gestion des immunités aux statuts (manuel, auto, merge)
      */
     static defineSchema() {
-		const {SchemaField, NumberField, BooleanField, ObjectField, HTMLField, ArrayField, StringField} = foundry.data.fields;
+        return fields(this.baseDefinition);
+    }
+    /*static defineSchema() {
+		const {SchemaField, NumberField, BooleanField, ObjectField, HTMLField, ArrayField, StringField, EmbeddedDataField} = foundry.data.fields;
 
         return {
             // Numéro de version pour gérer les migrations de données
@@ -44,11 +178,84 @@ export class BaseActorDataModel extends foundry.abstract.TypeDataModel {
 
             // Description restreinte visible par les autres joueurs
             descriptionLimitee:new HTMLField({initial:""}),
+            defense:new EmbeddedDataField(DefensesDataModel),
+            reaction:new EmbeddedDataField(DefensesDataModel),
+            initiative:new EmbeddedDataField(InitiativeDataModel),
 
             // Options d'affichage pour les permissions limitées
             limited:new SchemaField({
                 showDescriptionFull:new BooleanField({initial:false}),
                 showDescriptionLimited:new BooleanField({initial:false}),
+            }),
+
+            combat:new SchemaField({
+                data:new SchemaField({
+                    degatsbonus:new SchemaField({
+                        dice:new NumberField({ initial: 0, integer: true, nullable: false }),
+                        fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
+                    }),
+                    violencebonus:new SchemaField({
+                        dice:new NumberField({ initial: 0, integer: true, nullable: false }),
+                        fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
+                    }),
+                    modificateur:new NumberField({ initial: 0, integer: true, nullable: false }),
+                    sacrifice:new NumberField({ initial: 0, integer: true, nullable: false }),
+                    succesbonus:new NumberField({ initial: 0, integer: true, nullable: false }),
+                    tourspasses:new NumberField({ initial: 1, integer: true, nullable: false }),
+                    type:new StringField({ initial: "degats"}),
+                }),
+                armesimprovisees:new EmbeddedDataField(ArmesImproviseesDataModel),
+            }),
+            sante:new SchemaField({
+                base:new NumberField({initial:0, nullable:false, integer:true}),
+                mod:new NumberField({initial:0, nullable:false, integer:true}),
+                value:new NumberField({initial:0, nullable:false, integer:true}),
+                max:new NumberField({initial:16, nullable:false, integer:true}),
+                bonusValue:new NumberField({initial:0, nullable:false, integer:true}),
+                malusValue:new NumberField({initial:0, nullable:false, integer:true}),
+                override:new ObjectField(),
+                bonus:new ObjectField({
+                    initial:{
+                        user:0,
+                    }
+                }),
+                malus:new ObjectField({
+                    initial:{
+                        user:0,
+                    }
+                }),
+            }),
+            armure: new SchemaField({
+                base:new NumberField({initial:0, min:0, nullable:false, integer:true}),
+                mod:new NumberField({initial:0, nullable:false, integer:true}),
+                value:new NumberField({initial:0, nullable:false, integer:true}),
+                max:new NumberField({initial:0, nullable:false, integer:true}),
+                bonus:new ObjectField({
+                    initial:{
+                    user:0,
+                    }
+                }),
+                malus:new ObjectField({
+                    initial:{
+                    user:0,
+                    }
+                }),
+            }),
+            energie:new SchemaField({
+                base:new NumberField({initial:0, nullable:false, integer:true}),
+                mod:new NumberField({initial:0, nullable:false, integer:true}),
+                value:new NumberField({initial:0, nullable:false, integer:true}),
+                max:new NumberField({initial:16, nullable:false, integer:true}),
+                bonus:new ObjectField({
+                    initial:{
+                        user:0,
+                    }
+                }),
+                malus:new ObjectField({
+                    initial:{
+                        user:0,
+                    }
+                }),
             }),
 
             // Stockage libre pour des modificateurs additionnels
@@ -74,9 +281,30 @@ export class BaseActorDataModel extends foundry.abstract.TypeDataModel {
                     value:new NumberField({initial:null, nullable:true}),
                     protectedBy:new StringField({initial:null, nullable:true}),
                 })),
-            })
+            }),
+
+            options:new SchemaField({
+                embuscadeSubis:new BooleanField({initial:false, nullable:false}),
+                embuscadePris:new BooleanField({initial:false, nullable:false}),
+            }),
+            bonusSiEmbuscade:new SchemaField({
+                bonusInitiative:new SchemaField({
+                    dice:new NumberField({ initial: 0, integer: true, nullable: false }),
+                    fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
+                }),
+            }),
+            langues:new SchemaField({
+                value:new NumberField({initial:1, nullable:false, integer:true}),
+                mod:new NumberField({initial:0, nullable:false, integer:true}),
+                bonus:new ObjectField({
+                    initial:{
+                      user:0,
+                      system:0,
+                    }
+                }),
+            }),
         }
-    }
+    }*/
 
     /* -------------------------------------------- */
     /*  Getters                                     */
@@ -107,6 +335,9 @@ export class BaseActorDataModel extends foundry.abstract.TypeDataModel {
         return this.parent.items;
     }
 
+    get armes() {
+        return this.items.filter(items => items.type === 'arme');
+    }
     /**
      * Calcule le modificateur aux jets d'armes à distance basé sur les statuts actifs.
      * Actuellement, seul le statut 'fumigene' applique un malus de -3.
@@ -124,6 +355,141 @@ export class BaseActorDataModel extends foundry.abstract.TypeDataModel {
 
     get immunityList() {
         return this?.immunity?.merge ?? [];
+    }
+
+    get cyberware() {
+        return this.items.filter(items => items.type === 'cyberware');
+    }
+
+    get hasCyberware() {
+        return false;
+    }
+
+    prepareBaseData() {
+        super.prepareBaseData();
+
+        //HOOK pour le début de PrepareData
+        this._startPrepareData();
+
+        //On applique les effets du cyberware
+        this.applyCyberware();
+
+        //HOOK pour la fin de PrepareData
+        this._EndPrepareData();
+    }
+
+    _startPrepareData() {}
+    _EndPrepareData() {}
+
+    prepareDerivedData() {
+        super.prepareDerivedData();
+
+        //HOOK pour le début de PrepareDerivedData
+        this._startPrepareDerivedData();
+
+        //On gère les aspects
+        if(this.aspects) this.aspects.prepareData();
+
+        //On gère le cyberware
+        this.#cyberware();
+
+        //On gère les immunités
+        this._setStatusImmunity();
+
+        //HOOK pour la fin de PrepareDerivedData
+        this._EndPrepareDerivedData();
+
+        //On gère les traductions
+        this._applyTranslation();
+    }
+
+    _startPrepareDerivedData() {}
+    _EndPrepareDerivedData() {}
+
+    /* -------------------------------------------- */
+    /*  Méthodes liées au Cyberware            */
+    /* -------------------------------------------- */
+
+    #cyberware() {
+        if(!this.hasCyberware) return;
+
+        const cyberware = this.items.filter(items => items.type === 'cyberware' && (items.system.categorie === 'utilitaire' || items.system.categorie === 'combat'));
+
+        if(cyberware.length) {
+            Object.defineProperty(this.equipements[this.wear].energie.bonus, 'cyberware', {
+                value: 20,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
+        }
+    }
+
+    applyCyberware() {
+        if(!this.hasCyberware) return;
+
+        const allCyberwareEffects = [];
+        const toUpdate = {};
+
+        for(let c of this.cyberware) {
+            if(!c.system.isActive) continue;
+
+            const allEffects = c.system.getAllEffects;
+
+            allCyberwareEffects.push(...allEffects);
+        }
+
+        for(let c of allCyberwareEffects) {
+            let toApply = '';
+
+            if(!c.path) continue;
+
+            let path = c.path;
+            if (path.startsWith("system.")) {
+                path = path.substring("system.".length);
+            }
+
+            switch(c.type) {
+                case 'decrease':
+                    toApply = `${path}.malus`;
+
+                    if(toUpdate[toApply]) toUpdate[toApply] += Number(c.value);
+                    else toUpdate[toApply] = Number(c.value);
+                    break;
+
+                case 'override':
+                    toApply = `${path}.override`;
+
+                    if(toUpdate[toApply]) toUpdate[toApply] = Math.max(Number(c.value), toUpdate[toApply]);
+                    else toUpdate[toApply] = Number(c.value);
+                    break;
+
+                default:
+                    toApply = `${path}.bonus`;
+
+                    if(toUpdate[toApply]) toUpdate[toApply] += Number(c.value);
+                    else toUpdate[toApply] = Number(c.value);
+                    break;
+            }
+        }
+
+        for(let up in toUpdate) {
+            let parts = up.split('.');
+            let parent = parts.reduce((obj, key) => {
+                if (!obj[key]) obj[key] = {};
+                return obj[key];
+            }, this);
+
+            if (parent) {
+                Object.defineProperty(parent, 'cyberware', {
+                    value: toUpdate[up],
+                    writable: true,
+                    configurable: true,
+                    enumerable: true
+                });
+            }
+
+        }
     }
 
     /* -------------------------------------------- */
@@ -389,5 +755,31 @@ export class BaseActorDataModel extends foundry.abstract.TypeDataModel {
             enumerable:true,
             configurable:true
         });
+    }
+
+    /* -------------------------------------------- */
+    /*  Méthodes de gestion des traductions             */
+    /* -------------------------------------------- */
+
+    _applyTranslation() {
+        const translations = {};
+
+        Object.defineProperty(this.actor, 'translations', {
+            value: translations,
+            writable:true,
+            enumerable:true,
+            configurable:true
+        });
+    }
+
+    givePE(energy, autoApply=true) {
+      let path = `system.energie.value`;
+      let value = this.energie.value;
+      let update = {}
+
+      update[path] = `${value+energy}`;
+
+      if(autoApply) this.actor.update(energy);
+      else return update;
     }
 }

@@ -68,22 +68,22 @@
 
                     {{#if actor.armureData._id}}
                     <div class="blockArmure {{#if (armure systemData.wear)}} selected {{else}} unselected {{/if}} summary" data-item-id="{{actor.armureData._id}}">
-                        <a class="item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                        <a class="item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
                         <button type="action" class="armure" data-type="armure">
                         {{actor.armureData.name}}
                         </button>
-                        <a class="item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                        <a class="item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                     </div>
                     {{/if}}
                 {{/unless}}
 
                 {{#if (ascension systemData.wear)}}
                     <div class="blockArmure {{#if (ascension systemData.wear)}} selected {{else}} unselected {{/if}} summary" data-item-id="{{actor.armureData._id}}">
-                        <a class="item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
+                        <a class="item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
                         <button type="action" class="armure" data-type="armure">
                         {{actor.armureData.name}}
                         </button>
-                        <a class="item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                        <a class="item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                     </div>
                 {{/if}}
 
@@ -385,8 +385,8 @@
                     {{#each actor.motivationMineure as | key motivation|}}
                     <div class="block summary item" data-item-id="{{key._id}}">
                         <div class="gestionButton">
-                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                            <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                         </div>
                         <span class="description">
                             {{{key.system.description}}}
@@ -395,6 +395,8 @@
                     {{/each}}
                 </div>
             </div>
+
+            {{~> systems/knight/templates/actors/subtab/cyberware.hbs}}
 
             <div class="avDv">
                 <div class="av item-list">
@@ -407,8 +409,8 @@
                         <header class="summary header js-toggler" data-item-id="{{key._id}}">
                             <i class="far fa-plus-square extendButton"></i>
                             <div class="gestionButton">
-                                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                                <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                                <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                             </div>
                             <span>{{key.name}}</span>
                         </header>
@@ -429,8 +431,8 @@
                         <header class="summary header js-toggler" data-item-id="{{key._id}}">
                             <i class="far fa-plus-square extendButton"></i>
                             <div class="gestionButton">
-                                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                                <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                                <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                             </div>
                             <span>{{key.name}}</span>
                         </header>
@@ -452,8 +454,8 @@
                     <header class="summary header js-toggler" data-item-id="{{key._id}}">
                         <i class="far fa-plus-square extendButton"></i>
                         <div class="gestionButton">
-                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                            <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                         </div>
                         <span>{{key.name}}</span>
                     </header>
@@ -477,8 +479,8 @@
                         <header class="summary header js-toggler" data-item-id="{{key._id}}">
                             <i class="far fa-plus-square extendButton"></i>
                             <div class="gestionButton">
-                                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                                <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                                <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                             </div>
                             <span>{{key.name}}</span>
                         </header>
@@ -499,8 +501,8 @@
                         <header class="summary header js-toggler" data-item-id="{{key._id}}">
                             <i class="far fa-plus-square extendButton"></i>
                             <div class="gestionButton">
-                                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                                <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                                <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                             </div>
                             <span>{{key.name}}</span>
                         </header>
@@ -548,7 +550,7 @@
                             data-caracteristique="{{caracteristique}}" data-type="caracteristique"
                             data-label="{{getCarac caracteristique}}" data-what="{{caracteristique}}"
                             >
-                                <img src="systems/knight/assets/icons/D6Black.svg" />
+                                <img class='dice' src="systems/knight/assets/icons/D6Black.svg" />
                                 <label class="carac">
                                     <span class="label">{{getCarac caracteristique}}</span>
                                     <span class="score">{{keyCar.value}}</span>
@@ -585,8 +587,8 @@
                         {{/if}}
                     </div>
                     <div class="gestionButton">
-                        <a class="item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                        <a class="item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                        <a class="item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                        <a class="item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                     </div>
 
                     {{else}}
@@ -682,8 +684,8 @@
                         <a data-tab="capacites" class="item">
                             {{localize "KNIGHT.ARMURE.Label"}}
                         </a>
-                        <a class="item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                        <a class="item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                        <a class="item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                        <a class="item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                     </div>
 
                     <a data-tab="modules" class="item">{{localize "KNIGHT.ITEMS.MODULE.Label"}}</a>
@@ -716,8 +718,8 @@
                             <i class="far fa-minus-square"></i>
                             {{localize "ITEM.TypeArmurelegende"}} : {{localize "KNIGHT.CAPACITES.Label"}}
 
-                            <a class="item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                            <a class="item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                            <a class="item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                            <a class="item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                         </h2>
                         {{#each actor.armureLegendeData.system.capacites.selected as | key selected|}}
                             {{#if (capaciteIsValid @root key selected)}} {{~> (affichageCapaciteLegende . key) data=@root/systemData/equipements/armure/capacites}} {{else}} {{log "ERREUR ! " @root/data level="error"}} {{/if}}
@@ -871,8 +873,8 @@
                                 {{/with}}
                             {{/if}}
 
-                            <a class="item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                            <a class="item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                            <a class="item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                            <a class="item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                         </h2>
                         <span class="description">{{{actor.capaciteultime.system.description}}}</span>
                     </div>
@@ -884,7 +886,7 @@
                             {{localize "KNIGHT.ITEMS.ARMURE.Overdrives"}}
                         </h2>
 
-                        {{#each actor.overdrives as | kAspect aspect|}}
+                        {{#each actor.translations.overdrives as | kAspect aspect|}}
                             {{#each kAspect as | kCarac carac|}}
                                 <div class="data">
                                     <h3 class="header js-toggler">
@@ -1014,8 +1016,8 @@
                                                 <i class="fa-solid fa-eye-slash"></i>
                                             {{/if}}
                                             </a>
-                                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                                            <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                                            <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                                         </div>
                                         <span>{{key.name}}</span>
                                     </header>
@@ -1052,8 +1054,8 @@
                                                 <i class="fa-solid fa-eye-slash"></i>
                                             {{/if}}
                                             </a>
-                                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                                            <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                                            <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                                         </div>
                                         <span>{{key.name}}</span>
                                     </header>
@@ -1431,7 +1433,7 @@
                                 {{else}}
                                     {{#if key.isAutre}}
                                         <div class="autre">
-                                            <a class="gloire-delete" title="Delete Item" data-id="{{key.id}}"><i class="fas fa-trash"></i></a>
+                                            <a class="gloire-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}" data-id="{{key.id}}"><i class="fas fa-trash"></i></a>
                                             <input type="hidden" name="system.progression.gloire.depense.autre.{{key.id}}.order" value="{{getOtherListPG key.id 'order' @root/data/system 'number'}}" />
                                             <input type="hidden" name="system.progression.gloire.depense.autre.{{key.id}}.gratuit" value="{{getOtherListPG key.id 'gratuit' @root/data/system 'bool'}}" />
                                             <input type="text" name="system.progression.gloire.depense.autre.{{key.id}}.nom" value="{{getOtherListPG key.id 'nom' @root/data/system 'text'}}"/>
@@ -1477,7 +1479,7 @@
                     </div>
                     {{#each systemData.progression.experience.depense.liste as | key depense|}}
                     <div class="line">
-                        <a class="experience-delete" title="Delete Item" data-id="{{depense}}"><i class="fas fa-trash"></i></a>
+                        <a class="experience-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}" data-id="{{depense}}"><i class="fas fa-trash"></i></a>
                         <select name="system.progression.experience.depense.liste.{{depense}}.nom">
                             {{selectOptions (getProgression) selected=key.nom blank=''}}
                         </select>

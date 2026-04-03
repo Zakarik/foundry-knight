@@ -879,7 +879,16 @@
   border-bottom: 1px solid white;
 }
 .effetsDialog div.dialog-content.leftBlock {
-  grid-row: 1/4;
+  align-items: flex-start;
+  align-content: flex-start;
+  margin-bottom: 45px;
+}
+.effetsDialog div.rightBlock {
+  display: grid;
+  grid-gap: 5px;
+  align-items: flex-start;
+  align-content: flex-start;
+  margin-bottom: 45px;
 }
 .effetsDialog div.dialog-buttons {
   position: absolute;
@@ -18745,6 +18754,1055 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   grid-row: 1/10;
 }
 
+.cyberware section.window-content form {
+  display: grid;
+  align-items: flex-start;
+  align-content: flex-start;
+  justify-content: space-between;
+  grid-template-columns: max-content 1fr;
+  grid-gap: 5px;
+}
+.cyberware section.window-content form h2.header {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-transform: uppercase;
+  color: white;
+  background: RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  border-right: 1px solid RGB(87 110 178);
+  margin: 0px;
+  border: 0px;
+  line-height: 21px;
+  padding-top: 2px;
+  font-size: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.cyberware section.window-content form h2.header .headerScore {
+  position: absolute;
+  width: 40px;
+  background: RGB(76 74 90);
+  line-height: 21px;
+  text-align: center;
+  right: 1px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 1px;
+}
+.cyberware section.window-content form h2.header .headerQuantity {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  width: 48px;
+  background: RGB(76 74 90);
+  line-height: 22px;
+  height: 22px;
+  text-align: center;
+  right: 0px;
+  font-size: 14px;
+  font-weight: normal;
+  top: 0px;
+}
+.cyberware section.window-content form h2.header .headerQuantity input {
+  text-align: center;
+  width: 20px;
+  height: 22px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background: transparent;
+}
+.cyberware section.window-content form h2.header .headerQuantity span {
+  width: 8px;
+  line-height: 22px;
+  color: white;
+}
+.cyberware section.window-content form h2.header a.verrouillage {
+  position: absolute;
+  right: 5px;
+  width: max-content;
+  line-height: 21px;
+  color: white;
+  font-variant: small-caps;
+  font-size: 12px;
+}
+.cyberware section.window-content form h2.header a.verrouillage:hover {
+  text-shadow: 0 0 10px white;
+}
+.cyberware section.window-content form h2.header .far {
+  cursor: pointer;
+}
+.cyberware section.window-content form .profile-img {
+  width: 180px;
+  min-width: 180px;
+  height: 200px;
+  border-color: white;
+  background: RGB(76 74 90);
+  margin-right: 0px;
+  object-fit: contain;
+}
+.cyberware section.window-content form header {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  flex-direction: initial;
+  align-items: flex-start;
+  justify-content: space-between;
+  height: 200px;
+}
+.cyberware section.window-content form header h1.charname {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  flex: none;
+  border-bottom: 3px solid white;
+}
+.cyberware section.window-content form header h1.charname input[type=text] {
+  margin: 0px;
+  width: 100%;
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  border-width: unset;
+  border-color: white;
+  background: transparent;
+}
+.cyberware section.window-content form header div.description {
+  width: 100%;
+  flex: none;
+  height: calc(200px - 51px);
+}
+.cyberware section.window-content form header div.description div.editor {
+  width: 100%;
+  height: 100%;
+  min-height: 130px;
+  border-bottom: 1px solid white;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  background: RGB(76 74 90);
+}
+.cyberware section.window-content form header div.description div.editor div.editor-content {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.cyberware section.window-content form div.body {
+  grid-column: 1/3;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  align-items: flex-start;
+  align-content: flex-start;
+  grid-gap: 2px;
+}
+.cyberware section.window-content form div.body div.menuLeft {
+  display: grid;
+  grid-gap: 5px;
+}
+.cyberware section.window-content form div.body div.menuLeft button.menuV {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+}
+.cyberware section.window-content form div.body div.menuLeft button.menuV.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.menuLeft button.menuV.selected {
+  background: RGB(76 74 90);
+  border-color: white;
+}
+.cyberware section.window-content form div.body div.menuLeft button.menuV i.red {
+  color: #C50000;
+}
+.cyberware section.window-content form div.body div.menuLeft button.menuV i.green {
+  color: #59d13e;
+}
+.cyberware section.window-content form div.body div.menuLeft label.category, .cyberware section.window-content form div.body div.menuLeft label.marque {
+  display: grid;
+  width: 100%;
+  border: 1px solid RGB(87 110 178);
+  grid-template-columns: 1fr;
+}
+.cyberware section.window-content form div.body div.menuLeft label.category span, .cyberware section.window-content form div.body div.menuLeft label.marque span {
+  display: inline-block;
+  line-height: 26px;
+  background: RGB(76 74 90);
+  text-align: center;
+  font-variant: small-caps;
+}
+.cyberware section.window-content form div.body div.menuLeft label.category span.header, .cyberware section.window-content form div.body div.menuLeft label.marque span.header {
+  width: 100%;
+}
+.cyberware section.window-content form div.body div.menuLeft label.category select,
+.cyberware section.window-content form div.body div.menuLeft label.category input, .cyberware section.window-content form div.body div.menuLeft label.marque select,
+.cyberware section.window-content form div.body div.menuLeft label.marque input {
+  width: 100%;
+  color: white;
+  height: 26px;
+  margin: 0px;
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  border-width: unset;
+  border-color: white;
+  background: RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.menuLeft label.category select option,
+.cyberware section.window-content form div.body div.menuLeft label.category input option, .cyberware section.window-content form div.body div.menuLeft label.marque select option,
+.cyberware section.window-content form div.body div.menuLeft label.marque input option {
+  background: RGB(43 42 51);
+  color: white;
+}
+.cyberware section.window-content form div.body div.menuLeft label.pg {
+  display: grid;
+  width: 100%;
+  border: 1px solid RGB(87 110 178);
+  grid-template-columns: 1fr 50px;
+}
+.cyberware section.window-content form div.body div.menuLeft label.pg span {
+  display: inline-block;
+  line-height: 26px;
+  background: RGB(76 74 90);
+  text-align: left;
+  font-variant: small-caps;
+  padding-left: 5px;
+}
+.cyberware section.window-content form div.body div.menuLeft label.pg span.header {
+  width: 100%;
+}
+.cyberware section.window-content form div.body div.menuLeft label.pg input {
+  width: 100%;
+  color: white;
+  height: 26px;
+  margin: 0px;
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  border-width: unset;
+  border-color: white;
+  background: RGB(43 42 51);
+  border-left: 1px solid RGB(87 110 178);
+}
+.cyberware section.window-content form div.body div.menuLeft div.activation {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2px;
+  border: 1px solid RGB(76 74 90);
+  padding: 2px;
+}
+.cyberware section.window-content form div.body div.menuLeft div.activation button.permanent {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+}
+.cyberware section.window-content form div.body div.menuLeft div.activation button.permanent.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.menuLeft div.activation button.permanent.selected {
+  background: RGB(76 74 90);
+  border-color: white;
+}
+.cyberware section.window-content form div.body div.menuLeft div.activation button.permanent i.red {
+  color: #C50000;
+}
+.cyberware section.window-content form div.body div.menuLeft div.activation button.permanent i.green {
+  color: #59d13e;
+}
+.cyberware section.window-content form div.body div.menuLeft div.activation button.permanent {
+  border-left: 0px;
+  border-right: 0px;
+  margin-left: -2px;
+  width: calc(100% + 4px);
+}
+.cyberware section.window-content form div.body div.menuLeft div.activation label {
+  display: grid;
+  grid-template-columns: 1fr 170px;
+  align-items: center;
+}
+.cyberware section.window-content form div.body div.menuLeft div.activation label span {
+  font-variant: small-caps;
+  line-height: 26px;
+}
+.cyberware section.window-content form div.body div.menuLeft div.activation label select,
+.cyberware section.window-content form div.body div.menuLeft div.activation label input,
+.cyberware section.window-content form div.body div.menuLeft div.activation label textarea {
+  border-radius: 0px;
+  border-color: white;
+}
+.cyberware section.window-content form div.body div.menuLeft div.activation label input {
+  width: 50px;
+  margin-left: auto;
+  text-align: center;
+}
+.cyberware section.window-content form div.body div.menuLeft div.activation label select option {
+  background: RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.menuLeft div.activation label.duration span,
+.cyberware section.window-content form div.body div.menuLeft div.activation label.duration textarea {
+  grid-column: 1/3;
+}
+.cyberware section.window-content form div.body div.menuLeft div.activation label.duration textarea {
+  color: white;
+  font-family: var(--font-body);
+}
+.cyberware section.window-content form div.body div.arme {
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  align-items: flex-start;
+  align-content: flex-start;
+  padding-top: 5px;
+}
+.cyberware section.window-content form div.body div.arme button.toggle {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+}
+.cyberware section.window-content form div.body div.arme button.toggle.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.arme button.toggle.selected {
+  background: RGB(76 74 90);
+  border-color: white;
+}
+.cyberware section.window-content form div.body div.arme button.toggle i.red {
+  color: #C50000;
+}
+.cyberware section.window-content form div.body div.arme button.toggle i.green {
+  color: #59d13e;
+}
+.cyberware section.window-content form div.body div.arme.active {
+  display: grid;
+}
+.cyberware section.window-content form div.body div.arme button.toggle.double {
+  grid-column: 1/3;
+}
+.cyberware section.window-content form div.body div.arme label {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  border: 1px solid RGB(87 110 178);
+  flex: none;
+}
+.cyberware section.window-content form div.body div.arme label span {
+  display: inline-block;
+  line-height: 26px;
+  background: RGB(76 74 90);
+  text-align: center;
+  font-variant: small-caps;
+}
+.cyberware section.window-content form div.body div.arme label span.header {
+  width: 100%;
+}
+.cyberware section.window-content form div.body div.arme label select {
+  width: 100%;
+  color: white;
+  height: 26px;
+  margin: 0px;
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  border-width: unset;
+  border-color: white;
+  background: RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.arme label select option {
+  background: RGB(43 42 51);
+  color: white;
+}
+.cyberware section.window-content form div.body div.arme label div {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.cyberware section.window-content form div.body div.arme label div span {
+  width: 24px;
+  background: RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.arme label div input {
+  width: calc((100% / 2) - 12px);
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+  background: RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.arme label div input:first-of-type {
+  text-align: right;
+}
+.cyberware section.window-content form div.body div.arme label div input:last-of-type {
+  text-align: left;
+}
+.cyberware section.window-content form div.body div.arme div.dmg {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  border: 1px solid RGB(87 110 178);
+  flex: none;
+}
+.cyberware section.window-content form div.body div.arme div.dmg span {
+  display: inline-block;
+  line-height: 27px;
+  background: RGB(76 74 90);
+  text-align: center;
+  font-variant: small-caps;
+}
+.cyberware section.window-content form div.body div.arme div.dmg span.header {
+  width: 100%;
+}
+.cyberware section.window-content form div.body div.arme div.dmg select {
+  width: 100%;
+  color: white;
+  height: 26px;
+  margin: 0px;
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  border-width: unset;
+  border-color: white;
+  background: RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.arme div.dmg select option {
+  background: RGB(43 42 51);
+  color: white;
+}
+.cyberware section.window-content form div.body div.arme div.dmg div.oneCol {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.cyberware section.window-content form div.body div.arme div.dmg div.oneCol span {
+  width: 24px;
+  background: RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.arme div.dmg div.oneCol input {
+  width: calc((100% / 2) - 12px);
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+  background: RGB(43 42 51);
+  padding-top: 1px;
+}
+.cyberware section.window-content form div.body div.arme div.dmg div.oneCol input:first-of-type {
+  text-align: right;
+}
+.cyberware section.window-content form div.body div.arme div.dmg div.oneCol input:last-of-type {
+  text-align: left;
+}
+.cyberware section.window-content form div.body div.arme div.dmg div.twoCol {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+}
+.cyberware section.window-content form div.body div.arme div.dmg div.twoCol.label span {
+  width: 100%;
+  background: RGB(76 74 90);
+  line-height: 27px;
+  font-variant: small-caps;
+}
+.cyberware section.window-content form div.body div.arme div.dmg div.twoCol.score span {
+  width: 24px;
+  background: RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.arme div.dmg div.twoCol.score input {
+  width: calc((100% / 2) - 12px);
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+  background: RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.arme div.dmg div.twoCol.score input:first-of-type {
+  text-align: right;
+}
+.cyberware section.window-content form div.body div.arme div.dmg div.twoCol.score input:last-of-type {
+  text-align: left;
+}
+.cyberware section.window-content form div.body div.arme div.dmg div.twoCol.borderBottom.label {
+  border-bottom: 1px solid RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.arme div.dmg div.twoCol.borderBottom.score {
+  border-bottom: 1px solid RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.arme div.dmg label.twoCol {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  border: 0px;
+}
+.cyberware section.window-content form div.body div.arme div.dmg label.twoCol span {
+  width: 50%;
+  background: RGB(76 74 90);
+  line-height: 20px;
+  font-variant: small-caps;
+}
+.cyberware section.window-content form div.body div.arme div.dmg label.twoCol input {
+  width: 50%;
+  height: 100%;
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+  background: RGB(43 42 51);
+  text-align: center;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  margin-top: 5px;
+  grid-column: 1/3;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales {
+  display: flex;
+  position: relative;
+  width: 100%;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding-right: 5px;
+  padding-bottom: 19px;
+  padding-left: 5px;
+  border: 1px solid RGB(87 110 178);
+  flex: none;
+  align-items: flex-start;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets div,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance div,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles div,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales div {
+  display: block;
+  position: relative;
+  width: max-content;
+  padding-left: 15px;
+  padding-right: 25px;
+  background: RGB(76 74 90);
+  border-radius: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 5px;
+  border: 1px solid black;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets div span.label,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance div span.label,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles div span.label,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales div span.label {
+  font-variant: small-caps;
+  color: white;
+  line-height: 20px;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets div span.label input,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance div span.label input,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles div span.label input,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales div span.label input {
+  width: 15px;
+  min-width: 0px;
+  padding: 0px;
+  line-height: 15px;
+  text-align: right;
+  border: 0px;
+  background: transparent;
+  height: 15px;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets div img.info,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance div img.info,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles div img.info,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales div img.info {
+  display: inline-block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 0px;
+  background: RGB(76 74 90);
+  top: 4px;
+  right: 2px;
+  cursor: pointer;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets div img.info.clicked, .cyberware section.window-content form div.body div.arme div.blockEffets div.effets div img.info:hover,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance div img.info.clicked,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance div img.info:hover,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles div img.info.clicked,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles div img.info:hover,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales div img.info.clicked,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales div img.info:hover {
+  filter: drop-shadow(0px 0px 5px RGB(37 85 228));
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets div span.hideInfo,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance div span.hideInfo,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles div span.hideInfo,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales div span.hideInfo {
+  display: none;
+  position: absolute;
+  background: RGB(76 74 90);
+  border: 1px solid black;
+  padding: 5px;
+  z-index: 90;
+  margin-top: -2px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  right: 0;
+  top: 100%;
+  text-align: justify;
+  word-break: break-word;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets div section.btnChargeur,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance div section.btnChargeur,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles div section.btnChargeur,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales div section.btnChargeur {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2px;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets div section.btnChargeur a.btnEffChange,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance div section.btnChargeur a.btnEffChange,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles div section.btnChargeur a.btnEffChange,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales div section.btnChargeur a.btnEffChange {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  border: 0px;
+  height: 15px;
+  line-height: 8px;
+  background: RGB(43 42 51);
+  color: white;
+  font-size: 20px;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets div i.activable,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance div i.activable,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles div i.activable,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales div i.activable {
+  cursor: pointer;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets div i.activable.inactive,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance div i.activable.inactive,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles div i.activable.inactive,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales div i.activable.inactive {
+  color: #C50000;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets div i.activable.active,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance div i.activable.active,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles div i.activable.active,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales div i.activable.active {
+  color: #59d13e;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets div i.activable:hover,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance div i.activable:hover,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles div i.activable:hover,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales div i.activable:hover {
+  color: white;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets div i.red,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance div i.red,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles div i.red,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales div i.red {
+  color: #C50000;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets div i.green,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance div i.green,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles div i.green,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales div i.green {
+  color: #59d13e;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets a.edit,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance a.edit,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles a.edit,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales a.edit {
+  position: absolute;
+  bottom: 0px;
+  right: 5px;
+  color: white;
+  font-variant: small-caps;
+}
+.cyberware section.window-content form div.body div.arme div.blockEffets div.effets.hidden,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.distance.hidden,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles.hidden,
+.cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales.hidden {
+  display: none;
+}
+.cyberware section.window-content form div.body div.degats, .cyberware section.window-content form div.body div.violence {
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+  align-items: flex-start;
+  align-content: flex-start;
+  padding-top: 5px;
+}
+.cyberware section.window-content form div.body div.degats button.toggle, .cyberware section.window-content form div.body div.violence button.toggle {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+}
+.cyberware section.window-content form div.body div.degats button.toggle.unselected, .cyberware section.window-content form div.body div.violence button.toggle.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.degats button.toggle.selected, .cyberware section.window-content form div.body div.violence button.toggle.selected {
+  background: RGB(76 74 90);
+  border-color: white;
+}
+.cyberware section.window-content form div.body div.degats button.toggle i.red, .cyberware section.window-content form div.body div.violence button.toggle i.red {
+  color: #C50000;
+}
+.cyberware section.window-content form div.body div.degats button.toggle i.green, .cyberware section.window-content form div.body div.violence button.toggle i.green {
+  color: #59d13e;
+}
+.cyberware section.window-content form div.body div.degats.active, .cyberware section.window-content form div.body div.violence.active {
+  display: grid;
+}
+.cyberware section.window-content form div.body div.degats select, .cyberware section.window-content form div.body div.violence select {
+  text-align: center;
+  border-radius: 0px;
+  border: 1px solid RGB(87 110 178);
+  font-variant: small-caps;
+}
+.cyberware section.window-content form div.body div.degats select option, .cyberware section.window-content form div.body div.violence select option {
+  background: RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.degats div.simple, .cyberware section.window-content form div.body div.violence div.simple {
+  display: grid;
+  grid-template-columns: 1fr 100px;
+  border-top: 1px solid RGB(87 110 178);
+  border-bottom: 1px solid RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  align-items: center;
+  background: RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.degats div.simple > span, .cyberware section.window-content form div.body div.violence div.simple > span {
+  font-variant: small-caps;
+  padding-left: 5px;
+}
+.cyberware section.window-content form div.body div.degats div.simple div, .cyberware section.window-content form div.body div.violence div.simple div {
+  display: grid;
+  grid-template-columns: 1fr max-content 1fr;
+  align-items: center;
+  border-right: 1px solid RGB(87 110 178);
+  border-left: 1px solid RGB(87 110 178);
+  background: RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.degats div.simple div span, .cyberware section.window-content form div.body div.violence div.simple div span {
+  background: RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.degats div.simple div input, .cyberware section.window-content form div.body div.violence div.simple div input {
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  min-width: 0px;
+  width: 100%;
+}
+.cyberware section.window-content form div.body div.degats div.simple div input:first-of-type, .cyberware section.window-content form div.body div.violence div.simple div input:first-of-type {
+  text-align: right;
+}
+.cyberware section.window-content form div.body div.degats div.simple div input:last-of-type, .cyberware section.window-content form div.body div.violence div.simple div input:last-of-type {
+  text-align: left;
+}
+.cyberware section.window-content form div.body div.degats div.variable, .cyberware section.window-content form div.body div.violence div.variable {
+  display: grid;
+  grid-template-columns: 1fr 100px;
+  border: 1px solid RGB(87 110 178);
+  align-items: center;
+  background: RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.degats div.variable div, .cyberware section.window-content form div.body div.violence div.variable div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: RGB(43 42 51);
+  align-items: center;
+}
+.cyberware section.window-content form div.body div.degats div.variable div input, .cyberware section.window-content form div.body div.violence div.variable div input {
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  min-width: 0px;
+  width: 100%;
+  text-align: right;
+  border-left: 1px solid RGB(87 110 178);
+}
+.cyberware section.window-content form div.body div.degats div.variable div.withSeparator, .cyberware section.window-content form div.body div.violence div.variable div.withSeparator {
+  border-top: 1px solid RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.degats div.variable > span, .cyberware section.window-content form div.body div.violence div.variable > span {
+  display: grid;
+  height: 100%;
+  padding-left: 5px;
+  align-items: center;
+}
+.cyberware section.window-content form div.body div.degats div.variable > span.withSeparator, .cyberware section.window-content form div.body div.violence div.variable > span.withSeparator {
+  border-top: 1px solid RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.degats div.variable label, .cyberware section.window-content form div.body div.violence div.variable label {
+  display: grid;
+  grid-template-columns: 1fr 100px;
+  grid-column: 1/3;
+}
+.cyberware section.window-content form div.body div.degats div.variable label span, .cyberware section.window-content form div.body div.violence div.variable label span {
+  display: grid;
+  height: 100%;
+  padding-left: 5px;
+  align-items: center;
+}
+.cyberware section.window-content form div.body div.degats div.variable label input, .cyberware section.window-content form div.body div.violence div.variable label input {
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  min-width: 0px;
+  width: 100%;
+  text-align: center;
+  border-left: 1px solid RGB(87 110 178);
+  background: RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.degats div.variable label.withSeparator span, .cyberware section.window-content form div.body div.violence div.variable label.withSeparator span {
+  border-top: 1px solid RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.degats div.variable label.withSeparator input, .cyberware section.window-content form div.body div.violence div.variable label.withSeparator input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.effects {
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  align-items: flex-start;
+  align-content: flex-start;
+  padding-top: 5px;
+}
+.cyberware section.window-content form div.body div.effects button.add {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+}
+.cyberware section.window-content form div.body div.effects button.add.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.effects button.add.selected {
+  background: RGB(76 74 90);
+  border-color: white;
+}
+.cyberware section.window-content form div.body div.effects button.add i.red {
+  color: #C50000;
+}
+.cyberware section.window-content form div.body div.effects button.add i.green {
+  color: #59d13e;
+}
+.cyberware section.window-content form div.body div.effects.active {
+  display: grid;
+}
+.cyberware section.window-content form div.body div.effects span {
+  display: inline-block;
+  line-height: 27px;
+  text-align: center;
+  font-variant: small-caps;
+}
+.cyberware section.window-content form div.body div.effects span.header {
+  width: 100%;
+}
+.cyberware section.window-content form div.body div.effects div.eOther {
+  grid-column: 1/3;
+  border: 1px solid white;
+}
+.cyberware section.window-content form div.body div.effects div.eOther div.editor {
+  width: 100%;
+  height: 100%;
+  min-height: 130px;
+  background: RGB(76 74 90);
+  border-top: 1px solid white;
+}
+.cyberware section.window-content form div.body div.effects div.eOther div.editor div.editor-content {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.cyberware section.window-content form div.body div.effects div.mod {
+  grid-column: 1/3;
+  border: 1px solid white;
+}
+.cyberware section.window-content form div.body div.effects div.mod div.list {
+  display: grid;
+  grid-template-columns: 1fr 100px 50px 20px;
+  align-items: center;
+  align-content: center;
+  grid-gap: 2px;
+  width: calc(100% + 1px);
+  margin-bottom: 5px;
+}
+.cyberware section.window-content form div.body div.effects div.mod div.list input,
+.cyberware section.window-content form div.body div.effects div.mod div.list select {
+  border-radius: 0px;
+  border-color: black;
+  background: RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.effects div.mod div.list input option,
+.cyberware section.window-content form div.body div.effects div.mod div.list select option {
+  background: RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.effects div.mod div.list input.path,
+.cyberware section.window-content form div.body div.effects div.mod div.list select.path {
+  border-left: 0px;
+}
+.cyberware section.window-content form div.body div.effects div.mod div.list input.type,
+.cyberware section.window-content form div.body div.effects div.mod div.list select.type {
+  text-align: center;
+}
+.cyberware section.window-content form div.body div.effects div.mod div.list input.value,
+.cyberware section.window-content form div.body div.effects div.mod div.list select.value {
+  border-right: 0px;
+  text-align: center;
+}
+.cyberware section.window-content form div.body div.effects div.mod button {
+  width: calc(100% - 1px);
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  background: RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.effects div.mod button:hover {
+  background: RGB(87 110 178);
+  border-top: 1px solid RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.soin {
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+  margin-top: 5px;
+}
+.cyberware section.window-content form div.body div.soin.active {
+  display: grid;
+}
+.cyberware section.window-content form div.body div.soin label {
+  border: 1px solid RGB(87 110 178);
+}
+.cyberware section.window-content form div.body div.soin span {
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  display: block;
+  text-align: center;
+  justify-content: center;
+  line-height: 25px;
+}
+.cyberware section.window-content form div.body div.soin select {
+  width: 100%;
+  color: white;
+  height: 26px;
+  margin: 0px;
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+  border-width: unset;
+  border-color: white;
+  background: RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.soin select option {
+  background: RGB(43 42 51);
+  color: white;
+}
+.cyberware section.window-content form div.body div.recuperation {
+  grid-template-columns: 1fr 100px;
+  grid-gap: 5px;
+  margin-top: 5px;
+}
+.cyberware section.window-content form div.body div.recuperation.active {
+  display: grid;
+}
+.cyberware section.window-content form div.body div.recuperation label,
+.cyberware section.window-content form div.body div.recuperation > div {
+  display: grid;
+  grid-template-columns: 1fr;
+  border: 1px solid RGB(87 110 178);
+}
+.cyberware section.window-content form div.body div.recuperation label.inline,
+.cyberware section.window-content form div.body div.recuperation > div.inline {
+  grid-column: 1/3;
+  grid-template-columns: 1fr 50px;
+}
+.cyberware section.window-content form div.body div.recuperation label.inline span,
+.cyberware section.window-content form div.body div.recuperation > div.inline span {
+  text-align: left;
+  padding-left: 5px;
+}
+.cyberware section.window-content form div.body div.recuperation label.inline input,
+.cyberware section.window-content form div.body div.recuperation > div.inline input {
+  border-left: 1px solid RGB(87 110 178);
+  text-align: center;
+}
+.cyberware section.window-content form div.body div.recuperation div.roll {
+  display: grid;
+  grid-template-columns: 1fr max-content 15px max-content 1fr;
+  width: 100%;
+  background: RGB(43 42 51);
+  align-items: center;
+  align-content: center;
+}
+.cyberware section.window-content form div.body div.recuperation span.label {
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+  display: block;
+  text-align: center;
+  justify-content: center;
+  line-height: 25px;
+}
+.cyberware section.window-content form div.body div.recuperation select,
+.cyberware section.window-content form div.body div.recuperation input {
+  width: 100%;
+  color: white;
+  height: 26px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  border-radius: 0px;
+  border-width: unset;
+  border-color: white;
+  background: transparent;
+  min-width: 0px;
+}
+.cyberware section.window-content form div.body div.recuperation select option,
+.cyberware section.window-content form div.body div.recuperation input option {
+  background: RGB(43 42 51);
+  color: white;
+}
+.cyberware section.window-content form div.body div.recuperation select:first-of-type,
+.cyberware section.window-content form div.body div.recuperation input:first-of-type {
+  text-align: right;
+}
+.cyberware section.window-content form div.body div.recuperation select:last-of-type,
+.cyberware section.window-content form div.body div.recuperation input:last-of-type {
+  text-align: left;
+}
+.cyberware section.window-content form div.body nav.tabs {
+  margin: 0px;
+  height: 32px;
+  border-left: 1px solid RGB(181, 179, 164);
+  border-right: 1px solid RGB(181, 179, 164);
+}
+.cyberware section.window-content form div.body nav.tabs a {
+  display: grid;
+  align-items: center;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  height: 100%;
+}
+
 .knight div.editor,
 .ia div.editor,
 .pnj div.editor,
@@ -19838,6 +20896,147 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .knight section.body div.personnage h2.header .far {
   cursor: pointer;
+}
+.knight section.body div.personnage div.cyberware {
+  display: grid;
+  width: 100%;
+  align-items: flex-start;
+  align-content: flex-start;
+  margin-bottom: 10px;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 10px;
+}
+.knight section.body div.personnage div.cyberware h2.header {
+  grid-column: 1/3;
+}
+.knight section.body div.personnage div.cyberware h2.header a {
+  position: absolute;
+  right: 5px;
+  line-height: 22px;
+}
+.knight section.body div.personnage div.cyberware div.block {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  width: 100%;
+  flex-wrap: wrap;
+  border: 1px solid RGB(87 110 178);
+}
+.knight section.body div.personnage div.cyberware div.block header {
+  grid-column: 1/3;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  position: relative;
+}
+.knight section.body div.personnage div.cyberware div.block header i.extendButton {
+  line-height: 26px;
+  position: absolute;
+  font-size: 26px;
+  color: white;
+  cursor: pointer;
+}
+.knight section.body div.personnage div.cyberware div.block header i.extendButton:hover {
+  text-shadow: 0 0 10px RGB(37 85 228);
+}
+.knight section.body div.personnage div.cyberware div.block header label.recuperation {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  background: RGB(76 74 90);
+  width: 40px;
+  position: relative;
+  margin-left: auto;
+  border-bottom: 1px solid RGB(43 42 51);
+  border-right: 1px solid RGB(43 42 51);
+}
+.knight section.body div.personnage div.cyberware div.block header label.recuperation input {
+  border: 0px;
+  min-width: 0px;
+  background: transparent;
+  padding: 0px;
+  text-align: right;
+}
+.knight section.body div.personnage div.cyberware div.block header label.recuperation span {
+  padding: 0px;
+  margin-right: 5px;
+  background: transparent;
+}
+.knight section.body div.personnage div.cyberware div.block header span {
+  width: max-content;
+  text-align: left;
+  padding-left: 30px;
+  font-variant: small-caps;
+  line-height: 26px;
+}
+.knight section.body div.personnage div.cyberware div.block header button {
+  position: relative;
+  width: 80px;
+  min-height: 23px;
+  margin: 0px;
+  line-height: 100%;
+  background: RGB(76 74 90);
+  border-left: 1px solid RGB(76 74 90);
+  border-right: 1px solid RGB(76 74 90);
+  border-top: 0px;
+  border-bottom: 1px solid RGB(43 42 51);
+  border-radius: 0px;
+  font-variant: small-caps;
+  color: white;
+  margin-right: 60px;
+  cursor: pointer;
+  top: 0px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.knight section.body div.personnage div.cyberware div.block header div.gestionButton {
+  display: flex;
+  height: 26px;
+  justify-content: space-between;
+  position: absolute;
+  right: 5px;
+  width: 30px;
+  align-items: center;
+}
+.knight section.body div.personnage div.cyberware div.block span.description {
+  display: none;
+  padding-left: 2px;
+  padding-right: 2px;
+  width: 100%;
+  text-align: justify;
+  word-break: break-all;
+  background: RGB(76 74 90);
+}
+.knight section.body div.personnage div.cyberware div.block div.activation {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+  grid-column: 1/3;
+}
+.knight section.body div.personnage div.cyberware div.block div.activation label {
+  display: flex;
+  border-top: 1px solid RGB(76 74 90);
+}
+.knight section.body div.personnage div.cyberware div.block div.activation label span.label {
+  font-variant: small-caps;
+  padding-right: 5px;
+}
+.knight section.body div.personnage div.cyberware div.block div.activation label.type {
+  padding-top: 5px;
+}
+.knight section.body div.personnage div.cyberware div.block div.activation label.type span.label, .knight section.body div.personnage div.cyberware div.block div.activation label.energie span.label {
+  padding-left: 5px;
+}
+.knight section.body div.personnage div.cyberware div.block div.activation label.duration {
+  flex-wrap: wrap;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.knight section.body div.personnage div.cyberware div.block div.activation label.duration span {
+  width: 100%;
+}
+.knight section.body div.personnage div.cyberware div.block img {
+  display: none;
+  border: 0px;
+  border-top: 1px solid RGB(76 74 90);
 }
 .knight section.body div.personnage div.motivations {
   display: flex;
@@ -29616,6 +30815,151 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 }
 .pnj section.body div.capacites h2.header .far {
   cursor: pointer;
+}
+.pnj section.body div.capacites div.cyberware {
+  display: grid;
+  width: 100%;
+  align-items: flex-start;
+  align-content: flex-start;
+  margin-bottom: 10px;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 10px;
+}
+.pnj section.body div.capacites div.cyberware h2.header {
+  grid-column: 1/3;
+}
+.pnj section.body div.capacites div.cyberware h2.header a {
+  position: absolute;
+  right: 5px;
+  line-height: 22px;
+}
+.pnj section.body div.capacites div.cyberware div.block {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  width: 100%;
+  flex-wrap: wrap;
+  border: 1px solid RGB(87 110 178);
+}
+.pnj section.body div.capacites div.cyberware div.block header {
+  grid-column: 1/3;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  position: relative;
+}
+.pnj section.body div.capacites div.cyberware div.block header i.extendButton {
+  line-height: 26px;
+  position: absolute;
+  font-size: 26px;
+  color: white;
+  cursor: pointer;
+}
+.pnj section.body div.capacites div.cyberware div.block header i.extendButton:hover {
+  text-shadow: 0 0 10px RGB(37 85 228);
+}
+.pnj section.body div.capacites div.cyberware div.block header label.recuperation {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  background: RGB(76 74 90);
+  width: 40px;
+  position: relative;
+  margin-left: auto;
+  border-bottom: 1px solid RGB(43 42 51);
+  border-right: 1px solid RGB(43 42 51);
+}
+.pnj section.body div.capacites div.cyberware div.block header label.recuperation input {
+  border: 0px;
+  min-width: 0px;
+  background: transparent;
+  padding: 0px;
+  text-align: right;
+}
+.pnj section.body div.capacites div.cyberware div.block header label.recuperation span {
+  padding: 0px;
+  margin-right: 5px;
+  background: transparent;
+}
+.pnj section.body div.capacites div.cyberware div.block header span {
+  width: max-content;
+  text-align: left;
+  padding-left: 30px;
+  font-variant: small-caps;
+  line-height: 26px;
+}
+.pnj section.body div.capacites div.cyberware div.block header button {
+  position: relative;
+  width: 80px;
+  min-height: 23px;
+  margin: 0px;
+  line-height: 100%;
+  background: RGB(76 74 90);
+  border-left: 1px solid RGB(76 74 90);
+  border-right: 1px solid RGB(76 74 90);
+  border-top: 0px;
+  border-bottom: 1px solid RGB(43 42 51);
+  border-radius: 0px;
+  font-variant: small-caps;
+  color: white;
+  margin-right: 60px;
+  cursor: pointer;
+  top: 0px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pnj section.body div.capacites div.cyberware div.block header div.gestionButton {
+  display: flex;
+  height: 26px;
+  justify-content: space-between;
+  position: absolute;
+  right: 5px;
+  width: 30px;
+  align-items: center;
+}
+.pnj section.body div.capacites div.cyberware div.block span.description {
+  display: none;
+  padding-left: 2px;
+  padding-right: 2px;
+  width: 100%;
+  text-align: justify;
+  word-break: break-all;
+  background: RGB(76 74 90);
+}
+.pnj section.body div.capacites div.cyberware div.block div.activation {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 5px;
+  grid-column: 1/3;
+}
+.pnj section.body div.capacites div.cyberware div.block div.activation label {
+  display: flex;
+  border-top: 1px solid RGB(76 74 90);
+}
+.pnj section.body div.capacites div.cyberware div.block div.activation label span.label {
+  font-variant: small-caps;
+  padding-right: 5px;
+}
+.pnj section.body div.capacites div.cyberware div.block div.activation label.type {
+  padding-top: 5px;
+}
+.pnj section.body div.capacites div.cyberware div.block div.activation label.type span.label, .pnj section.body div.capacites div.cyberware div.block div.activation label.energie span.label {
+  padding-left: 5px;
+}
+.pnj section.body div.capacites div.cyberware div.block div.activation label.duration {
+  flex-wrap: wrap;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.pnj section.body div.capacites div.cyberware div.block div.activation label.duration span {
+  width: 100%;
+}
+.pnj section.body div.capacites div.cyberware div.block img {
+  display: none;
+  border: 0px;
+  border-top: 1px solid RGB(76 74 90);
+}
+.pnj section.body div.capacites div.cyberware {
+  margin-bottom: 0px;
+  margin-top: 5px;
 }
 .pnj section.body div.capacites button.buttonPhase2 {
   position: relative;
@@ -44195,6 +45539,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin-bottom: 0px;
   align-items: flex-end;
 }
+.compendium section.window-content section.body nav.cyberware {
+  grid-template-columns: repeat(8, 1fr);
+}
 .compendium section.window-content section.body nav a {
   display: flex;
   justify-content: center;
@@ -44557,6 +45904,75 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   margin-right: auto;
 }
 .compendium section.window-content section.body div.tab.distinctions div.draggable, .compendium section.window-content section.body div.tab.cartes div.draggable, .compendium section.window-content section.body div.tab.capacites div.draggable {
+  cursor: context-menu;
+}
+.compendium section.window-content section.body div.tab.cyberware {
+  border: 1px solid RGB(87 110 178);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.compendium section.window-content section.body div.tab.cyberware div.data {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.cyberware div.data div.line.fonce {
+  background-color: RGB(76 74 90);
+}
+.compendium section.window-content section.body div.tab.cyberware div.data div.line.clair {
+  background-color: RGB(98 97 111);
+}
+.compendium section.window-content section.body div.tab.cyberware div.header {
+  font-variant: small-caps;
+}
+.compendium section.window-content section.body div.tab.cyberware div.header span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.compendium section.window-content section.body div.tab.cyberware div.header span i {
+  cursor: pointer;
+}
+.compendium section.window-content section.body div.tab.cyberware div.header span i:hover {
+  color: RGB(87 110 178);
+}
+.compendium section.window-content section.body div.tab.cyberware div.header span:not(:first-of-type):not(:nth-of-type(2)) {
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.cyberware div.line span.name {
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.compendium section.window-content section.body div.tab.cyberware div.line span.name:hover {
+  color: RGB(87 110 178);
+}
+.compendium section.window-content section.body div.tab.cyberware div.line span:not(:first-of-type) {
+  border-left: 1px solid black;
+}
+.compendium section.window-content section.body div.tab.cyberware div.header, .compendium section.window-content section.body div.tab.cyberware div.line {
+  display: grid;
+  grid-template-columns: 25px calc(100% - 25px - 100px) 100px;
+  align-items: center;
+  padding-left: 5px;
+  line-height: 25px;
+}
+.compendium section.window-content section.body div.tab.cyberware div.header span.value, .compendium section.window-content section.body div.tab.cyberware div.line span.value {
+  text-align: center;
+  height: 100%;
+  width: 100%;
+}
+.compendium section.window-content section.body div.tab.cyberware div.header img, .compendium section.window-content section.body div.tab.cyberware div.line img {
+  display: block;
+  height: 25px;
+  object-fit: contain;
+  border: 0px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.compendium section.window-content section.body div.tab.cyberware div.draggable {
   cursor: context-menu;
 }
 .compendium section.window-content section.body div.filter {

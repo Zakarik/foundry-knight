@@ -1,0 +1,57 @@
+{{#if (isPatreonAuthorized 'cyberware')}}
+<div class="cyberware item-list">
+    <h2 class="header">
+        {{localize "KNIGHT.CYBERWARE.Label"}}
+        <a class="item-control item-create" title="Create Item" data-type="cyberware"><i class="fas fa-plus"></i></a>
+    </h2>
+    {{#each actor.cyberware}}
+    <div class="block item" data-item-id="{{_id}}">
+        <header class="summary header js-toggler" data-item-id="{{_id}}">
+            <i class="far fa-plus-square extendButton"></i>
+            <div class="gestionButton">
+                <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
+            </div>
+            <span>{{name}}</span>
+            {{#if (and system.recuperation.has (gt system.recuperation.limite.max 0))}}
+            <label class="recuperation" data-tooltip="{{localize "KNIGHT.CYBERWARE.RecuperationLimite"}}">
+                <input type="number" class="cyberwareRecuperation" value="{{system.recuperation.limite.value}}" min="0" max="{{system.recuperation.limite.max}}" />
+                <span>/{{system.recuperation.limite.max}}</span>
+            </label>
+            {{/if}}
+            {{#if (and system.activation.has (ne system.activation.permanent true))}}
+            <button class="activation" data-name="{{key.name}}">
+                {{localize (ifThen system.active "KNIGHT.AUTRE.Desactiver" "KNIGHT.AUTRE.Activer")}}
+            </button>
+            {{else}}
+            {{#if system.recuperation.has}}
+            <button class="recuperation" data-name="{{key.name}}">
+                {{localize "KNIGHT.CYBERWARE.Utiliser"}}
+            </button>
+            {{/if}}
+            {{/if}}
+        </header>
+        <img src="{{img}}" />
+        <span class="description">
+            {{{system.description}}}
+        </span>
+        {{#if system.activation.has}}
+        <div class="activation">
+            <label class="type">
+                <span class="label">{{localize "KNIGHT.ACTIVATION.Label"}} :</span>
+                <span>{{getActivation system.activation.type}}</span>
+            </label>
+            <label class="energie">
+                <span class="label">{{localize "KNIGHT.AUTRE.Energie"}} :</span>
+                <span>{{system.activation.energie}}</span>
+            </label>
+            <label class="duration">
+                <span class="label">{{localize "KNIGHT.DUREE.Label"}}</span>
+                <span>{{system.activation.duration}}</span>
+            </label>
+        </div>
+        {{/if}}
+    </div>
+    {{/each}}
+</div>
+{{/if}}

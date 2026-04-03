@@ -28,6 +28,7 @@ import { CarteHeroiqueSheet } from "./sheets/items/carteheroique-sheet.mjs";
 import { CapaciteHeroiqueSheet } from "./sheets/items/capaciteheroique-sheet.mjs";
 import { CapaciteUltimeSheet } from "./sheets/items/capaciteultime-sheet.mjs";
 import { DistinctionSheet } from "./sheets/items/distinction-sheet.mjs";
+import { CyberwareSheet } from "./sheets/items/cyberware-sheet.mjs";
 
 // Import helper/utility classes and constants.
 import { RegisterHandlebars } from "./handlebars.mjs";
@@ -71,11 +72,14 @@ import { CapaciteDataModel } from "./documents/models/items/capacite-data-model.
 import { ArmureLegendeDataModel } from "./documents/models/items/armure-legende-data-model.mjs";
 import { ArmeDataModel } from "./documents/models/items/arme-data-model.mjs";
 import { ArmureDataModel } from "./documents/models/items/armure-data-model.mjs";
+import { CyberwareDataModel } from "./documents/models/items/cyberware-data-model.mjs";
 
 import {
   SortByLabel,
+  capitalizeFirstLetter,
   generateNavigator,
   importActor,
+  getDefaultImg,
 } from "./helpers/common.mjs";
 
 import {
@@ -341,6 +345,10 @@ Hooks.once('init', async function() {
   // TEMPLATES
   PreloadTemplates();
 
+  const patreonAuthorized = game.settings.get("knight", 'PatreonAuthorized');
+
+  if(patreonAuthorized.includes('cyberware')) CONFIG.Item.dataModels.cyberware = CyberwareDataModel;
+
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
   Items.unregisterSheet("core", ItemSheet);
@@ -469,6 +477,13 @@ Hooks.once('init', async function() {
     types: ["capaciteultime"],
     makeDefault: true
   });
+
+  if(patreonAuthorized.includes('cyberware')) {
+    Items.registerSheet("cyberware", CyberwareSheet, {
+      types: ["cyberware"],
+      makeDefault: true
+    });
+  }
 
   menuKnight.init();
 });
@@ -844,4 +859,13 @@ Hooks.on('preUpdateActor', async function (actor, update, id)  {
 
 /*Hooks.on("renderPause", function () {
   $("#pause.paused figcaption").text('');
-});*/
+*/
+
+Hooks.on('renderDialogV2', (dialog, html, data) => {
+  if(!dialog.title?.includes(game.i18n.localize('DOCUMENT.Item'))) return;
+
+  const patreonAuthorized = game.settings.get("knight", 'PatreonAuthorized');
+  const select = $(html).find('select[name=type]');
+
+  if(!patreonAuthorized.includes('cyberware')) select.find('option[value="cyberware"]').remove();
+});

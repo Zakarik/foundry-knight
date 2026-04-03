@@ -1,0 +1,869 @@
+.cyberware {
+    section.window-content form {
+        @include header();
+
+        display:grid;
+        align-items: flex-start;
+        align-content: flex-start;
+        justify-content: space-between;
+        grid-template-columns: max-content 1fr;
+        grid-gap: 5px;
+
+        .profile-img {
+            width:180px;
+            min-width: 180px;
+            height:200px;
+            border-color:$white;
+            background:$lightBlack;
+            margin-right:0px;
+            object-fit: contain;
+        }
+
+        header {
+            display:flex;
+            width:100%;
+            flex-wrap: wrap;
+            flex-direction: initial;
+            align-items: flex-start;
+            justify-content: space-between;
+            height: 200px;
+
+            h1.charname {
+                display: flex;
+                justify-content: space-between;
+                width:100%;
+                border:0px;
+                margin:0px;
+                padding:0px;
+                flex:none;
+                border-bottom:3px solid $white;
+
+                input[type="text"] {
+                    margin: 0px;
+                    width: 100%;
+                    text-align: center;
+                    border: 0px;
+                    border-radius: 0px;
+                    border-width: unset;
+                    border-color: $white;
+                    background:transparent;
+                }
+            }
+
+            div.description {
+                width:100%;
+                flex:none;
+                height: calc(200px - 51px);
+
+                div.editor {
+                    width:100%;
+                    height: 100%;
+                    min-height:130px;
+                    border-bottom: 1px solid $white;
+                    border-left: 1px solid $white;
+                    border-right: 1px solid $white;
+                    background:$lightBlack;
+
+                    div.editor-content {
+                        padding-left:5px;
+                        padding-right:5px;
+                    }
+                }
+            }
+        }
+
+        div.body {
+            grid-column: 1 / 3;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            align-items: flex-start;
+            align-content: flex-start;
+            grid-gap: 2px;
+
+            div {
+                &.menuLeft {
+                    display: grid;
+                    grid-gap: 5px;
+
+                    @include buttons('menuV');
+
+                    label {
+                        &.category,
+                        &.marque {
+                            display:grid;
+                            width:100%;
+                            border:1px solid $lightBlue;
+                            grid-template-columns: 1fr;
+
+                            span {
+                                display: inline-block;
+                                line-height: 26px;
+                                background:$lightBlack;
+                                text-align: center;
+                                font-variant: small-caps;
+
+                                &.header {
+                                    width:100%;
+                                }
+                            }
+
+                            select,
+                            input {
+                                width:100%;
+                                color: $white;
+                                height: 26px;
+                                margin: 0px;
+                                text-align: center;
+                                border: 0px;
+                                border-radius: 0px;
+                                border-width: unset;
+                                border-color: $white;
+                                background:$black;
+
+                                option {
+                                    background:$black;
+                                    color:$white;
+                                }
+                            }
+                        }
+
+                        &.pg {
+                            display:grid;
+                            width:100%;
+                            border:1px solid $lightBlue;
+                            grid-template-columns: 1fr 50px;
+
+                            span {
+                                display: inline-block;
+                                line-height: 26px;
+                                background:$lightBlack;
+                                text-align: left;
+                                font-variant: small-caps;
+                                padding-left: 5px;
+
+                                &.header {
+                                    width:100%;
+                                }
+                            }
+
+                            input {
+                                width:100%;
+                                color: $white;
+                                height: 26px;
+                                margin: 0px;
+                                text-align: center;
+                                border: 0px;
+                                border-radius: 0px;
+                                border-width: unset;
+                                border-color: $white;
+                                background:$black;
+                                border-left: 1px solid $lightBlue;
+                            }
+                        }
+                    }
+
+                    div.activation {
+                        display: grid;
+                        grid-template-columns: 1fr;
+                        grid-gap: 2px;
+                        border: 1px solid $lightBlack;
+                        padding: 2px;
+                        @include buttons('permanent');
+
+                        button.permanent {
+                            border-left: 0px;
+                            border-right: 0px;
+                            margin-left: -2px;
+                            width: calc(100% + 4px);
+                        }
+
+                        label {
+                            display: grid;
+                            grid-template-columns: 1fr 170px;
+                            align-items: center;
+
+                            span {
+                                font-variant: small-caps;
+                                line-height: 26px;
+                            }
+
+                            select,
+                            input,
+                            textarea {
+                                border-radius: 0px;
+                                border-color: $white;
+                            }
+
+                            input {
+                                width: 50px;
+                                margin-left: auto;
+                                text-align: center;
+                            }
+
+                            select {
+                                option {
+                                    background: $lightBlack;
+                                }
+                            }
+
+                            &.duration {
+                                span,
+                                textarea {
+                                    grid-column: 1 / 3;
+                                }
+
+                                textarea {
+                                    color: $white;
+                                    font-family: var(--font-body);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &.arme {
+                    @include buttons('toggle');
+
+                    &.active {
+                        display: grid;
+                    }
+
+                    grid-template-columns: 1fr 1fr;
+                    grid-gap: 5px;
+                    align-items: flex-start;
+                    align-content: flex-start;
+                    padding-top: 5px;
+
+                    button.toggle.double {
+                        grid-column: 1 / 3;
+                    }
+
+                    label {
+                        display:flex;
+                        width:100%;
+                        flex-wrap: wrap;
+                        border:1px solid $lightBlue;
+                        flex:none;
+
+                        span {
+                            display: inline-block;
+                            line-height: 26px;
+                            background:$lightBlack;
+                            text-align: center;
+                            font-variant: small-caps;
+
+                            &.header {
+                                width:100%;
+                            }
+                        }
+
+                        select {
+                            width:100%;
+                            color: $white;
+                            height: 26px;
+                            margin: 0px;
+                            text-align: center;
+                            border: 0px;
+                            border-radius: 0px;
+                            border-width: unset;
+                            border-color: $white;
+                            background:$black;
+
+                            option {
+                                background:$black;
+                                color:$white;
+                            }
+                        }
+
+                        div {
+                            display:flex;
+                            width:100%;
+                            justify-content: space-between;
+
+                            span {
+                                width:24px;
+                                background:$black;
+                            }
+
+                            input {
+                                width:calc((100% / 2) - 12px);
+                                border:0px;
+                                padding:0px;
+                                margin:0px;
+                                background:$black;
+
+                                &:first-of-type {
+                                    text-align: right;
+                                }
+
+                                &:last-of-type {
+                                    text-align: left;
+                                }
+                            }
+                        }
+                    }
+
+                    div {
+                        &.dmg {
+                            display:flex;
+                            width:100%;
+                            flex-wrap: wrap;
+                            border:1px solid $lightBlue;
+                            flex:none;
+
+                            span {
+                                display: inline-block;
+                                line-height: 27px;
+                                background:$lightBlack;
+                                text-align: center;
+                                font-variant: small-caps;
+
+                                &.header {
+                                    width:100%;
+                                }
+                            }
+
+                            select {
+                                width:100%;
+                                color: $white;
+                                height: 26px;
+                                margin: 0px;
+                                text-align: center;
+                                border: 0px;
+                                border-radius: 0px;
+                                border-width: unset;
+                                border-color: $white;
+                                background:$black;
+
+                                option {
+                                    background:$black;
+                                    color:$white;
+                                }
+                            }
+
+                            div {
+                                &.oneCol {
+                                    display:flex;
+                                    width:100%;
+                                    justify-content: space-between;
+
+                                    span {
+                                        width:24px;
+                                        background:$black;
+                                    }
+
+                                    input {
+                                        width:calc((100% / 2) - 12px);
+                                        border:0px;
+                                        padding:0px;
+                                        margin:0px;
+                                        background:$black;
+                                        padding-top: 1px;
+
+                                        &:first-of-type {
+                                            text-align: right;
+                                        }
+
+                                        &:last-of-type {
+                                            text-align: left;
+                                        }
+                                    }
+                                }
+
+                                &.twoCol {
+                                    display:flex;
+                                    width:50%;
+                                    justify-content: space-between;
+
+                                    &.label {
+                                        span {
+                                            width:100%;
+                                            background:$lightBlack;
+                                            line-height: 27px;
+                                            font-variant: small-caps;
+                                        }
+                                    }
+
+                                    &.score {
+                                        span {
+                                            width:24px;
+                                            background:$black;
+                                        }
+
+                                        input {
+                                            width:calc((100% / 2) - 12px);
+                                            border:0px;
+                                            padding:0px;
+                                            margin:0px;
+                                            background:$black;
+
+                                            &:first-of-type {
+                                                text-align: right;
+                                            }
+
+                                            &:last-of-type {
+                                                text-align: left;
+                                            }
+                                        }
+                                    }
+
+                                    &.borderBottom {
+                                        &.label {
+                                            border-bottom:1px solid $black;
+                                        }
+
+                                        &.score {
+                                            border-bottom:1px solid $lightBlack;
+                                        }
+                                    }
+                                }
+                            }
+
+                            label {
+                                &.twoCol {
+                                    display:flex;
+                                    width:100%;
+                                    justify-content: space-between;
+                                    border:0px;
+
+                                    span {
+                                        width:50%;
+                                        background:$lightBlack;
+                                        line-height: 20px;
+                                        font-variant: small-caps;
+                                    }
+
+                                    input {
+                                        width:50%;
+                                        height: 100%;
+                                        border:0px;
+                                        padding:0px;
+                                        margin:0px;
+                                        background:$black;
+                                        text-align: center;
+                                    }
+                                }
+                            }
+                        }
+
+                        &.blockEffets {
+                            display:flex;
+                            width:100%;
+                            flex-wrap: wrap;
+                            margin-top:5px;
+
+                            grid-column: 1 / 3;
+
+                            div.effets,
+                            div.distance,
+                            div.structurelles,
+                            div.ornementales {
+                                display: flex;
+                                position:relative;
+                                width: 100%;
+                                justify-content: space-evenly;
+                                flex-wrap: wrap;
+
+                                padding-right: 5px;
+                                padding-bottom: 19px;
+                                padding-left: 5px;
+                                border: 1px solid $lightBlue;
+                                flex:none;
+                                align-items: flex-start;
+
+                                @include effets();
+
+                                &.hidden {
+                                    display:none;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &.degats,
+                &.violence {
+                    @include buttons('toggle');
+
+                    &.active {
+                        display: grid;
+                    }
+
+                    grid-template-columns: 1fr;
+                    grid-gap: 5px;
+                    align-items: flex-start;
+                    align-content: flex-start;
+                    padding-top: 5px;
+
+                    select {
+                        text-align: center;
+                        border-radius: 0px;
+                        border: 1px solid $lightBlue;
+                        font-variant: small-caps;
+
+                        option {
+                            background: $black;
+                        }
+                    }
+
+                    div {
+                        &.simple {
+                            display: grid;
+                            grid-template-columns: 1fr 100px;
+                            border-top: 1px solid $lightBlue;
+                            border-bottom: 1px solid $lightBlue;
+                            border-left: 1px solid $lightBlue;
+                            align-items: center;
+                            background: $lightBlack;
+
+                            >span {
+                                font-variant: small-caps;
+                                padding-left: 5px;
+                            }
+
+                            div {
+                                display: grid;
+                                grid-template-columns: 1fr max-content 1fr;
+                                align-items: center;
+                                border-right:1px solid $lightBlue;
+                                border-left:1px solid $lightBlue;
+                                background: $black;
+
+                                span {
+                                    background: $black;
+                                }
+
+                                input {
+                                    border: 0px;
+                                    border-radius: 0px;
+                                    padding: 0px;
+                                    min-width: 0px;
+                                    width: 100%;
+
+                                    &:first-of-type {
+                                        text-align: right;
+                                    }
+
+                                    &:last-of-type {
+                                        text-align: left;
+                                    }
+                                }
+                            }
+                        }
+
+                        &.variable {
+                            display: grid;
+                            grid-template-columns: 1fr 100px;
+                            border: 1px solid $lightBlue;
+                            align-items: center;
+                            background: $lightBlack;
+
+                            div {
+                                display: grid;
+                                grid-template-columns: 1fr 1fr;
+                                background: $black;
+                                align-items: center;
+
+                                input {
+                                    border: 0px;
+                                    border-radius: 0px;
+                                    padding: 0px;
+                                    min-width: 0px;
+                                    width: 100%;
+                                    text-align: right;
+                                    border-left: 1px solid $lightBlue;
+                                }
+
+                                &.withSeparator {
+                                    border-top: 1px solid $lightBlack;
+                                }
+                            }
+
+                            >span {
+                                display: grid;
+                                height: 100%;
+                                padding-left: 5px;
+                                align-items: center;
+
+                                &.withSeparator {
+                                    border-top: 1px solid $black;
+                                }
+                            }
+
+                            label {
+                                display: grid;
+                                grid-template-columns: 1fr 100px;
+                                grid-column: 1 / 3;
+
+                                span {
+                                    display: grid;
+                                    height: 100%;
+                                    padding-left: 5px;
+                                    align-items: center;
+                                }
+
+                                input {
+                                    border: 0px;
+                                    border-radius: 0px;
+                                    padding: 0px;
+                                    min-width: 0px;
+                                    width: 100%;
+                                    text-align: center;
+                                    border-left: 1px solid $lightBlue;
+                                    background: $black;
+                                }
+
+                                &.withSeparator {
+                                    span {
+                                        border-top: 1px solid $black;
+                                    }
+
+                                    input {
+                                        border-top: 1px solid $lightBlack;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &.effects {
+                    @include buttons('add');
+
+                    &.active {
+                        display: grid;
+                    }
+
+                    grid-template-columns: 1fr 1fr;
+                    grid-gap: 5px;
+                    align-items: flex-start;
+                    align-content: flex-start;
+                    padding-top: 5px;
+
+                    span {
+                        display: inline-block;
+                        line-height: 27px;
+                        text-align: center;
+                        font-variant: small-caps;
+
+                        &.header {
+                            width:100%;
+                        }
+                    }
+
+                    div {
+                        &.eOther {
+                            grid-column: 1 / 3;
+                            border: 1px solid $white;
+
+                            div.editor {
+                                width:100%;
+                                height: 100%;
+                                min-height:130px;
+                                background:$lightBlack;
+                                border-top: 1px solid $white;
+
+                                div.editor-content {
+                                    padding-left:5px;
+                                    padding-right:5px;
+                                }
+                            }
+                        }
+
+                        &.mod {
+                            grid-column: 1 / 3;
+                            border: 1px solid $white;
+
+                            div {
+                                &.list {
+                                    display: grid;
+                                    grid-template-columns: 1fr 100px 50px 20px;
+                                    align-items: center;
+                                    align-content:center;
+                                    grid-gap: 2px;
+                                    width: calc(100% + 1px);
+                                    margin-bottom: 5px;
+
+                                    input,
+                                    select {
+                                        border-radius: 0px;
+                                        border-color: black;
+                                        background: $lightBlack;
+
+                                        option {
+                                            background: $lightBlack;
+                                        }
+
+                                        &.path {
+                                            border-left: 0px;
+                                        }
+
+                                        &.type {
+                                            text-align: center;
+                                        }
+
+                                        &.value {
+                                            border-right: 0px;
+                                            text-align: center;
+                                        }
+                                    }
+                                }
+                            }
+
+                            button {
+                                width: calc(100% - 1px);
+                                border-bottom: 0px;
+                                border-left: 0px;
+                                border-right: 0px;
+                                background: $lightBlack;
+
+                                &:hover {
+                                    background: $lightBlue;
+                                    border-top: 1px solid $lightBlack;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &.soin {
+                    &.active {
+                        display: grid;
+                    }
+
+                    grid-template-columns: 1fr;
+                    grid-gap: 5px;
+                    margin-top: 5px;
+
+                    label {
+                        border: 1px solid $lightBlue;
+                    }
+
+                    span {
+                        font-variant: small-caps;
+                        background: $lightBlack;
+                        display: block;
+                        text-align: center;
+                        justify-content: center;
+                        line-height: 25px;
+                    }
+
+                    select {
+                        width:100%;
+                        color: $white;
+                        height: 26px;
+                        margin: 0px;
+                        text-align: center;
+                        border: 0px;
+                        border-radius: 0px;
+                        border-width: unset;
+                        border-color: $white;
+                        background:$black;
+
+                        option {
+                            background:$black;
+                            color:$white;
+                        }
+                    }
+                }
+
+                &.recuperation {
+                    &.active {
+                        display: grid;
+                    }
+
+                    grid-template-columns: 1fr 100px;
+                    grid-gap: 5px;
+                    margin-top: 5px;
+
+                    label,
+                    >div {
+                        display: grid;
+                        grid-template-columns: 1fr;
+                        border: 1px solid $lightBlue;
+
+                        &.inline {
+                            grid-column: 1 / 3;
+                            grid-template-columns: 1fr 50px;
+
+                            span {
+                                text-align: left;
+                                padding-left: 5px;
+                            }
+
+                            input {
+                                border-left: 1px solid $lightBlue;
+                                text-align: center;
+                            }
+                        }
+                    }
+
+                    div {
+                        &.roll {
+                            display: grid;
+                            grid-template-columns: 1fr max-content 15px max-content 1fr;
+                            width: 100%;
+                            background: $black;
+                            align-items: center;
+                            align-content: center;
+                        }
+                    }
+
+                    span {
+                        &.label {
+                            font-variant: small-caps;
+                            background: $lightBlack;
+                            display: block;
+                            text-align: center;
+                            justify-content: center;
+                            line-height: 25px;
+                        }
+                    }
+
+                    select,
+                    input {
+                        width:100%;
+                        color: $white;
+                        height: 26px;
+                        padding: 0px;
+                        margin: 0px;
+                        border: 0px;
+                        border-radius: 0px;
+                        border-width: unset;
+                        border-color: $white;
+                        background:transparent;
+                        min-width: 0px;
+
+                        option {
+                            background:$black;
+                            color:$white;
+                        }
+
+                        &:first-of-type {
+                            text-align: right;
+                        }
+
+                        &:last-of-type {
+                            text-align: left;
+                        }
+                    }
+                }
+            }
+
+            nav.tabs {
+                margin: 0px;
+                height: 32px;
+                border-left: 1px solid RGB(181, 179, 164);
+                border-right: 1px solid RGB(181, 179, 164);
+
+                a {
+                    display: grid;
+                    align-items: center;
+                    padding-top: 0px;
+                    padding-bottom: 0px;
+                    height: 100%;
+                }
+            }
+        }
+    }
+}

@@ -2,7 +2,6 @@
 import {
   listEffects,
   getAllEffects,
-  SortByLabel,
 } from "../../../helpers/common.mjs";
 
 export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
@@ -2655,7 +2654,11 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
   }
 
   get actor() {
-    return this?.parent?.parent?.actor ?? undefined;
+    return this?.parent?.actor ?? undefined;
+  }
+
+  get armor() {
+    return this?.parent ?? undefined;
   }
 
   get morph() {
@@ -2678,9 +2681,10 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
     return result;
   }
 
-  prepareLabels() {
+  #prepareLabels() {
     const capacites = this.selected;
     const allLabels = getAllEffects();
+    const ghost = capacites?.ghost ?? undefined;
 
     if(capacites.companions) {
       const lionWpn = capacites.companions.lion.armes.contact.coups;
@@ -2692,6 +2696,20 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
         configurable:true
       });
 
+    }
+
+    if(ghost) {
+      let interruption = '';
+
+      if(ghost.interruption.actif) interruption = game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Interruption');
+      else interruption = game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.NoInterruption');
+
+      Object.defineProperty(ghost.interruption, 'label', {
+        value: interruption,
+        writable:true,
+        enumerable:true,
+        configurable:true
+      });
     }
   }
 
@@ -2735,25 +2753,132 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
       }
     }
 
-    this.prepareLabels();
+    for(let c in this.selected) {
+      this.#prepareCapacity(c, this.selected[c])
+    }
+
+    this.#prepareLabels();
   }
 
-  prepareLabels() {
-    const selected = this.selected;
-    const ghost = selected?.ghost ?? undefined;
+  #prepareCapacity = (capacity, data) => {
+    const handlers = this.#handleCapacity();
+    const handler = handlers[capacity]
 
-    if(ghost) {
-      let interruption = '';
+    if(handler) handler.call(this, data);
+  }
 
-      if(ghost.interruption.actif) interruption = game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Interruption');
-      else interruption = game.i18n.localize('KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.NoInterruption');
+  #handleCapacity = () => {
+    return {
+      'companions': (data) => this.companions(data),
+      'illumination': (data) => this.illumination(data),
+      'type': (data) => this.type(data),
+      'vision': (data) => this.vision(data),
+      'warlord': (data) => this.warlord(data),
+    };
+  }
 
-      Object.defineProperty(ghost.interruption, 'label', {
-        value: interruption,
+  illumination(data) {
+    const illumination = data;
+    const max = illumination.nbreCapacitesSelected;
+    const selectionne = illumination?.selectionne ?? 0;
+    let choixFaits = false;
+
+    if(selectionne >= max) choixFaits = true;
+    else choixFaits = false;
+
+    Object.defineProperty(illumination, 'choixFaits', {
+      value: choixFaits,
+      writable:true,
+      enumerable:true,
+      configurable:true
+    });
+  }
+
+  companions(data) {
+    const actor = this.actor;
+    const armure = this.armor;
+    const companions = data;
+
+    if(!actor || !armure) return;
+
+    const energieDisponible = armure.energieDisponiblePar10;
+    const maxDisponible = Math.max(...energieDisponible)
+    const energieChoose = actor.system?.equipements?.armure?.capacites?.companions?.energie ?? 0;
+
+    Object.defineProperty(companions, 'energieDisponible', {
+      value: energieDisponible,
+      writable:true,
+      enumerable:true,
+      configurable:true
+    });
+
+    if(energieChoose > maxDisponible) {
+      Object.defineProperty(actor.system.equipements.armure.capacites.companions, 'energie', {
+        value: maxDisponible,
         writable:true,
         enumerable:true,
         configurable:true
       });
     }
+  }
+
+  type(data) {
+    const type = data;
+    const max = type.nbreType;
+    const selectionne = type?.selectionne ?? 0;
+    let choixFaits = false;
+
+    if(selectionne >= max) choixFaits = true;
+    else choixFaits = false;
+
+    Object.defineProperty(type, 'choixFaits', {
+      value: choixFaits,
+      writable:true,
+      enumerable:true,
+      configurable:true
+    });
+  }
+
+  vision(data) {
+    const actor = this.actor;
+
+    if(!actor) return;
+
+    const aPE = actor.system?.equipements?.armure?.capacites?.vision?.energie ?? 0;
+    const cPEMin = data?.energie?.min ?? 0;
+    const cPEMax = data?.energie?.max ?? 0;
+
+    if(aPE < cPEMin) {
+      Object.defineProperty(actor.system.equipements.armure.capacites.vision, 'energie', {
+        value: cPEMin,
+        writable:true,
+        enumerable:true,
+        configurable:true
+      });
+    } else if(aPE > cPEMax) {
+      Object.defineProperty(actor.system.equipements.armure.capacites.vision, 'energie', {
+        value: cPEMax,
+        writable:true,
+        enumerable:true,
+        configurable:true
+      });
+    }
+  }
+
+  warlord(data) {
+    const impulsions = data.impulsions;
+    const max = impulsions.selection;
+    const selectionne = impulsions?.selectionne ?? 0;
+    let choisi = false;
+
+    if(selectionne >= max) choisi = true;
+    else choisi = false;
+
+    Object.defineProperty(impulsions, 'choisi', {
+      value: choisi,
+      writable:true,
+      enumerable:true,
+      configurable:true
+    });
   }
 }

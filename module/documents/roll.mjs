@@ -3467,7 +3467,6 @@ export class RollKnight {
         for(let l of list) {
             const loc = localize[l.split(' ')[0]];
             const effet = this.#getEffet(raw, l);
-
             if(this.#isEffetActive(raw, options, [l])) {
                 switch(l) {
                     case 'affecteanatheme':

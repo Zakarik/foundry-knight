@@ -10,6 +10,7 @@ export class DefensesDataModel extends foundry.abstract.DataModel {
         mod:new NumberField({initial:0, nullable:false, integer:true}),
         malustotal:new NumberField({initial:0, nullable:false, integer:true}),
         iswatchtower:new BooleanField({initial:false}),
+        override:new ObjectField(),
         bonus:new ObjectField({
           initial:{
             user:0,

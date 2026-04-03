@@ -15,6 +15,7 @@ export class KnightCompendiumDialog extends FormApplication {
         distinctions:[],
         cartes:[],
         capacites:[],
+        cyberware:[],
       },
       header:{
         armures:[],
@@ -24,6 +25,7 @@ export class KnightCompendiumDialog extends FormApplication {
         distinctions:[],
         cartes:[],
         capacites:[],
+        cyberware:[],
       },
       filters:{
         armures:[],
@@ -33,6 +35,7 @@ export class KnightCompendiumDialog extends FormApplication {
         distinctions:[],
         cartes:[],
         capacites:[],
+        cyberware:[],
       },
       sort:{
         armures:{
@@ -62,6 +65,10 @@ export class KnightCompendiumDialog extends FormApplication {
         capacites:{
           by:'name',
           type:'descendant'
+        },
+        cyberware:{
+          by:'name',
+          type:'descendant',
         }
       },
       fmodules:{},
@@ -71,6 +78,7 @@ export class KnightCompendiumDialog extends FormApplication {
       fdistinctions:{},
       fcartes:{},
       fcapacites:{},
+      fcyberware:{},
       opened:{},
       search:'',
       check:{
@@ -113,6 +121,7 @@ export class KnightCompendiumDialog extends FormApplication {
       filters:generateList.filters,
       sort:this.object.sort,
       fmodules:this.object.fmodules,
+      fcyberware:this.object.fcyberware,
       farmures:this.object.farmures,
       farmes:this.object.farmures,
       opened:this.object.opened,
@@ -365,7 +374,21 @@ export class KnightCompendiumDialog extends FormApplication {
           type:'name',
           html:`${game.i18n.localize('KNIGHT.Nom')}`
         }
-      ]
+      ],
+      cyberware:[
+        {
+          type:'',
+          html:``
+        },
+        {
+          type:'name',
+          html:`${game.i18n.localize('KNIGHT.Nom')}`
+        },
+        {
+          type:'gloire',
+          html:`${game.i18n.localize('KNIGHT.AUTRE.PointGloire-short')}`
+        },
+      ],
     }
 
     return header;
@@ -378,6 +401,7 @@ export class KnightCompendiumDialog extends FormApplication {
     const armures = compendium.armures;
     const modules = compendium.modules;
     const armes = compendium.armes;
+    const cyberware = compendium.cyberware;
     const ai = compendium.ai;
     const distinctions = compendium.distinctions;
     const cartes = compendium.cartes;
@@ -389,185 +413,6 @@ export class KnightCompendiumDialog extends FormApplication {
     const listAType = compendium.listAType;
     const listAIType = compendium.listAIType;
     const listAICategorie = compendium.listAICategorie;
-
-    /*for(let p of packs) {
-      if(p.visible) {
-        const list = p.index.contents;
-
-        for(let l of list) {
-          const type = l.type;
-          const uuid = l.uuid;
-          const itm = 'Item';
-          let rData;
-          let name;
-          let gloire;
-          let rarete;
-          let categorie;
-          let data = {};
-          data = {
-            uuid:uuid,
-            type:itm,
-            all:[]
-          };
-
-          switch(type) {
-            case 'armure':
-              rData = await this._getFromUuid(uuid);
-              name = rData.name;
-              const gen = rData.system.generation;
-              const armure = rData.system.armure.base;
-              const energie = rData.system.energie.base;
-              const champDeForce = rData.system.champDeForce.base;
-
-              data.name = name;
-              data.generation = gen;
-              data.armure = armure;
-              data.energie = energie;
-              data.champDeForce = champDeForce;
-
-              if(!listGenerations.includes(gen)) listGenerations.push(gen);
-
-              data.all = [
-                `<img src='${rData.img}'></img>`,
-                `<span class='name'>${name}</span>`,
-                `<span class='value'>${gen}</span>`,
-                `<span class='value'>${armure}</span>`,
-                `<span class='value'>${energie}</span>`,
-                `<span class='value'>${champDeForce}</span>`,
-              ];
-
-              armures.push(data);
-              break;
-
-            case 'module':
-              rData = await this._getFromUuid(uuid);
-              name = rData.name;
-              gloire = rData.system.prix;
-              rarete = rData.system.rarete;
-              categorie = rData.system.categorie;
-
-              data.name = name;
-              data.gloire = gloire;
-              data.rarete = rarete;
-              data.categorie = categorie;
-
-              if(!listMRarete.includes(rarete)) listMRarete.push(rarete);
-              if(!listMCategorie.includes(categorie)) listMCategorie.push(categorie);
-
-              let labelCategorie = '';
-
-              if(categorie !== '') {
-                if(rarete === 'prestige') labelCategorie = game.i18n.localize(CONFIG.KNIGHT.module.categorie.prestige[categorie]);
-                else labelCategorie = game.i18n.localize(CONFIG.KNIGHT.module.categorie.normal[categorie]);
-              }
-
-              data.all = [
-                `<img src='${rData.img}'></img>`,
-                `<span class='name'>${name}</span>`,
-                `<span class='value'>${gloire}</span>`,
-                `<span class='value'>${labelCategorie}</span>`,
-                `<span class='value'>${game.i18n.localize(`KNIGHT.ITEMS.MODULE.RARETE.${rarete.charAt(0).toUpperCase() + rarete.slice(1)}`)}</span>`,
-              ];
-
-              modules.push(data);
-              break;
-
-            case 'arme':
-              rData = await this._getFromUuid(uuid);
-              name = rData.name;
-              gloire = rData.system.prix;
-              rarete = rData.system.rarete;
-              categorie = rData.system.type;
-
-              data.name = name;
-              data.gloire = gloire;
-              data.rarete = rarete;
-              data.type = categorie;
-
-              if(!listARarete.includes(rarete)) listARarete.push(rarete);
-              if(!listAType.includes(categorie)) listAType.push(categorie);
-
-              data.all = [
-                `<img src='${rData.img}'></img>`,
-                `<span class='name'>${name}</span>`,
-                `<span class='value'>${gloire}</span>`,
-                `<span class='value'>${game.i18n.localize(`KNIGHT.ITEMS.MODULE.ARME.TYPE.${categorie.charAt(0).toUpperCase() + categorie.slice(1)}`)}</span>`,
-                `<span class='value'>${game.i18n.localize(`KNIGHT.ITEMS.MODULE.RARETE.${rarete.charAt(0).toUpperCase() + rarete.slice(1)}`)}</span>`,
-              ];
-
-              armes.push(data);
-              break;
-
-            case 'avantage':
-            case 'inconvenient':
-              rData = await this._getFromUuid(uuid);
-              name = rData.name;
-              categorie = rData.system.type;
-
-              data.name = name;
-              data.categorie = type;
-              data.type = categorie;
-
-              if(!listAIType.includes(categorie)) listAIType.push(categorie);
-              if(!listAICategorie.includes(type)) listAICategorie.push(type);
-
-              const label = categorie === 'standard' ? game.i18n.localize(`KNIGHT.AUTRE.Standard`) : game.i18n.localize(`KNIGHT.IA.Label`);
-
-              data.all = [
-                `<img src='${rData.img}'></img>`,
-                `<span class='name'>${name}</span>`,
-                `<span class='value'>${game.i18n.localize(`TYPES.Item.${type}`)}</span>`,
-                `<span class='value'>${label}</span>`,
-              ];
-
-              ai.push(data);
-              break;
-
-            case 'distinction':
-              rData = await this._getFromUuid(uuid);
-              name = rData.name;
-
-              data.name = name;
-
-              data.all = [
-                `<img src='${rData.img}'></img>`,
-                `<span class='name'>${name}</span>`,
-              ];
-
-              distinctions.push(data);
-              break;
-
-            case 'carteheroique':
-              rData = await this._getFromUuid(uuid);
-              name = rData.name;
-
-              data.name = name;
-
-              data.all = [
-                `<img src='${rData.img}'></img>`,
-                `<span class='name'>${name}</span>`,
-              ];
-
-              cartes.push(data);
-              break;
-
-            case 'capaciteheroique':
-              rData = await this._getFromUuid(uuid);
-              name = rData.name;
-
-              data.name = name;
-
-              data.all = [
-                `<img src='${rData.img}'></img>`,
-                `<span class='name'>${name}</span>`,
-              ];
-
-              capacites.push(data);
-              break;
-          }
-        }
-      }
-    }*/
 
     armures.sort((a, b) => {
       const by = sort.armures.by;
@@ -783,6 +628,36 @@ export class KnightCompendiumDialog extends FormApplication {
       return 0;
     });
 
+    cyberware.sort((a, b) => {
+      const by = sort.cyberware.by;
+      let nameA = '';
+      let nameB = '';
+
+      nameA = by === 'name' ? a[by].toUpperCase() : a[by]; // ignore upper and lowercase
+      nameB = by === 'name' ? b[by].toUpperCase() : b[by]; // ignore upper and lowercase
+
+      if(by === 'name') {
+        if(sort.cyberware.type === 'ascendant') {
+          if (nameA.localeCompare(nameB) < 0) return 1;
+          if (nameA.localeCompare(nameB) > 0) return -1;
+        } else {
+          if (nameA.localeCompare(nameB) < 0) return -1;
+          if (nameA.localeCompare(nameB) > 0) return 1;
+        }
+      } else {
+        if(sort.cyberware.type === 'ascendant') {
+          if (nameA < nameB) return 1;
+          if (nameA > nameB) return -1;
+        } else {
+          if (nameA < nameB) return -1;
+          if (nameA > nameB) return 1;
+        }
+      }
+
+      // names must be equal
+      return 0;
+    });
+
     listGenerations.sort();
     listMCategorie.sort((a, b) => {
       const listPrestige = ['cheval', 'taureau', 'cerf', 'aigle', 'loup', 'sanglier', 'ours', 'serpent', 'lion', 'faucon', 'corbeau', 'dragon'];
@@ -898,13 +773,14 @@ export class KnightCompendiumDialog extends FormApplication {
 
     return {
       data:{
-        armures:armures,
-        modules:modules,
-        armes:armes,
-        ai:ai,
-        distinctions:distinctions,
-        cartes:cartes,
-        capacites:capacites,
+        armures,
+        modules,
+        armes,
+        ai,
+        distinctions,
+        cartes,
+        capacites,
+        cyberware,
       },
       filters:{
         armures:{
@@ -924,7 +800,8 @@ export class KnightCompendiumDialog extends FormApplication {
         },
         distinctions:{},
         cartes:{},
-        capacites:{}
+        capacites:{},
+        cyberware:{}
       }
     }
   }
@@ -945,8 +822,8 @@ export class KnightCompendiumDialog extends FormApplication {
     const val = search.toLowerCase();
     const list = html.find(`div.tab.${tab} div.tofilter`);
     const tabC = `f${tab}`;
-    let minPG = tab === 'modules' || tab === 'armes' ? parseInt(this.object.pg.min) : 0;
-    let maxPG = tab === 'modules' || tab === 'armes' ?  parseInt(this.object.pg.max) : 0;
+    let minPG = tab === 'modules' || tab === 'armes' || tab === 'cyberware' ? parseInt(this.object.pg.min) : 0;
+    let maxPG = tab === 'modules' || tab === 'armes' || tab === 'cyberware' ?  parseInt(this.object.pg.max) : 0;
 
     let gens = {};
     let rare = {};
@@ -1098,6 +975,8 @@ export class KnightCompendiumDialog extends FormApplication {
       } else if(tab === 'ai') {
         r3 = cat?.[categorie] ?? true ? true : false;
         r4 = types?.[catType] ?? true ? true : false;
+      } else if(tab === 'cyberware') {
+        r2 = gloire >= minPG && gloire <= maxPG ? true : false;
       }
 
       if(r1 && r2 && r3 && r4) {

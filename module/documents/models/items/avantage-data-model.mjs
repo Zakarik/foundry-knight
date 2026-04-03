@@ -5,6 +5,7 @@ export class AvantageDataModel extends foundry.abstract.TypeDataModel {
         return {
             description:new HTMLField({initial:''}),
             type:new StringField({initial:'standard'}),
+            show:new BooleanField({initial:false}),
             bonus:new SchemaField({
               sante:new NumberField({ initial: 0, integer: true, nullable: false }),
               espoir:new NumberField({ initial: 0, integer: true, nullable: false }),

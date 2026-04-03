@@ -85,7 +85,7 @@
                 </h2>
                 {{#each systemData.oeuvre.liste  as | key oeuvre|}}
                 <div>
-                    <a class="item-control item-delete" title="Delete Item" data-key="{{oeuvre}}"><i class="fas fa-trash"></i></a>
+                    <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}" data-key="{{oeuvre}}"><i class="fas fa-trash"></i></a>
                     <input type="text" name="system.oeuvre.liste.{{oeuvre}}.name" value="{{key.name}}"/>
                     <textarea name="system.oeuvre.liste.{{oeuvre}}.description" data-type="oeuvreliste" data-key="{{oeuvre}}" data-min="50" style="height:{{key.textarea}}px;">{{key.description}}</textarea>
                 </div>

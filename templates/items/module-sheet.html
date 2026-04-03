@@ -762,7 +762,7 @@
                                 {{selectOptions (getList 'typepnj') selected=kpnj.type localize=true}}
                             </select>
                             <input type="text" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.nom" value="{{kpnj.nom}}" />
-                            <a class="delete" data-type="pnj" data-id="{{pnj}}" title="Delete Item">
+                            <a class="delete" data-type="pnj" data-id="{{pnj}}" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}">
                                 <i class="fas fa-minus"></i>
                             </a>
                         </div>
@@ -892,7 +892,7 @@
                                             <span class="nom">{{localize "KNIGHT.Nom"}}</span>
                                             <span class="type">{{localize "KNIGHT.ITEMS.MODULE.ARME.TYPE.Label"}}</span>
 
-                                            <a class="delete" data-type="armes" data-pnj="{{pnj}}" data-id="{{arme}}" title="Delete Item">
+                                            <a class="delete" data-type="armes" data-pnj="{{pnj}}" data-id="{{arme}}" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}">
                                                 <i class="fas fa-minus"></i>
                                             </a>
                                         </div>
@@ -967,7 +967,7 @@
                                 <div>
                                     <div class="header">
                                         <input type="text" name="system.niveau.details.{{nv}}.pnj.liste.{{pnj}}.jetSpecial.liste.{{jet}}.nom" value="{{kJet.nom}}" placeholder="{{localize "KNIGHT.Nom"}}"/>
-                                        <a class="delete" data-type="jetSpecifiques" data-pnj="{{pnj}}" data-id="{{jet}}" title="Delete Item">
+                                        <a class="delete" data-type="jetSpecifiques" data-pnj="{{pnj}}" data-id="{{jet}}" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}">
                                             <i class="fas fa-minus"></i>
                                         </a>
                                     </div>

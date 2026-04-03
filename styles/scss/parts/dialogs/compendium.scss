@@ -13,6 +13,10 @@
                     margin-bottom: 0px;
                     align-items: flex-end;
 
+                    &.cyberware {
+                        grid-template-columns: repeat(8, 1fr);
+                    }
+
                     a {
                         display: flex;
                         justify-content: center;
@@ -514,6 +518,107 @@
                             &.line {
                                 display: grid;
                                 grid-template-columns: 25px calc(100% - 25px);
+                                align-items: center;
+                                padding-left: 5px;
+
+                                line-height: 25px;
+
+                                span {
+                                    &.value {
+                                        text-align: center;
+                                        height: 100%;
+                                        width: 100%;
+                                    }
+                                }
+
+                                img {
+                                    display: block;
+                                    height: 25px;
+                                    object-fit: contain;
+                                    border: 0px;
+                                    margin-left:auto;
+                                    margin-right:auto;
+                                }
+                            }
+
+                            &.draggable {
+                                cursor:context-menu;
+                            }
+                        }
+                    }
+
+                    &.tab.cyberware {
+                        border: 1px solid $lightBlue;
+                        border-bottom-left-radius: 5px;
+                        border-bottom-right-radius: 5px;
+
+                        div {
+                            &.data {
+                                display: grid;
+                                grid-template-columns: 1fr;
+                                border-left: 1px solid black;
+
+                                div {
+
+                                    &.line {
+                                        &.fonce {
+                                            background-color: $lightBlack;
+                                        }
+
+                                        &.clair {
+                                            background-color: $veryLightBlack;
+                                        }
+                                    }
+                                }
+                            }
+
+                            &.header {
+                                font-variant: small-caps;
+
+                                span {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                    text-align: center;
+                                    padding-left: 5px;
+                                    padding-right: 5px;
+
+                                    i {
+                                        cursor: pointer;
+
+                                        &:hover {
+                                            color: $lightBlue;
+                                        }
+                                    }
+
+                                    &:not(:first-of-type):not(:nth-of-type(2)) {
+                                        border-left: 1px solid black;
+                                    }
+                                }
+                            }
+
+                            &.line {
+                                span {
+                                    &.name {
+                                        letter-spacing: 1px;
+
+                                        cursor:pointer;
+
+                                        &:hover {
+                                            color:$lightBlue;
+                                        }
+                                    }
+
+                                    &:not(:first-of-type) {
+                                        border-left: 1px solid black;
+                                    }
+                                }
+                            }
+
+                            &.header,
+                            &.line {
+                                display: grid;
+                                grid-template-columns: 25px calc(100% - 25px - 100px) 100px;
                                 align-items: center;
                                 padding-left: 5px;
 

@@ -577,7 +577,7 @@ export class VehiculeSheet extends ActorSheet {
       'motivationMineure', 'contact',
       'blessure', 'trauma',
       'armurelegende', 'effet', 'distinction',
-      'capaciteultime'];
+      'capaciteultime', 'cyberware'];
     if (typesValides.includes(itemBaseType)) return;
     if (itemBaseType === 'arme' && armeType === 'contact') return;
 

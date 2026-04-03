@@ -808,12 +808,12 @@ export class ArmureLegendeDataModel extends foundry.abstract.TypeDataModel {
   }
 
   prepareBaseData() {
-
-	}
-
-	prepareDerivedData() {
-
+    for(let c in this.capacites.selected) {
+      this.#prepareCapacity(c, this.capacites.selected[c])
+    }
   }
+
+	prepareDerivedData() {}
 
   async activateCapacity(args = {}) {
     const actor = this.actor;
@@ -2346,5 +2346,55 @@ export class ArmureLegendeDataModel extends foundry.abstract.TypeDataModel {
     const flags = roll.getRollData(weapon, {targets:allTargets});
     roll.setWeapon(weapon);
     await roll.doRollViolence(flags);
+  }
+
+  #prepareCapacity = (capacity, data) => {
+    const handlers = this.#handleCapacity();
+    const handler = handlers[capacity]
+
+    if(handler) handler.call(this, data);
+  }
+
+  #handleCapacity = () => {
+    return {
+      'warlord': (data) => this.#warlord(data),
+      'type': (data) => this.#type(data),
+    };
+  }
+
+  #warlord(data) {
+    const impulsions = data.impulsions;
+    const max = impulsions.selection;
+    const selectionne = impulsions?.selectionne ?? 0;
+    let choisi = false;
+
+    if(selectionne >= max) choisi = true;
+    else choisi = false;
+
+    Object.defineProperty(impulsions, 'choisi', {
+      value: choisi,
+      writable:true,
+      enumerable:true,
+      configurable:true
+    });
+  }
+
+  #type(data) {
+    const type = data;
+    const max = type.nbreType;
+    const selectionne = type?.selectionne ?? 0;
+    let choixFaits = false;
+
+    if(selectionne >= max) choixFaits = true;
+    else choixFaits = false;
+
+    console.error(selectionne, max)
+
+    Object.defineProperty(type, 'choixFaits', {
+      value: choixFaits,
+      writable:true,
+      enumerable:true,
+      configurable:true
+    });
   }
 }

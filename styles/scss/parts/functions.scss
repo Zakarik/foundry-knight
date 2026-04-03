@@ -733,3 +733,35 @@ $news:#00ffcc44;
     }
   }
 }
+
+@mixin buttons($class) {
+  button.#{$class} {
+    display:flex;
+    justify-content: space-between;
+    width: 100%;
+    color: $white;
+    cursor: pointer;
+    border: 1px solid $lightBlack;
+    border-radius:0px;
+
+    &.unselected {
+        background:$black;
+        border-color:$lightBlack;
+    }
+
+    &.selected {
+        background:$lightBlack;
+        border-color:$white;
+    }
+
+    i {
+      &.red {
+        color: $lightRed;
+      }
+
+      &.green {
+        color: $lightGreen;
+      }
+    }
+  }
+}

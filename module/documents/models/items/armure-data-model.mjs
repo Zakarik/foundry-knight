@@ -209,14 +209,10 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
   }
 
   get energieDisponiblePar10() {
-    const remplaceEnergie = this.espoir.remplaceEnergie;
     let total = 0;
 
     if(this.actor) {
-      total = remplaceEnergie
-        ? this?.actor?.espoir?.value
-        : this?.actor?.system?.energie?.value;
-
+      total = this.actor?.system?.energyValue ?? 0;
       total = Number(total) || 0; // sécurise en nombre
     }
 

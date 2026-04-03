@@ -1,13 +1,58 @@
 
-import { BaseActorDataModel } from "../base/base-actor-data-model.mjs";
+import BaseActorDataModel from "../base/base-actor-data-model.mjs";
+import { combine } from '../../../utils/field-builder.mjs';
 
 export class VehiculeDataModel extends BaseActorDataModel {
-	static defineSchema() {
+
+  static get baseDefinition() {
+    const base = super.baseDefinition;
+    const specific = {
+      manoeuvrabilite:["num", { initial: 0, nullable:false, integer:true}],
+      vitesse:["num", { initial: 0, nullable:false, integer:true}],
+      passagers:["num", { initial: 0, nullable:false, integer:true}],
+      champDeForce: ["schema", {
+          value:["num", { initial: 0, nullable:false, integer:true}],
+          base:["num", { initial: 0, nullable:false, integer:true}],
+          bonus:["obj", {
+            initial:{
+              user:0,
+            }
+          }],
+          malus:["obj", {
+            initial:{
+              user:0,
+            }
+          }],
+      }],
+      equipage:["schema", {
+          value:["num", { initial: 0, nullable:false, integer:true}],
+          max:["num", { initial: 0, nullable:false, integer:true}],
+          pilote:["schema", {
+              name:["str", { initial: "" }],
+              id:["str", { initial: "" }],
+          }],
+          passagers:["arr", ["obj", {}]],
+      }],
+      debordement:["schema", {
+        value:["num", { initial: 0, nullable:false, integer:true}],
+        tour:["num", { initial: 1, nullable:false, integer:true}],
+      }],
+      options:["schema", {
+        blindage:["bool", { initial: false }],
+        noPilote:["bool", { initial: false }],
+        noPassager:["bool", { initial: false }],
+        debordement:["bool", { initial: false }],
+      }],
+    }
+
+    return combine(base, specific);
+  }
+
+  /*static defineSchema() {
 		const {SchemaField, EmbeddedDataField, StringField, NumberField, BooleanField, ObjectField, ArrayField, HTMLField} = foundry.data.fields;
 
     const base = super.defineSchema();
     const specific = {
-      version:new NumberField({initial:0, nullable:false, integer:true}),
       manoeuvrabilite:new NumberField({ initial: 0, integer: true, nullable: false }),
       vitesse:new NumberField({ initial: 0, integer: true, nullable: false }),
       passagers:new NumberField({ initial: 0, integer: true, nullable: false }),
@@ -22,78 +67,6 @@ export class VehiculeDataModel extends BaseActorDataModel {
           malus:new ObjectField({
             initial:{
               user:0,
-            }
-          }),
-      }),
-      energie:new SchemaField({
-          base:new NumberField({initial:0, nullable:false, integer:true}),
-          value:new NumberField({initial:0, nullable:false, integer:true}),
-          max:new NumberField({initial:0, nullable:false, integer:true}),
-          bonus:new ObjectField({
-            initial:{
-              user:0,
-            }
-          }),
-          malus:new ObjectField({
-            initial:{
-              user:0,
-            }
-          }),
-      }),
-      armure:new SchemaField({
-          base:new NumberField({initial:0, nullable:false, integer:true}),
-          value:new NumberField({initial:0, nullable:false, integer:true}),
-          max:new NumberField({initial:16, nullable:false, integer:true}),
-          bonus:new ObjectField({
-            initial:{
-              user:0,
-            }
-          }),
-          malus:new ObjectField({
-            initial:{
-              user:0,
-            }
-          }),
-      }),
-      initiative:new SchemaField({
-          dice:new NumberField({initial:0, nullable:false, integer:true}),
-          value:new NumberField({initial:0, nullable:false, integer:true}),
-          embuscade:new SchemaField({
-              dice:new NumberField({initial:0, nullable:false, integer:true}),
-              value:new NumberField({initial:0, nullable:false, integer:true}),
-          }),
-      }),
-      reaction:new SchemaField({
-          value:new NumberField({initial:0, nullable:false, integer:true}),
-          mod:new NumberField({initial:0, nullable:false, integer:true}),
-          valueWOMod:new NumberField({initial:0, nullable:false, integer:true}),
-          bonus:new ObjectField({
-            initial:{
-              user:0,
-              system:0,
-            }
-          }),
-          malus:new ObjectField({
-            initial:{
-              user:0,
-              system:0,
-            }
-          }),
-      }),
-      defense:new SchemaField({
-          value:new NumberField({initial:0, nullable:false, integer:true}),
-          mod:new NumberField({initial:0, nullable:false, integer:true}),
-          valueWOMod:new NumberField({initial:0, nullable:false, integer:true}),
-          bonus:new ObjectField({
-            initial:{
-              user:0,
-              system:0,
-            }
-          }),
-          malus:new ObjectField({
-            initial:{
-              user:0,
-              system:0,
             }
           }),
       }),
@@ -119,7 +92,7 @@ export class VehiculeDataModel extends BaseActorDataModel {
     }
 
     return foundry.utils.mergeObject(base, specific);
-  }
+  }*/
 
   get pilote() {
     if(!this.equipage.pilote.id) return undefined;
@@ -149,11 +122,9 @@ export class VehiculeDataModel extends BaseActorDataModel {
       return super.migrateData(source);
   }
 
-  prepareBaseData() {
-    super.prepareBaseData();
-	}
+  _startPrepareDerivedData() {
+    super._startPrepareDerivedData();
 
-	prepareDerivedData() {
     this.#setPilote();
     this.#setDefenses();
     this.#setDerived();
@@ -233,62 +204,5 @@ export class VehiculeDataModel extends BaseActorDataModel {
         value: Math.max(base+bonus-malus, 0),
       });
     }
-  }
-
-  async doDebordement() {
-      const actor = this.actor;
-      const label = actor.name;
-      const dgtsDice = Number(this?.debordement?.tour)*Number(this?.debordement?.value);
-      const roll = new game.knight.RollKnight(actor, {
-      name:`${label} : ${game.i18n.localize('KNIGHT.AUTRE.Debordement')}`,
-      }, false);
-      const weapon = roll.prepareWpnContact({
-      name:`${label}`,
-      system:{
-          degats:{dice:0, fixe:dgtsDice},
-          effets:{},
-      }
-      });
-      const addFlags = {
-      actor,
-      attaque:[],
-      dataMod:{degats:{dice:0, fixe:0}, violence:{dice:0, fixe:0}},
-      dataStyle:{},
-      flavor:label,
-      maximize:{degats:false, violence:false},
-      style:'standard',
-      surprise:false,
-      targets:[],
-      total:0,
-      weapon
-      }
-
-      let data = {
-      total:0,
-      targets: game.user.targets.size > 0 ? game.user.targets : [],
-      attaque:[],
-      flags:addFlags,
-      content:{
-          otherBtn:[{
-          classes:'debordement full',
-          title:game.i18n.localize('KNIGHT.JETS.AugmenterDebordement'),
-          label:game.i18n.localize('KNIGHT.JETS.AugmenterDebordement'),
-          }]
-      }
-      };
-
-      roll.setWeapon(weapon);
-      await roll.doRollDamage(data, addFlags);
-  }
-
-  givePE(energy, autoApply=true) {
-    let path = `system.energie.value`;
-    let value = this.energie.value;
-    let update = {}
-
-    update[path] = `${value+energy}`;
-
-    if(autoApply) this.actor.update(energy);
-    else return update;
   }
 }

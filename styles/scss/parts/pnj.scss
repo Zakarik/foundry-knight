@@ -1069,6 +1069,12 @@
 
       div.capacites {
         @include header();
+        @import "parts/cyberware";
+
+        div.cyberware {
+          margin-bottom: 0px;
+          margin-top: 5px;
+        }
 
         button.buttonPhase2 {
           position:relative;

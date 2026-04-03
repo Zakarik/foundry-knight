@@ -1,3 +1,7 @@
+import {
+    capitalizeFirstLetter,
+  } from "./helpers/common.mjs";
+
 /**
  * Custom Handlebars for KNIGHT
  */
@@ -333,7 +337,7 @@
         if(Array.isArray(name)) name = value[0];
 
         const label = name.toString().charAt(0).toUpperCase()+name.toString().substr(1);
-        return game.i18n.localize(`KNIGHT.ACTIVATION.${label}`);
+        return label ? game.i18n.localize(`KNIGHT.ACTIVATION.${label}`) : "";
     });
 
     Handlebars.registerHelper('getEnergie', function (value) {
@@ -866,20 +870,20 @@
 
     Handlebars.registerHelper('getInputData', function (data, type, name) {
         const wear = data.wear;
-        const base = data.equipements[wear][type];
+        const base = data?.equipements?.[wear]?.[type] ?? undefined;
         let result = base;
 
         switch(name) {
             case 'bonusUser':
-                result = base.bonus.user;
+                result = base?.bonus?.user ?? 0;
                 break;
 
             case 'malusUser':
-                result = base.malus.user;
+                result = base?.malus?.user ?? 0;
                 break;
 
             case 'value':
-                result = base.value;
+                result = base?.value ?? 0;
                 break;
         }
 
@@ -951,8 +955,8 @@
 
         let result = {};
 
-        for(let p in liste) {
-            result[liste[p]] = `${liste[p]} ${str}`;
+        for(let p of liste) {
+            result[p] = `${p} ${str}`;
         }
 
         return result;
@@ -1023,6 +1027,10 @@
 
     Handlebars.registerHelper('hasSetting', function (str) {
         return game.settings.get("knight", str);
+    });
+
+    Handlebars.registerHelper('isPatreonAuthorized', function (str) {
+        return game.settings.get("knight", 'PatreonAuthorized').includes(str);
     });
 
     Handlebars.registerHelper('hasPJRestaure', function () {
@@ -1108,6 +1116,10 @@
                             tooltip.push(`${startStr} ${value} (${game.i18n.localize('KNIGHT.COMBAT.ARMES.Label')})`);
                             break;
 
+                        case 'cyberware':
+                            tooltip.push(`${startStr} ${value} (${game.i18n.localize('KNIGHT.CYBERWARE.Label')})`);
+                            break;
+
                         default:
                             tooltip.push(`${startStr} ${value} (${game.i18n.localize('KNIGHT.AUTRE.Label')})`);
                             break;
@@ -1162,5 +1174,41 @@
         }
 
         return tooltip.join('<br/>');
+    });
+
+    Handlebars.registerHelper('menuVertical', function (localize, data, ...args) {
+        const options = args.pop();  // Retire et récupère le dernier (options)
+        let menu = ``;
+
+        // args contient maintenant uniquement tes arguments
+        args.forEach((arg, index) => {
+            menu += `<button type="action" class="menuV ${data?.[arg]?.has ?? false ? 'selected' : 'unselected'}" data-type="${arg}">${game.i18n.localize(`${localize}.${capitalizeFirstLetter(arg)}`)} ${data?.[arg]?.has ?? false ? '<i class="fa-solid fa-check green"></i>' : '<i class="fa-solid fa-xmark red"></i>'}</button>`;
+        });
+
+        return `${menu}`;
+    });
+
+    Handlebars.registerHelper('menuHorizontal', function (data, group, localize, ...args) {
+        const options = args.pop();  // Retire et récupère le dernier (options)
+        let menu = ``;
+
+        // args contient maintenant uniquement tes arguments
+        args.forEach((arg, index) => {
+            if(data?.[arg]?.has ?? false) menu += `<a class="item" data-tab="${arg}">${game.i18n.localize(`${localize}.${capitalizeFirstLetter(arg)}`)}</a>`;
+        });
+
+        return menu ? `<nav class="sheet-tabs tabs" data-group="${group}">${menu}</nav>` : '';
+    });
+
+    Handlebars.registerHelper('listSelect', function (localize, ...args) {
+        const options = args.pop();  // Retire et récupère le dernier (options)
+        let list = {};
+
+        // args contient maintenant uniquement tes arguments
+        args.forEach((arg, index) => {
+            list[arg] = `${localize}.${capitalizeFirstLetter(arg)}`;
+        });
+
+        return list;
     });
  };

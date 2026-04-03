@@ -258,8 +258,8 @@
                         <i class="far fa-plus-square extendButton"></i>
 
                         <div class="gestionButton">
-                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                            <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                         </div>
                         <span>
                             {{{key.name}}}
@@ -435,8 +435,8 @@
                         <i class="far fa-plus-square extendButton"></i>
 
                         <div class="gestionButton">
-                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                            <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                         </div>
                         <span>
                             {{{key.name}}}
@@ -610,7 +610,7 @@
                             <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="contact"><i class="fas fa-plus"></i></a>
                         </h2>
 
-                        {{#each actor.armesContact as | key arme|}}
+                        {{#each actor.armesContactEquipee as | key arme|}}
                             {{~> systems/knight/templates/actors/subtab/armes.html equipped=true num=arme}}
                         {{/each}}
                     </div>
@@ -623,7 +623,7 @@
                             <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="distance"><i class="fas fa-plus"></i></a>
                         </h2>
 
-                        {{#each actor.armesDistance as | key arme|}}
+                        {{#each actor.armesDistanceEquipee as | key arme|}}
                             {{~> systems/knight/templates/actors/subtab/armes.html equipped=true num=arme}}
                         {{/each}}
                     </div>
@@ -758,8 +758,8 @@
                     <div class="block item" data-item-id="{{key._id}}">
                         <header class="summary" data-item-id="{{key._id}}">
                             <div class="gestionButton">
-                                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                                <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                                <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                             </div>
                             <span>{{key.name}}</span>
                         </header>

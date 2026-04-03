@@ -5,435 +5,279 @@ import {
     confirmationDialog,
     capitalizeFirstLetter,
   } from "../../../helpers/common.mjs";
-import { BaseActorDataModel } from "../base/base-actor-data-model.mjs";
 import { AspectsPCDataModel } from '../parts/aspects-pc-data-model.mjs';
-import { ArmesImproviseesDataModel } from '../parts/armesimprovisees-data-model.mjs';
-import { GrenadesDataModel } from '../parts/grenades-data-model.mjs';
-import { NodsDataModel } from '../parts/nods-data-model.mjs';
-import { DefensesDataModel } from '../parts/defenses-data-model.mjs';
-import { InitiativeDataModel } from '../parts/initiative-data-model.mjs';
+import { combine } from '../../../utils/field-builder.mjs';
+import BaseActorDataModel from "../base/base-actor-data-model.mjs";
+import HumanMixinModel from "../base/mixin-human-model.mjs";
 
-export class KnightDataModel extends BaseActorDataModel {
-	static defineSchema() {
-		const {SchemaField, EmbeddedDataField, StringField, NumberField, BooleanField, ObjectField, ArrayField, HTMLField} = foundry.data.fields;
-        const base = super.defineSchema();
+export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
+    static get baseDefinition() {
+        const base = super.baseDefinition;
         const specific = {
-            wear:new StringField({initial:"tenueCivile"}),
-			age:new StringField({ initial: ""}),
-			archetype:new StringField({ initial: ""}),
-			blason:new StringField({ initial: ""}),
-            surnom:new StringField({initial:""}),
-            section:new StringField({initial:""}),
-            hautFait:new StringField({initial:""}),
-            histoire:new HTMLField({initial:""}),
-            aspects:new EmbeddedDataField(AspectsPCDataModel),
-            defense:new EmbeddedDataField(DefensesDataModel),
-            reaction:new EmbeddedDataField(DefensesDataModel),
-            egide:new EmbeddedDataField(DefensesDataModel),
-            initiative:new EmbeddedDataField(InitiativeDataModel),
-            GM:new SchemaField({
-                dontshow:new BooleanField({initial:false}),
-            }),
-            sante:new SchemaField({
-                base:new NumberField({initial:0, nullable:false, integer:true}),
-                mod:new NumberField({initial:0, nullable:false, integer:true}),
-                value:new NumberField({initial:0, nullable:false, integer:true}),
-                max:new NumberField({initial:16, nullable:false, integer:true}),
-                bonus:new ObjectField({
-                    initial:{
-                      user:0,
-                    }
-                }),
-                malus:new ObjectField({
-                    initial:{
-                      user:0,
-                    }
-                }),
-            }),
-            espoir:new SchemaField({
-                mod:new NumberField({initial:0, nullable:false, integer:true}),
-                value:new NumberField({initial:0, nullable:false, integer:true}),
-                max:new NumberField({initial:50, nullable:false, integer:true}),
-                perte:new SchemaField({
-                    saufAgonie:new BooleanField({initial:false}),
-                }),
-                bonus:new ObjectField({
-                    initial:{
-                      user:0,
-                    }
-                }),
-                malus:new ObjectField({
-                    initial:{
-                      user:0,
-                    }
-                }),
-                recuperation:new SchemaField({
-                    aucun:new BooleanField({initial:false}),
-                    bonus:new NumberField({initial:0, nullable:false, integer:true}),
-                    malus:new NumberField({initial:0, nullable:false, integer:true}),
-                }),
-                reduction:new NumberField({initial:0, nullable:false, integer:true}),
-            }),
-            energie:new SchemaField({
-                base:new NumberField({ initial: 0, integer: true, nullable: false }),
-                mod:new NumberField({ initial: 0, integer: true, nullable: false }),
-                max:new NumberField({ initial: 0, integer: true, nullable: false }),
-                value:new NumberField({ initial: 0, integer: true, nullable: false }),
-            }),
-			armure: new SchemaField({
-                max:new NumberField({ initial: 0, integer: true, nullable: false }),
-                value:new NumberField({ initial: 0, integer: true, nullable: false }),
-                base:new NumberField({ initial: 0, integer: true, nullable: false }),
-                mod:new NumberField({ initial: 0, integer: true, nullable: false }),
-            }),
-			champDeForce: new SchemaField({
-                value:new NumberField({ initial: 0, integer: true, nullable: false }),
-                base:new NumberField({ initial: 0, integer: true, nullable: false }),
-                mod:new NumberField({ initial: 0, integer: true, nullable: false }),
-                bonus:new ObjectField({
-                    initial:{
-                      user:0,
-                    }
-                }),
-                malus:new ObjectField({
-                    initial:{
-                      user:0,
-                    }
-                }),
-            }),
-            flux:new SchemaField({
-                value:new NumberField({initial:0, nullable:false, integer:true}),
-            }),
-            equipements:new SchemaField({
-                modules:new ObjectField(),
-                ia:new SchemaField({
-                    code:new StringField({initial:"", nullable:false}),
-                    surnom:new StringField({initial:"", nullable:false}),
-                    caractere:new StringField({initial:"", nullable:false}),
-                }),
-                ascension:new SchemaField({
-                    armure:new SchemaField({
-                        value:new NumberField({initial:0, min:0, nullable:false, integer:true}),
-                        base:new NumberField({initial:0, min:0, nullable:false, integer:true}),
-                        bonus:new ObjectField({
+            histoire:["html", { initial: ""}],
+            aspects:["embedded", AspectsPCDataModel],
+            GM:["schema", {
+                dontshow:["bool", { initial: false}],
+            }],
+            equipements:["schema", {
+                modules:["obj", {}],
+                ia:["schema", {
+                    code:["str", { initial: "", nullable:false}],
+                    surnom:["str", { initial: "", nullable:false}],
+                    caractere:["str", { initial: "", nullable:false}],
+                }],
+                armure:["schema", {
+                    hasArmor:["bool", { initial: false}],
+                    hasArmorLegende:["bool", { initial: false}],
+                    id:["str", { initial: "0", nullable:true}],
+                    idLegende:["str", { initial: "0", nullable:true}],
+                    label:["str", { initial: "", nullable:true}],
+                    armure:["schema", {
+                        value:["num", {initial:0, nullable:false, integer:true}],
+                        bonus:["obj", {
+                            initial:{
+                                user:0,
+                            }
+                        }],
+                        malus:["obj", {
+                            initial:{
+                                user:0,
+                            }
+                        }],
+                    }],
+                    champDeForce:["schema", {
+                        bonus:["obj", {
+                            initial:{
+                                user:0,
+                            }
+                        }],
+                        malus:["obj", {
+                            initial:{
+                                user:0,
+                            }
+                        }],
+                    }],
+                    energie:["schema", {
+                        value:["num", {initial:0, min:0, nullable:false, integer:true}],
+                        bonus:["obj", {
+                            initial:{
+                                user:0,
+                            }
+                        }],
+                        malus:["obj", {
+                            initial:{
+                                user:0,
+                            }
+                        }],
+                    }],
+                    slots:["schema", {
+                        brasDroit:["num", {initial:0, nullable:false, integer:true}],
+                        brasGauche:["num", {initial:0, nullable:false, integer:true}],
+                        jambeDroite:["num", {initial:0, nullable:false, integer:true}],
+                        jambeGauche:["num", {initial:0, nullable:false, integer:true}],
+                        tete:["num", {initial:0, nullable:false, integer:true}],
+                        torse:["num", {initial:0, nullable:false, integer:true}],
+                    }],
+                }],
+                ascension:["schema", {
+                    armure:["schema", {
+                        value:["num", {initial:0, min:0, nullable:false, integer:true}],
+                        base:["num", {initial:0, min:0, nullable:false, integer:true}],
+                        bonus:["obj", {
+                            initial:{
+                                user:0,
+                            }
+                        }],
+                        malus:["obj", {
+                            initial:{
+                                user:0,
+                            }
+                        }],
+                    }],
+                    champDeForce:["schema", {
+                        value:["num", {initial:0, min:0, nullable:false, integer:true}],
+                        base:["num", {initial:0, min:0, nullable:false, integer:true}],
+                        bonus:["obj", {
+                            initial:{
+                                user:0,
+                            }
+                        }],
+                        malus:["obj", {
+                            initial:{
+                                user:0,
+                            }
+                        }],
+                    }],
+                    energie:["schema", {
+                        value:["num", {initial:0, min:0, nullable:false, integer:true}],
+                        base:["num", {initial:0, min:0, nullable:false, integer:true}],
+                        bonus:["obj", {
+                            initial:{
+                                user:0,
+                            }
+                        }],
+                        malus:["obj", {
+                            initial:{
+                                user:0,
+                            }
+                        }],
+                    }],
+                }],
+                guardian:["schema", {
+                    armure:["schema", {
+                        value:["num", {initial:5, min:0, nullable:false, integer:true}],
+                        base:["num", {initial:5, min:0, nullable:false, integer:true}],
+                        bonus:["obj", {
                             initial:{
                                 user:0,
                                 system:0,
                             }
-                        }),
-                        malus:new ObjectField({
+                        }],
+                        malus:["obj", {
                             initial:{
                                 user:0,
                                 system:0,
                             }
-                        }),
-                    }),
-                    champDeForce:new SchemaField({
-                        value:new NumberField({initial:0, min:0, nullable:false, integer:true}),
-                        base:new NumberField({initial:0, min:0, nullable:false, integer:true}),
-                        bonus:new ObjectField({
-                            initial:{
-                              user:0,
-                              system:0,
-                            }
-                        }),
-                        malus:new ObjectField({
-                            initial:{
-                              user:0,
-                              system:0,
-                            }
-                        }),
-                    }),
-                    energie:new SchemaField({
-                        base:new NumberField({initial:0, min:0, nullable:false, integer:true}),
-                        value:new NumberField({initial:0, min:0, nullable:false, integer:true}),
-                        bonus:new ObjectField({
-                            initial:{
-                              user:0,
-                              system:0,
-                            }
-                        }),
-                          malus:new ObjectField({
-                            initial:{
-                              user:0,
-                              system:0,
-                            }
-                        }),
-                    }),
-                }),
-                guardian:new SchemaField({
-                    armure:new SchemaField({
-                        value:new NumberField({initial:5, min:0, nullable:false, integer:true}),
-                        base:new NumberField({initial:5, min:0, nullable:false, integer:true}),
-                        bonus:new ObjectField({
-                            initial:{
-                              user:0,
-                            }
-                        }),
-                        malus:new ObjectField({
+                        }],
+                    }],
+                    champDeForce:["schema", {
+                        value:["num", {initial:5, min:0, nullable:false, integer:true}],
+                        base:["num", {initial:5, min:0, nullable:false, integer:true}],
+                        bonus:["obj", {
                             initial:{
                                 user:0,
+                                system:0,
                             }
-                        }),
-                    }),
-                    champDeForce:new SchemaField({
-                        value:new NumberField({initial:5, min:0, nullable:false, integer:true}),
-                        base:new NumberField({initial:5, min:0, nullable:false, integer:true}),
-                        bonus:new ObjectField({
-                            initial:{
-                              user:0,
-                            }
-                        }),
-                        malus:new ObjectField({
-                            initial:{
-                              user:0,
-                            }
-                        }),
-                    }),
-                    jauges:new SchemaField({
-                        armure:new BooleanField({initial:true, nullable:false}),
-                        champDeForce:new BooleanField({initial:true, nullable:false}),
-                        egide:new BooleanField({initial:false, nullable:false}),
-                        energie:new BooleanField({initial:false, nullable:false}),
-                        espoir:new BooleanField({initial:true, nullable:false}),
-                        heroisme:new BooleanField({initial:true, nullable:false}),
-                        sante:new BooleanField({initial:true, nullable:false}),
-                    }),
-                }),
-                tenueCivile:new SchemaField({
-                    jauges:new SchemaField({
-                        armure:new BooleanField({initial:false, nullable:false}),
-                        champDeForce:new BooleanField({initial:false, nullable:false}),
-                        egide:new BooleanField({initial:false, nullable:false}),
-                        energie:new BooleanField({initial:false, nullable:false}),
-                        espoir:new BooleanField({initial:true, nullable:false}),
-                        heroisme:new BooleanField({initial:true, nullable:false}),
-                        sante:new BooleanField({initial:true, nullable:false}),
-                    }),
-                }),
-                armure:new SchemaField({
-                    hasArmor:new BooleanField({initial:false}),
-                    hasArmorLegende:new BooleanField({initial:false}),
-                    id:new StringField({initial:"0", nullable:true}),
-                    idLegende:new StringField({initial:"0", nullable:true}),
-                    label:new StringField({initial:"", nullable:true}),
-                    armure:new SchemaField({
-                        value:new NumberField({initial:0, min:0, nullable:false, integer:true}),
-                        bonus:new ObjectField({
+                        }],
+                        malus:["obj", {
                             initial:{
                                 user:0,
+                                system:0,
                             }
-                        }),
-                        malus:new ObjectField({
+                        }],
+                    }],
+                    jauges:["schema", {
+                        armure:["bool", { initial: true, nullable:false}],
+                        champDeForce:["bool", { initial: true, nullable:false}],
+                        egide:["bool", { initial: false, nullable:false}],
+                        energie:["bool", { initial: false, nullable:false}],
+                        espoir:["bool", { initial: true, nullable:false}],
+                        heroisme:["bool", { initial: true, nullable:false}],
+                        sante:["bool", { initial: true, nullable:false}],
+                    }],
+                    energie:["schema", {
+                        value:["num", {initial:0, min:0, nullable:false, integer:true}],
+                        base:["num", {initial:0, min:0, nullable:false, integer:true}],
+                        bonus:["obj", {
                             initial:{
                                 user:0,
+                                system:0,
                             }
-                        }),
-                    }),
-                    champDeForce:new SchemaField({
-                        bonus:new ObjectField({
+                        }],
+                        malus:["obj", {
                             initial:{
-                              user:0,
-                              system:0,
+                                user:0,
+                                system:0,
                             }
-                        }),
-                        malus:new ObjectField({
+                        }],
+                    }],
+                }],
+                tenueCivile:["schema", {
+                    jauges:["schema", {
+                        armure:["bool", { initial: false, nullable:false}],
+                        champDeForce:["bool", { initial: false, nullable:false}],
+                        egide:["bool", { initial: false, nullable:false}],
+                        energie:["bool", { initial: false, nullable:false}],
+                        espoir:["bool", { initial: true, nullable:false}],
+                        heroisme:["bool", { initial: true, nullable:false}],
+                        sante:["bool", { initial: true, nullable:false}],
+                    }],
+                    energie:["schema", {
+                        value:["num", {initial:0, min:0, nullable:false, integer:true}],
+                        base:["num", {initial:0, min:0, nullable:false, integer:true}],
+                        bonus:["obj", {
                             initial:{
-                              user:0,
-                              system:0,
+                                user:0,
+                                system:0,
                             }
-                        }),
-                    }),
-                    energie:new SchemaField({
-                        value:new NumberField({initial:0, min:0, nullable:false, integer:true}),
-                        bonus:new ObjectField({
+                        }],
+                        malus:["obj", {
                             initial:{
-                              user:0,
+                                user:0,
+                                system:0,
                             }
-                        }),
-                          malus:new ObjectField({
-                            initial:{
-                              user:0,
-                            }
-                        }),
-                    }),
-                    slots:new SchemaField({
-                        brasDroit:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        brasGauche:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        jambeDroite:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        jambeGauche:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        tete:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        torse:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    }),
-                    capacites:new SchemaField({
-                        ascension:new SchemaField({
-                            id:new StringField({initial:"0", nullable:true}),
-                            energie:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        }),
-                        borealis:new SchemaField({
-                            allie:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        }),
-                        changeling:new SchemaField({
-                            fauxetres:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        }),
-                        companions:new SchemaField({
-                            type:new StringField({initial:"", nullable:true}),
-                            energie:new NumberField({ initial: 0, integer: true, nullable: false }),
-                            energieDisponible:new ArrayField(new NumberField()),
-                        }),
-                        forward:new NumberField({ initial: 1, integer: true, nullable: false }),
-                        goliath:new SchemaField({
-                            metre:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        }),
-                        morph:new SchemaField({
-                            nbre:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        }),
-                        puppet:new SchemaField({
-                            cible:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        }),
-                        rage:new SchemaField({
-                            niveau:new ObjectField(),
-                        }),
-                        totem:new SchemaField({
-                            nombre:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        }),
-                        vision:new SchemaField({
-                            energie:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        }),
-                        warlord:new SchemaField({
-                            energie:new SchemaField({
-                                nbre:new NumberField({ initial: 1, integer: true, nullable: false }),
-                            }),
-                            esquive:new SchemaField({
-                                nbre:new NumberField({ initial: 1, integer: true, nullable: false }),
-                            }),
-                            force:new SchemaField({
-                                nbre:new NumberField({ initial: 1, integer: true, nullable: false }),
-                            }),
-                            guerre:new SchemaField({
-                                nbre:new NumberField({ initial: 1, integer: true, nullable: false }),
-                            }),
-                        }),
-                    }),
-                    special:new SchemaField({
-                        contrecoups:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        flux:new NumberField({ initial: 1, integer: true, nullable: false }),
-                        impregnation:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    }),
-                }),
-            }),
-			art: new SchemaField({
-                oeuvres:new ObjectField(),
-            }),
-            combat:new SchemaField({
-                armesimprovisees:new EmbeddedDataField(ArmesImproviseesDataModel),
-                grenades:new EmbeddedDataField(GrenadesDataModel),
-                nods:new EmbeddedDataField(NodsDataModel),
-                style:new StringField({initial:"standard", nullable:false}),
-                styleInfo:new StringField({initial:""}),
-                data:new SchemaField({
-                    degatsbonus:new SchemaField({
-                        dice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    }),
-                    violencebonus:new SchemaField({
-                        dice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                        fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    }),
-                    modificateur:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    sacrifice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    succesbonus:new NumberField({ initial: 0, integer: true, nullable: false }),
-                    tourspasses:new NumberField({ initial: 1, integer: true, nullable: false }),
-                    type:new StringField({ initial: "degats"}),
-                }),
-            }),
-            combos:new SchemaField({
-                bonus:new SchemaField({
-                    aspects:new ObjectField(),
-                    caracteristiques:new ObjectField(),
-                }),
-                interdits:new SchemaField({
-                    aspects:new ObjectField(),
-                    caracteristiques:new ObjectField(),
-                }),
-            }),
-            contacts:new SchemaField({
-                actuel:new NumberField({ initial: 1, min:0, integer: true, nullable: false }),
-                value:new NumberField({ initial: 1, min:1, integer: true, nullable: false }),
-                mod:new NumberField({ initial: 0, integer: true, nullable: false }),
-                bonus:new ObjectField({
+                        }],
+                    }],
+                }],
+            }],
+            combat:["schema", {
+                style:["str", { initial: "standard", nullable:false}],
+                styleInfo:["str", { initial: "" }],
+            }],
+            combos:["schema", {
+                bonus:["schema", {
+                    aspects:["obj", {}],
+                    caracteristiques:["obj", {}],
+                }],
+                interdits:["schema", {
+                    aspects:["obj", {}],
+                    caracteristiques:["obj", {}],
+                }],
+            }],
+            contacts:["schema", {
+                actuel:["num", {initial:1, min:0, nullable:false, integer:true}],
+                value:["num", {initial:1, min:0, nullable:false, integer:true}],
+                mod:["num", {initial:0, nullable:false, integer:true}],
+                bonus:["obj", {
                     initial:{
-                      user:0,
-                      system:0,
+                        user:0,
+                        system:0,
                     }
-                }),
-            }),
-            heroisme:new SchemaField({
-                value:new NumberField({initial:0, nullable:false, integer:true}),
-                max:new NumberField({initial:0, nullable:false, integer:true}),
-            }),
-            jauges:new SchemaField({
-                armure:new BooleanField({initial:false, nullable:false}),
-                champDeForce:new BooleanField({initial:false, nullable:false}),
-                egide:new BooleanField({initial:false, nullable:false}),
-                energie:new BooleanField({initial:false, nullable:false}),
-                espoir:new BooleanField({initial:true, nullable:false}),
-                heroisme:new BooleanField({initial:true, nullable:false}),
-                sante:new BooleanField({initial:true, nullable:false}),
-                flux:new BooleanField({initial:true, nullable:false}),
-            }),
-            langues:new SchemaField({
-                value:new NumberField({initial:1, nullable:false, integer:true}),
-                mod:new NumberField({initial:0, nullable:false, integer:true}),
-                bonus:new ObjectField({
-                    initial:{
-                      user:0,
-                      system:0,
-                    }
-                }),
-            }),
-            motivations:new SchemaField({
-                majeure:new StringField({initial:"", nullable:false}),
-            }),
-            options:new SchemaField({
-                art:new BooleanField({initial:false, nullable:false}),
-                kraken:new BooleanField({initial:false, nullable:false}),
-                embuscadeSubis:new BooleanField({initial:false, nullable:false}),
-                embuscadePris:new BooleanField({initial:false, nullable:false}),
-            }),
-            progression:new SchemaField({
-                experience:new SchemaField({
-                    actuel:new NumberField({initial:0, nullable:false, integer:true}),
-                    total:new NumberField({initial:0, nullable:false, integer:true}),
-                    depense:new SchemaField({
-                        liste:new ObjectField(),
-                        total:new NumberField({initial:0, nullable:false, integer:true}),
-                    }),
-                }),
-                gloire:new SchemaField({
-                    actuel:new NumberField({initial:0, nullable:false, integer:true}),
-                    total:new NumberField({initial:0, nullable:false, integer:true}),
-                    depense:new SchemaField({
-                        autre:new ObjectField(),
-                        liste:new ObjectField(),
-                        total:new NumberField({initial:0, nullable:false, integer:true}),
-                    }),
-                }),
-            }),
-            bonusSiEmbuscade:new SchemaField({
-              bonusInitiative:new SchemaField({
-                dice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
-              }),
-            }),
-            restrictions:new ObjectField(),
+                }],
+            }],
+            heroisme:["schema", {
+                value:["num", {initial:0, nullable:false, integer:true}],
+                max:["num", {initial:0, nullable:false, integer:true}],
+            }],
+            jauges:["schema", {
+                armure:["bool", { initial: false, nullable:false}],
+                champDeForce:["bool", { initial: false, nullable:false}],
+                egide:["bool", { initial: false, nullable:false}],
+                energie:["bool", { initial: false, nullable:false}],
+                espoir:["bool", { initial: true, nullable:false}],
+                heroisme:["bool", { initial: true, nullable:false}],
+                sante:["bool", { initial: true, nullable:false}],
+                flux:["bool", { initial: true, nullable:false}],
+            }],
+            motivations:["schema", {
+                majeure:["str", { initial: "", nullable:false }],
+            }],
+            options:["schema", {
+                kraken:["bool", { initial: false, nullable:false}],
+            }],
+            progression:["schema", {
+                experience:["schema", {
+                    actuel:["num", {initial:0, nullable:false, integer:true}],
+                    total:["num", {initial:0, nullable:false, integer:true}],
+                    depense:["schema", {
+                        liste:["obj", {}],
+                        total:["num", {initial:0, nullable:false, integer:true}],
+                    }],
+                }],
+                gloire:["schema", {
+                    actuel:["num", {initial:0, nullable:false, integer:true}],
+                    total:["num", {initial:0, nullable:false, integer:true}],
+                    depense:["schema", {
+                        autre:["obj", {}],
+                        liste:["obj", {}],
+                        total:["num", {initial:0, nullable:false, integer:true}],
+                    }],
+                }],
+            }],
+            restrictions:["obj", {}],
         }
 
-        return foundry.utils.mergeObject(base, specific);
-    }
-
-    get armes() {
-        return this.items.filter(items => items.type === 'arme');
+        return combine(base, specific);
     }
 
     get blessures() {
@@ -456,34 +300,14 @@ export class KnightDataModel extends BaseActorDataModel {
         return this.items.filter(items => items.type === 'inconvenient');
     }
 
-    get modules() {
-        return this.items.filter(items => items.type === 'module');
-    }
-
-    get dataArmor() {
-        return this.items.find(items => items.type === 'armure');
-    }
-
     get capaciteUltime() {
         return this.items.find(items => items.type === 'capaciteultime');
     }
 
-    get dataArmorLegend() {
-        return this.items.find(items => items.type === 'armurelegende');
-    }
+    get eqpData() {
+        const wear = this.whatWear;
 
-    get armorISwear() {
-        const wear = this.dataArmor ? this.wear : 'tenueCivile';
-
-        return wear === 'armure' || wear === 'ascension' ? true : false;
-    }
-
-    get whatWear() {
-        let wear = this.wear;
-
-        if((wear === 'armure' || wear === 'ascension') && !this.dataArmor) wear = 'tenueCivile'
-
-        return wear;
+        return this?.equipements?.[wear] ?? this;
     }
 
     get isRemplaceEnergie() {
@@ -494,6 +318,14 @@ export class KnightDataModel extends BaseActorDataModel {
         }
 
         return result;
+    }
+
+    get energyValue() {
+        const wear = this.whatWear;
+
+        return this.isRemplaceEnergie ?
+            this?.espoir?.value ?? 0 :
+            this?.equipements?.[wear]?.energie?.value ?? 0;
     }
 
     static migrateData(source) {
@@ -567,8 +399,8 @@ export class KnightDataModel extends BaseActorDataModel {
         return super.migrateData(source);
     }
 
-    prepareBaseData() {
-        super.prepareBaseData();
+    _startPrepareData() {
+        super._startPrepareData();
 
         this.#checkArmor();
         this.#experience();
@@ -582,18 +414,65 @@ export class KnightDataModel extends BaseActorDataModel {
         this.#distinctions();
         this.#style();
         this.#gloire();
-	}
+    }
 
-	prepareDerivedData() {
+    _startPrepareDerivedData() {
+        super._startPrepareDerivedData();
+
         this.#setJauges();
         this.#modules();
         this.#avantages();
         this.#inconvenients();
-        this.aspects.prepareData();
         this.#derived();
         this.initiative.prepareData();
         this.#sanitizeValue();
-        this._setStatusImmunity();
+    }
+
+    _applyTranslation() {
+        super._applyTranslation();
+        const od = this.translationOD();
+
+        Object.defineProperty(this.actor, 'translations', {
+            value: foundry.utils.mergeObject(this.actor.translations, od),
+            writable:true,
+            enumerable:true,
+            configurable:true
+        });
+    }
+
+    translationOD() {
+        const aspects = this.aspects;
+        const result = {};
+
+        for (const [aspect, { caracteristiques }] of Object.entries(aspects)) {
+            for (const [caracteristique, caraData] of Object.entries(caracteristiques)) {
+                const value = caraData.overdrive.value;
+                const prefix = `KNIGHT.ASPECTS.${aspect.toUpperCase()}.CARACTERISTIQUES.${caracteristique.toUpperCase()}`;
+                const liste = {};
+
+                for (let i = 1; i <= value; i++) {
+                    const key = `${prefix}.OD${i}`;
+                    const translation = game.i18n.localize(key);
+
+                    if (translation === key) continue;
+
+                    liste[`OD${i}`] = {
+                        value: i,
+                        description: translation,
+                    };
+                }
+
+                if (Object.keys(liste).length > 0) {
+                    result[aspect] ??= {};
+                    result[aspect][caracteristique] = {
+                        titre: game.i18n.localize(`${prefix}.OD`),
+                        liste,
+                    };
+                }
+            }
+        }
+
+        return { overdrives: result };
     }
 
     #checkArmor() {
@@ -614,6 +493,7 @@ export class KnightDataModel extends BaseActorDataModel {
 
     #setJauges() {
         const wear = this.whatWear;
+        const cyberware = this.items.filter(items => items.type === 'cyberware' && (items.system.categorie === 'utilitaire' || items.system.categorie === 'combat'));
         let armure = this.jauges.armure || false;
         let champDeForce = this.jauges.champDeForce || false;
         let egide = game.settings.get("knight", "acces-egide") || false;
@@ -655,6 +535,8 @@ export class KnightDataModel extends BaseActorDataModel {
                 flux = false;
                 break;
         }
+
+        if(cyberware.length > 0) energie = true;
 
         Object.defineProperty(this.jauges, 'armure', {
             value: armure,
@@ -962,102 +844,136 @@ export class KnightDataModel extends BaseActorDataModel {
             let malus;
             let base;
             let mod;
+            let override;
 
             switch(aspect) {
                 case 'chair':
-                    bonus = Object.values(this.sante.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-                    malus = Object.values(this.sante.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-                    base = 0;
-                    mod = 0;
+                    override = Object.values(this.sante?.override ?? {}).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
 
-                    if(this.options.kraken) base = 8;
-                    else base = 6;
+                    if(!override) {
+                        bonus = Object.values(this.sante.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+                        malus = Object.values(this.sante.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+                        base = 0;
+                        mod = 0;
 
-                    Object.defineProperty(this.sante, 'base', {
-                        value: (base*maxCaracWOD)+10,
-                    });
+                        if(this.options.kraken) base = 8;
+                        else base = 6;
 
-                    mod += bonus-malus;
+                        Object.defineProperty(this.sante, 'base', {
+                            value: (base*maxCaracWOD)+10,
+                        });
 
-                    if(this.armorISwear && this.aspects.chair.caracteristiques.endurance.overdrive.value >= 3) mod += 6;
+                        mod += bonus-malus;
 
-                    if(this.capaciteUltime && this.armorISwear) {
-                        if(this.capaciteUltime.type === 'passive' && this.capaciteUltime.passive.sante) mod += Math.floor((this.sante.base+mod)/2);
+                        if(this.armorISwear && this.aspects.chair.caracteristiques.endurance.overdrive.value >= 3) mod += 6;
+
+                        if(this.capaciteUltime && this.armorISwear) {
+                            if(this.capaciteUltime.type === 'passive' && this.capaciteUltime.passive.sante) mod += Math.floor((this.sante.base+mod)/2);
+                        }
+
+                        Object.defineProperty(this.sante, 'mod', {
+                            value: mod,
+                        });
+
+                        Object.defineProperty(this.sante, 'max', {
+                            value: this.sante.base+this.sante.mod,
+                        });
+                    } else {
+                        Object.defineProperty(this.sante, 'max', {
+                            value: override,
+                        });
                     }
 
-                    Object.defineProperty(this.sante, 'mod', {
-                        value: mod,
-                    });
-
-                    Object.defineProperty(this.sante, 'max', {
-                        value: this.sante.base+this.sante.mod,
-                    });
                     break;
 
                 case 'bete':
                     // DEFENSE
-                    base = maxCarac;
-                    base += this.options.kraken ? 1 : 0;
-                    bonus = Object.values(this.defense.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-                    malus = Object.values(this.defense.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+                    const defenseOverride = Object.values(this.defense.override).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
-                    Object.defineProperty(this.defense, 'base', {
-                        value: base,
-                    });
+                    if(!defenseOverride) {
+                        base = maxCarac;
+                        base += this.options.kraken ? 1 : 0;
+                        bonus = Object.values(this.defense.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+                        malus = Object.values(this.defense.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
-                    if(this.armorISwear && this.aspects.dame.caracteristiques.aura.overdrive.value >= 5) bonus += this.aspects.dame.caracteristiques.aura.value;
+                        Object.defineProperty(this.defense, 'base', {
+                            value: base,
+                        });
 
-                    Object.defineProperty(this.defense, 'mod', {
-                        value: bonus-malus,
-                    });
+                        if(this.armorISwear && this.aspects.dame.caracteristiques.aura.overdrive.value >= 5) bonus += this.aspects.dame.caracteristiques.aura.value;
 
-                    Object.defineProperty(this.defense, 'value', {
-                        value: Math.max(this.defense.base+this.defense.mod, 0),
-                    });
+                        Object.defineProperty(this.defense, 'mod', {
+                            value: bonus-malus,
+                        });
 
-                    Object.defineProperty(this.defense, 'valueWOMod', {
-                        value: this.defense.base + bonus,
-                    });
+                        Object.defineProperty(this.defense, 'value', {
+                            value: Math.max(this.defense.base+this.defense.mod, 0),
+                        });
 
-                    Object.defineProperty(this.defense, 'malustotal', {
-                        value: malus,
-                    });
+                        Object.defineProperty(this.defense, 'valueWOMod', {
+                            value: this.defense.base + bonus,
+                        });
 
+                        Object.defineProperty(this.defense, 'malustotal', {
+                            value: malus,
+                        });
+                    } else {
+                        Object.defineProperty(this.defense, 'value', {
+                            value: defenseOverride,
+                        });
+
+                        Object.defineProperty(this.defense, 'valueWOMod', {
+                            value: defenseOverride,
+                        });
+                    }
                     break;
 
                 case 'machine':
                     // REACTION
-                    let isWatchtower = false;
-                    if(this.dataArmor) isWatchtower = this.dataArmor?.system?.capacites?.selected?.watchtower?.active ?? false;
+                    const reactionOverride = Object.values(this.reaction.override).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
-                    base = maxCarac;
-                    base += this.options.kraken ? 1 : 0;
-                    bonus = Object.values(this.reaction.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-                    malus = Object.values(this.reaction.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+                    if(!reactionOverride) {
+                        let isWatchtower = false;
+                        if(this.dataArmor) isWatchtower = this.dataArmor?.system?.capacites?.selected?.watchtower?.active ?? false;
 
-                    Object.defineProperty(this.reaction, 'base', {
-                        value: base,
-                    });
+                        base = maxCarac;
+                        base += this.options.kraken ? 1 : 0;
+                        bonus = Object.values(this.reaction.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+                        malus = Object.values(this.reaction.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
-                    Object.defineProperty(this.reaction, 'mod', {
-                        value: bonus-malus,
-                    });
+                        Object.defineProperty(this.reaction, 'base', {
+                            value: base,
+                        });
 
-                    Object.defineProperty(this.reaction, 'value', {
-                        value: isWatchtower ? Math.floor((this.reaction.base+this.reaction.mod)/2) : Math.max(this.reaction.base+this.reaction.mod, 0),
-                    });
+                        Object.defineProperty(this.reaction, 'mod', {
+                            value: bonus-malus,
+                        });
 
-                    Object.defineProperty(this.reaction, 'valueWOMod', {
-                        value: this.reaction.base + bonus,
-                    });
+                        Object.defineProperty(this.reaction, 'value', {
+                            value: isWatchtower ? Math.floor((this.reaction.base+this.reaction.mod)/2) : Math.max(this.reaction.base+this.reaction.mod, 0),
+                        });
 
-                    Object.defineProperty(this.reaction, 'malustotal', {
-                        value: malus,
-                    });
+                        Object.defineProperty(this.reaction, 'valueWOMod', {
+                            value: this.reaction.base + bonus,
+                        });
 
-                    Object.defineProperty(this.reaction, 'iswatchtower', {
-                        value: isWatchtower,
-                    });
+                        Object.defineProperty(this.reaction, 'malustotal', {
+                            value: malus,
+                        });
+
+                        Object.defineProperty(this.reaction, 'iswatchtower', {
+                            value: isWatchtower,
+                        });
+                    } else {
+
+                        Object.defineProperty(this.reaction, 'value', {
+                            value: reactionOverride,
+                        });
+
+                        Object.defineProperty(this.reaction, 'valueWOMod', {
+                            value: reactionOverride,
+                        });
+                    }
                     break;
 
                 case 'dame':
@@ -1133,32 +1049,55 @@ export class KnightDataModel extends BaseActorDataModel {
         });
 
         // ENERGIE
+        const energieOverride = Object.values(this.energie?.override ?? {}).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
+
+        const energieBaseBonus = Object.values(this.energie?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+        const energieBaseMalus = Object.values(this.energie?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
         const energieBonus = Object.values(this.equipements[wear]?.energie?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
         const energieMalus = Object.values(this.equipements[wear]?.energie?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
-        Object.defineProperty(this.energie, 'mod', {
-            value: energieBonus-energieMalus,
-        });
+        if(!energieOverride) {
+            Object.defineProperty(this.energie, 'mod', {
+                value: (energieBonus + energieBaseBonus)-(energieBaseMalus + energieMalus),
+            });
 
-        Object.defineProperty(this.energie, 'max', {
-            value: this.energie.base+this.energie.mod,
-        });
+            Object.defineProperty(this.energie, 'max', {
+                value: this.energie.base+this.energie.mod,
+            });
+        } else {
+            Object.defineProperty(this.energie, 'max', {
+                value: energieOverride,
+            });
+        }
 
         Object.defineProperty(this.energie, 'value', {
             value: Math.min(this.equipements[this.wear]?.energie?.value ?? 0, this.energie.max),
         });
 
         // CHAMP DE FORCE
-        const CDFBonus = Object.values(this.equipements[wear]?.champDeForce?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-        const CDFMalus = Object.values(this.equipements[wear]?.champDeForce?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+        const CDFOverride = Object.values(this.champDeForce?.override ?? {}).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
 
-        Object.defineProperty(this.champDeForce, 'mod', {
-            value: CDFBonus-CDFMalus,
-        });
+        if(!CDFOverride) {
+            const CDFBaseBonus = Object.values(this.champDeForce?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+            const CDFBaseMalus = Object.values(this.champDeForce?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
-        Object.defineProperty(this.champDeForce, 'value', {
-            value: Math.max(this.champDeForce.base+this.champDeForce.mod, 0),
-        });
+            const CDFBonus = Object.values(this.equipements[wear]?.champDeForce?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+            const CDFMalus = Object.values(this.equipements[wear]?.champDeForce?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
+
+            Object.defineProperty(this.champDeForce, 'mod', {
+                value: (CDFBonus + CDFBaseBonus)-(CDFMalus + CDFBaseMalus),
+            });
+
+            Object.defineProperty(this.champDeForce, 'value', {
+                value: Math.max(this.champDeForce.base+this.champDeForce.mod, 0),
+            });
+        } else {
+            Object.defineProperty(this.champDeForce, 'value', {
+                value: CDFOverride,
+            });
+        }
 
         // ESPOIR
         let espoirBase = 50;
@@ -2551,28 +2490,20 @@ export class KnightDataModel extends BaseActorDataModel {
 
     #sanitizeValue() {
         const wear = this.whatWear;
-        const listArmor = ['energie', 'armure'];
-        const listSTD = ['espoir'];
+        const list = ['energie', 'armure', 'sante', 'espoir'];
 
-        for(let l of listArmor) {
-            if(!this.equipements[wear]?.[l]) continue;
+        for(let l of list) {
+            if(!this.jauges) continue;
 
-            const value = this.equipements[wear][l].value;
+            const eqp = this?.equipements?.[wear]?.[l] ?? this?.[l];
+
+            if(!eqp) continue;
+
+            const value = eqp?.value ?? eqp?.value;
             const max = this[l].max;
 
             if(value > max) {
-                Object.defineProperty(this.equipements[wear][l], 'value', {
-                    value: max,
-                });
-            }
-        }
-
-        for(let l of listSTD) {
-            const value = this[l].value;
-            const max = this[l].max;
-
-            if(value > max) {
-                Object.defineProperty(this[l], 'value', {
+                Object.defineProperty(eqp, 'value', {
                     value: max,
                 });
             }
@@ -2681,48 +2612,6 @@ export class KnightDataModel extends BaseActorDataModel {
         }
     }
 
-    useGrenade(type) {
-        const nbreGrenade = this.combat?.grenades?.quantity?.value ?? 0;
-
-        if(nbreGrenade === 0) {
-            ui.notifications.warn(game.i18n.localize(`KNIGHT.AUTRE.NoGrenades`));
-            return;
-        }
-
-        const dataGrenade = this.combat.grenades.liste[type];
-        const wpn = `grenade_${type}`;
-        const label = dataGrenade.custom ? `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${dataGrenade.label}` : `${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.Singulier`)} ${game.i18n.localize(`KNIGHT.COMBAT.GRENADES.${type.charAt(0).toUpperCase()+type.substr(1)}`)}`;
-        const modificateur = this.rollWpnDistanceMod;
-        const actor = this.actorId;
-
-        const dialog = new game.knight.applications.KnightRollDialog(actor, {
-            label,
-            wpn,
-            modificateur
-        });
-
-        dialog.open();
-
-        return dialog;
-    }
-
-    useLongbow() {
-        const label = game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.LONGBOW.Label`);
-        const wpn = `capacite_${this.dataArmor.id}_longbow`;
-        const actor = this.actorId;
-        const modificateur = this.rollWpnDistanceMod;
-
-        const dialog = new game.knight.applications.KnightRollDialog(actor, {
-          label,
-          wpn,
-          modificateur
-        });
-
-        dialog.open();
-
-        return dialog;
-    }
-
     useAI(type, name, num) {
         const label = game.i18n.localize(CONFIG.KNIGHT.armesimprovisees[name][num]);
         const wpn = type === 'distance' ? `${name}${num}d` : `${name}${num}c`;
@@ -2751,14 +2640,6 @@ export class KnightDataModel extends BaseActorDataModel {
         dialog.open();
 
         return dialog;
-    }
-
-    _getWeaponHandlers() {
-        return {
-          armesimprovisees: ({ type, name, num }) => this.useAI(type, name, num),
-          grenades: ({ type }) => this.useGrenade(type),
-          longbow: () => this.useLongbow(),
-        };
     }
 
     async askToRestore(type) {
@@ -2805,7 +2686,7 @@ export class KnightDataModel extends BaseActorDataModel {
 
           case 'chargeur':
             if(!await confirmationDialog('restoration', `Confirmation${type.charAt(0).toUpperCase() + type.slice(1)}`)) return;
-            const items = this.actor.items.filter(itm => itm.type === 'arme' || itm.type === 'module' || itm.type === 'armure');
+            const items = this.actor.items.filter(itm => itm.type === 'arme' || itm.type === 'module' || itm.type === 'armure' || itm.type === 'cyberware');
 
             items.forEach(itm => {
               itm.system.resetMunition();
@@ -2831,18 +2712,6 @@ export class KnightDataModel extends BaseActorDataModel {
               text:game.i18n.localize(`KNIGHT.RECUPERER.MSG.${capitalizeFirstLetter(type)}`),
               sounds:CONFIG.sounds.notification,
           });
-    }
-
-    givePE(energy, autoApply=true) {
-        const wear = this.whatWear;
-        let path = this.isRemplaceEnergie ? `system.espoir.value` : `system.equipements.${wear}.energie.value`;
-        let value = this.isRemplaceEnergie ? this.energie.value : this.espoir.value;
-        let update = {}
-
-        update[path] = `${value+energy}`;
-
-        if(autoApply) this.actor.update(energy);
-        else return update;
     }
 
     applyFlatEffectBonus(name, flatEffect) {

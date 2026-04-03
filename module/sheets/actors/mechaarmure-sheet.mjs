@@ -321,7 +321,7 @@ export class MechaArmureSheet extends ActorSheet {
       'motivationMineure', 'contact',
       'blessure', 'trauma', 'contact', 'arme',
       'langue', 'armurelegende', 'effet', 'distinction',
-      'capaciteultime'];
+      'capaciteultime', 'cyberware'];
     if (ignoredTypes.includes(itemBaseType)) return;
     if (itemBaseType === 'module' && !options.modules) return;
 
