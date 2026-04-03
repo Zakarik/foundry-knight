@@ -1967,3 +1967,63 @@ KNIGHT.TOOLS = {
       onChange:(event, active) => {},
   }
 };
+
+KNIGHT.EFFECTS = {
+  SIMPLE: {
+    '':'',
+    'system.sante':'KNIGHT.LATERAL.Sante',
+    'system.champDeForce':'KNIGHT.LISTEFFECTS.ChampDeForce',
+    'system.energie':'KNIGHT.LISTEFFECTS.Energie',
+    'system.reaction':'KNIGHT.LISTEFFECTS.Reaction',
+    'system.defense':'KNIGHT.LISTEFFECTS.Defense',
+    'system.aspects.bete':'KNIGHT.LISTEFFECTS.Bete',
+    'system.aspects.bete.caracteristiques.combat':'KNIGHT.LISTEFFECTS.Combat',
+    'system.aspects.bete.caracteristiques.hargne':'KNIGHT.LISTEFFECTS.Hargne',
+    'system.aspects.bete.caracteristiques.instinct':'KNIGHT.LISTEFFECTS.Instinct',
+    'system.aspects.bete.caracteristiques.combat.overdrive':'KNIGHT.LISTEFFECTS.CombatOD',
+    'system.aspects.bete.caracteristiques.hargne.overdrive':'KNIGHT.LISTEFFECTS.HargneOD',
+    'system.aspects.bete.caracteristiques.instinct.overdrive':'KNIGHT.LISTEFFECTS.InstinctOD',
+    'system.aspects.chair':'KNIGHT.LISTEFFECTS.Chair',
+    'system.aspects.chair.caracteristiques.deplacement':'KNIGHT.LISTEFFECTS.Deplacement',
+    'system.aspects.chair.caracteristiques.force':'KNIGHT.LISTEFFECTS.Force',
+    'system.aspects.chair.caracteristiques.endurance':'KNIGHT.LISTEFFECTS.Endurance',
+    'system.aspects.bete.caracteristiques.deplacement.overdrive':'KNIGHT.LISTEFFECTS.DeplacementOD',
+    'system.aspects.bete.caracteristiques.force.overdrive':'KNIGHT.LISTEFFECTS.ForceOD',
+    'system.aspects.bete.caracteristiques.endurance.overdrive':'KNIGHT.LISTEFFECTS.EnduranceOD',
+    'system.aspects.machine':'KNIGHT.LISTEFFECTS.Machine',
+    'system.aspects.machine.caracteristiques.tir':'KNIGHT.LISTEFFECTS.Tir',
+    'system.aspects.machine.caracteristiques.savoir':'KNIGHT.LISTEFFECTS.Savoir',
+    'system.aspects.machine.caracteristiques.technique':'KNIGHT.LISTEFFECTS.Technique',
+    'system.aspects.bete.caracteristiques.tir.overdrive':'KNIGHT.LISTEFFECTS.TirOD',
+    'system.aspects.bete.caracteristiques.savoir.overdrive':'KNIGHT.LISTEFFECTS.SavoirOD',
+    'system.aspects.bete.caracteristiques.technique.overdrive':'KNIGHT.LISTEFFECTS.TechniqueOD',
+    'system.aspects.dame':'KNIGHT.LISTEFFECTS.Dame',
+    'system.aspects.dame.caracteristiques.aura':'KNIGHT.LISTEFFECTS.Aura',
+    'system.aspects.dame.caracteristiques.parole':'KNIGHT.LISTEFFECTS.Parole',
+    'system.aspects.dame.caracteristiques.sangFroid':'KNIGHT.LISTEFFECTS.Sangfroid',
+    'system.aspects.bete.caracteristiques.aura.overdrive':'KNIGHT.LISTEFFECTS.AuraOD',
+    'system.aspects.bete.caracteristiques.parole.overdrive':'KNIGHT.LISTEFFECTS.ParoleOD',
+    'system.aspects.bete.caracteristiques.sangFroid.overdrive':'KNIGHT.LISTEFFECTS.SangfroidOD',
+    'system.aspects.masque':'KNIGHT.LISTEFFECTS.Masque',
+    'system.aspects.masque.caracteristiques.discretion':'KNIGHT.LISTEFFECTS.Discretion',
+    'system.aspects.masque.caracteristiques.dexterite':'KNIGHT.LISTEFFECTS.Dexterite',
+    'system.aspects.masque.caracteristiques.perception':'KNIGHT.LISTEFFECTS.Perception',
+    'system.aspects.bete.caracteristiques.discretion.overdrive':'KNIGHT.LISTEFFECTS.DiscretionOD',
+    'system.aspects.bete.caracteristiques.dexterite.overdrive':'KNIGHT.LISTEFFECTS.DexteriteOD',
+    'system.aspects.bete.caracteristiques.perception.overdrive':'KNIGHT.LISTEFFECTS.PerceptionOD',
+  },
+  TYPE:{
+    'add':'KNIGHT.AUTRE.Ajouter',
+    'decrease':'KNIGHT.AUTRE.Diminuer',
+    'override':'KNIGHT.AUTRE.Surcharger'
+  }
+}
+
+KNIGHT.RECUPERATION = {
+  TYPE:{
+    '':'',
+    'armure':'KNIGHT.LATERAL.Armure',
+    'sante':'KNIGHT.LATERAL.Sante',
+    'espoir':'KNIGHT.LATERAL.Espoir'
+  }
+}

@@ -1,9 +1,7 @@
 
-import { BaseActorDataModel } from "../base/base-actor-data-model.mjs";
+import BaseActorDataModel from "../base/base-actor-data-model.mjs";
 import { AspectsPCDataModel } from '../parts/aspects-pc-data-model.mjs';
 import { DefensesDataModel } from '../parts/defenses-data-model.mjs';
-import { ArmesImproviseesDataModel } from '../parts/armesimprovisees-data-model.mjs';
-import { InitiativeDataModel } from '../parts/initiative-data-model.mjs';
 import { SOCKET } from '../../../utils/socketHandler.mjs';
 import {
   spawnTokenRightOfActor,
@@ -22,8 +20,6 @@ export class MechaArmureDataModel extends BaseActorDataModel {
       senseurs:new EmbeddedDataField(DefensesDataModel),
       systemes:new EmbeddedDataField(DefensesDataModel),
       aspects:new EmbeddedDataField(AspectsPCDataModel),
-      defense:new EmbeddedDataField(DefensesDataModel),
-      reaction:new EmbeddedDataField(DefensesDataModel),
       champDeForce:new SchemaField({
         base:new NumberField({ initial: 0, integer: true, nullable: false }),
         value:new NumberField({ initial: 0, integer: true, nullable: false }),
@@ -35,7 +31,6 @@ export class MechaArmureDataModel extends BaseActorDataModel {
           user:0,
         }}),
       }),
-      initiative:new EmbeddedDataField(InitiativeDataModel),
       resilience:new SchemaField({
         value:new NumberField({ initial: 0, integer: true, nullable: false }),
         max:new NumberField({ initial: 0, integer: true, nullable: false }),
@@ -51,10 +46,6 @@ export class MechaArmureDataModel extends BaseActorDataModel {
       blindage:new SchemaField({
         value:new NumberField({ initial: 0, integer: true, nullable: false }),
         max:new NumberField({ initial: 0, integer: true, nullable: false }),
-      }),
-      energie:new SchemaField({
-        value:new NumberField({ initial: 100, integer: true, nullable: false }),
-        max:new NumberField({ initial: 100, integer: true, nullable: false }),
       }),
       configurations:new SchemaField({
         actuel:new StringField({initial:'c1'}),
@@ -463,26 +454,9 @@ export class MechaArmureDataModel extends BaseActorDataModel {
         }),
       }),
       combat:new SchemaField({
-        armesimprovisees:new EmbeddedDataField(ArmesImproviseesDataModel),
         style:new StringField({initial:"standard", nullable:false}),
         styleInfo:new StringField({initial:""}),
-        data:new SchemaField({
-            degatsbonus:new SchemaField({
-                dice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
-            }),
-            violencebonus:new SchemaField({
-                dice:new NumberField({ initial: 0, integer: true, nullable: false }),
-                fixe:new NumberField({ initial: 0, integer: true, nullable: false }),
-            }),
-            modificateur:new NumberField({ initial: 0, integer: true, nullable: false }),
-            sacrifice:new NumberField({ initial: 0, integer: true, nullable: false }),
-            succesbonus:new NumberField({ initial: 0, integer: true, nullable: false }),
-            tourspasses:new NumberField({ initial: 1, integer: true, nullable: false }),
-            type:new StringField({ initial: "degats"}),
-        }),
       }),
-      otherMods:new ObjectField(),
     }
 
     return foundry.utils.mergeObject(base, specific);
@@ -544,21 +518,21 @@ export class MechaArmureDataModel extends BaseActorDataModel {
     return piloteData;
   }
 
-  prepareBaseData() {
-    super.prepareBaseData();
+  _startPrepareData() {
+    super._startPrepareData();
 
     this.#modules();
-	}
+  }
 
-	prepareDerivedData() {
+  _startPrepareDerivedData() {
+    super._startPrepareDerivedData();
+
     this.#handlePilote();
     this.#derived();
 
     Object.defineProperty(this.initiative, 'complet', {
       value: `${this.initiative.dice}D6+${this.initiative.value}`,
     });
-
-    this._setStatusImmunity();
   }
 
   #handlePilote() {

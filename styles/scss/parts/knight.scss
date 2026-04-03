@@ -727,6 +727,7 @@
 
       div.personnage {
         @include header();
+        @import "parts/cyberware";
 
         div.motivations {
           display:flex;

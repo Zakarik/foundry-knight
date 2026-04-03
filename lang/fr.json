@@ -26,7 +26,8 @@
     "TypeEffet":"Effet d'arme personnalisé",
     "TypeArt":"Art",
     "TypeDistinction":"Distinction",
-    "TypeCapaciteultime":"Capacité Ultime"
+    "TypeCapaciteultime":"Capacité Ultime",
+    "TypeCyberware":"Cyberware"
   },
   "TYPES":{
     "Actor":{
@@ -56,7 +57,8 @@
       "effet":"Effet d'arme personnalisé",
       "art":"Art",
       "distinction":"Distinction",
-      "capaciteultime":"Capacité Ultime"
+      "capaciteultime":"Capacité Ultime",
+      "cyberware":"Cyberware"
     }
   },
   "KNIGHT": {
@@ -604,6 +606,44 @@
           "2":"Yacht de 20 mètres, blindé, mécha-armure, etc."
         }
       }
+    },
+    "CYBERWARE":{
+      "Label":"Cyberware",
+      "CATEGORIE":{
+        "Label":"Catégorie",
+        "Medical":"Implant médical",
+        "Cosmetique":"Implant cosmétique",
+        "Utilitaire":"Implant utilitaire",
+        "Combat":"Implant de combat"
+      },
+      "MENU":{
+        "Arme":"Arme",
+        "Soin":"Soin",
+        "Effects":"Effets",
+        "Recuperation":"Récupération",
+        "Degats":"Bonus aux dégâts",
+        "Violence":"Bonus à la violence"
+      },
+      "MENULEFT":{
+        "Activation":"Doit être activé ?",
+        "Optimisation":"Optimisation ?",
+        "Arme":"Est une arme ?",
+        "Soin":"Soigne une blessure grave ?",
+        "Effects":"Possède des effets supplémentaires ?",
+        "Dharmatech":"DharmaTech Solutions",
+        "Recuperation":"Fait récupérer quelque chose ?",
+        "Degats":"Bonus aux dégâts",
+        "Violence":"Bonus à la violence"
+      },
+      "Marque":"Marque",
+      "Autre":"Autres effets",
+      "Ajouter":"Ajouter un modificateur",
+      "Modificateurs":"Modificateurs",
+      "BlessureSoignee":"Blessure soignée",
+      "Recuperation":"{name} : Récupération ({type})",
+      "RecuperationLimite":"Limite d'utilisation de la récupération",
+      "Utiliser":"Utiliser",
+      "AvecMetaArmure":"Utilisable avec Méta-armure"
     },
     "HISTORIQUE": {
       "Label": "Historique",
@@ -2378,6 +2418,7 @@
       "Notenergie":"Pas assez d'énergie",
       "Notflux":"Pas assez de flux",
       "Notespoir":"Pas assez d'espoir",
+      "Notcharge":"Pas assez de charge",
       "Depenseenergie":"Dépense d'énergie",
       "Depenseespoir":"Dépense d'espoir",
       "ODTir3" : "OD Tir 3 inclus",
@@ -2473,6 +2514,7 @@
       }
     },
     "AUTRE": {
+      "Type":"Type",
       "Inconscient":"Inconscient pour {time}",
       "RecuperationEnergie":"Récupération de PE",
       "Heure":"heure",
@@ -2488,6 +2530,8 @@
       "Mineur": "Mineur",
       "Majeur": "Majeur",
       "Ajouter":"Ajouter",
+      "Diminuer":"Diminuer",
+      "Surcharger":"Remplacer",
       "Supprimer": "Supprimer",
       "Supprime": "Supprimé",
       "NoSupprime": "Pas supprimé",
@@ -2551,7 +2595,11 @@
       "Difficulte":"Difficulté",
       "MJOnly":"MJ Uniquement",
       "NoGrenades":"Vous n'avez plus de grenades.",
-      "Activation":"Voulez-vous activer {effect} ?"
+      "Activation":"Voulez-vous activer {effect} ?",
+      "EditItem":"Editer l'objet",
+      "DeleteItem":"Supprimer l'objet",
+      "Quantite":"Quantité",
+      "GlisserDeposerWpn":"Vous pouvez glisser - déposer une arme pour ajouter ses statistiques et effets automatiquement."
     },
     "PHASE2":{
       "Label":"Phase 2",
@@ -2616,6 +2664,7 @@
       "Label": "Activation",
       "Desactivation":"Désactivation",
       "Aucune": "Aucune",
+      "Gratuite":"Action gratuite",
       "Instantanee": "Instantanée",
       "Deplacement": "Action de déplacement",
       "Deplacement3Sec": "Action de déplacement / 3 secondes",
@@ -2724,6 +2773,11 @@
     },
     "SETTINGS":{
       "Default":"Défaut",
+      "KJS":{
+        "Importer":"Importer",
+        "Import":"Import du Patreon",
+        "ImportHint":"Connecter votre compte Knight JDR Système, afin de pouvoir importer les ressources privées accessibles aux membres du Patreon. Il vous faut avoir rentrer votre code d'accrédition sur Knight JDR System."
+      },
       "ARMURES":{
         "Egide":"Accès à l'Egide",
         "2038": "Capacités des armures de 2038",
@@ -3020,16 +3074,64 @@
       "Ai":"Avantages & Inconvénients",
       "Distinctions":"Distinctions",
       "Cartes":"Cartes d'héroïsme",
-      "Capacites":"Capacités héroïques"
+      "Capacites":"Capacités héroïques",
+      "Cyberware":"Cyberware"
     },
     "IMPORT":{
       "Label":"Import depuis KNPC Generator",
+      "LabelKJDRS":"Import depuis Knight JDR System",
       "Error":"Erreur d'importation, vérifiez le texte et réessayez.",
       "Importer":"Importer le ou les créatures",
       "ImporterArme":"Importer l'arme",
       "Longbow":"Fusil de précision polymorphe polycalibre Longbow",
       "Adl":"Import de l'Arsenal de Légende",
-      "Adl-hint":"Permet d'importer une nouvelle arme de l'Arsenal de légende, ou d'en mettre à jour une."
+      "Adl-hint":"Permet d'importer une nouvelle arme de l'Arsenal de légende, ou d'en mettre à jour une.",
+      "Notification-import":"Import de {import}",
+      "Notification-fin-import":"Import de {import} terminé",
+      "Notification-import-not-found":"{equipement} non trouvé dans les compendiums, il faudra paramétrer manuellement {cyberware}",
+      "Notification-import-error":"Erreur d'importation de {name}, vous devrez régler une partie de ses paramètres à la main"
+    },
+    "LISTEFFECTS":{
+      "Sante":"Santé",
+      "ChampDeForce":"Champ de force",
+      "Energie":"Energie",
+      "Reaction":"Réaction",
+      "Defense":"Défense",
+      "Bete":"Bete",
+      "Chair":"Chair",
+      "Machine":"Machine",
+      "Masque":"Masque",
+      "Dame":"Dame",
+      "Combat":"Bête : Combat",
+      "Hargne":"Bête : Hargne",
+      "Instinct":"Bête : Instinct",
+      "Deplacement":"Chair : Déplacement",
+      "Force":"Chair : Force",
+      "Endurance":"Chair : Endurance",
+      "Aura":"Dame : Aura",
+      "Parole":"Dame : Parole",
+      "Sangfroid":"Dame : Sang-froid",
+      "Tir":"Machine : Tir",
+      "Savoir":"Machine : Savoir",
+      "Technique":"Machine : Technique",
+      "Discretion":"Masque : Discretion",
+      "Dexterite":"Masque : Dextérité",
+      "Perception":"Masque : Perception",
+      "CombatOD":"Bête : Overdrive de Combat",
+      "HargneOD":"Bête : Overdrive de Hargne",
+      "InstinctOD":"Bête : Overdrive de Instinct",
+      "DeplacementOD":"Chair : Overdrive de Déplacement",
+      "ForceOD":"Chair : Overdrive de Force",
+      "EnduranceOD":"Chair : Overdrive d'Endurance",
+      "AuraOD":"Dame : Overdrive d'Aura",
+      "ParoleOD":"Dame : Overdrive de Parole",
+      "SangfroidOD":"Dame : Overdrive de Sang-froid",
+      "TirOD":"Machine : Overdrive de Tir",
+      "SavoirOD":"Machine : Overdrive de Savoir",
+      "TechniqueOD":"Machine : Overdrive de Technique",
+      "DiscretionOD":"Masque : Overdrive de Discretion",
+      "DexteriteOD":"Masque : Overdrive de Dextérité",
+      "PerceptionOD":"Masque : Overdrive de Perception"
     }
   }
 }

@@ -246,7 +246,7 @@ export class ArmureLegendeAPI {
 
       switch(capacite) {
         case 'ascension': {
-          result = data.active;
+          result = data?.active;
           break;
         }
 

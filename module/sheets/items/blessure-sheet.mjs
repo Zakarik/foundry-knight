@@ -49,8 +49,19 @@ export class BlessureSheet extends ItemSheet {
       let result = false;
 
       if(!actuel) { result = true; }
+      let update = {};
 
-      this.item.update({[`system.soigne.${type}`]:result});
+      if(type === 'implant' && !result) {
+        this.item.system.removeCyberware();
+        update['name'] = this.item.name.replace(` (${game.i18n.localize("KNIGHT.AUTRE.Soigne")})`, "");
+      }
+      else if(!result) update['name'] = this.item.name.replace(` (${game.i18n.localize("KNIGHT.AUTRE.Soigne")})`, "");
+      else if(result) update['name'] = `${this.item.name} (${game.i18n.localize("KNIGHT.AUTRE.Soigne")})`;
+
+      update[`system.soigne.${type}`] = result;
+
+
+      this.item.update(update);
     });
   }
 }

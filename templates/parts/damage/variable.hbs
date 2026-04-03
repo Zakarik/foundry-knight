@@ -1,0 +1,20 @@
+<div class="twoCol label borderBottom">
+    <span>{{localize "KNIGHT.AUTRE.Minimum"}}</span>
+</div>
+<div class="twoCol score borderBottom">
+    <input type="number" name="{{data.path}}.variable.min.dice" value="{{data.min.dice}}" min="0" max="{{data.max.dice}}" />
+    <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+    <input type="number" name="{{data.path}}.variable.min.fixe" value="{{data.fixe}}" class="dgtsF" data-path="{{data.path}}.fixe" />
+</div>
+<div class="twoCol label borderBottom">
+    <span>{{localize "KNIGHT.AUTRE.Maximum"}}</span>
+</div>
+<div class="twoCol score borderBottom">
+    <input type="number" name="{{data.path}}.variable.max.dice" value="{{data.max.dice}}" min="{{data.min.dice}}" />
+    <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+    <input type="number" name="{{data.path}}.variable.max.fixe" value="{{data.fixe}}" class="dgtsF" data-path="{{data.path}}.fixe"/>
+</div>
+<label class="twoCol">
+    <span>{{localize "KNIGHT.ITEMS.ARME.CoutAugmentation"}}</span>
+    <input type="number" name="{{data.path}}.variable.cout" value="{{data.cout}}" min="0" />
+</label>

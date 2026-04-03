@@ -550,8 +550,6 @@ export default class HooksKnight {
                 // #####################
                 applyDmgEffects(actor, effects);
 
-                console.error(damagesLeft)
-
                 // ################
                 // Damages on armor
                 // ################

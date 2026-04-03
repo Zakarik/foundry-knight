@@ -993,6 +993,8 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     const dataModule = this.item,
           dataNiveau = this.niveauActuel;
 
+    if(this.active.base === value) return;
+
     pbM.sys(`active.base`, value)
     let abort = false;
 

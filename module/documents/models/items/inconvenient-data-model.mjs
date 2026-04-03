@@ -20,6 +20,7 @@ export class InconvenientDataModel extends foundry.abstract.TypeDataModel {
       return {
           description:new HTMLField({initial:''}),
           type: new StringField({initial: "standard"}),
+          show:new BooleanField({initial:false}),
           limitations:new SchemaField({
             aspects:new SchemaField(aspects),
             espoir:new SchemaField({

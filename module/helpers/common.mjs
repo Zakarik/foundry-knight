@@ -4616,6 +4616,7 @@ export async function confirmationDialog(type='delete', label='', format={}) {
 };
 
 export async function getArmor(actor) {
+  console.error(actor);
   const getItems = await actor.getEmbeddedCollection("Item");
 
   return getItems.find(armure => armure.type === 'armure');
@@ -4875,6 +4876,10 @@ export function getDefaultImg(type) {
     case "mechaarmure":
       img = "systems/knight/assets/icons/mechaarmure.svg";
       break;
+
+    case "cyberware":
+      img = "systems/knight/assets/icons/cyberware.svg";
+      break;
   }
 
   return img;
@@ -4902,19 +4907,6 @@ export function options(html, actor) {
     const result = actuel ? false : true;
 
     actor.update({[`system.${option}.optionDeploy`]:result});
-  });
-}
-
-export function commonPNJ(html, actor) {
-  html.find('button.addPF').click(ev => {
-    const value = $(html.find('select.pfselected')).val();
-    const previous = actor.system?.pointsFaibles ?? "";
-
-    if(value === "") return;
-
-    const newText = previous === "" ? value : `${previous} / ${value}`;
-
-    actor.update({[`system.pointsFaibles`]:newText});
   });
 }
 
@@ -5304,9 +5296,7 @@ export async function spawnTokenRightOfActor({
 }) {
   if (!actor) throw new Error("spawnTokenRightOfActor: actor manquant.");
   const refToken = findRefTokenForActor(refActor);
-  if (!refToken) {
-    throw new Error("spawnTokenRightOfActor: token de référence introuvable.");
-  }
+  if (!refToken) return;
 
   const scene = refToken.document.parent;                    // scène du token de ref
   const isActiveScene = scene === canvas.scene;
@@ -5392,6 +5382,7 @@ export async function generateNavigator() {
   const distinctions = [];
   const cartes = [];
   const capacites = [];
+  const cyberware = [];
   const listGenerations = [];
   const listMRarete = [];
   const listMCategorie = [];
@@ -5574,6 +5565,23 @@ export async function generateNavigator() {
 
             capacites.push(data);
             break;
+
+          case 'cyberware':
+            rData = await fromUuid(uuid);
+            name = rData.name;
+            gloire = rData.system.prix;
+
+            data.name = name;
+            data.gloire = gloire;
+
+            data.all = [
+              `<img src='${rData.img}'></img>`,
+              `<span class='name'>${name}</span>`,
+              `<span class='value'>${gloire}</span>`,
+            ];
+
+            cyberware.push(data);
+            break;
         }
       }
     }
@@ -5587,6 +5595,7 @@ export async function generateNavigator() {
     distinctions:distinctions,
     cartes:cartes,
     capacites:capacites,
+    cyberware:cyberware,
     listGenerations:listGenerations,
     listMRarete:listMRarete,
     listMCategorie:listMCategorie,
@@ -5890,8 +5899,6 @@ export async function rollDamage(message, eventOrOptions) {
       flags:addFlags,
   };
 
-  console.error(data);
-
   if(raw.includes('tirenrafale')) {
       data.content = {
           tirenrafale:true,
@@ -6163,7 +6170,7 @@ export function getFinalWeaponData(style, wpn) {
 
 export function convertJsonEffects(e) {
   const label = e.name;
-  const value = e.value;
+  const value = Number(e.value);
 
   let result = '';
 
@@ -6192,13 +6199,15 @@ export function convertJsonEffects(e) {
       break;
 
     default:
-      if(label.includes(' X')) {
-        result = label.replace(' X', '');
-        result = normalize(result);
+      if(label) {
+        if(label.includes(' X') || value) {
+          result = label.replace(' X', '');
+          result = normalize(result);
 
-        result += ` ${value ? value : 1}`;
+          result += ` ${value ? value : 1}`;
 
-      } else result = normalize(label);
+        } else result = normalize(label);
+      }
       break;
   }
 

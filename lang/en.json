@@ -26,7 +26,8 @@
     "TypeEffet":"Custom weapon effect",
     "TypeArt":"Art",
     "TypeDistinction":"Distinction",
-    "TypeCapaciteultime":"Ultimate Ability"
+    "TypeCapaciteultime":"Ultimate Ability",
+    "TypeCyberware":"Cyberware"
   },
   "TYPES":{
     "Actor":{
@@ -56,7 +57,8 @@
       "effet":"Custom weapon effect",
       "art":"Art",
       "distinction":"Distinction",
-      "capaciteultime":"Ultimate Ability"
+      "capaciteultime":"Ultimate Ability",
+      "cyberware":"Cyberware"
     }
   },
   "KNIGHT": {
@@ -197,7 +199,7 @@
         },
         "PODINVULNERABILITE":{
           "Label":"Invulnerability Pod",
-          "Description":"The invulnerability module enables the Nephilim to deploy a pod at ground level (and only at ground level) that can generate a force dome securing an area equal in size to short range.<br/><br/><b>Effects:</b> Inside the dome, allies (up to the size of a Paladin meta-armor) are protected from the vast majority of ranged attacks. Only weapon attacks possessing violence or damage greater than 12D6 can penetrate the dome. In addition, vehicles inside the dome without resilience receive 10 points of resilience and the invulnerability rule.<br/><br/>Characters wishing to enter or exit the pod must demonstrate colossal strength (Flesh or Beast aspect of 14 or more, or exceptional Flesh or Beast aspect of 8 or less), or simply be mecha-armours. If a character enters or exits, the pod is destroyed. The dome created by the invulnerability pod can last up to 2D6 turns, even if the mecha-armour of the pilot who launched it is destroyed or folded. Only the pilot, Merlin or Gauvain can decide to cancel it first.<br/><br/>The effects of several invulnerability pods cannot be cumulated."
+          "Description":"The invulnerability module enables the Nephilim to deploy a pod at ground level (and only at ground level) that can generate a force dome securing an area equal in size to short range.<br/><br/><b>Effects:</b> Inside the dome, allies (up to the size of a Paladin Meta-armour) are protected from the vast majority of ranged attacks. Only weapon attacks possessing violence or damage greater than 12D6 can penetrate the dome. In addition, vehicles inside the dome without resilience receive 10 points of resilience and the invulnerability rule.<br/><br/>Characters wishing to enter or exit the pod must demonstrate colossal strength (Flesh or Beast aspect of 14 or more, or exceptional Flesh or Beast aspect of 8 or less), or simply be mecha-armours. If a character enters or exits, the pod is destroyed. The dome created by the invulnerability pod can last up to 2D6 turns, even if the mecha-armour of the pilot who launched it is destroyed or folded. Only the pilot, Merlin or Gauvain can decide to cancel it first.<br/><br/>The effects of several invulnerability pods cannot be cumulated."
         },
         "DRONESEVACUATION":{
           "Label":"Evacuation drones",
@@ -220,7 +222,7 @@
         },
         "MODULEWRAITH":{
           "Label":"Wraith module",
-          "Description":"The Wraith module enables the pilot to render his mecha-armour virtually invisible, disappearing on the sensory systems of opposing mecha-armours and equipment by phasing. This enables the Demon to get close enough to enemies to inflict a powerful attack. Immediately after this attack, the mecha-armour's invisibility stops.<br/><br/><b>Effect:</b> The Wraith module works exactly like the Ghost mode of the Rogue meta-armor, except that the weapons used by the Demon don't need the silent effect for the bonuses granted to tests and damage to be applied. What's more, if the Demon manages to surprise an enemy mecha-armour or Behemoth, it inflicts its maximum damage. A basic Discretion test (to which handling is added) may be required. To activate the module, you need to be out of sight of enemies, or at least at medium range.",
+          "Description":"The Wraith module enables the pilot to render his mecha-armour virtually invisible, disappearing on the sensory systems of opposing mecha-armours and equipment by phasing. This enables the Demon to get close enough to enemies to inflict a powerful attack. Immediately after this attack, the mecha-armour's invisibility stops.<br/><br/><b>Effect:</b> The Wraith module works exactly like the Ghost mode of the Rogue Meta-armour, except that the weapons used by the Demon don't need the silent effect for the bonuses granted to tests and damage to be applied. What's more, if the Demon manages to surprise an enemy mecha-armour or Behemoth, it inflicts its maximum damage. A basic Discretion test (to which handling is added) may be required. To activate the module, you need to be out of sight of enemies, or at least at medium range.",
           "Duree":"Until the start of the knight's next turn",
           "PasMax":"Does not inflict maximum damage",
           "Max":"Inflicts maximum damage",
@@ -604,6 +606,44 @@
           "2":"60 ft yacht, armoured vehicle, mecha-armour"
         }
       }
+    },
+    "CYBERWARE":{
+      "Label":"Cyberware",
+      "CATEGORIE":{
+        "Label":"Category",
+        "Medical":"Medical implant",
+        "Cosmetique":"Cosmetic implant",
+        "Utilitaire":"Utility implant",
+        "Combat":"Combat implant"
+      },
+      "MENU":{
+        "Arme":"Weapon",
+        "Soin":"Healing",
+        "Effects":"Effects",
+        "Recuperation":"Recovery",
+        "Degats":"Damage bonus",
+        "Violence":"Violence bonus"
+      },
+      "MENULEFT":{
+        "Activation":"Must be activated?",
+        "Optimisation":"Optimization?",
+        "Arme":"Is a weapon?",
+        "Soin":"Heals a serious wound?",
+        "Effects":"Has additional effects?",
+        "Dharmatech":"DharmaTech Solutions",
+        "Recuperation":"Recovers something?",
+        "Degats":"Damage bonus",
+        "Violence":"Violence bonus"
+      },
+      "Marque":"Brand",
+      "Autre":"Other effects",
+      "Ajouter":"Add a modifier",
+      "Modificateurs":"Modifiers",
+      "BlessureSoignee":"Healed wound",
+      "Recuperation":"{name}: Recovery ({type})",
+      "RecuperationLimite":"Recovery usage limit",
+      "Utiliser":"Use",
+      "AvecMetaArmure":"Usable with Meta-armour"
     },
     "HISTORIQUE": {
       "Label": "Background",
@@ -1115,7 +1155,7 @@
       },
       "CDF":{
         "Label":"FF",
-        "Description":"The user receives a FF modifier, X representing this value, for as long as he uses this weapon or module. Modifiers received are added to any meta-armor or Guardian suit FF, and can be cumulated with any meta-armor modules or abilities.",
+        "Description":"The user receives a FF modifier, X representing this value, for as long as he uses this weapon or module. Modifiers received are added to any Meta-armour or Guardian suit FF, and can be cumulated with any Meta-armour modules or abilities.",
         "Description-short":"Adds a bonus equal to X to the FF of the armor or guardian."
       },
       "RETOURFLAMME":{
@@ -1718,7 +1758,7 @@
           },
           "ILLUMINATION":{
             "Label":"Illumination Mode",
-            "Description":"The apeiron energy released by the meta armour's core can be deployed all around it to cause different effects. Depending on the intensity of the light or its state, six different effects can be applied. All effects in this mode, except Candle, can be extended for the indicated cost in Hope Points.\r\n**Warning**: On obtaining the meta armour, the knight must choose three of the seven effects listed here and can use them. The others can only be obtained through meta-armor evolutions.",
+            "Description":"The apeiron energy released by the meta armour's core can be deployed all around it to cause different effects. Depending on the intensity of the light or its state, six different effects can be applied. All effects in this mode, except Candle, can be extended for the indicated cost in Hope Points.\r\n**Warning**: On obtaining the meta armour, the knight must choose three of the seven effects listed here and can use them. The others can only be obtained through Meta-armour evolutions.",
             "Utiliser":"Use the effect",
             "Prolonger":"Extending the effect",
             "CapacitesPossedes":"Number of capacities owned",
@@ -1849,7 +1889,7 @@
           },
           "RAGE":{
             "Label":"Rage Mode",
-            "Description":"To recover hope points, the knight must feed the light of the meta armour. Apeiron energy can only be fed by the sacrifice of an Anathema creature or other, as if the mere act of devouring something could keep it going.\r\nBy activating this mode, the knight allows himself to be invaded by the light of the meta-armor and attempts to revive his own hope as well as the energy of his core. He then goes into a rage and is inhabited by the light, which emanates from him in a burning, brilliant smoke. This mode can only be activated during a conflict. Illumination mode effects can be used simultaneously.\r\nBy activating this mode, the character can enter different levels of rage, with increasingly powerful and dangerous effects. Please note that each level of rage reached has the same effects as the previous level. To reach a higher level of rage, the knight must kill an enemy or sacrifice 1D6 points of hope (without any possible reduction).",
+            "Description":"To recover hope points, the knight must feed the light of the meta armour. Apeiron energy can only be fed by the sacrifice of an Anathema creature or other, as if the mere act of devouring something could keep it going.\r\nBy activating this mode, the knight allows himself to be invaded by the light of the Meta-armour and attempts to revive his own hope as well as the energy of his core. He then goes into a rage and is inhabited by the light, which emanates from him in a burning, brilliant smoke. This mode can only be activated during a conflict. Illumination mode effects can be used simultaneously.\r\nBy activating this mode, the character can enter different levels of rage, with increasingly powerful and dangerous effects. Please note that each level of rage reached has the same effects as the previous level. To reach a higher level of rage, the knight must kill an enemy or sacrifice 1D6 points of hope (without any possible reduction).",
             "CoutEspoir":"Cost in hope to escape",
             "DegatsSubis":"Damage taken / turn",
             "CaracteristiqueInterdite":"Forbidden characteristic",
@@ -1924,7 +1964,7 @@
           },
           "TOTEM":{
             "Label":"Totem Mode",
-            "Description":"The knight can materialize his AI into one or more bodies. These are crudely detailed and resemble the knight's meta-armor, but in a pixelated or badly shaped version. These bodies are called “totems” and can assist the knight in many tasks. They are energetically very costly to materialize and maintain. AI can, of course, suffer the effects of impregnation while inside one or more totems. Totems must remain within medium range of the knight in order to exist. They can assist in all tasks, but are extremely sensitive to all forms of aggression. The slightest violent shock simply makes them disappear. Totems can move, act with precision and communicate, but they cannot act without orders from the knight, nor can they take the initiative.\r\nThe knight can materialize totems. In game terms, a totem is simply destroyed by an attack that targets it (attacks that target it automatically hit, as a totem does not defend itself). The knight can use his totems to add one of his additional characteristics per totem, without overdrives, to a test he makes. As with mutual aid, the characteristics must be different each time. Totems can be used in combat or for any other action. Totems can be used for most tests, but the player must always argue for their use and use them with the GM's approval.",
+            "Description":"The knight can materialize his AI into one or more bodies. These are crudely detailed and resemble the knight's Meta-armour, but in a pixelated or badly shaped version. These bodies are called “totems” and can assist the knight in many tasks. They are energetically very costly to materialize and maintain. AI can, of course, suffer the effects of impregnation while inside one or more totems. Totems must remain within medium range of the knight in order to exist. They can assist in all tasks, but are extremely sensitive to all forms of aggression. The slightest violent shock simply makes them disappear. Totems can move, act with precision and communicate, but they cannot act without orders from the knight, nor can they take the initiative.\r\nThe knight can materialize totems. In game terms, a totem is simply destroyed by an attack that targets it (attacks that target it automatically hit, as a totem does not defend itself). The knight can use his totems to add one of his additional characteristics per totem, without overdrives, to a test he makes. As with mutual aid, the characteristics must be different each time. Totems can be used in combat or for any other action. Totems can be used for most tests, but the player must always argue for their use and use them with the GM's approval.",
             "Totem":"Totem",
             "Totems":"Totem(s)",
             "Nombre":"Maximum number of Totem",
@@ -2009,7 +2049,7 @@
           },
           "CONTRECOUPS":{
             "Label":"Backlash",
-            "Description":"The power of the Warlock is not without a counterpart. These two backlashes are cumulative: one is constant, the other can be triggered after using one of the Rewind, Forward or Record abilities.\r\n**TEMPORAL FAILURE**\r\nAll ranged weapons or those that are a little too technologically advanced are subject to malfunctions or serious incidents when the wearer of the Warlock meta-armor uses its abilities.\r\nThe arsenal prohibits Warlock meta armour holders from acquiring ranged weapons. In addition, they are forbidden to receive contact weapons with 5 or more effects, including enhancement effects (apart from prestige weapons and Forge effects applied to the weapon).\r\n**TIME PARADOXES**\r\nUsing this meta armour's abilities undermines the character's temporal integrity. Each time he activates one of his three meta-armor abilities during a scene or phase of conflict, the character must make a note of it. Once the scene or phase is over, the notes can be erased.\r\nAfter the first use, each time he uses one of his three meta-armor abilities, the character must make a basic _Composure_ or _Aggressive_ test, without taking overdrives into account, to resist temporal effects. The difficulty of the test is equal to the number of times the meta armour's abilities have been used during the scene or phase of conflict.\r\nIf the test fails, the character must roll 2D6 and refer to the table in the atlas.\r\n- **Rip**: The character's body is torn apart in time. He receives a random wound that is automatically applied.\r\n- **Malfunction**: Meta armour's FF drops to 0 for 1D3 turns\r\n- **Disintegration**: The character's meta armour takes 3D6 points of damage without FF. The Rewind ability cannot cancel this damage.\r\n- **Disorientation**: The knight is mentally disoriented. He suffers a loss of 1D6 points of hope.\r\n- **Disappearing**: In a flash, the character disappears from the scene and only returns at the end.\r\n- **Fragmentation**: The character suffers psyche damage and forgets who he is for 1D6 turns. It's up to the GM and PC to improvise.\r\n- **Incident**: The character suffers 4D6 points of direct health damage. The Rewind ability cannot reverse this damage.\r\n- **Siphon**: The character's energy is instantly lowered by 6D6 points.\r\n- **Jolt**: For 1D6 turns, the meta armour jumps constantly in time. He must withdraw 2 successes from each of his tests.",
+            "Description":"The power of the Warlock is not without a counterpart. These two backlashes are cumulative: one is constant, the other can be triggered after using one of the Rewind, Forward or Record abilities.\r\n**TEMPORAL FAILURE**\r\nAll ranged weapons or those that are a little too technologically advanced are subject to malfunctions or serious incidents when the wearer of the Warlock Meta-armour uses its abilities.\r\nThe arsenal prohibits Warlock meta armour holders from acquiring ranged weapons. In addition, they are forbidden to receive contact weapons with 5 or more effects, including enhancement effects (apart from prestige weapons and Forge effects applied to the weapon).\r\n**TIME PARADOXES**\r\nUsing this meta armour's abilities undermines the character's temporal integrity. Each time he activates one of his three Meta-armour abilities during a scene or phase of conflict, the character must make a note of it. Once the scene or phase is over, the notes can be erased.\r\nAfter the first use, each time he uses one of his three Meta-armour abilities, the character must make a basic _Composure_ or _Aggressive_ test, without taking overdrives into account, to resist temporal effects. The difficulty of the test is equal to the number of times the meta armour's abilities have been used during the scene or phase of conflict.\r\nIf the test fails, the character must roll 2D6 and refer to the table in the atlas.\r\n- **Rip**: The character's body is torn apart in time. He receives a random wound that is automatically applied.\r\n- **Malfunction**: Meta armour's FF drops to 0 for 1D3 turns\r\n- **Disintegration**: The character's meta armour takes 3D6 points of damage without FF. The Rewind ability cannot cancel this damage.\r\n- **Disorientation**: The knight is mentally disoriented. He suffers a loss of 1D6 points of hope.\r\n- **Disappearing**: In a flash, the character disappears from the scene and only returns at the end.\r\n- **Fragmentation**: The character suffers psyche damage and forgets who he is for 1D6 turns. It's up to the GM and PC to improvise.\r\n- **Incident**: The character suffers 4D6 points of direct health damage. The Rewind ability cannot reverse this damage.\r\n- **Siphon**: The character's energy is instantly lowered by 6D6 points.\r\n- **Jolt**: For 1D6 turns, the meta armour jumps constantly in time. He must withdraw 2 successes from each of his tests.",
             "TABLEAU":{
               "Dechirure":"Rip",
               "Disparition":"Disappearing",
@@ -2378,6 +2418,7 @@
       "Notenergie":"Not enough energy",
       "Notflux":"Not enough flux",
       "Notespoir":"Not enough hope",
+      "Notcharge":"No charges left",
       "Depenseenergie":"Energy consumption",
       "Depenseespoir":"Hope consumption",
       "ODTir3" : "OD Ranged 3 included",
@@ -2473,6 +2514,7 @@
       }
     },
     "AUTRE": {
+      "Type":"Type",
       "Inconscient":"Unconscious for {time}",
       "RecuperationEnergie":"PE recovery",
       "Heure":"hour",
@@ -2488,6 +2530,8 @@
       "Mineur": "Minor",
       "Majeur": "Major",
       "Ajouter":"Add",
+      "Diminuer":"Reduce",
+      "Surcharger":"Override",
       "Supprimer": "Delete",
       "Supprime": "Deleted",
       "NoSupprime": "Not deleted",
@@ -2551,7 +2595,11 @@
       "Difficulte":"Difficulty",
       "MJOnly":"MJ Only",
       "NoGrenades":"You're out of grenades.",
-      "Activation":"Do you want to activate {effect}?"
+      "Activation":"Do you want to activate {effect}?",
+      "EditItem":"Edit item",
+      "DeleteItem":"Delete item",
+      "Quantite":"Quantity",
+      "GlisserDeposerWpn":"You can drag and drop a weapon to automatically add its stats and effects."
     },
     "PHASE2":{
       "Label":"Phase 2",
@@ -2616,6 +2664,7 @@
       "Label": "Activation",
       "Desactivation":"Deactivation",
       "Aucune": "None",
+      "Gratuite":"Free action",
       "Instantanee": "Instantaneous",
       "Deplacement": "Move action",
       "Deplacement3Sec": "Move action / 3 seconds",
@@ -2724,6 +2773,11 @@
     },
     "SETTINGS":{
       "Default":"Default",
+      "KJS": {
+        "Importer": "Import",
+        "Import": "Patreon Import",
+        "ImportHint": "Connect your Knight JDR System account to import private resources available to Patreon members. You must have entered your access code on Knight JDR System."
+      },
       "ARMURES":{
         "Egide":"Aegis access",
         "2038": "2038 armour abilities",
@@ -3020,16 +3074,64 @@
       "Ai":"Advantages & Disadvantages",
       "Distinctions":"Awards",
       "Cartes":"Heroism cards",
-      "Capacites":"Heroism abilities"
+      "Capacites":"Heroism abilities",
+      "Cyberware":"Cyberware"
     },
     "IMPORT":{
       "Label":"Import from KNPC Generator",
+      "LabelKJDRS":"Import from Knight JDR System",
       "Error":"Import error, check text and try again.",
       "Importer":"Import creature(s)",
       "ImporterArme":"Import the weapon",
       "Longbow":"Fusil de précision polymorphe polycalibre Longbow",
       "Adl":"Import de l'Arsenal de Légende",
-      "Adl-hint":"Permet d'importer une nouvelle arme de l'Arsenal de légende, ou d'en mettre à jour une."
+      "Adl-hint":"Permet d'importer une nouvelle arme de l'Arsenal de légende, ou d'en mettre à jour une.",
+      "Notification-import": "Importing {import}",
+      "Notification-fin-import": "{import} import completed",
+      "Notification-import-not-found": "{equipement} not found in compendiums, you will need to manually configure {cyberware}",
+      "Notification-import-error": "Error importing {name}, you will need to manually adjust some of its settings"
+    },
+    "LISTEFFECTS":{
+      "Sante":"Health",
+      "ChampDeForce":"Force field",
+      "Energie":"Energy",
+      "Reaction":"Reaction",
+      "Defense":"Defence",
+      "Bete":"Beast",
+      "Chair":"Flesh",
+      "Machine":"Machine",
+      "Masque":"Mask",
+      "Dame":"Lady",
+      "Combat":"Beast: Combat",
+      "Hargne":"Beast: Aggression",
+      "Instinct":"Beast: Instinct",
+      "Deplacement":"Flesh: Movement",
+      "Force":"Flesh: Strength",
+      "Endurance":"Flesh: Endurance",
+      "Aura":"Dame: Aura",
+      "Parole":"Dame: Eloquence",
+      "Sangfroid":"Dame: Composure",
+      "Tir":"Machine: Ranged",
+      "Savoir":"Machine: Knowledge",
+      "Technique":"Machine: Tech",
+      "Discretion":"Mask: Stealth",
+      "Dexterite":"Mask: Dexterity",
+      "Perception":"Mask: Perception",
+      "CombatOD":"Beast: Combat Overdrive",
+      "HargneOD":"Beast: Aggression Overdrive",
+      "InstinctOD":"Beast: Instinct Overdrive",
+      "DeplacementOD":"Flesh: Movement Overdrive",
+      "ForceOD":"Flesh: Strength Overdrive",
+      "EnduranceOD":"Flesh: Endurance Overdrive",
+      "AuraOD":"Dame: Aura Overdrive",
+      "ParoleOD":"Dame: Eloquence Overdrive",
+      "SangfroidOD":"Dame: Composure Overdrive",
+      "TirOD":"Machine: Ranged Overdrive",
+      "SavoirOD":"Machine: Knowledge Overdrive",
+      "TechniqueOD":"Machine: Tech Overdrive",
+      "DiscretionOD":"Mask: Stealth Overdrive",
+      "DexteriteOD":"Mask: Dexterity Overdrive",
+      "PerceptionOD":"Mask: Perception Overdrive"
     }
   }
 }

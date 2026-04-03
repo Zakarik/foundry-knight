@@ -3,10 +3,41 @@ import {
     listLogo,
   } from "./helpers/common.mjs";
 
+import {
+    buttonToImportKJS,
+  } from "./utils/cyberware.mjs";
+
 export const RegisterSettings = function () {
     /* ------------------------------------ */
     /* User settings                        */
     /* ------------------------------------ */
+    game.settings.register("knight", "KJSToken", {
+        name: "",
+        hint: "",
+        scope: "world",
+        config: false,
+        default: "",
+        type: String,
+    });
+
+    game.settings.register("knight", "PatreonAuthorized", {
+        name: "",
+        hint: "",
+        scope: "world",
+        config: false,
+        default: [],
+        type: Array,
+    });
+
+    game.settings.registerMenu("knight", "KJSImport", {
+        name: game.i18n.localize("KNIGHT.SETTINGS.KJS.Import"),
+        hint: game.i18n.localize("KNIGHT.SETTINGS.KJS.ImportHint"),
+        label: game.i18n.localize("KNIGHT.SETTINGS.KJS.Importer"),
+        icon: "fas fa-download",
+        type: buttonToImportKJS,
+        restricted: true,
+    });
+
     game.settings.register("knight", "acces-egide", {
         name: "KNIGHT.SETTINGS.ARMURES.Egide",
         hint: "",

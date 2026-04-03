@@ -1,3 +1,7 @@
+## v3.55.0
+### Bugfix
+- Correction de problèmes de mises en page avec la fenêtre d'ajout d'effets.
+
 ## v3.54.0
 ### Améliorations
 - Ajout de la prise en compte des immunités dues aux OD d'Endurance.

@@ -130,6 +130,7 @@ export const PreloadTemplates = async function() {
     `${path}/actors/subtab/personnagePNJ.html`,
     `${path}/actors/subtab/aspectsPNJ.html`,
     `${path}/actors/subtab/aspectsExceptionnels.html`,
+    `${path}/actors/subtab/cyberware.hbs`,
     `${path}/dialog/ask-sheet.html`,
     `${path}/dialog/parts/compendium-filter.html`,
     `${path}/dialog/parts/wpnOptions.html`,
@@ -217,6 +218,9 @@ export const PreloadTemplates = async function() {
     `${path}/items/capacitesUltimes/passives/warlord.html`,
     `${path}/items/capacitesUltimes/actives/base.html`,
     `${path}/parts/effets.html`,
+    `${path}/parts/damage/dice.hbs`,
+    `${path}/parts/damage/header.hbs`,
+    `${path}/parts/damage/variable.hbs`,
   ];
 
   // Load the template parts

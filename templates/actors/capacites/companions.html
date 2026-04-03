@@ -4,10 +4,11 @@
         {{label}}
 
         {{#if ("armure" @root/systemData/wear)}}
+        {{log this}}
         <div class="blockMultiline">
             {{#if (companionsCanBeActivate this)}}
             <select class="energie" name="system.equipements.armure.capacites.companions.energie">
-                {{selectOptions (getEnergieCompanions data.companions.energieDisponible @root/actor/armureData/system/espoir/remplaceEnergie) selected=data.companions.energie}}
+                {{selectOptions (getEnergieCompanions energieDisponible @root/actor/armureData/system/espoir/remplaceEnergie) selected=data.companions.energie}}
             </select>
             {{/if}}
 
@@ -221,8 +222,8 @@
                         <i class="far fa-plus-square extendButton"></i>
 
                         <div class="gestionButton">
-                            <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                            <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                            <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                            <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                         </div>
 
                         <span class="mainSpan {{#unless (hasNiveau kLion.system.niveau.max)}}fullSpan{{/unless}}">

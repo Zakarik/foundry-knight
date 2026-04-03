@@ -1,45 +1,8 @@
-import { BaseNPCDataModel } from "../base/base-npc-data-model.mjs";
+import BaseActorDataModel from "../base/base-actor-data-model.mjs";
+import NPCMixinModel from "../base/mixin-npc-model.mjs";
+import BandeMixinModel from "../base/mixin-bande-model.mjs";
 
-export class BandeDataModel extends BaseNPCDataModel {
-	static defineSchema() {
-		const {SchemaField, NumberField, ObjectField, BooleanField} = foundry.data.fields;
-
-        const base = super.defineSchema();
-        const specific = {
-            debordement:new SchemaField({
-              value:new NumberField({ initial: 0, integer: true, nullable: false }),
-              tour:new NumberField({ initial: 1, integer: true, nullable: false }),
-            }),
-            sante:new SchemaField({
-                base:new NumberField({initial:0, nullable:false, integer:true}),
-                mod:new NumberField({initial:0, nullable:false, integer:true}),
-                bonusValue:new NumberField({initial:0, nullable:false, integer:true}),
-                malusValue:new NumberField({initial:0, nullable:false, integer:true}),
-                value:new NumberField({initial:0, nullable:false, integer:true}),
-                max:new NumberField({initial:16, nullable:false, integer:true}),
-                bonus:new ObjectField({
-                    initial:{
-                      user:0,
-                    }
-                }),
-                  malus:new ObjectField({
-                    initial:{
-                      user:0,
-                    }
-                }),
-            }),
-            energie:new SchemaField({
-                value:new NumberField({initial:0, nullable:false, integer:true}),
-                max:new NumberField({initial:16, nullable:false, integer:true}),
-            }),
-            options:new SchemaField({
-              champDeForce:new BooleanField({initial:false, nullable:false}),
-            })
-        }
-
-        return foundry.utils.mergeObject(base, specific);
-    }
-
+export class BandeDataModel extends BandeMixinModel(NPCMixinModel(BaseActorDataModel)) {
     static migrateData(source) {
         if(source.version < 1) {
             const mods = ['sante', 'bouclier', 'reaction', 'defense', 'initiative'];
@@ -86,74 +49,10 @@ export class BandeDataModel extends BaseNPCDataModel {
         return super.migrateData(source);
     }
 
-    prepareBaseData() {
-        super.prepareBaseData();
+	_endPrepareDerivedData() {
+        super._endPrepareDerivedData();
 
-        this.#phase2();
-        this.aspects.prepareData();
-	}
-
-	prepareDerivedData() {
-        this.#defenses();
         this.#derived();
-        this._setStatusImmunity();
-    }
-
-    #phase2() {
-      const phase2 = this.phase2;
-
-      if(!this.phase2Activate) return;
-
-      Object.defineProperty(this.sante.bonus, 'phase2', {
-        value: phase2.sante,
-        writable:true,
-        enumerable:true,
-        configurable:true
-      });
-    }
-
-    #defenses() {
-        const defenses = ['defense', 'reaction'];
-        const machineAE = this.aspect.machine.mineur+this.aspect.machine.majeur;
-        const masqueAE = this.aspect.masque.mineur+this.aspect.masque.majeur;
-
-        Object.defineProperty(this.reaction.bonus, 'machine', {
-          value: machineAE,
-          writable:true,
-          enumerable:true,
-          configurable:true
-        });
-
-        Object.defineProperty(this.defense.bonus, 'masque', {
-          value: masqueAE,
-          writable:true,
-          enumerable:true,
-          configurable:true
-        });
-
-        for(let d of defenses) {
-            const aspect = this.aspect[CONFIG.KNIGHT.LIST.derived[d]];
-
-            const base = this[d].base;
-            const bonus = Object.values(this[d]?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-            const malus = Object.values(this[d]?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-
-            Object.defineProperty(this[d], 'mod', {
-                value: bonus-malus,
-            });
-
-            Object.defineProperty(this[d], 'value', {
-                value: Math.max(base+this[d].mod, 0),
-            });
-
-            Object.defineProperty(this[d], 'valueWOMod', {
-                value: base+bonus,
-            });
-
-            Object.defineProperty(this[d], 'malustotal', {
-                value: malus,
-            });
-        }
     }
 
     #derived() {
@@ -175,68 +74,5 @@ export class BandeDataModel extends BaseNPCDataModel {
         }
 
         this.initiative.prepareBandeData();
-    }
-
-    async doDebordement() {
-        const actor = this.actor;
-        const label = actor.name;
-        let debordementValue = Number(this?.debordement?.value);
-        let debordementTour = Number(this?.debordement?.tour);
-
-        if(actor.statuses.has('terrifiant')) debordementValue = Math.ceil(debordementValue / 2);
-        if(actor.statuses.has('demoralisant')) debordementValue -= 2;
-
-        const dgtsDice = debordementValue*debordementTour;
-        const roll = new game.knight.RollKnight(actor, {
-        name:`${label} : ${game.i18n.localize('KNIGHT.AUTRE.Debordement')}`,
-        }, false);
-        const weapon = roll.prepareWpnContact({
-        name:`${label}`,
-        system:{
-            degats:{dice:0, fixe:dgtsDice},
-            effets:{},
-        }
-        });
-        const addFlags = {
-        actor,
-        attaque:[],
-        dataMod:{degats:{dice:0, fixe:0}, violence:{dice:0, fixe:0}},
-        dataStyle:{},
-        flavor:label,
-        maximize:{degats:false, violence:false},
-        style:'standard',
-        surprise:false,
-        targets:[],
-        total:0,
-        weapon
-        }
-
-        let data = {
-        total:0,
-        targets: game.user.targets.size > 0 ? game.user.targets : [],
-        attaque:[],
-        flags:addFlags,
-        content:{
-            otherBtn:[{
-            classes:'debordement full',
-            title:game.i18n.localize('KNIGHT.JETS.AugmenterDebordement'),
-            label:game.i18n.localize('KNIGHT.JETS.AugmenterDebordement'),
-            }]
-        }
-        };
-
-        roll.setWeapon(weapon);
-        await roll.doRollDamage(data, addFlags);
-    }
-
-    givePE(energy, autoApply=true) {
-      let path = `system.energie.value`;
-      let value = this.energie.value;
-      let update = {}
-
-      update[path] = `${value+energy}`;
-
-      if(autoApply) this.actor.update(energy);
-      else return update;
     }
 }

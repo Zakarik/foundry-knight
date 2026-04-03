@@ -114,9 +114,6 @@ export class KnightEffetsDialog extends FormApplication {
     const ornements = CONFIG.KNIGHT.AMELIORATIONS.ornementales;
     let pe = foundry.utils.mergeObject({}, effets);
     pe = foundry.utils.mergeObject(pe, effetsadl);
-    pe = foundry.utils.mergeObject(pe, distance);
-    pe = foundry.utils.mergeObject(pe, structurelles);
-    pe = foundry.utils.mergeObject(pe, ornements);
     pe = foundry.utils.mergeObject(pe, effetsfm4);
 
     const possibles = pe;
@@ -254,38 +251,6 @@ export class KnightEffetsDialog extends FormApplication {
             description:game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.ornementales[key].description)
           });
         }
-      }
-
-      for(let n = 0;n < raw.length;n++) {
-        const split = raw[n].split(" ");
-        const secondSplit = split[0].split("<space>");
-        const name = game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.ornementales[secondSplit[0]].label);
-        const sub = split[1];
-        const other = Object.values(secondSplit);
-        let complet = name;
-
-        if(other.length > 1) {
-          other.splice(0, 1);
-          complet += ` ${other.join(" ").replace("<space>", " ")}`;
-        }
-
-        if(sub != undefined) { complet += " "+sub; }
-
-        liste.push({
-          id:n,
-          name:complet,
-          description:game.i18n.localize(CONFIG.KNIGHT.AMELIORATIONS.ornementales[secondSplit[0]].description),
-          custom:false
-        });
-      }
-
-      for(let n = 0;n < custom.length;n++) {
-        liste.push({
-          id:n,
-          name:custom[n].label,
-          description:custom[n].description,
-          custom:true
-        });
       }
     }
 

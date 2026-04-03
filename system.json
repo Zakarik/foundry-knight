@@ -83,7 +83,8 @@
       "effet":{},
       "art":{},
       "distinction":{},
-      "capaciteultime":{}
+      "capaciteultime":{},
+      "cyberware":{}
     }
   },
   "primaryTokenAttribute":"sante",

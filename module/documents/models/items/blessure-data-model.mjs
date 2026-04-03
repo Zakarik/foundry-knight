@@ -1,38 +1,51 @@
-export class BlessureDataModel extends foundry.abstract.TypeDataModel {
+import { BaseItemDataModel } from "../base/base-item-data-model.mjs";
+
+export class BlessureDataModel extends BaseItemDataModel {
 	static defineSchema() {
-		const {HTMLField, NumberField, SchemaField, StringField, ArrayField, ObjectField, BooleanField} = foundry.data.fields;
-        let data = {};
+		const {NumberField, SchemaField, StringField, BooleanField} = foundry.data.fields;
+    const base = super.defineSchema();
 
-        for(let a of CONFIG.KNIGHT.LIST.aspects) {
-            let caracteristiques = {};
+    let data = {};
 
-            for(let c of CONFIG.KNIGHT.LIST.caracteristiques[a]) {
-              caracteristiques[c] = new SchemaField({
-                value:new NumberField({ initial: 0, integer: true, nullable: false }),
-              });
-            }
+    for(let a of CONFIG.KNIGHT.LIST.aspects) {
+      let caracteristiques = {};
 
-            data[a] = new SchemaField({
-              value:new NumberField({ initial: 0, integer: true, nullable: false }),
-              caracteristiques:new SchemaField(caracteristiques),
-            });
-          }
+      for(let c of CONFIG.KNIGHT.LIST.caracteristiques[a]) {
+        caracteristiques[c] = new SchemaField({
+          value:new NumberField({ initial: 0, integer: true, nullable: false }),
+        });
+      }
 
-        return {
-            description:new HTMLField({initial:''}),
-            soigne:new SchemaField({
-                implant:new BooleanField({initial:false}),
-                reconstruction:new BooleanField({initial:false}),
-            }),
-            aspects:new SchemaField(data),
-        }
+      data[a] = new SchemaField({
+        value:new NumberField({ initial: 0, integer: true, nullable: false }),
+        caracteristiques:new SchemaField(caracteristiques),
+      });
     }
 
-    prepareBaseData() {
-
-	}
-
-	prepareDerivedData() {
-
+    const specific = {
+      cyberware:new StringField({initial:""}),
+      soigne:new SchemaField({
+          implant:new BooleanField({initial:false}),
+          reconstruction:new BooleanField({initial:false}),
+      }),
+      aspects:new SchemaField(data),
     }
+
+    return foundry.utils.mergeObject(base, specific);
+  }
+
+  prepareBaseData() {}
+
+	prepareDerivedData() {}
+
+  async removeCyberware() {
+    const item = this.item;
+
+    if(this.cyberware) {
+      const cyberware = this.actor.items.get(this.cyberware);
+
+      cyberware.update({['system.soin.blessuresSoignees']:''});
+      item.update({['system.cyberware']:''});
+    }
+  }
 }

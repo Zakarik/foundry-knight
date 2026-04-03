@@ -1900,6 +1900,9 @@ export class KnightRollDialog extends Dialog {
         const modules = this.#getWpnModules(items, type, this.data.whoActivate);
         const modulesContact = this.#getBonusModulesByType(actor, type, 'contact', this.data.whoActivate);
         const modulesDistance = this.#getBonusModulesByType(actor, type, 'distance', this.data.whoActivate);
+        const cyberwareContact = this.#getBonusCyberwareByType(actor, 'contact');
+        const cyberwareDistance = this.#getBonusCyberwareByType(actor, 'distance');
+        const cyberware = this.#getWpnCyberware(items);
         const armesImprovisees = actor.system?.combat?.armesimprovisees?.liste ?? {};
         const grenades = actor.system?.combat?.grenades?.liste ?? {};
         const capacites = armure ? armure.system?.capacites?.selected ?? {} : {};
@@ -2089,6 +2092,155 @@ export class KnightRollDialog extends Dialog {
                         if(dataM.degats.dice > 0) bonusDistance.degats.titleDice.push(m.name);
                         if(dataM.degats.fixe > 0) bonusDistance.degats.titleFixe.push(m.name);
                     }
+                }
+            }
+        }
+
+        for(let m of cyberwareContact) {
+            const dataM = m.system;
+
+            if(dataM.violence.has) {
+                if(
+                    (dataM.violence.withMetaArmure) ||
+                    (!dataM.violence.withMetaArmure && !wearArmor)) {
+                    if(dataM.violence.variable.has) {
+                        const dataMVV = dataM.violence.variable;
+                        const list = {};
+                        let classes = [];
+
+                        for (let i = dataMVV.min.dice; i <= dataMVV.max.dice; i++) {
+                            list[i] = dataMVV?.min?.fixe ?? 0 ? `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6+${dataMVV.min.fixe}` : `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+                        }
+
+                        classes.push('selectDouble', 'violencebonusvariable');
+
+                        if(!dataM?.degats?.variable?.has ?? false) classes.push('full');
+
+                        bonusContact.options.push({
+                            key:'select',
+                            id:m.id,
+                            name:m.name,
+                            classes:classes.join(' '),
+                            label:`${m.name} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}`,
+                            list:list,
+                            selected:dataMVV.min.dice,
+                            value:dataMVV?.cout ?? 0,
+                            selectvalue:Math.max(dataMVV?.min?.fixe ?? 0, dataMVV?.max?.fixe ?? 0),
+                        });
+                    } else {
+                        bonusContact.violence.dice += dataM.violence.dice;
+                        bonusContact.violence.fixe += dataM.violence.fixe;
+                        if(dataM.violence.dice > 0) bonusContact.violence.titleDice.push(m.name);
+                        if(dataM.violence.fixe > 0) bonusContact.violence.titleFixe.push(m.name);
+                    }
+                }
+            }
+
+            if(dataM.degats.has) {
+                if(
+                    (dataM.degats.withMetaArmure) ||
+                    (!dataM.degats.withMetaArmure && !wearArmor)) {
+                    if(dataM.degats.variable.has) {
+                        const dataMDV = dataM.degats.variable;
+                        const list = {};
+                        let classes = [];
+
+                        for (let i = dataMDV.min.dice; i <= dataMDV.max.dice; i++) {
+                            list[i] = dataMDV?.min?.fixe ?? 0 ? `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6+${dataMDV.min.fixe}` : `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+                        }
+
+                        classes.push('selectDouble', 'dgtsbonusvariable');
+
+                        if(!dataM?.violence?.variable?.has ?? false) classes.push('full');
+
+                        bonusContact.options.push({
+                            key:'select',
+                            id:m.id,
+                            classes:classes.join(' '),
+                            name:m.name,
+                            label:`${m.name} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
+                            list:list,
+                            selected:dataMDV.min.dice,
+                            value:dataMDV?.cout ?? 0,
+                            selectvalue:Math.max(dataMDV?.min?.fixe ?? 0, dataMDV?.max?.fixe ?? 0),
+                        });
+                    } else {
+                        bonusContact.degats.dice += dataM.degats.dice;
+                        bonusContact.degats.fixe += dataM.degats.fixe;
+                        if(dataM.degats.dice > 0) bonusContact.degats.titleDice.push(m.name);
+                        if(dataM.degats.fixe > 0) bonusContact.degats.titleFixe.push(m.name);
+                    }
+                }
+            }
+
+        }
+
+        for(let m of cyberwareDistance) {
+            const dataM = m.system;
+
+            if(dataM.violence.has) {
+                if(dataM.violence.variable.has) {
+                    const dataMVV = dataM.violence.variable;
+                    const list = {};
+                    let classes = [];
+
+                    for (let i = dataMVV.min.dice; i <= dataMVV.max.dice; i++) {
+                        list[i] = dataMVV?.min?.fixe ?? 0 ? `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6+${dataMVV.min.fixe}` : `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+                    }
+
+                    classes.push('selectDouble', 'violencebonusvariable');
+
+                    if(!dataM?.degats?.variable?.has ?? false) classes.push('full');
+
+                    bonusDistance.options.push({
+                        key:'select',
+                        id:m.id,
+                        name:m.name,
+                        classes:classes.join(' '),
+                        label:`${m.name} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}`,
+                        list:list,
+                        selected:dataMVV.min.dice,
+                        value:dataMVV?.cout ?? 0,
+                        selectvalue:Math.max(dataMVV?.min?.fixe ?? 0, dataMVV?.max?.fixe ?? 0),
+                    });
+                } else {
+                    bonusDistance.violence.dice += dataM.violence.dice;
+                    bonusDistance.violence.fixe += dataM.violence.fixe;
+                    if(dataM.violence.dice > 0) bonusDistance.violence.titleDice.push(m.name);
+                    if(dataM.violence.fixe > 0) bonusDistance.violence.titleFixe.push(m.name);
+                }
+            }
+
+            if(dataM.degats.has) {
+                if(dataM.degats.variable.has) {
+                    const dataMDV = dataM.degats.variable;
+                    const list = {};
+                    let classes = [];
+
+                    for (let i = dataMDV.min.dice; i <= dataMDV.max.dice; i++) {
+                        list[i] = dataMDV?.min?.fixe ?? 0 ? `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6+${dataMDV.min.fixe}` : `${i}${game.i18n.localize('KNIGHT.JETS.Des-short')}6`;
+                    }
+
+                    classes.push('selectDouble', 'dgtsbonusvariable');
+
+                    if(!dataM?.violence?.variable?.has ?? false) classes.push('full');
+
+                    bonusDistance.options.push({
+                        key:'select',
+                        id:m.id,
+                        classes:classes.join(' '),
+                        name:m.name,
+                        label:`${m.name} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
+                        list:list,
+                        selected:dataMDV.min.dice,
+                        value:dataMDV?.cout ?? 0,
+                        selectvalue:Math.max(dataMDV?.min?.fixe ?? 0, dataMDV?.max?.fixe ?? 0),
+                    });
+                } else {
+                    bonusDistance.degats.dice += dataM.degats.dice;
+                    bonusDistance.degats.fixe += dataM.degats.fixe;
+                    if(dataM.degats.dice > 0) bonusDistance.degats.titleDice.push(m.name);
+                    if(dataM.degats.fixe > 0) bonusDistance.degats.titleFixe.push(m.name);
                 }
             }
         }
@@ -2703,6 +2855,18 @@ export class KnightRollDialog extends Dialog {
                         break;
                 }
             }
+        }
+
+        for(let c of cyberware) {
+            const cybWpn = c.system.wpn;
+            let wpn = {
+                name:c.name,
+                system:cybWpn,
+                id:`${c.id}`
+            };
+
+            if(cybWpn.type === 'contact') contact.push(this.#addWpnContact(wpn, bonusContact, false));
+            else if(cybWpn.type === 'distance') distance.push(this.#addWpnDistance(wpn, bonusDistance, false));
         }
 
         for(let c of pnjCapacites) {
@@ -5345,6 +5509,27 @@ export class KnightRollDialog extends Dialog {
         });
     }
 
+    #getBonusCyberwareByType(actor, bonusType) {
+        return actor.items.filter(itm => {
+            if (itm.type !== 'cyberware') return false;
+
+            // Commun
+            const actif = itm.system?.isActive ?? false;
+            const degats = itm.system?.degats;
+            const violence = itm.system?.violence;
+
+            if (!degats?.has && !violence?.has) return false;
+            if (!actif) return false;
+
+            // Vérifie degats ou violence
+            const degatsOK = (degats?.type ?? 'contact') === bonusType;
+
+            const violenceOK = (violence?.type ?? 'contact') === bonusType;
+
+            return degatsOK || violenceOK;
+        });
+    }
+
     #getWpnModules(items, type, whoActivate) {
         return items.filter(itm => {
             if (itm.type !== 'module') return false;
@@ -5366,5 +5551,13 @@ export class KnightRollDialog extends Dialog {
             // Côté non-vehicle : actif OU permanent
             return actif || permanent;
         });
+    }
+
+    #getWpnCyberware(items) {
+        return items.filter(itm => {
+            if(itm.type !== 'cyberware') return false;
+
+            if(itm.system.isActive && itm.system.arme.has) return true;
+        })
     }
 }

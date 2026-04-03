@@ -1,0 +1,296 @@
+<form class="flexcol {{cssClass}}" autocomplete="off">
+    <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
+
+    <header class="sheet-header flexrow">
+        <h1 class="charname">
+            <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+        </h1>
+
+        <div class="description">
+            {{editor systemData.description target="system.description" button=true owner=owner editable=editable}}
+        </div>
+    </header>
+
+    <div class="body">
+        <div class="menuLeft">
+            <label class="marque">
+                <span>{{localize "KNIGHT.CYBERWARE.Marque"}}</span>
+                <input type="text" name="system.marque" value="{{systemData.marque}}" />
+            </label>
+            <label class="category">
+                <span>{{localize "KNIGHT.CYBERWARE.CATEGORIE.Label"}}</span>
+                <select name="system.categorie">
+                    {{selectOptions (listSelect 'KNIGHT.CYBERWARE.CATEGORIE' 'medical' 'cosmetique' 'utilitaire' 'combat') selected=systemData.categorie localize=true}}
+                </select>
+            </label>
+            <label class="pg">
+                <span>{{localize "KNIGHT.PROGRESSION.GLOIRE.Label"}}</span>
+                <input type="number" name="system.prix" value="{{systemData.prix}}"/>
+            </label>
+            {{{menuVertical 'KNIGHT.CYBERWARE.MENULEFT' systemData 'dharmatech' 'activation' 'optimisation' 'arme' 'degats' 'violence' 'soin' 'recuperation' 'effects'}}}
+            {{#if systemData.activation.has}}
+            <div class="activation">
+                <label>
+                    <span>{{localize "KNIGHT.ACTIVATION.Label"}}</span>
+                    <select name="system.activation.type">
+                        {{selectOptions (listSelect 'KNIGHT.ACTIVATION' 'aucune' 'gratuite' 'deplacement' 'combat') selected=systemData.activation.type localize=true}}
+                    </select>
+                </label>
+                <label>
+                    <span>{{localize "KNIGHT.AUTRE.Energie"}}</span>
+                    <input type="number" name="system.activation.energie" value="{{systemData.activation.energie}}" min="0" />
+                </label>
+                <label class="duration">
+                    <span>{{localize "KNIGHT.DUREE.Label"}}</span>
+                {{#unless systemData.activation.permanent}}
+                    <textarea name="system.activation.duration">{{systemData.activation.duration}}</textarea>
+                {{/unless}}
+                </label>
+            </div>
+            {{/if}}
+        </div>
+
+        <div class="data">
+            {{#if document.actor}}
+                {{{menuHorizontal systemData 'primary' 'KNIGHT.CYBERWARE.MENU' 'arme' 'degats' 'violence' 'soin' 'recuperation' 'effects'}}}
+            {{else}}
+                {{{menuHorizontal systemData 'primary' 'KNIGHT.CYBERWARE.MENU' 'arme' 'degats' 'violence' 'recuperation' 'effects'}}}
+            {{/if}}
+
+            <div class="tab arme" data-group="primary" data-tab="arme">
+                <span class="important double">
+                    {{localize "KNIGHT."}}
+                </span>
+                <button type="action"
+                    class="toggle {{ifThen systemData.arme.withMetaArmure 'selected' 'unselected'}} double"
+                    data-path="system.arme.withMetaArmure">
+                    <span>{{localize "KNIGHT.CYBERWARE.AvecMetaArmure"}}</span>
+                    <i class="fa-solid {{ifThen systemData.arme.withMetaArmure 'fa-check green' 'fa-xmark red'}}"></i>
+                </button>
+
+                <button type="action"
+                    class="toggle {{ifThen systemData.arme.degats.variable.has 'selected' 'unselected'}}"
+                    data-path="system.arme.degats.variable.has">
+                    <span>{{localize "KNIGHT.ITEMS.ARME.DEGATS.Variable"}}</span>
+                    <i class="fa-solid {{ifThen systemData.arme.degats.variable.has 'fa-check green' 'fa-xmark red'}}"></i>
+                </button>
+
+                <button type="action"
+                    class="toggle {{ifThen systemData.arme.violence.variable.has 'selected' 'unselected'}}"
+                    data-path="system.arme.violence.variable.has">
+                    <span>{{localize "KNIGHT.ITEMS.ARME.VIOLENCE.Variable"}}</span>
+                    <i class="fa-solid {{ifThen systemData.arme.violence.variable.has 'fa-check green' 'fa-xmark red'}}"></i>
+                </button>
+
+                <label>
+                    <span class="header">{{localize "KNIGHT.ITEMS.ARME.TypeArme"}}</span>
+                    <select name="system.arme.type">
+                        {{selectOptions (getList 'typearmes') selected=systemData.arme.type localize=true}}
+                    </select>
+                </label>
+
+                <label>
+                    <span class="header">{{localize "KNIGHT.PORTEE.Label"}}</span>
+                    <select name="system.arme.portee">
+                        {{selectOptions (getList 'portee') selected=systemData.arme.portee localize=true}}
+                    </select>
+                </label>
+
+                <div class="dmg">
+                    {{#each degats.base}}
+                        {{> (lookup . "path") this }}
+                    {{/each}}
+                </div>
+
+                <div class="dmg">
+                    {{#each violence.base}}
+                        {{> (lookup . "path") this }}
+                    {{/each}}
+                </div>
+
+                <div class="blockEffets">
+                    <h2 class="header">
+                        {{localize "KNIGHT.EFFETS.Label"}}
+                    </h2>
+
+                    <div class="effets">
+                        {{#each systemData.arme.effets.liste as | key effet|}}
+                            {{~> systems/knight/templates/parts/effets.html type='base'}}
+                        {{/each}}
+                        <a class="edit" data-path="system.arme.effets">
+                            <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab degats" data-group="primary" data-tab="degats">
+                <button type="action"
+                    class="toggle {{ifThen systemData.degats.withMetaArmure 'selected' 'unselected'}} double"
+                    data-path="system.degats.withMetaArmure">
+                    <span>{{localize "KNIGHT.CYBERWARE.AvecMetaArmure"}}</span>
+                    <i class="fa-solid {{ifThen systemData.degats.withMetaArmure 'fa-check green' 'fa-xmark red'}}"></i>
+                </button>
+                <select name="system.degats.type">
+                    {{selectOptions (getList 'typebonus') selected=systemData.degats.type localize=true}}
+                </select>
+                <button type="action" class="toggle {{ifThen systemData.degats.variable.has 'selected' 'unselected'}}"
+                data-path="system.degats.variable.has">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.ARME.DEGATS.Variable"}}</span>
+                    <i class="fa-solid {{ifThen systemData.activation.permanent 'fa-check green' 'fa-xmark red'}}"></i>
+                </button>
+                {{#unless systemData.degats.variable.has}}
+                <div class="simple">
+                    <span>{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                    <div>
+                        <input type="number" name="system.degats.dice" value="{{systemData.degats.dice}}" min="0" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                        <input type="number" name="system.degats.fixe" value="{{systemData.degats.fixe}}" min="0" />
+                    </div>
+                </div>
+                {{/unless}}
+                {{#if systemData.degats.variable.has}}
+                <div class="variable">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.DesMinimum"}}</span>
+                    <div>
+                        <input type="number" name="system.degats.variable.min.dice" value="{{systemData.degats.variable.min.dice}}" min="0" max="{{systemData.degats.variable.max.dice}}" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                    <span Class="withSeparator">{{localize "KNIGHT.ITEMS.MODULE.DEGATS.DesMaximum"}}</span>
+                    <div Class="withSeparator">
+                        <input type="number" name="system.degats.variable.max.dice" value="{{systemData.degats.variable.max.dice}}" min="{{systemData.degats.variable.min.dice}}" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                    <label Class="withSeparator">
+                        <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.FixeMinimum"}}</span>
+                        <input type="number" name="system.degats.variable.min.fixe" value="{{systemData.degats.variable.min.fixe}}" min="0" max="{{systemData.degats.variable.max.fixe}}" />
+                    </label>
+                    <label Class="withSeparator">
+                        <span>{{localize "KNIGHT.ITEMS.MODULE.DEGATS.FixeMaximum"}}</span>
+                        <input type="number" name="system.degats.variable.max.fixe" value="{{systemData.degats.variable.max.fixe}}" min="{{systemData.degats.variable.min.fixe}}" />
+                    </label>
+                    <label Class="withSeparator">
+                        <span>{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
+                        <input type="number" name="system.degats.variable.cout" value="{{systemData.degats.variable.cout}}" min="0" />
+                    </label>
+                </div>
+                {{/if}}
+            </div>
+
+            <div class="tab violence" data-group="primary" data-tab="violence">
+                <button type="action"
+                    class="toggle {{ifThen systemData.violence.withMetaArmure 'selected' 'unselected'}} double"
+                    data-path="system.violence.withMetaArmure">
+                    <span>{{localize "KNIGHT.CYBERWARE.AvecMetaArmure"}}</span>
+                    <i class="fa-solid {{ifThen systemData.violence.withMetaArmure 'fa-check green' 'fa-xmark red'}}"></i>
+                </button>
+                <select name="system.violence.type">
+                    {{selectOptions (getList 'typebonus') selected=systemData.violence.type localize=true}}
+                </select>
+                <button type="action" class="toggle {{ifThen systemData.violence.variable.has 'selected' 'unselected'}}"
+                data-path="system.violence.variable.has">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.ARME.VIOLENCE.Variable"}}</span>
+                    <i class="fa-solid {{ifThen systemData.activation.permanent 'fa-check green' 'fa-xmark red'}}"></i>
+                </button>
+                {{#unless systemData.violence.variable.has}}
+                <div class="simple">
+                    <span>{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                    <div>
+                        <input type="number" name="system.violence.dice" value="{{systemData.violence.dice}}" min="0" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6+</span>
+                        <input type="number" name="system.violence.fixe" value="{{systemData.violence.fixe}}" min="0" />
+                    </div>
+                </div>
+                {{/unless}}
+                {{#if systemData.violence.variable.has}}
+                <div class="variable">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.DesMinimum"}}</span>
+                    <div>
+                        <input type="number" name="system.violence.variable.min.dice" value="{{systemData.violence.variable.min.dice}}" min="0" max="{{systemData.violence.variable.max.dice}}" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                    <span class="withSeparator">{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.DesMaximum"}}</span>
+                    <div class="withSeparator">
+                        <input type="number" name="system.violence.variable.max.dice" value="{{systemData.violence.variable.max.dice}}" min="{{systemData.violence.variable.min.dice}}" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                    </div>
+                <label class="withSeparator">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.FixeMinimum"}}</span>
+                    <input type="number" name="system.violence.variable.min.fixe" value="{{systemData.violence.variable.min.fixe}}" min="0" max="{{systemData.violence.variable.max.fixe}}" />
+                </label>
+                <label class="withSeparator">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.FixeMaximum"}}</span>
+                    <input type="number" name="system.violence.variable.max.fixe" value="{{systemData.violence.variable.max.fixe}}" min="{{systemData.violence.variable.min.fixe}}" />
+                </label>
+                <label class="withSeparator">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
+                    <input type="number" name="system.violence.variable.cout" value="{{systemData.violence.variable.cout}}" min="0" />
+                </label>
+                {{/if}}
+            </div>
+
+            <div class="tab soin" data-group="primary" data-tab="soin">
+                <label>
+                    <span>{{localize "KNIGHT.CYBERWARE.BlessureSoignee"}}</span>
+                    <select name="system.soin.blessuresSoignees">
+                        {{selectOptions blessures selected=systemData.soin.blessuresSoignees}}
+                    </select>
+                </label>
+            </div>
+
+            <div class="tab recuperation" data-group="primary" data-tab="recuperation">
+                <label class="inline">
+                    <span class="label">{{localize "KNIGHT.CYBERWARE.RecuperationLimite"}}</span>
+                    <input type="number" name="system.recuperation.limite.max" value="{{systemData.recuperation.limite.max}}" min="0" />
+                </label>
+                <label>
+                    <span class="label">{{localize "KNIGHT.AUTRE.Type"}}</span>
+                    <select name="system.recuperation.type">
+                        {{selectOptions (getCFG 'RECUPERATION.TYPE') selected=systemData.recuperation.type localize=true}}
+                    </select>
+                </label>
+                <div>
+                    <span class="label">{{localize "KNIGHT.AUTRE.Quantite"}}</span>
+                    <div class="roll">
+                        <input type="number" name="system.recuperation.dice" value="{{systemData.recuperation.dice}}" min="0" />
+                        <span>{{localize "KNIGHT.JETS.Des-short"}}</span>
+                        <input type="number" name="system.recuperation.face" value="{{systemData.recuperation.face}}" min="0" />
+                        <span>+</span>
+                        <input type="number" name="system.recuperation.bonus" value="{{systemData.recuperation.bonus}}" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab effects" data-group="primary" data-tab="effects">
+                <div class="eOther">
+                    <span class="header">
+                        {{localize "KNIGHT.CYBERWARE.Autre"}}
+                    </span>
+                    {{editor systemData.effects.other target="system.effects.other" button=true owner=owner editable=editable}}
+                </div>
+                <div class="mod">
+                    <span class="header">
+                        {{localize "KNIGHT.CYBERWARE.Modificateurs"}}
+                    </span>
+                    <div class="list">
+                        {{#each systemData.effects.list as |data index |}}
+                            <select class="path" name="system.effects.list.{{index}}.path">
+                                {{selectOptions (getCFG 'EFFECTS.SIMPLE') selected=data.path localize=true}}
+                            </select>
+                            <select class="type" name="system.effects.list.{{index}}.type">
+                                {{selectOptions (getCFG 'EFFECTS.TYPE') selected=data.type localize=true}}
+                            </select>
+                            <input class="value" type="number" name="system.effects.list.{{index}}.value" value="{{data.value}}" />
+                            <a class="delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}" data-index="{{index}}"><i class="fas fa-trash"></i></a>
+                        {{/each}}
+                    </div>
+                    <button type="action" class="add" data-path="system.effects.list">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>{{localize "KNIGHT.CYBERWARE.Ajouter"}}</span>
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

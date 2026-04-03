@@ -4,9 +4,9 @@ data-type="{{#if this.system.isCapacity}}{{this.system.capaciteName}}{{else}}{{#
 data-what="{{this.system.subCapaciteName}}"
 data-other="{{this.system.type}}"
 data-raw="{{raw}}"
-{{/if}}
->
-    <header class="summary header js-toggler" data-item-id="{{this._id}}">
+{{/if}}>
+
+    <header class="summary header js-toggler" data-item-id="{{this.system.item._id}}">
         <i class="far fa-plus-square extendButton"></i>
         {{#unless this.system.noRack}}
             <div class="gestionButton {{#if this.system.rack}}large{{/if}}">
@@ -24,14 +24,14 @@ data-raw="{{raw}}"
                         <a class="item-rack" title="{{localize "KNIGHT.COMBAT.ARMES.Prendre"}}"><img src="systems/knight/assets/icons/weaponsWear.svg"/></a>
                     {{/if}}
                 {{/unless}}
-                <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
             </div>
         {{else}}
             {{#if this.system.pnj}}
                 <div class="gestionButton">
-                    <a class="item-control item-edit" title="Edit Item"><i class="fas fa-edit"></i></a>
-                    <a class="item-control item-delete" title="Delete Item"><i class="fas fa-trash"></i></a>
+                    <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                    <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
                 </div>
             {{/if}}
         {{/unless}}
@@ -40,7 +40,7 @@ data-raw="{{raw}}"
             {{#unless (isWpnDistance this.system.type)}}
                 {{#if this.system.options2mains.has}}
                     <div class="line">
-                        <select class="wpnMainChange" data-id="{{this._id}}">
+                        <select class="wpnMainChange" data-id="{{this.system.item._id}}">
                             {{selectOptions (getList 'options2mains') selected=system.options2mains.actuel localize=true}}
                         </select>
                     </div>
@@ -49,7 +49,7 @@ data-raw="{{raw}}"
             {{#if (isWpnDistance this.system.type)}}
                 {{#if this.system.optionsmunitions.has}}
                     <div class="lineFull">
-                        <select class="wpnMunitionChange" data-id="{{this._id}}" data-niveau="{{this.system.niveau}}">
+                        <select class="wpnMunitionChange" data-id="{{this.system.item._id}}" data-niveau="{{this.system.niveau}}">
                             {{selectOptions (getMunitions this.system.optionsmunitions.liste) selected=this.system.optionsmunitions.actuel}}
                         </select>
                     </div>
@@ -82,12 +82,12 @@ data-raw="{{raw}}"
                 <span>{{this.system.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6+{{this.system.violence.fixe}}</span>
             </div>
             {{#if this.equipped}}
-                <img src="systems/knight/assets/icons/D6Black.svg" class="jetWpn dice" data-name="{{this.name}}" data-id="{{this._id}}" data-isDistance="{{#if this.system.tourelle.has}}tourelle{{else}}{{this.system.type}}{{/if}}" data-num="{{num}}" />
+                <img src="systems/knight/assets/icons/D6Black.svg" class="jetWpn dice" data-name="{{this.name}}" data-id="{{ifThen _id _id this.system.item._id}}" data-isDistance="{{#if this.system.tourelle.has}}tourelle{{else}}{{this.system.type}}{{/if}}" data-num="{{num}}" />
             {{/if}}
         </div>
         {{#if this.system.pnj}}
             {{#unless (isWpnDistance this.system.type)}}
-            <button type="action" class="addbasechair {{#if this.system.degats.addchair}}selected{{/if}}" data-value="{{this.system.degats.addchair}}" data-id="{{this._id}}">
+            <button type="action" class="addbasechair {{#if this.system.degats.addchair}}selected{{/if}}" data-value="{{this.system.degats.addchair}}" data-id="{{this.system.item._id}}">
                 {{#if this.system.degats.addchair}}
                     {{localize "KNIGHT.JETS.CHAIRD2.Has"}}
                 {{else}}
