@@ -672,30 +672,11 @@ const HumanMixinSheet = (superclass) => class extends superclass {
     html.find('.armure .prolonger').click(async ev => {
       const type = $(ev.currentTarget).data("type");
       const capacite = $(ev.currentTarget).data("capacite");
-      const name = $(ev.currentTarget).data("name");
-      const hasFlux = $(ev.currentTarget).data("flux") || false;
       const special = $(ev.currentTarget).data("special");
-      const id = $(ev.currentTarget).data("id");
-      const cout = eval($(ev.currentTarget).data("cout"));
-      const flux = hasFlux != false ? eval(hasFlux) : false;
-      const espoir = $(ev.currentTarget).data("espoir");
+      const variant = $(ev.currentTarget).data("variant");
+      const armor = type === 'legende' ? await getArmorLegend(this.actor) : await getArmor(this.actor);
 
-      await this._depensePE(name, cout, true, false, flux, true);
-
-      switch(capacite) {
-        case "illumination":
-          switch(special) {
-            case "torch":
-            case "lighthouse":
-            case "lantern":
-            case "blaze":
-            case "beacon":
-            case "projector":
-              await this._depensePE(`${name} : ${game.i18n.localize(`KNIGHT.ITEMS.ARMURE.CAPACITES.ILLUMINATION.${special.toUpperCase()}.Label`)}`, espoir, true, true, false, true);
-              break;
-          }
-          break;
-      }
+      await armor.system.prolongateCapacity({capacite, special, variant});
     });
 
     html.find('.armure .configurationWolf').click(async ev => {
@@ -1714,6 +1695,105 @@ const HumanMixinSheet = (superclass) => class extends superclass {
         if(type === 'module' && !value) actor.items.get(module).system.activate(false, subtype);
         else if(type === 'modulePnj') actor.items.get(module).system.activateNPC(value, subtype, index);
       }
+  }
+
+
+  async _depensePE(label, depense, autosubstract=true, forceEspoir=false, flux=false, capacite=true) {
+    const data = this.actor;
+    const armor = await getArmor(data);
+    const dataArmor = armor.system;
+    const remplaceEnergie = dataArmor.espoir.remplaceEnergie || false;
+
+    const type = remplaceEnergie === true || forceEspoir === true ? 'espoir' : 'energie';
+    const hasFlux = Number(data.system.jauges.flux);
+    const fluxActuel = Number(data.system.flux.value);
+    const actuel = remplaceEnergie === true || forceEspoir === true ? Number(data.system.espoir.value) : Number(data.system.energie.value);
+    const substract = actuel-depense;
+    const hasJauge = data.system.jauges[type];
+
+    if(!hasJauge) return false;
+
+    if(flux != false && hasFlux) {
+      if(fluxActuel < flux) {
+        const msgEnergie = {
+          flavor:`${label}`,
+          main:{
+            total:`${game.i18n.localize('KNIGHT.JETS.Notflux')}`
+          }
+        };
+
+        const msgEnergieData = {
+          user: game.user.id,
+          speaker: {
+            actor: data?.id || null,
+            token: data?.token?.id || null,
+            alias: data?.name || null,
+          },
+          type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+          content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgEnergie),
+          sound: CONFIG.sounds.dice
+        };
+
+        const rMode = game.settings.get("core", "rollMode");
+        const msgFData = ChatMessage.applyRollMode(msgEnergieData, rMode);
+
+        await ChatMessage.create(msgFData, {
+          rollMode:rMode
+        });
+
+        return false;
+      }
+    }
+
+    if(substract < 0) {
+      const lNot = remplaceEnergie || forceEspoir ? game.i18n.localize('KNIGHT.JETS.Notespoir') : game.i18n.localize('KNIGHT.JETS.Notenergie');
+
+      const msgEnergie = {
+        flavor:`${label}`,
+        main:{
+          total:`${lNot}`
+        }
+      };
+
+      const msgEnergieData = {
+        user: game.user.id,
+        speaker: {
+          actor: data?.id || null,
+          token: data?.token?.id || null,
+          alias: data?.name || null,
+        },
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgEnergie),
+        sound: CONFIG.sounds.dice
+      };
+
+      const rMode = game.settings.get("core", "rollMode");
+      const msgFData = ChatMessage.applyRollMode(msgEnergieData, rMode);
+
+      await ChatMessage.create(msgFData, {
+        rollMode:rMode
+      });
+
+      return false;
+    } else {
+      if(autosubstract) {
+        let update = {};
+
+        if(type !== 'espoir') update[`system.equipements.${this.actor.system.wear}.${type}.value`] = substract;
+
+        if(flux != false) {
+          update[`system.flux.value`] = fluxActuel-flux;
+        }
+
+        if(type === 'espoir' && !data.system.espoir.perte.saufAgonie && capacite === true) {
+          update[`system.espoir.value`] = substract;
+        }
+
+        this.actor.update(update);
+      }
+
+      return true;
+    }
   }
 }
 

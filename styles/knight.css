@@ -39283,7 +39283,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.menu div.resilience div.line input,
 .bande section.menu div.blindage div.line input {
   display: inline-block;
-  width: 26px;
+  width: 36px;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;
@@ -39309,7 +39309,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .bande section.menu div.resilience div.line span.score,
 .bande section.menu div.blindage div.line span.score {
   display: inline-block;
-  width: 26px;
+  width: 36px;
   height: 30px;
   background: RGB(43 42 51);
   text-align: center;

@@ -5243,7 +5243,7 @@ export async function createSheet(actor, type, name, data, item, imgAvatar, imgT
     ownership:actor.ownership
   };
 
-  if(actor.folder) createData.folder = actor.folder.id
+  if(actor.folder) createData.folder = actor.folder.id;
 
   const { id, uuid } = await SOCKET.executeAsGM('createSubActor', createData);
   const newActor = await fromUuid(uuid);

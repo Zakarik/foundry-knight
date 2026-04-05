@@ -963,6 +963,10 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       };
     };
 
+    const isFinite = (number, defaut = 0) => {
+      return Number.isFinite(number) ? number : defaut;
+    }
+
     const getArmure = new ArmureAPI(armure);
     const getCapacite = getArmure.getCapacite(capacite);
     const getName = getArmure.getCapaciteActiveName(capacite, special, variant);
@@ -1135,7 +1139,6 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           switch(special) {
             case 'lion':
               const dataLion = getCapacite.lion;
-
               const dataLChair = dataLion.aspects.chair;
               const dataLBete = dataLion.aspects.bete;
               const dataLMachine = dataLion.aspects.machine;
@@ -1170,8 +1173,8 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
                     }
                   },
                   "energie":{
-                    "base":actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0,
-                    "value":actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0,
+                    "base":isFinite(actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0, 10),
+                    "value":isFinite(actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0, 10),
                   },
                   "champDeForce":{
                     "base":dataLion.champDeForce.base,
@@ -1271,8 +1274,8 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
                   }
                 },
                 "energie":{
-                  "base":actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0,
-                  "value":actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0,
+                  "base":isFinite(actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0, 10),
+                  "value":isFinite(actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0, 10),
                 },
                 "champDeForce":{
                   "base":dataWolf.champDeForce.base,
@@ -1385,8 +1388,8 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
                     }
                   },
                   "energie":{
-                    "value":actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0,
-                    "max":actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0,
+                    "value":isFinite(actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0, 10),
+                    "max":isFinite(actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0, 10),
                   },
                   "champDeForce":{
                     "base":dataCrow.champDeForce.base,
@@ -1501,7 +1504,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
 
               await deleteTokens([actorCrow.id]);
 
-              if(Object.keys(actorCrow).length != 0) await SOCKET.executeAsGM('deleteActorOrToken', {actors:actorCrow.uuid});
+              if(Object.keys(actorCrow).length != 0) await SOCKET.executeAsGM('deleteActorOrToken', {actors:[actorCrow.uuid]});
               break;
           }
 
@@ -1947,9 +1950,9 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     const getCapacite = armure.getCapacite(split[0]);
     const hasFlux = armure.hasFlux;
 
-    const flux = hasFlux ? actor?.system?.flux?.value ?? 0 : 0;
-    const value = actor?.system?.[getType]?.value ?? 0;
-    const espoir = actor?.system?.espoir?.value ?? 0;
+    const flux = hasFlux ? Number(actor?.system?.flux?.value ?? 0) : 0;
+    const value = Number(actor?.system?.[getType]?.value ?? 0);
+    const espoir = Number(actor?.system?.espoir?.value ?? 0);
 
     const sendLackMsg = async (i18nKey) => {
       const payload = {
@@ -1971,6 +1974,10 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
       const msgData = ChatMessage.applyRollMode(data, rMode);
       await ChatMessage.create(msgData, { rollMode: rMode });
     };
+
+    const isFinite = (number, defaut = 0) => {
+      return Number.isFinite(number) ? number : defaut;
+    }
 
     let depenseEnergie = 0;
     let depenseFlux = 0;
@@ -1999,7 +2006,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
         break;
 
       case 'companions':
-        depenseEnergie = getCapacite.energie.base + actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0;
+        depenseEnergie = getCapacite.energie.base + isFinite(actor?.system?.equipements?.armure?.capacites?.companions?.energie ?? 0, 10);
         break;
 
       case 'discord':
