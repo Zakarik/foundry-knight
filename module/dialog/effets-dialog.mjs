@@ -19,7 +19,7 @@ export class KnightEffetsDialog extends FormApplication {
       this.object.custom = object?.custom === undefined ? [] : object.custom;
       this.object.toUpdate = object.toUpdate;
       this.object.aspects = object.aspects;
-      this.object.typeEffets = object.typeEffets;
+      this.object.typeEffets = object?.typeEffets ?? 'effets';
       this.object.maxEffets = object.maxEffets;
       this.object.data = {
         custom:{
@@ -193,7 +193,7 @@ export class KnightEffetsDialog extends FormApplication {
     }
 
     if(tEffets === undefined || tEffets === 'effets') {
-      for (let [key, effet] of Object.entries(possibles)){
+      for (let [key, effet] of Object.entries(pe)){
         if(!raw.includes(key) || effet.double) {
           ePossibles.push({
             key:key,

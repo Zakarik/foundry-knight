@@ -809,8 +809,6 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       const item = this.actor.items.get(header.data("item-id"));
       const value = target.data('value') ? false : true;
 
-      console.error(item);
-
       item.update({['system.show']:value});
     });
 

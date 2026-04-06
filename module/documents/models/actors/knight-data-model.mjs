@@ -575,8 +575,9 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         const armure = this.dataArmor ? this.dataArmor : [];
         const armes = this.armes;
         const modules = this.modules;
+        const cyberwares = this.cyberwares;
         const autres = Object.entries(this.progression.gloire.depense.autre);
-        const all = [].concat(armure, armes, modules, autres);
+        const all = [].concat(armure, armes, modules, cyberwares, autres);
         let list = [];
 
         for(let g of all) {
@@ -691,6 +692,17 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
                         });
                     }
                 }
+            } else if(g.type === 'cyberware') {
+                const dataProgression = g.system;
+                const gratuit = dataProgression?.gratuit || false;
+
+                list.push({
+                    order:g.system.addOrder,
+                    id:g._id,
+                    name:g.name,
+                    gratuit:gratuit || false,
+                    value:gratuit ? 0 : dataProgression?.prix ?? 0,
+                })
             } else {
                 list.push({
                     order:Number(g[1].order),

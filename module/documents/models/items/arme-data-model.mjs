@@ -4,9 +4,133 @@ import {
 
 import PatchBuilder from "../../../utils/patchBuilder.mjs";
 import { BaseArmeDataModel } from "../base/base-arme-data-model.mjs";
+import { combine } from '../../../utils/field-builder.mjs';
 
 export class ArmeDataModel extends BaseArmeDataModel {
-  static defineSchema() {
+  // Pour Héritage
+  // Extension : on ajoute/modifie
+  static get baseDefinition() {
+    const base = super.baseDefinition;
+    const specific = {
+      whoActivate: ["str", { initial: "", nullable:true}],
+      chassis:["str", { initial: "", nullable:false}],
+      equipped:["bool", { initial: false}],
+      rack:["bool", { initial: false}],
+      rarete: ["str", { initial: "standard", nullable:false}],
+      type: ["str", { initial: "contact", nullable:false}],
+      portee: ["str", { initial: "contact", nullable:false}],
+      prix: ["num", {initial:0, nullable:false, integer:true}],
+      energie: ["num", {initial:0, nullable:false, integer:true}],
+      listes: ["schema", {}],
+      gratuit: ["bool", { initial: false}],
+      options2mains: ["schema", {
+        has: ["bool", { initial: false}],
+        actuel: ["str", { initial: "1main", nullable:false}],
+        '1main': ["schema", {
+          degats: ["schema", {
+            dice: ["num", {initial:0, nullable:false, integer:true}],
+            fixe: ["num", {initial:0, nullable:false, integer:true}],
+          }],
+          violence: ["schema", {
+            dice: ["num", {initial:0, nullable:false, integer:true}],
+            fixe: ["num", {initial:0, nullable:false, integer:true}],
+          }]
+        }],
+        '2main': ["schema", {
+          has: ["bool", { initial: false}],
+          actuel: ["str", { initial: "1main", nullable:false}],
+          '1main': ["schema", {
+            degats: ["schema", {
+              dice: ["num", {initial:0, nullable:false, integer:true}],
+              fixe: ["num", {initial:0, nullable:false, integer:true}],
+            }],
+            violence: ["schema", {
+              dice: ["num", {initial:0, nullable:false, integer:true}],
+              fixe: ["num", {initial:0, nullable:false, integer:true}],
+            }]
+          }],
+        }],
+      }],
+      optionsmunitions: ["schema", {
+        has: ["bool", { initial: false}],
+        actuel: ["str", { initial: "0", nullable:false}],
+        value: ["num", {initial:1, nullable:false, integer:true}],
+        liste: ["obj", {}]
+      }],
+      tourelle: ["schema", {
+        has: ["bool", { initial: false}],
+        attaque: ["schema", {
+          dice: ["num", {initial:0, nullable:false, integer:true}],
+          fixe: ["num", {initial:0, nullable:false, integer:true}],
+        }],
+      }],
+      degats: ["schema", {
+        addchair: ["bool", { initial: true}],
+        dice: ["num", {initial:0, nullable:false, integer:true}],
+        fixe: ["num", {initial:0, nullable:false, integer:true}],
+        variable: ["schema", {
+          has: ["bool", { initial: false}],
+          min: ["schema", {
+            dice: ["num", {initial:0, nullable:false, integer:true}],
+            fixe: ["num", {initial:0, nullable:false, integer:true}],
+          }],
+          max: ["schema", {
+            dice: ["num", {initial:0, nullable:false, integer:true}],
+            fixe: ["num", {initial:0, nullable:false, integer:true}],
+          }],
+          cout: ["num", {initial:0, nullable:false, integer:true}],
+        }]
+      }],
+      violence: ["schema", {
+        dice: ["num", {initial:0, nullable:false, integer:true}],
+        fixe: ["num", {initial:0, nullable:false, integer:true}],
+        variable: ["schema", {
+          has: ["bool", { initial: false}],
+          min: ["schema", {
+            dice: ["num", {initial:0, nullable:false, integer:true}],
+            fixe: ["num", {initial:0, nullable:false, integer:true}],
+          }],
+          max: ["schema", {
+            dice: ["num", {initial:0, nullable:false, integer:true}],
+            fixe: ["num", {initial:0, nullable:false, integer:true}],
+          }],
+          cout: ["num", {initial:0, nullable:false, integer:true}],
+        }]
+      }],
+      effets: ["schema", {
+        liste: ["arr", ["str", { initial: "", nullable:false}],],
+        raw: ["arr", ["str", { initial: "", nullable:false}],],
+        custom: ["arr", ["obj", {}],],
+        chargeur: ["num", {initial:null, nullable:true, integer:true}],
+        activable:["arr", ["obj", {}],],
+      }],
+      effets2mains: ["schema", {
+        liste: ["arr", ["str", { initial: "", nullable:false}],],
+        raw: ["arr", ["str", { initial: "", nullable:false}],],
+        custom: ["arr", ["obj", {}],],
+        chargeur: ["num", {initial:null, nullable:true, integer:true}],
+        activable:["arr", ["obj", {}],],
+      }],
+      distance: ["schema", {
+        liste: ["arr", ["str", { initial: "", nullable:false}],],
+        raw: ["arr", ["str", { initial: "", nullable:false}],],
+        custom: ["arr", ["obj", {}],],
+      }],
+      ornementales: ["schema", {
+        liste: ["arr", ["str", { initial: "", nullable:false}],],
+        raw: ["arr", ["str", { initial: "", nullable:false}],],
+        custom: ["arr", ["obj", {}],],
+      }],
+      structurelles: ["schema", {
+        liste: ["arr", ["str", { initial: "", nullable:false}],],
+        raw: ["arr", ["str", { initial: "", nullable:false}],],
+        custom: ["arr", ["obj", {}],],
+      }],
+    };
+
+    return combine(base, specific);
+  }
+  /*static defineSchema() {
     const {SchemaField, StringField, NumberField, BooleanField, ArrayField, ObjectField} = foundry.data.fields;
 
     const base = super.defineSchema();
@@ -120,11 +244,11 @@ export class ArmeDataModel extends BaseArmeDataModel {
         liste: new ArrayField(new StringField()),
         raw: new ArrayField(new StringField()),
         custom: new ArrayField(new ObjectField()),
-      })
+      }),
     };
 
     return foundry.utils.mergeObject(base, specific);
-  }
+  }*/
 
   prepareBaseData() {
 

@@ -1,5 +1,6 @@
 import { BaseArmeDataModel } from "../base/base-arme-data-model.mjs";
-import { EffectsField, DgtsViolenceField, OptionsMunitions } from "../base/base-fields-models.mjs";
+import { combine } from '../../../utils/field-builder.mjs';
+import { EFFECTSFIELD, DGTSVIOLENCEFIELD, OPTIONSMUNITIONS } from "../base/base-fields-models.mjs";
 import {
   listEffects,
   getAllEffects,
@@ -8,7 +9,111 @@ import {
 import PatchBuilder from "../../../utils/patchBuilder.mjs";
 
 export class CyberwareDataModel extends BaseArmeDataModel {
-	static defineSchema() {
+    // Pour Héritage
+    // Extension : on ajoute/modifie
+    static get baseDefinition() {
+        const base = super.baseDefinition;
+        const specific = {
+            active:["bool", { initial: false}],
+            marque:["str", { initial: "", nullable:false}],
+            categorie:["str", { initial: "medical", nullable:false}],
+            dharmaTech:["bool", { initial: false}],
+            espoir:["num", {initial:3, nullable:false, integer:true}],
+            prix:["num", {initial:0, min:0, nullable:false, integer:true}],
+            dharmatech:["schema", {
+                has:["bool", { initial: false}],
+            }],
+            activation:["schema", {
+                has:["bool", { initial: false}],
+                type:["str", { initial: "", nullable:false}],
+                energie:["num", {initial:0, min:0, nullable:false, integer:true}],
+                duration:["str", { initial: "", nullable:false}],
+            }],
+            optimisation:["schema", {
+                has:["bool", { initial: false}],
+            }],
+            soin:["schema", {
+                has:["bool", { initial: false}],
+                blessuresSoignees:["str", { initial: "", nullable:false}],
+            }],
+            recuperation:["schema", {
+                has:["bool", { initial: false}],
+                type:["str", { initial: "", nullable:false}],
+                limite:["schema", {
+                    value:["num", {initial:0, nullable:false, integer:true}],
+                    max:["num", {initial:0, min:0, nullable:false, integer:true}],
+                }],
+                dice:["num", {initial:0, min:0, nullable:false, integer:true}],
+                face:["num", {initial:6, min:0, nullable:false, integer:true}],
+                bonus:["num", {initial:0, nullable:false, integer:true}],
+            }],
+            degats:["schema", {
+                withMetaArmure:["bool", { initial: false}],
+                has:["bool", { initial: false}],
+                type:["str", { initial: "contact", nullable:false}],
+                dice:["num", {initial:0, nullable:false, integer:true}],
+                fixe:["num", {initial:0, nullable:false, integer:true}],
+                variable:["schema", {
+                    has:["bool", { initial: false}],
+                    min:["schema", {
+                        dice:["num", {initial:0, nullable:false, integer:true}],
+                        fixe:["num", {initial:0, nullable:false, integer:true}],
+                    }],
+                    max:["schema", {
+                        dice:["num", {initial:0, nullable:false, integer:true}],
+                        fixe:["num", {initial:0, nullable:false, integer:true}],
+                    }],
+                    cout:["num", {initial:0, nullable:false, integer:true}],
+                }],
+            }],
+            violence:["schema", {
+                withMetaArmure:["bool", { initial: false}],
+                has:["bool", { initial: false}],
+                type:["str", { initial: "contact", nullable:false}],
+                dice:["num", {initial:0, nullable:false, integer:true}],
+                fixe:["num", {initial:0, nullable:false, integer:true}],
+                variable:["schema", {
+                    has:["bool", { initial: false}],
+                    min:["schema", {
+                        dice:["num", {initial:0, nullable:false, integer:true}],
+                        fixe:["num", {initial:0, nullable:false, integer:true}],
+                    }],
+                    max:["schema", {
+                        dice:["num", {initial:0, nullable:false, integer:true}],
+                        fixe:["num", {initial:0, nullable:false, integer:true}],
+                    }],
+                    cout:["num", {initial:0, nullable:false, integer:true}],
+                }],
+            }],
+            arme:["schema", {
+                has:["bool", { initial: false}],
+                type: ["str", { initial: "contact", nullable:false}],
+                portee: ["str", { initial: "contact", nullable:false}],
+                optionsmunitions:["schema", OPTIONSMUNITIONS],
+                degats:["schema", DGTSVIOLENCEFIELD],
+                violence:["schema", DGTSVIOLENCEFIELD],
+                effets: ["schema", EFFECTSFIELD],
+                withMetaArmure:["bool", { initial: false}],
+            }],
+            effects:["schema", {
+                has:["bool", { initial: false}],
+                other:["html", { initial: ""}],
+                list:["arr", ["schema", {
+                    type:["str", { initial: "add", nullable:false}],
+                    path:["str", { initial: "", nullable:false}],
+                    value:["num", {initial:0, nullable:false, integer:true}],
+                }]],
+                defaultListValue:["arr", ["schema", {
+                    type:["str", { initial: "add", nullable:false}],
+                    path:["str", { initial: "", nullable:false}],
+                    value:["num", {initial:0, nullable:false, integer:true}],
+                }]],
+            }]
+        }
+
+        return combine(base, specific);
+    }
+	/*static defineSchema() {
 		const {SchemaField, BooleanField, ArrayField, StringField, NumberField, HTMLField, ObjectField} = foundry.data.fields;
 
         const base = super.defineSchema();
@@ -111,7 +216,7 @@ export class CyberwareDataModel extends BaseArmeDataModel {
         }
 
         return foundry.utils.mergeObject(base, specific);
-    }
+    }*/
 
     get wpnPath() {
         return `system.arme.`;

@@ -46,7 +46,9 @@ async function createToken(payload={}) {
 }
 
 async function deleteActorOrToken(payload={}) {
-    for(let a of payload.actors) {
+    const actors = Array.isArray(payload.actors) ? payload.actors : [payload.actors];
+
+    for(let a of actors) {
         const actor = await fromUuid(a);
         if(!actor) continue;
 

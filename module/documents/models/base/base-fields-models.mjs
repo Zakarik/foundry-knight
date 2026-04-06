@@ -1,156 +1,108 @@
-const {SchemaField, ArrayField, NumberField, StringField, HTMLField, BooleanField} = foundry.data.fields;
+export const DICEFIELD = {
+    dice: ["num", {initial:0, nullable:false, integer:true}],
+    fixe: ["num", {initial:0, nullable:false, integer:true}],
+}
 
 //PREPARATION DES BLOCK DE CHAMPS
-class AtkCaracField extends SchemaField {
-    constructor() {
-        super({
-            fixe: new StringField({initial:""}),
-            jet: new StringField({initial:""}),
-            labelFixe: new StringField({initial:""}),
-            labelJet: new StringField({initial:""}),
-            odInclusFixe: new BooleanField({initial:false}),
-            odInclusJet: new BooleanField({initial:false}),
-        });
-    }
+const ATKCARACFIELD = {
+    fixe: ["str", { initial: "", nullable:false}],
+    jet: ["str", { initial: "", nullable:false}],
+    labelFixe: ["str", { initial: "", nullable:false}],
+    labelJet: ["str", { initial: "", nullable:false}],
+    odInclusFixe: ["bool", { initial: false}],
+    odInclusJet: ["bool", { initial: false}],
 }
 
-class ConditionalField  extends SchemaField {
-    constructor() {
-        super({
-            condition: new StringField({initial:""}),
-            has: new BooleanField({initial:false}),
-        });
-    }
+const CONDITIONALFIELD = {
+    condition: ["str", { initial: "", nullable:false}],
+    has: ["bool", { initial: false}],
 }
 
-class VariableDVField extends SchemaField {
-    constructor() {
-        super({
-            has: new BooleanField({initial: false}),
-            min: new SchemaField({
-                dice: new NumberField({initial: 0}),
-                fixe: new NumberField({initial: 0}),
-            }),
-            max: new SchemaField({
-                dice: new NumberField({initial: 0}),
-                fixe: new NumberField({initial: 0}),
-            }),
-            cout: new NumberField({initial: 0}),
-        })
-    }
+const VARIABLEDVFIELD = {
+    has: ["bool", { initial: false}],
+    min: ["schema", DICEFIELD],
+    max: ["schema", DICEFIELD],
+    cout: ["num", {initial:0, nullable:false, integer:true}],
 }
 
-class ListeEffectsField extends SchemaField {
-    constructor() {
-        super({
-            activable:new BooleanField({initial:false}),
-            active:new BooleanField({initial:false}),
-            cost:new NumberField({initial:0, min:0}),
-            custom:new BooleanField({initial:false}),
-            id:new NumberField({initial:0}),
-            complet:new StringField({initial:""}),
-            description:new HTMLField({initial:""}),
-            index:new NumberField({initial:0}),
-            name:new StringField({initial:""}),
-            raw:new StringField({initial:""}),
-            chargeur:new NumberField({initial:0}),
-            chargeurMax:new NumberField({initial:0}),
-            isChargeur:new BooleanField({initial:false}),
-            toComplete:new StringField({initial:""}),
-        });
-    }
+const LISTEFFECTSFIELD = {
+    activable:["bool", { initial: false}],
+    active:["bool", { initial: false}],
+    cost:["num", {initial:0, min:0, nullable:false, integer:true}],
+    custom:["bool", { initial: false}],
+    id:["num", {initial:0, nullable:false, integer:true}],
+    complet:["str", { initial: "", nullable:false}],
+    description:["html", { initial: ""}],
+    index:["num", {initial:0, nullable:false, integer:true}],
+    name:["str", { initial: "", nullable:false}],
+    raw:["str", { initial: "", nullable:false}],
+    chargeur:["num", {initial:0, nullable:false, integer:true}],
+    chargeurMax:["num", {initial:0, nullable:false, integer:true}],
+    isChargeur:["bool", { initial: false}],
+    toComplete:["str", { initial: "", nullable:false}],
 }
 
-class CustomEffectsField extends SchemaField {
-    constructor() {
-        super({
-            attaque:new SchemaField({
-                aspect:new AtkCaracField(),
-                carac:new AtkCaracField(),
-                conditionnel:new ConditionalField(),
-                jet:new NumberField({initial:0}),
-                reussite:new NumberField({initial:0}),
-            }),
-            degats:new SchemaField({
-                aspect:new AtkCaracField(),
-                carac:new AtkCaracField(),
-                conditionnel:new ConditionalField(),
-                jet:new NumberField({initial:0}),
-                fixe:new NumberField({initial:0}),
-            }),
-            violence:new SchemaField({
-                aspect:new AtkCaracField(),
-                carac:new AtkCaracField(),
-                conditionnel:new ConditionalField(),
-                jet:new NumberField({initial:0}),
-                fixe:new NumberField({initial:0}),
-            }),
-            other:new SchemaField({
-                cdf:new NumberField({initial:0})
-            }),
-            description:new HTMLField({initial:""}),
-            label:new StringField({initial:""}),
-        });
-    }
+const CUSTOMEFFECTSFIELD = {
+    attaque:["schema", {
+        aspect:["schema", ATKCARACFIELD],
+        carac:["schema", ATKCARACFIELD],
+        conditionnel:["schema", CONDITIONALFIELD],
+        jet:["num", {initial:0, nullable:false, integer:true}],
+        reussite:["num", {initial:0, nullable:false, integer:true}],
+    }],
+    degats:["schema", {
+        aspect:["schema", ATKCARACFIELD],
+        carac:["schema", ATKCARACFIELD],
+        conditionnel:["schema", CONDITIONALFIELD],
+        jet:["num", {initial:0, nullable:false, integer:true}],
+        reussite:["num", {initial:0, nullable:false, integer:true}],
+    }],
+    violence:["schema", {
+        aspect:["schema", ATKCARACFIELD],
+        carac:["schema", ATKCARACFIELD],
+        conditionnel:["schema", CONDITIONALFIELD],
+        jet:["num", {initial:0, nullable:false, integer:true}],
+        reussite:["num", {initial:0, nullable:false, integer:true}],
+    }],
+    other:["schema", {
+        cdf:["num", {initial:0, nullable:false, integer:true}],
+    }],
+    description:["html", { initial: ""}],
+    label:["str", { initial: "", nullable:false}],
 }
 
-class ActivableEffectsField extends SchemaField {
-    constructor() {
-        super({
-            key:new StringField({initial:""}),
-            cost:new NumberField({initial:0}),
-        });
-    }
+const ACTIVABLEFFECTSFIELD = {
+    key:["str", { initial: "", nullable:false}],
+    cost:["num", {initial:0, nullable:false, integer:true}],
 }
 
 //EXPORT DES CHAMPS PRINCIPAUX
-export class EffectsField extends SchemaField {
-    constructor() {
-        super({
-            liste: new ArrayField(new ListeEffectsField()),
-            raw: new ArrayField(new StringField()),
-            custom: new ArrayField(new CustomEffectsField()),
-            chargeur: new NumberField({nullable: true, initial: null}),
-            activable: new ArrayField(new ActivableEffectsField()),
-        });
-    }
+export const EFFECTSFIELD = {
+    liste: ["arr", ["schema", LISTEFFECTSFIELD]],
+    raw: ["arr", ["str", { initial: "", nullable:false}],],
+    custom: ["arr", ["schema", CUSTOMEFFECTSFIELD]],
+    chargeur: ["num", {initial:null, nullable:true}],
+    activable: ["arr", ["schema", ACTIVABLEFFECTSFIELD]],
 }
 
-export class DgtsViolenceBaseField extends SchemaField {
-    constructor() {
-        super({
-            dice: new NumberField({initial: 0}),
-            fixe: new NumberField({initial: 0}),
-        });
-    }
+export const DGTSVIOLENCEFIELD = {
+    dice: ["num", {initial:0, nullable:false, integer:true}],
+    fixe: ["num", {initial:0, nullable:false, integer:true}],
+    variable: ["schema", VARIABLEDVFIELD],
 }
 
-export class DgtsViolenceField extends SchemaField {
-    constructor() {
-        super({
-            dice: new NumberField({initial: 0}),
-            fixe: new NumberField({initial: 0}),
-            variable: new VariableDVField(),
-        });
-    }
-}
-
-export class OptionsMunitions extends SchemaField {
-    constructor() {
-        super({
-            has: new BooleanField({initial: false}),
-            actuel: new StringField({initial: '0'}),
-            value: new NumberField({initial: 1}),
-            liste: new ArrayField(new SchemaField({
-                nom:new StringField({initial:""}),
-                degats:new DgtsViolenceBaseField(),
-                violence:new DgtsViolenceBaseField(),
-                liste: new ArrayField(new ListeEffectsField()),
-                raw: new ArrayField(new StringField()),
-                custom: new ArrayField(new CustomEffectsField()),
-                chargeur: new NumberField({nullable: true, initial: null}),
-                activable: new ArrayField(new ActivableEffectsField()),
-            })),
-        });
-    }
+export const OPTIONSMUNITIONS = {
+    has: ["bool", { initial: false}],
+    actuel: ["str", { initial: "0", nullable:false}],
+    value: ["num", {initial:1, nullable:false, integer:true}],
+    liste: ["arr", ["schema", {
+        nom:["str", { initial: "", nullable:false}],
+        degats:["schema", DICEFIELD],
+        violence:["schema", DICEFIELD],
+        liste: ["arr", ["schema", LISTEFFECTSFIELD]],
+        raw: ["arr", ["str", { initial: "", nullable:false}]],
+        custom:["arr", ["schema", CUSTOMEFFECTSFIELD]],
+        chargeur: ["num", {initial:null, nullable:true}],
+        activable: ["arr", ["schema", ACTIVABLEFFECTSFIELD]],
+    }]],
 }

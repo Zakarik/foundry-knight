@@ -4616,7 +4616,6 @@ export async function confirmationDialog(type='delete', label='', format={}) {
 };
 
 export async function getArmor(actor) {
-  console.error(actor);
   const getItems = await actor.getEmbeddedCollection("Item");
 
   return getItems.find(armure => armure.type === 'armure');

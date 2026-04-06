@@ -307,6 +307,10 @@ const HumanMixinModel = (superclass) => class extends superclass {
         return this.items.filter(items => items.type === 'module');
     }
 
+    get cyberwares() {
+        return this.items.filter(items => items.type === 'cyberware');
+    }
+
     get eqpData() {
         return this;
     }

@@ -1633,6 +1633,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
 
       if(typeToAddGloire.includes(itemBaseType)) {
         const gloireListe = actor.system?.progression?.gloire?.depense?.liste ?? {};
+        const isEmpty = gloireListe[0]?.isEmpty ?? false;
         const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
 
         if(itemBaseType === 'module') {

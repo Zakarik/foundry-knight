@@ -1,4 +1,5 @@
 import { BaseItemDataModel } from "./base-item-data-model.mjs";
+import { combine } from '../../../utils/field-builder.mjs';
 import PatchBuilder from "../../../utils/patchBuilder.mjs";
 import {
   getAllEffects,
@@ -9,16 +10,16 @@ import {
  * @extends {BaseItemDataModel}
  */
 export class BaseArmeDataModel extends BaseItemDataModel {
+    // Pour Héritage
+    // Extension : on ajoute/modifie
+    static get baseDefinition() {
+        const base = super.baseDefinition;
+        const specific = {
+            addOrder:["num", {initial:0, nullable:false, integer:true}],
+            gratuit:["bool", { initial: false}],
+        };
 
-    /**
-     * Définit le schéma de données commun à tous les items.
-     * @returns {Object} Le schéma de données avec les champs suivants :
-     * - description : Description HTML complète de l'item
-     */
-    static defineSchema() {
-        const base = super.defineSchema();
-        const specific = {};
-        return foundry.utils.mergeObject(base, specific);
+        return combine(base, specific);
     }
 
     get wpnPath() {
