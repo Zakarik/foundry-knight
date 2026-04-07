@@ -131,6 +131,7 @@ export const PreloadTemplates = async function() {
     `${path}/actors/subtab/aspectsPNJ.html`,
     `${path}/actors/subtab/aspectsExceptionnels.html`,
     `${path}/actors/subtab/cyberware.hbs`,
+    `${path}/actors/subtab/nods.hbs`,
     `${path}/dialog/ask-sheet.html`,
     `${path}/dialog/parts/compendium-filter.html`,
     `${path}/dialog/parts/wpnOptions.html`,

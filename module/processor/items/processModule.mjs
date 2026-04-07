@@ -14,7 +14,7 @@ export default function prepareModule(item, ctx, collections, lion) {
 
     if(itemBonus === false ?? itemArme === false ?? itemOD === false) return;
 
-    if(isLion) processLion(item, lion, ctx);
+    if(isLion) processLion(item, lion, ctx, collections);
     else processModule(item, ctx, collections);
 }
 
@@ -29,8 +29,6 @@ function processLion(item, lion, ctx) {
     const itemBonus = itemDataNiveau?.bonus ?? {has:false};
     const itemArme = itemDataNiveau?.arme ?? {has:false};
     const itemActive = data?.active?.base ?? false;
-
-    lion.modules.push(item);
 
     if(data.permanent ?? itemActive) {
         if(itemBonus.has) {

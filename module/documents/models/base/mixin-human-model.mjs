@@ -290,7 +290,7 @@ const HumanMixinModel = (superclass) => class extends superclass {
     }*/
 
     get armorISwear() {
-        const wear = this.dataArmor ? this.wear : 'tenueCivile';
+        const wear = this?.dataArmor ? this.wear : 'tenueCivile';
 
         return wear === 'armure' || wear === 'ascension' ? true : false;
     }
@@ -368,7 +368,7 @@ const HumanMixinModel = (superclass) => class extends superclass {
         let defenseMalus = 0;
         let reactionMalus = 0;
 
-        const actuel = data.filter(itm => itm.system.active.base || (itm.system?.niveau?.actuel?.permanent ?? false));
+        const actuel = data.filter(itm => (itm.system.active.base || (itm.system?.niveau?.actuel?.permanent ?? false)) && !itm.system.isLion);
 
         for(let m of actuel) {
             const system = m.system?.niveau?.actuel ?? {};
@@ -546,16 +546,20 @@ const HumanMixinModel = (superclass) => class extends superclass {
     _getWeaponHandlers() {
         return {
           armesimprovisees: ({ type, name, num }) => this.useAI(type, name, num),
-          grenades: ({ type }) => this.useGrenade(type),
+          grenades: ({ num }) => this.useGrenade(num),
           longbow: () => this.useLongbow(),
         };
     }
 
     async useNods(type, heal=false) {
         const nod = this.combat.nods[type];
-
+        const pj = ['knight'];
         const nbre = Number(nod.value);
         const dices = nod.dices;
+        const wear = this.whatWear;
+        let str = ``;
+
+        if(pj.includes(this.actor.type)) str = `equipements.${wear}.`;
 
         if(nbre > 0) {
             let update = {}
@@ -567,11 +571,11 @@ const HumanMixinModel = (superclass) => class extends superclass {
                     break;
 
                     case 'energie':
-                    update[`system.energie.value`] = `@{rollTotal}+${this.energie.value}`;
+                    update[`system.${str}energie.value`] = `@{rollTotal}+${this.energie.value}`;
                     break;
 
                     case 'armure':
-                    update[`system.armure.value`] = `@{rollTotal}+${this.armure.value}`;
+                    update[`system.${str}armure.value`] = `@{rollTotal}+${this.armure.value}`;
                     break;
                 }
             }

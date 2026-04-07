@@ -449,6 +449,18 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
                 path = path.substring("system.".length);
             }
 
+            if(this.actor.type === 'knight') {
+                const conditionnal = ['sante', 'champDeForce', 'energie', 'reaction', 'defense'];
+
+                if (conditionnal.some(c => path.includes(c))) {
+                    const wear = this?.wear ?? 'tenueCivile';
+
+                    if(!path.includes('.withArmor') && wear === 'armure') continue;
+                }
+            }
+
+            path = path.replaceAll('.withArmor', '');
+
             switch(c.type) {
                 case 'decrease':
                     toApply = `${path}.malus`;

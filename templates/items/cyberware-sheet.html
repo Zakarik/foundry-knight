@@ -59,7 +59,7 @@
 
             <div class="tab arme" data-group="primary" data-tab="arme">
                 <span class="important double">
-                    {{localize "KNIGHT."}}
+                    {{localize "KNIGHT.AUTRE.GlisserDeposerWpn"}}
                 </span>
                 <button type="action"
                     class="toggle {{ifThen systemData.arme.withMetaArmure 'selected' 'unselected'}} double"
@@ -214,18 +214,19 @@
                         <input type="number" name="system.violence.variable.max.dice" value="{{systemData.violence.variable.max.dice}}" min="{{systemData.violence.variable.min.dice}}" />
                         <span>{{localize "KNIGHT.JETS.Des-short"}}6</span>
                     </div>
-                <label class="withSeparator">
-                    <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.FixeMinimum"}}</span>
-                    <input type="number" name="system.violence.variable.min.fixe" value="{{systemData.violence.variable.min.fixe}}" min="0" max="{{systemData.violence.variable.max.fixe}}" />
-                </label>
-                <label class="withSeparator">
-                    <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.FixeMaximum"}}</span>
-                    <input type="number" name="system.violence.variable.max.fixe" value="{{systemData.violence.variable.max.fixe}}" min="{{systemData.violence.variable.min.fixe}}" />
-                </label>
-                <label class="withSeparator">
-                    <span>{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
-                    <input type="number" name="system.violence.variable.cout" value="{{systemData.violence.variable.cout}}" min="0" />
-                </label>
+                    <label class="withSeparator">
+                        <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.FixeMinimum"}}</span>
+                        <input type="number" name="system.violence.variable.min.fixe" value="{{systemData.violence.variable.min.fixe}}" min="0" max="{{systemData.violence.variable.max.fixe}}" />
+                    </label>
+                    <label class="withSeparator">
+                        <span>{{localize "KNIGHT.ITEMS.MODULE.VIOLENCE.FixeMaximum"}}</span>
+                        <input type="number" name="system.violence.variable.max.fixe" value="{{systemData.violence.variable.max.fixe}}" min="{{systemData.violence.variable.min.fixe}}" />
+                    </label>
+                    <label class="withSeparator">
+                        <span>{{localize "KNIGHT.ITEMS.MODULE.CoutAugmentation"}}</span>
+                        <input type="number" name="system.violence.variable.cout" value="{{systemData.violence.variable.cout}}" min="0" />
+                    </label>
+                </div>
                 {{/if}}
             </div>
 

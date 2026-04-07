@@ -2802,8 +2802,6 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
     if(!actor || !armure) return;
 
     const energieDisponible = armure.energieDisponiblePar10;
-    const maxDisponible = Math.max(...energieDisponible)
-    const energieChoose = actor.system?.equipements?.armure?.capacites?.companions?.energie ?? 0;
 
     Object.defineProperty(companions, 'energieDisponible', {
       value: energieDisponible,
@@ -2811,15 +2809,6 @@ export class ArmureCapaciteDataModel extends foundry.abstract.DataModel {
       enumerable:true,
       configurable:true
     });
-
-    if(energieChoose > maxDisponible) {
-      Object.defineProperty(actor.system.equipements.armure.capacites.companions, 'energie', {
-        value: maxDisponible,
-        writable:true,
-        enumerable:true,
-        configurable:true
-      });
-    }
   }
 
   type(data) {

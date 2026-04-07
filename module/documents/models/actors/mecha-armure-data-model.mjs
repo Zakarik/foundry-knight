@@ -524,8 +524,8 @@ export class MechaArmureDataModel extends BaseActorDataModel {
     this.#modules();
   }
 
-  _startPrepareDerivedData() {
-    super._startPrepareDerivedData();
+  _EndPrepareDerivedData() {
+    super._EndPrepareDerivedData();
 
     this.#handlePilote();
     this.#derived();

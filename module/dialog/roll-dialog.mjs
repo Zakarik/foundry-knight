@@ -2324,6 +2324,7 @@ export class KnightRollDialog extends Dialog {
                         id:`${ai}${list}c`,
                         options:[],
                         degats:{
+                            addchair:true,
                             dice:system.liste[list].degats.dice,
                             fixe:0
                         },

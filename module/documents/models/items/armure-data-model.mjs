@@ -217,7 +217,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
     }
 
     const n = Math.floor(total / 10); // nombre de dizaines complètes
-    return Array.from({ length: n }, (_, i) => (i + 1) * 10);
+    return [0, ...Array.from({ length: n }, (_, i) => (i + 1) * 10)];
   }
 
   async toggleEffect(index, type) {
@@ -1136,6 +1136,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
         });
 
         if(value) {
+          console.error(actor);
           switch(special) {
             case 'lion':
               const dataLion = getCapacite.lion;
@@ -1200,7 +1201,8 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
                     "noCapacites":true,
                     "modules":true,
                     "phase2":false
-                  }
+                  },
+                  "lion":true,
                 },
                 [],
                 dataLion.img,
@@ -1212,7 +1214,11 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
                 .sys('initiative.bonus.user', dataLion.initiative.fixe)
                 .apply();
 
-              const nLItems = modules;
+              const nLItems = modules.map(itm => {
+                const obj = itm.toObject();
+                obj.system.isLion = false;
+                return obj;
+              });
 
               const nLItem = {
                 name:dataLion.armes.contact.coups.label,

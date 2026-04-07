@@ -65,8 +65,8 @@ export class CreatureDataModel extends NPCMixinModel(BaseActorDataModel) {
     super._startPrepareData();
   }
 
-  _startPrepareDerivedData() {
-    super._startPrepareDerivedData();
+  _EndPrepareDerivedData() {
+    super._EndPrepareDerivedData();
 
     this.#derived();
   }

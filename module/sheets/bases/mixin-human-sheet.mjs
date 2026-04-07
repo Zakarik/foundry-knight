@@ -164,6 +164,20 @@ const HumanMixinSheet = (superclass) => class extends superclass {
 
       this.actor.update(update);
     });
+
+    html.find('div.nods img.dice').click(async ev => {
+      const target = $(ev.currentTarget);
+      const nods = target.data("nods");
+
+      this.actor.system.useNods(nods, true);
+    });
+
+    html.find('div.nods img.diceTarget').click(async ev => {
+      const targetFrom = $(ev.currentTarget);
+      const nods = targetFrom.data("nods");
+
+      this.actor.system.useNods(nods);
+    });
   }
 
   #armoredListeners(html) {
@@ -796,6 +810,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
         }});
         fonctionne = true
       }
+
       if(fonctionne) {
         const msgCompanions = {
           flavor:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Use")}`,
@@ -813,6 +828,24 @@ const HumanMixinSheet = (superclass) => class extends superclass {
           },
           type: CONST.CHAT_MESSAGE_TYPES.OTHER,
           content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
+          sound: CONFIG.sounds.dice
+        };
+
+        await ChatMessage.create(msgActiveCompanions);
+      } else {
+        const payload = {
+          flavor:`${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.Use")}`,
+          main: { total: `${game.i18n.localize(`KNIGHT.JETS.Notenergie`)}` }
+        };
+        const msgActiveCompanions = {
+          user: game.user.id,
+          speaker: {
+            actor: this.actor?.id || null,
+            token: this.actor?.token?.id || null,
+            alias: this.actor?.name || null,
+          },
+          type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+          content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
           sound: CONFIG.sounds.dice
         };
 

@@ -1,0 +1,35 @@
+
+<div class="nods">
+    <h2 class="header">
+        {{localize "KNIGHT.COMBAT.NODS.Label"}}
+    </h2>
+
+    {{#each systemData.combat.nods as | key nods|}}
+    <div class="line {{ifThen (hasEditNods) 'col5' 'col4'}}">
+        <span class="label">{{getNodsName nods}}</span>
+        {{#if (hasEditNods)}}
+        <input type="text" name="system.combat.nods.{{nods}}.dices" placeholder="3D6" value="{{key.dices}}" data-type="nods" data-nods="{{nods}}" title="{{localize 'KNIGHT.COMBAT.NODS.JetParDefaut'}}" />
+        {{/if}}
+        <div class="blockQuantite">
+            <input class="{{nods}}Value" type="number" name="system.combat.nods.{{nods}}.value" value="{{key.value}}" max="{{key.max}}"  />
+            <span>/</span>
+            <input type="number" name="system.combat.nods.{{nods}}.max" value="{{key.max}}" />
+        </div>
+        <div class="blockRoll">
+            <img src="systems/knight/assets/icons/D6Black.svg" title='{{localize "KNIGHT.COMBAT.NODS.SoiMeme"}}' class="dice draggable"
+                data-label="{{getNodsName nods}}"
+                data-type="nods"
+                data-key="self"
+                data-nods="{{nods}}" data-number="{{key.value}}" data-dices="{{key.dices}}" />
+            <img src="systems/knight/assets/icons/D6TargetBlack.svg" title='{{localize "KNIGHT.COMBAT.NODS.Autrui"}}' class="diceTarget draggable"
+                data-label="{{getNodsName nods}}"
+                data-type="nods"
+                data-key="target"
+                data-nods="{{nods}}" data-number="{{key.value}}" data-dices="{{key.dices}}" />
+        </div>
+    </div>
+    {{/each}}
+    {{#if (eq actor.type 'knight')}}
+    <button type="action" class="recover" data-type="nods">{{localize "KNIGHT.RECUPERER.Nods"}}</button>
+    {{/if}}
+</div>

@@ -122,8 +122,8 @@ export class VehiculeDataModel extends BaseActorDataModel {
       return super.migrateData(source);
   }
 
-  _startPrepareDerivedData() {
-    super._startPrepareDerivedData();
+  _EndPrepareDerivedData() {
+    super._EndPrepareDerivedData();
 
     this.#setPilote();
     this.#setDefenses();

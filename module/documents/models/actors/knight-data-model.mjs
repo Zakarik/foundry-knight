@@ -423,6 +423,11 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         this.#modules();
         this.#avantages();
         this.#inconvenients();
+    }
+
+    _EndPrepareDerivedData() {
+        super._EndPrepareDerivedData();
+
         this.#derived();
         this.initiative.prepareData();
         this.#sanitizeValue();
@@ -2574,54 +2579,6 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         }
 
         return result;
-    }
-
-    async useNods(type, heal=false) {
-        const nod = this.combat.nods[type];
-
-        const nbre = Number(nod.value);
-        const dices = nod.dices;
-        const wear = this.whatWear;
-
-        if(nbre > 0) {
-            const recuperation = this.combat.nods[type].recuperationBonus;
-            let update = {}
-
-            if(heal) {
-                switch(type) {
-                    case 'soin':
-                    update['system.sante.value'] = `@{rollTotal}+${this.sante.value}`;
-                    break;
-
-                    case 'energie':
-                    update[`system.equipements.${wear}.energie.value`] = `@{rollTotal}+${this.energie.value}`;
-                    break;
-
-                    case 'armure':
-                    update[`system.equipements.${wear}.armure.value`] = `@{rollTotal}+${this.armure.value}`;
-                    break;
-                }
-            }
-
-            update[`system.combat.nods.${type}.value`] = nbre - 1;
-
-            const rNods = new game.knight.RollKnight(this.actor, {
-                name:game.i18n.localize(`KNIGHT.JETS.Nods${type}`),
-                dices:dices,
-                bonus:[recuperation]
-            }, false);
-
-            await rNods.doRoll(update);
-        } else {
-          const rNods = new game.knight.RollKnight(this.actor, {
-            name:game.i18n.localize(`KNIGHT.JETS.Nods${type}`),
-          }, false);
-
-          rNods.sendMessage({
-            classes:'fail',
-            text:`${game.i18n.localize(`KNIGHT.JETS.NotNods`)}`,
-          })
-        }
     }
 
     useAI(type, name, num) {

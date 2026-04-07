@@ -38,6 +38,7 @@ const NPCMixinModel = (superclass) => class extends superclass {
                 value:["num", {initial:0, nullable:false, integer:true}],
                 max:["num", {initial:50, nullable:false, integer:true}],
             }],
+            lion:["bool", { initial: false, nullable:false }],
         }
 
         return combine(base, specific);
@@ -192,8 +193,8 @@ const NPCMixinModel = (superclass) => class extends superclass {
         super._startPrepareDerivedData();
     }
 
-    _endPrepareDerivedData() {
-        super._endPrepareDerivedData();
+    _EndPrepareDerivedData() {
+        super._EndPrepareDerivedData();
 
         this.#defenses();
     }
@@ -469,8 +470,6 @@ const NPCMixinModel = (superclass) => class extends superclass {
         const whatRoll = [];
         let modificateur = 0;
         let base = '';
-
-        whatRoll.push('force');
 
         base = 'chair';
 

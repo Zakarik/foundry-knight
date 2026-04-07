@@ -2084,7 +2084,12 @@ export class RollKnight {
                                 break;
 
                             case 'fatal':
-                                if(actor.system.origin === 'humain' && actor.system.type.includes(game.i18n.localize("KNIGHT.TYPE.Hostile"))  && t.hit) {
+                                function fuzzyIncludes(str, search) {
+                                    const normalize = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+                                    return normalize(str).includes(normalize(search));
+                                }
+
+                                if(actor.system.origin === 'humain' && fuzzyIncludes(actor.system.type, game.i18n.localize("KNIGHT.TYPE.Hostile"))  && t.hit) {
                                     t.btn.push({
                                         id:t.id,
                                         classes:'btn autoDeath',

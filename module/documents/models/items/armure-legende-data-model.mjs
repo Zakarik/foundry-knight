@@ -2388,8 +2388,6 @@ export class ArmureLegendeDataModel extends foundry.abstract.TypeDataModel {
     if(selectionne >= max) choixFaits = true;
     else choixFaits = false;
 
-    console.error(selectionne, max)
-
     Object.defineProperty(type, 'choixFaits', {
       value: choixFaits,
       writable:true,

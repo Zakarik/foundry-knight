@@ -60,8 +60,8 @@ export class PNJDataModel extends HumanMixinModel(NPCMixinModel(BaseActorDataMod
         super._startPrepareData();
     }
 
-    _startPrepareDerivedData() {
-        super._startPrepareDerivedData();
+    _EndPrepareDerivedData() {
+        super._EndPrepareDerivedData();
 
         this.#derived();
     }

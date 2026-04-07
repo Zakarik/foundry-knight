@@ -1971,11 +1971,16 @@ KNIGHT.TOOLS = {
 KNIGHT.EFFECTS = {
   SIMPLE: {
     '':'',
-    'system.sante':'KNIGHT.LATERAL.Sante',
+    'system.sante':'KNIGHT.LISTEFFECTS.Sante',
+    'system.sante.withArmor':'KNIGHT.LISTEFFECTS.SanteWithArmor',
     'system.champDeForce':'KNIGHT.LISTEFFECTS.ChampDeForce',
+    'system.champDeForce.withArmor':'KNIGHT.LISTEFFECTS.ChampDeForceWithArmor',
     'system.energie':'KNIGHT.LISTEFFECTS.Energie',
+    'system.energie.withArmor':'KNIGHT.LISTEFFECTS.EnergieWithArmor',
     'system.reaction':'KNIGHT.LISTEFFECTS.Reaction',
+    'system.reaction.withArmor':'KNIGHT.LISTEFFECTS.ReactionWithArmor',
     'system.defense':'KNIGHT.LISTEFFECTS.Defense',
+    'system.defense.withArmor':'KNIGHT.LISTEFFECTS.DefenseWithArmor',
     'system.aspects.bete':'KNIGHT.LISTEFFECTS.Bete',
     'system.aspects.bete.caracteristiques.combat':'KNIGHT.LISTEFFECTS.Combat',
     'system.aspects.bete.caracteristiques.hargne':'KNIGHT.LISTEFFECTS.Hargne',
