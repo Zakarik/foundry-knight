@@ -12,7 +12,7 @@ export class CyberwareSheet extends BaseArmeSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["knight", "sheet", "item", "cyberware"],
       template: "systems/knight/templates/items/cyberware-sheet.html",
-      width: 800,
+      width: 900,
       height: 800,
       scrollY: [".attributes"],
       tabs: [

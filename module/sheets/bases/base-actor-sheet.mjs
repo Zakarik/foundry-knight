@@ -413,6 +413,7 @@ export default class BaseActorSheet extends ActorSheet {
   async _onDropItemCreate_on(itemData) {
     return true;
   }
+
   async _onDropItemCreate_post(dropCreateOn, itemCreate) {
     return true;
   }

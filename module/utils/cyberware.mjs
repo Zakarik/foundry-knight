@@ -90,14 +90,34 @@ async function importFromKJS(features) {
       }
     }
 
+    const regexNewWPN = (text) => {
+      const degatsRegex = /infliger\s+(\d+)D\d+\s*(.*?)\s*points\s+de\s+dégâts\s+au\s+(contact)/i;
+      const noMetaArmure = /ne peut pas être utilisé en méta-armure/i.test(text);
+
+      const match = text.match(degatsRegex);
+
+      if (match) {
+          const hasForce = /force/i.test(match[2]);
+
+          return {
+              degats: Number(match[1]),   // 2
+              hasForce,                    // true
+              portee: match[3],           // "contact"
+              noMetaArmure,               // true
+          }
+      }
+  }
+
+
     const regexWpn = (text) => {
         const armeRegex = /l['']arme\s+(.+?)\s*[,]?\s+(?:mais|et|qui|\.)/i;
-        const noMetaArmure = /ne peut pas être utilisé en méta-armure/i.test(text);
+        const noMetaArmureMatch = text.match(/ne peut pas être utilisé en méta-armure\s*(.+)?/i);
+        const noMetaArmure = noMetaArmureMatch ? !noMetaArmureMatch[1]?.trim().startsWith('si') : false;
 
         const match = text.match(armeRegex);
 
-        if(match) {
-            const nomArme = match[1];  // "épée cinétique"
+        if (match) {
+            const nomArme = match[1];
 
             return {
                 nomArme,
@@ -107,79 +127,80 @@ async function importFromKJS(features) {
     }
 
     const regexModule = (text) => {
-    if (/l['']équivalent\s+(?:du|d['']un)\s+module\s+.+?\s+ou\s+/i.test(text)) {
-        return null;
-    }
+      if (/l['']équivalent\s+(?:du|d['']un)\s+module\s+.+?\s+ou\s+/i.test(text)) {
+          return null;
+      }
 
-    const noMetaArmure = /ne peut pas être utilisé en méta-armure/i.test(text);
+      const noMetaArmureMatch = text.match(/ne peut pas être utilisé en méta-armure\s*(.+)?/i);
+      const noMetaArmure = noMetaArmureMatch ? !noMetaArmureMatch[1]?.trim().startsWith('si') : false;
 
-    const regexEffets = /l['']équivalent\s+(?:du|d['']un)\s+(module\s+(?:de\s+|d[''])?(.+?))\s+au\s+niveau\s+(\d+)\s+avec\s+(?:l['']effets?|les\s+effets?)\s+(.+?)(?:\s+qui\s|(?:\.\s)|(?:\.\s*$)|\s*$)/i;
-    const matchEffets = text.match(regexEffets);
+      const regexEffets = /l['']équivalent\s+(?:du|d['']un)\s+(module\s+(?:de\s+|d[''])?(.+?))\s+au\s+niveau\s+(\d+)\s+avec\s+(?:l['']effets?|les\s+effets?)\s+(.+?)(?:\s+qui\s|(?:\.\s)|(?:\.\s*$)|\s*$)/i;
+      const matchEffets = text.match(regexEffets);
 
-    if (matchEffets) {
-        let degats = 0;
-        let violence = 0;
+      if (matchEffets) {
+          let degats = 0;
+          let violence = 0;
 
-        const rawEffets = matchEffets[4]
-            .replace(/\s*Ne peut pas être utilisé en méta-armure\.?\s*/i, '')
-            .split(/\s*,\s*|\s+et\s+/)
-            .filter(e => e.trim());
+          const rawEffets = matchEffets[4]
+              .replace(/\s*Ne peut pas être utilisé en méta-armure\.?\s*/i, '')
+              .split(/\s*,\s*|\s+et\s+/)
+              .filter(e => e.trim());
 
-        const effets = [];
+          const effets = [];
 
-        for (const e of rawEffets) {
-            const matchDegats = e.trim().match(/^\+?(\d+)[dD]6?\s+aux?\s+dégâts$/i);
-            const matchViolence = e.trim().match(/^\+?(\d+)[dD]6?\s+[àa]\s+la\s+violence$/i);
+          for (const e of rawEffets) {
+              const matchDegats = e.trim().match(/^\+?(\d+)[dD]6?\s+aux?\s+dégâts$/i);
+              const matchViolence = e.trim().match(/^\+?(\d+)[dD]6?\s+[àa]\s+la\s+violence$/i);
 
-            if (matchDegats) {
-                degats = parseInt(matchDegats[1]);
-            } else if (matchViolence) {
-                violence = parseInt(matchViolence[1]);
-            } else {
-                const parts = e.trim().match(/^(.+?)\s+(\d+)$/);
-                const obj = parts
-                    ? { name: parts[1].trim(), value: parseInt(parts[2]) }
-                    : { name: e.trim(), value: 0 };
-                effets.push(convertJsonEffects(obj));
-            }
-        }
+              if (matchDegats) {
+                  degats = parseInt(matchDegats[1]);
+              } else if (matchViolence) {
+                  violence = parseInt(matchViolence[1]);
+              } else {
+                  const parts = e.trim().match(/^(.+?)\s+(\d+)$/);
+                  const obj = parts
+                      ? { name: parts[1].trim(), value: parseInt(parts[2]) }
+                      : { name: e.trim(), value: 0 };
+                  effets.push(convertJsonEffects(obj));
+              }
+          }
 
-        return {
-            nomAvecModule: matchEffets[1].trim(),
-            nomSansModule: matchEffets[2].trim(),
-            niveau: parseInt(matchEffets[3]),
-            effets,
-            degats,
-            violence,
-            noMetaArmure,
-        };
-    }
+          return {
+              nomAvecModule: matchEffets[1].trim(),
+              nomSansModule: matchEffets[2].trim(),
+              niveau: parseInt(matchEffets[3]),
+              effets,
+              degats,
+              violence,
+              noMetaArmure,
+          };
+      }
 
-    const regexSimple = /l['']équivalent\s+(?:du|d['']un)\s+(module\s+.+?)(?:\s+au\s+niveau\s+(\d+))?(?:\s*[.,]|\s*$)/i;
-    const matchSimple = text.match(regexSimple);
+      const regexSimple = /l['']équivalent\s+(?:du|d['']un)\s+(module\s+.+?)(?:\s+au\s+niveau\s+(\d+))?(?:\s*[.,]|\s*$)/i;
+      const matchSimple = text.match(regexSimple);
 
-    if (matchSimple) {
-        return {
-            nomAvecModule: matchSimple[1],
-            nomSansModule: matchSimple[1]
-                .replace(/^module\s+/i, "")
-                .replace(/^(l['']|d['']|de\s+|des\s+|du\s+|le\s+|la\s+|les\s+)/i, ""),
-            niveau: matchSimple[2] ? parseInt(matchSimple[2]) : 1,
-            effets: [],
-            degats: 0,
-            violence: 0,
-            noMetaArmure,
-        };
-    }
+      if (matchSimple) {
+          return {
+              nomAvecModule: matchSimple[1],
+              nomSansModule: matchSimple[1]
+                  .replace(/^module\s+/i, "")
+                  .replace(/^(l['']|d['']|de\s+|des\s+|du\s+|le\s+|la\s+|les\s+)/i, ""),
+              niveau: matchSimple[2] ? parseInt(matchSimple[2]) : 1,
+              effets: [],
+              degats: 0,
+              violence: 0,
+              noMetaArmure,
+          };
+      }
 
-    return null;
+      return null;
     };
 
     const regexReserve = (text) => {
       const mapping = {
-          'PE': 'system.energie',
-          'PS': 'system.sante',
-          'CdF': 'system.champDeForce',
+          'PE': 'system.energie.withArmor',
+          'PS': 'system.sante.withArmor',
+          'CdF': 'system.champDeForce.withArmor',
       };
 
       const match = text.match(/réserve\s+de\s+(\d+)\s+(PE|PS|CdF)\s+supplémentaires/i);
@@ -194,8 +215,8 @@ async function importFromKJS(features) {
 
     const regexBonus = (text) => {
       const mapping = {
-          'réaction': 'system.reaction',
-          'défense': 'system.defense',
+          'réaction': 'system.reaction.withArmor',
+          'défense': 'system.defense.withArmor',
       };
 
       const match = text.match(/[Dd]urant\s+une\s+(?:scène|phase\s+de\s+conflit).*?bonus\s+de\s+\+(\d+)\s+en\s+(réaction|défense)/i);
@@ -209,10 +230,51 @@ async function importFromKJS(features) {
       };
     };
 
+    const regexCdF = (text) => {
+      const noMetaArmure = /ne\s+porte\s+pas\s+de\s+méta-armure/i.test(text);
 
+      const match = text.match(/(?:bonus\s+de\s+\+(\d+)\s+à\s+son\s+CdF|CdF\s+de\s+(\d+))/i);
+
+      if (!match) return null;
+
+      const value = parseInt(match[1] ?? match[2]);
+      const type = match[1] ? 'add' : 'override';
+
+      return {
+          path: noMetaArmure ? 'system.champDeForce' : 'system.champDeForce.withArmor',
+          type,
+          value,
+      };
+    };
+
+    const regexPA = (text) => {
+      const passif = /l['']effet\s+est\s+passif/i.test(text);
+      const ajoutAvecArmure = /s['']ajoute\s+à\s+son\s+total\s+de\s+PA\s+lorsqu/i.test(text);
+      const match = text.match(/(?:valeur\s+de\s+(\d+)\s+PA|(\d+)\s+PA\s+totaux)/i);
+
+      if (!match) return null;
+
+      const value = parseInt(match[1] ?? match[2]);
+
+      if (ajoutAvecArmure) {
+        return {
+          activable: !passif,
+          path: 'system.armure.withArmor',
+          type: 'add',
+          value,
+        }
+      } else {
+        return {
+          activable: !passif,
+          path: 'system.armure',
+          type: 'add',
+          value,
+        }
+      }
+    };
 
     function normalize(str) {
-        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
 
     let item = {
@@ -295,6 +357,20 @@ async function importFromKJS(features) {
         ui.notifications.error("KNIGHT.IMPORT.Notification-import-not-found", {format:{equipement:arme.nomArme, cyberware:data.name}});
     }
 
+    const newArme = regexNewWPN(data.effect);
+
+    if(newArme) {
+      item.system.arme = {
+          has:true,
+          type:newArme.hasForce ? 'contact' : 'distance',
+          portee: newArme.portee,
+          degats:{
+            dice:newArme.degats
+          },
+          withMetaArmure:!newArme.noMetaArmure,
+      }
+    }
+
     const module = regexModule(data.effect);
 
     if(module && importedCompendium.length > 0) {
@@ -319,10 +395,40 @@ async function importFromKJS(features) {
           const dataModule = find.system.niveau.details[`n${module.niveau}`];
 
           if(dataModule) {
+            const defenseEntry = dataModule.effets.raw.find(e => /^defense\s+\d+$/i.test(e));
+
             item.system.arme = dataModule.arme;
             if(module.effets) item.system.arme.effets.raw = module.effets;
             if(module.degats) item.system.arme.degats.dice += module.degats;
             if(module.violence) item.system.arme.violence.dice += module.violence;
+            if(dataModule.ersatz) {
+              item.system.module = {
+                has:true,
+                ersatz:dataModule.ersatz,
+                withMetaArmure:!module.noMetaArmure
+              }
+            }
+            if(dataModule.bonus.has) {
+              if(dataModule.bonus.champDeForce.has) {
+                item.system.effects.has = true;
+                item.system.effects.list.push({
+                  type:'add',
+                  path:`${CONFIG.KNIGHT.EFFECTS.GETPATH['cdf']}${!module.noMetaArmure ? '.withArmor' : ''}`,
+                  value:dataModule.bonus.champDeForce.value,
+                })
+              }
+            }
+
+            if(defenseEntry) {
+              const defenseValue = defenseEntry ? Number(defenseEntry.match(/(\d+)$/)[1]) : 0;
+
+              item.system.effects.has = true;
+              item.system.effects.list.push({
+                type:'add',
+                path:`${CONFIG.KNIGHT.EFFECTS.GETPATH['defense']}${!module.noMetaArmure ? '.withArmor' : ''}`,
+                value:defenseValue,
+              });
+            }
             item.system.arme.withMetaArmure = !module.noMetaArmure;
             item.system.degats = dataModule.bonus.degats;
             item.system.degats.withMetaArmure = !module.noMetaArmure;
@@ -358,6 +464,39 @@ async function importFromKJS(features) {
         type:'add',
         path:bonus.path,
         value:bonus.value,
+      });
+    }
+
+    const cdf = regexCdF(data.effect);
+
+    if(cdf) {
+      item.system.effects.has = true;
+      item.system.effects.list.push({
+        type:cdf.type,
+        path:cdf.path,
+        value:cdf.value,
+      });
+    }
+
+    const PA = regexPA(data.effect);
+
+    if(PA) {
+      item.system.effects.has = true;
+      item.system.effects.list.push({
+        type:PA.type,
+        path:PA.path,
+        value:PA.value,
+      });
+    }
+
+    const style = /soumis\s+aux?\s+malus\s+imposés?\s+par\s+les?\s+styles?\s+de\s+combat/i.test(data.effect);
+
+    if(style) {
+      item.system.effects.has = true;
+      item.system.effects.list.push({
+        type:'override',
+        path:CONFIG.KNIGHT.EFFECTS.GETPATH['noMalusStyle'],
+        value:'true',
       });
     }
 
@@ -472,7 +611,7 @@ async function importFromKJS(features) {
     ui.notifications.success(`KNIGHT.IMPORT.Notification-fin-import`, {format:{import:f}});
   }
 
-  foundry.utils.debouncedReload();
+  //foundry.utils.debouncedReload();
 }
 
 export class buttonToImportKJS extends FormApplication {

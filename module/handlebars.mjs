@@ -1211,4 +1211,13 @@ import {
 
         return list;
     });
+
+    Handlebars.registerHelper('getEFFECTSINPUT', function (type) {
+        const getCFGTYPE = CONFIG.KNIGHT.EFFECTS.INPUTTYPE?.[type];
+        let input = 'number';
+
+        if(getCFGTYPE) input = getCFGTYPE;
+
+        return input;
+    });
  };

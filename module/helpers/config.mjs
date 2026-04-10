@@ -1975,12 +1975,15 @@ KNIGHT.EFFECTS = {
     'system.sante.withArmor':'KNIGHT.LISTEFFECTS.SanteWithArmor',
     'system.champDeForce':'KNIGHT.LISTEFFECTS.ChampDeForce',
     'system.champDeForce.withArmor':'KNIGHT.LISTEFFECTS.ChampDeForceWithArmor',
+    'system.armure':'KNIGHT.LISTEFFECTS.Armure',
+    'system.armure.withArmor':'KNIGHT.LISTEFFECTS.ArmureWithArmor',
     'system.energie':'KNIGHT.LISTEFFECTS.Energie',
     'system.energie.withArmor':'KNIGHT.LISTEFFECTS.EnergieWithArmor',
     'system.reaction':'KNIGHT.LISTEFFECTS.Reaction',
     'system.reaction.withArmor':'KNIGHT.LISTEFFECTS.ReactionWithArmor',
     'system.defense':'KNIGHT.LISTEFFECTS.Defense',
     'system.defense.withArmor':'KNIGHT.LISTEFFECTS.DefenseWithArmor',
+    'system.combat.noMalusStyle':'KNIGHT.LISTEFFECTS.NoMalusStyle',
     'system.aspects.bete':'KNIGHT.LISTEFFECTS.Bete',
     'system.aspects.bete.caracteristiques.combat':'KNIGHT.LISTEFFECTS.Combat',
     'system.aspects.bete.caracteristiques.hargne':'KNIGHT.LISTEFFECTS.Hargne',
@@ -2021,6 +2024,14 @@ KNIGHT.EFFECTS = {
     'add':'KNIGHT.AUTRE.Ajouter',
     'decrease':'KNIGHT.AUTRE.Diminuer',
     'override':'KNIGHT.AUTRE.Surcharger'
+  },
+  INPUTTYPE:{
+    'system.combat.noMalusStyle':'text'
+  },
+  GETPATH:{
+    'cdf':'system.champDeForce',
+    'defense':'system.defense',
+    'noMalusStyle':'system.combat.noMalusStyle',
   }
 }
 

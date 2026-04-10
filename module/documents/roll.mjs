@@ -2371,7 +2371,9 @@ export class RollKnight {
         }
 
         if(armorIsWear && isErsatzGhostActive) {
-            const ersatzghost = this.attaquant.items.find(itm => itm._id === idErsatzGhost).system.niveau.actuel.ersatz.rogue;
+            const findErsatzGhost = this.attaquant.items.find(itm => itm._id === idErsatzGhost);
+            const ersatzghost = findErsatzGhost.type === 'module' ? findErsatzGhost.system.niveau.actuel.ersatz.rogue : findErsatzGhost.system.module.ersatz.rogue;
+
             let ersatzbonus = 0;
 
             if(this.isPJ) {
@@ -2444,11 +2446,11 @@ export class RollKnight {
 
             if(ersatzbonus > 0) {
                 bonus.push(ersatzbonus);
-                title += ` + ${game.i18n.localize('KNIGHT.ITEMS.MODULE.ERSATZ.ROGUE.Label')}`;
+                title += ` + ${findErsatzGhost.name}`;
 
                 if(ersatzghost.degats.dice) {
                     wpnDice += ersatzbonus;
-                    titleDice += ` + ${game.i18n.localize('KNIGHT.ITEMS.MODULE.ERSATZ.ROGUE.Label')}`;
+                    titleDice += ` + ${findErsatzGhost.name}`;
                 }
             }
 

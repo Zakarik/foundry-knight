@@ -18998,7 +18998,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border: 1px solid RGB(76 74 90);
   padding: 2px;
 }
-.cyberware section.window-content form div.body div.menuLeft div.activation button.permanent {
+.cyberware section.window-content form div.body div.menuLeft div.activation button.toggle {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -19007,18 +19007,18 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   border: 1px solid RGB(76 74 90);
   border-radius: 0px;
 }
-.cyberware section.window-content form div.body div.menuLeft div.activation button.permanent.unselected {
+.cyberware section.window-content form div.body div.menuLeft div.activation button.toggle.unselected {
   background: RGB(43 42 51);
   border-color: RGB(76 74 90);
 }
-.cyberware section.window-content form div.body div.menuLeft div.activation button.permanent.selected {
+.cyberware section.window-content form div.body div.menuLeft div.activation button.toggle.selected {
   background: RGB(76 74 90);
   border-color: white;
 }
-.cyberware section.window-content form div.body div.menuLeft div.activation button.permanent i.red {
+.cyberware section.window-content form div.body div.menuLeft div.activation button.toggle i.red {
   color: #C50000;
 }
-.cyberware section.window-content form div.body div.menuLeft div.activation button.permanent i.green {
+.cyberware section.window-content form div.body div.menuLeft div.activation button.toggle i.green {
   color: #59d13e;
 }
 .cyberware section.window-content form div.body div.menuLeft div.activation button.permanent {
@@ -19451,6 +19451,134 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .cyberware section.window-content form div.body div.arme div.blockEffets div.structurelles.hidden,
 .cyberware section.window-content form div.body div.arme div.blockEffets div.ornementales.hidden {
   display: none;
+}
+.cyberware section.window-content form div.body div.module {
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  align-items: flex-start;
+  align-content: flex-start;
+  padding-top: 5px;
+}
+.cyberware section.window-content form div.body div.module button.toggle {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+}
+.cyberware section.window-content form div.body div.module button.toggle.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.module button.toggle.selected {
+  background: RGB(76 74 90);
+  border-color: white;
+}
+.cyberware section.window-content form div.body div.module button.toggle i.red {
+  color: #C50000;
+}
+.cyberware section.window-content form div.body div.module button.toggle i.green {
+  color: #59d13e;
+}
+.cyberware section.window-content form div.body div.module.active {
+  display: grid;
+}
+.cyberware section.window-content form div.body div.module .double {
+  grid-column: 1/3;
+}
+.cyberware section.window-content form div.body div.module div.ersatz {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  align-items: flex-start;
+  align-content: flex-start;
+  border: 1px solid RGB(87 110 178);
+}
+.cyberware section.window-content form div.body div.module div.ersatz h3.title {
+  width: 100%;
+  margin: 0px;
+  border: 0px;
+  font-variant: small-caps;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  font-size: 16px;
+  padding-left: 5px;
+  border-bottom: 1px solid RGB(87 110 178);
+  background: RGB(87 110 178);
+  color: white;
+}
+.cyberware section.window-content form div.body div.module div.ersatz h3.subtitle {
+  width: 100%;
+  margin: 0px;
+  border: 0px;
+  font-variant: small-caps;
+  font-size: 16px;
+  padding-left: 5px;
+}
+.cyberware section.window-content form div.body div.module div.ersatz label {
+  display: grid;
+  border: 1px solid RGB(87 110 178);
+  height: 100%;
+}
+.cyberware section.window-content form div.body div.module div.ersatz label.input {
+  grid-template-columns: 1fr 100px;
+}
+.cyberware section.window-content form div.body div.module div.ersatz label.select {
+  grid-template-columns: 1fr 1fr;
+}
+.cyberware section.window-content form div.body div.module div.ersatz label.noLeft {
+  border-left: 0px;
+}
+.cyberware section.window-content form div.body div.module div.ersatz label.noRight {
+  border-right: 0px;
+}
+.cyberware section.window-content form div.body div.module div.ersatz label span {
+  display: grid;
+  height: 100%;
+  padding-left: 5px;
+  align-items: center;
+  font-variant: small-caps;
+  background: RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.module div.ersatz label input {
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px;
+  min-width: 0px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  border-left: 1px solid RGB(87 110 178);
+  background: RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.module div.ersatz label select {
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  border-radius: 0px;
+  background: RGB(43 42 51);
+  color: white;
+}
+.cyberware section.window-content form div.body div.module div.ersatz label select option {
+  background: RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.module div.ersatz label.withSeparator span {
+  border-top: 1px solid RGB(43 42 51);
+}
+.cyberware section.window-content form div.body div.module div.ersatz label.withSeparator input {
+  border-top: 1px solid RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.module div.ersatz div.rightCol {
+  display: grid;
+  grid-row: 2/6;
+  grid-gap: 5px;
+  align-items: flex-start;
+  align-content: flex-start;
+  grid-column: 2;
 }
 .cyberware section.window-content form div.body div.degats, .cyberware section.window-content form div.body div.violence {
   grid-template-columns: 1fr;

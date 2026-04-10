@@ -336,7 +336,34 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
     }
 
     get armes() {
-        return this.items.filter(items => items.type === 'arme');
+        const base = this.items.filter(items => items.type === 'arme');
+        let all = base;
+
+        if(this.hasCyberware) {
+            const wearArmor = this.actor.type === 'knight' ? this?.wear ?? 'tenueCivile' : 'armure';
+            const isWearingArmor = wearArmor === 'armure' ? true : false;
+            const wpnCyberware = this.items.filter(items =>
+                items.type === 'cyberware' &&
+                items.system.arme.has &&
+                (
+                    (items.system.arme.withMetaArmure && isWearingArmor) ||
+                    (!items.system.arme.withMetaArmure && !isWearingArmor)
+                ) &&
+                items.system.isActive
+            ).map(item => {
+                return {
+                    ...item,
+                    system: {
+                        ...item.system.arme,
+                        equipped:true,
+                    }
+                };
+            });
+
+            all = all.concat(wpnCyberware)
+        }
+
+        return all;
     }
     /**
      * Calcule le modificateur aux jets d'armes à distance basé sur les statuts actifs.
@@ -428,80 +455,127 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
     applyCyberware() {
         if(!this.hasCyberware) return;
 
-        const allCyberwareEffects = [];
-        const toUpdate = {};
+        const getActiveEffects = () => {
+            return this.cyberware
+                .filter(c => c.system.isActive)
+                .flatMap(c => c.system.getAllEffects);
+        };
 
-        for(let c of this.cyberware) {
-            if(!c.system.isActive) continue;
+        const sanitizePath = (cyberware) => {
+            let sanitized = cyberware.path;
+            let apply = true;
 
-            const allEffects = c.system.getAllEffects;
-
-            allCyberwareEffects.push(...allEffects);
-        }
-
-        for(let c of allCyberwareEffects) {
-            let toApply = '';
-
-            if(!c.path) continue;
-
-            let path = c.path;
-            if (path.startsWith("system.")) {
-                path = path.substring("system.".length);
+            if (sanitized.startsWith("system.")) {
+                sanitized = sanitized.substring("system.".length);
             }
 
             if(this.actor.type === 'knight') {
-                const conditionnal = ['sante', 'champDeForce', 'energie', 'reaction', 'defense'];
+                const conditionnal = ['sante', 'champDeForce', 'armure', 'energie', 'reaction', 'defense'];
 
-                if (conditionnal.some(c => path.includes(c))) {
+                if (conditionnal.some(k => sanitized.includes(k))) {
                     const wear = this?.wear ?? 'tenueCivile';
 
-                    if(!path.includes('.withArmor') && wear === 'armure') continue;
+                    if(!sanitized.includes('.withArmor') && wear === 'armure') apply = false;
                 }
             }
 
-            path = path.replaceAll('.withArmor', '');
+            sanitized = sanitized.replaceAll('.withArmor', '');
 
-            switch(c.type) {
+            switch(cyberware.type) {
                 case 'decrease':
-                    toApply = `${path}.malus`;
-
-                    if(toUpdate[toApply]) toUpdate[toApply] += Number(c.value);
-                    else toUpdate[toApply] = Number(c.value);
+                    sanitized = `${sanitized}.malus`;
                     break;
 
                 case 'override':
-                    toApply = `${path}.override`;
-
-                    if(toUpdate[toApply]) toUpdate[toApply] = Math.max(Number(c.value), toUpdate[toApply]);
-                    else toUpdate[toApply] = Number(c.value);
+                    sanitized = `${sanitized}.override`;
                     break;
 
                 default:
-                    toApply = `${path}.bonus`;
-
-                    if(toUpdate[toApply]) toUpdate[toApply] += Number(c.value);
-                    else toUpdate[toApply] = Number(c.value);
+                    sanitized = `${sanitized}.bonus`;
                     break;
             }
+
+            return {
+                apply,
+                path:sanitized,
+            }
         }
 
-        for(let up in toUpdate) {
-            let parts = up.split('.');
-            let parent = parts.reduce((obj, key) => {
-                if (!obj[key]) obj[key] = {};
-                return obj[key];
-            }, this);
-
-            if (parent) {
-                Object.defineProperty(parent, 'cyberware', {
-                    value: toUpdate[up],
-                    writable: true,
-                    configurable: true,
-                    enumerable: true
-                });
+        const processSpecialUpdate = (cyberware, path, toUpdate) => {
+            let finalPath = path;
+            if (finalPath.startsWith("system.")) {
+                finalPath = finalPath.substring("system.".length);
             }
 
+            if(finalPath.includes('noMalusStyle')) {
+                toUpdate[finalPath] = cyberware.value === true || cyberware.value.toLowerCase() === "true";
+            }
         }
+
+        const processSTDUpdate = (toUpdate) => {
+            for(let up in toUpdate) {
+                let parts = up.split('.');
+                let parent = parts.reduce((obj, key) => {
+                    if (!obj[key]) obj[key] = {};
+                    return obj[key];
+                }, this);
+
+                if (parent) {
+                    Object.defineProperty(parent, 'cyberware', {
+                        value: toUpdate[up],
+                        writable: true,
+                        configurable: true,
+                        enumerable: true
+                    });
+                }
+            }
+        }
+
+        const processSPEUpdate = (toUpdate) => {
+            for(let up in toUpdate) {
+                const parts = up.split('.');
+                const lastKey = parts.pop();
+                const parent = parts.reduce((obj, key) => {
+                    if (!obj[key]) obj[key] = {};
+                    return obj[key];
+                }, this);
+
+                if (parent) {
+                    Object.defineProperty(parent, lastKey, {
+                        value: toUpdate[up],
+                        writable: true,
+                        configurable: true,
+                        enumerable: true
+                    });
+                }
+            }
+        }
+
+        const allCyberwareEffects = getActiveEffects();
+        const toUpdate = {};
+        const speUpdate = {};
+
+        for(let c of allCyberwareEffects) {
+            if(!c.path) continue;
+
+            const processPath = sanitizePath(c);
+
+            if(!processPath.apply) continue;
+            let path = processPath.path;
+            const SPECIALCFG = CONFIG?.KNIGHT?.EFFECTS?.INPUTTYPE?.[c.path];
+
+            if(SPECIALCFG) processSpecialUpdate(c, c.path, speUpdate);
+            else if(c.type === 'override') {
+                if(toUpdate[path]) toUpdate[path] = Math.max(Number(c.value), toUpdate[path]);
+                else toUpdate[path] = Number(c.value);
+            } else {
+                if(toUpdate[path]) toUpdate[path] += Number(c.value);
+                else toUpdate[path] = Number(c.value);
+            }
+        }
+
+        if(!foundry.utils.isEmpty(toUpdate)) processSTDUpdate(toUpdate);
+        if(!foundry.utils.isEmpty(speUpdate)) processSPEUpdate(speUpdate);
     }
 
     /* -------------------------------------------- */

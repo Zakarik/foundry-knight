@@ -208,11 +208,28 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
                             }
                         }],
                     }],
+                    champDeForce:["schema", {
+                        value:["num", {initial:0, min:0, nullable:false, integer:true}],
+                        base:["num", {initial:0, min:0, nullable:false, integer:true}],
+                        bonus:["obj", {
+                            initial:{
+                                user:0,
+                                system:0,
+                            }
+                        }],
+                        malus:["obj", {
+                            initial:{
+                                user:0,
+                                system:0,
+                            }
+                        }],
+                    }],
                 }],
             }],
             combat:["schema", {
                 style:["str", { initial: "standard", nullable:false}],
                 styleInfo:["str", { initial: "" }],
+                noMalusStyle:["bool", { initial: false}],
             }],
             combos:["schema", {
                 bonus:["schema", {
@@ -412,14 +429,12 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         this.#traumas();
         this.#armes();
         this.#distinctions();
-        this.#style();
         this.#gloire();
     }
 
     _startPrepareDerivedData() {
         super._startPrepareDerivedData();
 
-        this.#setJauges();
         this.#modules();
         this.#avantages();
         this.#inconvenients();
@@ -428,9 +443,11 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
     _EndPrepareDerivedData() {
         super._EndPrepareDerivedData();
 
+        this.#style();
         this.#derived();
         this.initiative.prepareData();
         this.#sanitizeValue();
+        this.#setJauges();
     }
 
     _applyTranslation() {
@@ -542,6 +559,9 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         }
 
         if(cyberware.length > 0) energie = true;
+        if(this.champDeForce.value > 0) champDeForce = true;
+        if(this.energie.max > 0) energie = true;
+        if(this.armure.max > 0) armure = true;
 
         Object.defineProperty(this.jauges, 'armure', {
             value: armure,
@@ -845,6 +865,39 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
     }
 
     #derived() {
+        const setValue = (name, withMax=true) => {
+            const wear = this.whatWear;
+            const property = withMax ? 'max' : 'value';
+
+            const override = Object.values(this[name]?.override ?? {}).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
+
+            const baseBonus = Object.values(this[name]?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+            const baseMalus = Object.values(this[name]?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
+            const bonus = Object.values(this.equipements[wear]?.[name]?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+            const malus = Object.values(this.equipements[wear]?.[name]?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+
+            if(!override) {
+                Object.defineProperty(this[name], 'mod', {
+                    value: (baseBonus + bonus) - (baseMalus + malus),
+                });
+
+                Object.defineProperty(this[name], property, {
+                    value: this[name].base+this[name].mod,
+                });
+            } else {
+                Object.defineProperty(this[name], property, {
+                    value: override,
+                });
+            }
+
+            if(withMax) {
+                Object.defineProperty(this[name], 'value', {
+                    value: Math.min(this.equipements[this.wear]?.[name]?.value ?? 0, this[name].max),
+                });
+            }
+        }
+
         const wear = this.whatWear;
 
         for (const aspect in this.aspects) {
@@ -1050,71 +1103,13 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         });
 
         // ARMURE
-        const armureBonus = Object.values(this.equipements[wear]?.armure?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-        const armureMalus = Object.values(this.equipements[wear]?.armure?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-
-        Object.defineProperty(this.armure, 'mod', {
-            value: armureBonus-armureMalus,
-        });
-
-        Object.defineProperty(this.armure, 'max', {
-            value: this.armure.base+this.armure.mod,
-        });
-
-        Object.defineProperty(this.armure, 'value', {
-            value: Math.min(this.equipements[this.wear]?.armure?.value ?? 0, this.armure.max),
-        });
+        setValue('armure');
 
         // ENERGIE
-        const energieOverride = Object.values(this.energie?.override ?? {}).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
-
-        const energieBaseBonus = Object.values(this.energie?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-        const energieBaseMalus = Object.values(this.energie?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-
-        const energieBonus = Object.values(this.equipements[wear]?.energie?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-        const energieMalus = Object.values(this.equipements[wear]?.energie?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-
-        if(!energieOverride) {
-            Object.defineProperty(this.energie, 'mod', {
-                value: (energieBonus + energieBaseBonus)-(energieBaseMalus + energieMalus),
-            });
-
-            Object.defineProperty(this.energie, 'max', {
-                value: this.energie.base+this.energie.mod,
-            });
-        } else {
-            Object.defineProperty(this.energie, 'max', {
-                value: energieOverride,
-            });
-        }
-
-        Object.defineProperty(this.energie, 'value', {
-            value: Math.min(this.equipements[this.wear]?.energie?.value ?? 0, this.energie.max),
-        });
+        setValue('energie');
 
         // CHAMP DE FORCE
-        const CDFOverride = Object.values(this.champDeForce?.override ?? {}).reduce((max, curr) => Math.max(max, Number(curr) || 0), 0);
-
-        if(!CDFOverride) {
-            const CDFBaseBonus = Object.values(this.champDeForce?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-            const CDFBaseMalus = Object.values(this.champDeForce?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-
-            const CDFBonus = Object.values(this.equipements[wear]?.champDeForce?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-            const CDFMalus = Object.values(this.equipements[wear]?.champDeForce?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-
-
-            Object.defineProperty(this.champDeForce, 'mod', {
-                value: (CDFBonus + CDFBaseBonus)-(CDFMalus + CDFBaseMalus),
-            });
-
-            Object.defineProperty(this.champDeForce, 'value', {
-                value: Math.max(this.champDeForce.base+this.champDeForce.mod, 0),
-            });
-        } else {
-            Object.defineProperty(this.champDeForce, 'value', {
-                value: CDFOverride,
-            });
-        }
+        setValue('champDeForce', false);
 
         // ESPOIR
         let espoirBase = 50;
@@ -2267,8 +2262,11 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
     }
 
     #style() {
+        const noMalus = this.combat.noMalusStyle;
         const style = this.combat.style;
         const data = getModStyle(style);
+
+        console.error(noMalus);
 
         Object.defineProperty(this.combat, 'styleInfo', {
             value: game.i18n.localize(CONFIG.KNIGHT.styles[style]),
@@ -2281,12 +2279,14 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
             configurable:true
         });
 
-        Object.defineProperty(this.reaction.malus, 'style', {
-            value: data.malus.reaction,
-            writable:true,
-            enumerable:true,
-            configurable:true
-        });
+        if(!noMalus) {
+            Object.defineProperty(this.reaction.malus, 'style', {
+                value: data.malus.reaction,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
+        }
 
         Object.defineProperty(this.defense.bonus, 'style', {
             value: data.bonus.defense,
@@ -2295,12 +2295,14 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
             configurable:true
         });
 
-        Object.defineProperty(this.defense.malus, 'style', {
-            value: data.malus.defense,
-            writable:true,
-            enumerable:true,
-            configurable:true
-        });
+        if(!noMalus) {
+            Object.defineProperty(this.defense.malus, 'style', {
+                value: data.malus.defense,
+                writable:true,
+                enumerable:true,
+                configurable:true
+            });
+        }
     }
 
     #blessures() {

@@ -618,6 +618,7 @@
       },
       "MENU":{
         "Arme":"Arme",
+        "Module":"Module",
         "Soin":"Soin",
         "Effects":"Effets",
         "Recuperation":"Récupération",
@@ -628,6 +629,7 @@
         "Activation":"Doit être activé ?",
         "Optimisation":"Optimisation ?",
         "Arme":"Est une arme ?",
+        "Module":"Applique l'effet d'un module spécifique ?",
         "Soin":"Soigne une blessure grave ?",
         "Effects":"Possède des effets supplémentaires ?",
         "Dharmatech":"DharmaTech Solutions",
@@ -3101,11 +3103,13 @@
       "Energie":"Energie (sans armure uniquement)",
       "Reaction":"Réaction (sans armure uniquement)",
       "Defense":"Défense (sans armure uniquement)",
+      "Armure":"Armure (sans armure uniquement)",
       "SanteWithArmor":"Santé (fonctionne avec armure)",
       "ChampDeForceWithArmor":"Champ de force (fonctionne avec armure)",
       "EnergieWithArmor":"Energie (fonctionne avec armure)",
       "ReactionWithArmor":"Réaction (fonctionne avec armure)",
       "DefenseWithArmor":"Défense (fonctionne avec armure)",
+      "ArmureWithArmor":"Armure (fonctionne avec armure)",
       "Bete":"Bete",
       "Chair":"Chair",
       "Machine":"Machine",
@@ -3140,7 +3144,8 @@
       "TechniqueOD":"Machine : Overdrive de Technique",
       "DiscretionOD":"Masque : Overdrive de Discretion",
       "DexteriteOD":"Masque : Overdrive de Dextérité",
-      "PerceptionOD":"Masque : Overdrive de Perception"
+      "PerceptionOD":"Masque : Overdrive de Perception",
+      "NoMalusStyle":"Annule le malus des styles de combat (remplacer - true/false)"
     }
   }
 }

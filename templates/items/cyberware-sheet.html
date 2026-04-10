@@ -27,7 +27,7 @@
                 <span>{{localize "KNIGHT.PROGRESSION.GLOIRE.Label"}}</span>
                 <input type="number" name="system.prix" value="{{systemData.prix}}"/>
             </label>
-            {{{menuVertical 'KNIGHT.CYBERWARE.MENULEFT' systemData 'dharmatech' 'activation' 'optimisation' 'arme' 'degats' 'violence' 'soin' 'recuperation' 'effects'}}}
+            {{{menuVertical 'KNIGHT.CYBERWARE.MENULEFT' systemData 'dharmatech' 'activation' 'optimisation' 'arme' 'module' 'degats' 'violence' 'soin' 'recuperation' 'effects'}}}
             {{#if systemData.activation.has}}
             <div class="activation">
                 <label>
@@ -46,15 +46,21 @@
                     <textarea name="system.activation.duration">{{systemData.activation.duration}}</textarea>
                 {{/unless}}
                 </label>
+                <button type="action"
+                    class="toggle {{ifThen systemData.activation.permanent 'selected' 'unselected'}}"
+                    data-path="system.activation.permanent">
+                    <span>{{localize "KNIGHT.DUREE.Permanent"}}</span>
+                    <i class="fa-solid {{ifThen systemData.activation.permanent 'fa-check green' 'fa-xmark red'}}"></i>
+                </button>
             </div>
             {{/if}}
         </div>
 
         <div class="data">
             {{#if document.actor}}
-                {{{menuHorizontal systemData 'primary' 'KNIGHT.CYBERWARE.MENU' 'arme' 'degats' 'violence' 'soin' 'recuperation' 'effects'}}}
+                {{{menuHorizontal systemData 'primary' 'KNIGHT.CYBERWARE.MENU' 'arme' 'module' 'degats' 'violence' 'soin' 'recuperation' 'effects'}}}
             {{else}}
-                {{{menuHorizontal systemData 'primary' 'KNIGHT.CYBERWARE.MENU' 'arme' 'degats' 'violence' 'recuperation' 'effects'}}}
+                {{{menuHorizontal systemData 'primary' 'KNIGHT.CYBERWARE.MENU' 'arme' 'module' 'degats' 'violence' 'recuperation' 'effects'}}}
             {{/if}}
 
             <div class="tab arme" data-group="primary" data-tab="arme">
@@ -122,6 +128,80 @@
                         </a>
                     </div>
                 </div>
+            </div>
+
+            <div class="tab module" data-group="primary" data-tab="module">
+                <button type="action"
+                    class="toggle {{ifThen systemData.module.withMetaArmure 'selected' 'unselected'}} double"
+                    data-path="system.module.withMetaArmure">
+                    <span>{{localize "KNIGHT.CYBERWARE.AvecMetaArmure"}}</span>
+                    <i class="fa-solid {{ifThen systemData.module.withMetaArmure 'fa-check green' 'fa-xmark red'}}"></i>
+                </button>
+
+                <button type="action" class="toggle {{ifThen systemData.module.ersatz.rogue.has 'selected' 'unselected'}}"
+                data-path="system.module.ersatz.rogue.has">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.ERSATZ.ROGUE.Label"}}</span>
+                    <i class="fa-solid {{ifThen systemData.module.ersatz.rogue.has 'fa-check green' 'fa-xmark red'}}"></i>
+                </button>
+
+                <button type="action" class="toggle {{ifThen systemData.module.ersatz.bard.has 'selected' 'unselected'}}"
+                data-path="system.module.ersatz.bard.has">
+                    <span>{{localize "KNIGHT.ITEMS.MODULE.ERSATZ.BARD.Label"}}</span>
+                    <i class="fa-solid {{ifThen systemData.module.ersatz.bard.has 'fa-check green' 'fa-xmark red'}}"></i>
+                </button>
+
+                {{#if systemData.module.ersatz.rogue.has}}
+                <div class="ersatz double">
+                    <h3 class="title double">{{localize "KNIGHT.ITEMS.MODULE.ERSATZ.ROGUE.Label"}}</h3>
+
+                    <label class="input noLeft">
+                        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.BonusPasserInaperçu"}}</span>
+                        <input type="number" name="system.module.ersatz.rogue.reussites" value="{{systemData.module.ersatz.rogue.reussites}}" min="0" />
+                    </label>
+
+                    <label class="select noRight">
+                        <span>{{localize "KNIGHT.BONUS.Attaque"}}</span>
+                        <select name="system.module.ersatz.rogue.attaque">
+                            {{selectOptions (onlyCarac) selected=systemData.module.ersatz.rogue.attaque localize=true}}
+                        </select>
+                    </label>
+
+                    <button type="action" class="toggle {{ifThen systemData.module.ersatz.rogue.interruption.actif 'selected' 'unselected'}}"
+                    data-path="system.module.ersatz.rogue.interruption.actif">
+                        <span>{{localize "KNIGHT.ITEMS.ARMURE.CAPACITES.GHOST.Interruption"}}</span>
+                        <i class="fa-solid {{ifThen systemData.module.ersatz.rogue.interruption.actif 'fa-check green' 'fa-xmark red'}}"></i>
+                    </button>
+
+                    <div class="rightCol">
+                        <h3 class="subtitle">{{localize "KNIGHT.BONUS.Degats"}}</h3>
+
+                        <label class="select noRight">
+                            <span>{{localize "KNIGHT.ITEMS.Caracteristique"}}</span>
+                            <select name="system.module.ersatz.rogue.degats.caracteristique">
+                                {{selectOptions (onlyCarac) selected=systemData.module.ersatz.rogue.degats.caracteristique localize=true}}
+                            </select>
+                        </label>
+
+                        <button type="action" class="toggle {{ifThen systemData.module.ersatz.rogue.degats.od 'selected' 'unselected'}}"
+                        data-path="system.module.ersatz.rogue.degats.od">
+                            <span>{{localize "KNIGHT.INCLUS.Od"}}</span>
+                            <i class="fa-solid {{ifThen systemData.module.ersatz.rogue.degats.od 'fa-check green' 'fa-xmark red'}}"></i>
+                        </button>
+
+                        <button type="action" class="toggle {{ifThen systemData.module.ersatz.rogue.degats.dice 'selected' 'unselected'}}"
+                        data-path="system.module.ersatz.rogue.degats.dice">
+                            <span>{{localize "KNIGHT.INCLUS.Dice"}}</span>
+                            <i class="fa-solid {{ifThen systemData.module.ersatz.rogue.degats.dice 'fa-check green' 'fa-xmark red'}}"></i>
+                        </button>
+
+                        <button type="action" class="toggle {{ifThen systemData.module.ersatz.rogue.degats.fixe 'selected' 'unselected'}}"
+                        data-path="system.module.ersatz.rogue.degats.fixe">
+                            <span>{{localize "KNIGHT.INCLUS.Fixe"}}</span>
+                            <i class="fa-solid {{ifThen systemData.module.ersatz.rogue.degats.fixe 'fa-check green' 'fa-xmark red'}}"></i>
+                        </button>
+                    </div>
+                </div>
+                {{/if}}
             </div>
 
             <div class="tab degats" data-group="primary" data-tab="degats">
@@ -281,7 +361,7 @@
                             <select class="type" name="system.effects.list.{{index}}.type">
                                 {{selectOptions (getCFG 'EFFECTS.TYPE') selected=data.type localize=true}}
                             </select>
-                            <input class="value" type="number" name="system.effects.list.{{index}}.value" value="{{data.value}}" />
+                            <input class="value" type="{{getEFFECTSINPUT data.path}}" name="system.effects.list.{{index}}.value" value="{{data.value}}" />
                             <a class="delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}" data-index="{{index}}"><i class="fas fa-trash"></i></a>
                         {{/each}}
                     </div>

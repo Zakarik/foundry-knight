@@ -28,6 +28,7 @@ export class CyberwareDataModel extends BaseArmeDataModel {
                 type:["str", { initial: "", nullable:false}],
                 energie:["num", {initial:0, min:0, nullable:false, integer:true}],
                 duration:["str", { initial: "", nullable:false}],
+                permanent:["bool", { initial: false}],
             }],
             optimisation:["schema", {
                 has:["bool", { initial: false}],
@@ -95,128 +96,47 @@ export class CyberwareDataModel extends BaseArmeDataModel {
                 effets: ["schema", EFFECTSFIELD],
                 withMetaArmure:["bool", { initial: false}],
             }],
+            module:["schema", {
+                has:["bool", { initial: false}],
+                ersatz:["schema", {
+                    rogue:["schema", {
+                        has:["bool", { initial: false}],
+                        interruption:["schema", {
+                            actif:["bool", { initial: true}],
+                        }],
+                        reussites:["num", {initial:3, nullable:false, integer:true}],
+                        attaque:["str", { initial: "discretion", nullable:false}],
+                        degats:["schema", {
+                            caracteristique:["str", { initial: "discretion", nullable:false}],
+                            od:["bool", { initial: true}],
+                            dice:["bool", { initial: false}],
+                            fixe:["bool", { initial: true}],
+                        }]
+                    }],
+                    bard:["schema", {
+                        has:["bool", { initial: false}],
+                    }],
+                }],
+                withMetaArmure:["bool", { initial: false}],
+            }],
             effects:["schema", {
                 has:["bool", { initial: false}],
                 other:["html", { initial: ""}],
                 list:["arr", ["schema", {
                     type:["str", { initial: "add", nullable:false}],
                     path:["str", { initial: "", nullable:false}],
-                    value:["num", {initial:0, nullable:false, integer:true}],
+                    value:["str", {initial:'0', nullable:false}],
                 }]],
                 defaultListValue:["arr", ["schema", {
                     type:["str", { initial: "add", nullable:false}],
                     path:["str", { initial: "", nullable:false}],
-                    value:["num", {initial:0, nullable:false, integer:true}],
+                    value:["str", {initial:'0', nullable:false}],
                 }]],
             }]
         }
 
         return combine(base, specific);
     }
-	/*static defineSchema() {
-		const {SchemaField, BooleanField, ArrayField, StringField, NumberField, HTMLField, ObjectField} = foundry.data.fields;
-
-        const base = super.defineSchema();
-        const specific = {
-            active:new BooleanField({initial:false}),
-            marque:new StringField({initial:""}),
-            categorie:new StringField({initial:"medical"}),
-            dharmaTech:new BooleanField({initial:false}),
-            espoir:new NumberField({initial:3}),
-            prix:new NumberField({initial:0, min:0}),
-            dharmatech:new SchemaField({
-                has:new BooleanField({initial:false}),
-            }),
-            activation:new SchemaField({
-                has:new BooleanField({initial:false}),
-                type:new StringField({initial:""}),
-                energie:new NumberField({initial:0, min:0}),
-                duration:new StringField({initial:""}),
-            }),
-            optimisation:new SchemaField({
-                has:new BooleanField({initial:false}),
-            }),
-            soin:new SchemaField({
-                has:new BooleanField({initial:false}),
-                blessuresSoignees:new StringField({initial:''}),
-            }),
-            recuperation:new SchemaField({
-                has:new BooleanField({initial:false}),
-                type:new StringField({initial:''}),
-                limite:new SchemaField({
-                    value:new NumberField({initial:0}),
-                    max:new NumberField({initial:0, min:0}),
-                }),
-                dice:new NumberField({initial:0, min:0}),
-                face:new NumberField({initial:6, min:0}),
-                bonus:new NumberField({initial:0})
-            }),
-            degats:new SchemaField({
-                withMetaArmure:new BooleanField({initial:false}),
-                has:new BooleanField({initial:false}),
-                type:new StringField({initial:"contact"}),
-                dice:new NumberField({initial:0}),
-                fixe:new NumberField({initial:0}),
-                variable:new SchemaField({
-                    has:new BooleanField({initial:false}),
-                    min:new SchemaField({
-                        dice:new NumberField({initial:0}),
-                        fixe:new NumberField({initial:0}),
-                    }),
-                    max:new SchemaField({
-                        dice:new NumberField({initial:0}),
-                        fixe:new NumberField({initial:0}),
-                    }),
-                    cout:new NumberField({initial:0}),
-                })
-            }),
-            violence:new SchemaField({
-                withMetaArmure:new BooleanField({initial:false}),
-                has:new BooleanField({initial:false}),
-                type:new StringField({initial:"contact"}),
-                dice:new NumberField({initial:0}),
-                fixe:new NumberField({initial:0}),
-                variable:new SchemaField({
-                has:new BooleanField({initial:false}),
-                min:new SchemaField({
-                    dice:new NumberField({initial:0}),
-                    fixe:new NumberField({initial:0}),
-                }),
-                max:new SchemaField({
-                    dice:new NumberField({initial:0}),
-                    fixe:new NumberField({initial:0}),
-                }),
-                cout:new NumberField({initial:0}),
-                })
-            }),
-            arme:new SchemaField({
-                has:new BooleanField({initial:false}),
-                type: new StringField({initial: 'contact'}),
-                portee: new StringField({initial: 'contact'}),
-                optionsmunitions:new OptionsMunitions(),
-                degats:new DgtsViolenceField(),
-                violence:new DgtsViolenceField(),
-                effets: new EffectsField(),
-                withMetaArmure:new BooleanField({initial:false}),
-            }),
-            effects:new SchemaField({
-                has:new BooleanField({initial:false}),
-                other:new HTMLField({initial:""}),
-                list:new ArrayField(new SchemaField({
-                    type:new StringField({initial:'add'}),
-                    path:new StringField({initial:''}),
-                    value:new NumberField({initial:0}),
-                })),
-                defaultListValue:new SchemaField({
-                    type:new StringField({initial:'add'}),
-                    path:new StringField({initial:''}),
-                    value:new NumberField({initial:0}),
-                }),
-            })
-        }
-
-        return foundry.utils.mergeObject(base, specific);
-    }*/
 
     get wpnPath() {
         return `system.arme.`;
@@ -273,10 +193,17 @@ export class CyberwareDataModel extends BaseArmeDataModel {
 
     prepareBaseData() {
         const recuperation = this.recuperation;
+        const activation = this.activation;
 
         if(recuperation.limite.value > recuperation.limite.max) {
             Object.defineProperty(recuperation.limite, 'value', {
                 value: recuperation.limite.max,
+            });
+        }
+
+        if(activation.has && activation.permanent) {
+            Object.defineProperty(this, 'active', {
+                value: true,
             });
         }
 	}
@@ -333,6 +260,9 @@ export class CyberwareDataModel extends BaseArmeDataModel {
         const recuperation = this.recuperation;
         let canUseRecuperation = true;
         let abort = false;
+
+        if(!this.activation.has) return;
+        if(this.activation.permanent) return;
 
         if(recuperation.has && recuperation.limite.max > 0) {
             if(recuperation.limite.value === 0) canUseRecuperation = false;

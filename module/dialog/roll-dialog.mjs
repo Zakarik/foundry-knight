@@ -804,6 +804,7 @@ export class KnightRollDialog extends Dialog {
         const actor = this.who;
         const armor = actor.items.find(itm => itm.type === 'armure');
         const armorIsWear = this.armorIsWear;
+        const dataErsatzRogue = this.#getErsatzRogue(actor);
         const label = data.find('input.label').val();
         const base = this.rollData.base;
         const selected = [...new Set(this.rollData.whatRoll)].filter(v => v !== base);
@@ -849,6 +850,8 @@ export class KnightRollDialog extends Dialog {
         let ersatzghost = 0;
         let odErsatzghost = 0;
         let flags = {};
+        let isErsatzRogueActive = false;
+        let isTourelle = false;
 
         if((armorIsWear) && !isNoOd) bonus.push(this.#getODAspect(actor, base));
 
@@ -893,14 +896,15 @@ export class KnightRollDialog extends Dialog {
             const style = actor.system.combat.style;
             const modStyle = getModStyle(style);
             const capacitiesSelected = armor?.system?.capacites?.selected;
+            const noMalusStyle = actor?.system?.combat?.noMalusStyle ?? false;
             let effets = weapon.effets.raw.concat(weapon?.structurelles?.raw ?? [], weapon?.ornementales?.raw ?? []);
             let custom = weapon.effets.custom.concat(weapon?.ornementales?.custom ?? [], weapon?.structurelles?.custom ?? []);
-            const isTourelle = weapon?.tourelle ?? false;
+            isTourelle = weapon?.tourelle ?? false;
             dices += modStyle.bonus.attaque;
-            dices -= modStyle.malus.attaque;
+            dices -= noMalusStyle ? 0 : modStyle.malus.attaque;
             cout += weapon?.cout ?? 0;
             espoir += weapon?.espoir ?? 0;
-            const isErsatzRogueActive = actor?.moduleErsatz?.rogue?.has ?? false;
+            isErsatzRogueActive = dataErsatzRogue?.has ?? false;
             const isGhostActive = armor && !isTourelle ? (capacitiesSelected?.ghost?.active?.conflit
                 || capacitiesSelected?.ghost?.active?.horsconflit)
                 ?? false : false;
@@ -961,6 +965,8 @@ export class KnightRollDialog extends Dialog {
 
             switch(style) {
                 case 'akimbo':
+                    if(noMalusStyle) break;
+
                     const secondId = this.rollData.wpnSecond;
 
                     if(secondId) flags['secondWpn'] = this.rollData.allWpn.find(itm => itm.id === secondId);
@@ -980,6 +986,8 @@ export class KnightRollDialog extends Dialog {
                     break;
 
                 case 'ambidextre':
+                    if(noMalusStyle) break;
+
                     if(this.#isEffetActive(effets, weapon.options, ['jumeleambidextrie', 'soeur', 'jumelageambidextrie']) &&
                     (
                         (weapon.type === 'distance' && this.#getODAspect(actor, 'tir') >= 4 && armorIsWear) ||
@@ -995,12 +1003,16 @@ export class KnightRollDialog extends Dialog {
                     break;
 
                 case 'defensif':
+                    if(noMalusStyle) break;
+
                     if(this.#isEffetActive(effets, weapon.options, ['protectrice'])) {
                         dices += 2;
                     }
                     break;
 
                 case 'acouvert':
+                    if(noMalusStyle) break;
+
                     if(this.#isEffetActive(effets, weapon.options, ['tirensecurite', 'interfaceguidage'])) {
                         dices += 3;
                     }
@@ -1027,7 +1039,7 @@ export class KnightRollDialog extends Dialog {
                 case 'puissant':
                     if((this.#isEffetActive(effets, weapon.options, ['lourd']) || (this.#isEffetActive(effets, weapon.options, ['deuxmains']) && this.#isEffetActive(effets, weapon.options, ['munitionshypervelocite', 'systemerefroidissement']))) && weapon.type === 'contact') {
                         if(data.find('.puissant select').val()){
-                            dices -= Math.min(parseInt(data.find('.puissant input').val()), 6);
+                            if(!noMalusStyle) dices -= Math.min(parseInt(data.find('.puissant input').val()), 6);
 
                             dataStyle = {
                                 type:data.find('.puissant select').val(),
@@ -1088,21 +1100,17 @@ export class KnightRollDialog extends Dialog {
 
             if(armorIsWear && isErsatzRogueActive && !isTourelle) {
                 if((weapon.type === 'contact' && !this.#isEffetActive(effets, weapon.options, ['lumiere'])) || (weapon.type === 'distance' && (this.#isEffetActive(effets, weapon.options, ['silencieux']) || this.#isEffetActive(effets, weapon.options, ['munitionssubsoniques']) || this.#isEffetActive(effets, weapon.options, ['assassine'])))) {
-                    ersatzghost += this.#getValueAspect(actor, actor.moduleErsatz.rogue.attaque);
+                    ersatzghost += this.#getValueAspect(actor, dataErsatzRogue.attaque);
 
                     if(!this.isPJ) ersatzghost = Math.ceil(ersatzghost/2);
 
-                    odErsatzghost += this.#getODAspect(actor, actor.moduleErsatz.rogue.attaque);
+                    odErsatzghost += this.#getODAspect(actor, dataErsatzRogue.attaque);
 
 
                     flags['ersatzghost'] = {
-                        id:actor.moduleErsatz.rogue._id,
+                        id:dataErsatzRogue._id,
                         value:true,
                     };
-                }
-
-                if(actor.moduleErsatz.rogue.interruption.actif) {
-                    updates[`item.${actor.moduleErsatz.rogue._id}.system.active.base`] = false;
                 }
             }
 
@@ -1402,7 +1410,7 @@ export class KnightRollDialog extends Dialog {
         if(ersatzghost > 0) {
             tags.push({
                 key:'ersatzghost',
-                label:`${game.i18n.localize('KNIGHT.ITEMS.MODULE.ERSATZ.ROGUE.Label')} : +${ersatzghost}D6+${odErsatzghost}`,
+                label:`${dataErsatzRogue.name} : +${ersatzghost}D6+${odErsatzghost}`,
             });
 
             dices += ersatzghost;
@@ -1432,7 +1440,22 @@ export class KnightRollDialog extends Dialog {
             maximize,
             difficulte,
             addFlags:flags,
-            }).doRoll(updates);
+            }).doRoll(updates).then(() => {
+                if(armorIsWear && isErsatzRogueActive && !isTourelle) {
+                    if(dataErsatzRogue.interruption.actif) {
+                        switch(dataErsatzRogue.item.type) {
+                            case 'module':
+                                dataErsatzRogue.item.system.activate(false, '')
+                                break;
+
+                            case 'cyberware':
+                                dataErsatzRogue.item.system.activate();
+                                break;
+                        }
+                    }
+                }
+            });
+
         } else {
             const exec = new game.knight.RollKnight(actor,
             {
@@ -5561,5 +5584,32 @@ export class KnightRollDialog extends Dialog {
 
             if(itm.system.isActive && itm.system.arme.has) return true;
         })
+    }
+
+    #getErsatzRogue(actor) {
+        const module = actor.items.find(itm => itm.type === 'module' && itm?.system?.active?.base && itm?.system?.niveau?.actuel?.ersatz?.rogue?.has);
+        let result = null;
+
+        if(module) {
+            result = {
+                ...module.system.niveau.actuel.ersatz.rogue,
+                name:module.name,
+                _id:module._id,
+                item:module,
+            }
+        } else if(actor.system.hasCyberware) {
+            const cyberware = actor.items.find(itm => itm.type === 'cyberware' && itm?.system?.isActive && itm?.system?.module?.has && itm?.system?.module?.ersatz?.rogue?.has);
+
+            if(cyberware) {
+                result = {
+                    ...cyberware.system.module.ersatz.rogue,
+                    name:cyberware.name,
+                    _id:cyberware._id,
+                    item:cyberware,
+                }
+            }
+        }
+
+        return result;
     }
 }
