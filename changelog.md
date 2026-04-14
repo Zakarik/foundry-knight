@@ -1,7 +1,3 @@
-## v3.55.2
-### Bugfix
-- Correction de problèmes de mises en page avec la fenêtre d'ajout d'effets.
-
 ## v3.55.1
 ### Bugfix
 - Retrait de plein de logs dans les fichiers, que j'avais oublié de retirer !
