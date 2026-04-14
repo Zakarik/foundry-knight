@@ -456,9 +456,11 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
         if(!this.hasCyberware) return;
 
         const getActiveEffects = () => {
-            return this.cyberware
-                .filter(c => c.system.isActive)
+            const getAllCyberwareEffects = this.cyberware
+                .filter(c => (c.system.activation.has && c.system.active) || (c.system.activation.has && c.system.activation.permanent) || !c.system.activation.has)
                 .flatMap(c => c.system.getAllEffects);
+
+            return getAllCyberwareEffects;
         };
 
         const sanitizePath = (cyberware) => {

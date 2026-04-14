@@ -19864,6 +19864,29 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   grid-gap: 5px;
   margin-top: 5px;
 }
+.cyberware section.window-content form div.body div.recuperation button.toggle {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  border: 1px solid RGB(76 74 90);
+  border-radius: 0px;
+}
+.cyberware section.window-content form div.body div.recuperation button.toggle.unselected {
+  background: RGB(43 42 51);
+  border-color: RGB(76 74 90);
+}
+.cyberware section.window-content form div.body div.recuperation button.toggle.selected {
+  background: RGB(76 74 90);
+  border-color: white;
+}
+.cyberware section.window-content form div.body div.recuperation button.toggle i.red {
+  color: #C50000;
+}
+.cyberware section.window-content form div.body div.recuperation button.toggle i.green {
+  color: #59d13e;
+}
 .cyberware section.window-content form div.body div.recuperation.active {
   display: grid;
 }
@@ -19930,6 +19953,9 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .cyberware section.window-content form div.body div.recuperation select:last-of-type,
 .cyberware section.window-content form div.body div.recuperation input:last-of-type {
   text-align: left;
+}
+.cyberware section.window-content form div.body div.recuperation .double {
+  grid-column: 1/3;
 }
 .cyberware section.window-content form div.body nav.tabs {
   margin: 0px;

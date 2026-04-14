@@ -1196,7 +1196,7 @@ export class KnightRollDialog extends Dialog {
                 const dgtsList = dgtsBonusVariable?.list ?? {};
                 let coutDgts = 0;
 
-                let v = 1;
+                let v = 0;
                 for(let l in dgtsList) {
                     coutDgts = v*dgtsBonusVariable.value;
                     v++;
@@ -1210,7 +1210,7 @@ export class KnightRollDialog extends Dialog {
                 const violenceVariableSelected = parseInt($(weaponData.find(`label.violencebonusvariable select`)).val());
                 let coutViolence = 0;
 
-                let v = 1;
+                let v = 0;
 
                 for(let l in violenceBonusVariable.list) {
                     coutViolence = v*violenceBonusVariable.value;
@@ -1984,7 +1984,9 @@ export class KnightRollDialog extends Dialog {
                 if(dataM.violence.has) {
                     if(dataM.violence.variable.has) {
                         const dataMVV = dataM.violence.variable;
-                        const list = {};
+                        const list = {
+                            0:`0${game.i18n.localize('KNIGHT.JETS.Des-short')}6`
+                        };
                         let classes = [];
 
                         for (let i = dataMVV.min.dice; i <= dataMVV.max.dice; i++) {
@@ -2017,7 +2019,9 @@ export class KnightRollDialog extends Dialog {
                 if(dataM.degats.has) {
                     if(dataM.degats.variable.has) {
                         const dataMDV = dataM.degats.variable;
-                        const list = {};
+                        const list = {
+                            0:`0${game.i18n.localize('KNIGHT.JETS.Des-short')}6`
+                        };
                         let classes = [];
 
                         for (let i = dataMDV.min.dice; i <= dataMDV.max.dice; i++) {
@@ -2073,7 +2077,7 @@ export class KnightRollDialog extends Dialog {
                             classes:classes.join(' '),
                             label:`${m.name} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}`,
                             list:list,
-                            selected:dataMVV.min.dice,
+                            selected:0,
                             value:dataMVV?.cout ?? 0,
                             selectvalue:Math.max(dataMVV?.min?.fixe ?? 0, dataMVV?.max?.fixe ?? 0),
                         });
@@ -2106,7 +2110,7 @@ export class KnightRollDialog extends Dialog {
                             name:m.name,
                             label:`${m.name} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
                             list:list,
-                            selected:dataMDV.min.dice,
+                            selected:0,
                             value:dataMDV?.cout ?? 0,
                             selectvalue:Math.max(dataMDV?.min?.fixe ?? 0, dataMDV?.max?.fixe ?? 0),
                         });
@@ -2129,7 +2133,9 @@ export class KnightRollDialog extends Dialog {
                     (!dataM.violence.withMetaArmure && !wearArmor)) {
                     if(dataM.violence.variable.has) {
                         const dataMVV = dataM.violence.variable;
-                        const list = {};
+                        const list = {
+                            0:`0${game.i18n.localize('KNIGHT.JETS.Des-short')}6`
+                        };
                         let classes = [];
 
                         for (let i = dataMVV.min.dice; i <= dataMVV.max.dice; i++) {
@@ -2147,7 +2153,7 @@ export class KnightRollDialog extends Dialog {
                             classes:classes.join(' '),
                             label:`${m.name} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}`,
                             list:list,
-                            selected:dataMVV.min.dice,
+                            selected:0,
                             value:dataMVV?.cout ?? 0,
                             selectvalue:Math.max(dataMVV?.min?.fixe ?? 0, dataMVV?.max?.fixe ?? 0),
                         });
@@ -2166,7 +2172,9 @@ export class KnightRollDialog extends Dialog {
                     (!dataM.degats.withMetaArmure && !wearArmor)) {
                     if(dataM.degats.variable.has) {
                         const dataMDV = dataM.degats.variable;
-                        const list = {};
+                        const list = {
+                            0:`0${game.i18n.localize('KNIGHT.JETS.Des-short')}6`
+                        };
                         let classes = [];
 
                         for (let i = dataMDV.min.dice; i <= dataMDV.max.dice; i++) {
@@ -2184,7 +2192,7 @@ export class KnightRollDialog extends Dialog {
                             name:m.name,
                             label:`${m.name} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
                             list:list,
-                            selected:dataMDV.min.dice,
+                            selected:0,
                             value:dataMDV?.cout ?? 0,
                             selectvalue:Math.max(dataMDV?.min?.fixe ?? 0, dataMDV?.max?.fixe ?? 0),
                         });
@@ -2205,7 +2213,9 @@ export class KnightRollDialog extends Dialog {
             if(dataM.violence.has) {
                 if(dataM.violence.variable.has) {
                     const dataMVV = dataM.violence.variable;
-                    const list = {};
+                    const list = {
+                        0:`0${game.i18n.localize('KNIGHT.JETS.Des-short')}6`
+                    };
                     let classes = [];
 
                     for (let i = dataMVV.min.dice; i <= dataMVV.max.dice; i++) {
@@ -2223,7 +2233,7 @@ export class KnightRollDialog extends Dialog {
                         classes:classes.join(' '),
                         label:`${m.name} : ${game.i18n.localize('KNIGHT.AUTRE.Violence')}`,
                         list:list,
-                        selected:dataMVV.min.dice,
+                        selected:0,
                         value:dataMVV?.cout ?? 0,
                         selectvalue:Math.max(dataMVV?.min?.fixe ?? 0, dataMVV?.max?.fixe ?? 0),
                     });
@@ -2238,7 +2248,9 @@ export class KnightRollDialog extends Dialog {
             if(dataM.degats.has) {
                 if(dataM.degats.variable.has) {
                     const dataMDV = dataM.degats.variable;
-                    const list = {};
+                    const list = {
+                        0:`0${game.i18n.localize('KNIGHT.JETS.Des-short')}6`
+                    };
                     let classes = [];
 
                     for (let i = dataMDV.min.dice; i <= dataMDV.max.dice; i++) {
@@ -2256,7 +2268,7 @@ export class KnightRollDialog extends Dialog {
                         name:m.name,
                         label:`${m.name} : ${game.i18n.localize('KNIGHT.AUTRE.Degats')}`,
                         list:list,
-                        selected:dataMDV.min.dice,
+                        selected:0,
                         value:dataMDV?.cout ?? 0,
                         selectvalue:Math.max(dataMDV?.min?.fixe ?? 0, dataMDV?.max?.fixe ?? 0),
                     });

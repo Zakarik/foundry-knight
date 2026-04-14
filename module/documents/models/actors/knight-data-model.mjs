@@ -448,6 +448,7 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         this.initiative.prepareData();
         this.#sanitizeValue();
         this.#setJauges();
+        this.#sanitizeCyberware();
     }
 
     _applyTranslation() {
@@ -2535,6 +2536,20 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         }
 
         if((this.wear === 'armure' || this.wear === 'ascension') && !this.dataArmor) this.wear = 'tenueCivile';
+    }
+
+    async #sanitizeCyberware() {
+        if(this.whatWear !== 'armure') return;
+
+        const cyberware = this.cyberware.filter(itm =>
+            (itm.system.activation.has && itm.system.active && !itm.system.activation.permanent) &&
+            !itm.system.activation.withMetaArmure);
+
+        if(cyberware.length > 0) {
+            for(let c of cyberware) {
+                await c.system.activate();
+            }
+        }
     }
 
     _getAspectPath(data) {

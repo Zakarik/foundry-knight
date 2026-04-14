@@ -645,7 +645,8 @@
       "Recuperation":"{name}: Recovery ({type})",
       "RecuperationLimite":"Recovery usage limit",
       "Utiliser":"Use",
-      "AvecMetaArmure":"Usable with Meta-armour"
+      "AvecMetaArmure":"Usable with Meta-armour",
+      "UtiliseNods":"Use the corresponding nodes"
     },
     "HISTORIQUE": {
       "Label": "Background",

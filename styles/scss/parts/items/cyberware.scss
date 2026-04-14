@@ -919,6 +919,8 @@
                 }
 
                 &.recuperation {
+                    @include buttons('toggle');
+
                     &.active {
                         display: grid;
                     }
@@ -997,6 +999,10 @@
                         &:last-of-type {
                             text-align: left;
                         }
+                    }
+
+                    .double {
+                        grid-column: 1 / 3;
                     }
                 }
             }

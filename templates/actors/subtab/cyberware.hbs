@@ -19,10 +19,13 @@
                 <span>/{{system.recuperation.limite.max}}</span>
             </label>
             {{/if}}
+            {{log ../this}}
             {{#if (and system.activation.has (ne system.activation.permanent true))}}
+            {{#unless (and (eq ../actor.system.whatWear 'armure') (ne system.activation.withMetaArmure true))}}
             <button class="activation" data-name="{{key.name}}">
                 {{localize (ifThen system.active "KNIGHT.AUTRE.Desactiver" "KNIGHT.AUTRE.Activer")}}
             </button>
+            {{/unless}}
             {{else}}
             {{#if system.recuperation.has}}
             <button class="recuperation" data-name="{{key.name}}">

@@ -645,7 +645,8 @@
       "Recuperation":"{name} : Récupération ({type})",
       "RecuperationLimite":"Limite d'utilisation de la récupération",
       "Utiliser":"Utiliser",
-      "AvecMetaArmure":"Utilisable avec Méta-armure"
+      "AvecMetaArmure":"Utilisable avec Méta-armure",
+      "UtiliseNods":"Se baser sur les nods correspondant"
     },
     "HISTORIQUE": {
       "Label": "Historique",

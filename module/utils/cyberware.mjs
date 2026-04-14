@@ -55,44 +55,55 @@ async function importFromKJS(features) {
 
   const kjsDataCyberware = async (pack, data, importedCompendium) => {
     const regexRecup = (text) => {
-      const regex = /(\d+)D(\d+)(?:\+(\d+))?\s+points\s+d[e''](\w+).*?(\w+)\s+fois/i;
-      const match = text.match(regex);
+        // Format long : "1D3+2 points d'espoir ... une fois"
+        // Format court : "1D6+3 PS" ou "1D6+3 PE"
+        const regexLong = /(\d+)D(\d+)(?:\+(\d+))?\s+points\s+d[e''](\w+).*?(\w+)\s+fois/i;
+        const regexCourt = /(\d+)D(\d+)(?:\+(\d+))?\s+(PS|PE|PA|PG)/i;
 
-      if(match) {
-          const nbDice = parseInt(match[1]);       // 1
-          const nbFace = parseInt(match[2]);       // 3
-          const bonus = parseInt(match[3]) || 0;   // 2 (ou 0 si absent)
-          const type = match[4];                   // "espoir"
-          const frequence = match[5];              // "une"
+        const match = text.match(regexLong) || text.match(regexCourt);
 
-          const wordToNumber = {
-              'une': 1, 'un': 1,
-              'deux': 2,
-              'trois': 3,
-              'quatre': 4,
-              'cinq': 5,
-              'six': 6,
-              'sept': 7,
-              'huit': 8,
-              'neuf': 9,
-              'dix': 10
-          };
+        if(match) {
+            const nbDice = parseInt(match[1]);
+            const nbFace = parseInt(match[2]);
+            const bonus = parseInt(match[3]) || 0;
+            const rawType = match[4];
 
-          const frequenceNum = wordToNumber[frequence.toLowerCase()] ?? parseInt(frequence) ?? 0;
+            const shortToLong = {
+                'ps': 'sante',
+                'pe': 'espoir',
+                'pa': 'armure',
+                'pg': 'grenie' // à adapter
+            };
 
-          return {
-            nbDice,
-            nbFace,
-            bonus,
-            type,
-            frequenceNum
-          }
-      }
+            const type = shortToLong[rawType.toLowerCase()] ?? rawType;
+
+            // Fréquence seulement dans le format long (5 groupes)
+            const wordToNumber = {
+                'une': 1, 'un': 1, 'deux': 2, 'trois': 3,
+                'quatre': 4, 'cinq': 5, 'six': 6, 'sept': 7,
+                'huit': 8, 'neuf': 9, 'dix': 10
+            };
+
+            const frequenceNum = match[5]
+                ? (wordToNumber[match[5].toLowerCase()] ?? parseInt(match[5]) ?? 0)
+                : 0;
+
+            return {
+                nbDice,
+                nbFace,
+                bonus,
+                type,
+                frequenceNum
+            }
+        }
     }
 
     const regexNewWPN = (text) => {
       const degatsRegex = /infliger\s+(\d+)D\d+\s*(.*?)\s*points\s+de\s+dégâts\s+au\s+(contact)/i;
-      const noMetaArmure = /ne peut pas être utilisé en méta-armure/i.test(text);
+      const noMetaArmureMatch = text.match(/ne peut pas être utilisé en méta-armure\s*(.+)?/i);
+      const noMetaArmure = noMetaArmureMatch
+          ? !noMetaArmureMatch[1]?.trim().startsWith('si') && !noMetaArmureMatch[1]?.trim().startsWith('lorsque')
+          : false;
 
       const match = text.match(degatsRegex);
 
@@ -106,13 +117,14 @@ async function importFromKJS(features) {
               noMetaArmure,               // true
           }
       }
-  }
-
+    }
 
     const regexWpn = (text) => {
         const armeRegex = /l['']arme\s+(.+?)\s*[,]?\s+(?:mais|et|qui|\.)/i;
         const noMetaArmureMatch = text.match(/ne peut pas être utilisé en méta-armure\s*(.+)?/i);
-        const noMetaArmure = noMetaArmureMatch ? !noMetaArmureMatch[1]?.trim().startsWith('si') : false;
+        const noMetaArmure = noMetaArmureMatch
+        ? !noMetaArmureMatch[1]?.trim().startsWith('si') && !noMetaArmureMatch[1]?.trim().startsWith('lorsque')
+        : false;
 
         const match = text.match(armeRegex);
 
@@ -132,7 +144,7 @@ async function importFromKJS(features) {
       }
 
       const noMetaArmureMatch = text.match(/ne peut pas être utilisé en méta-armure\s*(.+)?/i);
-      const noMetaArmure = noMetaArmureMatch ? !noMetaArmureMatch[1]?.trim().startsWith('si') : false;
+      const noMetaArmure = noMetaArmureMatch ? !noMetaArmureMatch[1]?.trim().startsWith('si') && !noMetaArmureMatch[1]?.trim().startsWith('lorsque') : false;
 
       const regexEffets = /l['']équivalent\s+(?:du|d['']un)\s+(module\s+(?:de\s+|d[''])?(.+?))\s+au\s+niveau\s+(\d+)\s+avec\s+(?:l['']effets?|les\s+effets?)\s+(.+?)(?:\s+qui\s|(?:\.\s)|(?:\.\s*$)|\s*$)/i;
       const matchEffets = text.match(regexEffets);
@@ -186,7 +198,7 @@ async function importFromKJS(features) {
                   .replace(/^module\s+/i, "")
                   .replace(/^(l['']|d['']|de\s+|des\s+|du\s+|le\s+|la\s+|les\s+)/i, ""),
               niveau: matchSimple[2] ? parseInt(matchSimple[2]) : 1,
-              effets: [],
+              effets:[],
               degats: 0,
               violence: 0,
               noMetaArmure,
@@ -244,6 +256,7 @@ async function importFromKJS(features) {
           path: noMetaArmure ? 'system.champDeForce' : 'system.champDeForce.withArmor',
           type,
           value,
+          noMetaArmure,
       };
     };
 
@@ -262,6 +275,7 @@ async function importFromKJS(features) {
           path: 'system.armure.withArmor',
           type: 'add',
           value,
+          withMetaArmure:ajoutAvecArmure
         }
       } else {
         return {
@@ -269,9 +283,38 @@ async function importFromKJS(features) {
           path: 'system.armure',
           type: 'add',
           value,
+          withMetaArmure:ajoutAvecArmure
         }
       }
     };
+
+    const regexNods = (text) => {
+      const nodRegex = /contenir\s+jusqu['']à\s+(\d+)\s+nods?\s+de\s+(\w+)/i;
+      const match = text.match(nodRegex);
+      const mapping = {
+          'soin': 'sante',
+          'armure': 'armure',
+      };
+
+      if (match) {
+          return {
+              nombre: Number(match[1]),  // 3
+              categorie: mapping[match[2]],       // "soin"
+          }
+      }
+    }
+
+    const regexOverdrive = (text) => {
+      const overdriveRegex = /bonus\s+de\s+(\d+)\s+overdrives?\s+en\s+(\w+)/i;
+      const match = text.match(overdriveRegex);
+
+      if (match) {
+          return {
+              value: Number(match[1]),   // 2
+              type: match[2],             // "Force"
+          }
+      }
+    }
 
     function normalize(str) {
       return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
@@ -287,7 +330,27 @@ async function importFromKJS(features) {
         description:`<p style='text-align:justify'>${data.description}</p><p>${data.effect}</p>`,
         prix:data.cost,
         effects:{
+          has:false,
           list:[]
+        },
+        activation:{
+          has:false,
+          withMetaArmure:false,
+        },
+        dharmatech:{
+          has:false,
+        },
+        soin:{
+          has:false
+        },
+        recuperation:{
+          has:false
+        },
+        degats:{
+          has:false,
+        },
+        module:{
+          has:false,
         }
       }
     };
@@ -300,7 +363,7 @@ async function importFromKJS(features) {
         type:data.activation.toLowerCase(),
         energie:data.energy,
         duration:data.duration,
-        permanent:data.duration === 'Toujours' ? true : false,
+        permanent:data.duration === 'Toujours' || data.duration === 'Instantanée' ? true : false,
       }
     }
 
@@ -326,6 +389,7 @@ async function importFromKJS(features) {
         has:true,
         dice:recuperation.nbDice,
         face:recuperation.nbFace,
+        bonus:recuperation.bonus,
         type:recuperation.type,
         limite:{
           value:recuperation.frequenceNum,
@@ -338,6 +402,7 @@ async function importFromKJS(features) {
 
     if(arme && importedCompendium.length > 0) {
         const find = importedCompendium.find(itm => normalize(itm.name) === normalize(arme.nomArme));
+        console.error(find)
         if(find) {
             item.system.arme = {
                 has:true,
@@ -349,6 +414,8 @@ async function importFromKJS(features) {
                 effets: find.system.effets,
                 withMetaArmure:!arme.noMetaArmure,
             }
+
+            item.system.activation.withMetaArmure = !arme.noMetaArmure;
         }
         else {
             ui.notifications.error("KNIGHT.IMPORT.Notification-import-not-found", {format:{equipement:arme.nomArme, cyberware:data.name}});
@@ -369,6 +436,8 @@ async function importFromKJS(features) {
           },
           withMetaArmure:!newArme.noMetaArmure,
       }
+
+      item.system.activation.withMetaArmure = !newArme.noMetaArmure;
     }
 
     const module = regexModule(data.effect);
@@ -395,19 +464,16 @@ async function importFromKJS(features) {
           const dataModule = find.system.niveau.details[`n${module.niveau}`];
 
           if(dataModule) {
-            const defenseEntry = dataModule.effets.raw.find(e => /^defense\s+\d+$/i.test(e));
-
             item.system.arme = dataModule.arme;
-            if(module.effets) item.system.arme.effets.raw = module.effets;
-            if(module.degats) item.system.arme.degats.dice += module.degats;
-            if(module.violence) item.system.arme.violence.dice += module.violence;
-            if(dataModule.ersatz) {
+
+            if(dataModule?.ersatz?.rogue?.has || dataModule?.ersatz?.bard?.has) {
               item.system.module = {
                 has:true,
                 ersatz:dataModule.ersatz,
                 withMetaArmure:!module.noMetaArmure
               }
             }
+
             if(dataModule.bonus.has) {
               if(dataModule.bonus.champDeForce.has) {
                 item.system.effects.has = true;
@@ -419,6 +485,8 @@ async function importFromKJS(features) {
               }
             }
 
+            const defenseEntry = dataModule.effets.raw.find(e => /^defense\s+\d+$/i.test(e));
+
             if(defenseEntry) {
               const defenseValue = defenseEntry ? Number(defenseEntry.match(/(\d+)$/)[1]) : 0;
 
@@ -429,11 +497,28 @@ async function importFromKJS(features) {
                 value:defenseValue,
               });
             }
+
+            if(dataModule?.activation !== 'aucune') {
+              item.system.activation = {
+                has:true,
+                type:dataModule?.activation ?? 'aucune',
+                permanent:dataModule?.permanent ?? false,
+                duration:dataModule?.duree ?? '',
+              }
+
+              if(dataModule?.energie?.tour?.value ?? 0 > 0) item.system.activation.energie = dataModule?.energie?.tour?.value ?? 0;
+              else if(dataModule?.energie?.minute?.value ?? 0 > 0) item.system.activation.energie = dataModule?.energie?.minute?.value ?? 0;
+            }
+
             item.system.arme.withMetaArmure = !module.noMetaArmure;
             item.system.degats = dataModule.bonus.degats;
             item.system.degats.withMetaArmure = !module.noMetaArmure;
             item.system.violence = dataModule.bonus.violence;
             item.system.violence.withMetaArmure = !module.noMetaArmure;
+
+            if(item.system.arme.has) item.system.activation.withMetaArmure = item.system.arme.withMetaArmure;
+            if(item.system?.degats?.has) item.system.activation.withMetaArmure = item.system.degats?.withMetaArmure;
+            if(item.system?.violence?.has) item.system.activation.withMetaArmure = item.system.violence?.withMetaArmure;
           } else {
               ui.notifications.error("KNIGHT.IMPORT.Notification-import-error", {format:{name:data.name}});
           }
@@ -454,6 +539,8 @@ async function importFromKJS(features) {
         path:reserve.path,
         value:reserve.value,
       });
+
+      item.system.activation.withMetaArmure = true;
     }
 
     const bonus = regexBonus(data.effect);
@@ -465,6 +552,8 @@ async function importFromKJS(features) {
         path:bonus.path,
         value:bonus.value,
       });
+
+      item.system.activation.withMetaArmure = true;
     }
 
     const cdf = regexCdF(data.effect);
@@ -476,6 +565,8 @@ async function importFromKJS(features) {
         path:cdf.path,
         value:cdf.value,
       });
+
+      item.system.activation.withMetaArmure = cdf.noMetaArmure;
     }
 
     const PA = regexPA(data.effect);
@@ -487,6 +578,22 @@ async function importFromKJS(features) {
         path:PA.path,
         value:PA.value,
       });
+
+      item.system.activation.withMetaArmure = PA.withMetaArmure;
+    }
+
+    const nods = regexNods(data.effect);
+
+    if(nods) {
+      item.system.recuperation = {
+        has:true,
+        nods:true,
+        type:nods.categorie,
+        limite:{
+          value:nods.nombre,
+          max:nods.nombre,
+        }
+      }
     }
 
     const style = /soumis\s+aux?\s+malus\s+imposés?\s+par\s+les?\s+styles?\s+de\s+combat/i.test(data.effect);
@@ -497,6 +604,17 @@ async function importFromKJS(features) {
         type:'override',
         path:CONFIG.KNIGHT.EFFECTS.GETPATH['noMalusStyle'],
         value:'true',
+      });
+    }
+
+    const OD = regexOverdrive(data.effect);
+
+    if(OD) {
+      item.system.effects.has = true;
+      item.system.effects.list.push({
+        type:'add',
+        path:`${CONFIG.KNIGHT.EFFECTS.GETPATH[normalize(OD.type)]}.overdrive`,
+        value:OD.value,
       });
     }
 

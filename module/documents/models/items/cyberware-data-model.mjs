@@ -29,6 +29,7 @@ export class CyberwareDataModel extends BaseArmeDataModel {
                 energie:["num", {initial:0, min:0, nullable:false, integer:true}],
                 duration:["str", { initial: "", nullable:false}],
                 permanent:["bool", { initial: false}],
+                withMetaArmure:["bool", { initial: false}],
             }],
             optimisation:["schema", {
                 has:["bool", { initial: false}],
@@ -47,6 +48,7 @@ export class CyberwareDataModel extends BaseArmeDataModel {
                 dice:["num", {initial:0, min:0, nullable:false, integer:true}],
                 face:["num", {initial:6, min:0, nullable:false, integer:true}],
                 bonus:["num", {initial:0, nullable:false, integer:true}],
+                nods:["bool", { initial: false}],
             }],
             degats:["schema", {
                 withMetaArmure:["bool", { initial: false}],
@@ -191,6 +193,16 @@ export class CyberwareDataModel extends BaseArmeDataModel {
         return result;
     }
 
+    get useNods() {
+        const actor = this.actor;
+        const data = this.recuperation;
+        let result = false;
+
+        if(data.nods && data.type !== 'espoir' && actor) result = true;
+
+        return result;
+    }
+
     prepareBaseData() {
         const recuperation = this.recuperation;
         const activation = this.activation;
@@ -292,17 +304,19 @@ export class CyberwareDataModel extends BaseArmeDataModel {
         const recuperation = this.recuperation;
         let abort = false;
 
-        if(recuperation.has && !this.active) {
+        if(recuperation.has) {
             const recup = await this.useRecuperation(name, false);
 
             if(!recup) return;
         }
 
-        let pb = new PatchBuilder();
+        if(recuperation.limite.max > 0 && recuperation.has) {
+            let pbI = new PatchBuilder();
 
-        if(this.recuperation.limite.max > 0 && this.recuperation.has && !this.active) pb.sys(`recuperation.limite.value`, this.recuperation.limite.value-1);
+            pbI.sys(`recuperation.limite.value`, this.recuperation.limite.value-1);
+            await pbI.applyTo(item);
+        }
 
-        await pb.applyTo(item);
     }
 
     _prepareEffets() {
@@ -374,6 +388,7 @@ export class CyberwareDataModel extends BaseArmeDataModel {
         const actor = this.actor;
         const value = Number(recuperation.limite.value);
         const max = Number(recuperation.limite.max);
+        const useNods = this.useNods;
         let result = false;
         let update = {};
 
@@ -386,13 +401,28 @@ export class CyberwareDataModel extends BaseArmeDataModel {
 
             update[path[type]] = `@{rollTotal}+${actorValue}`;
 
-            const rRecuperation = new game.knight.RollKnight(this.actor, {
-                name:game.i18n.format(`KNIGHT.CYBERWARE.Recuperation`, {type:game.i18n.localize(`KNIGHT.LATERAL.${capitalizeFirstLetter(type)}`), name}),
-                dices:`${recuperation.dice}D${recuperation.face}`,
-                bonus:[bonus+recuperation.bonus]
-            }, false);
+            if(useNods) {
+                const mapping = {
+                    'armure':'armure',
+                    'sante':'soin',
+                }
 
-            await rRecuperation.doRoll(update);
+                const rRecuperation = new game.knight.RollKnight(this.actor, {
+                    name:game.i18n.format(`KNIGHT.CYBERWARE.Recuperation`, {type:game.i18n.localize(`KNIGHT.LATERAL.${capitalizeFirstLetter(type)}`), name}),
+                    dices:this?.actor?.system?.combat?.nods?.[mapping[recuperation?.type]]?.dices ?? `0D0`,
+                    bonus:[bonus]
+                }, false);
+
+                await rRecuperation.doRoll(update);
+            } else {
+                const rRecuperation = new game.knight.RollKnight(this.actor, {
+                    name:game.i18n.format(`KNIGHT.CYBERWARE.Recuperation`, {type:game.i18n.localize(`KNIGHT.LATERAL.${capitalizeFirstLetter(type)}`), name}),
+                    dices:`${recuperation.dice}D${recuperation.face}`,
+                    bonus:[bonus+recuperation.bonus]
+                }, false);
+
+                await rRecuperation.doRoll(update);
+            }
 
             result = true;
         } else {

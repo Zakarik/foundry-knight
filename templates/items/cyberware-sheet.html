@@ -49,8 +49,14 @@
                 <button type="action"
                     class="toggle {{ifThen systemData.activation.permanent 'selected' 'unselected'}}"
                     data-path="system.activation.permanent">
-                    <span>{{localize "KNIGHT.DUREE.Permanent"}}</span>
+                    <span>{{localize "KNIGHT.DUREE.Permanent"}} / {{localize "KNIGHT.DUREE.Instantanee"}}</span>
                     <i class="fa-solid {{ifThen systemData.activation.permanent 'fa-check green' 'fa-xmark red'}}"></i>
+                </button>
+                <button type="action"
+                    class="toggle {{ifThen systemData.activation.withMetaArmure 'selected' 'unselected'}}"
+                    data-path="system.activation.withMetaArmure">
+                    <span>{{localize "KNIGHT.CYBERWARE.AvecMetaArmure"}}</span>
+                    <i class="fa-solid {{ifThen systemData.activation.withMetaArmure 'fa-check green' 'fa-xmark red'}}"></i>
                 </button>
             </div>
             {{/if}}
@@ -270,7 +276,7 @@
                 <button type="action" class="toggle {{ifThen systemData.violence.variable.has 'selected' 'unselected'}}"
                 data-path="system.violence.variable.has">
                     <span>{{localize "KNIGHT.ITEMS.MODULE.ARME.VIOLENCE.Variable"}}</span>
-                    <i class="fa-solid {{ifThen systemData.activation.permanent 'fa-check green' 'fa-xmark red'}}"></i>
+                    <i class="fa-solid {{ifThen systemData.violence.variable.has 'fa-check green' 'fa-xmark red'}}"></i>
                 </button>
                 {{#unless systemData.violence.variable.has}}
                 <div class="simple">
@@ -324,12 +330,13 @@
                     <span class="label">{{localize "KNIGHT.CYBERWARE.RecuperationLimite"}}</span>
                     <input type="number" name="system.recuperation.limite.max" value="{{systemData.recuperation.limite.max}}" min="0" />
                 </label>
-                <label>
+                <label class="{{#if (and systemData.recuperation.nods (ne systemData.recuperation.type 'espoir'))}}double{{/if}}">
                     <span class="label">{{localize "KNIGHT.AUTRE.Type"}}</span>
                     <select name="system.recuperation.type">
                         {{selectOptions (getCFG 'RECUPERATION.TYPE') selected=systemData.recuperation.type localize=true}}
                     </select>
                 </label>
+                {{#unless (and systemData.recuperation.nods (ne systemData.recuperation.type 'espoir'))}}
                 <div>
                     <span class="label">{{localize "KNIGHT.AUTRE.Quantite"}}</span>
                     <div class="roll">
@@ -340,6 +347,14 @@
                         <input type="number" name="system.recuperation.bonus" value="{{systemData.recuperation.bonus}}" />
                     </div>
                 </div>
+                {{/unless}}
+                {{#unless (eq systemData.recuperation.type 'espoir')}}
+                <button type="action" class="toggle double {{ifThen systemData.recuperation.nods 'selected' 'unselected'}}"
+                data-path="system.recuperation.nods">
+                    <span>{{localize "KNIGHT.CYBERWARE.UtiliseNods"}}</span>
+                    <i class="fa-solid {{ifThen systemData.recuperation.nods 'fa-check green' 'fa-xmark red'}}"></i>
+                </button>
+                {{/unless}}
             </div>
 
             <div class="tab effects" data-group="primary" data-tab="effects">
