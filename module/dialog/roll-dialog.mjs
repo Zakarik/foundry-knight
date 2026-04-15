@@ -5399,19 +5399,31 @@ export class KnightRollDialog extends Dialog {
         for(let upd in update) {
             if(id.includes('module')) {
                 if(upd.includes('options2mains') && (wpn.type === 'contact' || wpn.type === 'distance')) {
-                    this.actor.items.get(id).update({[`system.niveau.actuel.arme.${upd}`]:update[upd]});
+                    this.actor.updateEmbeddedDocuments("Item", [{
+                        _id: id,
+                        [`system.niveau.actuel.arme.${upd}`]: update[upd]
+                    }]);
                 }
 
                 if(upd.includes('munitions') && (wpn.type === 'contact' || wpn.type === 'distance')) {
-                    this.actor.items.get(id).update({[`system.niveau.actuel.arme.${upd}`]:update[upd]});
+                    this.actor.updateEmbeddedDocuments("Item", [{
+                        _id: id,
+                        [`system.niveau.actuel.arme.${upd}`]:update[upd]
+                    }]);
                 }
             } else {
                 if(upd.includes('options2mains') && (wpn.type === 'contact' || wpn.type === 'distance')) {
-                    this.actor.items.get(id).update({[`system.${upd}`]:update[upd]});
+                    this.actor.updateEmbeddedDocuments("Item", [{
+                        _id: id,
+                        [`system.${upd}`]:update[upd]
+                    }]);
                 }
 
                 if(upd.includes('munitions') && (wpn.type === 'contact' || wpn.type === 'distance')) {
-                    this.actor.items.get(id).update({[`system.${upd}`]:update[upd]});
+                    this.actor.updateEmbeddedDocuments("Item", [{
+                        _id: id,
+                        [`system.${upd}`]:update[upd]
+                    }]);
                 }
             }
         }

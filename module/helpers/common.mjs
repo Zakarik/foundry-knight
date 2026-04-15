@@ -5244,6 +5244,8 @@ export async function createSheet(actor, type, name, data, item, imgAvatar, imgT
 
   if(actor.folder) createData.folder = actor.folder.id;
 
+  console.error(createData);
+
   const { id, uuid } = await SOCKET.executeAsGM('createSubActor', createData);
   const newActor = await fromUuid(uuid);
 
@@ -5264,10 +5266,6 @@ function findRefTokenForActor(refActor) {
   // 1) Un token contrôlé de cet acteur ?
   const controlled = canvas.tokens.controlled.find(t => t.document.actorId === refActorId);
   if (controlled) return controlled;
-
-  // 2) Sinon, n'importe quel token sur la scène active pour cet acteur
-  const any = canvas.tokens.placeables.find(t => t.document.actorId === refActorId);
-  return any ?? null;
 }
 
 /**
@@ -5314,7 +5312,8 @@ export async function spawnTokenRightOfActor({
   const rawX   = startX + index * (tokenPx + gapCells * gridSize);
   const rawY   = refToken.document.y;
 
-  const { x, y } = isGridless ? { x: rawX, y: rawY } : snapper.getSnappedPosition(rawX, rawY, 1);
+  const snapped = isGridless ? { x: rawX, y: rawY } : snapper.getSnappedPoint({ x: rawX, y: rawY }, { mode: CONST.GRID_SNAPPING_MODES.TOP_LEFT_VERTEX })
+  const { x, y } = snapped;
 
   // Données finales
   const data = Object.assign(tmp.toObject(), { x, y });
@@ -5948,7 +5947,7 @@ export async function rollDeviation(message, eventOrOptions) {
           alias: actor?.name ?? null,
           scene: actor?.token?.parent?.id ?? null
         },
-        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+        style: CONST.CHAT_MESSAGE_STYLES.OTHER,
         content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
         sound: CONFIG.sounds.dice
       };
