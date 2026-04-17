@@ -1113,7 +1113,7 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         setValue('champDeForce', false);
 
         // ESPOIR
-        let espoirBase = 50;
+        let espoirBase = this.espoir.base;
         const espoirBonus = Object.values(this.espoir.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
         const espoirMalus = Object.values(this.espoir.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
