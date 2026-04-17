@@ -216,10 +216,11 @@ async function importFromKJS(features) {
       if (noMetaArmureMatch) {
         const suite = noMetaArmureMatch[1]?.trim() ?? '';
 
-        if (/lorsque\s+le\s+chevalier\s+a\s+son\s+heaume/i.test(suite)) {
-          noMetaArmure = true;
+        if (/^(si|lorsque)\b.*heaume/i.test(suite)) {
+          noMetaArmure = false;
           permanent = false;
-        } else if (!suite.startsWith('si') && !suite.startsWith('lorsque')) {
+        } else if (suite === '' || (!suite.startsWith('si') && !suite.startsWith('lorsque'))) {
+          // Interdiction absolue
           noMetaArmure = true;
         }
       }
@@ -289,7 +290,7 @@ async function importFromKJS(features) {
     }
 
     return null;
-  };
+    };
 
     const regexReserve = (text) => {
       const mapping = {
@@ -569,7 +570,7 @@ async function importFromKJS(features) {
             item.system.violence = dataModule.bonus.violence;
             item.system.violence.withMetaArmure = !module.noMetaArmure;
 
-            if(item.system.arme.has) item.system.activation.withMetaArmure = item.system.arme.withMetaArmure;
+            if(item.system?.arme?.has) item.system.activation.withMetaArmure = item.system.arme?.withMetaArmure;
             if(item.system?.degats?.has) item.system.activation.withMetaArmure = item.system.degats?.withMetaArmure;
             if(item.system?.violence?.has) item.system.activation.withMetaArmure = item.system.violence?.withMetaArmure;
           } else {
