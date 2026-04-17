@@ -34,12 +34,12 @@
             {{/if}}
             {{/if}}
         </header>
-        <img src="{{img}}" />
-        <span class="description">
+        <img src="{{img}}" style="display:none;"/>
+        <span class="description" style="display:none;">
             {{{system.description}}}
         </span>
         {{#if system.activation.has}}
-        <div class="activation">
+        <div class="activation" style="display:none;">
             <label class="type">
                 <span class="label">{{localize "KNIGHT.ACTIVATION.Label"}} :</span>
                 <span>{{getActivation system.activation.type}}</span>

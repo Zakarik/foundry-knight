@@ -11,6 +11,11 @@ async function importFromKJS(features) {
   const includeFeatures = ['cyberware'];
   const token = game.settings.get("knight", "KJSToken");
 
+  //NORMALISATION DU TEXTE
+  function normalize(str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  }
+
   const kjsCompendium = async (name) => {
     let pack = game.packs.get(`world.kjs-${name}`);
 
@@ -54,6 +59,67 @@ async function importFromKJS(features) {
   }
 
   const kjsDataCyberware = async (pack, data, importedCompendium) => {
+    //ON CRÉE L'ITEM DE BASE
+    const baseCyberwareItem = {
+      name:'',
+      type:'',
+      img:'',
+      system:{
+        marque:'',
+        categorie:'',
+        description:``,
+        prix:0,
+        effects:{
+          has:false,
+          list:[]
+        },
+        activation:{
+          has:false,
+          withMetaArmure:false,
+          type:'aucune',
+          permanent:false,
+          duration:'',
+        },
+        optimisation:{
+          has:false,
+        },
+        arme:{
+          has:false,
+          withMetaArmure:false,
+        },
+        dharmatech:{
+          has:false,
+        },
+        soin:{
+          has:false
+        },
+        recuperation:{
+          has:false,
+          nods:false,
+        },
+        degats:{
+          has:false,
+          withMetaArmure:false,
+        },
+        violence:{
+          has:false,
+          withMetaArmure:false,
+        },
+        module:{
+          has:false,
+          ersatz:{
+            rogue:{
+              has:false,
+            },
+            bard:{
+              has:false,
+            }
+          }
+        }
+      }
+    };
+
+    //TOUS LES REGEX
     const regexRecup = (text) => {
         // Format long : "1D3+2 points d'espoir ... une fois"
         // Format court : "1D6+3 PS" ou "1D6+3 PE"
@@ -140,73 +206,90 @@ async function importFromKJS(features) {
 
     const regexModule = (text) => {
       if (/l['']équivalent\s+(?:du|d['']un)\s+module\s+.+?\s+ou\s+/i.test(text)) {
-          return null;
+        return null;
       }
 
       const noMetaArmureMatch = text.match(/ne peut pas être utilisé en méta-armure\s*(.+)?/i);
-      const noMetaArmure = noMetaArmureMatch ? !noMetaArmureMatch[1]?.trim().startsWith('si') && !noMetaArmureMatch[1]?.trim().startsWith('lorsque') : false;
+      let noMetaArmure = false;
+      let permanent = null;
 
+      if (noMetaArmureMatch) {
+        const suite = noMetaArmureMatch[1]?.trim() ?? '';
+
+        if (/lorsque\s+le\s+chevalier\s+a\s+son\s+heaume/i.test(suite)) {
+          noMetaArmure = true;
+          permanent = false;
+        } else if (!suite.startsWith('si') && !suite.startsWith('lorsque')) {
+          noMetaArmure = true;
+        }
+      }
+
+      // --- Match avec effets ---
       const regexEffets = /l['']équivalent\s+(?:du|d['']un)\s+(module\s+(?:de\s+|d[''])?(.+?))\s+au\s+niveau\s+(\d+)\s+avec\s+(?:l['']effets?|les\s+effets?)\s+(.+?)(?:\s+qui\s|(?:\.\s)|(?:\.\s*$)|\s*$)/i;
       const matchEffets = text.match(regexEffets);
 
-      if (matchEffets) {
-          let degats = 0;
-          let violence = 0;
+    if (matchEffets) {
+      let degats = 0;
+      let violence = 0;
 
-          const rawEffets = matchEffets[4]
-              .replace(/\s*Ne peut pas être utilisé en méta-armure\.?\s*/i, '')
-              .split(/\s*,\s*|\s+et\s+/)
-              .filter(e => e.trim());
+      const rawEffets = matchEffets[4]
+        .replace(/\s*Ne peut pas être utilisé en méta-armure\.?\s*/i, '')
+        .split(/\s*,\s*|\s+et\s+/)
+        .filter(e => e.trim());
 
-          const effets = [];
+      const effets = [];
 
-          for (const e of rawEffets) {
-              const matchDegats = e.trim().match(/^\+?(\d+)[dD]6?\s+aux?\s+dégâts$/i);
-              const matchViolence = e.trim().match(/^\+?(\d+)[dD]6?\s+[àa]\s+la\s+violence$/i);
+      for (const e of rawEffets) {
+        const trimmed = e.trim();
+        const matchDegats = trimmed.match(/^\+?(\d+)[dD]6?\s+aux?\s+dégâts$/i);
+        const matchViolence = trimmed.match(/^\+?(\d+)[dD]6?\s+[àa]\s+la\s+violence$/i);
 
-              if (matchDegats) {
-                  degats = parseInt(matchDegats[1]);
-              } else if (matchViolence) {
-                  violence = parseInt(matchViolence[1]);
-              } else {
-                  const parts = e.trim().match(/^(.+?)\s+(\d+)$/);
-                  const obj = parts
-                      ? { name: parts[1].trim(), value: parseInt(parts[2]) }
-                      : { name: e.trim(), value: 0 };
-                  effets.push(convertJsonEffects(obj));
-              }
-          }
-
-          return {
-              nomAvecModule: matchEffets[1].trim(),
-              nomSansModule: matchEffets[2].trim(),
-              niveau: parseInt(matchEffets[3]),
-              effets,
-              degats,
-              violence,
-              noMetaArmure,
-          };
+        if (matchDegats) {
+          degats = parseInt(matchDegats[1]);
+        } else if (matchViolence) {
+          violence = parseInt(matchViolence[1]);
+        } else {
+          const parts = trimmed.match(/^(.+?)\s+(\d+)$/);
+          const obj = parts
+            ? { name: parts[1].trim(), value: parseInt(parts[2]) }
+            : { name: trimmed, value: 0 };
+          effets.push(convertJsonEffects(obj));
+        }
       }
 
-      const regexSimple = /l['']équivalent\s+(?:du|d['']un)\s+(module\s+.+?)(?:\s+au\s+niveau\s+(\d+))?(?:\s*[.,]|\s*$)/i;
-      const matchSimple = text.match(regexSimple);
+      return {
+        nomAvecModule: matchEffets[1].trim(),
+        nomSansModule: matchEffets[2].trim(),
+        niveau: parseInt(matchEffets[3]),
+        effets,
+        degats,
+        violence,
+        noMetaArmure,
+        permanent,
+      };
+    }
 
-      if (matchSimple) {
-          return {
-              nomAvecModule: matchSimple[1],
-              nomSansModule: matchSimple[1]
-                  .replace(/^module\s+/i, "")
-                  .replace(/^(l['']|d['']|de\s+|des\s+|du\s+|le\s+|la\s+|les\s+)/i, ""),
-              niveau: matchSimple[2] ? parseInt(matchSimple[2]) : 1,
-              effets:[],
-              degats: 0,
-              violence: 0,
-              noMetaArmure,
-          };
-      }
+    // --- Match simple ---
+    const regexSimple = /l['']équivalent\s+(?:du|d['']un)\s+(module\s+.+?)(?:\s+au\s+niveau\s+(\d+))?(?:\s*[.,]|\s*$)/i;
+    const matchSimple = text.match(regexSimple);
 
-      return null;
-    };
+    if (matchSimple) {
+      return {
+        nomAvecModule: matchSimple[1],
+        nomSansModule: matchSimple[1]
+          .replace(/^module\s+/i, '')
+          .replace(/^(l['']|d['']|de\s+|des\s+|du\s+|le\s+|la\s+|les\s+)/i, ''),
+        niveau: matchSimple[2] ? parseInt(matchSimple[2]) : 1,
+        effets: [],
+        degats: 0,
+        violence: 0,
+        noMetaArmure,
+        permanent,
+      };
+    }
+
+    return null;
+  };
 
     const regexReserve = (text) => {
       const mapping = {
@@ -316,44 +399,15 @@ async function importFromKJS(features) {
       }
     }
 
-    function normalize(str) {
-      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-    }
-
-    let item = {
-      name:data.name,
-      type:'cyberware',
-      img:getDefaultImg('cyberware'),
-      system:{
-        marque:data.brand,
-        categorie:data.type.name.toLowerCase(),
-        description:`<p style='text-align:justify'>${data.description}</p><p>${data.effect}</p>`,
-        prix:data.cost,
-        effects:{
-          has:false,
-          list:[]
-        },
-        activation:{
-          has:false,
-          withMetaArmure:false,
-        },
-        dharmatech:{
-          has:false,
-        },
-        soin:{
-          has:false
-        },
-        recuperation:{
-          has:false
-        },
-        degats:{
-          has:false,
-        },
-        module:{
-          has:false,
-        }
-      }
-    };
+    //ON GERE LES PREMIERES DONNEES
+    let item = baseCyberwareItem;
+    item.name = data.name;
+    item.type = 'cyberware';
+    item.img = getDefaultImg('cyberware');
+    item.system.marque = data.brand;
+    item.system.categorie = data.type.name.toLowerCase();
+    item.system.description = `<p style='text-align:justify'>${data.description}</p><p>${data.effect}</p>`;
+    item.system.prix = data.cost;
 
     let folder = data.type;
 
@@ -398,11 +452,12 @@ async function importFromKJS(features) {
       }
     }
 
+    //GESTION DES ARMES
     const arme = regexWpn(data.effect);
 
     if(arme && importedCompendium.length > 0) {
         const find = importedCompendium.find(itm => normalize(itm.name) === normalize(arme.nomArme));
-        console.error(find)
+
         if(find) {
             item.system.arme = {
                 has:true,
@@ -440,16 +495,18 @@ async function importFromKJS(features) {
       item.system.activation.withMetaArmure = !newArme.noMetaArmure;
     }
 
+    //GESTION DES MODULES
     const module = regexModule(data.effect);
 
     if(module && importedCompendium.length > 0) {
-        const find = importedCompendium.find(
+        let find = importedCompendium.find(
           itm => normalize(itm.name) === normalize(module.nomAvecModule) ||
-          normalize(itm.name) === normalize(module.nomSansModule))  ||
-          importedCompendium.find(itm =>
+          normalize(itm.name) === normalize(module.nomSansModule));
+
+        if(!find) find = importedCompendium.find(itm =>
             normalize(itm.name).includes(normalize(module.nomSansModule)) ||
-            normalize(module.nomSansModule).includes(normalize(itm.name))
-          );
+            normalize(module.nomSansModule).includes(normalize(itm.name)));
+
         if(find) {
           let moduleDesc = find.system.description;
 
@@ -498,17 +555,13 @@ async function importFromKJS(features) {
               });
             }
 
-            if(dataModule?.activation !== 'aucune') {
-              item.system.activation = {
-                has:true,
-                type:dataModule?.activation ?? 'aucune',
-                permanent:dataModule?.permanent ?? false,
-                duration:dataModule?.duree ?? '',
-              }
+            item.system.activation.has = true;
+            item.system.activation.type = dataModule?.activation ?? 'aucune';
+            item.system.activation.permanent = module.permanent === null ? dataModule?.permanent ?? false : module.permanent;
+            item.system.activation.duree = dataModule?.duree ?? '';
 
-              if(dataModule?.energie?.tour?.value ?? 0 > 0) item.system.activation.energie = dataModule?.energie?.tour?.value ?? 0;
-              else if(dataModule?.energie?.minute?.value ?? 0 > 0) item.system.activation.energie = dataModule?.energie?.minute?.value ?? 0;
-            }
+            if((dataModule?.energie?.tour?.value ?? 0) > 0) item.system.activation.energie = dataModule?.energie?.tour?.value ?? 0;
+            else if((dataModule?.energie?.minute?.value ?? 0) > 0) item.system.activation.energie = dataModule?.energie?.minute?.value ?? 0;
 
             item.system.arme.withMetaArmure = !module.noMetaArmure;
             item.system.degats = dataModule.bonus.degats;
@@ -530,6 +583,7 @@ async function importFromKJS(features) {
         ui.notifications.error("KNIGHT.IMPORT.Notification-import-not-found", {format:{equipement:module?.nomAvecModule, cyberware:data.name}});
     }
 
+    //GESTION DES RESERVES
     const reserve = regexReserve(data.effect);
 
     if(reserve) {
@@ -543,6 +597,7 @@ async function importFromKJS(features) {
       item.system.activation.withMetaArmure = true;
     }
 
+    //GESTION DES BONUS
     const bonus = regexBonus(data.effect);
 
     if(bonus) {
@@ -556,6 +611,7 @@ async function importFromKJS(features) {
       item.system.activation.withMetaArmure = true;
     }
 
+    //GESTION DES CDF
     const cdf = regexCdF(data.effect);
 
     if(cdf) {
@@ -569,6 +625,7 @@ async function importFromKJS(features) {
       item.system.activation.withMetaArmure = cdf.noMetaArmure;
     }
 
+    //GESTION DES POINTS D'ARMURES
     const PA = regexPA(data.effect);
 
     if(PA) {
@@ -582,6 +639,7 @@ async function importFromKJS(features) {
       item.system.activation.withMetaArmure = PA.withMetaArmure;
     }
 
+    //GESTION DES NODS
     const nods = regexNods(data.effect);
 
     if(nods) {
@@ -596,6 +654,7 @@ async function importFromKJS(features) {
       }
     }
 
+    //GESTION DES STYLES
     const style = /soumis\s+aux?\s+malus\s+imposés?\s+par\s+les?\s+styles?\s+de\s+combat/i.test(data.effect);
 
     if(style) {
@@ -607,6 +666,7 @@ async function importFromKJS(features) {
       });
     }
 
+    //GESTION DES OD
     const OD = regexOverdrive(data.effect);
 
     if(OD) {
@@ -618,6 +678,7 @@ async function importFromKJS(features) {
       });
     }
 
+    //ON PREPARE LA CREATION
     const documents = await pack.getDocuments();
     const found = documents.find(itm => itm.getFlag('world', 'kjs') === data.slug);
 

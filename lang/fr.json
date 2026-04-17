@@ -646,7 +646,8 @@
       "RecuperationLimite":"Limite d'utilisation de la récupération",
       "Utiliser":"Utiliser",
       "AvecMetaArmure":"Utilisable avec Méta-armure",
-      "UtiliseNods":"Se baser sur les nods correspondant"
+      "UtiliseNods":"Se baser sur les nods correspondant",
+      "DesactiveAll":"Désactivation du cyberware incompatible avec l'armure"
     },
     "HISTORIQUE": {
       "Label": "Historique",

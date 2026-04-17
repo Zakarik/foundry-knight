@@ -2545,11 +2545,23 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
             (itm.system.activation.has && itm.system.active && !itm.system.activation.permanent) &&
             !itm.system.activation.withMetaArmure);
 
-        if(cyberware.length > 0) {
-            for(let c of cyberware) {
-                await c.system.activate();
-            }
+        const cUpdate = cyberware.map(c => ({
+            _id: c._id,
+            'system.active': false,
+        }));
+
+        if (cUpdate.length) {
+            await this.actor.updateEmbeddedDocuments('Item', cUpdate);
+
+            const exec = new game.knight.RollKnight(this.actor,
+            {
+                name:game.i18n.localize(`KNIGHT.ACTIVATION.Desactivation`),
+            }).sendMessage({
+                text:game.i18n.localize("KNIGHT.CYBERWARE.DesactiveAll"),
+                sounds:CONFIG.sounds.notification,
+            });
         }
+
     }
 
     _getAspectPath(data) {
