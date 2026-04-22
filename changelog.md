@@ -1,3 +1,8 @@
+## v3.58.0
+### Améliorations
+- Compatibilité avec la V14 de Foundry.
+- Retrait de la compatibilité avec la V12 de Foundry.
+
 ## v3.57.0
 ### Améliorations
 - Améliorations du design de la fenêtre de gestion des effets.
