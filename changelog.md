@@ -1,4 +1,4 @@
-## v3.56.0
+## v3.57.0
 ### Améliorations
 - Améliorations du design de la fenêtre de gestion des effets.
 - Ajout de la possibilité de lier Knight JDR Système (Actuellement, sur la bêta du site, en attendant la finalisation de quelques détails), afin de pouvoir importer des compendiums liés aux ajouts du Patreon d'AME. Plus de détails sur le Discord de Knight-Studio, dans les Soutiens Totaux.
