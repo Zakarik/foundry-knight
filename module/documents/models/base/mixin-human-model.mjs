@@ -2,6 +2,7 @@
 import {
   getAllEffects,
   listEffects,
+  getFlatEffectBonus,
 } from "../../../helpers/common.mjs";
 import { DefensesDataModel } from '../parts/defenses-data-model.mjs';
 import { GrenadesDataModel } from '../parts/grenades-data-model.mjs';

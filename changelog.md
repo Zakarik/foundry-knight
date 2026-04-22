@@ -3,6 +3,10 @@
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
 
+## v3.57.1
+### Bugfix
+- Hotfix d'un problème avec les modules, qui pouvait bloquer le système.
+
 ## v3.57.0
 ### Améliorations
 - Améliorations du design de la fenêtre de gestion des effets.
