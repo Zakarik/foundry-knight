@@ -14,6 +14,7 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
     static get baseDefinition() {
         const base = super.baseDefinition;
         const specific = {
+            version:["num", {initial:2, nullable:false, integer:true}],
             histoire:["html", { initial: ""}],
             aspects:["embedded", AspectsPCDataModel],
             GM:["schema", {
@@ -1113,7 +1114,7 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         setValue('champDeForce', false);
 
         // ESPOIR
-        let espoirBase = this.espoir.base;
+        let espoirBase = 50;
         const espoirBonus = Object.values(this.espoir.bonus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
         const espoirMalus = Object.values(this.espoir.malus).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
 
@@ -2267,8 +2268,6 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         const style = this.combat.style;
         const data = getModStyle(style);
 
-        console.error(noMalus);
-
         Object.defineProperty(this.combat, 'styleInfo', {
             value: game.i18n.localize(CONFIG.KNIGHT.styles[style]),
         });
@@ -2545,23 +2544,11 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
             (itm.system.activation.has && itm.system.active && !itm.system.activation.permanent) &&
             !itm.system.activation.withMetaArmure);
 
-        const cUpdate = cyberware.map(c => ({
-            _id: c._id,
-            'system.active': false,
-        }));
-
-        if (cUpdate.length) {
-            await this.actor.updateEmbeddedDocuments('Item', cUpdate);
-
-            const exec = new game.knight.RollKnight(this.actor,
-            {
-                name:game.i18n.localize(`KNIGHT.ACTIVATION.Desactivation`),
-            }).sendMessage({
-                text:game.i18n.localize("KNIGHT.CYBERWARE.DesactiveAll"),
-                sounds:CONFIG.sounds.notification,
-            });
+        if(cyberware.length > 0) {
+            for(let c of cyberware) {
+                await c.system.activate();
+            }
         }
-
     }
 
     _getAspectPath(data) {

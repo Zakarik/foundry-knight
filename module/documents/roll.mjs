@@ -167,7 +167,48 @@ export class RollKnight {
             })
         }
 
-        if(!foundry.utils.isEmpty(updates)) {
+        if (!foundry.utils.isEmpty(updates)) {
+            // === FONCTION UTILITAIRE pour résoudre les valeurs dynamiques ===
+            function resolveValue(value, total) {
+                if (typeof value === 'string' && value.includes('@{rollTotal}')) {
+                    let updatedValue = value.replace(/@{rollTotal}/g, total);
+
+                    const maxMatch = updatedValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
+                    if (maxMatch) {
+                        const maxValue = parseFloat(maxMatch[1]);
+                        updatedValue = updatedValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
+                        updatedValue = `Math.max(${updatedValue}, ${maxValue})`;
+                    }
+
+                    const minMatch = updatedValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
+                    if (minMatch) {
+                        const minValue = parseFloat(minMatch[1]);
+                        updatedValue = updatedValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
+                        updatedValue = `Math.min(${updatedValue}, ${minValue})`;
+                    }
+
+                    try {
+                        return eval(updatedValue);
+                    } catch (e) {
+                        return updatedValue;
+                    }
+                }
+                return value;
+            }
+
+            function resolveValues(obj, total) {
+                for (const [key, value] of Object.entries(obj)) {
+                    if (typeof value === 'object' && value !== null) {
+                        for (const [subKey, subValue] of Object.entries(value)) {
+                            value[subKey] = resolveValue(subValue, total);
+                        }
+                    } else {
+                        obj[key] = resolveValue(value, total);
+                    }
+                }
+            }
+
+            // === SÉPARATION des updates : armure, items, acteur ===
             let updateArmure = {};
             let updateItems = {};
 
@@ -175,223 +216,50 @@ export class RollKnight {
                 const keySplit = key.split('.');
                 const first = keySplit[0];
 
-                if(first === 'armure') {
-                    let oldKey = key;
-                    key = keySplit.slice(1).join('.');
-                    updateArmure[key] = value;
-
-                    delete updates[oldKey];
-                }
-
-                if(first === 'item') {
-                    let oldKey = key;
-                    key = keySplit.slice(2).join('.');
-                    updateItems[keySplit[1]] = {};
-                    updateItems[keySplit[1]][key] = value;
-
-                    delete updates[oldKey];
-                }
-
-                if (typeof value === 'string' && value.includes('@{rollTotal}')) {
-                    let updatedValue = value.replace(/@{rollTotal}/g, total);
-
-                    if (updatedValue.includes('@{max,')) {
-                        const maxMatch = updatedValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
-                        if (maxMatch) {
-                            const maxValue = parseFloat(maxMatch[1]);
-                            updatedValue = updatedValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
-                            updatedValue = `Math.max(${updatedValue}, ${maxValue})`;
-                        }
-                    }
-
-                    if (updatedValue.includes('@{min,')) {
-                        const minMatch = updatedValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
-                        if (minMatch) {
-                            const minValue = parseFloat(minMatch[1]);
-                            updatedValue = updatedValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
-                            updatedValue = `Math.min(${updatedValue}, ${minValue})`;
-                        }
-                    }
-
-                    try {
-                        updates[key] = eval(updatedValue);
-                    } catch (e) {
-                        // Garde la valeur remplacée si l'évaluation échoue
-                        updates[key] = updatedValue;
-                    }
-                } else if (typeof value === 'object' && value !== null) {
-                    for (const [subKey, subValue] of Object.entries(value)) {
-                        if (typeof subValue === 'string' && subValue.includes('@{rollTotal}')) {
-                            let updatedSubValue = subValue.replace(/@{rollTotal}/g, total);
-
-                            if (updatedSubValue.includes('@{max,')) {
-                                const maxMatch = updatedSubValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
-                                if (maxMatch) {
-                                    const maxValue = parseFloat(maxMatch[1]);
-                                    updatedSubValue = updatedSubValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
-                                    updatedSubValue = `Math.max(${updatedSubValue}, ${maxValue})`;
-                                }
-                            }
-
-                            if (updatedSubValue.includes('@{min,')) {
-                                const minMatch = updatedSubValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
-                                if (minMatch) {
-                                    const minValue = parseFloat(minMatch[1]);
-                                    updatedSubValue = updatedSubValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
-                                    updatedSubValue = `Math.min(${updatedSubValue}, ${minValue})`;
-                                }
-                            }
-
-                            try {
-                                value[subKey] = eval(updatedSubValue);
-                            } catch (e) {
-                                // Garde la valeur remplacée si l'évaluation échoue
-                                value[subKey] = updatedSubValue;
-                            }
-                        }
-                    }
+                if (first === 'armure') {
+                    const newKey = keySplit.slice(1).join('.');
+                    updateArmure[newKey] = value;
+                    delete updates[key];
+                } else if (first === 'item') {
+                    const itemId = keySplit[1];
+                    const newKey = keySplit.slice(2).join('.');
+                    if (!updateItems[itemId]) updateItems[itemId] = {};
+                    updateItems[itemId][newKey] = value;
+                    delete updates[key];
                 }
             }
 
+            // === RÉSOLUTION des valeurs dynamiques ===
+            resolveValues(updates, total);
+            resolveValues(updateArmure, total);
 
-            for (let [key, value] of Object.entries(updateArmure)) {
-                if (typeof value === 'string' && value.includes('@{rollTotal}')) {
-                    let updatedValue = value.replace(/@{rollTotal}/g, total);
-
-                    if (updatedValue.includes('@{max,')) {
-                        const maxMatch = updatedValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
-                        if (maxMatch) {
-                            const maxValue = parseFloat(maxMatch[1]);
-                            updatedValue = updatedValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
-                            updatedValue = `Math.max(${updatedValue}, ${maxValue})`;
-                        }
-                    }
-
-                    if (updatedValue.includes('@{min,')) {
-                        const minMatch = updatedValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
-                        if (minMatch) {
-                            const minValue = parseFloat(minMatch[1]);
-                            updatedValue = updatedValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
-                            updatedValue = `Math.min(${updatedValue}, ${minValue})`;
-                        }
-                    }
-
-                    try {
-                        updates[key] = eval(updatedValue);
-                    } catch (e) {
-                        // Garde la valeur remplacée si l'évaluation échoue
-                        updates[key] = updatedValue;
-                    }
-                } else if (typeof value === 'object' && value !== null) {
-                    for (const [subKey, subValue] of Object.entries(value)) {
-                        if (typeof subValue === 'string' && subValue.includes('@{rollTotal}')) {
-                            let updatedSubValue = subValue.replace(/@{rollTotal}/g, total);
-
-                            if (updatedSubValue.includes('@{max,')) {
-                                const maxMatch = updatedSubValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
-                                if (maxMatch) {
-                                    const maxValue = parseFloat(maxMatch[1]);
-                                    updatedSubValue = updatedSubValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
-                                    updatedSubValue = `Math.max(${updatedSubValue}, ${maxValue})`;
-                                }
-                            }
-
-                            if (updatedSubValue.includes('@{min,')) {
-                                const minMatch = updatedSubValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
-                                if (minMatch) {
-                                    const minValue = parseFloat(minMatch[1]);
-                                    updatedSubValue = updatedSubValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
-                                    updatedSubValue = `Math.min(${updatedSubValue}, ${minValue})`;
-                                }
-                            }
-
-                            try {
-                                value[subKey] = eval(updatedSubValue);
-                            } catch (e) {
-                                // Garde la valeur remplacée si l'évaluation échoue
-                                value[subKey] = updatedSubValue;
-                            }
-                        }
-                    }
-                }
+            for (const itemId in updateItems) {
+                resolveValues(updateItems[itemId], total);
             }
 
-            for(let i in updateItems) {
-                for (let [key, value] of Object.entries(updateItems[i])) {
-                    if (typeof value === 'string' && value.includes('@{rollTotal}')) {
-                        let updatedValue = value.replace(/@{rollTotal}/g, total);
-
-                        if (updatedValue.includes('@{max,')) {
-                            const maxMatch = updatedValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
-                            if (maxMatch) {
-                                const maxValue = parseFloat(maxMatch[1]);
-                                updatedValue = updatedValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
-                                updatedValue = `Math.max(${updatedValue}, ${maxValue})`;
-                            }
-                        }
-
-                        if (updatedValue.includes('@{min,')) {
-                            const minMatch = updatedValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
-                            if (minMatch) {
-                                const minValue = parseFloat(minMatch[1]);
-                                updatedValue = updatedValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
-                                updatedValue = `Math.min(${updatedValue}, ${minValue})`;
-                            }
-                        }
-
-                        try {
-                            updates[key] = eval(updatedValue);
-                        } catch (e) {
-                            // Garde la valeur remplacée si l'évaluation échoue
-                            updates[key] = updatedValue;
-                        }
-                    } else if (typeof value === 'object' && value !== null) {
-                        for (const [subKey, subValue] of Object.entries(value)) {
-                            if (typeof subValue === 'string' && subValue.includes('@{rollTotal}')) {
-                                let updatedSubValue = subValue.replace(/@{rollTotal}/g, total);
-
-                                if (updatedSubValue.includes('@{max,')) {
-                                    const maxMatch = updatedSubValue.match(/@{max,\s*(-?\d+(\.\d+)?)}/);
-                                    if (maxMatch) {
-                                        const maxValue = parseFloat(maxMatch[1]);
-                                        updatedSubValue = updatedSubValue.replace(/@{max,\s*(-?\d+(\.\d+)?)}/g, '');
-                                        updatedSubValue = `Math.max(${updatedSubValue}, ${maxValue})`;
-                                    }
-                                }
-
-                                if (updatedSubValue.includes('@{min,')) {
-                                    const minMatch = updatedSubValue.match(/@{min,\s*(-?\d+(\.\d+)?)}/);
-                                    if (minMatch) {
-                                        const minValue = parseFloat(minMatch[1]);
-                                        updatedSubValue = updatedSubValue.replace(/@{min,\s*(-?\d+(\.\d+)?)}/g, '');
-                                        updatedSubValue = `Math.min(${updatedSubValue}, ${minValue})`;
-                                    }
-                                }
-
-                                try {
-                                    value[subKey] = eval(updatedSubValue);
-                                } catch (e) {
-                                    // Garde la valeur remplacée si l'évaluation échoue
-                                    value[subKey] = updatedSubValue;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(!foundry.utils.isEmpty(updateArmure) && this.actor.system.dataArmor && (this.actor.type === 'knight' || this.actor.type === 'pnj')) {
+            // === APPLICATION : Armure ===
+            if (!foundry.utils.isEmpty(updateArmure)
+                && this.actor.system.dataArmor
+                && (this.actor.type === 'knight' || this.actor.type === 'pnj')) {
                 await this.actor.system.dataArmor.update(updateArmure);
             }
 
-            if(!foundry.utils.isEmpty(updateItems)) {
-                for(let i in updateItems) {
-                    this.actor.items.get(i).update(updateItems[i]);
-                }
+            // === APPLICATION : Items embarqués via updateEmbeddedDocuments ===
+            if (!foundry.utils.isEmpty(updateItems)) {
+                const embeddedUpdates = Object.entries(updateItems).map(([itemId, data]) => ({
+                    _id: itemId,
+                    ...data
+                }));
+
+                await this.actor.updateEmbeddedDocuments("Item", embeddedUpdates);
             }
 
-            if(!foundry.utils.isEmpty(updates)) await this.actor.update(updates);
+            // === APPLICATION : Acteur ===
+            if (!foundry.utils.isEmpty(updates)) {
+                await this.actor.update(updates);
+            }
         }
+
 
         return total;
     }
@@ -1314,7 +1182,7 @@ export class RollKnight {
             rollMode:chatRollMode,
         };
 
-        if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_TYPES.ROLL;
+        if(!this.isVersion12) chatData.type = CONST.CHAT_MESSAGE_STYLES.ROLL;
 
         ChatMessage.applyRollMode(chatData, chatRollMode);
         const msg = await ChatMessage.create(chatData);

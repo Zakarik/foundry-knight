@@ -1,8 +1,8 @@
 
 import {
-  getAllEffects,
-  listEffects,
-  getFlatEffectBonus,
+    getAllEffects,
+    listEffects,
+    getFlatEffectBonus,
 } from "../../../helpers/common.mjs";
 import { DefensesDataModel } from '../parts/defenses-data-model.mjs';
 import { GrenadesDataModel } from '../parts/grenades-data-model.mjs';
@@ -99,7 +99,6 @@ const HumanMixinModel = (superclass) => class extends superclass {
                 }],
                 espoir:["schema", {
                     mod:["num", {initial:0, nullable:false, integer:true}],
-                    base:["num", {initial:50, nullable:false, integer:true}],
                     value:["num", {initial:0, nullable:false, integer:true}],
                     max:["num", {initial:50, nullable:false, integer:true}],
                     perte:["schema", {
@@ -203,21 +202,11 @@ const HumanMixinModel = (superclass) => class extends superclass {
     }
 
     #cyberware() {
-        const allCyberware = this.cyberwares;
-        const cyberware = allCyberware.filter(items => items.system.categorie === 'utilitaire' || items.system.categorie === 'combat');
+        const cyberware = this.items.filter(items => items.type === 'cyberware' && (items.system.categorie === 'utilitaire' || items.system.categorie === 'combat'));
 
         if(cyberware.length) {
             Object.defineProperty(this.eqpData.energie.bonus, 'cyberware', {
                 value: 20,
-                writable:true,
-                enumerable:true,
-                configurable:true
-            });
-        }
-
-        if(allCyberware.length) {
-            Object.defineProperty(this.espoir.malus, 'cyberware', {
-                value: allCyberware.length*3,
                 writable:true,
                 enumerable:true,
                 configurable:true
