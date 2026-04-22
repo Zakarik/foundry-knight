@@ -625,7 +625,7 @@ export async function doAttack(data) {
       token: actor?.token?.id || null,
       alias: actor?.name || null,
     },
-    style: CONST.CHAT_MESSAGE_STYLES.ROLL,
+    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
     rolls:[rolls],
     content: await renderTemplate('systems/knight/templates/dices/wpn.html', pAttack),
     sound: CONFIG.sounds.dice
@@ -828,7 +828,7 @@ export async function doDgts(data) {
       token: actor?.token?.id || null,
       alias: actor?.name || null,
     },
-    style: CONST.CHAT_MESSAGE_STYLES.ROLL,
+    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
     rolls:[execDgt].concat(listAllEffets.rollDgts),
     content: await renderTemplate('systems/knight/templates/dices/wpn.html', pDegats),
     sound: CONFIG.sounds.dice
@@ -1014,7 +1014,7 @@ export async function doViolence(data) {
         token: actor?.token?.id || null,
         alias: actor?.name || null,
       },
-      style: CONST.CHAT_MESSAGE_STYLES.ROLL,
+      type: CONST.CHAT_MESSAGE_TYPES.ROLL,
       rolls:[execViolence].concat(listAllEffets.rollViol),
       content: await renderTemplate('systems/knight/templates/dices/wpn.html', pViolence),
       sound: CONFIG.sounds.dice

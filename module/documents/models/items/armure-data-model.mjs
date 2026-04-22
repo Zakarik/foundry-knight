@@ -1136,6 +1136,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
         });
 
         if(value) {
+          console.error(actor);
           switch(special) {
             case 'lion':
               const dataLion = getCapacite.lion;
@@ -1317,7 +1318,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
                   "pnj",
                   `${actor.name} : ${game.i18n.localize("KNIGHT.ITEMS.ARMURE.CAPACITES.COMPANIONS.WOLF.Label")} ${i}`,
                   dataActor,
-                  [],
+                  {},
                   dataWolf.img,
                   dataWolf?.token ?? dataWolf.img,
                   1
@@ -1425,7 +1426,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
                     "modules":false
                   }
                 },
-                [],
+                {},
                 dataCrow.img,
                 dataCrow?.token ?? dataCrow.img,
                 1
@@ -1454,7 +1455,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
               token: actor?.token?.id || null,
               alias: actor?.name || null,
             },
-            style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
             sounds:CONFIG.sounds.notification,
           };
@@ -1527,7 +1528,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
               token: actor?.token?.id || null,
               alias: actor?.name || null,
             },
-            style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
             sounds:CONFIG.sounds.notification,
           };
@@ -1895,7 +1896,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
             token: actor?.token?.id || null,
             alias: actor?.name || null,
           },
-          style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+          type: CONST.CHAT_MESSAGE_TYPES.OTHER,
           content: await renderTemplate('systems/knight/templates/dices/wpn.html', dataMsg)
         };
 
@@ -1971,7 +1972,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           token: actor?.token?.id ?? null,
           alias: actor?.name ?? null,
         },
-        style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
         content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
         sound: CONFIG.sounds.dice
       };
@@ -2313,7 +2314,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           token: actor?.token?.id ?? null,
           alias: actor?.name ?? null,
         },
-        style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
         content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
         sound: CONFIG.sounds.dice
       };
@@ -2371,7 +2372,7 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
           token: actor?.token?.id ?? null,
           alias: actor?.name ?? null,
         },
-        style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
         content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
         sound: CONFIG.sounds.dice
       };

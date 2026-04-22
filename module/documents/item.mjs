@@ -8,8 +8,9 @@ import {
  */
 export class KnightItem extends Item {
     static async create(data, options = {}) {
+        // Replace default image
         if (data.img === undefined) data.img = getDefaultImg(data.type);
 
-        return await super.create(data, options);
+        await super.create(data, options);
     }
 }

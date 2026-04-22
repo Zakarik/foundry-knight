@@ -254,7 +254,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
               token: this.actor?.token?.id || null,
               alias: this.actor?.name || null,
             },
-            style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', dataMsg)
           };
 
@@ -323,7 +323,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
               token: this.actor?.token?.id || null,
               alias: this.actor?.name || null,
             },
-            style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', dataMsg)
           };
 
@@ -379,7 +379,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
               token: this.actor?.token?.id || null,
               alias: this.actor?.name || null,
             },
-            style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgHeroisme),
             sound: CONFIG.sounds.dice
           };
@@ -511,7 +511,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
               token: this.actor?.token?.id || null,
               alias: this.actor?.name || null,
             },
-            style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgHeroisme),
             sound: CONFIG.sounds.dice
           };
@@ -754,7 +754,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
             token: this.actor?.token?.id || null,
             alias: this.actor?.name || null,
           },
-          style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+          type: CONST.CHAT_MESSAGE_TYPES.OTHER,
           content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
           sound: CONFIG.sounds.dice
         };
@@ -826,7 +826,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
             token: this.actor?.token?.id || null,
             alias: this.actor?.name || null,
           },
-          style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+          type: CONST.CHAT_MESSAGE_TYPES.OTHER,
           content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgCompanions),
           sound: CONFIG.sounds.dice
         };
@@ -844,7 +844,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
             token: this.actor?.token?.id || null,
             alias: this.actor?.name || null,
           },
-          style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+          type: CONST.CHAT_MESSAGE_TYPES.OTHER,
           content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
           sound: CONFIG.sounds.dice
         };
@@ -1401,7 +1401,6 @@ const HumanMixinSheet = (superclass) => class extends superclass {
 
       if(typeToAddGloire.includes(type)) {
         const gloireListe = actor.system?.progression?.gloire?.depense?.liste ?? {};
-        const isEmpty = gloireListe[0]?.isEmpty ?? false;
         const gloireMax = Object.keys(gloireListe).length === 0 || isEmpty ? 0 : this._getHighestOrder(gloireListe);
 
         if(type === 'module') {
@@ -1764,7 +1763,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
             token: data?.token?.id || null,
             alias: data?.name || null,
           },
-          style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+          type: CONST.CHAT_MESSAGE_TYPES.OTHER,
           content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgEnergie),
           sound: CONFIG.sounds.dice
         };
@@ -1797,7 +1796,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
           token: data?.token?.id || null,
           alias: data?.name || null,
         },
-        style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
         content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgEnergie),
         sound: CONFIG.sounds.dice
       };

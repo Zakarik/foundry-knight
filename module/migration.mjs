@@ -90,10 +90,8 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const updateItem = { _id: item.id };
+                const updateItem = {};
 
                 if(item.type === 'module') {
                     const vEnergieT = system.energie.tour;
@@ -112,13 +110,9 @@ Applique les modifications par la mise à jour au Monde.
                             label:""
                         };
                     }
-
-                    itemUpdates.push(updateItem);
                 }
-            }
 
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
         }
 
@@ -129,10 +123,8 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const updateItem = { _id: item.id };
+                const updateItem = {};
 
                 if(item.type === 'armure') {
                     const listeEvolutions = item.system?.evolutions.liste;
@@ -146,8 +138,6 @@ Applique les modifications par la mise à jour au Monde.
                             updateItem[`system.evolutions.liste.${key}.capacites.-=barbarian`] = null;
                         }
                     }
-
-                    itemUpdates.push(updateItem);
                 }
 
                 if(item.type === 'armurelegende') {
@@ -158,13 +148,9 @@ Applique les modifications par la mise à jour au Monde.
                         updateItem[`system.capacites.selected.selected.goliath`] = alBarbarian.selected;
                         updateItem[`system.capacites.-=barbarian`] = null;
                     }
-
-                    itemUpdates.push(updateItem);
                 }
-            }
 
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
         }
 
@@ -175,14 +161,12 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const updateItem = { _id: item.id };
+                const updateItem = {};
 
                 if(item.type === 'module') {
-                    const isPNJ = item?.system?.pnj?.has ?? false;
-                    const listePNJ = item?.system?.pnj?.liste ?? {};
+                    const isPNJ = item.system.pnj.has;
+                    const listePNJ = item.system.pnj.liste;
 
                     updateItem[`system.pnj.modele.armes.modele.attaque`] = {
                         dice:0,
@@ -210,13 +194,9 @@ Applique les modifications par la mise à jour au Monde.
                             }
                         }
                     }
-
-                    itemUpdates.push(updateItem);
                 }
-            }
 
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
 
             update[`system.MATabs`] = {
@@ -233,10 +213,8 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const updateItem = { _id: item.id };
+                const updateItem = {};
 
                 if(item.type === 'armure') {
                     const listeEvolutions = item.system?.evolutions.liste;
@@ -248,15 +226,9 @@ Applique les modifications par la mise à jour au Monde.
                             energie:0
                         };
                     }
-
-                    itemUpdates.push(updateItem);
                 }
 
-                itemUpdates.push(updateItem);
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
         }
 
@@ -289,10 +261,8 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const updateItem = { _id: item.id };
+                const updateItem = {};
 
                 if(item.type === 'arme') {
                     updateItem[`system.options2mains`] = {
@@ -312,13 +282,9 @@ Applique les modifications par la mise à jour au Monde.
                         value:1,
                         liste:{}
                     };
-
-                    itemUpdates.push(updateItem);
                 }
-            }
 
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
         }
 
@@ -329,10 +295,8 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const updateItem = { _id: item.id };
+                const updateItem = {};
 
                 if(item.type === 'arme') {
                     updateItem[`system.options2mains`] = {
@@ -373,13 +337,9 @@ Applique les modifications par la mise à jour au Monde.
                             }
                         }
                     }
-
-                    itemUpdates.push(updateItem);
                 }
-            }
 
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
         }
 
@@ -390,10 +350,8 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const updateItem = { _id: item.id };
+                const updateItem = {};
 
                 if(item.type === 'armure') {
                     const listeEvolutions = item.system.evolutions.liste;
@@ -576,13 +534,9 @@ Applique les modifications par la mise à jour au Monde.
                             };
                         }
                     }
-
-                    itemUpdates.push(updateItem);
                 }
-            }
 
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
         }
 
@@ -593,10 +547,8 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const updateItem = { _id: item.id };
+                const updateItem = {};
 
                 if(item.type === 'module') {
                     updateItem[`system.jetsimple`] = {
@@ -608,13 +560,9 @@ Applique les modifications par la mise à jour au Monde.
                             custom:[]
                         }
                     }
-
-                    itemUpdates.push(updateItem);
                 }
-            }
 
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
         }
 
@@ -625,21 +573,15 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const updateItem = { _id: item.id };
+                const updateItem = {};
 
                 if(item.type === 'module') {
                     updateItem[`system.arme.degats.variable.cout`] = 0;
                     updateItem[`system.arme.violence.variable.cout`] = 0;
-
-                    itemUpdates.push(updateItem);
                 }
-            }
 
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
         }
 
@@ -650,10 +592,8 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const updateItem = { _id: item.id };
+                const updateItem = {};
 
                 if(item.type === 'armure') {
                     const hasLongbow = item.system.capacites.selected?.longbow || false;
@@ -673,13 +613,9 @@ Applique les modifications par la mise à jour au Monde.
                             }
                         };
                     }
-
-                    itemUpdates.push(updateItem);
                 }
-            }
 
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
         }
 
@@ -690,37 +626,31 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                if (item.type === 'armure') {
-                    const updateData = { _id: item.id };
+                const updateItem = {};
+
+                if(item.type === 'armure') {
                     const hasLongbow = item.system.capacites.selected?.longbow || false;
 
-                    updateData[`system.capacites.base.longbow`] = {
-                        distance: {
-                            raw: [],
-                            custom: []
+                    updateItem[`system.capacites.base.longbow`] = {
+                        distance:{
+                            raw:[],
+                            custom:[]
                         }
                     };
 
-                    if (hasLongbow !== false) {
-                        updateData[`system.capacites.selected.longbow`] = {
-                            distance: {
-                                raw: [],
-                                custom: []
+                    if(hasLongbow !== false) {
+                        updateItem[`system.capacites.selected.longbow`] = {
+                            distance:{
+                                raw:[],
+                                custom:[]
                             }
                         };
                     }
-
-                    itemUpdates.push(updateData);
                 }
-            }
 
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
-
         }
 
         if (options?.force || MigrationKnight.needUpdate("1.9.1")) {
@@ -730,20 +660,14 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const updateItem = { _id: item.id };
+                const updateItem = {};
 
                 if(item.type === 'arme') {
                     updateItem[`system.energie`] = 0;
                 }
 
-                itemUpdates.push(updateItem);
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
         }
 
@@ -754,10 +678,8 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const updateItem = { _id: item.id };
+                const updateItem = {};
 
                 if(item.type === 'armure') {
                     const hasIllumination = item.system.capacites.selected?.illumination || false;
@@ -784,11 +706,7 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 }
 
-                itemUpdates.push(updateItem);
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
         }
 
@@ -799,10 +717,8 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const updateItem = { _id: item.id };
+                const updateItem = {};
 
                 if(item.type === 'armure') {
                     const listeEvolutions = item.system?.evolutions.liste;
@@ -814,11 +730,7 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 }
 
-                itemUpdates.push(updateItem);
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
         }
 
@@ -829,10 +741,8 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const updateItem = { _id: item.id };
+                const updateItem = {};
 
                 if(item.type === 'armure') {
                     const longbow = item.system?.capacites?.selected?.longbow || false;
@@ -846,11 +756,7 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 }
 
-                itemUpdates.push(updateItem);
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
         }
 
@@ -861,20 +767,14 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const updateItem = { _id: item.id };
+                const updateItem = {};
 
                 if(item.type === 'art') {
                     update[`system.aspects.dame`] = ['aura', 'parole', 'sangFroid'];
                 }
 
-                itemUpdates.push(updateItem);
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
         }
 
@@ -885,10 +785,8 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const update = { _id: item.id };
+
 
                 if(item.type === 'module') {
                     update[`system.bonus.degats.variable.cout`] = 0;
@@ -923,11 +821,7 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 }
 
-                itemUpdates.push(update);
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(update);
             }
         }
 
@@ -940,13 +834,11 @@ Applique les modifications par la mise à jour au Monde.
             update[`system.combat.nods.soin.recuperationBonus`] = 0;
             update[`system.combat.nods.armure.recuperationBonus`] = 0;
             update[`system.combat.nods.energie.recuperationBonus`] = 0;
-            //update[`system.energie.-=malus`] = null;
+            update[`system.energie.-=malus`] = null;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const itemUpdate = { _id: item.id };
+                const itemUpdate = {};
                 const itemSystem = item.system;
 
                 if(item.type === 'module') {
@@ -1030,20 +922,14 @@ Applique les modifications par la mise à jour au Monde.
                     itemUpdate[`system.-=textarea`] = null;
                 }
 
-                itemUpdates.push(itemUpdate);
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(itemUpdate);
             }
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.1.1")) {
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const itemUpdate = { _id: item.id };
+                const itemUpdate = {};
                 const itemSystem = item.system;
 
                 if(item.type === 'module') {
@@ -1054,11 +940,7 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 }
 
-                itemUpdates.push(itemUpdate);
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(itemUpdate);
             }
         }
 
@@ -1137,10 +1019,8 @@ Applique les modifications par la mise à jour au Monde.
 
             if(!system) return update;
 
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const itemUpdate = { _id: item.id };
+                const itemUpdate = {};
 
                 if(item.type === 'module') {
                     const itemSystem = item.system;
@@ -1151,11 +1031,7 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 }
 
-                itemUpdates.push(itemUpdate);
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(itemUpdate);
             }
         }
 
@@ -1165,10 +1041,8 @@ Applique les modifications par la mise à jour au Monde.
 
             if(!system) return update;
 
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const itemUpdate = { _id: item.id };
+                const itemUpdate = {};
 
                 if(item.type === 'module') {
                     const itemSystem = item.system;
@@ -1184,11 +1058,7 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 }
 
-                itemUpdates.push(itemUpdate);
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(itemUpdate);
             }
         }
 
@@ -1200,6 +1070,17 @@ Applique les modifications par la mise à jour au Monde.
 
             if(actor.type === 'pnj') {
                 update[`system.metaarmure`] = "";
+            }
+        }
+
+        if (options?.force || MigrationKnight.needUpdate("3.7.1")) {
+
+            const system = actor.system;
+
+            if(!system) return update;
+
+            if(actor.type === 'knight') {
+                update[`system.energie.malus`] = 0;
             }
         }
 
@@ -1234,10 +1115,8 @@ Applique les modifications par la mise à jour au Monde.
                 update[`system.progression.experience.-=oldActuel`] = null;
             }
 
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const itemUpdate = { _id: item.id };
+                const itemUpdate = {};
 
                 if(item.type === 'module') {
                     const itemSystem = item.system;
@@ -1253,11 +1132,7 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 }
 
-                itemUpdates.push(itemUpdate);
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(itemUpdate);
             }
         }
 
@@ -1288,10 +1163,9 @@ Applique les modifications par la mise à jour au Monde.
             const system = actor.system;
 
             if(!system) return update;
-            const itemUpdates = [];
 
             for (let item of actor.items) {
-                const itemUpdate = { _id: item.id };
+                const itemUpdate = {};
 
                 if(item.type === 'armure') {
                     itemUpdate[`system.special.c2038Sorcerer.energiedeficiente`] = {
@@ -1300,11 +1174,7 @@ Applique les modifications par la mise à jour au Monde.
                     };
                 }
 
-                itemUpdates.push(itemUpdate);
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(itemUpdate);
             }
         }
 
@@ -1313,10 +1183,9 @@ Applique les modifications par la mise à jour au Monde.
             const system = actor.system;
 
             if(!system) return update;
-            const itemUpdates = [];
 
             for (let item of actor.items) {
-                const itemUpdate = { _id: item.id };
+                const itemUpdate = {};
 
                 if(item.type === 'armure') {
                     const archives = item?.system?.archivage?.liste || {};
@@ -1326,11 +1195,7 @@ Applique les modifications par la mise à jour au Monde.
                     }
                 }
 
-                itemUpdates.push(itemUpdate);
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(itemUpdate);
             }
         }
 
@@ -1339,10 +1204,9 @@ Applique les modifications par la mise à jour au Monde.
             const system = actor.system;
 
             if(!system) return update;
-            const itemUpdates = [];
 
             for (let item of actor.items) {
-                const itemUpdate = { _id: item.id };
+                const itemUpdate = {};
 
                 if(item.type === 'armure') {
                     const archives = item?.system?.archivage?.liste || {};
@@ -1353,12 +1217,8 @@ Applique les modifications par la mise à jour au Monde.
                         }
                     }
 
-                    itemUpdates.push(itemUpdate);
+                    item.update(itemUpdate);
                 }
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
             }
         }
 
@@ -1378,10 +1238,8 @@ Applique les modifications par la mise à jour au Monde.
             if(!system) return update;
 
             // MISE A JOUR DES ITEMS PORTES
-            const itemUpdates = [];
-
             for (let item of actor.items) {
-                const updateItem = { _id: item.id };
+                const updateItem = {};
 
                 if(item.type === 'armure') {
                     const hasMorph = item.system.capacites.selected?.morph || false;
@@ -1500,11 +1358,7 @@ Applique les modifications par la mise à jour au Monde.
                     };
                 }
 
-                itemUpdates.push(updateItem);
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(updateItem);
             }
 
             update[`system.-=MATabs`] = null;
@@ -1524,10 +1378,9 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.29.3")) {
-            const itemUpdates = [];
 
             for (let item of actor.items) {
-                const update = { _id: item.id };
+                let update = {};
 
                 if(item.type === 'module') {
                     const niv = item.system.niveau.details;
@@ -1540,12 +1393,8 @@ Applique les modifications par la mise à jour au Monde.
                         }
                     }
 
-                    itemUpdates.push(update);
+                    item.update(update);
                 }
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
             }
         }
 
@@ -1566,32 +1415,23 @@ Applique les modifications par la mise à jour au Monde.
         }
 
         if(options?.force || MigrationKnight.needUpdate("3.32.0")) {
-            const itemUpdates = [];
             const itms = actor.items.filter(itm => itm.type === 'avantage' && itm.system.type === 'standard');
 
             for (let item of itms) {
-                const update = { _id: item.id };
                 if(item.name === 'Infatigable') {
-                    update['system.bonus.noDmgSante'] = true;
-
-                    itemUpdates.push(update);
+                    item.update({['system.bonus.noDmgSante']:true});
                 }
-            }
-
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
             }
         }
 
         if (options?.force || MigrationKnight.needUpdate("3.50.0")) {
-            const itemUpdates = [];
             const itms = actor.items.filter(itm => itm.type === 'armure');
 
             for (let item of itms) {
                 const LZString = globalThis.LZString;
                 const system = item.system;
                 const archivages = system.archivage.liste;
-                const itmUpdate = { _id: item.id };
+                let itmUpdate = {};
 
                 for(let a in archivages) {
                     const data = archivages[a];
@@ -1600,11 +1440,8 @@ Applique les modifications par la mise à jour au Monde.
 
                     itmUpdate[`system.archivage.liste.${a}`] = LZString.compressToUTF16(JSON.stringify(parse));
                 }
-                itemUpdates.push(itmUpdate);
-            }
 
-            if (itemUpdates.length > 0) {
-                actor.updateEmbeddedDocuments("Item", itemUpdates);
+                item.update(itmUpdate);
             }
         }
 

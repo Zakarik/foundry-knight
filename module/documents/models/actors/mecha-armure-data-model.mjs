@@ -1469,7 +1469,7 @@ export class MechaArmureDataModel extends BaseActorDataModel {
           token: this.actor?.token?.id || null,
           alias: this.actor?.name || null,
         },
-        style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
         content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgEnergie),
         sound: CONFIG.sounds.dice
       };

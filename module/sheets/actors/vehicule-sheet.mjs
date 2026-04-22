@@ -144,7 +144,7 @@ export class VehiculeSheet extends ActorSheet {
             token: this.actor?.token?.id || null,
             alias: this.actor?.name || null,
           },
-          style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+          type: CONST.CHAT_MESSAGE_TYPES.OTHER,
           rolls:[execJSR].concat(jSREffects.rollDgts),
           content: await renderTemplate('systems/knight/templates/dices/wpn.html', jSRoll),
           sound: CONFIG.sounds.dice
@@ -518,7 +518,7 @@ export class VehiculeSheet extends ActorSheet {
     // Get the type of item to create.
     const type = header.dataset.type;
     // Grab any data associated with this control.
-    const data = foundry.utils.duplicate(header.dataset);
+    const data = duplicate(header.dataset);
     // Initialize a default name.
     const name = `${game.i18n.localize(`TYPES.Item.${type}`)}`;
     // Prepare the item object.
@@ -816,7 +816,7 @@ export class VehiculeSheet extends ActorSheet {
           token: this.actor?.token?.id || null,
           alias: this.actor?.name || null,
         },
-        style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+        type: CONST.CHAT_MESSAGE_TYPES.OTHER,
         content: await renderTemplate('systems/knight/templates/dices/wpn.html', msgEnergie),
         sound: CONFIG.sounds.dice
       };

@@ -14,7 +14,6 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
     static get baseDefinition() {
         const base = super.baseDefinition;
         const specific = {
-            version:["num", {initial:2, nullable:false, integer:true}],
             histoire:["html", { initial: ""}],
             aspects:["embedded", AspectsPCDataModel],
             GM:["schema", {
@@ -2267,6 +2266,8 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         const noMalus = this.combat.noMalusStyle;
         const style = this.combat.style;
         const data = getModStyle(style);
+
+        console.error(noMalus);
 
         Object.defineProperty(this.combat, 'styleInfo', {
             value: game.i18n.localize(CONFIG.KNIGHT.styles[style]),
