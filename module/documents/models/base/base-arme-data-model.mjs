@@ -492,7 +492,7 @@ export class BaseArmeDataModel extends BaseItemDataModel {
               token: actor?.token?.id ?? null,
               alias: actor?.name ?? null,
             },
-            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+            style: CONST.CHAT_MESSAGE_STYLES.OTHER,
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
             sound: CONFIG.sounds.dice
           };
@@ -552,7 +552,7 @@ export class BaseArmeDataModel extends BaseItemDataModel {
               token: actor?.token?.id ?? null,
               alias: actor?.name ?? null,
             },
-            type: CONST.CHAT_MESSAGE_TYPES.OTHER,
+            style: CONST.CHAT_MESSAGE_STYLES.OTHER,
             content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
             sound: CONFIG.sounds.dice
           };

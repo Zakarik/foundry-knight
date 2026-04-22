@@ -446,7 +446,7 @@ export default class BaseActorSheet extends ActorSheet {
     const type = header.dataset.type;
 
     // Grab any data associated with this control.
-    const data = duplicate(header.dataset);
+    const data = foundry.utils.duplicate(header.dataset);
 
     // Initialize a default name.
     const name = `${game.i18n.localize(`TYPES.Item.${type}`)}`;
