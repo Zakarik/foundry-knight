@@ -3,6 +3,10 @@
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
 
+## v3.57.2
+### Bugfix
+- Correction d'un problème avec les modules qui pouvaient être appliqués même sans armure.
+
 ## v3.57.1
 ### Bugfix
 - Hotfix d'un problème avec les modules, qui pouvait bloquer le système.

@@ -435,7 +435,6 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
     _startPrepareDerivedData() {
         super._startPrepareDerivedData();
 
-        this.#modules();
         this.#avantages();
         this.#inconvenients();
     }
@@ -1475,7 +1474,6 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
                 }
             }
         }
-
 
         for(let o in baseOverdrives) {
             for(let c in baseOverdrives[o]) {
