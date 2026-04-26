@@ -1,7 +1,15 @@
+## v3.58.1
+### Bugfix
+- Application du même correction qu'en v3.57.2
+
 ## v3.58.0
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.2
+### Bugfix
+- Correction d'un problème avec les modules qui pouvaient être appliqués même sans armure.
 
 ## v3.57.1
 ### Bugfix

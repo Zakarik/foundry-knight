@@ -215,6 +215,8 @@ const HumanMixinModel = (superclass) => class extends superclass {
     }
 
     #modules() {
+        const dataArmure = this?.dataArmor;
+        const isKNIGHT = this.actor.type === 'knight' ? true : false;
         const data = this.modules;
         let santeBonus = 0;
         let armureBonus = 0;
@@ -229,14 +231,113 @@ const HumanMixinModel = (superclass) => class extends superclass {
         let energieMalus = 0;
         let defenseMalus = 0;
         let reactionMalus = 0;
+        let baseOverdrives;
+        let bonusOverdrives;
 
-        const actuel = data.filter(itm => (itm.system.active.base || (itm.system?.niveau?.actuel?.permanent ?? false)) && !itm.system.isLion);
+        if(isKNIGHT) {
+            const tete = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.tete) || 0), 0);
+            const torse = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.torse) || 0), 0);
+            const brasDroit = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.brasDroit) || 0), 0);
+            const brasGauche = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.brasGauche) || 0), 0);
+            const jambeDroite = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.jambeDroite) || 0), 0);
+            const jambeGauche = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.jambeGauche) || 0), 0);
+
+            Object.defineProperty(this.equipements.armure.slots, 'tete', {
+                value: tete,
+            });
+
+            Object.defineProperty(this.equipements.armure.slots, 'torse', {
+                value: torse,
+            });
+
+            Object.defineProperty(this.equipements.armure.slots, 'brasDroit', {
+                value: brasDroit,
+            });
+
+            Object.defineProperty(this.equipements.armure.slots, 'brasGauche', {
+                value: brasGauche,
+            });
+
+            Object.defineProperty(this.equipements.armure.slots, 'jambeDroite', {
+                value: jambeDroite,
+            });
+
+            Object.defineProperty(this.equipements.armure.slots, 'jambeGauche', {
+                value: jambeGauche,
+            });
+
+            baseOverdrives = {
+                bete:{
+                    combat:[dataArmure?.system?.overdrives?.bete?.liste?.combat?.value ?? 0],
+                    hargne:[dataArmure?.system?.overdrives?.bete?.liste?.hargne?.value ?? 0],
+                    instinct:[dataArmure?.system?.overdrives?.bete?.liste?.instinct?.value ?? 0],
+                },
+                chair:{
+                    deplacement:[dataArmure?.system?.overdrives?.chair?.liste?.deplacement?.value ?? 0],
+                    force:[dataArmure?.system?.overdrives?.chair?.liste?.force?.value ?? 0],
+                    endurance:[dataArmure?.system?.overdrives?.chair?.liste?.endurance?.value ?? 0],
+                },
+                dame:{
+                    aura:[dataArmure?.system?.overdrives?.dame?.liste?.aura?.value ?? 0],
+                    parole:[dataArmure?.system?.overdrives?.dame?.liste?.parole?.value ?? 0],
+                    sangFroid:[dataArmure?.system?.overdrives?.dame?.liste?.sangFroid?.value ?? 0],
+                },
+                machine:{
+                    tir:[dataArmure?.system?.overdrives?.machine?.liste?.tir?.value ?? 0],
+                    savoir:[dataArmure?.system?.overdrives?.machine?.liste?.savoir?.value ?? 0],
+                    technique:[dataArmure?.system?.overdrives?.machine?.liste?.technique?.value ?? 0],
+                },
+                masque:{
+                    discretion:[dataArmure?.system?.overdrives?.masque?.liste?.discretion?.value ?? 0],
+                    dexterite:[dataArmure?.system?.overdrives?.masque?.liste?.dexterite?.value ?? 0],
+                    perception:[dataArmure?.system?.overdrives?.masque?.liste?.perception?.value ?? 0],
+                },
+            }
+
+            bonusOverdrives = {
+                bete:{
+                    combat:0,
+                    hargne:0,
+                    instinct:0,
+                },
+                chair:{
+                    deplacement:0,
+                    force:0,
+                    endurance:0,
+                },
+                dame:{
+                    aura:0,
+                    parole:0,
+                    sangFroid:0,
+                },
+                machine:{
+                    tir:0,
+                    savoir:0,
+                    technique:0,
+                },
+                masque:{
+                    discretion:0,
+                    dexterite:0,
+                    perception:0,
+                },
+            }
+        }
+
+        if(isKNIGHT && !this.armorISwear) return;
+        const actuel = data.filter(itm => (itm.system.active.base && (!itm.system?.isLion ?? false)) || ((itm.system?.niveau?.actuel?.permanent ?? false) && (!itm.system?.isLion ?? false)));
+        const pathBase = isKNIGHT ? this.equipements[this.wear] : this;
+
+        if(dataArmure?.system?.special?.selected?.porteurlumiere ?? undefined) {
+            specialRaw = specialRaw.concat(dataArmure.system.special.selected.porteurlumiere.bonus.effets.raw)
+            specialCustom = specialCustom.concat(dataArmure.system.special.selected.porteurlumiere.bonus.effets.custom)
+        }
 
         for(let m of actuel) {
             const system = m.system?.niveau?.actuel ?? {};
             const effets = system?.effets ?? {has:false};
             const bonus = system?.bonus || {has:false};
             const arme = system?.arme || {has:false};
+            const overdrives = system?.overdrives || {has:false};
 
             if(effets.has) {
                 const bDefense = effets.raw.find(str => { if(str.includes('defense')) return str; });
@@ -269,6 +370,16 @@ const HumanMixinModel = (superclass) => class extends superclass {
 
                 champDeForceBonus += armeEffets.cdf.bonus;
             }
+
+            if(isKNIGHT) {
+                if(overdrives.has) {
+                    for(let o in overdrives.aspects) {
+                        for(let c in overdrives.aspects[o]) {
+                            baseOverdrives[o][c].push(overdrives.aspects[o][c]);
+                        }
+                    }
+                }
+            }
         }
 
         if(santeBonus > 0) {
@@ -290,7 +401,7 @@ const HumanMixinModel = (superclass) => class extends superclass {
         }
 
         if(armureBonus > 0) {
-            Object.defineProperty(this.armure.bonus, 'module', {
+            Object.defineProperty(pathBase.armure.bonus, 'module', {
                 value: armureBonus,
                 writable:true,
                 enumerable:true,
@@ -299,7 +410,7 @@ const HumanMixinModel = (superclass) => class extends superclass {
         }
 
         if(armureMalus > 0) {
-            Object.defineProperty(this.armure.malus, 'module', {
+            Object.defineProperty(pathBase.armure.malus, 'module', {
                 value: armureMalus,
                 writable:true,
                 enumerable:true,
@@ -308,7 +419,7 @@ const HumanMixinModel = (superclass) => class extends superclass {
         }
 
         if(champDeForceBonus > 0) {
-            Object.defineProperty(this.champDeForce.bonus, 'module', {
+            Object.defineProperty(pathBase.champDeForce.bonus, 'module', {
                 value: champDeForceBonus,
                 writable:true,
                 enumerable:true,
@@ -317,7 +428,7 @@ const HumanMixinModel = (superclass) => class extends superclass {
         }
 
         if(champDeForceMalus > 0) {
-            Object.defineProperty(this.champDeForce.malus, 'module', {
+            Object.defineProperty(pathBase.champDeForce.malus, 'module', {
                 value: champDeForceMalus,
                 writable:true,
                 enumerable:true,
@@ -326,7 +437,7 @@ const HumanMixinModel = (superclass) => class extends superclass {
         }
 
         if(energieBonus > 0) {
-            Object.defineProperty(this.energie.bonus, 'module', {
+            Object.defineProperty(pathBase.energie.bonus, 'module', {
                 value: energieBonus,
                 writable:true,
                 enumerable:true,
@@ -335,7 +446,7 @@ const HumanMixinModel = (superclass) => class extends superclass {
         }
 
         if(energieMalus > 0) {
-            Object.defineProperty(this.energie.malus, 'module', {
+            Object.defineProperty(pathBase.energie.malus, 'module', {
                 value: energieMalus,
                 writable:true,
                 enumerable:true,
@@ -377,6 +488,29 @@ const HumanMixinModel = (superclass) => class extends superclass {
                 enumerable:true,
                 configurable:true
             });
+        }
+
+        if(isKNIGHT) {
+            for(let o in bonusOverdrives) {
+                for(let c in bonusOverdrives[o]) {
+                    if(bonusOverdrives[o][c] > 0) {
+                        Object.defineProperty(this.aspects[o].caracteristiques[c].overdrive.bonus, 'module', {
+                            value: bonusOverdrives[o][c],
+                            writable:true,
+                            enumerable:true,
+                            configurable:true
+                        });
+                    }
+                }
+            }
+
+            for(let o in baseOverdrives) {
+                for(let c in baseOverdrives[o]) {
+                    Object.defineProperty(this.aspects[o].caracteristiques[c].overdrive, 'base', {
+                        value: this.armorISwear ? Math.max(...baseOverdrives[o][c]) : 0,
+                    });
+                }
+            }
         }
     }
 
