@@ -1,7 +1,19 @@
+## v3.58.2
+### Bugfix
+- Application du même correction qu'en v3.57.3
+
+## v3.58.1
+### Bugfix
+- Application du même correction qu'en v3.57.2
+
 ## v3.58.0
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.3
+### Bugfix
+- Correction d'un bug rare pouvant bloquer la fiche d'un personnage KNIGHT.
 
 ## v3.57.2
 ### Bugfix

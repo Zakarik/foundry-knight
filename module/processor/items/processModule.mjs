@@ -260,7 +260,7 @@ function processBonus(item, itemBonus, ctx, collections) {
         moduleBonusDgtsVariable[iBDgts.type].push({
             id:item._id,
             label:item.name,
-            description:item.system.description,
+            description:item?.system?.description ?? '',
             selected:{
                 dice:iBDgtsVariable?.selected?.dice ?? 0,
                 fixe:iBDgtsVariable?.selected?.fixe ?? 0,
@@ -309,7 +309,7 @@ function processBonus(item, itemBonus, ctx, collections) {
         moduleBonusViolenceVariable[iBViolence.type].push({
             id:item._id,
             label:item.name,
-            description:item.system.description,
+            description:item?.system?.description ?? '',
             selected:{
                 dice:iBViolenceVariable?.selected?.dice ?? 0,
                 fixe:iBViolenceVariable?.selected?.fixe ?? 0,
