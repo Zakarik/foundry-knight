@@ -1,3 +1,7 @@
+## v3.58.7
+### Bugfix
+- Correction des problèmes avec les modules créant des PNJ.
+
 ## v3.58.6
 ### Bugfix
 - Application du même correction qu'en v3.57.6
@@ -22,6 +26,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.7
+### Bugfix
+- Correction de problèmes avec la création de PNJ par les modules.
 
 ## v3.57.6
 ### Bugfix

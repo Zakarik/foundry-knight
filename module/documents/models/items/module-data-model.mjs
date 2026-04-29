@@ -1182,7 +1182,7 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
       newActor = await createSheet(
         this.actor,
         dataPnj.type,
-        `${this.title} : ${dataPnj.nom}`,
+        `${this.item.name} : ${dataPnj.nom}`,
         system,
         {},
         dataModule.img,
