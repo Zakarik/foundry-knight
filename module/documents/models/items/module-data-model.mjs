@@ -986,8 +986,6 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     if(value) {
       const depense = this.actor.type === 'vehicule' ? await this.usePEVehicule(type) : await this.usePE(type);
 
-      console.error(depense);
-
       if(!depense) return;
     }
 
@@ -1184,9 +1182,9 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
       newActor = await createSheet(
         this.actor,
         dataPnj.type,
-        `${this.title} : ${dataPnj.nom}`,
+        `${this.item.name} : ${dataPnj.nom}`,
         system,
-        {},
+        [],
         dataModule.img,
         dataModule.img,
         1

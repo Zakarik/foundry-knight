@@ -1,3 +1,7 @@
+## v3.58.7
+### Bugfix
+- Correction des problèmes avec les modules créant des PNJ.
+
 ## v3.58.6
 ### Bugfix
 - Application du même correction qu'en v3.57.6
