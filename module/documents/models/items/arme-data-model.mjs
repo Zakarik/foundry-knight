@@ -39,16 +39,14 @@ export class ArmeDataModel extends BaseArmeDataModel {
         '2main': ["schema", {
           has: ["bool", { initial: false}],
           actuel: ["str", { initial: "1main", nullable:false}],
-          '1main': ["schema", {
-            degats: ["schema", {
-              dice: ["num", {initial:0, nullable:false, integer:true}],
-              fixe: ["num", {initial:0, nullable:false, integer:true}],
-            }],
-            violence: ["schema", {
-              dice: ["num", {initial:0, nullable:false, integer:true}],
-              fixe: ["num", {initial:0, nullable:false, integer:true}],
-            }]
+          degats: ["schema", {
+            dice: ["num", {initial:0, nullable:false, integer:true}],
+            fixe: ["num", {initial:0, nullable:false, integer:true}],
           }],
+          violence: ["schema", {
+            dice: ["num", {initial:0, nullable:false, integer:true}],
+            fixe: ["num", {initial:0, nullable:false, integer:true}],
+          }]
         }],
       }],
       optionsmunitions: ["schema", {

@@ -1,7 +1,10 @@
+## v3.58.6
+### Bugfix
+- Application du même correction qu'en v3.57.6
+
 ## v3.58.5
 ### Bugfix
 - Application du même correction qu'en v3.57.5
-
 
 ## v3.58.4
 ### Bugfix
@@ -19,6 +22,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.6
+### Bugfix
+- Correction d'un bug avec les armes ayant une option une main ET deux mains.
 
 ## v3.57.5
 ### Bugfix
