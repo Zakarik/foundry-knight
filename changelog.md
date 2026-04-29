@@ -1,3 +1,8 @@
+## v3.58.5
+### Bugfix
+- Application du même correction qu'en v3.57.5
+
+
 ## v3.58.4
 ### Bugfix
 - Application du même correction qu'en v3.57.4
@@ -14,6 +19,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.5
+### Bugfix
+- Correction d'un bug empêchant les PNJ d'utiliser des modules.
 
 ## v3.57.4
 ### Bugfix

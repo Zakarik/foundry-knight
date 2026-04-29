@@ -365,6 +365,13 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
 
         return all;
     }
+
+    get isPJ() {
+        const list = ['knight'];
+
+        if(list.includes(this.actor.type)) return true;
+        else return false;
+    }
     /**
      * Calcule le modificateur aux jets d'armes à distance basé sur les statuts actifs.
      * Actuellement, seul le statut 'fumigene' applique un malus de -3.

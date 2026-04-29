@@ -986,6 +986,8 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     if(value) {
       const depense = this.actor.type === 'vehicule' ? await this.usePEVehicule(type) : await this.usePE(type);
 
+      console.error(depense);
+
       if(!depense) return;
     }
 
@@ -1263,6 +1265,8 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
   }
 
   async usePE(type, forceEspoir = false) {
+    if(!this.actor.isPJ) return this.usePE_NPC(type, forceEspoir);
+
     // Récupération armure + capacités (sécurisée)
     const getArmure = await getArmor(this.actor).catch(e => {
       console.error('module usePE: getArmor a échoué', e);
@@ -1357,6 +1361,109 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
       let pbE = new PatchBuilder();
 
       if(!remplaceEnergie) pbE.sys(`equipements.${actor.system.wear}.${getType}.value`, substractEnergie);
+      else if(remplaceEnergie && !actor.system.espoir.perte.saufAgonie) pbE.sys('espoir.value', substractEnergie);
+
+      if(!remplaceEnergie && depenseEspoir) pbE.sys('espoir.value', substractEspoir);
+
+      if(depenseFlux && hasFlux) pbE.sys('flux.value', substractFlux);
+
+      await pbE.applyTo(actor);
+
+      return true;
+    }
+  }
+
+  async usePE_NPC(type, forceEspoir = false) {
+    // Récupération armure + capacités (sécurisée)
+    const getArmure = await getArmor(this.actor);
+
+    const niveauActuel = this.niveauActuel;
+    const armure = getArmure ? new ArmureAPI(getArmure) : false;
+    const label = this.item.name;
+    const actor = this?.actor ?? null;
+
+    const remplaceEnergie = armure ? armure.espoirRemplaceEnergie : false;
+    const getType = remplaceEnergie || forceEspoir ? 'espoir' : 'energie';
+    const hasFlux = armure ? armure.hasFlux : false;
+
+    const flux = hasFlux ? actor?.system?.flux?.value ?? 0 : 0;
+    const value = actor?.system?.[getType]?.value ?? 0;
+    const espoir = actor?.system?.espoir?.value ?? 0;
+
+    const sendLackMsg = async (i18nKey) => {
+      const payload = {
+        flavor: `${label}`,
+        main: { total: `${game.i18n.localize(`KNIGHT.JETS.${i18nKey}`)}` }
+      };
+      const data = {
+        user: game.user.id,
+        speaker: {
+          actor: actor?.id ?? null,
+          token: actor?.token?.id ?? null,
+          alias: actor?.name ?? null,
+        },
+        style: CONST.CHAT_MESSAGE_STYLES.OTHER,
+        content: await renderTemplate('systems/knight/templates/dices/wpn.html', payload),
+        sound: CONFIG.sounds.dice
+      };
+      const rMode = game.settings.get("core", "rollMode");
+      const msgData = ChatMessage.applyRollMode(data, rMode);
+      await ChatMessage.create(msgData, { rollMode: rMode });
+    };
+
+    let cout = 0;
+
+    switch(type) {
+      case 'other':
+        cout += 0;
+        break;
+
+      case 'tour':
+      case 'minute':
+        cout += niveauActuel?.energie?.[type]?.value ?? 0;
+        break;
+
+      case 'supplementaire':
+        cout += niveauActuel?.energie?.supplementaire ?? 0;
+        break;
+    }
+
+    let depenseEnergie = 0;
+    let depenseFlux = 0;
+    let depenseEspoir = 0;
+    let substractEnergie = 0;
+    let substractEspoir = 0;
+    let substractFlux = 0;
+
+    depenseEnergie += cout;
+
+    if(remplaceEnergie && depenseEnergie > 0 && armure.ModuleCostDivided > 0) {
+      depenseEnergie = Math.max(Math.floor(cout / armure.ModuleCostDivided), 1);
+
+      if(depenseEnergie < 1) depenseEnergie = 1;
+    }
+
+    if(remplaceEnergie) depenseEnergie += depenseEspoir;
+
+    substractEnergie = value - depenseEnergie;
+    substractEspoir = espoir - depenseEspoir;
+    substractFlux = flux - depenseFlux;
+    if(substractEnergie < 0) {
+      await sendLackMsg(`${remplaceEnergie || forceEspoir ? 'Notespoir' : 'Notenergie'}`);
+
+      return false;
+    } else if(substractEspoir < 0 && !remplaceEnergie) {
+      await sendLackMsg(`Notespoir`);
+
+      return false;
+    } else if(substractFlux < 0 && hasFlux) {
+      await sendLackMsg(`Notflux`);
+
+      return false;
+    } else {
+      let pbE = new PatchBuilder();
+
+      if(!remplaceEnergie) pbE.sys(`${getType}.value`, substractEnergie);
       else if(remplaceEnergie && !actor.system.espoir.perte.saufAgonie) pbE.sys('espoir.value', substractEnergie);
 
       if(!remplaceEnergie && depenseEspoir) pbE.sys('espoir.value', substractEspoir);
