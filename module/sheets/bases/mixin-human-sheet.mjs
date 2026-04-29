@@ -181,7 +181,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
   }
 
   #armoredListeners(html) {
-    html.find('.armure .activation').click(async ev => {
+    html.find('.armure .activation, .capacites .bModule .activation').click(async ev => {
       const target = $(ev.currentTarget);
       const type = target.data("type");
       const subtype = target.data("subtype");
@@ -1327,7 +1327,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
       $(ev.currentTarget).toggleClass("clicked");
     });
 
-    html.find('div.armure div.bModule img.info').click(ev => {
+    html.find('div.armure div.bModule img.info, .capacites .bModule img.info').click(ev => {
       const span = $(ev.currentTarget).siblings("span.hideInfo")
       const width = $(ev.currentTarget).parents("div.mainBlock").width() / 2;
       const isW50 = $(ev.currentTarget).parents("div.data").width();
