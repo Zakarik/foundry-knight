@@ -1,8 +1,36 @@
 import BaseActorDataModel from "../base/base-actor-data-model.mjs";
 import NPCMixinModel from "../base/mixin-npc-model.mjs";
 import BandeMixinModel from "../base/mixin-bande-model.mjs";
+import { combine } from '../../../utils/field-builder.mjs';
 
 export class BandeDataModel extends BandeMixinModel(NPCMixinModel(BaseActorDataModel)) {
+    static get baseDefinition() {
+        const base = super.baseDefinition;
+        const specific = {
+            champDeForce: ["schema", {
+                value:["num", {initial:0, nullable:false, integer:true}],
+                base:["num", {initial:0, nullable:false, integer:true}],
+                mod:["num", {initial:0, nullable:false, integer:true}],
+                bonus:["obj", {
+                    initial:{
+                    user:0,
+                    }
+                }],
+                malus:["obj", {
+                    initial:{
+                    user:0,
+                    }
+                }],
+            }],
+            options:["schema", {
+                resilience:["bool", { initial: false, nullable:false }],
+                champDeForce:["bool", { initial: false, nullable:false }],
+            }],
+        }
+
+        return combine(base, specific);
+    }
+
     static migrateData(source) {
         if(source.version < 1) {
             const mods = ['sante', 'bouclier', 'reaction', 'defense', 'initiative'];
@@ -49,8 +77,8 @@ export class BandeDataModel extends BandeMixinModel(NPCMixinModel(BaseActorDataM
         return super.migrateData(source);
     }
 
-	_endPrepareDerivedData() {
-        super._endPrepareDerivedData();
+	_EndPrepareDerivedData() {
+        super._EndPrepareDerivedData();
 
         this.#derived();
     }
