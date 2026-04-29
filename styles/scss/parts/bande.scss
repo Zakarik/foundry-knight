@@ -1519,6 +1519,7 @@
           align-items: flex-start;
           align-content: flex-start;
           flex-wrap: wrap;
+          grid-gap: 2px;
 
           button {
             width:calc(50% - 10px);

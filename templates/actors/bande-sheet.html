@@ -497,6 +497,14 @@
                         {{localize "KNIGHT.OPTIONS.CHAMPDEFORCE.Hasnt"}}
                     {{/if}}
                 </button>
+
+                <button type="action" data-value="{{systemData.options.resilience}}" data-option="resilience" class="{{#if systemData.options.resilience}}selected{{else}}unselected{{/if}}">
+                    {{#if systemData.options.resilience}}
+                        {{localize "KNIGHT.OPTIONS.RESILIENCE.Has"}}
+                    {{else}}
+                        {{localize "KNIGHT.OPTIONS.RESILIENCE.Hasnt"}}
+                    {{/if}}
+                </button>
             </div>
 
             {{#if systemData.options.phase2}}

@@ -1,3 +1,7 @@
+## v3.58.4
+### Bugfix
+- Application du même correction qu'en v3.57.4
+
 ## v3.58.3
 ### Bugfix
 - Application du même correction qu'en v3.57.3
@@ -10,6 +14,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.4
+### Bugfix
+- Correction d'un bug avec les bandes empêchant de désactiver la résilience, et ne calculant pas la santé, ainsi qu'empêchant d'afficher un champ de force.
 
 ## v3.57.3
 ### Bugfix

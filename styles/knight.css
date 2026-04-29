@@ -41392,6 +41392,7 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
   align-items: flex-start;
   align-content: flex-start;
   flex-wrap: wrap;
+  grid-gap: 2px;
 }
 .bande section.body div.options div.main button {
   width: calc(50% - 10px);
