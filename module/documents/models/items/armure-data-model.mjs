@@ -1136,7 +1136,6 @@ export class ArmureDataModel extends foundry.abstract.TypeDataModel {
         });
 
         if(value) {
-          console.error(actor);
           switch(special) {
             case 'lion':
               const dataLion = getCapacite.lion;

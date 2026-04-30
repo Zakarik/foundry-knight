@@ -26,8 +26,6 @@ async function giveItmToActor(payload={}) {
     const actor = await fromUuid(payload.actor);
     const items = payload.items;
 
-    console.error(items);
-
     actor.createEmbeddedDocuments("Item", items);
 }
 

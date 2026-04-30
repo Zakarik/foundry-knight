@@ -1976,8 +1976,6 @@ export class KnightDataModel extends HumanMixinModel(BaseActorDataModel) {
         const style = this.combat.style;
         const data = getModStyle(style);
 
-        console.error(noMalus);
-
         Object.defineProperty(this.combat, 'styleInfo', {
             value: game.i18n.localize(CONFIG.KNIGHT.styles[style]),
         });

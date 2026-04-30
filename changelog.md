@@ -1,3 +1,8 @@
+
+## v3.58.9
+### Bugfix
+- Application du même correction qu'en v3.57.9
+
 ## v3.58.8
 ### Bugfix
 - Correction d'un dernier point sur les PNJ créés via les modules.
@@ -30,6 +35,11 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.9
+### Bugfix
+- Correction d'un problème empêchant de drag & drop les cartes du destin et les capacités héroiques sur les PJ.
+- Correction d'un problème de calcul de l'initiative sur les véhicules.
 
 ## v3.57.8
 ### Bugfix

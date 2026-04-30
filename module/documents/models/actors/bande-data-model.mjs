@@ -88,8 +88,6 @@ export class BandeDataModel extends BandeMixinModel(NPCMixinModel(BaseActorDataM
 
         for(let d of list) {
             const update = CONFIG.KNIGHT.LIST.hasMax[d] ? 'max' : 'value';
-            console.error(d);
-            console.error(this[d]);
             const base = this[d].base;
             const bonus = Object.values(this[d]?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
             const malus = Object.values(this[d]?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
