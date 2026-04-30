@@ -540,7 +540,7 @@ export class ModuleDataModel extends foundry.abstract.TypeDataModel {
     else if(arme.type === 'distance') {
       effects.push(...arme.effets.raw, ...arme.distance.raw);
 
-      if(arme.optionsmunitions.has) effects.push(...arme.optionsmunitions.liste[arme.optionsmunitions.actuel].raw)
+      if(arme?.optionsmunitions?.has) effects.push(...arme.optionsmunitions.liste[arme.optionsmunitions.actuel].raw)
     }
 
     return effects;
