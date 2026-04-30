@@ -100,6 +100,7 @@ export class VehiculeDataModel extends BaseActorDataModel {
 
     return game.actors.get(this.equipage.pilote.id);
   }
+
   static migrateData(source) {
       if(source.version < 1) {
           const mods = ['armure', 'energie', 'champDeForce'];
@@ -133,8 +134,6 @@ export class VehiculeDataModel extends BaseActorDataModel {
   #setPilote() {
     const pilote = this.pilote;
 
-    if(!pilote) return;
-
     if(!pilote) {
       Object.defineProperty(this.equipage.pilote, 'id', {
         value: '',
@@ -142,6 +141,14 @@ export class VehiculeDataModel extends BaseActorDataModel {
 
       Object.defineProperty(this.equipage.pilote, 'name', {
         value: '',
+      });
+
+      Object.defineProperty(this.reaction, 'mod', {
+        value: 0,
+      });
+
+      Object.defineProperty(this.defense, 'mod', {
+        value: 0,
       });
     } else {
       const malusDefense = Object.values(this.defense?.malus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
@@ -162,31 +169,68 @@ export class VehiculeDataModel extends BaseActorDataModel {
   #setDefenses() {
     const pilote = this.pilote;
 
-    if(!pilote) return;
+    if(!pilote) {
+      Object.defineProperty(this.reaction, 'value', {
+        value: 0,
+      });
 
-    let bonusDefense = Object.values(this.defense?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-    bonusDefense += pilote.system?.defense?.bonus?.user ?? 0;
-    let bonusReaction = Object.values(this.reaction?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
-    bonusReaction += pilote.system?.reaction?.bonus?.user ?? 0;
+      Object.defineProperty(this.reaction, 'valueWOMod', {
+          value: 0,
+      });
 
-    Object.defineProperty(this.reaction, 'value', {
-      value: Math.max(pilote.system.reaction.value + this.reaction.mod + bonusReaction, 0),
-    });
+      Object.defineProperty(this.defense, 'value', {
+        value: 0,
+      });
 
-    Object.defineProperty(this.reaction, 'valueWOMod', {
-        value: this.reaction.mod > 0 ? pilote.system.reaction.valueWOMod + this.reaction.mod + bonusReaction : pilote.system.reaction.base + bonusReaction,
-    });
+      Object.defineProperty(this.defense, 'valueWOMod', {
+          value: 0,
+      });
 
-    Object.defineProperty(this.defense, 'value', {
-      value: Math.max(pilote.system.defense.base+this.defense.mod + bonusDefense, 0),
-    });
+      Object.defineProperty(this.initiative, 'dice', {
+        value: 0,
+      });
 
-    Object.defineProperty(this.defense, 'valueWOMod', {
-        value: this.defense.mod > 0 ? pilote.system.defense.base + this.defense.mod + bonusDefense : pilote.system.defense.base + bonusDefense,
-    });
+      Object.defineProperty(this.initiative, 'value', {
+        value: 0,
+      });
+    } else {
+      let bonusDefense = Object.values(this.defense?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+      bonusDefense += pilote.system?.defense?.bonus?.user ?? 0;
+      let bonusReaction = Object.values(this.reaction?.bonus ?? {}).reduce((acc, curr) => acc + (Number(curr) || 0), 0);
+      bonusReaction += pilote.system?.reaction?.bonus?.user ?? 0;
+
+      Object.defineProperty(this.reaction, 'value', {
+        value: Math.max(pilote.system.reaction.value + this.reaction.mod + bonusReaction, 0),
+      });
+
+      Object.defineProperty(this.reaction, 'valueWOMod', {
+          value: this.reaction.mod > 0 ? pilote.system.reaction.valueWOMod + this.reaction.mod + bonusReaction : pilote.system.reaction.base + bonusReaction,
+      });
+
+      Object.defineProperty(this.defense, 'value', {
+        value: Math.max(pilote.system.defense.base+this.defense.mod + bonusDefense, 0),
+      });
+
+      Object.defineProperty(this.defense, 'valueWOMod', {
+          value: this.defense.mod > 0 ? pilote.system.defense.base + this.defense.mod + bonusDefense : pilote.system.defense.base + bonusDefense,
+      });
+
+      Object.defineProperty(this.initiative, 'complet', {
+        value: `${pilote.system.initiative.dice}D6+${pilote.system.initiative.value}`,
+      });
+
+
+      Object.defineProperty(this.initiative, 'dice', {
+        value: pilote.system.initiative.dice,
+      });
+
+      Object.defineProperty(this.initiative, 'value', {
+        value: pilote.system.initiative.value,
+      });
+    }
 
     Object.defineProperty(this.initiative, 'complet', {
-      value: `${pilote.system.initiative.dice}D6+${pilote.system.initiative.value}`,
+      value: `${this.initiative.dice}D6+${this.initiative.value}`,
     });
   }
 

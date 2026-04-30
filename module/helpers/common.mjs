@@ -5244,8 +5244,6 @@ export async function createSheet(actor, type, name, data, item, imgAvatar, imgT
 
   if(actor.folder) createData.folder = actor.folder.id;
 
-  console.error(createData);
-
   const { id, uuid } = await SOCKET.executeAsGM('createSubActor', createData);
   const newActor = await fromUuid(uuid);
 
