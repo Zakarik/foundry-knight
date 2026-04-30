@@ -1,3 +1,6 @@
+## v3.58.10
+### Bugfix
+- Application du même correction qu'en v3.57.10
 
 ## v3.58.9
 ### Bugfix
@@ -35,6 +38,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.10
+### Bugfix
+- Correction d'un bug très rare qui peut empêcher le jet d'attaque.
 
 ## v3.57.9
 ### Bugfix
