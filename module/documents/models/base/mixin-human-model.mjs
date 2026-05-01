@@ -233,6 +233,8 @@ const HumanMixinModel = (superclass) => class extends superclass {
         let reactionMalus = 0;
         let baseOverdrives;
         let bonusOverdrives;
+        let specialRaw = [];
+        let specialCustom = [];
 
         if(isKNIGHT) {
             const tete = data.reduce((acc, curr) => curr.system.isLion ? acc : acc + (Number(curr.system.slots.tete) || 0), 0);
