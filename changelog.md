@@ -1,3 +1,7 @@
+## v3.58.11
+### Bugfix
+- Application du même correction qu'en v3.57.11
+
 ## v3.58.10
 ### Bugfix
 - Application du même correction qu'en v3.57.10
@@ -38,6 +42,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.11
+### Bugfix
+- Correction d'un bug avec une armure.
 
 ## v3.57.10
 ### Bugfix
