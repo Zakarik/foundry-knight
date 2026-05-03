@@ -1498,7 +1498,7 @@ const HumanMixinSheet = (superclass) => class extends superclass {
         break;
 
       case 'module':
-        const armor = await getArmor(actor);
+        const armor = actor.type === 'knight' ? await getArmor(actor) : true;
 
         if(!armor) return;
         let hasCompanions = false;
