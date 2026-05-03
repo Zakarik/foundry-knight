@@ -1,3 +1,7 @@
+## v3.58.12
+### Bugfix
+- Correction de la compatibilité avec les dernières versions de Dice So Nice.
+
 ## v3.58.11
 ### Bugfix
 - Application du même correction qu'en v3.57.11
