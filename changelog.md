@@ -1,18 +1,22 @@
+## v3.58.13
+### Bugfix
+- Application du même correctif qu'en v3.57.12
+
 ## v3.58.12
 ### Bugfix
 - Correction de la compatibilité avec les dernières versions de Dice So Nice.
 
 ## v3.58.11
 ### Bugfix
-- Application du même correction qu'en v3.57.11
+- Application du même correctif qu'en v3.57.11
 
 ## v3.58.10
 ### Bugfix
-- Application du même correction qu'en v3.57.10
+- Application du même correctif qu'en v3.57.10
 
 ## v3.58.9
 ### Bugfix
-- Application du même correction qu'en v3.57.9
+- Application du même correctif qu'en v3.57.9
 
 ## v3.58.8
 ### Bugfix
@@ -24,28 +28,32 @@
 
 ## v3.58.6
 ### Bugfix
-- Application du même correction qu'en v3.57.6
+- Application du même correctif qu'en v3.57.6
 
 ## v3.58.5
 ### Bugfix
-- Application du même correction qu'en v3.57.5
+- Application du même correctif qu'en v3.57.5
 
 ## v3.58.4
 ### Bugfix
-- Application du même correction qu'en v3.57.4
+- Application du même correctif qu'en v3.57.4
 
 ## v3.58.3
 ### Bugfix
-- Application du même correction qu'en v3.57.3
+- Application du même correctif qu'en v3.57.3
 
 ## v3.58.2
 ### Bugfix
-- Application du même correction qu'en v3.57.2
+- Application du même correctif qu'en v3.57.2
 
 ## v3.58.0
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.12
+### Bugfix
+- Correction d'un bug empêchant de drag & drop des modules sur un PNJ.
 
 ## v3.57.11
 ### Bugfix
