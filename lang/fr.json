@@ -76,6 +76,7 @@
     "Tactique":"Tactique",
     "Colosse":"Colosse",
     "Patron":"Patron",
+    "NotificationsIgnoreError":"Nettoyage des acteurs en cours. Ignorez les messages d'erreurs éventuels.",
     "VEHICULE":{
       "Manoeuvrabilite":"Manoeuvrabilité",
       "Vitesse":"Vitesse",

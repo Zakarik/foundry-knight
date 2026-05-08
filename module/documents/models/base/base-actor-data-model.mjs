@@ -410,6 +410,9 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
 
         //HOOK pour la fin de PrepareData
         this._EndPrepareData();
+
+        //NETTOYAGE EVENTUEL
+        this._cleanActor();
     }
 
     _startPrepareData() {}
@@ -876,5 +879,23 @@ export default class BaseActorDataModel extends foundry.abstract.TypeDataModel {
 
       if(autoApply) this.actor.update(energy);
       else return update;
+    }
+
+    async _cleanActor() {
+        const actor = this.actor;
+        const ids = actor.effects
+        .filter(e =>
+            e.statuses.size === 0 &&
+            e.changes?.some(c => c.key?.trim()) &&
+            foundry.utils.isEmpty(e.flags)
+        )
+        .map(e => e.id);
+
+        if (ids.length === 0) return;
+
+        ui.notifications.info(`KNIGHT.NotificationsIgnoreError`);
+
+        await actor.deleteEmbeddedDocuments("ActiveEffect", ids);
+
     }
 }
