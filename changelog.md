@@ -1,3 +1,7 @@
+## v3.58.15
+### Bugfix
+- Application du même correctif qu'en v3.57.14
+
 ## v3.58.14
 ### Bugfix
 - Application du même correctif qu'en v3.57.13
@@ -54,6 +58,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.14
+### Bugfix
+- Correction suite à la dernière mise à jour pour ajouter quelques gardes-fous et éviter d'autres erreurs.
 
 ## v3.57.13
 ### Bugfix
