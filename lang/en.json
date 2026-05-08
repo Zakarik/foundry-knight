@@ -76,6 +76,7 @@
     "Tactique":"Tactics",
     "Colosse":"Behemoth",
     "Patron":"Boss",
+    "NotificationsIgnoreError":"Actors are currently being cleaned up. Please ignore any error messages that may appear.",
     "VEHICULE":{
       "Manoeuvrabilite":"Handling",
       "Vitesse":"Speed",
