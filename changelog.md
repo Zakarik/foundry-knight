@@ -55,7 +55,7 @@
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
 
-## v3.57.12
+## v3.57.13
 ### Bugfix
 - Correction d'un bug éventuel en cas d'import d'une très vieille version d'acteur.
 
