@@ -2,7 +2,7 @@ import {
   confirmationDialog,
   getDefaultImg,
   diceHover,
-  options,
+  includeOptions,
   hideShowLimited,
   dragMacro,
   actualiseRoll,
@@ -13,18 +13,30 @@ import toggler from '../../helpers/toggler.js';
 
 import prepareCharacterItems from "../../processor/items/main.mjs";
 
+const { ActorSheetV2 } = foundry.applications.sheets;
+const { HandlebarsApplicationMixin } = foundry.applications.api;
+
 /**
  * @extends {ActorSheet}
  */
-export default class BaseActorSheet extends ActorSheet {
-
-  /** @inheritdoc */
-  static get defaultOptions() {
+export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
+  /*static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["knight", "sheet", "actor"],
       tabs: [{navSelector: ".sheet-tabs", contentSelector: ".body", initial: "description"}],
       dragDrop: [{dragSelector: [".draggable", ".item-list .item"], dropSelector: null}],
     });
+  }*/
+
+  /** @inheritdoc */
+  static DEFAULT_OPTIONS = {
+    classes: ["knight", "sheet", "actor"],
+    window: { resizable: true },
+    dragDrop: [{dragSelector: [".draggable", ".item-list .item"], dropSelector: null}],
+    form: {
+      submitOnChange: true,
+      closeOnSubmit: false
+    }
   }
 
   get canDropActor() {
@@ -46,13 +58,14 @@ export default class BaseActorSheet extends ActorSheet {
   /* -------------------------------------------- */
 
   /** @inheritdoc */
-  getData() {
-    const context = super.getData();
-    const { actor } = context;
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    const actor = context.document;
 
-    this._prepareContext(context);
+    this._prepareActor(actor);
 
-    context.systemData = context.data.system;
+    context.actor = actor;
+    context.systemData = actor.system;
 
     actualiseRoll(actor);
 
@@ -61,29 +74,41 @@ export default class BaseActorSheet extends ActorSheet {
     return context;
   }
 
-  _prepareContext(context) {
-    const { actor } = context
-
+  _prepareActor(actor) {
     prepareCharacterItems(actor);
   }
 
-  /**
-     * Return a light sheet if in "limited" state
-     * @override
-     */
-    get template() {
+    /*get template() {
         if (!game.user.isGM && this.actor.limited) {
             return "systems/knight/templates/actors/limited-sheet.html";
         }
 
         return this.options.template;
+    }*/
+
+  /**
+  * Return a light sheet if in "limited" state
+  * @override
+  */
+  _configureRenderParts(options) {
+    const parts = super._configureRenderParts(options);
+
+    if (!game.user.isGM && this.actor.limited) {
+      return {
+        limited: { template: "systems/knight/templates/actors/limited-sheet.html" }
+      };
     }
+
+    return parts;
+  }
+
 
   /* -------------------------------------------- */
 
   /** @inheritdoc */
-  activateListeners(html) {
-    super.activateListeners(html);
+  _onRender(context, options) {
+    super._onRender(context, options);
+    const html = $(this.element)
 
     toggler.init(this.id, html);
     hideShowLimited(this.actor, html);
@@ -184,7 +209,7 @@ export default class BaseActorSheet extends ActorSheet {
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
     diceHover(html);
-    options(html, this.actor);
+    includeOptions(html, context.document);
 
     html.find('.item-create').click(this._onItemCreate.bind(this));
     html.find('.item-edit').click(this._onItemEdit.bind(this));

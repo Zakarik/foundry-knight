@@ -217,13 +217,14 @@ $imgs:
 
   section.menu {
     display:flex;
-    width:180px;
+    width:100%;
     border:1px solid $white;
     flex-flow: column;
-    height:calc(100% - 200px);
     background: $lightBlack;
     margin-top:-1px;
     padding-top:1px;
+    grid-row: 2 / 4;
+    height: 100%;
   }
 
   i.hideShowLimited {

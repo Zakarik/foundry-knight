@@ -1,0 +1,76 @@
+
+<header class="sheet-header flexrow">
+    <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
+    <div class="headerData">
+        <div class="data">
+            <h1 class="charname">
+                <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+            </h1>
+
+            <label>
+                <span>{{localize "KNIGHT.Surnom"}} : </span>
+                <input type="text" name="system.surnom" value="{{systemData.surnom}}" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.Archetype"}} : </span>
+                <input type="text" name="system.archetype" value="{{systemData.archetype}}" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.Age"}} : </span>
+                <input type="text" name="system.age" value="{{systemData.age}}" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.Section"}} : </span>
+                <input type="text" name="system.section" value="{{systemData.section}}" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.Blason"}} : </span>
+                <input type="text" name="system.blason" value="{{systemData.blason}}" />
+            </label>
+
+            <label>
+                <span>{{localize "KNIGHT.HautFait"}} : </span>
+                <input type="text" name="system.hautFait" value="{{systemData.hautFait}}" />
+            </label>
+        </div>
+
+        <div class="buttonSelectArmure {{#unless systemData.jauges.sante}} centered {{/unless}}">
+            {{#unless (ascension systemData.wear)}}
+                {{#unless actor.armureData._id}}
+                <button type="action" class="creerArmure unselected item-create" data-type="armure">{{localize "KNIGHT.ARMURE.CreerArmure"}}</button>
+                {{/unless}}
+
+                {{#if actor.armureData._id}}
+                <div class="blockArmure {{#if (armure systemData.wear)}} selected {{else}} unselected {{/if}} summary" data-item-id="{{actor.armureData._id}}">
+                    <a class="item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                    <button type="action" class="armure" data-type="armure">
+                    {{actor.armureData.name}}
+                    </button>
+                    <a class="item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
+                </div>
+                {{/if}}
+            {{/unless}}
+
+            {{#if (ascension systemData.wear)}}
+                <div class="blockArmure {{#if (ascension systemData.wear)}} selected {{else}} unselected {{/if}} summary" data-item-id="{{actor.armureData._id}}">
+                    <a class="item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
+                    <button type="action" class="armure" data-type="armure">
+                    {{actor.armureData.name}}
+                    </button>
+                    <a class="item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
+                </div>
+            {{/if}}
+
+            {{#unless (ascension systemData.wear)}}
+                {{#if systemData.jauges.sante}}
+                <button type="action" class="armure {{#if (guardian systemData.wear)}} selected {{else}} unselected {{/if}}" data-type="guardian">{{localize "KNIGHT.ARMURE.Guardian"}}</button>
+                <button type="action" class="armure {{#if (civil systemData.wear)}} selected {{else}} unselected {{/if}}" data-type="tenueCivile">{{localize "KNIGHT.ARMURE.TenueCivile"}}</button>
+                {{/if}}
+            {{/unless}}
+        </div>
+    </div>
+</header>

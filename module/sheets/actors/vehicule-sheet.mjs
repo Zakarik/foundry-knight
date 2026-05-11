@@ -3,7 +3,7 @@ import {
   confirmationDialog,
   getDefaultImg,
   diceHover,
-  options,
+  includeOptions,
   hideShowLimited,
   dragMacro,
   actualiseRoll,
@@ -102,7 +102,7 @@ export class VehiculeSheet extends ActorSheet {
     if ( !this.isEditable ) return;
 
     diceHover(html);
-    options(html, this.actor);
+    includeOptions(html, this.actor);
 
     html.find('.modules .activation').click(async ev => {
       const target = $(ev.currentTarget);

@@ -4898,7 +4898,7 @@ export function diceHover(html) {
   });
 }
 
-export function options(html, actor) {
+export function includeOptions(html, actor) {
   html.find('img.option').click(ev => {
     const option = $(ev.currentTarget).data("option");
     const actuel = actor.system[option]?.optionDeploy || false;

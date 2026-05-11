@@ -1,0 +1,173 @@
+
+<div class="tab progression" data-group="primary" data-tab="progression">
+    <div class="main">
+        <div class="dataExperience">
+            <h2 class="header">
+                {{localize "KNIGHT.PROGRESSION.EXPERIENCE.Label"}}
+            </h2>
+            <label>
+                <span class="label">
+                    {{localize "KNIGHT.PROGRESSION.Actuel"}}
+                </span>
+                <span class="score">
+                    {{systemData.progression.experience.actuel}}
+                </span>
+            </label>
+            <label>
+                <span class="label">
+                    {{localize "KNIGHT.PROGRESSION.Utilise"}}
+                </span>
+                <span class="score">
+                    {{systemData.progression.experience.depense.total}}
+                </span>
+            </label>
+            <label>
+                <span class="label">
+                    {{localize "KNIGHT.AUTRE.Total"}}
+                </span>
+                <input type="number" name="system.progression.experience.total" value="{{systemData.progression.experience.total}}" />
+            </label>
+        </div>
+
+        <div class="dataPG">
+            <h2 class="header">
+                {{localize "KNIGHT.PROGRESSION.GLOIRE.Label"}}
+            </h2>
+            <label>
+                <span class="label">
+                    {{localize "KNIGHT.PROGRESSION.Actuel"}}
+                </span>
+                <span class="score">
+                    {{#if systemData.progression.gloire.actuel}}
+                        {{systemData.progression.gloire.actuel}}
+                        {{else}}
+                        0
+                    {{/if}}
+                </span>
+            </label>
+            <label>
+                <span class="label">
+                    {{localize "KNIGHT.PROGRESSION.Utilise"}}
+                </span>
+                <span class="score">
+                    {{#if systemData.progression.gloire.depense.total}}
+                        {{systemData.progression.gloire.depense.total}}
+                        {{else}}
+                        0
+                    {{/if}}
+                </span>
+            </label>
+            <label>
+                <span class="label">
+                    {{localize "KNIGHT.AUTRE.Total"}}
+                </span>
+                <input type="number" name="system.progression.gloire.total" value="{{systemData.progression.gloire.total}}" />
+            </label>
+        </div>
+
+        {{#unless (isEmpty actor.evolutionsAAcheter)}}
+        <div class="evolutionsAAcheter">
+            {{#each actor.evolutionsAAcheter as | key evolution|}}
+            <button class="acheter-evolution-longbow" data-id="{{key.id}}" data-value="{{key.value}}" title="{{key.description}}">
+                {{localize "KNIGHT.PROGRESSION.AcheterEvolutionLongbow"}} : {{key.value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}
+                <span class="hideInfo">{{{getEffetsDescription key.description}}}</span>
+            </button>
+            {{/each}}
+        </div>
+        {{/unless}}
+
+        <div class="tableauPG">
+            <h2 class="header js-toggler">
+                <i class="far fa-minus-square"></i>
+                {{localize "KNIGHT.PROGRESSION.GLOIRE.ListeDepense"}}
+                <a class="gloire-create" title="Create Item"><i class="fas fa-plus"></i></a>
+            </h2>
+            <div class="lineHeader">
+                <span class="label">{{localize "KNIGHT.Nom"}}</span>
+                <span class="value">{{localize "KNIGHT.PROGRESSION.Cout"}}</span>
+                <span class="last"></span>
+            </div>
+            {{#each systemData.progression.gloire.depense.liste as | key depense|}}
+            <div class="line">
+                {{#unless key.isEmpty}}
+                    {{#unless key.isArmure}}
+                        {{#if key.isAcheter}}
+                        <div class="acheter">
+                            <span class="label">{{localize "KNIGHT.PROGRESSION.EvolutionArmure"}}</span>
+                            <span class="value">{{key.value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}</span>
+                            <button type="action" data-value="{{key.gratuit}}" data-longbow="true" data-evo="{{key.evo}}" data-id="{{key.id}}" class="{{#if key.gratuit}}selected{{else}}unselected{{/if}}">
+                                {{#if key.gratuit}}
+                                    {{localize "KNIGHT.PROGRESSION.Gratuit"}}
+                                {{else}}
+                                    {{localize "KNIGHT.PROGRESSION.Payant"}}
+                                {{/if}}
+                            </button>
+                        </div>
+                        {{else}}
+                            {{#if key.isAutre}}
+                                <div class="autre">
+                                    <a class="gloire-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}" data-id="{{key.id}}"><i class="fas fa-trash"></i></a>
+                                    <input type="hidden" name="system.progression.gloire.depense.autre.{{key.id}}.order" value="{{getOtherListPG key.id 'order' @root/data/system 'number'}}" />
+                                    <input type="hidden" name="system.progression.gloire.depense.autre.{{key.id}}.gratuit" value="{{getOtherListPG key.id 'gratuit' @root/data/system 'bool'}}" />
+                                    <input type="text" name="system.progression.gloire.depense.autre.{{key.id}}.nom" value="{{getOtherListPG key.id 'nom' @root/data/system 'text'}}"/>
+                                    <div class="pg">
+                                        <input type="number" name="system.progression.gloire.depense.autre.{{key.id}}.cout" value="{{getOtherListPG key.id 'cout' @root/data/system 'number'}}"/>
+                                        <span class="value">{{localize "KNIGHT.AUTRE.PointGloire-short"}}</span>
+                                    </div>
+                                    <span class="btn"></span>
+                                </div>
+                                {{else}}
+                                <span class="label">{{key.name}}</span>
+                                <span class="value">{{key.value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}</span>
+                                <button type="action" data-value="{{key.gratuit}}" data-id="{{key.id}}" data-isModule="{{key.isModule}}" data-niveau="{{key.niveau}}" class="{{#if key.gratuit}}selected{{else}}unselected{{/if}}">
+                                    {{#if key.gratuit}}
+                                        {{localize "KNIGHT.PROGRESSION.Gratuit"}}
+                                    {{else}}
+                                        {{localize "KNIGHT.PROGRESSION.Payant"}}
+                                    {{/if}}
+                                </button>
+                            {{/if}}
+                        {{/if}}
+                    {{else}}
+                    <div class="armure">
+                        <span class="label">{{localize "KNIGHT.PROGRESSION.EvolutionArmure"}}</span>
+                        <span class="value">{{key.value}}{{localize "KNIGHT.AUTRE.PointGloire-short"}}</span>
+                    </div>
+                    {{/unless}}
+                {{/unless}}
+            </div>
+            {{/each}}
+        </div>
+
+        <div class="tableauPX">
+            <h2 class="header js-toggler">
+                <i class="far fa-minus-square"></i>
+                {{localize "KNIGHT.PROGRESSION.EXPERIENCE.ListeDepense"}}
+                <a class="experience-create" title="Create Item"><i class="fas fa-plus"></i></a>
+            </h2>
+            <div class="lineHeader">
+                <span class="label">{{localize "KNIGHT.Nom"}}</span>
+                <span class="value">{{localize "KNIGHT.BONUS.Label"}}</span>
+                <span class="value">{{localize "KNIGHT.PROGRESSION.Cout"}}</span>
+            </div>
+            {{#each systemData.progression.experience.depense.liste as | key depense|}}
+            <div class="line">
+                <a class="experience-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}" data-id="{{depense}}"><i class="fas fa-trash"></i></a>
+                <select name="system.progression.experience.depense.liste.{{depense}}.nom">
+                    {{selectOptions (getProgression) selected=key.nom blank=''}}
+                </select>
+                {{#if (isValue key.nom 'capaciteheroique')}}
+                <span class="value"></span>
+                {{else}}
+                    {{#if (isValue key.nom 'autre')}}
+                    <span class="value"></span>
+                    {{else}}
+                    <input type="number" name="system.progression.experience.depense.liste.{{depense}}.bonus" value="{{key.bonus}}" min="0" />
+                    {{/if}}
+                {{/if}}
+                <input type="number" name="system.progression.experience.depense.liste.{{depense}}.cout" value="{{key.cout}}" min="0" />
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

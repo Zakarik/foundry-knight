@@ -1,0 +1,222 @@
+
+<div class="tab combat" data-group="primary" data-tab="combat">
+    <div class="main">
+        <div class="armesContact">
+            <div class="block item-list">
+                <h2 class="header">
+                    {{localize "KNIGHT.COMBAT.ARMES.CONTACT.Label"}}
+                    <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="contact"><i class="fas fa-plus"></i></a>
+                </h2>
+
+                {{#each actor.armesContactEquipee as | key arme|}}
+                    {{~> systems/knight/templates/actors/subtab/armes.html equipped=true num=arme}}
+                {{/each}}
+            </div>
+
+            {{#if actor.armesContactRack}}
+            <div class="block item-list">
+                <h3 class="header">
+                    {{localize "KNIGHT.COMBAT.ARMES.Rack"}}
+                </h3>
+
+                {{#each actor.armesContactRack as | key arme|}}
+                    {{~> systems/knight/templates/actors/subtab/armes.html}}
+                {{/each}}
+            </div>
+            {{/if}}
+
+            {{#if actor.armesContactArmoury}}
+            <div class="block item-list">
+                <h3 class="header">
+                    {{localize "KNIGHT.COMBAT.ARMES.Armoury"}}
+                </h3>
+
+                {{#each actor.armesContactArmoury as | key arme|}}
+                    {{~> systems/knight/templates/actors/subtab/armes.html}}
+                {{/each}}
+            </div>
+            {{/if}}
+            {{#if (hasSetting 'adl')}}
+            <a class="adl-import" title="{{localize "KNIGHT.IMPORT.Adl-hint"}}" data-type="contact">{{localize "KNIGHT.IMPORT.Adl"}}</a>
+            {{/if}}
+        </div>
+
+        <div class="armesDistance">
+            <div class="block item-list">
+                <h2 class="header">
+                    {{localize "KNIGHT.COMBAT.ARMES.DISTANCE.Label"}}
+                    {{#unless actor.cannotUseDistance}}
+                    <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="distance"><i class="fas fa-plus"></i></a>
+                    {{/unless}}
+                </h2>
+
+                {{#if actor.longbow.has}}
+{{~> systems/knight/templates/actors/subtab/longbow.html actor.longbow}}
+                {{/if}}
+
+                {{#each actor.armesDistanceEquipee as | key arme|}}
+{{~> systems/knight/templates/actors/subtab/armes.html equipped=true num=arme}}
+                {{/each}}
+            </div>
+
+            {{#if actor.armesDistanceRack}}
+            <div class="block item-list">
+                <h3 class="header">
+                    {{localize "KNIGHT.COMBAT.ARMES.Rack"}}
+                </h3>
+
+                {{#each actor.armesDistanceRack as | key arme|}}
+{{~> systems/knight/templates/actors/subtab/armes.html}}
+                {{/each}}
+            </div>
+            {{/if}}
+
+            {{#if actor.armesDistanceArmoury}}
+            <div class="block item-list">
+                <h3 class="header">
+                    {{localize "KNIGHT.COMBAT.ARMES.Armoury"}}
+                </h3>
+
+                {{#each actor.armesDistanceArmoury as | key arme|}}
+{{~> systems/knight/templates/actors/subtab/armes.html}}
+                {{/each}}
+            </div>
+            {{/if}}
+            {{#if (hasSetting 'adl')}}
+            <a class="adl-import" title="{{localize "KNIGHT.IMPORT.Adl-hint"}}" data-type="distance">{{localize "KNIGHT.IMPORT.Adl"}}</a>
+            {{/if}}
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="armesImprovisees">
+            <h2 class="header js-toggler">
+                <i class="far fa-minus-square"></i>
+                {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.LabelContact"}}
+            </h2>
+            {{#each systemData.combat.armesimprovisees.liste as | kAI armesimprovisees|}}
+                <div class="block">
+                    <h3 class="header js-toggler">
+                        <i class="far fa-plus-square"></i>
+                        {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.ODForce"}} : {{kAI.force}}
+                    </h3>
+                    {{#each kAI.liste as | key arme|}}
+                        <div class="wpn" style="display:none;"
+                        data-type="armesimprovisees"
+                        data-label="{{getAI armesimprovisees arme}}"
+                        data-what="{{arme}}"
+                        data-key="contact"
+                        data-other="{{armesimprovisees}}"
+                        >
+                            <span class="name">
+                                {{getAI armesimprovisees arme}}
+                            </span>
+                            <div class="line">
+                                <div class="doubleLine">
+                                    <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                                    <span>{{key.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                                </div>
+                                <div class="doubleLine">
+                                    <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                                    <span>{{key.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                                </div>
+
+                                <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn draggable"
+                                data-id="contact"
+                                data-idWpn="contact"
+                                data-name="{{armesimprovisees}}"
+                                data-other="{{armesimprovisees}}"
+                                data-isDistance="armesimprovisees"
+                                data-label="{{getAI armesimprovisees arme}}"
+                                data-type="armesimprovisees"
+                                data-what="{{arme}}"
+                                data-num="{{arme}}" data-caracteristiques="{{@root/systemData/combat/armesimprovisees/contact}},force" />
+                            </div>
+                            <div class="effets">
+                                <div>
+                                    <span class="label">{{key.utilisation}} {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Utilisations"}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            {{/each}}
+        </div>
+
+        <div class="armesImprovisees">
+            <h2 class="header  js-toggler">
+                <i class="far fa-minus-square"></i>
+                {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.LabelDistance"}}
+            </h2>
+            {{#each systemData.combat.armesimprovisees.liste as | kAI armesimprovisees|}}
+                <div class="block">
+                    <h3 class="header js-toggler">
+                        <i class="far fa-plus-square"></i>
+                        {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.ODForce"}} : {{kAI.force}}
+                    </h3>
+                    {{#each kAI.liste as | key arme|}}
+                        <div class="wpn" style="display:none;"
+                        data-type="armesimprovisees"
+                        data-label="{{getAI armesimprovisees arme}}"
+                        data-what="{{arme}}"
+                        data-key="distance"
+                        data-other="{{armesimprovisees}}">
+                            <span class="name">
+                                {{getAI armesimprovisees arme}}
+                            </span>
+                            <div class="line">
+                                <div class="doubleLine">
+                                    <span class="header">{{localize "KNIGHT.AUTRE.Degats"}}</span>
+                                    <span>{{key.degats.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                                </div>
+                                <div class="doubleLine">
+                                    <span class="header">{{localize "KNIGHT.AUTRE.Violence"}}</span>
+                                    <span>{{key.violence.dice}}{{localize "KNIGHT.JETS.Des-short"}}6</span>
+                                </div>
+
+                                <img src="systems/knight/assets/icons/D6Black.svg" class="dice jetWpn draggable"
+                                data-id="distance"
+                                data-idWpn="distance"
+                                data-name="{{armesimprovisees}}"
+                                data-other="{{armesimprovisees}}"
+                                data-label="{{getAI armesimprovisees arme}}"
+                                data-isDistance="armesimprovisees" data-num="{{arme}}"
+                                data-what="{{arme}}"
+                                data-type="armesimprovisees"
+                                data-caracteristiques="{{@root/systemData/combat/armesimprovisees/distance}},force" />
+                            </div>
+                            <div class="effets">
+                                <div>
+                                    <span class="label">{{utilisation}} {{localize "KNIGHT.COMBAT.ARMESIMPROVISEES.Utilisations"}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="main">
+        {{#unless (ascension systemData.wear)}}
+{{~> systems/knight/templates/actors/subtab/grenades.html}}
+        {{/unless}}
+
+        <div class="col">
+            <div class="armesDistance wpnTourelle">
+                <div class="block item-list">
+                    <h2 class="header">
+                        {{localize "KNIGHT.COMBAT.ARMES.TOURELLE.Label"}}
+                        <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="distance" data-tourelle="true"><i class="fas fa-plus"></i></a>
+                    </h2>
+
+                    {{#each actor.armesTourelles as | key arme|}}
+                        {{~> systems/knight/templates/actors/subtab/armes.html equipped=true num=arme}}
+                    {{/each}}
+                </div>
+            </div>
+
+{{~> systems/knight/templates/actors/subtab/nods.hbs}}
+        </div>
+    </div>
+</div>

@@ -351,18 +351,18 @@
     <section class="body">
         {{!-- Sheet Tab Navigation --}}
         <nav class="sheet-tabs tabs" data-group="primary">
-            <a class="item" data-tab="personnage">{{localize "KNIGHT.PERSONNAGE.Label"}}</a>
-            <a class="item" data-tab="aspectsCaracteristiques">{{localize "KNIGHT.ASPECTS.Label"}}</a>
+            <a class="item" data-tab="personnage" data-group="primary">{{localize "KNIGHT.PERSONNAGE.Label"}}</a>
+            <a class="item" data-tab="aspectsCaracteristiques" data-group="primary">{{localize "KNIGHT.ASPECTS.Label"}}</a>
             {{#if systemData.options.art}}
-            <a class="item" data-tab="art">{{localize "KNIGHT.ART.Label"}}</a>
+            <a class="item" data-tab="art" data-group="primary">{{localize "KNIGHT.ART.Label"}}</a>
             {{/if}}
             {{#if actor.armureData._id}}
-                <a class="item" data-tab="armure">{{actor.armureData.name}}</a>
+                <a class="item" data-tab="armure" data-group="primary">{{actor.armureData.name}}</a>
             {{/if}}
-            <a class="item" data-tab="combat">{{localize "KNIGHT.COMBAT.Label"}}</a>
-            <a class="item" data-tab="historique">{{localize "KNIGHT.HISTORIQUE.Label"}}</a>
-            <a class="item" data-tab="progression">{{localize "KNIGHT.PROGRESSION.Label"}}</a>
-            <a class="item" data-tab="options">{{localize "KNIGHT.OPTIONS.Label"}}</a>
+            <a class="item" data-tab="combat" data-group="primary">{{localize "KNIGHT.COMBAT.Label"}}</a>
+            <a class="item" data-tab="historique" data-group="primary">{{localize "KNIGHT.HISTORIQUE.Label"}}</a>
+            <a class="item" data-tab="progression" data-group="primary">{{localize "KNIGHT.PROGRESSION.Label"}}</a>
+            <a class="item" data-tab="options" data-group="primary">{{localize "KNIGHT.OPTIONS.Label"}}</a>
         </nav>
 
         {{!-- Personnage Tab --}}

@@ -1,0 +1,33 @@
+
+<div class="tab aspectsCaracteristiques" data-group="primary" data-tab="aspectsCaracteristiques">
+    <div class="listeAspects">
+        {{#each systemData.aspects as | key aspect|}}
+        <div class="aspect">
+            <h2 class="header">
+                {{getAspect aspect}}
+                <img src="systems/knight/assets/icons/optionWhite.svg" class="edit" title="{{localize "KNIGHT.AUTRE.Editer"}}" data-aspect="{{aspect}}" />
+            </h2>
+            <span class="aspectLabel">{{key.value}}</span>
+            <div class="caracteristiques">
+                {{#each key.caracteristiques as | keyCar caracteristique|}}
+                    <div class="line roll draggable" title="{{localize "KNIGHT.JETS.Label"}}"
+                    data-caracteristique="{{caracteristique}}" data-type="caracteristique"
+                    data-label="{{getCarac caracteristique}}" data-what="{{caracteristique}}"
+                    >
+                        <img class='dice' src="systems/knight/assets/icons/D6Black.svg" />
+                        <label class="carac">
+                            <span class="label">{{getCarac caracteristique}}</span>
+                            <span class="score">{{keyCar.value}}</span>
+                        </label>
+                        <label class="overdrive">
+                            <span class="label">{{localize "KNIGHT.ASPECTS.OD"}}</span>
+                            <span class="score">{{keyCar.overdrive.value}}</span>
+                        </label>
+                    </div>
+                {{/each}}
+            </div>
+            <textarea name="system.aspects.{{aspect}}.description">{{key.description}}</textarea>
+        </div>
+        {{/each}}
+    </div>
+</div>

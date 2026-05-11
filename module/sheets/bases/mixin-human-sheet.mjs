@@ -9,8 +9,9 @@ import ArmureLegendeAPI from "../../utils/armureLegendeAPI.mjs";
 
 const HumanMixinSheet = (superclass) => class extends superclass {
   /** @inheritdoc */
-  activateListeners(html) {
-    super.activateListeners(html);
+  _onRender(context, options) {
+    super._onRender(context, options);
+    const html = $(this.element)
 
     this.#cyberwareListeners(html);
     this.#itemsListeners(html);

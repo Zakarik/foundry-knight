@@ -3,7 +3,7 @@ import {
   confirmationDialog,
   getDefaultImg,
   diceHover,
-  options,
+  includeOptions,
   hideShowLimited,
   dragMacro,
   getAllEffects
@@ -107,7 +107,7 @@ export class MechaArmureSheet extends ActorSheet {
     if ( !this.isEditable ) return;
 
     diceHover(html);
-    options(html, this.actor);
+    includeOptions(html, this.actor);
 
     html.find('.item-create').click(this._onItemCreate.bind(this));
 

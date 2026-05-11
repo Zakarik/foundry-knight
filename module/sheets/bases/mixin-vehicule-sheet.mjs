@@ -2,8 +2,9 @@
 const VehiculeMixinSheet = (superclass) => class extends superclass {
 
   /** @inheritdoc */
-  activateListeners(html) {
-    super.activateListeners(html);
+  _onRender(context, options) {
+    super._onRender(context, options);
+    const html = $(this.element)
 
     html.find('.passager-delete').click(ev => {
       const target = $(ev.currentTarget).parents(".value");

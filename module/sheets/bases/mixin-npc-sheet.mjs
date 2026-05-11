@@ -1,8 +1,8 @@
 
 const NPCMixinSheet = (superclass) => class extends superclass {
   /** @inheritdoc */
-  _prepareContext(context) {
-    super._prepareContext(context);
+  _prepareActor(context) {
+    super._prepareActor(context);
     const { data } = context
 
     const system = data.system;
@@ -16,8 +16,9 @@ const NPCMixinSheet = (superclass) => class extends superclass {
     context.data.system.wear = 'armure';
   }
 
-  activateListeners(html) {
-    super.activateListeners(html);
+  _onRender(context, options) {
+    super._onRender(context, options);
+    const html = $(this.element)
 
     html.find('button.setbtn').click(ev => {
       const target = $(ev.currentTarget);

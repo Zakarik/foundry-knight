@@ -14,7 +14,18 @@ import HumanMixinSheet from "../bases/mixin-human-sheet.mjs";
 export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
 
   /** @inheritdoc */
-  static get defaultOptions() {
+  static DEFAULT_OPTIONS = {
+    classes: ["knight", "sheet", "actor"],
+    window: { resizable: true },
+    position: { width: 940, height: 720 },
+    dragDrop: [{dragSelector: [".draggable", ".item-list .item"], dropSelector: null}],
+    form: {
+      submitOnChange: true,
+      closeOnSubmit: false
+    }
+  }
+
+  /*static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ["knight", "sheet", "actor"],
       template: "systems/knight/templates/actors/knight-sheet.html",
@@ -26,6 +37,37 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
       ],
       dragDrop: [{dragSelector: [".draggable", ".item-list .item"], dropSelector: null}],
     });
+  }*/
+
+  static PARTS = {
+    upperheader: { template: "systems/knight/templates/actors/parts/human/pc/upperheader.hbs" },
+    header: { template: "systems/knight/templates/actors/parts/human/header.hbs" },
+    menu: { template: "systems/knight/templates/actors/parts/menu.hbs" },
+    nav: { template: "templates/generic/tab-navigation.hbs" },
+    personnage: { template: "systems/knight/templates/actors/parts/human/personnage.hbs" },
+    caracteristiques: { template: "systems/knight/templates/actors/parts/human/pc/caracteristiques.hbs" },
+    art: { template: "systems/knight/templates/actors/parts/human/art.hbs" },
+    armure: { template: "systems/knight/templates/actors/parts/human/pc/armure.hbs" },
+    combat: { template: "systems/knight/templates/actors/parts/human/pc/combat.hbs" },
+    historique: { template: "systems/knight/templates/actors/parts/human/historique.hbs" },
+    progression: { template: "systems/knight/templates/actors/parts/human/pc/progression.hbs" },
+    options: { template: "systems/knight/templates/actors/parts/options.hbs" },
+  }
+
+  static TABS = {
+    primary:{
+      tabs:[
+        { id:'personnage', label:'KNIGHT.PERSONNAGE.Label' },
+        { id:'aspectsCaracteristiques', label:'KNIGHT.ASPECTS.Label' },
+        { id:'art', label:'KNIGHT.ART.Label' },
+        { id:'armure', label:'Armure' },
+        { id:'combat', label:'KNIGHT.COMBAT.Label' },
+        { id:'historique', label:'KNIGHT.HISTORIQUE.Label' },
+        { id:'progression', label:'KNIGHT.PROGRESSION.Label' },
+        { id:'options', label:'KNIGHT.OPTIONS.Label' },
+      ],
+      initial:'personnage',
+    }
   }
 
   get canDropActor() {
@@ -54,8 +96,9 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
   /* -------------------------------------------- */
 
   /** @inheritdoc */
-  activateListeners(html) {
-    super.activateListeners(html);
+  _onRender(context, options) {
+    super._onRender(context, options);
+    const html = $(this.element)
 
     html.find('div.progression div.evolutionsAAcheter button').hover(ev => {
       const span = html.find('div.progression div.evolutionsAAcheter span.hideInfo');

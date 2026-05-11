@@ -1,0 +1,85 @@
+
+<div class="tab options" data-group="primary" data-tab="options">
+    <div class="main">
+        {{#if (hasPJRestaure)}}
+            {{#if systemData.jauges.sante}}
+            <button type="action" class="recover unselected" data-type="sante" data-max="{{systemData.sante.max}}">{{localize "KNIGHT.RECUPERER.Sante"}}</button>
+            {{/if}}
+
+            {{#if systemData.jauges.armure}}
+            <button type="action" class="recover unselected" data-type="armure" data-max="{{systemData.armure.max}}">{{localize "KNIGHT.RECUPERER.Armure"}}</button>
+            {{/if}}
+
+            {{#if systemData.jauges.energie}}
+            <button type="action" class="recover unselected" data-type="energie" data-max="{{systemData.energie.max}}">{{localize "KNIGHT.RECUPERER.Energie"}}</button>
+            {{/if}}
+
+            {{#if systemData.jauges.espoir}}
+            <button type="action" class="recover unselected" data-type="espoir" data-max="{{systemData.espoir.max}}">{{localize "KNIGHT.RECUPERER.Espoir"}}</button>
+            {{/if}}
+
+            <button type="action" class="recover unselected" data-type="contacts" data-max="{{systemData.contacts.value}}">{{localize "KNIGHT.RECUPERER.Contacts"}}</button>
+        {{/if}}
+
+        <button type="action" class="recover unselected" data-type="chargeur">{{localize "KNIGHT.EFFETS.CHARGEUR.Restaurer"}}</button>
+
+        <button type="action" data-value="{{systemData.options.kraken}}" data-option="kraken" class="{{#if systemData.options.kraken}}selected{{else}}unselected{{/if}}">
+            {{#if systemData.options.kraken}}
+                {{localize "KNIGHT.OPTIONS.KRAKEN.Has"}}
+            {{else}}
+                {{localize "KNIGHT.OPTIONS.KRAKEN.Hasnt"}}
+            {{/if}}
+        </button>
+
+        <button type="action" data-value="{{systemData.options.art}}" data-option="art" class="{{#if systemData.options.art}}selected{{else}}unselected{{/if}}">
+            {{#if systemData.options.art}}
+                {{localize "KNIGHT.OPTIONS.ART.Has"}}
+            {{else}}
+                {{localize "KNIGHT.OPTIONS.ART.Hasnt"}}
+            {{/if}}
+        </button>
+
+        {{#if (hasCapacite this 'warlord')}}
+            <button type="action" class="unselected" data-option="resetwarlord">
+                {{localize "KNIGHT.ROLLBACK.Resetwarlord"}}
+            </button>
+        {{/if}}
+
+        {{#if (hasCapacite this 'type')}}
+            <button type="action" class="unselected" data-option="resettype">
+                {{localize "KNIGHT.ROLLBACK.Resettype"}}
+            </button>
+        {{/if}}
+
+        <div class="rollback">
+            <h2 class="header">
+                {{localize "KNIGHT.ROLLBACK.Label"}}
+            </h2>
+            {{#if actor.armureData.system.archivage.liste}}
+                <h3>
+                    {{localize "KNIGHT.ROLLBACK.Avantevolution"}}
+                </h3>
+                <span class="notes">{{localize "KNIGHT.ROLLBACK.Notes"}}</span>
+                {{#each actor.armureData.system.archivage.liste as |key data|}}
+                <div class="col">
+                    <span class="pg">{{data}}{{localize 'KNIGHT.AUTRE.PointGloire-short'}}</span>
+                    <a class="retour" data-value="{{@index}}" data-type="liste">{{localize "KNIGHT.ROLLBACK.Revenir"}}</a>
+                </div>
+                {{/each}}
+            {{/if}}
+            {{#unless (isEmpty actor.armureData.system.archivage.longbow)}}
+                <h3>
+                    {{localize "KNIGHT.ROLLBACK.Avantevolutionlongbow"}}
+                </h3>
+                <span class="notes">{{localize "KNIGHT.ROLLBACK.Noteslongbow"}}</span>
+                {{#each actor.armureData.system.archivage.longbow as |key data|}}
+                    <div class="col">
+                        <span class="pg">{{key.value}}{{localize 'KNIGHT.AUTRE.PointGloire-short'}}</span>
+                        <a class="retour" data-value="{{data}}" data-type="longbow">{{localize "KNIGHT.ROLLBACK.Revenir"}}</a>
+                        <span class="description">{{key.description}}</span>
+                    </div>
+                {{/each}}
+            {{/unless}}
+        </div>
+    </div>
+</div>
