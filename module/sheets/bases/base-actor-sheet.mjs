@@ -30,12 +30,18 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
 
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
-    classes: ["knight", "sheet", "actor"],
+    classes: ["sheet", "actor"],
     window: { resizable: true },
     dragDrop: [{dragSelector: [".draggable", ".item-list .item"], dropSelector: null}],
     form: {
       submitOnChange: true,
       closeOnSubmit: false
+    },
+    actions: {
+      switchSubTab: BaseActorSheet.#onSwitchSubTab,
+      itemCreate: BaseActorSheet.#onItemCreate,
+      itemEdit: BaseActorSheet.#onItemEdit,
+      itemDelete: BaseActorSheet.#onItemDelete,
     }
   }
 
@@ -53,6 +59,69 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
 
   get hasGloire() {
     return false;
+  }
+
+  static #onSwitchSubTab(event, target) {
+    const subGroup = target.dataset.subGroup;
+    const subTab = target.dataset.subTab;
+
+    // Toggle des classes active sur tous les éléments du sous-groupe
+    this.element.querySelectorAll(`[data-sub-group="${subGroup}"]`).forEach(node => {
+      const isDiv = node.dataset.div;
+
+      if(isDiv) node.closest('div.summary').classList.toggle('active', node.dataset.subTab === subTab);
+      else node.classList.toggle('active', node.dataset.subTab === subTab);
+    });
+  }
+
+  static async #onItemCreate(event, target) {
+    // Get the type of item to create.
+    const type = target.dataset.type;
+
+    // Grab any data associated with this control.
+    const data = foundry.utils.deepClone(target.dataset);
+
+    // Initialize a default name.
+    const name = `${game.i18n.localize(`TYPES.Item.${type}`)}`;
+
+    // Prepare the item object.
+    const itemData = {
+      name: name,
+      type: type,
+      img:getDefaultImg(type),
+      system: data
+    };
+
+    await this._onItemCreate_on(target, itemData);
+
+    const create = await Item.create(itemData, {parent: this.actor});
+
+    await this._onItemCreate_post(create);
+
+    // Finally, create the item!
+    return create;
+  }
+
+  static async #onItemEdit(event, target) {
+    const header = target.closest(".summary");
+    const actor = this.actor;
+    const item = actor.items.get(header.dataset.itemId);
+
+    await this._onItemEdit_on(item, header);
+
+    item.sheet.render({ force: true });
+  }
+
+  static async #onItemDelete(event, target) {
+    const header = target.closest(".summary");
+    const actor = this.actor;
+    const item = actor.items.get(header.dataset.itemId);
+
+    if(!await confirmationDialog()) return;
+
+    await this._onItemDelete_on(item);
+
+    await item.delete();
   }
 
   /* -------------------------------------------- */
@@ -101,7 +170,6 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
 
     return parts;
   }
-
 
   /* -------------------------------------------- */
 
@@ -211,9 +279,9 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
     diceHover(html);
     includeOptions(html, context.document);
 
-    html.find('.item-create').click(this._onItemCreate.bind(this));
+    /*html.find('.item-create').click(this._onItemCreate.bind(this));
     html.find('.item-edit').click(this._onItemEdit.bind(this));
-    html.find('.item-delete').click(this._onItemDelete.bind(this));
+    html.find('.item-delete').click(this._onItemDelete.bind(this));*/
 
     html.find('div.combat div.armesContact select.wpnMainChange').change(ev => {
       const target = $(ev.currentTarget);
@@ -450,6 +518,8 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
     itemData = itemData instanceof Array ? itemData : [itemData];
     const itemBaseType = itemData[0].type;
 
+    console.error(itemBaseType)
+
     if (!this.itemTypesValides.includes(itemBaseType)) return;
 
     const dropCreateOn = await this._onDropItemCreate_on(itemData);
@@ -461,62 +531,6 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
     await this._onDropItemCreate_post(dropCreateOn, itemCreate);
 
     return itemCreate;
-  }
-
-  async _onItemCreate(event) {
-    event.preventDefault();
-    const header = event.currentTarget;
-
-    // Get the type of item to create.
-    const type = header.dataset.type;
-
-    // Grab any data associated with this control.
-    const data = foundry.utils.duplicate(header.dataset);
-
-    // Initialize a default name.
-    const name = `${game.i18n.localize(`TYPES.Item.${type}`)}`;
-
-    // Prepare the item object.
-    const itemData = {
-      name: name,
-      type: type,
-      img:getDefaultImg(type),
-      system: data
-    };
-
-    await this._onItemCreate_on(header, itemData);
-
-    const create = await Item.create(itemData, {parent: this.actor});
-
-    await this._onItemCreate_post(create);
-
-    // Finally, create the item!
-    return create;
-  }
-
-  async _onItemEdit(event) {
-    event.preventDefault();
-    const header = $(event.currentTarget).parents(".summary");
-    const actor = this.actor;
-    const item = actor.items.get(header.data("item-id"));
-
-    await this._onItemEdit_on(item, header);
-
-    item.sheet.render(true);
-  }
-
-  async _onItemDelete(event) {
-    event.preventDefault();
-    const header = $(event.currentTarget).parents(".summary");
-    const actor = this.actor;
-    const item = actor.items.get(header.data("item-id"));
-
-    if(!await confirmationDialog()) return;
-
-    await this._onItemDelete_on(item);
-
-    item.delete();
-    header.slideUp(200, () => this.render(false));
   }
 
   _onDragStart(event) {

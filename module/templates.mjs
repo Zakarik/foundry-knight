@@ -130,7 +130,6 @@ export const PreloadTemplates = async function() {
     `${path}/actors/subtab/personnagePNJ.html`,
     `${path}/actors/subtab/aspectsPNJ.html`,
     `${path}/actors/subtab/aspectsExceptionnels.html`,
-    `${path}/actors/subtab/cyberware.hbs`,
     `${path}/actors/subtab/nods.hbs`,
     `${path}/dialog/ask-sheet.html`,
     `${path}/dialog/parts/compendium-filter.html`,
@@ -224,6 +223,12 @@ export const PreloadTemplates = async function() {
     `${path}/parts/damage/variable.hbs`,
   ];
 
+  const templatePartsPaths = [
+    `${path}/actors/parts/common/itemButtons.hbs`,
+    `${path}/actors/parts/human/cyberware.hbs`,
+    `${path}/actors/parts/human/pc/distinctions.hbs`,
+  ];
+
   // Load the template parts
-  return loadTemplates(templatePaths);
+  return loadTemplates(templatePaths.concat(templatePartsPaths));
 };

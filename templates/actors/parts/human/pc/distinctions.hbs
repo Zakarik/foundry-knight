@@ -1,0 +1,18 @@
+<div class="distinction item-list">
+    <h2 class="header">
+        {{localize "KNIGHT.PERSONNAGE.Distinctions"}}
+    </h2>
+    {{#each actor.distinctions as | key distinctions|}}
+    <div class="block item" data-item-id="{{key._id}}">
+        <header class="summary header js-toggler" data-item-id="{{key._id}}">
+            <i class="far fa-plus-square extendButton"></i>
+            {{~> systems/knight/templates/actors/parts/common/itemButtons.hbs}}
+            <span>{{key.name}}</span>
+        </header>
+        <img src="{{img}}" />
+        <span class="description">
+            {{{key.system.description}}}
+        </span>
+    </div>
+    {{/each}}
+</div>

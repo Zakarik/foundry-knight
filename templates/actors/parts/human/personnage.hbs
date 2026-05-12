@@ -1,5 +1,5 @@
 
-<div class="tab personnage" data-group="primary" data-tab="personnage">
+<div class="{{tab.cssClass}}" data-group="primary" data-tab="personnage">
     <div class="motivations">
         <div class="majeure">
             <h2 class="header">{{localize "KNIGHT.PERSONNAGE.MotivationMajeure"}}</h2>
@@ -9,18 +9,18 @@
 
         <div class="mineure item-list">
             <h2 class="header">
-                {{localize "KNIGHT.PERSONNAGE.MotivationMineures"}}
+                <span>{{localize "KNIGHT.PERSONNAGE.MotivationMineures"}}</span>
                 {{#unless systemData.espoir.recuperation.aucun}}
                 <button type="action" class="motivationAccomplie">{{localize "KNIGHT.PERSONNAGE.MotivationAccomplie"}}</button>
                 {{/unless}}
-                <a class="item-control item-create" title="Create Item" data-type="motivationMineure"><i class="fas fa-plus"></i></a>
+                <a
+                data-tooltip="{{localize "KNIGHT.AUTRE.CreateItem" item=(localize "KNIGHT.PERSONNAGE.MotivationMineures")}}"
+                data-type="motivationMineure"
+                data-action="itemCreate"><i class="fas fa-plus"></i></a>
             </h2>
             {{#each actor.motivationMineure as | key motivation|}}
             <div class="block summary item" data-item-id="{{key._id}}">
-                <div class="gestionButton">
-                    <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
-                    <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
-                </div>
+                {{~> systems/knight/templates/actors/parts/common/itemButtons.hbs}}
                 <span class="description">
                     {{{key.system.description}}}
                 </span>
@@ -29,22 +29,22 @@
         </div>
     </div>
 
-    {{~> systems/knight/templates/actors/subtab/cyberware.hbs}}
+    {{~> systems/knight/templates/actors/parts/human/cyberware.hbs}}
 
     <div class="avDv">
         <div class="av item-list">
             <h2 class="header">
                 {{localize "KNIGHT.PERSONNAGE.Avantages"}}
-                <a class="item-control item-create" title="Create Item" data-type="avantage"><i class="fas fa-plus"></i></a>
+                <a
+                data-action="itemCreate"
+                data-tooltip="{{localize "KNIGHT.AUTRE.CreateItem" item=(localize "KNIGHT.PERSONNAGE.Avantages")}}"
+                data-type="avantage"><i class="fas fa-plus"></i></a>
             </h2>
             {{#each actor.avantages as | key avantages|}}
             <div class="block item" data-item-id="{{key._id}}">
                 <header class="summary header js-toggler" data-item-id="{{key._id}}">
                     <i class="far fa-plus-square extendButton"></i>
-                    <div class="gestionButton">
-                        <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
-                        <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
-                    </div>
+                    {{~> systems/knight/templates/actors/parts/common/itemButtons.hbs}}
                     <span>{{key.name}}</span>
                 </header>
                 <span class="description">
@@ -57,16 +57,16 @@
         <div class="dv item-list">
             <h2 class="header">
                 {{localize "KNIGHT.PERSONNAGE.Inconvenient"}}
-                <a class="item-control item-create" title="Create Item" data-type="inconvenient"><i class="fas fa-plus"></i></a>
+                <a
+                data-action="itemCreate"
+                data-tooltip="{{localize "KNIGHT.AUTRE.CreateItem" item=(localize "KNIGHT.PERSONNAGE.Inconvenient")}}"
+                data-type="inconvenient"><i class="fas fa-plus"></i></a>
             </h2>
             {{#each actor.inconvenient as | key inconvenient|}}
             <div class="block item" data-item-id="{{key._id}}">
                 <header class="summary header js-toggler" data-item-id="{{key._id}}">
                     <i class="far fa-plus-square extendButton"></i>
-                    <div class="gestionButton">
-                        <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
-                        <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
-                    </div>
+                    {{~> systems/knight/templates/actors/parts/common/itemButtons.hbs}}
                     <span>{{key.name}}</span>
                 </header>
                 <span class="description">
@@ -78,27 +78,7 @@
     </div>
 
     {{#if actor.distinctions}}
-    <div class="distinction item-list">
-        <h2 class="header">
-            {{localize "KNIGHT.PERSONNAGE.Distinctions"}}
-        </h2>
-        {{#each actor.distinctions as | key distinctions|}}
-        <div class="block item" data-item-id="{{key._id}}">
-            <header class="summary header js-toggler" data-item-id="{{key._id}}">
-                <i class="far fa-plus-square extendButton"></i>
-                <div class="gestionButton">
-                    <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
-                    <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
-                </div>
-                <span>{{key.name}}</span>
-            </header>
-            <img src="{{img}}" />
-            <span class="description">
-                {{{key.system.description}}}
-            </span>
-        </div>
-        {{/each}}
-    </div>
+        {{~> systems/knight/templates/actors/parts/human/pc/distinctions.hbs}}
     {{/if}}
 
     <div class="heroisme">
@@ -111,10 +91,7 @@
             <div class="block item" data-item-id="{{key._id}}">
                 <header class="summary header js-toggler" data-item-id="{{key._id}}">
                     <i class="far fa-plus-square extendButton"></i>
-                    <div class="gestionButton">
-                        <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
-                        <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
-                    </div>
+                    {{~> systems/knight/templates/actors/parts/common/itemButtons.hbs}}
                     <span>{{key.name}}</span>
                 </header>
                 <span class="description">
@@ -133,10 +110,7 @@
             <div class="block item" data-item-id="{{key._id}}">
                 <header class="summary header js-toggler" data-item-id="{{key._id}}">
                     <i class="far fa-plus-square extendButton"></i>
-                    <div class="gestionButton">
-                        <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
-                        <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
-                    </div>
+                    {{~> systems/knight/templates/actors/parts/common/itemButtons.hbs}}
                     <span>{{key.name}}</span>
                 </header>
                 <span class="description">

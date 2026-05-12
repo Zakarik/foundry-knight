@@ -9,6 +9,10 @@ import ArmureLegendeAPI from "../../utils/armureLegendeAPI.mjs";
 
 const HumanMixinSheet = (superclass) => class extends superclass {
   /** @inheritdoc */
+  static DEFAULT_OPTIONS = {
+    classes: ["human"],
+  }
+
   _onRender(context, options) {
     super._onRender(context, options);
     const html = $(this.element)

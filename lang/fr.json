@@ -2604,6 +2604,7 @@
       "MJOnly":"MJ Uniquement",
       "NoGrenades":"Vous n'avez plus de grenades.",
       "Activation":"Voulez-vous activer {effect} ?",
+      "CreateItem":"Créer {item}",
       "EditItem":"Editer l'objet",
       "DeleteItem":"Supprimer l'objet",
       "Quantite":"Quantité",
