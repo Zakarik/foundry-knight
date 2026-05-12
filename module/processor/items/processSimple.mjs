@@ -86,6 +86,9 @@ function translateType(type) {
         case 'carteheroique':
             result = 'carteHeroique';
         break;
+        case 'distinction':
+            result = 'distinctions';
+        break;
     }
 
     return result;
