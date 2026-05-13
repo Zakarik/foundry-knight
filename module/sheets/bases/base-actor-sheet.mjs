@@ -42,6 +42,8 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
       itemCreate: BaseActorSheet.#onItemCreate,
       itemEdit: BaseActorSheet.#onItemEdit,
       itemDelete: BaseActorSheet.#onItemDelete,
+      effectsEdit: BaseActorSheet.#onEffectsEdit,
+      sendMsg: BaseActorSheet.#onSendMsg,
     }
   }
 
@@ -124,6 +126,35 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
     await item.delete();
   }
 
+  static async #onEffectsEdit(event, target) {
+    const actor = this.actor;
+    const maxEffets = undefined;
+    const stringPath = target.dataset.path;
+    const name = target.dataset.name;
+    const aspects = CONFIG.KNIGHT.listCaracteristiques;
+    let path = actor;
+
+    stringPath.split(".").forEach(function(key){
+      path = path[key];
+    });
+
+    await new game.knight.applications.KnightEffetsDialog({actor:actor._id, item:null, isToken:this?.document?.isToken || false, token:this?.token || null, raw:path.raw, custom:path.custom, activable:path.activable, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
+  }
+
+  static async #onSendMsg(event, target) {
+    const name = target.dataset.name;
+    const msg = target.dataset.msg;
+    const cls = target.dataset.classes ?? 'normal';
+
+    const exec = new game.knight.RollKnight(this.actor,
+    {
+      name:name,
+    }).sendMessage({
+      text:msg,
+      classes:cls,
+    });
+  }
+
   /* -------------------------------------------- */
 
   /** @inheritdoc */
@@ -181,107 +212,10 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
     toggler.init(this.id, html);
     hideShowLimited(this.actor, html);
 
-    html.find('div.combat div.armesContact img.info').click(ev => {
-      const span = $(ev.currentTarget).siblings("span.hideInfo")
-      const width = $(ev.currentTarget).parents("div.main").width() / 2;
-      const isW50 = $(ev.currentTarget).parents("div.wpn").width();
-      let position = "";
-      let borderRadius = "border-top-right-radius";
-
-      if(isW50 <= width) {
-        if($(ev.currentTarget).parents("div.wpn").position().left > width) {
-          position = "right";
-          borderRadius = "border-top-right-radius";
-        } else {
-          position = "left";
-          borderRadius = "border-top-left-radius";
-        }
-      } else {
-        if($(ev.currentTarget).parent().position().left > width) {
-          position = "right";
-          borderRadius = "border-top-right-radius";
-        } else {
-          position = "left";
-          borderRadius = "border-top-left-radius";
-        }
-      }
-
-      span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
-      $(ev.currentTarget).toggleClass("clicked");
-    });
-
-    html.find('div.combat div.armesDistance img.info').click(ev => {
-      const span = $(ev.currentTarget).siblings("span.hideInfo")
-      const width = $(ev.currentTarget).parents("div.main").width() / 2;
-      const isW50 = $(ev.currentTarget).parents("div.wpn").width();
-      let position = "";
-      let borderRadius = "border-top-right-radius";
-
-      if(isW50 <= width) {
-        if($(ev.currentTarget).parents("div.wpn").position().left > width) {
-          position = "right";
-          borderRadius = "border-top-right-radius";
-        } else {
-          position = "left";
-          borderRadius = "border-top-left-radius";
-        }
-      } else {
-        if($(ev.currentTarget).parent().position().left > width) {
-          position = "right";
-          borderRadius = "border-top-right-radius";
-        } else {
-          position = "left";
-          borderRadius = "border-top-left-radius";
-        }
-      }
-
-      span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
-      $(ev.currentTarget).toggleClass("clicked");
-    });
-
-    html.find('div.grenades img.info').click(ev => {
-      const span = $(ev.currentTarget).siblings("span.hideInfo")
-      span.width($(html).width()/2).toggle("display");
-      $(ev.currentTarget).toggleClass("clicked")
-    });
-
-    html.find('div.bCapacite img.info').click(ev => {
-      const span = $(ev.currentTarget).siblings("span.hideInfo")
-      const width = $(ev.currentTarget).parents("div.mainBlock").width() / 2;
-      const isW50 = $(ev.currentTarget).parents("div.data").width();
-      let position = "";
-      let borderRadius = "border-top-right-radius";
-
-      if(isW50 <= width) {
-        if($(ev.currentTarget).parents("div.data").position().left > width) {
-          position = "right";
-          borderRadius = "border-top-right-radius";
-        } else {
-          position = "left";
-          borderRadius = "border-top-left-radius";
-        }
-      } else {
-        if($(ev.currentTarget).parent().position().left > width) {
-          position = "right";
-          borderRadius = "border-top-right-radius";
-        } else {
-          position = "left";
-          borderRadius = "border-top-left-radius";
-        }
-      }
-
-      span.width($(html).width()/2).css(position, "0px").css(borderRadius, "0px").toggle("display");
-      $(ev.currentTarget).toggleClass("clicked");
-    });
-
     // Everything below here is only needed if the sheet is editable
     if ( !this.isEditable ) return;
     diceHover(html);
     includeOptions(html, context.document);
-
-    /*html.find('.item-create').click(this._onItemCreate.bind(this));
-    html.find('.item-edit').click(this._onItemEdit.bind(this));
-    html.find('.item-delete').click(this._onItemDelete.bind(this));*/
 
     html.find('div.combat div.armesContact select.wpnMainChange').change(ev => {
       const target = $(ev.currentTarget);
@@ -303,21 +237,6 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
       } else {
         item.update({['system.optionsmunitions.actuel']:value});
       }
-    });
-
-    html.find('.art-say').click(async ev => {
-      const target = $(ev.currentTarget);
-      const type = target.data("type");
-      const name = game.i18n.localize(`KNIGHT.ART.PRATIQUE.${type.charAt(0).toUpperCase()+type.substr(1)}`);
-      const data = this.actor.art.system.pratique[type];
-
-      const exec = new game.knight.RollKnight(this.actor,
-      {
-      name:name,
-      }).sendMessage({
-          text:data,
-          classes:'normal',
-      });
     });
 
     html.find('.rollRecuperationArt').click(async ev => {
@@ -405,20 +324,6 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
 
         this.actor.update({[`system.options.${option}`]:result});
       }
-    });
-
-    html.find('div.effets a.edit').click(async ev => {
-      const data = this.getData();
-      const maxEffets = data.systemData.type === 'contact' ? data?.systemData?.restrictions?.contact?.maxEffetsContact || undefined : undefined;
-      const stringPath = $(ev.currentTarget).data("path");
-      const aspects = CONFIG.KNIGHT.listCaracteristiques;
-      let path = data.data;
-
-      stringPath.split(".").forEach(function(key){
-        path = path[key];
-      });
-
-      await new game.knight.applications.KnightEffetsDialog({actor:this.actor._id, item:null, isToken:this?.document?.isToken || false, token:this?.token || null, raw:path.raw, custom:path.custom, activable:path.activable, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${this.object.name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
     });
 
     html.find('a.btnChargeurPlus').click(async ev => {

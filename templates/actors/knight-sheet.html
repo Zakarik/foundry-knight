@@ -586,10 +586,8 @@
                         </button>
                         {{/if}}
                     </div>
-                    <div class="gestionButton">
-                        <a class="item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
-                        <a class="item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
-                    </div>
+
+                    {{~> systems/knight/templates/actors/parts/common/itemButtons.hbs}}
 
                     {{else}}
                     {{localize "KNIGHT.ART.Label"}}
@@ -607,7 +605,12 @@
                                 {{localize "KNIGHT.ART.PRATIQUE.Label"}}
                             </h2>
                             <h3>{{localize "KNIGHT.ART.PRATIQUE.Base"}}
-                                <a class="art-say" data-type="base"><i class="fa-solid fa-comment-dots"></i></a>
+                                <a class="art-say"
+                                data-action="sendMsg"
+                                data-name="{{localize "KNIGHT.ART.PRATIQUE.Base"}}"
+                                data-msg="{{{capaciteDescription actor.art.system.pratique.base}}}">
+                                <i class="fa-solid fa-comment-dots"></i>
+                                </a>
                             </h3>
                             <span>{{{capaciteDescription actor.art.system.pratique.base}}}</span>
                             <h3>{{localize "KNIGHT.ART.PRATIQUE.Apprenti"}}

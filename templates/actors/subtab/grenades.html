@@ -38,12 +38,11 @@
             {{#each key.effets.liste as | keyEffet effet|}}
             <div class="effetNormal">
                 <span class="label">{{keyEffet.name}}</span>
-                <img class="info" src="systems/knight/assets/icons/info.svg" />
-                <span class="hideInfo">{{{getEffetsDescription keyEffet.description}}}</span>
+                <img class="info" src="systems/knight/assets/icons/info.svg" data-tooltip-html="{{{getEffetsDescription keyEffet.description}}}" />
             </div>
             {{/each}}
             {{#if (and key.custom key.unlocked)}}
-            <a class="edit" data-path="system.combat.grenades.liste.{{grenades}}.effets">
+            <a data-action="effectsEdit" data-path="system.combat.grenades.liste.{{grenades}}.effets" data-name="{{keyEffet.name}}">
                 <span>{{localize "KNIGHT.EFFETS.Edit"}}</span>
             </a>
             {{/if}}

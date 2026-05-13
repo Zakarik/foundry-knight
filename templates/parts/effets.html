@@ -10,12 +10,11 @@
         {{/if}}
         {{#if activable}} <i class="fa-solid {{ifThen active 'fa-check green' 'fa-xmark red'}}"></i>{{/if}}
     </span>
-    <img class="info" src="systems/knight/assets/icons/info.svg" />
+    <img class="info" src="systems/knight/assets/icons/info.svg" data-tooltip-html="{{{getEffetsDescription description}}}" />
     {{#if (and isChargeur (ne type 'std'))}}
     <section class="btnChargeur" data-index="{{index}}" data-type="{{type}}" data-munition="{{munition}}" data-pnj="{{pnj}}" data-wpn="{{wpn}}">
         <a class="btnEffChange btnChargeurMoins" title="{{localize 'KNIGHT.EFFETS.CHARGEUR.ViderChargeur'}}">-</a>
         <a class="btnEffChange btnChargeurPlus" title="{{localize 'KNIGHT.EFFETS.CHARGEUR.RemplirChargeur'}}">+</a>
     </section>
     {{/if}}
-    <span class="hideInfo">{{{getEffetsDescription description}}}</span>
 </div>
