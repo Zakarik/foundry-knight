@@ -3449,11 +3449,13 @@ li.chat-message.emote {
 .actor.knight nav {
   width: 100%;
   border-color: white;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .actor.knight nav a {
   font-variant: small-caps;
-  padding-left: 12px;
-  padding-right: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .actor.knight nav a.active {
   background-color: RGB(87 110 178);
@@ -45480,6 +45482,11 @@ form.artWindows div.body div.listeoeuvre div:not(:first-of-type) {
 .knight-roll div.text.important {
   font-variant: small-caps;
   font-weight: bold;
+}
+.knight-roll div.normal {
+  padding-left: 2px;
+  padding-right: 2px;
+  text-align: justify;
 }
 .knight-roll h4.dice-total {
   display: grid;

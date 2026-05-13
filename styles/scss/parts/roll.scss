@@ -287,6 +287,12 @@
         font-weight: bold;
       }
     }
+
+    &.normal {
+      padding-left: 2px;
+      padding-right: 2px;
+      text-align: justify;
+    }
   }
 
   h4 {

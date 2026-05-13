@@ -44,6 +44,8 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
       itemDelete: BaseActorSheet.#onItemDelete,
       effectsEdit: BaseActorSheet.#onEffectsEdit,
       sendMsg: BaseActorSheet.#onSendMsg,
+      dialogRoll: BaseActorSheet.#onDialogRoll,
+      roll: BaseActorSheet.#onRoll,
     }
   }
 
@@ -155,6 +157,48 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
     });
   }
 
+  static #onDialogRoll(event, target) {
+    const actor = this.actor;
+    const data = target.dataset;
+    const label = data?.label || '';
+    const noOd = data?.nood || false;
+    const aspect  = data?.aspect || '';
+    const caracteristique = data?.caracteristique || '';
+    const caracAdd = data?.caracadd === undefined ? [] : data?.caracadd.split(',')
+    const caracLock = data?.caraclock === undefined ? [] : data?.caraclock.split(',');
+    const reussites = Number(data?.reussitebonus) || 0;
+    const succesTemp = Number(data?.succestemp) || 0;
+    const modTemp = Number(data?.modtemp) || 0;
+    const id = actor.token ? actor.token.id : actor.id;
+
+    const dialog = new game.knight.applications.KnightRollDialog(id, {
+      label:label,
+      base:caracteristique ? caracteristique : aspect,
+      whatRoll:caracAdd,
+      succesbonus:reussites+succesTemp,
+      modificateur:modTemp,
+      btn:{
+        nood:noOd,
+      }
+    });
+
+    dialog.open();
+  }
+
+  static #onRoll(event, target) {
+    const data = target.dataset;
+    const name = data?.name ?? '';
+    const value = data?.value ?? 0;
+    const updates = data?.updates ?? {};
+
+    const roll = new game.knight.RollKnight(this.actor, {
+      name:name,
+      dices:`${value}`,
+    }, false);
+
+    await roll.doRoll(updates);
+  }
+
   /* -------------------------------------------- */
 
   /** @inheritdoc */
@@ -240,42 +284,9 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
     });
 
     html.find('.rollRecuperationArt').click(async ev => {
-      const target = $(ev.currentTarget);
-      const value = target.data("value");
-
-      const rEspoir = new game.knight.RollKnight(this.actor, {
-        name:game.i18n.localize("KNIGHT.ART.RecuperationEspoir"),
-        dices:`${value}`,
-      }, false);
-
-      await rEspoir.doRoll();
     });
 
     html.find('.roll').click(ev => {
-      const target = $(ev.currentTarget);
-      const label = target?.data("label") || '';
-      const noOd = target?.data("nood") || false;
-      const aspect  = target.data("aspect") || '';
-      const caracteristique = target.data("caracteristique") || '';
-      const caracAdd = target.data("caracadd") === undefined ? [] : target.data("caracadd").split(',')
-      const caracLock = target.data("caraclock") === undefined ? [] : target.data("caraclock").split(',');
-      const reussites = +target.data("reussitebonus") || 0;
-      const succesTemp = +target.data("succestemp") || 0;
-      const modTemp = +target.data("modtemp") || 0;
-      const id = this.actor.token ? this.actor.token.id : this.actor.id;
-
-      const dialog = new game.knight.applications.KnightRollDialog(id, {
-        label:label,
-        base:caracteristique ? caracteristique : aspect,
-        whatRoll:caracAdd,
-        succesbonus:reussites+succesTemp,
-        modificateur:modTemp,
-        btn:{
-          nood:noOd,
-        }
-      });
-
-      dialog.open();
     });
 
     html.find('.jetWpn').click(ev => {

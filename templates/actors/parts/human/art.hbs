@@ -37,20 +37,40 @@
                         {{localize "KNIGHT.ART.PRATIQUE.Label"}}
                     </h2>
                     <h3>{{localize "KNIGHT.ART.PRATIQUE.Base"}}
-                        <a class="art-say" data-type="base"><i class="fa-solid fa-comment-dots"></i></a>
+                        <a class="art-say"
+                        data-action="sendMsg"
+                        data-name="{{actor.art.name}} - {{localize "KNIGHT.ART.PRATIQUE.Base"}}"
+                        data-msg="{{capaciteDescription actor.art.system.pratique.base}}">
+                        <i class="fa-solid fa-comment-dots"></i>
+                        </a>
                     </h3>
                     <span>{{{capaciteDescription actor.art.system.pratique.base}}}</span>
                     <h3>{{localize "KNIGHT.ART.PRATIQUE.Apprenti"}}
-                        <a class="art-say" data-type="apprenti"><i class="fa-solid fa-comment-dots"></i></a>
+                        <a class="art-say"
+                        data-action="sendMsg"
+                        data-name="{{actor.art.name}} - {{localize "KNIGHT.ART.PRATIQUE.Apprenti"}}"
+                        data-msg="{{capaciteDescription actor.art.system.pratique.apprenti}}">
+                        <i class="fa-solid fa-comment-dots"></i>
+                        </a>
                     </h3>
                     <span>{{{capaciteDescription actor.art.system.pratique.apprenti}}}</span>
                     <h3>{{localize "KNIGHT.ART.PRATIQUE.Initie"}}
-                        <a class="art-say" data-type="initie"><i class="fa-solid fa-comment-dots"></i></a>
+                        <a class="art-say"
+                        data-action="sendMsg"
+                        data-name="{{actor.art.name}} - {{localize "KNIGHT.ART.PRATIQUE.Initie"}}"
+                        data-msg="{{capaciteDescription actor.art.system.pratique.initie}}">
+                        <i class="fa-solid fa-comment-dots"></i>
+                        </a>
                     </h3>
                     <span>{{{capaciteDescription actor.art.system.pratique.initie}}}</span>
                     <h3>
                         {{localize "KNIGHT.ART.PRATIQUE.Maitre"}}
-                        <a class="art-say" data-type="maitre"><i class="fa-solid fa-comment-dots"></i></a>
+                        <a class="art-say"
+                        data-action="sendMsg"
+                        data-name="{{actor.art.name}} - {{localize "KNIGHT.ART.PRATIQUE.Maitre"}}"
+                        data-msg="{{capaciteDescription actor.art.system.pratique.maitre}}">
+                        <i class="fa-solid fa-comment-dots"></i>
+                        </a>
                     </h3>
                     <span>{{{capaciteDescription actor.art.system.pratique.maitre}}}</span>
                 </div>
