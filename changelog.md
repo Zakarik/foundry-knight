@@ -1,3 +1,7 @@
+## v3.58.17
+### Bugfix
+- Application du même correctif qu'en v3.57.16
+
 ## v3.58.16
 ### Bugfix
 - Application du même correctif qu'en v3.57.15
@@ -62,6 +66,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.16
+### Bugfix
+- Correction du non affichage de l'art.
 
 ## v3.57.15
 ### Bugfix

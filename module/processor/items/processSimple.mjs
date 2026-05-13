@@ -69,7 +69,15 @@ function prepareSimpleArray(item, ctx, collections) {
 function prepareSimpleItem(item, ctx, collections) {
     const type = collections?.[translateType(item.type)];
 
-    if(type) foundry.utils.mergeObject(type, item);
+    if(type) {
+        const itm = {
+            ...item,
+            id:item.id,
+            _id:item._id,
+        }
+
+        foundry.utils.mergeObject(type, itm);
+    }
 }
 
 function justAdd(item, ctx, collections) {
