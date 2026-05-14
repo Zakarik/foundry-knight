@@ -225,7 +225,7 @@ export class BaseArmeDataModel extends BaseItemDataModel {
         activable = data?.activable ?? undefined;
         actuel = activable?.[index]?.active ?? false;
 
-        const armure = actorArmor;
+        const armure = this.actorArmor;
 
         if(!actuel) {
             const depense = await this.usePEActivateEffets(armure, this.item.name, activable[index]);
