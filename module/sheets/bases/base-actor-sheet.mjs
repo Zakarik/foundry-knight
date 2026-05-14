@@ -43,9 +43,13 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
       itemEdit: BaseActorSheet.#onItemEdit,
       itemDelete: BaseActorSheet.#onItemDelete,
       effectsEdit: BaseActorSheet.#onEffectsEdit,
+      effectsToggle: BaseActorSheet.#onEffectsToggle,
       sendMsg: BaseActorSheet.#onSendMsg,
       dialogRoll: BaseActorSheet.#onDialogRoll,
       roll: BaseActorSheet.#onRoll,
+      useWpn: BaseActorSheet.#onUseWpn,
+      chargeurClick: BaseActorSheet.#onChargeurClick,
+      optionsClick: BaseActorSheet.#onOptionsClick,
     }
   }
 
@@ -64,6 +68,8 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
   get hasGloire() {
     return false;
   }
+
+  // GESTION DES ACTIONS
 
   static #onSwitchSubTab(event, target) {
     const subGroup = target.dataset.subGroup;
@@ -143,6 +149,25 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
     await new game.knight.applications.KnightEffetsDialog({actor:actor._id, item:null, isToken:this?.document?.isToken || false, token:this?.token || null, raw:path.raw, custom:path.custom, activable:path.activable, toUpdate:stringPath, aspects:aspects, maxEffets:maxEffets, title:`${name} : ${game.i18n.localize("KNIGHT.EFFETS.Edit")}`}).render(true);
   }
 
+  static async #onEffectsToggle(event, target) {
+    const header = target.closest(".item") ?? target.closest(".headerData");
+
+    const raw = header?.dataset.raw;
+    const itemId = header?.dataset.itemId;
+    const type = raw ?? target.dataset.type;
+    const munition = target.dataset.munition;
+    const pnj = target.dataset.pnj;
+    const wpn = target.dataset.wpn;
+    const id = target.dataset.id;
+
+    const item = this.actor.items.get(itemId);
+
+    console.error(item);
+    if(!item) return;
+
+    item.system.toggleEffect(id, type, munition, pnj, wpn);
+  }
+
   static async #onSendMsg(event, target) {
     const name = target.dataset.name;
     const msg = target.dataset.msg;
@@ -185,7 +210,7 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
     dialog.open();
   }
 
-  static #onRoll(event, target) {
+  static async #onRoll(event, target) {
     const data = target.dataset;
     const name = data?.name ?? '';
     const value = data?.value ?? 0;
@@ -197,6 +222,94 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
     }, false);
 
     await roll.doRoll(updates);
+  }
+
+  static #onUseWpn(event, target) {
+    const data = target.dataset;
+    const isDistance = data?.isdistance ?? false;
+    const parent = target.closest("div.wpn");
+    const other = data.other;
+    const what = data.what;
+    let id = data.id;
+
+    this.actor.system.useWpn(isDistance, {
+      id,
+      type:isDistance,
+      name:other,
+      num:what
+    });
+  }
+
+  static #onChargeurClick(event, target) {
+    const data = target.dataset;
+    const typeBtn = data.typeBtn;
+
+    const header = target.closest(".item");
+    const id = header.dataset.itemId;
+
+    const btn = target.closest(".btnChargeur");
+    const dataBtn = btn.dataset;
+    const index = dataBtn.index;
+    const type = dataBtn.type;
+    const munition = dataBtn.munition;
+    const pnj = dataBtn.pnj;
+    const wpn = dataBtn.wpn;
+
+    const item = this.actor.items.get(id);
+
+    if(!item) return;
+
+    switch(typeBtn) {
+      case 'plus':
+        item.system.addMunition(index, type, munition, pnj, wpn);
+        break;
+
+      case 'minus':
+        item.system.removeMunition(index, type, munition, pnj, wpn);
+        break;
+    }
+  }
+
+  static async #onOptionsClick(event, target) {
+    const data = target.dataset;
+    const value = data.value;
+    const option = data.option;
+    const armor = await getArmor(this.actor);
+    let update = {};
+
+    switch(option) {
+      case 'resettype':
+        if(!armor) return;
+
+        update[`system.capacites.selected.type.type.herald.-=selectionne`] = null;
+        update[`system.capacites.selected.type.type.hunter.-=selectionne`] = null;
+        update[`system.capacites.selected.type.type.scholar.-=selectionne`] = null;
+        update[`system.capacites.selected.type.type.scout.-=selectionne`] = null;
+        update[`system.capacites.selected.type.type.soldier.-=selectionne`] = null;
+        update[`system.capacites.selected.type.selectionne`] = 0;
+
+        armor.update(update);
+        break;
+
+      case 'resetwarlord':
+        if(!armor) return;
+
+        update[`system.capacites.selected.warlord.impulsions.action.choisi`] = false;
+        update[`system.capacites.selected.warlord.impulsions.energie.choisi`] = false;
+        update[`system.capacites.selected.warlord.impulsions.esquive.choisi`] = false;
+        update[`system.capacites.selected.warlord.impulsions.force.choisi`] = false;
+        update[`system.capacites.selected.warlord.impulsions.guerre.choisi`] = false;
+        update[`system.capacites.selected.warlord.impulsions.selectionne`] = 0;
+
+        armor.update(update);
+        break;
+
+      default:
+        const result = value ? false : true;
+
+        this.actor.update({[`system.options.${option}`]:result});
+        break;
+    }
   }
 
   /* -------------------------------------------- */
@@ -221,14 +334,6 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
   _prepareActor(actor) {
     prepareCharacterItems(actor);
   }
-
-    /*get template() {
-        if (!game.user.isGM && this.actor.limited) {
-            return "systems/knight/templates/actors/limited-sheet.html";
-        }
-
-        return this.options.template;
-    }*/
 
   /**
   * Return a light sheet if in "limited" state
@@ -281,100 +386,6 @@ export default class BaseActorSheet extends HandlebarsApplicationMixin(ActorShee
       } else {
         item.update({['system.optionsmunitions.actuel']:value});
       }
-    });
-
-    html.find('.rollRecuperationArt').click(async ev => {
-    });
-
-    html.find('.roll').click(ev => {
-    });
-
-    html.find('.jetWpn').click(ev => {
-      const target = $(ev.currentTarget);
-      const isDistance = target.data("isdistance");
-      const parent = target.parents('div.wpn');
-      const other = parent.data("other");
-      const what = parent.data("what");
-      let id = target.data("id");
-
-      this.actor.system.useWpn(isDistance, {
-        id,
-        type:isDistance,
-        name:other,
-        num:what
-      });
-    });
-
-    html.find('div.options button').click(async ev => {
-      const target = $(ev.currentTarget);
-      const value = target.data("value");
-      const option = target.data("option");
-      const armor = await getArmor(this.actor);
-      let update = {};
-
-      if(option === 'resettype') {
-        update[`system.capacites.selected.type.type.herald.-=selectionne`] = null;
-        update[`system.capacites.selected.type.type.hunter.-=selectionne`] = null;
-        update[`system.capacites.selected.type.type.scholar.-=selectionne`] = null;
-        update[`system.capacites.selected.type.type.scout.-=selectionne`] = null;
-        update[`system.capacites.selected.type.type.soldier.-=selectionne`] = null;
-        update[`system.capacites.selected.type.selectionne`] = 0;
-
-        armor.update(update);
-      } else if(option === 'resetwarlord') {
-        update[`system.capacites.selected.warlord.impulsions.action.choisi`] = false;
-        update[`system.capacites.selected.warlord.impulsions.energie.choisi`] = false;
-        update[`system.capacites.selected.warlord.impulsions.esquive.choisi`] = false;
-        update[`system.capacites.selected.warlord.impulsions.force.choisi`] = false;
-        update[`system.capacites.selected.warlord.impulsions.guerre.choisi`] = false;
-        update[`system.capacites.selected.warlord.impulsions.selectionne`] = 0;
-
-        armor.update(update);
-      } else {
-        const result = value === true ? false : true;
-
-        this.actor.update({[`system.options.${option}`]:result});
-      }
-    });
-
-    html.find('a.btnChargeurPlus').click(async ev => {
-      const tgt = $(ev.currentTarget);
-      const header = tgt.parents(".item");
-      const index = tgt.parents(".btnChargeur").data('index');
-      const type = tgt.parents(".btnChargeur").data('type');
-      const munition = tgt.parents(".btnChargeur").data('munition');
-      const pnj = tgt.parents(".btnChargeur").data('pnj');
-      const wpn = tgt.parents(".btnChargeur").data('wpn');
-      const item = this.actor.items.get(header.data("item-id"));
-
-      item.system.addMunition(index, type, munition, pnj, wpn);
-    });
-
-    html.find('a.btnChargeurMoins').click(async ev => {
-      const tgt = $(ev.currentTarget);
-      const header = tgt.parents(".item");
-      const index = tgt.parents(".btnChargeur").data('index');
-      const type = tgt.parents(".btnChargeur").data('type');
-      const munition = tgt.parents(".btnChargeur").data('munition');
-      const pnj = tgt.parents(".btnChargeur").data('pnj');
-      const wpn = tgt.parents(".btnChargeur").data('wpn');
-      const item = this.actor.items.get(header.data("item-id"));
-
-      item.system.removeMunition(index, type, munition, pnj, wpn);
-    });
-
-    html.find('i.effects.activable').click(async ev => {
-      const tgt = $(ev.currentTarget);
-      const header = tgt.parents(".item").length > 0 ? tgt.parents(".item") : tgt.parents(".headerData");
-      const raw = header.data('raw');
-      const type = raw ? raw : tgt.data('type');
-      const munition = tgt.data('munition');
-      const pnj = tgt.data('pnj');
-      const wpn = tgt.data('wpn');
-      const item = this.actor.items.get(header.data("item-id"));
-      const id = tgt.data('id');
-
-      item.system.toggleEffect(id, type, munition, pnj, wpn);
     });
   }
 

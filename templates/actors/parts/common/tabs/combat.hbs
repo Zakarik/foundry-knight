@@ -5,11 +5,14 @@
             <div class="block item-list">
                 <h2 class="header">
                     {{localize "KNIGHT.COMBAT.ARMES.CONTACT.Label"}}
-                    <a class="item-control item-create" title="Create Item" data-type="arme" data-subtype="contact"><i class="fas fa-plus"></i></a>
+                    <a
+                    data-action="itemCreate"
+                    data-tooltip="{{localize "KNIGHT.AUTRE.CreateItem" item=(localize "KNIGHT.COMBAT.ARMES.CONTACT.Label")}}"
+                    data-type="arme" data-subtype="contact"><i class="fas fa-plus"></i></a>
                 </h2>
 
                 {{#each actor.armesContactEquipee as | key arme|}}
-                    {{~> systems/knight/templates/actors/subtab/armes.html equipped=true num=arme}}
+                    {{~> knight.armes equipped=true num=arme}}
                 {{/each}}
             </div>
 
@@ -20,7 +23,7 @@
                 </h3>
 
                 {{#each actor.armesContactRack as | key arme|}}
-                    {{~> systems/knight/templates/actors/subtab/armes.html}}
+                    {{~> knight.armes}}
                 {{/each}}
             </div>
             {{/if}}
@@ -32,7 +35,7 @@
                 </h3>
 
                 {{#each actor.armesContactArmoury as | key arme|}}
-                    {{~> systems/knight/templates/actors/subtab/armes.html}}
+                    {{~> knight.armes}}
                 {{/each}}
             </div>
             {{/if}}
@@ -51,11 +54,11 @@
                 </h2>
 
                 {{#if actor.longbow.has}}
-{{~> systems/knight/templates/actors/subtab/longbow.html actor.longbow}}
+                    {{~> knight.longbow actor.longbow}}
                 {{/if}}
 
                 {{#each actor.armesDistanceEquipee as | key arme|}}
-{{~> systems/knight/templates/actors/subtab/armes.html equipped=true num=arme}}
+                    {{~> knight.armes equipped=true num=arme}}
                 {{/each}}
             </div>
 
@@ -66,7 +69,7 @@
                 </h3>
 
                 {{#each actor.armesDistanceRack as | key arme|}}
-{{~> systems/knight/templates/actors/subtab/armes.html}}
+                    {{~> knight.armes}}
                 {{/each}}
             </div>
             {{/if}}
@@ -78,7 +81,7 @@
                 </h3>
 
                 {{#each actor.armesDistanceArmoury as | key arme|}}
-{{~> systems/knight/templates/actors/subtab/armes.html}}
+                    {{~> knight.armes}}
                 {{/each}}
             </div>
             {{/if}}
@@ -199,7 +202,7 @@
 
     <div class="main">
         {{#unless (ascension systemData.wear)}}
-{{~> systems/knight/templates/actors/subtab/grenades.html}}
+            {{~> knight.grenades}}
         {{/unless}}
 
         <div class="col">
@@ -211,12 +214,12 @@
                     </h2>
 
                     {{#each actor.armesTourelles as | key arme|}}
-                        {{~> systems/knight/templates/actors/subtab/armes.html equipped=true num=arme}}
+                        {{~> knight.armes equipped=true num=arme}}
                     {{/each}}
                 </div>
             </div>
 
-{{~> systems/knight/templates/actors/subtab/nods.hbs}}
+            {{~> knight.nods}}
         </div>
     </div>
 </div>

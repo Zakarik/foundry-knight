@@ -1,4 +1,4 @@
-<div class="wpn item {{#if this.equipped}}wpnEquipped{{/if}} draggable" data-item-id="{{this._id}}"
+<div class="wpn item {{#if this.equipped}}wpnEquipped{{/if}} draggable" data-item-id="{{this.system.item._id}}"
 data-type="{{#if this.system.isCapacity}}{{this.system.capaciteName}}{{else}}{{#if (isValue this.type 'module')}}module{{else}}wpn{{/if}}{{/if}}" data-num="{{num}}"
 {{#if this.system.capacite}}
 data-what="{{this.system.subCapaciteName}}"
@@ -24,15 +24,11 @@ data-raw="{{raw}}"
                         <a class="item-rack" title="{{localize "KNIGHT.COMBAT.ARMES.Prendre"}}"><img src="systems/knight/assets/icons/weaponsWear.svg"/></a>
                     {{/if}}
                 {{/unless}}
-                <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
-                <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
+                {{~> knight.itemButtons onlyInner=true}}
             </div>
         {{else}}
             {{#if this.system.pnj}}
-                <div class="gestionButton">
-                    <a class="item-control item-edit" data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
-                    <a class="item-control item-delete" data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
-                </div>
+                {{~> knight.itemButtons}}
             {{/if}}
         {{/unless}}
         <span class="name">{{this.name}}</span>
@@ -114,7 +110,7 @@ data-raw="{{raw}}"
         {{/if}}
         <div class="blockEffets">
             {{#each this.system.effets.liste as | key effet|}}
-                {{~> systems/knight/templates/parts/effets.html type='base'}}
+                {{~> knight.effets type='base'}}
             {{/each}}
         </div>
     </div>
@@ -134,7 +130,7 @@ data-raw="{{raw}}"
         </div>
         <div class="blockEffets">
             {{#each this.system.effets2mains.liste as | key effet|}}
-                {{~> systems/knight/templates/parts/effets.html type='2mains'}}
+                {{~> knight.effets type='2mains'}}
             {{/each}}
         </div>
     </div>
@@ -156,7 +152,7 @@ data-raw="{{raw}}"
                 </div>
                 <div class="blockEffets">
                     {{#each key.liste as | kE effet|}}
-                        {{~> systems/knight/templates/parts/effets.html type='munition' munition=munition}}
+                        {{~> knight.effets type='munition' munition=munition}}
                     {{/each}}
                 </div>
             </div>
@@ -167,7 +163,7 @@ data-raw="{{raw}}"
     <div class="effets" style="display:none;">
         <div class="blockEffets">
             {{#each this.system.distance.liste as | key effet|}}
-                {{~> systems/knight/templates/parts/effets.html type='distance'}}
+                {{~> knight.effets type='distance'}}
             {{/each}}
         </div>
     </div>
@@ -175,14 +171,14 @@ data-raw="{{raw}}"
     <div class="effets" style="display:none;">
         <div class="blockEffets">
             {{#each this.system.structurelles.liste as | key effet|}}
-                {{~> systems/knight/templates/parts/effets.html type='structurelle'}}
+                {{~> knight.effets type='structurelle'}}
             {{/each}}
         </div>
     </div>
     <div class="effets" style="display:none;">
         <div class="blockEffets">
             {{#each this.system.ornementales.liste as | key effet|}}
-                {{~> systems/knight/templates/parts/effets.html type='ornementales'}}
+                {{~> knight.effets type='ornementales'}}
             {{/each}}
         </div>
     </div>

@@ -88,23 +88,23 @@ import {
     });
 
     Handlebars.registerHelper('affichageCapacite', function (capacite) {
-        return `systems/knight/templates/actors/capacites/${capacite.key.includes('personnalise') ? 'personnalise' : capacite.key}.html`;
+        return `knight.actor.capacites.${capacite.key.includes('personnalise') ? 'personnalise' : capacite.key}`;
     });
 
     Handlebars.registerHelper('affichageCapaciteLegende', function (capacite) {
-        return `systems/knight/templates/actors/capacitesLegende/${capacite.key}.html`;
+        return `knight.actor.capacitesLegends.${capacite.key}`;
     });
 
     Handlebars.registerHelper('affichageSpecial', function (special) {
-        return `systems/knight/templates/actors/special/${special.key}.html`;
+        return `knight.actor.special.${special.key}`;
     });
 
     Handlebars.registerHelper('affichageSpecialLegende', function (special) {
-        return `systems/knight/templates/actors/specialLegende/${special.key}.html`;
+        return `knight.actor.specialLegends.${special.key}`;
     });
 
     Handlebars.registerHelper('evolutions', function (evolution) {
-        return `systems/knight/templates/items/armures/evolutions/${evolution.data.key}.html`;
+        return `systems/knight/templates/items/armures/evolutions/${evolution.data.key}.hbs`;
     });
 
     Handlebars.registerHelper('whatTargetE', function (evolution) {

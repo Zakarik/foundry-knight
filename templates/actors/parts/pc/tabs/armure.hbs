@@ -292,7 +292,7 @@
                 </h2>
 
                 {{#each actor.modules as | key module|}}
-                    {{~> systems/knight/templates/actors/subtab/modules.html key=key}}
+                    {{~> knight.modules key=key}}
                 {{/each}}
             </div>
 
@@ -303,7 +303,7 @@
                 </h2>
 
                 {{#each actor.moduleOD as | key module|}}
-                    {{~> systems/knight/templates/actors/subtab/modules.html key=key}}
+                    {{~> knight.modules key=key}}
                 {{/each}}
             </div>
         </div>

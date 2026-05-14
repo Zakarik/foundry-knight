@@ -1,10 +1,10 @@
 
 <header class="sheet-header flexrow">
-    <img class="profile-img" src="{{data.img}}" data-edit="img" title="{{data.name}}" />
+    <img class="profile-img" data-action="editImage" src="{{actor.img}}" data-edit="img" data-tooltip="{{actor.name}}" />
     <div class="headerData">
         <div class="data">
             <h1 class="charname">
-                <input name="name" type="text" value="{{data.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
+                <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize "KNIGHT.Nom"}}" />
             </h1>
 
             <label>

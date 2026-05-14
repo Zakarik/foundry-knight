@@ -1,9 +1,9 @@
 
-<div class="gestionButton">
+{{#unless onlyInner}}<div class="gestionButton">{{/unless}}
     <a
     data-action="itemEdit"
     data-tooltip="{{localize "KNIGHT.AUTRE.EditItem"}}"><i class="fas fa-edit"></i></a>
     <a
     data-action="itemDelete"
     data-tooltip="{{localize "KNIGHT.AUTRE.DeleteItem"}}"><i class="fas fa-trash"></i></a>
-</div>
+{{#unless onlyInner}}</div>{{/unless}}

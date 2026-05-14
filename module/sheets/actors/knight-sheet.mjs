@@ -19,40 +19,40 @@ export class KnightSheet extends HumanMixinSheet(BaseActorSheet) {
   }
 
   static PARTS = {
-    upperheader: { template: "systems/knight/templates/actors/parts/human/pc/upperheader.hbs" },
-    header: { template: "systems/knight/templates/actors/parts/human/header.hbs" },
-    menu: { template: "systems/knight/templates/actors/parts/menu.hbs" },
+    upperheader: { template: "systems/knight/templates/actors/parts/pc/sections/upperheader.hbs" },
+    header: { template: "systems/knight/templates/actors/parts/human/sections/header.hbs" },
+    menu: { template: "systems/knight/templates/actors/parts/common/sections/menu.hbs" },
     nav: { template: "templates/generic/tab-navigation.hbs" },
     personnage: {
-      template: "systems/knight/templates/actors/parts/human/personnage.hbs",
+      template: "systems/knight/templates/actors/parts/human/tabs/personnage.hbs",
       classes:['tab', 'personnage'],
     },
     aspectsCaracteristiques: {
-      template: "systems/knight/templates/actors/parts/human/pc/caracteristiques.hbs",
+      template: "systems/knight/templates/actors/parts/pc/tabs/caracteristiques.hbs",
       classes:['tab', 'aspectsCaracteristiques'],
     },
     art: {
-      template: "systems/knight/templates/actors/parts/human/art.hbs",
+      template: "systems/knight/templates/actors/parts/human/tabs/art.hbs",
       classes:['tab', 'art'],
     },
     armure: {
-      template: "systems/knight/templates/actors/parts/human/pc/armure.hbs",
+      template: "systems/knight/templates/actors/parts/pc/tabs/armure.hbs",
       classes:['tab', 'armure'],
     },
     combat: {
-      template: "systems/knight/templates/actors/parts/human/pc/combat.hbs",
+      template: "systems/knight/templates/actors/parts/common/tabs/combat.hbs",
       classes:['tab', 'combat'],
      },
     historique: {
-      template: "systems/knight/templates/actors/parts/human/historique.hbs",
+      template: "systems/knight/templates/actors/parts/human/tabs/historique.hbs",
       classes:['tab', 'historique'],
     },
     progression: {
-      template: "systems/knight/templates/actors/parts/human/pc/progression.hbs",
+      template: "systems/knight/templates/actors/parts/pc/tabs/progression.hbs",
       classes:['tab', 'progression'],
     },
     options: {
-      template: "systems/knight/templates/actors/parts/options.hbs",
+      template: "systems/knight/templates/actors/parts/common/tabs/options.hbs",
       classes:['tab', 'options'],
     },
   }

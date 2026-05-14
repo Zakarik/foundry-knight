@@ -16,7 +16,7 @@
                 </button>
                 {{/if}}
             </div>
-            {{~> systems/knight/templates/actors/parts/common/itemButtons.hbs}}
+            {{~> knight.itemButtons}}
 
             {{else}}
                 {{localize "KNIGHT.ART.Label"}}
@@ -80,10 +80,10 @@
                         <i class="far fa-minus-square"></i>
                         {{localize "KNIGHT.ART.RecuperationEspoir"}}
                     </h2>
-                    <button type="action" class="rollRecuperationArt" data-value="1D6">1{{localize "KNIGHT.JETS.Des-short"}}6</button>
-                    <button type="action" class="rollRecuperationArt" data-value="2D6">2{{localize "KNIGHT.JETS.Des-short"}}6</button>
-                    <button type="action" class="rollRecuperationArt" data-value="3D6">3{{localize "KNIGHT.JETS.Des-short"}}6</button>
-                    <button type="action" class="rollRecuperationArt" data-value="4D6">4{{localize "KNIGHT.JETS.Des-short"}}6</button>
+                    <button type="action" data-action="roll" data-name="{{localize "KNIGHT.ART.RecuperationEspoir"}}" data-value="1D6">1{{localize "KNIGHT.JETS.Des-short"}}6</button>
+                    <button type="action" data-action="roll" data-name="{{localize "KNIGHT.ART.RecuperationEspoir"}}" data-value="2D6">2{{localize "KNIGHT.JETS.Des-short"}}6</button>
+                    <button type="action" data-action="roll" data-name="{{localize "KNIGHT.ART.RecuperationEspoir"}}" data-value="3D6">3{{localize "KNIGHT.JETS.Des-short"}}6</button>
+                    <button type="action" data-action="roll" data-name="{{localize "KNIGHT.ART.RecuperationEspoir"}}" data-value="4D6">4{{localize "KNIGHT.JETS.Des-short"}}6</button>
                 </div>
             </div>
         {{/if}}

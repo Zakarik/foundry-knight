@@ -20,7 +20,7 @@
             </h2>
             {{#each actor.motivationMineure as | key motivation|}}
             <div class="block summary item" data-item-id="{{key._id}}">
-                {{~> systems/knight/templates/actors/parts/common/itemButtons.hbs}}
+                {{~> knight.itemButtons}}
                 <span class="description">
                     {{{key.system.description}}}
                 </span>
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    {{~> systems/knight/templates/actors/parts/human/cyberware.hbs}}
+    {{~> knight.cyberware}}
 
     <div class="avDv">
         <div class="av item-list">
@@ -44,7 +44,7 @@
             <div class="block item" data-item-id="{{key._id}}">
                 <header class="summary header js-toggler" data-item-id="{{key._id}}">
                     <i class="far fa-plus-square extendButton"></i>
-                    {{~> systems/knight/templates/actors/parts/common/itemButtons.hbs}}
+                    {{~> knight.itemButtons}}
                     <span>{{key.name}}</span>
                 </header>
                 <span class="description">
@@ -66,7 +66,7 @@
             <div class="block item" data-item-id="{{key._id}}">
                 <header class="summary header js-toggler" data-item-id="{{key._id}}">
                     <i class="far fa-plus-square extendButton"></i>
-                    {{~> systems/knight/templates/actors/parts/common/itemButtons.hbs}}
+                    {{~> knight.itemButtons}}
                     <span>{{key.name}}</span>
                 </header>
                 <span class="description">
@@ -78,7 +78,7 @@
     </div>
 
     {{#if actor.distinctions}}
-        {{~> systems/knight/templates/actors/parts/human/pc/distinctions.hbs}}
+        {{~> knight.distinctions}}
     {{/if}}
 
     <div class="heroisme">
@@ -91,7 +91,7 @@
             <div class="block item" data-item-id="{{key._id}}">
                 <header class="summary header js-toggler" data-item-id="{{key._id}}">
                     <i class="far fa-plus-square extendButton"></i>
-                    {{~> systems/knight/templates/actors/parts/common/itemButtons.hbs}}
+                    {{~> knight.itemButtons}}
                     <span>{{key.name}}</span>
                 </header>
                 <span class="description">
@@ -110,7 +110,7 @@
             <div class="block item" data-item-id="{{key._id}}">
                 <header class="summary header js-toggler" data-item-id="{{key._id}}">
                     <i class="far fa-plus-square extendButton"></i>
-                    {{~> systems/knight/templates/actors/parts/common/itemButtons.hbs}}
+                    {{~> knight.itemButtons}}
                     <span>{{key.name}}</span>
                 </header>
                 <span class="description">
