@@ -1,3 +1,7 @@
+## v3.58.18
+### Bugfix
+- Application du même correctif qu'en v3.57.17
+
 ## v3.58.17
 ### Bugfix
 - Application du même correctif qu'en v3.57.16
@@ -66,6 +70,10 @@
 ### Améliorations
 - Compatibilité avec la V14 de Foundry.
 - Retrait de la compatibilité avec la V12 de Foundry.
+
+## v3.57.17
+### Bugfix
+- Correction d'un problème avec les effets activables.
 
 ## v3.57.16
 ### Bugfix
